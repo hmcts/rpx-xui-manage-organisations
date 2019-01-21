@@ -11,6 +11,6 @@ export const reducers: ActionReducerMap<RegistrationState> = {
   registration: fromRegistration.reducer,
 };
 
-export const getProductsState = createFeatureSelector<RegistrationState>(
+export const getRootRegState = createFeatureSelector<RegistrationState>(
   'registration'
 );

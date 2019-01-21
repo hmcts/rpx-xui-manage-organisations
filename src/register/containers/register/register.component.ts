@@ -2,8 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormsService} from '../../../app/containers/form-builder/services/form-builder.service';
 import {ValidationService} from '../../../app/containers/form-builder/services/form-builder-validation.service';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
+import {Observable} from 'rxjs';
+import {debug} from 'util';
 
 
 
@@ -23,9 +25,13 @@ export class RegisterComponent implements OnInit {
     private store: Store<fromStore.RegistrationState>) {}
 
   formDraft: FormGroup;
+  formDraftSelector$: Observable<any>
 
   ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadRegistrationForm());
+    this.store.pipe(select(fromStore.getRegistationEntities)).subscribe(formData => {
+      console.log(formData);
+    })
   }
 
   createForm(pageitems, pageValues) {

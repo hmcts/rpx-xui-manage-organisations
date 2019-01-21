@@ -62,7 +62,7 @@ export function reducer(
   return state;
 }
 
-export const getFormEntities = (state: RegistrationFormState) => state.entities;
-export const getFromLoading = (state: RegistrationFormState) => state.loading;
-export const getPizzasLoaded = (state: RegistrationFormState) => state.loaded;
+export const getRegistationFormEntities = (state: RegistrationFormState) => state.entities;
+export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
+export const getRegistrationPizzasLoaded = (state: RegistrationFormState) => state.loaded;
 

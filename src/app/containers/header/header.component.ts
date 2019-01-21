@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements  OnInit {
+export class HeaderComponent implements OnInit {
 
     logoutLink: string;
     navItems: Array<{}>;
@@ -21,7 +21,7 @@ export class HeaderComponent implements  OnInit {
             active: true
         }];
         this.serviceName = {
-            name: 'Pui Registration',
+            name: 'Manage organisation details for civil and family law cases',
             url: '/'
         };
         this.navigations = {

@@ -24,11 +24,11 @@ import * as fromComponents from './components';
 
 import { environment } from '../environments/environment';
 import { OrganisationComponent } from 'src/organisation/containers';
+import { LoginModule } from 'src/login/login.module';
 
 export const ROUTES: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/register' },
-  { path: '**', redirectTo: '/register' }
-
+  { path: '', pathMatch: 'full', redirectTo: '/login' },
+  { path: '**', redirectTo: '/login' }
 ];
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
@@ -53,6 +53,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     StoreDevtoolsModule.instrument({
       logOnly: environment.production
     }),
+    LoginModule,
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
   bootstrap: [AppComponent]

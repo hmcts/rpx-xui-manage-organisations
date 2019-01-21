@@ -16,10 +16,21 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit(): void {
         this.navItems = [{
-            text: 'Your cases',
-            href: '/',
+            text: 'Organisation',
+            href: '/organisation',
             active: true
-        }];
+        },
+        {
+            text: 'Users',
+            href: '/',
+            active: false
+        },
+        {
+            text: 'Fee Accounts',
+            href: '/',
+            active: false
+        }
+        ];
         this.serviceName = {
             name: 'Manage organisation details for civil and family law cases',
             url: '/'

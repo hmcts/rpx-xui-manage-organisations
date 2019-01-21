@@ -1,0 +1,50 @@
+/* ==========================================================================
+   #CASEBAR
+   ========================================================================== */
+
+.jui-casebar {
+  @include govuk-clearfix;
+  background-color: govuk-colour("blue");
+  color: govuk-colour("white");
+  padding-top: govuk-spacing(3);
+  padding-bottom: govuk-spacing(3);
+}
+
+
+.jui-casebar__details {
+  font-size: .1px; // Fix to remove extra white space when using inline-block
+}
+
+
+.jui-casebar__reference {
+  @include govuk-font(16);
+  margin-right: govuk-spacing(2);
+}
+
+
+.jui-casebar__title {
+  @include govuk-font(16);
+}
+
+
+.jui-casebar__link {
+  float: left;
+  text-decoration: none;
+}
+
+
+.jui-casebar__link:link,
+.jui-casebar__link:visited,
+.jui-casebar__link:active {
+  color: govuk-colour("white");
+
+  .jui-casebar__title {
+    text-decoration: underline;
+  }
+
+  &:focus {
+    background-color: $govuk-focus-colour;
+    color: govuk-colour("black");
+  }
+
+}

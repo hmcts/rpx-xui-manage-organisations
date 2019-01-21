@@ -1,0 +1,16 @@
+/* ==========================================================================
+   #TABLE
+   // I don’t like this (temp hack)
+   ========================================================================== */
+
+.jui-table--fixed {
+  table-layout: fixed;
+}
+
+.jui-table--fixed .govuk-table__header {
+  vertical-align: top;
+}
+
+.jui-table--fixed .govuk-table__cell {
+  vertical-align: top;
+}

@@ -1,0 +1,41 @@
+/* ==========================================================================
+   #HEADER
+   ========================================================================== */
+
+   .jui-header {
+    @include govuk-clearfix;
+    background-color: govuk-colour(black);
+    padding-top: govuk-spacing(3);
+    padding-bottom: govuk-spacing(3);
+  }
+
+
+  .jui-header__service {
+    @include govuk-font($size: 24, $weight: bold);
+    display: block;
+
+    a:link,
+    a:active,
+    a:visited {
+      color: govuk-colour(white);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+  }
+
+
+  @include mq($from: tablet) {
+
+    .jui-header__service {
+      float: left;
+    }
+
+    .jui-header__account {
+      float: right;
+    }
+
+  }

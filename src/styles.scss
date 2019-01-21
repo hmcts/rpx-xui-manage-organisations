@@ -1,0 +1,21 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+// Path to assets for use with the file-url function
+// in the govuk frontend toolkit"s url-helpers partial
+$path: "";
+$jui-assets-path : "";
+
+$govuk-global-styles: true;
+@import "~govuk-frontend/all";
+@import "~@hmcts/frontend/all";
+@import "./assets/sass/application";
+
+
+div.govuk-prose-scope, p {
+  white-space: pre-wrap;
+}
+
+td.govuk-table__cell {
+  white-space: pre-wrap;
+}

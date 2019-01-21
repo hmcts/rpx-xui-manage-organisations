@@ -1,0 +1,16 @@
+  .jui-button-actions {
+    @include govuk-clearfix;
+  }
+
+
+  /* Style variants
+     ========================================================================== */
+
+  @include mq($from: tablet) {
+
+    .jui-button-actions__item--inline {
+      float: left;
+      margin-right: govuk-spacing(4);
+    }
+
+  }

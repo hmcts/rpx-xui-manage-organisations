@@ -1,0 +1,34 @@
+/* ==========================================================================
+   #DOCUMENT
+   ========================================================================== */
+
+.jui-document {
+  @include govuk-clearfix;
+
+  &:not(:first-child) {
+    margin-top: govuk-spacing(2);
+  }
+
+}
+
+
+.jui-document__link {
+  background-image: url(#{$jui-assets-path}icon-document.svg);
+  background-repeat: no-repeat;
+  background-size: 31px 40px;
+  float: left;
+  min-height: 40px; // Icon height
+  padding-left: 41px; // Icon width + 10px
+  text-decoration: none;
+}
+
+
+.jui-document__title {
+  display: block;
+  text-decoration: underline;
+}
+
+
+.jui-document__meta {
+  color: $govuk-text-colour;
+}

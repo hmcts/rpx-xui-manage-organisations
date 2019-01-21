@@ -1,0 +1,18 @@
+<div class="jui-panel{% if params.classes %} {{ params.classes }}{% endif %}">      
+
+  {%- if params.heading %}
+    {{ params.heading | safe }}
+  {% endif %}
+
+  {%- if params.details %}
+    <dl class="jui-panel__details">
+
+    {% for item in params.details %}
+      <dt>{{ item.title }}</dt>
+      <dd>{{ item.description }}</dd>
+    {% endfor %}
+
+    </dl>
+  {% endif %}
+
+</div>

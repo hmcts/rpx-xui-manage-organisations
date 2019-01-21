@@ -1,0 +1,145 @@
+/* ==========================================================================
+   #CASEFILE
+   This is just for demo purposes only. Not for production usage!
+   ========================================================================== */
+
+   .jui-casefile {
+    display: grid;
+    grid-template-columns: 282px auto;
+  }
+
+
+  .jui-casefile-files {
+    box-sizing: border-box;
+    padding-bottom: govuk-spacing(6);
+  }
+
+  .jui-casefile-document-wrapper {
+    overflow-x: scroll;
+  }
+
+
+  .jui-casefile-document-iframe {
+    border: 0;
+  }
+
+
+  .jui-casefile-page {
+    background-color: govuk-colour("grey-4");
+    box-sizing: border-box;
+    padding: govuk-spacing(4);
+    //width: 938px;
+  }
+
+  .jui-casefile-page-head {
+    height: 74px;
+    margin-bottom: govuk-spacing(7);
+  }
+
+  .jui-casefile-page-content {
+    background: govuk-colour(white);
+    box-shadow: 0 4px 6px 0 rgba(govuk-colour(black), .10);
+    box-sizing: border-box;
+    margin-top: govuk-spacing(4);
+    padding: govuk-spacing(8);
+    position: relative;
+    // width: 878px;
+    min-height: 1100px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+
+    &[data-page]::after {
+      @include govuk-font(16);
+      color: $govuk-secondary-text-colour;
+      content: attr(data-page);
+      line-height: 1;
+      position: absolute; right: govuk-spacing(4);
+      bottom: govuk-spacing(4);
+    }
+
+  }
+
+
+.jui-casefile-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: sticky;
+  top: govuk-spacing(4);
+}
+
+
+.jui-casefile-list__item {
+  @include govuk-font(16);
+  margin-bottom: govuk-spacing(1);
+}
+
+
+.jui-casefile-list__link {
+  background-image: url(#{$jui-assets-path}icon-document.svg);
+  background-repeat: no-repeat;
+  background-size: 15px 20px;
+  background-position: 0 10px;
+  display: block;
+  padding-top: govuk-spacing(2);
+  padding-bottom: govuk-spacing(2);
+  padding-left: 26px;
+}
+
+
+.jui-casefile-list__link[aria-current] {
+  color: govuk-colour(black);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+
+
+// This is temp for demo purposes
+.jui-heading {
+  @include govuk-clearfix;
+}
+
+.jui-heading__title {
+  float: left;
+}
+
+
+
+
+.jui-heading__actions {
+  float: right;
+}
+
+
+// CASE FILE ACTIONS
+
+.jui-casefile-actions {
+  font-size: .1px; // Removes space when using inline-block
+  margin-bottom: govuk-spacing(4);
+  text-align: right;
+}
+
+.jui-casefile-actions__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.jui-casefile-actions__list-item {
+  @include govuk-font(16);
+  display: inline-block;
+  margin-right: govuk-spacing(4);
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+}
+
+// END CASE FILE ACTIONS
+
+

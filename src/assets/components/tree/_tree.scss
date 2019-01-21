@@ -1,0 +1,150 @@
+/* ==========================================================================
+   #DOCUMENT TREE
+   ========================================================================== */
+
+.jui-tree {
+  @include govuk-font(16);
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+
+.jui-tree__item {
+  border-top: 1px solid govuk-colour("grey-3");
+  outline: 0;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+}
+
+
+.jui-tree__item--open .jui-tree__folder {
+  background-image: url(#{$jui-assets-path}icon-documents-folder-open.svg);
+  color: govuk-colour(black);
+}
+
+
+.jui-tree__folder {
+  background-image: url(#{$jui-assets-path}icon-documents-folder.svg);
+  background-repeat: no-repeat;
+  background-size: 20px 16px;
+  background-position: 15px;
+  display: block;
+  font-weight: bold;
+  padding-top: govuk-spacing(3);
+  padding-bottom: govuk-spacing(3);
+  padding-left: 45px;
+}
+
+
+.jui-tree__folder-group {
+  list-style: none;
+  padding-left: 0;
+
+}
+
+
+.jui-tree__doc {
+  margin-bottom: 5px;
+}
+
+
+.jui-tree__doc-link {
+  background-image: url(#{$jui-assets-path}icon-documents-doc.svg);
+  background-repeat: no-repeat;
+  background-size: 16px 20px;
+  background-position: 45px 5px;
+  display: block;
+  padding-top: govuk-spacing(3);
+  padding-left: 70px;
+  padding-bottom: govuk-spacing(3);
+  text-decoration: none;
+  padding-right: govuk-spacing(2);
+
+
+  padding: 5px;
+  padding-left: 70px;
+
+
+  &:focus {
+    color: govuk-colour(black);
+  }
+
+}
+
+
+.jui-tree__doc-name {
+  display: block;
+}
+
+
+.jui-tree__doc-meta {
+  @include govuk-font(14);
+  color: $govuk-secondary-text-colour;
+  display: block;
+  margin-top: govuk-spacing(1);
+}
+
+
+/* Javascript enabled
+   ========================================================================== */
+
+.js-enabled {
+
+
+  .jui-tree__item:focus {
+
+    .jui-tree__folder {
+      background-color: $govuk-focus-colour;
+      color: govuk-colour(black);
+      outline: 3px solid $govuk-focus-colour;
+    }
+
+  }
+
+
+  .jui-tree__folder {
+    color: $govuk-link-colour;
+    cursor: pointer;
+
+    &:hover {
+      color: $govuk-link-hover-colour;
+    }
+
+  }
+
+
+  .jui-tree__item {
+
+    .jui-tree__folder-group {
+      display: none;
+    }
+
+  }
+
+
+  .jui-tree__item--open {
+    padding-bottom: 10px;
+
+    .jui-tree__folder {
+      color: govuk-colour(black);
+    }
+
+    .jui-tree__folder-group {
+      display: block;
+    }
+
+  }
+
+
+  .jui-tree__doc-link[aria-current=true] {
+    background-color: rgba(govuk-colour("grey-3"), .5);
+    color: black;
+    cursor: default;
+  }
+
+
+}

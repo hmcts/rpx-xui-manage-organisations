@@ -1,0 +1,23 @@
+{%- from "case-actions/macro.njk" import juiCaseActions %}
+
+<div class="jui-casebar">
+
+  <div class="jui-width-container">
+
+    <div class="jui-casebar__details">
+
+      {% if params.caseUrl %}
+        <a class="jui-casebar__link" href="{{params.caseUrl}}">
+          <span class="jui-casebar__reference">{{params.caseId}}</span>
+          <span class="jui-casebar__title"> {{params.parties | safe}}</span>
+        </a>
+      {% else %}
+        <span class="jui-casebar__reference">{{params.caseId}}</span>
+        <span class="jui-casebar__title"> {{params.parties | safe}}</span>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</div>

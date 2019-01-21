@@ -1,0 +1,9 @@
+<nav class="jui-case-actions">
+  <ul class="jui-case-actions__list">
+    {% for action in params.actions %}
+      <li class="jui-case-actions__item">
+        <a class="jui-case-actions__link" href="{{action.href}}">{{action.text}}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

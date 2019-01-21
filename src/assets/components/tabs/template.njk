@@ -1,0 +1,27 @@
+<div class="govuk-tabs">
+
+  <h2 class="govuk-tabs__title">
+    {% if params.title %}
+      {{params.title}}
+    {% else %}
+      Contents
+    {% endif %}
+  </h2>
+
+  <ul class="govuk-tabs__list">
+    {% for tab in params.tabs %}
+      <li class="govuk-tabs__list-item">
+        <a class="govuk-tabs__tab" href="#{{tab.id}}">
+          {{tab.label}}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  {% for tab in params.tabs %}
+    <section class="govuk-tabs__panel js-hidden" id="{{tab.id}}">
+      {{tab.panel.html | safe }}
+    </section>
+  {% endfor %}
+
+</div>

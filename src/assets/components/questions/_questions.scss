@@ -1,0 +1,85 @@
+/* ==========================================================================
+   #QUESTIONS
+   ========================================================================== */
+
+.jui-questions__item {
+  border-bottom: 1px solid $govuk-border-colour;
+  padding-top: govuk-spacing(4);
+  padding-bottom: govuk-spacing(4);
+  position: relative;
+
+  &:first-child {
+    border-top: 1px solid $govuk-border-colour;
+  }
+
+}
+
+.jui-questions__subject {
+  @include govuk-font($size: 19, $weight: bold);
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+
+.jui-questions__subject a {
+  margin-right: govuk-spacing(2);
+}
+
+
+.jui-questions__author {
+  font-weight: bold;
+}
+
+
+.jui-questions__meta {
+  @include govuk-font($size: 16);
+  color: $govuk-secondary-text-colour;
+  margin-bottom: 0;
+
+  @include mq($from: tablet) {
+    margin-top: govuk-spacing(1);
+  }
+
+}
+
+
+.jui-questions__attachment {
+  background-image: url(#{$jui-assets-path}icon-attachment.svg);
+  background-repeat: no-repeat;
+  background-size: 25px;
+  background-position: 0 50%;
+  color: $govuk-secondary-text-colour;
+  display: block;
+  margin-bottom: 0;
+  padding-left: 30px;
+
+  @include mq($until: tablet) {
+    margin-top: govuk-spacing(2);
+  }
+
+  @include mq($from: tablet) {
+    position: absolute; top: 20px; right: 0;
+    margin-top: 2px;
+  }
+
+}
+
+
+/* Question
+========================================================================== */
+
+.jui-question__meta {
+  @include govuk-font($size: 16);
+  color: $govuk-secondary-text-colour;
+  margin-top: 0;
+
+  @include mq($from: tablet) {
+    margin-bottom: govuk-spacing(4);
+  }
+
+}
+
+
+.jui-question__author {
+  font-weight: bold;
+}

@@ -1,0 +1,90 @@
+.jui-casefile-2 {
+  display: grid;
+  grid-template-columns: 260px auto 260px;
+}
+
+
+.jui-casefile-2-files {
+  box-sizing: border-box;
+  padding-bottom: govuk-spacing(6);
+}
+
+.jui-casefile-2-document-comments {
+  background-color: govuk-colour("grey-4");
+}
+
+.boom {
+  position: absolute;
+  width: 200px;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.jui-casefile-2-document-wrapper {
+  overflow-x: scroll;
+}
+
+.jui-casefile-2-page {
+  background-color: govuk-colour("grey-4");
+  box-sizing: border-box;
+  padding: govuk-spacing(6);
+  width: 860px;
+}
+
+.jui-casefile-2-page-head {
+  height: 74px;
+  margin-bottom: govuk-spacing(7);
+}
+
+.jui-casefile-2-page-content {
+  background: govuk-colour(white);
+  box-shadow: 0 4px 6px 0 rgba(govuk-colour(black), .10);
+  box-sizing: border-box;
+  margin-top: govuk-spacing(4);
+  padding: govuk-spacing(8);
+  position: relative;
+  width: 800px;
+  min-height: 1100px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+
+  &[data-page]::after {
+    color: $govuk-secondary-text-colour;
+    content: attr(data-page);
+    line-height: 1;
+    position: absolute; right: govuk-spacing(4);
+    bottom: govuk-spacing(4);
+  }
+
+}
+
+
+.jui-casefile-2-list {
+  list-style: none;
+  margin: 0;
+  position: sticky;
+  top: 20px;
+
+  li {
+    font-weight: bold;
+    margin-bottom: govuk-spacing(1);
+  }
+
+  a[aria-current] {
+    color: govuk-colour(black);
+  }
+
+  ul {
+    margin: govuk-spacing(4) 0 govuk-spacing(4) govuk-spacing(4);
+    padding: 0;
+
+    li {
+      font-weight: normal;
+    }
+
+  }
+
+}

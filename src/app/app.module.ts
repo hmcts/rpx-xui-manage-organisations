@@ -24,7 +24,8 @@ import * as fromComponents from './components';
 import {environment} from '../environments/environment';
 
 export const ROUTES: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'register' }
+  { path: '', pathMatch: 'full', redirectTo: '/register' },
+  { path: '**', redirectTo: '/register' }
 ];
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]

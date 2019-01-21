@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormsService} from '../../../app/containers/form-builder/services/form-builder.service';
 import {ValidationService} from '../../../app/containers/form-builder/services/form-builder-validation.service';
+import {Store} from '@ngrx/store';
+import * as fromStore from '../../store';
+
+
 
 /**
  * Bootstraps the Register Components
@@ -13,10 +17,15 @@ import {ValidationService} from '../../../app/containers/form-builder/services/f
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private formsService: FormsService, private validationService: ValidationService ) {}
+  constructor(
+    private formsService: FormsService,
+    private validationService: ValidationService,
+    private store: Store<fromStore.RegistrationState>) {}
+
   formDraft: FormGroup;
 
-  ngOnInit(): void {;
+  ngOnInit(): void {
+    this.store.dispatch(new fromStore.LoadRegistrationForm());
   }
 
   createForm(pageitems, pageValues) {

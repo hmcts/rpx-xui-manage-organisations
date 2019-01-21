@@ -26,9 +26,9 @@ export function reducer(
     }
 
     case fromRegistration.LOAD_REGISTRATION_FORM_SUCCESS: {
-      const form = action.payload;
+      const formData = action.payload;
 
-      const entities = form;
+      const entities = formData;
 
       // const entities = pizzas.reduce(
       //   (entities: { [id: number]: Pizza }, pizza: Pizza) => {

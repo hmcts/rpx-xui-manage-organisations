@@ -1,0 +1,94 @@
+<div class="hmcts-width-container">
+   <a href="./" class="govuk-back-link">Back</a>
+   <main role="main" class="govuk-main-wrapper">
+      <div class="govuk-grid-row">
+         <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">Invite user</h1>
+            <p class="govuk-body">When you send this invitation, the user will receive an email from HM Courts and Tribunals Registrations so they can finish setting up their account.</p>
+            <form action="./confirmation">
+               <div class="govuk-form-group">
+                  <label class="govuk-label govuk-label--m" for="firstname">
+                  First name(s)
+                  </label>
+                  <span id="firstname-hint" class="govuk-hint">
+                  Include all middle names.
+                  </span>
+                  <input class="govuk-input" id="firstname" name="firstname" type="text" aria-describedby="firstname-hint">
+               </div>
+               <div class="govuk-form-group">
+                  <label class="govuk-label govuk-label--m" for="lastname">
+                  Last name
+                  </label>
+                  <input class="govuk-input" id="lastname" name="lastname" type="text">
+               </div>
+               <div class="govuk-form-group">
+                  <label class="govuk-label govuk-label--m" for="emailaddress">
+                  Email address
+                  </label>
+                  <input class="govuk-input" id="emailaddress" name="emailaddress" type="text">
+               </div>
+               <div class="govuk-form-group">
+                  <fieldset class="govuk-fieldset" aria-describedby="permissions-hint">
+                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        Permissions
+                     </legend>
+                     <span id="permissions-hint" class="govuk-hint">
+                     Choose what the user will be able to do. You can change this later.
+                     </span>
+                     <div class="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                           <input class="govuk-checkboxes__input" id="permissions-1" name="permissions" type="checkbox" value="cases" aria-describedby="permissions-1-item-hint">
+                           <label class="govuk-label govuk-checkboxes__label" for="permissions-1">
+                           Create cases
+                           </label>
+                           <span id="permissions-1-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                           Create, progress and view the status of the user's own cases.
+                           </span>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                           <input class="govuk-checkboxes__input" id="permissions-2" name="permissions" type="checkbox" value="organisation-view" aria-describedby="permissions-2-item-hint">
+                           <label class="govuk-label govuk-checkboxes__label" for="permissions-2">
+                           View organisation's cases
+                           </label>
+                           <span id="permissions-2-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                           View the status of all cases created by the organisation's users.
+                           </span>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                           <input class="govuk-checkboxes__input" id="permissions-3" name="permissions" type="checkbox" value="users" aria-describedby="permissions-3-item-hint">
+                           <label class="govuk-label govuk-checkboxes__label" for="permissions-3">
+                           Manage users
+                           </label>
+                           <span id="permissions-3-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                           View and invite users.
+                           </span>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                           <input class="govuk-checkboxes__input" id="permissions-4" name="permissions" type="checkbox" value="organisation" aria-describedby="permissions-4-item-hint">
+                           <label class="govuk-label govuk-checkboxes__label" for="permissions-4">
+                           View organisation details
+                           </label>
+                           <span id="permissions-4-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                           View the organisation's name and address.
+                           </span>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                           <input class="govuk-checkboxes__input" id="permissions-5" name="permissions" type="checkbox" value="payment" aria-describedby="permissions-5-item-hint">
+                           <label class="govuk-label govuk-checkboxes__label" for="permissions-5">
+                           View fee accounts
+                           </label>
+                           <span id="permissions-5-item-hint" class="govuk-hint govuk-checkboxes__hint">
+                           View account balances, available credit and transactions.
+                           </span>
+                        </div>
+                     </div>
+                  </fieldset>
+               </div>
+               <button type="submit" class="govuk-button">
+               Send invitation
+               </button>
+            </form>
+         </div>
+      </div>
+   </main>
+</div>

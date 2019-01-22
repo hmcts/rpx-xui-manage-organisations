@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
         },
         {
             text: 'Fee Accounts',
-            href: '/',
+            href: '/payments',
             active: false
         }
         ];

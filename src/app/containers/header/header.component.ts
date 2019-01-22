@@ -40,7 +40,7 @@ export class HeaderComponent implements OnInit {
             label: 'Account navigation',
             items: [{
                 text: 'Profile',
-                href: this.logoutLink
+                href: '/profile'
             }, {
                 text: 'Sign out',
                 href: this.logoutLink

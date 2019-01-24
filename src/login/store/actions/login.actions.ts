@@ -1,26 +1,27 @@
 // load login form
 import {Action} from '@ngrx/store';
 
-export const LOAD_LOGIN_FORM = '[Login] Load Login Form';
-export const LOAD_LOGIN_FORM_SUCCESS = '[Login] Load Login Form Success';
-export const LOAD_LOGIN_FORM_FAIL = '[Login] Load Login Form Fail';
+export const LOGIN_USER = '[Login] Login User';
+export const LOGIN_USER_SUCCESS = '[Login]Login User Success';
+export const LOGIN_USER_FAIL = '[Login] Login User Fail';
 
-export class LoadLoginForm {
-  readonly type = LOAD_LOGIN_FORM;
+export class LoginUser {
+  readonly type = LOGIN_USER;
+  constructor(public palaoud: {userName: string, password: string}) {} // todo extract this into model
 }
 
-export class LoadLoginFormSuccess  implements Action {
-  readonly type = LOAD_LOGIN_FORM_SUCCESS;
+export class LoginUserSuccess  implements Action {
+  readonly type = LOGIN_USER_SUCCESS;
   constructor(public payload: any) {}  // TODO add type
 }
 
-export class LoadLoginFormFail implements Action {
-  readonly type = LOAD_LOGIN_FORM_FAIL;
+export class LoginUserFail implements Action {
+  readonly type = LOGIN_USER_FAIL;
   constructor(public payload: any) {}
 }
 
 
 export type LoginActions =
-  | LoadLoginForm
-  | LoadLoginFormSuccess
-  | LoadLoginFormFail;
+  | LoginUser
+  | LoginUserSuccess
+  | LoginUserFail;

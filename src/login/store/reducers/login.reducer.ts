@@ -1,13 +1,13 @@
 import * as fromLogin from '../actions/login.actions';
 
 
-export interface LoginFormState {
+export interface LoginState {
   user: any; // todo add type user model
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: LoginFormState = {
+export const initialState: LoginState = {
   user: {},
   loaded: false,
   loading: false,
@@ -16,7 +16,7 @@ export const initialState: LoginFormState = {
 export function reducer(
   state = initialState,
   action: fromLogin.LoginActions
-): LoginFormState {
+): LoginState {
   switch (action.type) {
 
     case fromLogin.LOGIN_USER: {
@@ -43,7 +43,7 @@ export function reducer(
   return state;
 }
 
-export const getLoginFormEntities = (state: LoginFormState) => state.user;
-export const getLoginFormLoading = (state: LoginFormState) => state.loading;
-export const getLoginFormLoaded = (state: LoginFormState) => state.loaded;
+export const getLoginFormUser = (state: LoginState) => state.user;
+export const getLoginFormLoading = (state: LoginState) => state.loading;
+export const getLoginFormLoaded = (state: LoginState) => state.loaded;
 

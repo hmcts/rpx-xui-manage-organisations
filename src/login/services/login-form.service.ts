@@ -5,56 +5,19 @@ import {Observable, of} from 'rxjs';
 
 
 const dummy = {
-  idPrefix: 'final-decision',
-  name: 'final-decision',
-  header: 'Make final decision',
-  formGroupValidators: [],
-  validationHeaderErrorMessages: [
-    {
-      validationLevel: 'formControl',
-      controlId: 'decisionNotes',
-      text: 'Enter your decision notes',
-      href: '#'
-    }
-  ],
-  groups: [
-    {
-      textarea: {
-        label: {
-          text: 'Enter decision notes',
-          classes: 'govuk-label--m'
-        },
-        validationError: {
-          value: 'Enter your decision notes',
-          controlId: 'decisionNotes'
-        },
-        control: 'decisionNotes',
-        value: '',
-        validators: ['required']
-      }
-    },
-    {
-      button: {
-        control: 'createButton',
-        value: 'Continue',
-        type: 'submit',
-        classes: '',
-        onEvent: 'continue'
-      }
-    }
-  ]
+  id: '12345',
+  name: 'Masood',
+  email: 'something@domething.com'
 };
 
 
 @Injectable()
-export class LoginFormService {
+export class LoginService {
   constructor(private http: HttpClient) {}
 
-  getLoginForm(): Observable<any> {
+  loginUer(sosos): Observable<any> {
     return of(dummy);
-    // return this.http
-    //   .get<any>(`/api/pizzas`)
-    //   .pipe(catchError((error: any) => throwError(error.json())));
+
   }
 
 

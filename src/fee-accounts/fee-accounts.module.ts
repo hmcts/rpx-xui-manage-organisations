@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 
 import {CommonModule} from '@angular/common';
-import {paymentsRouting} from './payments.routing';
+import {feeAccountsRouting} from './fee-accounts.routing';
 import {SharedModule} from '../app/shared/shared.module';
 
 // containers
@@ -10,20 +10,20 @@ import * as fromContainers from './containers';
 // services
 import * as fromServices from './services';
 import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
 
-import { reducers } from './store';
 import {HttpClientModule} from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { reducers, effects } from './store';
 
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    paymentsRouting,
+    feeAccountsRouting,
     SharedModule,
-    StoreModule.forFeature('payments', reducers),
-    // EffectsModule.forFeature(effects),
+    StoreModule.forFeature('feeActions', reducers),
+    EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
@@ -31,9 +31,9 @@ import {HttpClientModule} from '@angular/common/http';
 })
 
 /**
- * Entry point to PaymentsModule
+ * Entry point to FeeAccountsModule
  */
 
-export class PaymentsModule {
+export class FeeAccountsModule {
 
 }

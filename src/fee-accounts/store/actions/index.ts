@@ -1,1 +1,1 @@
-export * from './payments.actions';
+export * from './fee-accounts.actions';

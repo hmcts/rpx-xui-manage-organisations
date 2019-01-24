@@ -27,12 +27,11 @@ export class HmctsGlobalHeaderComponent {
     constructor(public store: Store<fromRoot.State> ) { }
 
   onNavigate(path) {
-      debugger
       this.store.dispatch(new fromRoot.Go(
         {
           path: ['/register', path]
         }
-      ))
+      ));
   }
 
 }

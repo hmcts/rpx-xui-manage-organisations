@@ -1,2 +1,2 @@
-export * from './payments.selectors';
+export * from './fee-accounts.selectors';
 

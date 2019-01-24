@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(select(fromLogInStore.getLoggedInUser)).subscribe(userdata => {
       console.log(userdata);
-    })
+    });
   }
 
 

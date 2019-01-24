@@ -12,7 +12,7 @@ import * as fromServices from './services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-//import { reducers, effects } from './store';
+import { reducers, effects } from './store';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -23,8 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     usersRouting,
     SharedModule,
-    // StoreModule.forFeature('registration', reducers),
-    // EffectsModule.forFeature(effects),
+    StoreModule.forFeature('users', reducers),
+    EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],

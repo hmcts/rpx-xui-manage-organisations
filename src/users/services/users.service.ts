@@ -4,53 +4,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 
-const dummy = {
-  idPrefix: 'final-decision',
-  name: 'final-decision',
-  header: 'Make final decision',
-  formGroupValidators: [],
-  validationHeaderErrorMessages: [
-    {
-      validationLevel: 'formControl',
-      controlId: 'decisionNotes',
-      text: 'Enter your decision notes',
-      href: '#'
-    }
-  ],
-  groups: [
-    {
-      textarea: {
-        label: {
-          text: 'Enter decision notes',
-          classes: 'govuk-label--m'
-        },
-        validationError: {
-          value: 'Enter your decision notes',
-          controlId: 'decisionNotes'
-        },
-        control: 'decisionNotes',
-        value: '',
-        validators: ['required']
-      }
-    },
-    {
-      button: {
-        control: 'createButton',
-        value: 'Continue',
-        type: 'submit',
-        classes: '',
-        onEvent: 'continue'
-      }
-    }
-  ]
-}
+const dummy =  [
+  {
+    email: 'somthing@something',
+    manageCases: 'All',
+    manageOrganisation: 'Yes',
+    manageUsers: 'yes',
+    manageFeeAcc: 'yes',
+    status: 'active'
+  }
+]
 
 
 @Injectable()
 export class UsersService {
   constructor(private http: HttpClient) { }
 
-  getRetistrationFrom(): Observable<any> {
+  fetchUsers(): Observable<any> {
     return of(dummy)
     // return this.http
     //   .get<any>(`/api/pizzas`)

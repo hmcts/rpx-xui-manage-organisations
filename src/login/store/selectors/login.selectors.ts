@@ -6,15 +6,12 @@ import {debug} from 'util';
 
 export const getLoginState = createSelector(
   fromFeature.getRootLoginState,
-  (state: fromFeature.LoginState) => {
-    debugger
-    return state.login
-  }
+  (state: fromFeature.LoginState) => state.login
 );
 
-export const getGetUser = createSelector(
+export const getLoggedInUser = createSelector(
   getLoginState,
-  fromLogin.getLoginFormUser
+  fromLogin.getLoggedInUserData
 );
 
 

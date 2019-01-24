@@ -1,13 +1,13 @@
 import * as fromUsers from '../actions/user.actions';
 
 
-export interface LoginState {
+export interface UsersState {
   users: any[]; // todo add type user model
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: LoginState = {
+export const initialState: UsersState = {
   users: [],
   loaded: false,
   loading: false,
@@ -16,10 +16,9 @@ export const initialState: LoginState = {
 export function reducer(
   state = initialState,
   action: fromUsers.UserActions
-): LoginState {
+): UsersState {
   switch (action.type) {
     case fromUsers.LOAD_USERS_SUCCESS: {
-        debugger;
       const users = action.payload;
 
       return {
@@ -35,7 +34,7 @@ export function reducer(
   return state;
 }
 
-export const getUsers = (state: LoginState) => state.users;
-export const getLoginFormLoading = (state: LoginState) => state.loading;
-export const getLoginFormLoaded = (state: LoginState) => state.loaded;
+export const getUsers = (state: UsersState) => state.users;
+export const getLoginFormLoading = (state: UsersState) => state.loading;
+export const getLoginFormLoaded = (state: UsersState) => state.loaded;
 

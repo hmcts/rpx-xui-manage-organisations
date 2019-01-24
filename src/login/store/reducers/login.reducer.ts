@@ -43,7 +43,7 @@ export function reducer(
   return state;
 }
 
-export const getLoginFormUser = (state: LoginState) => state.user;
+export const getLoggedInUserData = (state: LoginState) => state.user;
 export const getLoginFormLoading = (state: LoginState) => state.loading;
 export const getLoginFormLoaded = (state: LoginState) => state.loaded;
 

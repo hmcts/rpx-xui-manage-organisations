@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-//import { FormGroup } from '@angular/forms';
-//import { FormsService } from '../../../app/containers/form-builder/services/form-builder.service';
-//import { ValidationService } from '../../../app/containers/form-builder/services/form-builder-validation.service';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { Observable } from 'rxjs';
@@ -20,19 +17,15 @@ import { debug } from 'util';
 export class UsersComponent implements OnInit {
 
   constructor(
-    // private formsService: FormsService,
-    // private validationService: ValidationService,
-    private store: Store<fromStore.LoginState>
+    private store: Store<fromStore.UserState>
   ) { }
 
-  //formDraft: FormGroup;
-  //formDraftSelector$: Observable<any>
 
   ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadUsers());
-    // this.store.pipe(select(fromStore.getRegistationEntities)).subscribe(formData => {
-    //   console.log(formData);
-    //})
+    this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
+      console.log(userData);
+    })
   }
 
 

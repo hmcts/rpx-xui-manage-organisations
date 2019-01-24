@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './containers/app/app.component';
-import { RegisterModule } from '../register/register.module';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
@@ -26,7 +25,7 @@ import * as fromComponents from './components';
 import { environment } from '../environments/environment';
 import { OrganisationComponent } from 'src/organisation/containers';
 import { LoginModule } from 'src/login/login.module';
-import { PaymentsModule } from 'src/payments/payments.module';
+import { PaymentsModule } from 'src/fee-accounts/payments.module';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -48,7 +47,6 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
-    RegisterModule,
     UsersModule,
     OrganisationModule,
     SharedModule,

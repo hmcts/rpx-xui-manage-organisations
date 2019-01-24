@@ -1,4 +1,4 @@
-// load payments form
+// load fee-accounts form
 import {Action} from '@ngrx/store';
 
 export const LOAD_PAYMENTS_FORM = '[Payments] Load Payments Form';

@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { HmctsIdentityBarState } from 'src/app/store/reducers';
+import { HmctsIdentityBarState } from 'src/app/store/reducers/hmcts-identity-bar.reducer';
 
 @Component({
     selector: 'app-hmcts-identity-bar',
@@ -15,7 +15,7 @@ export class HmctsIdentityBarComponent {
 
     constructor(
         private store: Store<HmctsIdentityBarState>
-    ) {
+     ) {
         this.barState = store.pipe(select('hmctsIdentityBarReducer'));
         console.log(this.barState);
     }

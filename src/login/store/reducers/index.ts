@@ -4,7 +4,7 @@ import * as fromLogin from './login.reducer';
 
 
 export interface LoginState {
-  login: fromLogin.LoginFormState;
+  login: fromLogin.LoginState;
 }
 
 export const reducers: ActionReducerMap<LoginState> = {

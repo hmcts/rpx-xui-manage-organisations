@@ -2,13 +2,19 @@ import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../../store/reducers';
 import * as fromLogin from '../../store/reducers/login.reducer';
+import {debug} from 'util';
 
 export const getLoginState = createSelector(
   fromFeature.getRootLoginState,
-  (state: fromFeature.LoginState) => state.login
+  (state: fromFeature.LoginState) => {
+    debugger
+    return state.login
+  }
 );
 
-export const getLoginEntities = createSelector(
+export const getGetUser = createSelector(
   getLoginState,
-  fromLogin.getLoginFormEntities
+  fromLogin.getLoginFormUser
 );
+
+

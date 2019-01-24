@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import * as fromStore from '../../store';
 
 /**
  * Bootstraps the Login Components
@@ -10,10 +12,15 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() {}
+  constructor( private store: Store<fromStore.LoginState>) {}
 
   ngOnInit(): void {
 
+  }
+
+  onSignIn(f, event): void {
+    event.preventDefault();
+    this.store.dispatch(new fromStore.LoginUser(f.value));
   }
 
 }

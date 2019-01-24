@@ -5,17 +5,24 @@ import {CommonModule} from '@angular/common';
 import {FromBuilderComponent} from '../containers';
 import {FormsService} from '../containers/form-builder/services/form-builder.service';
 import {ValidationService} from '../containers/form-builder/services/form-builder-validation.service';
+import { HmctsSubNavigationComponent } from '../components/hmcts-sub-navigation/hmcts-sub-navigation.component';
+import { RouterModule } from '@angular/router';
+import { HmctsIdentityBarComponent } from '../components/hmcts-identity-bar/hmcts-identity-bar.component';
 
 
 @NgModule( {
   imports: [
-    FormsModule, CommonModule,
+    FormsModule, CommonModule, RouterModule,
   ],
   declarations: [
-    FromBuilderComponent
+    FromBuilderComponent,
+    HmctsSubNavigationComponent,
+    HmctsIdentityBarComponent
   ],
   exports: [
-    FromBuilderComponent
+    FromBuilderComponent,
+    HmctsSubNavigationComponent,
+    HmctsIdentityBarComponent
   ],
   providers: [
     FormsService,

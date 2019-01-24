@@ -1,0 +1,113 @@
+<app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
+<div class="hmcts-page-heading">
+    <div class="hmcts-page-heading__title-wrapper">
+        <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
+            Transactions
+        </h1>
+    </div>
+    <div class="hmcts-page-heading__actions-wrapper">
+
+    </div>
+</div>
+<p>Last updated on 15 October 2018 at 3:12pm</p>
+<p class="govuk-body"></p>
+<table class="govuk-body" id="transactionstable">
+
+    <thead>
+        <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="col">Payment reference</th>
+            <th class="govuk-table__header" scope="col">Case</th>
+            <th class="govuk-table__header" scope="col">Reference</th>
+            <th class="govuk-table__header" scope="col">Submitted by</th>
+            <th class="govuk-table__header" scope="col">Status</th>
+            <th class="govuk-table__header" scope="col">Date created</th>
+            <th class="govuk-table__header" scope="col">Amount</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td data-label="Payment reference">RC-2352-6362-6257-7742</td>
+            <td data-label="Case">1542-5226-7383-2772</td>
+            <td data-label="Reference">J Hart vs M Hart</td>
+            <td data-label="Submitted by">James Brown</td>
+            <td data-label="Status">Pending</td>
+            <td id="pendingPayment" data-label="Date">15 Oct 2018 at 11pm</td>
+            <td data-label="Amount">-£550.00</td>
+        </tr>
+
+        <tr>
+            <td data-label="Payment reference">RC-9584-2521-7742-1457</td>
+            <td data-label="Case">1526-8943-7271-8327</td>
+            <td data-label="Reference">Smith probate app</td>
+            <td data-label="Submitted by">Lucy Smith</td>
+            <td data-label="Status">Completed</td>
+            <td id="1457Date" data-label="Date">14 Oct 2018 at 12:31pm</td>
+            <td data-label="Amount">-£215.00</td>
+        </tr>
+
+        <tr>
+            <td data-label="Payment reference">RC-6124-1415-7215-1515</td>
+            <td data-label="Case">1562-1578-3622-1589</td>
+            <td data-label="Reference">Jones hearing</td>
+            <td data-label="Submitted by">Joe Green</td>
+            <td data-label="Status">Completed</td>
+            <td id="1515Date" data-label="Date">13 Oct 2018 at 9:11am</td>
+            <td data-label="Amount">-£250.00</td>
+        </tr>
+
+        <tr class="linked-payment">
+            <td data-label="Payment reference" class="linked-payment-ref">DIRECT DEBIT PAYMENT</td>
+            <td data-label="Case">-</td>
+            <td data-label="Reference">-</td>
+            <td data-label="Submitted by">-</td>
+            <td data-label="Status">Completed</td>
+            <td id="directDebitDate" data-label="Date">2 Oct 2018 at Midnight</td>
+            <td data-label="Amount">+£2590.40</td>
+        </tr>
+
+        <tr>
+            <td data-label="Payment reference">RC-6420-7212-7321-8721</td>
+            <td data-label="Case">1538-3893-8483-8337</td>
+            <td data-label="Reference">Baker PRB </td>
+            <td data-label="Submitted by">Joe Green</td>
+            <td data-label="Status">Completed</td>
+            <td id="8721Date" data-label="Date">12 Oct 2018 at 16:01pm</td>
+            <td data-label="Amount">-£215.00</td>
+        </tr>
+
+        <tr>
+            <td data-label="Payment reference">RC-2234-2626-6772-1678</td>
+            <td data-label="Case">1574-2379-9760-0643</td>
+            <td data-label="Reference">Probate 31</td>
+            <td data-label="Submitted by">James Brown</td>
+            <td data-label="Status">Completed</td>
+            <td id="1678Date" data-label="Date">11 Oct 2018 11:43am</td>
+            <td data-label="Amount">-£215.00</td>
+        </tr>
+
+        <tr>
+            <td data-label="Payment reference">RC-3467-6167-1676-7832</td>
+            <td data-label="Case">1562-1578-3622-1589</td>
+            <td data-label="Reference">Jones application</td>
+            <td data-label="Submitted by">James Brown</td>
+            <td data-label="Status">Completed</td>
+            <td id="7832Date" data-label="Date">11 Oct 2018 at 15:23pm</td>
+            <td data-label="Amount">-£150.00</td>
+        </tr>
+
+        <tr>
+            <td data-label="Payment reference">RC-7436-2522-7632-8363</td>
+            <td data-label="Case">1508-4872-2683-8278</td>
+            <td data-label="Reference">Greens divorce</td>
+            <td data-label="Submitted by">Lucy Smith</td>
+            <td data-label="Status">Completed</td>
+            <td id="8363Date" data-label="Date">10 Oct 2018 at 10:20am</td>
+            <td data-label="Amount">-£550.00</td>
+        </tr>
+
+
+
+
+    </tbody>
+</table>

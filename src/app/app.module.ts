@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './containers/app/app.component';
 import { RegisterModule } from '../register/register.module';
+import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
 
@@ -47,6 +48,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     RegisterModule,
+    UsersModule,
     OrganisationModule,
     SharedModule,
     StoreRouterConnectingModule,

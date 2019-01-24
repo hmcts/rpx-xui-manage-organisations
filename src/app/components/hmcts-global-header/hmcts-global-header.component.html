@@ -5,9 +5,10 @@
         </div>
         <div class="hmcts-header__content">
             <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">
-                <ul class="hmcts-header__navigation-list" *ngFor="let item of navigation.items">
-                    <li class="hmcts-header__navigation-item">
-                        <a class="hmcts-header__navigation-link" href="{{item.href}}">{{item.text}}</a>
+                <ul class="hmcts-header__navigation-list" >
+                   
+                    <li *ngFor="let item of navigation.items" class="hmcts-header__navigation-item">
+                        <a class="hmcts-header__navigation-link" routerLink="{{item.href}}">{{item.text}}</a>
                     </li>
                 </ul>
             </nav>

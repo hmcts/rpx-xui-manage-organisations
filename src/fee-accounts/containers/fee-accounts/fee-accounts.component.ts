@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 
 /**
  * Bootstraps the Fee Accounts Components
@@ -10,10 +12,15 @@ import {Component, OnInit} from '@angular/core';
 })
 export class FeeAccountsComponent implements OnInit {
 
-  constructor() {}
+  constructor(
+    private store: Store<fromFeeAccountsStore.FeeAccountsState>
+  ) {}
 
   ngOnInit(): void {
-
+    this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
+    this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsState)).subscribe(feeAccountsData => {
+      console.log(feeAccountsData);
+    });
   }
 
 }

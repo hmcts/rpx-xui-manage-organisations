@@ -25,7 +25,7 @@ import * as fromComponents from './components';
 import { environment } from '../environments/environment';
 import { OrganisationComponent } from 'src/organisation/containers';
 import { LoginModule } from 'src/login/login.module';
-import { PaymentsModule } from 'src/fee-accounts/payments.module';
+import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -55,7 +55,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
       logOnly: environment.production
     }),
     LoginModule,
-    PaymentsModule
+    FeeAccountsModule
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],
   bootstrap: [AppComponent]

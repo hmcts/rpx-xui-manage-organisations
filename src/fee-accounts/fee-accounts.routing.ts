@@ -5,7 +5,7 @@ import {FeeAccountsComponent, SummaryComponent, TransactionsComponent} from './c
 
 export const ROUTES: Routes = [
   {
-    path: 'payments',
+    path: 'fee-accounts',
     children: [
       {
         path: '',
@@ -32,4 +32,4 @@ export const ROUTES: Routes = [
 ];
 
 
-export const paymentsRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const feeAccountsRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);

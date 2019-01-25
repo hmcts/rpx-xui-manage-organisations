@@ -1,68 +1,40 @@
-import * as fromRegistration from '../actions/organisation.actions';
+import * as fromOrganisation from '../actions/organisation.actions';
+import { Organisation } from 'src/organisation/organisation.model';
 
 
-export interface RegistrationFormState {
-  entities: any[];
+export interface OrganisationState {
+  organisation: Organisation[];
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: RegistrationFormState = {
-  entities: [],
+export const initialState: OrganisationState = {
+  organisation: [],
   loaded: false,
   loading: false,
 };
 
 export function reducer(
   state = initialState,
-  action: fromRegistration.RegistrationActions
-): RegistrationFormState {
+  action: fromOrganisation.organisationActions
+): OrganisationState {
   switch (action.type) {
-    case fromRegistration.LOAD_REGISTRATION_FORM: {
+    case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
+      const organisation = action.payload;
       return {
         ...state,
-        loading: true,
-      };
+        organisation,
+        loaded: true
+      }
+
     }
 
-    case fromRegistration.LOAD_REGISTRATION_FORM_SUCCESS: {
-      const formData = action.payload;
-
-      const entities = formData;
-
-      // const entities = pizzas.reduce(
-      //   (entities: { [id: number]: Pizza }, pizza: Pizza) => {
-      //     return {
-      //       ...entities,
-      //       [pizza.id]: pizza,
-      //     };
-      //   },
-      //   {
-      //     ...state.entities,
-      //   }
-      // );
-
-      return {
-        ...state,
-        loading: false,
-        loaded: true,
-        entities,
-      };
-    }
-
-    case fromRegistration.LOAD_REGISTRATION_FORM_FAIL: {
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-      };
-    }
   }
 
   return state;
 }
 
-export const getRegistationFormEntities = (state: RegistrationFormState) => state.entities;
-export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
-export const getRegistrationPizzasLoaded = (state: RegistrationFormState) => state.loaded;
+export const getOrganisation = (state: OrganisationState) => state.organisation;
+export const getOrganisationLoading = (state: OrganisationState) => state.loading;
+export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
 

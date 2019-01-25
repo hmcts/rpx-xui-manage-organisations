@@ -1,5 +1,5 @@
-import { OrganisationFormService } from './organisation-form.service';
+import { OrganisationService } from './organisation.service';
 
-export const services: any[] = [OrganisationFormService];
+export const services: any[] = [OrganisationService];
 
-export * from './organisation-form.service';
+export * from './organisation.service';

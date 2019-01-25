@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Store, select } from '@ngrx/store';
+import * as fromFeeAccountSummaryStore from '../../../fee-accounts/store';
 
 /**
  * Bootstraps the Fee Summary Components
@@ -15,13 +17,15 @@ export class SummaryComponent implements OnInit {
   navItems: Array<{}>;
 
   constructor(
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private store: Store<fromFeeAccountSummaryStore.FeeAccountsState>
   ) {}
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(params => {
       if (params['id']) {
         this.id = params['id'];
+        this.store.dispatch(new fromFeeAccountSummaryStore.LoadFeeAccountSummary({id: this.id}));
       }
     });
 
@@ -37,6 +41,10 @@ export class SummaryComponent implements OnInit {
         active: false
       }
     ];
+
+    this.store.pipe(select(fromFeeAccountSummaryStore.getFeeAccountSummaryArray)).subscribe(feeAccountSummaryData => {
+      console.log(feeAccountSummaryData);
+    });
   }
 
 }

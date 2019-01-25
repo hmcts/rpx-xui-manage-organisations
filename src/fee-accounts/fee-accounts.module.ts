@@ -22,7 +22,7 @@ import { reducers, effects } from './store';
     HttpClientModule,
     feeAccountsRouting,
     SharedModule,
-    StoreModule.forFeature('feeActions', reducers),
+    StoreModule.forFeature('feeAccounts', reducers),
     EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],

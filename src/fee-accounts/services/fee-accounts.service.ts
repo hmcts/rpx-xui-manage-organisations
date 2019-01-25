@@ -4,15 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 
-const dummy =  [
-  {
-    email: 'somthing@something',
-    manageCases: 'All',
-    manageOrganisation: 'Yes',
-    manageUsers: 'yes',
-    manageFeeAcc: 'yes',
-    status: 'active'
-  }
+const dummy = [
+  [
+    { text: 'PBA0241163', routerLink: 'summary/PBA0241163' },
+    { text: 'Wedlake Bell	- Account A' }
+  ],
+  [
+    { text: 'PBA222333', routerLink: 'summary/PBA222333' },
+    { text: 'Wedlake Bell	- Account B' }
+  ]
 ];
 
 
@@ -21,7 +21,6 @@ export class FeeAccountsService {
   constructor(private http: HttpClient) { }
 
   fetchFeeAccounts(): Observable<any> {
-    alert();
     return of(dummy);
   }
 

@@ -1,4 +1,3 @@
-// load login form
 import {Action} from '@ngrx/store';
 
 export const LOAD_FEE_ACCOUNTS = '[Fee Accounts] Load Fee Accounts';

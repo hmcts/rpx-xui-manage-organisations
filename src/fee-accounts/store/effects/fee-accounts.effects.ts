@@ -20,7 +20,7 @@ export class FeeAccountsEffects {
     ofType(feeAccountsActions.LOAD_FEE_ACCOUNTS),
     switchMap(() => {
       return this.feeAccountsService.fetchFeeAccounts().pipe(
-        map(userDetals => new feeAccountsActions.LoadFeeAccountsSuccess(userDetals)),
+        map(feeAccountsDetails => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
         catchError(error => of(new feeAccountsActions.LoadFeeAccountsFail(error)))
       );
     })

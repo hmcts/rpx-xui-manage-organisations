@@ -3,13 +3,13 @@ import { Organisation } from 'src/organisation/organisation.model';
 
 
 export interface OrganisationState {
-  organisation: Organisation[];
+  organisation: Organisation;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: OrganisationState = {
-  organisation: [],
+  organisation: null,
   loaded: false,
   loading: false,
 };

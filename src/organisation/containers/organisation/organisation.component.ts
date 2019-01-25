@@ -6,6 +6,7 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { Observable } from 'rxjs';
 import { debug } from 'util';
+import { Organisation } from 'src/organisation/organisation.model';
 
 
 
@@ -16,6 +17,8 @@ import { debug } from 'util';
 })
 export class OrganisationComponent implements OnInit {
 
+  orgData: Organisation
+
   constructor(
     private store: Store<fromStore.OrganisationState>
   ) { }
@@ -24,8 +27,8 @@ export class OrganisationComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadOrganisation());
-    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(orgData => {
-      console.log('@@@@@@@@@@@@@@@@', orgData);
+    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(data => {
+      this.orgData = data
     })
   }
 

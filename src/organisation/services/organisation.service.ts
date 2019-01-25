@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 
-const dummy = [{
+const dummy = {
   name: 'xyz solicitors Ltd',
   address1: '10 Oxford Street',
   town: 'London',
   postcode: 'W1 ABC',
 
-}]
+}
 
 
 

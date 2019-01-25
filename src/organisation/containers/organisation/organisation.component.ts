@@ -17,28 +17,20 @@ import { debug } from 'util';
 export class OrganisationComponent implements OnInit {
 
   constructor(
-    private formsService: FormsService,
-    private validationService: ValidationService,
-    private store: Store<fromStore.RegistrationState>) { }
+    private store: Store<fromStore.OrganisationState>
+  ) { }
 
-  formDraft: FormGroup;
-  formDraftSelector$: Observable<any>
+
 
   ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadRegistrationForm());
-    this.store.pipe(select(fromStore.getRegistationEntities)).subscribe(formData => {
-      console.log(formData);
+    this.store.dispatch(new fromStore.LoadOrganisation());
+    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(orgData => {
+      console.log('@@@@@@@@@@@@@@@@', orgData);
     })
   }
 
-  createForm(pageitems, pageValues) {
-    this.formDraft = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
-    const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, pageitems.formGroupValidators);
-    this.formDraft.setValidators(formGroupValidators);
-  }
 
-  // dispatch load action
 
-  // subscribe to a selector
+
 }
 

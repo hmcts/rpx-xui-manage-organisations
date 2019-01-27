@@ -19,7 +19,7 @@ export function reducer(
   switch (action.type) {
     case fromFeeAccountSummaryActions.LOAD_FEE_ACCOUNT_SUMMARY_SUCCESS: {
       const feeAccountSummary = action.payload;
-        alert(action.type);
+
       return {
         ...state,
         feeAccountSummary,

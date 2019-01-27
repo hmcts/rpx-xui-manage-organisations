@@ -15,6 +15,7 @@ export class SummaryComponent implements OnInit {
 
   id: string;
   navItems: Array<{}>;
+  feeAccountSummaryData: {};
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -43,7 +44,7 @@ export class SummaryComponent implements OnInit {
     ];
 
     this.store.pipe(select(fromFeeAccountSummaryStore.getFeeAccountSummaryArray)).subscribe(feeAccountSummaryData => {
-      console.log(feeAccountSummaryData);
+      this.feeAccountSummaryData  = feeAccountSummaryData;
     });
   }
 

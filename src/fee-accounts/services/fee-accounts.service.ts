@@ -16,7 +16,7 @@ const feeAccountsDummy = [
 
 const feeAccountSummaryDummy = {
   id: 'PBA0241163',
-  name: 'Wedlake Bell	- Account A',
+  name: 'Wedlake Bell	- Account Alfa',
   availableCredit: '£17,254.00',
   balance: '£2746.00',
   lastUpdated: '15 October 2018 at 3:12pm'

@@ -32,7 +32,6 @@ export class FeeAccountsService {
   }
 
   fetchFeeAccountSummary(id): Observable<any> {
-    alert(id);
     return of(feeAccountSummaryDummy);
   }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import * as fromFeeAccountSummaryStore from '../../../fee-accounts/store';
@@ -11,7 +11,7 @@ import * as fromFeeAccountSummaryStore from '../../../fee-accounts/store';
   selector: 'app-prd-summary-component',
   templateUrl: './summary.component.html',
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnInit, OnDestroy {
 
   id: string;
   navItems: Array<{}>;
@@ -46,6 +46,10 @@ export class SummaryComponent implements OnInit {
     this.store.pipe(select(fromFeeAccountSummaryStore.getFeeAccountSummaryArray)).subscribe(feeAccountSummaryData => {
       this.feeAccountSummaryData  = feeAccountSummaryData;
     });
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new fromFeeAccountSummaryStore.ResetFeeAccountSummary({}));
   }
 
 }

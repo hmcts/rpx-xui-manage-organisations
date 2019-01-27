@@ -28,6 +28,10 @@ export function reducer(
 
     }
 
+    case fromFeeAccountSummaryActions.RESET_FEE_ACCOUNT_SUMMARY: {
+      return initialState;
+    }
+
   }
 
   return state;

@@ -6,6 +6,7 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { Observable } from 'rxjs';
 import { debug } from 'util';
+import { Organisation } from 'src/organisation/organisation.model';
 
 
 
@@ -16,29 +17,23 @@ import { debug } from 'util';
 })
 export class OrganisationComponent implements OnInit {
 
-  constructor(
-    private formsService: FormsService,
-    private validationService: ValidationService,
-    private store: Store<fromStore.RegistrationState>) { }
+  orgData: Organisation
 
-  formDraft: FormGroup;
-  formDraftSelector$: Observable<any>
+  constructor(
+    private store: Store<fromStore.OrganisationState>
+  ) { }
+
+
 
   ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadRegistrationForm());
-    this.store.pipe(select(fromStore.getRegistationEntities)).subscribe(formData => {
-      console.log(formData);
+    this.store.dispatch(new fromStore.LoadOrganisation());
+    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(data => {
+      this.orgData = data
     })
   }
 
-  createForm(pageitems, pageValues) {
-    this.formDraft = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
-    const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, pageitems.formGroupValidators);
-    this.formDraft.setValidators(formGroupValidators);
-  }
 
-  // dispatch load action
 
-  // subscribe to a selector
+
 }
 

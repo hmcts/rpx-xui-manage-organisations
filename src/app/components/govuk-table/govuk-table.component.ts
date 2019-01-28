@@ -11,24 +11,25 @@ export class GovukTableComponent {
 
     @Input() caption = 'Dates and amounts';
     @Input() firstCellIsHeader = true;
-    @Input() head = [
-        { text: 'Date' },
-        { text: 'Amount' }
-    ];
+
     @Input() rows = [
         [
-            { text: 'First 6 weeks' },
-            { text: '£109.80 per week' }
+            { date: 'First 6 weeks' },
+            { amount: '£109.80 per week' }
         ],
         [
-            { text: 'Next 33 weeks' },
-            { text: '£109.80 per week' }
+            { date: 'Next 33 weeks' },
+            { amount: '£109.80 per week' }
         ],
         [
-            { text: 'Total estimated pay'
-            },
-            { text: '£4,282.20' }
+            { date: 'Total estimated pay' },
+            { amount: '£4,282.20' }
         ]
+    ];
+
+    @Input() config = [
+        { header: 'Date', key: 'date', type: 'text' },
+        { header: 'Amount', key: 'amount', type: 'text' }
     ];
 
     constructor() { }

@@ -4,14 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 const feeAccountsDummy = [
-  [
-    { text: 'PBA0241163', routerLink: 'account/PBA0241163/summary' },
-    { text: 'Wedlake Bell	- Account A' }
-  ],
-  [
-    { text: 'PBA222333', routerLink: 'account/PBA222333/summary' },
-    { text: 'Wedlake Bell	- Account B' }
-  ]
+  { accountNumber: 'PBA0241163', accountName: 'Wedlake Bell	- Account A' },
+  { accountNumber: 'PBA222333', accountName: 'Wedlake Bell	- Account B' }
 ];
 
 const singleFeeAccountDummy = {

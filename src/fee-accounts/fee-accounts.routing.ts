@@ -1,7 +1,7 @@
 // routes
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {FeeAccountsComponent, SummaryComponent, TransactionsComponent} from './containers';
+import {FeeAccountsComponent, TransactionsComponent, SingleFeeAccountComponent} from './containers';
 
 export const ROUTES: Routes = [
   {
@@ -12,20 +12,23 @@ export const ROUTES: Routes = [
         component: FeeAccountsComponent
       },
       {
-        path: 'summary',
+        path: 'account',
         component: FeeAccountsComponent
       },
       {
-        path: 'summary/:id',
-        component: SummaryComponent
-      },
-      {
-        path: 'transactions',
-        component: FeeAccountsComponent
-      },
-      {
-        path: 'transactions/:id',
-        component: TransactionsComponent
+        path: 'account/:id',
+        component: SingleFeeAccountComponent,
+        children: [
+          {
+            path: 'summary',
+            component: SingleFeeAccountComponent
+          },
+          {
+            path: 'transactions',
+            component: SingleFeeAccountComponent
+          }
+
+        ]
       }
     ]
   }

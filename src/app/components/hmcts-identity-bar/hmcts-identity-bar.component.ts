@@ -1,6 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as fromFeeAccountSummaryStore from '../../../fee-accounts/store';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-hmcts-identity-bar',
@@ -9,17 +8,15 @@ import * as fromFeeAccountSummaryStore from '../../../fee-accounts/store';
 })
 export class HmctsIdentityBarComponent implements OnInit {
 
-    value: {};
+    @Input() content: Observable<any>;
 
-    constructor(
-        private store: Store<fromFeeAccountSummaryStore.FeeAccountsState>
-     ) { }
+    value: string;
+
+    constructor() { }
 
     ngOnInit() {
-
-        this.store.pipe(select(fromFeeAccountSummaryStore.getFeeAccountSummaryArray)).subscribe(feeAccountSummaryData => {
-            this.value  = feeAccountSummaryData;
-          });
+        this.content.subscribe(data => {
+            this.value = data.name;
+        });
     }
-
 }

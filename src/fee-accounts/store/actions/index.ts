@@ -1,2 +1,2 @@
 export * from './fee-accounts.actions';
-export * from './fee-account-summary.actions';
+export * from './single-fee-account.actions';

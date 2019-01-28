@@ -1,17 +1,17 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
 import * as fromFeeAccounts from './fee-accounts.reducer';
-import * as fromFeeAccountSummary from './fee-account-summary.reducer';
+import * as fromSingleFeeAccount from './single-fee-account.reducer';
 
 
 export interface FeeAccountsState {
   feeAccounts: fromFeeAccounts.FeeAccountsState;
-  feeAccountSummary: fromFeeAccountSummary.FeeAccountSummaryState;
+  singleFeeAccount: fromSingleFeeAccount.SingleFeeAccountState;
 }
 
 export const reducers: ActionReducerMap<FeeAccountsState> = {
   feeAccounts: fromFeeAccounts.reducer,
-  feeAccountSummary: fromFeeAccountSummary.reducer,
+  singleFeeAccount: fromSingleFeeAccount.reducer,
 };
 
 export const getRootFeeAccountsState = createFeatureSelector<FeeAccountsState>(

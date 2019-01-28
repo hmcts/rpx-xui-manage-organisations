@@ -1,9 +1,10 @@
 import {FeeAccountsEffects} from './fee-accounts.effects';
-import { FeeAccountSummaryEffects } from './fee-account-summary.effects';
+import { SingleFeeAccountEffects } from './single-fee-account.effects';
 
 export const effects: any[] = [
   FeeAccountsEffects,
-  FeeAccountSummaryEffects
+  SingleFeeAccountEffects
 ];
 
 export * from './fee-accounts.effects';
+export * from './single-fee-account.effects';

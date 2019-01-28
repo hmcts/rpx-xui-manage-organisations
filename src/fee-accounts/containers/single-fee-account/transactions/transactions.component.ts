@@ -12,20 +12,20 @@ export class TransactionsComponent implements OnChanges {
 
   @Input() transactions;
 
-  tableHeaders: {}[];
+  tableConfig: {}[];
   tableRows: {}[];
 
   constructor() {}
 
   ngOnChanges(): void {
-    this.tableHeaders = [
-      { text: 'Payment reference' },
-      { text: 'Case' },
-      { text: 'Reference' },
-      { text: 'Submitted by' },
-      { text: 'Status' },
-      { text: 'Date created' },
-      { text: 'Amount' }
+    this.tableConfig = [
+      { header: 'Payment reference', key: 'paymentReference' },
+      { header: 'Case', key: 'case' },
+      { header: 'Reference', key: 'reference' },
+      { header: 'Submitted by', key: 'submittedBy' },
+      { header: 'Status', key: 'status' },
+      { header: 'Date created', key: 'dateCreated' },
+      { header: 'Amount', key: 'amount' }
     ];
 
     const mappedTransactions: {}[][] = [];
@@ -39,7 +39,7 @@ export class TransactionsComponent implements OnChanges {
 
       mappedTransactions.push(transactionArr);
     });
-    this.tableRows = mappedTransactions;
+    this.tableRows = this.transactions;
   }
 
 }

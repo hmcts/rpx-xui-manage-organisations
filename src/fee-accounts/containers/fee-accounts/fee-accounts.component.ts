@@ -12,8 +12,8 @@ import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 })
 export class FeeAccountsComponent implements OnInit {
 
-  tableHeaders: {}[];
-  tableRows: {}[][];
+  tableConfig: {}[];
+  tableRows: {}[];
 
   constructor(
     private store: Store<fromFeeAccountsStore.FeeAccountsState>
@@ -22,12 +22,20 @@ export class FeeAccountsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
     this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
-      this.tableRows = feeAccountsData;
+      const mappedData: any[] = [];
+      feeAccountsData.forEach(element => {
+        element = {
+          ...element,
+          routerLink: `account/${element.accountNumber}/summary`
+        };
+        mappedData.push(element);
+      });
+      this.tableRows = mappedData;
     });
 
-    this.tableHeaders = [
-      { text: 'Account number' },
-      { text: 'Account name' }
+    this.tableConfig = [
+      { header: 'Account number', key: 'accountNumber', type: 'link' },
+      { header: 'Account name', key: 'accountName' }
     ];
   }
 

@@ -5,7 +5,8 @@
          <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-xl">Invite user</h1>
             <p class="govuk-body">When you send this invitation, the user will receive an email from HM Courts and Tribunals Registrations so they can finish setting up their account.</p>
-            <form action="./confirmation">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f.value)" >
+              
                <div class="govuk-form-group">
                   <label class="govuk-label govuk-label--m" for="firstname">
                   First name(s)
@@ -13,22 +14,22 @@
                   <span id="firstname-hint" class="govuk-hint">
                   Include all middle names.
                   </span>
-                  <input class="govuk-input" id="firstname" name="firstname" type="text" aria-describedby="firstname-hint">
+                  <input class="govuk-input" id="firstname" name="firstname" ngModel type="text" aria-describedby="firstname-hint">
                </div>
                <div class="govuk-form-group">
                   <label class="govuk-label govuk-label--m" for="lastname">
                   Last name
                   </label>
-                  <input class="govuk-input" id="lastname" name="lastname" type="text">
+                  <input class="govuk-input" id="lastname"  ngModel name="lastname" type="text">
                </div>
                <div class="govuk-form-group">
                   <label class="govuk-label govuk-label--m" for="emailaddress">
                   Email address
                   </label>
-                  <input class="govuk-input" id="emailaddress" name="emailaddress" type="text">
+                  <input class="govuk-input" id="emailaddress"  ngModel name="emailaddress" type="text">
                </div>
                <div class="govuk-form-group">
-                  <fieldset class="govuk-fieldset" aria-describedby="permissions-hint">
+                  <fieldset  ngModelGroup="permissions" class="govuk-fieldset" aria-describedby="permissions-hint">
                      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                         Permissions
                      </legend>
@@ -37,7 +38,7 @@
                      </span>
                      <div class="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
-                           <input class="govuk-checkboxes__input" id="permissions-1" name="permissions" type="checkbox" value="cases" aria-describedby="permissions-1-item-hint">
+                           <input class="govuk-checkboxes__input"   ngModel name="create_permissions" type="checkbox" value="cases" aria-describedby="permissions-1-item-hint">
                            <label class="govuk-label govuk-checkboxes__label" for="permissions-1">
                            Create cases
                            </label>
@@ -46,7 +47,7 @@
                            </span>
                         </div>
                         <div class="govuk-checkboxes__item">
-                           <input class="govuk-checkboxes__input" id="permissions-2" name="permissions" type="checkbox" value="organisation-view" aria-describedby="permissions-2-item-hint">
+                           <input class="govuk-checkboxes__input" id="permissions-2"  ngModel name="view_permissions" type="checkbox" value="organisation-view" aria-describedby="permissions-2-item-hint">
                            <label class="govuk-label govuk-checkboxes__label" for="permissions-2">
                            View organisation's cases
                            </label>
@@ -55,7 +56,7 @@
                            </span>
                         </div>
                         <div class="govuk-checkboxes__item">
-                           <input class="govuk-checkboxes__input" id="permissions-3" name="permissions" type="checkbox" value="users" aria-describedby="permissions-3-item-hint">
+                           <input class="govuk-checkboxes__input" id="permissions-3"  ngModel name="manage_permissions" type="checkbox" value="users" aria-describedby="permissions-3-item-hint">
                            <label class="govuk-label govuk-checkboxes__label" for="permissions-3">
                            Manage users
                            </label>
@@ -64,7 +65,7 @@
                            </span>
                         </div>
                         <div class="govuk-checkboxes__item">
-                           <input class="govuk-checkboxes__input" id="permissions-4" name="permissions" type="checkbox" value="organisation" aria-describedby="permissions-4-item-hint">
+                           <input class="govuk-checkboxes__input" id="permissions-4" ngModel  name="view_org_permissions" type="checkbox" value="organisation" aria-describedby="permissions-4-item-hint">
                            <label class="govuk-label govuk-checkboxes__label" for="permissions-4">
                            View organisation details
                            </label>
@@ -73,7 +74,7 @@
                            </span>
                         </div>
                         <div class="govuk-checkboxes__item">
-                           <input class="govuk-checkboxes__input" id="permissions-5" name="permissions" type="checkbox" value="payment" aria-describedby="permissions-5-item-hint">
+                           <input class="govuk-checkboxes__input" id="permissions-5" ngModel name="view_fee_permissions" type="checkbox" value="payment" aria-describedby="permissions-5-item-hint">
                            <label class="govuk-label govuk-checkboxes__label" for="permissions-5">
                            View fee accounts
                            </label>
@@ -88,6 +89,8 @@
                Send invitation
                </button>
             </form>
+
+            <pre>{{f.value | json}}</pre>
          </div>
       </div>
    </main>

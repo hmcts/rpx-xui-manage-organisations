@@ -1,26 +1,28 @@
-// load registration form
-import {Action} from '@ngrx/store';
+// load organisation
+import { Action } from '@ngrx/store';
+import { Organisation } from 'src/organisation/organisation.model';
 
-export const LOAD_REGISTRATION_FORM = '[Registration] Load Registration From';
-export const LOAD_REGISTRATION_FORM_SUCCESS = '[Registration] Load Registration From Success';
-export const LOAD_REGISTRATION_FORM_FAIL = '[Registration] Load Registration From Fail';
+export const LOAD_ORGANISATION = '[Organisation] Load Organisation';
+export const LOAD_ORGANISATION_SUCCESS = '[Organisation] Load Organisation Success';
+export const LOAD_ORGANISATION_FAIL = '[Organisation] Load Organisation Fail';
 
-export class LoadRegistrationForm {
-  readonly type = LOAD_REGISTRATION_FORM;
+export class LoadOrganisation {
+  readonly type = LOAD_ORGANISATION;
+  constructor() { }
 }
 
-export class LoadRegistrationFormSuccsess  implements Action {
-  readonly type = LOAD_REGISTRATION_FORM_SUCCESS;
-  constructor(public payload: any) {}  // TODO add type
+export class LoadOrganisationSuccess implements Action {
+  readonly type = LOAD_ORGANISATION_SUCCESS;
+  constructor(public payload: Organisation) { }
 }
 
-export class LoadRegistrationFormFail implements Action {
-  readonly type = LOAD_REGISTRATION_FORM_FAIL;
-  constructor(public payload: any) {}
+export class LoadOrganisationFail implements Action {
+  readonly type = LOAD_ORGANISATION_FAIL;
+  constructor(public payload: any) { }
 }
 
+export type organisationActions =
+  | LoadOrganisation
+  | LoadOrganisationSuccess
+  | LoadOrganisationFail;
 
-export type RegistrationActions =
-  | LoadRegistrationForm
-  | LoadRegistrationFormSuccsess
-  | LoadRegistrationFormFail;

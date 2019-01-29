@@ -4,13 +4,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 
-const dummy =  [
+const dummy = [
   {
     email: 'somthing@something',
     manageCases: 'All',
     manageOrganisation: 'Yes',
     manageUsers: 'yes',
     manageFeeAcc: 'yes',
+    status: 'active'
+  },
+  {
+    email: 'xyz@something',
+    manageCases: 'All',
+    manageOrganisation: 'Yes',
+    manageUsers: 'no',
+    manageFeeAcc: 'no',
     status: 'active'
   }
 ]

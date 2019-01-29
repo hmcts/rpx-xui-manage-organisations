@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { Observable } from 'rxjs';
 import { debug } from 'util';
+import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
 
 
 
@@ -12,7 +13,7 @@ import { debug } from 'util';
 })
 export class UsersComponent implements OnInit {
 
-  tableConfig: {}[];
+  columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
 
   constructor(
@@ -21,7 +22,7 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.tableConfig = [
+    this.columnConfig = [
       { header: 'Email address', key: 'email' },
       { header: 'Manage cases', key: 'manageCases' },
       { header: 'Manage organisation', key: 'manageOrganisation' },
@@ -34,7 +35,7 @@ export class UsersComponent implements OnInit {
     this.store.dispatch(new fromStore.LoadUsers());
     this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
       this.tableRows = userData;
-    })
+    });
   }
 
 

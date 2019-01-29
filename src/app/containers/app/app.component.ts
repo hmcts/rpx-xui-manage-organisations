@@ -11,14 +11,13 @@ import { Observable, of } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  identityBar: Observable<any>;
+  identityBar$: Observable<any>;
 
   constructor(
     private store: Store<fromSingleFeeAccountStore.FeeAccountsState>
   ) { }
 
   ngOnInit() {
-
-    this.identityBar = of(this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray)));
+    this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray));
   }
 }

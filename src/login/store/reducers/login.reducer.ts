@@ -1,14 +1,15 @@
 import * as fromLogin from '../actions/login.actions';
+import { LoggedUser } from 'src/login/loggedUser.model';
 
 
 export interface LoginState {
-  user: any; // todo add type user model
+  user: LoggedUser // todo add type user model
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: LoginState = {
-  user: {},
+  user: null,
   loaded: false,
   loading: false,
 };

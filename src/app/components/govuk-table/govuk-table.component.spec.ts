@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GovukTableComponent } from './govuk-table.component';
+import { RouterModule } from '@angular/router';
 
 describe('GovukTableComponent', () => {
   let component: GovukTableComponent;
@@ -8,7 +9,10 @@ describe('GovukTableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GovukTableComponent ]
+      declarations: [ GovukTableComponent ],
+      imports: [
+        RouterModule
+      ]
     })
     .compileComponents();
   }));

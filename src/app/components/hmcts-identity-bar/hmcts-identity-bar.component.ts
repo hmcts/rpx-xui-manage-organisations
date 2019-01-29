@@ -10,11 +10,22 @@ export class HmctsIdentityBarComponent implements OnInit {
 
     @Input() content: Observable<any>;
 
-    value: string;
+    // @Input() set isLoading(value: boolean) {
+    //   this.loading = value;
+    // }
+
+
+  value: string;
 
     constructor() { }
+    // todo to fix
+    // ngOnChanges(changes: SimpleChanges): void {
+    //   if(changes['routes'] && changes['routes']['currentValue']) {
+    //     this.url = changes.routes.currentValue.state.url;
+    //   }
+    // }
 
-    ngOnInit() {
+  ngOnInit() {
         this.content.subscribe(data => {
             this.value = data.name;
         });

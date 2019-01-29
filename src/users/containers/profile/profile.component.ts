@@ -3,12 +3,10 @@ import { select, Store } from '@ngrx/store';
 import * as fromLogInStore from '../../../login/store';
 import { Observable } from 'rxjs';
 import { debug } from 'util';
+import { LoggedUser } from 'src/login/loggedUser.model';
 
 
 
-/**
- * Bootstraps the Register Components
- */
 
 @Component({
   selector: 'app-prd-profile-component',
@@ -16,6 +14,7 @@ import { debug } from 'util';
 })
 export class ProfileComponent implements OnInit {
 
+  userProfile: LoggedUser;
   constructor(
     private store: Store<fromLogInStore.LoginState>
   ) { }
@@ -23,7 +22,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.pipe(select(fromLogInStore.getLoggedInUser)).subscribe(userdata => {
-      console.log(userdata);
+      this.userProfile = userdata;
     });
   }
 

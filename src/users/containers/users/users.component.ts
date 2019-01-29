@@ -25,7 +25,7 @@ export class UsersComponent implements OnInit {
       { header: 'Email address', key: 'email' },
       { header: 'Manage cases', key: 'manageCases' },
       { header: 'Manage organisation', key: 'manageOrganisation' },
-      { header: 'Manage users', key: 'submittedBy,manageUsers' },
+      { header: 'Manage users', key: 'manageUsers' },
       { header: 'Manage fee accounts', key: 'manageFeeAcc' },
       { header: 'status', key: 'status' }
     ];
@@ -33,7 +33,6 @@ export class UsersComponent implements OnInit {
 
     this.store.dispatch(new fromStore.LoadUsers());
     this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
-      console.log(userData);
       this.tableRows = userData;
     })
   }

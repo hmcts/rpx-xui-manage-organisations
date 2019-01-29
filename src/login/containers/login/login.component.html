@@ -1,5 +1,5 @@
 <h1 class="govuk-heading-l">Sign in</h1>
-<form #f="ngForm" (submit)="onSignIn(f, $event)">
+<form  #f="ngForm" (ngSubmit)="onSignIn(f.value)">
   <div class="govuk-form-group">
     <label class="govuk-label govuk-!-width-one-third" for="email-address">Email address</label>
     <input [ngModel] class="govuk-input govuk-!-width-one-third" id="email-address" name="email-address" type="text">
@@ -13,3 +13,4 @@
   <button type="submit" class="govuk-button">Sign in</button>
 
 </form>
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromSingleFeeAccountStore from '../../../fee-accounts/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +11,13 @@ import { Observable, of } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'app';
 
-  identityBar: Observable<any>;
+  identityBar$: Observable<fromSingleFeeAccountStore.FeeAccountsState[]>;
 
   constructor(
     private store: Store<fromSingleFeeAccountStore.FeeAccountsState>
   ) { }
 
   ngOnInit() {
-
-    this.identityBar = of(this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray)));
+    this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray));
   }
 }

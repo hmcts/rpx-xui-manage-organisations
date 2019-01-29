@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromFeeAccountsStore from '../../../fee-accounts/store';
+import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
 
 /**
  * Bootstraps the Fee Accounts Components
@@ -12,7 +13,7 @@ import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 })
 export class FeeAccountsComponent implements OnInit {
 
-  tableConfig: {}[];
+  columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
 
   constructor(
@@ -33,7 +34,7 @@ export class FeeAccountsComponent implements OnInit {
       this.tableRows = mappedData;
     });
 
-    this.tableConfig = [
+    this.columnConfig = [
       { header: 'Account number', key: 'accountNumber', type: 'link' },
       { header: 'Account name', key: 'accountName' }
     ];

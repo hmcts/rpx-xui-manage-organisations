@@ -1,22 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-hmcts-identity-bar',
     templateUrl: './hmcts-identity-bar.component.html',
     styleUrls: ['./hmcts-identity-bar.component.scss']
 })
-export class HmctsIdentityBarComponent implements OnInit {
+export class HmctsIdentityBarComponent {
 
-    @Input() content: Observable<any>;
+    @Input() set content(value) {
+        this.value = value.name;
+    }
 
     value: string;
 
     constructor() { }
-
-    ngOnInit() {
-        this.content.subscribe(data => {
-            this.value = data.name;
-        });
-    }
 }

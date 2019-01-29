@@ -1,4 +1,5 @@
 import {Component, OnChanges, Input} from '@angular/core';
+import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
 
 /**
  * Bootstraps the Transactions Components
@@ -12,13 +13,13 @@ export class TransactionsComponent implements OnChanges {
 
   @Input() transactions;
 
-  tableConfig: {}[];
+  columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
 
   constructor() {}
 
   ngOnChanges(): void {
-    this.tableConfig = [
+    this.columnConfig = [
       { header: 'Payment reference', key: 'paymentReference' },
       { header: 'Case', key: 'case' },
       { header: 'Reference', key: 'reference' },
@@ -28,17 +29,6 @@ export class TransactionsComponent implements OnChanges {
       { header: 'Amount', key: 'amount' }
     ];
 
-    const mappedTransactions: {}[][] = [];
-    this.transactions.forEach(element => {
-      const transactionArr: {}[] = [];
-      for (const key in element) {
-        if (element[key]) {
-          transactionArr.push({ 'text': element[key]});
-        }
-      }
-
-      mappedTransactions.push(transactionArr);
-    });
     this.tableRows = this.transactions;
   }
 

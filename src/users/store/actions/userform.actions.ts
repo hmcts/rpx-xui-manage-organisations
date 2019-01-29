@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 import { Userform } from 'src/users/userform.model';
 
 export const SAVE_USER = '[SaveUser] Save Users';
-export const SAVE_USER_SUCCESS = '[saveUser] Save Users Success';
+export const SAVE_USER_SUCCESS = '[SaveUser] Save Users Success';
 export const SAVE_USER_FAIL = '[SaveUser] Save Users Fail';
 
 export class SaveUser {

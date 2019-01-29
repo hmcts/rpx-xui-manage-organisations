@@ -6,15 +6,14 @@ import { debug } from 'util';
 
 
 
-/**
- * Bootstraps the Register Components
- */
-
 @Component({
   selector: 'app-prd-users-component',
   templateUrl: './users.component.html',
 })
 export class UsersComponent implements OnInit {
+
+  tableConfig: {}[];
+  tableRows: {}[];
 
   constructor(
     private store: Store<fromStore.UserState>
@@ -22,9 +21,20 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.tableConfig = [
+      { header: 'Email address', key: 'email' },
+      { header: 'Manage cases', key: 'manageCases' },
+      { header: 'Manage organisation', key: 'manageOrganisation' },
+      { header: 'Manage users', key: 'submittedBy,manageUsers' },
+      { header: 'Manage fee accounts', key: 'manageFeeAcc' },
+      { header: 'status', key: 'status' }
+    ];
+
+
     this.store.dispatch(new fromStore.LoadUsers());
     this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
       console.log(userData);
+      this.tableRows = userData;
     })
   }
 

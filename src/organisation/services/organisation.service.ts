@@ -21,9 +21,6 @@ export class OrganisationService {
 
   fetchOrganisation(): Observable<any> {
     return of(dummy)
-    // return this.http
-    //   .get<any>(`/api/pizzas`)
-    //   .pipe(catchError((error: any) => throwError(error.json())));
   }
 
 

@@ -26,12 +26,4 @@ export class HmctsGlobalHeaderComponent {
 
     constructor(public store: Store<fromRoot.State>) { }
 
-    onNavigate(path) {
-        //   this.store.dispatch(new fromRoot.Go(
-        //     {
-        //       path: ['/register', path]
-        //     }
-        //   ));
-    }
-
 }

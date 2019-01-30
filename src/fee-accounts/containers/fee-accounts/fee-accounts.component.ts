@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
+import { Subscription } from 'rxjs';
 
 /**
  * Bootstraps the Fee Accounts Components
@@ -11,10 +12,11 @@ import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-tab
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './fee-accounts.component.html',
 })
-export class FeeAccountsComponent implements OnInit {
+export class FeeAccountsComponent implements OnInit, OnDestroy {
 
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
+  feeAccountsSubscription: Subscription;
 
   constructor(
     private store: Store<fromFeeAccountsStore.FeeAccountsState>
@@ -22,7 +24,7 @@ export class FeeAccountsComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
-    this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
+    this.feeAccountsSubscription = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
       const mappedData: any[] = [];
       feeAccountsData.forEach(element => {
         element = {
@@ -38,6 +40,10 @@ export class FeeAccountsComponent implements OnInit {
       { header: 'Account number', key: 'accountNumber', type: 'link' },
       { header: 'Account name', key: 'accountName' }
     ];
+  }
+
+  ngOnDestroy() {
+    this.feeAccountsSubscription.unsubscribe();
   }
 
 }

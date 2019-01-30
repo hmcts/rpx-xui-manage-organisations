@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import * as fromSingleFeeAccountStore from '../../store';
 import * as fromRouterStore from '../../../app/store';
+import { Subscription } from 'rxjs';
 
 /**
  * Bootstraps the Single Fee Account Components
@@ -21,6 +22,10 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
   sectionHeader: string;
   activeTab: string;
 
+  routeSubscription: Subscription;
+  singleFeeAccountSubscription: Subscription;
+  routerSubscription: Subscription;
+
   constructor(
     private activeRoute: ActivatedRoute,
     private store: Store<fromSingleFeeAccountStore.FeeAccountsState>
@@ -30,14 +35,14 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
     this.sectionHeader = 'Summary';
     this.activeTab = 'summary';
 
-    this.activeRoute.params.subscribe(params => {
+    this.routeSubscription = this.activeRoute.params.subscribe(params => {
       if (params['id']) {
         this.id = params['id'];
         this.store.dispatch(new fromSingleFeeAccountStore.LoadSingleFeeAccount({id: this.id}));
       }
     });
 
-    this.store.pipe(select(fromRouterStore.getRouterState)).subscribe(routerState => {
+    this.routerSubscription = this.store.pipe(select(fromRouterStore.getRouterState)).subscribe(routerState => {
       const url = routerState.state.url;
       const pathElementsReverse = url.split('/').reverse();
       const activePath = this.setActivePath(pathElementsReverse[0]);
@@ -59,7 +64,8 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
     });
 
 
-    this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray)).subscribe(feeAccountSingleFeeAccountData => {
+    this.singleFeeAccountSubscription = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray))
+    .subscribe(feeAccountSingleFeeAccountData => {
       this.singleFeeAccountData  = feeAccountSingleFeeAccountData;
     });
   }
@@ -84,6 +90,9 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.store.dispatch(new fromSingleFeeAccountStore.ResetSingleFeeAccount({}));
+    this.routeSubscription.unsubscribe();
+    this.routerSubscription.unsubscribe();
+    this.singleFeeAccountSubscription.unsubscribe();
   }
 
 }

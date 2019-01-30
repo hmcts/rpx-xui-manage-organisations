@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { debug } from 'util';
 import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
 
@@ -11,10 +11,11 @@ import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-tab
   selector: 'app-prd-users-component',
   templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
+  userSubscription: Subscription;
 
   constructor(
     private store: Store<fromStore.UserState>
@@ -33,11 +34,14 @@ export class UsersComponent implements OnInit {
 
 
     this.store.dispatch(new fromStore.LoadUsers());
-    this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
+    this.userSubscription = this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
       this.tableRows = userData;
     });
   }
 
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+  }
 
 
   // dispatch load action

@@ -1,0 +1,30 @@
+<table class="{{'govuk-table ' + classes}}" role="presentation">
+    <caption class="govuk-table__caption">{{caption}}</caption>
+    <thead class="govuk-table__head" >
+    <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="col" *ngFor="let h of columnConfig">{{h.header}}</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <tr data-selector="table-row" class="govuk-table__row" *ngFor="let r of rows">
+        <ng-container *ngFor="let col of columnConfig; first as isFirst">
+            <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader">
+                <ng-container *ngIf="!col.type || col.type === 'text'">
+                    {{r[col.key]}}
+                </ng-container>
+                <ng-container *ngIf="col.type === 'link'">
+                    <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+                </ng-container>
+            </th>
+            <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">
+                <ng-container *ngIf="!col.type || col.type === 'text'">
+                    {{r[col.key]}}
+                </ng-container>
+                <ng-container *ngIf="col.type === 'link'">
+                    <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+                </ng-container>
+            </td>
+        </ng-container>
+    </tr>
+    </tbody>
+</table>

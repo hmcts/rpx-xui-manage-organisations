@@ -1,16 +1,16 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromRegistration from './organisation.reducer';
+import * as fromOrganisation from './organisation.reducer';
 
 
-export interface RegistrationState {
-  registration: fromRegistration.RegistrationFormState;
+export interface OrganisationState {
+  organisation: fromOrganisation.OrganisationState;
 }
 
-export const reducers: ActionReducerMap<RegistrationState> = {
-  registration: fromRegistration.reducer,
+export const reducers: ActionReducerMap<OrganisationState> = {
+  organisation: fromOrganisation.reducer,
 };
 
-export const getRootRegState = createFeatureSelector<RegistrationState>(
-  'registration'
+export const getRootOrgState = createFeatureSelector<OrganisationState>(
+  'organisation'
 );

@@ -1,44 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-//import { FormGroup } from '@angular/forms';
-//import { FormsService } from '../../../app/containers/form-builder/services/form-builder.service';
-//import { ValidationService } from '../../../app/containers/form-builder/services/form-builder-validation.service';
-//import { select, Store } from '@ngrx/store';
-//import * as fromStore from '../../store';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import * as fromLogInStore from '../../../login/store';
+import { Observable, Subscription } from 'rxjs';
 import { debug } from 'util';
+import { LoggedUser } from 'src/login/loggedUser.model';
 
 
 
-/**
- * Bootstraps the Register Components
- */
 
 @Component({
   selector: 'app-prd-profile-component',
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit,  OnDestroy {
+
+  userProfile: LoggedUser;
+  loginSubscription: Subscription;
 
   constructor(
-    // private formsService: FormsService,
-    // private validationService: ValidationService,
-    // private store: Store<fromStore.RegistrationState>
+    private store: Store<fromLogInStore.LoginState>
   ) { }
 
-  //formDraft: FormGroup;
-  //formDraftSelector$: Observable<any>
 
   ngOnInit(): void {
-    // this.store.dispatch(new fromStore.LoadRegistrationForm());
-    // this.store.pipe(select(fromStore.getRegistationEntities)).subscribe(formData => {
-    //   console.log(formData);
-    //})
+    this.loginSubscription = this.store.pipe(select(fromLogInStore.getLoggedInUser)).subscribe(userdata => {
+      this.userProfile = userdata;
+    });
   }
 
-
-
-  // dispatch load action
-
-  // subscribe to a selector
+  ngOnDestroy() {
+    this.loginSubscription.unsubscribe();
+  }
 }
+
+
+
+
+
+
 

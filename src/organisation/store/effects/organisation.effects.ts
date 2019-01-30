@@ -4,22 +4,22 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as organisationActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { OrganisationFormService } from '../../services/organisation-form.service';
+import { OrganisationService } from '../../services/organisation.service';
 
 @Injectable()
 export class OrganisationEffects {
   constructor(
     private actions$: Actions,
-    private organisationService: OrganisationFormService
+    private organisationService: OrganisationService
   ) { }
 
   @Effect()
-  loadRegistrationForm$ = this.actions$.pipe(
-    ofType(organisationActions.LOAD_REGISTRATION_FORM),
+  loadOrganisation$ = this.actions$.pipe(
+    ofType(organisationActions.LOAD_ORGANISATION),
     switchMap(() => {
-      return this.organisationService.getRetistrationFrom().pipe(
-        map(regForm => new organisationActions.LoadRegistrationFormSuccsess(regForm)),
-        catchError(error => of(new organisationActions.LoadRegistrationFormFail(error)))
+      return this.organisationService.fetchOrganisation().pipe(
+        map(orgDetails => new organisationActions.LoadOrganisationSuccess(orgDetails)),
+        catchError(error => of(new organisationActions.LoadOrganisationFail(error)))
       );
     })
   );

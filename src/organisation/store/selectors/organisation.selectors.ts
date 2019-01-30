@@ -1,14 +1,16 @@
 import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../../store/reducers';
-import * as fromRegistration from '../../store/reducers/organisation.reducer';
+import * as fromOrganisation from '../reducers/organisation.reducer';
 
-export const getRegistrationState = createSelector(
-  fromFeature.getRootRegState,
-  (state: fromFeature.RegistrationState) => state.registration
+export const getOrganisationState = createSelector(
+  fromFeature.getRootOrgState,
+  (state: fromFeature.OrganisationState) => state.organisation
 );
 
-export const getRegistationEntities = createSelector(
-  getRegistrationState,
-  fromRegistration.getRegistationFormEntities
+export const getOrganisationSel = createSelector(
+  getOrganisationState,
+  fromOrganisation.getOrganisation
 );
+
+

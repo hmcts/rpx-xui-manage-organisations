@@ -1,40 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-//import { FormGroup } from '@angular/forms';
-//import { FormsService } from '../../../app/containers/form-builder/services/form-builder.service';
-//import { ValidationService } from '../../../app/containers/form-builder/services/form-builder-validation.service';
-//import { select, Store } from '@ngrx/store';
-//import * as fromStore from '../../store';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import * as fromStore from '../../store';
+import { Observable, Subscription } from 'rxjs';
 import { debug } from 'util';
+import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
 
 
-
-/**
- * Bootstraps the Register Components
- */
 
 @Component({
   selector: 'app-prd-users-component',
   templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
+
+  columnConfig: GovukTableColumnConfig[];
+  tableRows: {}[];
+  userSubscription: Subscription;
 
   constructor(
-    // private formsService: FormsService,
-    // private validationService: ValidationService,
-    // private store: Store<fromStore.RegistrationState>
+    private store: Store<fromStore.UserState>
   ) { }
 
-  //formDraft: FormGroup;
-  //formDraftSelector$: Observable<any>
 
   ngOnInit(): void {
-    // this.store.dispatch(new fromStore.LoadRegistrationForm());
-    // this.store.pipe(select(fromStore.getRegistationEntities)).subscribe(formData => {
-    //   console.log(formData);
-    //})
+    this.columnConfig = [
+      { header: 'Email address', key: 'email' },
+      { header: 'Manage cases', key: 'manageCases' },
+      { header: 'Manage organisation', key: 'manageOrganisation' },
+      { header: 'Manage users', key: 'manageUsers' },
+      { header: 'Manage fee accounts', key: 'manageFeeAcc' },
+      { header: 'status', key: 'status' }
+    ];
+
+
+    this.store.dispatch(new fromStore.LoadUsers());
+    this.userSubscription = this.store.pipe(select(fromStore.getGetUserArray)).subscribe(userData => {
+      this.tableRows = userData;
+    });
   }
 
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
+  }
 
 
   // dispatch load action

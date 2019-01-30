@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
 
 /**
@@ -11,16 +11,17 @@ import * as fromStore from '../../store';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-
-  constructor( private store: Store<fromStore.LoginState>) {}
+  constructor(private store: Store<fromStore.LoginState>) { }
 
   ngOnInit(): void {
 
   }
 
-  onSignIn(f, event): void {
-    event.preventDefault();
-    this.store.dispatch(new fromStore.LoginUser(f.value));
+
+  onSignIn(value) {
+    this.store.dispatch(new fromStore.LoginUser(value));
+    this.store.pipe(select(fromStore.getLoggedInUser)).subscribe(data => {
+    })
   }
 
 }

@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as fromRoot from '../../store';
-import {Store} from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-hmcts-global-header',
@@ -24,14 +24,6 @@ export class HmctsGlobalHeaderComponent {
         ]
     };
 
-    constructor(public store: Store<fromRoot.State> ) { }
-
-  onNavigate(path) {
-      this.store.dispatch(new fromRoot.Go(
-        {
-          path: ['/register', path]
-        }
-      ));
-  }
+    constructor(public store: Store<fromRoot.State>) { }
 
 }

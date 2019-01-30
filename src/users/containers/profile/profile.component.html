@@ -9,17 +9,17 @@
                      <tbody class="govuk-table__body">
                         <tr class="govuk-table__row">
                            <th class="govuk-table__header" scope="row">First name</th>
-                           <td class="govuk-table__cell">Adam</td>
+                           <td class="govuk-table__cell">{{userProfile.firstname}}</td>
                            <td class="govuk-table__cell"></td>
                         </tr>
                         <tr class="govuk-table__row">
                            <th class="govuk-table__header" scope="row">Last name</th>
-                           <td class="govuk-table__cell">Silver</td>
+                           <td class="govuk-table__cell">{{userProfile.lastname}}</td>
                            <td class="govuk-table__cell"></td>
                         </tr>
                         <tr class="govuk-table__row">
                            <th class="govuk-table__header" scope="row">Email</th>
-                           <td class="govuk-table__cell">adam.silver@wedlakebell.com</td>
+                           <td class="govuk-table__cell">{{userProfile.email}}</td>
                            <td class="govuk-table__cell"></td>
                         </tr>
                         <tr class="govuk-table__row">
@@ -29,7 +29,7 @@
                         </tr>
                         <tr class="govuk-table__row">
                            <th class="govuk-table__header" scope="row">Permitted to manage</th>
-                           <td class="govuk-table__cell">cases (all), organisation, users, payments</td>
+                           <td class="govuk-table__cell">{{userProfile.permissions}}</td>
                            <td class="govuk-table__cell"></td>
                         </tr>
                      </tbody>
@@ -40,3 +40,4 @@
       </div>
    </main>
 </div>
+

@@ -22,7 +22,6 @@ export class UserformComponent implements OnInit {
   }
 
   onSubmit(value) {
-    console.log('formsubmitted', value);
     this.store.dispatch(new fromStore.SaveUser(value));
 
   }

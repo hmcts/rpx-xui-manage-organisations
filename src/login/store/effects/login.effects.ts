@@ -20,7 +20,7 @@ export class LoginEffects {
     ofType(logInActions.LOGIN_USER),
     map((action: logInActions.LoginUser) => action.payload),
     switchMap((userCredential) => {
-      return this.loginService.loginUer(userCredential).pipe(
+      return this.loginService.loginUser(userCredential).pipe(
         map(userDetals => new logInActions.LoginUserSuccess(userDetals)),
         catchError(error => of(new logInActions.LoginUserFail(error)))
       );

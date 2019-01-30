@@ -35,6 +35,7 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
     this.sectionHeader = 'Summary';
     this.activeTab = 'summary';
 
+    // TODO: get id from route state
     this.routeSubscription = this.activeRoute.params.subscribe(params => {
       if (params['id']) {
         this.id = params['id'];

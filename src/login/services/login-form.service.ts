@@ -18,7 +18,7 @@ const dummy = {
 export class LoginService {
   constructor(private http: HttpClient) { }
 
-  loginUer(): Observable<any> {
+  loginUser(data): Observable<any> {
     return of(dummy);
 
   }

@@ -1,4 +1,6 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import * as fromRoot from '../../store';
+import { Store } from '@ngrx/store';
 
 @Component({
     selector: 'app-hmcts-global-header',
@@ -22,6 +24,6 @@ export class HmctsGlobalHeaderComponent {
         ]
     };
 
-    constructor() { }
+    constructor(public store: Store<fromRoot.State>) { }
 
 }

@@ -8,6 +8,7 @@ import {ValidationService} from '../containers/form-builder/services/form-builde
 import { HmctsSubNavigationComponent } from '../components/hmcts-sub-navigation/hmcts-sub-navigation.component';
 import { RouterModule } from '@angular/router';
 import { HmctsIdentityBarComponent } from '../components/hmcts-identity-bar/hmcts-identity-bar.component';
+import { GovukTableComponent } from '../components/govuk-table/govuk-table.component';
 
 
 @NgModule( {
@@ -17,12 +18,14 @@ import { HmctsIdentityBarComponent } from '../components/hmcts-identity-bar/hmct
   declarations: [
     FromBuilderComponent,
     HmctsSubNavigationComponent,
-    HmctsIdentityBarComponent
+    HmctsIdentityBarComponent,
+    GovukTableComponent
   ],
   exports: [
     FromBuilderComponent,
     HmctsSubNavigationComponent,
-    HmctsIdentityBarComponent
+    HmctsIdentityBarComponent,
+    GovukTableComponent
   ],
   providers: [
     FormsService,

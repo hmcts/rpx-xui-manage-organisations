@@ -2,6 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HmctsGlobalHeaderComponent } from './hmcts-global-header.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from 'src/app/store';
+import { metaReducers } from 'src/app/app.module';
 
 describe('HmctsGlobalHeaderComponent', () => {
   let component: HmctsGlobalHeaderComponent;
@@ -10,7 +13,10 @@ describe('HmctsGlobalHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HmctsGlobalHeaderComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        StoreModule.forRoot(reducers, { metaReducers })
+      ]
     })
     .compileComponents();
   }));

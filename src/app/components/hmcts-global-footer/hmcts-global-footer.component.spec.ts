@@ -2,12 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
 import {helpData, navigationData} from './mock/hmcts-global-footer.mock';
 import {Component, DebugElement, Input, ViewChild} from '@angular/core';
-import {Helper, Navigation} from '../../../shared/components/footer/footer.model';
+import {Helper, Navigation} from '../../containers/footer/footer.model';
+import { RouterModule } from '@angular/router';
 
 describe('HmctsGlobalFooterComponent', () => {
     @Component({
         selector: `app-host-dummy-component`,
-        template: `<app-hmcts-global-footer  
+        template: `<app-hmcts-global-footer
                     [reference]="iconFallbackText"
                     [title]="type"
                     [items]="text"></app-hmcts-global-footer>`
@@ -18,10 +19,7 @@ describe('HmctsGlobalFooterComponent', () => {
         @ViewChild(HmctsGlobalFooterComponent)
         public hmctsGlobalFooterComponent: HmctsGlobalFooterComponent;
     }
-    let testHostComponent: TestDummyHostComponent;
-    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    let el: DebugElement;
-    let de: any;
+
     let component: HmctsGlobalFooterComponent;
     let fixture: ComponentFixture<HmctsGlobalFooterComponent>;
 
@@ -29,7 +27,10 @@ describe('HmctsGlobalFooterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsGlobalFooterComponent ]
+      declarations: [ HmctsGlobalFooterComponent ],
+      imports: [
+          RouterModule
+      ]
     })
     .compileComponents();
   }));

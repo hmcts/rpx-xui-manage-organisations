@@ -4,6 +4,8 @@ import {CommonModule} from '@angular/common';
 import {loginRouting} from './login.routing';
 import {SharedModule} from '../app/shared/shared.module';
 
+import {effects} from './store';
+
 // containers
 import * as fromContainers from './containers';
 
@@ -14,16 +16,18 @@ import {EffectsModule} from '@ngrx/effects';
 
 import { reducers } from './store';
 import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     HttpClientModule,
     loginRouting,
     SharedModule,
     StoreModule.forFeature('login', reducers),
-    // EffectsModule.forFeature(effects),
+    EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],

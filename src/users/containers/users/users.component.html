@@ -10,27 +10,11 @@
            </a>
         </div>
      </div>
-     <table class="govuk-table">
-        <thead class="govuk-table__head">
-           <tr class="govuk-table__row">
-              <th class="govuk-table__header" scope="col">Email address</th>
-              <th class="govuk-table__header" scope="col">Manage cases</th>
-              <th class="govuk-table__header" scope="col">Manage organisation</th>
-              <th class="govuk-table__header" scope="col">Manage users</th>
-              <th class="govuk-table__header" scope="col">Manage fee accounts</th>
-              <th class="govuk-table__header" scope="col">Status</th>
-           </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-           <tr class="govuk-table__row">
-              <td class="govuk-table__cell">adam.silver@wedlakebell.com</td>
-              <td class="govuk-table__cell">All</td>
-              <td class="govuk-table__cell">Yes</td>
-              <td class="govuk-table__cell">Yes</td>
-              <td class="govuk-table__cell">Yes</td>
-              <td class="govuk-table__cell">Active</td>
-           </tr>
-        </tbody>
-     </table>
+
+
+     <app-govuk-table [columnConfig]="columnConfig" [rows]="tableRows" [firstCellIsHeader]="false" [caption]="''"></app-govuk-table>
+
   </main>
 </div>
+
+<!-- <pre>{{tableRows|json}}</pre> -->

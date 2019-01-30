@@ -1,5 +1,5 @@
-import {LoginFormService} from './login-form.service';
+import {LoginService} from './login-form.service';
 
-export const services: any[] = [LoginFormService];
+export const services: any[] = [LoginService];
 
 export * from './login-form.service';

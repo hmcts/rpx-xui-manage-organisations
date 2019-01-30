@@ -1,14 +1,15 @@
 import * as fromLogin from '../actions/login.actions';
+import { LoggedUser } from 'src/login/loggedUser.model';
 
 
-export interface LoginFormState {
-  entities: any[];
+export interface LoginState {
+  user: LoggedUser // todo add type user model
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: LoginFormState = {
-  entities: [],
+export const initialState: LoginState = {
+  user: null,
   loaded: false,
   loading: false,
 };
@@ -16,53 +17,34 @@ export const initialState: LoginFormState = {
 export function reducer(
   state = initialState,
   action: fromLogin.LoginActions
-): LoginFormState {
+): LoginState {
   switch (action.type) {
-    case fromLogin.LOAD_LOGIN_FORM: {
+
+    case fromLogin.LOGIN_USER: {
       return {
         ...state,
-        loading: true,
-      };
+        loading: true
+      }
     }
 
-    case fromLogin.LOAD_LOGIN_FORM_SUCCESS: {
-      const formData = action.payload;
-
-      const entities = formData;
-
-      // const entities = pizzas.reduce(
-      //   (entities: { [id: number]: Pizza }, pizza: Pizza) => {
-      //     return {
-      //       ...entities,
-      //       [pizza.id]: pizza,
-      //     };
-      //   },
-      //   {
-      //     ...state.entities,
-      //   }
-      // );
-
+    case fromLogin.LOGIN_USER_SUCCESS: {
+      const user = action.payload;
       return {
         ...state,
+        user,
         loading: false,
-        loaded: true,
-        entities,
+        loaded: true
+
       };
     }
 
-    case fromLogin.LOAD_LOGIN_FORM_FAIL: {
-      return {
-        ...state,
-        loading: false,
-        loaded: false,
-      };
-    }
+
   }
 
   return state;
 }
 
-export const getLoginFormEntities = (state: LoginFormState) => state.entities;
-export const getLoginFormLoading = (state: LoginFormState) => state.loading;
-export const getLoginFormLoaded = (state: LoginFormState) => state.loaded;
+export const getLoggedInUserData = (state: LoginState) => state.user;
+export const getLoginFormLoading = (state: LoginState) => state.loading;
+export const getLoginFormLoaded = (state: LoginState) => state.loaded;
 

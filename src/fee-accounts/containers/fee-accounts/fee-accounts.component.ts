@@ -25,6 +25,7 @@ export class FeeAccountsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
     this.feeAccountsSubscription = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
+      // TODO: needs to be in the selector apparently
       const mappedData: any[] = [];
       feeAccountsData.forEach(element => {
         element = {

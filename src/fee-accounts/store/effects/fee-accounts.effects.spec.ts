@@ -1,11 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { hot, cold } from 'jasmine-marbles';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromFeeAccountsEffects from './fee-accounts.effects';
 import { FeeAccountsEffects } from './fee-accounts.effects';
-import { LoadFeeAccounts } from '../actions/fee-accounts.actions';
+import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { FeeAccountsService } from 'src/fee-accounts/services';
 
@@ -43,5 +43,15 @@ describe('Fee accounts Effects', () => {
     });
   });
 
+  describe('loadFeeAccounts$ error', () => {
+    it('should return LoadFeeAccountsFail', () => {
+      FeeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(new Error()));
+      const action = new LoadFeeAccounts();
+      const completion = new LoadFeeAccountsFail(new Error);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadFeeAccounts$).toBeObservable(expected);
+    });
+  });
 
 });

@@ -6,10 +6,9 @@ export const SAVE_USER = '[SaveUser] Save Users';
 export const SAVE_USER_SUCCESS = '[SaveUser] Save Users Success';
 export const SAVE_USER_FAIL = '[SaveUser] Save Users Fail';
 
-export class SaveUser {
+export class SaveUser implements Action {
   readonly type = SAVE_USER;
-  //constructor(public payload: { userName: string, password: string }) { } // todo extract this into model
-  constructor(public payload: Userform) { }
+  constructor(public payload: any) { }
 }
 
 export class SaveUserSuccess implements Action {

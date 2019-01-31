@@ -19,7 +19,7 @@ describe('Single fee account selectors', () => {
   });
 
   describe('getSingleFeeAccountState', () => {
-    it('should return single see account state', () => {
+    it('should return single fee account state', () => {
       let result;
       store.pipe(select(getSingleFeeAccountState)).subscribe(value => {
         result = value;
@@ -31,7 +31,7 @@ describe('Single fee account selectors', () => {
 
 
   describe('getSingleFeeAccountArray', () => {
-    it('should return single see account array', () => {
+    it('should return single fee account array', () => {
       let result;
       store.pipe(select(getSingleFeeAccountArray)).subscribe(value => {
         result = value;

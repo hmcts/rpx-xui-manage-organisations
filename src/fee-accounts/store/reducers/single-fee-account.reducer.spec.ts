@@ -1,4 +1,5 @@
-import { initialState, reducer } from './single-fee-account.reducer';
+import { initialState, reducer, getSingleFeeAccount,
+  getSingleFeeAccountLoading, getSingleFeeAccountLoaded } from './single-fee-account.reducer';
 import { LoadSingleFeeAccountSuccess, ResetSingleFeeAccount } from '../actions';
 
 describe('SingleFeeAccountReducer', () => {
@@ -23,6 +24,24 @@ describe('SingleFeeAccountReducer', () => {
       const action = new ResetSingleFeeAccount({});
       const state = reducer(initialState, action);
       expect(state.singleFeeAccount).toEqual([]);
+    });
+  });
+
+  describe('getSingleFeeAccount export', () => {
+    it('should return state.feeAccounts', () => {
+      expect(getSingleFeeAccount(initialState)).toEqual([]);
+    });
+  });
+
+  describe('getSingleFeeAccountLoading export', () => {
+    it('should return state.loading', () => {
+      expect(getSingleFeeAccountLoading(initialState)).toEqual(false);
+    });
+  });
+
+  describe('getSingleFeeAccountLoaded export', () => {
+    it('should return state.loaded', () => {
+      expect(getSingleFeeAccountLoaded(initialState)).toEqual(false);
     });
   });
 });

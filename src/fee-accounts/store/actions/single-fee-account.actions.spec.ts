@@ -1,7 +1,4 @@
 import * as fromSingleFeeAccount from './single-fee-account.actions';
-import { LoadSingleFeeAccount } from './single-fee-account.actions';
-import { LoadSingleFeeAccountSuccess } from './single-fee-account.actions';
-import { LoadSingleFeeAccountFail } from './single-fee-account.actions';
 
 describe('Single fee account actions', () => {
   describe('LoadSingleFeeAccount actions GROUP', () => {

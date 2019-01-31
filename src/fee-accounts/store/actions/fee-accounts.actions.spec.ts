@@ -1,7 +1,4 @@
 import * as fromFeeAccounts from './fee-accounts.actions';
-import { LoadFeeAccounts } from './fee-accounts.actions';
-import { LoadFeeAccountsSuccess } from './fee-accounts.actions';
-import { LoadFeeAccountsFail } from './fee-accounts.actions';
 
 describe('Fee accounts actions', () => {
   describe('LoadFeeAccounts actions GROUP', () => {

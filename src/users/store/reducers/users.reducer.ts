@@ -18,15 +18,34 @@ export function reducer(
   action: fromUsers.UserActions
 ): UsersState {
   switch (action.type) {
+
+    case fromUsers.LOAD_USERS: {
+      const users = []
+      return {
+        ...state,
+        users,
+        loading: true
+      }
+    }
+
     case fromUsers.LOAD_USERS_SUCCESS: {
       const users = action.payload;
-
+      console.log('@@@@@@@@@@@', users)
       return {
         ...state,
         users,
         loaded: true
       }
+    }
 
+
+    case fromUsers.LOAD_USERS_FAIL: {
+      // const users = action.payload;
+      return {
+        ...state,
+        loading: false,
+        loaded: false
+      }
     }
 
   }

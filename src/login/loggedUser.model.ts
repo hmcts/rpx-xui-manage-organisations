@@ -3,5 +3,5 @@ export interface LoggedUser {
     lastname: string;
     email: string;
     password: string;
-    permission: string
+    permission: string;
 }

@@ -3,7 +3,7 @@ import { LoggedUser } from 'src/login/loggedUser.model';
 
 
 export interface LoginState {
-  user: LoggedUser // todo add type user model
+  user: LoggedUser; // todo add type user model
   loaded: boolean;
   loading: boolean;
 }
@@ -24,7 +24,7 @@ export function reducer(
       return {
         ...state,
         loading: true
-      }
+      };
     }
 
     case fromLogin.LOGIN_USER_SUCCESS: {

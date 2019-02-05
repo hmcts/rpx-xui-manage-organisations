@@ -6,7 +6,7 @@ export const SAVE_USER = '[SaveUser] Save Users';
 export const SAVE_USER_SUCCESS = '[SaveUser] Save Users Success';
 export const SAVE_USER_FAIL = '[SaveUser] Save Users Fail';
 
-export class SaveUser implements Action {
+export class SaveUser {
   readonly type = SAVE_USER;
   constructor(public payload: any) {
     console.log(' SAVEUSER action', payload)

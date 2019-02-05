@@ -5,9 +5,10 @@ import { Observable, of } from 'rxjs';
 
 
 const dummy = {
-  id: '12345',
-  firstname: 'test user saved response',
-  lastname: 'something@domething.com'
+  firstname: 'John',
+  lastname: 'Smith',
+  emailaddress: 'duda@dudee.com',
+  permission: ['permission1', 'permission2']
 };
 
 
@@ -16,7 +17,7 @@ const dummy = {
 export class UserformService {
   constructor(private http: HttpClient) { }
 
-  saveUser(): Observable<any> {
+  saveUser(data): Observable<any> {
     return of(dummy);
 
   }

@@ -11,7 +11,7 @@ import { UserformService } from 'src/users/services';
 fdescribe('Userform Effects', () => {
   let actions$;
   let effects: UserformEffects;
-  const UserformServiceMock = jasmine.createSpyObj('UserformService', ['userform',
+  const UserformServiceMock = jasmine.createSpyObj('UserformService', ['saveform',
   ]);
 
 
@@ -44,8 +44,8 @@ fdescribe('Userform Effects', () => {
         permission: ['permission1', 'permission2']
       };
 
-      UserformServiceMock.userform.and.returnValue(of(payload));
-      const action = new SaveUser(payload);
+      UserformServiceMock.saveform.and.returnValue(of(payload));
+      const action = new SaveUser({ name: 'x' });
 
       const completion = new SaveUserSuccess({
         firstname: 'John',
@@ -56,11 +56,12 @@ fdescribe('Userform Effects', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      // expect(effects.saveUsers$).toBeObservable(expected);
+      expect(effects.saveUsers$).toBeObservable(expected);
 
-      expect(1).toBe(1);
+      //expect(1).toBe(1);
     });
   });
+
 
 
 

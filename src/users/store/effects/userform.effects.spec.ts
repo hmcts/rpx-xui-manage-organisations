@@ -8,7 +8,7 @@ import { UserformEffects } from './userform.effects';
 import { SaveUser, SaveUserFail, SaveUserSuccess } from '../actions/userform.actions';
 import { UserformService } from 'src/users/services';
 
-fdescribe('Userform Effects', () => {
+describe('Userform Effects', () => {
   let actions$;
   let effects: UserformEffects;
   const UserformServiceMock = jasmine.createSpyObj('UserformService', ['saveform',
@@ -34,7 +34,7 @@ fdescribe('Userform Effects', () => {
 
 
 
-  fdescribe('Save user', () => {
+  describe('Save user', () => {
     it('should return a Invite user object from  - SaveUserSuccess', () => {
 
       const payload = {

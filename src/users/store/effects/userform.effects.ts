@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as userformActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { UserformService } from '../../services';
+import { UserformService } from '../../services/userform.service';
 
 
 
@@ -15,14 +15,18 @@ export class UserformEffects {
     private userformService: UserformService
   ) { }
 
+
   @Effect()
   saveUsers$ = this.actions$.pipe(
     ofType(userformActions.SAVE_USER),
-    switchMap(() => {
-      return this.userformService.saveUser().pipe(
+    map((action: userformActions.SaveUser) => action.payload),
+    switchMap((formdata) => {
+      return this.userformService.saveUser(formdata).pipe(
         map(userDetals => new userformActions.SaveUserSuccess(userDetals)),
         catchError(error => of(new userformActions.SaveUserFail(error)))
       );
     })
   );
 }
+
+

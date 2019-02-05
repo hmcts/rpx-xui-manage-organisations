@@ -19,7 +19,7 @@ export class UserformEffects {
   saveUsers$ = this.actions$.pipe(
     ofType(userformActions.SAVE_USER),
     switchMap(() => {
-      return this.userformService.saveUer().pipe(
+      return this.userformService.saveUser().pipe(
         map(userDetals => new userformActions.SaveUserSuccess(userDetals)),
         catchError(error => of(new userformActions.SaveUserFail(error)))
       );

@@ -4,7 +4,7 @@ import { LoadUsersSuccess, LOAD_USERS_SUCCESS } from './user.actions';
 import { LoadUsersFail, LOAD_USERS_FAIL } from './user.actions';
 
 
-fdescribe('LoadUsers', () => {
+describe('LoadUsers', () => {
   it('should create an action', () => {
     const action = new LoadUsers();
     expect({ ...action }).toEqual({ type: LOAD_USERS });
@@ -13,7 +13,7 @@ fdescribe('LoadUsers', () => {
 
 
 
-fdescribe('LoadUsersSuccess', () => {
+describe('LoadUsersSuccess', () => {
   it('should create an action', () => {
     const payload: any[] = [
       {
@@ -43,7 +43,7 @@ fdescribe('LoadUsersSuccess', () => {
 
 
 
-fdescribe('LoadUsersFail', () => {
+describe('LoadUsersFail', () => {
   it('should create an action', () => {
     const payload: any = 'fail';
     const action = new LoadUsersSuccess(payload);

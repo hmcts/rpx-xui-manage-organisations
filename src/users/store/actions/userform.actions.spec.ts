@@ -5,21 +5,21 @@ import { SaveUserFail, SAVE_USER_FAIL } from './userform.actions';
 import { Userform } from 'src/users/userform.model';
 
 
-xdescribe('SaveUser', () => {
-  it('should create an action', () => {
-    const payload: Userform =
-    {
-      id: 1,
-      firstname: 'Mr',
-      lastname: 'Robot',
-      emailaddress: 'yes',
-      permissions: ['a', 'b']
-    }
-    const action = new SaveUser(payload);
-    expect({ ...action }).toEqual({ type: SAVE_USER });
+// describe('SaveUser', () => {
+//   it('should create an action', () => {
+//     const payload: Userform =
+//     {
+//       id: 1,
+//       firstname: 'Mr',
+//       lastname: 'Robot',
+//       emailaddress: 'yes',
+//       permissions: ['a', 'b']
+//     }
+//     const action = new SaveUser(payload);
+//     expect({ ...action }).toEqual({ type: SAVE_USER });
 
-  });
-});
+//   });
+// });
 
 
 

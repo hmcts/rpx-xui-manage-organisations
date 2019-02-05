@@ -8,7 +8,9 @@ export const SAVE_USER_FAIL = '[SaveUser] Save Users Fail';
 
 export class SaveUser implements Action {
   readonly type = SAVE_USER;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {
+    console.log(' SAVEUSER action', payload)
+  }
 }
 
 export class SaveUserSuccess implements Action {

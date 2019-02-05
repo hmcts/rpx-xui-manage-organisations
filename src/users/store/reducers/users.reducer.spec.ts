@@ -2,11 +2,11 @@ import * as fromUsers from './users.reducer';
 import * as fromActions from '../actions/user.actions';
 
 
-fdescribe('UsersReducer', () => {
+describe('UsersReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUsers;
-      const action = {};
+      const action = {} as any;
       const state = fromUsers.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -14,10 +14,8 @@ fdescribe('UsersReducer', () => {
   });
 
 
-  // I nest all tests under the reducer's name 
-  // for readability in the terminal
 
-  fdescribe('LOAD_USERS action', () => {
+  describe('LOAD_USERS action', () => {
     it('should set loading to true', () => {
       const { initialState } = fromUsers;
       const action = new fromActions.LoadUsers();
@@ -33,7 +31,7 @@ fdescribe('UsersReducer', () => {
 
 
   // fail
-  fdescribe('LOAD_USERS action', () => {
+  describe('LOAD_USERS action', () => {
     it('should return the previous state', () => {
       const { initialState } = fromUsers
       const previousState = { ...initialState, loading: true };
@@ -47,7 +45,7 @@ fdescribe('UsersReducer', () => {
 
 
   // success
-  fdescribe('LOAD_USERS_SUCCESS action', () => {
+  describe('LOAD_USERS_SUCCESS action', () => {
     it('should populate users from the array', () => {
       const users: any[] = [
         { id: 1, name: 'bob' },

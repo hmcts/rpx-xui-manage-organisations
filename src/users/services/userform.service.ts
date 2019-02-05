@@ -16,7 +16,7 @@ const dummy = {
 export class UserformService {
   constructor(private http: HttpClient) { }
 
-  saveUer(): Observable<any> {
+  saveUser(): Observable<any> {
     return of(dummy);
 
   }

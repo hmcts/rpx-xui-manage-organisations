@@ -5,7 +5,7 @@ import { LoadOrganisationFail, LOAD_ORGANISATION_FAIL } from './organisation.act
 import { Organisation } from 'src/organisation/organisation.model';
 
 
-fdescribe('LoadUsers', () => {
+describe('LoadUsers', () => {
   it('should create an action', () => {
     const action = new LoadOrganisation();
     expect({ ...action }).toEqual({ type: LOAD_ORGANISATION });
@@ -14,7 +14,7 @@ fdescribe('LoadUsers', () => {
 
 
 
-fdescribe('LoadOrganisationSuccess', () => {
+describe('LoadOrganisationSuccess', () => {
   it('should create an action', () => {
     const payload: Organisation =
     {
@@ -33,7 +33,7 @@ fdescribe('LoadOrganisationSuccess', () => {
 
 
 
-fdescribe('LoadOrganisationFail', () => {
+describe('LoadOrganisationFail', () => {
   it('should create an action', () => {
     const payload: any = 'fail';
     const action = new LoadOrganisationFail(payload);

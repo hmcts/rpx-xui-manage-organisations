@@ -29,7 +29,9 @@ import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 export const ROUTES: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
-  { path: '**', redirectTo: '/login' }
+  {
+    path: '**', redirectTo: '/login'
+  }
 ];
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]

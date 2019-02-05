@@ -5,6 +5,7 @@ import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/app/store';
 import { metaReducers } from 'src/app/app.module';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HmctsGlobalHeaderComponent', () => {
   let component: HmctsGlobalHeaderComponent;
@@ -15,7 +16,8 @@ describe('HmctsGlobalHeaderComponent', () => {
       declarations: [ HmctsGlobalHeaderComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        StoreModule.forRoot(reducers, { metaReducers })
+        StoreModule.forRoot(reducers, { metaReducers }),
+        RouterTestingModule
       ]
     })
     .compileComponents();

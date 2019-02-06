@@ -1,9 +1,10 @@
-import organisationName from './organisationName'
-
 const templates: any = []
 
+/**
+ * Templates should be in the form of:
+ * `'organisation-name' : organisationName,`
+ */
 templates.any = {
-    'organisation-name' : organisationName,
 }
 
 export default templates

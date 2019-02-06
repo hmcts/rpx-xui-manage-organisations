@@ -15,15 +15,9 @@ async function handleStateRoute(req, res) {
     process(req, res, mapping, payload, templates, new Store(req))
 }
 
-async function handleHealthRoute(req, res) {
-    console.log('reached')
-    res.send('health')
-}
-
 export  const router = express.Router({ mergeParams: true })
 
 router.get('/states/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
-router.get('/health', handleHealthRoute)
 router.post('/states/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
 
 export default router

@@ -19,17 +19,31 @@ export function reducer(
   action: fromUserform.UserformActions
 ): UserformState {
   switch (action.type) {
+
+    case fromUserform.SAVE_USER: {
+      const userform = action.payload;
+      return {
+        ...state,
+        userform
+      }
+    }
+
     case fromUserform.SAVE_USER_SUCCESS: {
       const userform = action.payload;
-
       return {
         ...state,
         userform,
         loaded: true
       }
-
     }
 
+    case fromUserform.SAVE_USER_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: false
+      }
+    }
   }
 
   return state;

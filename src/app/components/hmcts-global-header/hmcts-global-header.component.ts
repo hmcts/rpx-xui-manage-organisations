@@ -7,6 +7,11 @@ import { Store } from '@ngrx/store';
     templateUrl: './hmcts-global-header.component.html'
 })
 export class HmctsGlobalHeaderComponent {
+
+    @Input() set userLoggedIn(value) {
+        this.userValue = value;
+    }
+
     @Input() serviceName = {
         name: 'Service name',
         url: '#'
@@ -24,6 +29,9 @@ export class HmctsGlobalHeaderComponent {
         ]
     };
 
+    userValue: any;
     constructor(public store: Store<fromRoot.State>) { }
+
+
 
 }

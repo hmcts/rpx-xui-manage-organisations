@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import * as fromLogInStore from '../../../login/store';
+import { Observable } from 'rxjs';
+
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -10,9 +15,14 @@ export class HeaderComponent implements OnInit {
     navItems: Array<{}>;
     navigations;
     serviceName;
-    constructor() {
+
+    userLoggedIn$: Observable<any>
+
+    constructor(private loginStore: Store<fromLogInStore.LoginState>) {
         this.logoutLink = `/api/logout`;
+
     }
+
 
     ngOnInit(): void {
         this.navItems = [{
@@ -46,7 +56,12 @@ export class HeaderComponent implements OnInit {
                 href: this.logoutLink
             }]
         };
+
+        this.userLoggedIn$ = this.loginStore.pipe(select(fromLogInStore.getLoggedInUser));
     }
+
+
+
 
 
 }

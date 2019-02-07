@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -6,7 +6,12 @@ import { ActivatedRoute } from '@angular/router';
     templateUrl: './hmcts-primary-navigation.component.html',
     styleUrls: ['./hmcts-primary-navigation.component.scss']
 })
-export class HmctsPrimaryNavigationComponent implements OnInit {
+export class HmctsPrimaryNavigationComponent {
+
+    @Input() set userLoggedIn(value) {
+        this.userValue = value;
+    }
+
     @Input()
     label = 'Primary navigation'
     @Input()
@@ -26,18 +31,9 @@ export class HmctsPrimaryNavigationComponent implements OnInit {
         }
     ]
 
-
+    userValue: any
     constructor(private route: ActivatedRoute) {
 
-        console.log('1', this.route.url);
     }
 
-
-    ngOnInit() {
-
-        console.log(this.items[1].active = true)
-        console.log(this.items[0].active = false)
-        this.route.url.subscribe(url => console.log('@@@', url));
-        console.log('2', this.route.url)
-    }
 }

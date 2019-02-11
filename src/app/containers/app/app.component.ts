@@ -49,15 +49,13 @@ export class AppComponent implements OnInit {
     if (url.indexOf('fee-accounts') !== -1) {
       return 'feeaccounts';
     }
-    if (url.indexOf('decision') !== -1) {
-      return 'decision';
+    if (url.indexOf('login') !== -1) {
+      return 'login';
     }
     if (url.indexOf('userform') !== -1) {
       return 'userform';
     }
-    if (url.indexOf('reject-reasons') !== -1) {
-      return 'reject-reasons';
-    }
+
     return '/';
   }
 
@@ -69,6 +67,7 @@ export class AppComponent implements OnInit {
       'profile': 'Profile - Professional User Interface',
       'feeaccounts': 'Fee Accounts - Professional User Interface',
       'userform': 'Invite Users - Professional User Interface',
+      'login': 'Login - Professional User Interface',
     };
 
     return titleMapping[key];

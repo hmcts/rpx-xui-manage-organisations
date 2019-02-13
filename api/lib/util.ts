@@ -1,11 +1,10 @@
 import * as express from 'express'
-import { Logger } from 'log4js'
 
 export function asyncReturnOrError(
     promise: any,
     message: string,
     res: express.Response | null,
-    logger: Logger,
+    logger,
     setResponse: boolean  = true): any {
     return promise
         .then(data => {

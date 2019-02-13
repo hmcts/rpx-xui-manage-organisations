@@ -1,4 +1,4 @@
-export default {
+export default [{
     event: 'continue',
     states: [
         {
@@ -6,4 +6,4 @@ export default {
             result: '.',
         },
     ],
-}
+}]

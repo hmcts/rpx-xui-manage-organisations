@@ -1,12 +1,13 @@
-import * as log4js from 'log4js'
+
 import { map } from 'p-iteration'
 import config from './config'
+import * as log4jui from './log4jui'
 import { some } from './util'
 
 import { forwardStack, pushStack, shiftStack, stackEmpty } from '../lib/stack'
 
-const logger = log4js.getLogger('state engine')
-logger.level = config.logging ? config.logging : 'OFF'
+const logger = log4jui.getLogger('state engine')
+
 
 // does not handle OR yet
 export function handleCondition(conditionNode, variables) {
@@ -70,7 +71,6 @@ export async function process(req, res, mapping, payload, templates, store) {
     const event = req.body.event
     let variables = req.body.formValues
     let result = null
-
     let meta = {}
     let newRoute = null
 
@@ -88,6 +88,7 @@ export async function process(req, res, mapping, payload, templates, store) {
 
     if (req.method === 'POST') {
         await map(mapping, async (instruction: any) => {
+            console.log('ghg', mapping)
             if (instruction.event === event) {
                 // event is the main index and so there can only be one instruction per event - exit after finding
                 logger.info(`Found matching event for ${event} `)
@@ -132,7 +133,6 @@ export async function process(req, res, mapping, payload, templates, store) {
             return
         }
 
-        console.log(templates)
         meta = templates[caseTypeId][stateId]
         result = true
     }

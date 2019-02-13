@@ -4,9 +4,21 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  cookies: {
+    token: '__auth__',
+    userId: '__userid__'
+  },
+  idam_client: 'juiwebapp',
+
+  oauth_callback_url: 'oauth2/callback',
+  protocol: 'https',
   production: false,
   // remove this line if GA is need only for production. For time being, to test on aat env, added this.
   googleAnalyticsKey: 'UA-124734893-1',
   serviceDeskEmail: 'DCD-ITServiceDesk@hmcts.net',
-  serviceDeskTel: '0300 3030686'
+  serviceDeskTel: '0300 3030686',
+  services: {
+    idam_api: 'https://preprod-idamapi.reform.hmcts.net:3511',
+    idam_web: 'http://idam.preprod.ccidam.reform.hmcts.net',
+  }
 };

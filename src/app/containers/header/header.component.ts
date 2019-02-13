@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import * as fromLogInStore from '../../../login/store';
 import { Observable } from 'rxjs';
 
 
@@ -18,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
     userLoggedIn$: Observable<any>
 
-    constructor(private loginStore: Store<fromLogInStore.LoginState>) {
+    constructor() {
         this.logoutLink = `/api/logout`;
 
     }
@@ -57,7 +56,6 @@ export class HeaderComponent implements OnInit {
             }]
         };
 
-        this.userLoggedIn$ = this.loginStore.pipe(select(fromLogInStore.getLoggedInUser));
     }
 
 

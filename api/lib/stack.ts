@@ -72,6 +72,5 @@ export function forwardStack(register, stateId) {
 
     const index = register.map(x => (Object.values(x)[0] as any)).indexOf(stateId)
     logger.info(`Forwarding stack at ${index} for ${stateId}`)
-    console.log(register.slice(index + 1))
     return register.slice(index + 1)
 }

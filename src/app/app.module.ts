@@ -7,6 +7,9 @@ import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
 
+import { AuthService } from '../auth/auth.service';
+import { CookieModule } from 'ngx-cookie';
+
 // ngrx
 import { MetaReducer, StoreModule } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
@@ -24,14 +27,15 @@ import * as fromComponents from './components';
 
 import { environment } from '../environments/environment';
 import { OrganisationComponent } from 'src/organisation/containers';
-import { LoginModule } from 'src/login/login.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 export const ROUTES: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/login' },
   {
-    path: '**', redirectTo: '/login'
-  }
+    path: '',
+    component: UsersModule,
+    canActivate: [AuthService],
+    data: { roles: ['caseworker-probatex'] }
+  },
 ];
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
@@ -46,6 +50,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
   ],
   imports: [
     BrowserModule,
+    CookieModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
@@ -56,7 +61,6 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     StoreDevtoolsModule.instrument({
       logOnly: environment.production
     }),
-    LoginModule,
     FeeAccountsModule
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],

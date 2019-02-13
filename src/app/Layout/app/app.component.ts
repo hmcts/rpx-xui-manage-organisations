@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import * as fromSingleFeeAccountStore from '../../../fee-accounts/store';
-import * as fromLogInStore from '../../../login/store';
+import * as fromSingleFeeAccountStore from '../../../fee-accounts/store/index';
+import * as fromLogInStore from '../../../login/store/index';
 import { Observable } from 'rxjs';
 
 @Component({

@@ -121,6 +121,46 @@
           }
         }
       }
+    },
+    "gov-ui": {
+      "root": "projects/gov-ui",
+      "sourceRoot": "projects/gov-ui/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/gov-ui/tsconfig.lib.json",
+            "project": "projects/gov-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/gov-ui/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/gov-ui/src/test.ts",
+            "tsConfig": "projects/gov-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/gov-ui/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/gov-ui/tsconfig.lib.json",
+              "projects/gov-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "rpa-pui-registration",

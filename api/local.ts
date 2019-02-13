@@ -56,6 +56,10 @@ app.use('/api', routes)
 const port = process.env.PORT || 3000
 app.listen(port)
 
+if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+    config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
+}
+
 const logger = log4js.getLogger('server')
 logger.level = config.logging ? config.logging : 'OFF'
 

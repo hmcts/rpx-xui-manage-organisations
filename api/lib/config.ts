@@ -1,7 +1,8 @@
 export default {
-  appInsightsInstrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA",
+  appInsightsInstrumentationKey: "AAAAAAAAAAAAAAAA",
   cookies: {
     token: '__auth__',
+    userId: '__userid__',
   },
   exceptionOptions: {
     maxLines: 1,

@@ -138,6 +138,5 @@ export function user(req: EnhancedRequest, res: express.Response) {
 export function logout(req: EnhancedRequest, res: express.Response) {
     const redirect = config.indexUrl ? config.indexUrl : '/'
     res.clearCookie(config.cookies.token)
-    console.log('ugh')
     res.redirect(redirect)
 }

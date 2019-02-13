@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
-import { environment as config } from '../environments/environment';
+import config from '../../api/lib/config';
 import { Router } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
@@ -13,49 +13,50 @@ import 'rxjs/add/operator/map'
 @Injectable({
     providedIn: 'root'
 })
+
 export class AuthService {
-    api_base_url
-    httpClient
-    COOKIE_KEYS
-    user
-    user$
+    api_base_url;
+    httpClient;
+    COOKIE_KEYS;
+    user;
+    user$;
+
     constructor(private httpCilent: HttpClient, private cookieService: CookieService, private router: Router) {
-        console.log('okay')
         this.COOKIE_KEYS = {
             TOKEN: config.cookies.token,
-            USER: config.cookies.userId
+            USER: config.cookies.userId,
         }
         this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
-        this.httpCilent = httpCilent
-        this.user = null
+        this.httpCilent = httpCilent;
+        this.user = null;
     }
 
     async canActivate() {
         console.log('reached can activate')
         if (!this.isAuthenticated()) {
             this.loginRedirect()
-            return false
+            return false;
         }
 
-        return true
+        return true;
     }
 
     generateLoginUrl() {
-        const base = config.services.idam_web
-        const clientId = config.idam_client
-        const callback = `${this.api_base_url}/${config.oauth_callback_url}`
-        return `${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}`
+        const base = config.services.idam.idamLoginUrl;
+        const clientId = config.services.idam.idamClientID;
+        const callback = `${this.api_base_url}/${config.services.idam.oauthCallbackUrl}`;
+        return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
     getAuthHeaders() {
         interface HeaderObject {
-            [key: string]: string
+            [key: string]: string;
         }
         const headers: HeaderObject = {
             Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
             [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER)
         }
-        return headers
+        return headers;
     }
 
     loginRedirect() {

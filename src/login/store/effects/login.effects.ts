@@ -16,7 +16,7 @@ export class LoginEffects {
   ) {}
 
   @Effect()
-  loagIn$ = this.actions$.pipe(
+  logIn$ = this.actions$.pipe(
     ofType(logInActions.LOGIN_USER),
     map((action: logInActions.LoginUser) => action.payload),
     switchMap((userCredential) => {

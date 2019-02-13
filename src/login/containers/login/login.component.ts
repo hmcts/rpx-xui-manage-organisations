@@ -18,14 +18,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromStore.LoginState>) { }
 
   ngOnInit(): void {
+    this.loginSubscription = this.store.pipe(select(fromStore.getLoggedInUser)).subscribe(data => {
+    });
 
   }
 
 
   onSignIn(value) {
     this.store.dispatch(new fromStore.LoginUser(value));
-    this.loginSubscription = this.store.pipe(select(fromStore.getLoggedInUser)).subscribe(data => {
-    });
   }
 
   ngOnDestroy() {

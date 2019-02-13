@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { FormsService } from '../../../app/containers/form-builder/services/form-builder.service';
-import { ValidationService } from '../../../app/containers/form-builder/services/form-builder-validation.service';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { Observable, Subscription } from 'rxjs';

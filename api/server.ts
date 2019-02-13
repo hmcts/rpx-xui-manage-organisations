@@ -65,4 +65,8 @@ app.use('/*', (req, res) => {
     console.timeEnd(`GET: ${req.originalUrl}`)
 })
 
+if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
+    config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
+}
+
 app.listen(process.env.PORT || 3000)

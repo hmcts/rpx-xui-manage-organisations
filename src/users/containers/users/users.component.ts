@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import { Observable, Subscription } from 'rxjs';
 import { debug } from 'util';
-import { GovukTableColumnConfig } from 'src/app/components/govuk-table/govuk-table.component';
+import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 
 
 

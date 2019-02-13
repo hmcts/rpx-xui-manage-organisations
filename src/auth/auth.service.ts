@@ -44,7 +44,7 @@ export class AuthService {
     generateLoginUrl() {
         const base = config.services.idam.idamLoginUrl;
         const clientId = config.services.idam.idamClientID;
-        const callback = `${this.api_base_url}/${config.services.idam.oauthCallbackUrl}`;
+        const callback = `${this.api_base_url}${config.services.idam.oauthCallbackUrl}`;
         return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 

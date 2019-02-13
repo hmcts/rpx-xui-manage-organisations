@@ -2,12 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+
 import { AppComponent } from './Layout/app/app.component';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
 
-import { AuthService } from '../auth/auth.service';
 import { CookieModule } from 'ngx-cookie';
 
 // ngrx
@@ -29,6 +29,7 @@ import config from '../../api/lib/config';
 import { OrganisationComponent } from 'src/organisation/containers';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 import { ROUTES } from './app.routes';
+
 import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
 
 

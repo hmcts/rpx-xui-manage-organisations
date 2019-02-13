@@ -2,6 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
+Therefore it requires you to install Angular CLI:
+`npm install -g @angular/cli`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -32,3 +35,10 @@ To build you need to run `npm run build` which will run the ng build first and t
 node build.
 
 Then your /dist folder will be populated with both the /api folder for the node backend and the ng assets for the frontend, within it.
+
+#Issues
+
+If you get the following issues, try the resolution underneath.
+
+Issue: Module build failed: Error: ENOENT: no such file or directory, scandir '/Users/philip/Projects/prd-pui-manager/node_modules/node-sass/vendor'
+Resolution: try `npm rebuild node-sass`

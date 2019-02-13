@@ -11,6 +11,7 @@ export default {
   logging: 'debug',
   maxLogLine: 80,
   microservice: 'jui_webapp',
+  production: false,
   protocol: 'http',
   proxy: {
     host: '172.16.0.7',

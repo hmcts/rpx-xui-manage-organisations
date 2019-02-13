@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppComponent } from './containers/app/app.component';
+import { AppComponent } from './Layout/app/app.component';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
@@ -23,16 +23,12 @@ import * as fromContainers from './containers/';
 import * as fromComponents from './components';
 
 import { environment } from '../environments/environment';
-import { OrganisationComponent } from 'src/organisation/containers';
 import { LoginModule } from 'src/login/login.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
+import {ROUTES} from './app.routes';
+import {GovUiModule} from '../../projects/gov-ui/src/lib/gov-ui.module';
 
-export const ROUTES: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/login' },
-  {
-    path: '**', redirectTo: '/login'
-  }
-];
+
 export const metaReducers: MetaReducer<any>[] = !environment.production
   ? [storeFreeze]
   : [];
@@ -52,6 +48,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     UsersModule,
     OrganisationModule,
     SharedModule,
+    GovUiModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
       logOnly: environment.production

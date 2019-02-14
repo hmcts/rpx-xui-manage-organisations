@@ -1,0 +1,24 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "outDir": "../dist/rpa-pui-registration/api",
+        "target": "es5",
+        "types": [
+            "node",
+            "mocha",
+            "rxjs"
+        ],
+        "baseUrl": ".",
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "**/*.ts",
+        "../*.ts"
+    ],
+    "exclude": [
+        "**/*.spec.ts"
+    ]
+}

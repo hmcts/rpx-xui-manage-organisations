@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -10,9 +14,14 @@ export class HeaderComponent implements OnInit {
     navItems: Array<{}>;
     navigations;
     serviceName;
+
+    userLoggedIn$: Observable<any>
+
     constructor() {
         this.logoutLink = `/api/logout`;
+
     }
+
 
     ngOnInit(): void {
         this.navItems = [{
@@ -46,7 +55,11 @@ export class HeaderComponent implements OnInit {
                 href: this.logoutLink
             }]
         };
+
     }
+
+
+
 
 
 }

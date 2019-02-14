@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
 import config from '../../api/lib/config';
-import { Router } from '@angular/router';
+import {CanActivate, Router} from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of'
@@ -14,7 +14,7 @@ import 'rxjs/add/operator/map'
     providedIn: 'root'
 })
 
-export class AuthService {
+export class AuthService implements CanActivate {
     api_base_url;
     httpClient;
     COOKIE_KEYS;
@@ -22,6 +22,7 @@ export class AuthService {
     user$;
 
     constructor(private httpCilent: HttpClient, private cookieService: CookieService, private router: Router) {
+      console.log('getting called')
         this.COOKIE_KEYS = {
             TOKEN: config.cookies.token,
             USER: config.cookies.userId,

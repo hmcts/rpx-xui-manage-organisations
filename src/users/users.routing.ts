@@ -5,18 +5,20 @@ import { UsersComponent, ProfileComponent } from './containers';
 import { UserformComponent } from './containers/userform/userform.component';
 
 export const ROUTES: Routes = [
-  {
-    path: 'users',
-    component: UsersComponent
-  },
-  {
-    path: 'userform',
-    component: UserformComponent
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent
-  }
+
+      {
+        path: 'users',
+        component: UsersComponent
+      },
+      {
+        path: 'userform',
+        component: UserformComponent
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent
+      }
+
 ];
 
 

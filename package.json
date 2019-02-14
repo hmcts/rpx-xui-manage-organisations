@@ -6,7 +6,6 @@
     "build": "npm run build:ng && npm run build:node",
     "build:node": "cd api && npm run build",
     "start:node": "cd api && npm run watch",
-    "start:node-win": "cd api && npm run watch",
     "test:node": "cd api && npm run test",
     "test:node:watch": "cd api && npm run test:watch",
     "test:coverage:ng": "ng test --code-coverage --watch",
@@ -34,7 +33,17 @@
     "@ngrx/router-store": "^6.0.3",
     "@ngrx/store": "^6.0.3",
     "@ngrx/store-devtools": "^6.0.3",
-    "@types/ejs": "^2.6.1",
+    "@nguniversal/express-engine": "^7.1.0",
+    "applicationinsights": "^1.1.0",
+    "axios": "^0.18.0",
+    "cookie-parser": "^1.4.4",
+    "exception-formatter": "^1.0.7",
+    "global-tunnel-ng": "^2.7.1",
+    "govuk-frontend": "2.5.1",
+    "jwt-decode": "^2.2.0",
+    "ngx-cookie": "4.0.2",
+    "ngx-cookie-service": "^2.1.0",
+    "otp": "^0.1.3",
     "core-js": "^2.5.4",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
@@ -44,7 +53,6 @@
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
-    "govuk-frontend": "2.5.1",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
@@ -54,7 +62,6 @@
     "ng-packagr": "^3.0.0-rc.2",
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
-    "typescript": "2.9.2",
     "@angular/cli": "~6.0.8",
     "@angular/language-service": "^6.0.3",
     "@types/express": "^4.16.0",
@@ -77,6 +84,7 @@
     "nodemon": "^1.18.9",
     "protractor": "~5.3.0",
     "ts-node": "^5.0.1",
-    "tslint": "~5.9.1"
+    "tslint": "~5.9.1",
+    "typescript": "2.9.2"
   }
 }

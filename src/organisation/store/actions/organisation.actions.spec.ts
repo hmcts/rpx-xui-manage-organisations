@@ -5,7 +5,7 @@ import { LoadOrganisationFail, LOAD_ORGANISATION_FAIL } from './organisation.act
 import { Organisation } from 'src/organisation/organisation.model';
 
 
-describe('LoadUsers', () => {
+describe('Load Organisation', () => {
   it('should create an action', () => {
     const action = new LoadOrganisation();
     expect({ ...action }).toEqual({ type: LOAD_ORGANISATION });

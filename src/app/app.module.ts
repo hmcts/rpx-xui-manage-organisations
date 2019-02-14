@@ -2,10 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+
 import { AppComponent } from './Layout/app/app.component';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
+
+import { CookieModule } from 'ngx-cookie';
 
 // ngrx
 import { MetaReducer, StoreModule } from '@ngrx/store';
@@ -22,14 +25,15 @@ import * as fromContainers from './containers/';
 // from Components
 import * as fromComponents from './components';
 
-import { environment } from '../environments/environment';
-import { LoginModule } from 'src/login/login.module';
+import config from '../../api/lib/config';
+import { OrganisationComponent } from 'src/organisation/containers';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
-import {ROUTES} from './app.routes';
-import {GovUiModule} from '../../projects/gov-ui/src/lib/gov-ui.module';
+import { ROUTES } from './app.routes';
+
+import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
 
 
-export const metaReducers: MetaReducer<any>[] = !environment.production
+export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
   : [];
 
@@ -42,6 +46,7 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
   ],
   imports: [
     BrowserModule,
+    CookieModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
@@ -51,9 +56,8 @@ export const metaReducers: MetaReducer<any>[] = !environment.production
     GovUiModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
-      logOnly: environment.production
+      logOnly: config.production
     }),
-    LoginModule,
     FeeAccountsModule
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }],

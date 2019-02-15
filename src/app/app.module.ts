@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-import { AppComponent } from './Layout/app/app.component';
+import { AppComponent } from './containers/app/app.component';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from './shared/shared.module';
@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { effects } from './store/effects';
-import { CustomSerializer, reducers } from './store/reducers';
+import { CustomSerializer, reducers } from './store/';
 
 // from Containers
 import * as fromContainers from './containers/';

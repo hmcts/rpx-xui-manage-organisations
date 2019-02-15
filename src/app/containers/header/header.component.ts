@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
     navigations;
     serviceName;
 
-    userLoggedIn$: Observable<any>
+    userLoggedIn$: Observable<any>;
 
     constructor() {
         this.logoutLink = `/api/logout`;
@@ -57,9 +57,4 @@ export class HeaderComponent implements OnInit {
         };
 
     }
-
-
-
-
-
 }

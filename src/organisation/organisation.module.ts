@@ -14,7 +14,6 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
-import {AuthGuard} from '../app/gurads/auth.guard';
 
 
 @NgModule({
@@ -28,7 +27,7 @@ import {AuthGuard} from '../app/gurads/auth.guard';
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
-  providers: [...fromServices.services, AuthGuard]
+  providers: [...fromServices.services]
 })
 
 /**

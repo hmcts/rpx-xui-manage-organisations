@@ -2,10 +2,12 @@
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
 import {FeeAccountsComponent, TransactionsComponent, SingleFeeAccountComponent} from './containers';
+import {AuthService} from '../auth/auth.service';
 
 export const ROUTES: Routes = [
   {
     path: 'fee-accounts',
+    canActivate: [AuthService],
     children: [
       {
         path: '',

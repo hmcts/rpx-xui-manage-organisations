@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import * as fromRoot from '../../store';
 import { Store } from '@ngrx/store';
 
@@ -32,6 +32,10 @@ export class HmctsGlobalHeaderComponent {
     userValue: any;
     constructor(public store: Store<fromRoot.State>) { }
 
+  @Output() logout: EventEmitter<any> = new EventEmitter();
+  logoutUser(){
+    this.logout.emit();
+  }
 
 
 }

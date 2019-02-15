@@ -7,12 +7,16 @@ router.post('/payments/summary', handleAccountPaymentSummaryRoute)
 
 async function handleAccountPaymentRoute(req, res){
   console.log('req, res', req, res)
-  return { asd: 'asdasd'}
+  res.json({
+    asd: 'asdasd'
+  })
 }
 
 async function handleAccountPaymentSummaryRoute(req, res){
   console.log('req, res', req, res)
-  return { asd: 'asdasd'}
+  res.json({
+    asd: 'asdasd'
+  })
 }
 
 export default router

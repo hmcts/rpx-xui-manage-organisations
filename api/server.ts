@@ -15,7 +15,7 @@ import routes from './routes'
 
 const FileStore = sessionFileStore(session)
 
-const app = express()
+const app: express.Application = express()
 
 app.use(
     session({

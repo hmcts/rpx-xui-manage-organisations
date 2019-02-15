@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { usersRouting } from './users.routing';
-import { SharedModule } from '../app/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 // containers
 import * as fromContainers from './containers';

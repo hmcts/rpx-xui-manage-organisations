@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './containers/app/app.component';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
-import { SharedModule } from './shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { CookieModule } from 'ngx-cookie';
 

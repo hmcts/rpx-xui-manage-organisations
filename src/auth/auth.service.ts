@@ -5,37 +5,32 @@ import * as jwtDecode from 'jwt-decode';
 import config from '../../api/lib/config';
 import {CanActivate, Router} from '@angular/router';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of'
-import 'rxjs/add/operator/share'
-import 'rxjs/add/operator/map'
+import * as fromAuth from './store';
+import {Store} from '@ngrx/store';
 
 @Injectable({
     providedIn: 'root'
 })
 
 export class AuthService implements CanActivate {
-    api_base_url;
-    httpClient;
-    COOKIE_KEYS;
-    user;
-    user$;
+    api_base_url: string;
+    COOKIE_KEYS: {TOKEN: string, USER: string};
 
-    constructor(private httpCilent: HttpClient, private cookieService: CookieService, private router: Router) {
-      console.log('getting called')
+    constructor(private httpCilent: HttpClient,
+                private cookieService: CookieService,
+                private router: Router,
+                private store: Store<fromAuth.AuthState> ) {
+
         this.COOKIE_KEYS = {
             TOKEN: config.cookies.token,
             USER: config.cookies.userId,
-        }
-        this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
-        this.httpCilent = httpCilent;
-        this.user = null;
+        };
+        this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
     }
-
-    async canActivate() {
-        console.log('reached can activate')
+     // TODO MOVE THIS INTO GURAD FILE.
+    canActivate() {
         if (!this.isAuthenticated()) {
-            this.loginRedirect()
+            this.loginRedirect();
             return false;
         }
 
@@ -65,33 +60,26 @@ export class AuthService implements CanActivate {
     }
 
     decodeJwt(jwt) {
-        return jwtDecode(jwt)
-    }
-
-    public getUser() {
-        if (this.user) {
-            return this.user
-        } else {
-            this.user = this.httpCilent.get('/api/user').map(response => {
-                return response
-            })
-            return this.user
-        }
+        return jwtDecode(jwt);
     }
 
     isAuthenticated(): boolean {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
         if (!jwt) {
-            return false
+            return false;
         }
         const jwtData = this.decodeJwt(jwt)
-        const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000)
-        // do stuff!!
-        debugger;
-        return notExpired
+        const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
+        // TODO revisit and disscuss with Alan
+        if (notExpired) {
+          this.store.dispatch(new fromAuth.LogInSuccess(jwtData));
+        } else {
+          this.store.dispatch(new fromAuth.LogOut());
+        }
+        return notExpired;
     }
-
-    signOut() {
-        window.location.href = '/api/logout'
-    }
+    // TODO TO NOT USE
+    // signOut() {
+    //     window.location.href = '/api/logout';
+    // }
 }

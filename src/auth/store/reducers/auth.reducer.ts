@@ -26,7 +26,7 @@ export function reducer (
 ): AuthState {
   switch (action.type) {
     case AuthActionTypes.LOGIN_SUCCESS: {
-      const user = new UserModel(action.payload.user);
+      const user = new UserModel(action.payload);
       // user.token = action.payload.token;
       return {
         ...state,
@@ -35,26 +35,6 @@ export function reducer (
         errors: null
       };
     }
-    // case AuthActionTypes.LOGIN_FAILURE:
-    // case AuthActionTypes.FORGOT_PASSWORD_FAIL: {
-    //   let errors = {};
-    //   const message =  action.payload.error.json().message;
-    //   if (action.type === AuthActionTypes.FORGOT_PASSWORD_FAIL) {
-    //     errors = {
-    //       ...state.errors,
-    //       ['forgotPass']: message
-    //     };
-    //   } else {
-    //     errors = {
-    //       ...state.errors,
-    //       ['login']: message
-    //     };
-    //   }
-    //   return {
-    //     ...state,
-    //     errors
-    //   };
-    // }
 
     case AuthActionTypes.LOGOUT: {
       return initialState;

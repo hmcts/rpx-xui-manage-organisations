@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import * as fromAuth from '../../../auth/store';
+import {tap} from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-header',
@@ -15,15 +18,16 @@ export class HeaderComponent implements OnInit {
     navigations;
     serviceName;
 
-    userLoggedIn$: Observable<any>;
+    isUserLoggedIn$: Observable<boolean>;
 
-    constructor() {
-        this.logoutLink = `/api/logout`;
-
-    }
+    constructor(public store: Store<fromAuth.AuthState>) {}
 
 
     ngOnInit(): void {
+        this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
+
+        this.logoutLink = `/api/logout`;
+
         this.navItems = [{
             text: 'Organisation',
             href: '/organisation',

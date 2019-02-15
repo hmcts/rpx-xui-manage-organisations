@@ -80,13 +80,14 @@ export class AuthService implements CanActivate {
     }
 
     isAuthenticated(): boolean {
-        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN)
+        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
         if (!jwt) {
             return false
         }
         const jwtData = this.decodeJwt(jwt)
         const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000)
         // do stuff!!
+        debugger;
         return notExpired
     }
 

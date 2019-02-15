@@ -17,7 +17,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { effects } from './store/effects';
-import { CustomSerializer, reducers } from './store/reducers';
+import { CustomSerializer, reducers } from './store/';
 
 // from Containers
 import * as fromContainers from './containers/';

@@ -2,17 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
-import config from '../../api/lib/config';
+import config from '../../../api/lib/config';
 import {CanActivate, Router} from '@angular/router';
 
-import * as fromAuth from './store';
+import * as fromAuth from '../store';
 import {Store} from '@ngrx/store';
 
 @Injectable({
     providedIn: 'root'
 })
 
-export class AuthService implements CanActivate {
+export class AuthService {
     api_base_url: string;
     COOKIE_KEYS: {TOKEN: string, USER: string};
 
@@ -26,15 +26,6 @@ export class AuthService implements CanActivate {
             USER: config.cookies.userId,
         };
         this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
-    }
-     // TODO MOVE THIS INTO GURAD FILE.
-    canActivate() {
-        if (!this.isAuthenticated()) {
-            this.loginRedirect();
-            return false;
-        }
-
-        return true;
     }
 
     generateLoginUrl() {
@@ -54,9 +45,9 @@ export class AuthService implements CanActivate {
         }
         return headers;
     }
-
+    // TODO ADD THIS TO ACTION AND DISPATCH
     loginRedirect() {
-        window.location.href = this.generateLoginUrl()
+        window.location.href = this.generateLoginUrl();
     }
 
     decodeJwt(jwt) {
@@ -70,7 +61,7 @@ export class AuthService implements CanActivate {
         }
         const jwtData = this.decodeJwt(jwt)
         const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
-        // TODO revisit and disscuss with Alan
+        // TODO revisit and discuss with Alan
         if (notExpired) {
           this.store.dispatch(new fromAuth.LogInSuccess(jwtData));
         } else {

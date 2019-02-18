@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromSingleFeeAccountStore from '../../../fee-accounts/store';
+import * as fromRoot from '../../store'
 import { Observable } from 'rxjs';
-import { Router, NavigationEnd, Event } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,26 +12,21 @@ import { Router, NavigationEnd, Event } from '@angular/router';
 export class AppComponent implements OnInit {
 
   title = 'PUI Manager';
-  identityBar$: Observable<fromSingleFeeAccountStore.FeeAccountsState[]>;
+  identityBar$: Observable<string[]>;
 
 
   constructor(
-    private store: Store<fromSingleFeeAccountStore.FeeAccountsState>,
-    private router: Router
-  ) {
-    this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        const replacedTitles = this.replacedTitles(event.url);
-        this.title = this.getTitle(replacedTitles);
-      }
-    });
-
-
-  }
+    private store: Store<fromRoot.State>
+  ) {}
 
   ngOnInit() {
     this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray));
-
+    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
+      if (rootState) {
+        const replacedTitles = this.replacedTitles(rootState.state.url);
+        this.title = this.getTitle(replacedTitles);
+      }
+    });
   }
 
 

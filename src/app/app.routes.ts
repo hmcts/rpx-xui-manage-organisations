@@ -1,4 +1,3 @@
-import { AuthService } from '../auth/auth.service';
 import { Routes } from '@angular/router';
 
 

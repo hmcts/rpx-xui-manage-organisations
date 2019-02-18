@@ -31,7 +31,8 @@ import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 import { ROUTES } from './app.routes';
 
 import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
-import {AuthService} from '../auth/auth.service';
+import {AuthService} from '../auth/services/auth.service';
+import {AuthGuard} from '../auth/guards/auth.guard';
 
 
 export const metaReducers: MetaReducer<any>[] = !config.production
@@ -63,6 +64,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   ],
   providers: [
     AuthService,
+    AuthGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer }],
   bootstrap: [AppComponent]
 })

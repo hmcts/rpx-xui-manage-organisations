@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HmctsPrimaryNavigationComponent {
 
     @Input() set userLoggedIn(value) {
-        this.userValue = value;
+        this.isUserLoggedIn = value;
     }
 
     @Input()
@@ -31,7 +31,7 @@ export class HmctsPrimaryNavigationComponent {
         }
     ]
 
-    userValue: any
+    isUserLoggedIn: boolean;
     constructor(private route: ActivatedRoute) {
 
     }

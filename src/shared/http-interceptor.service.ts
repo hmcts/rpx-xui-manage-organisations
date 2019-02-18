@@ -30,16 +30,11 @@ export class HttpIntercepterServer implements HttpInterceptor  {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('DO i get called')
-
-      console.log('and here')
       const authHeaders = this.authService.getAuthHeaders();
-      console.log('authHeaders', authHeaders)
       request = request.clone({
         setHeaders: authHeaders
       });
 
     return next.handle(request);
-    // return next.handle(request);
   }
 }

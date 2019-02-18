@@ -35,18 +35,18 @@ export class FeeAccountsComponent implements OnInit, OnDestroy {
     // });
 
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
-    this.feeAccountsSubscription = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
-      // TODO: needs to be in the selector apparently
-      const mappedData: any[] = [];
-      feeAccountsData.forEach(element => {
-        element = {
-          ...element,
-          routerLink: `account/${element.accountNumber}/summary`
-        };
-        mappedData.push(element);
-      });
-      this.tableRows = mappedData;
-    });
+    // this.feeAccountsSubscription = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
+    //   // TODO: needs to be in the selector apparently
+    //   const mappedData: any[] = [];
+    //   feeAccountsData.forEach(element => {
+    //     element = {
+    //       ...element,
+    //       routerLink: `account/${element.accountNumber}/summary`
+    //     };
+    //     mappedData.push(element);
+    //   });
+    //   this.tableRows = mappedData;
+    // });
 
     this.columnConfig = [
       { header: 'Account number', key: 'accountNumber', type: 'link' },

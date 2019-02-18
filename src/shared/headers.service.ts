@@ -35,15 +35,8 @@ export class HeadersService {
     interface HeaderObject {
       [key: string]: string;
     }
-
-    console.log('this.COOKIE_KEYS.WEB', this.COOKIE_KEYS.WEB)
-    const d = this.cookieService.get(this.COOKIE_KEYS.WEB);
-    console.log('this.cookieService.get(this.COOKIE_KEYS.WEB) ===>', d)
-
     const headers: HeaderObject = {
       Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN)
-      // ,
-      // [this.COOKIE_KEYS.WEB]: this.cookieService.get(this.COOKIE_KEYS.WEB)
     }
     return headers;
   }

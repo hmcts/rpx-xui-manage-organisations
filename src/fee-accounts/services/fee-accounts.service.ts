@@ -16,12 +16,18 @@ export class FeeAccountsService {
   constructor(private http: HttpClient) { }
 
   fetchFeeAccounts(): Observable<any> {
+    console.log('hitting itssss')
     return this.http.post('http://localhost:3000/api/account-fee/payments', {name: 'bpond'})
     // return of(feeAccountsDummy);
   }
 
   fetchSingleFeeAccount(id): Observable<any> {
     return of(singleFeeAccountDummy);
+
+    // this.http.get('https://swapi.co/api/people/1').subscribe(data => {
+    //   console.log('data', data)
+    // })
+
   }
 
 

@@ -7,11 +7,11 @@ import {HeadersService} from './headers.service';
 @NgModule( {
   exports: [GovUiModule],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpIntercepterServer,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: HttpIntercepterServer,
+    //   multi: true
+    // },
     HeadersService
   ]
 })

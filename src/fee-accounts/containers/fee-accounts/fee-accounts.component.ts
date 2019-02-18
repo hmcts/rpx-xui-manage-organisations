@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import { Subscription } from 'rxjs';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 /**
  * Bootstraps the Fee Accounts Components
@@ -19,10 +20,20 @@ export class FeeAccountsComponent implements OnInit, OnDestroy {
   feeAccountsSubscription: Subscription;
 
   constructor(
+
+    private http: HttpClient,
     private store: Store<fromFeeAccountsStore.FeeAccountsState>
-  ) {}
+  ) {
+
+
+  }
 
   ngOnInit(): void {
+
+    // this.http.post('http://localhost:3001/api/account-fee/payments/summary',{name: 'sss'}).subscribe(data =>{
+    //   console.log('Called data', data)
+    // });
+
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
     this.feeAccountsSubscription = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
       // TODO: needs to be in the selector apparently

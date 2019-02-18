@@ -19,6 +19,7 @@ export class HeadersService {
     this.COOKIE_KEYS = {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId,
+      WEB: config.cookies.webId
     }
     this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
   }
@@ -34,9 +35,15 @@ export class HeadersService {
     interface HeaderObject {
       [key: string]: string;
     }
+
+    console.log('this.COOKIE_KEYS.WEB', this.COOKIE_KEYS.WEB)
+    const d = this.cookieService.get(this.COOKIE_KEYS.WEB);
+    console.log('this.cookieService.get(this.COOKIE_KEYS.WEB) ===>', d)
+
     const headers: HeaderObject = {
-      Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
-      [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER)
+      Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN)
+      // ,
+      // [this.COOKIE_KEYS.WEB]: this.cookieService.get(this.COOKIE_KEYS.WEB)
     }
     return headers;
   }
@@ -56,6 +63,7 @@ export class HeadersService {
       return false;
     }
     const jwtData = this.decodeJwt(jwt);
+    console.log('jwtData', )
     const expired = jwtData.exp > new Date().getTime();
     // do stuff!!
     return !expired;

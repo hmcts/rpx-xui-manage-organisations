@@ -19,9 +19,16 @@ export class FeeAccountsEffects {
   loadFeeAccounts$ = this.actions$.pipe(
     ofType(feeAccountsActions.LOAD_FEE_ACCOUNTS),
     switchMap(() => {
+      console.log('loadFeeAccounts$')
       return this.feeAccountsService.fetchFeeAccounts().pipe(
-        map(feeAccountsDetails => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
-        catchError(error => of(new feeAccountsActions.LoadFeeAccountsFail(error)))
+        map(feeAccountsDetails => {
+          console.log('asdasd', feeAccountsDetails)
+           return new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)
+          }),
+        catchError(error => {
+          console.log('error', error)
+          return of(new feeAccountsActions.LoadFeeAccountsFail(error)))
+        }
       );
     })
   );

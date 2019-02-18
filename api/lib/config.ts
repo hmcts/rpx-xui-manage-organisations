@@ -3,6 +3,7 @@ export default {
   cookies: {
     token: '__auth__',
     userId: '__userid__',
+    webId: 'jui-webapp'
   },
   exceptionOptions: {
     maxLines: 1,

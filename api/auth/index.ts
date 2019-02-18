@@ -78,7 +78,7 @@ export async function getUserDetails(jwt: string): Promise<AxiosResponse> {
     const options = {
         headers: { Authorization: `Bearer ${jwt}` },
     }
-
+    logger.info('Logging data', options )
     return await http.get(`${config.services.idam.idamApiUrl}/details`, options)
 }
 
@@ -91,19 +91,28 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
         if (response.data.access_token) {
             logger.info('Getting user details')
             const details: any = await getUserDetails(response.data.access_token)
+            logger.info('details ID ==> ', details.data.id)
             res.cookie(config.cookies.token, response.data.access_token)
-            session.auth = {
-                roles: details.data.roles,
-                token: response.data.access_token,
-                userId: details.data.id,
+
+            const SessionData = {
+              roles: details.data.roles,
+              token: response.data.access_token,
+              userId: details.data.id,
             }
 
+            logger.info('session data', SessionData );
+
+            session.auth = SessionData
+
+
+
             session.save(() => {
+                logger.info('about to save data', config, 'and index url is ', config.indexUrl )
                 res.redirect(config.indexUrl)
             })
         }
     } catch (e) {
-        logger.error('Error:', e)
+        logger.error('Error at AUTH:', e)
         res.redirect(config.indexUrl || '/')
     }
 }

@@ -4,6 +4,8 @@ import {ModuleWithProviders} from '@angular/core';
 import {FeeAccountsComponent, SingleFeeAccountComponent} from './containers';
 import {AuthGuard} from '../auth/guards/auth.guard';
 
+// TODO how can we improve this?
+
 export const ROUTES: Routes = [
   {
     path: 'fee-accounts',

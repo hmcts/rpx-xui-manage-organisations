@@ -27,8 +27,8 @@ export class FeeAccountsEffects {
           }),
         catchError(error => {
           console.log('error', error)
-          return of(new feeAccountsActions.LoadFeeAccountsFail(error)))
-        }
+          return of(new feeAccountsActions.LoadFeeAccountsFail(error));
+        })
       );
     })
   );

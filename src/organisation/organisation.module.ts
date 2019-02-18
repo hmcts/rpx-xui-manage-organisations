@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { organisationRouting } from './organisation.routing';
-import { SharedModule } from '../app/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 // containers
 import * as fromContainers from './containers';

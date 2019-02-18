@@ -24,7 +24,7 @@ export class FeeAccountsService {
     headers.set('Accept', 'application/json');
     headers.set('zumo-api-version', '2.0.0');
 
-    return this.http.post('http://localhost:3000/api/account-fee/payments', {name: 'bpond'}, {headers})
+    return this.http.post('/api/account-fee/payments', {name: 'bpond'}, {headers})
     // return of(feeAccountsDummy);
   }
 

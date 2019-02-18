@@ -35,11 +35,11 @@ export class HttpIntercepterServer implements HttpInterceptor  {
       console.log('and here')
       const authHeaders = this.authService.getAuthHeaders();
       console.log('authHeaders', authHeaders)
-      // request = request.clone({
-      //   setHeaders: authHeaders
-      // });
+      request = request.clone({
+        setHeaders: authHeaders
+      });
 
-    // return next.handle(request);
     return next.handle(request);
+    // return next.handle(request);
   }
 }

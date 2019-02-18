@@ -8,11 +8,11 @@ import {AuthIntercepterServer} from './auth-interceptor.service';
 @NgModule( {
   exports: [GovUiModule],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: HttpIntercepterServer,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpIntercepterServer,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthIntercepterServer,

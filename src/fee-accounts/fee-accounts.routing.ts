@@ -1,11 +1,13 @@
 // routes
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {FeeAccountsComponent, TransactionsComponent, SingleFeeAccountComponent} from './containers';
+import {FeeAccountsComponent, SingleFeeAccountComponent} from './containers';
+import {AuthGuard} from '../auth/guards/auth.guard';
 
 export const ROUTES: Routes = [
   {
     path: 'fee-accounts',
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',

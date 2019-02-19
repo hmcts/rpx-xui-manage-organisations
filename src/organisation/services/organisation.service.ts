@@ -4,12 +4,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-/**
- * Using health to check that outbound http calls from this application
- * to the Node layer work.
- */
 export const ENVIRONMENT = {
-  health: '/api/organisation/address'
+
+  orgUri: '/api/organisation'
 }
 
 
@@ -18,9 +15,10 @@ export const ENVIRONMENT = {
 export class OrganisationService {
   constructor(private http: HttpClient) { }
 
+  orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
+
   fetchOrganisation(): Observable<any> {
-    console.log('fetch organisation xxx')
-    return this.http.get<any>(`${ENVIRONMENT.health}`)
+    return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`)
       .pipe(
         catchError(this.handleError)
       );
@@ -38,10 +36,10 @@ export class OrganisationService {
       // The response body may contain clues as to what went wrong,
       console.error(
         `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `body was:`, error.error);
     }
     // return an observable with a user-facing error message
     return throwError(
-      'Something bad happened; please try again later.');
+      'error please try again later.');
   };
 }

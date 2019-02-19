@@ -1,19 +1,16 @@
 import * as express from 'express'
 import { http } from '../lib/http'
 import config from '../lib/config'
+import { Logger } from 'log4js';
 
 
 async function handleAddressRoute(req, res) {
-    console.log('address route reached')
 
-    //to do Organisation id is hard coded for now
     try {
-        const response = await http.get(`${config.services.rd_professional_api}/organisations/b4775ea1-4036-4d7b-bebd-0b7cdc3c786f`)
+        const response = await http.get(`${config.services.rd_professional_api}/organisations/${req.params.orgId}`)
         res.send(response.data)
     } catch (error) {
-
-        const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: 'Organsiation not valid.' })
-        console.error(errReport)
+        const errReport = { apiError: error.data.message, apiStatusCode: error.status, message: 'Organsiation route error' }
         res.status(500).send(errReport)
     }
 
@@ -21,6 +18,6 @@ async function handleAddressRoute(req, res) {
 
 export const router = express.Router({ mergeParams: true })
 
-router.get('/address', handleAddressRoute)
+router.get('/:orgId', handleAddressRoute)
 
 export default router

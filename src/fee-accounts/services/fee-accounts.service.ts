@@ -16,7 +16,7 @@ export class FeeAccountsService {
   constructor(private http: HttpClient) { }
 
   fetchFeeAccounts(): Observable<any> {
-    return this.http.post('http://localhost:3000/api/account-fee/payments', {name: 'bpond'})
+    return this.http.get('/api/accounts/account/PBA0066906')
     // return of(feeAccountsDummy);
   }
 

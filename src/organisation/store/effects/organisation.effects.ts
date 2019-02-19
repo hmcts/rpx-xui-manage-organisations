@@ -17,14 +17,8 @@ export class OrganisationEffects {
   loadOrganisation$ = this.actions$.pipe(
     ofType(organisationActions.LOAD_ORGANISATION),
     switchMap(() => {
-
       return this.organisationService.fetchOrganisation().pipe(
-        map(orgDetails => {
-
-          new organisationActions.LoadOrganisationSuccess(orgDetails)
-          console.log('@@@@@@@@@@@@', orgDetails)
-
-        }),
+        map(orgDetails => new organisationActions.LoadOrganisationSuccess(orgDetails)),
         catchError(error => of(new organisationActions.LoadOrganisationFail(error)))
       );
     })

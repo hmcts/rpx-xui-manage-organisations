@@ -18,6 +18,7 @@ export function requestInterceptor(request) {
     //add timings to requests
     request.metadata = { startTime: new Date() }
 
+    logger.info(JSON.stringify(request.headers))
     return request
 }
 

@@ -15,6 +15,7 @@ export const ENVIRONMENT = {
 export class OrganisationService {
   constructor(private http: HttpClient) { }
 
+  // TO DO  - this hard coded orgId needs to come from the userStore
   orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
 
   fetchOrganisation(): Observable<any> {

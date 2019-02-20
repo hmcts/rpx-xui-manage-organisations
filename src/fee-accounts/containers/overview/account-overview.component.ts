@@ -12,9 +12,9 @@ import {catchError, map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-prd-fee-accounts-component',
-  templateUrl: './fee-accounts.component.html',
+  templateUrl: './account-overview.component.html',
 })
-export class FeeAccountsComponent implements OnInit, OnDestroy {
+export class AccountsOverviewComponent implements OnInit, OnDestroy {
 
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
@@ -27,7 +27,7 @@ export class FeeAccountsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    
+
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
     this.feeAccountsSubscription = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsArray)).subscribe(feeAccountsData => {
       // TODO: needs to be in the selector apparently
@@ -35,7 +35,7 @@ export class FeeAccountsComponent implements OnInit, OnDestroy {
       feeAccountsData.forEach(element => {
         element = {
           ...element,
-          routerLink: `account/${element.accountNumber}/summary`
+          routerLink: `/fee-accounts/account/${element.accountNumber}/summary`
         };
         mappedData.push(element);
       });

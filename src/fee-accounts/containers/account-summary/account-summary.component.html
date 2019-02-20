@@ -1,17 +1,14 @@
 <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
 <div class="hmcts-page-heading">
   <div class="hmcts-page-heading__title-wrapper">
-      <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
-          {{sectionHeader}}
-      </h1>
+    <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
+      Summary
+    </h1>
   </div>
   <div class="hmcts-page-heading__actions-wrapper">
 
   </div>
 </div>
-<!--<p>Last updated on {{singleFeeAccountData.lastUpdated}}</p>-->
-
-
-
-
-
+<app-prd-summary-component
+  [data]="accountSummary$ | async"
+></app-prd-summary-component>

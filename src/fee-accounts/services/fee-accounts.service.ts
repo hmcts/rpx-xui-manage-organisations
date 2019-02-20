@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import {singleFeeAccountDummy} from '../store/effects/singleFeeAccount.mock';
 
 const feeAccountsDummy = [
-  { accountNumber: 'PBA0241163', accountName: 'Wedlake Bell	- Account A' },
-  { accountNumber: 'PBA222333', accountName: 'Wedlake Bell	- Account B' }
+  { accountNumber: 'PBA0066906', accountName: 'Hard coded Wedlake Bell	- Account A' },
+  { accountNumber: 'PBA0077597', accountName: 'Hard coded Wedlake Bell	- Account B' }
 ];
 
 
@@ -16,13 +16,19 @@ export class FeeAccountsService {
   constructor(private http: HttpClient) { }
 
   fetchFeeAccounts(): Observable<any> {
-    return this.http.get('/api/accounts/account/PBA0066906')
-    // return of(feeAccountsDummy);
+
+    return of(feeAccountsDummy);
   }
 
-  fetchSingleFeeAccount(id): Observable<any> {
-    return of(singleFeeAccountDummy);
+  fetchSingleFeeAccount(payload): Observable<any> {
+    console.log('fetchSingleFeeAccount id', payload.id)
+    // return of(singleFeeAccountDummy);
+    return this.http.get(`/api/accounts/account/${payload.id}`);
   }
 
+  fetchPbAAccountTransactions(payload): Observable<any>{
+    return this.http.get(`/api/accounts/account/${payload.id}/transactions`);
+
+  }
 
 }

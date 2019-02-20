@@ -8,9 +8,28 @@ export const getSingleFeeAccountState = createSelector(
   (state: fromFeature.FeeAccountsState) => state.singleFeeAccount
 );
 
-export const getSingleFeeAccountArray = createSelector(
+export const getSingleAccounOverview = createSelector(
   getSingleFeeAccountState,
-  fromSingleFeeAccount.getSingleFeeAccount
+  fromSingleFeeAccount.getSingleFeeAccountOverview
 );
+
+export const pbaAccountSummaryLoading = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountOverviewLoading);
+export const pbaAccountSummaryLoaded = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountOverviewLoaded);
+
+export const pbaAccounTransactions = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactions);
+
+
+
+
+
+// export const getSingleAccountSummar = createSelector(
+//   fromSingleFeeAccount.getSingleFeeAccount, (data) => {
+//     console.log('data', data)
+//     return {
+//       credit_limit: data.credit_limit ? data.credit_limit : '',
+//       available_balance: data.available_balance ? data.available_balance: ''
+//     };
+//   }
+// )
 
 

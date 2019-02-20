@@ -1,9 +1,9 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import * as fromSingleFeeAccountStore from '../../store';
+import * as fromfeatureStore from '../../store';
 import * as fromRouterStore from '../../../app/store';
-import { Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 /**
  * Bootstraps the Single Fee Account Components
@@ -25,13 +25,19 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
   singleFeeAccountSubscription: Subscription;
   routerSubscription: Subscription;
-
+  accountSummary$: Observable<any>;
   constructor(
     private activeRoute: ActivatedRoute,
-    private store: Store<fromSingleFeeAccountStore.FeeAccountsState>
+    private store: Store<fromfeatureStore.FeeAccountsState>
   ) {}
 
   ngOnInit(): void {
+    this.store.pipe(select(fromfeatureStore.getSingleFeeAccountState)).subscribe(data=>{
+      console.log('adddd', data)
+    })
+
+    this.accountSummary$ = this.store.pipe(select(fromfeatureStore.getSingleFeeAccountState))
+
     this.sectionHeader = 'Summary';
     this.activeTab = 'summary';
 
@@ -39,7 +45,7 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.activeRoute.params.subscribe(params => {
       if (params['id']) {
         this.id = params['id'];
-        this.store.dispatch(new fromSingleFeeAccountStore.LoadSingleFeeAccount({id: this.id}));
+        this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccount({id: this.id}));
       }
     });
 
@@ -65,10 +71,10 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
     });
 
 
-    this.singleFeeAccountSubscription = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray))
-    .subscribe(feeAccountSingleFeeAccountData => {
-      this.singleFeeAccountData  = feeAccountSingleFeeAccountData;
-    });
+    // this.singleFeeAccountSubscription = this.store.pipe(select(fromfeatureStore.getSingleFeeAccountData))
+    // .subscribe(feeAccountSingleFeeAccountData => {
+    //   this.singleFeeAccountData  = feeAccountSingleFeeAccountData;
+    // });
   }
 
   setActivePath(path: string): { sectionHeader: string, activeTab: string } {
@@ -90,7 +96,7 @@ export class SingleFeeAccountComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new fromSingleFeeAccountStore.ResetSingleFeeAccount({}));
+    this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
     this.routeSubscription.unsubscribe();
     this.routerSubscription.unsubscribe();
     this.singleFeeAccountSubscription.unsubscribe();

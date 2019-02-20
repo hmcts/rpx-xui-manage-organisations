@@ -16,8 +16,7 @@ export class HeadersService {
   ) {
     this.COOKIE_KEYS = {
       TOKEN: config.cookies.token,
-      USER: config.cookies.userId,
-      WEB: config.cookies.webId
+      USER: config.cookies.userId
     }
     this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
   }

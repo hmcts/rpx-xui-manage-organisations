@@ -7,32 +7,35 @@ export const router = express.Router({mergeParams: true})
 import { http } from '../lib/http'
 
 router.get('/account/:id', handleAccountRoute)
-router.post('/payments', handleAccountPaymentRoute)
-router.post('/payments/summary', handleAccountPaymentSummaryRoute)
-
+router.get('/account/:id/transactions', handleAccountPbaTransactionsRoute)
 
 async function handleAccountRoute(req, res){
-  let id = req.params.id;
-  let url = 'https://payment-api-aat.service.core-compute-aat.internal/accounts'
-  logger.info('id::', id)
-  //
+  logger.info('id::', req.params.id)
 
-  const d = await http.get(
-    `${url}/${id}`
-  )
-
-  return {dasdas: 'asdasd'};
-}
-async function handleAccountPaymentRoute(req, res){
-  console.log('req, res', req, res)
-  return { asd: 'asdasd'}
+  try {
+    const response = await http.get(`${config.services.payment_api}/accounts/${req.params.id}`)
+    logger.info('response::', response.data)
+    res.send(response.data)
+  } catch (error) {
+    logger.info('error', error)
+    const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '3rd party service payment api return error'})
+    res.status(500).send(errReport)
+  }
 }
 
-async function handleAccountPaymentSummaryRoute(req, res){
-  console.log('req, res', req, res)
-  return { asd: 'asdasd'}
+async function handleAccountPbaTransactionsRoute(req, res){
+  logger.info('handleAccountPbaTransactionsRoute id::', req.params.id)
+  try {
+    logger.info('HTTP CALL', `${config.services.payment_api}/pba-accounts/${req.params.id}/payments`)
+    const response = await http.get(`${config.services.payment_api}/pba-accounts/${req.params.id}/payments`)
+    logger.info('response::', response.data)
+    res.send(response.data)
+  } catch (error) {
+    logger.info('error', error)
+    const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '3rd party service payment api return error'})
+    res.status(500).send(errReport)
+  }
 }
-
 
 
 export default router

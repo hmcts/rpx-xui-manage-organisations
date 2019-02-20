@@ -27,6 +27,7 @@ export default {
       indexUrl: '/',
       oauthCallbackUrl: '/oauth2/callback',
     },
+    payment_api: 'https://payment-api-aat.service.core-compute-aat.internal',
     rd_professional_api: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal',
   },
   sessionSecret: 'secretSauce',

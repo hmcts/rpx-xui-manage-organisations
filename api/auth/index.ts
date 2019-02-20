@@ -25,7 +25,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         const userId = session.auth.userId
         const jwt = session.auth.token
         const roles = session.auth.roles
-
+        logger.info('user roles', roles)
         const jwtData = jwtDecode(jwt)
         const expires = new Date(jwtData.exp).getTime()
         const now = new Date().getTime() / 1000

@@ -13,7 +13,7 @@ export class LoadOrganisation {
 
 export class LoadOrganisationSuccess implements Action {
   readonly type = LOAD_ORGANISATION_SUCCESS;
-  constructor(public payload: any) { }
+  constructor(public payload: Organisation) { }
 }
 
 export class LoadOrganisationFail implements Action {

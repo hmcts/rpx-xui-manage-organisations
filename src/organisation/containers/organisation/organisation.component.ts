@@ -15,7 +15,9 @@ import { Organisation } from 'src/organisation/organisation.model';
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
-  orgData: Organisation;
+  //orgData: Organisation;
+  orgAddress: string
+  orgName: string
   organisationSubscription: Subscription;
 
   constructor(
@@ -26,10 +28,22 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadOrganisation());
-    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(data => {
-      this.orgData = data;
-    });
+    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(
+      data => this.extractOrgDetails(data)
+    )
   }
+
+
+
+  extractOrgDetails(orgData) {
+    console.log(orgData)
+    if (orgData) {
+      let addressObj = JSON.parse(orgData.addresses[0].address)
+      this.orgAddress = addressObj
+      this.orgName = orgData.name;
+    }
+  }
+
 
   ngOnDestroy() {
     this.organisationSubscription.unsubscribe();

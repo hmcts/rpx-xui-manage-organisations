@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 
 export const ENVIRONMENT = {
 
@@ -18,9 +18,26 @@ export class OrganisationService {
   // TO DO  - this hard coded orgId needs to come from the userStore
   orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
 
+
+
   fetchOrganisation(): Observable<any> {
     return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`)
       .pipe(
+        map(data => {
+          // do transformations 
+          let addressObj = JSON.parse(data.addresses[0].address)
+          let newOrgData =
+          {
+            name: data.name,
+            houseNoBuildingName: addressObj.houseNoBuildingName,
+            addressLine1: addressObj.addressLine1,
+            addressLine2: addressObj.addressLine2,
+            townCity: addressObj.townCity,
+            postcode: addressObj.postcode,
+            country: addressObj.country
+          }
+          return newOrgData
+        }),
         catchError(this.handleError)
       );
   }

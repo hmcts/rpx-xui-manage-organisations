@@ -8,22 +8,24 @@
         <tbody class="govuk-table__body">
            <tr class="govuk-table__row">
               <th class="govuk-table__header" scope="row">Name</th>
-              <td class="govuk-table__cell">{{orgName}}</td>
+              <td class="govuk-table__cell">{{orgData?.name}}</td>
               <td class="govuk-table__cell"></td>
            </tr>
            <tr class="govuk-table__row">
               <th class="govuk-table__header" scope="row">Address</th>
               <td class="govuk-table__cell">
-              <span *ngIf="orgAddress?.houseNoBuildingName">{{orgAddress?.houseNoBuildingName}}<br></span>
-              <span *ngIf="orgAddress?.addressLine1">{{orgAddress?.addressLine1}}<br></span>
-              <span *ngIf="orgAddress?.addressLine2"> {{orgAddress?.addressLine2 }}<br></span>
-              <span *ngIf="orgAddress?.townCity"> {{orgAddress?.townCity}}<br></span>
-              <span *ngIf="orgAddress?.postcode">{{orgAddress?.postcode}}<br></span>
+              <span *ngIf="orgData?.houseNoBuildingName">{{orgData?.houseNoBuildingName}}<br></span>
+              <span *ngIf="orgData?.addressLine1">{{orgData?.addressLine1}}<br></span>
+              <span *ngIf="orgData?.addressLine2"> {{orgdata?.addressLine2 }}<br></span>
+              <span *ngIf="orgData?.townCity"> {{orgData?.townCity}}<br></span>
+              <span *ngIf="orgData?.postcode">{{orgData?.postcode}}<br></span>
             </td>
               <td class="govuk-table__cell"></td>
            </tr>
         </tbody>
      </table>
+
+    
      </div></div>
   </main>
 </div>

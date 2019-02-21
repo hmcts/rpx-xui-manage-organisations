@@ -6,6 +6,8 @@ import * as log4js from 'log4js'
 import config from '../lib/config'
 import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
+import { getOrganisationId } from '../services/get-orgId';
+import { getUserDetails } from '../services/get-user-details';
 import { serviceTokenGenerator } from './serviceToken'
 
 const secret = process.env.IDAM_SECRET
@@ -74,13 +76,7 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
     )
 }
 
-export async function getUserDetails(jwt: string): Promise<AxiosResponse> {
-    const options = {
-        headers: { Authorization: `Bearer ${jwt}` },
-    }
 
-    return await http.get(`${config.services.idam.idamApiUrl}/details`, options)
-}
 
 export async function oauth(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const session = req.session!
@@ -90,9 +86,17 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
 
         if (response.data.access_token) {
             logger.info('Getting user details')
-            const details: any = await getUserDetails(response.data.access_token)
-            res.cookie(config.cookies.token, response.data.access_token)
+
+            const accessToken = response.data.access_token
+            const details: any = await getUserDetails(accessToken)
+
+          // set browser cookie
+            res.cookie(config.cookies.token, accessToken)
+
+            const orgId = await getOrganisationId(accessToken, details)
+
             session.auth = {
+                orgId,
                 roles: details.data.roles,
                 token: response.data.access_token,
                 userId: details.data.id,
@@ -107,6 +111,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
         res.redirect(config.indexUrl || '/')
     }
 }
+
 
 export function user(req: EnhancedRequest, res: express.Response) {
     const userJson = {

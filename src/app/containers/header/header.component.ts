@@ -3,8 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromAuth from '../../../auth/store';
-import {tap} from 'rxjs/operators';
-
+import * as fromRoot from '../../store';
 
 @Component({
     selector: 'app-header',
@@ -20,11 +19,16 @@ export class HeaderComponent implements OnInit {
 
     isUserLoggedIn$: Observable<boolean>;
 
-    constructor(public store: Store<fromAuth.AuthState>) {}
+    constructor(public store: Store<fromRoot.State>) {}
 
 
     ngOnInit(): void {
         this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
+        this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
+          if (rootState) {
+            this.updateNavItems(rootState.state.url);
+          }
+        });
 
         this.logoutLink = `/api/logout`;
 
@@ -61,4 +65,13 @@ export class HeaderComponent implements OnInit {
         };
 
     }
+
+  updateNavItems(url): void {
+    this.navItems = this.navItems.map(item => {
+      return {
+        ...item,
+        active: item['href'] === url
+      };
+    });
+  }
 }

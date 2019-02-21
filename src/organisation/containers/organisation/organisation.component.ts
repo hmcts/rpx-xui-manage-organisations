@@ -15,9 +15,6 @@ import { Organisation } from 'src/organisation/organisation.model';
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
-  //orgData: Organisation;
-  orgAddress: string
-  orgName: string
   orgData: Organisation
   organisationSubscription: Subscription;
 

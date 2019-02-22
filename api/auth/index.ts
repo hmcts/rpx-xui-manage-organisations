@@ -6,8 +6,8 @@ import * as log4js from 'log4js'
 import config from '../lib/config'
 import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
-import { getOrganisationId } from '../services/get-orgId';
-import { getUserDetails } from '../services/get-user-details';
+import { getOrganisationId } from '../services/rdProfessionals';
+import { getUserDetails } from '../services/idam';
 import { serviceTokenGenerator } from './serviceToken'
 
 const secret = process.env.IDAM_SECRET

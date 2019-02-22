@@ -17,11 +17,8 @@ import { reducers, effects } from './store';
 import { AccountOverviewComponent } from './containers/account-overview/account-overview.component';
 import { AccountSummaryComponent } from './containers/account-summary/account-summary.component';
 import { AccountTransactionsComponent } from './containers/account-transactions/account-transactions.component';
-// import {PbaSummaryGuard} from './guards/pba-summary.guards';
 
-export const GUARDS = [
-  // PbaSummaryGuard
-];
+export const GUARDS = [];
 
 @NgModule({
   imports: [

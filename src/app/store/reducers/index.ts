@@ -33,8 +33,6 @@ export const getAuthState = createFeatureSelector<fromAuthReducer.AuthState>('au
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
-
-    console.log('routerState',routerState)
     const { url } = routerState;
     const { queryParams } = routerState.root;
 

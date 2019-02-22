@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { debug } from 'util';
-
+import { Observable } from 'rxjs';
+import * as fromAuth from '../../../auth/store';
+import * as fromRoot from '../../../app/store';
+import {UserModel} from '../../../auth/models/user.model';
+import {AuthState} from '../../../auth/store/reducers/auth.reducer';
 
 
 
@@ -11,18 +13,14 @@ import { debug } from 'util';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-
-  loginSubscription: Subscription;
-
-
-
+  user$: Observable<AuthState>;
+  constructor(private store: Store<fromAuth.AuthState>) {}
 
   ngOnInit(): void {
-
+   this.user$ = this.store.pipe(select(fromAuth.getAuthState))
   }
 
   ngOnDestroy() {
-    this.loginSubscription.unsubscribe();
   }
 }
 

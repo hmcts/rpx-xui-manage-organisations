@@ -42,10 +42,5 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
   }
-
-
-  // dispatch load action
-
-  // subscribe to a selector
 }
 

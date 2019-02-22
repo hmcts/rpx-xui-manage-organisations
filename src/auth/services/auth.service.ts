@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
 import config from '../../../api/lib/config';
-import {CanActivate, Router} from '@angular/router';
 
 import * as fromAuth from '../store';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
+import {take} from 'rxjs/operators';
+
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,6 @@ export class AuthService {
 
     constructor(private httpCilent: HttpClient,
                 private cookieService: CookieService,
-                private router: Router,
                 private store: Store<fromAuth.AuthState> ) {
 
         this.COOKIE_KEYS = {
@@ -59,11 +59,15 @@ export class AuthService {
         if (!jwt) {
             return false;
         }
-        const jwtData = this.decodeJwt(jwt)
+        const jwtData = this.decodeJwt(jwt);
         const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
-        // TODO revisit and discuss with Alan
+
         if (notExpired) {
-          this.store.dispatch(new fromAuth.LogInSuccess(jwtData));
+          this.store.pipe(select(fromAuth.getIsAuthenticated), take(1)).subscribe((isAuthenticated) => {
+            if (!isAuthenticated) {
+              this.store.dispatch(new fromAuth.LogInSuccess(jwtData));
+            }
+          });
         } else {
           this.store.dispatch(new fromAuth.LogOut());
         }

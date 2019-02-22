@@ -9,7 +9,5 @@
 
   </div>
 </div>
-
-<!--<app-prd-transactions-component-->
-  <!--[transactions]="accountTransactions$ | async"-->
-<!--&gt;</app-prd-transactions-component>-->
+<!--<pre>{{accountTransactions$ }}</pre>-->
+<app-govuk-table [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"></app-govuk-table>

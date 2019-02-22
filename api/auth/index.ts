@@ -90,10 +90,11 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             const accessToken = response.data.access_token
             const details: any = await getUserDetails(accessToken)
 
-          // set browser cookie
+            // set browser cookie
             res.cookie(config.cookies.token, accessToken)
 
-            const orgId = await getOrganisationId(accessToken, details)
+            const orgIdResponse = await getOrganisationId(details)
+            const orgId = orgIdResponse.data.id
 
             session.auth = {
                 orgId,

@@ -13,3 +13,7 @@ export const getIsAuthenticated = createSelector(
   fromFeature.isAuthenticated
 );
 
+export const userDetails = createSelector(
+  getAuthState,
+  fromFeature.getUser
+);

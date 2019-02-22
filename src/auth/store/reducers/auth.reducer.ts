@@ -6,14 +6,14 @@ export interface AuthState {
   // is a user authenticated?
   isAuthenticated: boolean;
   // if authenticated, there should be a user object
-  user: UserModel | null;
+  user: UserModel | [{}];
   // error messages
   errors: { [id: string]: string };
 }
 
 export const initialState: AuthState = {
   isAuthenticated: false,
-  user: null,
+  user: [],
   errors: {
     forgotPass: '',
     login: ''

@@ -6,7 +6,7 @@ export interface AuthState {
   // is a user authenticated?
   isAuthenticated: boolean;
   // if authenticated, there should be a user object
-  user: UserModel | [{}];
+  user: UserModel | null;
   // error messages
   errors: { [id: string]: string };
 }

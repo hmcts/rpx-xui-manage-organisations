@@ -53,7 +53,6 @@ export class HeadersService {
       return false;
     }
     const jwtData = this.decodeJwt(jwt);
-    console.log('jwtData', )
     const expired = jwtData.exp > new Date().getTime();
     // do stuff!!
     return !expired;

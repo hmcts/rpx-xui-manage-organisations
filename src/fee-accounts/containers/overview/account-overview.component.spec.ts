@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeeAccountsComponent } from './fee-accounts.component';
+import { FeeAccountsComponent } from './account-overview.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/fee-accounts/store/reducers';

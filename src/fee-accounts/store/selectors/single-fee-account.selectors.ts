@@ -8,9 +8,13 @@ export const getSingleFeeAccountState = createSelector(
   (state: fromFeature.FeeAccountsState) => state.singleFeeAccount
 );
 
-export const getSingleFeeAccountArray = createSelector(
+export const getSingleAccounOverview = createSelector(
   getSingleFeeAccountState,
-  fromSingleFeeAccount.getSingleFeeAccount
+  fromSingleFeeAccount.getSingleFeeAccountOverview
 );
+
+export const pbaAccountSummaryLoading = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountOverviewLoading);
+export const pbaAccountSummaryLoaded = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountOverviewLoaded);
+export const pbaAccounTransactions = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactions);
 
 

@@ -14,7 +14,11 @@ import {StoreModule} from '@ngrx/store';
 import {HttpClientModule} from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
+import { AccountOverviewComponent } from './containers/account-overview/account-overview.component';
+import { AccountSummaryComponent } from './containers/account-summary/account-summary.component';
+import { AccountTransactionsComponent } from './containers/account-transactions/account-transactions.component';
 
+export const GUARDS = [];
 
 @NgModule({
   imports: [
@@ -26,8 +30,8 @@ import { reducers, effects } from './store';
     EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers],
-  providers: [...fromServices.services]
+  declarations: [...fromContainers.containers, AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent],
+  providers: [...fromServices.services, ...GUARDS]
 })
 
 /**

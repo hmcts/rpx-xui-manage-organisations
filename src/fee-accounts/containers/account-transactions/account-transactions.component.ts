@@ -39,9 +39,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
   ngOnInit() {
-    console.log('ac', this.activeRoute.snapshot.url[0].path)
-
-    //TODO move to a guard
+    // TODO move to a guard
     this.activeRoute.parent.params.pipe(
       map(payload => {
         this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: payload.id }));

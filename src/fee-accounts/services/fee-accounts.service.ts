@@ -6,14 +6,17 @@ import {map} from '../../../node_modules/rxjs/operators';
 import {Payment, Payments} from '../models/pba-transactions';
 import {PaymentsMock} from '../mock/transactions.mock';
 import {feeAccountsDummy} from '../mock/pba-accounts.mock';
+import {PbaAccounts} from '../models/pba-accounts';
 
 @Injectable()
 export class FeeAccountsService {
   constructor(private http: HttpClient) {
   }
 
-  fetchFeeAccounts(): Observable<any> {
-    return of(feeAccountsDummy);
+  fetchFeeAccounts(payload: string): Observable<Array<PbaAccounts>> {
+    // return of(feeAccountsDummy);
+    // const tempId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
+    return this.http.get<Array<PbaAccounts>> (`/api/accounts/account/pbas/`);
   }
 
   fetchSingleFeeAccount(payload): Observable<any> {

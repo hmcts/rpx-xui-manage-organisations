@@ -6,17 +6,16 @@ import { UserformComponent } from './containers/userform/userform.component';
 import {AuthGuard} from '../auth/guards/auth.guard';
 
 export const ROUTES: Routes = [
-
-      {
-        path: 'users',
-        component: UsersComponent,
-        canActivate: [AuthGuard]
-      },
-      {
-        path: 'userform',
-        component: UserformComponent,
-        canActivate: [AuthGuard]
-      }
+    {
+      path: '',
+      component: UsersComponent,
+      canActivate: [AuthGuard],
+    },
+    {
+      path: 'invite-user',
+      component: UserformComponent,
+      canActivate: [AuthGuard],
+    }
 ];
 
 

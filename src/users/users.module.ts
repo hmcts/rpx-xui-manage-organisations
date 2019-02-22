@@ -32,7 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 
 /**
- * Entry point to RegisterModule
+ * Entry point to UsersModule
  */
 
 export class UsersModule {

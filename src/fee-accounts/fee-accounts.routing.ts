@@ -6,7 +6,7 @@ import {AccountOverviewComponent} from './containers/account-overview/account-ov
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
 import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';
 import {AccountsOverviewComponent} from './containers/overview/account-overview.component';
-import {PbaSummaryGuard} from './guards/pba-summary.guards';
+// import {PbaSummaryGuard} from './guards/pba-summary.guards';
 
 export const ROUTES: Routes = [
   {

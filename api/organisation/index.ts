@@ -7,7 +7,7 @@ import { Logger } from 'log4js';
 async function handleAddressRoute(req, res) {
 
     try {
-        const response = await http.get(`${config.services.rd_professional_api}/organisations/${req.params.orgId}`)
+        const response = await http.get(`${config.services.rdProfessionalApi}/organisations/${req.params.orgId}`)
         res.send(response.data)
     } catch (error) {
         const errReport = { apiError: error.data.message, apiStatusCode: error.status, message: 'Organsiation route error' }

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-
 export const ROUTES: Routes = [
   {
     path: '',
@@ -10,6 +9,10 @@ export const ROUTES: Routes = [
   {
     path: 'organisation',
     loadChildren: '../organisation/organisation.module#OrganisationModule'
+  },
+  {
+    path: 'profile',
+    loadChildren: '../auth/auth.module#AuthModule'
   },
   {
     path: '**',

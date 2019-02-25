@@ -2,12 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-
 import { AppComponent } from './containers/app/app.component';
 import { UsersModule } from '../users/users.module';
 import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from '../shared/shared.module';
-
 import { CookieModule } from 'ngx-cookie';
 
 // ngrx
@@ -31,8 +29,7 @@ import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 import { ROUTES } from './app.routes';
 
 import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
-import {AuthService} from '../auth/services/auth.service';
-import {AuthGuard} from '../auth/guards/auth.guard';
+import { AuthModule } from '../auth/auth.module';
 
 
 export const metaReducers: MetaReducer<any>[] = !config.production
@@ -55,6 +52,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     UsersModule,
     OrganisationModule,
     SharedModule,
+    AuthModule,
     GovUiModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
@@ -63,8 +61,6 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     FeeAccountsModule
   ],
   providers: [
-    AuthService,
-    AuthGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer }],
   bootstrap: [AppComponent]
 })

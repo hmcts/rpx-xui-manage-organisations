@@ -14,10 +14,10 @@ const dummy = {
 
 
 @Injectable()
-export class UserformService {
+export class InviteUserService {
   constructor(private http: HttpClient) { }
 
-  saveUser(data): Observable<any> {
+  inviteUser(data): Observable<any> {
     return of(dummy);
 
   }

@@ -20,7 +20,7 @@ export class UserformComponent implements OnInit {
   }
 
   onSubmit(value) {
-    this.store.dispatch(new fromStore.SaveUser(value));
+    this.store.dispatch(new fromStore.InviteUser(value));
 
   }
 

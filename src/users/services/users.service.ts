@@ -28,7 +28,7 @@ const dummy = [
 export class UsersService {
   constructor(private http: HttpClient) { }
 
-  fetchUsers(): Observable<any> {
+  getListOfUsers(): Observable<any> {
     return of(dummy)
     // return this.http
     //   .get<any>(`/api/pizzas`)

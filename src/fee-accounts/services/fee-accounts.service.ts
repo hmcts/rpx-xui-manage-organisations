@@ -13,7 +13,7 @@ export class FeeAccountsService {
   constructor(private http: HttpClient) {
   }
 
-  fetchFeeAccounts(payload: string): Observable<Array<PbaAccounts>> {
+  fetchFeeAccounts(): Observable<Array<PbaAccounts>> {
     // return of(feeAccountsDummy);
     // const tempId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
     return this.http.get<Array<PbaAccounts>> (`/api/accounts/account/pbas/`);

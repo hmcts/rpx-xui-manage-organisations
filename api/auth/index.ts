@@ -25,7 +25,8 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         const userId = session.auth.userId
         const jwt = session.auth.token
         const roles = session.auth.roles
-        logger.info('user roles', roles)
+        const orgId = session.auth.orgId
+
         const jwtData = jwtDecode(jwt)
         const expires = new Date(jwtData.exp).getTime()
         const now = new Date().getTime() / 1000
@@ -94,10 +95,10 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             res.cookie(config.cookies.token, accessToken)
 
             const orgIdResponse = await getOrganisationId(details)
-            const orgId = orgIdResponse.data.id
-
+            // const orgId = orgIdResponse.data.id
+            //
             session.auth = {
-                orgId,
+                orgId: orgIdResponse.data.id,
                 roles: details.data.roles,
                 token: response.data.access_token,
                 userId: details.data.id,

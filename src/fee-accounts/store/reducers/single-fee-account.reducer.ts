@@ -40,7 +40,7 @@ export function reducer(
       return {
         ...state,
         ...{
-          overview:{
+          overview: {
             data: action.payload,
             loaded: true,
             loading: false
@@ -54,11 +54,13 @@ export function reducer(
       console.log('fromSingleFeeAccountActions payload', JSON.stringify(payload));
       return {
         ...state,
-        ...{transactions:{
-          data: action.payload,
-          loaded: true,
-          loading: false
-        }}
+        ...{
+          transactions: {
+            data: action.payload,
+            loaded: true,
+            loading: false
+          }
+        }
       };
 
     }
@@ -76,3 +78,5 @@ export const getSingleFeeAccountOverviewLoading = (state: SingleFeeAccountState)
 export const getSingleFeeAccountOverviewLoaded = (state: SingleFeeAccountState) => state.overview.loaded;
 
 export const getSingleFeeAccountTransactions = (state: SingleFeeAccountState) => state.transactions.data;
+export const getSingleFeeAccountTransactionsLoading = (state: SingleFeeAccountState) => state.transactions.loading;
+export const getSingleFeeAccountTransactionsLoaded = (state: SingleFeeAccountState) => state.transactions.loaded;

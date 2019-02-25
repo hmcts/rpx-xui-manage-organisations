@@ -24,20 +24,21 @@ export class FeeAccountsService {
   }
 
   fetchPbAAccountTransactions(payload): Observable<any> {
-    // return this.http.get(`/api/accounts/account/${payload.id}/transactions`)
-    return of(PaymentsMock.payments.map((item: Payment) => {
-      return {
-        paymentReference: item.payment_reference,
-        case: item.case_reference,
-        reference: 'NO DATA to MAP',
-        submittedBy: 'NO DATA to MAP',
-        status: 'NO DATA to MAP',
-        dateCreated: item.date_created,
-        amount: item.amount,
-        dateUpdated: item.date_updated,
-        routerLink: `account/${item.account_number}/summary`
-      };
-    }));
+    return this.http.get(`/api/accounts/account/${payload.id}/transactions`)
+    // TODO Check the map once this endpoint works.
+    // return of(PaymentsMock.payments.map((item: Payment) => {
+    //   return {
+    //     paymentReference: item.payment_reference,
+    //     case: item.case_reference,
+    //     reference: 'NO DATA to MAP',
+    //     submittedBy: 'NO DATA to MAP',
+    //     status: 'NO DATA to MAP',
+    //     dateCreated: item.date_created,
+    //     amount: item.amount,
+    //     dateUpdated: item.date_updated,
+    //     routerLink: `account/${item.account_number}/summary`
+    //   };
+    // }));
   }
 
 }

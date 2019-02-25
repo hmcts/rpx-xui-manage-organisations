@@ -7,5 +7,10 @@
   </div>
   <div class="hmcts-page-heading__actions-wrapper"></div>
 </div>
-<!--<pre>{{accountTransactions$ }}</pre>-->
-<app-govuk-table [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"></app-govuk-table>
+<app-govuk-table
+  *ngIf="!(loading$ | async) else loading"
+  [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
+></app-govuk-table>
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>

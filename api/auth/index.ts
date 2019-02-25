@@ -21,7 +21,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         const token = await serviceTokenGenerator()
 
         req.headers.ServiceAuthorization = token.token
-
+        logger.info(' session.auth.userId',  session.auth.userId)
         const userId = session.auth.userId
         const jwt = session.auth.token
         const roles = session.auth.roles
@@ -38,6 +38,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
             logger.info('Could not add S2S token header')
             res.status(401).send('Token expired!')
         } else {
+            logger.info('userId ===> ',  userId)
             req.auth = jwtData
             req.auth.token = jwt
             req.auth.userId = userId

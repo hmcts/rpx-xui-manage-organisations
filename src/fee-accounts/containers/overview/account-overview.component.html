@@ -1,6 +1,12 @@
 <h1 class="hmcts-page-heading__title govuk-heading-xl">Fee accounts</h1>
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <app-govuk-table [columnConfig]="columnConfig" [rows]="tableRows" [firstCellIsHeader]="false" [caption]="''"></app-govuk-table>
+    <app-govuk-table
+      *ngIf="!(loading$ | async) else loading"
+      [columnConfig]="columnConfig" [rows]="accounts$ | async" [firstCellIsHeader]="false" [caption]="''"
+    ></app-govuk-table>
+    <ng-template #loading>
+      <div>Loading...</div>
+    </ng-template>
   </div>
 </div>

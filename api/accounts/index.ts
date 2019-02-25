@@ -10,42 +10,32 @@ import {AxiosResponse} from 'axios';
 router.get('/account/pbas/', handleAccountPbasRoute)
 router.get('/account/:id', handleAccountRoute)
 router.get('/account/:id/transactions', handleAccountPbaTransactionsRoute)
-async function handleAccountPbasRoute(req, res){
-  logger.info('Organisation ID: ', req.session.auth.orgId)
+
+async function handleAccountPbasRoute(req, res) {
   try {
     const response = await http.get(`${config.services.rd_professional_api}/organisations/${req.session.auth.orgId}/pbas`)
-    logger.info('response::', response.data)
     res.send(response.data)
   } catch (error) {
-    logger.info('error', error)
     const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '3rd party service payment api return error'})
     res.status(500).send(errReport)
   }
 }
-async function handleAccountRoute(req, res){
-  logger.info('id::', req.params.id)
-
+async function handleAccountRoute(req, res) {
   try {
     const response = await http.get(`${config.services.payment_api}/accounts/${req.params.id}`)
-    logger.info('response::', response.data)
     res.send(response.data)
   } catch (error) {
-    logger.info('error', error)
     const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '3rd party service payment api return error'})
     res.status(500).send(errReport)
   }
 }
 
 async function handleAccountPbaTransactionsRoute(req, res){
-  logger.info('handleAccountPbaTransactionsRoute id::', req.params.id)
   try {
-    logger.info('HTTP CALL', `${config.services.payment_api}/pba-accounts/${req.params.id}/payments`)
     const response: AxiosResponse<any> = await http.get(`${config.services.payment_api}/pba-accounts/${req.params.id}/payments`)
     const dataObj: Payments = response.data.payments
-    logger.info('response::', dataObj)
     res.send(dataObj)
   } catch (error) {
-    logger.info('error', error)
     const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '3rd party service payment api return error'})
     res.status(500).send(errReport)
   }

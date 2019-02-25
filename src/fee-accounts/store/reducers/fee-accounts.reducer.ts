@@ -7,7 +7,7 @@ export interface FeeAccountsState {
 }
 
 export const initialState: FeeAccountsState = {
-  feeAccounts: [],
+  feeAccounts: [{}],
   loaded: false,
   loading: false,
 };
@@ -22,8 +22,11 @@ export function reducer(
 
       return {
         ...state,
-        feeAccounts,
-        loaded: true
+        ...{
+          feeAccounts: feeAccounts,
+          loaded: true,
+          loading: false
+        }
       };
 
     }

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
-
+import { Observable } from 'rxjs';
 
 const dummy = {
   firstname: 'John',
@@ -11,15 +10,12 @@ const dummy = {
   permission: ['permission1', 'permission2']
 };
 
-
-
 @Injectable()
 export class InviteUserService {
   constructor(private http: HttpClient) { }
 
   inviteUser(data): Observable<any> {
-    return of(dummy);
-
+    return this.http.post('api/inviteUser', data);
   }
 
 

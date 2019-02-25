@@ -11,13 +11,9 @@ import * as fromStore from '../../store';
 })
 export class UserformComponent implements OnInit {
 
-
   constructor(private store: Store<fromStore.UserState>) { }
 
-
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit(value) {
     this.store.dispatch(new fromStore.InviteUser(value));

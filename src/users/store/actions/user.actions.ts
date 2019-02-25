@@ -8,7 +8,7 @@ export const LOAD_USERS_FAIL = '[User] Load Users Fail';
 
 export class LoadUsers {
   readonly type = LOAD_USERS;
-  constructor() { }
+  constructor() {}
 }
 
 export class LoadUsersSuccess implements Action {

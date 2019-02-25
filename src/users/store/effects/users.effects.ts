@@ -27,6 +27,7 @@ export class UsersEffects {
     })
   );
 
+  @Effect()
   saveUsers$ = this.actions$.pipe(
     ofType(usersActions.INVITE_USER),
     map((action: usersActions.InviteUser) => action.payload),

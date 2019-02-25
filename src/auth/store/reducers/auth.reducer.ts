@@ -13,7 +13,7 @@ export interface AuthState {
 
 export const initialState: AuthState = {
   isAuthenticated: false,
-  user: [],
+  user: null,
   errors: {
     forgotPass: '',
     login: ''

@@ -11,9 +11,7 @@ import * as fromContainers from './containers';
 import * as fromServices from './services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-
 import { reducers, userformreducers, effects } from './store';
-
 import { HttpClientModule } from '@angular/common/http';
 
 

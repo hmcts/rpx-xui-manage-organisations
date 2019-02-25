@@ -7,19 +7,13 @@ export const router = express.Router({mergeParams: true})
 import { http } from '../lib/http'
 import {Payment, Payments} from './pba-transactions';
 import {AxiosResponse} from 'axios';
-router.get('/account/pbas', handleAccountPbasRoute)
+router.get('/account/pbas/', handleAccountPbasRoute)
 router.get('/account/:id', handleAccountRoute)
 router.get('/account/:id/transactions', handleAccountPbaTransactionsRoute)
-
-
-
 async function handleAccountPbasRoute(req, res){
-  logger.info('id::', req.params.id)
-  const session = req.sess.ion!
-  logger.info('organisation ID:: ', session.auth.orgId)
-
+  logger.info('Organisation ID: ', req.session.auth.orgId)
   try {
-    const response = await http.get(`${config.services.rd_professional_api}/organisations/${req.params.id}/pbas`)
+    const response = await http.get(`${config.services.rd_professional_api}/organisations/${req.session.auth.orgId}/pbas`)
     logger.info('response::', response.data)
     res.send(response.data)
   } catch (error) {

@@ -1,6 +1,6 @@
 // load login form
 import { Action } from '@ngrx/store';
-import { Userform } from 'src/users/userform.model';
+import { UserListApiModel } from 'src/users/models/userform.model';
 
 export const SAVE_USER = '[SaveUser] Save Users';
 export const SAVE_USER_SUCCESS = '[SaveUser] Save Users Success';

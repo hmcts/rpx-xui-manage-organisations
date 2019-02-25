@@ -2,12 +2,12 @@
 import { SaveUser, SAVE_USER } from './userform.actions';
 import { SaveUserSuccess, SAVE_USER_SUCCESS } from './userform.actions';
 import { SaveUserFail, SAVE_USER_FAIL } from './userform.actions';
-import { Userform } from 'src/users/userform.model';
+import { UserListApiModel } from 'src/users/models/userform.model';
 
 
 // describe('SaveUser', () => {
 //   it('should create an action', () => {
-//     const payload: Userform =
+//     const payload: UserListApiModel =
 //     {
 //       id: 1,
 //       firstname: 'Mr',
@@ -27,7 +27,7 @@ import { Userform } from 'src/users/userform.model';
 
 describe('SaveUserSuccess', () => {
   it('should create an action', () => {
-    const payload: Userform =
+    const payload: UserListApiModel =
     {
       id: 1,
       firstname: 'Mr',

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { usersRouting } from './users.routing';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+
 // containers
 import * as fromContainers from './containers';
 
@@ -11,7 +12,9 @@ import * as fromContainers from './containers';
 import * as fromServices from './services';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { reducers, userformreducers, effects } from './store';
+
+import { reducers, effects } from './store';
+
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -22,7 +25,6 @@ import { HttpClientModule } from '@angular/common/http';
     usersRouting,
     SharedModule,
     StoreModule.forFeature('users', reducers),
-    StoreModule.forFeature('userform', userformreducers),
     EffectsModule.forFeature(effects),
     FormsModule
   ],
@@ -35,6 +37,4 @@ import { HttpClientModule } from '@angular/common/http';
  * Entry point to UsersModule
  */
 
-export class UsersModule {
-
-}
+export class UsersModule {}

@@ -1,23 +1,13 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromLogin from './users.reducer';
-import * as fromUserform from './userform.reducer';
-
+import * as fromUsers from './users.reducer';
 
 export interface UserState {
-  users: fromLogin.UsersState;
-}
-
-export interface UserformState {
-  userform: fromUserform.UserformState;
+  users: fromUsers.UsersState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
-  users: fromLogin.reducer,
-};
-
-export const userformreducers: ActionReducerMap<UserformState> = {
-  userform: fromUserform.reducer,
+  users: fromUsers.reducer,
 };
 
 export const getRootUserState = createFeatureSelector<UserState>(

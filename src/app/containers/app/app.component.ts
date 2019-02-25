@@ -46,8 +46,8 @@ export class AppComponent implements OnInit {
     if (url.indexOf('login') !== -1) {
       return 'login';
     }
-    if (url.indexOf('userform') !== -1) {
-      return 'userform';
+    if (url.indexOf('userList') !== -1) {
+      return 'userList';
     }
 
     return '/';

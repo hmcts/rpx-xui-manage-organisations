@@ -12,7 +12,7 @@ import * as fromStore from '../../store';
 export class UserformComponent implements OnInit {
 
 
-  constructor(private store: Store<fromStore.UserformState>) { }
+  constructor(private store: Store<fromStore.UserState>) { }
 
 
 

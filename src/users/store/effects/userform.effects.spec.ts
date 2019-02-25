@@ -8,7 +8,7 @@ import { UserformEffects } from './userform.effects';
 import { SaveUser, SaveUserFail, SaveUserSuccess } from '../actions/userform.actions';
 import { UserformService } from 'src/users/services';
 
-describe('Userform Effects', () => {
+describe('UserListApiModel Effects', () => {
   let actions$;
   let effects: UserformEffects;
   const UserformServiceMock = jasmine.createSpyObj('UserformService', ['saveform',
@@ -69,7 +69,7 @@ describe('Userform Effects', () => {
 
   // fdescribe('SaveUser$ error', () => {
   //   it('should return SaveUserFail', () => {
-  //     UserformServiceMock.userform.and.returnValue(throwError(new Error()));
+  //     UserformServiceMock.userList.and.returnValue(throwError(new Error()));
   //     const action = new SaveUser({});
   //     const completion = new SaveUserFail(new Error);
   //     actions$ = hot('-a', { a: action });

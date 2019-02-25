@@ -22,7 +22,7 @@ export class UserformEffects {
     map((action: userformActions.SaveUser) => action.payload),
     switchMap((formdata) => {
       return this.userformService.saveUser(formdata).pipe(
-        map(userDetals => new userformActions.SaveUserSuccess(userDetals)),
+        map(userDetails => new userformActions.SaveUserSuccess(userDetails)),
         catchError(error => of(new userformActions.SaveUserFail(error)))
       );
     })

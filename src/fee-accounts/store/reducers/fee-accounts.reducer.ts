@@ -1,6 +1,7 @@
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
 import {SingleAccontSummary, SingleAccontSummaryRemapped} from '../../models/single-account-summary';
 import {map} from '../../../../node_modules/rxjs/operators';
+import {PbaAccounts, PbaAccountsSummary} from '../../models/pba-accounts';
 
 export interface FeeAccountsState {
   feeAccounts: Array<SingleAccontSummary> | null;
@@ -29,13 +30,13 @@ export function reducer(
     }
     case fromFeeAccountActions.LOAD_FEE_ACCOUNTS_SUCCESS: {
 
-      const feeAccounts = action.payload;
-
+      const payload = action.payload;
+      let feeAccounts = payload;
       if (feeAccounts.length !== 0) {
-        feeAccounts.map((entity: SingleAccontSummary) => {
-            const element: SingleAccontSummaryRemapped = {
+        feeAccounts = payload.map((entity: PbaAccounts) => {
+            const element: PbaAccountsSummary = {
               ...entity,
-              routerLink: `/fee-accounts/account/${entity.account_number}/summary`
+              routerLink: `/fee-accounts/account/${entity.pbaNumber}/summary`
             };
             return element;
           });
@@ -43,7 +44,7 @@ export function reducer(
 
       return {
         ...state,
-          feeAccounts,
+          feeAccounts: feeAccounts,
           loaded: true,
           loading: false
       };

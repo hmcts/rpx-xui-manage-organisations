@@ -34,18 +34,20 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     { header: 'Last updated', key: 'dateUpdated' },
     { header: 'Amount', key: 'amount' }
   ];
+  loading$: Observable<boolean>;
   constructor(
     private activeRoute: ActivatedRoute,
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
   ngOnInit() {
+    this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactionsLoading));
     // TODO move to a guard
     this.activeRoute.parent.params.pipe(
       map(payload => {
         this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: payload.id }));
       })
     ).subscribe();
-    this.accountTransactions$ = this.store.pipe(select(fromfeatureStore.pbaAccounTransactions))
+    this.accountTransactions$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactions));
 
   }
   ngOnDestroy() {

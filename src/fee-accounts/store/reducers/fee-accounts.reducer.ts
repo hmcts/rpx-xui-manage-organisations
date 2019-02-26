@@ -1,13 +1,15 @@
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
+import {SingleAccontSummary, SingleAccontSummaryRemapped} from '../../models/single-account-summary';
+import {map} from '../../../../node_modules/rxjs/operators';
 
 export interface FeeAccountsState {
-  feeAccounts: any[];
+  feeAccounts: Array<SingleAccontSummary> | null;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: FeeAccountsState = {
-  feeAccounts: [],
+  feeAccounts: null,
   loaded: false,
   loading: false,
 };
@@ -17,15 +19,34 @@ export function reducer(
   action: fromFeeAccountActions.FeeAccountsActions
 ): FeeAccountsState {
   switch (action.type) {
+
+    case fromFeeAccountActions.LOAD_FEE_ACCOUNTS: {
+      return {
+        ...state,
+        loaded: false,
+        loading: true
+      };
+    }
     case fromFeeAccountActions.LOAD_FEE_ACCOUNTS_SUCCESS: {
+
       const feeAccounts = action.payload;
+
+      if (feeAccounts.length !== 0) {
+        feeAccounts.map((entity: SingleAccontSummary) => {
+            const element: SingleAccontSummaryRemapped = {
+              ...entity,
+              routerLink: `/fee-accounts/account/${entity.account_number}/summary`
+            };
+            return element;
+          });
+      }
 
       return {
         ...state,
-        feeAccounts,
-        loaded: true
+          feeAccounts,
+          loaded: true,
+          loading: false
       };
-
     }
 
   }

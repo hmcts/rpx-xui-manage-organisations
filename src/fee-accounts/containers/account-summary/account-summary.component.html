@@ -10,7 +10,7 @@
   </div>
 </div>
 <app-prd-summary-component
-  *ngIf="(accountSummary$ | async).length === 0 else loading"
+  *ngIf="!(loading$ | async) else loading"
   [data]="accountSummary$ | async"
 ></app-prd-summary-component>
 <ng-template #loading>

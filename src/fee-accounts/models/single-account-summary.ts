@@ -6,3 +6,6 @@ export interface SingleAccontSummary {
   status: string | 'Active';
   effective_date: string;
 }
+export interface SingleAccontSummaryRemapped extends SingleAccontSummary {
+  routerLink: string;
+}

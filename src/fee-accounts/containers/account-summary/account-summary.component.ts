@@ -24,6 +24,7 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
       active: false
     }
   ];
+  loading$: Observable<boolean>;
   constructor(
     private activeRoute: ActivatedRoute,
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
@@ -35,7 +36,8 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccount({id: payload.id }));
       })
     ).subscribe();
-    this.accountSummary$ = this.store.pipe(select(fromfeatureStore.getSingleAccounOverview))
+    this.accountSummary$ = this.store.pipe(select(fromfeatureStore.getSingleAccounOverview));
+    this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountSummaryLoading));
   }
   ngOnDestroy() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));

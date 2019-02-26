@@ -16,11 +16,11 @@ export class FeeAccountsService {
   fetchFeeAccounts(): Observable<Array<PbaAccounts>> {
     return this.http.get<Array<PbaAccounts>> (`/api/accounts/account/pbas/`);
   }
-
+  // Overview load
   fetchSingleFeeAccount(payload): Observable<any> {
     return this.http.get(`/api/accounts/account/${payload.id}`);
   }
-
+  // Overview transactions
   fetchPbAAccountTransactions(payload): Observable<any> {
     return this.http.get(`/api/accounts/account/${payload.id}/transactions`).pipe(
       map((item: Payment) => {

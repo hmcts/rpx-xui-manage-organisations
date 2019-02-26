@@ -7,7 +7,7 @@ export interface UserState {
 }
 
 export const reducers: ActionReducerMap<UserState> = {
-  users: fromUsers.reducer,
+  users: fromUsers.reducer
 };
 
 export const getRootUserState = createFeatureSelector<UserState>(

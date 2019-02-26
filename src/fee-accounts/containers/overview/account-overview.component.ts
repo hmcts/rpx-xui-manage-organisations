@@ -18,7 +18,7 @@ export class AccountsOverviewComponent implements OnInit{
 
   ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
-    this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsMapped));
+    this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsRaw));
     this.loading$ = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsLoading));
     this.columnConfig = [
       { header: 'Account number', key: 'pbaNumber', type: 'link' },

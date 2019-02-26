@@ -1,8 +1,8 @@
 import { UsersComponent } from './users/users.component';
-import { UserformComponent } from './userform/userform.component';
+import { UserFormComponent } from './userform/user-form.component';
 
-export const containers: any[] = [UsersComponent, UserformComponent];
+export const containers: any[] = [UsersComponent, UserFormComponent];
 
 
 export * from './users/users.component';
-export * from './userform/userform.component';
+export * from './userform/user-form.component';

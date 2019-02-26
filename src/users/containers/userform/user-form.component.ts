@@ -6,10 +6,10 @@ import * as fromStore from '../../store';
 
 
 @Component({
-  selector: 'app-prd-userform-component',
-  templateUrl: './userform.component.html',
+  selector: 'app-prd-user-form-component',
+  templateUrl: './user-form.component.html',
 })
-export class UserformComponent implements OnInit {
+export class UserFormComponent implements OnInit {
 
   constructor(private store: Store<fromStore.UserState>) { }
 

@@ -22,7 +22,7 @@ export const initialState: SingleFeeAccountState = {
    loaded: false,
    loading: false,
  },
-  transactions:{
+  transactions: {
     data: {},
     loaded: false,
     loading: false,
@@ -36,7 +36,6 @@ export function reducer(
   switch (action.type) {
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_SUCCESS: {
       const payload = action.payload;
-      console.log('fromSingleFeeAccountActions payload', JSON.stringify(payload));
       return {
         ...state,
         overview: {
@@ -50,7 +49,6 @@ export function reducer(
     }
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_SUCCESS: {
       const payload = action.payload;
-      console.log('fromSingleFeeAccountActions payload', JSON.stringify(payload));
       return {
         ...state,
         transactions: {

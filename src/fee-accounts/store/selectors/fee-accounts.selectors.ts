@@ -11,19 +11,6 @@ export const selectFeatureFee = createFeatureSelector<fromFeature.FeeAccountsSta
 export const getFeeAccountsState = createSelector( selectFeatureFee, (state: any) => state.feeAccounts);
 export const getFeeAccountsRaw = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccounts);
 export const getFeeAccountsLoading = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoading);
-export const getFeeAccountsMapped = createSelector(
-  getFeeAccountsRaw,
-  (entities: Array<SingleAccontSummary>) => {
-    const obj = entities.map((entity: SingleAccontSummary) => {
-      const element: SingleAccontSummaryRemapped = {
-          ...entity,
-          routerLink: `/fee-accounts/account/${entity.account_numbers}/summary`
-        };
-      return element;
-    })
-    return obj;
-  }
-);
 
 // `/fee-accounts/account/${entity.account_numbers}/summary`
 

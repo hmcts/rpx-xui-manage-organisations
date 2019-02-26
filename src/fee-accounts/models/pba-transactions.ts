@@ -74,3 +74,14 @@ export interface Payments {
   payments: Payment[];
 }
 
+export interface PbaTransactions {
+  paymentReference: 'string';
+  case: 'string';
+  reference: 'string';
+  submittedBy: 'string';
+  status: 'string';
+  dateCreated: 'string';
+  amount: 'string';
+  dateUpdated: 'string';
+  routerLink: 'string';
+}

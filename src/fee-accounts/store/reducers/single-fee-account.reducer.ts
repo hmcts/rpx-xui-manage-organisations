@@ -39,13 +39,12 @@ export function reducer(
       console.log('fromSingleFeeAccountActions payload', JSON.stringify(payload));
       return {
         ...state,
-        ...{
-          overview: {
-            data: action.payload,
-            loaded: true,
-            loading: false
-          }
+        overview: {
+          data: action.payload,
+          loaded: true,
+          loading: false
         }
+
       };
 
     }
@@ -54,12 +53,10 @@ export function reducer(
       console.log('fromSingleFeeAccountActions payload', JSON.stringify(payload));
       return {
         ...state,
-        ...{
-          transactions: {
-            data: action.payload,
-            loaded: true,
-            loading: false
-          }
+        transactions: {
+          data: action.payload,
+          loaded: true,
+          loading: false
         }
       };
 

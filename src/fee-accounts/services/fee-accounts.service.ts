@@ -1,4 +1,4 @@
-///<reference path="../store/effects/singleFeeAccount.mock.ts"/>
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -14,8 +14,6 @@ export class FeeAccountsService {
   }
 
   fetchFeeAccounts(): Observable<Array<PbaAccounts>> {
-    // return of(feeAccountsDummy);
-    // const tempId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
     return this.http.get<Array<PbaAccounts>> (`/api/accounts/account/pbas/`);
   }
 
@@ -24,21 +22,21 @@ export class FeeAccountsService {
   }
 
   fetchPbAAccountTransactions(payload): Observable<any> {
-    return this.http.get(`/api/accounts/account/${payload.id}/transactions`)
-    // TODO Check the map once this endpoint works.
-    // return of(PaymentsMock.payments.map((item: Payment) => {
-    //   return {
-    //     paymentReference: item.payment_reference,
-    //     case: item.case_reference,
-    //     reference: 'NO DATA to MAP',
-    //     submittedBy: 'NO DATA to MAP',
-    //     status: 'NO DATA to MAP',
-    //     dateCreated: item.date_created,
-    //     amount: item.amount,
-    //     dateUpdated: item.date_updated,
-    //     routerLink: `account/${item.account_number}/summary`
-    //   };
-    // }));
+    return this.http.get(`/api/accounts/account/${payload.id}/transactions`).pipe(
+      map((item: Payment) => {
+        return {
+              paymentReference: item.payment_reference,
+              case: item.case_reference,
+              reference: 'NO DATA to MAP',
+              submittedBy: 'NO DATA to MAP',
+              status: 'NO DATA to MAP',
+              dateCreated: item.date_created,
+              amount: item.amount,
+              dateUpdated: item.date_updated,
+              routerLink: `account/${item.account_number}/summary`
+         };
+      })
+    )
   }
 
 }

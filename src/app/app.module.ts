@@ -24,14 +24,8 @@ import * as fromComponents from './components';
 import { ROUTES } from './app.routes';
 
 import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
-<<<<<<< HEAD
-import { AuthService } from '../auth/services/auth.service';
-import { AuthGuard } from '../auth/guards/auth.guard';
-import { OrganisationGuard } from 'src/auth/guards/organisation.guard';
-=======
 import { AuthModule } from '../auth/auth.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
->>>>>>> master
 
 import config from '../../api/lib/config';
 

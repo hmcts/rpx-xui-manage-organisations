@@ -1,5 +1,6 @@
 // load login form
 import { Action } from '@ngrx/store';
+import {UserListApiModel} from '../../models/userform.model';
 
 export const LOAD_USERS = '[User] Load Users';
 export const LOAD_USERS_SUCCESS = '[User] Load Users Success';
@@ -29,7 +30,7 @@ export const INVITE_USER_FAIL = '[User] Invite Users Fail';
 
 export class InviteUser {
   readonly type = INVITE_USER;
-  constructor(public payload: any) {}
+  constructor(public payload: UserListApiModel) {}
 }
 
 export class InviteUserSuccess implements Action {

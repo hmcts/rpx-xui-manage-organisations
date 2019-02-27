@@ -30,9 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [...fromServices.services]
 })
 
-/**
- * Entry point to RegisterModule
- */
+
 
 export class OrganisationModule {
 

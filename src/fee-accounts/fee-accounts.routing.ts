@@ -1,35 +1,39 @@
 // routes
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {FeeAccountsComponent, SingleFeeAccountComponent} from './containers';
 import {AuthGuard} from '../auth/guards/auth.guard';
-
-// TODO how can we improve this?
+import {AccountOverviewComponent} from './containers/account-overview/account-overview.component';
+import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
+import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';
+import {AccountsOverviewComponent} from './containers/overview/account-overview.component';
+// import {PbaSummaryGuard} from './guards/pba-summary.guards';
 
 export const ROUTES: Routes = [
+  {
+    path: 'fee-accounts',
+    redirectTo: 'fee-accounts/overview',
+    pathMatch: 'full',
+  },
   {
     path: 'fee-accounts',
     canActivate: [AuthGuard],
     children: [
       {
-        path: '',
-        component: FeeAccountsComponent
-      },
-      {
-        path: 'account',
-        component: FeeAccountsComponent
+        path: 'overview',
+        component: AccountsOverviewComponent
       },
       {
         path: 'account/:id',
-        component: SingleFeeAccountComponent,
+        component: AccountOverviewComponent,
         children: [
           {
             path: 'summary',
-            component: SingleFeeAccountComponent
+            component: AccountSummaryComponent,
+            // canActivate: [PbaSummaryGuard]
           },
           {
             path: 'transactions',
-            component: SingleFeeAccountComponent
+            component: AccountTransactionsComponent
           }
 
         ]

@@ -18,6 +18,11 @@ export function requestInterceptor(request) {
     //add timings to requests
     request.metadata = { startTime: new Date() }
 
+    logger.info('Auth')
+    logger.info(JSON.stringify(request.headers.common.Authorization))
+    logger.info('---------------------')
+    logger.info('header FULL')
+    logger.info(JSON.stringify(request.headers.common.ServiceAuthorization))
     return request
 }
 

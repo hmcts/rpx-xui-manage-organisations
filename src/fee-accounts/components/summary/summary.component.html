@@ -1,0 +1,27 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <dl class="govuk-check-your-answers govuk-check-your-answers--pba-overview">
+            <div class="govuk-check-your-answers__contents">
+                <dt class="govuk-check-your-answers__question">
+                    Available credit
+                </dt>
+                <dd class="govuk-check-your-answers__answer" *ngIf="data?.credit_limit">
+                  &pound; {{data.credit_limit}}
+                </dd>
+                <dd class="govuk-check-your-answers__change">
+
+                </dd>
+            </div>
+            <div class="govuk-check-your-answers__contents">
+                <dt class="govuk-check-your-answers__question">
+                    Balance
+                </dt>
+                <dd class="govuk-check-your-answers__answer" *ngIf="data?.available_balance">
+                   &pound; {{data.available_balance}}
+                </dd>
+                <dd class="govuk-check-your-answers__change">
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>

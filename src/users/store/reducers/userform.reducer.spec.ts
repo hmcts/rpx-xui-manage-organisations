@@ -37,7 +37,7 @@ describe('UserformReducer', () => {
       const state = fromUserform.reducer(initialState, action);
 
       expect(state.loaded).toEqual(false);
-      expect(state.userform).toEqual(mockUser);
+      expect(state.userList).toEqual(mockUser);
     });
   });
 
@@ -74,7 +74,7 @@ describe('UserformReducer', () => {
 
       expect(state.loaded).toEqual(true);
       expect(state.loading).toEqual(false);
-      expect(state.userform).toEqual(mockUser);
+      expect(state.userList).toEqual(mockUser);
     });
   });
 

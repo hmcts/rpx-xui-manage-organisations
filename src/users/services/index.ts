@@ -1,7 +1,7 @@
 import { UsersService } from './users.service';
-import { UserformService } from './userform.service';
+import { InviteUserService } from './invite-user.service';
 
-export const services: any[] = [UsersService, UserformService];
+export const services: any[] = [UsersService, InviteUserService];
 
 export * from './users.service';
-export * from './userform.service';
+export * from './invite-user.service';

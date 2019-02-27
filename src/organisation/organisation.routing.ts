@@ -7,7 +7,7 @@ import { OrganisationGuard } from 'src/auth/guards/organisation.guard';
 
 export const ROUTES: Routes = [
   {
-    path: 'organisation',
+    path: '',
     component: OrganisationComponent,
     canActivate: [AuthGuard, OrganisationGuard]
   }

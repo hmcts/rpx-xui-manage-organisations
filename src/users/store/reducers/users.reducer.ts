@@ -20,7 +20,7 @@ export function reducer(
   switch (action.type) {
 
     case fromUsers.LOAD_USERS: {
-      const users = []
+      const users = [];
       return {
         ...state,
         users,
@@ -30,7 +30,6 @@ export function reducer(
 
     case fromUsers.LOAD_USERS_SUCCESS: {
       const users = action.payload;
-      console.log('@@@@@@@@@@@', users)
       return {
         ...state,
         users,

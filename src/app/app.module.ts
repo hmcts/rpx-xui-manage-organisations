@@ -1,13 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './containers/app/app.component';
-import { UsersModule } from '../users/users.module';
-import { OrganisationModule } from '../organisation/organisation.module';
 import { SharedModule } from '../shared/shared.module';
-
 import { CookieModule } from 'ngx-cookie';
 
 // ngrx
@@ -25,16 +21,19 @@ import * as fromContainers from './containers/';
 // from Components
 import * as fromComponents from './components';
 
-import config from '../../api/lib/config';
-import { OrganisationComponent } from 'src/organisation/containers';
-import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 import { ROUTES } from './app.routes';
 
 import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
+<<<<<<< HEAD
 import { AuthService } from '../auth/services/auth.service';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { OrganisationGuard } from 'src/auth/guards/organisation.guard';
+=======
+import { AuthModule } from '../auth/auth.module';
+import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
+>>>>>>> master
 
+import config from '../../api/lib/config';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -53,9 +52,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
-    UsersModule,
-    OrganisationModule,
     SharedModule,
+    AuthModule,
     GovUiModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
@@ -64,9 +62,6 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     FeeAccountsModule
   ],
   providers: [
-    AuthService,
-    AuthGuard,
-    OrganisationGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer }],
   bootstrap: [AppComponent]
 })

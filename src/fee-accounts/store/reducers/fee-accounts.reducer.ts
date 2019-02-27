@@ -1,10 +1,8 @@
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
-import {SingleAccontSummary, SingleAccontSummaryRemapped} from '../../models/single-account-summary';
-import {map} from '../../../../node_modules/rxjs/operators';
 import {PbaAccounts, PbaAccountsSummary} from '../../models/pba-accounts';
 
 export interface FeeAccountsState {
-  feeAccounts: Array<SingleAccontSummary> | null;
+  feeAccounts: Array<PbaAccountsSummary> | null;
   loaded: boolean;
   loading: boolean;
 }

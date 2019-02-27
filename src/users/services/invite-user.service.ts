@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
-
+import { Observable } from 'rxjs';
+import {UserListApiModel} from '../models/userform.model';
 
 const dummy = {
   firstname: 'John',
@@ -11,15 +11,12 @@ const dummy = {
   permission: ['permission1', 'permission2']
 };
 
-
-
 @Injectable()
-export class UserformService {
+export class InviteUserService {
   constructor(private http: HttpClient) { }
-
-  saveUser(data): Observable<any> {
-    return of(dummy);
-
+  // TODO add type when server returns someting.
+  inviteUser(data): Observable<any> {
+    return this.http.post<UserListApiModel>('api/inviteUser', data);
   }
 
 

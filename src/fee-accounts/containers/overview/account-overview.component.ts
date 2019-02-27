@@ -3,15 +3,16 @@ import { Store, select } from '@ngrx/store';
 import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import {Observable} from 'rxjs';
-import {SingleAccontSummaryRemapped} from '../../models/single-account-summary';
+import {PbaAccountsSummary} from '../../models/pba-accounts';
 @Component({
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './account-overview.component.html',
 })
+
 export class AccountsOverviewComponent implements OnInit{
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
-  accounts$: Observable<Array<SingleAccontSummaryRemapped>>;
+  accounts$: Observable<Array<PbaAccountsSummary>>;
   loading$: Observable<boolean>;
 
   constructor(private store: Store<fromFeeAccountsStore.FeeAccountsState>) {}

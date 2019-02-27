@@ -1,15 +1,32 @@
 import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
+import {SingleAccontSummary} from '../../models/single-account-summary';
+
+
 
 export interface SingleFeeAccountState {
-  singleFeeAccount: any[];
-  loaded: boolean;
-  loading: boolean;
+  overview: {
+    data: {}  | SingleAccontSummary;
+    loaded: boolean;
+    loading: boolean;
+  };
+  transactions: {
+    data: {}  | SingleAccontSummary;
+    loaded: boolean;
+    loading: boolean;
+  }
 }
 
 export const initialState: SingleFeeAccountState = {
-  singleFeeAccount: [],
-  loaded: false,
-  loading: false,
+ overview: {
+   data: {},
+   loaded: false,
+   loading: false,
+ },
+  transactions: {
+    data: {},
+    loaded: false,
+    loading: false,
+  }
 };
 
 export function reducer(
@@ -18,16 +35,30 @@ export function reducer(
 ): SingleFeeAccountState {
   switch (action.type) {
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_SUCCESS: {
-      const singleFeeAccount = action.payload;
-
+      const payload = action.payload;
       return {
         ...state,
-        singleFeeAccount,
-        loaded: true
+        overview: {
+          data: action.payload,
+          loaded: true,
+          loading: false
+        }
+
       };
 
     }
+    case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_SUCCESS: {
+      const payload = action.payload;
+      return {
+        ...state,
+        transactions: {
+          data: action.payload,
+          loaded: true,
+          loading: false
+        }
+      };
 
+    }
     case fromSingleFeeAccountActions.RESET_SINGLE_FEE_ACCOUNT: {
       return initialState;
     }
@@ -37,6 +68,10 @@ export function reducer(
   return state;
 }
 
-export const getSingleFeeAccount = (state: SingleFeeAccountState) => state.singleFeeAccount;
-export const getSingleFeeAccountLoading = (state: SingleFeeAccountState) => state.loading;
-export const getSingleFeeAccountLoaded = (state: SingleFeeAccountState) => state.loaded;
+export const getSingleFeeAccountOverview = (state: SingleFeeAccountState) => state.overview.data;
+export const getSingleFeeAccountOverviewLoading = (state: SingleFeeAccountState) => state.overview.loading;
+export const getSingleFeeAccountOverviewLoaded = (state: SingleFeeAccountState) => state.overview.loaded;
+
+export const getSingleFeeAccountTransactions = (state: SingleFeeAccountState) => state.transactions.data;
+export const getSingleFeeAccountTransactionsLoading = (state: SingleFeeAccountState) => state.transactions.loading;
+export const getSingleFeeAccountTransactionsLoaded = (state: SingleFeeAccountState) => state.transactions.loaded;

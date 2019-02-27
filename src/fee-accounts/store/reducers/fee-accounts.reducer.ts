@@ -1,13 +1,14 @@
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
+import {PbaAccounts, PbaAccountsSummary} from '../../models/pba-accounts';
 
 export interface FeeAccountsState {
-  feeAccounts: any[];
+  feeAccounts: Array<PbaAccountsSummary> | null;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: FeeAccountsState = {
-  feeAccounts: [],
+  feeAccounts: null,
   loaded: false,
   loading: false,
 };
@@ -17,15 +18,34 @@ export function reducer(
   action: fromFeeAccountActions.FeeAccountsActions
 ): FeeAccountsState {
   switch (action.type) {
+
+    case fromFeeAccountActions.LOAD_FEE_ACCOUNTS: {
+      return {
+        ...state,
+        loaded: false,
+        loading: true
+      };
+    }
     case fromFeeAccountActions.LOAD_FEE_ACCOUNTS_SUCCESS: {
-      const feeAccounts = action.payload;
+
+      const payload = action.payload;
+      let feeAccounts = payload;
+      if (feeAccounts.length !== 0) {
+        feeAccounts = payload.map((entity: PbaAccounts) => {
+            const element: PbaAccountsSummary = {
+              ...entity,
+              routerLink: `/fee-accounts/account/${entity.pbaNumber}/summary`
+            };
+            return element;
+          });
+      }
 
       return {
         ...state,
-        feeAccounts,
-        loaded: true
+          feeAccounts: feeAccounts,
+          loaded: true,
+          loading: false
       };
-
     }
 
   }

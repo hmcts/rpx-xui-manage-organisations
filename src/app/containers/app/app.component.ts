@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountArray));
+    // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
     this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
       if (rootState) {
         const replacedTitles = this.replacedTitles(rootState.state.url);
@@ -46,8 +46,8 @@ export class AppComponent implements OnInit {
     if (url.indexOf('login') !== -1) {
       return 'login';
     }
-    if (url.indexOf('userform') !== -1) {
-      return 'userform';
+    if (url.indexOf('userList') !== -1) {
+      return 'userList';
     }
 
     return '/';

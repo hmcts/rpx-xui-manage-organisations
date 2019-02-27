@@ -12,6 +12,14 @@ export const ROUTES: Routes = [
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {
+    path: 'users',
+    loadChildren: '../users/users.module#UsersModule'
+  },
+  {
+    path: 'profile',
+    loadChildren: '../auth/auth.module#AuthModule'
+  },
+  {
     path: '**',
     redirectTo: '/organisation',
     pathMatch: 'full'

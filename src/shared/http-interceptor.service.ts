@@ -5,18 +5,15 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse
+  HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { HeadersService } from './headers.service';
-import { PLATFORM_ID, Inject, Injector } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID, Inject } from '@angular/core';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/observable/fromPromise';
 
-import { CookieService } from 'ngx-cookie';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +22,7 @@ export class HttpIntercepterServer implements HttpInterceptor  {
 
   constructor(public router: Router,
               private authService: HeadersService, @Inject(PLATFORM_ID)
-              private platformId: string,
-              private cookieService: CookieService) {
+              private platformId: string) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

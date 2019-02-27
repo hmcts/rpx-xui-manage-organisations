@@ -1,11 +1,9 @@
-import { FeeAccountsComponent } from './fee-accounts/fee-accounts.component';
-import { SingleFeeAccountComponent } from './single-fee-account/single-fee-account.component';
-import { TransactionsComponent } from './single-fee-account/transactions/transactions.component';
-import { SummaryComponent } from './single-fee-account/summary/summary.component';
+import { AccountsOverviewComponent } from './overview/account-overview.component';
+import { TransactionsComponent } from '../components/transactions/transactions.component';
+import { SummaryComponent } from '../components/summary/summary.component';
 
-export const containers: any[] = [FeeAccountsComponent, SingleFeeAccountComponent, TransactionsComponent, SummaryComponent];
+export const containers: any[] = [AccountsOverviewComponent, TransactionsComponent, SummaryComponent];
 
-export * from './fee-accounts/fee-accounts.component';
-export * from './single-fee-account/single-fee-account.component';
-export * from './single-fee-account/transactions/transactions.component';
-export * from './single-fee-account/summary/summary.component';
+export * from './overview/account-overview.component';
+export * from '../components/transactions/transactions.component';
+export * from '../components/summary/summary.component';

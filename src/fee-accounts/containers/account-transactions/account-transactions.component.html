@@ -1,0 +1,18 @@
+<main id="content" role="main" class="govuk-main-wrapper">
+  <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
+  <div class="hmcts-page-heading">
+    <div class="hmcts-page-heading__title-wrapper">
+      <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
+        Transactions
+      </h1>
+    </div>
+    <div class="hmcts-page-heading__actions-wrapper"></div>
+  </div>
+  <app-govuk-table
+    *ngIf="!(loading$ | async) else loading"
+    [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
+  ></app-govuk-table>
+  <ng-template #loading>
+    <div>Loading...</div>
+  </ng-template>
+</main>

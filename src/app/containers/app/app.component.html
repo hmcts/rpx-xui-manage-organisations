@@ -1,12 +1,9 @@
 <title>{{title}}</title>
 
 <app-header></app-header>
-<app-hmcts-identity-bar [content]="identityBar$ | async"></app-hmcts-identity-bar>
-<div class="jui-width-container">
-  <main id="content" role="main" class="govuk-main-wrapper">
+<!--<app-hmcts-identity-bar [content]="identityBar$ | async"></app-hmcts-identity-bar>-->
+<div class="hmcts-width-container">
     <router-outlet></router-outlet>
-
-  </main>
 </div>
 <app-footer></app-footer>
 

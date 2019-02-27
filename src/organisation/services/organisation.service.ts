@@ -19,27 +19,43 @@ export class OrganisationService {
   orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
 
 
+  mockOrgData = {
+    name: 'WP',
+    houseNoBuildingName: 'Test house',
+    addressLine1: '10 Oxford St',
+    addressLine2: '',
+    townCity: 'London',
+    postcode: 'W1',
+    country: 'UK'
+  }
+
 
   fetchOrganisation(): Observable<any> {
-    return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`)
-      .pipe(
-        map(data => {
-          // do transformations 
-          let addressObj = JSON.parse(data.addresses[0].address)
-          let newOrgData =
-          {
-            name: data.name,
-            houseNoBuildingName: addressObj.houseNoBuildingName,
-            addressLine1: addressObj.addressLine1,
-            addressLine2: addressObj.addressLine2,
-            townCity: addressObj.townCity,
-            postcode: addressObj.postcode,
-            country: addressObj.country
-          }
-          return newOrgData
-        }),
-        catchError(this.handleError)
-      );
+
+    // ** TO DO ** when TABBY fixes ENDPOINT
+
+    // return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`)
+    //   .pipe(
+    //     map(data => {
+    //       // do transformations 
+
+    //       let addressObj = JSON.parse(data.addresses[0].address)
+    //       let newOrgData =
+    //       {
+    //         name: data.name,
+    //         houseNoBuildingName: addressObj.houseNoBuildingName || 'a',
+    //         addressLine1: addressObj.addressLine1 || 'a',
+    //         addressLine2: addressObj.addressLine2 || 'a',
+    //         townCity: addressObj.townCity || 'a',
+    //         postcode: addressObj.postcode || 'a',
+    //         country: addressObj.country || 'a'
+    //       }
+    //       return newOrgData
+    //     }),
+    //     catchError(this.handleError)
+    //   );
+
+    return of(this.mockOrgData)
   }
 
 

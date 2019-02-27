@@ -11,14 +11,3 @@ export const selectFeatureFee = createFeatureSelector<fromFeature.FeeAccountsSta
 export const getFeeAccountsState = createSelector( selectFeatureFee, (state: any) => state.feeAccounts);
 export const getFeeAccountsRaw = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccounts);
 export const getFeeAccountsLoading = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoading);
-
-// `/fee-accounts/account/${entity.account_numbers}/summary`
-
-// feeAccountsData.forEach( (element: any) => {
-//   element = {
-//     ...element,
-//     routerLink: `/fee-accounts/account/${element.pbaNumber}/summary`
-//   };
-//   mappedData.push(element);
-// });
-

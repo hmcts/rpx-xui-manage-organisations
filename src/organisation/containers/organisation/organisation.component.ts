@@ -15,7 +15,7 @@ import { Organisation } from 'src/organisation/organisation.model';
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
-  orgData: Organisation;
+  orgData: string[];
   organisationSubscription: Subscription;
 
   constructor(
@@ -23,13 +23,13 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   ) { }
 
 
-
   ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadOrganisation());
-    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(data => {
-      this.orgData = data;
+    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSelArr)).subscribe(data => {
+      this.orgData = data
     });
+
   }
+
 
   ngOnDestroy() {
     this.organisationSubscription.unsubscribe();

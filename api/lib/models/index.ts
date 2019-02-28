@@ -13,7 +13,11 @@ export interface EnhancedRequest extends express.Request {
         userId: string
         expires: number
     }
-    session?
+    session?: {
+      auth?: {
+        orgId: string
+      }
+    }
 }
 
 export interface Token {

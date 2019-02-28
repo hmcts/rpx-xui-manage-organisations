@@ -9,7 +9,7 @@ export interface OrganisationState {
 }
 
 export const initialState: OrganisationState = {
-  organisation: null,
+  organisation: new Organisation({}),
   loaded: false,
   loading: false,
 };
@@ -20,7 +20,7 @@ export function reducer(
 ): OrganisationState {
   switch (action.type) {
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
-      const organisation = action.payload;
+      const organisation = new Organisation(action.payload);
       return {
         ...state,
         organisation,

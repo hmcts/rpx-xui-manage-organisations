@@ -14,3 +14,20 @@ export const getOrganisationSel = createSelector(
 );
 
 
+
+export const getOrganisationLoaded = createSelector(
+  getOrganisationState,
+  fromOrganisation.getOrganisationLoaded
+);
+
+
+export const getOrganisationSelArr = createSelector(
+  getOrganisationSel,
+  orgObj => Object.keys(orgObj)
+    .map(item => orgObj[item])
+    .filter(addr => addr != '')
+);
+
+
+
+

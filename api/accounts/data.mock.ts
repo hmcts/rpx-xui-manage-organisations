@@ -1,4 +1,4 @@
-import {Payments} from './interfaces/pba-transactions'
+import {Payments} from '../lib/models/transactions'
 export const PaymentMock: Payments = {
   payments: [
   {

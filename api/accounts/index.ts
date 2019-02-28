@@ -2,10 +2,10 @@ import * as express from 'express'
 import * as log4js from 'log4js'
 import config from '../lib/config'
 import {EnhancedRequest} from '../lib/models'
+import {PaymentAccountDto} from '../lib/models/transactions'
 import {asyncReturnOrError} from '../lib/util'
 import {getAccount, getPayments} from '../services/payment'
 import {getAccountsForOrganisation} from '../services/rdProfessionals'
-import {PaymentAccountDto} from './interfaces/pba-transactions'
 
 const logger = log4js.getLogger('auth')
 logger.level = config.logging

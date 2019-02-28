@@ -1,20 +1,20 @@
-import {Payments} from './pba-transactions'
+import {Payments} from './interfaces/pba-transactions'
 export const PaymentMock: Payments = {
   payments: [
   {
     _links: {
       cancel: {
         href: 'string',
-        method: 'string'
+        method: 'string',
       },
       next_url: {
         href: 'string',
-        method: 'string'
+        method: 'string',
       },
       self: {
         href: 'string',
-        method: 'string'
-      }
+        method: 'string',
+      },
     },
     account_number: 'string',
     amount: 0,
@@ -38,8 +38,8 @@ export const PaymentMock: Payments = {
         reference: 'string',
         remission_reference: 'string',
         version: 'string',
-        volume: 0
-      }
+        volume: 0,
+      },
     ],
     giro_slip_no: 'string',
     id: 'string',
@@ -59,9 +59,9 @@ export const PaymentMock: Payments = {
         error_code: 'string',
         error_message: 'string',
         external_status: 'string',
-        status: 'string'
-      }
-    ]
-  }
-]
+        status: 'string',
+      },
+    ],
+  },
+],
 }

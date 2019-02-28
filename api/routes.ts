@@ -5,7 +5,6 @@ import * as auth from './auth'
 import inviteUser from './inviteUser'
 import organisationRouter from './organisation'
 
-
 const router = express.Router({ mergeParams: true })
 
 router.use('/logout', auth.logout)

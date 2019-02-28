@@ -14,15 +14,15 @@ export class FeeAccountsService {
   }
 
   fetchFeeAccounts(): Observable<Array<PbaAccounts>> {
-    return this.http.get<Array<PbaAccounts>> (`/api/accounts/account/pbas/`);
+    return this.http.get<Array<PbaAccounts>> (`/api/accounts/pbas/`);
   }
   // Overview load
   fetchSingleFeeAccount(payload): Observable<any> {
-    return this.http.get(`/api/accounts/account/${payload.id}`);
+    return this.http.get(`/api/accounts/${payload.id}`);
   }
   // Overview transactions
   fetchPbAAccountTransactions(payload): Observable<any> {
-    return this.http.get(`/api/accounts/account/${payload.id}/transactions`).pipe(
+    return this.http.get(`/api/accounts/${payload.id}/transactions`).pipe(
       map((item: Payment) => {
         return {
               paymentReference: item.payment_reference,
@@ -36,7 +36,7 @@ export class FeeAccountsService {
               routerLink: `account/${item.account_number}/summary`
          };
       })
-    )
+    );
   }
 
 }

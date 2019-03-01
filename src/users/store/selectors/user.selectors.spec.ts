@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { UsersState } from '../reducers/users.reducer';
-import { getGetUserArray, getUserState } from './user.selectors';
+import { getGetUserList, getUserState } from './user.selectors';
 import { reducers } from '../index';
 import { LoadUsersSuccess } from '../actions';
 
@@ -34,10 +34,10 @@ fdescribe('User selectors', () => {
     });
 
 
-    describe('getGetUserArray', () => {
+    describe('getGetUserList', () => {
         it('should return user array objects', () => {
             let result;
-            store.pipe(select(getGetUserArray)).subscribe(value => {
+            store.pipe(select(getGetUserList)).subscribe(value => {
                 result = value;
 
 

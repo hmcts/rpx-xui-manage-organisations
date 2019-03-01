@@ -41,7 +41,8 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactionsLoading));
-    // TODO move to a guard
+
+    // TODO move to a guard - find more elegant solution
     this.activeRoute.parent.params.pipe(
       map(payload => {
         this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: payload.id }));

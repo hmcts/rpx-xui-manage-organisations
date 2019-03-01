@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 
 
 const dummy = [
@@ -29,10 +30,9 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
   getListOfUsers(): Observable<any> {
-    return of(dummy)
-    // return this.http
-    //   .get<any>(`/api/pizzas`)
-    //   .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http
+      .get<any>(`/api/userList`)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
 

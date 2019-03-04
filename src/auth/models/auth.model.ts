@@ -1,4 +1,6 @@
- export interface AuthInterface {
+import {UserModel} from './user.model';
+
+export interface AuthInterface {
     jti: string;
     sub: string;
     iat: number;
@@ -12,6 +14,13 @@
     loa: number;
     default-url: string;
     group: string;
-  }
-
+ }
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: UserModel | null;
+  Loaded: boolean;
+  Loading: boolean;
+  permissions: string;
+  errors: { [id: string]: string };
+}
 

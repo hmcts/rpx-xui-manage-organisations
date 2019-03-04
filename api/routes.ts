@@ -11,7 +11,7 @@ const router = express.Router({ mergeParams: true })
 router.use('/logout', auth.logout)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
-router.use('/user', inviteUser)
-router.use('/inviteUser', userRouter)
+router.use('/user', userRouter)
+router.use('/inviteUser', inviteUser)
 
 export default router

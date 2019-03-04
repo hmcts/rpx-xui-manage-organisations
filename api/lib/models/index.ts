@@ -12,6 +12,7 @@ export interface EnhancedRequest extends express.Request {
         token: string
         userId: string
         expires: number
+        email: string
     }
     session?: {
       auth?: {

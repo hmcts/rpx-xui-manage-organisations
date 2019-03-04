@@ -21,12 +21,13 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         const token = await serviceTokenGenerator()
 
         req.headers.ServiceAuthorization = token.token
-        logger.info(' session.auth.userId',  session.auth.userId)
+        logger.info(' session.auth.userId',  session.auth.email)
+
         const userId = session.auth.userId
         const jwt = session.auth.token
         const roles = session.auth.roles
         const orgId = session.auth.orgId
-
+        const email = session.auth.email
         const jwtData = jwtDecode(jwt)
         const expires = new Date(jwtData.exp).getTime()
         const now = new Date().getTime() / 1000
@@ -44,7 +45,9 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
             req.auth.userId = userId
             req.auth.expires = expires
             req.auth.roles = roles
-            // also use these as axios defaults
+            req.auth.email = email
+
+          // also use these as axios defaults
             logger.info('Using Idam Token in defaults')
             axios.defaults.headers.common.Authorization = `Bearer ${req.auth.token}`
             if (req.headers.ServiceAuthorization) {
@@ -92,6 +95,8 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             const accessToken = response.data.access_token
             const details: any = await getUserDetails(accessToken)
 
+          // logger.info('details are', details.data)
+
             // set browser cookie
             res.cookie(config.cookies.token, accessToken)
 
@@ -99,12 +104,14 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             const orgId = orgIdResponse.data.id
             //
             session.auth = {
+                email: details.data.email,
                 orgId,
                 roles: details.data.roles,
                 token: response.data.access_token,
-                userId: details.data.id,
+                userId: details.data.id
             }
 
+            logger.info('save session', session)
             session.save(() => {
                 res.redirect(config.indexUrl)
             })

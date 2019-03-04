@@ -5,6 +5,7 @@ import * as fromStore from '../../store';
 import { Observable, Subscription } from 'rxjs';
 import { debug } from 'util';
 import { Organisation } from 'src/organisation/organisation.model';
+import {Router} from '@angular/router';
 
 
 
@@ -15,12 +16,14 @@ import { Organisation } from 'src/organisation/organisation.model';
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
-  orgData: string[];
+  orgData: Organisation;
   organisationSubscription: Subscription;
 
   constructor(
+    private router: Router,
     private store: Store<fromStore.OrganisationState>
   ) { }
+
 
 
   ngOnInit(): void {

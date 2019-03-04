@@ -2,23 +2,12 @@ import {UserInterface, UserModel} from '../../models/user.model';
 import { AuthActionTypes, AuthActions } from '../actions/auth.actions';
 import {createFeatureSelector} from '@ngrx/store';
 
-export interface AuthState {
-  // is a user authenticated?
-  isAuthenticated: boolean;
-  // if authenticated, there should be a user object
-  user: UserModel | null;
-  userDetailsLoaded: boolean;
-  userDetailsLoading: boolean;
-  permissions: string;
-  // error messages
-  errors: { [id: string]: string };
-}
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
-  userDetailsLoaded: false,
-  userDetailsLoading: false,
+  Loaded: false,
+  Loading: false,
   permissions: '',
   errors: {
     forgotPass: '',

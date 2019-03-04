@@ -51,6 +51,7 @@ export class AuthService {
     }
 
     decodeJwt(jwt) {
+      console.log('---JWT', jwtDecode(jwt))
         return jwtDecode(jwt);
     }
 

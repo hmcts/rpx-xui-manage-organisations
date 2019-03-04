@@ -18,8 +18,8 @@ export interface AuthInterface {
 export interface AuthState {
   isAuthenticated: boolean;
   user: UserModel | null;
-  Loaded: boolean;
-  Loading: boolean;
+  loaded: boolean;
+  loading: boolean;
   permissions: string;
   errors: { [id: string]: string };
 }

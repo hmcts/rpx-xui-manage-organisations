@@ -1,13 +1,14 @@
 import {UserInterface, UserModel} from '../../models/user.model';
 import { AuthActionTypes, AuthActions } from '../actions/auth.actions';
 import {createFeatureSelector} from '@ngrx/store';
+import {AuthState} from '../../models/auth.model';
 
 
 export const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
-  Loaded: false,
-  Loading: false,
+  loaded: false,
+  loading: false,
   permissions: '',
   errors: {
     forgotPass: '',
@@ -34,8 +35,8 @@ export function reducer (
       return {
         ...state,
         user,
-        userDetailsLoaded: true,
-        userDetailsLoading: false,
+        loaded: true,
+        loading: false,
         errors: null
       };
     }
@@ -49,7 +50,7 @@ export function reducer (
 export const getAuthState = createFeatureSelector<AuthState>('auth');
 export const isAuthenticated = (state: AuthState) =>  state.isAuthenticated;
 export const getUser = (state: AuthState) => state.user;
-export const isUserLoaded = (state: AuthState) => state.userDetailsLoaded;
-export const isUserLoading = (state: AuthState) => state.userDetailsLoading;
+export const isUserLoaded = (state: AuthState) => state.loaded;
+export const isUserLoading = (state: AuthState) => state.loading;
 export const isUserPermission = (state: AuthState) => state.permissions;
 export const getErrorMessage = (state: AuthState) => state.errors;

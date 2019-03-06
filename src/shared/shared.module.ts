@@ -4,9 +4,16 @@ import {HttpIntercepterServer} from './http-interceptor.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HeadersService} from './headers.service';
 import {AuthIntercepterServer} from './auth-interceptor.service';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule( {
-  exports: [GovUiModule],
+  imports: [
+    ReactiveFormsModule,
+  ],
+  exports: [
+    GovUiModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

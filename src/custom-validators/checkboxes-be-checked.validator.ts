@@ -1,6 +1,6 @@
 import { FormGroup, ValidatorFn } from '@angular/forms';
 
-export function requireCheckboxesToBeCheckedValidator(minRequired = 1): ValidatorFn {
+export function checkboxesBeCheckedValidator(minRequired = 1): ValidatorFn {
   return function validate (formGroup: FormGroup) {
     let checked = 0;
 

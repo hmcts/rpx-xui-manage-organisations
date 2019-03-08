@@ -2,7 +2,8 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
-import {requireCheckboxesToBeCheckedValidator} from '../../../custom-validators/require-checkboxes-to-be-checked-validator';
+import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
+import {dateValidator} from '../../../custom-validators/date.validator';
 
 
 
@@ -20,7 +21,8 @@ export class UserFormComponent implements OnInit {
     lastName: boolean,
     emailAddress: boolean;
     emailAddressEmail: boolean,
-    permissions: boolean
+    permissions: boolean,
+    date: boolean
   };
 
 
@@ -35,7 +37,12 @@ export class UserFormComponent implements OnInit {
         manageUsers: new FormControl(''),
         viewDetails: new FormControl(''),
         viewFees: new FormControl('')
-      }, requireCheckboxesToBeCheckedValidator())
+      }, checkboxesBeCheckedValidator()),
+      date: new FormGroup({
+        day: new FormControl('', Validators.pattern('[0-9]*')),
+        month: new FormControl('', Validators.pattern('[0-9]*')),
+        year: new FormControl('')
+      }, dateValidator())
     });
     this.validate();
   }
@@ -58,8 +65,11 @@ export class UserFormComponent implements OnInit {
       lastName: (this.f.lastName.errors && this.f.lastName.errors.required),
       emailAddress: (this.f.emailAddress.errors && this.f.emailAddress.errors.required),
       emailAddressEmail: (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
-      permissions: (this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked)
-    }
+      permissions: (this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked),
+      date: (this.f.date.errors && this.f.date.errors.dateIsInvalid)
+    };
+    console.log(this.f)
+    console.log(this.isInvalid);
   }
 
 

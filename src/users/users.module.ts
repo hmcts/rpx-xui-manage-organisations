@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 // containers
 import * as fromContainers from './containers';
 
+// containers
+import * as fromComponents from './components';
+
 // services
 import * as fromServices from './services';
 import { StoreModule } from '@ngrx/store';
@@ -28,8 +31,8 @@ import { HttpClientModule } from '@angular/common/http';
     EffectsModule.forFeature(effects),
     FormsModule
   ],
-  exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers],
+  exports: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers,  ...fromComponents.components],
   providers: [...fromServices.services]
 })
 

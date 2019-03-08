@@ -5,7 +5,7 @@ import * as fromInviteUser from './invite-user.reducer';
 
 export interface UserState {
   users: fromUsers.UsersState;
-  inviteUser: fromInviteUser.InviteUserState
+  inviteUser: fromInviteUser.InviteUserState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {

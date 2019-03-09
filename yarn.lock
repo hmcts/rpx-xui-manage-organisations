@@ -4506,11 +4506,6 @@ ng-packagr@^3.0.0-rc.2:
     uglify-js "^3.0.7"
     update-notifier "^2.3.0"
 
-ng2-simple-page-scroll@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ng2-simple-page-scroll/-/ng2-simple-page-scroll-2.0.0.tgz#7c86d07512ee084dcf2ab0c375123420af907802"
-  integrity sha1-fIbQdRLuCE3PKrDDdRI0IK+QeAI=
-
 ngrx-store-freeze@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/ngrx-store-freeze/-/ngrx-store-freeze-0.2.4.tgz#146687cdf7e21244eb9003c7e883f2125847076c"

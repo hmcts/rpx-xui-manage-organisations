@@ -1,48 +1,54 @@
+
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
-  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.firstName && isSubmitted)}">
+
+  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.firstName)}">
     <a [id]="isInvalid.firstName"></a>
     <label class="govuk-label govuk-label--m" for="firstname">
       First name(s)
     </label>
     <span id="firstname-hint" class="govuk-hint">
-           Include all middle names.
-        </span>
+      Include all middle names.
+    </span>
+
     <input class="govuk-input" id="firstName" name="firstName" type="text"
-           [ngClass]="{'govuk-input--error': (isInvalid.firstName && isSubmitted)}"
+           [ngClass]="{'govuk-input--error': isInvalid.firstName}"
            aria-describedby="firstname-hint" formControlName="firstName">
+
     <div class="form-control-feedback">
-      <p id="event-name-error"
-         class="govuk-error-message" *ngIf="isSubmitted && isInvalid.firstName">{{isInvalid.firstName}}</p>
+      <p class="govuk-error-message" *ngIf="isInvalid.firstName">{{isInvalid.firstName}}</p>
     </div>
   </div>
-  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.lastName && isSubmitted)}">
+
+  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.lastName)}">
     <label class="govuk-label govuk-label--m" for="lastname">
       Last name
     </label>
     <input class="govuk-input" id="lastName" type="text" formControlName="lastName"
-           [ngClass]="{'govuk-input--error': (isInvalid.lastName && isSubmitted)}">
+           [ngClass]="{'govuk-input--error': isInvalid.lastName}">
     <div class="form-control-feedback" >
-      <p id="event-name-error" class="govuk-error-message"
-         *ngIf="isSubmitted && isInvalid.lastName">{{isInvalid.lastName}}</p>
+      <p  class="govuk-error-message"
+         *ngIf=" isInvalid.lastName">{{isInvalid.lastName}}</p>
     </div>
   </div>
+
   <div class="govuk-form-group"
-       [ngClass]="{'govuk-form-group--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail) && isSubmitted)}">
+       [ngClass]="{'govuk-form-group--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail))}">
     <label class="govuk-label govuk-label--m" for="emailaddress">
       Email address
     </label>
     <input class="govuk-input" id="emailaddress" formControlName="emailAddress" name="emailaddress" type="text"
-           [ngClass]="{'govuk-input--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail) && isSubmitted)}">
+           [ngClass]="{'govuk-input--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail))}">
     <div class="form-control-feedback" >
-      <p id="event-name-error" class="govuk-error-message"
-         *ngIf="isSubmitted && isInvalid.emailAddress">{{isInvalid.emailAddress}}</p>
-      <p id="event-name-error" class="govuk-error-message"
-         *ngIf="isSubmitted && isInvalid.emailAddressEmail" >{{isInvalid.emailAddressEmail}}</p>
+      <p  class="govuk-error-message"
+         *ngIf="isInvalid.emailAddress">{{isInvalid.emailAddress}}</p>
+      <p  class="govuk-error-message"
+         *ngIf="isInvalid.emailAddressEmail" >{{isInvalid.emailAddressEmail}}</p>
     </div>
   </div>
+
   <!--permissions -->
   <div class="govuk-form-group" formGroupName="permissions"
-       [ngClass]="{'govuk-form-group--error': (isInvalid.permissions && isSubmitted)}">
+       [ngClass]="{'govuk-form-group--error': (isInvalid.permissions)}">
     <fieldset class="govuk-fieldset" aria-describedby="permissions-hint">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
         Permissions
@@ -51,8 +57,8 @@
               Choose what the user will be able to do. You can change this later.
            </span>
       <div class="form-control-feedback" >
-        <p id="event-name-error" class="govuk-error-message"
-           *ngIf="isSubmitted && isInvalid.permissions">{{isInvalid.permissions}}</p>
+        <p  class="govuk-error-message"
+           *ngIf="isInvalid.permissions">{{isInvalid.permissions}}</p>
       </div>
       <div class="govuk-checkboxes">
         <div class="govuk-checkboxes__item">

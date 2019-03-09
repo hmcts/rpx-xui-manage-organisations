@@ -15,11 +15,11 @@ import {Observable} from 'rxjs';
 export class UserFormComponent implements OnInit {
 
   constructor(private store: Store<fromStore.UserState>) { }
-  isSubmitted = false;
   inviteUserForm: FormGroup;
+
   formValidationErrors$: Observable<any>;
   formValidationErrorsArray$: Observable<string[]>;
-  //
+
   errorMessages = {
     firstName: 'Enter first name',
     lastName: 'Enter last name',
@@ -29,6 +29,7 @@ export class UserFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserList));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserArray));
 
@@ -42,12 +43,7 @@ export class UserFormComponent implements OnInit {
         manageUsers: new FormControl(''),
         viewDetails: new FormControl(''),
         viewFees: new FormControl('')
-      }, checkboxesBeCheckedValidator()),
-      // date: new FormGroup({
-      //   day: new FormControl('', Validators.pattern('[0-9]*')),
-      //   month: new FormControl('', Validators.pattern('[0-9]*')),
-      //   year: new FormControl('')
-      // }, dateValidator())
+      }, checkboxesBeCheckedValidator())
     });
 
   }
@@ -56,7 +52,6 @@ export class UserFormComponent implements OnInit {
   get f() { return this.inviteUserForm.controls; }
 
   onSubmit() {
-    this.isSubmitted = true;
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       const {value} = this.inviteUserForm;
@@ -65,21 +60,20 @@ export class UserFormComponent implements OnInit {
   }
 
   dispatchValidationAction() {
-    const formValidation = {
+    // set form errors
+    const formValidationData = {
       isInvalid: {
         firstName: (this.f.firstName.errors && this.f.firstName.errors.required),
         lastName: (this.f.lastName.errors && this.f.lastName.errors.required),
         emailAddress: (this.f.emailAddress.errors && this.f.emailAddress.errors.required),
         emailAddressEmail: (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
         permissions: (this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked),
-        // date: (this.f.date.errors && this.f.date.errors.dateIsInvalid)
       },
       errorMessages: this.errorMessages,
       isSubmitted: true
     };
-    this.store.dispatch(new fromStore.UpdateErrorMessages(formValidation))
+    this.store.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
 
-    console.log(this.f)
 
   }
 

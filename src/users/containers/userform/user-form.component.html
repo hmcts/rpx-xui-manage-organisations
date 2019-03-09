@@ -1,14 +1,10 @@
-<app-gov-uk-main-wrapper
-  [backLink]="'/users'"
-  [heading]="'Invite user'"
-  [summaryErrors]="formValidationErrorsArray$ | async">
+<app-gov-uk-main-wrapper [summaryErrors]="formValidationErrorsArray$ | async" [backLink]="'/users'"
+  [heading]="'Invite user'">
 
   <p class="govuk-body">When you send this invitation, the user will receive an email from HM Courts and
      Tribunals Registrations so they can finish setting up their account.</p>
 
-  <app-invite-user-form
-    [isSubmitted]="isSubmitted"
-    [errorMessages]="formValidationErrors$ | async"
+  <app-invite-user-form [errorMessages]="formValidationErrors$ | async"
     [inviteUserForm]="inviteUserForm"
     (submitForm)="onSubmit()"
   ></app-invite-user-form>

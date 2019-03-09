@@ -28,7 +28,7 @@ export class GovUkErrorSummaryComponent implements AfterViewInit, OnChanges {
   constructor (@Inject(DOCUMENT) private document: Document) { }
 
   ngAfterViewInit(): void {
-    this.document.querySelector('#errorSummary').scrollIntoView({behavior: 'smooth'});
+    this.scrollTo('errorSummary');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -38,9 +38,9 @@ export class GovUkErrorSummaryComponent implements AfterViewInit, OnChanges {
   }
 
   scrollTo(selector) {
-    const test = selector.replace(/ /g, '');
-    if (this.document.querySelector(`#${test}`)) {
-      this.document.querySelector(`#${test}`).scrollIntoView({behavior: 'smooth'});
+    const element = selector.replace(/ /g, '');
+    if (this.document.querySelector(`#${element}`)) {
+      this.document.querySelector(`#${element}`).scrollIntoView({behavior: 'smooth'});
     }
   }
 

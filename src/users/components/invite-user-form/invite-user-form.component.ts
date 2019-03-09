@@ -1,5 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {UserFromModel} from '../../models/userFrom.model';
+import {FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -10,8 +11,7 @@ export class InviteUserFormComponent {
 
   @Output() submitForm = new EventEmitter();
 
-  @Input() inviteUserForm;
-  @Input() isSubmitted: boolean;
+  @Input() inviteUserForm: FormGroup;
 
   @Input() set errorMessages(value) {
     this.isInvalid = value || {};

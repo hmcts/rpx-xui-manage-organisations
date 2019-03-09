@@ -14,6 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { effects } from './store/effects';
 import { CustomSerializer, reducers } from './store/';
+import {Ng2SimplePageScrollModule} from 'ng2-simple-page-scroll';
 
 // from Containers
 import * as fromContainers from './containers/';
@@ -51,7 +52,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     StoreDevtoolsModule.instrument({
       logOnly: config.production
     }),
-    FeeAccountsModule
+    FeeAccountsModule,
+    Ng2SimplePageScrollModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer }],

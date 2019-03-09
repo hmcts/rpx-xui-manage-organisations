@@ -9,7 +9,7 @@ import {Component, Input} from '@angular/core';
               <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
                   <li *ngFor="let message of messages">
-                    <a href="#{{message}}}">{{message}}}</a>
+                    <a href="#{{message}}}">{{message}}</a>
                   </li>
                 </ul>
               </div>

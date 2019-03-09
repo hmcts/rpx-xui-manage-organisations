@@ -18,6 +18,7 @@ export class UserFormComponent implements OnInit {
   isSubmitted = false;
   inviteUserForm: FormGroup;
   formValidationErrors$: Observable<any>;
+  formValidationErrorsArray$: Observable<any>;
   errorMessages = {
     firstName: 'Enter first name',
     lastName: 'Enter last name',
@@ -28,7 +29,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserList));
-
+    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserArray));
     this.inviteUserForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
@@ -46,6 +47,7 @@ export class UserFormComponent implements OnInit {
       //   year: new FormControl('')
       // }, dateValidator())
     });
+
   }
 
   // convenience getter for easy access to form fields

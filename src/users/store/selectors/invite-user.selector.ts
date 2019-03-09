@@ -12,3 +12,14 @@ export const getGetInviteUserList = createSelector(
   getInviteUserState,
   fromInviteUsers.getInviteUserErrorMessage
 );
+
+export const getGetInviteUserArray = createSelector(
+  getGetInviteUserList,
+  obj => {
+    return Object.values(obj).filter(key => {
+      if (key) {
+        return key;
+      }
+    });
+  }
+);

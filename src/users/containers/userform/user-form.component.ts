@@ -18,7 +18,13 @@ export class UserFormComponent implements OnInit {
   constructor(private store: Store<fromStore.UserState>) { }
   isSubmitted = false;
   inviteUserForm: FormGroup;
-  formValidationErrors$: Observable<any>
+  formValidationErrors$: Observable<any>;
+  errorMessages = {
+    firstName: 'Enter first name',
+    lastName: 'Enter last name',
+    emailAddress: 'mail must contain at least the @ character',
+    permissions: 'Select at least one option',
+  }
 
   ngOnInit(): void {
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserList));
@@ -63,7 +69,9 @@ export class UserFormComponent implements OnInit {
         emailAddressEmail: (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
         permissions: (this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked),
         // date: (this.f.date.errors && this.f.date.errors.dateIsInvalid)
-      }
+      },
+      errorMessages: this.errorMessages,
+      isSubmitted: true
     };
     this.store.dispatch(new fromStore.UpdateErrorMessages(formValidation))
 

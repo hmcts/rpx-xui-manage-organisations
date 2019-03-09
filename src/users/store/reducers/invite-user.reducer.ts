@@ -3,7 +3,7 @@ import * as fromInviteUsers from '../actions/invite-user.actions';
 
 export interface InviteUserState {
   inviteUserFormData: object;
-  formErrorMessages: object;
+  formErrorMessages: {[id: string]: string};
 }
 
 export const initialState: InviteUserState = {
@@ -17,7 +17,12 @@ export function reducer(
 ): InviteUserState {
   switch (action.type) {
     case fromInviteUsers.UPDATE_ERROR_MESSAGES: {
-      const formErrorMessages = action.payload
+      const formErrorMessagesPayload = action.payload.errorMessages;
+      const formErrorIsInvalid = action.payload.isInvalid;
+      const formErrorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
+        acc[key] = formErrorIsInvalid[key] ? formErrorMessagesPayload[key] : '';
+        return acc;
+        }, {})
       return {
         ...state,
         formErrorMessages

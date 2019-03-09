@@ -19,10 +19,11 @@ export function reducer(
     case fromInviteUsers.UPDATE_ERROR_MESSAGES: {
       const formErrorMessagesPayload = action.payload.errorMessages;
       const formErrorIsInvalid = action.payload.isInvalid;
-      const formErrorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
+      const formErrorMessages = Object.keys(formErrorMessagesPayload).reduce((acc, key) => {
         acc[key] = formErrorIsInvalid[key] ? formErrorMessagesPayload[key] : '';
         return acc;
-        }, {})
+        }, {});
+
       return {
         ...state,
         formErrorMessages

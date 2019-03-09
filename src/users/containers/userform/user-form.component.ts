@@ -4,7 +4,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
-import {dateValidator} from '../../../custom-validators/date.validator';
 import {Observable} from 'rxjs';
 
 
@@ -22,7 +21,8 @@ export class UserFormComponent implements OnInit {
   errorMessages = {
     firstName: 'Enter first name',
     lastName: 'Enter last name',
-    emailAddress: 'mail must contain at least the @ character',
+    emailAddress: 'Enter email address',
+    emailAddressEmail: 'Email must contain at least the @ character',
     permissions: 'Select at least one option',
   }
 

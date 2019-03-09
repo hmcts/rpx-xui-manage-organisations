@@ -6,6 +6,7 @@ import {UserFromModel} from '../models/userFrom.model';
   selector: 'app-invite-user-form',
   template: ` <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
     <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.firstName && isSubmitted)}">
+      <a [name]="isInvalid.firstName"></a>
       <label class="govuk-label govuk-label--m" for="firstname">
         First name(s)
       </label>
@@ -17,7 +18,7 @@ import {UserFromModel} from '../models/userFrom.model';
              aria-describedby="firstname-hint" formControlName="firstName">
       <div class="form-control-feedback">
         <p id="event-name-error"
-           class="govuk-error-message" *ngIf="isSubmitted && isInvalid.firstName">Enter a first name</p>
+           class="govuk-error-message" *ngIf="isSubmitted && isInvalid.firstName">{{isInvalid.firstName}}</p>
       </div>
     </div>
     <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.lastName && isSubmitted)}">
@@ -28,7 +29,7 @@ import {UserFromModel} from '../models/userFrom.model';
              [ngClass]="{'govuk-input--error': (isInvalid.lastName && isSubmitted)}">
       <div class="form-control-feedback" >
         <p id="event-name-error" class="govuk-error-message"
-           *ngIf="isSubmitted && isInvalid.lastName">Enter a last name</p>
+           *ngIf="isSubmitted && isInvalid.lastName">{{isInvalid.lastName}}</p>
       </div>
     </div>
     <div class="govuk-form-group"
@@ -40,9 +41,9 @@ import {UserFromModel} from '../models/userFrom.model';
              [ngClass]="{'govuk-input--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail) && isSubmitted)}">
       <div class="form-control-feedback" >
         <p id="event-name-error" class="govuk-error-message"
-           *ngIf="isSubmitted && isInvalid.emailAddress">Enter an email address</p>
+           *ngIf="isSubmitted && isInvalid.emailAddress">{{isInvalid.emailAddress}}</p>
         <p id="event-name-error" class="govuk-error-message"
-           *ngIf="isSubmitted && isInvalid.emailAddressEmail" >Email must contain at least the @ character</p>
+           *ngIf="isSubmitted && isInvalid.emailAddressEmail" >{{isInvalid.emailAddressEmail}}</p>
       </div>
     </div>
     <!--permissions -->
@@ -57,7 +58,7 @@ import {UserFromModel} from '../models/userFrom.model';
            </span>
         <div class="form-control-feedback" >
           <p id="event-name-error" class="govuk-error-message"
-             *ngIf="isSubmitted && isInvalid.permissions">Select at least one option</p>
+             *ngIf="isSubmitted && isInvalid.permissions">{{isInvalid.permissions}}</p>
         </div>
         <div class="govuk-checkboxes">
           <div class="govuk-checkboxes__item">
@@ -179,7 +180,7 @@ export class InviteUserFormComponent {
   @Input() inviteUserForm;
   @Input() isSubmitted: boolean;
   @Input() set errorMessages(value) {
-    this.isInvalid = value.isInvalid || {};
+    this.isInvalid = value || {};
   }
 
   isInvalid: UserFromModel;

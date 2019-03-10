@@ -21,11 +21,10 @@ export class UserFormComponent implements OnInit {
   formValidationErrorsArray$: Observable<string[]>;
 
   errorMessages = {
-    firstName: 'Enter first name',
-    lastName: 'Enter last name',
-    emailAddress: 'Enter email address',
-    emailAddressEmail: 'Email must contain at least the @ character',
-    permissions: 'Select at least one option',
+    firstName: ['Enter first name'],
+    lastName: ['Enter last name'],
+    emailAddress: ['Enter email address', 'Email must contain at least the @ character'],
+    permissions: ['Select at least one option'],
   }
 
   ngOnInit(): void {
@@ -63,11 +62,13 @@ export class UserFormComponent implements OnInit {
     // set form errors
     const formValidationData = {
       isInvalid: {
-        firstName: (this.f.firstName.errors && this.f.firstName.errors.required),
-        lastName: (this.f.lastName.errors && this.f.lastName.errors.required),
-        emailAddress: (this.f.emailAddress.errors && this.f.emailAddress.errors.required),
-        emailAddressEmail: (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
-        permissions: (this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked),
+        firstName: [(this.f.firstName.errors && this.f.firstName.errors.required)],
+        lastName: [(this.f.lastName.errors && this.f.lastName.errors.required)],
+        emailAddress: [
+          (this.f.emailAddress.errors && this.f.emailAddress.errors.required),
+          (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
+        ],
+        permissions: [(this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked)],
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

@@ -1,37 +1,23 @@
 
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
-  <lib-gov-uk-text-input [errorMessage]="isInvalid.firstName" [group]="inviteUserForm"></lib-gov-uk-text-input>
+  <lib-gov-uk-text-input
+    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName'}"
+    [errorMessage]="isInvalid.firstName"
+    [group]="inviteUserForm">
+  </lib-gov-uk-text-input>
 
-  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.firstName)}">
-    <a [id]="isInvalid.firstName"></a>
-    <label class="govuk-label govuk-label--m" for="firstname">
-      First name(s)
-    </label>
-    <span id="firstname-hint" class="govuk-hint">
-      Include all middle names.
-    </span>
+  <lib-gov-uk-text-input
+    [config]="{label: 'Last name', name: 'lastName'}"
+    [errorMessage]="isInvalid.lastName"
+    [group]="inviteUserForm">
+  </lib-gov-uk-text-input>
 
-    <input class="govuk-input" id="firstName" name="firstName" type="text"
-           [ngClass]="{'govuk-input--error': isInvalid.firstName}"
-           aria-describedby="firstname-hint" formControlName="firstName">
-
-    <div class="form-control-feedback">
-      <p class="govuk-error-message" *ngIf="isInvalid.firstName">{{isInvalid.firstName}}</p>
-    </div>
-  </div>
-
-  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.lastName)}">
-    <label class="govuk-label govuk-label--m" for="lastname">
-      Last name
-    </label>
-    <input class="govuk-input" id="lastName" type="text" formControlName="lastName"
-           [ngClass]="{'govuk-input--error': isInvalid.lastName}">
-    <div class="form-control-feedback" >
-      <p  class="govuk-error-message"
-         *ngIf=" isInvalid.lastName">{{isInvalid.lastName}}</p>
-    </div>
-  </div>
+  <lib-gov-uk-text-input
+    [config]="{label: 'Email address', name: 'emailaddress'}"
+    [errorMessage]="isInvalid.emailAddress"
+    [group]="inviteUserForm">
+  </lib-gov-uk-text-input>
 
   <div class="govuk-form-group"
        [ngClass]="{'govuk-form-group--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail))}">

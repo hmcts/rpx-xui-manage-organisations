@@ -30,7 +30,7 @@ export function reducer(
         }
         acc[key] = formErrorIsInvalid[key] ? arr(key) : '';
         return acc;
-        }, []);
+        }, {});
       return {
         ...state,
         formErrorMessages

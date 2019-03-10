@@ -19,21 +19,6 @@
     [group]="inviteUserForm">
   </lib-gov-uk-text-input>
 
-  <div class="govuk-form-group"
-       [ngClass]="{'govuk-form-group--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail))}">
-    <label class="govuk-label govuk-label--m" for="emailaddress">
-      Email address
-    </label>
-    <input class="govuk-input" id="emailaddress" formControlName="emailAddress" name="emailaddress" type="text"
-           [ngClass]="{'govuk-input--error': ((isInvalid.emailAddress || isInvalid.emailAddressEmail))}">
-    <div class="form-control-feedback" >
-      <p  class="govuk-error-message"
-         *ngIf="isInvalid.emailAddress">{{isInvalid.emailAddress}}</p>
-      <p  class="govuk-error-message"
-         *ngIf="isInvalid.emailAddressEmail" >{{isInvalid.emailAddressEmail}}</p>
-    </div>
-  </div>
-
   <!--permissions -->
   <div class="govuk-form-group" formGroupName="permissions"
        [ngClass]="{'govuk-form-group--error': (isInvalid.permissions)}">

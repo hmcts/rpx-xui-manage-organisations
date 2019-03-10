@@ -19,8 +19,8 @@ import {FormGroup} from '@angular/forms';
            [ngClass]="{'govuk-input--error': errorMessage}" [formControlName]="config.name"
            aria-describedby="firstname-hint">
 
-        <div class="form-control-feedback">
-          <p class="govuk-error-message" *ngIf="errorMessage">{{errorMessage}}</p>
+        <div class="form-control-feedback" *ngFor="let message of errorMessage">
+          <p class="govuk-error-message">{{message}}</p>
         </div>
       </div>
     </ng-container>

@@ -6,21 +6,27 @@ import {GovUkErrorSummaryComponent} from './components/gov-uk-error-summary/gov-
 import {GovukTableComponent} from './components/govuk-table/govuk-table.component';
 import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {GovUkTextInputComponent} from './components/gov-uk-input/gov-uk-text-input.component';
+
 const COMPONENTS = [
   GovukTableComponent,
   HmctsIdentityBarComponent,
   HmctsSubNavigationComponent,
   GovUkMainWrapperComponent,
-  GovUkErrorSummaryComponent
+  GovUkErrorSummaryComponent,
+  GovUkTextInputComponent
 ];
+
 @NgModule({
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     RouterModule
   ],
   declarations: [...COMPONENTS],
   exports: [...COMPONENTS]
 })
+
 export class GovUiModule { }

@@ -1,6 +1,8 @@
 
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
+  <lib-gov-uk-text-input [errorMessage]="isInvalid.firstName" [group]="inviteUserForm"></lib-gov-uk-text-input>
+
   <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': (isInvalid.firstName)}">
     <a [id]="isInvalid.firstName"></a>
     <label class="govuk-label govuk-label--m" for="firstname">

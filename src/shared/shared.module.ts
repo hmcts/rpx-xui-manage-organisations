@@ -9,10 +9,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 @NgModule( {
   imports: [
     ReactiveFormsModule,
+    GovUiModule
   ],
   exports: [
-    GovUiModule,
     ReactiveFormsModule,
+    GovUiModule
   ],
   providers: [
     {

@@ -8,20 +8,19 @@ import {FormGroup} from '@angular/forms';
       <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
         <a [id]="config.name"></a>
 
-        <label *ngIf="config.label" class="govuk-label govuk-label--m" for="firstname">
+        <label *ngIf="config.label" class="govuk-label govuk-label--m" [for]="config.label">
           {{config.label}}
         </label>
-        <span *ngIf="config.hint" id="firstname-hint" class="govuk-hint">
+        <span *ngIf="config.hint" id="{{config.label}}-hint" class="govuk-hint">
           {{config.hint}}
         </span>
-
+        <span class="govuk-error-message" [id]="config.label" *ngFor="let message of errorMessage?.messages">
+           {{message}}
+        </span>
         <input class="govuk-input" id="firstName" [name]="config.name" type="text"
+           [attr.aria-invalid]="errorMessage?.isInvalid"
            [ngClass]="{'govuk-input--error': errorMessage?.isInvalid}" [formControlName]="config.name"
            aria-describedby="firstname-hint">
-
-        <div class="form-control-feedback" *ngFor="let message of errorMessage?.messages">
-          <p class="govuk-error-message" *ngIf="message">{{message}}</p>
-        </div>
       </div>
     </ng-container>
   `

@@ -17,7 +17,6 @@ import {Component, Input} from '@angular/core';
      <main id="content" role="main" class="govuk-main-wrapper">
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-two-thirds">
-            <pre>{{summaryErrors | json}}</pre>
             <lib-gov-uk-error-summary *ngIf="summaryErrors.length" [errorMessages]="summaryErrors"></lib-gov-uk-error-summary>
             <h1 *ngIf="heading" class="govuk-heading-xl">{{heading}}</h1>
             <ng-content></ng-content>

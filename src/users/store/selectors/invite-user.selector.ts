@@ -16,10 +16,11 @@ export const getGetInviteUserErrorMessage = createSelector(
 export const getGetInviteUserArray = createSelector(
   getGetInviteUserErrorMessage,
   obj => {
-    return Object.values(obj).filter(key => {
+    return Object.values(obj).map(key => {
       if (key) {
-        return key;
+        return key.messages.filter((el) => el !== '');
       }
     });
+
   }
 );

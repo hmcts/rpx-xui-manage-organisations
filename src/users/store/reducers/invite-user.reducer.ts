@@ -24,7 +24,7 @@ export function reducer(
 
         const objArr = (k): object[] => {
           return formErrorIsInvalid[k].map((item, i) => {
-              return item ? formErrorMessagesPayload[k][i] : null;
+              return item ? formErrorMessagesPayload[k][i] : '';
           });
         };
 

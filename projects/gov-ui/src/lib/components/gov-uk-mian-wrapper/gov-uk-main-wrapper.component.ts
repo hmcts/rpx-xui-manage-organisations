@@ -1,7 +1,17 @@
 import {Component, Input} from '@angular/core';
 
+/*
+* Main Content wrapper
+* Responsible for:
+ * wrapping content within the gov-uk html elements
+ * displaying back link
+ * displaying title
+ * displaying Error Summary Component
+* @prop back link, heading (title), summaryErrors (array of errors)
+* */
+
 @Component({
-  selector: 'app-gov-uk-main-wrapper',
+  selector: 'lib-gov-uk-main-wrapper',
   template: `
     <a *ngIf="backLink" [routerLink]="backLink" class="govuk-back-link">Back</a>
      <main id="content" role="main" class="govuk-main-wrapper">

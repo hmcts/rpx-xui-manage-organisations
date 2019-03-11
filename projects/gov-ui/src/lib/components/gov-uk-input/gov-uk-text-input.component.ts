@@ -6,7 +6,6 @@ import {FormGroup} from '@angular/forms';
   template: `
     <ng-container [formGroup]="group">
       <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
-        <a [id]="config.name"></a>
 
         <label *ngIf="config.label" class="govuk-label govuk-label--m" [for]="config.label">
           {{config.label}}
@@ -17,17 +16,15 @@ import {FormGroup} from '@angular/forms';
         <span class="govuk-error-message" [id]="config.label" *ngFor="let message of errorMessage?.messages">
            {{message}}
         </span>
-        <input class="govuk-input" id="firstName" [name]="config.name" type="text"
+        <input class="govuk-input" [id]="config.name" [name]="config.name" type="text"
            [attr.aria-invalid]="errorMessage?.isInvalid"
-           [ngClass]="{'govuk-input--error': errorMessage?.isInvalid}" [formControlName]="config.name"
-           aria-describedby="firstname-hint">
+           [formControlName]="config.name" [attr.aria-describedby]="config.name + '-hint'">
       </div>
     </ng-container>
   `
 })
 export class GovUkTextInputComponent {
   constructor () { }
-
   @Input() errorMessage;
   @Input() group: FormGroup;
   @Input() config: { label: string, hint: string; name: string };

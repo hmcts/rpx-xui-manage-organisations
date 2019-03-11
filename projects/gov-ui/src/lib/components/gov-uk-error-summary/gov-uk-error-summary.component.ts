@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-
-
 /*
   Error Summary component
   State Less component
@@ -21,7 +19,7 @@ import {DOCUMENT} from '@angular/common';
               <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
                   <li *ngFor="let message of messages">
-                    <a (click)="scrollTo(message)" [routerLink]="">{{message}}</a>
+                    <a (click)="scrollTo($event, message['id'])" [routerLink]="">{{message['message']}}</a>
                   </li>
                 </ul>
               </div>
@@ -34,24 +32,24 @@ export class GovUkErrorSummaryComponent implements AfterViewInit, OnChanges {
     this.messages = value;
   };
 
-  messages: string[];
+  messages: object[];
 
   constructor (@Inject(DOCUMENT) private document) { }
 
   ngAfterViewInit(): void {
-    this.scrollTo('errorSummary');
+    this.scrollTo(null, 'errorSummary');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.errorMessages) {
-      this.scrollTo('errorSummary');
+      this.scrollTo(null, 'errorSummary');
     }
   }
 
-  scrollTo(selector) {
-    const element = selector.replace(/ /g, '');
-    if (this.document.querySelector(`#${element}`)) {
-      const el = this.document.querySelector(`#${element}`);
+  scrollTo(event = null, selector) {
+    if (event) { event.preventDefault() };
+    if (this.document.querySelector(`#${selector}`)) {
+      const el = this.document.querySelector(`#${selector}`);
       // el.scrollIntoView({behavior: 'smooth'});
       el.focus();
     }

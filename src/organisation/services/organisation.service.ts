@@ -37,7 +37,7 @@ export class OrganisationService {
     // return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`)
     //   .pipe(
     //     map(data => {
-    //       // do transformations 
+    //       // do transformations
 
     //       let addressObj = JSON.parse(data.addresses[0].address)
     //       let newOrgData =

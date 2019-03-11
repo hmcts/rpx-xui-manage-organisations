@@ -21,7 +21,7 @@
 
   <!--permissions -->
   <div class="govuk-form-group" formGroupName="permissions"
-       [ngClass]="{'govuk-form-group--error': (isInvalid.permissions)}">
+       [ngClass]="{'govuk-form-group--error': (isInvalid.permissions?.isInvalid)}">
     <fieldset class="govuk-fieldset" aria-describedby="permissions-hint">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
         Permissions
@@ -31,7 +31,7 @@
            </span>
       <div class="form-control-feedback" >
         <p  class="govuk-error-message"
-           *ngIf="isInvalid.permissions">{{isInvalid.permissions}}</p>
+           *ngIf="isInvalid.permissions">{{isInvalid.permissions?.messages}}</p>
       </div>
       <div class="govuk-checkboxes">
         <div class="govuk-checkboxes__item">

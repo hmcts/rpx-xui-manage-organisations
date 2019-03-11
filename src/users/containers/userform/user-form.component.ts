@@ -12,12 +12,17 @@ import * as fromStore from '../../store';
 export class UserFormComponent implements OnInit {
 
   constructor(private store: Store<fromStore.UserState>) { }
+  displayFormErrors = false;
 
   ngOnInit(): void {}
 
-  onSubmit(value) {
-    this.store.dispatch(new fromStore.InviteUser(value));
-
+  onSubmit(formData) {
+    this.displayFormErrors = !formData.valid;
+    console.log(formData.touched)
+    if (formData.valid) {
+      const {value} = formData;
+      this.store.dispatch(new fromStore.InviteUser(value));
+    }
   }
 
 }

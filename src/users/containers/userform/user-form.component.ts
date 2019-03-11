@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
@@ -6,7 +6,10 @@ import * as fromStore from '../../store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable} from 'rxjs';
 
-
+/*
+* User Form entry mediator component
+* It holds the state
+* */
 
 @Component({
   selector: 'app-prd-user-form-component',

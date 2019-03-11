@@ -9,7 +9,7 @@ import {DOCUMENT} from '@angular/common';
 
 @Component({
   selector: 'lib-gov-uk-error-summary',
-  template: `<div id="errorSummary" *ngIf="messages"
+  template: `<div id="errorSummary"
                   class="govuk-error-summary"
                   aria-labelledby="error-summary-title" role="alert"
                   tabindex="-1" data-module="error-summary">
@@ -19,7 +19,7 @@ import {DOCUMENT} from '@angular/common';
               <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
                   <li *ngFor="let message of messages">
-                    <a (click)="scrollTo($event, message['id'])" [routerLink]="">{{message['message']}}</a>
+                    <a (click)="scrollTo(message['id'])" [routerLink]="" [fragment]="message['id']">{{message['message']}}</a>
                   </li>
                 </ul>
               </div>
@@ -37,17 +37,16 @@ export class GovUkErrorSummaryComponent implements AfterViewInit, OnChanges {
   constructor (@Inject(DOCUMENT) private document) { }
 
   ngAfterViewInit(): void {
-    this.scrollTo(null, 'errorSummary');
+    this.scrollTo('errorSummary');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.errorMessages) {
-      this.scrollTo(null, 'errorSummary');
+      this.scrollTo('errorSummary');
     }
   }
 
-  scrollTo(event = null, selector) {
-    if (event) { event.preventDefault() };
+  scrollTo(selector) {
     if (this.document.querySelector(`#${selector}`)) {
       const el = this.document.querySelector(`#${selector}`);
       // el.scrollIntoView({behavior: 'smooth'});

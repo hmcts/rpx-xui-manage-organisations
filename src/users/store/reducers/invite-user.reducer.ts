@@ -21,16 +21,19 @@ export function reducer(
       const formErrorIsInvalid = action.payload.isInvalid;
 
       const formErrorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
-        const arr = (k) => {
+
+        const objArr = (k): object[] => {
           return formErrorIsInvalid[k].map((item, i) => {
-            if (item) {
-              return formErrorMessagesPayload[k][i];
-            }
+              return item ? formErrorMessagesPayload[k][i] : null;
           });
-        }
-        acc[key] = formErrorIsInvalid[key] ? arr(key) : '';
+        };
+
+        acc[key] = objArr(key)
+
         return acc;
+
         }, {});
+
       return {
         ...state,
         formErrorMessages

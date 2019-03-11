@@ -20,7 +20,7 @@ import {FormGroup} from '@angular/forms';
            aria-describedby="firstname-hint">
 
         <div class="form-control-feedback" *ngFor="let message of errorMessage">
-          <p class="govuk-error-message">{{message}}</p>
+          <p class="govuk-error-message" *ngIf="message">{{message}}</p>
         </div>
       </div>
     </ng-container>

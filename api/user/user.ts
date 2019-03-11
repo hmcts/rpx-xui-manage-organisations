@@ -16,7 +16,7 @@ export class UserModel {
     Object.assign(this, prop)
   }
 }
-export class User {
+export class UserProfileModel {
   id: string;
   emailId: string;
   firstName: string;

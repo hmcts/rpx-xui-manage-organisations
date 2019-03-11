@@ -1,4 +1,6 @@
-export const UserMock = {
+import { UserProfileModel } from './user';
+
+export const UserMock: UserProfileModel = {
   id: 'adsasd',
   emailId: 'adsasd',
   firstName: 'adsasd',

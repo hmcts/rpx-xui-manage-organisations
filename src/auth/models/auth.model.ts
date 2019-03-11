@@ -10,6 +10,7 @@ export interface AuthInterface {
     id: string;
     forename: string;
     surname: string;
+// tslint:disable-next-line:component-selector
     default-service: string;
     loa: number;
     default-url: string;
@@ -23,4 +24,3 @@ export interface AuthState {
   permissions: string;
   errors: { [id: string]: string };
 }
-

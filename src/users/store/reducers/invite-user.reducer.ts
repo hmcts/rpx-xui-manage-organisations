@@ -22,13 +22,18 @@ export function reducer(
 
       const formErrorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
 
-        const objArr = (k): object[] => {
+        const objArr = (k): any[] => {
           return formErrorIsInvalid[k].map((item, i) => {
               return item ? formErrorMessagesPayload[k][i] : '';
           });
         };
 
-        acc[key] = objArr(key)
+        const isInvalid = objArr(key).filter(item => item.length);
+
+        acc[key] = {
+          messages: objArr(key),
+          isInvalid: isInvalid.length
+        }
 
         return acc;
 

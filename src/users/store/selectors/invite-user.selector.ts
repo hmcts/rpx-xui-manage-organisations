@@ -8,13 +8,13 @@ export const getInviteUserState = createSelector(
   (state: fromFeature.UserState) => state.inviteUser
 );
 
-export const getGetInviteUserList = createSelector(
+export const getGetInviteUserErrorMessage = createSelector(
   getInviteUserState,
   fromInviteUsers.getInviteUserErrorMessage
 );
 
 export const getGetInviteUserArray = createSelector(
-  getGetInviteUserList,
+  getGetInviteUserErrorMessage,
   obj => {
     return Object.values(obj).filter(key => {
       if (key) {

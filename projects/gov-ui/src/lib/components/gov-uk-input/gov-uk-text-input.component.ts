@@ -5,7 +5,7 @@ import {FormGroup} from '@angular/forms';
   selector: 'lib-gov-uk-text-input',
   template: `
     <ng-container [formGroup]="group">
-      <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage}">
+      <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
         <a [id]="config.name"></a>
 
         <label *ngIf="config.label" class="govuk-label govuk-label--m" for="firstname">
@@ -16,10 +16,10 @@ import {FormGroup} from '@angular/forms';
         </span>
 
         <input class="govuk-input" id="firstName" [name]="config.name" type="text"
-           [ngClass]="{'govuk-input--error': errorMessage}" [formControlName]="config.name"
+           [ngClass]="{'govuk-input--error': errorMessage?.isInvalid}" [formControlName]="config.name"
            aria-describedby="firstname-hint">
 
-        <div class="form-control-feedback" *ngFor="let message of errorMessage">
+        <div class="form-control-feedback" *ngFor="let message of errorMessage?.messages">
           <p class="govuk-error-message" *ngIf="message">{{message}}</p>
         </div>
       </div>

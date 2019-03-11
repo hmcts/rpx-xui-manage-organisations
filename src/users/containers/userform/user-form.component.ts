@@ -29,7 +29,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserList));
+    this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserArray));
 
     this.inviteUserForm = new FormGroup({

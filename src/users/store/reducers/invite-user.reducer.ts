@@ -2,7 +2,7 @@ import * as fromInviteUsers from '../actions/invite-user.actions';
 
 
 export interface InviteUserState {
-  inviteUserFormData?: object;
+  inviteUserFormData: object;
   formErrorMessages: object;
   isFormValid: boolean;
 }

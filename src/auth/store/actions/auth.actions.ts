@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
-import {UserInterface} from '../../models/user.model';
 import {AuthInterface} from '../../models/auth.model';
 import {HttpErrorResponse} from '@angular/common/http';
+import {UserInterface} from '../../models/user.model';
+
 
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',

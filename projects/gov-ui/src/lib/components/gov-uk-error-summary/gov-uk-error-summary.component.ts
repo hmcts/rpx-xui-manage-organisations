@@ -49,7 +49,7 @@ export class GovUkErrorSummaryComponent implements AfterViewInit, OnChanges {
   scrollTo(selector) {
     if (this.document.querySelector(`#${selector}`)) {
       const el = this.document.querySelector(`#${selector}`);
-      // el.scrollIntoView({behavior: 'smooth'});
+
       el.focus();
     }
   }

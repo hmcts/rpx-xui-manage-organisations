@@ -23,7 +23,6 @@ import * as fromComponents from './components';
 
 import { ROUTES } from './app.routes';
 
-import { GovUiModule } from '../../projects/gov-ui/src/lib/gov-ui.module';
 import { AuthModule } from '../auth/auth.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
@@ -48,7 +47,6 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     EffectsModule.forRoot(effects),
     SharedModule,
     AuthModule,
-    GovUiModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
       logOnly: config.production

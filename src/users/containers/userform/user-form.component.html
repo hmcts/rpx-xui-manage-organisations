@@ -1,104 +1,13 @@
-<app-gov-uk-main-wrapper [backLink]="'/users'" [heading]="'Invite user'">
+<lib-gov-uk-main-wrapper [summaryErrors]="formValidationErrorsArray$ | async"
+                         [backLink]="'/users'"
+                         [title]="'Invite user'">
 
   <p class="govuk-body">When you send this invitation, the user will receive an email from HM Courts and
      Tribunals Registrations so they can finish setting up their account.</p>
-  <form  #f="ngForm" (ngSubmit)="onSubmit(f)">
-     <div class="govuk-form-group">
-       <label class="govuk-label govuk-label--m" for="firstname">
-           First name(s)
-        </label>
-       <span id="firstname-hint" class="govuk-hint">
-           Include all middle names.
-        </span>
-       <input class="govuk-input" id="firstName" name="firstName" required ngModel type="text"
-              aria-describedby="firstname-hint" #firstName="ngModel">
-       <div class="form-control-feedback" *ngIf="firstName.invalid && f.submitted ">
-         <p id="event-name-error" class="govuk-error-message">Enter a first name</p>
-       </div>
-     </div>
-    <div class="govuk-form-group">
-      <label class="govuk-label govuk-label--m" for="lastname">
-           Last name
-        </label>
-      <input class="govuk-input" id="lastName" #lastName="ngModel" required ngModel name="lastname" type="text">
-      <div class="form-control-feedback" *ngIf="lastName.invalid && f.submitted">
-        <p id="event-name-error" class="govuk-error-message">>Enter a last name</p>
-      </div>
-    </div>
-    <div class="govuk-form-group">
-      <label class="govuk-label govuk-label--m" for="emailaddress">
-           Email address
-        </label>
-      <input class="govuk-input" id="emailaddress" #email="ngModel" required email="true" ngModel name="emailaddress" type="text">
-      <div class="form-control-feedback" *ngIf="email.invalid &&  f.submitted">
-        <p id="event-name-error" class="govuk-error-message" *ngIf="email.errors.required">Enter an email address</p>
-        <p id="event-name-error" class="govuk-error-message" *ngIf="email.errors.email">Email must contain at least the @ character</p>
-      </div>
-    </div>
-    <div class="govuk-form-group">
-      <fieldset ngModelGroup="permissions" class="govuk-fieldset" aria-describedby="permissions-hint">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-              Permissions
-           </legend>
-        <span id="permissions-hint" class="govuk-hint">
-              Choose what the user will be able to do. You can change this later.
-           </span>
-        <div class="govuk-checkboxes">
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" ngModel name="create_permissions" type="checkbox"
-            value="cases" aria-describedby="permissions-1-item-hint">
-            <label class="govuk-label govuk-checkboxes__label" for="permissions-1">
-                    Create cases
-                 </label>
-            <span id="permissions-1-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                    Create, progress and view the status of the user's own cases.
-                 </span>
-          </div>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="permissions-2" ngModel name="view_permissions"
-            type="checkbox" value="organisation-view" aria-describedby="permissions-2-item-hint">
-            <label class="govuk-label govuk-checkboxes__label" for="permissions-2">
-                    View organisation's cases
-                 </label>
-            <span id="permissions-2-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                    View the status of all cases created by the organisation's users.
-                 </span>
-          </div>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="permissions-3" ngModel name="manage_permissions"
-            type="checkbox" value="users" aria-describedby="permissions-3-item-hint">
-            <label class="govuk-label govuk-checkboxes__label" for="permissions-3">
-                    Manage users
-                 </label>
-            <span id="permissions-3-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                    View and invite users.
-                 </span>
-          </div>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="permissions-4" ngModel name="view_org_permissions"
-            type="checkbox" value="organisation" aria-describedby="permissions-4-item-hint">
-            <label class="govuk-label govuk-checkboxes__label" for="permissions-4">
-                    View organisation details
-                 </label>
-            <span id="permissions-4-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                    View the organisation's name and address.
-                 </span>
-          </div>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="permissions-5" ngModel name="view_fee_permissions"
-            type="checkbox" value="payment" aria-describedby="permissions-5-item-hint">
-            <label class="govuk-label govuk-checkboxes__label" for="permissions-5">
-                    View fee accounts
-                 </label>
-            <span id="permissions-5-item-hint" class="govuk-hint govuk-checkboxes__hint">
-                    View account balances, available credit and transactions.
-                 </span>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-    <button type="submit" class="govuk-button">
-        Send invitation
-     </button>
-  </form>
-</app-gov-uk-main-wrapper>
+
+  <app-invite-user-form [errorMessages]="formValidationErrors$ | async"
+    [inviteUserForm]="inviteUserForm"
+    (submitForm)="onSubmit()"
+  ></app-invite-user-form>
+
+</lib-gov-uk-main-wrapper>

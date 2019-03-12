@@ -8,9 +8,14 @@ export const getUserState = createSelector(
   (state: fromFeature.UserState) => state.users
 );
 
-export const getGetUserArray = createSelector(
+export const getGetUserList = createSelector(
   getUserState,
   fromUsers.getUsers
+);
+
+export const getGetUserLoading = createSelector(
+  getUserState,
+  fromUsers.getLoginFormLoading
 );
 
 

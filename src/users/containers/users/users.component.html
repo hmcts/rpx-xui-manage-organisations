@@ -11,10 +11,15 @@
         </div>
      </div>
 
+     <app-govuk-table *ngIf="!(isLoading$ | async) else isLoading"
+       [columnConfig]="columnConfig"
+       [rows]="tableUsersData$ | async" [firstCellIsHeader]="false"
+       [caption]="''">
+     </app-govuk-table>
 
-     <app-govuk-table [columnConfig]="columnConfig" [rows]="tableRows" [firstCellIsHeader]="false" [caption]="''"></app-govuk-table>
-
+     <ng-template #isLoading>
+      <div>Loading...</div>
+    </ng-template>
   </main>
 </div>
 
-<!-- <pre>{{tableRows|json}}</pre> -->

@@ -33,13 +33,13 @@ export function reducer(
       return {
         ...state,
         users,
-        loaded: true
+        loaded: true,
+        loading: false
       }
     }
 
 
     case fromUsers.LOAD_USERS_FAIL: {
-      // const users = action.payload;
       return {
         ...state,
         loading: false,

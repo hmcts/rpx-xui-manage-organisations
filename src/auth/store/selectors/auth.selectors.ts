@@ -1,19 +1,25 @@
 import {createSelector} from '@ngrx/store';
 
-import * as fromRoot from '../../../app/store';
-import * as fromFeature from '../reducers';
+import * as fromRoot from '../reducers/';
 
-export const getAuthState = createSelector(
+export const authState = createSelector(
   fromRoot.getAuthState,
-  (state: fromFeature.AuthState) =>  state
+  (state: fromRoot.AuthState) =>  state
 );
 
 export const getIsAuthenticated = createSelector(
-  getAuthState,
-  fromFeature.isAuthenticated
+  authState,
+  fromRoot.isAuthenticated
 );
 
 export const userDetails = createSelector(
-  getAuthState,
-  fromFeature.getUser
+  authState,
+  fromRoot.getUser
 );
+
+export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);
+export const userLoading = createSelector(authState, fromRoot.isUserLoading);
+export const userPermission = createSelector(authState, fromRoot.isUserPermission);
+
+
+

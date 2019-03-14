@@ -1,23 +1,23 @@
 
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
-  <lib-gov-uk-text-input
-    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', isPageHeading: true}"
+  <lib-gov-uk-input
+    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass'}"
     [errorMessage]="isInvalid.firstName"
     [group]="inviteUserForm">
-  </lib-gov-uk-text-input>
+  </lib-gov-uk-input>
 
-  <lib-gov-uk-text-input
+  <lib-gov-uk-input
     [config]="{label: 'Last name', name: 'lastName', id: 'lastName', type: 'text'}"
     [errorMessage]="isInvalid.lastName"
     [group]="inviteUserForm">
-  </lib-gov-uk-text-input>
+  </lib-gov-uk-input>
 
-  <lib-gov-uk-text-input
+  <lib-gov-uk-input
     [config]="{label: 'Email address', name: 'emailAddress', id: 'emailAddress', type: 'email'}"
     [errorMessage]="isInvalid.emailAddress"
     [group]="inviteUserForm">
-  </lib-gov-uk-text-input>
+  </lib-gov-uk-input>
 
   <!--permissions -->
   <div class="govuk-form-group" formGroupName="permissions"

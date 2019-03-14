@@ -8,16 +8,16 @@ import {FormGroup} from '@angular/forms';
 * @prop config - adding configuration
 * */
 @Component({
-  selector: 'lib-gov-uk-text-input',
+  selector: 'lib-gov-uk-input',
   template: `
-    <ng-container [formGroup]="group">
-      <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
+      <div class="govuk-form-group" [formGroup]="group"
+           [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
         <h1 *ngIf="config.isPageHeading">
-          <label *ngIf="config.label" class="govuk-label govuk-label--m" [for]="config.id">
+          <label *ngIf="config.label" [class]="config.classes + ' govuk-label govuk-label--m'" [for]="config.id">
             {{config.label}}
           </label>
         </h1>
-        <label *ngIf="config.label && !config.isPageHeading" class="govuk-label govuk-label--m" [for]="config.id">
+        <label *ngIf="config.label" [class]="config.classes + ' govuk-label govuk-label--m'" [for]="config.id">
           {{config.label}}
         </label>
         <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
@@ -30,14 +30,13 @@ import {FormGroup} from '@angular/forms';
            [attr.aria-invalid]="errorMessage?.isInvalid"
            [formControlName]="config.name" [attr.aria-describedby]='setDescribedBy()'>
       </div>
-    </ng-container>
   `
 })
 export class GovUkInputComponent implements OnChanges{
   constructor () { }
   @Input() errorMessage;
   @Input() group: FormGroup;
-  @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading };
+  @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
   reloadInput = true;
   /**

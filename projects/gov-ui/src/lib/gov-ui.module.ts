@@ -8,7 +8,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {GovUkCheckboxComponent} from './components/gov-uk-checkbox/gov-uk-checkbox.component';
-import {GovUkTextInputComponent} from './components/gov-uk-input/gov-uk-text-input.component';
+import {GovUkInputComponent} from './components/gov-uk-input/gov-uk-input.component';
 
 const COMPONENTS = [
   GovukTableComponent,
@@ -16,7 +16,7 @@ const COMPONENTS = [
   HmctsSubNavigationComponent,
   GovUkMainWrapperComponent,
   GovUkErrorSummaryComponent,
-  GovUkTextInputComponent,
+  GovUkInputComponent,
   GovUkCheckboxComponent
 ];
 

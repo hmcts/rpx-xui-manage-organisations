@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 /*
 * Gov UK Input component
-* Responsible for displaying input / hint and error messages
+* Responsible for displaying input, hint and error messages
 * @prop errorMessages - array of messages
 * @prop group - passing the FormGroup
 * @prop config - adding configuration
@@ -12,8 +12,12 @@ import {FormGroup} from '@angular/forms';
   template: `
     <ng-container [formGroup]="group">
       <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
-
-        <label *ngIf="config.label" class="govuk-label govuk-label--m" [for]="config.id">
+        <h1 *ngIf="config.isPageHeading">
+          <label *ngIf="config.label" class="govuk-label govuk-label--m" [for]="config.id">
+            {{config.label}}
+          </label>
+        </h1>
+        <label *ngIf="config.label && !config.isPageHeading" class="govuk-label govuk-label--m" [for]="config.id">
           {{config.label}}
         </label>
         <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
@@ -33,7 +37,7 @@ export class GovUkInputComponent implements OnChanges{
   constructor () { }
   @Input() errorMessage;
   @Input() group: FormGroup;
-  @Input() config: { label: string, hint: string; name: string; id: string, type: string };
+  @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading };
 
   reloadInput = true;
   /**
@@ -53,7 +57,7 @@ export class GovUkInputComponent implements OnChanges{
       return this.config.hint ? `${this.config.id}-hint` : null;
     }
     if (this.errorMessage && this.errorMessage.messages.length) {
-      return  this.config.hint ? `${this.config.id}-hint-${this.config.id}-error` : `${this.config.id}-error`;
+      return  this.config.hint ? `${this.config.id}-hint ${this.config.id}-error` : `${this.config.id}-error`;
     }
     return null;
   }

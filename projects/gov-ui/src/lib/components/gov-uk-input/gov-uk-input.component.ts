@@ -4,7 +4,7 @@ import {FormGroup} from '@angular/forms';
 * Gov UK Input component
 * Responsible for displaying input, hint and error messages
 * @prop errorMessages - array of messages
-* @prop group - passing the FormGroup
+* @prop focusOn - passing the FormGroup
 * @prop config - adding configuration
 * */
 @Component({

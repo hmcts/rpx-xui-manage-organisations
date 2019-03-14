@@ -34,7 +34,7 @@ export function reducer(
 
         acc[key] = {
           messages: objArr(key),
-          isInvalid: isInvalid.length
+          isInvalid: !!isInvalid.length
         }
 
         return acc;

@@ -10,7 +10,7 @@
 
 .govuk-check-your-answers--short {
   @include mq($from: desktop) {
-    // to make focusOn of q&a line up horizontally (unless there is just one focusOn)
+    // to make group of q&a line up horizontally (unless there is just one group)
     width: 100%;
     // recommended for mostly short questions
     .govuk-check-your-answers__question {
@@ -21,7 +21,7 @@
 
 .govuk-check-your-answers--long {
   @include mq($from: desktop) {
-    // to make focusOn of q&a line up horizontally (unless there is just one focusOn)
+    // to make group of q&a line up horizontally (unless there is just one group)
     width: 100%;
     // recommended for mostly long questions
     .govuk-check-your-answers__question {

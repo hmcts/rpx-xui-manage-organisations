@@ -8,15 +8,13 @@ import { Organisation } from 'src/organisation/organisation.model';
 import {Router} from '@angular/router';
 
 
-
-
 @Component({
   selector: 'app-prd-organisation-component',
   templateUrl: './organisation.component.html',
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
-  orgData: Organisation;
+  orgData: Organisation[];
   organisationSubscription: Subscription;
 
   constructor(
@@ -26,11 +24,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSelArr)).subscribe(( data: Organsisation) => {
+    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSelArr)).subscribe(( data) => {
       this.orgData = data;
     });
   }
-
 
   ngOnDestroy() {
     this.organisationSubscription.unsubscribe();

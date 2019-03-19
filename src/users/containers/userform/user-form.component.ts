@@ -21,7 +21,7 @@ export class UserFormComponent implements OnInit {
   inviteUserForm: FormGroup;
 
   formValidationErrors$: Observable<any>;
-  formValidationErrorsArray$: Observable<object[]>;
+  formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>
 
   errorMessages = {
     firstName: ['Enter first name'],
@@ -33,7 +33,7 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
 
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
-    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserArray));
+    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
     this.inviteUserForm = new FormGroup({
       firstName: new FormControl('', Validators.required),

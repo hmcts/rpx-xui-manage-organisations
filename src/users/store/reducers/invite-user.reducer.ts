@@ -4,11 +4,13 @@ import * as fromInviteUsers from '../actions/invite-user.actions';
 export interface InviteUserState {
   inviteUserFormData: object;
   formErrorMessages: object;
+  isFormValid: boolean;
 }
 
 export const initialState: InviteUserState = {
   inviteUserFormData: {},
-  formErrorMessages: {}
+  formErrorMessages: {},
+  isFormValid: true
 };
 
 export function reducer(
@@ -32,16 +34,19 @@ export function reducer(
 
         acc[key] = {
           messages: objArr(key),
-          isInvalid: isInvalid.length
+          isInvalid: !!isInvalid.length
         }
 
         return acc;
 
         }, {});
+      const isFormValid = !Object.keys(formErrorMessages)
+        .filter(key => formErrorMessages[key].isInvalid).length;
 
       return {
         ...state,
-        formErrorMessages
+        formErrorMessages,
+        isFormValid
       }
     }
 
@@ -52,4 +57,5 @@ export function reducer(
 
 export const getInviteUserData = (state: InviteUserState) => state.inviteUserFormData;
 export const getInviteUserErrorMessage = (state: InviteUserState) => state.formErrorMessages;
+export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
 

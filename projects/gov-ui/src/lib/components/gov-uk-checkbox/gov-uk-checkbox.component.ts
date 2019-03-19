@@ -1,26 +1,38 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-
+/*
+* Gov Uk Checkbox Dumb Component responsible for
+* displaying checkbox input and hint
+*
+* */
 @Component({
   selector: 'lib-gov-checkbox',
   template: `
-    <ng-container [formGroup]="group">
-      <div class="govuk-checkboxes__item">
-        <input class="govuk-checkboxes__input" type="checkbox" [id]="config.group" [name]="config.name" [formControlName]="config.value"
-               value="cases" aria-describedby="permissions-1-item-hint">
-        <label class="govuk-label govuk-checkboxes__label" for="permissions-1">
+      <div class="govuk-checkboxes__item" [formGroup]="group">
+        <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.value+'-item-hint'"
+               [id]="id" [name]="config.name" [formControlName]="config.value">
+        <label class="govuk-label govuk-checkboxes__label" [for]="id">
           {{config.label}}
         </label>
-        <span id="permissions-1-item-hint" class="govuk-hint govuk-checkboxes__hint">
+        <span [id]="config.value+'-hint'" class="govuk-hint govuk-checkboxes__hint">
           {{config.hint}}
         </span>
       </div>
-    </ng-container>
   `
 })
-export class GovUkCheckboxComponent {
+export class GovUkCheckboxComponent implements OnInit{
   constructor () { }
   @Input() group: FormGroup;
-  @Input() config: {value: string, label: string, hint: string; name: string; group: string};
+  @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string};
+
+  id: string;
+/**
+* ngOnInIt
+ * needed to manage the focus id if passed on in config
+ * si it can focus on element when user clicks on error message in the header.
+* */
+  ngOnInit(): void {
+    this.id =  this.config.focusOn ? this.config.focusOn : this.config.value;
+  }
 
 }

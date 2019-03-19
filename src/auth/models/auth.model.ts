@@ -10,17 +10,8 @@ export interface AuthInterface {
     id: string;
     forename: string;
     surname: string;
-// tslint:disable-next-line:component-selector
-    default-service: string;
+    'default-service': string;
     loa: number;
-    default-url: string;
+    'default-url': string;
     group: string;
  }
-export interface AuthState {
-  isAuthenticated: boolean;
-  user: UserModel | null;
-  loaded: boolean;
-  loading: boolean;
-  permissions: string;
-  errors: { [id: string]: string };
-}

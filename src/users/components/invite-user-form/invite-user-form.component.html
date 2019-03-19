@@ -1,76 +1,64 @@
 
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
-  <lib-gov-uk-text-input
-    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text'}"
+  <lib-gov-uk-input
+    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass'}"
     [errorMessage]="isInvalid.firstName"
     [group]="inviteUserForm">
-  </lib-gov-uk-text-input>
+  </lib-gov-uk-input>
 
-  <lib-gov-uk-text-input
+  <lib-gov-uk-input
     [config]="{label: 'Last name', name: 'lastName', id: 'lastName', type: 'text'}"
     [errorMessage]="isInvalid.lastName"
     [group]="inviteUserForm">
-  </lib-gov-uk-text-input>
+  </lib-gov-uk-input>
 
-  <lib-gov-uk-text-input
+  <lib-gov-uk-input
     [config]="{label: 'Email address', name: 'emailAddress', id: 'emailAddress', type: 'email'}"
     [errorMessage]="isInvalid.emailAddress"
     [group]="inviteUserForm">
-  </lib-gov-uk-text-input>
+  </lib-gov-uk-input>
 
   <!--permissions -->
-  <div class="govuk-form-group" formGroupName="permissions"
-       [ngClass]="{'govuk-form-group--error': (isInvalid.permissions?.isInvalid)}">
-    <fieldset class="govuk-fieldset" aria-describedby="permissions-hint">
+  <lib-gov-uk-form-group-wrapper
+    [error]="isInvalid.permissions"
+    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions'}"
+    [formGroupName]="'permissions'">
 
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-        Permissions
-      </legend>
+    <div class="govuk-checkboxes">
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['permissions']"
+        [config]="{value: 'createCases',  label: 'Create cases', name: 'permission', hint: 'Create, progress and view the status of the user\'s own cases', focusOn: 'permissions'}">
+      </lib-gov-checkbox>
 
-      <span id="permissions-hint" class="govuk-hint">
-              Choose what the user will be able to do. You can change this later.
-      </span>
-      <div class="form-control-feedback" >
-        <p  class="govuk-error-message"
-           *ngIf="isInvalid.permissions">{{isInvalid.permissions?.messages}}</p>
-      </div>
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['permissions']"
+        [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'permission',
+        hint: ' View the status of all cases created by the organisation\'s users.'}">
+      </lib-gov-checkbox>
 
-      <div class="govuk-checkboxes">
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['permissions']"
-          [config]="{value: 'createCases',  label: 'Create cases', name: 'permission', hint: 'Create, progress and view the status of the user\'s own cases', group: 'permissions'}">
-        </lib-gov-checkbox>
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['permissions']"
+        [config]="{value: 'manageUsers', label: 'Manage users', name: 'permission',
+        hint: 'View and invite users.'}">
+      </lib-gov-checkbox>
 
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['permissions']"
-          [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'permission',
-          hint: ' View the status of all cases created by the organisation\'s users.'}">
-        </lib-gov-checkbox>
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['permissions']"
+        [config]="{value: 'viewDetails', label: ' View organisation details', name: 'permission',
+        hint: 'View the organisation\'s name and address.'}">
+      </lib-gov-checkbox>
 
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['permissions']"
-          [config]="{value: 'manageUsers', label: 'Manage users', name: 'permission',
-          hint: 'View and invite users.'}">
-        </lib-gov-checkbox>
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['permissions']"
+        [config]="{value: 'viewFees', label: 'View fee accounts', name: 'permission',
+        hint: 'View account balances, available credit and transactions.'}">
+      </lib-gov-checkbox>
+    </div>
 
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['permissions']"
-          [config]="{value: 'viewDetails', label: ' View organisation details', name: 'permission',
-          hint: 'View the organisation\'s name and address.'}">
-        </lib-gov-checkbox>
-
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['permissions']"
-          [config]="{value: 'viewFees', label: 'View fee accounts', name: 'permission',
-          hint: 'View account balances, available credit and transactions.'}">
-        </lib-gov-checkbox>
-      </div>
-    </fieldset>
-  </div>
-
+  </lib-gov-uk-form-group-wrapper>
 
   <button type="submit" class="govuk-button">
     Send invitation
   </button>
-</form>`
+</form>

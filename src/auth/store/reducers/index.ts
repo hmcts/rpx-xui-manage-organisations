@@ -1,8 +1,15 @@
-import {UserInterface, UserModel} from '../../models/user.model';
+import { UserModel} from '../../models/user.model';
 import { AuthActionTypes, AuthActions } from '../actions/auth.actions';
 import {createFeatureSelector} from '@ngrx/store';
-import {AuthState} from '../../models/auth.model';
 
+export interface AuthState {
+  isAuthenticated: boolean;
+  user: UserModel | null;
+  loaded: boolean;
+  loading: boolean;
+  permissions: string;
+  errors: { [id: string]: string };
+}
 
 export const initialState: AuthState = {
   isAuthenticated: false,

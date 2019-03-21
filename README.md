@@ -42,3 +42,11 @@ If you get the following issues, try the resolution underneath.
 
 Issue: Module build failed: Error: ENOENT: no such file or directory, scandir '/Users/philip/Projects/prd-pui-manager/node_modules/node-sass/vendor'
 Resolution: try `npm rebuild node-sass`
+
+
+#Configure
+Please add the S2S_SECRET and IDAM SECRET to you enviorment.
+If you are using MAC please use the following command before you start api
+`export S2S_SECRET=KY4XS6KBPBSVOOSQ; export IDAM_SECRET=***REMOVED***;`
+Please use this command for Windows:
+`SET S2S_SECRET=KY4XS6KBPBSVOOSQ; SET IDAM_SECRET=***REMOVED***;`

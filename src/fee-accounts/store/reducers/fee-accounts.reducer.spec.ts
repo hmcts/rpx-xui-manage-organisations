@@ -14,7 +14,7 @@ describe('FeeAccountsReducer', () => {
     it('should update the state.feeAccounts', () => {
       const action = new LoadFeeAccountsSuccess([{}]);
       const state = reducer(initialState, action);
-      // expect(state.feeAccounts).toEqual([{}]);
+      expect(state.feeAccounts).toEqual([{}]);
     });
   });
 

@@ -1,4 +1,3 @@
-<main id="content" role="main" class="govuk-main-wrapper">
   <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
   <div class="hmcts-page-heading">
     <div class="hmcts-page-heading__title-wrapper">
@@ -6,10 +5,9 @@
         Summary
       </h1>
     </div>
-    <div class="hmcts-page-heading__actions-wrapper">
+    <div class="hmcts-page-heading__actions-wrapper"></div>
+  </div>
 
-      </div>
-    </div>
   <app-prd-summary-component
     *ngIf="!(loading$ | async) else loading"
     [data]="accountSummary$ | async"
@@ -17,4 +15,4 @@
   <ng-template #loading>
     <div>Loading...</div>
   </ng-template>
-</main>
+

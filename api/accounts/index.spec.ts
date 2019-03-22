@@ -46,19 +46,19 @@ describe('account index', () => {
     expect(retValue).to.equal(MockDataForOrganisations)
     sandbox.restore()
   })
-  it('handleAccountPbasRoute should return errors', async () => {
-    const sandbox = sinon.createSandbox()
-    const ErrorMsg = '3rd party service payment api return error - Cannot get accounts for organisation'
-    sandbox.stub(accountIndex, 'accountsForOrganisation').throws(ErrorMsg)
-    const retValue = await accountIndex.accountsForOrganisation(req, res)
-    expect(retValue).to.equal(MockDataForOrganisations)
-
-  })
-  it('handleAccountPbasRoute should return PBS accounts', () => {
-    const sandbox = sinon.createSandbox()
-    sandbox.stub(accountIndex, 'accountsForOrganisation').resolves(MockDataForOrganisations)
-
-  })
+  // it('handleAccountPbasRoute should return errors', async () => {
+  //   const sandbox = sinon.createSandbox()
+  //   const ErrorMsg = '3rd party service payment api return error - Cannot get accounts for organisation'
+  //   sandbox.stub(accountIndex, 'accountsForOrganisation').throws(ErrorMsg)
+  //   const retValue = await accountIndex.accountsForOrganisation(req, res)
+  //   expect(retValue).to.equal(MockDataForOrganisations)
+  //
+  // })
+  // it('handleAccountPbasRoute should return PBS accounts', () => {
+  //   const sandbox = sinon.createSandbox()
+  //   sandbox.stub(accountIndex, 'accountsForOrganisation').resolves(MockDataForOrganisations)
+  //
+  // })
 
 
 })

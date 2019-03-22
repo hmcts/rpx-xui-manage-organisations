@@ -11,7 +11,7 @@ import {FormGroup} from '@angular/forms';
       <div class="govuk-checkboxes__item" [formGroup]="group">
         <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.value+'-item-hint'"
                [id]="id" [name]="config.name" [formControlName]="config.value">
-        <label class="govuk-label govuk-checkboxes__label" [for]="id">
+        <label [class]="'govuk-label govuk-checkboxes__label'" [for]="id">
           {{config.label}}
         </label>
         <span [id]="config.value+'-hint'" class="govuk-hint govuk-checkboxes__hint">

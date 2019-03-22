@@ -6,7 +6,7 @@ import {PaymentAccountDto} from '../lib/models/transactions'
 import {asyncReturnOrError} from '../lib/util'
 import {getAccount, getPayments} from '../services/payment'
 import {getAccountsForOrganisation} from '../services/rdProfessionals'
-
+import { mockReq, mockRes } from 'sinon-express-mock'
 const logger = log4js.getLogger('auth')
 logger.level = config.logging
 export const router = express.Router({mergeParams: true})
@@ -22,7 +22,7 @@ export async function accountsForOrganisation(req: EnhancedRequest, res: express
 
 export async function handleAccountPbasRoute(req: EnhancedRequest, res: express.Response) {
 
-  const accounts: PaymentAccountDto[] = await accountsForOrganisation(req, res)
+  const accounts: PaymentAccountDto[] = await this.accountsForOrganisation(req, res)
 
   if (accounts) {
     res.send(accounts)
@@ -76,8 +76,9 @@ async function handleAccountPbaTransactionsRoute(req: EnhancedRequest, res: expr
     }
   }
 }
-
+// overview
 router.get('/pbas', handleAccountPbasRoute)
+// Single account
 router.get('/:id', handleAccountRoute)
 router.get('/:id/transactions', handleAccountPbaTransactionsRoute)
 

@@ -12,14 +12,9 @@ import {FormGroup} from '@angular/forms';
   template: `
       <div class="govuk-form-group" [formGroup]="group"
            [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
-        <h1 *ngIf="config.isPageHeading">
-          <label *ngIf="config.label" [class]="config.classes + ' govuk-label govuk-label--m'" [for]="config.id">
-            {{config.label}}
-          </label>
-        </h1>
-        <label *ngIf="config.label" [class]="config.classes + ' govuk-label govuk-label--m'" [for]="config.id">
-          {{config.label}}
-        </label>
+
+        <lib-gov-label [config]="config"></lib-gov-label>
+
         <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
           {{config.hint}}
         </span>

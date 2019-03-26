@@ -35,6 +35,7 @@ export async function validatePBANumberForOrganisation(req: EnhancedRequest, res
 
   if (accounts && !accounts.some(account => account.pbaNumber === req.params.id)) {
     res.status(401).send('Unauthorised PBA number for organisation')
+    return false
   }
 
   return !!accounts.length || false

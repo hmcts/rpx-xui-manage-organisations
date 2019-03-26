@@ -5,6 +5,7 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HeadersService} from './headers.service';
 import {AuthIntercepterServer} from './auth-interceptor.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import {RemoveHostDirective} from '../app/directives/remove-host.directive';
 
 @NgModule( {
   imports: [
@@ -13,7 +14,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   ],
   exports: [
     ReactiveFormsModule,
-    GovUiModule
+    GovUiModule,
   ],
   providers: [
     {

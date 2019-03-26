@@ -10,10 +10,8 @@ import {FormGroup} from '@angular/forms';
   template: `
       <div class="govuk-checkboxes__item" [formGroup]="group">
         <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.value+'-item-hint'"
-               [id]="id" [name]="config.name" [formControlName]="config.value">
-        <label [class]="'govuk-label govuk-checkboxes__label'" [for]="id">
-          {{config.label}}
-        </label>
+        [id]="config.id" [name]="config.name" [formControlName]="config.value">
+        <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
         <span [id]="config.value+'-hint'" class="govuk-hint govuk-checkboxes__hint">
           {{config.hint}}
         </span>
@@ -23,7 +21,7 @@ import {FormGroup} from '@angular/forms';
 export class GovUkCheckboxComponent implements OnInit{
   constructor () { }
   @Input() group: FormGroup;
-  @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string};
+  @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string; id: string; classes: string};
 
   id: string;
 /**
@@ -32,7 +30,10 @@ export class GovUkCheckboxComponent implements OnInit{
  * si it can focus on element when user clicks on error message in the header.
 * */
   ngOnInit(): void {
-    this.id =  this.config.focusOn ? this.config.focusOn : this.config.value;
+    const id =  this.config.focusOn ? this.config.focusOn : this.config.value;
+    this.config.id = id;
+    this.config.classes = this.config.classes ?
+      this.config.classes.concat(' govuk-checkboxes__label') : 'govuk-checkboxes__label';
   }
 
 }

@@ -31,18 +31,17 @@ export async function handleAccountPbasRoute(req: EnhancedRequest, res: express.
 }
 
 export async function validatePBANumberForOrganisation(req: EnhancedRequest, res: express.Response): Promise<boolean> {
-  const accounts: PaymentAccountDto[] = await accountsForOrganisation(req, res)
+  const accounts: PaymentAccountDto[] = await this.accountsForOrganisation(req, res)
 
   if (accounts && !accounts.some(account => account.pbaNumber === req.params.id)) {
     res.status(401).send('Unauthorised PBA number for organisation')
-    return false
   }
 
   return !!accounts.length || false
 }
 
-async function handleAccountRoute(req: EnhancedRequest, res: express.Response) {
-  const isValidPBA = await validatePBANumberForOrganisation(req, res)
+export async function handleAccountRoute(req: EnhancedRequest, res: express.Response) {
+  const isValidPBA = await this.validatePBANumberForOrganisation(req, res)
 
   if (isValidPBA) {
 
@@ -59,8 +58,8 @@ async function handleAccountRoute(req: EnhancedRequest, res: express.Response) {
   }
 }
 
-async function handleAccountPbaTransactionsRoute(req: EnhancedRequest, res: express.Response) {
-  const isValidPBA = await validatePBANumberForOrganisation(req, res)
+export async function handleAccountPbaTransactionsRoute(req: EnhancedRequest, res: express.Response) {
+  const isValidPBA = await this.validatePBANumberForOrganisation(req, res)
 
   if (isValidPBA) {
 

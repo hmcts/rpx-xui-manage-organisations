@@ -7,7 +7,6 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 
 chai.use(sinonChai)
 // below this line you  ut imports to do with our code. Above this line are all testing i ports
-import * as log4js from 'log4js'
 
 import * as accountIndex from './index'
 import * as rdProfessionals from '../services/rdProfessionals'
@@ -92,7 +91,6 @@ describe('account index', () => {
     const reqfailuer = mockReq(requestFail)
     sandbox.stub(accountIndex, 'accountsForOrganisation').resolves(MockDataForOrganisations)
     const isValid = await accountIndex.validatePBANumberForOrganisation(reqfailuer, res)
-    // expect(res.send).to.have.been.calledWith(response)
     expect(isValid).to.be.true
     sandbox.restore()
   })

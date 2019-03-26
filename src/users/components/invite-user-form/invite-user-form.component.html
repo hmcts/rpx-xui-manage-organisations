@@ -2,7 +2,7 @@
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
   <lib-gov-uk-input
-    [config]="{label: '<p>First name(s)</p>', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass', isPageHeading: true}"
+    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass', isPageHeading: true}"
     [errorMessage]="isInvalid.firstName"
     [group]="inviteUserForm">
   </lib-gov-uk-input>

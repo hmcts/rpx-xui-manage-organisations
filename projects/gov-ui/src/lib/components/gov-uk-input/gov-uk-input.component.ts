@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 /*
 * Gov UK Input component
@@ -18,18 +18,18 @@ import {FormGroup} from '@angular/forms';
         <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
           {{config.hint}}
         </span>
-        <span class="govuk-error-message" [id]="config.id + '-error'" *ngFor="let message of errorMessage?.messages">
-           {{message}}
-        </span>
+
+        <lib-error-message [config]="config" [errorMessage]="errorMessage"></lib-error-message>
+
         <input class="govuk-input" [id]="config.id" [name]="config.name" [type]="config.type" *ngIf="reloadInput"
            [attr.aria-invalid]="errorMessage?.isInvalid"
            [formControlName]="config.name" [attr.aria-describedby]='setDescribedBy()'>
       </div>
   `
 })
-export class GovUkInputComponent implements OnChanges{
+export class GovUkInputComponent implements OnChanges, OnInit {
   constructor () { }
-  @Input() errorMessage;
+  @Input() errorMessage
   @Input() group: FormGroup;
   @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
@@ -44,6 +44,10 @@ export class GovUkInputComponent implements OnChanges{
       this.reloadInput = false;
       this.reloadInput = true;
     }
+  }
+
+  ngOnInit(): void {
+    this.config.classes = 'govuk-label--m';
   }
 
   setDescribedBy() {

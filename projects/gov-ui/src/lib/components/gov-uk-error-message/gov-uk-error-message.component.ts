@@ -7,9 +7,10 @@ import {Component, Directive, Input} from '@angular/core';
 * */
 @Component({
   selector: 'lib-error-message',
-  template: ` <span class="govuk-error-message" [id]="config.id + '-error'" *ngFor="let message of errorMessage?.messages">
-           {{message}}
-        </span>
+  template: `
+    <span class="govuk-error-message" [id]="config.id + '-error'" *ngFor="let message of errorMessage?.messages">
+      <span class="govuk-visually-hidden">Error:</span>{{message}}
+    </span>
   `
 })
 export class GovUkErrorMessageComponent {

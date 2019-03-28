@@ -13,6 +13,7 @@ import {GovUkFormGroupWrapperComponent} from './components/gov-uk-form-group-wra
 import {GovUkLabelComponent} from './components/gov-uk-label/gov-uk-label.component';
 import {GovUkErrorMessageComponent} from './components/gov-uk-error-message/gov-uk-error-message.component';
 import {RemoveHostDirective} from '../../../../src/app/directives/remove-host.directive';
+import {GovUkFieldsetComponent} from './components/gov-uk-fieldset/gov-uk-fieldset.component';
 
 const COMPONENTS = [
   GovukTableComponent,
@@ -25,7 +26,8 @@ const COMPONENTS = [
   GovUkFormGroupWrapperComponent,
   GovUkLabelComponent,
   GovUkErrorMessageComponent,
-  RemoveHostDirective
+  RemoveHostDirective,
+  GovUkFieldsetComponent
 ];
 
 @NgModule({

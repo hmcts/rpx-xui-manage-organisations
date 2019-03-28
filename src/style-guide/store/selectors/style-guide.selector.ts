@@ -4,23 +4,23 @@ import * as fromFeature from '../../store/reducers';
 import * as fromInviteUsers from '../reducers/style-guide.reducer';
 
 export const getInviteUserState = createSelector(
-  fromFeature.getRootUserState,
-  (state: fromFeature.UserState) => state.inviteUser
+  fromFeature.getRootStyleGuideState,
+  (state: fromFeature.UserState) => state.guide
 );
 
-export const getGetInviteUserErrorMessage = createSelector(
+export const getStyleGuideErrorMessage = createSelector(
   getInviteUserState,
   fromInviteUsers.getInviteUserErrorMessage
 );
 
-export const getGetInviteUserIsFormValid = createSelector(
+export const getStyleGuideIsFormValid = createSelector(
   getInviteUserState,
-  fromInviteUsers.getInviteUserIsFormValid
+  fromInviteUsers.getStyleGuideIsFormValid
 );
 
-export const getGetInviteUserErrorsArray = createSelector(
-  getGetInviteUserErrorMessage,
-  getGetInviteUserIsFormValid,
+export const getGetStyleGuideErrorsArray = createSelector(
+  getStyleGuideErrorMessage,
+  getStyleGuideIsFormValid,
   (obj, isFormValid) => {
     const items =  Object.keys(obj).map(key => {
       if (key) {

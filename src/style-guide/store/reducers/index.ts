@@ -1,6 +1,5 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromUsers from './users.reducer';
 import * as fromStyleGuide from './style-guide.reducer';
 
 export interface UserState {
@@ -11,7 +10,7 @@ export const reducers: ActionReducerMap<UserState> = {
   guide: fromStyleGuide.reducer
 };
 
-export const getRootUserState = createFeatureSelector<UserState>(
+export const getRootStyleGuideState = createFeatureSelector<UserState>(
   'styleGuide'
 );
 

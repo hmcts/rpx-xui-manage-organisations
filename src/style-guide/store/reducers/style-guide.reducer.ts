@@ -57,5 +57,5 @@ export function reducer(
 
 export const getInviteUserData = (state: StyleGuideState) => state.styleGuideFormData;
 export const getInviteUserErrorMessage = (state: StyleGuideState) => state.styleGuideMessages;
-export const getInviteUserIsFormValid = (state: StyleGuideState) => state.isFormValid;
+export const getStyleGuideIsFormValid = (state: StyleGuideState) => state.isFormValid;
 

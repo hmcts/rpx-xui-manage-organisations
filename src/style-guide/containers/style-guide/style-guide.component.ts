@@ -32,8 +32,8 @@ export class StyleGuideComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
-    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
+    this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
+    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
 
     this.inviteUserForm = new FormGroup({
       firstName: new FormControl('', Validators.required),

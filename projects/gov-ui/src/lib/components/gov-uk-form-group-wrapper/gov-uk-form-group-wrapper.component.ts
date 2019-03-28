@@ -8,7 +8,8 @@ import {Component, Input} from '@angular/core';
   selector: 'lib-gov-uk-form-group-wrapper',
   template: `
     <div class="govuk-form-group" [attr.formGroupName]="formGroupName" [ngClass]="{'govuk-form-group--error': (error?.isInvalid)}">
-      <lib-gov-uk-fieldset [config]="{legend: config.legend}" [isHeading]="false">
+      <lib-gov-uk-fieldset
+        [config]="{legend: config.legend, classes: 'govuk-label--m'}" [isHeading]="false">
         <span id="permissions-hint" class="govuk-hint">
           {{config.hint}}
         </span>

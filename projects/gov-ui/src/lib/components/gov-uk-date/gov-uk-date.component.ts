@@ -6,20 +6,16 @@ import {Component, Input} from '@angular/core';
 * day / month / year
 * */
 @Component({
-  selector: 'lib-date',
+  selector: 'lib-gov-uk-date',
   template: `<div class="govuk-form-group govuk-form-group--error">
-    <fieldset class="govuk-fieldset" aria-describedby="passport-issued-hint passport-issued-error" role="group">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-        <h1 class="govuk-fieldset__heading">
-          When was your passport issued?
-        </h1>
-      </legend>
+    <lib-gov-uk-fieldset [config]="{legend: 'Date component', classes: 'govuk-label--m'}" [isHeading]="false">
       <span id="passport-issued-hint" class="govuk-hint">
-      For example, 12 11 2007
-    </span>
-      <span id="passport-issued-error" class="govuk-error-message">
-      <span class="govuk-visually-hidden">Error:</span> The date your passport was issued must be in the past
-    </span>
+        For example, 12 11 2007
+      </span>
+      <lib-error-message [config]="{id:'tbc'}"
+        [errorMessage]="'The date your passport was issued must be in the past'">
+      </lib-error-message>
+      
       <div class="govuk-date-input" id="passport-issued">
         <div class="govuk-date-input__item">
           <div class="govuk-form-group">
@@ -46,7 +42,7 @@ import {Component, Input} from '@angular/core';
           </div>
         </div>
       </div>
-    </fieldset>
+    </lib-gov-uk-fieldset>
   </div>`
 })
 export class GovUkDateComponent {

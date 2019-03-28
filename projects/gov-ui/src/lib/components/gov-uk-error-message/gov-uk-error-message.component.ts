@@ -6,7 +6,7 @@ import {Component, Directive, Input} from '@angular/core';
 * @prop config - obj with properties
 * */
 @Component({
-  selector: 'lib-error-message',
+  selector: ' lib-error-message',
   template: `
     <span class="govuk-error-message" [id]="config.id + '-error'" *ngFor="let message of errorMessage?.messages">
       <span class="govuk-visually-hidden">Error:</span>{{message}}

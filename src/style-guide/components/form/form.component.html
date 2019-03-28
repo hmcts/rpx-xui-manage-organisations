@@ -2,32 +2,26 @@
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
   <lib-gov-uk-input
-    [config]="{label: 'First name(s)', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass'}"
-    [errorMessage]="isInvalid.firstName"
-    [group]="inviteUserForm">
-  </lib-gov-uk-input>
-
-  <lib-gov-uk-input
-    [config]="{label: 'Email address', name: 'emailAddress', id: 'emailAddress', type: 'email'}"
-    [errorMessage]="isInvalid.emailAddress"
+    [config]="{label: 'Input Componet', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
+    [errorMessage]="isInvalid.input"
     [group]="inviteUserForm">
   </lib-gov-uk-input>
 
   <!--permissions -->
   <lib-gov-uk-form-group-wrapper
-    [error]="isInvalid.permissions"
-    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions'}"
-    [formGroupName]="'permissions'">
+    [error]="isInvalid.checkboxes"
+    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Checkboxes'}"
+    [formGroupName]="'checkboxes'">
 
     <div class="govuk-checkboxes">
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'createCases',  label: 'Create cases', name: 'permission', hint: 'Create, progress and view the status of the user\'s own cases', focusOn: 'permissions'}">
+        [group]="inviteUserForm.controls['checkboxes']"
+        [config]="{value: 'createCases',  label: 'Create cases', name: 'checkboxes', hint: 'Create, progress and view the status of the user\'s own cases', focusOn: 'checkboxes'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'permission',
+        [group]="inviteUserForm.controls['checkboxes']"
+        [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'checkboxes',
         hint: ' View the status of all cases created by the organisation\'s users.'}">
       </lib-gov-checkbox>
     </div>

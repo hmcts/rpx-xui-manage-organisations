@@ -16,7 +16,7 @@ import {Component, Input} from '@angular/core';
           {{config.hint}}
         </span>
         <div class="form-control-feedback" >
-          <p class="govuk-error-message" *ngIf="error">{{error.message}}</p>
+          <p class="govuk-error-message" *ngIf="error">{{error.messages}}</p>
         </div>
         <ng-content></ng-content>
       </fieldset>
@@ -25,7 +25,7 @@ import {Component, Input} from '@angular/core';
 })
 export class GovUkFormGroupWrapperComponent {
   constructor () { }
-  @Input() error: {isInvalid: boolean; message: string};
+  @Input() error: {isInvalid: boolean; messages: string};
   @Input() formGroupName: string;
   @Input() config: {hint: string; legend: string};
 }

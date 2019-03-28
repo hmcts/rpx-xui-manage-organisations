@@ -1,24 +1,24 @@
-import * as fromInviteUsers from '../actions/invite-user.actions';
+import * as fromStyleGuide from '../actions/style-guide.actions';
 
 
-export interface InviteUserState {
-  inviteUserFormData: object;
-  formErrorMessages: object;
+export interface StyleGuideState {
+  styleGuideFormData: object;
+  styleGuideMessages: object;
   isFormValid: boolean;
 }
 
-export const initialState: InviteUserState = {
-  inviteUserFormData: {},
-  formErrorMessages: {},
+export const initialState: StyleGuideState = {
+  styleGuideFormData: {},
+  styleGuideMessages: {},
   isFormValid: true
 };
 
 export function reducer(
   state = initialState,
-  action: fromInviteUsers.InviteUserActions
-): InviteUserState {
+  action: fromStyleGuide.StyleGuideActions
+): StyleGuideState {
   switch (action.type) {
-    case fromInviteUsers.UPDATE_ERROR_MESSAGES: {
+    case fromStyleGuide.UPDATE_ERROR_MESSAGES: {
       const formErrorMessagesPayload = action.payload.errorMessages;
       const formErrorIsInvalid = action.payload.isInvalid;
 
@@ -45,7 +45,7 @@ export function reducer(
 
       return {
         ...state,
-        formErrorMessages,
+        styleGuideMessages: formErrorMessages,
         isFormValid
       }
     }
@@ -55,7 +55,7 @@ export function reducer(
   return state;
 }
 
-export const getInviteUserData = (state: InviteUserState) => state.inviteUserFormData;
-export const getInviteUserErrorMessage = (state: InviteUserState) => state.formErrorMessages;
-export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
+export const getInviteUserData = (state: StyleGuideState) => state.styleGuideFormData;
+export const getInviteUserErrorMessage = (state: StyleGuideState) => state.styleGuideMessages;
+export const getInviteUserIsFormValid = (state: StyleGuideState) => state.isFormValid;
 

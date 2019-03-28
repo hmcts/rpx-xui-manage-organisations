@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../../store/reducers';
-import * as fromInviteUsers from '../reducers/invite-user.reducer';
+import * as fromInviteUsers from '../reducers/style-guide.reducer';
 
 export const getInviteUserState = createSelector(
   fromFeature.getRootUserState,

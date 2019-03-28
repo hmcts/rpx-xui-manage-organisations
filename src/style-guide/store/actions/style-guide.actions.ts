@@ -14,7 +14,7 @@ export class UpdateErrorMessages implements Action {
   constructor(public payload: any) { }
 }
 
-export type InviteUserActions =
+export type StyleGuideActions =
   | AddFromData
   | UpdateErrorMessages;
 

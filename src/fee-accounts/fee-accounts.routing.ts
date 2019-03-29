@@ -37,10 +37,7 @@ export const ROUTES: Routes = [
         path: ':id/transactions',
         component: AccountTransactionsComponent
       }
-
     ]
-  }
-
   }
 ];
 

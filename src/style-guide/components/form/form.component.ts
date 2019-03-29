@@ -11,7 +11,7 @@ export class FormComponent {
   @Output() submitForm = new EventEmitter();
   @Input() styleGuideFromGroup: FormGroup;
   @Input() set errorMessages(value) {
-    this.isInvalid = value || {} ;
+    this.isInvalid = value || {};
   }
 
   isInvalid;

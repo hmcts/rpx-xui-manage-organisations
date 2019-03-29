@@ -1,5 +1,6 @@
 
 <form [formGroup]="styleGuideFromGroup" (ngSubmit)="onSubmit()" >
+  <!--Perhaps add wrapper that will add tabs with code snippets -->
   <lib-gov-uk-input
     [config]="{label: 'Input Componet', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
     [errorMessage]="isInvalid.input"
@@ -25,8 +26,8 @@
 
   <lib-gov-uk-date
     [config]="{id: 'passport'}"
-    [formGroup]="styleGuideFromGroup.controls.date"
-    [error]="isInvalid.date">
+    [formGroup]="styleGuideFromGroup.controls.passport"
+    [error]="isInvalid.passport">
   </lib-gov-uk-date>
 
   <button type="submit" class="govuk-button">

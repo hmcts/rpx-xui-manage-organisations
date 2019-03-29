@@ -6,6 +6,7 @@ import * as fromStore from '../../store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable} from 'rxjs';
 import {dateValidator} from '../../../custom-validators/date.validator';
+import {StyleGuideFormDataModel} from '../../models/style-guide-form-data.model';
 
 /*
 * Style Guide Mediator Component
@@ -24,24 +25,24 @@ export class StyleGuideComponent implements OnInit {
   formValidationErrors$: Observable<any>;
   formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>
 
-  errorMessages = {
+  errorMessages: StyleGuideFormDataModel = {
     input: ['Enter first name', 'Email must contain at least the @ character'],
     checkboxes: ['Select at least one option'],
-    date: ['Please enter valid date']
+    passport: ['Please enter valid date']
   }
 
   ngOnInit(): void {
 
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
-
+    // TODO add type
     this.styleGuideForm = new FormGroup({
       input: new FormControl('', [Validators.required, Validators.email]),
       checkboxes: new FormGroup({
         createCases: new FormControl(''),
         viewCases: new FormControl(''),
       }, checkboxesBeCheckedValidator()),
-      date: new FormGroup({
+      passport: new FormGroup({
         day: new FormControl(''),
         month: new FormControl(''),
         year: new FormControl('')
@@ -73,7 +74,7 @@ export class StyleGuideComponent implements OnInit {
           (this.f.input.errors && this.f.input.errors.email)
         ],
         checkboxes: [(this.f.checkboxes.errors && this.f.checkboxes.errors.requireOneCheckboxToBeChecked)],
-        date: [(this.f.date.errors && this.f.date.errors.dateIsInvalid)]
+        passport: [(this.f.passport.errors && this.f.passport.errors.dateIsInvalid)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

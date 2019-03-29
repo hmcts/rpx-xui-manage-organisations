@@ -6,7 +6,6 @@ export const LOAD_FEE_ACCOUNTS_FAIL = '[Fee Accounts] Load Fee Accounts Fail';
 
 export class LoadFeeAccounts {
   readonly type = LOAD_FEE_ACCOUNTS;
-  constructor() {}
 }
 
 export class LoadFeeAccountsSuccess  implements Action {

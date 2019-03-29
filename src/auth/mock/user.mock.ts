@@ -7,7 +7,8 @@ export const userMock: UserInterface = {
   status: 'active',
   organisationId: 'A2BASDASD',
   pbaAccount: 'A12312312',
-  addresses: [{
+  addresses: [
+    {
     id: 'A123123sdas',
     houseNoBuildingName: 'Something Seomthing',
     addressLine1: 'Something Seomthing',
@@ -17,5 +18,6 @@ export const userMock: UserInterface = {
     country: 'Something Seomthing',
     postcode: 'Something Seomthing',
     userId: 'Something Seomthing',
-  }];
+  }
+  ]
 }

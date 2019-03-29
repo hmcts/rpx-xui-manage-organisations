@@ -25,7 +25,8 @@
 
   <lib-gov-uk-date
     [config]="{id: 'passport'}"
-    [formGroup]="styleGuideFromGroup.controls.date">
+    [formGroup]="styleGuideFromGroup.controls.date"
+    [error]="isInvalid.date">
   </lib-gov-uk-date>
 
   <button type="submit" class="govuk-button">

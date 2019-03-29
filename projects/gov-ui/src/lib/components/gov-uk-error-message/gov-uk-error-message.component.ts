@@ -4,6 +4,7 @@ import {Component, Directive, Input} from '@angular/core';
 * Gov UK Error Message
 * Responsible for displaying in-line error messages
 * @prop config - obj with properties
+* @prop errorMessage - all error bject with messages property that is arry of strings.
 * */
 @Component({
   selector: ' lib-error-message',

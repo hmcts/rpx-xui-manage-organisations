@@ -5,6 +5,7 @@ import * as fromStore from '../../store';
 
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable} from 'rxjs';
+import {dateValidator} from '../../../custom-validators/date.validator';
 
 /*
 * Style Guide Mediator Component
@@ -26,7 +27,7 @@ export class StyleGuideComponent implements OnInit {
   errorMessages = {
     input: ['Enter first name', 'Email must contain at least the @ character'],
     checkboxes: ['Select at least one option'],
-    date: ['The date your passport was issued must be in the past']
+    date: ['Please enter valid date']
   }
 
   ngOnInit(): void {
@@ -43,8 +44,8 @@ export class StyleGuideComponent implements OnInit {
       date: new FormGroup({
         day: new FormControl(''),
         month: new FormControl(''),
-        yeah: new FormControl('')
-      }),
+        year: new FormControl('')
+      }, dateValidator()),
     });
   }
 
@@ -72,6 +73,7 @@ export class StyleGuideComponent implements OnInit {
           (this.f.input.errors && this.f.input.errors.email)
         ],
         checkboxes: [(this.f.checkboxes.errors && this.f.checkboxes.errors.requireOneCheckboxToBeChecked)],
+        date: [(this.f.date.errors && this.f.date.errors.dateIsInvalid)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

@@ -38,7 +38,8 @@ export function reducer(
     }
 
     case fromAction.SET_PAGE_TITLE_ERRORS: {
-      const pageTitle = 'Error: ' + state.pageTitle;
+      const pageTitle = (state.pageTitle.indexOf('Error') !== -1 ) ?
+        state.pageTitle :  'Error: ' + state.pageTitle;
       return {
         ...state,
         pageTitle

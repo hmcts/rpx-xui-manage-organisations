@@ -5,10 +5,9 @@ import * as fromStore from '../../store';
 
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/internal/operators/tap';
 
 /*
-* User Form entry mediator component
+* Style Guide Mediator Component
 * It holds the state
 * */
 
@@ -19,7 +18,7 @@ import {tap} from 'rxjs/internal/operators/tap';
 export class StyleGuideComponent implements OnInit {
 
   constructor(private store: Store<fromStore.UserState>) { }
-  inviteUserForm: FormGroup;
+  styleGuideForm: FormGroup;
 
   formValidationErrors$: Observable<any>;
   formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>
@@ -27,6 +26,7 @@ export class StyleGuideComponent implements OnInit {
   errorMessages = {
     input: ['Enter first name', 'Email must contain at least the @ character'],
     checkboxes: ['Select at least one option'],
+    date: ['The date your passport was issued must be in the past']
   }
 
   ngOnInit(): void {
@@ -34,32 +34,36 @@ export class StyleGuideComponent implements OnInit {
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
 
-    this.inviteUserForm = new FormGroup({
+    this.styleGuideForm = new FormGroup({
       input: new FormControl('', [Validators.required, Validators.email]),
       checkboxes: new FormGroup({
         createCases: new FormControl(''),
         viewCases: new FormControl(''),
-      }, checkboxesBeCheckedValidator())
+      }, checkboxesBeCheckedValidator()),
+      date: new FormGroup({
+        day: new FormControl(''),
+        month: new FormControl(''),
+        yeah: new FormControl('')
+      }),
     });
-
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.inviteUserForm.controls; }
+  get f() { return this.styleGuideForm.controls; }
 
   onSubmit() {
     this.dispatchValidationAction();
-    if (this.inviteUserForm.valid) {
-      const {value} = this.inviteUserForm;
+    if (this.styleGuideForm.valid) {
+      const {value} = this.styleGuideForm;
       this.store.dispatch(new fromStore.InviteUser(value));
     }
   }
 
   dispatchValidationAction() {
     /*
-    * bind form errors to object
+    * bind form errors to an object
     * to be used later to display error messages
-    * what normally is done by default when double binding is used.
+    * what normally is done by default in Angular when double binding is used.
     * */
     const formValidationData = {
       isInvalid: {

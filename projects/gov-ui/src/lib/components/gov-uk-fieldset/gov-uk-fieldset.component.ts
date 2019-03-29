@@ -9,7 +9,7 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'lib-gov-uk-fieldset',
   template: `
-      <fieldset class="govuk-fieldset" aria-describedby="permissions-hint" role="group">
+      <fieldset class="govuk-fieldset" [attr.aria-describedby]="config.id+'-hint'" role="group">
         <legend [class]="config.classes + ' govuk-fieldset__legend'" *ngIf="!isHeading">
           {{config.legend}}
         </legend>
@@ -23,6 +23,6 @@ import {Component, Input} from '@angular/core';
 })
 export class GovUkFieldsetComponent {
   constructor () { }
-  @Input() config: {legend: string; classes: string};
+  @Input() config: {legend: string; classes: string, id: string};
   @Input() isHeading: boolean;
 }

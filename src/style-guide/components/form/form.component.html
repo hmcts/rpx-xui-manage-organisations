@@ -1,10 +1,9 @@
 
-<form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
-
+<form [formGroup]="styleGuideFromGroup" (ngSubmit)="onSubmit()" >
   <lib-gov-uk-input
     [config]="{label: 'Input Componet', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
     [errorMessage]="isInvalid.input"
-    [group]="inviteUserForm">
+    [group]="styleGuideFromGroup">
   </lib-gov-uk-input>
 
   <lib-gov-uk-form-group-wrapper
@@ -13,18 +12,21 @@
     [formGroupName]="'checkboxes'">
     <div class="govuk-checkboxes">
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['checkboxes']"
+        [group]="styleGuideFromGroup.controls.checkboxes"
         [config]="{value: 'createCases',  label: 'Create cases', name: 'checkboxes', hint: 'Create, progress and view the status of the user\'s own cases', focusOn: 'checkboxes'}">
       </lib-gov-checkbox>
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['checkboxes']"
+        [group]="styleGuideFromGroup.controls.checkboxes"
         [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'checkboxes',
         hint: ' View the status of all cases created by the organisation\'s users.'}">
       </lib-gov-checkbox>
     </div>
   </lib-gov-uk-form-group-wrapper>
 
-  <lib-gov-uk-date></lib-gov-uk-date>
+  <lib-gov-uk-date
+    [config]="{id: 'passport'}"
+    [formGroup]="styleGuideFromGroup.controls.date">
+  </lib-gov-uk-date>
 
   <button type="submit" class="govuk-button">
     Send invitation

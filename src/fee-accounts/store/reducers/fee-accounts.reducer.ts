@@ -27,14 +27,14 @@ export function reducer(
       };
     }
     case fromFeeAccountActions.LOAD_FEE_ACCOUNTS_SUCCESS: {
-
+      console.log(' action.payload',  action.payload)
       const payload = action.payload;
       let feeAccounts = payload;
       if (feeAccounts.length !== 0) {
         feeAccounts = payload.map((entity: PbaAccounts) => {
             const element: PbaAccountsSummary = {
               ...entity,
-              routerLink: `/fee-accounts/account/${entity.pbaNumber}/summary`
+              routerLink: `/fee-accounts/account/${entity.pbaNumber}/`
             };
             return element;
           });

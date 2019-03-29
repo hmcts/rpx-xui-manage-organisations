@@ -17,8 +17,11 @@ import { reducers, effects } from './store';
 import { AccountOverviewComponent } from './containers/account-overview/account-overview.component';
 import { AccountSummaryComponent } from './containers/account-summary/account-summary.component';
 import { AccountTransactionsComponent } from './containers/account-transactions/account-transactions.component';
+import {AccountsGuard} from './guards/accounts.guard';
+import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
 
-export const GUARDS = [];
+export const GUARDS = [AccountsGuard, AccountSummaryGuard];
+export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
 
 @NgModule({
   imports: [
@@ -30,7 +33,7 @@ export const GUARDS = [];
     EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers, AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent],
+  declarations: [...fromContainers.containers, ...COMPONENTS],
   providers: [...fromServices.services, ...GUARDS]
 })
 

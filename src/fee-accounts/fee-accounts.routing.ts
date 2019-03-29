@@ -5,40 +5,42 @@ import {AuthGuard} from '../auth/guards/auth.guard';
 import {AccountOverviewComponent} from './containers/account-overview/account-overview.component';
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
 import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';
-import {AccountsOverviewComponent} from './containers/overview/account-overview.component';
-// import {PbaSummaryGuard} from './guards/pba-summary.guards';
+import {OrganisationAccountsComponent} from './containers/overview/account-overview.component';
+import {AccountsGuard} from './guards/accounts.guard';
+import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
+import {Organisation} from '../organisation/organisation.model';
 
 export const ROUTES: Routes = [
   {
-    path: 'fee-accounts',
-    redirectTo: 'fee-accounts/overview',
-    pathMatch: 'full',
+    path: '',
+    component: OrganisationAccountsComponent,
+    canActivate: [
+      AuthGuard,
+      AccountsGuard
+    ],
   },
   {
-    path: 'fee-accounts',
-    canActivate: [AuthGuard],
+    path: 'account',
+    component: AccountOverviewComponent,
+    canActivate: [
+      AuthGuard
+    ],
     children: [
       {
-        path: 'overview',
-        component: AccountsOverviewComponent
+        path: ':id',
+        component: AccountSummaryComponent,
+        canActivate: [
+          AccountSummaryGuard
+        ]
       },
       {
-        path: 'account/:id',
-        component: AccountOverviewComponent,
-        children: [
-          {
-            path: 'summary',
-            component: AccountSummaryComponent,
-            // canActivate: [PbaSummaryGuard]
-          },
-          {
-            path: 'transactions',
-            component: AccountTransactionsComponent
-          }
-
-        ]
+        path: ':id/transactions',
+        component: AccountTransactionsComponent
       }
+
     ]
+  }
+
   }
 ];
 

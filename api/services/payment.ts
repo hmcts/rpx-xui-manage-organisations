@@ -1,6 +1,6 @@
 import config from '../lib/config'
 import {http} from '../lib/http'
-import {PaymentAccountDto, Payments} from '../lib/models/transactions';
+import {PaymentAccountDto, Payments} from '../lib/models/transactions'
 
 export async function getAccount(accountId: string): Promise<PaymentAccountDto[]> {
   const response = await http.get(`${config.services.payment_api}/accounts/${accountId}`)

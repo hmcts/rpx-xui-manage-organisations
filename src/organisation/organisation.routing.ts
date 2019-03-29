@@ -9,7 +9,9 @@ export const ROUTES: Routes = [
   {
     path: '',
     component: OrganisationComponent,
-    canActivate: [AuthGuard, OrganisationGuard]
+    canActivate: [
+      AuthGuard,
+      OrganisationGuard]
   }
 ];
 

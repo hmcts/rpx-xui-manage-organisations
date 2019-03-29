@@ -1,8 +1,12 @@
-import { AccountsOverviewComponent } from './overview/account-overview.component';
+import { OrganisationAccountsComponent } from './overview/account-overview.component';
 import { TransactionsComponent } from '../components/transactions/transactions.component';
 import { SummaryComponent } from '../components/summary/summary.component';
 
-export const containers: any[] = [AccountsOverviewComponent, TransactionsComponent, SummaryComponent];
+export const containers: any[] = [
+  OrganisationAccountsComponent,
+  TransactionsComponent,
+  SummaryComponent
+];
 
 export * from './overview/account-overview.component';
 export * from '../components/transactions/transactions.component';

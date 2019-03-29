@@ -4,12 +4,13 @@ import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import {Observable} from 'rxjs';
 import {PbaAccountsSummary} from '../../models/pba-accounts';
+import {LoadFeeAccounts} from '../../../fee-accounts/store';
 @Component({
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './account-overview.component.html',
 })
 
-export class AccountsOverviewComponent implements OnInit{
+export class OrganisationAccountsComponent implements OnInit{
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
   accounts$: Observable<Array<PbaAccountsSummary>>;
@@ -19,8 +20,8 @@ export class AccountsOverviewComponent implements OnInit{
 
   ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts());
-    this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsRaw));
-    this.loading$ = this.store.pipe(select(fromFeeAccountsStore.getFeeAccountsLoading));
+    this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.feeAccounts));
+    this.loading$ = this.store.pipe(select(fromFeeAccountsStore.feeAccountsLoading));
     this.columnConfig = [
       { header: 'Account number', key: 'pbaNumber', type: 'link' },
       { header: 'Oraganisation Id', key: 'organisationId' }

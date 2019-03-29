@@ -9,5 +9,6 @@ import {SingleAccontSummary, SingleAccontSummaryRemapped} from '../../models/sin
 
 export const selectFeatureFee = createFeatureSelector<fromFeature.FeeAccountsState>('feeAccounts');
 export const getFeeAccountsState = createSelector( selectFeatureFee, (state: any) => state.feeAccounts);
-export const getFeeAccountsRaw = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccounts);
-export const getFeeAccountsLoading = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoading);
+export const feeAccounts = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccounts);
+export const feeAccountsLoading = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoading);
+export const feeAccountsLoaded = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoaded);

@@ -20,4 +20,8 @@ export class FormComponent {
     this.submitForm.emit();
   }
 
+  dispatchData() {
+    return true
+  }
+
 }

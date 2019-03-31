@@ -23,7 +23,7 @@ export class StyleGuideComponent implements OnInit {
   styleGuideForm: FormGroup;
 
   formValidationErrors$: Observable<any>;
-  formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>
+  formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>;
 
   errorMessages: StyleGuideFormDataModel = {
     input: ['Enter first name', 'Email must contain at least the @ character'],
@@ -54,14 +54,15 @@ export class StyleGuideComponent implements OnInit {
   get f() { return this.styleGuideForm.controls; }
 
   onSubmit() {
-    this.dispatchValidationAction();
+    this.dispatchValidation();
+
     if (this.styleGuideForm.valid) {
       const {value} = this.styleGuideForm;
       this.store.dispatch(new fromStore.InviteUser(value));
     }
   }
 
-  dispatchValidationAction() {
+  dispatchValidation() {
     /*
     * bind form errors to an object
     * to be used later to display error messages
@@ -79,6 +80,7 @@ export class StyleGuideComponent implements OnInit {
       errorMessages: this.errorMessages,
       isSubmitted: true
     };
+
     this.store.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
   }
 

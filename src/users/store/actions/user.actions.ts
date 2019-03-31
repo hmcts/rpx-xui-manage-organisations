@@ -22,14 +22,14 @@ export class LoadUsersFail implements Action {
   constructor(public payload: any) { }
 }
 
-export const INVITE_USER = '[User] Invite Users';
+export const SEND_INVITE_USER = '[User] Invite Users';
 export const INVITE_USER_SUCCESS = '[User] Invite Users Success';
 export const INVITE_USER_FAIL = '[User] Invite Users Fail';
 
 
 
-export class InviteUser {
-  readonly type = INVITE_USER;
+export class SendInviteUser {
+  readonly type = SEND_INVITE_USER;
   constructor(public payload: UserListApiModel) {}
 }
 
@@ -48,6 +48,6 @@ export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
   | LoadUsersFail
-  | InviteUser
+  | SendInviteUser
   | InviteUserSuccess
   | InviteUserFail;

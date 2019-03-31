@@ -8,7 +8,7 @@ export const ROUTES: Routes = [
     {
       path: '',
       component: StyleGuideComponent,
-      canActivate: [AuthGuard],
+      // canActivate: [AuthGuard],
     }
 ];
 

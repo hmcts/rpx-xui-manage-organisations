@@ -6,15 +6,46 @@ import {FormGroup} from '@angular/forms';
   selector: 'app-form',
   templateUrl: './form.component.html',
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
 
   @Output() submitForm = new EventEmitter();
   @Input() styleGuideFromGroup: FormGroup;
   @Input() set errorMessages(value) {
-    this.isInvalid = value || {};
+    this.errors = value || {};
   }
 
-  isInvalid;
+  errors;
+  checkboxes
+
+  ngOnInit(): void {
+    this.checkboxes = {
+      // key: 'checkboxes',
+      // config: {hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Checkboxes'},
+      // errors: [],
+      // group: this.styleGuideFromGroup.controls,
+      // items: [
+      //   {
+      //     group: this.styleGuideFromGroup.controls.checkboxes,
+      //     config: {
+      //       value: 'createCases',
+      //       label: 'Create cases',
+      //       name: 'checkboxes',
+      //       hint: 'Create, progress and view the status of the user\'s own cases',
+      //       focusOn: 'checkboxes'
+      //     }
+      //   },
+      //   {
+      //     group: this.styleGuideFromGroup.controls.checkboxes,
+      //     config: {
+      //       value: 'viewCases',
+      //       label: 'View organisation\'s cases',
+      //       name: 'checkboxes',
+      //       hint: ' View the status of all cases created by the organisation\'s users.'
+      //     }
+      //   }
+      // ]
+    }
+  }
 
   onSubmit() {
     this.submitForm.emit();

@@ -15,6 +15,7 @@ import {GovUkErrorMessageComponent} from './components/gov-uk-error-message/gov-
 import {RemoveHostDirective} from '../../../../src/app/directives/remove-host.directive';
 import {GovUkFieldsetComponent} from './components/gov-uk-fieldset/gov-uk-fieldset.component';
 import {GovUkDateComponent} from './components/gov-uk-date/gov-uk-date.component';
+import {CheckboxesComponent} from './components/checkboxes/checkboxes.component';
 
 const COMPONENTS = [
   GovukTableComponent,
@@ -29,7 +30,8 @@ const COMPONENTS = [
   GovUkErrorMessageComponent,
   RemoveHostDirective,
   GovUkFieldsetComponent,
-  GovUkDateComponent
+  GovUkDateComponent,
+  CheckboxesComponent
 ];
 
 @NgModule({

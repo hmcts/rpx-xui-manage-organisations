@@ -57,8 +57,8 @@ export class StyleGuideComponent implements OnInit {
     this.dispatchValidation();
 
     if (this.styleGuideForm.valid) {
-      const {value} = this.styleGuideForm;
-      this.store.dispatch(new fromStore.InviteUser(value));
+      // const {value} = this.styleGuideForm;
+      // this.store.dispatch(new fromStore.InviteUser(value));
     }
   }
 

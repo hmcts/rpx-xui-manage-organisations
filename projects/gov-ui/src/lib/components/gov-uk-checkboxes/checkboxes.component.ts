@@ -3,9 +3,9 @@ import {Component, Input} from '@angular/core';
 import {CheboxesModel} from '../../models/cheboxes.model';
 /*
 * CheckBox component - state less
-* Responsible for displaying a list of checkboxes
+* Responsible for displaying a list of gov-uk-checkboxes
 * @param: options - object with data for wrapper (fieldset) and
-* array of items for checkboxes
+* array of items for gov-uk-checkboxes
 * @param: errors - array of error stings
 * */
 @Component({

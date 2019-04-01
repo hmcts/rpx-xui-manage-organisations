@@ -21,7 +21,12 @@ export class FormComponent implements OnInit {
     // temporary to
     this.checkboxes = {
       key: 'checkboxes',
-      config: {hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Checkboxes'},
+      config: {
+        hint: 'Choose what the user will be able to do. You can change this later.',
+        legend: 'Checkboxes',
+        key: 'checkboxes',
+        isHeading: false
+      },
       group: this.styleGuideFromGroup.controls,
       items: [
         {

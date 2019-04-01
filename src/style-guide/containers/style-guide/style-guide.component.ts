@@ -28,7 +28,8 @@ export class StyleGuideComponent implements OnInit {
   errorMessages: StyleGuideFormDataModel = {
     input: ['Enter first name', 'Email must contain at least the @ character'],
     checkboxes: ['Select at least one option'],
-    passport: ['Please enter valid date']
+    passport: ['Please enter valid date'],
+    contactPreference: ['Select one option']
   }
 
   ngOnInit(): void {
@@ -42,6 +43,11 @@ export class StyleGuideComponent implements OnInit {
         createCases: new FormControl(''),
         viewCases: new FormControl(''),
       }, checkboxesBeCheckedValidator()),
+      contactPreference: new FormGroup({
+        email: new FormControl(''),
+        phone: new FormControl(''),
+        textMessage: new FormControl('')
+      }, Validators.required),
       passport: new FormGroup({
         day: new FormControl(''),
         month: new FormControl(''),
@@ -70,7 +76,8 @@ export class StyleGuideComponent implements OnInit {
           (this.f.input.errors && this.f.input.errors.email)
         ],
         checkboxes: [(this.f.checkboxes.errors && this.f.checkboxes.errors.requireOneCheckboxToBeChecked)],
-        passport: [(this.f.passport.errors && this.f.passport.errors.dateIsInvalid)]
+        passport: [(this.f.passport.errors && this.f.passport.errors.dateIsInvalid)],
+        contactPreference: [(this.f.contactPreference.errors && this.f.contactPreference.errors.required)],
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

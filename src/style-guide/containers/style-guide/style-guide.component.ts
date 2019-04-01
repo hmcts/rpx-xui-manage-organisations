@@ -55,11 +55,6 @@ export class StyleGuideComponent implements OnInit {
 
   onSubmit() {
     this.dispatchValidation();
-
-    if (this.styleGuideForm.valid) {
-      // const {value} = this.styleGuideForm;
-      // this.store.dispatch(new fromStore.InviteUser(value));
-    }
   }
 
   dispatchValidation() {

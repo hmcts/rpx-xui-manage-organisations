@@ -1,13 +1,18 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {Component, Input} from '@angular/core';
+
 import {CheboxesModel} from '../../models/cheboxes.model';
-
-
+/*
+* CheckBox component - state less
+* Responsible for displaying a list of checkboxes
+* @param: options - object with data for wrapper (fieldset) and
+* array of items for checkboxes
+* @param: errors - array of error stings
+* */
 @Component({
   selector: 'lib-gov-uk-checkboxes',
   template: `
     <lib-gov-uk-form-group-wrapper
-      [error]=""
+      [error]="errors"
       [config]="options.config"
       [group]="options.key">
       <div class="govuk-checkboxes">
@@ -19,11 +24,9 @@ import {CheboxesModel} from '../../models/cheboxes.model';
     </lib-gov-uk-form-group-wrapper>
   `
 })
-export class CheckboxesComponent implements OnInit {
+export class CheckboxesComponent {
 
   @Input() options: CheboxesModel;
-
-  ngOnInit(): void {
-  }
+  @Input() errors: string[];
 
 }

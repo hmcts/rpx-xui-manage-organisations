@@ -1,30 +1,16 @@
 
 <form [formGroup]="styleGuideFromGroup" (ngSubmit)="onSubmit()" >
-  <!--Perhaps add wrapper that will add tabs with code snippets -->
+
   <ng-container *ngIf="dispatchData()">
+
     <lib-gov-uk-input
       [config]="{label: 'Input Componet', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
       [errorMessage]="errors.input"
       [group]="styleGuideFromGroup">
     </lib-gov-uk-input>
-    <lib-gov-uk-checkboxes [options]="checkboxes"></lib-gov-uk-checkboxes>
-<!--    <lib-gov-uk-form-group-wrapper-->
-<!--      [error]="errors.checkboxes"-->
-<!--      [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Checkboxes'}"-->
-<!--      [group]="'checkboxes'">-->
-<!--      <div class="govuk-checkboxes">-->
-<!--        <lib-gov-checkbox-->
-<!--          [group]="styleGuideFromGroup.controls.checkboxes"-->
-<!--          [config]="{value: 'createCases',  label: 'Create cases', name: 'checkboxes', hint: 'Create, progress and view the status of the user\'s own cases', focusOn: 'checkboxes'}">-->
-<!--        </lib-gov-checkbox>-->
-<!--        <lib-gov-checkbox-->
-<!--          [group]="styleGuideFromGroup.controls.checkboxes"-->
-<!--          [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'checkboxes',-->
-<!--          hint: ' View the status of all cases created by the organisation\'s users.'}">-->
-<!--        </lib-gov-checkbox>-->
-<!--      </div>-->
-<!--    </lib-gov-uk-form-group-wrapper>-->
-  <!--  add constant instead -->
+
+    <lib-gov-uk-checkboxes [errors]="errors.checkboxes" [options]="checkboxes"></lib-gov-uk-checkboxes>
+
     <lib-gov-uk-date
       [config]="{id: 'passport'}"
       [formGroup]="styleGuideFromGroup.controls.passport"

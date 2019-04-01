@@ -14,14 +14,14 @@ export class FormComponent implements OnInit {
     this.errors = value || {};
   }
 
-  errors;
-  checkboxes
+  errors: string[];
+  checkboxes;
 
   ngOnInit(): void {
+    // temporary to
     this.checkboxes = {
       key: 'checkboxes',
       config: {hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Checkboxes'},
-      errors: [],
       group: this.styleGuideFromGroup.controls,
       items: [
         {

@@ -1,6 +1,6 @@
 import {FormGroup} from '@angular/forms';
 
-export interface CheboxesModel {
+export interface CheckboxesModel {
   key: string;
   group: FormGroup;
   config: {hint: string; legend: string};

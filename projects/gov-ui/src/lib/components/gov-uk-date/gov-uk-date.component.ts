@@ -15,8 +15,8 @@ import {Component, Input, OnInit} from '@angular/core';
       <lib-error-message [config]="{id: 'passport'}" *ngIf="error"
         [errorMessage]="error">
       </lib-error-message>
-
-      <div class="govuk-date-input" id="passport-issued">
+      <!--      -->
+      <div class="govuk-date-input" [id]="config.id">
         <div class="govuk-date-input__item">
           <div class="govuk-form-group">
             <lib-gov-label

@@ -8,12 +8,13 @@ import {FormGroup} from '@angular/forms';
 @Component({
   selector: 'lib-gov-radio',
   template: `
-    <div class="govuk-radios__item">
+    <div class="govuk-radios__item" [formGroup]="group">
       <input [className]="'govuk-radios__input ' + config.classes"
-             [id]="config.id "
-             [name]="config.name" type="radio"
-             [value]="config.value"
-             [attr.data-aria-controls]="config.id">
+             [id]="config.id"
+             [value]="config.value" type="radio"
+             [attr.data-aria-controls]="config.id"
+             [name]="config.name"
+             [formControlName]="config.name">
       <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
     </div>
   `

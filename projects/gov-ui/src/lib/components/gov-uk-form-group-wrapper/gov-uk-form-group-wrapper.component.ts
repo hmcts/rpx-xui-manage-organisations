@@ -11,12 +11,10 @@ import {Component, Input} from '@angular/core';
     <div class="govuk-form-group" [attr.formGroupName]="group" [ngClass]="{'govuk-form-group--error': (error?.isInvalid)}">
       <lib-gov-uk-fieldset
         [config]="{legend: config.legend, classes: 'govuk-label--m', id: config.key}" [isHeading]="config.isHeading">
-        <span id="permissions-hint" class="govuk-hint">
+        <span [id]="config.key+'-hint'" class="govuk-hint">
           {{config.hint}}
         </span>
-        <div class="form-control-feedback">
-          <lib-error-message [config]="{id: group}" [errorMessage]="error"></lib-error-message>
-        </div>
+        <lib-error-message [config]="{id: group}" [errorMessage]="error"></lib-error-message>
         <ng-content></ng-content>
       </lib-gov-uk-fieldset>
     </div>

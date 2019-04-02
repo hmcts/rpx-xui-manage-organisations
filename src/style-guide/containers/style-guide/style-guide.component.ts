@@ -30,25 +30,20 @@ export class StyleGuideComponent implements OnInit {
     checkboxes: ['Select at least one option'],
     passport: ['Please enter valid date'],
     contactPreference: ['Select one option']
-  }
+  };
 
   ngOnInit(): void {
-
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
     // TODO add type
     this.styleGuideForm = new FormGroup({
       input: new FormControl('', [Validators.required, Validators.email]),
-      checkboxes: new FormGroup({
+      checkboxes: new FormGroup({ // checkboxes
         createCases: new FormControl(''),
         viewCases: new FormControl(''),
       }, checkboxesBeCheckedValidator()),
-      contactPreference: new FormGroup({
-        email: new FormControl(''),
-        phone: new FormControl(''),
-        textMessage: new FormControl('')
-      }, Validators.required),
-      passport: new FormGroup({
+      contactPreference: new FormControl('', Validators.required),
+      passport: new FormGroup({ // date
         day: new FormControl(''),
         month: new FormControl(''),
         year: new FormControl('')
@@ -61,6 +56,7 @@ export class StyleGuideComponent implements OnInit {
 
   onSubmit() {
     this.dispatchValidation();
+    debugger;
   }
 
   dispatchValidation() {
@@ -82,7 +78,6 @@ export class StyleGuideComponent implements OnInit {
       errorMessages: this.errorMessages,
       isSubmitted: true
     };
-
     this.store.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
   }
 

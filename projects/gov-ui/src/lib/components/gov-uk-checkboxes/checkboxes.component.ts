@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {CheboxesModel} from '../../models/cheboxes.model';
+import {CheckboxesModel} from '../../models/checkboxesModel';
 /*
 * CheckBox component - state less
 * Responsible for displaying a list of gov-uk-checkboxes
@@ -26,7 +26,7 @@ import {CheboxesModel} from '../../models/cheboxes.model';
 })
 export class CheckboxesComponent {
 
-  @Input() options: CheboxesModel;
+  @Input() options: CheckboxesModel;
   @Input() errors: string[];
 
 }

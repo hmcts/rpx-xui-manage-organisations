@@ -16,14 +16,12 @@
       [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'How would you prefer to be contacted?', key: 'contactPreference', isHeading: false}"
       [group]="'contactPreference'">
 
-      <div class="govuk-radios govuk-radios--conditional" data-module="radios">
+      <div class="govuk-radios">
+        <lib-gov-radio [group]="styleGuideFromGroup" appRemoveHost [config]="{value: 'email', label: 'Email', id: 'email', name: 'contactPreference' }"></lib-gov-radio>
 
-        <lib-gov-radio  appRemoveHost [config]="{value: 'email', label: 'Email', id: 'email', name: 'how-contacted' }"></lib-gov-radio>
+        <lib-gov-radio [group]="styleGuideFromGroup" appRemoveHost [config]="{value: 'phone', label: 'Phone', id: 'phone', name: 'contactPreference' }"></lib-gov-radio>
 
-        <lib-gov-radio  appRemoveHost [config]="{value: 'phone', label: 'Phone', id: 'phone', name: 'how-contacted' }"></lib-gov-radio>
-
-        <lib-gov-radio  appRemoveHost [config]="{value: 'textMessage', label: 'Text Message', id: 'textMessage', name: 'how-contacted' }"></lib-gov-radio>
-
+        <lib-gov-radio [group]="styleGuideFromGroup" appRemoveHost [config]="{value: 'textMessage', label: 'Text Message', id: 'textMessage', name: 'contactPreference' }"></lib-gov-radio>
       </div>
     </lib-gov-uk-form-group-wrapper>
 

@@ -11,7 +11,7 @@ export const reducers: ActionReducerMap<UserState> = {
 };
 
 export const getRootStyleGuideState = createFeatureSelector<UserState>(
-  'styleGuide'
+  'style-guide'
 );
 
 

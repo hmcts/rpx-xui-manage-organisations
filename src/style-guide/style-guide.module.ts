@@ -20,7 +20,7 @@ import * as fromComponents from './components';
     HttpClientModule,
     styleGuideRouting,
     SharedModule,
-    StoreModule.forFeature('styleGuide', reducers),
+    StoreModule.forFeature('style-guide', reducers),
     FormsModule
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],

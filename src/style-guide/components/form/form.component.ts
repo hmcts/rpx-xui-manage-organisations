@@ -53,32 +53,40 @@ export class FormComponent implements OnInit {
 
 
     this.radios = {
-      key: 'checkboxes',
+      key: 'contactPreference',
       config: {
         hint: 'Choose what the user will be able to do. You can change this later.',
-        legend: 'Checkboxes',
-        key: 'checkboxes',
+        legend: 'How would you prefer to be contacted?',
+        key: 'contactPreference',
         isHeading: false
       },
       group: this.styleGuideFromGroup.controls,
       items: [
         {
-          group: this.styleGuideFromGroup.controls.checkboxes,
+          group: this.styleGuideFromGroup.controls.contactPreference,
           config: {
-            value: 'createCases',
-            label: 'Create cases',
-            name: 'checkboxes',
-            hint: 'Create, progress and view the status of the user\'s own cases',
-            focusOn: 'checkboxes'
+            value: 'email',
+            label: 'Email',
+            id: 'email',
+            name: 'contactPreference'
           }
         },
         {
-          group: this.styleGuideFromGroup.controls.checkboxes,
+          group: this.styleGuideFromGroup.controls.contactPreference,
           config: {
-            value: 'viewCases',
-            label: 'View organisation\'s cases',
-            name: 'checkboxes',
-            hint: ' View the status of all cases created by the organisation\'s users.'
+            value: 'phone',
+            label: 'Phone',
+            id: 'phone',
+            name: 'contactPreference'
+          }
+        },
+        {
+          group: this.styleGuideFromGroup.controls.contactPreference,
+          config: {
+            value: 'textMessage',
+            label: 'Text Message',
+            id: 'textMessage',
+            name: 'contactPreference'
           }
         }
       ]

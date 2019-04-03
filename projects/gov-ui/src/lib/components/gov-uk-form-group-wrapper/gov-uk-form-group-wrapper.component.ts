@@ -22,8 +22,8 @@ import {Component, Input} from '@angular/core';
 })
 export class GovUkFormGroupWrapperComponent {
   constructor () { }
-  @Input() error: {isInvalid: boolean; messages: string};
+  @Input() error: {isInvalid: boolean; messages: string}; // todo add interface
   @Input() group: string;
-  @Input() config: {hint: string; legend: string, key: string, isHeading: boolean};
+  @Input() config: {hint: string; legend: string, key: string, isHeading: boolean}; // TODO create a global interface
 
 }

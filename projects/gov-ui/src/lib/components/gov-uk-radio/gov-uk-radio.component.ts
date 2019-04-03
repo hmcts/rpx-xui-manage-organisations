@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 /*
-* Gov Uk Radio Dumb Component responsible for
+* Gov Uk Radio state-less  Component responsible for
 * displaying radios input and hint
 *
 * */
@@ -22,7 +22,7 @@ import {FormGroup} from '@angular/forms';
 export class GovUkRadioComponent implements OnInit{
   constructor () { }
   @Input() group: FormGroup;
-  @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string; id: string; classes: string};
+  @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string; id: string; classes: string}; // TODO create interface
 
   id: string;
   /**

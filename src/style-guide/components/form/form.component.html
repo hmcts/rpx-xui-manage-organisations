@@ -1,0 +1,26 @@
+
+<form [formGroup]="styleGuideFromGroup" (ngSubmit)="onSubmit()" >
+
+  <ng-container *ngIf="dispatchData()">
+
+    <lib-gov-uk-input
+      [config]="{label: 'Input Component', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
+      [errorMessage]="errors.input"
+      [group]="styleGuideFromGroup">
+    </lib-gov-uk-input>
+
+    <lib-gov-uk-checkboxes [errors]="errors.checkboxes" [options]="checkboxes"></lib-gov-uk-checkboxes>
+
+    <lib-gov-uk-radios [errors]="errors.contactPreference" [options]="radios"></lib-gov-uk-radios>
+
+    <lib-gov-uk-date
+      [config]="{id: 'passport'}"
+      [formGroup]="styleGuideFromGroup.controls.passport"
+      [error]="errors.passport">
+    </lib-gov-uk-date>
+
+    <button type="submit" class="govuk-button">
+      Send invitation
+    </button>
+  </ng-container>
+</form>

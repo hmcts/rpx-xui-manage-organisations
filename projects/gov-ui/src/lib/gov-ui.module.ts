@@ -13,6 +13,11 @@ import {GovUkFormGroupWrapperComponent} from './components/gov-uk-form-group-wra
 import {GovUkLabelComponent} from './components/gov-uk-label/gov-uk-label.component';
 import {GovUkErrorMessageComponent} from './components/gov-uk-error-message/gov-uk-error-message.component';
 import {RemoveHostDirective} from '../../../../src/app/directives/remove-host.directive';
+import {GovUkFieldsetComponent} from './components/gov-uk-fieldset/gov-uk-fieldset.component';
+import {GovUkDateComponent} from './components/gov-uk-date/gov-uk-date.component';
+import {CheckboxesComponent} from './components/gov-uk-checkboxes/checkboxes.component';
+import {GovUkRadioComponent} from './components/gov-uk-radio/gov-uk-radio.component';
+import {GovUkRadiosComponent} from './components/gov-uk-radios/gov-uk-radios.component';
 
 const COMPONENTS = [
   GovukTableComponent,
@@ -25,7 +30,12 @@ const COMPONENTS = [
   GovUkFormGroupWrapperComponent,
   GovUkLabelComponent,
   GovUkErrorMessageComponent,
-  RemoveHostDirective
+  RemoveHostDirective,
+  GovUkFieldsetComponent,
+  GovUkDateComponent,
+  CheckboxesComponent,
+  GovUkRadioComponent,
+  GovUkRadiosComponent
 ];
 
 @NgModule({

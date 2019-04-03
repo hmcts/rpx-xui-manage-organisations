@@ -63,7 +63,7 @@ export class FormComponent implements OnInit {
       group: this.styleGuideFromGroup.controls,
       items: [
         {
-          group: this.styleGuideFromGroup.controls.contactPreference,
+          group: this.styleGuideFromGroup,
           config: {
             value: 'email',
             label: 'Email',
@@ -72,7 +72,7 @@ export class FormComponent implements OnInit {
           }
         },
         {
-          group: this.styleGuideFromGroup.controls.contactPreference,
+          group: this.styleGuideFromGroup,
           config: {
             value: 'phone',
             label: 'Phone',
@@ -81,7 +81,7 @@ export class FormComponent implements OnInit {
           }
         },
         {
-          group: this.styleGuideFromGroup.controls.contactPreference,
+          group: this.styleGuideFromGroup,
           config: {
             value: 'textMessage',
             label: 'Text Message',

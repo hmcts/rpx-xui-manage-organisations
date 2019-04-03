@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-
 import {CheckboxesModel} from '../../models/checkboxesModel';
 /*
 * Radios component - state less
@@ -16,7 +15,9 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
       [config]="options.config"
       [group]="options.key">
       <div class="govuk-radios">
-        <lib-gov-radio *ngFor="let item of options.items"
+        <lib-gov-radio
+          appRemoveHost
+          *ngFor="let item of options.items"
           [group]="item.group"
           [config]="item.config">
         </lib-gov-radio>

@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-
 import {CheckboxesModel} from '../../models/checkboxesModel';
 /*
 * CheckBox component - state less

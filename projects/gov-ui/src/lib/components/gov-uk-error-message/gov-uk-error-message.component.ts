@@ -1,5 +1,4 @@
 import {Component, Directive, Input} from '@angular/core';
-
 /*
 * Gov UK Error Message
 * Responsible for displaying in-line error messages

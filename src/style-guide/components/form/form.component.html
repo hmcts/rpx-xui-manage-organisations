@@ -16,7 +16,7 @@
     <lib-gov-uk-date
       [config]="{id: 'passport'}"
       [formGroup]="styleGuideFromGroup.controls.passport"
-      [error]="errors.passport">
+      [errorMessage]="errors.passport">
     </lib-gov-uk-date>
 
     <lib-gov-select
@@ -25,6 +25,12 @@
       [items]="sortBySelect.items"
       [errorMessage]="errors.sortBy">
     </lib-gov-select>
+
+    <lib-gov-uk-textarea
+      [config]="moreDetail"
+      [group]="styleGuideFromGroup"
+      [errorMessage]="errors.moreDetail"
+    ></lib-gov-uk-textarea>
 
     <button type="submit" class="govuk-button">
       Send invitation

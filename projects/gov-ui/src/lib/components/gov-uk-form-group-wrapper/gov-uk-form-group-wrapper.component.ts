@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 * Gov Uk Form Group Wrapper
 * Used to wrap group form elements in html tags below such as
 * gov-uk-checkboxes and radio buttons
-* and error messages
+* and errorMessage messages
 * */
 @Component({
   selector: 'lib-gov-uk-form-group-wrapper',

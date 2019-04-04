@@ -17,6 +17,7 @@ export class FormComponent implements OnInit {
   checkboxes;
   radios;
   sortBySelect;
+  moreDetail;
   ngOnInit(): void {
     // temporary to
     this.checkboxes = {
@@ -125,6 +126,15 @@ export class FormComponent implements OnInit {
           id: 'comments',
         }
       ]
+    };
+
+    this.moreDetail = {
+      id: 'moreDetail',
+      label: 'Can you provide more detail?',
+      hint: 'Do not include personal or financial information, like your National Insurance number or credit card details.',
+      rows: 5,
+      classes: 'govuk-label--m',
+      isPageHeading: true
     }
   }
 

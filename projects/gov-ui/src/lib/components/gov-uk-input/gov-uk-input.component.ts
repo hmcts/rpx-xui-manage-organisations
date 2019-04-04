@@ -10,21 +10,21 @@ import {FormGroup} from '@angular/forms';
 @Component({
   selector: 'lib-gov-uk-input',
   template: `
-      <div class="govuk-form-group" [formGroup]="group"
-           [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
+    <div class="govuk-form-group" [formGroup]="group"
+         [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
 
-        <lib-gov-label [config]="config"></lib-gov-label>
+      <lib-gov-label [config]="config"></lib-gov-label>
 
-        <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
+      <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
           {{config.hint}}
         </span>
 
-        <lib-error-message [config]="config" [errorMessage]="errorMessage"></lib-error-message>
+      <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
 
-        <input class="govuk-input" [id]="config.id" [name]="config.name" [type]="config.type" *ngIf="reloadInput"
-           [attr.aria-invalid]="errorMessage?.isInvalid"
-           [formControlName]="config.name" [attr.aria-describedby]='setDescribedBy()'>
-      </div>
+      <input class="govuk-input" [id]="config.id" [name]="config.name" [type]="config.type" *ngIf="reloadInput"
+             [attr.aria-invalid]="errorMessage?.isInvalid"
+             [formControlName]="config.name" [attr.aria-describedby]='setDescribedBy()'>
+    </div>
   `
 })
 export class GovUkInputComponent implements OnChanges, OnInit {

@@ -15,12 +15,12 @@ import {FormGroup} from '@angular/forms';
       <span id="more-detail-hint" class="govuk-hint">
         {{config.hint}}
       </span>
-      <lib-error-message [config]="config" [errorMessage]="errorMessage"></lib-error-message>
+      <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
       <textarea
         class="govuk-textarea"
         [ngClass]="{'govuk-textarea--error': errorMessage?.isInvalid}"
         [id]="config.id" name="more-detail" [rows]="config.rows" aria-describedby="more-detail-hint more-detail-error"></textarea>
-        <!-- TODO add add describe by-->
+      <!-- TODO add add describe by-->
     </div>
   `
 })

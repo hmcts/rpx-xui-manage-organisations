@@ -14,7 +14,7 @@ import {Component, Input} from '@angular/core';
         <span [id]="config.key+'-hint'" class="govuk-hint">
           {{config.hint}}
         </span>
-        <lib-error-message [config]="{id: group}" [errorMessage]="error"></lib-error-message>
+        <lib-gov-uk-error-message [config]="{id: group}" [errorMessage]="error"></lib-gov-uk-error-message>
         <ng-content></ng-content>
       </lib-gov-uk-fieldset>
     </div>

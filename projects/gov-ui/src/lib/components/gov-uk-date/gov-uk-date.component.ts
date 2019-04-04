@@ -13,9 +13,9 @@ import {Component, Input, OnInit} from '@angular/core';
       <span [id]="config.id+'-hint'" class="govuk-hint">
         For example, 12 11 2007
       </span>
-        <lib-error-message [config]="{id: 'passport'}" *ngIf="errorMessage"
-                           [errorMessage]="errorMessage">
-        </lib-error-message>
+        <lib-gov-uk-error-message [config]="{id: 'passport'}" *ngIf="errorMessage"
+                                  [errorMessage]="errorMessage">
+        </lib-gov-uk-error-message>
         <!--      -->
         <div class="govuk-date-input" [id]="config.id+'-date'">
           <div class="govuk-date-input__item">

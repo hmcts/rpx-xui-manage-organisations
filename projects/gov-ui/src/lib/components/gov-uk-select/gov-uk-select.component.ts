@@ -13,10 +13,11 @@ import {FormGroup} from '@angular/forms';
       <span *ngIf="config.hint" [id]="config.key +'-hint'" class="govuk-hint">
           {{config.hint}}
       </span>
-      <lib-error-message [config]="config" [errorMessage]="errorMessage"></lib-error-message>
+      <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
 
       <select class="govuk-select" [id]="config.key" name="sort" [formControlName]="config.key">
-        <option value="{{item.value}}" [attr.selected]="item.isSelected ? 'selected' : ''" *ngFor="let item of items">{{item.label}}</option>
+        <option value="{{item.value}}" [attr.selected]="item.isSelected ? 'selected' : ''"
+                *ngFor="let item of items">{{item.label}}</option>
       </select>
     </div>
   `

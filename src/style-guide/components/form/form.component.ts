@@ -1,7 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -16,7 +15,8 @@ export class FormComponent implements OnInit {
 
   errors: string[];
   checkboxes;
-  radios
+  radios;
+  sortBySelect;
   ngOnInit(): void {
     // temporary to
     this.checkboxes = {
@@ -49,7 +49,7 @@ export class FormComponent implements OnInit {
           }
         }
       ]
-    }
+    };
 
 
     this.radios = {
@@ -68,7 +68,8 @@ export class FormComponent implements OnInit {
             value: 'email',
             label: 'Email',
             id: 'email',
-            name: 'contactPreference'
+            name: 'contactPreference',
+            focusOn: 'contactPreference'
           }
         },
         {
@@ -90,6 +91,40 @@ export class FormComponent implements OnInit {
           }
         }
       ]
+    };
+
+    this.sortBySelect = {
+      config: {
+        hint: 'You can sort by different categories',
+        key: 'sortBy',
+        label: 'Sort By',
+        classes: 'govuk-label--m',
+        isHeading: true,
+      },
+      group: this.styleGuideFromGroup,
+      items: [
+        {
+          value: 'published',
+          label: 'Recently Published',
+          id: 'published',
+        },
+        {
+          value: 'updated',
+          label: 'Recently updated',
+          isSelected: true,
+          id: 'phone',
+        },
+        {
+          value: 'views',
+          label: 'Most views',
+          id: 'views',
+        },
+        {
+          value: 'comments',
+          label: 'Most comments',
+          id: 'comments',
+        }
+      ]
     }
   }
 
@@ -97,7 +132,7 @@ export class FormComponent implements OnInit {
     this.submitForm.emit();
   }
 
-  dispatchData() {
+  dispatchLoadData() {
     return true
   }
 

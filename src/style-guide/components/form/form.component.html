@@ -1,7 +1,7 @@
 
 <form [formGroup]="styleGuideFromGroup" (ngSubmit)="onSubmit()" >
 
-  <ng-container *ngIf="dispatchData()">
+  <ng-container *ngIf="dispatchLoadData()">
 
     <lib-gov-uk-input
       [config]="{label: 'Input Component', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
@@ -19,7 +19,12 @@
       [error]="errors.passport">
     </lib-gov-uk-date>
 
-    <lib-gov-select></lib-gov-select>
+    <lib-gov-select
+      [group]="styleGuideFromGroup"
+      [config]="sortBySelect.config"
+      [items]="sortBySelect.items"
+      [errorMessage]="errors.sortBy">
+    </lib-gov-select>
 
     <button type="submit" class="govuk-button">
       Send invitation

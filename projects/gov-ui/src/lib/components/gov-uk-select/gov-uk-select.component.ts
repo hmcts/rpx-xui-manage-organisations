@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 /*
 * Gov Uk Select Dumb Component responsible for
 * dropdown input.
@@ -6,17 +7,25 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'lib-gov-select',
   template: `
-    <div class="govuk-form-group"> 
-      <lib-gov-label [config]="{label: 'Sort By', classes: 'govuk-label--m'}"></lib-gov-label>
-      <select class="govuk-select" id="sort" name="sort">
-        <option value="published">Recently published</option>
-        <option value="updated" selected>Recently updated</option>
-        <option value="views">Most views</option>
-        <option value="comments">Most comments</option>
+    <div class="govuk-form-group" [formGroup]="group"
+         [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
+      <lib-gov-label [config]="config"></lib-gov-label>
+      <span *ngIf="config.hint" [id]="config.key +'-hint'" class="govuk-hint">
+          {{config.hint}}
+      </span>
+      <lib-error-message [config]="config" [errorMessage]="errorMessage"></lib-error-message>
+
+      <select class="govuk-select" [id]="config.key" name="sort" [formControlName]="config.key">
+        <option value="{{item.value}}" [attr.selected]="item.isSelected ? 'selected' : ''" *ngFor="let item of items">{{item.label}}</option>
       </select>
     </div>
   `
 })
 export class GovUkSelectComponent {
-  constructor () { }
+  constructor () {}
+  @Input() errorMessage;
+  @Input() group: FormGroup;
+  @Input() config: {hint: string; name: string; key: string,  sPageHeading: boolean, classes: string };
+  @Input() items: {label: string, value: string; id: string; isSelected: boolean}[];
+
 }

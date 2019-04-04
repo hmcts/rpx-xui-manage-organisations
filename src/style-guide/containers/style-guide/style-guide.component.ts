@@ -29,7 +29,8 @@ export class StyleGuideComponent implements OnInit {
     input: ['Enter first name', 'Email must contain at least the @ character'],
     checkboxes: ['Select at least one option'],
     passport: ['Please enter valid date'],
-    contactPreference: ['Select one option']
+    contactPreference: ['Select one option'],
+    sortBy: ['Please select at least one option']
   };
 
   ngOnInit(): void {
@@ -48,6 +49,7 @@ export class StyleGuideComponent implements OnInit {
         month: new FormControl(''),
         year: new FormControl('')
       }, dateValidator()),
+      sortBy: new FormControl('', Validators.required)
     });
   }
 
@@ -75,6 +77,7 @@ export class StyleGuideComponent implements OnInit {
         checkboxes: [(this.f.checkboxes.errors && this.f.checkboxes.errors.requireOneCheckboxToBeChecked)],
         passport: [(this.f.passport.errors && this.f.passport.errors.dateIsInvalid)],
         contactPreference: [(this.f.contactPreference.errors && this.f.contactPreference.errors.required)],
+        sortBy:  [(this.f.sortBy.errors && this.f.sortBy.errors.required)],
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

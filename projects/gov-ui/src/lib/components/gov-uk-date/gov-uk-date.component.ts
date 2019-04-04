@@ -16,7 +16,7 @@ import {Component, Input, OnInit} from '@angular/core';
         [errorMessage]="error">
       </lib-error-message>
       <!--      -->
-      <div class="govuk-date-input" [id]="config.id">
+      <div class="govuk-date-input" [id]="config.id+'-date'">
         <div class="govuk-date-input__item">
           <div class="govuk-form-group">
             <lib-gov-label

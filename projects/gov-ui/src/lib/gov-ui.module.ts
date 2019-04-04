@@ -18,6 +18,7 @@ import {GovUkDateComponent} from './components/gov-uk-date/gov-uk-date.component
 import {CheckboxesComponent} from './components/gov-uk-checkboxes/checkboxes.component';
 import {GovUkRadioComponent} from './components/gov-uk-radio/gov-uk-radio.component';
 import {GovUkRadiosComponent} from './components/gov-uk-radios/gov-uk-radios.component';
+import {GovUkSelectComponent} from './components/gov-uk-select/gov-uk-select.component';
 
 const COMPONENTS = [
   GovukTableComponent,
@@ -35,7 +36,8 @@ const COMPONENTS = [
   GovUkDateComponent,
   CheckboxesComponent,
   GovUkRadioComponent,
-  GovUkRadiosComponent
+  GovUkRadiosComponent,
+  GovUkSelectComponent
 ];
 
 @NgModule({

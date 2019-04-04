@@ -129,7 +129,7 @@ export class FormComponent implements OnInit {
     };
 
     this.moreDetail = {
-      id: 'moreDetail',
+      id: 'moreDetails',
       label: 'Can you provide more detail?',
       hint: 'Do not include personal or financial information, like your National Insurance number or credit card details.',
       rows: 5,

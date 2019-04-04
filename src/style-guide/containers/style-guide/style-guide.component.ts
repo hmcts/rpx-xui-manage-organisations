@@ -30,7 +30,8 @@ export class StyleGuideComponent implements OnInit {
     checkboxes: ['Select at least one option'],
     passport: ['Please enter valid date'],
     contactPreference: ['Select one option'],
-    sortBy: ['Please select at least one option']
+    sortBy: ['Please select at least one option'],
+    moreDetails: ['Please provide more details']
   };
 
   ngOnInit(): void {
@@ -49,7 +50,8 @@ export class StyleGuideComponent implements OnInit {
         month: new FormControl(''),
         year: new FormControl('')
       }, dateValidator()),
-      sortBy: new FormControl('', Validators.required)
+      sortBy: new FormControl('', Validators.required),
+      moreDetails: new FormControl('', Validators.required)
     });
   }
 
@@ -77,7 +79,8 @@ export class StyleGuideComponent implements OnInit {
         checkboxes: [(this.f.checkboxes.errors && this.f.checkboxes.errors.requireOneCheckboxToBeChecked)],
         passport: [(this.f.passport.errors && this.f.passport.errors.dateIsInvalid)],
         contactPreference: [(this.f.contactPreference.errors && this.f.contactPreference.errors.required)],
-        sortBy:  [(this.f.sortBy.errors && this.f.sortBy.errors.required)],
+        sortBy: [(this.f.sortBy.errors && this.f.sortBy.errors.required)],
+        moreDetails: [(this.f.moreDetails.errors && this.f.moreDetails.errors.required)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
 /*
 * Gov UK Input component
 * Responsible for displaying input, hint and error messages
@@ -51,12 +52,6 @@ export class GovUkInputComponent implements OnChanges, OnInit {
   }
 
   setDescribedBy() {
-    if (!(this.errorMessage && this.errorMessage.messages.length)) {
-      return this.config.hint ? `${this.config.id}-hint` : null;
-    }
-    if (this.errorMessage && this.errorMessage.messages.length) {
-      return  this.config.hint ? `${this.config.id}-hint ${this.config.id}-error` : `${this.config.id}-error`;
-    }
-    return null;
+    return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
 }

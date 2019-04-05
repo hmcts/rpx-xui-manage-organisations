@@ -82,7 +82,6 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
 }
 
 
-
 export async function oauth(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const session = req.session!
 
@@ -93,7 +92,8 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             logger.info('Getting user details')
 
             const accessToken = response.data.access_token
-            const details: any = await getUserDetails(accessToken)
+
+            const details: AxiosResponse<any> = await getUserDetails(accessToken)
 
           // logger.info('details are', details.data)
 
@@ -101,15 +101,15 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             res.cookie(config.cookies.token, accessToken)
 
             const orgIdResponse = await getOrganisationId(details)
-            const orgId = orgIdResponse.data.id
-            //
+
             session.auth = {
-                email: details.data.email,
-                orgId,
-                roles: details.data.roles,
-                token: response.data.access_token,
-                userId: details.data.id
+              email: details.data.email,
+              orgId: orgIdResponse.data.id,
+              roles: details.data.roles,
+              token: response.data.access_token,
+              userId: details.data.id,
             }
+
 
             logger.info('save session', session)
             session.save(() => {

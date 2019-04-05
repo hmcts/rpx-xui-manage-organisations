@@ -15,15 +15,15 @@ export class FormComponent implements OnInit {
 
   errors: string[];
   checkboxes;
-  radios;
+  contactPreference;
   sortBySelect;
   moreDetail;
   formConstMode;
   ngOnInit(): void {
     this.formConstMode = CONST.STG_FORM_MODEL;
     // temporary to
-    this.checkboxes = {
-      key: 'checkboxes',
+    this[CONST.STG_FORM_MODEL.checkboxes] = {
+      key: CONST.STG_FORM_MODEL.checkboxes,
       config: {
         hint: 'Choose what the user will be able to do. You can change this later.',
         legend: 'Checkboxes',
@@ -55,12 +55,12 @@ export class FormComponent implements OnInit {
     };
 
 
-    this.radios = {
-      key: 'contactPreference',
+    this[CONST.STG_FORM_MODEL.contactPreference] = {
+      key: [CONST.STG_FORM_MODEL.contactPreference],
       config: {
         hint: 'Choose what the user will be able to do. You can change this later.',
         legend: 'How would you prefer to be contacted?',
-        key: 'contactPreference',
+        key: CONST.STG_FORM_MODEL.contactPreference,
         isHeading: false
       },
       group: this.styleGuideFromGroup.controls,

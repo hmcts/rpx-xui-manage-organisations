@@ -33,7 +33,7 @@ export class GovUkFieldsetComponent {
   @Input() isHeading: boolean;
   @Input() errorMessage: string[];
 
-  setDescribedBy() {
+  setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
 }

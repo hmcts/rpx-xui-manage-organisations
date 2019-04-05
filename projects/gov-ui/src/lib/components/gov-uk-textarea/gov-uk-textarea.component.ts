@@ -6,7 +6,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 * Responsible for displaying a list of gov-uk-checkboxes
 * @param: options - object with data for wrapper (fieldset) and
 * array of items for gov-uk-checkboxes
-* @param: errors - array of errorMessage stings
+* @param: errors - array of errorMessage
 * */
 @Component({
   selector: 'lib-gov-uk-textarea',
@@ -30,7 +30,7 @@ export class GovUkTextareaComponent {
   @Input() errorMessage: string[];
   @Input() group: FormGroup;
 
-  setDescribedBy() {
+  setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
 

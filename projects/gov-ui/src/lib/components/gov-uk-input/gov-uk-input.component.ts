@@ -51,7 +51,7 @@ export class GovUkInputComponent implements OnChanges, OnInit {
     this.config.classes = 'govuk-label--m';
   }
 
-  setDescribedBy() {
+  setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
 }

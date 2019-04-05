@@ -8,6 +8,8 @@ import {Observable} from 'rxjs';
 import {dateValidator} from '../../../custom-validators/date.validator';
 import {StyleGuideFormDataModel} from '../../models/style-guide-form-data.model';
 
+import {StyleGuideFormConstants as CONST} from '../../constants/style-guide-form.constants';
+
 /*
 * Style Guide Mediator Component
 * It holds the state
@@ -26,12 +28,12 @@ export class StyleGuideComponent implements OnInit {
   formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>;
 
   errorMessages: StyleGuideFormDataModel = {
-    input: ['Enter first name', 'Email must contain at least the @ character'],
-    checkboxes: ['Select at least one option'],
-    passport: ['Please enter valid date'],
-    contactPreference: ['Select one option'],
-    sortBy: ['Please select at least one option'],
-    moreDetails: ['Please provide more details']
+    [CONST.STG_FORM_MODEL.input]: ['Enter first name', 'Email must contain at least the @ character'],
+    [CONST.STG_FORM_MODEL.checkboxes]: ['Select at least one option'],
+    [CONST.STG_FORM_MODEL.passport]: ['Please enter valid date'],
+    [CONST.STG_FORM_MODEL.contactPreference]: ['Select one option'],
+    [CONST.STG_FORM_MODEL.sortBy]: ['Please select at least one option'],
+    [CONST.STG_FORM_MODEL.moreDetails]: ['Please provide more details']
   };
 
   ngOnInit(): void {
@@ -39,19 +41,19 @@ export class StyleGuideComponent implements OnInit {
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
     // TODO add type
     this.styleGuideForm = new FormGroup({
-      input: new FormControl('', [Validators.required, Validators.email]),
-      checkboxes: new FormGroup({ // checkboxes
+      [CONST.STG_FORM_MODEL.input]: new FormControl('', [Validators.required, Validators.email]),
+      [CONST.STG_FORM_MODEL.checkboxes]: new FormGroup({ // checkboxes
         createCases: new FormControl(''),
         viewCases: new FormControl(''),
       }, checkboxesBeCheckedValidator()),
-      contactPreference: new FormControl('', Validators.required),
-      passport: new FormGroup({ // date
+      [CONST.STG_FORM_MODEL.contactPreference]: new FormControl('', Validators.required),
+      [CONST.STG_FORM_MODEL.passport]: new FormGroup({ // date
         day: new FormControl(''),
         month: new FormControl(''),
         year: new FormControl('')
       }, dateValidator()),
-      sortBy: new FormControl('', Validators.required),
-      moreDetails: new FormControl('', Validators.required)
+      [CONST.STG_FORM_MODEL.sortBy]: new FormControl('', Validators.required),
+      [CONST.STG_FORM_MODEL.moreDetails]: new FormControl('', Validators.required)
     });
   }
 
@@ -68,19 +70,29 @@ export class StyleGuideComponent implements OnInit {
     /*
     * bind form errors to an object
     * to be used later to display error messages
-    * what normally is done by default in Angular when double binding is used.
+    * what normally is done by default in Angular when observable binding is used.
     * */
     const formValidationData = {
       isInvalid: {
-        input: [
-          (this.f.input.errors && this.f.input.errors.required),
-          (this.f.input.errors && this.f.input.errors.email)
+        [CONST.STG_FORM_MODEL.input]: [
+          (this.f[CONST.STG_FORM_MODEL.input].errors && this.f[CONST.STG_FORM_MODEL.input].errors.required),
+          (this.f[CONST.STG_FORM_MODEL.input].errors && this.f[CONST.STG_FORM_MODEL.input].errors.email)
         ],
-        checkboxes: [(this.f.checkboxes.errors && this.f.checkboxes.errors.requireOneCheckboxToBeChecked)],
-        passport: [(this.f.passport.errors && this.f.passport.errors.dateIsInvalid)],
-        contactPreference: [(this.f.contactPreference.errors && this.f.contactPreference.errors.required)],
-        sortBy: [(this.f.sortBy.errors && this.f.sortBy.errors.required)],
-        moreDetails: [(this.f.moreDetails.errors && this.f.moreDetails.errors.required)]
+
+        [CONST.STG_FORM_MODEL.checkboxes]: [(this.f[CONST.STG_FORM_MODEL.checkboxes].errors &&
+          this.f[CONST.STG_FORM_MODEL.checkboxes].errors.requireOneCheckboxToBeChecked)],
+
+        [CONST.STG_FORM_MODEL.passport]: [(this.f[CONST.STG_FORM_MODEL.passport].errors &&
+          this.f[CONST.STG_FORM_MODEL.passport].errors.dateIsInvalid)],
+
+        [CONST.STG_FORM_MODEL.contactPreference]: [(this.f[CONST.STG_FORM_MODEL.contactPreference].errors &&
+          this.f[CONST.STG_FORM_MODEL.contactPreference].errors.required)],
+
+        [CONST.STG_FORM_MODEL.sortBy]: [(this.f[CONST.STG_FORM_MODEL.sortBy].errors &&
+          this.f[CONST.STG_FORM_MODEL.sortBy].errors.required)],
+
+        [CONST.STG_FORM_MODEL.moreDetails]: [(this.f[CONST.STG_FORM_MODEL.moreDetails].errors &&
+          this.f[CONST.STG_FORM_MODEL.moreDetails].errors.required)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

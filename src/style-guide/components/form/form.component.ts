@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-
+import {StyleGuideFormConstants as CONST} from '../../constants/style-guide-form.constants';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -18,7 +18,9 @@ export class FormComponent implements OnInit {
   radios;
   sortBySelect;
   moreDetail;
+  formConstMode;
   ngOnInit(): void {
+    this.formConstMode = CONST.STG_FORM_MODEL;
     // temporary to
     this.checkboxes = {
       key: 'checkboxes',
@@ -143,6 +145,10 @@ export class FormComponent implements OnInit {
   }
 
   dispatchLoadData() {
+    /**
+     * This could be used to dispatch load form data
+     * after feature toggle was enabled
+     * */
     return true
   }
 

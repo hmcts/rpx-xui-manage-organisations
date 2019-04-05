@@ -5,31 +5,31 @@
 
     <lib-gov-uk-input
       [config]="{label: 'Input Component', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
-      [errorMessage]="errors.input"
+      [errorMessage]="errors[formConstMode.input]"
       [group]="styleGuideFromGroup">
     </lib-gov-uk-input>
 
-    <lib-gov-uk-checkboxes [errors]="errors.checkboxes" [options]="checkboxes"></lib-gov-uk-checkboxes>
+    <lib-gov-uk-checkboxes [errors]="errors[formConstMode.checkboxes]" [options]="checkboxes"></lib-gov-uk-checkboxes>
 
-    <lib-gov-uk-radios [errors]="errors.contactPreference" [options]="radios"></lib-gov-uk-radios>
+    <lib-gov-uk-radios [errors]="errors[formConstMode.contactPreference]" [options]="radios"></lib-gov-uk-radios>
 
     <lib-gov-uk-date
-      [config]="{id: 'passport'}"
-      [formGroup]="styleGuideFromGroup.controls.passport"
-      [errorMessage]="errors.passport">
+      [config]="{id: formConstMode.passport}"
+      [formGroup]="styleGuideFromGroup.controls[formConstMode.passport]"
+      [errorMessage]="errors[formConstMode.passport]">
     </lib-gov-uk-date>
 
     <lib-gov-select
       [group]="styleGuideFromGroup"
       [config]="sortBySelect.config"
       [items]="sortBySelect.items"
-      [errorMessage]="errors.sortBy">
+      [errorMessage]="errors[formConstMode.sortBy]">
     </lib-gov-select>
 
     <lib-gov-uk-textarea
       [config]="moreDetail"
       [group]="styleGuideFromGroup"
-      [errorMessage]="errors.moreDetails"
+      [errorMessage]="errors[formConstMode.moreDetails]"
     ></lib-gov-uk-textarea>
 
     <button type="submit" class="govuk-button">

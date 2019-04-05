@@ -149,7 +149,7 @@ export class FormComponent implements OnInit {
      * This could be used to dispatch load form data
      * after feature toggle was enabled
      * */
-    return true
+    return true;
   }
 
 }

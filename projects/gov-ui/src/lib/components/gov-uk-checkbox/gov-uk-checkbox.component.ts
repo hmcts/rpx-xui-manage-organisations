@@ -9,7 +9,7 @@ import {FormGroup} from '@angular/forms';
   selector: 'lib-gov-checkbox',
   template: `
       <div class="govuk-checkboxes__item" [formGroup]="group">
-        <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.value+'-item-hint'"
+        <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.hint ? config.value+'-item-hint' : null"
         [id]="config.id" [name]="config.name" [formControlName]="config.value">
         <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
         <span [id]="config.value+'-hint'" class="govuk-hint govuk-checkboxes__hint">
@@ -35,5 +35,4 @@ export class GovUkCheckboxComponent implements OnInit{
     this.config.classes = this.config.classes ?
       this.config.classes.concat(' govuk-checkboxes__label') : 'govuk-checkboxes__label';
   }
-
 }

@@ -10,12 +10,13 @@ import {Component, Input} from '@angular/core';
   template: `
     <div class="govuk-form-group" [attr.formGroupName]="group" [ngClass]="{'govuk-form-group--error': (error?.isInvalid)}">
       <lib-gov-uk-fieldset
-        [config]="{legend: config.legend, classes: 'govuk-label--m', id: config.key}" [isHeading]="config.isHeading">
-        <span [id]="config.key+'-hint'" class="govuk-hint">
-          {{config.hint}}
-        </span>
+        [config]="{legend: config.legend, classes: 'govuk-label--m', id: config.key, hint: config.hint}"
+        [isHeading]="config.isHeading">
+
         <lib-gov-uk-error-message [config]="{id: group}" [errorMessage]="error"></lib-gov-uk-error-message>
+
         <ng-content></ng-content>
+
       </lib-gov-uk-fieldset>
     </div>
   `
@@ -24,6 +25,6 @@ export class GovUkFormGroupWrapperComponent {
   constructor () { }
   @Input() error: {isInvalid: boolean; messages: string}; // todo add interface
   @Input() group: string;
-  @Input() config: {hint: string; legend: string, key: string, isHeading: boolean}; // TODO create a global interface
+  @Input() config: {hint: string; legend: string, key: string, isHeading: boolean;}; // TODO create a global interface
 
 }

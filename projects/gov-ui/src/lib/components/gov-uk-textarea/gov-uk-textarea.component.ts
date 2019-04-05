@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 /*
 * CheckBox component - state less
 * Responsible for displaying a list of gov-uk-checkboxes
@@ -20,8 +21,7 @@ import {FormGroup} from '@angular/forms';
       <textarea
         class="govuk-textarea" [formControlName]="config.id"
         [ngClass]="{'govuk-textarea--error': errorMessage?.isInvalid}"
-        [id]="config.id" name="more-detail" [rows]="config.rows" aria-describedby="more-detail-hint more-detail-error"></textarea>
-      <!-- TODO add add describe by-->
+        [id]="config.id" name="more-detail" [rows]="config.rows" [attr.aria-describedby]="setDescribedBy()"></textarea>
     </div>
   `
 })
@@ -29,5 +29,9 @@ export class GovUkTextareaComponent {
   @Input() config: {label: string; classes: string; hint: string; id: string; rows: number};
   @Input() errorMessage: string[];
   @Input() group: FormGroup;
+
+  setDescribedBy() {
+    return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
+  }
 
 }

@@ -9,14 +9,16 @@ import {Component, Input, OnInit} from '@angular/core';
   selector: 'lib-gov-uk-date',
   template: `
     <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}" [formGroup]="formGroup">
-      <lib-gov-uk-fieldset [config]="{legend: 'Date component', classes: 'govuk-label--m', id: config.id}" [isHeading]="false">
-      <span [id]="config.id+'-hint'" class="govuk-hint">
-        For example, 12 11 2007
-      </span>
-        <lib-gov-uk-error-message [config]="{id: 'passport'}" *ngIf="errorMessage"
-                                  [errorMessage]="errorMessage">
+      <lib-gov-uk-fieldset
+        [config]="{legend: 'Date component', classes: 'govuk-label--m', id: config.id, hint: ' For example, 12 11 2007'}"
+        [isHeading]="false"
+        [errorMessage]="errorMessage">
+        <lib-gov-uk-error-message
+          [config]="{id: 'passport'}"
+          *ngIf="errorMessage"
+          [errorMessage]="errorMessage">
         </lib-gov-uk-error-message>
-        <!--      -->
+
         <div class="govuk-date-input" [id]="config.id+'-date'">
           <div class="govuk-date-input__item">
             <div class="govuk-form-group">

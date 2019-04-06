@@ -28,14 +28,18 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
     </div>
   `
 })
-export class GovUkInputComponent implements OnInit {
+export class GovUkInputComponent implements OnInit, OnChanges {
   constructor () { }
-  @Input() errorMessage;
+  @Input() errorMessage: {isInvalid: boolean; mesages: string[] };
   @Input() group: FormGroup;
   @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
   ngOnInit(): void {
     this.config.classes = 'govuk-label--m';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // debugger
   }
 
   setDescribedBy(): string {

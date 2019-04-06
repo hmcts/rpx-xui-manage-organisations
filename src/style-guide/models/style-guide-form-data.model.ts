@@ -6,5 +6,6 @@ export interface StyleGuideFormDataModel {
   passport: FormGroup | string[];
   contactPreference: FormGroup | string[];
   sortBy: FormGroup | string[];
-  moreDetails: FormGroup | string[]
+  moreDetails: FormGroup | string[];
+  fileUpload: FormGroup | string[]
 }

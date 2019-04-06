@@ -20,6 +20,7 @@ import {GovUkRadioComponent} from './components/gov-uk-radio/gov-uk-radio.compon
 import {GovUkRadiosComponent} from './components/gov-uk-radios/gov-uk-radios.component';
 import {GovUkSelectComponent} from './components/gov-uk-select/gov-uk-select.component';
 import {GovUkTextareaComponent} from './components/gov-uk-textarea/gov-uk-textarea.component';
+import {GovUkFileUploadComponent} from './components/gov-uk-file-upload/gov-uk-file-upload.component';
 
 const COMPONENTS = [
   GovukTableComponent,
@@ -39,7 +40,8 @@ const COMPONENTS = [
   GovUkRadioComponent,
   GovUkRadiosComponent,
   GovUkSelectComponent,
-  GovUkTextareaComponent
+  GovUkTextareaComponent,
+  GovUkFileUploadComponent
 ];
 
 @NgModule({

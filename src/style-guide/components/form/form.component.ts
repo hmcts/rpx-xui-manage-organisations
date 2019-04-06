@@ -18,9 +18,9 @@ export class FormComponent implements OnInit {
   contactPreference;
   sortBySelect;
   moreDetail;
-  formConstMode;
+  formConstModel;
   ngOnInit(): void {
-    this.formConstMode = CONST.STG_FORM_MODEL;
+    this.formConstModel = CONST.STG_FORM_MODEL;
     // temporary to
     this[CONST.STG_FORM_MODEL.checkboxes] = {
       key: CONST.STG_FORM_MODEL.checkboxes,

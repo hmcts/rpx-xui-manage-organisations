@@ -11,7 +11,8 @@ import {Component, Input} from '@angular/core';
     <div class="govuk-form-group" [attr.formGroupName]="group" [ngClass]="{'govuk-form-group--error': (error?.isInvalid)}">
       <lib-gov-uk-fieldset
         [config]="{legend: config.legend, classes: 'govuk-label--m', id: config.key, hint: config.hint}"
-        [isHeading]="config.isHeading">
+        [isHeading]="config.isHeading" 
+        [errorMessage]="error">
 
         <lib-gov-uk-error-message [config]="{id: group}" [errorMessage]="error"></lib-gov-uk-error-message>
 
@@ -28,3 +29,4 @@ export class GovUkFormGroupWrapperComponent {
   @Input() config: {hint: string; legend: string, key: string, isHeading: boolean;}; // TODO create a global interface
 
 }
+

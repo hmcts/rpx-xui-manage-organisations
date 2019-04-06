@@ -33,7 +33,8 @@ export class StyleGuideComponent implements OnInit {
     [CONST.STG_FORM_MODEL.passport]: ['Please enter valid date'],
     [CONST.STG_FORM_MODEL.contactPreference]: ['Select one option'],
     [CONST.STG_FORM_MODEL.sortBy]: ['Please select at least one option'],
-    [CONST.STG_FORM_MODEL.moreDetails]: ['Please provide more details']
+    [CONST.STG_FORM_MODEL.moreDetails]: ['Please provide more details'],
+    [CONST.STG_FORM_MODEL.fileUpload]: ['The CSV must be smaller than 2MB']
   };
 
   ngOnInit(): void {
@@ -53,7 +54,8 @@ export class StyleGuideComponent implements OnInit {
         year: new FormControl('')
       }, dateValidator()),
       [CONST.STG_FORM_MODEL.sortBy]: new FormControl('', Validators.required),
-      [CONST.STG_FORM_MODEL.moreDetails]: new FormControl('', Validators.required)
+      [CONST.STG_FORM_MODEL.moreDetails]: new FormControl('', Validators.required),
+      [CONST.STG_FORM_MODEL.fileUpload]: new FormControl('', Validators.required)
     });
   }
 
@@ -92,7 +94,10 @@ export class StyleGuideComponent implements OnInit {
           this.f[CONST.STG_FORM_MODEL.sortBy].errors.required)],
 
         [CONST.STG_FORM_MODEL.moreDetails]: [(this.f[CONST.STG_FORM_MODEL.moreDetails].errors &&
-          this.f[CONST.STG_FORM_MODEL.moreDetails].errors.required)]
+          this.f[CONST.STG_FORM_MODEL.moreDetails].errors.required)],
+
+        [CONST.STG_FORM_MODEL.fileUpload]: [(this.f[CONST.STG_FORM_MODEL.fileUpload].errors &&
+          this.f[CONST.STG_FORM_MODEL.fileUpload].errors.required)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

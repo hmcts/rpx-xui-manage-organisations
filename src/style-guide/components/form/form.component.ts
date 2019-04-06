@@ -99,7 +99,7 @@ export class FormComponent implements OnInit {
     this.sortBySelect = {
       config: {
         hint: 'You can sort by different categories',
-        key: 'sortBy',
+        id: 'sortBy',
         label: 'Sort By',
         classes: 'govuk-label--m',
         isHeading: true,
@@ -114,7 +114,6 @@ export class FormComponent implements OnInit {
         {
           value: 'updated',
           label: 'Recently updated',
-          isSelected: true,
           id: 'phone',
         },
         {

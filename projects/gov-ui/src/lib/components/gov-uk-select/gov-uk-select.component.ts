@@ -16,7 +16,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
       </span>
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
 
-      <select class="govuk-select" [id]="config.id" name="sort" [formControlName]="config.id" [attr.aria-describedby]='setDescribedBy()'>
+      <select class="govuk-select" [id]="config.id" [name]="config.id" [formControlName]="config.id" [attr.aria-describedby]='setDescribedBy()'>
         <option value="{{item.value}}" *ngFor="let item of items">{{item.label}}</option>
       </select>
     </div>

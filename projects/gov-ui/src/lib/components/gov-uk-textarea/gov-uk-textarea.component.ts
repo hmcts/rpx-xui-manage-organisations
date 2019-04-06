@@ -19,14 +19,14 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
       </span>
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
       <textarea
-        class="govuk-textarea" [formControlName]="config.id"
+        class="govuk-textarea" [formControlName]="config.key"
         [ngClass]="{'govuk-textarea--error': errorMessage?.isInvalid}"
         [id]="config.id" name="more-detail" [rows]="config.rows" [attr.aria-describedby]="setDescribedBy()"></textarea>
     </div>
   `
 })
 export class GovUkTextareaComponent {
-  @Input() config: {label: string; classes: string; hint: string; id: string; rows: number};
+  @Input() config: {label: string; classes: string; hint: string; key: string; rows: number};
   @Input() errorMessage: string[];
   @Input() group: FormGroup;
 

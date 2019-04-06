@@ -23,7 +23,6 @@ export class FormComponent implements OnInit {
     this.formConstModel = CONST.STG_FORM_MODEL;
     // temporary to
     this[CONST.STG_FORM_MODEL.checkboxes] = {
-      key: CONST.STG_FORM_MODEL.checkboxes,
       config: {
         hint: 'Choose what the user will be able to do. You can change this later.',
         legend: 'Checkboxes',
@@ -56,17 +55,16 @@ export class FormComponent implements OnInit {
 
 
     this[CONST.STG_FORM_MODEL.contactPreference] = {
-      key: [CONST.STG_FORM_MODEL.contactPreference],
+      key: CONST.STG_FORM_MODEL.contactPreference,
       config: {
         hint: 'Choose what the user will be able to do. You can change this later.',
         legend: 'How would you prefer to be contacted?',
         key: CONST.STG_FORM_MODEL.contactPreference,
         isHeading: false
       },
-      group: this.styleGuideFromGroup.controls,
+      group: this.styleGuideFromGroup,
       items: [
         {
-          group: this.styleGuideFromGroup,
           config: {
             value: 'email',
             label: 'Email',
@@ -76,7 +74,6 @@ export class FormComponent implements OnInit {
           }
         },
         {
-          group: this.styleGuideFromGroup,
           config: {
             value: 'phone',
             label: 'Phone',
@@ -85,7 +82,6 @@ export class FormComponent implements OnInit {
           }
         },
         {
-          group: this.styleGuideFromGroup,
           config: {
             value: 'textMessage',
             label: 'Text Message',
@@ -97,6 +93,7 @@ export class FormComponent implements OnInit {
     };
 
     this.sortBySelect = {
+      group: this.styleGuideFromGroup,
       config: {
         hint: 'You can sort by different categories',
         id: 'sortBy',
@@ -104,7 +101,6 @@ export class FormComponent implements OnInit {
         classes: 'govuk-label--m',
         isHeading: true,
       },
-      group: this.styleGuideFromGroup,
       items: [
         {
           value: 'published',
@@ -130,7 +126,7 @@ export class FormComponent implements OnInit {
     };
 
     this.moreDetail = {
-      id: 'moreDetails',
+      key: 'moreDetails',
       label: 'Can you provide more detail?',
       hint: 'Do not include personal or financial information, like your National Insurance number or credit card details.',
       rows: 5,

@@ -14,7 +14,7 @@ import {FormGroup} from '@angular/forms';
              [value]="config.value" type="radio"
              [attr.data-aria-controls]="config.id"
              [name]="config.name"
-             [formControlName]="config.name">
+             [formControl]="group.controls[config.name]">
       <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
     </div>
   `

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {FormGroup, FormControl, Validators, FormBuilder} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
@@ -21,7 +21,7 @@ import {StyleGuideFormConstants as CONST} from '../../constants/style-guide-form
 })
 export class StyleGuideComponent implements OnInit {
 
-  constructor(private store: Store<fromStore.UserState>) { }
+  constructor(private store: Store<fromStore.UserState>, private fb: FormBuilder) { }
   styleGuideForm: FormGroup;
 
   formValidationErrors$: Observable<any>;
@@ -41,10 +41,10 @@ export class StyleGuideComponent implements OnInit {
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
     // TODO add type
-    this.styleGuideForm = new FormGroup({
+    this.styleGuideForm = this.fb.group({
       [CONST.STG_FORM_MODEL.input]: new FormControl('', [Validators.required, Validators.email]),
       [CONST.STG_FORM_MODEL.checkboxes]: new FormGroup({ // checkboxes
-        createCases: new FormControl(''),
+        createCases: new FormControl(),
         viewCases: new FormControl(''),
       }, checkboxesBeCheckedValidator()),
       [CONST.STG_FORM_MODEL.contactPreference]: new FormControl('', Validators.required),
@@ -65,7 +65,8 @@ export class StyleGuideComponent implements OnInit {
   onSubmit() {
     this.dispatchValidation();
     // this is where the form values would get dispatched
-    // const {value} = this.styleGuideForm;
+    const {value} = this.styleGuideForm;
+    console.log(value)
   }
 
   dispatchValidation() {

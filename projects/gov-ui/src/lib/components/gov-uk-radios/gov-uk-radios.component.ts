@@ -18,7 +18,7 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
         <lib-gov-radio
           appRemoveHost
           *ngFor="let item of options.items"
-          [group]="item.group"
+          [group]="options.group"
           [config]="item.config">
         </lib-gov-radio>
       </div>

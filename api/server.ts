@@ -68,5 +68,10 @@ app.use('/*', (req, res) => {
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
 }
+console.log('HERE WE GO', )
 
-app.listen(process.env.PORT || 3000)
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+  console.log('app process env', process.env)
+  console.log('App running on' + port)
+});

@@ -53,8 +53,25 @@ app.use(auth.attach)
 
 app.use('/api', routes)
 
+// const port = process.env.PORT || 3000
+// app.listen(port)
+
 const port = process.env.PORT || 3000
-app.listen(port)
+app.listen(port, () => {
+  // process.env,
+  console.log('app process env S2S_SECRET key is:', process.env.S2S_SECRET )
+  console.log('app process env IDAM_SECRET key is:', process.env.IDAM_SECRET )
+  if (process.env.S2S_SECRET === undefined  ) {
+    console.log('Your are missing a S2S_SECRET, please read README file')
+    process.exit()
+  }
+  if (process.env.IDAM_SECRET === undefined ) {
+    console.log('Your are missing a IDAM_SECRET, please read README file')
+    process.exit()
+  }
+  console.log('App running on' + port)
+});
+
 
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY

@@ -1,0 +1,45 @@
+
+<form [formGroup]="styleGuideFromGroup" (ngSubmit)="onSubmit()" >
+
+  <ng-container *ngIf="dispatchLoadData()">
+
+    <lib-gov-uk-input
+      [config]="{label: 'Input Component', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
+      [errorMessage]="errors[formConstModel.input]"
+      [group]="styleGuideFromGroup">
+    </lib-gov-uk-input>
+
+    <lib-gov-uk-checkboxes [errors]="errors[formConstModel.checkboxes]" [options]="checkboxes"></lib-gov-uk-checkboxes>
+
+    <lib-gov-uk-radios [errors]="errors[formConstModel.contactPreference]" [options]="contactPreference"></lib-gov-uk-radios>
+
+    <lib-gov-uk-date
+      [config]="{id: formConstModel.passport}"
+      [formGroup]="styleGuideFromGroup.controls[formConstModel.passport]"
+      [errorMessage]="errors[formConstModel.passport]">
+    </lib-gov-uk-date>
+
+    <lib-gov-select
+      [group]="styleGuideFromGroup"
+      [config]="sortBySelect.config"
+      [items]="sortBySelect.items"
+      [errorMessage]="errors[formConstModel.sortBy]">
+    </lib-gov-select>
+
+    <lib-gov-uk-file-upload
+      [errorMessage]="errors[formConstModel.fileUpload]"
+      [group]="styleGuideFromGroup"
+      [config]="{label: 'Upload a file', id: formConstModel.fileUpload, name: 'fileUpload'}"
+    ></lib-gov-uk-file-upload>
+
+    <lib-gov-uk-textarea
+      [config]="moreDetail"
+      [group]="styleGuideFromGroup"
+      [errorMessage]="errors[formConstModel.moreDetails]"
+    ></lib-gov-uk-textarea>
+
+    <button type="submit" class="govuk-button">
+      Send invitation
+    </button>
+  </ng-container>
+</form>

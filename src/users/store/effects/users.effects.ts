@@ -29,8 +29,8 @@ export class UsersEffects {
 
   @Effect()
   saveUsers$ = this.actions$.pipe(
-    ofType(usersActions.INVITE_USER),
-    map((action: usersActions.InviteUser) => action.payload),
+    ofType(usersActions.SEND_INVITE_USER),
+    map((action: usersActions.SendInviteUser) => action.payload),
     switchMap((inviteUserFormData) => {
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => new usersActions.InviteUserSuccess(userDetails)),

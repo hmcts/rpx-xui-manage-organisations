@@ -1,0 +1,17 @@
+<lib-gov-uk-main-wrapper [summaryErrors]="formValidationErrorsArray$ | async"
+                         [backLink]="'/users'"
+                         [title]="'Style Guide'">
+
+  <p class="govuk-body">Components are reusable parts of the user interface that have been made to support a variety
+    of applications.
+  </p>
+  <p class="govuk-body">Individual components can be used in multiple different patterns and contexts.
+    For example, the checkbox component can be used at the side of the page or on a page of its own in full.
+  </p>
+
+  <app-form [errorMessages]="formValidationErrors$ | async"
+            [styleGuideFromGroup]="styleGuideForm"
+            (submitForm)="onSubmit()"
+  ></app-form>
+
+</lib-gov-uk-main-wrapper>

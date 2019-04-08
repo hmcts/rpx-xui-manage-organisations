@@ -24,6 +24,10 @@ export const ROUTES: Routes = [
     loadChildren: '../auth/auth.module#AuthModule'
   },
   {
+    path: 'style-guide',
+    loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
+  },
+  {
     path: '**',
     redirectTo: '/organisation',
     pathMatch: 'full'

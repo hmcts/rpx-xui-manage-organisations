@@ -1,15 +1,13 @@
 import {Component, Input} from '@angular/core';
-
 /*
 * Main Content wrapper
 * Responsible for:
  * Wrapping content within the gov-uk html elements bellow
- * @prop showBackLink - switch for back linnk
+ * @prop showBackLink - switch for back link
  * @prop title = title
  * @prop summaryErrors list of errors
 * @prop back link, title (title), summaryErrors (array of errors)
 * */
-
 @Component({
   selector: 'lib-gov-uk-main-wrapper',
   template: `

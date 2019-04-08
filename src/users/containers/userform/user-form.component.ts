@@ -57,7 +57,7 @@ export class UserFormComponent implements OnInit {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       const {value} = this.inviteUserForm;
-      this.store.dispatch(new fromStore.InviteUser(value));
+      this.store.dispatch(new fromStore.SendInviteUser(value));
     }
   }
 

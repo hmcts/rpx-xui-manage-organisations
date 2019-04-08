@@ -9,7 +9,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
 * @prop config - adding configuration
 * */
 @Component({
-  selector: 'lib-gov-uk-input',
+  selector: 'lib-gov-uk-file-upload',
   template: `
     <div class="govuk-form-group" [formGroup]="group"
          [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
@@ -18,28 +18,30 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
 
       <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
           {{config.hint}}
-        </span>
+      </span>
 
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
 
-      <input class="govuk-input" [id]="config.id" [name]="config.name" [type]="config.type"
-             [attr.aria-invalid]="errorMessage?.isInvalid"
-             [formControlName]="config.name" [attr.aria-describedby]='setDescribedBy()'>
+      <input class="govuk-file-upload"
+             *ngIf="reloadInput"
+             [formControlName]="config.id"
+             [ngClass]="{'govuk-file-upload--error': errorMessage?.isInvalid}"
+             [id]="config.id" [name]="config.name"
+             [attr.aria-describedby]="setDescribedBy()"
+             type="file">
     </div>
   `
 })
-export class GovUkInputComponent implements OnInit, OnChanges {
+export class GovUkFileUploadComponent implements OnInit {
   constructor () { }
-  @Input() errorMessage: {isInvalid: boolean; mesages: string[] };
+  @Input() errorMessage;
   @Input() group: FormGroup;
   @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
+  reloadInput = true;
+
   ngOnInit(): void {
     this.config.classes = 'govuk-label--m';
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // debugger
   }
 
   setDescribedBy(): string {

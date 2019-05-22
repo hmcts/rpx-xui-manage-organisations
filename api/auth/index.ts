@@ -44,7 +44,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
             req.auth.token = jwt
             req.auth.userId = userId
             req.auth.expires = expires
-            req.auth.roles = roles
+            req.auth.roles = [roles]
             req.auth.email = email
 
           // also use these as axios defaults

@@ -24,8 +24,5 @@
         "dist/gov-ui/*"
       ]
     }
-  },
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  }
 }

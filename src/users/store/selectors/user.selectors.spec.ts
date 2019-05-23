@@ -3,11 +3,11 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { UsersState } from '../reducers/users.reducer';
 import { getGetUserList, getUserState } from './user.selectors';
 import { reducers } from '../index';
-import { UpdateErrorMessages } from '../actions';
+import { UpdateErrorMessages, LoadUsersSuccess } from '../actions';
 
 
 
-fdescribe('User selectors', () => {
+describe('User selectors', () => {
     let store: Store<UsersState>;
     beforeEach(() => {
         TestBed.configureTestingModule({

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { FeeAccountsState } from '../reducers/fee-accounts.reducer';
-import { getFeeAccountsState, getFeeAccountsArray } from './fee-accounts.selectors';
+import { getFeeAccountsState } from './fee-accounts.selectors';
 import { reducers } from '../index';
 import { LoadFeeAccountsSuccess } from '../actions';
 
@@ -30,19 +30,19 @@ describe('Fee accounts selectors', () => {
   });
 
 
-  describe('getFeeAccountsArray', () => {
-    it('should return fee accounts array', () => {
-      let result;
-      store.pipe(select(getFeeAccountsArray)).subscribe(value => {
-        result = value;
+  // describe('getFeeAccountsArray', () => {
+  //   it('should return fee accounts array', () => {
+  //     let result;
+  //     store.pipe(select(getFeeAccountsArray)).subscribe(value => {
+  //       result = value;
 
-      });
-      expect(result).toEqual([]);
-      store.dispatch(new LoadFeeAccountsSuccess([{ payload: 'something' }]));
-      expect(result).toEqual([
-        { payload: 'something' }
-      ]);
-    });
-  });
+  //     });
+  //     expect(result).toEqual([]);
+  //     store.dispatch(new LoadFeeAccountsSuccess([{ payload: 'something' }]));
+  //     expect(result).toEqual([
+  //       { payload: 'something' }
+  //     ]);
+  //   });
+  // });
 
 });

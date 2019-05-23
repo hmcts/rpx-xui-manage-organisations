@@ -50,9 +50,12 @@ describe('Organisation selectors', () => {
       const dummy: Organisation =
       {
         name: 'a@b.com',
-        address1: '10  oxford street',
+        addressLine1: '10  oxford street',
         townCity: 'London',
         postcode: 'W1',
+        houseNoBuildingName: 'house',
+        addressLine2: '',
+        country: 'UK'
       }
 
 

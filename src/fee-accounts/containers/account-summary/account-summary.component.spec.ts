@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountSummaryComponent } from './account-summary.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 describe('AccountSummaryComponent', () => {
   let component: AccountSummaryComponent;
@@ -8,7 +10,9 @@ describe('AccountSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountSummaryComponent ]
+      imports: [ RouterModule.forRoot([]), ],
+      declarations: [ AccountSummaryComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
   }));

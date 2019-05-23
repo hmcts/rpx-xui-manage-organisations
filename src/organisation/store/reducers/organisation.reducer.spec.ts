@@ -53,11 +53,13 @@ describe('OrganisationReducer', () => {
 
       const org: Organisation =
       {
-        id: 1,
-        name: 'some name',
-        address1: 'some address',
+        name: 'a@b.com',
+        addressLine1: '10  oxford street',
         townCity: 'London',
-        postcode: ' ABC1'
+        postcode: 'W1',
+        houseNoBuildingName: 'house',
+        addressLine2: '',
+        country: 'UK'
       }
 
       const { initialState } = fromOrganisation;

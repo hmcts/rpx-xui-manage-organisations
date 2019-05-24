@@ -25,7 +25,21 @@ describe('Single fee account selectors', () => {
         result = value;
 
       });
-      expect(result).toEqual({ singleFeeAccount: [], loaded: false, loading: false });
+
+      const expected = {
+        overview: {
+          data: {},
+          loaded: false,
+          loading: false
+        },
+        transactions: {
+          data: {},
+          loaded: false,
+          loading: false
+        }
+      };
+
+      expect(result).toEqual(expected);
     });
   });
 

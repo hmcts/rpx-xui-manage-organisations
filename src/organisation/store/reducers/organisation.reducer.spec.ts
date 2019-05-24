@@ -27,7 +27,7 @@ describe('OrganisationReducer', () => {
       expect(state.loading).toEqual(true);
       // untouched props, good to add regardless
       expect(state.loaded).toEqual(false);
-      //expect(state.organisation).toEqual([]);
+      // expect(state.organisation).toEqual([]);
     });
   });
 
@@ -36,8 +36,8 @@ describe('OrganisationReducer', () => {
   // fail
   describe('LOAD_ORGANISATION action', () => {
     it('should return the previous state', () => {
-      const { initialState } = fromOrganisation
-      const previousState = { ...initialState, loading: true };
+      const { initialState } = fromOrganisation;
+      const previousState = { ...initialState, loading: false };
       const action = new fromActions.LoadOrganisationFail({});
       const state = fromOrganisation.reducer(previousState, action);
 
@@ -51,8 +51,7 @@ describe('OrganisationReducer', () => {
   describe('LOAD_ORGANISATION_SUCCESS action', () => {
     it('should populate users from the array', () => {
 
-      const org: Organisation =
-      {
+      const org = new Organisation({
         name: 'a@b.com',
         addressLine1: '10  oxford street',
         townCity: 'London',
@@ -60,7 +59,7 @@ describe('OrganisationReducer', () => {
         houseNoBuildingName: 'house',
         addressLine2: '',
         country: 'UK'
-      }
+      });
 
       const { initialState } = fromOrganisation;
       const action = new fromActions.LoadOrganisationSuccess(org);

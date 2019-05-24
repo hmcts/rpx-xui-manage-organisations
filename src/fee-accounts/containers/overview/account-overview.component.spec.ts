@@ -1,29 +1,41 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrganisationAccountsComponent as FeeAccountsComponent } from './account-overview.component';
+import { OrganisationAccountsComponent } from './account-overview.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/fee-accounts/store/reducers';
-import { RouterModule } from '@angular/router';
+import { of } from 'rxjs';
+import { APP_BASE_HREF } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
-describe('FeeAccountsComponent', () => {
-    let component: FeeAccountsComponent;
-    let fixture: ComponentFixture<FeeAccountsComponent>;
+describe('OrganisationAccountsComponent', () => {
+    let component: OrganisationAccountsComponent;
+    let fixture: ComponentFixture<OrganisationAccountsComponent>;
+
+    let activatedRoute: any;
 
     beforeEach(async(() => {
+        activatedRoute = {
+            parent: {
+                params: of({})
+            }
+        };
         TestBed.configureTestingModule({
-            declarations: [FeeAccountsComponent],
+            declarations: [OrganisationAccountsComponent],
             imports: [
-                RouterModule.forRoot([]),
                 StoreModule.forRoot({}),
                 StoreModule.forFeature('feeAccounts', reducers),
             ],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
+            providers: [
+                { provide: APP_BASE_HREF, useValue: '/' },
+                { provide: ActivatedRoute, useValue: activatedRoute },
+            ]
         })
         .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(FeeAccountsComponent);
+        fixture = TestBed.createComponent(OrganisationAccountsComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

@@ -25,7 +25,7 @@ describe('Fee accounts selectors', () => {
         result = value;
 
       });
-      expect(result).toEqual({ feeAccounts: [], loaded: false, loading: false });
+      expect(result).toEqual({ feeAccounts: null, loaded: false, loading: false });
     });
   });
 

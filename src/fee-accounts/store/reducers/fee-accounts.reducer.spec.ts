@@ -20,7 +20,7 @@ describe('FeeAccountsReducer', () => {
 
   describe('getFeeAccounts export', () => {
     it('should return state.feeAccounts', () => {
-      expect(getFeeAccounts(initialState)).toEqual([]);
+      expect(getFeeAccounts(initialState)).toEqual(null);
     });
   });
 

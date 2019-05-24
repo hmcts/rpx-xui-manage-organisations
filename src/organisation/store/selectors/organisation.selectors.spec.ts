@@ -31,24 +31,20 @@ describe('Organisation selectors', () => {
         result = value;
       });
 
-      expect(result).toEqual({ organisation: null, loaded: false, loading: false });
+      expect(result).toEqual({ organisation: new Organisation({}), loaded: false, loading: false });
     });
   });
 
 
 
   describe('getOrganisationSel', () => {
-    it('should return user orgnaisation objects', () => {
+    it('should return user organisation objects', () => {
       let result;
       store.pipe(select(getOrganisationSel)).subscribe(value => {
         result = value;
-
-
       });
 
-
-      const dummy: Organisation =
-      {
+      const dummy = new Organisation({
         name: 'a@b.com',
         addressLine1: '10  oxford street',
         townCity: 'London',
@@ -56,8 +52,7 @@ describe('Organisation selectors', () => {
         houseNoBuildingName: 'house',
         addressLine2: '',
         country: 'UK'
-      }
-
+      });
 
       store.dispatch(new LoadOrganisationSuccess(dummy));
       expect(result).toEqual(dummy);

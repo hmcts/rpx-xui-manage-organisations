@@ -36,7 +36,7 @@ describe('SingleFeeAccountReducer', () => {
 
   describe('getSingleFeeAccount export', () => {
     it('should return state.feeAccounts', () => {
-      expect(getSingleFeeAccountOverview(initialState)).toEqual([]);
+      expect(getSingleFeeAccountOverview(initialState)).toEqual({});
     });
   });
 

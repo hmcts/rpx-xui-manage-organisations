@@ -41,7 +41,7 @@ describe('Single fee account Effects', () => {
         available_balance: 0,
         status: 'someStatus',
         effective_date: 'someDate'
-      }
+      };
       SingleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(of(payload));
       const action = new LoadSingleFeeAccount({});
       const completion = new LoadSingleFeeAccountSuccess(payload);

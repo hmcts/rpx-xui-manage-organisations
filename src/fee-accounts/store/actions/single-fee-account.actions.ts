@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {SingleAccontSummary} from '../../models/single-account-summary';
+import {SingleAccountSummary} from '../../models/single-account-summary';
 
 export const LOAD_SINGLE_FEE_ACCOUNT = '[Single Fee Account] Load Single Fee Account';
 export const LOAD_SINGLE_FEE_ACCOUNT_SUCCESS = '[Single Fee Account] Load Single Fee Account Success';
@@ -13,7 +13,7 @@ export class LoadSingleFeeAccount {
 
 export class LoadSingleFeeAccountSuccess  implements Action {
   readonly type = LOAD_SINGLE_FEE_ACCOUNT_SUCCESS;
-  constructor(public payload: SingleAccontSummary) {}
+  constructor(public payload: any) {}
 }
 
 export class LoadSingleFeeAccountFail implements Action {

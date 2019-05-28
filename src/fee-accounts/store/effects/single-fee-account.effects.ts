@@ -19,11 +19,11 @@ export class SingleFeeAccountEffects {
   loadSingleFeeAccount$ = this.actions$.pipe(
     ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT),
     switchMap((data: { payload: string, type: string}) => {
-      console.log('LOAD_SINGLE_FEE_ACCOUNT ::: data is', data)
+      console.log('LOAD_SINGLE_FEE_ACCOUNT ::: data is', data);
       return this.feeAccountsService.fetchSingleFeeAccount(data.payload).pipe(
         map(singleFeeAccountDetails => {
-          console.log('singleFeeAccountDetails ===>', singleFeeAccountDetails)
-          return new singleFeeAccountActions.LoadSingleFeeAccountSuccess(singleFeeAccountDetails)
+          console.log('singleFeeAccountDetails ===>', singleFeeAccountDetails);
+          return new singleFeeAccountActions.LoadSingleFeeAccountSuccess(singleFeeAccountDetails);
 
         }),
         catchError(error => of(new singleFeeAccountActions.LoadSingleFeeAccountFail(error)))
@@ -35,11 +35,11 @@ export class SingleFeeAccountEffects {
   loadSingleFeeAccountTransactions$ = this.actions$.pipe(
     ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS),
     switchMap((data: { payload: string, type: string}) => {
-      console.log('data is LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS', data)
+      console.log('data is LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS', data);
       return this.feeAccountsService.fetchPbAAccountTransactions(data.payload).pipe(
         map(transactions => {
-         console.log('transactions', transactions)
-          return new singleFeeAccountActions.LoadSingleFeeAccountTransactionsSuccess(transactions)
+          console.log('transactions', transactions);
+          return new singleFeeAccountActions.LoadSingleFeeAccountTransactionsSuccess(transactions);
 
         }),
         catchError(error => of(new singleFeeAccountActions.LoadSingleFeeAccountTransactionsFail(error)))

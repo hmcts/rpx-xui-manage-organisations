@@ -1,19 +1,19 @@
 import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
-import {SingleAccontSummary} from '../../models/single-account-summary';
+import {SingleAccountSummary} from '../../models/single-account-summary';
 
 
 
 export interface SingleFeeAccountState {
   overview: {
-    data: {}  | SingleAccontSummary;
+    data: {}  | SingleAccountSummary;
     loaded: boolean;
     loading: boolean;
   };
   transactions: {
-    data: {}  | SingleAccontSummary;
+    data: {}  | SingleAccountSummary;
     loaded: boolean;
     loading: boolean;
-  }
+  };
 }
 
 export const initialState: SingleFeeAccountState = {

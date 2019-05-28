@@ -1,4 +1,4 @@
-export interface SingleAccontSummary {
+export interface SingleAccountSummary {
   account_number: string;
   account_name: string;
   credit_limit: number;
@@ -6,6 +6,6 @@ export interface SingleAccontSummary {
   status: string | 'Active';
   effective_date: string;
 }
-export interface SingleAccontSummaryRemapped extends SingleAccontSummary {
+export interface SingleAccontSummaryRemapped extends SingleAccountSummary {
   routerLink: string;
 }

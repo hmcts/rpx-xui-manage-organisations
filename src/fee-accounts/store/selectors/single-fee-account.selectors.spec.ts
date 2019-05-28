@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { SingleFeeAccountState } from '../reducers/single-fee-account.reducer';
-import { getSingleFeeAccountState } from './single-fee-account.selectors';
+import { getSingleFeeAccountState, pbaAccountTransactions } from './single-fee-account.selectors';
 import { reducers } from '../index';
 import { LoadSingleFeeAccountSuccess } from '../actions';
+import { SingleAccountSummary } from 'src/fee-accounts/models/single-account-summary';
 
 describe('Single fee account selectors', () => {
   let store: Store<SingleFeeAccountState>;
@@ -44,19 +45,30 @@ describe('Single fee account selectors', () => {
   });
 
 
-  // describe('getSingleFeeAccountArray', () => {
-  //   it('should return single fee account array', () => {
-  //     let result;
-  //     store.pipe(select(getSingleFeeAccountArray)).subscribe(value => {
-  //       result = value;
+  describe('getSingleFeeAccountArray', () => {
+    it('should return single fee account array', () => {
+      let result;
+      store.pipe(select(pbaAccountTransactions)).subscribe(value => {
+        result = value;
 
-  //     });
-  //     expect(result).toEqual([]);
-  //     store.dispatch(new LoadSingleFeeAccountSuccess([{ payload: 'something' }]));
-  //     expect(result).toEqual([
-  //       { payload: 'something' }
-  //     ]);
-  //   });
-  // });
+      });
+      const payload: SingleAccountSummary = {
+        account_number: 'someNumber',
+        account_name: 'someName',
+        credit_limit: 0,
+        available_balance: 0,
+        status: 'someStatus',
+        effective_date: 'someDate'
+      };
+      expect(result).toEqual({});
+      store.dispatch(new LoadSingleFeeAccountSuccess({payload: 'something'}));
+      expect(result).toEqual([
+        {
+          payload: 'something',
+          routerLink: '/fee-accounts/account/undefined/'
+        }
+      ]);
+    });
+  });
 
 });

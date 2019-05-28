@@ -6,8 +6,8 @@ import {Payment, Payments} from '../models/pba-transactions';
 import {feeAccountsDummy, PbaAccountsMock} from '../mock/pba-accounts.mock';
 import {PbaAccounts} from '../models/pba-accounts';
 import {PaymentMock} from '../../../api/accounts/data.mock';
-import {SingleAccontSummary} from '../models/single-account-summary';
-import {SingleAccontSummaryMock} from '../mock/sngleAccontSummary.mock';
+import {SingleAccountSummary} from '../models/single-account-summary';
+import {SingleAccontSummaryMock} from '../mock/singleAccontSummary.mock';
 
 @Injectable()
 export class FeeAccountsService {
@@ -20,8 +20,8 @@ export class FeeAccountsService {
     // return this.http.get<Array<PbaAccounts>> (`/api/accounts/pbas/`);
   }
   // Overview load
-  fetchSingleFeeAccount(payload): Observable<SingleAccontSummary> {
-    const obj: SingleAccontSummary = SingleAccontSummaryMock;
+  fetchSingleFeeAccount(payload): Observable<SingleAccountSummary> {
+    const obj: SingleAccountSummary = SingleAccontSummaryMock;
     return of(obj);
     // return this.http.get(`/api/accounts/${payload.id}`);
   }
@@ -40,7 +40,7 @@ export class FeeAccountsService {
               dateUpdated: item.date_updated,
               routerLink: `account/${item.account_number}/summary`
          };
-      })
+      });
 
     return of(objMapped);
     // return this.http.get(`/api/accounts/${payload.id}/transactions`).pipe(

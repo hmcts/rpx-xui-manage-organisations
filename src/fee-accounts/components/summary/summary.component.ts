@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {SingleAccontSummary} from '../../models/single-account-summary';
+import {SingleAccountSummary} from '../../models/single-account-summary';
 
 /**
  * Bootstraps the Summary Components
@@ -11,7 +11,7 @@ import {SingleAccontSummary} from '../../models/single-account-summary';
 })
 export class SummaryComponent implements OnInit {
 
-  @Input() data: SingleAccontSummary;
+  @Input() data: SingleAccountSummary;
 
   constructor() {}
 

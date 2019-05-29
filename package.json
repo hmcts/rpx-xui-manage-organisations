@@ -11,7 +11,7 @@
     "test:coverage:ng": "ng test rpa-pui-manager --code-coverage --watch",
     "test:coverage:node": "cd api && npm run coverage",
     "ng": "ng",
-    "start:ng": "ng serve --port 4200 --host 0.0.0.0 --proxy-config proxy.config.json",
+    "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "build:ng": "ng build",
     "test:ng": "ng test",
     "lint:ng": "ng lint",

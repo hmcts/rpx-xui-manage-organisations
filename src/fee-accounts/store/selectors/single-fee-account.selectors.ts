@@ -16,7 +16,9 @@ export const getSingleAccounOverview = createSelector(
 export const pbaAccountSummaryLoading = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountOverviewLoading);
 export const pbaAccountSummaryLoaded = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountOverviewLoaded);
 export const pbaAccountTransactions = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactions);
-export const pbaAccountTransactionsLoading = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactionsLoading);
-export const pbaAccountTransactionsLoaded = createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactionsLoaded);
+export const pbaAccountTransactionsLoading =
+  createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactionsLoading);
+export const pbaAccountTransactionsLoaded =
+  createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactionsLoaded);
 
 

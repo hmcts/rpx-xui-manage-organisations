@@ -1,2 +1,2 @@
 export * from './router.action';
-export * from './app.actons';
+export * from './app.actions';

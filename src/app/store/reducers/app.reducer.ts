@@ -3,7 +3,7 @@ import * as fromAction from '../actions';
 /* function that returns page title base on page url indexOf */
 export function setPageTitle(url): string {
   if (url.indexOf('invite-user') !== -1) {
-    return 'Invite Users - Professional User Interface ';
+    return 'Invite Users - Professional User Interface';
   } else if (url.indexOf('organisation') !== -1) {
     return 'Organisation - Professional User Interface';
   } else if (url.indexOf('profile') !== -1) {

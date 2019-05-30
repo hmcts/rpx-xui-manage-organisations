@@ -78,6 +78,10 @@
             "assets": [
               "src/favicon.ico",
               "src/assets"
+            ],
+            "codeCoverageExclude": [
+              "projects/**/*",
+              "src/style-guide/**/*"
             ]
           }
         },

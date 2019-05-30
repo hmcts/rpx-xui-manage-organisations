@@ -22,7 +22,7 @@ describe('AppReducer', () => {
 
       expect(state.isFormValid).toEqual(true);
       expect(state.styleGuideFormData).toEqual({});
-      expect(state.styleGuideMessages).toEqual({ messages: [ {  } ], isInvalid: false });
+      expect(state.styleGuideMessages).toEqual({0: { messages: [ {  } ], isInvalid: false }});
     });
 
 

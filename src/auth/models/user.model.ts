@@ -11,7 +11,8 @@ export class UserModel {
     Object.assign(this, prop);
   }
 }
-export class UserAddressModel{
+
+export class UserAddressModel {
   id: string;
   houseNoBuildingName: string;
   addressLine1: string;

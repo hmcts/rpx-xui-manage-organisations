@@ -42,7 +42,7 @@ export class AuthService {
         const headers: HeaderObject = {
             Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
             [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER)
-        }
+        };
         return headers;
     }
     // TODO ADD THIS TO ACTION AND DISPATCH

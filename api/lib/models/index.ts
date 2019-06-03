@@ -8,7 +8,7 @@ export interface JurisdictionObject {
 }
 export interface EnhancedRequest extends express.Request {
     auth?: {
-        roles: string[]
+        roles: string
         token: string
         userId: string
         expires: number

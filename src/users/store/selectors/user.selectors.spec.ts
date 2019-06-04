@@ -42,8 +42,6 @@ describe('User selectors', () => {
 
 
             });
-            //expect(result).toEqual(null);
-
 
             const dummy = [
                 {
@@ -62,7 +60,7 @@ describe('User selectors', () => {
                     manageFeeAcc: 'no',
                     status: 'active'
                 }
-            ]
+            ];
 
             store.dispatch(new LoadUsersSuccess(dummy));
 

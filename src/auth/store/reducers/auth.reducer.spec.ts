@@ -87,6 +87,24 @@ describe('AppReducer', () => {
         expect(state.errors).toEqual({ forgotPass: '', login: '' });
     });
 
+    it('should return correct state properties', () => {
+        const payload: fromAuth.AuthState = {
+            isAuthenticated: true,
+            errors: {id: ''},
+            loaded: true,
+            loading: false,
+            permissions: '',
+            user: null
+        };
+
+        expect(fromAuth.isAuthenticated(payload)).toEqual(true);
+        expect(fromAuth.getUser(payload)).toEqual(null);
+        expect(fromAuth.isUserLoaded(payload)).toEqual(true);
+        expect(fromAuth.isUserLoading(payload)).toEqual(false);
+        expect(fromAuth.isUserPermission(payload)).toEqual('');
+        expect(fromAuth.getErrorMessage(payload)).toEqual({id: ''});
+
+    });
 
 });
 

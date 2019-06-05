@@ -13,8 +13,8 @@ export class UserService {
 
   getUserDetails(): Observable<UserInterface> {
     const obj: UserInterface = userMock;
-    return of(obj);
-    // return this.http.get<UserInterface>(`/api/user/details`);
+    // return of(obj);
+    return this.http.get<UserInterface>(`/api/user/details`);
   }
 
 }

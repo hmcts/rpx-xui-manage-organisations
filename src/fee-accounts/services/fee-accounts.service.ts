@@ -16,35 +16,19 @@ export class FeeAccountsService {
 
   fetchFeeAccounts(): Observable<Array<PbaAccounts>> {
     const obj: PbaAccounts[] = PbaAccountsMock;
-    return of(obj);
-    // return this.http.get<Array<PbaAccounts>> (`/api/accounts/pbas/`);
+    // return of(obj);
+    return this.http.get<Array<PbaAccounts>> (`/api/accounts/pbas/`);
   }
   // Overview load
   fetchSingleFeeAccount(payload): Observable<SingleAccountSummary> {
     const obj: SingleAccountSummary = SingleAccontSummaryMock;
-    return of(obj);
-    // return this.http.get(`/api/accounts/${payload.id}`);
+    // return of(obj);
+    return this.http.get<SingleAccountSummary>(`/api/accounts/${payload.id}`);
   }
   // Overview transactions
   fetchPbAAccountTransactions(payload): Observable<any> {
     const obj: Payments = PaymentMock;
-    const objMapped = obj.payments.map((item: Payment) => {
-        return {
-              paymentReference: item.payment_reference,
-              case: item.case_reference,
-              reference: 'NO DATA to MAP',
-              submittedBy: 'NO DATA to MAP',
-              status: 'NO DATA to MAP',
-              dateCreated: item.date_created,
-              amount: item.amount,
-              dateUpdated: item.date_updated,
-              routerLink: `account/${item.account_number}/summary`
-         };
-      });
-
-    return of(objMapped);
-    // return this.http.get(`/api/accounts/${payload.id}/transactions`).pipe(
-    //   map((item: Payment) => {
+    // const objMapped = obj.payments.map((item: Payment) => {
     //     return {
     //           paymentReference: item.payment_reference,
     //           case: item.case_reference,
@@ -56,8 +40,24 @@ export class FeeAccountsService {
     //           dateUpdated: item.date_updated,
     //           routerLink: `account/${item.account_number}/summary`
     //      };
-    //   })
-    // );
+    //   });
+
+    // return of(objMapped);
+    return this.http.get(`/api/accounts/${payload.id}/transactions`).pipe(
+      map((item: Payment) => {
+        return {
+              paymentReference: item.payment_reference,
+              case: item.case_reference,
+              reference: 'NO DATA to MAP',
+              submittedBy: 'NO DATA to MAP',
+              status: 'NO DATA to MAP',
+              dateCreated: item.date_created,
+              amount: item.amount,
+              dateUpdated: item.date_updated,
+              routerLink: `account/${item.account_number}/summary`
+         };
+      })
+    );
 
 
   }

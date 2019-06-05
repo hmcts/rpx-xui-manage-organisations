@@ -7,7 +7,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 export const ENVIRONMENT = {
 
   orgUri: '/api/organisation'
-}
+};
 
 
 
@@ -16,7 +16,7 @@ export class OrganisationService {
   constructor(private http: HttpClient) { }
 
   // TO DO  - this hard coded orgId needs to come from the userStore
-  orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f'
+  orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f';
 
 
   mockOrgData = {
@@ -27,7 +27,7 @@ export class OrganisationService {
     townCity: 'London',
     postcode: 'W1',
     country: 'UK'
-  }
+  };
 
 
   fetchOrganisation(): Observable<any> {
@@ -55,7 +55,7 @@ export class OrganisationService {
     //     catchError(this.handleError)
     //   );
 
-    return of(this.mockOrgData)
+    return of(this.mockOrgData);
   }
 
 
@@ -75,5 +75,5 @@ export class OrganisationService {
     // return an observable with a user-facing error message
     return throwError(
       'error please try again later.');
-  };
+  }
 }

@@ -79,6 +79,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "codeCoverage": true,
             "codeCoverageExclude": [
               "projects/**/*",
               "src/style-guide/**/*"

@@ -30,9 +30,10 @@ export class UsersService {
   constructor(private http: HttpClient) { }
 
   getListOfUsers(): Observable<any> {
-    return this.http
-      .get<any>(`/api/userList`)
-      .pipe(catchError((error: any) => throwError(error.json())));
+    // return this.http
+    //   .get<any>(`/api/userList`)
+    //   .pipe(catchError((error: any) => throwError(error.json())));
+    return of(dummy);
   }
 
 

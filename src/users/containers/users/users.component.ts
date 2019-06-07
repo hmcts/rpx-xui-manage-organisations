@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnConfig = [
-      { header: 'Email address', key: 'emailId' },
+      { header: 'Email address', key: 'email' },
       { header: 'Manage cases', key: 'manageCases' },
       { header: 'Manage organisation', key: 'manageOrganisation' },
       { header: 'Manage users', key: 'manageUsers' },

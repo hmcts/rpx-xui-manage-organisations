@@ -25,7 +25,7 @@ export function reducer(
         ...state,
         users,
         loading: true
-      }
+      };
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
@@ -35,7 +35,7 @@ export function reducer(
         users,
         loaded: true,
         loading: false
-      }
+      };
     }
 
 
@@ -44,7 +44,7 @@ export function reducer(
         ...state,
         loading: false,
         loaded: false
-      }
+      };
     }
 
   }

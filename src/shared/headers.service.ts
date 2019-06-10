@@ -8,7 +8,7 @@ import config from '../../api/lib/config';
 })
 export class HeadersService {
   COOKIE_KEYS;
-  api_base_url;
+  API_BASE_URL;
   user;
 
   constructor(
@@ -18,13 +18,13 @@ export class HeadersService {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId
     };
-    this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+    this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
   }
 
   generateLoginUrl() {
     const base = config.services.idam.idamLoginUrl;
     const clientId = config.services.idam.idamClientID;
-    const callback = `${this.api_base_url}${config.services.idam.oauthCallbackUrl}`;
+    const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
     return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
   }
 

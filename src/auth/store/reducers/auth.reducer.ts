@@ -23,7 +23,7 @@ export const initialState: AuthState = {
   },
 };
 
-export function reducer (
+export function reducer(
   state = initialState,
   action: AuthActions
 ): AuthState {

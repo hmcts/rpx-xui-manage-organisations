@@ -15,7 +15,8 @@
     "build:ng": "ng build",
     "test:ng": "ng test",
     "lint:ng": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage"
   },
   "private": true,
   "dependencies": {

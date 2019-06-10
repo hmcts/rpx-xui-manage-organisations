@@ -58,7 +58,7 @@ describe('Users Effects', () => {
         it('should return LoadUsersFail', () => {
             UsersServiceMock.getListOfUsers.and.returnValue(throwError(new Error()));
             const action = new LoadUsers();
-            const completion = new LoadUsersFail(new Error);
+            const completion = new LoadUsersFail(new Error());
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.loadUsers$).toBeObservable(expected);
@@ -93,7 +93,7 @@ describe('Users Effects', () => {
                 permissions: ['god']
             };
             const action = new SendInviteUser(requestPayload);
-            const completion = new InviteUserFail(new Error);
+            const completion = new InviteUserFail(new Error());
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUsers$).toBeObservable(expected);

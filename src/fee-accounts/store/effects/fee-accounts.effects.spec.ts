@@ -47,7 +47,7 @@ describe('Fee accounts Effects', () => {
     it('should return LoadFeeAccountsFail', () => {
       FeeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(new Error()));
       const action = new LoadFeeAccounts();
-      const completion = new LoadFeeAccountsFail(new Error);
+      const completion = new LoadFeeAccountsFail(new Error());
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadFeeAccounts$).toBeObservable(expected);

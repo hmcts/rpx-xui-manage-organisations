@@ -147,7 +147,7 @@
             }
           }
         },
-        "test": {
+        "testx": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "projects/gov-ui/src/test.ts",
@@ -155,7 +155,7 @@
             "karmaConfig": "projects/gov-ui/karma.conf.js"
           }
         },
-        "lint": {
+        "lintx": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [

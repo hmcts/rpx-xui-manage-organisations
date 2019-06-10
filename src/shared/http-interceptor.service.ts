@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import 'rxjs/add/operator/do';
 import {
   HttpRequest,
@@ -18,18 +18,21 @@ import 'rxjs/add/observable/fromPromise';
 @Injectable({
   providedIn: 'root'
 })
-export class HttpIntercepterServer implements HttpInterceptor  {
+export class HttpIntercepterServer implements HttpInterceptor {
 
-  constructor(public router: Router,
-              private authService: HeadersService, @Inject(PLATFORM_ID)
-              private platformId: string) {
+  constructor(
+    public router: Router,
+    private authService: HeadersService,
+    @Inject(PLATFORM_ID)
+    private platformId: string
+  ) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-      const authHeaders = this.authService.getAuthHeaders();
-      request = request.clone({
-        setHeaders: authHeaders
-      });
+    const authHeaders = this.authService.getAuthHeaders();
+    request = request.clone({
+      setHeaders: authHeaders
+    });
 
     return next.handle(request);
   }

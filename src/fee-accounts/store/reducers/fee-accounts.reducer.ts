@@ -41,7 +41,7 @@ export function reducer(
 
       return {
         ...state,
-          feeAccounts: feeAccounts,
+          feeAccounts,
           loaded: true,
           loading: false
       };

@@ -21,14 +21,14 @@ export class UserFormComponent implements OnInit {
   inviteUserForm: FormGroup;
 
   formValidationErrors$: Observable<any>;
-  formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>
+  formValidationErrorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
 
   errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
     emailAddress: ['Enter email address', 'Email must contain at least the @ character'],
     permissions: ['Select at least one option'],
-  }
+  };
 
   ngOnInit(): void {
 

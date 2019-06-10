@@ -6,7 +6,7 @@ export class UserModel {
   status: string;
   organisationId: string;
   pbaAccount: string;
-  addresses:  UserAddressModel;
+  addresses: UserAddressModel;
   constructor(prop) {
     Object.assign(this, prop);
   }

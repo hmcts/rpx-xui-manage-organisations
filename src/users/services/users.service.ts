@@ -22,8 +22,7 @@ const dummy = [
     manageFeeAcc: 'no',
     status: 'active'
   }
-]
-
+];
 
 @Injectable()
 export class UsersService {

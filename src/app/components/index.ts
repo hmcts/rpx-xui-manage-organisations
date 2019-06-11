@@ -1,6 +1,8 @@
 import { HmctsGlobalHeaderComponent } from './hmcts-global-header/hmcts-global-header.component';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer/hmcts-global-footer.component';
-import { HmctsPrimaryNavigationComponent } from '../../../projects/gov-ui/src/lib/components/hmcts-primary-navigation/hmcts-primary-navigation.component';
+import {
+  HmctsPrimaryNavigationComponent
+} from '../../../projects/gov-ui/src/lib/components/hmcts-primary-navigation/hmcts-primary-navigation.component';
 
 export const components: any[] = [
   HmctsGlobalHeaderComponent,

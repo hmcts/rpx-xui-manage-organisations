@@ -25,7 +25,7 @@ export const getOrganisationSelArr = createSelector(
   getOrganisationSel,
   orgObj => Object.keys(orgObj)
     .map(item => orgObj[item])
-    .filter(addr => addr != '')
+    .filter(addr => addr !== '')
 );
 
 

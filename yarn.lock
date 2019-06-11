@@ -264,7 +264,8 @@
 
 "@hmcts/frontend@0.0.24-alpha":
   version "0.0.24-alpha"
-  resolved "https://registry.npmjs.org/@hmcts/frontend/-/frontend-0.0.24-alpha.tgz#7e4fb95f66d14b66c90f582a8c400c61d5c93879"
+  resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.24-alpha.tgz#7e4fb95f66d14b66c90f582a8c400c61d5c93879"
+  integrity sha512-fIjnBjNpbsNipnGXXUwbtpQn9fze+u27vpSX+dPfkyy7jCggYG2GINBdRJ/KqbFKiGeQYlqHcW9tKKapceN7mw==
 
 "@ngrx/effects@^6.0.3":
   version "6.1.2"

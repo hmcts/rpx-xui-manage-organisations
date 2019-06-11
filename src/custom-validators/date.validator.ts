@@ -1,7 +1,7 @@
 import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export function dateValidator(): ValidatorFn {
-  return function validate (formGroup: FormGroup) {
+  return function validate(formGroup: FormGroup) {
 
     const d = new Date(
       parseInt(formGroup.controls.day.value, 10),
@@ -9,8 +9,8 @@ export function dateValidator(): ValidatorFn {
       parseInt(formGroup.controls.year.value, 10) - 1
     );
 
-    function isValidDate(d) {
-      return d instanceof Date && !isNaN( +d );
+    function isValidDate(val: any) {
+      return val instanceof Date && !isNaN( +d );
     }
 
     if (!isValidDate(d)) {

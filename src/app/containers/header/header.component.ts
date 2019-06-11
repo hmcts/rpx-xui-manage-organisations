@@ -67,10 +67,10 @@ export class HeaderComponent implements OnInit {
     }
 
   updateNavItems(url): void {
-    this.navItems = this.navItems.map(item => {
+    this.navItems = this.navItems.map((item: {href}) => {
       return {
         ...item,
-        active: item['href'] === url
+        active: item.href === url
       };
     });
   }

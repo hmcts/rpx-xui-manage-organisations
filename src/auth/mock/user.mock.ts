@@ -20,4 +20,4 @@ export const userMock: UserInterface = {
     userId: 'Something Seomthing',
   }
   ]
-}
+};

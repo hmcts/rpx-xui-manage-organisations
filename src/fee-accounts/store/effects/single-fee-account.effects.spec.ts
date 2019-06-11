@@ -33,10 +33,18 @@ describe('Single fee account Effects', () => {
   });
   describe('loadSingleFeeAccount$', () => {
     it('should return a collection from loadSingleFeeAccount$ - LoadSingleFeeAccountSuccess', () => {
-      const payload = [{payload: 'something'}];
+      // const payload = [{payload: 'something'}];
+      const payload = {
+        account_number: 'someNumber',
+        account_name: 'someName',
+        credit_limit: 0,
+        available_balance: 0,
+        status: 'someStatus',
+        effective_date: 'someDate'
+      };
       SingleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(of(payload));
       const action = new LoadSingleFeeAccount({});
-      const completion = new LoadSingleFeeAccountSuccess([{payload: 'something'}]);
+      const completion = new LoadSingleFeeAccountSuccess(payload);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadSingleFeeAccount$).toBeObservable(expected);
@@ -47,7 +55,7 @@ describe('Single fee account Effects', () => {
     it('should return LoadSingleFeeAccountFail', () => {
       SingleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(throwError(new Error()));
       const action = new LoadSingleFeeAccount({});
-      const completion = new LoadSingleFeeAccountFail(new Error);
+      const completion = new LoadSingleFeeAccountFail(new Error());
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadSingleFeeAccount$).toBeObservable(expected);

@@ -26,8 +26,8 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
   `
 })
 export class GovUkTextareaComponent {
-  @Input() config: {label: string; classes: string; hint: string; key: string; rows: number};
-  @Input() errorMessage: string[];
+  @Input() config: {label: string; classes: string; hint: string; key: string; rows: number, id: string};
+  @Input() errorMessage: any;
   @Input() group: FormGroup;
 
   setDescribedBy(): string {

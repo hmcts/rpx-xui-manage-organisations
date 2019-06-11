@@ -15,8 +15,6 @@ describe('FooterComponent', () => {
 
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    let el: DebugElement;
-    let de: any;
     let component: FooterComponent;
     let fixture: ComponentFixture<FooterComponent>;
     let element: DebugElement;

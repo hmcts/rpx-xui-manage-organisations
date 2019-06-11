@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
-import {helpData, navigationData} from './mock/hmcts-global-footer.mock';
-import {Component, DebugElement, Input, ViewChild} from '@angular/core';
-import {Helper, Navigation} from '../../containers/footer/footer.model';
+import { helpData, navigationData } from './mock/hmcts-global-footer.mock';
+import { Component, DebugElement, Input, ViewChild } from '@angular/core';
+import { Helper, Navigation } from '../../containers/footer/footer.model';
 import { RouterModule } from '@angular/router';
 
 describe('HmctsGlobalFooterComponent', () => {
@@ -25,15 +25,15 @@ describe('HmctsGlobalFooterComponent', () => {
 
 
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ HmctsGlobalFooterComponent ],
-      imports: [
-          RouterModule
-      ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [HmctsGlobalFooterComponent],
+            imports: [
+                RouterModule
+            ]
+        })
+            .compileComponents();
+    }));
 
     beforeEach(() => {
         fixture = TestBed.createComponent(HmctsGlobalFooterComponent);

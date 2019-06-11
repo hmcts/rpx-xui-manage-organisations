@@ -19,13 +19,21 @@ export function reducer(
   action: fromOrganisation.organisationActions
 ): OrganisationState {
   switch (action.type) {
+
+    case fromOrganisation.LOAD_ORGANISATION: {
+      return {
+        ...state,
+        loaded: false,
+        loading: true
+      };
+    }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const organisation = new Organisation(action.payload);
       return {
         ...state,
         organisation,
         loaded: true
-      }
+      };
 
     }
 

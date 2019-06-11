@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountOverviewComponent } from './account-overview.component';
+import { RouterModule } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
 
 describe('AccountOverviewComponent', () => {
   let component: AccountOverviewComponent;
@@ -8,9 +10,13 @@ describe('AccountOverviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountOverviewComponent ]
+      imports: [
+        RouterModule.forRoot([]),
+      ],
+      declarations: [AccountOverviewComponent],
+      providers: [ { provide: APP_BASE_HREF, useValue: '/' }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

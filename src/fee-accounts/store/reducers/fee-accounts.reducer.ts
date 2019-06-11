@@ -27,7 +27,6 @@ export function reducer(
       };
     }
     case fromFeeAccountActions.LOAD_FEE_ACCOUNTS_SUCCESS: {
-      console.log(' action.payload',  action.payload)
       const payload = action.payload;
       let feeAccounts = payload;
       if (feeAccounts.length !== 0) {
@@ -42,7 +41,7 @@ export function reducer(
 
       return {
         ...state,
-          feeAccounts: feeAccounts,
+          feeAccounts,
           loaded: true,
           loading: false
       };

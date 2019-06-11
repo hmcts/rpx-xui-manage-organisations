@@ -6,12 +6,13 @@ export class UserModel {
   status: string;
   organisationId: string;
   pbaAccount: string;
-  addresses:  UserAddressModel;
+  addresses: UserAddressModel;
   constructor(prop) {
     Object.assign(this, prop);
   }
 }
-export class UserAddressModel{
+
+export class UserAddressModel {
   id: string;
   houseNoBuildingName: string;
   addressLine1: string;

@@ -1,0 +1,28 @@
+<a [routerLink]="" class="govuk-back-link" (click)="onGoBack()" *ngIf="pageId !== undefined">Back</a>
+<main id="content" role="main" class="govuk-main-wrapper">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <ng-container *ngIf="pageId === undefined">
+          <h1 class="govuk-heading-xl">Register to manage civil and family law cases</h1>
+          <p class="govuk-body">At the same time as you register your organisation, you'll give us details to create your user account.</p>
+          <p class="govuk-body">We’ll approve the registration within 3 working days and send you an email asking you to finish creating your account.</p>
+          <a href="#" [routerLink]="'/register/organisation-name'" role="button" class="govuk-button govuk-button--start">Start</a>
+      </ng-container>
+
+      <app-form-builder *ngIf="pageId && pageId != 'check'"
+        [pageItems]="pageItems"
+        [pageValues]="pageValues"
+        [isPageValid]="isPageValid"
+        (submitPage)="onPageContinue($event)" >
+      </app-form-builder>
+
+      <app-check-your-answers *ngIf="pageId === 'check' && !(isFromSubmitted$ | async)"
+        [fromValues]="data$ | async"
+        (submit)="onSubmitData()"
+      ></app-check-your-answers>
+
+      <app-submitted-confirmation *ngIf="isFromSubmitted$ | async"></app-submitted-confirmation>
+    </div>
+  </div>
+</main>
+

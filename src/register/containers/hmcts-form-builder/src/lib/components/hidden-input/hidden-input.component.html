@@ -1,0 +1,10 @@
+<ng-container
+  [formGroup]="group">
+    <input
+           [ngClass]="componentClasses"
+           [formControlName]="item.control"
+           [id]="item.control"
+           [name]="item.control"
+           [value]="value"
+           type="hidden">
+</ng-container>

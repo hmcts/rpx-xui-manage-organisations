@@ -1,11 +1,11 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
-import config from './config'
+import config from '../lib.1/config'
 
 export let client
 
 // shouldnt do this check here but this is a high level dep
-const environment = process.env.JUI_ENV || 'local'
+const environment = process.env.PUI_ENV || 'local'
 
 if (environment !== 'local') {
     applicationinsights
@@ -21,7 +21,6 @@ if (environment !== 'local') {
 
     client = applicationinsights.defaultClient
     client.trackTrace({ message: 'App Insight Activated' })
-
 } else {
     client = null
 }

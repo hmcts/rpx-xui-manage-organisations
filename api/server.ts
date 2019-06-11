@@ -7,6 +7,7 @@ import * as session from 'express-session'
 import * as log4js from 'log4js'
 import * as path from 'path'
 import * as sessionFileStore from 'session-file-store'
+import serviceRouter from './services/serviceAuth'
 import * as auth from './auth'
 import { appInsights } from './lib/appInsights'
 import config from './lib/config'
@@ -49,6 +50,8 @@ app.use(cookieParser())
 
 app.get('/oauth2/callback', auth.oauth)
 app.use(auth.attach)
+
+router.use(serviceRouter)
 
 app.use('/api', routes)
 

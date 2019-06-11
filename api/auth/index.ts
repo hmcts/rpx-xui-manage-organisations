@@ -6,7 +6,7 @@ import * as log4js from 'log4js'
 import config from '../lib/config'
 import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
-import { getOrganisationId } from '../services/rdProfessionals';
+import { getOrganisationId } from '../services/rdProfessional';
 import { getUserDetails } from '../services/idam';
 import { serviceTokenGenerator } from './serviceToken'
 

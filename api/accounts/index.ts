@@ -5,7 +5,7 @@ import {EnhancedRequest} from '../lib/models'
 import {PaymentAccountDto} from '../lib/models/transactions'
 import {asyncReturnOrError} from '../lib/util'
 import {getAccount, getPayments} from '../services/payment'
-import {getAccountsForOrganisation} from '../services/rdProfessionals'
+import {getAccountsForOrganisation} from '../services/rdProfessional'
 import { mockReq, mockRes } from 'sinon-express-mock'
 const logger = log4js.getLogger('auth')
 logger.level = config.logging

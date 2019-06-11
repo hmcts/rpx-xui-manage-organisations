@@ -1,8 +1,7 @@
 import * as log4js from 'log4js'
-import config from './config'
-import * as errorStack from '../lib/errorStack'
+import config from '../lib.1/config'
+import * as errorStack from './errorStack'
 import { client } from './appInsights'
-
 
 let logger = null
 
@@ -78,4 +77,3 @@ function error(...messages: any[]) {
         errorStack.push([category, fullMessage])
     }
 }
-

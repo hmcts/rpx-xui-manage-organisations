@@ -17,6 +17,12 @@
       "dom"
     ],
     "paths": {
+      "hmcts-form-builder": [
+        "dist/hmcts-form-builder"
+      ],
+      "hmcts-form-builder/*": [
+        "dist/hmcts-form-builder/*"
+      ],
       "gov-ui": [
         "dist/gov-ui"
       ],

@@ -14,7 +14,7 @@ import {take} from 'rxjs/operators';
 })
 
 export class AuthService {
-    api_base_url: string;
+    API_BASE_URL: string;
     COOKIE_KEYS: {TOKEN: string, USER: string};
 
     constructor(private httpCilent: HttpClient,
@@ -25,13 +25,13 @@ export class AuthService {
             TOKEN: config.cookies.token,
             USER: config.cookies.userId,
         };
-        this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+        this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
     }
 
     generateLoginUrl() {
         const base = config.services.idam.idamLoginUrl;
         const clientId = config.services.idam.idamClientID;
-        const callback = `${this.api_base_url}${config.services.idam.oauthCallbackUrl}`;
+        const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
         return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
@@ -42,7 +42,7 @@ export class AuthService {
         const headers: HeaderObject = {
             Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
             [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER)
-        }
+        };
         return headers;
     }
     // TODO ADD THIS TO ACTION AND DISPATCH

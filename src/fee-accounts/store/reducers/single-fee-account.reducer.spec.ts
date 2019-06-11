@@ -1,5 +1,5 @@
-import { initialState, reducer, getSingleFeeAccount,
-  getSingleFeeAccountLoading, getSingleFeeAccountLoaded } from './single-fee-account.reducer';
+import { initialState, reducer, getSingleFeeAccountOverview,
+  getSingleFeeAccountOverviewLoading, getSingleFeeAccountOverviewLoaded } from './single-fee-account.reducer';
 import { LoadSingleFeeAccountSuccess, ResetSingleFeeAccount } from '../actions';
 
 describe('SingleFeeAccountReducer', () => {
@@ -13,9 +13,17 @@ describe('SingleFeeAccountReducer', () => {
 
   describe('LOAD_SINGLE_FEE_ACCOUNT_SUCCESS action', () => {
     it('should update the state.feeAccounts', () => {
-      const action = new LoadSingleFeeAccountSuccess([{}]);
+      const payload = {
+        account_number: 'someNumber',
+        account_name: 'someName',
+        credit_limit: 0,
+        available_balance: 0,
+        status: 'someStatus',
+        effective_date: 'someDate'
+      };
+      const action = new LoadSingleFeeAccountSuccess(payload);
       const state = reducer(initialState, action);
-      expect(state.singleFeeAccount).toEqual([{}]);
+      expect(state.overview).toEqual({data: payload, loaded: true, loading: false});
     });
   });
 
@@ -23,25 +31,25 @@ describe('SingleFeeAccountReducer', () => {
     it('should return the initial state', () => {
       const action = new ResetSingleFeeAccount({});
       const state = reducer(initialState, action);
-      expect(state.singleFeeAccount).toEqual([]);
+      expect(state.overview).toEqual({data: {}, loaded: false, loading: false});
     });
   });
 
   describe('getSingleFeeAccount export', () => {
     it('should return state.feeAccounts', () => {
-      expect(getSingleFeeAccount(initialState)).toEqual([]);
+      expect(getSingleFeeAccountOverview(initialState)).toEqual({});
     });
   });
 
   describe('getSingleFeeAccountLoading export', () => {
     it('should return state.loading', () => {
-      expect(getSingleFeeAccountLoading(initialState)).toEqual(false);
+      expect(getSingleFeeAccountOverviewLoading(initialState)).toEqual(false);
     });
   });
 
   describe('getSingleFeeAccountLoaded export', () => {
     it('should return state.loaded', () => {
-      expect(getSingleFeeAccountLoaded(initialState)).toEqual(false);
+      expect(getSingleFeeAccountOverviewLoaded(initialState)).toEqual(false);
     });
   });
 });

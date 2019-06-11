@@ -1,14 +1,36 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountTransactionsComponent } from './account-transactions.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from 'src/fee-accounts/store/reducers';
+import { of } from 'rxjs';
 
 describe('AccountTransactionsComponent', () => {
   let component: AccountTransactionsComponent;
   let fixture: ComponentFixture<AccountTransactionsComponent>;
 
+  let activatedRoute: any;
+
   beforeEach(async(() => {
+    activatedRoute = {
+      parent: {
+        params: of({})
+      }
+    };
     TestBed.configureTestingModule({
-      declarations: [ AccountTransactionsComponent ]
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('feeAccounts', reducers),
+      ],
+      declarations: [ AccountTransactionsComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [
+        { provide: APP_BASE_HREF, useValue: '/' },
+        { provide: ActivatedRoute, useValue: activatedRoute },
+      ]
     })
     .compileComponents();
   }));

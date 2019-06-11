@@ -35,7 +35,7 @@ export function reducer(
         acc[key] = {
           messages: objArr(key),
           isInvalid: !!isInvalid.length
-        }
+        };
 
         return acc;
 
@@ -47,7 +47,7 @@ export function reducer(
         ...state,
         formErrorMessages,
         isFormValid
-      }
+      };
     }
 
   }

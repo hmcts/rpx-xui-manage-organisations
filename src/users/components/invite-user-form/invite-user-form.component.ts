@@ -14,7 +14,7 @@ export class InviteUserFormComponent {
     this.isInvalid = value || {} ;
   }
 
-  isInvalid
+  isInvalid;
 
   onSubmit() {
     this.submitForm.emit();

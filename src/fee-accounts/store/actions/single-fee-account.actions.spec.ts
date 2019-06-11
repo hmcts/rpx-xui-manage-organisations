@@ -16,8 +16,15 @@ describe('Single fee account actions', () => {
     // Success
     describe('LoadSingleFeeAccountSuccess', () => {
       it('should create an action', () => {
-        const payload = [{payload: 'something', pageId: 'someString'}];
-        const action = new fromSingleFeeAccount.LoadSingleFeeAccountSuccess([{payload: 'something', pageId: 'someString'}]);
+        const payload = {
+          account_number: 'someNumber',
+          account_name: 'someName',
+          credit_limit: 0,
+          available_balance: 0,
+          status: 'someStatus',
+          effective_date: 'someDate'
+        };
+        const action = new fromSingleFeeAccount.LoadSingleFeeAccountSuccess(payload);
         expect({ ...action }).toEqual({
           type: fromSingleFeeAccount.LOAD_SINGLE_FEE_ACCOUNT_SUCCESS,
           payload

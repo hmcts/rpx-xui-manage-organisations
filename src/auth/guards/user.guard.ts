@@ -40,5 +40,4 @@ export class UserGuard implements CanActivate {
       take(1)
     );
   }
-  
 }

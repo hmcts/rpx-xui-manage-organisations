@@ -14,4 +14,4 @@ export const PbaAccountsMock: PbaAccounts[] = [
     organisationId: 'SU2DSCSA',
     pbaNumber: 'SU2DSCSA',
   }
-]
+];

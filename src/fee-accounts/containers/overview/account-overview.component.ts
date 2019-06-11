@@ -10,7 +10,7 @@ import {LoadFeeAccounts} from '../../../fee-accounts/store';
   templateUrl: './account-overview.component.html',
 })
 
-export class OrganisationAccountsComponent implements OnInit{
+export class OrganisationAccountsComponent implements OnInit {
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
   accounts$: Observable<Array<PbaAccountsSummary>>;

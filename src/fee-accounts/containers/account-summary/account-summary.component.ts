@@ -30,7 +30,7 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
   ngOnInit() {
-    //TODO move to a guard
+    // TODO move to a guard
     this.activeRoute.parent.params.pipe(
       map(payload => {
         this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccount({id: payload.id }));

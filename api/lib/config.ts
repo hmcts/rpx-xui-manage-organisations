@@ -21,7 +21,7 @@ export default {
   secureCookie: false,
   services: {
     idam: {
-      idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',      
+      idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
       idamClientID: 'juiwebapp',
       idamLoginUrl: 'https://idam-web-public.aat.platform.hmcts.net/login',
       indexUrl: '/',

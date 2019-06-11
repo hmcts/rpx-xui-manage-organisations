@@ -29,13 +29,13 @@ export class RouterEffects {
   navigateBack$ = this.actions$.pipe(
     ofType(RouterActions.BACK),
     tap(() => this.location.back())
-  )
+  );
 
 
   @Effect({ dispatch: false })
   navigateForward$ = this.actions$.pipe(
     ofType(RouterActions.FORWARD),
     tap(() => this.location.forward())
-  )
+  );
 
 }

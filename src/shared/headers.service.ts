@@ -8,7 +8,7 @@ import config from '../../api/lib/config';
 })
 export class HeadersService {
   COOKIE_KEYS;
-  api_base_url;
+  API_BASE_URL;
   user;
 
   constructor(
@@ -17,14 +17,14 @@ export class HeadersService {
     this.COOKIE_KEYS = {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId
-    }
-    this.api_base_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port
+    };
+    this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
   }
 
   generateLoginUrl() {
     const base = config.services.idam.idamLoginUrl;
     const clientId = config.services.idam.idamClientID;
-    const callback = `${this.api_base_url}${config.services.idam.oauthCallbackUrl}`;
+    const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
     return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
   }
 
@@ -34,17 +34,17 @@ export class HeadersService {
     }
     const headers: HeaderObject = {
       Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN)
-    }
+    };
     return headers;
   }
 
 
   loginRedirect() {
-    window.location.href = this.generateLoginUrl()
+    window.location.href = this.generateLoginUrl();
   }
 
   decodeJwt(jwt) {
-    return jwtDecode(jwt)
+    return jwtDecode(jwt);
   }
 
   isAuthenticated(): boolean {
@@ -53,8 +53,9 @@ export class HeadersService {
       return false;
     }
     const jwtData = this.decodeJwt(jwt);
-    const expired = jwtData.exp > new Date().getTime();
+    const expired = jwtData.exp > Math.round(new Date().getTime() / 1000);
+
     // do stuff!!
-    return !expired;
+    return expired;
   }
 }

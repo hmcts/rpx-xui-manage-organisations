@@ -9,7 +9,6 @@ export default {
         dmStoreApi: 'https://dm-store-sprod.service.core-compute-sprod.internal',
         emAnnoApi: 'https://em-anno-sprod.service.core-compute-sprod.internal',
         emNpaApi: 'https://em-npa-sprod.service.core-compute-sprod.internal',
-        emNpaApi: 'https://coh-cor-sprod.service.core-compute-sprod.internal',
     },
     useProxy: false,
     secureCookie: false,

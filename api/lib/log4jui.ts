@@ -1,5 +1,5 @@
 import * as log4js from 'log4js'
-import config from '../lib.1/config'
+import { config } from '../lib/config'
 import * as errorStack from './errorStack'
 import { client } from './appInsights'
 

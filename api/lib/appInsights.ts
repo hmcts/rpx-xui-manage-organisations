@@ -1,6 +1,6 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
-import config from '../lib.1/config'
+import { config } from '../lib/config'
 
 export let client
 

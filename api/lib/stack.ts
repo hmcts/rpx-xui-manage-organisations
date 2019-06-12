@@ -1,7 +1,7 @@
 import * as log4js from 'log4js'
-import config from '../lib.1/config'
+import { config } from '../lib/config'
 import { Store } from './store'
-import { isObject } from '../lib.1/util'
+import { isObject } from '../lib/util'
 
 const logger = log4js.getLogger('scss engine')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -22,7 +22,6 @@ export async function pushStack(req, stack) {
 }
 
 export async function shiftStack(req, variables) {
-
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -35,7 +34,6 @@ export async function shiftStack(req, variables) {
     const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
 
     while (!matching && currentStack.length) {
-
         logger.info(`popped stack ${currentStack}`)
         currentItem = currentStack.shift()
         logger.info(`Got item ${currentItem}`)
@@ -44,15 +42,15 @@ export async function shiftStack(req, variables) {
 
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
-            if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
+            if (Object.keys(currentItem).length) {
+                // item is an object with variable to evaluate
                 console.log('key:', key, variables[key])
-                matching = (variables[key]) ? currentItem[key] : null
+                matching = variables[key] ? currentItem[key] : null
                 currentItem = currentItem[key]
             }
         } else {
             logger.warn('no object')
         }
-
     }
 
     return currentItem
@@ -69,8 +67,7 @@ export async function stackEmpty(req) {
 }
 
 export function forwardStack(register, stateId) {
-
-    const index = register.map(x => (Object.values(x)[0] as any)).indexOf(stateId)
+    const index = register.map(x => Object.values(x)[0] as any).indexOf(stateId)
     logger.info(`Forwarding stack at ${index} for ${stateId}`)
     return register.slice(index + 1)
 }

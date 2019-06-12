@@ -9,7 +9,6 @@ export default {
         dmStoreApi: 'https://dm-store-saat.service.core-compute-saat.internal',
         emAnnoApi: 'https://em-anno-saat.service.core-compute-saat.internal',
         emNpaApi: 'https://em-npa-saat.service.core-compute-saat.internal',
-        emNpaApi: 'https://coh-cor-saat.service.core-compute-saat.internal',
     },
     useProxy: false,
     secureCookie: false,

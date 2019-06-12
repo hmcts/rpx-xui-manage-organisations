@@ -9,7 +9,6 @@ export default {
         dmStoreApi: 'https://dm-store-demo.service.core-compute-demo.internal',
         emAnnoApi: 'https://em-anno-demo.service.core-compute-demo.internal',
         emNpaApi: 'https://em-npa-demo.service.core-compute-demo.internal',
-        emNpaApi: 'https://coh-cor-demo.service.core-compute-demo.internal',
         rd_professional_api: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal',
     },
     useProxy: false,

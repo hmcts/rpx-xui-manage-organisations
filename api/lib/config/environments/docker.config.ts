@@ -9,7 +9,6 @@ export default {
         dmStoreApi: 'http://localhost:4603',
         emAnnoApi: 'http://localhost:3621',
         emNpaApi: 'http://localhost:3622',
-        emNpaApi: 'http://localhost:4701',
     },
     useProxy: false,
     protocol: 'http',

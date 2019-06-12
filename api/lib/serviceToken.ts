@@ -1,10 +1,10 @@
 import axios from 'axios'
 import * as jwtDecode from 'jwt-decode'
 import { postS2SLease } from '../services/serviceAuth'
-import config from '../lib.1/config'
+import { config } from '../lib/config'
 import { http } from './http'
 import * as log4jui from './log4jui'
-import { asyncReturnOrError } from '../lib.1/util'
+import { asyncReturnOrError } from '../lib/util'
 
 const logger = log4jui.getLogger('service-token')
 const that = this

@@ -1,9 +1,8 @@
 import * as exceptionFormatter from 'exception-formatter'
 import * as stringify from 'json-stringify-safe'
-import config from './config'
 import * as errorStack from '../lib/errorStack'
 import { shorten, valueOrNull } from '../lib/util'
-import { client } from './appInsights'
+import { config } from './config'
 import * as log4jui from './log4jui'
 
 const exceptionOptions = {
@@ -17,12 +16,6 @@ export function requestInterceptor(request) {
     logger.info(`${request.method.toUpperCase()} to ${url}`)
     //add timings to requests
     request.metadata = { startTime: new Date() }
-
-    logger.info('Auth')
-    logger.info(JSON.stringify(request.headers.common.Authorization))
-    logger.info('---------------------')
-    logger.info('header FULL')
-    logger.info(JSON.stringify(request.headers.common.ServiceAuthorization))
     return request
 }
 

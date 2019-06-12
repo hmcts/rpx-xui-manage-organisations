@@ -1,13 +1,11 @@
-
 import { map } from 'p-iteration'
-import config from '../lib.1/config'
+import { config } from '../lib/config'
 import * as log4jui from './log4jui'
-import { some } from '../lib.1/util'
+import { some } from '../lib/util'
 
 import { forwardStack, pushStack, shiftStack, stackEmpty } from './stack'
 
 const logger = log4jui.getLogger('state engine')
-
 
 // does not handle OR yet
 export function handleCondition(conditionNode, variables) {
@@ -51,7 +49,6 @@ export function handleInstruction(instruction, stateId, variables) {
         logger.info(`Instruction result without state: ${instruction.result} `)
         return instruction.result
     }
-
 }
 
 export function getRegister(mapping) {
@@ -77,7 +74,7 @@ export async function process(req, res, mapping, payload, templates, store) {
     if (variables) {
         // get current store
         let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
-        
+
         if (!(stored + '').length) {
             stored = {}
         }
@@ -108,7 +105,7 @@ export async function process(req, res, mapping, payload, templates, store) {
                     result = await shiftStack(req, variables)
                 } else if (result === '[state]') {
                     result = req.params.stateId
-                }  else if (result === '.') {
+                } else if (result === '.') {
                     result = await payload(req, res, variables)
                     if (!result) {
                         return
@@ -125,7 +122,7 @@ export async function process(req, res, mapping, payload, templates, store) {
         })
     } else {
         // reset for testing
-         if (stateId === 'reset') {
+        if (stateId === 'reset') {
             logger.warn(`reseting decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
             await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, {})
 
@@ -144,7 +141,7 @@ export async function process(req, res, mapping, payload, templates, store) {
             meta,
             newRoute,
         }
-        
+
         req.session.save(() => res.send(JSON.stringify(response)))
     }
 }

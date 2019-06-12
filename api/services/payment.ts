@@ -1,4 +1,4 @@
-import config from '../lib/config'
+import { config } from '../lib/config'
 import { http } from '../lib/http'
 import { PaymentAccountDto, Payments } from '../lib/models/transactions'
 

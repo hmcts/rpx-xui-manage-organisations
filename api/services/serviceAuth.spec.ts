@@ -5,10 +5,9 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 import { http } from '../lib/http'
 import * as serviceAuth from './serviceAuth'
 
-import { config } from '../../config'
+import { config } from '../lib/config'
 
 describe('serviceAuth', () => {
-
     let res
 
     const url = config.services.s2s
@@ -19,7 +18,6 @@ describe('serviceAuth', () => {
     let spyPost: any
 
     beforeEach(() => {
-
         res = {
             data: 'okay',
         }
@@ -30,17 +28,12 @@ describe('serviceAuth', () => {
     })
 
     afterEach(() => {
-
         spyPost.restore()
     })
 
     describe('service Auth', async () => {
-
         it('Should make a http.post call ', async () => {
             expect(await serviceAuth.postS2SLease()).to.equal('okay')
-
-
         })
     })
-
 })

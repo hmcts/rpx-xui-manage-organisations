@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
 
         ];
         this.serviceName = {
-            name: 'Manage organisation details for civil and family law cases',
+            name: 'Register to manage civil and family law cases',
             url: '/'
         };
         this.navigations = {

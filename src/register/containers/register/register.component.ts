@@ -49,9 +49,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   subscribeToPageItems(): void {
     this.$pageItemsSubscription = this.store.pipe(select(fromStore.getCurrentPageItems))
       .subscribe(formData => {
-        if(this.pageId && formData.pageItems && formData.pageValues){
+        if (this.pageId && formData.pageItems && formData.pageValues) {
           this.pageValues  = formData.pageValues;
-          this.pageItems = formData.pageItems ? formData.pageItems['meta'] : undefined;
+          this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
         }
       });
   }
@@ -73,7 +73,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.$routeSubscription.unsubscribe();
   }
 
-  onSubmitData(): void{
+  onSubmitData(): void {
     this.store.dispatch( new fromStore.SubmitFormData(this.pageValues));
   }
 

@@ -18,6 +18,7 @@ export class OrganisationGuard implements CanActivate {
     }
 
     checkStore(): Observable<boolean> {
+      /// TODO CHANGE THE SELECT
         return this.store.select(fromStore.getOrganisationLoaded).pipe(
             tap(loaded => {
                 if (!loaded) {

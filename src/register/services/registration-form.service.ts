@@ -32,4 +32,4 @@ export class RegistrationFormService {
   }
 
 }
-''
+

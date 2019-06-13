@@ -9,7 +9,7 @@ export interface PageItems {
 
 export interface RegistrationFormState {
   pages: {[id: string]: PageItems};
-  pagesValues: Object;
+  pagesValues: object;
   loaded: boolean;
   loading: boolean;
   submitted: boolean;

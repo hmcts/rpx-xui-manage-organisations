@@ -19,7 +19,7 @@ export class CheckYourAnswersComponent {
   @Output() submit = new EventEmitter();
   @Input() set fromValues(values) {
     this.formDataValues = values;
-  };
+  }
 
   onSubmitData() {
     this.submit.emit();

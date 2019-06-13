@@ -7,5 +7,5 @@ export async function getUserDetails(jwt: string): Promise<AxiosResponse> {
         headers: { Authorization: `Bearer ${jwt}` },
     }
 
-    return await http.get(`${config.services.idam.idamApiUrl}/details`, options)
+    return await http.get(`${config.services.idamApi}/details`, options)
 }

@@ -17,15 +17,11 @@ const configs = {
     aat,
     demo,
     docker,
-    idam_client: 'juiwebapp',
     laat,
     local,
-    microservice: 'jui_webapp',
     mock,
-    oauth_callback_url: 'oauth2/callback',
     preview,
     prod,
-    protocol: 'https',
     saat,
     spreview,
     sprod,
@@ -35,7 +31,7 @@ export const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
 export const config = { ...application, ...configs[configEnv].default }
 
 export default { ...config }
-
+console.log(config)
 if (process) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || 'AAAAAAAAAAAAAAAA'
 }

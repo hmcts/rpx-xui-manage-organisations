@@ -6,7 +6,7 @@ import { PaymentAccountDto } from '../lib/models/transactions'
 
 const logger = log4jui.getLogger('rd-professional')
 
-const url = config.services.rd_professional_api
+const url = config.services.rdProfessionalApi
 
 export async function getOrganisationId(details) {
     // TODO remove the hardcoded email when correct user gets returned from idam

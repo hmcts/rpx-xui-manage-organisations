@@ -54,7 +54,8 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
 }
 
 export async function getTokenFromCode(req: express.Request, res: express.Response): Promise<AxiosResponse> {
-    const Authorization = `Basic ${new Buffer(`${config.services.idam.idamClientID}:${secret}`).toString('base64')}`
+    console.log(`${config.idamClient}:${secret}`)
+    const Authorization = `Basic ${new Buffer(`${config.idamClient}:${secret}`).toString('base64')}`
     const options = {
         headers: {
             Authorization,
@@ -64,25 +65,36 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
 
     logger.info('Getting Token from auth code.')
 
-    return http.post(
-        `${config.services.idam.idamApiUrl}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
+    console.log(
+        `${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
             config.protocol
-        }://${req.headers.host}${config.services.idam.oauthCallbackUrl}`,
+        }://${req.headers.host}${config.oauthCallbackUrl}`
+    )
+    return http.post(
+        `${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
+            config.protocol
+        }://${req.headers.host}${config.oauthCallbackUrl}`,
         {},
         options
     )
 }
 
 async function sessionChainCheck(req: EnhancedRequest, res: express.Response, accessToken: string) {
-    if (!req.session.user) {
+    if (!req.session.auth) {
         logger.warn('Session expired. Trying to get user details again')
+        console.log(getUserDetails(accessToken))
         const details = await asyncReturnOrError(getUserDetails(accessToken), 'Cannot get user details', res, logger, false)
 
         if (details) {
             logger.info('Setting session')
 
-            const orgIdResponse = await getOrganisationId(details)
-
+            //const orgIdResponse = await getOrganisationId(details)
+            // no real end point
+            const orgIdResponse = {
+                data: {
+                    id: 1,
+                },
+            }
             req.session.auth = {
                 email: details.data.email,
                 orgId: orgIdResponse.data.id,
@@ -93,7 +105,7 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
         }
     }
 
-    if (!req.session.user) {
+    if (!req.session.auth) {
         logger.warn('Auth token  expired need to log in again')
         doLogout(req, res, 401)
         return false
@@ -122,7 +134,8 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             let orgId
             let details
 
-            if (sessionChainCheck(req, res, accessToken)) {
+            const check = await sessionChainCheck(req, res, accessToken)
+            if (check) {
                 axios.defaults.headers.common.Authorization = `Bearer ${req.session.auth.token}`
                 axios.defaults.headers.common['user-roles'] = req.session.auth.roles
 
@@ -132,7 +145,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
 
                 logger.info('save session', req.session)
                 req.session.save(() => {
-                    res.redirect(config.indexUrl)
+                    res.redirect(config.indexUrl || '/')
                 })
             }
         }
@@ -140,7 +153,6 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
         logger.error('No auth token')
         res.redirect(config.indexUrl || '/')
     }
-    next()
 }
 
 export function doLogout(req: EnhancedRequest, res: express.Response, status: number) {

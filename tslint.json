@@ -6,6 +6,8 @@
   "rules": {
     "array-type": false,
     "arrow-parens": false,
+    "directive-selector": false,
+    "component-selector": false,
     "deprecation": {
       "severity": "warn"
     },

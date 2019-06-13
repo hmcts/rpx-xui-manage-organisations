@@ -19,7 +19,7 @@ describe('Registration selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getRegistrationState', () => {
+  xdescribe('getRegistrationState', () => {
     it('should return registration state', () => {
       let result;
       store.pipe(select(getRegistrationState)).subscribe(value => {

@@ -95,6 +95,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
+              "**/api/**",
               "**/src/style-guide/**/*",
               "**/projects/**"
             ]

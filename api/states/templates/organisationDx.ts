@@ -1,7 +1,7 @@
 export default {
     idPrefix: 'tbc',
     name: 'organisation-dx',
-    header: "What's the DX reference for your main office? (optional)",
+    header: "What's the DX reference for your main office?",
     formGroupValidators: [],
     'validationHeaderErrorMessages': [
       {

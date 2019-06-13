@@ -53,7 +53,7 @@ export class RegistrationEffects {
         formValues.value['dontHaveDX'] : formValues.nextUrl;
       return [
           new fromRoot.Go({
-            path: ['/register', nextUrl]
+            path: ['/register-org/register', nextUrl]
           })];
       }
     )

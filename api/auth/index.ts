@@ -39,10 +39,9 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
             axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
 
             const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
-
-            if (token && token.token) {
+            if (token) {
                 logger.info('Using S2S Token in defaults')
-                axios.defaults.headers.common.ServiceAuthorization = token.token
+                axios.defaults.headers.common.ServiceAuthorization = token
             } else {
                 logger.warn('Cannot attach S2S token ')
                 doLogout(req, res, 401)

@@ -7,7 +7,7 @@
     "testx": "cd api && npm run coverage && cd .. && npm run test:ng //node tests are broken need to fix",
     "test": "npm run test:ng",
     "build:node": "cd api && npm run build",
-    "start:node": "cd api && npm run watch",
+    "start:node": "export PUI_ENV=laat; cd api && npm run watch",
     "test:node": "cd api && npm run test",
     "test:node:watch": "cd api && npm run test:watch",
     "test:coverage:ng": "ng test rpa-pui-manager --code-coverage --watch",

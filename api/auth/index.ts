@@ -31,7 +31,8 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         logger.info('Auth Token expired!')
         doLogout(req, res, 401)
     } else {
-        if (sessionChainCheck(req, res, accessToken)) {
+        const check = await sessionChainCheck(req, res, accessToken)
+        if (check) {
             logger.info('Attaching auth')
 
             // also use these as axios defaults

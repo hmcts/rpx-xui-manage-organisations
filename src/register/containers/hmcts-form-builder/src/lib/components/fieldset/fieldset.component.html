@@ -1,0 +1,6 @@
+<fieldset [attr.validate]="validate" [class]="classes" [attr.data]="data" [attr.group]="group">
+    <ng-container *ngFor="let item of data">
+        <app-jui-form-elements [validate]="validate" [group]="group" [data]="item"></app-jui-form-elements>
+    </ng-container>
+    <ng-content></ng-content>
+</fieldset>

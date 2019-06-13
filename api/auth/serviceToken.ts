@@ -1,60 +1,48 @@
 import axios, { AxiosInstance } from 'axios'
 import * as jwtDecode from 'jwt-decode'
-import * as log4js from 'log4js'
-import * as otp from 'otp'
-import config from '../lib/config'
-import { Token } from '../lib/models'
+import { config } from '../lib/config'
+import * as log4jui from '../lib/log4jui'
+import { asyncReturnOrError } from '../lib/util'
+import { postS2SLease } from '../services/serviceAuth'
 
-const logger = log4js.getLogger('serviceToken')
-logger.level = config.logging
+const logger = log4jui.getLogger('service-token')
 
+const _cache = {}
 const microservice = config.microservice
-const secret = process.env.S2S_SECRET
 
-const cache = {}
-let http: AxiosInstance
-
-function validateCache(): boolean {
+export function validateCache() {
+    logger.info('validaing s2s cache')
     const currentTime = Math.floor(Date.now() / 1000)
-    if (!cache[microservice]) {
+    if (!_cache[microservice]) {
         return false
     }
-    return currentTime < cache[microservice].expiresAt
+    return currentTime < _cache[microservice].expiresAt
 }
 
-function getToken(): Token {
-    return cache[microservice]
+export function getToken() {
+    return _cache[microservice]
 }
 
-async function generateToken() {
-    logger.info('generating from secret  :', { secret })
-    const oneTimePassword = otp({ secret }).totp()
-    http = axios.create({})
+export async function generateToken() {
+    logger.info('Getting new s2s token')
+    const token = await postS2SLease()
 
-    try {
-        const response = await http.post(`${config.s2s}/lease`, {
-            microservice,
-            oneTimePassword,
-        })
+    const tokenData: any = jwtDecode(token)
 
-        const tokenData = jwtDecode(response.data)
-        cache[microservice] = {
-            expiresAt: tokenData.exp,
-            token: response.data,
-        }
-    } catch (e) {
-        logger.info('Error creating S2S token! S2S service error - ', e)
+    _cache[microservice] = {
+        expiresAt: tokenData.exp,
+        token,
     }
+
+    return token
 }
-export async function serviceTokenGenerator(): Promise<Token> {
-    try {
-        if (validateCache()) {
-            return getToken()
-        } else {
-            await generateToken()
-            return getToken()
-        }
-    } catch (e) {
-        logger.info('Failed to get S2S token')
+
+export async function serviceTokenGenerator() {
+    if (validateCache()) {
+        logger.info('Getting cached s2s token')
+        const tokenData = getToken()
+        return tokenData.token
+    } else {
+        return await generateToken()
     }
 }

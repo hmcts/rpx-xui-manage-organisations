@@ -1,5 +1,5 @@
 import * as express from 'express'
-import config from '../lib/config'
+import { config } from '../lib/config'
 import { http } from '../lib/http'
 
 async function handleAddressRoute(req, res) {

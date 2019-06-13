@@ -1,0 +1,22 @@
+<ng-container *ngIf="isPageValid && formDraft.invalid">
+  <app-validation-header [validationHeaderErrorMessages]="this.pageItems.validationHeaderErrorMessages" [formGroup]="formDraft">
+  </app-validation-header>
+</ng-container>
+
+<form *ngIf="pageItems" [formGroup]="formDraft" (ngSubmit)="onFormSubmit()">
+  <div [ngClass]="{'govuk-form-group':true, 'govuk-form-group--error' : isPageValid && formDraft.invalid }">
+    <h1 class="govuk-heading-xl">
+      <span *ngIf="pageItems.caption" [class]="pageItems.caption.classes">{{ pageItems.caption.text }}</span>
+      {{pageItems.header}}
+    </h1>
+    <div class="govuk-form-group" *ngFor="let group of pageItems.groups">
+      <app-fieldset *ngIf="group.fieldset"
+                    [classes]="'govuk-fieldset'"
+                    [group]="formDraft"
+                    [data]="group.fieldset"
+                    [validate]="isPageValid">
+      </app-fieldset>
+      <app-jui-form-elements [group]="formDraft" [validate]="isPageValid" [data]="group"></app-jui-form-elements>
+    </div>
+  </div>
+</form>

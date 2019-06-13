@@ -95,8 +95,10 @@
             ],
             "exclude": [
               "**/node_modules/**",
+              "**/api/**",
               "**/src/style-guide/**/*",
-              "**/projects/**"
+              "**/projects/**",
+              "**/hmcts-form-builder/**" // TODO REMOVE AND LINT
             ]
           }
         }

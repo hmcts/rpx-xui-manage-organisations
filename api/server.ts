@@ -1,4 +1,3 @@
-
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as ejs from 'ejs'
@@ -7,9 +6,10 @@ import * as session from 'express-session'
 import * as log4js from 'log4js'
 import * as path from 'path'
 import * as sessionFileStore from 'session-file-store'
+import serviceRouter from './services/serviceAuth'
 import * as auth from './auth'
 import { appInsights } from './lib/appInsights'
-import config from './lib/config'
+import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
 import routes from './routes'
 
@@ -24,13 +24,13 @@ app.use(
             maxAge: 1800000,
             secure: config.secureCookie !== false,
         },
-        name: "jui-webapp",
+        name: 'jui-webapp',
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
         store: new FileStore({
-            path: process.env.NOW ? "/tmp/sessions" : ".sessions",
-        })
+            path: process.env.NOW ? '/tmp/sessions' : '.sessions',
+        }),
     })
 )
 
@@ -50,15 +50,14 @@ app.use(cookieParser())
 app.get('/oauth2/callback', auth.oauth)
 app.use(auth.attach)
 
+app.use(serviceRouter)
+
 app.use('/api', routes)
 
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)
     res.render('../index', {
-        providers: [
-            { provide: 'REQUEST', useValue: req },
-            { provide: 'RESPONSE', useValue: res },
-        ],
+        providers: [{ provide: 'REQUEST', useValue: req }, { provide: 'RESPONSE', useValue: res }],
         req,
         res,
     })

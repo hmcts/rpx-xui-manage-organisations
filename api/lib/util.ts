@@ -1,11 +1,13 @@
 import * as express from 'express'
+import { http } from './http'
 
 export function asyncReturnOrError(
     promise: any,
     message: string,
     res: express.Response | null,
     logger,
-    setResponse: boolean  = true): any {
+    setResponse: boolean = true
+): any {
     return promise
         .then(data => {
             return data
@@ -68,4 +70,16 @@ export function shorten(str: string, maxLen: number): string {
 
 export function isObject(o) {
     return o !== null && typeof o === 'object' && Array.isArray(o) === false
+}
+
+export async function getHealth(url: string) {
+    const response = await http.get(`${url}/health`)
+
+    return response.data
+}
+
+export async function getInfo(url: string) {
+    const response = await http.get(`${url}/info`)
+
+    return response.data
 }

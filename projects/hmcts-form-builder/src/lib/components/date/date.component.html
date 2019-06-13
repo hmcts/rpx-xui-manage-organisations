@@ -1,0 +1,34 @@
+<ng-container>
+    <app-validation-error-formgroup *ngIf="data.validationError && validate" [group]="group" [validationErrorId]="data.validationError.identifier">
+        {{data.validationError.value}}
+    </app-validation-error-formgroup>
+    <div class="govuk-date-input" [id]="id" [attr.data]="data">
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+                <app-inputs [item]="data.day.input"
+                            [group]="group"
+                            [label]="data.day.input.label"
+                            [labelFor]="data.day.input.control"
+                            [showValidation]=""></app-inputs>
+            </div>
+        </div>
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+                <app-inputs [item]="data.month.input"
+                            [group]="group"
+                            [label]="data.month.input.label"
+                            [labelFor]="data.month.input.control"
+                            [showValidation]=""></app-inputs>
+            </div>
+        </div>
+        <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+                <app-inputs [item]="data.year.input"
+                            [group]="group"
+                            [label]="data.year.input.label"
+                            [labelFor]="data.year.input.control"
+                            [showValidation]=""></app-inputs>
+            </div>
+        </div>
+    </div>
+</ng-container>

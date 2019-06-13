@@ -28,6 +28,10 @@ export const ROUTES: Routes = [
     loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
   },
   {
+    path: 'register-org',
+    loadChildren: '../register/register.module#RegisterModule'
+  },
+  {
     path: '**',
     redirectTo: '/organisation',
     pathMatch: 'full'

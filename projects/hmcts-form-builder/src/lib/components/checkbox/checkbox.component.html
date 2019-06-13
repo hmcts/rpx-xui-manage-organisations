@@ -1,0 +1,7 @@
+<ng-container>
+    <div  *ngIf="group" class="govuk-checkboxes__item" [formGroup]="group">
+        <input class="govuk-checkboxes__input" [formControlName]="items.control" id="{{items.control}}" type="checkbox" [value]="items.value">
+        <app-label [class]="labelClasses" [forElement]="items.control">{{items.text}}</app-label>
+    </div>
+    <ng-content></ng-content>
+</ng-container>

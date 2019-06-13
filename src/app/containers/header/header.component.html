@@ -1,5 +1,13 @@
 <header>
-    <!--TODO move the json file to TS file-->
-    <app-hmcts-global-header  [userLoggedIn]="isUserLoggedIn$ | async" [serviceName]="serviceName" [navigation]="navigations" ></app-hmcts-global-header>
-    <app-hmcts-primary-navigation [userLoggedIn]="isUserLoggedIn$ | async" [label]="" [items]="navItems"></app-hmcts-primary-navigation>
+    <app-hmcts-global-header
+      [userLoggedIn]="isUserLoggedIn$ | async"
+      [serviceName]="serviceName"
+      [navigation]="navigations"
+    ></app-hmcts-global-header>
+
+    <app-hmcts-primary-navigation
+      [userLoggedIn]="isUserLoggedIn$ | async"
+      [label]=""
+      [items]="navItems"
+    ></app-hmcts-primary-navigation>
 </header>

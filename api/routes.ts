@@ -1,4 +1,3 @@
-
 import * as express from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
@@ -6,10 +5,12 @@ import userRouter from './user'
 import inviteUser from './inviteUser'
 import organisationRouter from './organisation'
 import getUserList from './userList'
+import stateRouter from './states'
 
 const router = express.Router({ mergeParams: true })
 
 router.use('/logout', auth.logout)
+router.use('/decisions', stateRouter)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
 router.use('/user', userRouter)

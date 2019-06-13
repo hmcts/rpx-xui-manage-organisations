@@ -16,7 +16,7 @@ import {Component, Input} from '@angular/core';
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <lib-gov-uk-error-summary
-            *ngIf="!summaryErrors['isFromValid']"
+            *ngIf="summaryErrors && !summaryErrors['isFromValid']"
             [errorMessages]="summaryErrors['items']">
           </lib-gov-uk-error-summary>
           <h1 *ngIf="title" class="govuk-heading-xl">{{title}}</h1>

@@ -1,4 +1,3 @@
-
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
@@ -8,7 +7,7 @@ import * as log4js from 'log4js'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
 import { appInsights } from './lib/appInsights'
-import config from './lib/config'
+import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
 import routes from './routes'
 
@@ -22,15 +21,15 @@ app.use(
         cookie: {
             httpOnly: true,
             maxAge: 1800000,
-            secure: config.secureCookie !== false
+            secure: config.secureCookie !== false,
         },
-        name: "jui-webapp",
+        name: 'jui-webapp',
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
         store: new FileStore({
-            path: process.env.NOW ? "/tmp/sessions" : ".sessions",
-        })
+            path: process.env.NOW ? '/tmp/sessions' : '.sessions',
+        }),
     })
 )
 

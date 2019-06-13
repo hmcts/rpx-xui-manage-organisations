@@ -1,0 +1,16 @@
+<ng-container [formGroup]="group">
+    <app-label *ngIf="label"
+               [label]="label"
+               [class]="'govuk-label ' + label.classes"
+               [forElement]="labelFor">{{label.text}}
+    </app-label>
+    <ng-container *ngIf="validationError">
+        <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="control" id="{{control}}">{{validationError.value}}</app-validation-error-formcontrol>
+    </ng-container>
+    <textarea [class]="classes"
+              [ngClass]="{'govuk-textarea--error':isControlInvalidAndShowValidation(group, control, showValidation) || isGroupInvalidAndShowValidation(group, showValidation)}"
+              [rows]="rows"
+              [id]="labelFor"
+              [attr.aria-label]="labelFor"
+              [formControlName]="control"></textarea>
+</ng-container>

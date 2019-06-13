@@ -1,0 +1,20 @@
+<ng-container [formGroup]="group">
+    <app-label *ngIf="label"
+               [label]="label"
+               [class]="'govuk-label ' + label.classes"
+               [forElement]="labelFor">{{label.text}}
+    </app-label>
+    <app-hint *ngIf="hint" [classes]="hint.classes">
+        {{hint.text}}
+    </app-hint>
+    <ng-container *ngIf="validationError">
+        <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="item.control" id="{{item.control}}">{{validationError.value}}</app-validation-error-formcontrol>
+    </ng-container>
+    <input
+           [class]="item.classes"
+           [formControlName]="item.control"
+           [id]="item.control"
+           [name]="item.control"
+           [ngClass]=" { 'govuk-input--error': isControlInvalidAndShowValidation(group, item.control, showValidation), 'govuk-input ': true }"
+           type="text">
+</ng-container>

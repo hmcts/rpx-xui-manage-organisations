@@ -9,25 +9,10 @@ import { Store } from '@ngrx/store';
 export class HmctsGlobalHeaderComponent {
 
     @Input() set userLoggedIn(value) {
-        this.userValue = value;
+        this.userValue = value; // TODO add type
     }
-
-    @Input() serviceName = {
-        name: 'Service name',
-        url: '#'
-    };
-    @Input() navigation = {
-        label: 'Account navigation',
-        items: [
-            {
-                text: 'Nav item 1',
-                href: '#1'
-            }, {
-                text: 'Nav item 2',
-                href: '#1'
-            }
-        ]
-    };
+    @Input() serviceName;
+    @Input() navigation;
 
     userValue: any;
     constructor(public store: Store<fromRoot.State>) { }

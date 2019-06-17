@@ -17,7 +17,7 @@ export interface EnhancedRequest extends express.Request {
     session?: {
         save?: any
         auth?: {
-            orgId: number
+            orgId: string
             email?: string
             roles?: string
             token?: string

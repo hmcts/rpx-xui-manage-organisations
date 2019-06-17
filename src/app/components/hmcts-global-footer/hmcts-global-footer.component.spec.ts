@@ -1,13 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
-import { helpData, navigationData } from './mock/hmcts-global-footer.mock';
-import { Component, DebugElement, Input, ViewChild } from '@angular/core';
-import { Helper, Navigation } from '../../containers/footer/footer.model';
-import { RouterModule } from '@angular/router';
+import {Component, DebugElement, Input, ViewChild} from '@angular/core';
+import {Helper, Navigation} from '../../containers/footer/footer.model';
+
 
 describe('HmctsGlobalFooterComponent', () => {
     @Component({
-        selector: `app-host-dummy-component`,
+        selector: `exui-app-host-dummy-component`,
         template: `<app-hmcts-global-footer
                     [reference]="iconFallbackText"
                     [title]="type"
@@ -19,20 +18,40 @@ describe('HmctsGlobalFooterComponent', () => {
         @ViewChild(HmctsGlobalFooterComponent)
         public hmctsGlobalFooterComponent: HmctsGlobalFooterComponent;
     }
-
+    let testHostComponent: TestDummyHostComponent;
+    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
+    let el: DebugElement;
+    let de: any;
     let component: HmctsGlobalFooterComponent;
     let fixture: ComponentFixture<HmctsGlobalFooterComponent>;
 
 
+    const helpData: Helper = {
+      heading: 'Help',
+      email: {
+        address: 'service-desk@hmcts.gov.uk',
+        text: 'service-desk@hmcts.gov.uk'
+      },
+      phone: {
+        text: '0207 633 4140'
+      },
+      opening: {
+        text: 'Monday to Friday, 8am to 6pm (excluding public holidays)'
+      }
+    };
+    const navigationData: Navigation = {
+    items: [
+      { text: 'Terms and conditions', href: 'terms-and-conditions'},
+      { text: 'Cookies', href: 'cookies' },
+      { text: 'Privacy policy', href: 'privacy-policy'}
+    ]
+    };
 
     beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [HmctsGlobalFooterComponent],
-            imports: [
-                RouterModule
-            ]
-        })
-            .compileComponents();
+      TestBed.configureTestingModule({
+        declarations: [ HmctsGlobalFooterComponent ]
+      })
+      .compileComponents();
     }));
 
     beforeEach(() => {

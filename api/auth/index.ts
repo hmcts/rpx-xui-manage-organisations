@@ -92,7 +92,7 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
             // no real end point
             const orgIdResponse = {
                 data: {
-                    id: 1,
+                    id: '1',
                 },
             }
             req.session.auth = {

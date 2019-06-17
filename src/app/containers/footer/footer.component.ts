@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Helper, Navigation } from './footer.model';
-import { environment } from '../../../environments/environment';
+
 @Component({
     selector: 'app-footer',
     templateUrl: './footer.component.html',
@@ -10,14 +10,14 @@ export class FooterComponent {
     public helpData: Helper = {
         heading: 'Help',
         email: {
-            address: environment.serviceDeskEmail,
-            text: environment.serviceDeskEmail
+            address: 'service-desk@hmcts.gov.uk',
+            text: 'service-desk@hmcts.gov.uk'
         },
         phone: {
-            text: environment.serviceDeskTel
+            text: '0207 633 4140'
         },
         opening: {
-            text: 'Monday to Friday, 8am to 6pm'
+            text: 'Monday to Friday, 8am to 6pm (excluding public holidays)'
         }
     };
     public navigationData: Navigation = {

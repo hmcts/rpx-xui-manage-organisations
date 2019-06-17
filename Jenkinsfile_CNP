@@ -3,7 +3,7 @@
 properties([
     [
         $class       : 'GithubProjectProperty',
-        displayName  : 'Expert UI Webapp',
+        displayName  : 'Expert UI Manage Organisations',
         projectUrlStr: 'https://github.com/hmcts/rpx-xui-manage-organisations'
     ],
     pipelineTriggers([

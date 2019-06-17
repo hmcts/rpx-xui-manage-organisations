@@ -19,7 +19,6 @@ module "app" {
     common_tags  = "${var.common_tags}"
     asp_rg = "${local.app_full_name}-${var.env}"
     asp_name = "${var.shared_product_name}-${var.env}"
-    #asp_name = "${var.env == "prod" ? "TBD" : "${var.shared_product_name}-${var.env}"}"
 
     app_settings = {
         # logging vars & healthcheck
@@ -33,11 +32,9 @@ module "app" {
         PACKAGES_ENVIRONMENT = "${var.env}"
         XUI_ENV = "${var.env}"
 
-        # Need to check these vault values - dont seem right here.
         S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
     
-
     }
 }
 

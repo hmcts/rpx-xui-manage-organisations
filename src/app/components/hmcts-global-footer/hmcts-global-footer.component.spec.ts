@@ -6,7 +6,7 @@ import {Helper, Navigation} from '../../containers/footer/footer.model';
 
 describe('HmctsGlobalFooterComponent', () => {
     @Component({
-        selector: `exui-app-host-dummy-component`,
+        selector: `app-host-dummy-component`,
         template: `<app-hmcts-global-footer
                     [reference]="iconFallbackText"
                     [title]="type"

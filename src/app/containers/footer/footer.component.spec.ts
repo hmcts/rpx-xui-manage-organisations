@@ -5,7 +5,7 @@ import {FooterComponent} from './footer.component';
 
 describe('FooterComponent', () => {
     @Component({
-        selector: `exui-app-host-dummy-component`,
+        selector: `app-host-dummy-component`,
         template: `<app-footer></app-footer>`
     })
     class TestDummyHostComponent {

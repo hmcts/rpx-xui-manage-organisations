@@ -9,6 +9,7 @@
     "build:node": "cd api && npm run build",
     "start:node": "export PUI_ENV=laat; cd api && npm run watch",
     "test:node": "cd api && npm run test",
+    "test:coverage": "echo 'not implemented'",
     "test:node:watch": "cd api && npm run test:watch",
     "test:coverage:ng": "ng test rpa-pui-manager --code-coverage --watch",
     "test:coverage:node": "cd api && npm run coverage",

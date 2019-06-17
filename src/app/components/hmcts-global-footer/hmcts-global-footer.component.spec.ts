@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
-import {Component, DebugElement, Input, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {Helper, Navigation} from '../../containers/footer/footer.model';
 
 
 describe('HmctsGlobalFooterComponent', () => {
     @Component({
-        selector: `exui-app-host-dummy-component`,
+        selector: `app-host-dummy-component`,
         template: `<app-hmcts-global-footer
                     [reference]="iconFallbackText"
                     [title]="type"
@@ -18,10 +18,7 @@ describe('HmctsGlobalFooterComponent', () => {
         @ViewChild(HmctsGlobalFooterComponent)
         public hmctsGlobalFooterComponent: HmctsGlobalFooterComponent;
     }
-    let testHostComponent: TestDummyHostComponent;
-    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    let el: DebugElement;
-    let de: any;
+
     let component: HmctsGlobalFooterComponent;
     let fixture: ComponentFixture<HmctsGlobalFooterComponent>;
 

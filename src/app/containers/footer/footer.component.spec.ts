@@ -5,7 +5,7 @@ import {FooterComponent} from './footer.component';
 
 describe('FooterComponent', () => {
     @Component({
-        selector: `exui-app-host-dummy-component`,
+        selector: `app-host-dummy-component`,
         template: `<app-footer></app-footer>`
     })
     class TestDummyHostComponent {
@@ -15,7 +15,9 @@ describe('FooterComponent', () => {
 
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
+  // tslint:disable-next-line
     let el: DebugElement;
+  // tslint:disable-next-line
     let de: any;
     let component: FooterComponent;
     let fixture: ComponentFixture<FooterComponent>;

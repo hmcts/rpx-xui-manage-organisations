@@ -24,14 +24,14 @@ export interface AppState {
   pageTitle: string;
   navItems: NavItemsModel[];
   userNav: UserNavModel;
-  titles: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
+  headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
 }
 
 export const initialState: AppState = {
   pageTitle: '',
   navItems: AppConstants.NAV_ITEMS,
   userNav: AppConstants.USER_NAV,
-  titles: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE}
+  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE}
 };
 
 export function reducer(
@@ -65,6 +65,6 @@ export function reducer(
 export const getPageTitle = (state: AppState) => state.pageTitle;
 export const getNavItems = (state: AppState) => state.navItems;
 export const getUserNavigation = (state: AppState) => state.userNav;
-export const getAppTitles = (state: AppState) => state.titles;
+export const getHeaderTitles = (state: AppState) => state.headerTitle;
 
 

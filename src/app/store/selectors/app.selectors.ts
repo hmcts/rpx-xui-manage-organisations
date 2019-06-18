@@ -15,7 +15,7 @@ export const getPageTitle = createSelector(
 
 export const getPageTitles = createSelector(
   getAppState,
-  fromAppFeature.getAppTitles
+  fromAppFeature.getHeaderTitles
 );
 
 export const getNavItems = createSelector(

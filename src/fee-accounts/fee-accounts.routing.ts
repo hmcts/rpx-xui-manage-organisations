@@ -8,7 +8,6 @@ import {AccountTransactionsComponent} from './containers/account-transactions/ac
 import {OrganisationAccountsComponent} from './containers/overview/account-overview.component';
 import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
-import {Organisation} from '../organisation/organisation.model';
 
 export const ROUTES: Routes = [
   {

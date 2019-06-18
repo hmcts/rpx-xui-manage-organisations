@@ -15,10 +15,10 @@ export const ROUTES: Routes = [
     path: 'users',
     loadChildren: '../users/users.module#UsersModule'
   },
-  {
-    path: 'fee-accounts',
-    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
-  },
+  // {
+  //   path: 'fee-accounts',
+  //   loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
+  // },
   {
     path: 'profile',
     loadChildren: '../auth/auth.module#AuthModule'

@@ -12,13 +12,8 @@ export default {
         documents: {
             api: 'https://dm-store-aat.service.core-compute-aat.internal',
         },
-        idam: {
-            idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
-            idamClientID: 'xuiwebapp',
-            idamLoginUrl: 'https://idam-web-public.aat.platform.hmcts.net',
-            indexUrl: '/',
-            oauthCallbackUrl: 'oauth2/callback',
-        },
+        idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
+        idamApi: 'https://idam-api.aat.platform.hmcts.net',
         s2s:
             'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
     },

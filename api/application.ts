@@ -56,6 +56,7 @@ if (config.proxy) {
 }
 
 app.get('/oauth2/callback', auth.oauth)
+//app.use(auth.attach)
 
 
 app.use('/aggregated', routes)

@@ -1,7 +1,7 @@
 import { application } from './application.config'
 
-import * as local from './environments/local'
-import * as laat from './environments/ldocker.config'
+import * as local from './environments/local.config'
+import * as ldocker from './environments/ldocker.config'
 import * as docker from './environments/docker.config'
 import * as spreview from './environments/spreview.config'
 import * as saat from './environments/saat.config'
@@ -17,7 +17,7 @@ const configs = {
     aat,
     demo,
     docker,
-    laat,
+    ldocker,
     local,
     mock,
     preview,

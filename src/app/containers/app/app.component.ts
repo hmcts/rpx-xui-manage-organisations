@@ -3,6 +3,9 @@ import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
 import { Observable } from 'rxjs';
+import {NavItemsModel} from '../../models/nav-items.model';
+import {AppTitlesModel} from '../../models/app-titles.model';
+import {UserNavModel} from '../../models/user-nav.model';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +14,12 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
-  title$: Observable<string>;
   identityBar$: Observable<string[]>;
+
+  title$: Observable<string>;
+  navItems$: Observable<NavItemsModel[]> ;
+  appTitle$: Observable<{regOrg: AppTitlesModel; manageOrg: AppTitlesModel}>;
+  userNav$: Observable<UserNavModel>;
 
 
   constructor(
@@ -21,7 +28,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
-    this.title$ = this.store.pipe(select(fromRoot.getAppPageTitle));
+
+    this.title$ = this.store.pipe(select(fromRoot.getPageTitle));
+    this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
+    this.appTitle$ = this.store.pipe(select(fromRoot.getPageTitles));
+    this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
+
     this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
       if (rootState) {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));

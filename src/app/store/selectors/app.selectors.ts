@@ -8,7 +8,22 @@ export const getAppState = createSelector(
   (state: fromAppFeature.AppState) => state
 );
 
-export const getAppPageTitle = createSelector(
+export const getPageTitle = createSelector(
   getAppState,
   fromAppFeature.getPageTitle
+);
+
+export const getPageTitles = createSelector(
+  getAppState,
+  fromAppFeature.getAppTitles
+);
+
+export const getNavItems = createSelector(
+  getAppState,
+  fromAppFeature.getNavItems
+);
+
+export const getUserNav = createSelector(
+  getAppState,
+  fromAppFeature.getUserNavigation
 );

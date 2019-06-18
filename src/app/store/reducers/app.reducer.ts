@@ -1,4 +1,8 @@
 import * as fromAction from '../actions';
+import {NavItemsModel} from '../../models/nav-items.model';
+import {AppConstants} from '../../app.constants';
+import {UserNavModel} from '../../models/user-nav.model';
+import {AppTitlesModel} from '../../models/app-titles.model';
 
 /* function that returns page title base on page url indexOf */
 export function setPageTitle(url): string {
@@ -18,10 +22,16 @@ export function setPageTitle(url): string {
 
 export interface AppState {
   pageTitle: string;
+  navItems: NavItemsModel[];
+  userNav: UserNavModel;
+  titles: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
 }
 
 export const initialState: AppState = {
-  pageTitle: ''
+  pageTitle: '',
+  navItems: AppConstants.NAV_ITEMS,
+  userNav: AppConstants.USER_NAV,
+  titles: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE}
 };
 
 export function reducer(
@@ -29,6 +39,7 @@ export function reducer(
   action: fromAction.appActions
 ): AppState {
   switch (action.type) {
+
     case fromAction.SET_PAGE_TITLE: {
       const pageTitle = setPageTitle(action.payload);
       return {
@@ -52,5 +63,8 @@ export function reducer(
 }
 
 export const getPageTitle = (state: AppState) => state.pageTitle;
+export const getNavItems = (state: AppState) => state.navItems;
+export const getUserNavigation = (state: AppState) => state.userNav;
+export const getAppTitles = (state: AppState) => state.titles;
 
 

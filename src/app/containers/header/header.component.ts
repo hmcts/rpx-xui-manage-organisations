@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromAuth from '../../../auth/store';
 import * as fromRoot from '../../store';
+import {NavItemsModel} from '../../models/nav-items.model';
+import {AppTitlesModel} from '../../models/app-titles.model';
+import {UserNavModel} from '../../models/user-nav.model';
 
 @Component({
     selector: 'app-header',
@@ -12,59 +15,23 @@ import * as fromRoot from '../../store';
 })
 export class HeaderComponent implements OnInit {
 
-    logoutLink: string;
-    navItems: Array<{}>;
-    navigations;
-    serviceName;
+  @Input() navItems;
+  @Input() title: AppTitlesModel;
+  @Input() userNav: UserNavModel;
 
-    isUserLoggedIn$: Observable<boolean>;
+  isUserLoggedIn$: Observable<boolean>;
 
-    constructor(public store: Store<fromRoot.State>) {}
+  constructor(public store: Store<fromRoot.State>) {}
 
 
-    ngOnInit(): void {
-        this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
-        this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
-          if (rootState) {
-            this.updateNavItems(rootState.state.url);
-          }
-        });
-
-        this.logoutLink = `/api/logout`;
-
-        this.navItems = [{
-            text: 'Organisation',
-            href: '/organisation',
-            active: true
-        },
-        {
-            text: 'Users',
-            href: '/users',
-            active: false
-        },
-        {
-            text: 'Fee Accounts',
-            href: '/fee-accounts',
-            active: false
-        },
-
-        ];
-        this.serviceName = {
-            name: 'Register to manage civil and family law cases',
-            url: '/'
-        };
-        this.navigations = {
-            label: 'Account navigation',
-            items: [{
-                text: 'Profile',
-                href: '/profile'
-            }, {
-                text: 'Sign out',
-                href: this.logoutLink
-            }]
-        };
-
-    }
+  ngOnInit(): void {
+    this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
+    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
+      if (rootState) {
+        this.updateNavItems(rootState.state.url);
+      }
+    });
+  }
 
   updateNavItems(url): void {
     this.navItems = this.navItems.map((item: {href}) => {

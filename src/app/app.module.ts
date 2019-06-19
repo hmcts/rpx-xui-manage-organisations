@@ -27,6 +27,7 @@ import { AuthModule } from '../auth/auth.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 import config from '../../api/lib/config';
+import {OrganisationModule} from '../organisation/organisation.module';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -51,7 +52,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     StoreDevtoolsModule.instrument({
       logOnly: config.production
     }),
-    FeeAccountsModule
+    OrganisationModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer }],

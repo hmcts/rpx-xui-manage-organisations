@@ -16,9 +16,9 @@ export class AppComponent implements OnInit {
 
   identityBar$: Observable<string[]>;
 
-  title$: Observable<string>;
+  pageTitle$: Observable<string>;
   navItems$: Observable<NavItemsModel[]> ;
-  appTitle$: Observable<{regOrg: AppTitlesModel; manageOrg: AppTitlesModel}>;
+  appHeaderTitle$: Observable<AppTitlesModel>;
   userNav$: Observable<UserNavModel>;
 
 
@@ -29,11 +29,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
-    this.title$ = this.store.pipe(select(fromRoot.getPageTitle));
+    this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
-    this.appTitle$ = this.store.pipe(select(fromRoot.getPageTitles));
+    this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
 
+    // no need to unsubscribe as app component is always init.
     this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
       if (rootState) {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));

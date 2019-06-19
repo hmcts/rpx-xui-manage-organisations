@@ -1,7 +1,7 @@
-<title>{{title$ | async}}</title>
+<title>{{pageTitle$ | async}}</title>
 <app-header
   [navItems]="navItems$ | async"
-  [title]="appTitle$ | async"
+  [title]="appHeaderTitle$ | async"
   [userNav]="userNav$ | async">
 </app-header>
 <!--<app-hmcts-identity-bar [content]="identityBar$ | async"></app-hmcts-identity-bar>-->

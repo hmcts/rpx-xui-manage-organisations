@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
 import {Component, Input, ViewChild} from '@angular/core';
 import {Helper, Navigation} from '../../containers/footer/footer.model';
+import { AppConstants } from '../../app.constants';
 
 
 describe('HmctsGlobalFooterComponent', () => {
@@ -23,26 +24,8 @@ describe('HmctsGlobalFooterComponent', () => {
     let fixture: ComponentFixture<HmctsGlobalFooterComponent>;
 
 
-    const helpData: Helper = {
-      heading: 'Help',
-      email: {
-        address: 'service-desk@hmcts.gov.uk',
-        text: 'service-desk@hmcts.gov.uk'
-      },
-      phone: {
-        text: '0207 633 4140'
-      },
-      opening: {
-        text: 'Monday to Friday, 8am to 6pm (excluding public holidays)'
-      }
-    };
-    const navigationData: Navigation = {
-    items: [
-      { text: 'Terms and conditions', href: 'terms-and-conditions'},
-      { text: 'Cookies', href: 'cookies' },
-      { text: 'Privacy policy', href: 'privacy-policy'}
-    ]
-    };
+    const helpData: Helper = AppConstants.FOOTER_DATA;
+    const navigationData: Navigation = AppConstants.FOOTER_DATA_NAVIGATION;
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({

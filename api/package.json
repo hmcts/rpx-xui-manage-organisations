@@ -9,7 +9,8 @@
     "watch": "nodemon --watch '**/*.ts' --exec ts-node local.ts",
     "test": "mocha",
     "test:watch": "mocha --watch --recursive --watch-extensions ts",
-    "test:smoke": "not implemented"
+    "test:smoke": "not implemented",
+    "test:functional": "not implemented"
   },
   "private": true,
   "nyc": {

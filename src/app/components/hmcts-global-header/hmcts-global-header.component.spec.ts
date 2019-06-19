@@ -26,7 +26,7 @@ describe('HmctsGlobalHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HmctsGlobalHeaderComponent);
     component = fixture.componentInstance;
-    component.serviceName = {
+    component.headerTitle = {
         name: 'Service name',
         url: '#'
     };

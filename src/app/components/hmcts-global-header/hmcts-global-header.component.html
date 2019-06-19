@@ -1,13 +1,13 @@
 <header class="hmcts-header" role="banner">
     <div class="hmcts-header__container">
         <div class="hmcts-header__logo">
-            <a class="hmcts-header__link" href="/" [attr.aria-label]="serviceName?.name" >{{serviceName?.name}}</a>
+            <a class="hmcts-header__link" href="/" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
         </div>
         <div class="hmcts-header__content">
             <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">
                 <ul class="hmcts-header__navigation-list" >
                     <li *ngFor="let item of navigation.items" class="hmcts-header__navigation-item">
-                        <a class="hmcts-header__navigation-link" *ngIf="userValue || item.text=='Sign out'" [routerLink]="[item.href]">{{item.text}}</a>
+                        <a class="hmcts-header__navigation-link" *ngIf="userValue" [routerLink]="[item.href]">{{item.text}}</a>
                     </li>
                 </ul>
             </nav>

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import * as fromRoot from '../../store';
 import { Store } from '@ngrx/store';
+import {NavItemsModel} from '../../models/nav-items.model';
 
 @Component({
     selector: 'app-hmcts-global-header',
@@ -9,10 +10,10 @@ import { Store } from '@ngrx/store';
 export class HmctsGlobalHeaderComponent {
 
     @Input() set userLoggedIn(value) {
-        this.userValue = value; // TODO add type
+        this.userValue = value;
     }
-    @Input() serviceName;
-    @Input() navigation;
+    @Input() headerTitle: string;
+    @Input() navigation: NavItemsModel;
 
     userValue: any;
     constructor(public store: Store<fromRoot.State>) { }

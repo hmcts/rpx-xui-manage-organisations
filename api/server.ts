@@ -48,11 +48,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.get('/oauth2/callback', auth.oauth)
-app.use(auth.attach)
 
 app.use(serviceRouter)
 
-app.use('/api', routes)
 
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)
@@ -63,6 +61,8 @@ app.use('/*', (req, res) => {
     })
     console.timeEnd(`GET: ${req.originalUrl}`)
 })
+
+app.use('/api', routes)
 
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY

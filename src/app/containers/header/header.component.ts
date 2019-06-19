@@ -15,7 +15,7 @@ import {UserNavModel} from '../../models/user-nav.model';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() navItems;
+  @Input() navItems: { active: boolean; href: string; }[];
   @Input() title: AppTitlesModel;
   @Input() userNav: UserNavModel;
 

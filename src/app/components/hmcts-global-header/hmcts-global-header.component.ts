@@ -12,8 +12,8 @@ export class HmctsGlobalHeaderComponent {
     @Input() set userLoggedIn(value) {
         this.userValue = value;
     }
-    @Input() headerTitle: string;
-    @Input() navigation: NavItemsModel;
+    @Input() headerTitle: {name: string; url: string};
+    @Input() navigation;
 
     userValue: any;
     constructor(public store: Store<fromRoot.State>) { }

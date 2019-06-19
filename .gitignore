@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /reports
+/report_json
 
 # dependencies
 /node_modules

@@ -32,7 +32,7 @@ const regOrgTitle: AppTitlesModel = {
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Approve Organisation',
+  name: 'Manage Organisation',
   url: '/'
 };
 

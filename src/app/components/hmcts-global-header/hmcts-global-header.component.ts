@@ -19,5 +19,4 @@ export class HmctsGlobalHeaderComponent {
     constructor(public store: Store<fromRoot.State>) { }
 
 
-
 }

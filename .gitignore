@@ -43,3 +43,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/test/reports/
+reports/
+.tmp/
+!.sessions/
+.sessions/*
+reports_json/
+.nyc_output/
+cb_reports/
+report.json

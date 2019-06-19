@@ -8,7 +8,8 @@
     "coverage": "npx nyc mocha",
     "watch": "nodemon --watch '**/*.ts' --exec ts-node local.ts",
     "test": "mocha",
-    "test:watch": "mocha --watch --recursive --watch-extensions ts"
+    "test:watch": "mocha --watch --recursive --watch-extensions ts",
+    "test:smoke": "not implemented"
   },
   "private": true,
   "nyc": {

@@ -8,7 +8,32 @@ export const getAppState = createSelector(
   (state: fromAppFeature.AppState) => state
 );
 
-export const getAppPageTitle = createSelector(
+export const getPageTitle = createSelector(
   getAppState,
   fromAppFeature.getPageTitle
+);
+
+export const getHeaderTitles = createSelector(
+  getAppState,
+  fromAppFeature.getHeaderTitles
+);
+
+export const getHeaderTitle = createSelector(
+  getHeaderTitles,
+  fromRoot.getRouterState,
+  (title, router) => {
+    if (router && router.state) {
+      return router.state.url.indexOf('register') !== -1 ? title.regOrg : title.manageOrg;
+    }
+  }
+);
+
+export const getNavItems = createSelector(
+  getAppState,
+  fromAppFeature.getNavItems
+);
+
+export const getUserNav = createSelector(
+  getAppState,
+  fromAppFeature.getUserNavigation
 );

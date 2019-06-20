@@ -22,7 +22,7 @@ describe('App Effects', () => {
   });
 
   describe('updateTitle$', () => {
-    it('should update error titles', () => {
+    it('should update error headerTitle', () => {
       const action = new usersActions.UpdateErrorMessages({});
       const completion = new SetPageTitleErrors();
       actions$ = hot('-a', { a: action });

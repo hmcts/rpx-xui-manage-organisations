@@ -27,6 +27,9 @@ import { AuthModule } from '../auth/auth.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 import config from '../../api/lib/config';
+import {OrganisationModule} from '../organisation/organisation.module';
+import {UserService} from '../auth/services/user.service';
+import {HttpClientModule} from '@angular/common/http';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -41,6 +44,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     CookieModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
@@ -50,11 +54,12 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
       logOnly: config.production
-    }),
-    FeeAccountsModule
+    })
   ],
   providers: [
-    { provide: RouterStateSerializer, useClass: CustomSerializer }],
+    { provide: RouterStateSerializer, useClass: CustomSerializer },
+    UserService
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

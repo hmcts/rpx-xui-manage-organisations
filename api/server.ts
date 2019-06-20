@@ -4,6 +4,7 @@ import * as ejs from 'ejs'
 import * as express from 'express'
 import * as session from 'express-session'
 import * as log4js from 'log4js'
+import * as globalTunnel from 'global-tunnel-ng'
 import * as path from 'path'
 import * as sessionFileStore from 'session-file-store'
 import serviceRouter from './services/serviceAuth'
@@ -47,10 +48,14 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+globalTunnel.initialize({
+    host: '172.16.0.7',
+    port: 8080,
+})
+
 app.get('/oauth2/callback', auth.oauth)
 
 app.use(serviceRouter)
-
 
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)

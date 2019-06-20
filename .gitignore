@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /reports
+/report_json
 
 # dependencies
 /node_modules
@@ -42,3 +43,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/test/reports/
+reports/
+.tmp/
+!.sessions/
+.sessions/*
+reports_json/
+.nyc_output/
+cb_reports/
+report.json

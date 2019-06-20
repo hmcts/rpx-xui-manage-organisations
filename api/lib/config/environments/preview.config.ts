@@ -2,20 +2,11 @@ export default {
     logging: 'debug',
     secureCookie: false,
     services: {
-        ccd: {
-            componentApi: 'https://ccd-api-gateway-web-aat.service.core-compute-aat.internal',
-            dataApi: 'https://ccd-data-store-api-aat.service.core-compute-aat.internal',
-        },
-        coh: {
-            corApi: 'http://coh-cor-aat.service.core-compute-aat.internal',
-        },
-        documents: {
-            api: 'https://dm-store-aat.service.core-compute-aat.internal',
-        },
+        ccdDataApi: 'https://ccd-data-store-api-aat.service.core-compute-aat.internal',
+        ccdComponentApi: 'https://ccd-api-gateway-web-aat.service.core-compute-aat.internal',
         idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
         idamApi: 'https://idam-api.aat.platform.hmcts.net',
-        s2s:
-            'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+        s2s: 'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
     },
     sessionSecret: 'secretSauce',
     useProxy: false,

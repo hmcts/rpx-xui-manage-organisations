@@ -1,8 +1,17 @@
-<title>{{title$ | async}}</title>
-<app-header></app-header>
-<!--<app-hmcts-identity-bar [content]="identityBar$ | async"></app-hmcts-identity-bar>-->
+<title>{{pageTitle$ | async}}</title>
+
+<app-header
+  [navItems]="navItems$ | async"
+  [title]="appHeaderTitle$ | async"
+  [userNav]="userNav$ | async">
+</app-header>
+
 <div class="hmcts-width-container">
     <router-outlet></router-outlet>
 </div>
+
 <app-footer></app-footer>
 
+
+<!--this is the part of fee accounts leaving it here so we know it exist-->
+<!--<app-hmcts-identity-bar [content]="identityBar$ | async"></app-hmcts-identity-bar>-->

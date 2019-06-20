@@ -1,7 +1,9 @@
-import { logger } from 'codelyzer/util/logger'
+import * as log4jui from '../lib/log4jui'
 import * as express from 'express'
 import { config } from '../lib/config'
 import { http } from '../lib/http'
+
+const logger = log4jui.getLogger('service-token')
 
 async function handleUserListRoute(req, res) {
     const orgId = req.session.auth.orgId

@@ -15,7 +15,7 @@ properties([
 
 def type      = "nodejs"
 def product   = "xui"
-def component = "manage-organisations"
+def component = "mo-webapp"
 def vault = "rpx"
 def channel   = '#xui-pipeline'
 

@@ -4,7 +4,7 @@ nodejs:
   cpuLimits: 1000m
   environment:
     REFORM_TEAM: rpx
-    REFORM_SERVICE_NAME: xui-manage-organisations
+    REFORM_SERVICE_NAME: xui-mo-webapp
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}

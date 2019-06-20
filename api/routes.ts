@@ -9,6 +9,8 @@ import stateRouter from './states'
 
 const router = express.Router({ mergeParams: true })
 
+router.use(auth.attach) // attach auth to all api routes
+
 router.use('/logout', auth.logout)
 router.use('/decisions', stateRouter)
 router.use('/organisation', organisationRouter)

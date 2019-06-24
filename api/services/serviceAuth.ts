@@ -16,7 +16,7 @@ export async function postS2SLease() {
     const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
     let request: AxiosResponse<any>
     console.log('test2:', configEnv)
-    if (configEnv !== 'local') {
+    if (configEnv !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
 
         logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
@@ -27,9 +27,8 @@ export async function postS2SLease() {
         })
     } else {
         // this is only for local development against the RD docker image
-        request = await http.get(url)
+      request = await http.get(`${url}`)
     }
-
     return request.data
 }
 

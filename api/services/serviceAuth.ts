@@ -1,10 +1,11 @@
+import { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as otp from 'otp'
 import { config } from '../lib/config'
 import { http } from '../lib/http'
-import { getHealth, getInfo } from '../lib/util'
-import { AxiosResponse } from 'axios'
 import * as log4jui from '../lib/log4jui'
+import { getHealth, getInfo } from '../lib/util'
+import { tunnel } from '../local'
 
 const url = config.services.s2s
 const microservice = config.microservice
@@ -27,7 +28,9 @@ export async function postS2SLease() {
         })
     } else {
         // this is only for local development against the RD docker image
-      request = await http.get(`${url}`)
+        // end tunnel before posting to docker
+        tunnel.end()
+        request = await http.get(`${url}`)
     }
     return request.data
 }

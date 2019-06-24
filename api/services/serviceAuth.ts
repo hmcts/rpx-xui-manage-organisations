@@ -16,7 +16,7 @@ const logger = log4jui.getLogger('service auth')
 export async function postS2SLease() {
     const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
     let request: AxiosResponse<any>
-    console.log('test2:', configEnv)
+    console.log('PUI_ENV is now:', configEnv)
     if (configEnv !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
 

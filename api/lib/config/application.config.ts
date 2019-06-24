@@ -9,10 +9,6 @@ export const application = {
     protocol: 'https',
     logging: 'debug',
     maxLogLine: 80,
-    proxy: {
-        host: '172.16.0.7',
-        port: 8080,
-    },
     exceptionOptions: {
         maxLines: 1,
     },

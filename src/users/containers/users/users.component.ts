@@ -8,6 +8,7 @@ import {UserListApiModel} from '../../models/userform.model';
 @Component({
   selector: 'app-prd-users-component',
   templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
 
@@ -26,7 +27,6 @@ export class UsersComponent implements OnInit {
       { header: 'Manage cases', key: 'manageCases' },
       { header: 'Manage organisation', key: 'manageOrganisation' },
       { header: 'Manage users', key: 'manageUsers' },
-      { header: 'Manage fee accounts', key: 'manageFeeAcc' },
       { header: 'status', key: 'status' }
     ];
 

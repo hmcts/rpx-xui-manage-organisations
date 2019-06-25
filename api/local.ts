@@ -33,8 +33,6 @@ app.use(
     })
 )
 
-export const tunnel = globalTunnel
-
 if (config.proxy) {
     globalTunnel.initialize({
         host: config.proxy.host,

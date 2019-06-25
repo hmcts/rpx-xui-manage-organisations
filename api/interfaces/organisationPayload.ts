@@ -1,5 +1,9 @@
 export interface OrganisationPayload {
     name: string,
+    companyUrl?: string,
+    companyNumber: string,
+    sraRegulated: boolean,
+  sraId: string,
     superUser: {
         firstName: string,
         lastName: string,
@@ -15,8 +19,10 @@ export interface OrganisationPayload {
     contactInformation: [{
         addressLine1: string,
         addressLine2?: string,
+        addressLine3?: string,
         townCity: string,
         county: string,
+        country: string,
         postcode: string,
         dxAddress?: [
           {

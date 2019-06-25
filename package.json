@@ -8,7 +8,6 @@
     "test": "npm run test:ng",
     "build:node": "cd api && npm run build",
     "start:node": "cd api && npm run watch",
-    "start:node:docker": "PUI_ENV=ldocker;cd api && npm run watch",
     "test:node": "cd api && npm run test",
     "test:smoke": "echo 'not implemented'",
     "test:functional": "echo 'not implemented'",

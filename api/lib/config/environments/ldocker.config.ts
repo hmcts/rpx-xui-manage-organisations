@@ -12,10 +12,6 @@ export default {
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal',
         rdProfessionalApi: 'http://localhost:8090/v1',
     },
-    proxy: {
-        host: '172.16.0.7',
-        port: 8080,
-    },
     protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce',

@@ -19,7 +19,7 @@ templates.any = {
     'organisation-have-dx': haveDx,
     'organisation-name': organisationName,
     'organisation-pba': pbaNumber,
-    'rsa-number': rsaNumber,
+    'rsaNumber': rsaNumber,
 }
 
 export default templates

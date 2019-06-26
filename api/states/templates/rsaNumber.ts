@@ -1,12 +1,12 @@
 export default {
     idPrefix: 'tbc',
-    name: 'sra_number',
+    name: 'sraNumber',
     header: "SRA number",
     formGroupValidators: [],
     validationHeaderErrorMessages: [
         {
             validationLevel: 'formControl',
-            controlId: 'sra_number',
+            controlId: 'sraNumber',
             text: 'Enter SRA number',
             href: '/register/rsa-number',
         },
@@ -23,9 +23,9 @@ export default {
                 validators: ['required'],
                 validationError: {
                     value: 'Enter RSA number',
-                    controlId: 'sra_number',
+                    controlId: 'sraNumber',
                 },
-                control: 'sra_number',
+                control: 'sraNumber',
                 classes: '',
             },
         },

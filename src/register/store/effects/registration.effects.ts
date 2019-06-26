@@ -49,7 +49,6 @@ export class RegistrationEffects {
     ofType(registrationActions.SAVE_FORM_DATA),
     map((action: registrationActions.SaveFormData) => action.payload),
     switchMap((formValues) =>  {
-      debugger;
       const nextUrl = formValues.value['have'] === 'dontHave' ?
         formValues.value['dontHave'] : formValues.nextUrl;
       return [

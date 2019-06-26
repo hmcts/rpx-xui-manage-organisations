@@ -1,7 +1,7 @@
 export default {
   idPrefix: 'tbc',
   name: 'sra',
-  header: "SRA number",
+  header: "Do you have an SRA number?",
   formGroupValidators: [],
   validationHeaderErrorMessages: [
     {
@@ -43,7 +43,7 @@ export default {
     {
       hiddenInput: {
         control: 'nextUrl',
-        value: 'rsa-number',
+        value: 'rsaNumber',
       },
     },
     {

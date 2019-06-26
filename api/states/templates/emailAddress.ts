@@ -32,7 +32,7 @@ export default {
         {
             hiddenInput: {
                 control: 'nextUrl',
-                value: 'have-rsa',
+                value: 'haveSra',
             },
         },
         {

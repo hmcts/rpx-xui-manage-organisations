@@ -9,8 +9,8 @@ chai.use(sinonChai)
 // below this line you  ut imports to do with our code. Above this line are all testing i ports
 
 import * as accountIndex from './index'
-import * as rdProfessionals from '../services/rdProfessionals'
-import { getAccountsForOrganisation } from '../services/rdProfessionals'
+import * as rdProfessionals from '../services/rdProfessional'
+import { getAccountsForOrganisation } from '../services/rdProfessional'
 import {PaymentAccountDto} from '../lib/models/transactions';
 import * as util from '../lib/util';
 import {accountsForOrganisation} from './index';

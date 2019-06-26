@@ -57,6 +57,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onPageContinue(formDraft): void {
+    debugger
     if (formDraft.invalid ) {
       this.isPageValid = true;
     } else {

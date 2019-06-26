@@ -1,7 +1,7 @@
 export default {
   idPrefix: 'tbc',
-  name: 'name',
-  header: "Do you have a DX reference for your main office?",
+  name: 'sra',
+  header: "SRA number",
   formGroupValidators: [],
   validationHeaderErrorMessages: [
     {
@@ -12,7 +12,7 @@ export default {
     },
     {
       validationLevel: 'formControl',
-      controlId: 'lastName',
+      controlId: 'sraNumber',
       text: 'Enter Last Name',
       href: '/register/organisation-address',
     },
@@ -43,13 +43,13 @@ export default {
     {
       hiddenInput: {
         control: 'nextUrl',
-        value: 'organisation-dx',
+        value: 'rsa-number',
       },
     },
     {
       hiddenInput: {
         control: 'dontHave',
-        value: 'name',
+        value: 'check',
       },
     },
     {

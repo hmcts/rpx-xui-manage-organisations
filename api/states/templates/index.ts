@@ -5,17 +5,21 @@ import organisationAddress from './organisationAddress'
 import organisationDx from './organisationDx'
 import organisationName from './organisationName'
 import pbaNumber from './organisationPba'
+import rsaNumber from './rsaNumber';
+import organisationHaveRsa from './organisationHaveRsa';
 
 const templates: any = []
 
 templates.any = {
     'email-address': emailAddress,
-    name,
+    'have-rsa': organisationHaveRsa,
+    'name': name,
     'organisation-address': organisationAddress,
     'organisation-dx': organisationDx,
     'organisation-have-dx': haveDx,
     'organisation-name': organisationName,
     'organisation-pba': pbaNumber,
+    'rsa-number': rsaNumber,
 }
 
 export default templates

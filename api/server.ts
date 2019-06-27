@@ -5,12 +5,12 @@ import * as express from 'express'
 import * as session from 'express-session'
 import * as path from 'path'
 import * as sessionFileStore from 'session-file-store'
+import serviceRouter from './services/serviceAuth'
 import * as auth from './auth'
 import { appInsights } from './lib/appInsights'
 import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
 import routes from './routes'
-import serviceRouter from './services/serviceAuth'
 
 const FileStore = sessionFileStore(session)
 

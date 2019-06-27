@@ -21,14 +21,13 @@ export function makeOrganisationPayload(stateValues): OrganisationPayload {
           addressLine1: stateValues.officeAddressOne,
           addressLine2: stateValues.officeAddressTwo,
           county: stateValues.county,
-          dxAddress: [
+          postcode: stateValues.postcode,
+          townCity: stateValues.townOrCity, dxAddress: [
             {
               dxExchange: stateValues.DXexchange,
               dxNumber: stateValues.DXnumber,
             },
           ],
-          postcode: stateValues.postcode,
-          townCity: stateValues.townOrCity,
         },
       ],
       name: stateValues.orgName,

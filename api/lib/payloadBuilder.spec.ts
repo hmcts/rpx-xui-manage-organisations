@@ -7,24 +7,26 @@ describe('Payload builder', () => {
     /**
      * Signature of object returned from the state store.
      */
+  /* tslint:disable */
     const STATE_VALUES = {
-        haveDXNumber: 'nextUrl',
-        orgName: 'organisation name field value',
-        createButton: 'Continue',
-        officeAddressOne: 'building and street field 1',
-        officeAddressTwo: 'building and street field 2',
-        townOrCity: 'town field',
-        county: 'county field',
-        postcode: 'RG24 9AB',
-        PBAnumber1: 'PBA number field 1',
-        PBAnumber2: 'PBA number field 2',
-        dontHaveDX: 'name',
-        firstName: 'super user first name',
-        lastName: 'super user last name',
-        emailAddress: 'test.address@test.com',
-        DXnumber: '12345 dx number field ',
-        DXexchange: '12345 dx exchange field',
+      county: 'county field',
+      createButton: 'Continue',
+      dontHaveDX: 'name',
+      DXexchange: '12345 dx exchange field',
+      DXnumber: '12345 dx number field ',
+      emailAddress: 'test.address@test.com',
+      firstName: 'super user first name',
+      haveDXNumber: 'nextUrl',
+      lastName: 'super user last name',
+      orgName: 'organisation name field value',
+      officeAddressOne: 'building and street field 1',
+      officeAddressTwo: 'building and street field 2',
+      postcode: 'RG24 9AB',
+      PBAnumber1: 'PBA number field 1',
+      PBAnumber2: 'PBA number field 2',
+      townOrCity: 'town field',
     }
+  /* tslint:enable */
 
     it('Should take the stored organsation name and set it on the payload.', () => {
 
@@ -57,54 +59,54 @@ describe('Payload builder', () => {
     it('Should take the stored pba number 1 and set it as a pba number on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.pbaAccounts[0].pbaNumber).to.equal(STATE_VALUES.PBAnumber1)
+        expect(organsiationPayload.pbaAccounts[0].pbaAccounts).to.equal(STATE_VALUES.PBAnumber1)
     })
 
     it('Should take the stored pba number 2 and set it as a pba number on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.pbaAccounts[1].pbaNumber).to.equal(STATE_VALUES.PBAnumber2)
+        expect(organsiationPayload.pbaAccounts[0].pbaNumber).to.equal(STATE_VALUES.PBAnumber2)
     })
 
     it('Should take the office address one and set it as the addressLine1 on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.address.addressLine1).to.equal(STATE_VALUES.officeAddressOne)
+        expect(organsiationPayload.contactInformation[0].addressLine1).to.equal(STATE_VALUES.officeAddressOne)
     })
 
     it('Should take the office address two and set it as the addressLine2 on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.address.addressLine2).to.equal(STATE_VALUES.officeAddressTwo)
+        expect(organsiationPayload.contactInformation[0].addressLine2).to.equal(STATE_VALUES.officeAddressTwo)
     })
 
     it('Should take the county and set it as the county on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.address.county).to.equal(STATE_VALUES.county)
+        expect(organsiationPayload.contactInformation[0].county).to.equal(STATE_VALUES.county)
     })
 
     it('Should take the postcode and set it as the postcode on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.address.postcode).to.equal(STATE_VALUES.postcode)
+        expect(organsiationPayload.contactInformation[0].postcode).to.equal(STATE_VALUES.postcode)
     })
 
     it('Should take the town or city and set it as the town city on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.address.townCity).to.equal(STATE_VALUES.townOrCity)
+        expect(organsiationPayload.contactInformation[0].townCity).to.equal(STATE_VALUES.townOrCity)
     })
 
-    xit('Should take the stored DX exchange field and set it as DX address, DX exchange on the payload.', () => {
+    it('Should take the stored DX exchange field and set it as DX address, DX exchange on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.dxAddress.dxExchange).to.equal(STATE_VALUES.DXexchange)
+        expect(organsiationPayload.contactInformation[0].dxAddress[0].dxExchange).to.equal(STATE_VALUES.DXexchange)
     })
 
-    xit('Should take the stored DX number field and set it as DX address, DX number on the payload.', () => {
+    it('Should take the stored DX number field and set it as DX address, DX number on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.dxAddress.dxNumber).to.equal(STATE_VALUES.DXnumber)
+        expect(organsiationPayload.contactInformation[0].dxAddress[0].dxNumber).to.equal(STATE_VALUES.DXnumber)
     })
 })

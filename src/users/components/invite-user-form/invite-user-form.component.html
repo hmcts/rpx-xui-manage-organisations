@@ -28,31 +28,19 @@
     <div class="govuk-checkboxes">
       <lib-gov-checkbox
         [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'createCases',  label: 'Create cases', name: 'permission', hint: 'Create, progress and view the status of the user\'s own cases', focusOn: 'permissions'}">
+        [config]="{value: 'manageCases',  label: 'Manage Cases', name: 'permission', hint: 'View, create and progress cases.', focusOn: 'permissions'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
         [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'viewCases', label: 'View organisation\'s cases', name: 'permission',
-        hint: ' View the status of all cases created by the organisation\'s users.'}">
+        [config]="{value: 'manageUsers', label: 'Manage Users', name: 'permission',
+        hint: 'Invite users.'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
         [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'manageUsers', label: 'Manage users', name: 'permission',
-        hint: 'View and invite users.'}">
-      </lib-gov-checkbox>
-
-      <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'viewDetails', label: ' View organisation details', name: 'permission',
-        hint: 'View the organisation\'s name and address.'}">
-      </lib-gov-checkbox>
-
-      <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'viewFees', label: 'View fee accounts', name: 'permission',
-        hint: 'View account balances, available credit and transactions.'}">
+        [config]="{value: 'manageOrganisation', label: 'Manage Organisation', name: 'permission',
+        hint: 'View organisation name and addresses.'}">
       </lib-gov-checkbox>
     </div>
 

@@ -48,11 +48,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-globalTunnel.initialize({
-    host: '172.16.0.7',
-    port: 8080,
-})
-
 app.get('/oauth2/callback', auth.oauth)
 
 app.use(serviceRouter)

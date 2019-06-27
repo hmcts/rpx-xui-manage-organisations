@@ -10,6 +10,7 @@
 # dependencies
 /node_modules
 /projects/gov-ui/node_modules
+/api/node_modules/*
 
 # IDEs and editors
 /.idea

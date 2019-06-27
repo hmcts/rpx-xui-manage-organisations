@@ -27,11 +27,9 @@ export class AuthService {
     this.API_BASE_URL =
       window.location.protocol +
       '//' +
-      window.location.hostname;
-
-    if (window.location.port) { // don't add colon if there is no port
-      this.API_BASE_URL += ':' + window.location.port;
-    }
+      window.location.hostname +
+      ':' +
+      window.location.port;
   }
 
   generateLoginUrl() {

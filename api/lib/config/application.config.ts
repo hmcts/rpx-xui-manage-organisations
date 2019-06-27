@@ -10,8 +10,9 @@ export const application = {
     logging: 'debug',
     maxLogLine: 80,
     exceptionOptions: {
-      maxLines: 1,
+        maxLines: 1,
     },
+    indexUrl: '/',
     secureCookie: false,
     sessionSecret: 'secretSauce',
 }

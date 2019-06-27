@@ -4,8 +4,8 @@ import * as otp from 'otp'
 import { config } from '../lib/config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
+import { tunnel } from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
-import { tunnel } from '../local'
 
 const url = config.services.s2s
 const microservice = config.microservice

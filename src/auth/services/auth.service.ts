@@ -1,15 +1,15 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { CookieService } from "ngx-cookie";
-import * as jwtDecode from "jwt-decode";
-import config from "../../../api/lib/config";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
+import * as jwtDecode from 'jwt-decode';
+import config from '../../../api/lib/config';
 
-import * as fromAuth from "../store";
-import { select, Store } from "@ngrx/store";
-import { take } from "rxjs/operators";
+import * as fromAuth from '../store';
+import { select, Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class AuthService {
   API_BASE_URL: string;
@@ -24,10 +24,10 @@ export class AuthService {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId
     };
-    this.API_BASE_URL = window.location.protocol + "//";
+    this.API_BASE_URL = window.location.protocol + '//';
 
     if (window.location.port) {
-      window.location.hostname += ":" + window.location.port;
+      window.location.hostname += ':' + window.location.port;
     }
   }
 

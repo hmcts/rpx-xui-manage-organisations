@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   pageValues: FormDataValuesModel;
   $routeSubscription: Subscription;
   $pageItemsSubscription: Subscription;
-  $nextUrlSubscription: Subscription
+  $nextUrlSubscription: Subscription;
   data$: Observable<FormDataValuesModel>;
   isFromSubmitted$: Observable<boolean>;
   nextUrl: string;

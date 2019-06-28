@@ -8,7 +8,7 @@ export const application = {
     oauthCallbackUrl: '/oauth2/callback',
     protocol: 'https',
     logging: 'debug',
-    maxLogLine: 80,
+    maxLogLine: 180,
     exceptionOptions: {
         maxLines: 1,
     },

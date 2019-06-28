@@ -24,11 +24,8 @@ export class AuthService {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId
     };
-    this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
-
-    if (window.location.port) {
-      this.API_BASE_URL += ':' + window.location.port;
-    }
+    this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname
+    this.API_BASE_URL += window.location.port ? ':' + window.location.port : '';
   }
 
   generateLoginUrl() {

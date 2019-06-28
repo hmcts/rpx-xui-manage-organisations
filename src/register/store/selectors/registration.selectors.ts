@@ -39,10 +39,12 @@ export const getCurrentPageItems = createSelector(
   getRegistrationPages,
   fromRoot.getRouterState,
   getRegistrationPagesValues,
-  (state, router, pageValues) => {
+  getRegNextUrl,
+  (state, router, pageValues, nextUrl) => {
     return {
       pageItems: state[router.state.params.pageId],
-      pageValues
+      pageValues,
+      nextUrl
     };
 
   }

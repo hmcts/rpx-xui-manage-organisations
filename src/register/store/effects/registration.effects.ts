@@ -44,19 +44,5 @@ export class RegistrationEffects {
     })
   );
 
-  // @Effect()
-  // saveFormData$ = this.actions$.pipe(
-  //   ofType(registrationActions.SAVE_FORM_DATA),
-  //   map((action: registrationActions.SaveFormData) => action.payload),
-  //   switchMap((formValues) =>  {
-  //     const nextUrl = formValues.value['have'] === 'dontHave' ?
-  //       formValues.value['dontHave'] : formValues.nextUrl;
-  //     return [
-  //         new fromRoot.Go({
-  //           path: ['/register-org/register', formValues.nextUrl]
-  //         })];
-  //     }
-  //   )
-  // );
 
 }

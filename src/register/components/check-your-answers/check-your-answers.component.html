@@ -28,7 +28,7 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
+    <div app-govuk-dl-list-item *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2"
          class="govuk-check-your-answers__contents">
       <ng-container question>PBA number</ng-container>
       <ng-container answer>
@@ -40,7 +40,7 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
+    <div app-govuk-dl-list-item *ngIf="formDataValues.DXnumber && formDataValues.DXexchange"
          class="govuk-check-your-answers__contents">
       <ng-container question>DX reference</ng-container>
       <ng-container answer>
@@ -52,7 +52,7 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
+    <div app-govuk-dl-list-item *ngIf="formDataValues.sraNumber"
          class="govuk-check-your-answers__contents">
       <ng-container question>SRA Number</ng-container>
       <ng-container answer>

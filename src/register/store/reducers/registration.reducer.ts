@@ -8,7 +8,7 @@ export const navigation  = {
     yes: 'organisation-dx',
     no: 'haveSra'
   },
-  'organisation-dx': 'name',
+  'organisation-dx': 'haveSra',
   haveSra: {
     yes: 'sraNumber',
     no: 'name'
@@ -39,7 +39,7 @@ export const initialState: RegistrationFormState = {
   pages: {},
   pagesValues: {haveDXNumber: 'dontHaveDX'},
   navigation,
-  nextUrl: navigation['organisation-name'],
+  nextUrl: '',
   loaded: false,
   loading: false,
   submitted: false
@@ -83,9 +83,13 @@ export function reducer(
     case fromRegistration.SAVE_FORM_DATA: {
       const pagesValues = {
         ...state.pagesValues,
-        ...action.payload.value;
+        ...action.payload.value
       };
-      const nextUrl = state.navigation[action.payload.pageId];
+
+      const nextUrl = action.payload.value.have ?
+        state.navigation[action.payload.pageId][action.payload.value.have] :
+        state.navigation[action.payload.pageId];
+
       return {
         ...state,
         pagesValues,

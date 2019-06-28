@@ -41,12 +41,6 @@ export default {
       ]
     },
     {
-      hiddenInput: {
-        control: 'dontHave',
-          value: 'haveSra',
-      },
-    },
-    {
       button: {
         control: 'createButton',
         value: 'Continue',

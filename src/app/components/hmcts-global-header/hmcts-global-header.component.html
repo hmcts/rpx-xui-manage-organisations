@@ -18,7 +18,7 @@
       <!--      </div>-->
 
         <div class="hmcts-header__logo">
-            <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+            <a class="hmcts-header__link" [routerLink]="headerTitle.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
         </div>
         <div class="hmcts-header__content">
             <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">

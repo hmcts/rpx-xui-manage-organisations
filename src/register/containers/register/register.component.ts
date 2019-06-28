@@ -62,9 +62,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     } else {
       this.isPageValid = false;
       const { value } = formDraft;
-      const nextUrl = value.nextUrl;
-      delete value.nextUrl; // removing nextUrl so ti doesn't overwrite the one from the server payload.
-      this.store.dispatch(new fromStore.SaveFormData({value, nextUrl}));
+      this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
     }
   }
 

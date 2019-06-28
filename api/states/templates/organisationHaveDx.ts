@@ -26,12 +26,12 @@ export default {
             classes: 'govuk-radios--inline',
             radioGroup: [
               {
-                value: 'nextUrl',
+                value: 'yes',
                 text: 'Yes',
                 hiddenAccessibilityText: 'some hidden text',
               },
               {
-                value: 'dontHave',
+                value: 'no',
                 text: 'No',
                 hiddenAccessibilityText: 'some hidden text'
               }
@@ -42,14 +42,8 @@ export default {
     },
     {
       hiddenInput: {
-        control: 'nextUrl',
-        value: 'organisation-dx',
-      },
-    },
-    {
-      hiddenInput: {
         control: 'dontHave',
-        value: 'name',
+          value: 'haveSra',
       },
     },
     {

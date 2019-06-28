@@ -12,12 +12,6 @@ export default {
       }
     ],
     groups: [
-        {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'organisation-address',
-            },
-        },
       {
         input: {
           label: {

@@ -26,8 +26,14 @@ export const getCurrentPage = createSelector(
 
 export const getIsRegistrationSubmitted = createSelector(
   getRegistrationState,
-  fromRegistration.getRegistartionFromPagesSubmited
+  fromRegistration.getRegistrationFromPagesSubmitted
 );
+
+export const getRegNextUrl = createSelector(
+  getRegistrationState,
+  fromRegistration.getRegistrationNextUrl
+);
+
 
 export const getCurrentPageItems = createSelector(
   getRegistrationPages,

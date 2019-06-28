@@ -14,7 +14,7 @@ export default {
     groups: [
         {
             hiddenInput: {
-                control: 'nextUrl',
+                control: 'pageId',
                 value: 'check',
             },
         },
@@ -27,12 +27,6 @@ export default {
                 },
                 control: 'sraNumber',
                 classes: '',
-            },
-        },
-        {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'check',
             },
         },
         {

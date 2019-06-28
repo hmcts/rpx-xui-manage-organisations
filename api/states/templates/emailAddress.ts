@@ -13,12 +13,6 @@ export default {
     ],
     groups: [
         {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'check',
-            },
-        },
-        {
             input: {
                 validators: ['required', 'email'],
                 validationError: {
@@ -27,12 +21,6 @@ export default {
                 },
                 control: 'emailAddress',
                 classes: '',
-            },
-        },
-        {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'haveSra',
             },
         },
         {

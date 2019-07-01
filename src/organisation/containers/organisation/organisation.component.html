@@ -3,22 +3,49 @@
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Name</th>
-      <td class="govuk-table__cell">{{data.name}}</td>
+      <td class="govuk-table__cell">{{orgData[0].name}}</td>
       <td class="govuk-table__cell"></td>
     </tr>
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Address</th>
       <td class="govuk-table__cell">
-        {{ data.contactInformation[0].addressLine1 }}
-        {{ data.contactInformation[0].addressLine2 }}
-        {{ data.contactInformation[0].addressLine3 }}
-        {{ data.contactInformation[0].townCity }}
-        {{ data.contactInformation[0].postCode }}
-        {{ data.contactInformation[0].county }}
-        {{ data.contactInformation[0].country }}
+        <div>{{orgData[0].contactInformation.addressLine1}}</div>
+        <div>{{orgData[0].contactInformation.addressLine2}}</div>
+        <div>{{orgData[0].contactInformation.addressLine3}}</div>
+        <div>{{orgData[0].contactInformation.townCity}}</div>
+        <div>{{orgData[0].contactInformation.county}}</div>
+        <div>{{orgData[0].contactInformation.country}}</div>
+        <div>{{orgData[0].contactInformation.postCode}}</div>
       </td>
       <td class="govuk-table__cell"></td>
     </tr>
+
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">PBA Number</th>
+      <td class="govuk-table__cell">
+        <div *ngFor="let pbaNumber of orgData[0].contactInformation.paymentAccount">{{pbaNumber}}</div>
+      </td>
+      <td class="govuk-table__cell"></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">DX Number</th>
+      <td class="govuk-table__cell">
+          <div *ngFor="let dxAddress of orgData[0].contactInformation.dxAddress">{{dxAddress.dxNumber}}</div>
+      </td>
+      <td class="govuk-table__cell"></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">DX Exchange</th>
+      <td class="govuk-table__cell">
+          <div *ngFor="let dxAddress of orgData[0].contactInformation.dxAddress">{{dxAddress.dxExchange}}</div>
+      </td>
+      <td class="govuk-table__cell"></td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="row">Administrator</th>
+        <td class="govuk-table__cell">{{orgData[0].superUser.firstName}} {{orgData[0].superUser.lastName}} <br/> {{orgData[0].superUser.email}} </td>
+        <td class="govuk-table__cell"></td>
+      </tr>
     </tbody>
   </table>
 </lib-gov-uk-main-wrapper>

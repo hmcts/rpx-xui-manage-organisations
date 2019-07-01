@@ -1,3 +1,4 @@
+import { Organisation } from './../organisation.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
@@ -13,24 +14,46 @@ export const ENVIRONMENT = {
 
 @Injectable()
 export class OrganisationService {
-  constructor(private http: HttpClient) { }
+  mockOrgData: Organisation;
+  constructor(private http: HttpClient) {
+    this.mockOrgData  =  new Organisation({
+      name: 'WP',
+      superUser: {
+        firstName: 'Kevin',
+        lastName: 'Harper',
+        email: 'kevin.harper@hmcts.net'
+      },
+      contactInformation: {
+        houseNoBuildingName: 'Test house',
+        addressLine1: '10 Oxford St',
+        addressLine2: '',
+        townCity: 'London',
+        postcode: 'W1',
+        country: 'UK',
+        paymentAccount: [
+          'TPk03151947',
+          'TPk03151948'
+          ],
+        dxAddress: [
+        {
+          dxNumber: 'DX 1233767890',
+          dxExchange: '091203422091208492'
+        }
+        ]
+      }
+    }
+    );
+    console.log(this.mockOrgData);
+  }
 
   // TO DO  - this hard coded orgId needs to come from the userStore
   orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f';
 
 
-  mockOrgData = {
-    name: 'WP',
-    houseNoBuildingName: 'Test house',
-    addressLine1: '10 Oxford St',
-    addressLine2: '',
-    townCity: 'London',
-    postcode: 'W1',
-    country: 'UK'
-  };
 
 
-  fetchOrganisation(): Observable<any> {
+
+  fetchOrganisation(): Observable<Organisation[]> {
 
     // ** TO DO ** when TABBY fixes ENDPOINT
 
@@ -55,7 +78,7 @@ export class OrganisationService {
     //     catchError(this.handleError)
     //   );
 
-    return of(this.mockOrgData);
+    return of([this.mockOrgData]);
   }
 
 

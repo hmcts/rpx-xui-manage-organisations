@@ -24,8 +24,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSelArr)).subscribe(( data) => {
+    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSelArr)).subscribe(( data: Organisation[] ) => {
       this.orgData = data;
+      console.log(data);
     });
   }
 

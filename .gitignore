@@ -6,6 +6,7 @@
 /out-tsc
 /reports
 /report_json
+api/.sessions/
 
 # dependencies
 /node_modules

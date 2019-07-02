@@ -41,7 +41,6 @@ export class OrganisationService {
       }
     }
     );
-    console.log(this.mockOrgData);
   }
 
   // TO DO  - this hard coded orgId needs to come from the userStore

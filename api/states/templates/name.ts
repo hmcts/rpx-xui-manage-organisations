@@ -27,7 +27,7 @@ export default {
         {
             input: {
                 label: {
-                    text: 'First name(s)',
+                    text: 'First name',
                     classes: 'govuk-label--m',
                 },
                 hint: {

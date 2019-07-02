@@ -57,6 +57,10 @@ export function reducer(
         pageTitle
       };
     }
+    // TO add appropriate state as/ when ,reqd.
+    case fromAction.LOGOUT: {
+      return initialState;
+    }
   }
 
   return state;

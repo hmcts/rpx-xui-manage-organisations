@@ -20,4 +20,12 @@ export class AppEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  logout = this.actions$.pipe(
+    ofType(appActions.LOGOUT),
+    map(() => {
+      window.location.href = '/api/logout';
+    })
+  );
+
 }

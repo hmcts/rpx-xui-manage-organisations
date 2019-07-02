@@ -3,6 +3,7 @@
       [userLoggedIn]="isUserLoggedIn$ | async"
       [headerTitle]="title"
       [navigation]="userNav"
+      (navigate)="onNavigate($event)"
     ></app-hmcts-global-header>
 
     <app-hmcts-primary-navigation

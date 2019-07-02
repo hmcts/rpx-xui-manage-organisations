@@ -12,7 +12,7 @@ import {OrganisationPayload} from '../interfaces/organisationPayload'
  * @return
  */
 
-// The hardcoded values need to be replaced with dynamic functionality
+// TODO make this dynamic so if property does not have value it doesn't get set
 
 export function makeOrganisationPayload(stateValues): OrganisationPayload {
     return {

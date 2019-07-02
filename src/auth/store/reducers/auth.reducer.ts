@@ -37,7 +37,7 @@ export function reducer(
       };
     }
 
-    case AuthActionTypes.USER_SUCCESS: {
+    case AuthActionTypes.GET_USER_DETAILS_SUCCESS: {
       const user = new UserModel(action.payload);
       return {
         ...state,

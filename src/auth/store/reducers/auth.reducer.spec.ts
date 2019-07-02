@@ -39,7 +39,7 @@ describe('AppReducer', () => {
         expect(state.errors).toEqual(null);
     });
 
-    it('USER_SUCCESS action should return correct state', () => {
+    it('GET_USER_DETAILS_SUCCESS action should return correct state', () => {
         const { initialState } = fromAuth;
 
         const action = new fromAuthActions.GetUserDetailsSuccess({

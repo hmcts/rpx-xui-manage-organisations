@@ -9,9 +9,9 @@ export enum AuthActionTypes {
   LOGIN_SUCCESS = '[Auth] Login Success',
   LOGIN_FAILURE = '[Auth] Login Failure',
   LOGOUT = '[Auth] Logout',
-  USER = '[User] details',
-  USER_SUCCESS = '[User] details Success',
-  USER_FAILURE = '[User] details Failure',
+  GET_USER_DETAILS = '[User] Get User Details',
+  GET_USER_DETAILS_SUCCESS = '[User] Get User Details Success',
+  GET_USER_DETAILS_FAIL = '[User]Get User Details Fail',
 }
 
 export class LogIn implements Action {
@@ -30,16 +30,16 @@ export class LogInFailure implements Action {
 }
 
 export class GetUserDetails implements Action {
-  readonly type = AuthActionTypes.USER;
+  readonly type = AuthActionTypes.GET_USER_DETAILS;
 }
 
 export class GetUserDetailsSuccess implements Action {
-  readonly type = AuthActionTypes.USER_SUCCESS;
+  readonly type = AuthActionTypes.GET_USER_DETAILS_SUCCESS;
   constructor(public payload: UserInterface) {}
 }
 
 export class GetUserDetailsFailure implements Action {
-  readonly type = AuthActionTypes.USER_FAILURE;
+  readonly type = AuthActionTypes.GET_USER_DETAILS_FAIL;
   constructor(public payload: HttpErrorResponse) {}
 }
 

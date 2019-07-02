@@ -12,9 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserDetails(): Observable<UserInterface> {
-    const obj: UserInterface = userMock;
-    return of(obj);
-    // return this.http.get<UserInterface>(`/api/user/details`);
+    return this.http.get<UserInterface>(`/api/user/details`);
   }
 
 }

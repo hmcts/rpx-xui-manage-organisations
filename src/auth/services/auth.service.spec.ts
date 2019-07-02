@@ -55,11 +55,6 @@ describe('AuthService', () => {
         expect(url).toContain(clientId);
     });
 
-    it('should return headers', () => {
-        const headers = authService.getAuthHeaders();
-        expect(headers).toEqual({ Authorization: jwt, __userid__: jwt });
-    });
-
     it('should return authentication state', () => {
         const authentication = authService.isAuthenticated();
         expect(authentication).toEqual(true);

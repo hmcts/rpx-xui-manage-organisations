@@ -20,5 +20,6 @@ router.use('/accounts', accountsRouter)
 router.use('/user', userRouter)
 router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
+router.use('/userDetails', getUserList)
 
 export default router

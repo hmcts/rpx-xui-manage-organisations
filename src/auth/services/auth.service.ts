@@ -35,16 +35,6 @@ export class AuthService {
     return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
   }
 
-  getAuthHeaders() {
-    interface HeaderObject {
-      [key: string]: string;
-    }
-    const headers: HeaderObject = {
-      Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
-      [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER)
-    };
-    return headers;
-  }
   // TODO ADD THIS TO ACTION AND DISPATCH
   loginRedirect() {
     window.location.href = this.generateLoginUrl();
@@ -60,10 +50,12 @@ export class AuthService {
     if (!jwt) {
       return false;
     }
+    // GET GET_USER_DETAILS DETAILS CALL AND IF NOT REURNED OK LOGOUT
     const jwtData = this.decodeJwt(jwt);
     const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
 
     if (notExpired) {
+      this.store.dispatch(new fromAuth.GetUserDetails());
       this.store
         .pipe(
           select(fromAuth.getIsAuthenticated),

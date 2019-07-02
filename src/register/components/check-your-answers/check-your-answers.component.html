@@ -28,7 +28,7 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
+    <div app-govuk-dl-list-item *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2"
          class="govuk-check-your-answers__contents">
       <ng-container question>PBA number</ng-container>
       <ng-container answer>
@@ -40,7 +40,7 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
+    <div app-govuk-dl-list-item *ngIf="formDataValues.DXnumber && formDataValues.DXexchange"
          class="govuk-check-your-answers__contents">
       <ng-container question>DX reference</ng-container>
       <ng-container answer>
@@ -49,6 +49,17 @@
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX reference</span></a>
+      </ng-container>
+    </div>
+
+    <div app-govuk-dl-list-item *ngIf="formDataValues.sraNumber"
+         class="govuk-check-your-answers__contents">
+      <ng-container question>SRA Number</ng-container>
+      <ng-container answer>
+        {{ formDataValues.sraNumber }}
+      </ng-container>
+      <ng-container button>
+        <a  [routerLink]="'/register-org/register/sraNumber'">Change <span class="govuk-visually-hidden">email address</span></a>
       </ng-container>
     </div>
 
@@ -84,6 +95,7 @@
         <a  [routerLink]="'/register-org/register/email-address'">Change <span class="govuk-visually-hidden">email address</span></a>
       </ng-container>
     </div>
+
 
   </dl>
   <h2 class="govuk-heading-l">Now submit your registration details</h2>

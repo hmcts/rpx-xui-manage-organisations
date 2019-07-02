@@ -1,5 +1,23 @@
 import * as fromRegistration from '../actions/registration.actions';
 
+export const navigation  = {
+  'organisation-name': 'organisation-address',
+  'organisation-address': 'organisation-pba',
+  'organisation-pba': 'organisation-have-dx',
+  'organisation-have-dx': {
+    yes: 'organisation-dx',
+    no: 'haveSra'
+  },
+  'organisation-dx': 'haveSra',
+  haveSra: {
+    yes: 'sraNumber',
+    no: 'name'
+  },
+  sraNumber: 'name',
+  name: 'email-address',
+  'email-address': 'check'
+};
+
 export interface PageItems {
   formValues: any;
   meta: any;
@@ -10,6 +28,8 @@ export interface PageItems {
 export interface RegistrationFormState {
   pages: {[id: string]: PageItems};
   pagesValues: object;
+  navigation: object;
+  nextUrl: string;
   loaded: boolean;
   loading: boolean;
   submitted: boolean;
@@ -18,6 +38,8 @@ export interface RegistrationFormState {
 export const initialState: RegistrationFormState = {
   pages: {},
   pagesValues: {haveDXNumber: 'dontHaveDX'},
+  navigation,
+  nextUrl: '',
   loaded: false,
   loading: false,
   submitted: false
@@ -59,15 +81,19 @@ export function reducer(
     }
 
     case fromRegistration.SAVE_FORM_DATA: {
-
       const pagesValues = {
         ...state.pagesValues,
         ...action.payload.value
       };
 
+      const nextUrl = action.payload.value.have ?
+        state.navigation[action.payload.pageId][action.payload.value.have] :
+        state.navigation[action.payload.pageId];
+
       return {
         ...state,
-        pagesValues
+        pagesValues,
+        nextUrl
       };
     }
 
@@ -84,7 +110,8 @@ export function reducer(
 
 export const getRegistrationFormPages = (state: RegistrationFormState) => state.pages;
 export const getRegistrationFormPagesValues = (state: RegistrationFormState) => state.pagesValues;
-export const getRegistartionFromPagesSubmited = (state: RegistrationFormState) => state.submitted;
+export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) => state.submitted;
+export const getRegistrationNextUrl = (state: RegistrationFormState) => state.nextUrl;
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
 export const getRegistrationPagesLoaded = (state: RegistrationFormState) => state.loaded;
 

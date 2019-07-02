@@ -1,25 +1,31 @@
 export default {
     idPrefix: 'tbc',
-    name: 'email-address',
-    header: "What's your email address?",
+    name: 'sraNumber',
+    header: "SRA number",
     formGroupValidators: [],
     validationHeaderErrorMessages: [
         {
             validationLevel: 'formControl',
-            controlId: 'emailAddress',
-            text: 'Enter email address',
-            href: '/register/organisation-address',
+            controlId: 'sraNumber',
+            text: 'Enter SRA number',
+            href: '/register/rsa-number',
         },
     ],
     groups: [
         {
+            hiddenInput: {
+                control: 'pageId',
+                value: 'check',
+            },
+        },
+        {
             input: {
-                validators: ['required', 'email'],
+                validators: ['required'],
                 validationError: {
-                    value: 'Enter email address',
-                    controlId: 'emailAddress',
+                    value: 'Enter RSA number',
+                    controlId: 'sraNumber',
                 },
-                control: 'emailAddress',
+                control: 'sraNumber',
                 classes: '',
             },
         },

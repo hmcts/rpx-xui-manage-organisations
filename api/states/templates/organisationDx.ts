@@ -19,12 +19,6 @@ export default {
     ],
     groups: [
         {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'name',
-            },
-        },
-        {
             input: {
                 label: {
                     text: 'DX number',
@@ -52,12 +46,6 @@ export default {
                   controlId: 'DXexchange',
                 },
                 classes: 'govuk-!-width-two-thirds',
-            },
-        },
-        {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'name',
             },
         },
         {

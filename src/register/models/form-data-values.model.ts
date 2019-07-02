@@ -12,4 +12,5 @@ export interface FormDataValuesModel {
   firstName?: number;
   lastName?: number;
   emailAddress?: number;
+  sraNumber?: number;
 }

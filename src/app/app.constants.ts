@@ -28,7 +28,7 @@ const userNav: UserNavModel = {
 
 const regOrgTitle: AppTitlesModel = {
   name: 'Register to manage civil and family law cases',
-  url: '/'
+  url: '/register-org/register/'
 };
 
 const manageOrgTitle: AppTitlesModel = {

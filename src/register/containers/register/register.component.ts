@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../../store';
-import * as fromRoot from '../../../app/store';
+import * as fromStore from '../../store/';
+import * as fromRoot from '../../../app/store/';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
@@ -25,8 +25,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   pageValues: FormDataValuesModel;
   $routeSubscription: Subscription;
   $pageItemsSubscription: Subscription;
+  $nextUrlSubscription: Subscription;
   data$: Observable<FormDataValuesModel>;
   isFromSubmitted$: Observable<boolean>;
+  nextUrl: string;
   pageId: string;
   isPageValid = false;
 
@@ -35,6 +37,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
+    this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
+      if (nextUrl) {
+        this.store.dispatch(new fromRoot.Go({
+          path: ['/register-org/register', nextUrl]
+        }));
+      }
+    });
   }
 
   subscribeToRoute(): void {
@@ -52,6 +61,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         if (this.pageId && formData.pageItems && formData.pageValues) {
           this.pageValues  = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
+          this.nextUrl = formData.nextUrl;
         }
       });
   }
@@ -62,15 +72,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
     } else {
       this.isPageValid = false;
       const { value } = formDraft;
-      const nextUrl = value.nextUrl;
-      delete value.nextUrl; // removing nextUrl so ti doesn't overwrite the one from the server payload.
-      this.store.dispatch(new fromStore.SaveFormData({value, nextUrl}));
+      this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
+
     }
   }
 
   ngOnDestroy(): void {
     this.$pageItemsSubscription.unsubscribe();
     this.$routeSubscription.unsubscribe();
+    this.$nextUrlSubscription.unsubscribe();
   }
 
   onSubmitData(): void {

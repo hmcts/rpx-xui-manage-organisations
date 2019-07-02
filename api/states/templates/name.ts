@@ -19,12 +19,6 @@ export default {
     ],
     groups: [
         {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'email-address',
-            },
-        },
-        {
             input: {
                 label: {
                     text: 'First name',
@@ -56,12 +50,6 @@ export default {
                 },
                 control: 'lastName',
                 classes: 'govuk-!-width-two-thirds',
-            },
-        },
-        {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'email-address',
             },
         },
         {

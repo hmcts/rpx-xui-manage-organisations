@@ -25,12 +25,6 @@ export default {
             },
         },
         {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'organisation-have-dx',
-            },
-        },
-        {
             button: {
                 control: 'createButton',
                 value: 'Continue',

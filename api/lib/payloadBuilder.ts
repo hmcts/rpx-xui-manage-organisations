@@ -12,7 +12,7 @@ import {OrganisationPayload} from '../interfaces/organisationPayload'
  * @return
  */
 
-// The hardcoded values need to be replaced with dynamic functionality
+// TODO make this dynamic so if property does not have value it doesn't get set
 
 export function makeOrganisationPayload(stateValues): OrganisationPayload {
     return {
@@ -22,7 +22,8 @@ export function makeOrganisationPayload(stateValues): OrganisationPayload {
           addressLine2: stateValues.officeAddressTwo,
           county: stateValues.county,
           postcode: stateValues.postcode,
-          townCity: stateValues.townOrCity, dxAddress: [
+          townCity: stateValues.townOrCity,
+          dxAddress: [
             {
               dxExchange: stateValues.DXexchange,
               dxNumber: stateValues.DXnumber,
@@ -37,6 +38,7 @@ export function makeOrganisationPayload(stateValues): OrganisationPayload {
           pbaNumber: stateValues.PBAnumber2,
           },
       ],
+      sraId: stateValues.sraNumber,
       superUser: {
           email: stateValues.emailAddress,
           firstName: stateValues.firstName,

@@ -25,12 +25,6 @@ export default {
     ],
     groups: [
         {
-            hiddenInput: {
-                control: 'nextUrl',
-                value: 'organisation-pba',
-            },
-        },
-        {
             input: {
                 label: {
                     text: 'Building and street',

@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import {NavItemsModel} from '../../models/nav-items.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
+import * as fromActions from '../../store';
 
 @Component({
   selector: 'app-root',
@@ -42,4 +43,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  onNavigate(event): void {
+    if (event === 'sign-out') {
+      return this.store.dispatch(new fromActions.Logout());
+    }
+  }
 }

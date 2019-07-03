@@ -50,6 +50,7 @@ export class AuthGuard implements CanActivate {
 
     const jwtData = jwtDecode(jwt);
     const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
+
     if (!notExpired) {
       this.store.dispatch(new fromAuth.LogOut());
     }

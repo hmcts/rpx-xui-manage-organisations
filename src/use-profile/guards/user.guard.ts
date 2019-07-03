@@ -11,7 +11,6 @@ import {
 } from 'rxjs/operators';
 import * as fromAuth from '../store';
 import { userLoaded} from '../store/selectors';
-import {LogInSuccess} from '../store/actions/auth.actions';
 import {GetUserDetails} from '../store/actions';
 
 @Injectable()
@@ -24,7 +23,7 @@ export class UserGuard implements CanActivate {
     return this.checkStore()
       .pipe(
         switchMap(() => of(true)),
-        catchError((error: any) => of(false))
+        catchError(() => of(false))
       );
   }
 

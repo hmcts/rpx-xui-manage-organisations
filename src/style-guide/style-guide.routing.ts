@@ -2,7 +2,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { StyleGuideComponent } from './containers/style-guide/style-guide.component';
-import {AuthGuard} from '../auth/guards/auth.guard';
+import {AuthGuard} from '../use-profile/guards/auth.guard';
 
 export const ROUTES: Routes = [
     {

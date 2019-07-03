@@ -9,7 +9,7 @@ import stateRouter from './states'
 
 const router = express.Router({ mergeParams: true })
 
-router.use(auth.attach) // attach auth to all api routes
+router.use(auth.attach) // attach use-profile to all api routes
 
 router.use('/logout', (req, res, next) => {
     auth.doLogout(req, res)

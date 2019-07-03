@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router';
 import { take, filter, tap, catchError, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import * as fromStore from '../../organisation/store';
+import * as fromStore from '../store';
 
 
 @Injectable()
@@ -18,8 +18,7 @@ export class OrganisationGuard implements CanActivate {
     }
 
     checkStore(): Observable<boolean> {
-      /// TODO CHANGE THE SELECT
-        return this.store.select(fromStore.getOrganisationLoaded).pipe(
+        return this.store.pipe(select(fromStore.getOrganisationLoaded),
             tap(loaded => {
                 if (!loaded) {
                     this.store.dispatch(new fromStore.LoadOrganisation());

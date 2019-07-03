@@ -1,5 +1,5 @@
 import { UserModel} from '../../models/user.model';
-import { AuthActionTypes, AuthActions } from '../actions/auth.actions';
+import { AuthActionTypes, UserProfileActions } from '../actions/user-profile.actions';
 import {createFeatureSelector} from '@ngrx/store';
 
 export interface AuthState {
@@ -25,7 +25,7 @@ export const initialState: AuthState = {
 
 export function reducer(
   state = initialState,
-  action: AuthActions
+  action: UserProfileActions
 ): AuthState {
   switch (action.type) {
     case AuthActionTypes.LOGIN_SUCCESS: {

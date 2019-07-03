@@ -1,5 +1,5 @@
 import * as fromAuth from './auth.reducer';
-import * as fromAuthActions from '../actions/auth.actions';
+import * as fromAuthActions from '../actions/user-profile.actions';
 import { UserModel} from '../../models/user.model';
 
 describe('AppReducer', () => {

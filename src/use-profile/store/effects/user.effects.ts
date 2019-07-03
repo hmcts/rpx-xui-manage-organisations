@@ -4,12 +4,10 @@ import * as authActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {UserService} from '../../services/user.service';
-import {AuthActionTypes} from '../actions/auth.actions';
+import {AuthActionTypes} from '../actions/user-profile.actions';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
-
 import config from '../../../../api/lib/config';
-
 
 @Injectable()
 export class UserEffects {
@@ -17,7 +15,6 @@ export class UserEffects {
     private actions$: Actions,
     private authService: UserService
   ) { }
-
 
   @Effect()
   getUser$ = this.actions$.pipe(

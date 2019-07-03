@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromAuth from '../../../auth/store';
+import * as fromAuth from '../../store';
 @Component({
   selector: 'app-prd-profile-component',
   templateUrl: './profile.component.html',

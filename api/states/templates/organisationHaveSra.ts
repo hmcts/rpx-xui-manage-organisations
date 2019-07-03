@@ -7,12 +7,12 @@ export default {
     {
       validationLevel: 'formControl',
       controlId: 'firstName',
-      text: 'Enter first name',
+      text: 'Enter First Name',
       href: '/register/organisation-address',
     },
     {
       validationLevel: 'formControl',
-      controlId: 'sraNumber',
+      controlId: 'lastName',
       text: 'Enter Last Name',
       href: '/register/organisation-address',
     },

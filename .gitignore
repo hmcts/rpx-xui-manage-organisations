@@ -12,6 +12,7 @@ api/.sessions/
 /node_modules
 /projects/gov-ui/node_modules
 /api/node_modules/*
+api/.sessions/
 
 # IDEs and editors
 /.idea
@@ -48,7 +49,7 @@ Thumbs.db
 /test/reports/
 reports/
 .tmp/
-!.sessions/
+.sessions/
 .sessions/*
 reports_json/
 .nyc_output/

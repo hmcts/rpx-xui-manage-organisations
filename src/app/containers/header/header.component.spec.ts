@@ -26,4 +26,10 @@ describe('HeaderComponent', () => {
         expect(app).toBeTruthy();
     });
 
+    it('should emit navigate event', () => {
+        spyOn(app.navigate, 'emit');
+        app.onNavigate('dummy');
+        expect(app.navigate.emit).toHaveBeenCalledWith('dummy');
+    });
+
 });

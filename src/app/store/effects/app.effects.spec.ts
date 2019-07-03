@@ -5,6 +5,7 @@ import * as fromAppEffects from './app.effects';
 import { AppEffects } from './app.effects';
 import { SetPageTitleErrors } from '../actions/app.actions';
 import * as usersActions from '../../../users/store/actions';
+import * as appActions from '../../store/actions';
 
 describe('App Effects', () => {
   let actions$;

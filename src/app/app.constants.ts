@@ -22,7 +22,7 @@ const userNav: UserNavModel = {
     href: '/profile'
   }, {
     text: 'Sign out',
-    href: '/api/logout'
+    emit: 'sign-out'
   }]
 };
 

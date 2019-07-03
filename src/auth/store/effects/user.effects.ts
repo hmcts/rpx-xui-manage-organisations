@@ -8,7 +8,6 @@ import {AuthActionTypes} from '../actions/auth.actions';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 
-import * as fromRoot from '../../../app/store';
 import config from '../../../../api/lib/config';
 
 
@@ -34,13 +33,15 @@ export class UserEffects {
 
   @Effect()
   getUserFail$ = this.actions$.pipe(
-    ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
+    ofType(AuthActionTypes.GET_USER_DETAILS_FAIL, AuthActionTypes.LOGOUT),
     map(() => {
-      return new fromRoot.Go({path: [this.generateLoginUrl()]});
+      // don't use dispatch as external redirect
+      window.location.href = this.generateLoginUrl();
     })
   );
 
-  generateLoginUrl() {
+
+  generateLoginUrl(): string {
     let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
     API_BASE_URL += window.location.port ? ':' + window.location.port : '';
 

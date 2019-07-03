@@ -8,13 +8,10 @@ import { UserProfileModel } from './user'
 router.get('/details', handleUserRoute)
 
 async function handleUserRoute(req, res) {
-    logger.info('orgId', req.session.auth.orgId)
-    logger.info('userId', req.session.auth.userId)
-    logger.info('email', req.session.auth.email)
-    logger.info('email', req.session.auth.roles)
 
     const UserDetails: UserProfileModel = new UserProfileModel({
       email: req.session.auth.email,
+      orgId: req.session.auth.orgId,
       roles: req.session.auth.roles,
       userId: req.session.auth.userId,
     })

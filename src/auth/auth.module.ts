@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AuthService} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
 import {ProfileComponent} from './containers/profile/profile.component';
 import {authRouting} from './auth.routing';
@@ -13,7 +12,7 @@ import { OrganisationGuard } from './guards/organisation.guard';
 
 const PROVIDERS = [AuthGuard, OrganisationGuard, UserGuard];
 const COMPONENTS = [ProfileComponent];
-const SERVICES = [ AuthService, UserService];
+const SERVICES = [UserService];
 
 @NgModule({
   imports: [

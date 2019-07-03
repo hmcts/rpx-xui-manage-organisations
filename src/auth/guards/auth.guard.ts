@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
 import {CanActivate} from '@angular/router';
 
-import {AuthService} from '../services/auth.service';
 import {Observable, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-
+import * as jwtDecode from 'jwt-decode';
 import * as fromStore from '../store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
+import {CookieService} from 'ngx-cookie';
+import * as fromAuth from '../store';
+import config from '../../../api/lib/config';
+
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    public authService: AuthService,
-    private store: Store<fromStore.AuthState>
+    private store: Store<fromStore.AuthState>,
+    private cookieService: CookieService,
   ) {
   }
 
   canActivate() {
-    // check if the cookie exits
-    if (!this.authService.isAuthenticated()) {
-      this.store.dispatch(new fromStore.LogOut());
+    if (!this.isAuthenticated()) {
       return false;
     }
-
     return this.checkStore().pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))
@@ -39,6 +39,21 @@ export class AuthGuard implements CanActivate {
       filter(loaded => loaded),
       take(1)
     );
+  }
+
+  isAuthenticated(): boolean {
+    const jwt = this.cookieService.get(config.cookies.token);
+    if (!jwt) {
+      this.store.dispatch(new fromAuth.LogOut());
+      return false;
+    }
+
+    const jwtData = jwtDecode(jwt);
+    const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
+    if (!notExpired) {
+      this.store.dispatch(new fromAuth.LogOut());
+    }
+    return notExpired;
   }
 }
 

@@ -42,6 +42,7 @@ export function reducer(
       return {
         ...state,
         user,
+        isAuthenticated: true,
         loaded: true,
         loading: false,
         errors: null

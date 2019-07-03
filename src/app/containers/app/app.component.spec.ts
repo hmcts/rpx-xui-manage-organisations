@@ -1,16 +1,18 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import {combineReducers, StoreModule} from '@ngrx/store';
-import { reducers } from 'src/app/store';
+import { combineReducers, StoreModule, Store } from '@ngrx/store';
+import { reducers, Logout } from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {cold} from 'jasmine-marbles';
+import { cold } from 'jasmine-marbles';
 
 import * as fromAuth from '../../../auth/store';
-import {AppConstants} from '../../app.constants';
+import { AppConstants } from '../../app.constants';
 
 
 describe('AppComponent', () => {
+  let store: Store<fromAuth.AuthState>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -19,10 +21,15 @@ describe('AppComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
-        StoreModule.forRoot({...reducers, auth: combineReducers(fromAuth.reducer)} )
+        StoreModule.forRoot({ ...reducers, auth: combineReducers(fromAuth.reducer) })
       ]
     }).compileComponents();
+
+    store = TestBed.get(Store);
+
+    spyOn(store, 'dispatch').and.callThrough();
   }));
+
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
 
@@ -70,4 +77,15 @@ describe('AppComponent', () => {
     expect(app.userNav$).toBeObservable(expected);
 
   }));
+
+  it('should dispatch a logout action', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.onNavigate('sign-out');
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new Logout());
+
+  }));
+
 });

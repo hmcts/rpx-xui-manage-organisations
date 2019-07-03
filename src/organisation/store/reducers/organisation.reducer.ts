@@ -3,13 +3,13 @@ import { Organisation } from 'src/organisation/organisation.model';
 
 
 export interface OrganisationState {
-  organisation: Organisation;
+  organisationDetails: Organisation;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: OrganisationState = {
-  organisation: new Organisation({}),
+  organisationDetails: new Organisation({}),
   loaded: false,
   loading: false,
 };
@@ -28,10 +28,10 @@ export function reducer(
       };
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
-      const organisation = new Organisation(action.payload);
+      const organisationDetails = new Organisation(action.payload.organisations);
       return {
         ...state,
-        organisation,
+        organisationDetails,
         loaded: true
       };
 
@@ -42,7 +42,7 @@ export function reducer(
   return state;
 }
 
-export const getOrganisation = (state: OrganisationState) => state.organisation;
+export const getOrganisation = (state: OrganisationState) => state.organisationDetails;
 export const getOrganisationLoading = (state: OrganisationState) => state.loading;
 export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
 

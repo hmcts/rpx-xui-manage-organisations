@@ -12,5 +12,5 @@ export const reducers: ActionReducerMap<OrganisationState> = {
 };
 
 export const getRootOrgState = createFeatureSelector<OrganisationState>(
-  'organisation'
+  'org'
 );

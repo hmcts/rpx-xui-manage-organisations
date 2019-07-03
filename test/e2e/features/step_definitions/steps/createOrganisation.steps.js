@@ -71,9 +71,20 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function () {
     await waitForElement('govuk-heading-xl');
     await expect(loginPage.DXNumber.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.DXNumber.sendKeys("HT345345"));
+    await expect(loginPage.DXNumber.sendKeys("1234567891234"));
     await expect(loginPage.DXexchange.isDisplayed()).to.eventually.be.true;
     await expect(loginPage.DXexchange.sendKeys("DXLondon"));
+    await loginPage.continue_button.click();
+  });
+
+  Then(/^I Select and Enter the SRA number$/, { timeout: 600 * 1000 }, async function () {
+    await waitForElement('govuk-heading-xl');
+    await expect(loginPage.SRACheckBox.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.SRACheckBox.click());
+    browser.sleep(LONG_DELAY);
+    await waitForElement('govuk-heading-xl');
+    await expect(loginPage.SRANumber.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.SRANumber.sendKeys("SRA13453453"));
     await loginPage.continue_button.click();
   });
 

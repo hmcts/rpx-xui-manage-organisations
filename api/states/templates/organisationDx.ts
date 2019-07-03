@@ -13,7 +13,7 @@ export default {
       {
         validationLevel: 'formControl',
         controlId: 'DXexchange',
-        text: 'EnterDX exchange',
+        text: 'Enter DX exchange',
         href: '/register/organisation-name'
       }
     ],

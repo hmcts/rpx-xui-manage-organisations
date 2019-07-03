@@ -8,7 +8,7 @@ export default {
             validationLevel: 'formControl',
             controlId: 'sraNumber',
             text: 'Enter SRA number',
-            href: '/register/rsa-number',
+            href: '/register/sra-number',
         },
     ],
     groups: [
@@ -22,7 +22,7 @@ export default {
             input: {
                 validators: ['required'],
                 validationError: {
-                    value: 'Enter RSA number',
+                    value: 'Enter SRA number',
                     controlId: 'sraNumber',
                 },
                 control: 'sraNumber',

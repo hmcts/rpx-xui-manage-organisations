@@ -16,7 +16,7 @@ export class OrganisationService {
   constructor(private http: HttpClient) { }
 
   // TO DO  - this hard coded orgId needs to come from the userStore
-  orgId = 'b4775ea1-4036-4d7b-bebd-0b7cdc3c786f';
+  orgId = 'organisation_identifier=B13GT1M';
 
 
   mockOrgData = {
@@ -32,30 +32,9 @@ export class OrganisationService {
 
   fetchOrganisation(): Observable<any> {
 
-    // ** TO DO ** when TABBY fixes ENDPOINT
 
-    // return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`)
-    //   .pipe(
-    //     map(data => {
-    //       // do transformations
+    return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
 
-    //       let addressObj = JSON.parse(data.addresses[0].address)
-    //       let newOrgData =
-    //       {
-    //         name: data.name,
-    //         houseNoBuildingName: addressObj.houseNoBuildingName || 'a',
-    //         addressLine1: addressObj.addressLine1 || 'a',
-    //         addressLine2: addressObj.addressLine2 || 'a',
-    //         townCity: addressObj.townCity || 'a',
-    //         postcode: addressObj.postcode || 'a',
-    //         country: addressObj.country || 'a'
-    //       }
-    //       return newOrgData
-    //     }),
-    //     catchError(this.handleError)
-    //   );
-
-    return of(this.mockOrgData);
   }
 
 

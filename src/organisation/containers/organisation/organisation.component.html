@@ -1,15 +1,15 @@
 <lib-gov-uk-main-wrapper [title]="'Organisation'">
-  <table class="govuk-table">
+  <table class="govuk-table" *ngFor="let data of orgData">
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Name</th>
-      <td class="govuk-table__cell">{{orgData[0]}}</td>
+      <td class="govuk-table__cell">{{data}}</td>
       <td class="govuk-table__cell"></td>
     </tr>
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Address</th>
       <td class="govuk-table__cell">
-        <span *ngFor="let addressLine of orgData | slice:1">{{addressLine}}<br></span>
+        {{ data | json }}
       </td>
       <td class="govuk-table__cell"></td>
     </tr>

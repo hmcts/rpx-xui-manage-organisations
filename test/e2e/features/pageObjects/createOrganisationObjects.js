@@ -22,6 +22,8 @@ function createOrganisationObjects() {
   this.firstName= element(by.css("[id='firstName']"));
   this.lastName= element(by.css("[id='lastName']"));
   this.submit_button= element(by.css("[class='div.govuk-button']"));
+  this.SRACheckBox= element(by.xpath("//input[@id='haveyes']"));
+  this.SRANumber= element(by.xpath("//input[@id='sraNumber']"));
 
 
   this.givenIAmUnauthenticatedUser = async function () {

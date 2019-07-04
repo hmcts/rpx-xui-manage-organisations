@@ -17,7 +17,7 @@ const SERVICES = [UserService];
   imports: [
     CommonModule,
     userProfileRouting,
-    StoreModule.forFeature('auth', reducer),
+    StoreModule.forFeature('userProfile', reducer),
     EffectsModule.forFeature(effects),
   ],
   declarations: [...COMPONENTS],

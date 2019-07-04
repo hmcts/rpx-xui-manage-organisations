@@ -11,8 +11,7 @@ async function handleUserRoute(req, res) {
     const UserDetails: UserProfileModel = new UserProfileModel({
       email: req.session.auth.email,
       orgId: req.session.auth.orgId,
-      roles: ['pui-user-manager', 'pui-organisation-manage', 'pui-organisation-manage'],
-      // roles: req.session.auth.roles,
+      roles: req.session.auth.roles,
       userId: req.session.auth.userId,
     })
 

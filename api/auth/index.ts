@@ -163,7 +163,7 @@ export function doLogout(req: EnhancedRequest, res: express.Response, status: nu
     req.session.auth = null
     req.auth =  null
     req.session.save(() => {
-        res.redirect(status, redirect)
+        res.redirect(status, '/users')
     })
 }
 

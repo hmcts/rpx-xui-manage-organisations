@@ -6,7 +6,6 @@ import {UserInterface} from '../../models/user.model';
 
 export enum AuthActionTypes {
   LOGIN = '[Auth] Login',
-  LOGIN_SUCCESS = '[Auth] Login Success',
   LOGIN_FAILURE = '[Auth] Login Failure',
   LOGOUT = '[Auth] Logout',
   GET_USER_DETAILS = '[User] Get User Details',
@@ -17,11 +16,6 @@ export enum AuthActionTypes {
 export class LogIn implements Action {
   readonly type = AuthActionTypes.LOGIN;
   constructor(public payload: any) {}
-}
-
-export class LogInSuccess implements Action {
-  readonly type = AuthActionTypes.LOGIN_SUCCESS;
-  constructor(public payload: AuthInterface) {}
 }
 
 export class LogInFailure implements Action {
@@ -49,7 +43,6 @@ export class LogOut implements Action {
 
 export type UserProfileActions =
   | LogIn
-  | LogInSuccess
   | LogInFailure
   | LogOut
   | GetUserDetails

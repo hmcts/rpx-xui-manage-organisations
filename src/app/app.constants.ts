@@ -18,9 +18,6 @@ const navItems: NavItemsModel[] = [
 const userNav: UserNavModel = {
   label: 'Account navigation',
   items: [{
-    text: 'Profile',
-    href: '/profile'
-  }, {
     text: 'Sign out',
     emit: 'sign-out'
   }]

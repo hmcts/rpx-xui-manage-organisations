@@ -20,7 +20,6 @@ export const userDetails = createSelector(
 
 export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);
 export const userLoading = createSelector(authState, fromRoot.isUserLoading);
-export const userPermission = createSelector(authState, fromRoot.isUserPermission);
 
 
 

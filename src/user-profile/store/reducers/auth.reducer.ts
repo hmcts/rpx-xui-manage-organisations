@@ -7,8 +7,6 @@ export interface AuthState {
   user: UserModel | null;
   loaded: boolean;
   loading: boolean;
-  permissions: string;
-  errors: { [id: string]: string };
 }
 
 export const initialState: AuthState = {
@@ -16,11 +14,7 @@ export const initialState: AuthState = {
   user: null,
   loaded: false,
   loading: false,
-  permissions: '',
-  errors: {
-    forgotPass: '',
-    login: ''
-  },
+
 };
 
 export function reducer(
@@ -28,15 +22,6 @@ export function reducer(
   action: UserProfileActions
 ): AuthState {
   switch (action.type) {
-    case AuthActionTypes.LOGIN_SUCCESS: {
-      return {
-        ...state,
-        isAuthenticated: true,
-        permissions: action.payload.data,
-        errors: null
-      };
-    }
-
     case AuthActionTypes.GET_USER_DETAILS_SUCCESS: {
       const user = new UserModel(action.payload);
       return {
@@ -45,20 +30,21 @@ export function reducer(
         isAuthenticated: true,
         loaded: true,
         loading: false,
-        errors: null
       };
     }
 
     case AuthActionTypes.LOGOUT: {
-      return initialState;
+      return {
+        ...state,
+        ...initialState
+      };
     }
   }
   return state;
 }
 export const getAuthState = createFeatureSelector<AuthState>('userProfile');
+
 export const isAuthenticated = (state: AuthState) =>  state.isAuthenticated;
 export const getUser = (state: AuthState) => state.user;
 export const isUserLoaded = (state: AuthState) => state.loaded;
 export const isUserLoading = (state: AuthState) => state.loading;
-export const isUserPermission = (state: AuthState) => state.permissions;
-export const getErrorMessage = (state: AuthState) => state.errors;

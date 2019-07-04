@@ -8,13 +8,11 @@ import * as fromAuth from '../../store';
 })
 export class ProfileComponent implements OnInit {
   user$: Observable<fromAuth.AuthState>;
-  userPermissions$: Observable<string>;
 
   constructor(private store: Store<fromAuth.AuthState>) {}
 
   ngOnInit(): void {
    this.user$ = this.store.pipe(select(fromAuth.getAuthState));
-   this.userPermissions$ = this.store.pipe(select(fromAuth.userPermission));
   }
 }
 

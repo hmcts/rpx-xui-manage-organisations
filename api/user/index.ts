@@ -2,17 +2,17 @@ import * as express from 'express'
 import * as log4jui from '../lib/log4jui'
 const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
-import { UserMock } from './user.mock'
 import { UserProfileModel } from './user'
 
 router.get('/details', handleUserRoute)
 
 async function handleUserRoute(req, res) {
-
+    // TODO uncomment hard coded roles when correct one gets returnd by sscs
     const UserDetails: UserProfileModel = new UserProfileModel({
       email: req.session.auth.email,
       orgId: req.session.auth.orgId,
-      roles: req.session.auth.roles,
+      roles: ['pui-user-manager', 'pui-organisation-manage', 'pui-organisation-manage'],
+      // roles: req.session.auth.roles,
       userId: req.session.auth.userId,
     })
 

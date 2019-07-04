@@ -7,7 +7,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { cold } from 'jasmine-marbles';
 
 import { AppConstants } from '../../app.constants';
-import * as fromAuth from '../../../use-profile/store';
+import * as fromAuth from '../../../user-profile/store';
 
 
 

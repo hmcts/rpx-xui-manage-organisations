@@ -1,7 +1,7 @@
 // routes
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
-import {AuthGuard} from '../use-profile/guards/auth.guard';
+import {AuthGuard} from '../user-profile/guards/auth.guard';
 import {AccountOverviewComponent} from './containers/account-overview/account-overview.component';
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
 import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';

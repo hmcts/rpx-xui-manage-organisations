@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from '../services/use-profile.service';
+import { AuthService } from '../services/user-profile.service';
 
 const AuthServiceMock = {
     auth: false,

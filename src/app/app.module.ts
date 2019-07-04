@@ -23,12 +23,12 @@ import * as fromComponents from './components';
 
 import { ROUTES } from './app.routes';
 
-import { UserProfileModule } from '../use-profile/user-profile.module';
+import { UserProfileModule } from '../user-profile/user-profile.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 import config from '../../api/lib/config';
 import {OrganisationModule} from '../organisation/organisation.module';
-import {UserService} from '../use-profile/services/user.service';
+import {UserService} from '../user-profile/services/user.service';
 import {HttpClientModule} from '@angular/common/http';
 
 export const metaReducers: MetaReducer<any>[] = !config.production

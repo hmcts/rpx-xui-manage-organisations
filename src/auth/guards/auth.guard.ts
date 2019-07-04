@@ -12,7 +12,6 @@ export class AuthGuard implements CanActivate {
 
   canActivate() {
     if (!this.authService.isAuthenticated()) {
-      console.log('pr trial');
       this.authService.loginRedirect();
       return false;
     }

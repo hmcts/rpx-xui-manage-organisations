@@ -4,7 +4,10 @@ import { ModuleWithProviders } from '@angular/core';
 import { ProfileComponent } from './containers/profile/profile.component';
 import { AuthGuard } from './/guards/auth.guard';
 import { UserGuard } from './guards/user.guard';
-// TODO please remove when profile sotry is run
+
+// TODO please remove when profile story gets runned
+
+
 export const ROUTES: Routes = [
   {
     path: 'profile',

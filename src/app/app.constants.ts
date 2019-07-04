@@ -1,8 +1,8 @@
-import {NavItemsModel} from './models/nav-items.model';
+import {NavItemModel, NavItemsModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 import {AppTitlesModel} from './models/app-titles.model';
 
-const navItems: NavItemsModel[] = [
+const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
@@ -14,6 +14,11 @@ const navItems: NavItemsModel[] = [
     active: false
   }
 ];
+
+const roleBasedNav = {
+  'pui-user-manager': navItemsArray[1],
+  'pui-organisation-manager': navItemsArray[0]
+};
 
 const userNav: UserNavModel = {
   label: 'Account navigation',
@@ -56,7 +61,7 @@ const FooterDataNavigation = {
 };
 
 export class AppConstants {
-  static NAV_ITEMS = navItems;
+  static NAV_ITEMS = roleBasedNav;
   static USER_NAV = userNav;
   static REG_ORG_TITLE = regOrgTitle;
   static MANAGE_ORG_TITLE = manageOrgTitle;

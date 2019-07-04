@@ -12,9 +12,14 @@ export const getIsAuthenticated = createSelector(
   fromRoot.isAuthenticated
 );
 
-export const userDetails = createSelector(
+export const getUsers = createSelector(
   authState,
   fromRoot.getUser
+);
+
+export const getUserPermissions = createSelector(
+  getUsers,
+  (user) => user.roles
 );
 
 

@@ -1,8 +1,8 @@
 import * as fromAction from '../actions';
-import { NavItemsModel } from '../../models/nav-items.model';
-import { AppConstants } from '../../app.constants';
-import { UserNavModel } from '../../models/user-nav.model';
-import { AppTitlesModel } from '../../models/app-titles.model';
+import {NavItemsModel, NavItemModel} from '../../models/nav-items.model';
+import {AppConstants} from '../../app.constants';
+import {UserNavModel} from '../../models/user-nav.model';
+import {AppTitlesModel} from '../../models/app-titles.model';
 
 /* function that returns page title base on page url indexOf */
 export function setPageTitle(url): string {
@@ -21,17 +21,19 @@ export function setPageTitle(url): string {
 }
 
 export interface AppState {
+  allNavItems: {[id: string]: object};
   pageTitle: string;
-  navItems: NavItemsModel[];
+  navItems;
   userNav: UserNavModel;
-  headerTitle: { regOrg: AppTitlesModel; manageOrg: AppTitlesModel };
+  headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
 }
 
 export const initialState: AppState = {
+  allNavItems: AppConstants.NAV_ITEMS,
   pageTitle: '',
-  navItems: AppConstants.NAV_ITEMS,
   userNav: AppConstants.USER_NAV,
-  headerTitle: { regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE }
+  navItems: [],
+  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE}
 };
 
 export function reducer(
@@ -55,6 +57,23 @@ export function reducer(
       return {
         ...state,
         pageTitle
+      };
+    }
+
+    case fromAction.SET_USER_ROLES: {
+      const roles = action.payload;
+      let navItems = [];
+      roles.forEach(role => {
+        if (state.allNavItems.hasOwnProperty(role)) {
+          navItems = [
+            ...navItems,
+            state.allNavItems[role]
+          ];
+        }
+      })
+      return {
+        ...state,
+        navItems
       };
     }
 

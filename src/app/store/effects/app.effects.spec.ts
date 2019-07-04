@@ -6,15 +6,27 @@ import { AppEffects } from './app.effects';
 import { SetPageTitleErrors } from '../actions/app.actions';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
+import { CookieService } from 'ngx-cookie';
 
 describe('App Effects', () => {
   let actions$;
   let effects: AppEffects;
+
+  const cookieService = {
+    get: key => {
+      return cookieService[key];
+    },
+    set: (key, value) => {
+      cookieService[key] = value;
+    },
+    removeAll: () => { }
+  };
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromAppEffects.AppEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        { provide: CookieService, useValue: cookieService }
       ]
     });
 

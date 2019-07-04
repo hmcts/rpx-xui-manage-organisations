@@ -11,7 +11,9 @@ const router = express.Router({ mergeParams: true })
 
 router.use(auth.attach) // attach auth to all api routes
 
-router.use('/logout', auth.logout)
+router.use('/logout', (req, res, next) => {
+    auth.doLogout(req, res)
+})
 router.use('/decisions', stateRouter)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)

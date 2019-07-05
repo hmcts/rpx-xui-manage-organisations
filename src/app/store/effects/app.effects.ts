@@ -7,6 +7,7 @@ import {map} from 'rxjs/operators';
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
+import config from '../../../../api/lib/config';
 
 @Injectable()
 export class AppEffects {
@@ -36,9 +37,12 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      window.location.href = '/api/logout';
-      // TODO: shouldn't need to clear cookies here
-      // this.cookieService.removeAll();
+      let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
+      API_BASE_URL += window.location.port ? ':' + window.location.port : '';
+      const base = config.services.idamWeb;
+      const clientId = config.idamClient;
+      const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
+      window.location.href = `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     })
   );
 

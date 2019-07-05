@@ -38,7 +38,7 @@ export class AppEffects {
     map(() => {
       window.location.href = '/api/logout';
       // TODO: shouldn't need to clear cookies here
-      this.cookieService.removeAll();
+      // this.cookieService.removeAll();
     })
   );
 

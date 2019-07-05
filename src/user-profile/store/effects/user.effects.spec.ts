@@ -43,7 +43,8 @@ describe('Fee accounts Effects', () => {
                 status: 'something',
                 organisationId: 'something',
                 pbaAccount: 'something',
-                addresses: []
+                addresses: [],
+                roles: []
             };
             UserServiceMock.getUserDetails.and.returnValue(of(returnValue));
             const action = new GetUserDetails();

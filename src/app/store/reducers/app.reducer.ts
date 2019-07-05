@@ -29,7 +29,7 @@ export interface AppState {
 }
 
 export const initialState: AppState = {
-  allNavItems: AppConstants.NAV_ITEMS,
+  allNavItems: AppConstants.ROLES_BASED_NAV,
   pageTitle: '',
   userNav: AppConstants.USER_NAV,
   navItems: [],

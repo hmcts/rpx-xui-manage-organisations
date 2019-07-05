@@ -7,7 +7,6 @@ import { UserProfileModel } from './user'
 router.get('/details', handleUserRoute)
 
 async function handleUserRoute(req, res) {
-    // TODO uncomment hard coded roles when correct one gets returnd by sscs
     const UserDetails: UserProfileModel = new UserProfileModel({
       email: req.session.auth.email,
       orgId: req.session.auth.orgId,

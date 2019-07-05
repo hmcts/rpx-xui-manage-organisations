@@ -66,7 +66,8 @@ const FooterDataNavigation = {
  */
 
 export class AppConstants {
-  static NAV_ITEMS = roleBasedNav;
+  static ROLES_BASED_NAV = roleBasedNav;
+  static NAV_ITEMS_ARRAY = navItemsArray;
   static USER_NAV = userNav;
   static REG_ORG_TITLE = regOrgTitle;
   static MANAGE_ORG_TITLE = manageOrgTitle;

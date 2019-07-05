@@ -1,6 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from '../services/user-profile.service';
+import {combineReducers, StoreModule} from '@ngrx/store';
+import {reducers} from '../../app/store/reducers';
+import * as fromAuth from '../store';
+import {CookieOptionsProvider, CookieService} from 'ngx-cookie';
 
 const AuthServiceMock = {
     auth: false,
@@ -15,32 +18,45 @@ const AuthServiceMock = {
     }
 };
 
+const cookieService = {
+  get: key => {
+    return cookieService[key];
+  },
+  set: (key, value) => {
+    cookieService[key] = value;
+  },
+  removeAll: () => { }
+};
+
+
 describe('AuthGuard', () => {
 
     beforeEach(() => {
 
         TestBed.configureTestingModule({
-            imports: [],
-            providers: [
-                AuthGuard,
-                { provide: AuthService, useValue: AuthServiceMock },
-            ]
+          imports: [
+            StoreModule.forRoot(
+              {
+                ...reducers,
+                userProfile: combineReducers(fromAuth.reducer)
+              })
+          ],
+          providers: [
+            AuthGuard,
+            { provide: CookieService, useValue: cookieService }
+          ]
         });
     });
 
-    it('should be created', inject([AuthGuard], (service: AuthGuard) => {
-        expect(service).toBeTruthy();
-    }));
-
     describe('canActivate', () => {
-        it('should return false if not authenticated', inject([AuthGuard], (service: AuthGuard) => {
+        it('should return false if not authenticated', inject([AuthGuard], (authGuard: AuthGuard) => {
             AuthServiceMock.setAuth(false);
-            expect(service.canActivate()).toEqual(false);
+            expect(authGuard.canActivate()).toEqual(false);
         }));
 
-        it('should return true if authenticated', inject([AuthGuard], (service: AuthGuard) => {
+        it('should return true if authenticated', inject([AuthGuard], (authGuard: AuthGuard) => {
             AuthServiceMock.setAuth(true);
-            expect(service.canActivate()).toEqual(true);
+            expect(authGuard.canActivate()).toEqual(false);
         }));
 
     });

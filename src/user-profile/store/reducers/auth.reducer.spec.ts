@@ -15,28 +15,18 @@ describe('Authorisation Reducer', () => {
         const { initialState } = fromAuth;
 
         const action = new fromAuthActions.GetUserDetailsSuccess({
-            id: 'id',
-            emailId: 'email',
-            firstName: 'first name',
-            lastName: 'last name',
-            status: 'status',
-            organisationId: 'org id',
-            pbaAccount: 'pba acc',
-            addresses: [],
-            roles: []
+            orgId: 'id',
+            email: 'email',
+            roles: [],
+            userId: ''
         });
         const state = fromAuth.reducer(initialState, action);
 
         const expectedUser = new UserModel({
-            id: 'id',
-            emailId: 'email',
-            firstName: 'first name',
-            lastName: 'last name',
-            status: 'status',
-            organisationId: 'org id',
-            pbaAccount: 'pba acc',
-            addresses: [],
-            roles: []
+            orgId: 'id',
+            email: 'email',
+            roles: [],
+            userId: ''
         });
 
         expect(state.isAuthenticated).toEqual(true);

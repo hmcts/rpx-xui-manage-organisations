@@ -12,15 +12,10 @@ export class UserModel {
 }
 
 export interface UserInterface {
-  id: string;
-  emailId: string;
-  firstName: string;
-  lastName: string;
-  status: string;
-  organisationId: string;
-  pbaAccount: string;
-  addresses: UserAddress[];
+  email: string;
+  orgId: string;
   roles: string[];
+  userId: string;
 }
 
 export interface UserAddress {

@@ -36,14 +36,9 @@ describe('Fee accounts Effects', () => {
     describe('getUser$', () => {
         it('should return a UserInterface - GetUserDetailsSuccess', () => {
             const returnValue = {
-                id: 'something',
-                emailId: 'something',
-                firstName: 'something',
-                lastName: 'something',
-                status: 'something',
-                organisationId: 'something',
-                pbaAccount: 'something',
-                addresses: [],
+                userId: 'something',
+                email: 'something',
+                orgId: 'something',
                 roles: []
             };
             UserServiceMock.getUserDetails.and.returnValue(of(returnValue));

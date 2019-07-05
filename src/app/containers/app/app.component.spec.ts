@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
-import { reducers } from 'src/app/store';
+import {Logout, reducers} from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { cold } from 'jasmine-marbles';
@@ -51,15 +51,6 @@ describe('AppComponent', () => {
 
   }));
 
-  xit('should have navItems$ Observable the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-
-    const expected = cold('a', { a: AppConstants.NAV_ITEMS_ARRAY });
-    expect(app.navItems$).toBeObservable(expected);
-
-  }));
 
   it('should have appHeaderTitle$ Observable the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
@@ -81,13 +72,34 @@ describe('AppComponent', () => {
 
   }));
 
+
+  it('should have navItems$ Observable the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    fixture.detectChanges();
+    const navItems = [
+      {
+        text: 'Organisation',
+        href: '/organisation',
+        active: true
+      },
+      {
+        text: 'Users',
+        href: '/users',
+        active: false
+      }];
+    const expected = cold('a', { a: [] });
+    expect(app.navItems$).toBeObservable(expected);
+
+  }));
+
   it('should dispatch a logout action', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
-    // expect(store.dispatch).toHaveBeenCalledWith(new Logout());
+    expect(store.dispatch).toHaveBeenCalledWith(new Logout());
 
   }));
 

@@ -3,7 +3,7 @@ import * as fromActions from '../actions/organisation.actions';
 import { Organisation } from 'src/organisation/organisation.model';
 
 
-fdescribe('OrganisationReducer', () => {
+describe('OrganisationReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromOrganisation;

@@ -37,12 +37,12 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
-      API_BASE_URL += window.location.port ? ':' + window.location.port : '';
-      const base = config.services.idamWeb;
-      const clientId = config.idamClient;
-      const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-      window.location.href = `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+      // let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
+      // API_BASE_URL += window.location.port ? ':' + window.location.port : '';
+      // const base = config.services.idamWeb;
+      // const clientId = config.idamClient;
+      // const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
+      // window.location.href = `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     })
   );
 

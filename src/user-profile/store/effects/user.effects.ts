@@ -34,6 +34,7 @@ export class UserEffects {
     map((actions: authActions.GetUserDetailsFailure) => actions.payload),
     map((error) => {
       if (error) {
+
         console.log(error);
       }
       console.log('_________no user details returned');

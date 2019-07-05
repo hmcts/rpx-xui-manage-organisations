@@ -56,5 +56,30 @@ describe('AppReducer', () => {
       expect(state.pageTitle).toEqual('Error: ');
     });
 
+    it('should set correct user roles', () => {
+      const { initialState } = fromApp;
+      const payload = [
+        'pui-case-manager',
+        'pui-user-manager',
+        'pui-finance-manager',
+        'pui-organisation-manager'
+      ];
+      const navItems = [
+        {
+          text: 'Organisation',
+          href: '/organisation',
+          active: true
+        },
+        {
+          text: 'Users',
+          href: '/users',
+          active: false
+        }
+      ];
+      const action = new fromAppActions.SetUserRoles(payload);
+      const state = fromApp.reducer(initialState, action);
+      expect(state.navItems).toEqual(navItems);
+    });
+
 
 });

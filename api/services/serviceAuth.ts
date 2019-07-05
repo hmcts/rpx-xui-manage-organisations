@@ -11,7 +11,7 @@ const url = config.services.s2s
 const microservice = config.microservice
 const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
 
-const logger = log4jui.getLogger('service auth')
+const logger = log4jui.getLogger('service user-profile')
 
 export async function postS2SLease() {
     const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'

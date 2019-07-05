@@ -1,8 +1,8 @@
-import {NavItemsModel} from './models/nav-items.model';
+import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 import {AppTitlesModel} from './models/app-titles.model';
 
-const navItems: NavItemsModel[] = [
+const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
@@ -15,12 +15,14 @@ const navItems: NavItemsModel[] = [
   }
 ];
 
+const roleBasedNav = {
+  'pui-user-manager': navItemsArray[1],
+  'pui-organisation-manager': navItemsArray[0]
+};
+
 const userNav: UserNavModel = {
   label: 'Account navigation',
   items: [{
-    text: 'Profile',
-    href: '/profile'
-  }, {
     text: 'Sign out',
     emit: 'sign-out'
   }]
@@ -58,8 +60,14 @@ const FooterDataNavigation = {
   ]
 };
 
+/**
+ * Place to keep app constants.
+ * Nice to have: The constants should also be injected into state to have single source of truth.
+ */
+
 export class AppConstants {
-  static NAV_ITEMS = navItems;
+  static ROLES_BASED_NAV = roleBasedNav;
+  static NAV_ITEMS_ARRAY = navItemsArray;
   static USER_NAV = userNav;
   static REG_ORG_TITLE = regOrgTitle;
   static MANAGE_ORG_TITLE = manageOrgTitle;

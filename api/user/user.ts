@@ -18,13 +18,14 @@ export class UserModel {
 }
 export class UserProfileModel {
   id: string;
-  emailId: string;
+  email: string;
   firstName: string;
   lastName: string;
   status: string;
   organisationId: string;
   pbaAccount: string;
   addresses: UserAddress[];
+  roles: string;
   constructor(prop) {
     Object.assign(this, prop);
   }

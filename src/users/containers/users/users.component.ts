@@ -13,7 +13,6 @@ import {UserListApiModel} from '../../models/userform.model';
 export class UsersComponent implements OnInit {
 
   columnConfig: GovukTableColumnConfig[];
-  tableRows: {headers: string;  key: string}[];
   tableUsersData$: Observable<any>; // TODO add type
   isLoading$: Observable<boolean>;
 

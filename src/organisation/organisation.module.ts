@@ -14,6 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
+import { OrganisationGuard } from './guards/organisation.guard';
 
 
 @NgModule({
@@ -27,7 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
-  providers: [...fromServices.services]
+  providers: [...fromServices.services, OrganisationGuard]
 })
 
 

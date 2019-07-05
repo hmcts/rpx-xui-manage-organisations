@@ -23,12 +23,12 @@ import * as fromComponents from './components';
 
 import { ROUTES } from './app.routes';
 
-import { AuthModule } from '../auth/auth.module';
+import { UserProfileModule } from '../user-profile/user-profile.module';
 import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
 
 import config from '../../api/lib/config';
 import {OrganisationModule} from '../organisation/organisation.module';
-import {UserService} from '../auth/services/user.service';
+import {UserService} from '../user-profile/services/user.service';
 import {HttpClientModule} from '@angular/common/http';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
@@ -50,7 +50,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     SharedModule,
-    AuthModule,
+    UserProfileModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
       logOnly: config.production

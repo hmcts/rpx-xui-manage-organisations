@@ -9,36 +9,16 @@ export const ENVIRONMENT = {
   orgUri: '/api/organisation'
 };
 
-
-
 @Injectable()
 export class OrganisationService {
   constructor(private http: HttpClient) { }
 
   // TO DO  - this hard coded orgId needs to come from the userStore
-  orgId = 'organisation_identifier=B13GT1M';
-
-
-  mockOrgData = {
-    name: 'WP',
-    houseNoBuildingName: 'Test house',
-    addressLine1: '10 Oxford St',
-    addressLine2: '',
-    townCity: 'London',
-    postcode: 'W1',
-    country: 'UK'
-  };
-
+  orgId = 'E3F280A';
 
   fetchOrganisation(): Observable<any> {
-
-
     return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
-
   }
-
-
-
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

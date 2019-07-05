@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import {AuthGuard} from '../user-profile/guards/auth.guard';
 
 
 export const ROUTES: Routes = [
@@ -18,7 +18,7 @@ export const ROUTES: Routes = [
     path: 'users',
     canActivate: [AuthGuard],
     loadChildren: '../users/users.module#UsersModule'
-  }
+  },
   {
     path: 'style-guide',
     canActivate: [AuthGuard],

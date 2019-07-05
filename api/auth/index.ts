@@ -33,7 +33,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
     } else {
         const check = await sessionChainCheck(req, res, accessToken)
         if (check) {
-            logger.info('Attaching user-profile')
+            logger.info('Attaching auth')
 
             // also use these as axios defaults
             logger.info('Using Idam Token in defaults')
@@ -63,7 +63,7 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
         },
     }
 
-    logger.info('Getting Token from user-profile code.')
+    logger.info('Getting Token from auth code.')
 
     console.log(
         `${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${

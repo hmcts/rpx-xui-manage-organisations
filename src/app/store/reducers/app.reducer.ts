@@ -1,5 +1,4 @@
 import * as fromAction from '../actions';
-import {NavItemsModel, NavItemModel} from '../../models/nav-items.model';
 import {AppConstants} from '../../app.constants';
 import {UserNavModel} from '../../models/user-nav.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
@@ -79,7 +78,10 @@ export function reducer(
     }
 
     case fromAction.LOGOUT: {
-      return initialState;
+      return {
+        ...state,
+        ...initialState
+      };
     }
   }
 

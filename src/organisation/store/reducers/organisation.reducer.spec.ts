@@ -3,7 +3,7 @@ import * as fromActions from '../actions/organisation.actions';
 import { Organisation } from 'src/organisation/organisation.model';
 
 
-describe('OrganisationReducer', () => {
+fdescribe('OrganisationReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromOrganisation;
@@ -67,7 +67,7 @@ describe('OrganisationReducer', () => {
 
       expect(state.loaded).toEqual(true);
       expect(state.loading).toEqual(false);
-      expect(state.organisation).toEqual(org);
+      expect(state.organisationDetails).toEqual(org);
     });
   });
 

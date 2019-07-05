@@ -61,7 +61,8 @@ export function reducer(
     }
 
     case fromAction.SET_USER_ROLES: {
-      const roles = action.payload;
+      // TODO prehaps find better solution for rendering sequence of nav tabs. It will not work Fees Acc
+      const roles = [...action.payload].sort();
       let navItems = [];
       roles.forEach(role => {
         if (state.allNavItems.hasOwnProperty(role)) {
@@ -70,7 +71,7 @@ export function reducer(
             state.allNavItems[role]
           ];
         }
-      })
+      });
       return {
         ...state,
         navItems

@@ -1,4 +1,4 @@
-import {NavItemModel, NavItemsModel} from './models/nav-items.model';
+import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 import {AppTitlesModel} from './models/app-titles.model';
 
@@ -59,6 +59,11 @@ const FooterDataNavigation = {
     { text: 'Privacy policy', href: 'privacy-policy'}
   ]
 };
+
+/**
+ * Place to keep app constants.
+ * Nice to have: The constants should also be injected into state to have single source of truth.
+ */
 
 export class AppConstants {
   static NAV_ITEMS = roleBasedNav;

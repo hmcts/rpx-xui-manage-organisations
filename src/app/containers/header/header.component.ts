@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import * as fromAuth from '../../../user-profile/store';
 import * as fromRoot from '../../store';
-import {NavItemsModel} from '../../models/nav-items.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 

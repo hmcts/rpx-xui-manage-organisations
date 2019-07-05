@@ -31,7 +31,7 @@ export const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
 export const config = { ...application, ...configs[configEnv].default }
 
 export default { ...config }
-console.log(config)
+
 if (process) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || 'AAAAAAAAAAAAAAAA'
 }

@@ -2,8 +2,8 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { OrganisationComponent } from './containers';
-import { AuthGuard } from '../auth/guards/auth.guard';
-import { OrganisationGuard } from 'src/auth/guards/organisation.guard';
+import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
 
 export const ROUTES: Routes = [
   {
@@ -11,7 +11,8 @@ export const ROUTES: Routes = [
     component: OrganisationComponent,
     canActivate: [
       AuthGuard,
-      OrganisationGuard]
+      OrganisationGuard
+    ]
   }
 ];
 

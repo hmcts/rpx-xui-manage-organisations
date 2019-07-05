@@ -5,6 +5,7 @@ import * as appActions from '../actions';
 import {map} from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
+import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
 
 @Injectable()
@@ -22,6 +23,15 @@ export class AppEffects {
     })
   );
 
+  @Effect()
+  setUserRoles$ = this.actions$.pipe(
+    ofType(fromUserProfile.AuthActionTypes.GET_USER_DETAILS_SUCCESS),
+    map((actions: fromUserProfile.GetUserDetailsSuccess) => actions.payload.roles),
+    map((roles) => {
+      return new appActions.SetUserRoles(roles);
+    })
+  );
+
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
@@ -31,5 +41,6 @@ export class AppEffects {
       this.cookieService.removeAll();
     })
   );
+
 
 }

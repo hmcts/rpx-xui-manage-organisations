@@ -87,9 +87,6 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
 
         if (details) {
             logger.info('Setting session')
-
-            //const orgIdResponse = await getOrganisationId(details)
-            // no real end point
             const orgIdResponse = {
                 data: {
                     id: '1',
@@ -150,7 +147,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             }
         }
     } else {
-        logger.error('No auth token')
+        logger.error('No user-profile token')
         res.redirect(config.indexUrl || '/')
     }
 }

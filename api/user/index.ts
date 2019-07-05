@@ -11,14 +11,15 @@ async function handleUserRoute(req, res) {
       email: req.session.auth.email,
       orgId: req.session.auth.orgId,
       roles: req.session.auth.roles,
-      userId: req.session.auth.userId,
+      userId: req.session.auth.userId
     })
 
     try {
         res.send(UserDetails)
     } catch (error) {
         logger.info(error)
-        res.status(500).send(error)
+        const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
+        res.status(500).send(errReport)
     }
 }
 

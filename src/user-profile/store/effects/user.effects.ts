@@ -28,7 +28,7 @@ export class UserEffects {
     })
   );
 
-  @Effect()
+  @Effect({ dispatch: false })
   getUserFail$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
     map((actions: authActions.GetUserDetailsFailure) => actions.payload),

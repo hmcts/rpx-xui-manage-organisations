@@ -35,18 +35,6 @@ describe('Authorisation Reducer', () => {
         expect(state.loading).toEqual(false);
     });
 
-    it('LOGOUT action should return correct state', () => {
-        const { initialState } = fromAuth;
-
-        const action = new fromAuthActions.LogOut();
-        const state = fromAuth.reducer(initialState, action);
-
-        expect(state.isAuthenticated).toEqual(false);
-        expect(state.user).toEqual(null);
-        expect(state.loaded).toEqual(false);
-        expect(state.loading).toEqual(false);
-    });
-
     it('should return correct state properties', () => {
         const payload: fromAuth.AuthState = {
             isAuthenticated: true,

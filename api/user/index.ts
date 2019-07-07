@@ -7,21 +7,30 @@ import { UserProfileModel } from './user'
 router.get('/details', handleUserRoute)
 
 function handleUserRoute(req, res) {
+  res.set('Content-Type', 'application/json')
+
+  // const UserDetails: UserProfileModel = {
+  //   email: 'hardcoded@user.com',
+  //   orgId: '12345',
+  //   roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
+  //   userId: '1'
+  // }
+
   const UserDetails: UserProfileModel = {
-    email: 'hardcoded@user.com',
-    orgId: '12345',
-    roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
-    userId: '1'
+    email: req.session.auth.email,
+    orgId: req.session.auth.orgId,
+    roles: req.session.auth.roles,
+    userId: req.session.auth.userId
   }
-    try {
-        const payload = JSON.stringify(UserDetails);
-        console.log(payload)
-        res.send(payload)
-    } catch (error) {
-        logger.info(error)
-        const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
-        res.status(500).send(errReport)
-    }
+  try {
+      const payload = JSON.stringify(UserDetails);
+      console.log(payload)
+      res.send(payload)
+  } catch (error) {
+      logger.info(error)
+      const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
+      res.status(500).send(errReport)
+  }
 }
 
 export default router

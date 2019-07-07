@@ -49,8 +49,9 @@ app.get('/oauth2/callback', auth.oauth)
 app.use(auth.attach)
 
 app.use('/api', routes)
-app.use('/api/logout', (req, res, next) => {
-    auth.doLogout(req, res, 302)
+
+app.get('/api/logout', (req, res, next) => {
+    auth.doLogout(req, res)
 })
 
 const port = process.env.PORT || 3001

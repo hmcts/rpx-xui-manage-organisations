@@ -7,8 +7,8 @@ import * as jwtDecode from 'jwt-decode';
 import * as fromStore from '../store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {CookieService} from 'ngx-cookie';
-import * as fromRoot from '../../app/store';
 import config from '../../../api/lib/config';
+import {environment} from '../../environments/environment';
 
 
 @Injectable()
@@ -43,9 +43,8 @@ export class AuthGuard implements CanActivate {
 
   isAuthenticated(): boolean {
     const jwt = this.cookieService.get(config.cookies.token);
-    debugger
     if (!jwt) {
-      this.store.dispatch(new fromRoot.Logout());
+      this.signOut();
       return false;
     }
 
@@ -53,9 +52,20 @@ export class AuthGuard implements CanActivate {
     const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
 
     if (!notExpired) {
-      this.store.dispatch(new fromRoot.Logout());
+      this.signOut();
     }
     return notExpired;
+  }
+
+  generateLoginUrl() {
+    const base = environment.urls.idam.idamLoginUrl;
+    const clientId = environment.urls.idam.idamClientID;
+    const callback = environment.urls.idam.oauthCallbackUrl;
+    return `${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+  }
+
+  signOut(): void {
+    window.location.href = this.generateLoginUrl();
   }
 }
 

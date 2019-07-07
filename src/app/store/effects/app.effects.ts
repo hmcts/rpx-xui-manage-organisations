@@ -39,7 +39,7 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      this.authGard.signOut();
+      window.location.href = 'api/logout'
     })
   );
 

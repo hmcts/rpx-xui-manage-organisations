@@ -57,11 +57,15 @@ export class AuthGuard implements CanActivate {
     return notExpired;
   }
 
-  generateLoginUrl() {
-    const base = environment.urls.idam.idamLoginUrl;
-    const clientId = environment.urls.idam.idamClientID;
-    const callback = environment.urls.idam.oauthCallbackUrl;
-    return `${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+  generateLoginUrl(): string {
+    let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
+    API_BASE_URL += window.location.port ? ':' + window.location.port : '';
+
+    const base = config.services.idamWeb;
+    const clientId = config.idamClient;
+    const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+
   }
 
   signOut(): void {

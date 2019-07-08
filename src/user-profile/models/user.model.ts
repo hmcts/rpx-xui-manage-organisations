@@ -20,7 +20,6 @@ export interface UserInterface {
 
 export interface UserAddress {
   id: string;
-  houseNoBuildingName: string;
   addressLine1: string;
   addressLine2: string;
   townCity: string;

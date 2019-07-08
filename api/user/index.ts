@@ -6,20 +6,31 @@ import { UserProfileModel } from './user'
 
 router.get('/details', handleUserRoute)
 
-async function handleUserRoute(req, res) {
-    const UserDetails: UserProfileModel = new UserProfileModel({
-      email: req.session.auth.email,
-      orgId: req.session.auth.orgId,
-      roles: req.session.auth.roles,
-      userId: req.session.auth.userId,
-    })
+function handleUserRoute(req, res) {
 
-    try {
-        res.send(UserDetails)
-    } catch (error) {
-        logger.info(error)
-        res.status(500).send(error)
-    }
+  // const UserDetails: UserProfileModel = {
+  //   email: 'hardcoded@user.com',
+  //   orgId: '12345',
+  //   roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
+  //   userId: '1'
+  // }
+
+  const UserDetails: UserProfileModel = {
+    email: req.session.auth.email,
+    orgId: req.session.auth.orgId,
+    roles: req.session.auth.roles,
+    userId: req.session.auth.userId
+  }
+  res.set('Content-Type', 'application/json')
+  try {
+      const payload = JSON.stringify(UserDetails);
+      console.log(payload)
+      res.send(payload)
+  } catch (error) {
+      logger.info(error)
+      const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
+      res.status(500).send(errReport)
+  }
 }
 
 export default router

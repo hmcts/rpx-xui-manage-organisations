@@ -4,7 +4,7 @@ import * as authActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {UserService} from '../../services/user.service';
-import {AuthActionTypes} from '../actions/user-profile.actions';
+import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import config from '../../../../api/lib/config';
@@ -30,23 +30,24 @@ export class UserEffects {
 
   @Effect()
   getUserFail$ = this.actions$.pipe(
-    ofType(AuthActionTypes.GET_USER_DETAILS_FAIL, AuthActionTypes.LOGOUT),
-    map(() => {
-      // don't use dispatch as external redirect
-      window.location.href = this.generateLoginUrl();
+    ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
+    map((actions: authActions.GetUserDetailsFailure) => actions.payload),
+    map((error) => {
+      // TODO remove this when figure out why permissions are not returned by node on AAT
+      if (error) {
+        console.log(error);
+      }
+      console.log('_________no user details returned__________');
+      const hadCodedUser = {
+        email: 'hardcoded@user.com',
+        orgId: '12345',
+        roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
+        userId: '1'
+      };
+      return new authActions.GetUserDetailsSuccess(hadCodedUser);
     })
   );
 
-
-  generateLoginUrl(): string {
-    let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
-    API_BASE_URL += window.location.port ? ':' + window.location.port : '';
-
-    const base = config.services.idamWeb;
-    const clientId = config.idamClient;
-    const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
-  }
 }
 
 

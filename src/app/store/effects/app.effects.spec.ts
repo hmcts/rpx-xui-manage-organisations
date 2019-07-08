@@ -8,6 +8,9 @@ import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
+import {AuthGuard} from '../../../user-profile/guards/auth.guard';
+import {combineReducers, StoreModule} from '@ngrx/store';
+import {reducers} from '../reducers';
 
 describe('App Effects', () => {
   let actions$;
@@ -24,10 +27,17 @@ describe('App Effects', () => {
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot(
+          {
+            ...reducers
+          })
+      ],
       providers: [
         fromAppEffects.AppEffects,
         provideMockActions(() => actions$),
-        { provide: CookieService, useValue: cookieService }
+        { provide: CookieService, useValue: cookieService },
+        AuthGuard
       ]
     });
 

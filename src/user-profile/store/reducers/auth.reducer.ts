@@ -32,13 +32,6 @@ export function reducer(
         loading: false,
       };
     }
-
-    case AuthActionTypes.LOGOUT: {
-      return {
-        ...state,
-        ...initialState
-      };
-    }
   }
   return state;
 }

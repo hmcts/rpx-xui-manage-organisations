@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
         {
           group: this.styleGuideFromGroup.controls.checkboxes,
           config: {
-            value: 'createCases',
+            value: 'manageCases',
             label: 'Create cases',
             name: 'checkboxes',
             hint: 'Create, progress and view the status of the user\'s own cases',
@@ -44,7 +44,7 @@ export class FormComponent implements OnInit {
         {
           group: this.styleGuideFromGroup.controls.checkboxes,
           config: {
-            value: 'viewCases',
+            value: 'manageUsers',
             label: 'View organisation\'s cases',
             name: 'checkboxes',
             hint: ' View the status of all cases created by the organisation\'s users.'

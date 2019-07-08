@@ -7,7 +7,6 @@ import { UserProfileModel } from './user'
 router.get('/details', handleUserRoute)
 
 function handleUserRoute(req, res) {
-  res.set('Content-Type', 'application/json')
 
   // const UserDetails: UserProfileModel = {
   //   email: 'hardcoded@user.com',
@@ -22,6 +21,7 @@ function handleUserRoute(req, res) {
     roles: req.session.auth.roles,
     userId: req.session.auth.userId
   }
+  res.set('Content-Type', 'application/json')
   try {
       const payload = JSON.stringify(UserDetails);
       console.log(payload)

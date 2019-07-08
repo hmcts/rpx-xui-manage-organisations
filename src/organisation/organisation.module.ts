@@ -23,7 +23,7 @@ import { OrganisationGuard } from './guards/organisation.guard';
     HttpClientModule,
     organisationRouting,
     SharedModule,
-    StoreModule.forFeature('organisation', reducers),
+    StoreModule.forFeature('org', reducers),
     EffectsModule.forFeature(effects),
   ],
   exports: [...fromContainers.containers],

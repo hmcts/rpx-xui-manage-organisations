@@ -21,7 +21,6 @@ describe('LoadOrganisationSuccess', () => {
       addressLine1: '10  oxford street',
       townCity: 'London',
       postcode: 'W1',
-      houseNoBuildingName: 'house',
       addressLine2: '',
       country: 'UK'
     };

@@ -1,5 +1,4 @@
 export class Organisation {
-    houseNoBuildingName: string;
     addressLine1: string;
     addressLine2: string;
     name: string;

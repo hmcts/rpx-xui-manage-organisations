@@ -17,19 +17,15 @@ export class UserModel {
   }
 }
 export class UserProfileModel {
-  id: string;
+  orgId: string;
+  userId: string
   email: string;
-  firstName: string;
-  lastName: string;
-  status: string;
-  organisationId: string;
-  pbaAccount: string;
-  addresses: UserAddress[];
-  roles: string;
+  roles: string[];
   constructor(prop) {
     Object.assign(this, prop);
   }
 }
+
 export class UserAddress{
   id: string;
   houseNoBuildingName: string;

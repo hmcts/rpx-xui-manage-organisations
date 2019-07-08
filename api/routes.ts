@@ -1,7 +1,7 @@
 import * as express from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
-import userRouter from './user'
+import userDetailsRouter from './user'
 import inviteUser from './inviteUser'
 import organisationRouter from './organisation'
 import getUserList from './userList'
@@ -17,7 +17,7 @@ router.use('/logout', (req, res, next) => {
 router.use('/decisions', stateRouter)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
-router.use('/user', userRouter)
+router.use('/user', userDetailsRouter)
 router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
 router.use('/userDetails', getUserList)

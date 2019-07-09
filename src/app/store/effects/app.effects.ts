@@ -1,22 +1,19 @@
-import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as appActions from '../actions';
-import {map} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
-import config from '../../../../api/lib/config';
-import {AuthGuard} from '../../../user-profile/guards/auth.guard';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private cookieService: CookieService,
-    private authGard: AuthGuard
-  ) {}
+  ) { }
 
   @Effect()
   updateTitle$ = this.actions$.pipe(
@@ -39,6 +36,8 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
+      // TODO: shouldn't need to clear cookies here
+      this.cookieService.removeAll();
       window.location.href = 'api/logout';
     })
   );

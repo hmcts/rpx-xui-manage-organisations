@@ -17,12 +17,25 @@ describe('Load Organisation', () => {
 describe('LoadOrganisationSuccess', () => {
   it('should create an action', () => {
     const payload: Organisation = {
+      organisationIdentifier: '',
+      contactInformation: [{
+        addressLine1: '10  oxford street',
+        townCity: 'London',
+        county: '',
+        dxAddress: [ {
+          dxNumber: '',
+          dxExchange: ''
+      }],
+        }],
+      superUser: {
+        userIdentifier: '',
+        firstName: '',
+        lastName: '',
+        email: ''
+      },
+      status: '',
       name: 'a@b.com',
-      addressLine1: '10  oxford street',
-      townCity: 'London',
-      postcode: 'W1',
-      addressLine2: '',
-      country: 'UK'
+      paymentAccount: [{}]
     };
     const action = new LoadOrganisationSuccess(payload);
     expect({ ...action }).toEqual({

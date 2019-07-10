@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
@@ -19,7 +20,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private store: Store<fromStore.OrganisationState>
+    private store: Store<fromStore.OrganisationState>,
+    private http: HttpClient,
   ) { }
 
 
@@ -33,4 +35,25 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     this.organisationSubscription.unsubscribe();
   }
 
+  userDetailsHandler() {
+    this.getApi(`/api/user/details`).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  simpleJsonReturnHandler() {
+    this.getApi(`/api/user/simple`).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  healthHandler() {
+    this.getApi(`/api/health`).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getApi(url): Observable<any> {
+    return this.http.get<any>(url);
+  }
 }

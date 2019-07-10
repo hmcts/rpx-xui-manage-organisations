@@ -5,6 +5,7 @@ export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
 
 router.get('/details', handleUserRoute)
+router.get('/simple', handleSimpleRoute)
 
 function handleUserRoute(req, res) {
 
@@ -34,6 +35,11 @@ function handleUserRoute(req, res) {
       const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
       res.status(500).send(errReport)
   }
+}
+
+function handleSimpleRoute(req, res) {
+  console.log('Simple route hit')
+  res.send({ hello: 'world' })
 }
 
 export default router

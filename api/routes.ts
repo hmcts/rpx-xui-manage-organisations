@@ -21,5 +21,8 @@ router.use('/user', userDetailsRouter)
 router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
 router.use('/userDetails', getUserList)
+router.use('/health', (req, res, next) => {
+  res.send('Manage Organisations running.')
+})
 
 export default router

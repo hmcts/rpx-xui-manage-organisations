@@ -11,6 +11,7 @@ import * as demo from './environments/demo.config'
 import * as aat from './environments/aat.config'
 import * as prod from './environments/prod.config'
 import * as mock from './environments/mock.config'
+import * as ithc from './environments/ithc.config'
 import * as process from 'process'
 
 const configs = {
@@ -25,6 +26,7 @@ const configs = {
     saat,
     spreview,
     sprod,
+    ithc
 }
 
 export const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'

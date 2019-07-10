@@ -152,6 +152,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
     }
 }
 
+//kill user session auth session.auth
 export function doLogout(req: EnhancedRequest, res: express.Response, status: number =  302) {
     res.clearCookie(config.cookies.token)
     res.clearCookie(config.cookies.userId)

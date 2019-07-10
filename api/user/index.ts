@@ -15,6 +15,10 @@ function handleUserRoute(req, res) {
   //   userId: '1'
   // }
 
+  // newly added. Works on local, but doesn't work on AAT.
+  // on AAT
+  // it returns the wrong content type.
+  // returns html.
   const UserDetails: UserProfileModel = {
     email: req.session.auth.email,
     orgId: req.session.auth.orgId,

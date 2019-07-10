@@ -11,6 +11,9 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserDetails(): Observable<UserInterface> {
+
+    console.log('call to /api/user/detailsssss');
+
     return this.http.get<UserInterface>(`/api/user/details`);
   }
 

@@ -14,7 +14,7 @@ import {UserNavModel} from '../../models/user-nav.model';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() navItems: { active: boolean; href: string; }[];
+  @Input() navItems: {navItems: { active: boolean; href: string; }[]};
   @Input() title: AppTitlesModel;
   @Input() userNav: UserNavModel;
   @Output() navigate = new EventEmitter<string>();
@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
   }
 
   updateNavItems(url): void {
-    this.navItems = this.navItems.map((item: {href}) => {
+    this.navItems.navItems = this.navItems.navItems.map((item: {href}) => {
       return {
         ...item,
         active: item.href === url

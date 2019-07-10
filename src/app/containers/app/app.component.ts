@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   identityBar$: Observable<string[]>;
 
   pageTitle$: Observable<string>;
-  navItems$: Observable<NavItemsModel[]> ;
+  navItems$: Observable<{navItems: NavItemsModel[]}> ;
   appHeaderTitle$: Observable<AppTitlesModel>;
   userNav$: Observable<UserNavModel>;
 
@@ -39,9 +39,9 @@ export class AppComponent implements OnInit {
     this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems),
       tap(item => {
-        if (item.length) {
-          // always redirect to the first item due to assigned permissions landing pages can change.
-          this.store.dispatch(new fromRoot.Go({path: [item[0].href]}));
+        if (item.navItems.length) {
+          // always redirect to the first item due to assigned permissions, landing pages can change.
+          //this.store.dispatch(new fromRoot.Go({path: [item.navItems[0].href]}));
         }
       }));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));

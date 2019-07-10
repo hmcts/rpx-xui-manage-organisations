@@ -8,6 +8,7 @@ import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
 import {tap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 /**
  * Root Component that bootstrap all application.
  * It holds the state for global components (header and footer)
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit {
 
 
   constructor(
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -59,5 +61,27 @@ export class AppComponent implements OnInit {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromActions.Logout());
     }
+  }
+
+  userDetailsHandler() {
+    this.getApi(`/api/user/details`).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  simpleJsonReturnHandler() {
+    this.getApi(`/api/user/simple`).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  healthHandler() {
+    this.getApi(`/api/health`).subscribe(data => {
+      console.log(data);
+    });
+  }
+
+  getApi(url): Observable<any> {
+    return this.http.get<any>(url);
   }
 }

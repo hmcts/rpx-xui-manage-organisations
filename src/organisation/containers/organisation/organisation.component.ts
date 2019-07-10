@@ -35,25 +35,25 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     this.organisationSubscription.unsubscribe();
   }
 
-  userDetailsHandler() {
-    this.getApi(`/api/user/details`).subscribe(data => {
-      console.log(data);
-    });
-  }
-
-  simpleJsonReturnHandler() {
-    this.getApi(`/api/user/simple`).subscribe(data => {
-      console.log(data);
-    });
-  }
-
-  healthHandler() {
-    this.getApi(`/api/health`).subscribe(data => {
-      console.log(data);
-    });
-  }
-
-  getApi(url): Observable<any> {
-    return this.http.get<any>(url);
-  }
+  // userDetailsHandler() {
+  //   this.getApi(`/api/user/details`).subscribe(data => {
+  //     console.log(data);
+  //   });
+  // }
+  //
+  // simpleJsonReturnHandler() {
+  //   this.getApi(`/api/user/simple`).subscribe(data => {
+  //     console.log(data);
+  //   });
+  // }
+  //
+  // healthHandler() {
+  //   this.getApi(`/api/health`).subscribe(data => {
+  //     console.log(data);
+  //   });
+  // }
+  //
+  // getApi(url): Observable<any> {
+  //   return this.http.get<any>(url);
+  // }
 }

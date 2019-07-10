@@ -7,6 +7,7 @@ export default {
         idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
         idamApi: 'https://idam-api.aat.platform.hmcts.net',
         s2s: 'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+        rdProfessionalApi: 'https://rd-professional-api-demo.service.core-compute-demo.internal',
     },
     sessionSecret: 'secretSauce',
     useProxy: false,

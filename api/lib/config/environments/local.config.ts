@@ -10,7 +10,7 @@ export default {
         emAnnoApi: 'https://em-anno-aat.service.core-compute-aat.internal',
         emNpaApi: 'https://em-npa-aat.service.core-compute-aat.internal',
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal',
-        rdProfessionalApi: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal',
+        rdProfessionalApi: 'https://rd-professional-api-demo.service.core-compute-demo.internal',
     },
     proxy: {
         host: '172.16.0.7',

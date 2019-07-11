@@ -8,7 +8,7 @@ import { cold } from 'jasmine-marbles';
 
 import { AppConstants } from '../../app.constants';
 import * as fromAuth from '../../../user-profile/store';
-
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 
 describe('AppComponent', () => {
@@ -21,6 +21,7 @@ describe('AppComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        HttpClientTestingModule,
         StoreModule.forRoot(
           {
             ...reducers,

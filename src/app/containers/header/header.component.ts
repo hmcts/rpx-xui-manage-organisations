@@ -21,27 +21,17 @@ export class HeaderComponent implements OnInit {
 
 
   isUserLoggedIn$: Observable<boolean>;
+  navArr: { active: boolean; href: string; }[];
 
   constructor(public store: Store<fromRoot.State>) {}
 
 
   ngOnInit(): void {
     this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
-    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
-      if (rootState) {
-        this.updateNavItems(rootState.state.url);
-      }
-    });
+
   }
 
-  updateNavItems(url): void {
-    this.navItems.navItems = this.navItems.navItems.map((item: {href}) => {
-      return {
-        ...item,
-        active: item.href === url
-      };
-    });
-  }
+
 
   onNavigate(event) {
     this.navigate.emit(event);

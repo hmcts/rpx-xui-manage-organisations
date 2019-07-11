@@ -29,7 +29,7 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      const users = action.payload;
+      const users = action.payload.users;
       return {
         ...state,
         users,

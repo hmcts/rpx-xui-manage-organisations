@@ -43,6 +43,8 @@ export class UserFormComponent implements OnInit {
         createCases: new FormControl(''),
         viewCases: new FormControl(''),
         manageUsers: new FormControl(''),
+        manageCases: new FormControl(''),
+        manageOrganisation: new FormControl(''),
         viewDetails: new FormControl(''),
         viewFees: new FormControl('')
       }, checkboxesBeCheckedValidator())

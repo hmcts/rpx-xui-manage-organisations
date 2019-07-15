@@ -20,21 +20,18 @@ export class MonitoringService implements IMonitoringService {
   logPageView(name?: string, url?: string, properties?: any,
               measurements?: any, duration?: number) {
     this.send(() => {
-      console.log('logging page view...');
       AppInsights.trackPageView(name, url, properties, measurements, duration);
     });
   }
 
   logEvent(name: string, properties?: any, measurements?: any) {
     this.send(() => {
-      console.log('logging an event...');
       AppInsights.trackEvent(name, properties, measurements);
     });
   }
 
   logException(exception: Error) {
     this.send(() => {
-      console.log('logging an exception...');
       AppInsights.trackException(exception);
     });
   }

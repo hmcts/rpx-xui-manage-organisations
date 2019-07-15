@@ -55,9 +55,9 @@ const config = {
   //   '../features/**/questions.feature',
   //   '../features/**/recentEvents.feature',
   // ],
-  baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
+  baseUrl: process.env.TEST_URL || 'http://localhost:3000',
   params: {
-    serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
+    serverUrls: process.env.TEST_URL || 'http://localhost:3000',
     targetEnv: argv.env || 'local',
     // username: process.env.TEST_EMAIL,
     // password: process.env.TEST_PASSWORD,

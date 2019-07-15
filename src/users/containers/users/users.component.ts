@@ -30,7 +30,7 @@ export class UsersComponent implements OnInit {
     ];
 
     this.store.dispatch(new fromStore.LoadUsers());
-    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList);
+    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 

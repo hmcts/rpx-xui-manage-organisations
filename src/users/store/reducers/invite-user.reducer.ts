@@ -69,6 +69,21 @@ export function reducer(
       };
     }
 
+    case fromInviteUsers.INVITE_USER_FAIL: {
+      const formErrorMessages = {
+        serverResponse: {
+          messages: [
+            'Try again later.'
+          ]
+        }
+      };
+      return {
+        ...state,
+        formErrorMessages,
+        isFormValid: false
+      };
+    }
+
   }
 
   return state;

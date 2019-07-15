@@ -32,6 +32,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   Then(/^I should be redirected to the idam login page with failure error summary$/, async function () {
     browser.sleep(AMAZING_DELAY);
     await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
+    browser.sleep(MID_DELAY);
     await expect(loginPage.failure_error_heading.getText()).to.eventually.equal('Incorrect email or password');
 
   });
@@ -48,6 +49,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   Then(/^I should be redirected to manage organisation page$/, async function () {
     browser.sleep(AMAZING_DELAY);
     await expect(headerPage.moPage.isDisplayed()).to.eventually.be.true;
+    browser.sleep(MID_DELAY);
     await expect(headerPage.moPage.getText()).to.eventually.equal('Manage Organisation details for civil and family law cases');
   });
 

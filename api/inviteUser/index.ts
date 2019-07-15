@@ -13,7 +13,6 @@ async function inviteUserRoute(req, res) {
     const payload = req.body
     try {
         const response = await http.post(`${config.services.rdProfessionalApi}/organisations/${orgId}/users`, payload)
-        console.log(response)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

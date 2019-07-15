@@ -65,6 +65,7 @@ export class AuthGuard implements CanActivate {
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
     return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+    debugger
 
   }
 

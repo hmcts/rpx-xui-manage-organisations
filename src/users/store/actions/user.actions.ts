@@ -14,7 +14,7 @@ export class LoadUsers {
 
 export class LoadUsersSuccess implements Action {
   readonly type = LOAD_USERS_SUCCESS;
-  constructor(public payload: any[]) { }  // TODO add type list of users
+  constructor(public payload: any) { }  // TODO add type list of users
 }
 
 export class LoadUsersFail implements Action {

@@ -112,6 +112,7 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
 }
 
 export async function oauth(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
+    console.log('oauth start')
     const response = await getTokenFromCode(req, res)
     const accessToken = response.data.access_token
 
@@ -128,6 +129,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
             logger.warn('Auth token  expired need to log in again')
             doLogout(req, res, 401)
         } else {
+            console.log('has access token and oauth not expired')
             let orgId
             let details
 

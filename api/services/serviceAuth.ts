@@ -14,10 +14,14 @@ const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
 const logger = log4jui.getLogger('service user-profile')
 
 export async function postS2SLease() {
+
+    console.log('postS2SLease')
+
     const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
     let request: AxiosResponse<any>
     console.log('PUI_ENV is now:', configEnv)
     if (configEnv !== 'ldocker') {
+        console.log('Not docker')
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
 
         logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
@@ -27,11 +31,16 @@ export async function postS2SLease() {
             oneTimePassword,
         })
     } else {
+        console.log('Is docker')
         // this is only for local development against the RD docker image
         // end tunnel before posting to docker
         tunnel.end()
         request = await http.get(`${url}`)
     }
+
+    console.log('request.data');
+    console.log(request.data);
+
     return request.data
 }
 

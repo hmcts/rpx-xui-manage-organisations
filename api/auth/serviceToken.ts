@@ -20,6 +20,7 @@ export function validateCache() {
 }
 
 export function getToken() {
+    logger.info('Get cached s2s token')
     return _cache[microservice]
 }
 

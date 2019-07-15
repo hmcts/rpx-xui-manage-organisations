@@ -7,7 +7,9 @@ function loginLogoutPage() {
   this.signinTitle = element(by.css("h1.heading-large"));
   this.signinBtn = element(by.css("input.button"));
   this.signOutlink = element(by.xpath("//a[@class='hmcts-header__navigation-link']"));
-  this.failure_error_heading = element(by.xpath("//h2[contains(text(),'Incorrect email or password')]"));
+  this.failure_error_heading = element(by.xpath("//h2[contains(text(),'\n" +
+    "                                Incorrect email or password\n" +
+    "                            ')]"));
   this.dashboard_header= element(by.css("[class='govuk-heading-xl']"));
 
   this.givenIAmLoggedIn = async function () {

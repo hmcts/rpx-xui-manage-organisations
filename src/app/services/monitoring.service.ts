@@ -39,7 +39,7 @@ export class MonitoringService implements IMonitoringService {
     });
   }
 
-  private send(func: Function): void {
+  private send(func: () => any): void {
     if (this.config && this.config.instrumentationKey) {
       func();
     } else {

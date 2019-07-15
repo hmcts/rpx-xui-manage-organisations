@@ -3,10 +3,30 @@ import { Action } from '@ngrx/store';
 
 export const ADD_FORM_DATA = '[Invite User] Load From Data';
 export const UPDATE_ERROR_MESSAGES = '[Invite User] Update Error Messages';
+export const SEND_INVITE_USER = '[User] Invite Users';
+export const INVITE_USER_SUCCESS = '[User] Invite Users Success';
+export const INVITE_USER_FAIL = '[User] Invite Users Fail';
+import { UserListApiModel } from '../../models/userform.model';
 
+
+
+export class SendInviteUser {
+  readonly type = SEND_INVITE_USER;
+  constructor(public payload: UserListApiModel) { }
+}
+
+export class InviteUserSuccess implements Action {
+  readonly type = INVITE_USER_SUCCESS;
+  constructor(public payload: any) { }  // TODO add type list of users
+}
+
+export class InviteUserFail implements Action {
+  readonly type = INVITE_USER_FAIL;
+  constructor(public payload: any) { }
+}
 export class AddFromData {
   readonly type = ADD_FORM_DATA;
-  constructor(public payload: any) {}
+  constructor(public payload: any) { }
 }
 
 export class UpdateErrorMessages implements Action {
@@ -16,6 +36,9 @@ export class UpdateErrorMessages implements Action {
 
 export type InviteUserActions =
   | AddFromData
-  | UpdateErrorMessages;
+  | UpdateErrorMessages
+  | SendInviteUser
+  | InviteUserSuccess
+  | InviteUserFail;
 
 

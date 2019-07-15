@@ -4,12 +4,12 @@ import * as fromUsers from './users.reducer';
 import * as fromInviteUser from './invite-user.reducer';
 
 export interface UserState {
-  users: fromUsers.UsersState;
+  invitedUsers: fromUsers.UsersListState;
   inviteUser: fromInviteUser.InviteUserState;
 }
 
 export const reducers: ActionReducerMap<UserState> = {
-  users: fromUsers.reducer,
+  invitedUsers: fromUsers.reducer,
   inviteUser: fromInviteUser.reducer
 };
 

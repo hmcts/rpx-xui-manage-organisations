@@ -22,11 +22,11 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnConfig = [
-      { header: 'Email address', key: 'email' },
-      { header: 'Manage cases', key: 'manageCases' },
-      { header: 'Manage organisation', key: 'manageOrganisation' },
-      { header: 'Manage users', key: 'manageUsers' },
-      { header: 'status', key: 'status' }
+      { header: 'First Name', key: 'firstName' },
+      { header: 'Last Name', key: 'lastName' },
+      { header: 'Email', key: 'email' },
+      { header: 'Status', key: 'status' },
+      { header: 'Roles', key: 'roles' }
     ];
 
     this.store.dispatch(new fromStore.LoadUsers());

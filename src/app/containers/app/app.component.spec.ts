@@ -88,7 +88,7 @@ describe('AppComponent', () => {
         href: '/users',
         active: false
       }];
-    const expected = cold('a', { a: [] });
+    const expected = cold('a', { a: { navItems: [] } });
     expect(app.navItems$).toBeObservable(expected);
 
   }));

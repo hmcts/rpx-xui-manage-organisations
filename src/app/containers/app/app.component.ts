@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
     this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
-    this.navItems$ = this.store.pipe(select(fromRoot.getNavItems))
+    this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
 

@@ -62,7 +62,7 @@ describe('App Selectors', () => {
       store.pipe(select(fromSelectors.getNavItems))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual({navItems: []});
     });
   });
 

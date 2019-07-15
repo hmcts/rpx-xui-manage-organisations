@@ -5,7 +5,7 @@ import * as fromUsers from '../reducers/users.reducer';
 
 export const getUserState = createSelector(
   fromFeature.getRootUserState,
-  (state: fromFeature.UserState) => state.users
+  (state: fromFeature.UserState) => state.invitedUsers
 );
 
 export const getGetUserList = createSelector(

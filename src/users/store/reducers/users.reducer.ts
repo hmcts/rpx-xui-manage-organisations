@@ -1,14 +1,14 @@
 import * as fromUsers from '../actions/user.actions';
 
 
-export interface UsersState {
-  users: any; // todo add type user model
+export interface UsersListState {
+  userList: object[];
   loaded: boolean;
   loading: boolean;
 }
 
-export const initialState: UsersState = {
-  users: [],
+export const initialState: UsersListState = {
+  userList: [],
   loaded: false,
   loading: false,
 };
@@ -16,23 +16,23 @@ export const initialState: UsersState = {
 export function reducer(
   state = initialState,
   action: fromUsers.UserActions
-): UsersState {
+): UsersListState {
   switch (action.type) {
 
     case fromUsers.LOAD_USERS: {
-      const users = [];
+      const userList = [];
       return {
         ...state,
-        users,
+        userList,
         loading: true
       };
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      const users = action.payload;
+      const userList = action.payload.users;
       return {
         ...state,
-        users,
+        userList,
         loaded: true,
         loading: false
       };
@@ -52,7 +52,7 @@ export function reducer(
   return state;
 }
 
-export const getUsers = (state: UsersState) => state.users.users;
-export const getLoginFormLoading = (state: UsersState) => state.loading;
-export const getLoginFormLoaded = (state: UsersState) => state.loaded;
+export const getUsers = (state: UsersListState) => state.userList;
+export const getLoginFormLoading = (state: UsersListState) => state.loading;
+export const getLoginFormLoaded = (state: UsersListState) => state.loaded;
 

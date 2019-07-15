@@ -152,12 +152,13 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
     }
 }
 
-export function doLogout(req: EnhancedRequest, res: express.Response, status: number =  302) {
+export function doLogout(req: EnhancedRequest, res: express.Response, status: number) {
+    const redirect = config.indexUrl ? config.indexUrl : '/'
     res.clearCookie(config.cookies.token)
     res.clearCookie(config.cookies.userId)
     req.session.user = null
     req.session.save(() => {
-        res.redirect(status, req.query.redirect || '/')
+        res.redirect(status, redirect || '/')
     })
 }
 

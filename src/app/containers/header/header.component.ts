@@ -21,17 +21,13 @@ export class HeaderComponent implements OnInit {
 
 
   isUserLoggedIn$: Observable<boolean>;
-  navArr: { active: boolean; href: string; }[];
 
   constructor(public store: Store<fromRoot.State>) {}
-
 
   ngOnInit(): void {
     this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
 
   }
-
-
 
   onNavigate(event) {
     this.navigate.emit(event);

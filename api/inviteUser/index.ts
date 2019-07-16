@@ -17,11 +17,11 @@ async function inviteUserRoute(req, res) {
         res.send(response.data)
     } catch (error) {
         logger.info('error', error)
-        const errReport = JSON.stringify({
+        const errReport = {
             apiError: error.data.message,
             apiStatusCode: error.status,
             message: error.data.message,
-        })
+        }
         res.status(error.status).send(errReport)
     }
 }

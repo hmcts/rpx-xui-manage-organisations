@@ -27,7 +27,8 @@
     "lint:ng": "ng lint",
     "e2e": "ng e2e",
     "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage",
-    "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner"
+    "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
+    "rest-assured": "rest-assured"
   },
   "private": true,
   "dependencies": {
@@ -84,6 +85,11 @@
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.1",
     "codelyzer": "~4.2.1",
+    "cucumber": "5.1.0",
+    "cucumber-html-report": "0.6.5",
+    "cucumber-html-reporter": "^4.0.5",
+    "cucumber-pretty": "1.5.0",
+    "cucumberjs-allure-reporter": "1.0.3",
     "jasmine-core": "^2.99.1",
     "jasmine-marbles": "^0.4.1",
     "jasmine-spec-reporter": "~4.2.1",
@@ -98,21 +104,19 @@
     "ngrx-store-freeze": "^0.2.4",
     "nodemon": "^1.18.9",
     "protractor": "~5.4.0",
+    "protractor-cucumber-framework": "6.1.1",
+    "protractor-multiple-cucumber-html-reporter-plugin": "1.8.0",
+    "rest-assured": "^0.1.0",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.3.0",
     "sinon-express-mock": "^2.1.0",
+    "sonar-scanner": "^3.1.0",
     "ts-node": "^5.0.1",
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
     "tslint": "~5.9.1",
     "typescript": "2.9.2",
-    "sonar-scanner": "^3.1.0",
-    "cucumber": "5.1.0",
-    "cucumber-html-report": "0.6.5",
-    "cucumber-html-reporter": "^4.0.5",
-    "cucumber-pretty": "1.5.0",
-    "cucumberjs-allure-reporter": "1.0.3",
-    "protractor-cucumber-framework": "6.1.1",
-    "protractor-multiple-cucumber-html-reporter-plugin": "1.8.0"
+    "mochawesome": "3.1.1",
+    "should": "13.2.3"
   }
 }

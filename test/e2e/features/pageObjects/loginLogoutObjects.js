@@ -1,14 +1,17 @@
 'use strict';
+
 const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
-function loginLogoutPage() {
-  this.emailAddress = element(by.css("#username"));
-  this.password = element(by.css("#password"));
+function loginLogoutObjects() {
+
+  this.emailAddress = element(by.css("input#username"));
+  this.password = element(by.css("[id='password']"));
   this.signinTitle = element(by.css("h1.heading-large"));
   this.signinBtn = element(by.css("input.button"));
   this.signOutlink = element(by.xpath("//a[@class='hmcts-header__navigation-link']"));
-  this.failure_error_heading = element(by.xpath("//h2[contains(text(),'Incorrect email or password')]"));
-  this.dashboard_header= element(by.css("[class='govuk-heading-xl']"));
+  this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
+  this.dashboard_header= element(by.css("[class='hmcts-header__link']"));
+
 
   this.givenIAmLoggedIn = async function () {
     await this.enterUrEmail('');
@@ -41,9 +44,12 @@ function loginLogoutPage() {
     }, LONG_DELAY);
   };
 
+
   this.defaultTime = function () {
     this.setDefaultTimeout(60 * 1000);
   };
+
+
 }
 
-module.exports = new loginLogoutPage();
+module.exports = new loginLogoutObjects;

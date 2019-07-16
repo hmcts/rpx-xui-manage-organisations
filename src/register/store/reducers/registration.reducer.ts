@@ -33,6 +33,7 @@ export interface RegistrationFormState {
   loaded: boolean;
   loading: boolean;
   submitted: boolean;
+  errorMessage: string;
 }
 
 export const initialState: RegistrationFormState = {
@@ -42,7 +43,8 @@ export const initialState: RegistrationFormState = {
   nextUrl: '',
   loaded: false,
   loading: false,
-  submitted: false
+  submitted: false,
+  errorMessage: ''
 };
 
 export function reducer(
@@ -106,6 +108,11 @@ export function reducer(
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
      console.log('Failed',action.payload.status + " " + action.payload.statusText)
+     return {
+      ...state,
+      submitted: false,
+      errorMessage: action.payload.status
+    };
     }
   }
 

@@ -392,6 +392,11 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
+"@types/applicationinsights-js@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.9.tgz#791581118068517ecd0bc29fd4590239a577a489"
+  integrity sha512-tf2BBQFIRgaoxkii5Ys4Q2nvhPQ2PFt9FfgDc+xL7+XPi3s4ScqzRuAn8FRBCglnyzVvwEznOtdfqGREzUOkCw==
+
 "@types/body-parser@*":
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.17.0.tgz#9f5c9d9bd04bb54be32d5eb9fc0d8c974e6cf58c"
@@ -820,7 +825,12 @@ append-transform@^1.0.0:
   dependencies:
     default-require-extensions "^2.0.0"
 
-applicationinsights@^1.1.0:
+applicationinsights-js@^1.0.20:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/applicationinsights-js/-/applicationinsights-js-1.0.20.tgz#e0519a2c043e9b4683d32d327a06c3f18c63d5ca"
+  integrity sha512-vN6fEv2fNPZtw76/mv5OJ44cTP/VzSDahdXVIGnRB5Apnf2/9PIl4IyWpwS9biG53I1sWvkw83RjdrAnsIKoRQ==
+
+applicationinsights@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.4.0.tgz#e17e436427b6e273291055181e29832cca978644"
   integrity sha512-TV8MYb0Kw9uE2cdu4V/UvTKdOABkX2+Fga9iDz0zqV7FLrNXfmAugWZmmdTx4JoynYkln3d5CUHY3oVSUEbfFw==

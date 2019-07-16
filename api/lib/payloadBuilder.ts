@@ -19,20 +19,20 @@ function notNullOrUndefined(fieldMapping, value) {
   if (value) {
     return value;
   }
-  if (fieldMapping == 'pbaAccounts' && value === null) {
-    console.log('null', value)
+  if (fieldMapping == 'pba' && value === null) {
+    // test values because ref data will not accept empty string must be in format PBAxxx
     return 'PBA1234567678';
   }
   if (fieldMapping == 'sraId' && value == undefined) {
-    console.log('undefined', value)
+    // test values because ref data will not accept empty string must be in format SRAxxx
     return 'sraTempNumber';
   }
   if (fieldMapping == 'dxExchange' && value == null) {
-    console.log('null', value)
+    // test values because ref data will not accept empty string must be in > 20chars
     return '12345678901234567890';
   }
   if (fieldMapping == 'dxNumber' && value == null) {
-    console.log('null', value)
+    // test values because ref data will not accept empty string must be in > 13chars
     return '666666666666';
   }
 }
@@ -58,8 +58,8 @@ export function makeOrganisationPayload(stateValues): any {
     name: stateValues.orgName,
     pbaAccounts: [
       {
-        pbaAccounts: notNullOrUndefined('pbaAccounts', stateValues.PBAnumber1),
-        pbaNumber: notNullOrUndefined('pbaNumber', stateValues.PBAnumber2),
+        pbaAccounts: notNullOrUndefined('pba', stateValues.PBAnumber1),
+        pbaNumber: notNullOrUndefined('pba', stateValues.PBAnumber2),
       },
     ],
     sraId: notNullOrUndefined('sraId', stateValues.sraNumber),

@@ -4,7 +4,7 @@ import { MonitoringService, IMonitoringService, MonitorConfig } from './monitori
 import { Observable, of } from 'rxjs';
 
 describe('Monitoring service', () => {
-    const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', {'get': of({key: 'Some Value'})});
+    const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', {get: of({key: 'Some Value'})});
     const mockedAppInsights = jasmine.createSpyObj('mockedAppInsights', ['downloadAndSetup', 'trackException', 'trackEvent',
     'trackPageView']);
     const mockedConfig = new MonitorConfig();

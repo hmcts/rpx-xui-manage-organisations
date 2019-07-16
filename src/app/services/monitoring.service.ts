@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+/*import { Injectable, Optional } from '@angular/core';
 import { AppInsights } from 'applicationinsights-js';
 import { HttpClient } from '@angular/common/http';
 
@@ -90,4 +90,4 @@ export class MonitoringService implements IMonitoringService {
       });
     }
   }
-}
+}*/

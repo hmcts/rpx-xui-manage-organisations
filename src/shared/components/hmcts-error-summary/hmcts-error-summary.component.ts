@@ -7,7 +7,7 @@ import {DOCUMENT} from '@angular/common';
   Component is also responsible for scrolling. Up and Down the page when user click on links
 */
 @Component({
-  selector: 'lib-gov-uk-error-summary',
+  selector: 'app-hmcts-error-summary',
   template: `<div id="errorSummary" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
                   data-module="error-summary">
               <h2 class="govuk-error-summary__title" id="error-summary-title">
@@ -25,7 +25,7 @@ import {DOCUMENT} from '@angular/common';
             </div>
   `
 })
-export class GovUkErrorSummaryComponent implements AfterViewInit, OnChanges {
+export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
 
   @Input() set errorMessages(value) {
     this.messages = value;

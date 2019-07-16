@@ -26,6 +26,10 @@ export async function postS2SLease() {
 
         logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
 
+        /**
+         * Failure point. But no proper error conditions to evaluate
+         * what the error actually is???
+         */
         request = await http.post(`${url}/lease`, {
             microservice,
             oneTimePassword,
@@ -38,8 +42,8 @@ export async function postS2SLease() {
         request = await http.get(`${url}`)
     }
 
-    console.log('request.data');
-    console.log(request.data);
+    console.log('request.data')
+    console.log(request.data)
 
     return request.data
 }

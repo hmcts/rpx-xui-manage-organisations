@@ -6,7 +6,7 @@ const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
-    active: true
+    active: false
   },
   {
     text: 'Users',

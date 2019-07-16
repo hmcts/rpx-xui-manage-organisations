@@ -14,7 +14,7 @@ import {UserNavModel} from '../../models/user-nav.model';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() navItems: { active: boolean; href: string; }[];
+  @Input() navItems: {navItems: { active: boolean; href: string; }[]};
   @Input() title: AppTitlesModel;
   @Input() userNav: UserNavModel;
   @Output() navigate = new EventEmitter<string>();
@@ -24,23 +24,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(public store: Store<fromRoot.State>) {}
 
-
   ngOnInit(): void {
     this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
-    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
-      if (rootState) {
-        this.updateNavItems(rootState.state.url);
-      }
-    });
-  }
 
-  updateNavItems(url): void {
-    this.navItems = this.navItems.map((item: {href}) => {
-      return {
-        ...item,
-        active: item.href === url
-      };
-    });
   }
 
   onNavigate(event) {

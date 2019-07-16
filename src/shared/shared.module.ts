@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
-// import { MonitoringService } from 'src/app/services/monitoring.service';
+import { MonitoringService } from 'src/app/services/monitoring.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { SuccessNotificationComponent } from './components/success-notification/
       multi: true
     },
     HeadersService,
-    // MonitoringService
+    MonitoringService
   ]
 })
 export class SharedModule {

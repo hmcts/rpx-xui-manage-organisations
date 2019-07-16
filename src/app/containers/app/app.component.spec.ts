@@ -8,10 +8,11 @@ import { cold } from 'jasmine-marbles';
 
 import { AppConstants } from '../../app.constants';
 import * as fromAuth from '../../../user-profile/store';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 
 describe('AppComponent', () => {
+  let httpTestingController: HttpTestingController;
   let store: Store<fromAuth.AuthState>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,6 +31,7 @@ describe('AppComponent', () => {
       ]
     }).compileComponents();
     store = TestBed.get(Store);
+    httpTestingController = TestBed.get(HttpTestingController);
 
     spyOn(store, 'dispatch').and.callThrough();
   }));
@@ -95,6 +97,16 @@ describe('AppComponent', () => {
   }));
 
   it('should dispatch a logout action', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.onNavigate('sign-out');
+    fixture.detectChanges();
+
+    expect(store.dispatch).toHaveBeenCalledWith(new Logout());
+
+  }));
+
+  it('should make a call to get url', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     app.onNavigate('sign-out');

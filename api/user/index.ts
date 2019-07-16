@@ -6,6 +6,7 @@ import { UserProfileModel } from './user'
 
 router.get('/details', handleUserRoute)
 router.get('/simple', handleSimpleRoute)
+router.get('/onUserRoute', handleSimpleRoute)
 
 function handleUserRoute(req, res) {
 

@@ -6,7 +6,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromUsersEffects from './users.effects';
 import { UsersEffects } from './users.effects';
 import { LoadUsersSuccess, LoadUsersFail, LoadUsers } from '../actions/user.actions';
-import { SendInviteUser, InviteUserSuccess, InviteUserFail } from '../actions/invite-user.actions';
 import { UsersService } from '../../services/users.service';
 
 describe('Users Effects', () => {

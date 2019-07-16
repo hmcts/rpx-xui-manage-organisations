@@ -5,6 +5,7 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {HeadersService} from './headers.service';
 import {AuthIntercepterServer} from './auth-interceptor.service';
 import {ReactiveFormsModule} from '@angular/forms';
+import { MonitoringService } from 'src/app/services/monitoring.service';
 
 @NgModule( {
   imports: [
@@ -26,7 +27,8 @@ import {ReactiveFormsModule} from '@angular/forms';
       useClass: AuthIntercepterServer,
       multi: true
     },
-    HeadersService
+    HeadersService,
+    MonitoringService
   ]
 })
 export class SharedModule {

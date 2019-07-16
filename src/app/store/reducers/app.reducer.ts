@@ -6,15 +6,13 @@ import {AppTitlesModel} from '../../models/app-titles.model';
 /* function that returns page title base on page url indexOf */
 export function setPageTitle(url): string {
   if (url.indexOf('invite-user') !== -1) {
-    return 'Invite Users - Professional User Interface';
+    return 'Invite Users - Manage organisation';
   } else if (url.indexOf('organisation') !== -1) {
-    return 'Organisation - Professional User Interface';
+    return 'Organisation - Manage organisation';
   } else if (url.indexOf('profile') !== -1) {
-    return 'Profile - Professional User Interface';
+    return 'Profile - Manage organisation';
   } else if (url.indexOf('users') !== -1) {
-    return 'Users - Professional User Interface';
-  } else if (url.indexOf('login') !== -1) {
-    return 'Login - Professional User Interface';
+    return 'Users - Manage organisation';
   }
   return 'Professional User Interface';
 }

@@ -1,9 +1,9 @@
 'use strict';
 
-const loginPage = require('../../pageObjects/createOrganisationObjects');
+const loginPage = require('../pageObjects/createOrganisationObjects');
 const { defineSupportCode } = require('cucumber');
-const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
-const config = require('../../../config/conf.js');
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
+const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
 async function waitForElement(el) {
@@ -22,14 +22,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         browser.sleep(AMAZING_DELAY);
     });
 
-    Then(/^I should see failure error summary$/, async function () {
-        await waitForElement('heading-large');
-        await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
-        await expect(loginPage.failure_error_heading.getText())
-            .to
-            .eventually
-            .equal('Incorrect email or password');
-    });
+
 
 
     Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {

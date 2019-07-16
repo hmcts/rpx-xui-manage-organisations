@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
-import config from '../../api/lib/config';
+import config from '../../../api/lib/config';
 
 @Injectable({
   providedIn: 'root'

@@ -23,8 +23,18 @@ describe('Monitoring service', () => {
         }));
 
         it('should be able to LogException and Should not call the http service', () => {
-            const service = new MonitoringService(mockedHttpClient, mockedConfig);
             mockedConfig.instrumentationKey = 'somevalue';
+            const service = new MonitoringService(mockedHttpClient, mockedConfig);
+            expect(service).toBeTruthy();
+            service.logException(new Error('Some ErrorMesssage'));
+            expect(mockedHttpClient.get).not.toHaveBeenCalled();
+            expect(mockedAppInsights.downloadAndSetup).toHaveBeenCalled();
+            expect(mockedAppInsights.trackException).toHaveBeenCalled();
+        });
+
+        it('should be able to LogException and Should not call the http service', () => {
+            mockedConfig.instrumentationKey = null;
+            const service = new MonitoringService(mockedHttpClient, mockedConfig);
             expect(service).toBeTruthy();
             service.logException(new Error('Some ErrorMesssage'));
             expect(mockedHttpClient.get).not.toHaveBeenCalled();
@@ -33,6 +43,7 @@ describe('Monitoring service', () => {
         });
 
         it('should be able to LogException', () => {
+            mockedConfig.instrumentationKey = null;
             const service = new MonitoringService(mockedHttpClient, mockedConfig);
             expect(service).toBeTruthy();
             service.logException(new Error('Some ErrorMesssage'));
@@ -42,6 +53,7 @@ describe('Monitoring service', () => {
         });
 
         it('should be able to LogEvent', () => {
+            mockedConfig.instrumentationKey = 'somevalue';
             const service = new MonitoringService(mockedHttpClient, mockedConfig);
             expect(service).toBeTruthy();
             service.logEvent('name', [], []);
@@ -49,8 +61,17 @@ describe('Monitoring service', () => {
             expect(mockedAppInsights.downloadAndSetup).toHaveBeenCalled();
             expect(mockedAppInsights.trackEvent).toHaveBeenCalled();
         });
-
+        it('should be able to LogPageview and Should not call the http service', () => {
+            mockedConfig.instrumentationKey = 'somevalue';
+            const service = new MonitoringService(mockedHttpClient, mockedConfig);
+            expect(service).toBeTruthy();
+            service.logPageView('name', null, [], [], 1);
+            expect(mockedHttpClient.get).not.toHaveBeenCalled();
+            expect(mockedAppInsights.downloadAndSetup).toHaveBeenCalled();
+            expect(mockedAppInsights.trackPageView).toHaveBeenCalled();
+        });
         it('should be able to LogPageview', () => {
+            mockedConfig.instrumentationKey = null;
             const service = new MonitoringService(mockedHttpClient, mockedConfig);
             expect(service).toBeTruthy();
             service.logPageView('name', null, [], [], 1);

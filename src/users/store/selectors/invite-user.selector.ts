@@ -18,10 +18,16 @@ export const getGetInviteUserIsFormValid = createSelector(
   fromInviteUsers.getInviteUserIsFormValid
 );
 
+export const getGetInviteUserErrorHeader = createSelector(
+  getInviteUserState,
+  fromInviteUsers.getInviteUserErrorHeader
+);
+
 export const getGetInviteUserErrorsArray = createSelector(
   getGetInviteUserErrorMessage,
   getGetInviteUserIsFormValid,
-  (obj, isFormValid) => {
+  getGetInviteUserErrorHeader,
+  (obj, isFormValid, header) => {
     const items =  Object.keys(obj).map(key => {
       if (key) {
         return {
@@ -33,6 +39,7 @@ export const getGetInviteUserErrorsArray = createSelector(
 
     return {
       isFromValid: isFormValid,
+      header,
       items
     };
 

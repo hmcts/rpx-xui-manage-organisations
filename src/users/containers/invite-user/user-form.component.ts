@@ -20,8 +20,8 @@ export class UserFormComponent implements OnInit {
   constructor(private store: Store<fromStore.UserState>) { }
   inviteUserForm: FormGroup;
 
-  formValidationErrors$: Observable<any>;
-  formValidationErrorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
+  errors$: Observable<any>;
+  errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
 
   errorMessages = {
     firstName: ['Enter first name'],
@@ -32,8 +32,8 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
-    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
+    this.errors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
+    this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
     this.inviteUserForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
@@ -60,7 +60,7 @@ export class UserFormComponent implements OnInit {
         ...value,
         roles: permissions,
         status: 'pending'
-      }
+      };
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }
   }

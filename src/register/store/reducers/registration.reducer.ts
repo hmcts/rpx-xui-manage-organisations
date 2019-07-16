@@ -103,6 +103,10 @@ export function reducer(
         submitted: true
       };
     }
+
+    case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
+     console.log('Failed',action.payload.status + " " + action.payload.statusText)
+    }
   }
 
   return state;

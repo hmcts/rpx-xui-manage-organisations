@@ -54,10 +54,13 @@ export class UserFormComponent implements OnInit {
   onSubmit() {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
-      const {value} = this.inviteUserForm;
+      let {value} = this.inviteUserForm;
       const permissions = Object.keys(value.roles).map(key => key);
-      value.roles = permissions;
-      value.status = 'pending';
+      value = {
+        ...value,
+        roles: permissions,
+        status: 'pending'
+      }
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }
   }

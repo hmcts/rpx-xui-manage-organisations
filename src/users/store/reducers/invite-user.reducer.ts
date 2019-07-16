@@ -5,12 +5,14 @@ export interface InviteUserState {
   inviteUserFormData: object;
   formErrorMessages: object;
   isFormValid: boolean;
+  errorHeader: string;
 }
 
 export const initialState: InviteUserState = {
   inviteUserFormData: {},
   formErrorMessages: {},
-  isFormValid: true
+  isFormValid: true,
+  errorHeader: ''
 };
 
 export function reducer(
@@ -46,7 +48,8 @@ export function reducer(
       return {
         ...state,
         formErrorMessages,
-        isFormValid
+        isFormValid,
+        errorHeader: 'There is a problem'
       };
     }
 
@@ -61,7 +64,8 @@ export function reducer(
       return {
         ...state,
         formErrorMessages,
-        isFormValid: false
+        isFormValid: false,
+        errorHeader: 'Sorry, there is a problem with the service.'
       };
     }
 
@@ -73,4 +77,5 @@ export function reducer(
 export const getInviteUserData = (state: InviteUserState) => state.inviteUserFormData;
 export const getInviteUserErrorMessage = (state: InviteUserState) => state.formErrorMessages;
 export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
+export const getInviteUserErrorHeader = (state: InviteUserState) => state.errorHeader;
 

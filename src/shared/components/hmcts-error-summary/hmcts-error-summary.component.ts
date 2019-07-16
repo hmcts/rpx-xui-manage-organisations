@@ -11,7 +11,7 @@ import {DOCUMENT} from '@angular/common';
   template: `<div id="errorSummary" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
                   data-module="error-summary">
               <h2 class="govuk-error-summary__title" id="error-summary-title">
-                There is a problem
+                {{header}}
               </h2>
               <div class="govuk-error-summary__body">
                 <ul class="govuk-list govuk-error-summary__list">
@@ -30,6 +30,8 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
   @Input() set errorMessages(value) {
     this.messages = value;
   }
+
+  @Input() header;
 
   messages: object[];
 

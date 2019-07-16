@@ -32,4 +32,9 @@ describe('AppUtils', () => {
     const array = AppUtils.setSetUserNavItems(state, routerOrg);
     expect(array).toEqual(state.userNav);
   });
+
+  it('should set correct page title', () => {
+    const array = AppUtils.setPageTitle('invite-users');
+    expect(array).toEqual('Invite Users - Manage organisation');
+  });
 });

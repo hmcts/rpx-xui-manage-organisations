@@ -5,8 +5,6 @@ import * as fromRoot from '../../../app/store/';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/app.selectors';
-import {AppConstants} from '../../app.constants';
-
 
 describe('App Selectors', () => {
   let store: Store<fromReducers.State>;
@@ -38,7 +36,7 @@ describe('App Selectors', () => {
 
       store.dispatch(new fromActions.SetPageTitle('/organisation'));
 
-      expect(result).toEqual('Organisation - Professional User Interface');
+      expect(result).toEqual('Organisation - Manage organisation');
     });
   });
 

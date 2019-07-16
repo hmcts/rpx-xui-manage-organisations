@@ -26,4 +26,21 @@ export class AppUtils {
     }
     return [];
   }
+
+  static setPageTitle(url): string {
+    /**
+     * it sets correct page titles
+     */
+    if (url.indexOf('invite-user') !== -1) {
+      return 'Invite Users - Manage organisation';
+    } else if (url.indexOf('organisation') !== -1) {
+      return 'Organisation - Manage organisation';
+    } else if (url.indexOf('profile') !== -1) {
+      return 'Profile - Manage organisation';
+    } else if (url.indexOf('users') !== -1) {
+      return 'Users - Manage organisation';
+    }
+
+    return 'Manage organisation';
+  }
 }

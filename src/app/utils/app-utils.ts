@@ -12,4 +12,12 @@ export class AppUtils {
     });
     return nav;
   }
+
+  static setSetUserNavItems(state, routes) {
+    if (state && state.userNav && routes && routes.state.url) {
+      const isRegister = routes.state.url.indexOf('register') === -1;
+      return isRegister ? state.userNav : [];
+    }
+    return [];
+  }
 }

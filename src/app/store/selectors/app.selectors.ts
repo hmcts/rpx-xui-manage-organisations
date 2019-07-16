@@ -59,11 +59,7 @@ export const getUserNav = createSelector(
   getAppState,
   fromRoot.getRouterState,
   (state, routes) => {
-    if (state && state.userNav && routes && routes.state.url) {
-      const isRegister = routes.state.url.indexOf('register') === -1;
-      return isRegister ? state.userNav : [];
-    }
-    return [];
+    return AppUtils.setSetUserNavItems(state, routes);
   }
 
 );

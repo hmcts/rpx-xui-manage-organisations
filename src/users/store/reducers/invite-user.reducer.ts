@@ -69,22 +69,11 @@ export function reducer(
       };
     }
 
-    case fromInviteUsers.INVITE_USER_FAIL: {
-      const formErrorMessages = {
-        serverResponse: {
-          messages: [
-            'Try again later.'
-          ]
-        }
-      };
+    case fromInviteUsers.INVITE_USER_SUCCESS: {
       return {
-        ...state,
-        errorMessages,
-        isFormValid: false,
-        errorHeader: 'Sorry, there is a problem with the service.'
+        ...initialState
       };
     }
-
   }
 
   return state;

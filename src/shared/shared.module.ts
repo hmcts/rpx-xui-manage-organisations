@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
-import {HttpIntercepterServer} from './services/http-interceptor.service';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import {HeadersService} from './services/headers.service';
-import {AuthIntercepterServer} from './services/auth-interceptor.service';
-import {ReactiveFormsModule} from '@angular/forms';
+import { HttpIntercepterServer } from './services/http-interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HeadersService } from './services/headers.service';
+import { AuthIntercepterServer } from './services/auth-interceptor.service';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
-import { MonitoringService } from 'src/app/services/monitoring.service';
+import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
+// import { MonitoringService } from 'src/app/services/monitoring.service';
 
-@NgModule( {
+@NgModule({
   declarations: [
     HmctsMainWrapperComponent,
-    HmctsErrorSummaryComponent
+    HmctsErrorSummaryComponent,
+    SuccessNotificationComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -24,8 +26,9 @@ import { MonitoringService } from 'src/app/services/monitoring.service';
   ],
   exports: [
     ReactiveFormsModule,
+    GovUiModule,
     HmctsMainWrapperComponent,
-    GovUiModule
+    SuccessNotificationComponent
   ],
   providers: [
     {
@@ -39,7 +42,7 @@ import { MonitoringService } from 'src/app/services/monitoring.service';
       multi: true
     },
     HeadersService,
-    MonitoringService
+    // MonitoringService
   ]
 })
 export class SharedModule {

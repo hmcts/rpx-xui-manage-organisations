@@ -48,30 +48,36 @@ export class MonitorConfig implements Microsoft.ApplicationInsights.IConfig {
 @Injectable()
 export class MonitoringService implements IMonitoringService {
 
-  constructor(private http: HttpClient, @Optional() private config?: MonitorConfig) {
-  }
+  constructor(private http: HttpClient, @Optional() private config?: MonitorConfig,
+              @Optional() private appInsights?: Microsoft.ApplicationInsights.IAppInsights) {
+              if (!appInsights) {
+                appInsights = AppInsights;
+              }
+            }
 
   logPageView(name?: string, url?: string, properties?: any,
               measurements?: any, duration?: number) {
     this.send(() => {
-      AppInsights.trackPageView(name, url, properties, measurements, duration);
+      this.appInsights.trackPageView(name, url, properties, measurements, duration);
     });
   }
 
   logEvent(name: string, properties?: any, measurements?: any) {
     this.send(() => {
-      AppInsights.trackEvent(name, properties, measurements);
+      this.appInsights.trackEvent(name, properties, measurements);
     });
   }
 
   logException(exception: Error) {
     this.send(() => {
-      AppInsights.trackException(exception);
+      this.appInsights.trackException(exception);
     });
   }
 
   private send(func: () => any): void {
+    console.log('config is ' + this.config.instrumentationKey);
     if (this.config && this.config.instrumentationKey) {
+      console.log('AppInsights ' + AppInsights);
       func();
     } else {
       this.http.get('/api/monitoring-tools').subscribe(it => {
@@ -79,7 +85,7 @@ export class MonitoringService implements IMonitoringService {
           instrumentationKey: it['key']
         };
         if (!AppInsights.config) {
-          AppInsights.downloadAndSetup(this.config);
+          this.appInsights.downloadAndSetup(this.config);
         }
         func();
       });

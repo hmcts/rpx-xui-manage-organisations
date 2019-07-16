@@ -6,7 +6,7 @@ const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
-    active: true
+    active: false
   },
   {
     text: 'Users',
@@ -34,7 +34,7 @@ const regOrgTitle: AppTitlesModel = {
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage Organisation',
+  name: 'Manage Organisation details for civil and family law cases',
   url: '/'
 };
 

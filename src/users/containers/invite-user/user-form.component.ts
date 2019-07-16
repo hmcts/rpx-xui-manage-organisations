@@ -26,8 +26,8 @@ export class UserFormComponent implements OnInit {
   errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
-    emailAddress: ['Enter email address', 'Email must contain at least the @ character'],
-    permissions: ['Select at least one option'],
+    email: ['Enter email address', 'Email must contain at least the @ character'],
+    roles: ['Select at least one option'],
   };
 
   ngOnInit(): void {
@@ -38,13 +38,11 @@ export class UserFormComponent implements OnInit {
     this.inviteUserForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      emailAddress: new FormControl('', [Validators.email, Validators.required]),
-      permissions: new FormGroup({
-        createCases: new FormControl(''),
-        viewCases: new FormControl(''),
+      email: new FormControl('', [Validators.email, Validators.required]),
+      roles: new FormGroup({
+        manageCases: new FormControl(''),
         manageUsers: new FormControl(''),
-        viewDetails: new FormControl(''),
-        viewFees: new FormControl('')
+        manageOrg: new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
 
@@ -57,6 +55,9 @@ export class UserFormComponent implements OnInit {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       const {value} = this.inviteUserForm;
+      const permissions = Object.keys(value.roles).map(key => key);
+      value.roles = permissions;
+      value.status = 'pending';
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }
   }
@@ -67,11 +68,11 @@ export class UserFormComponent implements OnInit {
       isInvalid: {
         firstName: [(this.f.firstName.errors && this.f.firstName.errors.required)],
         lastName: [(this.f.lastName.errors && this.f.lastName.errors.required)],
-        emailAddress: [
-          (this.f.emailAddress.errors && this.f.emailAddress.errors.required),
-          (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
+        email: [
+          (this.f.email.errors && this.f.email.errors.required),
+          (this.f.email.errors && this.f.email.errors.email),
         ],
-        permissions: [(this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked)],
+        roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

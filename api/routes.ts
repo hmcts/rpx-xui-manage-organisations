@@ -14,10 +14,6 @@ const router = express.Router({ mergeParams: true })
  * route is called we get the s2s token and use it????
  */
 router.use(auth.attach) // attach user-profile to all api routes
-
-router.use('/logout', (req, res, next) => {
-    auth.doLogout(req, res)
-})
 router.use('/decisions', stateRouter)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)

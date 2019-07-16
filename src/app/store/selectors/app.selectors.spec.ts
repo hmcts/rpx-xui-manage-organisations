@@ -62,7 +62,7 @@ describe('App Selectors', () => {
       store.pipe(select(fromSelectors.getNavItems))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual({navItems: []});
     });
   });
 
@@ -73,7 +73,7 @@ describe('App Selectors', () => {
       store.pipe(select(fromSelectors.getUserNav))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(AppConstants.USER_NAV);
+      expect(result).toEqual([]);
 
     });
   });

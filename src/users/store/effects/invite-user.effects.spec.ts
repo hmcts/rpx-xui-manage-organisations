@@ -33,7 +33,7 @@ describe('Invite User Effects', () => {
 
     });
 
-    describe('saveUsers$', () => {
+    describe('saveUser$', () => {
         it('should return a collection from user details - InviteUserSuccess', () => {
             const payload = [{ payload: 'something' }];
             InviteUsersServiceMock.inviteUser.and.returnValue(of(payload));
@@ -47,11 +47,11 @@ describe('Invite User Effects', () => {
             const completion = new InviteUserSuccess([{ payload: 'something' }]);
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
-            expect(effects.saveUsers$).toBeObservable(expected);
+            expect(effects.saveUser$).toBeObservable(expected);
         });
     });
 
-    describe('saveUsers$ error', () => {
+    describe('saveUser$ error', () => {
         it('should return InviteUserFail', () => {
             InviteUsersServiceMock.inviteUser.and.returnValue(throwError(new Error()));
             const requestPayload = {
@@ -64,7 +64,7 @@ describe('Invite User Effects', () => {
             const completion = new InviteUserFail(new Error());
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
-            expect(effects.saveUsers$).toBeObservable(expected);
+            expect(effects.saveUser$).toBeObservable(expected);
         });
     });
 

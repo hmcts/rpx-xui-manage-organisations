@@ -22,7 +22,7 @@ async function inviteUserRoute(req, res) {
             apiStatusCode: error.status,
             message: error.data.message,
         }
-        res.status(error.status).send(errReport)
+        res.status(200).send(errReport)
     }
 }
 export default router

@@ -69,6 +69,11 @@ export function reducer(
       };
     }
 
+    case fromInviteUsers.INVITE_USER_SUCCESS: {
+      return {
+        ...initialState
+      };
+    }
   }
 
   return state;

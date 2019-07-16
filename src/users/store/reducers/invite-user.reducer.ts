@@ -80,7 +80,8 @@ export function reducer(
       return {
         ...state,
         formErrorMessages,
-        isFormValid: false
+        isFormValid: false,
+        errorHeader: 'Sorry, there is a problem with the service.'
       };
     }
 

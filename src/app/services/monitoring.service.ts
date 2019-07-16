@@ -77,7 +77,6 @@ export class MonitoringService implements IMonitoringService {
   private send(func: () => any): void {
     console.log('config is ' + this.config.instrumentationKey);
     if (this.config && this.config.instrumentationKey) {
-      console.log('AppInsights ' + AppInsights);
       func();
     } else {
       this.http.get('/api/monitoring-tools').subscribe(it => {

@@ -8,6 +8,11 @@ describe('Monitoring service', () => {
     'trackPageView']);
     const mockedConfig = new MonitorConfig();
 
+    it('should be Truthy', () => {
+        const service = new MonitoringService(mockedHttpClient);
+        expect(service).toBeTruthy();
+    });
+
     it('should be able to LogException and Should not call the http service', () => {
         mockedConfig.instrumentationKey = 'somevalue';
         const service = new MonitoringService(mockedHttpClient, mockedConfig, mockedAppInsights);

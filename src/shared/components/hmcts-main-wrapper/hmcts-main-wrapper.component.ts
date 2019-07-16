@@ -16,9 +16,8 @@ import {Component, Input} from '@angular/core';
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <app-hmcts-error-summary
-            *ngIf="summaryErrors && !summaryErrors.isFromValid"
-            [errorMessages]="summaryErrors.items"
-            [header]="summaryErrors.header">
+            *ngIf="summaryErrors && !summaryErrors['isFromValid']"
+            [errorMessages]="summaryErrors['items']">
           </app-hmcts-error-summary>
           <h1 *ngIf="title" class="govuk-heading-xl">{{title}}</h1>
           <ng-content></ng-content>
@@ -31,7 +30,7 @@ export class HmctsMainWrapperComponent  {
 
   @Input() backLink: string;
   @Input() title: string;
-  @Input() summaryErrors: object;
+  @Input() summaryErrors: string[];
 
   constructor() { }
 

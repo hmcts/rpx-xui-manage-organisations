@@ -67,7 +67,7 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     fixture.detectChanges();
 
-    const expected = cold('a', { a: AppConstants.USER_NAV });
+    const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
   }));

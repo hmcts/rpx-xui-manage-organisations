@@ -73,7 +73,7 @@ describe('App Selectors', () => {
       store.pipe(select(fromSelectors.getUserNav))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(AppConstants.USER_NAV);
+      expect(result).toEqual([]);
 
     });
   });

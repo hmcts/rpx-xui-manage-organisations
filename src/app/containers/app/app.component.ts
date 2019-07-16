@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   pageTitle$: Observable<string>;
   navItems$: Observable<{navItems: NavItemsModel[]}> ;
   appHeaderTitle$: Observable<AppTitlesModel>;
-  userNav$: Observable<UserNavModel>;
+  userNav$: Observable<any>;
 
 
   constructor(

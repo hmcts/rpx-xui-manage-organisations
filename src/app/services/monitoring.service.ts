@@ -1,6 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
 import { AppInsights } from 'applicationinsights-js';
 import { HttpClient } from '@angular/common/http';
+import { DummyAppInsights} from './dummyAppInsights';
 
 export interface IMonitoringService {
   logPageView(name?: string, url?: string, properties?: any,
@@ -45,12 +46,14 @@ export class MonitorConfig implements Microsoft.ApplicationInsights.IConfig {
   enableCorsCorrelation?: boolean;
 }
 
+
+
 @Injectable()
 export class MonitoringService implements IMonitoringService {
 
   constructor(private http: HttpClient, @Optional() private config?: MonitorConfig,
-              @Optional() private appInsights?: Microsoft.ApplicationInsights.IAppInsights) {
-              if (!appInsights) {
+              @Optional() private appInsights?: DummyAppInsights) {
+                if (!appInsights) {
                 appInsights = AppInsights;
               }
             }

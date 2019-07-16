@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { TestBed, inject } from '@angular/core/testing';
 import { MonitoringService, IMonitoringService, MonitorConfig } from './monitoring.service';
+import { Observable, of } from 'rxjs';
 
 describe('Monitoring service', () => {
-    const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', ['get']);
+    const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', {'get': of({key: 'Some Value'})});
     const mockedAppInsights = jasmine.createSpyObj('mockedAppInsights', ['downloadAndSetup', 'trackException', 'trackEvent',
     'trackPageView']);
     const mockedConfig = new MonitorConfig();
@@ -41,5 +42,13 @@ describe('Monitoring service', () => {
         expect(mockedHttpClient.get).not.toHaveBeenCalled();
         expect(mockedAppInsights.downloadAndSetup).not.toHaveBeenCalled();
         expect(mockedAppInsights.trackPageView).toHaveBeenCalled();
+    });
+
+    it('should be able to LogPageview', () => {
+        mockedConfig.instrumentationKey = null;
+        const service = new MonitoringService(mockedHttpClient, mockedConfig, mockedAppInsights);
+        expect(service).toBeTruthy();
+        service.logPageView('name', null, [], [], 1);
+        expect(mockedHttpClient.get).toHaveBeenCalled();
     });
 });

@@ -2,7 +2,7 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { UsersComponent } from './containers';
-import { UserFormComponent } from './containers/userform/user-form.component';
+import { UserFormComponent } from './containers/invite-user/user-form.component';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
 
 export const ROUTES: Routes = [

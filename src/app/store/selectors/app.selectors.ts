@@ -2,6 +2,8 @@ import { createSelector } from '@ngrx/store';
 
 import * as fromRoot from '../reducers';
 import * as fromAppFeature from '../reducers/app.reducer';
+import {AppUtils} from '../../utils/app-utils';
+
 
 export const getAppState = createSelector(
   fromRoot.getRootAppState,
@@ -28,12 +30,36 @@ export const getHeaderTitle = createSelector(
   }
 );
 
-export const getNavItems = createSelector(
+export const getNav = createSelector(
   getAppState,
   fromAppFeature.getNavItems
 );
 
+export const getNavItems = createSelector(
+  getNav,
+  fromRoot.getRouterState,
+  (navItems, router) => {
+    // set the active state based on routes
+    const nav = AppUtils.setActiveLink(navItems, router);
+    // do not set nav items for register org
+    if (router && router.state && router.state.url.indexOf('register') === -1) {
+      return {
+        navItems: nav
+      };
+    } else {
+      return {
+        navItems: []
+      };
+    }
+
+  }
+);
+
 export const getUserNav = createSelector(
   getAppState,
-  fromAppFeature.getUserNavigation
+  fromRoot.getRouterState,
+  (state, routes) => {
+    return AppUtils.setSetUserNavItems(state, routes);
+  }
+
 );

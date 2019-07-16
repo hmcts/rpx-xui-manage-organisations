@@ -1,8 +1,5 @@
-
-@login
 Feature: Login
 
-  @all @smoke @crossbrowser
   Scenario:
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue

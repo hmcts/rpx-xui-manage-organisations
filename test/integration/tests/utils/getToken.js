@@ -51,38 +51,27 @@ async function generateClientCode () {
     const otherParam = {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-            ServiceAuthorization: 'Basic ' + encode
+           Authorization: 'Basic ' + encode
 
         },
         body: data,
         method: 'POST'
     }
 
+console.log(encode)
+  console.log(url)
 
-  // This request successfully does a http request and returns data.
-  // now let's place in the actual request.
-    await fetch(url, otherParam)
-      .then(data => data.json())
-      .then(res => {
-        console.log(JSON.stringify(res));
-        code =res.code
-        return res.code
-      })
-      .catch(error => {
+  await fetch(url, otherParam).then(data => data.json())
+    .then(res => {
+      code = res.code
+      return res.code
+    })
+    .catch(error => {
       console.log(error)
     })
   return code
 
-    // await fetch(url, otherParam)
-    //   .then(data => data.json())
-    //     .then(json =>  {
-    //       console.log(JSON.stringify(res));
-    //         code = res.code
-    //         return res.code
-    //     })
-    //     .catch(error => {
-    //         console.log(error)
-    //     })
+
 
 }
 

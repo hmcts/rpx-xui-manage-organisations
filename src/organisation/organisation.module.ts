@@ -15,8 +15,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
 import { OrganisationGuard } from './guards/organisation.guard';
-import { MonitoringService } from 'src/app/services/monitoring.service';
-import { AbstractAppInsights, AppInsightsWrapper } from 'src/app/services/appInsightsWrapper';
+import { MonitoringService } from '../shared/services/monitoring.service';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
 
 
 @NgModule({

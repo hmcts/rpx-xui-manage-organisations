@@ -17,8 +17,12 @@ async function inviteUserRoute(req, res) {
         res.send(response.data)
     } catch (error) {
         logger.info('error', error)
-        const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
-        res.send(errReport).status(500)
+        const errReport = {
+            apiError: error.data.message,
+            apiStatusCode: error.status,
+            message: error.data.message,
+        }
+        res.status(error.status).send(errReport)
     }
 }
 export default router

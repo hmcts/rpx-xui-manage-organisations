@@ -3,14 +3,18 @@ import * as fromInviteUsers from '../actions/invite-user.actions';
 
 export interface InviteUserState {
   inviteUserFormData: object;
-  formErrorMessages: object;
+  errorMessages: object;
   isFormValid: boolean;
+  errorHeader: string;
+  isUserConfirmed: boolean;
 }
 
 export const initialState: InviteUserState = {
   inviteUserFormData: {},
-  formErrorMessages: {},
-  isFormValid: true
+  errorMessages: {},
+  isFormValid: true,
+  errorHeader: '',
+  isUserConfirmed: false
 };
 
 export function reducer(
@@ -19,14 +23,14 @@ export function reducer(
 ): InviteUserState {
   switch (action.type) {
     case fromInviteUsers.UPDATE_ERROR_MESSAGES: {
-      const formErrorMessagesPayload = action.payload.errorMessages;
+      const errorMessagesPayload = action.payload.errorMessages;
       const formErrorIsInvalid = action.payload.isInvalid;
 
-      const formErrorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
+      const errorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
 
         const objArr = (k): any[] => {
           return formErrorIsInvalid[k].map((item, i) => {
-              return item ? formErrorMessagesPayload[k][i] : '';
+              return item ? errorMessagesPayload[k][i] : '';
           });
         };
 
@@ -40,22 +44,53 @@ export function reducer(
         return acc;
 
         }, {});
-      const isFormValid = !Object.keys(formErrorMessages)
-        .filter(key => formErrorMessages[key].isInvalid).length;
+      const isFormValid = !Object.keys(errorMessages)
+        .filter(key => errorMessages[key].isInvalid).length;
 
       return {
         ...state,
-        formErrorMessages,
-        isFormValid
+        errorMessages,
+        isFormValid,
+        errorHeader: 'There is a problem'
       };
     }
 
+    case fromInviteUsers.INVITE_USER_FAIL: {
+      const errorMessages = {
+        serverResponse: {
+          messages: [
+            'Try again later.'
+          ]
+        }
+      };
+      return {
+        ...state,
+        errorMessages,
+        isFormValid: false,
+        errorHeader: 'Sorry, there is a problem with the service.'
+      };
+    }
+
+    case fromInviteUsers.INVITE_USER_SUCCESS: {
+      return {
+        ...state,
+        isUserConfirmed: true
+      };
+    }
+
+    case fromInviteUsers.RESET: {
+      return {
+        ...initialState
+      };
+    }
   }
 
   return state;
 }
 
 export const getInviteUserData = (state: InviteUserState) => state.inviteUserFormData;
-export const getInviteUserErrorMessage = (state: InviteUserState) => state.formErrorMessages;
+export const getInviteUserErrorMessage = (state: InviteUserState) => state.errorMessages;
 export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
+export const getInviteUserErrorHeader = (state: InviteUserState) => state.errorHeader;
+export const getInviteUserIsUserConfirmed = (state: InviteUserState) => state.isUserConfirmed;
 

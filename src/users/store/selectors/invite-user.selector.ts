@@ -8,31 +8,43 @@ export const getInviteUserState = createSelector(
   (state: fromFeature.UserState) => state.inviteUser
 );
 
-export const getGetInviteUserErrorMessage = createSelector(
+export const getInviteUserErrorMessage = createSelector(
   getInviteUserState,
   fromInviteUsers.getInviteUserErrorMessage
 );
 
-export const getGetInviteUserIsFormValid = createSelector(
+export const getInviteUserIsFormValid = createSelector(
   getInviteUserState,
   fromInviteUsers.getInviteUserIsFormValid
 );
 
+export const getInviteUserErrorHeader = createSelector(
+  getInviteUserState,
+  fromInviteUsers.getInviteUserErrorHeader
+);
+
+export const getInviteUserIsUserConfirmed = createSelector(
+  getInviteUserState,
+  fromInviteUsers.getInviteUserIsUserConfirmed
+);
+
 export const getGetInviteUserErrorsArray = createSelector(
-  getGetInviteUserErrorMessage,
-  getGetInviteUserIsFormValid,
-  (obj, isFormValid) => {
-    const items =  Object.keys(obj).map(key => {
+  getInviteUserErrorMessage,
+  getInviteUserIsFormValid,
+  getInviteUserErrorHeader,
+  (obj, isFormValid, header) => {
+    const items = Object.keys(obj).map(key => {
       if (key) {
         return {
-            id: key,
-            message: obj[key].messages.filter((el) => el !== '')
+          id: key,
+          message: obj[key].messages.filter((el) => el !== '')
         };
       }
     });
 
     return {
       isFromValid: isFormValid,
+      header,
       items
     };
 

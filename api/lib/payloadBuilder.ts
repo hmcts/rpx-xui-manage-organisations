@@ -19,54 +19,80 @@ function notNullOrUndefined(fieldMapping, value) {
   if (value) {
     return value;
   }
-  if (fieldMapping == 'pba' && value === null) {
-    // test values because ref data will not accept empty string must be in format PBAxxx
+  if (fieldMapping == 'pbaAccounts' && value === null) {
+    console.log('null', value)
     return 'PBA1234567678';
   }
   if (fieldMapping == 'sraId' && value == undefined) {
-    // test values because ref data will not accept empty string must be in format SRAxxx
+    console.log('undefined', value)
     return 'sraTempNumber';
   }
   if (fieldMapping == 'dxExchange' && value == null) {
-    // test values because ref data will not accept empty string must be in > 20chars
+    console.log('null', value)
     return '12345678901234567890';
   }
   if (fieldMapping == 'dxNumber' && value == null) {
-    // test values because ref data will not accept empty string must be in > 13chars
-    return '666666666666';
+    console.log('null', value)
+    return '1234567890123';
+  }
+}
+
+function setPropertyIfNotNull(organisationPayload, propertyName, value) {
+  if (value != null) {
+    console.log(value + 'not null, adding')
+    organisationPayload[propertyName] =
+      value
+  }
+}
+
+function setPBAPropertiesIfNotNull(organisationPayload, propertyName1, propertyName2, value1, value2) {
+  if (value1 != null || value2 != null) {
+    console.log(value1 + value2 + 'is not null, adding')
+    organisationPayload[propertyName1] = [{
+      [propertyName1]: value1,
+      [propertyName2]: value2
+    }]
+  }
+}
+
+function setDXPropertiesIfNotNull(organisationPayload, propertyName1, propertyName2, arrayName, value1, value2) {
+
+  if (value1 != null || value2 != null) {
+    console.log(value1 + 'not null, adding')
+    var [contactInformationArray] = organisationPayload.contactInformation
+    contactInformationArray[arrayName] = [{
+      [propertyName1]: value1,
+      [propertyName2]: value2
+    }]
   }
 }
 
 export function makeOrganisationPayload(stateValues): any {
 
-  return {
+  const organisationPayload = {
     contactInformation: [
       {
         addressLine1: stateValues.officeAddressOne,
         addressLine2: stateValues.officeAddressTwo,
         county: stateValues.county,
         postcode: stateValues.postcode,
-        townCity: stateValues.townOrCity,
-        dxAddress: [
-          {
-            dxExchange: notNullOrUndefined('dxExchange', stateValues.DXexchange),
-            dxNumber: notNullOrUndefined('dxNumber', stateValues.DXnumber),
-          },
-        ],
+        townCity: stateValues.townOrCity
       },
     ],
     name: stateValues.orgName,
-    pbaAccounts: [
-      {
-        pbaAccounts: notNullOrUndefined('pba', stateValues.PBAnumber1),
-        pbaNumber: notNullOrUndefined('pba', stateValues.PBAnumber2),
-      },
-    ],
-    sraId: notNullOrUndefined('sraId', stateValues.sraNumber),
     superUser: {
       email: stateValues.emailAddress,
       firstName: stateValues.firstName,
       lastName: stateValues.lastName,
     },
   }
+
+  setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
+  setPBAPropertiesIfNotNull(organisationPayload, 'pbaAccounts', 'pbaNumber', stateValues.PBAnumber1, stateValues.PBAnumber2)
+  setDXPropertiesIfNotNull(organisationPayload, 'dxExchange', 'dxNumber', 'dxAddress',
+    stateValues.DXexchange, stateValues.DXnumber)
+
+  console.log('organisation payload is', organisationPayload)
+
+  return organisationPayload;
 }

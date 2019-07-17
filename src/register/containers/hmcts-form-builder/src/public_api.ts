@@ -24,3 +24,4 @@ export * from  './lib/components/validation-error-formcontrol/validation-error-f
 export * from  './lib/components/validation-error-formgroup/validation-error-formgroup.component';
 export * from  './lib/services/form-builder.service';
 export * from  './lib/services/form-builder-validation.service';
+export * from  './lib/services/form-builder-custom-validators.service';

@@ -3,18 +3,21 @@ import {AbstractControl, Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './form-group-validation.typescript';
+import { CustomValidatorsService } from './form-builder-custom-validators.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
 
+  constructor(private datePipe: DatePipe, private customValidatorService: CustomValidatorsService) {
+  }
+
   // FOR SINGLE CONTROLS - formGroup.control level validation
   /**
    * Custom validators can be added to this.
    *
    * TODO : Define interface for array.
-   * TODO : Add a Custom Validator example.
    *
    * @see https://angular.io/guide/form-validation#custom-validators
    */
@@ -29,53 +32,13 @@ export class ValidationService {
     },
     {
       simpleName: 'dxNumberExactLength',
-      ngValidatorFunction: this.exactLengthValidator(13)
+      ngValidatorFunction: this.customValidatorService.exactLengthValidator(13)
     },
     {
       simpleName: 'dxExchangeMaxLength',
       ngValidatorFunction: Validators.maxLength(20)
     },
   ];
-
-  /**
-   * Check if a controls value's string length is an exact length.
-   *
-   * ie. Is length of a string 13 characters, no more, no less.
-   *
-   * @param length - 13
-   * @returns ValidatorFn
-   */
-  exactLengthValidator(length: number): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-
-      if (!control.value) {
-        return null;
-      }
-
-      return (control.value.length === length) ? null : this.validationError('exactLengthError', control.value);
-    };
-  }
-
-  /**
-   * Validation Error
-   *
-   * Defines the format of an ng Validation error.
-   *
-   * @param validationErrorName - developer assigned name of the validation
-   * @param validationErrorMessage - developer assigned validation message
-   * @see https://angular.io/api/forms/ValidationErrors
-   * @returns
-   */
-  validationError(validationErrorName, validationErrorMessage): ValidationErrors {
-    return {
-      validationErrorName: {
-        value: validationErrorMessage
-      }
-    };
-  }
-
-  constructor(private datePipe: DatePipe) {
-  }
 
   /**
    * Returns a map of how we've mapped simple names to Ng Validators, and in the future custom validators.

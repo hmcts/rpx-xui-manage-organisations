@@ -111,7 +111,7 @@ export function reducer(
      
      var errorMessageMappings = {
       400: "There has been an error submitting your data - 400",
-      500: "Sorry, there is a problem with the service. Try again later. - 500",
+      //500: "Sorry, there is a problem with the service. Try again later. - 500",
       502: "Sorry, there is a problem with the service. Try again later. - 502",
       503: "Sorry, there is a problem with the service. Try again later. - 503",
       504: "Sorry, there is a problem with the service. Try again later. - 504"

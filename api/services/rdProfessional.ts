@@ -23,6 +23,11 @@ export async function getAccountsForOrganisation(orgId: string): Promise<Payment
 export async function postOrganisation(body: any): Promise<any> {
     logger.info(`Post organisation body`)
     logger.debug(JSON.stringify(body))
-    const response = await http.post(`${url}/organisations`, body)
-    return response.data
+
+    try {
+        const response = await http.post(`${url}/organisations`, body)
+        return response.data
+    } catch (e) {
+        throw new Error(e.data.status + " " + e.data.message);
+    }
 }

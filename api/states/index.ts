@@ -22,7 +22,7 @@ async function registerOrganisation(req, res) {
         'Error registering organisation',
         res,
         logger,
-        false
+        true
     )
 }
 
@@ -45,6 +45,8 @@ async function payload(req, res) {
     if (result) {
         return 'registration-confirmation'
     }
+
+    console.log('status message is',res.statusMessage)
 
     res.status(ERROR400).send('Error registering organisation')
     return null

@@ -19,32 +19,27 @@ describe('AppReducer', () => {
       action = new fromAppActions.SetPageTitle('invite-user');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Invite Users - Professional User Interface');
+      expect(state.pageTitle).toEqual('Invite user - Manage organisation');
 
       action = new fromAppActions.SetPageTitle('organisation');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Organisation - Professional User Interface');
+      expect(state.pageTitle).toEqual('Organisation details - Manage organisation');
 
       action = new fromAppActions.SetPageTitle('profile');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Profile - Professional User Interface');
+      expect(state.pageTitle).toEqual('Profile - Manage organisation');
 
       action = new fromAppActions.SetPageTitle('users');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Users - Professional User Interface');
-
-      action = new fromAppActions.SetPageTitle('login');
-      state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Login - Professional User Interface');
+      expect(state.pageTitle).toEqual('Users - Manage organisation');
 
       action = new fromAppActions.SetPageTitle('dummy');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Professional User Interface');
+      expect(state.pageTitle).toEqual('Manage organisation');
     });
 
     it('setTitleError action should return correct state', () => {

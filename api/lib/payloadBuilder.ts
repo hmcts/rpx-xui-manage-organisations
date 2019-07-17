@@ -19,20 +19,9 @@ function setPropertyIfNotNull(organisationPayload, propertyName, value) {
   }
 }
 
-function setPBAPropertiesIfNotNull(organisationPayload, propertyName1, propertyName2, value1, value2) {
+function setPropertiesIfNotNull(organisationPayload, propertyName1, propertyName2, arrayName, value1, value2) {
   if (value1 != null || value2 != null) {
-    organisationPayload[propertyName1] = [{
-      [propertyName1]: value1,
-      [propertyName2]: value2
-    }]
-  }
-}
-
-function setDXPropertiesIfNotNull(organisationPayload, propertyName1, propertyName2, arrayName, value1, value2) {
-
-  if (value1 != null || value2 != null) {
-    var [contactInformationArray] = organisationPayload.contactInformation
-    contactInformationArray[arrayName] = [{
+    organisationPayload[arrayName] = [{
       [propertyName1]: value1,
       [propertyName2]: value2
     }]
@@ -60,8 +49,10 @@ export function makeOrganisationPayload(stateValues): any {
   }
 
   setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
-  setPBAPropertiesIfNotNull(organisationPayload, 'pbaAccounts', 'pbaNumber', stateValues.PBAnumber1, stateValues.PBAnumber2)
-  setDXPropertiesIfNotNull(organisationPayload, 'dxExchange', 'dxNumber', 'dxAddress',
+  setPropertiesIfNotNull(organisationPayload, 'pbaAccounts', 'pbaNumber', 'pbaAccounts', stateValues.PBAnumber1, stateValues.PBAnumber2)
+
+  var [contactInformationArray] = organisationPayload.contactInformation
+  setPropertiesIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
     stateValues.DXexchange, stateValues.DXnumber)
 
   return organisationPayload;

@@ -31,7 +31,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
     this.messages = value;
   }
 
-  @Input() header;
+  @Input() header: string;
 
   messages: object[];
 

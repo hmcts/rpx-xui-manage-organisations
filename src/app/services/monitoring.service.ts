@@ -46,6 +46,8 @@ export class MonitorConfig implements Microsoft.ApplicationInsights.IConfig {
   enableCorsCorrelation?: boolean;
 }
 
+
+
 @Injectable()
 export class MonitoringService implements IMonitoringService {
 

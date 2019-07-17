@@ -18,6 +18,7 @@ import * as fromComponents from './components';
 // services
 
 import * as fromServices from './services';
+import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import * as fromServices from './services';
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers,  ...fromComponents.components],
-  providers: [...fromServices.services]
+  providers: [...fromServices.services, InviteUserSuccessGuard]
 })
 
 /**

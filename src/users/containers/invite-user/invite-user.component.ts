@@ -12,10 +12,10 @@ import {Observable} from 'rxjs';
 * */
 
 @Component({
-  selector: 'app-prd-user-form-component',
-  templateUrl: './user-form.component.html',
+  selector: 'app-prd-invite-user-component',
+  templateUrl: './invite-user.component.html',
 })
-export class UserFormComponent implements OnInit {
+export class InviteUserComponent implements OnInit {
 
   constructor(private store: Store<fromStore.UserState>) { }
   inviteUserForm: FormGroup;
@@ -32,7 +32,7 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.errors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
+    this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
     this.inviteUserForm = new FormGroup({

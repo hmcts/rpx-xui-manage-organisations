@@ -6,13 +6,15 @@ export interface InviteUserState {
   errorMessages: object;
   isFormValid: boolean;
   errorHeader: string;
+  isUserConfirmed: boolean;
 }
 
 export const initialState: InviteUserState = {
   inviteUserFormData: {},
   errorMessages: {},
   isFormValid: true,
-  errorHeader: ''
+  errorHeader: '',
+  isUserConfirmed: false
 };
 
 export function reducer(
@@ -71,6 +73,13 @@ export function reducer(
 
     case fromInviteUsers.INVITE_USER_SUCCESS: {
       return {
+        ...state,
+        isUserConfirmed: true
+      };
+    }
+
+    case fromInviteUsers.RESET: {
+      return {
         ...initialState
       };
     }
@@ -83,4 +92,5 @@ export const getInviteUserData = (state: InviteUserState) => state.inviteUserFor
 export const getInviteUserErrorMessage = (state: InviteUserState) => state.errorMessages;
 export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
 export const getInviteUserErrorHeader = (state: InviteUserState) => state.errorHeader;
+export const getInviteUserIsUserConfirmed = (state: InviteUserState) => state.isUserConfirmed;
 

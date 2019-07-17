@@ -11,6 +11,11 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'PBAnumber1',
+                validators: ['required'],
+                validationError: {
+                  value: 'Enter a valid PBA number',
+                  controlId: 'PBAnumber1',
+                },
                 classes: 'govuk-!-width-two-thirds',
             },
         },

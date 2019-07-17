@@ -38,6 +38,7 @@ export class ValidationService {
       simpleName: 'dxExchangeMaxLength',
       ngValidatorFunction: Validators.maxLength(20)
     },
+    // if the user does have a pba number
   ];
 
   /**

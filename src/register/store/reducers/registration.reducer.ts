@@ -108,10 +108,30 @@ export function reducer(
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
      console.log('Failed',action.payload.status + " " + action.payload.statusText)
+     
+     var errorMessageMappings = {
+      400: "There has been an error submitting your data - 400",
+      500: "Sorry, there is a problem with the service. Try again later. - 500",
+      502: "Sorry, there is a problem with the service. Try again later. - 502",
+      503: "Sorry, there is a problem with the service. Try again later. - 503",
+      504: "Sorry, there is a problem with the service. Try again later. - 504"
+    };
+    
+    var errorMessage;
+
+    if(!errorMessageMappings[action.payload.status])
+    {
+      //undefined
+      errorMessage = action.payload.status + " " + action.payload.statusText
+    }
+    else
+    {
+      errorMessage = errorMessageMappings[action.payload.status]
+    }
      return {
       ...state,
       submitted: false,
-      errorMessage: action.payload.status
+      errorMessage: errorMessage
     };
     }
   }

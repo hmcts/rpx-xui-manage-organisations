@@ -37,7 +37,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
 
             // also use these as axios defaults
             logger.info('Using Idam Token in defaults')
-            axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+            axios.defaults.headers.common.Authorization = `Bearer eyJ0eXAiOiJKV1QiLCJ6aXAiOiJOT05FIiwia2lkIjoiYi9PNk92VnYxK3krV2dySDVVaTlXVGlvTHQwPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJzdXBlci51c2VyQGhtY3RzLm5ldCIsImF1dGhfbGV2ZWwiOjAsImF1ZGl0VHJhY2tpbmdJZCI6IjMzZDU4OTVmLWE5NjUtNGE1Yy1hMzdkLWE1ZWJlNmUxYTIwNyIsImlzcyI6Imh0dHA6Ly9mci1hbTo4MDgwL29wZW5hbS9vYXV0aDIvaG1jdHMiLCJ0b2tlbk5hbWUiOiJhY2Nlc3NfdG9rZW4iLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiYXV0aEdyYW50SWQiOiIxMjRkNDZjMy1iNTkxLTRhMTktOGY0NC05OTBlYTc0YWIwYTEiLCJhdWQiOiJteV9yZWZlcmVuY2VfZGF0YV9jbGllbnRfaWQiLCJuYmYiOjE1NjMzNTM5NzksImdyYW50X3R5cGUiOiJhdXRob3JpemF0aW9uX2NvZGUiLCJzY29wZSI6WyJhY3IiLCJvcGVuaWQiLCJwcm9maWxlIiwicm9sZXMiLCJhdXRob3JpdGllcyJdLCJhdXRoX3RpbWUiOjE1NjMzNTM5NjYwMDAsInJlYWxtIjoiL2htY3RzIiwiZXhwIjoxNTYzMzgyNzc5LCJpYXQiOjE1NjMzNTM5NzksImV4cGlyZXNfaW4iOjI4ODAwLCJqdGkiOiI3ZWU4NzM5MC01MDRhLTQ3YWQtOTFhNS1jNWRiNzVmMGVlZmUifQ.PXWGemivhopxy61MeUDRtLjjFVgxqROGqsoCzkpJaPatVaNqyNKL5DcTJvXW9j3DSvSKVJX_4_k-ECSTCGiLmn0c2nmU8SqOlRUBTKswedzFskiCi8sFkkovSjaAJ_Y-0UDT3w0c263WrWh-0_r__gokxU5u5qQZBpi27n_IPdynjeliQZPJH8MOippRjD-ivtDZ16nysbvhgNdJGCvxOre93QuIYmdUe2XCChPT1Ki2SAZ4bn8qIoBfs0q7Mr3vJ_05eb1o8xahqoDV8KZzqqC-TwuHZJbEmGfV349k8liF82947p2IyxU3Q100IvtDm4zjT0RJL6fbQ2ioN9fzog`
 
             const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
             if (token) {

@@ -16,6 +16,7 @@ import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
 import { OrganisationGuard } from './guards/organisation.guard';
 import { MonitoringService } from 'src/app/services/monitoring.service';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/app/services/appInsightsWrapper';
 
 
 @NgModule({
@@ -29,7 +30,9 @@ import { MonitoringService } from 'src/app/services/monitoring.service';
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
-  providers: [...fromServices.services, OrganisationGuard, MonitoringService]
+  providers: [...fromServices.services, OrganisationGuard,
+  { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
+  MonitoringService]
 })
 
 

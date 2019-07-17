@@ -1,7 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
 import { AppInsights } from 'applicationinsights-js';
 import { HttpClient } from '@angular/common/http';
-import { DummyAppInsights} from './dummyAppInsights';
+import { AbstractAppInsights} from './appInsightsWrapper';
 
 export interface IMonitoringService {
   logPageView(name?: string, url?: string, properties?: any,
@@ -46,13 +46,11 @@ export class MonitorConfig implements Microsoft.ApplicationInsights.IConfig {
   enableCorsCorrelation?: boolean;
 }
 
-
-
 @Injectable()
 export class MonitoringService implements IMonitoringService {
 
   constructor(private http: HttpClient, @Optional() private config?: MonitorConfig,
-              @Optional() private appInsights?: DummyAppInsights) {
+              @Optional() private appInsights?: AbstractAppInsights) {
                 if (!appInsights) {
                 appInsights = AppInsights;
               }
@@ -78,7 +76,6 @@ export class MonitoringService implements IMonitoringService {
   }
 
   private send(func: () => any): void {
-    console.log('config is ' + this.config.instrumentationKey);
     if (this.config && this.config.instrumentationKey) {
       func();
     } else {
@@ -86,7 +83,7 @@ export class MonitoringService implements IMonitoringService {
         this.config = {
           instrumentationKey: it['key']
         };
-        if (!AppInsights.config) {
+        if (!this.appInsights.config) {
           this.appInsights.downloadAndSetup(this.config);
         }
         func();

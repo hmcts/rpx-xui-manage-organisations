@@ -6,6 +6,7 @@ import {HeadersService} from './headers.service';
 import {AuthIntercepterServer} from './auth-interceptor.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MonitoringService } from 'src/app/services/monitoring.service';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/app/services/appInsightsWrapper';
 
 @NgModule( {
   imports: [
@@ -28,6 +29,7 @@ import { MonitoringService } from 'src/app/services/monitoring.service';
       multi: true
     },
     HeadersService,
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
     MonitoringService
   ]
 })

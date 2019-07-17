@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { HeadersService } from './headers.service';
 import { CookieService } from 'ngx-cookie';
-import config from '../../api/lib/config';
+import config from '../../../api/lib/config';
 
 const expiredJwt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOj`
     + `EwNTkyNTE3NDR9.6pdabSR59z99w-OE8_ZMka7IazJbY2cLfax09Cy1JIY`;

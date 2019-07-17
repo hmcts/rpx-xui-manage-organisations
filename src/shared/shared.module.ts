@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/app/services/appInsightsWrapper';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { SuccessNotificationComponent } from './components/success-notification/
       multi: true
     },
     HeadersService,
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
     MonitoringService
   ]
 })

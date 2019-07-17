@@ -36,7 +36,7 @@ describe('App Selectors', () => {
 
       store.dispatch(new fromActions.SetPageTitle('/organisation'));
 
-      expect(result).toEqual('Organisation - Manage organisation');
+      expect(result).toEqual('Organisation details - Manage organisation');
     });
   });
 

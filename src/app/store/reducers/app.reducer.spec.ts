@@ -19,12 +19,12 @@ describe('AppReducer', () => {
       action = new fromAppActions.SetPageTitle('invite-user');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Invite Users - Manage organisation');
+      expect(state.pageTitle).toEqual('Invite user - Manage organisation');
 
       action = new fromAppActions.SetPageTitle('organisation');
       state = fromApp.reducer(initialState, action);
 
-      expect(state.pageTitle).toEqual('Organisation - Manage organisation');
+      expect(state.pageTitle).toEqual('Organisation details - Manage organisation');
 
       action = new fromAppActions.SetPageTitle('profile');
       state = fromApp.reducer(initialState, action);

@@ -35,6 +35,6 @@ describe('AppUtils', () => {
 
   it('should set correct page title', () => {
     const array = AppUtils.setPageTitle('invite-users');
-    expect(array).toEqual('Invite Users - Manage organisation');
+    expect(array).toEqual('Invite user - Manage organisation');
   });
 });

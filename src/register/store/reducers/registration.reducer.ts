@@ -44,7 +44,7 @@ export const initialState: RegistrationFormState = {
   loaded: false,
   loading: false,
   submitted: false,
-  errorMessage: ''
+  errorMessage: 'test error message'
 };
 
 export function reducer(
@@ -125,4 +125,5 @@ export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) 
 export const getRegistrationNextUrl = (state: RegistrationFormState) => state.nextUrl;
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
 export const getRegistrationPagesLoaded = (state: RegistrationFormState) => state.loaded;
+export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
 

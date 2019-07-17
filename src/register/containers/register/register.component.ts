@@ -31,6 +31,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   nextUrl: string;
   pageId: string;
   isPageValid = false;
+  errorMessage: any;
 
   ngOnInit(): void {
     this.subscribeToRoute();
@@ -44,6 +45,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }));
       }
     });
+
+  var errorMessage = fromStore.getErrorMessages;
+  console.log('error message is',errorMessage)
+
+  this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+
+  console.log('error message is',this.errorMessage)
   }
 
   subscribeToRoute(): void {

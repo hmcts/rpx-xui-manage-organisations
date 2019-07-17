@@ -44,7 +44,7 @@ export const initialState: RegistrationFormState = {
   loaded: false,
   loading: false,
   submitted: false,
-  errorMessage: 'test error message'
+  errorMessage: ''
 };
 
 export function reducer(

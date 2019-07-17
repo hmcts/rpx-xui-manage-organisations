@@ -25,6 +25,5 @@
     </div>
   </div>
 </main>
-
-<span *ngIf="pageId === 'check'">There has been an error submitting your data - {{errorMessage | async}}</span>
+<span *ngIf="pageId === 'check' && (errorMessage | async) !== ''">There has been an error submitting your data - {{errorMessage | async}}</span>
 

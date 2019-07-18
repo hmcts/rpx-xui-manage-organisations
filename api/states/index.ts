@@ -42,7 +42,7 @@ async function payload(req, res) {
     const result = await registerOrganisation(req, res)
     logger.info('Posted to Reference Data (Professional) service', result)
 
-    if(result.apiError)
+    if(result.apiStatusCode)
     {
         res.status(result.apiStatusCode).send(result.apiError + " **ERROR DESC**" + result.apiErrorDescription)
     }

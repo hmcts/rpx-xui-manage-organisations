@@ -1,6 +1,6 @@
 import * as fromRegistration from '../actions/registration.actions';
 
-export const navigation  = {
+export const navigation = {
   'organisation-name': 'organisation-address',
   'organisation-address': 'organisation-pba',
   'organisation-pba': 'organisation-have-dx',
@@ -26,7 +26,7 @@ export interface PageItems {
 }
 
 export interface RegistrationFormState {
-  pages: {[id: string]: PageItems};
+  pages: { [id: string]: PageItems };
   pagesValues: object;
   navigation: object;
   nextUrl: string;
@@ -38,7 +38,7 @@ export interface RegistrationFormState {
 
 export const initialState: RegistrationFormState = {
   pages: {},
-  pagesValues: {haveDXNumber: 'dontHaveDX'},
+  pagesValues: { haveDXNumber: 'dontHaveDX' },
   navigation,
   nextUrl: '',
   loaded: false,
@@ -107,57 +107,58 @@ export function reducer(
     }
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
-     
-    var apiError = action.payload.error
-    var apiStatus = action.payload.status
 
-    var apiErrors = {
-      400: "There has been an error submitting your data - 400",
-      //500: "Sorry, there is a problem with the service. Try again later. - 500",
-      502: "Sorry, there is a problem with the service. Try again later. - 502",
-      503: "Sorry, there is a problem with the service. Try again later. - 503",
-      504: "Sorry, there is a problem with the service. Try again later. - 504",
-      1: "Duplicate email address already exists",
-      2: "Something went wrong, have you entered all required fields?",
-      3: "SRA already exists"
-    };
-     
-     var errorMessageMappings = {
-      400: "There has been an error submitting your data - 400",
-      //500: "Sorry, there is a problem with the service. Try again later. - 500",
-      502: "Sorry, there is a problem with the service. Try again later. - 502",
-      503: "Sorry, there is a problem with the service. Try again later. - 503",
-      504: "Sorry, there is a problem with the service. Try again later. - 504",
-      1: "email_address",
-      2: "Validation failed",
-      3: "sra_id_uq1"
-    };
+      var apiError = action.payload.error
+      var apiStatus = action.payload.status
 
-    var string = action.payload.error
+      var errorMessageMappings = {
+        500: "Sorry, there is a problem with the service. Try again later. - 500",
+        502: "Sorry, there is a problem with the service. Try again later. - 502",
+        503: "Sorry, there is a problem with the service. Try again later. - 503",
+        504: "Sorry, there is a problem with the service. Try again later. - 504",
+        1: "Duplicate email address already exists",
+        2: "Something went wrong, have you entered all required fields?",
+        3: "SRA already exists"
+      };
 
-    for (var key in errorMessageMappings) {
-      if(string.includes(errorMessageMappings[key]))
-      {
-        var errorMessageString = apiErrors[key]
+      var apiErrors = {
+        500: "Sorry, there is a problem with the service. Try again later. - 500",
+        502: "Sorry, there is a problem with the service. Try again later. - 502",
+        503: "Sorry, there is a problem with the service. Try again later. - 503",
+        504: "Sorry, there is a problem with the service. Try again later. - 504",
+        1: "email_address",
+        2: "Validation failed",
+        3: "sra_id_uq1"
+      };
+
+      var string = action.payload.error
+      var errorMessageString;
+
+      for (var key in apiErrors) {
+        if (string.includes(apiErrors[key])) {
+          errorMessageString = errorMessageMappings[key]
+        }
       }
-    }
 
-    if(errorMessageString)
-    {
-      return {
-        ...state,
-        submitted: false,
-        errorMessage: 'error message string ' + errorMessageString + " ref data response" + apiError + " " + apiStatus
-      };
-    }
-    else
-    {
-      return {
-        ...state,
-        submitted: false,
-        errorMessage: apiError + " " + apiStatus
-      };
-    }
+      if (apiStatus == 500 || apiStatus == 502 || apiStatus == 503 || apiStatus == 504) {
+        errorMessageString = errorMessageMappings[apiStatus]
+      }
+
+      if (errorMessageString) {
+        console.log('Reference data returns:' + apiError + " " + apiStatus)
+        return {
+          ...state,
+          submitted: false,
+          errorMessage: errorMessageString
+        };
+      }
+      else {
+        return {
+          ...state,
+          submitted: false,
+          errorMessage: apiError + " " + apiStatus
+        };
+      }
     }
   }
 

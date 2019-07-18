@@ -111,15 +111,6 @@ export function reducer(
     var apiError = action.payload.error
     var apiStatus = action.payload.status
 
-    /*if(apiError.includes[apiErrors[1]])
-    {
-      console.log('have a match')
-    }
-    else
-    {
-      console.log('no match')
-    }*/
-
     var apiErrors = {
       400: "There has been an error submitting your data - 400",
       //500: "Sorry, there is a problem with the service. Try again later. - 500",
@@ -142,48 +133,21 @@ export function reducer(
       3: "sra_id_uq1"
     };
 
-    console.log('mapping is',apiErrors[1])
-    
-    var errorMessage;
-
-    if(!errorMessageMappings[action.payload.status])
-    {
-      //undefined
-      errorMessage = action.payload.status + " " + action.payload.statusText
-    }
-    else
-    {
-      errorMessage = errorMessageMappings[action.payload.status]
-    }
-
-    var string = action.payload.error,
-    substring = "email_address";
-    console.log('string includes')
-    //console.log(string.includes(substring))
-    console.log(string.includes(errorMessageMappings[action.payload.status]))
+    var string = action.payload.error
 
     for (var key in errorMessageMappings) {
-      console.log('mapping is',key)
       if(string.includes(errorMessageMappings[key]))
       {
-        console.log('true')
         var errorMessageString = apiErrors[key]
       }
-      else
-      {
-        console.log('false')
-        //console.log('string is',string)
-        //console.log('mappings is',errorMessageMappings[key])
-      }
     }
-    console.log('error message string',errorMessageString)
 
     if(errorMessageString)
     {
       return {
         ...state,
         submitted: false,
-        errorMessage: 'error message string ' + errorMessageString + " ref data response" + action.payload.status + " " + action.payload.error
+        errorMessage: 'error message string ' + errorMessageString + " ref data response" + apiError + " " + apiStatus
       };
     }
     else
@@ -191,7 +155,7 @@ export function reducer(
       return {
         ...state,
         submitted: false,
-        errorMessage: action.payload.status + " " + action.payload.error
+        errorMessage: apiError + " " + apiStatus
       };
     }
     }

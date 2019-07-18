@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {AuthGuard} from '../user-profile/guards/auth.guard';
+import { NotFoundComponent } from './containers/not-found/not-found.component';
 
 
 export const ROUTES: Routes = [
@@ -28,6 +29,10 @@ export const ROUTES: Routes = [
     path: 'register-org',
     canActivate: [AuthGuard],
     loadChildren: '../register/register.module#RegisterModule'
+  },
+  {
+    path: 'not-found',
+    component:  NotFoundComponent
   },
   {
     path: '**',

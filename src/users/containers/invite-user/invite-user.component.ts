@@ -31,7 +31,7 @@ export class InviteUserComponent implements OnInit {
   };
 
   ngOnInit(): void {
-
+    alert(2);
     this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 

@@ -5,7 +5,7 @@ export const application = {
     },
     microservice: 'prd',
     idamClient: 'rd-professional-api',
-    oauthCallbackUrl: '/oauth2/callback',
+    oauthCallbackUrl: '/oauth2redirect',
     protocol: 'https',
     logging: 'debug',
     maxLogLine: 80,

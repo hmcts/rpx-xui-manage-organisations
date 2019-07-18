@@ -107,6 +107,7 @@ export function reducer(
     }
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
+     console.log('error is',action.payload)
      console.log('Failed',action.payload.status + " " + action.payload.statusText)
      
      var errorMessageMappings = {
@@ -131,7 +132,7 @@ export function reducer(
      return {
       ...state,
       submitted: false,
-      errorMessage: errorMessage
+      errorMessage: action.payload.statusText
     };
     }
   }

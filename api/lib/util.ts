@@ -17,7 +17,7 @@ export function asyncReturnOrError(
             logger.error(msg)
 
             if (setResponse) {
-                res.status(err.statusCode || 500).send(msg)
+                //res.status(err.statusCode || 500).send(msg)
                 res.statusMessage = '' + err
             }
 

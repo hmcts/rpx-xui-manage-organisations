@@ -48,7 +48,8 @@ async function payload(req, res) {
 
     console.log('status message is',res.statusMessage)
 
-    res.status(ERROR400).send('Error registering organisation')
+    res.status(ERROR400).send(res.statusMessage)
+
     return null
 }
 

@@ -23,7 +23,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'PBAnumber1',
-                validators: ['pbaNumber', 'pbaNumberMaxLength'],
+                validators: ['pbaNumberPattern', 'pbaNumberMaxLength'],
                 validationError: {
                   value: 'Enter a valid PBA number',
                   controlId: 'PBAnumber1',
@@ -38,7 +38,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'PBAnumber2',
-                validators: ['pbaNumber', 'pbaNumberMaxLength'],
+                validators: ['pbaNumberPattern', 'pbaNumberMaxLength'],
                 validationError: {
                   value: 'Enter a valid PBA number',
                   controlId: 'PBAnumber2',

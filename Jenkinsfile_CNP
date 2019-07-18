@@ -14,14 +14,14 @@ properties([
 @Library("Infrastructure")
 
 def type      = "nodejs"
-def product   = "prd"
-def component = "rd-professional-api"
-def vault = "rd"
+def product   = "xui"
+def component = "mo-webapp"
+def vault = "rpx"
 def channel   = '#xui-pipeline'
 
 List<LinkedHashMap<String, Object>> secrets = [
-    secret('s2s-secret', 'S2S_SECRET'),
-    secret('OAUTH2-CLIENT-SECRET', 'IDAM_SECRET'),
+    secret('PRD-S2S', 'S2S_SECRET'),
+    secret('PRD-IDAM-SECRET', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')

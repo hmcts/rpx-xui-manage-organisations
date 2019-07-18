@@ -16,13 +16,14 @@ nodejs:
       resourceGroup: rpx
       secrets:
         - test-email
-        - xui-s2s-token
-        - xui-oauth2-token
+        - PRD-S2S
+        - PRD-IDAM-SECRET
         - fr-email
         - fr-password
         - sscs-email
         - sscs-password
         - AppInsightsInstrumentationKey
+
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

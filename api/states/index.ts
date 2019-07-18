@@ -47,6 +47,7 @@ async function payload(req, res) {
     }
 
     console.log('status message is',res.statusMessage)
+    console.log('error message is',res.erro)
 
     res.status(ERROR400).send(res.statusMessage)
 

@@ -25,8 +25,10 @@ export async function postOrganisation(body: any): Promise<any> {
     logger.debug(JSON.stringify(body))
 
     try {
+
         const response = await http.post(`${url}/organisations`, body)
         return response.data
+
     } catch (e) {
 
         const errReport = {
@@ -34,7 +36,7 @@ export async function postOrganisation(body: any): Promise<any> {
             apiErrorDescription: e.data.errorDescription,
             apiStatusCode: e.status,
         }
-        
+
         return errReport
     }
 }

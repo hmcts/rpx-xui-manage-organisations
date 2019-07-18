@@ -112,13 +112,10 @@ export function reducer(
       var apiStatus = action.payload.status
 
       var errorMessageMappings = {
-        500: "Sorry, there is a problem with the service. Try again later. - 500",
-        502: "Sorry, there is a problem with the service. Try again later. - 502",
-        503: "Sorry, there is a problem with the service. Try again later. - 503",
-        504: "Sorry, there is a problem with the service. Try again later. - 504",
         1: "Duplicate email address already exists",
         2: "Something went wrong, have you entered all required fields?",
-        3: "SRA already exists"
+        3: "SRA already exists",
+        4: "Sorry, there is a problem with the service. Try again later",
       };
 
       var apiErrors = {
@@ -127,31 +124,27 @@ export function reducer(
         3: "sra_id_uq1"
       };
 
-      var errorMessageString;
+      var apiMessageMapped;
 
       for (var key in apiErrors) {
         if (apiError.includes(apiErrors[key])) {
-          errorMessageString = errorMessageMappings[key]
+          apiMessageMapped = errorMessageMappings[key]
         }
       }
 
-      if (apiStatus == 500 || apiStatus == 502 || apiStatus == 503 || apiStatus == 504) {
-        errorMessageString = errorMessageMappings[apiStatus]
-      }
-
-      if (errorMessageString) {
+      if (apiMessageMapped) {
         console.log('Reference data returns:' + apiError + " " + apiStatus)
         return {
           ...state,
           submitted: false,
-          errorMessage: errorMessageString
+          errorMessage: apiMessageMapped
         };
       }
       else {
         return {
           ...state,
           submitted: false,
-          errorMessage: apiError + " " + apiStatus
+          errorMessage: errorMessageMappings[4]
         };
       }
     }

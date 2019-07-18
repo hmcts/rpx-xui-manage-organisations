@@ -122,20 +122,15 @@ export function reducer(
       };
 
       var apiErrors = {
-        500: "Sorry, there is a problem with the service. Try again later. - 500",
-        502: "Sorry, there is a problem with the service. Try again later. - 502",
-        503: "Sorry, there is a problem with the service. Try again later. - 503",
-        504: "Sorry, there is a problem with the service. Try again later. - 504",
         1: "email_address",
         2: "Validation failed",
         3: "sra_id_uq1"
       };
 
-      var string = action.payload.error
       var errorMessageString;
 
       for (var key in apiErrors) {
-        if (string.includes(apiErrors[key])) {
+        if (apiError.includes(apiErrors[key])) {
           errorMessageString = errorMessageMappings[key]
         }
       }

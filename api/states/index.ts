@@ -46,7 +46,8 @@ async function payload(req, res) {
     {
         res.status(result.apiStatusCode).send(result.apiError + " **ERROR DESC**" + result.apiErrorDescription)
     }
-    else {
+    else 
+    {
         return 'registration-confirmation'
     }
 

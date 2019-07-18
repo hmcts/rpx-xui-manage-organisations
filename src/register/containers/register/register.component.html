@@ -9,6 +9,12 @@
           <a href="#" [routerLink]="'/register-org/register/organisation-name'" role="button" class="govuk-button govuk-button--start">Start</a>
       </ng-container>
 
+      <div *ngIf="pageId === 'check' && (errorMessage | async) !== ''">
+        <app-notification-banner-component>
+            <span>{{errorMessage | async}}</span>
+        </app-notification-banner-component>      
+      </div>
+
       <app-form-builder
         [pageItems]="pageItems"
         [pageValues]="pageValues"
@@ -25,5 +31,4 @@
     </div>
   </div>
 </main>
-<span *ngIf="pageId === 'check' && (errorMessage | async) !== ''">{{errorMessage | async}}</span>
 

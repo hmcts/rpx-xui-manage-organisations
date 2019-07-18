@@ -39,6 +39,9 @@ export class CustomValidatorsService implements ICustomValidatorsService {
    *
    * Defines the format of an ng Validation error.
    *
+   * The ValidationErrors object is an ng concept that contains a list of validation errors associated
+   * with a form.
+   *
    * @param validationErrorName - developer assigned name of the validation
    * @param validationErrorMessage - developer assigned validation message
    * @see https://angular.io/api/forms/ValidationErrors
@@ -46,7 +49,7 @@ export class CustomValidatorsService implements ICustomValidatorsService {
    */
   validationError(validationErrorName, validationErrorMessage): ValidationErrors {
     return {
-      validationErrorName: {
+      [validationErrorName]: {
         value: validationErrorMessage
       }
     };

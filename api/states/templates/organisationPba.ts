@@ -7,12 +7,12 @@ export default {
       {
         validationLevel: 'formControl',
         controlId: 'PBAnumber1',
-        text: 'Enter a valid PBA number. It must be begin with PBA',
+        text: 'Enter a valid PBA number',
       },
       {
         validationLevel: 'formControl',
         controlId: 'PBAnumber2',
-        text: 'Enter a valid PBA number. It must be begin with PBA',
+        text: 'Enter a valid PBA number',
       },
     ],
     groups: [
@@ -23,7 +23,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'PBAnumber1',
-                validators: ['pbaNumber'],
+                validators: ['pbaNumber', 'pbaNumberMaxLength'],
                 validationError: {
                   value: 'Enter a valid PBA number',
                   controlId: 'PBAnumber1',
@@ -38,7 +38,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'PBAnumber2',
-                validators: ['pbaNumber'],
+                validators: ['pbaNumber', 'pbaNumberMaxLength'],
                 validationError: {
                   value: 'Enter a valid PBA number',
                   controlId: 'PBAnumber2',

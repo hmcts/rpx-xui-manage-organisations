@@ -8,13 +8,13 @@ export default {
         validationLevel: 'formControl',
         controlId: 'DXnumber',
         text: 'Enter DX number. It must be 13 characters',
-        href: '/register/organisation-name'
+        href: '/register/organisation-name',
       },
       {
         validationLevel: 'formControl',
         controlId: 'DXexchange',
         text: 'Enter DX exchange. It can be up to 20 characters',
-        href: '/register/organisation-name'
+        href: '/register/organisation-name',
       }
     ],
     groups: [
@@ -25,7 +25,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'DXnumber',
-                validators: ['required', 'dxNumberExactLength'],
+                validators: ['dxNumberExactLength'],
                 validationError: {
                   value: 'Enter DX number. It must be 13 characters',
                   controlId: 'DXnumber',
@@ -40,7 +40,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'DXexchange',
-                validators: ['required', 'dxExchangeMaxLength'],
+                validators: ['dxExchangeMaxLength'],
                 validationError: {
                   value: 'Enter DX exchange. It can be up to 20 characters',
                   controlId: 'DXexchange',

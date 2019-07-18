@@ -42,6 +42,10 @@ export class ValidationService {
       simpleName: 'pbaNumber',
       ngValidatorFunction: Validators.pattern(/(PBA\w*)/i)
     },
+    {
+      simpleName: 'pbaNumberMaxLength',
+      ngValidatorFunction: Validators.maxLength(10)
+    },
   ];
 
   /**

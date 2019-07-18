@@ -132,7 +132,7 @@ export function reducer(
      return {
       ...state,
       submitted: false,
-      errorMessage: action.payload.statusText
+      errorMessage: action.payload.status + " " + action.payload.error
     };
     }
   }

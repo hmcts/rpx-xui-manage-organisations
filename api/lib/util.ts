@@ -17,9 +17,9 @@ export function asyncReturnOrError(
             logger.error(msg)
 
             if (setResponse) {
-                //res.status(err.statusCode || 500).send(msg)
-                console.log('error status code',err.statusCode)
-                res.statusMessage = '' + err
+                res.status(err.statusCode || 500).send(msg)
+                //console.log('error status code',err.statusCode)
+                //res.statusMessage = '' + err
             }
 
             return null

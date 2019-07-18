@@ -28,6 +28,12 @@ export async function postOrganisation(body: any): Promise<any> {
         const response = await http.post(`${url}/organisations`, body)
         return response.data
     } catch (e) {
-        throw new Error(e.status + " " + e.data.errorMessage);
+        //throw new Error(e.status + " " + e.data.errorMessage);
+        console.log('status code',e.status)
+        const errReport = {
+            apiError: e.data.errorMessage,
+            apiStatusCode: e.status,
+        }
+        return errReport
     }
 }

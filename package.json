@@ -22,7 +22,7 @@
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "build:ng": "ng build",
     "test:a11y": "echo 'not implemented'",
-    "test:ng": "ng test",
+    "test:ng": "",
     "lint": "npm run lint:ng",
     "lint:ng": "ng lint",
     "e2e": "ng e2e",

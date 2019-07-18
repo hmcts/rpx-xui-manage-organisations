@@ -1,25 +1,46 @@
-
+@smoke
 Feature: Login
 
   Background:
-    Given I am on idam login page
+    When I navigate to manage organisation Url
 
-    Scenario Outline: un-authenticated user login
-      When I enter an invalid email address <emailAddress> or invalid password <password> and click on login button
-      Then I should be redirected to the idam login page with failure error summary
-      Examples:
-        |emailAddress|password|
-        |abc@gmail.com|test|
-
-
-
-    Scenario Outline: login and log out for manage organisation ui
-      When I enter an email address <emailAddress> and password <password> and click on login button
-      Then I should be redirected to manage organisation page
-      When I click on the sign out link
-      Then I should be redirected to the idam login page
-      Examples:
-      |emailAddress|password|
-      |puisuperuser@mailnesia.com|Monday01|
+#
+#  Scenario: Login and Logout as SSCS user
+#    Then I login as SSCS user
+#    Then I check the user is logged
+#    Then I click the signout
+#    Then I logout successfully and back to Login page
+#
+#  Scenario: Login and Logout as FR user
+#    Then I login as FR user
+#    Then I check the user is logged
+#    Then I click the signout
+#    Then I logout successfully and back to Login page
 
 
+
+  Scenario: un-authenticated user login
+    Then I am on Idam login page
+    When I enter an Invalid email-address and password to login
+    Then I should be redirected to the Idam login page
+    Then I should see failure error summary
+
+
+  Scenario: login and log out from manage organisation as SSCS user
+    Given I am logged into manage organisation with SSCS judge details
+    Then I should be redirected to manage organisation dashboard page
+    When I select the sign out link
+    Then I should be redirected to the Idam login page
+
+
+  Scenario: login and log out from manage organisation as FR user
+    Given I am logged into manage organisation with FR judge details
+    Then I should be redirected to manage organisation dashboard page
+    When I select the sign out link
+    Then I should be redirected to the Idam login page
+
+
+  @ignore
+  Scenario: Verify the direct link navigate to login page
+    Given I navigate to manage organisation Url direct link
+    Then I should be redirected back to Login page after direct link

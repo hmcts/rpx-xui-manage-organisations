@@ -1,4 +1,4 @@
-<lib-gov-uk-main-wrapper [title]="'Fee accounts'">
+<app-hmcts-main-wrapper [title]="'Fee accounts'">
   <app-govuk-table
     *ngIf="!(loading$ | async) else loading"
     [columnConfig]="columnConfig" [rows]="accounts$ | async" [firstCellIsHeader]="false" [caption]="''"
@@ -6,5 +6,5 @@
   <ng-template #loading>
     <div>Loading...</div>
   </ng-template>
-</lib-gov-uk-main-wrapper>
+</app-hmcts-main-wrapper>
 

@@ -1,65 +1,127 @@
 'use strict';
 
-const headerPage = require('../pageObjects/headerPage');
-const loginPage = require('../pageObjects/loginLogoutPage');
+const loginPage = require('../pageObjects/loginLogoutObjects');
+const { defineSupportCode } = require('cucumber');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-var {defineSupportCode} = require('cucumber');
+async function waitForElement(el) {
+  await browser.wait(result => {
+    return element(by.className(el)).isPresent();
+  }, 600000);
+}
 
-defineSupportCode(function ({And, But, Given, Then, When}) {
-  Given(/^I am on idam login page$/, async function () {
+defineSupportCode(function ({ Given, When, Then }) {
+
+  When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
     await browser.get(config.config.baseUrl);
-    await browser.driver.manage().deleteAllCookies();
+    await browser.driver.manage()
+      .deleteAllCookies();
     await browser.refresh();
     browser.sleep(AMAZING_DELAY);
-    await expect(loginPage.signinTitle.getText()).to.eventually.equal('Sign in');
   });
 
-
-  When(/^I enter an invalid email address (.*) or invalid password (.*) and click on login button$/, async function (emailAddress, password) {
-    //await loginPage.givenIAmUnauthenticatedUser();
-    await loginPage.emailAddress.sendKeys(emailAddress);
-    browser.sleep(SHORT_DELAY);
-    await loginPage.password.sendKeys(password);
-    browser.sleep(MID_DELAY);
-    await loginPage.clickSignIn();
-    browser.sleep(AMAZING_DELAY);
-
-  });
-
-  Then(/^I should be redirected to the idam login page with failure error summary$/, async function () {
-    browser.sleep(AMAZING_DELAY);
+  Then(/^I should see failure error summary$/, async function () {
+    await waitForElement('heading-large');
     await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.failure_error_heading.getText()).to.eventually.equal('Incorrect email or password');
+    await expect(loginPage.failure_error_heading.getText())
+      .to
+      .eventually
+      .equal('Incorrect email or password');
+  });
+
+
+  Then(/^I am on Idam login page$/, { timeout: 600 * 1000 }, async function () {
+    await waitForElement('heading-large');
+    await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.signinTitle.getText())
+      .to
+      .eventually
+      .equal('Sign in');
+    await expect(loginPage.emailAddress.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.password.isDisplayed()).to.eventually.be.true;
 
   });
 
-  When(/^I enter an email address (.*) and password (.*) and click on login button$/, async function (emailAddress, password) {
-    browser.sleep(AMAZING_DELAY);
-    await loginPage.emailAddress.sendKeys(emailAddress);
-    await loginPage.password.sendKeys(password);
+
+  When(/^I enter an valid email-address and password to login$/, async function () {
+    await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password
+    await loginPage.password.sendKeys(this.config.password);
+    // browser.sleep(SHORT_DELAY);
+    await loginPage.signinBtn.click();
+    browser.sleep(SHORT_DELAY);
+
+  });
+
+
+  When(/^I enter an Invalid email-address and password to login$/, async function () {
+    await loginPage.givenIAmUnauthenticatedUser();
+
+  });
+
+
+  Given(/^I should be redirected to the Idam login page$/, async function () {
+    browser.sleep(LONG_DELAY);
+    await expect(loginPage.signinTitle.getText())
+      .to
+      .eventually
+      .equal('Sign in');
+    browser.sleep(LONG_DELAY);
+  });
+
+
+  Then(/^I select the sign out link$/, async function () {
+    browser.sleep(SHORT_DELAY);
+    await expect(loginPage.signOutlink.isDisplayed()).to.eventually.be.true;
+    browser.sleep(SHORT_DELAY);
+    await loginPage.signOutlink.click();
+    browser.sleep(SHORT_DELAY);
+  });
+
+
+  Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
+    browser.sleep(LONG_DELAY);
+    await waitForElement('hmcts-header__link');
+    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.dashboard_header.getText())
+      .to
+      .eventually
+      .equal('Manage Organisation details for civil and family law cases');
+
+  });
+
+  Given(/^I am logged into manage organisation with SSCS judge details$/, async function () {
+    browser.sleep(LONG_DELAY);
+    await loginPage.emailAddress.sendKeys(this.config.username);
+    await loginPage.password.sendKeys(this.config.password);
     await loginPage.clickSignIn();
-    browser.sleep(AMAZING_DELAY);
-
+    browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be redirected to manage organisation page$/, async function () {
-    browser.sleep(AMAZING_DELAY);
-    await expect(headerPage.moPage.isDisplayed()).to.eventually.be.true;
-    await expect(headerPage.moPage.getText()).to.eventually.equal('Manage Organisation details for civil and family law cases');
+  Given(/^I am logged into manage organisation with FR judge details$/, async function () {
+    browser.sleep(LONG_DELAY);
+    await loginPage.emailAddress.sendKeys(this.config.username);
+    await loginPage.password.sendKeys(this.config.password);
+    await loginPage.clickSignIn();
+    browser.sleep(LONG_DELAY);
   });
 
-  When(/^I click on the sign out link$/, async function () {
-    headerPage.clickSignOut();
+  Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {
+    await browser.get(config.config.baseUrl + '/cases/case-filter');
+    await browser.driver.manage()
+      .deleteAllCookies();
+    await browser.refresh();
     browser.sleep(AMAZING_DELAY);
   });
 
-  Then(/^I should be redirected to the idam login page$/, async function () {
-    browser.sleep(AMAZING_DELAY);
-    await expect(loginPage.signinTitle.getText()).to.eventually.equal('Sign in');
+  Then(/^I should be redirected back to Login page after direct link$/, async function () {
+    browser.sleep(LONG_DELAY);
+    await expect(loginPage.signinTitle.getText())
+      .to
+      .eventually
+      .equal('Sign in');
+    browser.sleep(LONG_DELAY);
   });
-
 
 });

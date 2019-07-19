@@ -113,7 +113,7 @@ export function reducer(
 
       var errorMessageMappings = {
         1: "Duplicate email address already exists",
-        2: "Something went wrong, have you entered all required fields?",
+        2: "Something went wrong, ensure you have entered all the fields below",
         3: "SRA already exists",
         4: "Sorry, there is a problem with the service. Try again later",
       };

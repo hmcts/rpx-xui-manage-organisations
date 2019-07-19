@@ -1,6 +1,6 @@
-import {expect} from 'chai'
+import { expect } from 'chai'
 import 'mocha'
-import {makeOrganisationPayload} from './payloadBuilder'
+import { makeOrganisationPayload, setPropertyIfNotNull, setPropertiesArrayIfNotNull } from './payloadBuilder'
 
 describe('Payload builder', () => {
 
@@ -107,4 +107,104 @@ describe('Payload builder', () => {
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
         expect(organsiationPayload.dxAddress.dxNumber).to.equal(STATE_VALUES.DXnumber)
     })
-})
+
+    it('Should set sraId on payload if not null', () => {
+        const organisationPayload = {
+            contactInformation: [
+                {
+                    addressLine1: '45',
+                    addressLine2: 'Bridge Park',
+                    county: 'Co. Antrim',
+                    postcode: 'BT35ZAN',
+                    townCity: 'Lisburn'
+                },
+            ],
+            name: 'Organisation Limited',
+            superUser: {
+                email: 'testuser@gmail.com',
+                firstName: 'Mary',
+                lastName: 'Murphy',
+            },
+        }
+
+        const organsiationPayloadSraAdded = {
+            contactInformation: [
+                {
+                    addressLine1: '45',
+                    addressLine2: 'Bridge Park',
+                    county: 'Co. Antrim',
+                    postcode: 'BT35ZAN',
+                    townCity: 'Lisburn'
+                },
+            ],
+            name: 'Organisation Limited',
+            sraId: 'SRA1234567',
+            superUser: {
+                email: 'testuser@gmail.com',
+                firstName: 'Mary',
+                lastName: 'Murphy',
+            },
+        }
+
+        setPropertyIfNotNull(organisationPayload, 'sraId', null)
+        expect(organisationPayload).to.equal(organisationPayload)
+        setPropertyIfNotNull(organisationPayload, 'sraId', 'SRA1234567')
+        expect(organisationPayload).to.equal(organsiationPayloadSraAdded)
+    })
+
+    it('Should set dxAddress on payload if not null', () => {
+        const organisationPayload = {
+            contactInformation: [
+                {
+                    addressLine1: '45',
+                    addressLine2: 'Bridge Park',
+                    county: 'Co. Antrim',
+                    postcode: 'BT35ZAN',
+                    townCity: 'Lisburn'
+                },
+            ],
+            name: 'Organisation Limited',
+            superUser: {
+                email: 'testuser@gmail.com',
+                firstName: 'Mary',
+                lastName: 'Murphy',
+            },
+        }
+
+        const organsiationPayloadDXAddressAdded = {
+            contactInformation: [
+                {
+                    addressLine1: '45',
+                    addressLine2: 'Bridge Park',
+                    county: 'Co. Antrim',
+                    postcode: 'BT35ZAN',
+                    townCity: 'Lisburn',
+                    dxAddress: [
+                        {
+                          "dxNumber": "DX 1234567890",
+                          "dxExchange": "dxexchange"
+                        }
+                      ]
+                },
+            ],
+            name: 'Organisation Limited',
+            sraId: 'SRA1234567',
+            superUser: {
+                email: 'testuser@gmail.com',
+                firstName: 'Mary',
+                lastName: 'Murphy',
+            },
+        }
+
+        var [contactInformationArray] = organisationPayload.contactInformation
+        setPropertiesArrayIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
+          'DX1234567890', 'DX123456789876')
+        expect(organisationPayload).to.equal(organsiationPayloadDXAddressAdded)
+
+        setPropertiesArrayIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
+        null, null)
+        expect(organisationPayload).to.equal(organisationPayload)
+    })
+
+});
+

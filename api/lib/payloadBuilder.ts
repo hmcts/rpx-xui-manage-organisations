@@ -12,14 +12,14 @@ import { OrganisationPayload } from '../interfaces/organisationPayload'
  * @return
  */
 
-function setPropertyIfNotNull(organisationPayload, propertyName, value) {
+export function setPropertyIfNotNull(organisationPayload, propertyName, value) {
   if (value != null) {
     organisationPayload[propertyName] =
       value
   }
 }
 
-function setPropertiesIfNotNull(organisationPayload, propertyName1, propertyName2, arrayName, value1, value2) {
+export function setPropertiesArrayIfNotNull(organisationPayload, propertyName1, propertyName2, arrayName, value1, value2) {
   if (value1 != null || value2 != null) {
     organisationPayload[arrayName] = [{
       [propertyName1]: value1,
@@ -49,10 +49,10 @@ export function makeOrganisationPayload(stateValues): any {
   }
 
   setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
-  setPropertiesIfNotNull(organisationPayload, 'pbaAccounts', 'pbaNumber', 'pbaAccounts', stateValues.PBAnumber1, stateValues.PBAnumber2)
+  setPropertiesArrayIfNotNull(organisationPayload, 'pbaAccounts', 'pbaNumber', 'pbaAccounts', stateValues.PBAnumber1, stateValues.PBAnumber2)
 
   var [contactInformationArray] = organisationPayload.contactInformation
-  setPropertiesIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
+  setPropertiesArrayIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
     stateValues.DXexchange, stateValues.DXnumber)
 
   return organisationPayload;

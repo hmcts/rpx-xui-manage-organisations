@@ -13,4 +13,4 @@ export const components: any[] = [
 export * from './check-your-answers/check-your-answers.component';
 export * from './govuk-dl-list-item/govuk-dl-list-item.component';
 export * from './submitted-confirmation/submitted-confirmation.component';
-export * from './notification-banner/notification-banner.component'
+export * from './notification-banner/notification-banner.component';

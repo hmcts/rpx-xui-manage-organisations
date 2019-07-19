@@ -1,5 +1,5 @@
 import {initialState, reducer} from './registration.reducer';
-import {LoadPageItems,SubmitFormDataFail, ResetErrorMessage} from '../actions/registration.actions';
+import {LoadPageItems, SubmitFormDataFail, ResetErrorMessage} from '../actions/registration.actions';
 import {LoadPageItemsSuccess} from '../actions';
 
 describe('RegistrationReducer', () => {
@@ -32,8 +32,8 @@ describe('RegistrationReducer', () => {
   describe('SUBMIT_FORM_DATA_FAIL action', () => {
     it('should update the state.errorMessage', () => {
 
-      const payload = {error:'Undefined error',status:'500'}
-      const action = new SubmitFormDataFail(payload)
+      const payload = {error: 'Undefined error', status: '500'};
+      const action = new SubmitFormDataFail(payload);
 
       const state = reducer(initialState, action);
       expect(state.errorMessage).toEqual('Sorry, there is a problem with the service. Try again later');
@@ -42,7 +42,7 @@ describe('RegistrationReducer', () => {
 
   describe('RESET_ERROR_MESSAGE action', () => {
     it('should reset error message to empty string', () => {
-      const action = new ResetErrorMessage({}); 
+      const action = new ResetErrorMessage({});
       const state = reducer(initialState, action);
       expect(state.errorMessage).toEqual('');
     });

@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       }
     });
 
-  this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+    this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
 
   }
 
@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.$pageItemsSubscription.unsubscribe();
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
-    this.store.dispatch(new fromStore.ResetErrorMessage({}));  
+    this.store.dispatch(new fromStore.ResetErrorMessage({}));
   }
 
   onSubmitData(): void {

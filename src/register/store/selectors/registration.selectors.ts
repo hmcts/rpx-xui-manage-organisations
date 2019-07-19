@@ -34,8 +34,8 @@ export const getRegNextUrl = createSelector(
   fromRegistration.getRegistrationNextUrl
 );
 
-export const getErrorMessages = createSelector( 
-  getRegistrationState, 
+export const getErrorMessages = createSelector(
+  getRegistrationState,
   fromRegistration.getRegistrationErrorMessages
 );
 

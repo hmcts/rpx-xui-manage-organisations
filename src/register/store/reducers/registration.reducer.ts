@@ -108,49 +108,48 @@ export function reducer(
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
 
-      var apiError = action.payload.error
-      var apiStatus = action.payload.status
+      const apiError = action.payload.error;
+      const apiStatus = action.payload.status;
 
-      var errorMessageMappings = {
-        1: "Duplicate email address already exists",
-        2: "Something went wrong, ensure you have entered all the fields below",
-        3: "SRA already exists",
-        4: "PBA number must begin with PBA and be length 10",
-        5: "PBA number already exists",
-        6: "Sorry, there is a problem with the service. Try again later",
+      const errorMessageMappings = {
+        1: 'Duplicate email address already exists',
+        2: 'Something went wrong, ensure you have entered all the fields below',
+        3: 'SRA already exists',
+        4: 'PBA number must begin with PBA and be length 10',
+        5: 'PBA number already exists',
+        6: 'Sorry, there is a problem with the service. Try again later',
       };
 
-      var apiErrors = {
-        1: "email_address",
-        2: "Validation failed",
-        3: "sra_id_uq1",
-        4: "pbaNumber",
-        5: "pba_number"
+      const apiErrors = {
+        1: 'email_address',
+        2: 'Validation failed',
+        3: 'sra_id_uq1',
+        4: 'pbaNumber',
+        5: 'pba_number'
       };
 
-      var apiMessageMapped;
+      let apiMessageMapped;
 
-      for (var key in apiErrors) {
+      for (const key in apiErrors) {
         if (apiError.includes(apiErrors[key])) {
-          apiMessageMapped = errorMessageMappings[key]
+          apiMessageMapped = errorMessageMappings[key];
         }
       }
 
       if (apiMessageMapped) {
-        console.log('Reference data returns:' + apiError + " " + apiStatus)
+        console.log('Reference data returns:' + apiError + ' ' + apiStatus);
         return {
           ...state,
           submitted: false,
           errorMessage: apiMessageMapped
         };
       }
-      else {
-        return {
-          ...state,
-          submitted: false,
-          errorMessage: errorMessageMappings[6]
-        };
-      }
+
+      return {
+        ...state,
+        submitted: false,
+        errorMessage: errorMessageMappings[6]
+      };
     }
 
     case fromRegistration.RESET_ERROR_MESSAGE: {

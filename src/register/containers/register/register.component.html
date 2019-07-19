@@ -11,7 +11,7 @@
 
       <div *ngIf="pageId === 'check' && (errorMessage | async) !== ''">
         <app-notification-banner-component>
-            <span>{{errorMessage | async}}</span>
+            {{errorMessage | async}}
         </app-notification-banner-component>      
       </div>
 

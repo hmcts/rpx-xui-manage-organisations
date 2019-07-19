@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
+import { HealthCheckGuard } from './guards/health-check.guard';
+import { HealthCheckService } from './services/health-check.service';
 
 
 @NgModule({
@@ -45,7 +47,9 @@ import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appI
     },
     HeadersService,
     { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
-    MonitoringService
+    MonitoringService,
+    HealthCheckGuard,
+    HealthCheckService
   ]
 })
 export class SharedModule {

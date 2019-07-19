@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { combineReducers, select, Store, StoreModule } from '@ngrx/store';
 import {RegistrationFormState} from '../reducers/registration.reducer';
-import {getCurrentPageItems, getRegistrationPages, getRegistrationState} from './registration.selectors';
-import {LoadPageItems} from '../actions/registration.actions';
+import {getCurrentPageItems, getRegistrationPages, getRegistrationState, getErrorMessages} from './registration.selectors';
+import {LoadPageItems, SubmitFormDataFail} from '../actions/registration.actions';
 import {reducers} from '../index';
 import {LoadPageItemsSuccess} from '../actions';
 
@@ -54,6 +54,20 @@ describe('Registration selectors', () => {
           loading: false
         }
     });
+    });
+  });
+
+  describe('getErrorMessages', () => {
+    it('should return errorMessage state', () => {
+      let result;
+      store.pipe(select(getErrorMessages)).subscribe(value => {
+        result = value;
+
+      });
+      expect(result).toEqual('');
+      const payload = {error:'Undefined error',status:'500'};
+      store.dispatch(new SubmitFormDataFail(payload));
+      expect(result).toEqual('Sorry, there is a problem with the service. Try again later');
     });
   });
 

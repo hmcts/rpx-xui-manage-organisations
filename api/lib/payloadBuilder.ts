@@ -29,19 +29,19 @@ export function setDXIfNotNull(organisationPayload, propertyName1, propertyName2
 }
 
 export function setPBAIfNotNull(organisationPayload, arrayName, value1, value2) {
-  if (value1 != null && value2 != null) {
+  if (value1 != null && value1 != "" && value2 != null && value2 != "") {
     organisationPayload[arrayName] = [
       value1,
       value2
     ]
   }
-  else if(value1 != null)
+  else if(value1 != null && value1 != "")
   {
     organisationPayload[arrayName] = [
       value1
     ]
   }
-  else if(value2 != null)
+  else if(value2 != null && value2 != "")
   {
     organisationPayload[arrayName] = [
       value2

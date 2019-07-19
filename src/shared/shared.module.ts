@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
-import { HttpInterceptorServer } from './services/http-interceptor.service';
+import { HttpIntercepterServer } from './services/http-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeadersService } from './services/headers.service';
 import { AuthIntercepterServer } from './services/auth-interceptor.service';
@@ -34,7 +34,7 @@ import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appI
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorServer,
+      useClass: HttpIntercepterServer,
       multi: true
     },
     {

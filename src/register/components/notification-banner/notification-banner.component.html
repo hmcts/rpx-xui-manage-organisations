@@ -1,8 +1,16 @@
 <main id="content" role="main">
-    <div aria-labelledby="error-summary-title" class="govuk-error-summary"><div class="govuk-error-message"><ng-content></ng-content></div></div>
+  <div aria-labelledby="error-summary-title" class="govuk-error-summary">
+    <h2 class="govuk-error-summary__title">There is a problem</h2>
+    <ul class="govuk-list govuk-error-summary__list">
+      <li>
+        <a href=""><ng-content></ng-content></a>
+      </li>
+    </ul>
+  </div>
   </main>
 
-
+    
+  
 
 
 

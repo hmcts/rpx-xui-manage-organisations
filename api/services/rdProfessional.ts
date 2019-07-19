@@ -34,7 +34,7 @@ export async function postOrganisation(body: any): Promise<any> {
         const errReport = {
             apiError: e.data.errorMessage,
             apiErrorDescription: e.data.errorDescription,
-            apiStatusCode: e.status,
+            statusCode: e.status,
         }
 
         return errReport

@@ -3,18 +3,21 @@ import {AbstractControl, Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './form-group-validation.typescript';
+import { CustomValidatorsService } from './form-builder-custom-validators.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationService {
 
+  constructor(private datePipe: DatePipe, private customValidatorService: CustomValidatorsService) {
+  }
+
   // FOR SINGLE CONTROLS - formGroup.control level validation
   /**
    * Custom validators can be added to this.
    *
    * TODO : Define interface for array.
-   * TODO : Add a Custom Validator example.
    *
    * @see https://angular.io/guide/form-validation#custom-validators
    */
@@ -26,12 +29,24 @@ export class ValidationService {
     {
       simpleName: 'email',
       ngValidatorFunction: Validators.email
-    }
+    },
+    {
+      simpleName: 'dxNumberExactLength',
+      ngValidatorFunction: this.customValidatorService.exactLengthValidator(13)
+    },
+    {
+      simpleName: 'dxExchangeMaxLength',
+      ngValidatorFunction: Validators.maxLength(20)
+    },
+    {
+      simpleName: 'pbaNumberPattern',
+      ngValidatorFunction: Validators.pattern(/(PBA\w*)/i)
+    },
+    {
+      simpleName: 'pbaNumberMaxLength',
+      ngValidatorFunction: Validators.maxLength(10)
+    },
   ];
-
-
-  constructor(private datePipe: DatePipe) {
-  }
 
   /**
    * Returns a map of how we've mapped simple names to Ng Validators, and in the future custom validators.

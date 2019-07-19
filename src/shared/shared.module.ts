@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
-import { HttpInterceptorServer } from './services/http-interceptor.service';
+import { HttpIntercepterServer } from './services/http-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeadersService } from './services/headers.service';
 import { AuthIntercepterServer } from './services/auth-interceptor.service';
@@ -37,7 +37,7 @@ import { HealthCheckService } from './services/health-check.service';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpInterceptorServer,
+      useClass: HttpIntercepterServer,
       multi: true
     },
     {

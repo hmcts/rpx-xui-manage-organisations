@@ -109,7 +109,6 @@ export function reducer(
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
 
       const apiError = action.payload.error;
-      const apiStatus = action.payload.status;
 
       const errorMessageMappings = {
         1: 'Duplicate email address already exists',

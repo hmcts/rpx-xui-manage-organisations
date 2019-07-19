@@ -12,7 +12,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HealthCheckGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {

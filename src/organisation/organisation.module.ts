@@ -29,14 +29,9 @@ import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/app
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
-<<<<<<< HEAD
-  providers: [...fromServices.services, OrganisationGuard, //MonitoringService]
-]
-=======
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
   MonitoringService]
->>>>>>> master
 })
 
 

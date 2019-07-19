@@ -1,5 +1,5 @@
 import {initialState, reducer} from './registration.reducer';
-import {LoadPageItems,SubmitFormDataFail} from '../actions/registration.actions';
+import {LoadPageItems,SubmitFormDataFail, ResetErrorMessage} from '../actions/registration.actions';
 import {LoadPageItemsSuccess} from '../actions';
 
 describe('RegistrationReducer', () => {
@@ -37,6 +37,14 @@ describe('RegistrationReducer', () => {
 
       const state = reducer(initialState, action);
       expect(state.errorMessage).toEqual('Sorry, there is a problem with the service. Try again later');
+    });
+  });
+
+  describe('RESET_ERROR_MESSAGE action', () => {
+    it('should reset error message to empty string', () => {
+      const action = new ResetErrorMessage({}); 
+      const state = reducer(initialState, action);
+      expect(state.errorMessage).toEqual('');
     });
   });
 });

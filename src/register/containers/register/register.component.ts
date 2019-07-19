@@ -85,6 +85,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.$pageItemsSubscription.unsubscribe();
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
+    this.store.dispatch(new fromStore.ResetErrorMessage({}));  
   }
 
   onSubmitData(): void {

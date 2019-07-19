@@ -44,12 +44,8 @@ import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appI
       multi: true
     },
     HeadersService,
-<<<<<<< HEAD
-    //MonitoringService
-=======
     { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
     MonitoringService
->>>>>>> master
   ]
 })
 export class SharedModule {

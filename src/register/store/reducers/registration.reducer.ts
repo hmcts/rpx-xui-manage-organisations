@@ -152,6 +152,14 @@ export function reducer(
         };
       }
     }
+
+    case fromRegistration.RESET_ERROR_MESSAGE: {
+      return {
+        ...state,
+        submitted: false,
+        errorMessage: ''
+      };
+    }
   }
 
   return state;

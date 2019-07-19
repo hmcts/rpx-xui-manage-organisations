@@ -137,7 +137,6 @@ export function reducer(
       }
 
       if (apiMessageMapped) {
-        console.log('Reference data returns:' + apiError + ' ' + apiStatus);
         return {
           ...state,
           submitted: false,

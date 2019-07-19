@@ -6,7 +6,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 
 export const ENVIRONMENT = {
 
-  orgUri: '/api/organisaton'
+  orgUri: '/api/organisation'
 };
 
 @Injectable()

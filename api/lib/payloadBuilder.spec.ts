@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import 'mocha'
-import { makeOrganisationPayload, setPropertyIfNotNull, setPropertiesArrayIfNotNull } from './payloadBuilder'
+import { makeOrganisationPayload, setPropertyIfNotNull, setDXIfNotNull } from './payloadBuilder'
 
 describe('Payload builder', () => {
 
@@ -197,11 +197,11 @@ describe('Payload builder', () => {
         }
 
         var [contactInformationArray] = organisationPayload.contactInformation
-        setPropertiesArrayIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
+        setDXIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
           'DX1234567890', 'DX123456789876')
         expect(organisationPayload).to.equal(organsiationPayloadDXAddressAdded)
 
-        setPropertiesArrayIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
+        setDXIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
         null, null)
         expect(organisationPayload).to.equal(organisationPayload)
     })

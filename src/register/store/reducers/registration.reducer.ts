@@ -111,8 +111,6 @@ export function reducer(
       var apiError = action.payload.error
       var apiStatus = action.payload.status
 
-      console.log(apiError,apiStatus)
-
       var errorMessageMappings = {
         1: "Duplicate email address already exists",
         2: "Something went wrong, ensure you have entered all the fields below",

@@ -62,7 +62,6 @@ describe('Registration selectors', () => {
       let result;
       store.pipe(select(getErrorMessages)).subscribe(value => {
         result = value;
-
       });
       expect(result).toEqual('');
       const payload = {error:'Undefined error',status:'500'};

@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
-import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
-import { Observable } from 'rxjs';
+import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
+import {Observable} from 'rxjs';
 
 /*
 * User Form entry mediator component
@@ -21,7 +21,7 @@ export class InviteUserComponent implements OnInit {
   inviteUserForm: FormGroup;
 
   errors$: Observable<any>;
-  errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; }[] }>;
+  errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
 
   errorMessages = {
     firstName: ['Enter first name'],
@@ -54,7 +54,7 @@ export class InviteUserComponent implements OnInit {
   onSubmit() {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
-      let { value } = this.inviteUserForm;
+      let {value} = this.inviteUserForm;
       const permissions = Object.keys(value.roles).map(key => key);
       value = {
         ...value,

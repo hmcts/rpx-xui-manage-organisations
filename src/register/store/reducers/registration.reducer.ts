@@ -1,5 +1,5 @@
 import * as fromRegistration from '../actions/registration.actions';
-import { errorMessageMappings,apiErrors } from '../../mappings/apiErrorMappings'
+import { errorMessageMappings, apiErrors } from '../../mappings/apiErrorMappings';
 
 export const navigation = {
   'organisation-name': 'organisation-address',

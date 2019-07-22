@@ -196,13 +196,17 @@ describe('Payload builder', () => {
             },
         }
 
+        var stateValuesArray = ['DX 1234567890', 'dxexchange']
+        var propretyNameArray = ['dxNumber', 'dxExchange']
         var [contactInformationArray] = organisationPayload.contactInformation
-        setDXIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
-          'DX1234567890', 'DX123456789876')
+        setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
+          stateValuesArray)
         expect(organisationPayload).to.equal(organsiationPayloadDXAddressAdded)
 
-        setDXIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
-        null, null)
+        stateValuesArray = [undefined, undefined]
+        var [contactInformationArray] = organisationPayload.contactInformation
+        setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
+          stateValuesArray)
         expect(organisationPayload).to.equal(organisationPayload)
     })
 

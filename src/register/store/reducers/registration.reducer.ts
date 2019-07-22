@@ -116,7 +116,10 @@ export function reducer(
         3: 'SRA already exists',
         4: 'PBA number must begin with PBA and be length 10',
         5: 'PBA number already exists',
-        6: 'Sorry, there is a problem with the service. Try again later',
+        6: 'DX exchange cant be null',
+        7: 'DX number can not be null',
+        8: 'Dx number can not be null',
+        9: 'Sorry, there is a problem with the service. Try again later',
       };
 
       const apiErrors = {
@@ -124,7 +127,10 @@ export function reducer(
         2: 'Validation failed',
         3: 'sra_id_uq1',
         4: 'pbaNumber',
-        5: 'pba_number'
+        5: 'pba_number',
+        6: 'dx_exchange',
+        7: 'dx_number',
+        8: 'DxAddress'
       };
 
       let apiMessageMapped;
@@ -146,7 +152,7 @@ export function reducer(
       return {
         ...state,
         submitted: false,
-        errorMessage: errorMessageMappings[6]
+        errorMessage: errorMessageMappings[9]
       };
     }
 

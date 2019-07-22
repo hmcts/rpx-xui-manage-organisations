@@ -1,4 +1,5 @@
 import { OrganisationPayload } from '../interfaces/organisationPayload'
+import { test } from 'mocha';
 
 /**
  * makeOrganisationPayload
@@ -19,34 +20,30 @@ export function setPropertyIfNotNull(organisationPayload, propertyName, value) {
   }
 }
 
-export function setDXIfNotNull(organisationPayload, propertyName1, propertyName2, arrayName, value1, value2) {
-  if (value1 != null || value2 != null) {
-    organisationPayload[arrayName] = [{
-      [propertyName1]: value1,
-      [propertyName2]: value2
-    }]
+export function setDXIfNotNull(organisationPayload, propertyNameArray, arrayName, stateValuesArray) {
+
+  if (stateValuesArray[0] != undefined || stateValuesArray[1] != undefined) {
+
+    organisationPayload[arrayName] = {}
+
+    for (const key in stateValuesArray) {
+      if (stateValuesArray[key] != null && stateValuesArray[key] != "")
+        organisationPayload[arrayName][propertyNameArray[key]] = stateValuesArray[key]
+      else
+        organisationPayload[arrayName][propertyNameArray[key]] = ""
+    }
+    organisationPayload[arrayName] = [organisationPayload[arrayName]]
   }
 }
 
-export function setPBAIfNotNull(organisationPayload, arrayName, value1, value2) {
-  if (value1 != null && value1 != "" && value2 != null && value2 != "") {
-    organisationPayload[arrayName] = [
-      value1,
-      value2
-    ]
+export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray) {
+
+  organisationPayload[arrayName] = []
+  for (const key in stateValuesArray) {
+    if (stateValuesArray[key] != null && stateValuesArray[key] != "")
+      organisationPayload[arrayName][key] = stateValuesArray[key]
   }
-  else if(value1 != null && value1 != "")
-  {
-    organisationPayload[arrayName] = [
-      value1
-    ]
-  }
-  else if(value2 != null && value2 != "")
-  {
-    organisationPayload[arrayName] = [
-      value2
-    ]
-  }
+
 }
 
 export function makeOrganisationPayload(stateValues): any {
@@ -70,11 +67,15 @@ export function makeOrganisationPayload(stateValues): any {
   }
 
   setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
-  setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValues.PBAnumber1, stateValues.PBAnumber2)
 
+  var stateValuesArray = [stateValues.PBAnumber1, stateValues.PBAnumber2]
+  setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray)
+
+  stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange]
   var [contactInformationArray] = organisationPayload.contactInformation
-  setDXIfNotNull(contactInformationArray, 'dxExchange', 'dxNumber', 'dxAddress',
-    stateValues.DXexchange, stateValues.DXnumber)
+  var propretyNameArray = ['dxNumber', 'dxExchange']
+  setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
+    stateValuesArray)
 
   return organisationPayload;
 }

@@ -22,7 +22,7 @@ async function registerOrganisation(req, res) {
         'Error registering organisation',
         res,
         logger,
-        false
+        true
     )
 }
 
@@ -42,11 +42,15 @@ async function payload(req, res) {
     const result = await registerOrganisation(req, res)
     logger.info('Posted to Reference Data (Professional) service', result)
 
-    if (result) {
+    if(result.statusCode)
+    {
+        res.status(result.statusCode).send(result.apiError + " " + result.apiErrorDescription)
+    }
+    else 
+    {
         return 'registration-confirmation'
     }
 
-    res.status(ERROR400).send('Error registering organisation')
     return null
 }
 

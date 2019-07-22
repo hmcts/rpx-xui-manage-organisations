@@ -5,6 +5,7 @@ import {Action} from '@ngrx/store';
 export const LOAD_PAGE_ITEMS = '[Registration] LoadPageItems';
 export const LOAD_PAGE_ITEMS_SUCCESS = '[Registration] LoadPageItems Success';
 export const LOAD_PAGE_ITEMS_FAIL = '[Registration] LoadPageItems Fail';
+export const RESET_ERROR_MESSAGE = '[Registration] ResetErrorMessage';
 
 export const SAVE_FORM_DATA = '[Registration] Save Form Data';
 
@@ -49,6 +50,11 @@ export class SubmitFormDataFail implements Action {
   }
 }
 
+export class ResetErrorMessage implements Action {
+  readonly type = RESET_ERROR_MESSAGE;
+  constructor(public payload: any) {}
+}
+
 export type RegistrationActions =
   | LoadPageItems
   | LoadPageItemsSuccess
@@ -56,4 +62,5 @@ export type RegistrationActions =
   | SaveFormData
   | SubmitFormData
   | SubmitFormDataSuccess
-  | SubmitFormDataFail;
+  | SubmitFormDataFail
+  | ResetErrorMessage;

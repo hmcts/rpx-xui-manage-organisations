@@ -1,6 +1,7 @@
 import * as fromRegistration from '../actions/registration.actions';
+import { errorMessageMappings, apiErrors } from '../../mappings/apiErrorMappings';
 
-export const navigation  = {
+export const navigation = {
   'organisation-name': 'organisation-address',
   'organisation-address': 'organisation-pba',
   'organisation-pba': 'organisation-have-dx',
@@ -26,23 +27,25 @@ export interface PageItems {
 }
 
 export interface RegistrationFormState {
-  pages: {[id: string]: PageItems};
+  pages: { [id: string]: PageItems };
   pagesValues: object;
   navigation: object;
   nextUrl: string;
   loaded: boolean;
   loading: boolean;
   submitted: boolean;
+  errorMessage: string;
 }
 
 export const initialState: RegistrationFormState = {
   pages: {},
-  pagesValues: {haveDXNumber: 'dontHaveDX'},
+  pagesValues: { haveDXNumber: 'dontHaveDX' },
   navigation,
   nextUrl: '',
   loaded: false,
   loading: false,
-  submitted: false
+  submitted: false,
+  errorMessage: ''
 };
 
 export function reducer(
@@ -103,6 +106,41 @@ export function reducer(
         submitted: true
       };
     }
+
+    case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
+
+      const apiError = action.payload.error;
+
+      let apiMessageMapped;
+
+      for (const key in apiErrors) {
+        if (apiError.includes(apiErrors[key])) {
+          apiMessageMapped = errorMessageMappings[key];
+        }
+      }
+
+      if (apiMessageMapped) {
+        return {
+          ...state,
+          submitted: false,
+          errorMessage: apiMessageMapped
+        };
+      }
+
+      return {
+        ...state,
+        submitted: false,
+        errorMessage: errorMessageMappings[9]
+      };
+    }
+
+    case fromRegistration.RESET_ERROR_MESSAGE: {
+      return {
+        ...state,
+        submitted: false,
+        errorMessage: ''
+      };
+    }
   }
 
   return state;
@@ -114,4 +152,5 @@ export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) 
 export const getRegistrationNextUrl = (state: RegistrationFormState) => state.nextUrl;
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
 export const getRegistrationPagesLoaded = (state: RegistrationFormState) => state.loaded;
+export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
 

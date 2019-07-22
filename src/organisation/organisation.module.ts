@@ -18,7 +18,6 @@ import { OrganisationGuard } from './guards/organisation.guard';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
 
-
 @NgModule({
   imports: [
     CommonModule,

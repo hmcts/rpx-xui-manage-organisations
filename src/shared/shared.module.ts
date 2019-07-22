@@ -13,6 +13,7 @@ import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmc
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 
+
 @NgModule({
   declarations: [
     HmctsMainWrapperComponent,

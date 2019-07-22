@@ -15,11 +15,11 @@ export class HealthCheckService {
         private http: HttpClient
     ) { }
 
-    doHealthCheck(url): boolean {
+    doHealthCheck(path): boolean {
         let result: boolean = true;
         const requests: Observable<object>[] = [];
 
-        this.getEndpoints(url).forEach(element => {
+        this.getEndpoints(path).forEach(element => {
             requests.push(this.http.get(element));
         });
 
@@ -32,9 +32,9 @@ export class HealthCheckService {
         return result;
     }
 
-    getEndpoints(url): string[] {
+    getEndpoints(path): string[] {
         const endpoints: string[] = [];
-        healthCheckEndpointDictionary[url].forEach(element => {
+        healthCheckEndpointDictionary[path].forEach(element => {
             endpoints.push(environment.services[element] + '/health');
         });
         return endpoints;

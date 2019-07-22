@@ -24,7 +24,7 @@ export function setPropertyIfNotNull(organisationPayload, propertyName, value) {
 
 export function setDXIfNotNull(organisationPayload, propertyNameArray, arrayName, stateValuesArray) {
 
-  if (stateValuesArray[0] != undefined || stateValuesArray[1] != undefined) {
+  if (stateValuesArray[0] || stateValuesArray[1]) {
 
     organisationPayload[arrayName] = {}
 
@@ -41,10 +41,15 @@ export function setDXIfNotNull(organisationPayload, propertyNameArray, arrayName
 export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray) {
 
   organisationPayload[arrayName] = []
+
   for (const key in stateValuesArray) {
-    if (stateValuesArray[key] != null && stateValuesArray[key] != "")
+    if (stateValuesArray[key])
+    { 
       organisationPayload[arrayName][key] = stateValuesArray[key]
+    }
   }
+
+  organisationPayload[arrayName] = organisationPayload[arrayName].filter(value => Object.keys(value).length !== 0);
 
 }
 

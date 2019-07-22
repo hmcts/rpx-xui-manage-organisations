@@ -17,7 +17,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'users',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HealthCheckGuard],
     loadChildren: '../users/users.module#UsersModule'
   },
   {

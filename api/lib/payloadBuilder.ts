@@ -14,9 +14,11 @@ import { test } from 'mocha';
  */
 
 export function setPropertyIfNotNull(organisationPayload, propertyName, value) {
-  if (value != null) {
+
+  if(value)
+  {
     organisationPayload[propertyName] =
-      value
+    value
   }
 }
 

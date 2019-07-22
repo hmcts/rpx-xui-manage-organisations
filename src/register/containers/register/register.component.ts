@@ -5,6 +5,7 @@ import * as fromRoot from '../../../app/store/';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { async } from 'q';
 
 /**
  * Bootstraps the Register Components

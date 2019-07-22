@@ -44,8 +44,8 @@ describe('Registration actions', () => {
   // Fail
   describe('SubmitFormDataFail', () => {
     it('should create an action', () => {
-      const action = new fromRegistration.SubmitFormDataFail('Something');
-      const payload = 'Something';
+      const action = new fromRegistration.SubmitFormDataFail('Error');
+      const payload = 'Error';
       expect({ ...action }).toEqual({
         type: fromRegistration.SUBMIT_FORM_DATA_FAIL,
         payload

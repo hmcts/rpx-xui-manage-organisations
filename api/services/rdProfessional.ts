@@ -28,11 +28,11 @@ export async function postOrganisation(body: any): Promise<any> {
         const response = await http.post(`${url}/organisations`, body)
         return response.data
 
-    } catch (e) {
+    } catch (error) {
         const errReport = {
-            apiError: e.data.errorMessage,
-            apiErrorDescription: e.data.errorDescription,
-            statusCode: e.status,
+            apiError: error.data.errorMessage,
+            apiErrorDescription: error.data.errorDescription,
+            statusCode: error.status,
         }
         return errReport
     }

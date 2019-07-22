@@ -197,7 +197,7 @@ describe('Payload builder', () => {
         }
 
         var stateValuesArray = ['DX 1234567890', 'dxexchange']
-        var propretyNameArray = ['dxNumber', 'dxExchange']
+        const propretyNameArray = ['dxNumber', 'dxExchange']
         var [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)

@@ -72,8 +72,8 @@ export function makeOrganisationPayload(stateValues): any {
   setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray)
 
   stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange]
-  var [contactInformationArray] = organisationPayload.contactInformation
-  var propretyNameArray = ['dxNumber', 'dxExchange']
+  const [contactInformationArray] = organisationPayload.contactInformation
+  const propretyNameArray = ['dxNumber', 'dxExchange']
   setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
     stateValuesArray)
 

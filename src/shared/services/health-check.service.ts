@@ -1,42 +1,36 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
-
-const healthCheckEndpointDictionary = {
-    '/organisation': ['idamWeb', 'rdProfessionalApi']
-};
+import * as fromRoot from '../../app/store';
+import { Store, select } from '@ngrx/store';
 
 @Injectable()
 export class HealthCheckService {
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private store: Store<fromRoot.State>,
     ) { }
 
-    doHealthCheck(path): boolean {
-        let result: boolean = true;
-        const requests: Observable<object>[] = [];
+    doHealthCheck(): Observable<boolean> {
+        const healthState: boolean = true;
+        let result: { healthState } = { healthState };
+        let path = '';
 
-        this.getEndpoints(path).forEach(element => {
-            requests.push(this.http.get(element));
+        this.store.pipe(select(fromRoot.getRouterUrl)).subscribe(value => {
+            path = value;
         });
 
-        forkJoin(requests).subscribe(response => {
-            console.log(response);
-        }, err => {
-            result = false;
-        });
+        if (path !== '') {
+            this.http.get('/api/healthCheck?path=' + encodeURIComponent(path)).subscribe((value: { healthState }) => {
+                result = value;
+            });
+        }
 
-        return result;
+
+        return of(result.healthState);
     }
 
-    getEndpoints(path): string[] {
-        const endpoints: string[] = [];
-        healthCheckEndpointDictionary[path].forEach(element => {
-            endpoints.push(environment.services[element] + '/health');
-        });
-        return endpoints;
-    }
 }

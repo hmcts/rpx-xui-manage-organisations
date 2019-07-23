@@ -12,32 +12,28 @@ const healthCheckEndpointDictionary = {
     '/organisation': ['idamWeb', 'rdProfessionalApi'],
 }
 
-function getEndpoints(path): string[] {
-    const endpoints: string[] = []
-    healthCheckEndpointDictionary[path].forEach(element => {
-        endpoints.push(config.services[element] + '/health')
-    })
-    return endpoints
+function getPromises(path): any[] {
+    const Promises = []
+    if (healthCheckEndpointDictionary[path]) {
+        healthCheckEndpointDictionary[path].forEach(element => {
+            Promises.push(http.get(config.services[element] + '/health'))
+        })
+    }
+    return Promises
 }
 
 async function healthCheckRoute(req, res) {
 
     try {
-        console.log(req.params)
-        const path = req.params.path
-        const PromiseArr = []
+        const path = req.query.path
+        let PromiseArr = []
         let response = { healthState: true }
-        console.log('Health check in progress')
 
         if (path !== '') {
-            getEndpoints(path).forEach(element => {
-                PromiseArr.push(http.get(element))
-            })
-
+            PromiseArr = getPromises(path)
         }
 
         await Promise.all(PromiseArr).then().catch(() => {
-            console.log('Health check failed')
             response = { healthState: false }
         })
 

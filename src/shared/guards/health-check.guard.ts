@@ -15,24 +15,12 @@ export class HealthCheckGuard implements CanActivate {
 
     canActivate() {
         return this.checkStore().pipe(
-            switchMap(() => of(true)),
+            switchMap((res) => of(res)),
             catchError(() => of(false))
         );
     }
 
     checkStore(): Observable<boolean> {
-        // let result = true;
-        // this.store.pipe(select(fromRoot.getRouterUrl),
-        //     tap(path => {
-        //         const healthCheckStatus = this.healthCheck.doHealthCheck(path);
-        //         if (!healthCheckStatus) {
-        //             result = false;
-        //             this.store.dispatch(new fromRoot.Go({ path: ['/not-found'] }));
-        //         }
-        //     }),
-        //     take(1)
-        // );
-        // return of(result);
         return this.healthCheck.doHealthCheck();
     }
 }

@@ -6,7 +6,8 @@ import { catchError, tap, map } from 'rxjs/operators';
 
 export const ENVIRONMENT = {
 
-  orgUri: '/api/organisation'
+  //orgUri: '/api/organisation'
+  orgUri: '/refdata/internal/v1/organisations'
 };
 
 @Injectable()
@@ -14,10 +15,11 @@ export class OrganisationService {
   constructor(private http: HttpClient) { }
 
   // TO DO  - this hard coded orgId needs to come from the userStore
-  orgId = 'E3F280A';
+  // orgId = 'LURUUL8';
 
   fetchOrganisation(): Observable<any> {
-    return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
+   // return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
+    return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
   }
 
   private handleError(error: HttpErrorResponse) {

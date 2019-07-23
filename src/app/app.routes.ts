@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import {AuthGuard} from '../user-profile/guards/auth.guard';
 import { NotFoundComponent } from './containers/not-found/not-found.component';
-import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 
 
 export const ROUTES: Routes = [
@@ -13,12 +12,12 @@ export const ROUTES: Routes = [
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard, HealthCheckGuard],
+    canActivate: [AuthGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {
     path: 'users',
-    canActivate: [AuthGuard, HealthCheckGuard],
+    canActivate: [AuthGuard],
     loadChildren: '../users/users.module#UsersModule'
   },
   {

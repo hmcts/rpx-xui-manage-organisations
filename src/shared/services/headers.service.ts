@@ -18,7 +18,8 @@ export class HeadersService {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId
     };
-    this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+     this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+   // this.API_BASE_URL = 'https://rd-professional-api-preview.service.core-compute-preview.internal';
   }
 
   generateLoginUrl() {

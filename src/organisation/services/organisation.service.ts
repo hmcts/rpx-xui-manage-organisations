@@ -6,7 +6,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 
 export const ENVIRONMENT = {
 
-  //orgUri: '/api/organisation'
+  // orgUri: '/api/organisation'
   orgUri: '/refdata/internal/v1/organisations'
 };
 

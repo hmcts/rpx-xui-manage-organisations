@@ -37,7 +37,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
+    // does it get to here?
+    // it does not hit here at all when we have previously hit the back button.
+    // so it still is subscribes
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
+      console.log('nextUrlSubscription');
+      console.log(nextUrl);
       if (nextUrl) {
         this.store.dispatch(new fromRoot.Go({
           path: ['/register-org/register', nextUrl]

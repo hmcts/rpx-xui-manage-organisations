@@ -80,15 +80,29 @@ export function reducer(
       };
     }
 
+    // Seems like if the reducer is exactly the same as the previous the subscriber on the
+    // state may not kick off as perhaps the objects aren't being deeply compared, a shallow
+    // compare maybe being used.
     case fromRegistration.SAVE_FORM_DATA: {
+
+      console.log('Save Form Data in reducer');
+      console.log('state.pagesValues');
+      console.log(state.pagesValues);
+      console.log('action.payload.value');
+      console.log(action.payload.value);
+
       const pagesValues = {
         ...state.pagesValues,
         ...action.payload.value
       };
 
+      // nextUrl seems to be working fine.
       const nextUrl = action.payload.value.have ?
         state.navigation[action.payload.pageId][action.payload.value.have] :
         state.navigation[action.payload.pageId];
+
+      console.log('new pagesValues');
+      console.log(pagesValues);
 
       return {
         ...state,

@@ -7,7 +7,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 export const ENVIRONMENT = {
 
   // orgUri: '/api/organisation'
-  orgUri: '/refdata/internal/v1/organisations'
+  orgUri: '/refdata/internal/v1/organisations/97RU3SH'
 };
 
 @Injectable()
@@ -19,7 +19,8 @@ export class OrganisationService {
 
   fetchOrganisation(): Observable<any> {
    // return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
-    return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
+   // return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
+    return this.http.get<any>(`http://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations`);
   }
 
   private handleError(error: HttpErrorResponse) {

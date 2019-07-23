@@ -40,6 +40,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     // does it get to here?
     // it does not hit here at all when we have previously hit the back button.
     // so it still is subscribes
+    // nextUrlSubscription would never change when the user goes back, therefore,
+    // a subscription to it would never kick off, therefore the go is never called.
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
       console.log('nextUrlSubscription');
       console.log(nextUrl);

@@ -31,7 +31,7 @@ export class HmctsMainWrapperComponent  {
 
   @Input() backLink: string;
   @Input() title: string;
-  @Input() summaryErrors: object;
+  @Input() summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]};
 
   constructor() { }
 

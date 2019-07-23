@@ -66,11 +66,31 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
+  showFormValidation(isValid) {
+    this.isPageValid = isValid;
+  }
+
   onPageContinue(formDraft): void {
+
+    console.log('onPageContinue')
+    console.log('Is form invalid?')
+    console.log(formDraft.invalid)
+
+    console.log('formDraft')
+    console.log(formDraft)
+    // Why is this invalid when the user goes backwards?
+    // if it's true ie. it's valid then we save the
+    // form data
+    // if not it's invalid and we should show the form validation.
+    // so if it's not valid then we pass into the form builder component
+    // that we should show the validation issues.
     if (formDraft.invalid ) {
-      this.isPageValid = true;
+      console.log('We should show the form validation.');
+      this.showFormValidation(true);
     } else {
-      this.isPageValid = false;
+      console.log('We should not show the form validation.');
+      console.log('We should save the form data.');
+      this.showFormValidation(false);
       const { value } = formDraft;
       this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
 

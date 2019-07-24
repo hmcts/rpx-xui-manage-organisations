@@ -17,7 +17,7 @@ export class OrganisationService {
   orgId = 'E3F280A';
 
   fetchOrganisation(): Observable<any> {
-    return this.http.get<any>(`https://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations`);
+    return this.http.get<any>(`https://rd-professional-api-preview.service.core-compute-preview.internal/v1/organisations`);
   }
 
   private handleError(error: HttpErrorResponse) {

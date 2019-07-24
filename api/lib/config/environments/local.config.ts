@@ -10,7 +10,7 @@ export default {
         emAnnoApi: 'https://em-anno-aat.service.core-compute-aat.internal',
         emNpaApi: 'https://em-npa-aat.service.core-compute-aat.internal',
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal',
-        rdProfessionalApi: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal/v1',
+        rdProfessionalApi: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal',
     },
     health: {
         ccdDataApi: 'https://ccd-data-store-api-aat.service.core-compute-aat.internal/health',

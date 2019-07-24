@@ -30,6 +30,7 @@ import config from '../../api/lib/config';
 import {OrganisationModule} from '../organisation/organisation.module';
 import {UserService} from '../user-profile/services/user.service';
 import {HttpClientModule} from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -52,7 +53,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     SharedModule,
     UserProfileModule,
     StoreRouterConnectingModule,
-    !config.production ? StoreDevtoolsModule.instrument({logOnly: true}) : []
+    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : []
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

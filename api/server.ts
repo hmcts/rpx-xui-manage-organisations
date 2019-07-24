@@ -50,6 +50,7 @@ app.use(cookieParser())
 app.get('/oauth2/callback', auth.oauth)
 
 app.use(serviceRouter)
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)

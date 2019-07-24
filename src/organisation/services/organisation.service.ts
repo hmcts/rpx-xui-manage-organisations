@@ -22,6 +22,7 @@ export class OrganisationService {
    // return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
     return this.
     http.get<any>(`https://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations`);
+
   }
 
   private handleError(error: HttpErrorResponse) {

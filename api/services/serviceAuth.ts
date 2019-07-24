@@ -26,6 +26,8 @@ export async function postS2SLease() {
             microservice,
             oneTimePassword,
         })
+
+        console.log('request is',request.data)
     } else {
         // this is only for local development against the RD docker image
         // end tunnel before posting to docker

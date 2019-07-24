@@ -25,7 +25,7 @@ export class HeadersService {
     const base = config.services.idam.idamLoginUrl;
     const clientId = config.services.idam.idamClientID;
     const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=manage-user create-user`;
   }
 
   getAuthHeaders() {

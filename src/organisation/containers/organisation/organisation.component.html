@@ -10,12 +10,18 @@
       <th class="govuk-table__header" scope="row">Address</th>
       <td class="govuk-table__cell">
         {{ data.contactInformation[0].addressLine1 }}
-        {{ data.contactInformation[0].addressLine2 }}
-        {{ data.contactInformation[0].addressLine3 }}
+        <br/>
+        <div *ngIf="data.contactInformation[0].addressLine2">
+          {{ data.contactInformation[0].addressLine2 }}
+          <br/>
+        </div> 
         {{ data.contactInformation[0].townCity }}
-        {{ data.contactInformation[0].postCode }}
+        <br/>
+        <div *ngIf="data.contactInformation[0].postCode">
+          {{ data.contactInformation[0].postCode }}
+          <br/>
+        </div>
         {{ data.contactInformation[0].county }}
-        {{ data.contactInformation[0].country }}
       </td>
       <td class="govuk-table__cell"></td>
     </tr>

@@ -5,6 +5,7 @@ import * as fromRoot from '../../../app/store/';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { async } from 'q';
 
 /**
  * Bootstraps the Register Components
@@ -31,6 +32,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   nextUrl: string;
   pageId: string;
   isPageValid = false;
+  errorMessage: any;
 
   ngOnInit(): void {
     this.subscribeToRoute();
@@ -52,6 +54,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }));
       }
     });
+
+    this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+
   }
 
   subscribeToRoute(): void {
@@ -109,6 +114,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.$pageItemsSubscription.unsubscribe();
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
+    this.store.dispatch(new fromStore.ResetErrorMessage({}));
   }
 
   onSubmitData(): void {

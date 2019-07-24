@@ -12,7 +12,7 @@ async function generateAPIRequest(method, subURL, params) {
         cookie = token;
     });
 
-
+console.log('cookie Value :' + cookie)
     const options = {
         headers: {
             Cookie: '__auth__=' + cookie,
@@ -25,7 +25,7 @@ async function generateAPIRequest(method, subURL, params) {
     if (params.body) options.body = params.body;
 
     let response
-
+console.log(mainURL + subURL)
     try {
         response = await http(method, mainURL + subURL, options)
     } catch (e) {

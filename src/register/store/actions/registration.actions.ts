@@ -7,6 +7,7 @@ export const LOAD_PAGE_ITEMS_SUCCESS = '[Registration] LoadPageItems Success';
 export const LOAD_PAGE_ITEMS_FAIL = '[Registration] LoadPageItems Fail';
 
 export const SAVE_FORM_DATA = '[Registration] Save Form Data';
+export const RESET_NEXT_URL = '[Registration] Reset Next Url';
 
 export class LoadPageItems implements Action {
   readonly type = LOAD_PAGE_ITEMS;
@@ -33,7 +34,6 @@ export const SUBMIT_FORM_DATA = '[Registration] Submit Form Data';
 export const SUBMIT_FORM_DATA_SUCCESS = '[Registration] Submit Form Data Success';
 export const SUBMIT_FORM_DATA_FAIL = '[Registration] Submit Form Data Fail';
 
-
 export class SubmitFormData implements Action {
   readonly type = SUBMIT_FORM_DATA;
   constructor(public payload: object) {}
@@ -49,6 +49,24 @@ export class SubmitFormDataFail implements Action {
   }
 }
 
+/**
+ * Reset Next Url
+ *
+ * We reset the nextUrl on the Store when a User clicks the Back Button.
+ *
+ * We do this as we subscribe to the nextUrl state within register.component.ts. When the nextUrl changes a Go action is dispatched, which
+ * navigates the User to the next url (page).
+ *
+ * When the User clicks the Back button we need to reset the nextUrl state, otherwise the state will remain the same when they click
+ * Continue, and therefore the register.component.ts's $nextUrlSubscription will never be trigger.
+ *
+ * @see register.component.ts
+ */
+export class ResetNextUrl implements Action {
+  readonly type = RESET_NEXT_URL;
+  constructor() {}
+}
+
 export type RegistrationActions =
   | LoadPageItems
   | LoadPageItemsSuccess
@@ -56,4 +74,5 @@ export type RegistrationActions =
   | SaveFormData
   | SubmitFormData
   | SubmitFormDataSuccess
-  | SubmitFormDataFail;
+  | SubmitFormDataFail
+  | ResetNextUrl;

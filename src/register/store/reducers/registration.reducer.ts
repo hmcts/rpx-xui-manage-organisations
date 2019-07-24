@@ -104,10 +104,26 @@ export function reducer(
       console.log('new pagesValues');
       console.log(pagesValues);
 
+      // ok so yep when the nextUrl matches the prevUrl when the user goes back
+      // the register component can't pick up on it.
+
+      console.log('prev nextUrl in state');
+      console.log(state.nextUrl);
+
+      console.log('next nextUrl state');
+      console.log(nextUrl);
+
       return {
         ...state,
         pagesValues,
         nextUrl
+      };
+    }
+
+    case fromRegistration.RESET_NEXT_URL: {
+      return {
+        ...state,
+        nextUrl: '',
       };
     }
 

@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     // so it still is subscribes
     // nextUrlSubscription would never change when the user goes back, therefore,
     // a subscription to it would never kick off, therefore the go is never called.
+    // so over here we're
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
       console.log('nextUrlSubscription');
       console.log(nextUrl);
@@ -114,7 +115,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.store.dispatch( new fromStore.SubmitFormData(this.pageValues));
   }
 
+  // Shoudl we get it to listen to pageValues, probably not, as these won't change until
+  //
   onGoBack(event) {
+    this.store.dispatch( new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }
 }

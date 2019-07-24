@@ -7,7 +7,7 @@ import {NavItemsModel} from '../../models/nav-items.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
-import { environment } from 'src/environments/environment';
+
 /**
  * Root Component that bootstrap all application.
  * It holds the state for global components (header and footer)
@@ -48,14 +48,6 @@ export class AppComponent implements OnInit {
       }
     });
 
-    if(!environment.production)
-    {
-      console.log('not prod env')
-    }
-    if(environment.production)
-    {
-      console.log('prod env')
-    }
   }
   onNavigate(event): void {
     if (event === 'sign-out') {

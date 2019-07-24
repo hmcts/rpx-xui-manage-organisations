@@ -20,7 +20,7 @@ export class OrganisationService {
   fetchOrganisation(): Observable<any> {
    // return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
    // return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
-    return this.http.get<any>(`http://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations`);
+    return this.http.get<any>(`https://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations`);
   }
 
   private handleError(error: HttpErrorResponse) {

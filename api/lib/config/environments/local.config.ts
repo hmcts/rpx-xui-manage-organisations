@@ -36,7 +36,7 @@ export default {
         emAnnoApi: 'https://em-anno-aat.service.core-compute-aat.internal/health',
         emNpaApi: 'https://em-npa-aat.service.core-compute-aat.internal/health',
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal/health',
-        rdProfessionalApi: 'https://127.0.0.1:8090/health',
+        rdProfessionalApi: 'http://localhost:8090/health',
     },
     proxy: {
         host: '172.16.0.7',

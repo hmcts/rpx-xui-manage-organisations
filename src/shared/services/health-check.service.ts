@@ -30,7 +30,7 @@ export class HealthCheckService implements OnDestroy {
                     .subscribe((res: { healthState }) => {
                         result = res;
                         if (!result.healthState) {
-                            this.store.dispatch(new fromRoot.Go({ path: ['/not-found'] }));
+                            this.store.dispatch(new fromRoot.Go({ path: ['/service-down'] }));
                         }
                         this.routeSubscription.unsubscribe();
                     });

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { HealthCheckService } from '../services/health-check.service';
 
 

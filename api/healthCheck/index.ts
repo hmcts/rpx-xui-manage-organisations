@@ -16,7 +16,7 @@ function getPromises(path): any[] {
     const Promises = []
     if (healthCheckEndpointDictionary[path]) {
         healthCheckEndpointDictionary[path].forEach(element => {
-            Promises.push(http.get(config.services[element] + '/health'))
+            Promises.push(http.get(config.health[element]))
         })
     }
     return Promises

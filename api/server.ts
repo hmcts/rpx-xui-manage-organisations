@@ -15,6 +15,7 @@ import routes from './routes'
 const FileStore = sessionFileStore(session)
 
 const app = express()
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use(
     session({
@@ -59,6 +60,7 @@ app.use('/*', (req, res) => {
     })
     console.timeEnd(`GET: ${req.originalUrl}`)
 })
+
 
 app.use('/api', routes)
 

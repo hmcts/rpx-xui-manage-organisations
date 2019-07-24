@@ -83,38 +83,16 @@ export function reducer(
       };
     }
 
-    // Seems like if the reducer is exactly the same as the previous the subscriber on the
-    // state may not kick off as perhaps the objects aren't being deeply compared, a shallow
-    // compare maybe being used.
     case fromRegistration.SAVE_FORM_DATA: {
-
-      console.log('Save Form Data in reducer');
-      console.log('state.pagesValues');
-      console.log(state.pagesValues);
-      console.log('action.payload.value');
-      console.log(action.payload.value);
 
       const pagesValues = {
         ...state.pagesValues,
         ...action.payload.value
       };
 
-      // nextUrl seems to be working fine.
       const nextUrl = action.payload.value.have ?
         state.navigation[action.payload.pageId][action.payload.value.have] :
         state.navigation[action.payload.pageId];
-
-      console.log('new pagesValues');
-      console.log(pagesValues);
-
-      // ok so yep when the nextUrl matches the prevUrl when the user goes back
-      // the register component can't pick up on it.
-
-      console.log('prev nextUrl in state');
-      console.log(state.nextUrl);
-
-      console.log('next nextUrl state');
-      console.log(nextUrl);
 
       return {
         ...state,
@@ -123,6 +101,19 @@ export function reducer(
       };
     }
 
+    /**
+     * Reset Next Url
+     *
+     * We reset the nextUrl on the Store when a User clicks the Back Button.
+     *
+     * We do this as we subscribe to the nextUrl state within register.component.ts. When the nextUrl changes a Go action is dispatched,
+     * which navigates the User to the next url (page).
+     *
+     * When the User clicks the Back button we need to reset the nextUrl state, otherwise the state will remain the same when they click
+     * Continue, and therefore the register.component.ts's $nextUrlSubscription will never be trigger.
+     *
+     * @see register.component.ts
+     */
     case fromRegistration.RESET_NEXT_URL: {
       return {
         ...state,

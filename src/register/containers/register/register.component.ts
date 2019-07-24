@@ -34,20 +34,19 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isPageValid = false;
   errorMessage: any;
 
+  /**
+   * ngOnInit
+   *
+   * <code>this.$nextUrlSubscription</code>
+   * We listen to nextUrl on the Store. When nextUrl on the store changes we dispatch an action to navigate the User to the next Url (page).
+   */
   ngOnInit(): void {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
-    // does it get to here?
-    // it does not hit here at all when we have previously hit the back button.
-    // so it still is subscribes
-    // nextUrlSubscription would never change when the user goes back, therefore,
-    // a subscription to it would never kick off, therefore the go is never called.
-    // so over here we're
+
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
-      console.log('nextUrlSubscription');
-      console.log(nextUrl);
       if (nextUrl) {
         this.store.dispatch(new fromRoot.Go({
           path: ['/register-org/register', nextUrl]
@@ -56,7 +55,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
 
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
-
   }
 
   subscribeToRoute(): void {
@@ -84,25 +82,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onPageContinue(formDraft): void {
-
-    console.log('onPageContinue')
-    console.log('Is form invalid?')
-    console.log(formDraft.invalid)
-
-    console.log('formDraft')
-    console.log(formDraft)
-    // Why is this invalid when the user goes backwards?
-    // if it's true ie. it's valid then we save the
-    // form data
-    // if not it's invalid and we should show the form validation.
-    // so if it's not valid then we pass into the form builder component
-    // that we should show the validation issues.
     if (formDraft.invalid ) {
-      console.log('We should show the form validation.');
       this.showFormValidation(true);
     } else {
-      console.log('We should not show the form validation.');
-      console.log('We should save the form data.');
       this.showFormValidation(false);
       const { value } = formDraft;
       this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
@@ -121,10 +103,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.store.dispatch( new fromStore.SubmitFormData(this.pageValues));
   }
 
-  // Shoudl we get it to listen to pageValues, probably not, as these won't change until
-  //
   onGoBack(event) {
-    this.store.dispatch( new fromStore.ResetNextUrl());
+    this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }
 }

@@ -10,7 +10,7 @@ export default {
         emAnnoApi: 'https://em-anno-aat.service.core-compute-aat.internal',
         emNpaApi: 'https://em-npa-aat.service.core-compute-aat.internal',
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal',
-        rdProfessionalApi: 'http://localhost:8090/v1',
+        rdProfessionalApi: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal/v1',
     },
     health: {
         ccdDataApi: 'https://ccd-data-store-api-aat.service.core-compute-aat.internal/health',
@@ -23,7 +23,7 @@ export default {
         emAnnoApi: 'https://em-anno-aat.service.core-compute-aat.internal/health',
         emNpaApi: 'https://em-npa-aat.service.core-compute-aat.internal/health',
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal/health',
-        rdProfessionalApi: 'http://localhost:8090/health',
+        rdProfessionalApi: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal/health',
     },
     proxy: {
         host: '172.16.0.7',

@@ -33,18 +33,11 @@ export class FormBuilderComponent implements OnChanges {
     }
   }
 
-  // So when the form is created it should get into here and create the form
-  // then set the validators.
   createForm() {
-    console.log('this.pageItems');
-    console.log(this.pageItems);
-    console.log('this.pageValues');
-    console.log(this.pageValues);
     this.formDraft = new FormGroup(this.formsService.defineformControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
 
-  // we need to loop through validators
   setValidators(): void {
     if (this.pageItems) {
       const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, this.pageItems.formGroupValidators);

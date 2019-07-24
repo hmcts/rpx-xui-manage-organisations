@@ -77,7 +77,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
-  showFormValidation(isValid) {
+  /**
+   * Show Form Validation
+   *
+   * Inform the Form Builder component to turn on or off the in-line form validation.
+   */
+  showFormValidation(isValid: boolean) {
     this.isPageValid = isValid;
   }
 

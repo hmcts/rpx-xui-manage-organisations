@@ -37,7 +37,8 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
 
             // also use these as axios defaults
             logger.info('Using Idam Token in defaults')
-            axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+           // axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+            axios.defaults.headers.common.Authorization = `Bearer eyJ0eXAiOiJKV1QiLCJ6aXAiOiJOT05FIiwia2lkIjoicDBZL0lpN0txdS9uZndIK0RvdmZVMEszbHRJPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJtYXJrLm51dGhhbGFwYXRpQGhtY3RzLm5ldCIsImF1dGhfbGV2ZWwiOjAsImF1ZGl0VHJhY2tpbmdJZCI6IjkyZDgwMGZhLWFmNjUtNGFiZi04YTQzLTEwZWVmMDk2OGNlMiIsImlzcyI6Imh0dHBzOi8vZm9yZ2Vyb2NrLWFtLnNlcnZpY2UuY29yZS1jb21wdXRlLWlkYW0tcHJldmlldy5pbnRlcm5hbDo4NDQzL29wZW5hbS9vYXV0aDIvaG1jdHMiLCJ0b2tlbk5hbWUiOiJhY2Nlc3NfdG9rZW4iLCJ0b2tlbl90eXBlIjoiQmVhcmVyIiwiYXV0aEdyYW50SWQiOiIyZWQwYTRmNi04MGI1LTQwZDQtOGM1Zi1iMjZhN2JkZGRkNTAiLCJhdWQiOiJyZC1wcm9mZXNzaW9uYWwtYXBpIiwibmJmIjoxNTYzOTc0MDU0LCJncmFudF90eXBlIjoiYXV0aG9yaXphdGlvbl9jb2RlIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSIsInJvbGVzIiwiY3JlYXRlLXVzZXIiLCJtYW5hZ2UtdXNlciIsInNlYXJjaC11c2VyIl0sImF1dGhfdGltZSI6MTU2Mzk3NDA1NDAwMCwicmVhbG0iOiIvaG1jdHMiLCJleHAiOjE1NjQwMDI4NTQsImlhdCI6MTU2Mzk3NDA1NCwiZXhwaXJlc19pbiI6Mjg4MDAsImp0aSI6IjM1ZGJlNGZkLTk3ZjYtNGI1ZC1iMWNkLTM4N2MyNDExZjA1ZCJ9.QzztBxSucJOLiALhOs6hBlHsmh_PtajNmHXGNqIwqLXcGcuA2sv01IP5MbSskoFph2VpMjJrSKbrwkixM-U4P1gapk6sOeuQGNxHT-LVbrgRvKY6bGPyBDmB155vbqSeMLGCFhJsFdX2pDyb1kFXpe9gZyBzHoIq5h5dpNzJkXV0Vze2gxJ189ryZndQm1Xm3kry2WkyD4wi7p_g3QBmXuVkNvlD1-dBE-tKxJv4IPOCsrqp66rS-4RfxAgflvu2sUgkzt7ZYCxnVWsuQOCKq38ibLQJUorDatvPFJi7BNWU3CBItFi4OMERd-QJdhnruYGRpwZ5YtL5P042DGEXeg`
 
             const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
             if (token) {

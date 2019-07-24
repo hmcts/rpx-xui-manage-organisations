@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import {AuthGuard} from '../user-profile/guards/auth.guard';
-import { NotFoundComponent } from './containers/not-found/not-found.component';
+import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { ShutterComponent } from './containers/shutter/shutter.component';
 
 
 export const ROUTES: Routes = [
@@ -31,8 +31,8 @@ export const ROUTES: Routes = [
     loadChildren: '../register/register.module#RegisterModule'
   },
   {
-    path: 'not-found',
-    component:  NotFoundComponent
+    path: 'service-down',
+    component: ShutterComponent
   },
   {
     path: '**',

@@ -7,7 +7,6 @@ import {NavItemsModel} from '../../models/nav-items.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
-
 /**
  * Root Component that bootstrap all application.
  * It holds the state for global components (header and footer)
@@ -47,7 +46,6 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-
   }
   onNavigate(event): void {
     if (event === 'sign-out') {

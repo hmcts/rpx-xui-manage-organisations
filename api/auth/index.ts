@@ -34,7 +34,6 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         const check = await sessionChainCheck(req, res, accessToken)
         if (check) {
             logger.info('Attaching auth')
-
             // also use these as axios defaults
             logger.info('Using Idam Token in defaults')
             axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`

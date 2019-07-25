@@ -9,7 +9,10 @@ const logger = log4jui.getLogger('outgoing')
 router.get('/', healthCheckRoute)
 
 const healthCheckEndpointDictionary = {
-    '/organisation': ['idamWeb', 'rdProfessionalApi'],
+    '/organisation': ['rdProfessionalApi'],
+    '/register-org/register/check': ['rdProfessionalApi'],
+    '/users': ['rdProfessionalApi'],
+    '/users/invite-user': ['rdProfessionalApi'],
 }
 
 function getPromises(path): any[] {

@@ -81,9 +81,10 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    browser.sleep(LONG_DELAY);
+    browser.sleep(AMAZING_DELAY);
     await waitForElement('hmcts-header__link');
     await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    console.log("loginPage.dashboard_header.getText():" + loginPage.dashboard_header.getText());
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually

@@ -4,7 +4,7 @@ export const application = {
         userId: '__userid__',
     },
     microservice: 'jui_webapp',
-    idamClient: 'xuiwebapp',
+    idamClient: 'xuimowebapp',
     oauthCallbackUrl: '/oauth2/callback',
     protocol: 'https',
     logging: 'debug',

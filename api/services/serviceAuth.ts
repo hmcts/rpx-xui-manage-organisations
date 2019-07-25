@@ -8,23 +8,24 @@ import { tunnel } from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.s2s
-const microservice = config.microservice
-const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
+const microservice =  'rd_professional_api',
+s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
 
 const logger = log4jui.getLogger('service user-profile')
 
 export async function postS2SLease() {
-    const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
+   // const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
+  const configEnv = 'local'
     let request: AxiosResponse<any>
     console.log('PUI_ENV is now:', configEnv)
-    if (configEnv !== 'ldocker') {
+   // if (configEnv !== 'ldocker') {
+      if (configEnv === 'local') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
 
         logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
-
         request = await http.post(`${url}/lease`, {
-            microservice,
-            oneTimePassword,
+          microservice,
+          oneTimePassword,
         })
     } else {
         // this is only for local development against the RD docker image

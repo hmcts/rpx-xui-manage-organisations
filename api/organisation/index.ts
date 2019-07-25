@@ -16,6 +16,6 @@ async function handleAddressRoute(req, res) {
 
 export const router = express.Router({ mergeParams: true })
 
-router.get('/:orgId', handleAddressRoute)
+router.get('', handleAddressRoute)
 
 export default router

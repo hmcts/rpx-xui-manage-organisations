@@ -1,13 +1,14 @@
 
 import {Action} from '@ngrx/store';
 
-
 export const LOAD_PAGE_ITEMS = '[Registration] LoadPageItems';
 export const LOAD_PAGE_ITEMS_SUCCESS = '[Registration] LoadPageItems Success';
 export const LOAD_PAGE_ITEMS_FAIL = '[Registration] LoadPageItems Fail';
-export const RESET_ERROR_MESSAGE = '[Registration] ResetErrorMessage';
 
 export const SAVE_FORM_DATA = '[Registration] Save Form Data';
+
+export const RESET_ERROR_MESSAGE = '[Registration] ResetErrorMessage';
+export const RESET_NEXT_URL = '[Registration] Reset Next Url';
 
 export class LoadPageItems implements Action {
   readonly type = LOAD_PAGE_ITEMS;
@@ -34,7 +35,6 @@ export const SUBMIT_FORM_DATA = '[Registration] Submit Form Data';
 export const SUBMIT_FORM_DATA_SUCCESS = '[Registration] Submit Form Data Success';
 export const SUBMIT_FORM_DATA_FAIL = '[Registration] Submit Form Data Fail';
 
-
 export class SubmitFormData implements Action {
   readonly type = SUBMIT_FORM_DATA;
   constructor(public payload: object) {}
@@ -55,6 +55,12 @@ export class ResetErrorMessage implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetNextUrl implements Action {
+  readonly type = RESET_NEXT_URL;
+  constructor() {
+  }
+}
+
 export type RegistrationActions =
   | LoadPageItems
   | LoadPageItemsSuccess
@@ -63,4 +69,5 @@ export type RegistrationActions =
   | SubmitFormData
   | SubmitFormDataSuccess
   | SubmitFormDataFail
-  | ResetErrorMessage;
+  | ResetErrorMessage
+  | ResetNextUrl;

@@ -100,6 +100,26 @@ export function reducer(
       };
     }
 
+    /**
+     * Reset Next Url
+     *
+     * We reset the nextUrl on the Store when a User clicks the Back Button.
+     *
+     * We do this as we subscribe to the nextUrl state within register.component.ts. When the nextUrl changes a Go action is dispatched,
+     * which navigates the User to the next url (page).
+     *
+     * When the User clicks the Back button we need to reset the nextUrl state, otherwise the state will remain the same when they click
+     * Continue, and therefore the register.component.ts's $nextUrlSubscription will never be trigger.
+     *
+     * @see register.component.ts
+     */
+    case fromRegistration.RESET_NEXT_URL: {
+      return {
+        ...state,
+        nextUrl: '',
+      };
+    }
+
     case fromRegistration.SUBMIT_FORM_DATA_SUCCESS: {
       return {
         ...state,

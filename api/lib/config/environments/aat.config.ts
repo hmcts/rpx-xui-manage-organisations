@@ -11,7 +11,7 @@ export default {
         emNpaApi: 'https://em-npa-aat.service.core-compute-aat.internal',
         cohCorApi: 'https://coh-cor-aat.service.core-compute-aat.internal',
         paymentApi: 'https://payment-api-aat.service.core-compute-aat.internal',
-        rdProfessionalApi: 'https://rpa-rd-professional-aat.service.core-compute-aat.internal',
+        rdProfessionalApi: 'https://rd-professional-api-preview.service.core-compute-preview.internal',
     },
     useProxy: false,
     secureCookie: false,

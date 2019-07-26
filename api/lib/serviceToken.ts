@@ -51,7 +51,7 @@ export async function serviceTokenGenerator() {
 export default async (req, res, next) => {
     const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
 
-    const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
+    const token = await asyncReturnOrError(generateToken(), 'Error getting s2s token', res, logger)
     if (token) {
         logger.info('Adding s2s token to defaults')
         req.headers.ServiceAuthorization = `Bearer ${token}`

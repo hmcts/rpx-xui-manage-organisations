@@ -19,13 +19,14 @@ export class HeadersService {
       USER: config.cookies.userId
     };
     this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+   // this.API_BASE_URL = 'https://rd-professional-api-preview.service.core-compute-preview.internal';
   }
 
   generateLoginUrl() {
     const base = config.services.idam.idamLoginUrl;
     const clientId = config.services.idam.idamClientID;
     const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=manage-user create-user`;
   }
 
   getAuthHeaders() {

@@ -34,11 +34,18 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isPageValid = false;
   errorMessage: any;
 
+  /**
+   * ngOnInit
+   *
+   * <code>this.$nextUrlSubscription</code>
+   * We listen to nextUrl on the Store. When nextUrl on the store changes we dispatch an action to navigate the User to the next Url (page).
+   */
   ngOnInit(): void {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
+
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
       if (nextUrl) {
         this.store.dispatch(new fromRoot.Go({
@@ -48,7 +55,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     });
 
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
-
   }
 
   subscribeToRoute(): void {
@@ -71,11 +77,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
+  /**
+   * Show Form Validation
+   *
+   * Inform the Form Builder component to turn on or off the in-line form validation.
+   */
+  showFormValidation(isValid: boolean) {
+    this.isPageValid = isValid;
+  }
+
   onPageContinue(formDraft): void {
     if (formDraft.invalid ) {
-      this.isPageValid = true;
+      this.showFormValidation(true);
     } else {
-      this.isPageValid = false;
+      this.showFormValidation(false);
       const { value } = formDraft;
       this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
 
@@ -94,6 +109,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onGoBack(event) {
+    this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }
 }

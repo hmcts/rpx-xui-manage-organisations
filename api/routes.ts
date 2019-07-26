@@ -8,6 +8,7 @@ import stateRouter from './states'
 import userDetailsRouter from './user'
 import getUserList from './userList'
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const router = express.Router({ mergeParams: true })
 
 router.use(auth.attach) // attach user-profile to all api routes

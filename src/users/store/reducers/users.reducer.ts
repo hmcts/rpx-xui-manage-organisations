@@ -38,7 +38,7 @@ export function reducer(
 
       console.log('New user list is',newData)
 
-      const mappedList = [
+      const userListMapped = [
         {
           email: action.payload.users[0].email,
           status: action.payload.users[0].status,
@@ -62,33 +62,31 @@ export function reducer(
     
       ]
         
-        for(var x = 0; x < mappedList.length; x++)
+        for(var userListCount = 0; userListCount < userListMapped.length; userListCount++)
         {
-          var puiOrganisationManager = mappedList[x].roles.includes("pui-organisation-manager");
-          var puiUserManager = mappedList[x].roles.includes("pui-user-manager");
-          var puiCaseManager = mappedList[x].roles.includes("pui-case-manager");
+          var isOrgManager = userListMapped[userListCount].roles.includes("pui-organisation-manager");
+          var isUserManager = userListMapped[userListCount].roles.includes("pui-user-manager");
+          var isCaseManager = userListMapped[userListCount].roles.includes("pui-case-manager");
   
     
-          var managerArray = [puiOrganisationManager,puiUserManager, puiCaseManager];
-          var allowManage = ['manageOrganisations','manageUsers','manageCases']
+          var userRoles = [isOrgManager,isUserManager, isCaseManager];
+          var userRolesMapped = ['manageOrganisations','manageUsers','manageCases']
 
-          for (var i = 0; i < managerArray.length; i++) {
+          for (var userRolesCount = 0; userRolesCount < userRoles.length; userRolesCount++) {
 
-            if(managerArray[i])
+            if(userRoles[userRolesCount])
             {
-              mappedList[x][allowManage[i]] = 'yes'
+              userListMapped[userListCount][userRolesMapped[userRolesCount]] = 'yes'
             }
             else
             {
-              mappedList[x][allowManage[i]] = 'no'
+              userListMapped[userListCount][userRolesMapped[userRolesCount]] = 'no'
             }
             }
 
         }
 
-      console.log('Mapped list is',mappedList)
-
-      userList = mappedList
+      userList = userListMapped
       return {
         ...state,
         userList,

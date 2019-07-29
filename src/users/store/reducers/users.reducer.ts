@@ -44,9 +44,7 @@ export function reducer(
             "pui-case-manager"
           ]
         }]
-
-        //var fruits = ["Banana", "Orange", "Apple", "Mango"];
-        //var n = fruits.includes("Mango");
+        
         var puiOrganisationManager = mappedList[0].roles.includes("pui-organisation-manager");
         var puiUserManager = mappedList[0].roles.includes("pui-user-manager");
         var puiCaseManager = mappedList[0].roles.includes("pui-case-manager");
@@ -67,7 +65,7 @@ export function reducer(
         else
         {
           console.log('role is not incuded')
-          mappedList[0]['manageCases'] = 'no'
+          mappedList[0][allowManage[i]] = 'no'
         }
         }
 

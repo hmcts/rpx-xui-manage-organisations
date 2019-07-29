@@ -29,7 +29,62 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      const userList = action.payload.users;
+      let userList = action.payload.users;
+      console.log('User list is',userList)
+      console.log('User list last name is',userList[0].lastName)
+
+      const mappedList = [
+        {
+          email: action.payload.users[0].email,
+          status: action.payload.users[0].status,
+          roles: [  
+            "pui-organisation-manager",
+            "pui-user-manager",
+            "pui-finance-manager",
+            "pui-case-manager"
+          ]
+        }]
+
+        //var fruits = ["Banana", "Orange", "Apple", "Mango"];
+        //var n = fruits.includes("Mango");
+        var puiOrganisationManager = mappedList[0].roles.includes("pui-organisation-manager");
+        var puiUserManager = mappedList[0].roles.includes("pui-user-manager");
+        var puiCaseManager = mappedList[0].roles.includes("pui-case-manager");
+
+  
+        var managerArray = [puiOrganisationManager,puiUserManager, puiCaseManager];
+        var allowManage = ['manageOrganisations','manageUsers','manageCases']
+        var arrayLength = managerArray.length;
+        for (var i = 0; i < arrayLength; i++) {
+        console.log(managerArray[i]);
+        //Do something
+        if(managerArray[i])
+        {
+          console.log('role is included')
+          mappedList[0][allowManage[i]] = 'yes'
+          console.log(i)
+        }
+        else
+        {
+          console.log('role is not incuded')
+          mappedList[0]['manageCases'] = 'no'
+        }
+        }
+
+        /*if(puiOrganisationManager) 
+        {
+          console.log('role is included')
+          mappedList[0]['manageCases'] = 'yes'
+        }
+        if(!puiOrganisationManager)
+        {
+          console.log('role is not included')
+        }*/
+
+      console.log('Test list is',mappedList)
+      console.log(userList)
+
+      userList = mappedList
       return {
         ...state,
         userList,

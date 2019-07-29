@@ -11,7 +11,7 @@ const url = config.services.rdProfessionalApi
 export async function getOrganisationId(details) {
     // TODO remove the hardcoded email when correct user gets returned from idam
     // const email = details.data.email;
-    const email = 'henry_fr_harper@yahoo.com'
+    const email = 'tmoley@kainos.com'
     return await http.get(`${config.services.rdProfessionalApi}/search/organisations/${email}`)
 }
 

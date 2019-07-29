@@ -31,7 +31,12 @@ export function reducer(
     case fromUsers.LOAD_USERS_SUCCESS: {
       let userList = action.payload.users;
       console.log('User list is',userList)
-      console.log('User list last name is',userList[0].lastName)
+
+      let newData = userList.map((item) => 
+      Object.assign({}, item, {selected:false})
+      )
+
+      console.log('New user list is',newData)
 
       const mappedList = [
         {
@@ -43,44 +48,48 @@ export function reducer(
             "pui-finance-manager",
             "pui-case-manager"
           ]
+        },
+        {
+          email: action.payload.users[1].email,
+          status: action.payload.users[1].status,
+          roles: [  
+            "pui-organisation-manager",
+            "pui-user-manager",
+            "pui-finance-manager",
+            "pui-case-manager"
+          ]
         }]
         
-        var puiOrganisationManager = mappedList[0].roles.includes("pui-organisation-manager");
-        var puiUserManager = mappedList[0].roles.includes("pui-user-manager");
-        var puiCaseManager = mappedList[0].roles.includes("pui-case-manager");
-
+        for(var x = 0; x < mappedList.length; x++)
+        {
+          var puiOrganisationManager = mappedList[x].roles.includes("pui-organisation-manager");
+          var puiUserManager = mappedList[x].roles.includes("pui-user-manager");
+          var puiCaseManager = mappedList[x].roles.includes("pui-case-manager");
   
-        var managerArray = [puiOrganisationManager,puiUserManager, puiCaseManager];
-        var allowManage = ['manageOrganisations','manageUsers','manageCases']
-        var arrayLength = managerArray.length;
-        for (var i = 0; i < arrayLength; i++) {
-        console.log(managerArray[i]);
-        //Do something
-        if(managerArray[i])
-        {
-          console.log('role is included')
-          mappedList[0][allowManage[i]] = 'yes'
-          console.log(i)
-        }
-        else
-        {
-          console.log('role is not incuded')
-          mappedList[0][allowManage[i]] = 'no'
-        }
+    
+          var managerArray = [puiOrganisationManager,puiUserManager, puiCaseManager];
+          var allowManage = ['manageOrganisations','manageUsers','manageCases']
+
+
+          mappedList[x]['test'] = 'test'
+          console.log('mapped list test',mappedList) 
+          for (var i = 0; i < managerArray.length; i++) {
+            console.log(managerArray[i]);
+            //Do something
+            if(managerArray[i])
+            {
+              mappedList[x][allowManage[i]] = 'yes'
+              console.log(mappedList[x][allowManage[i]])
+            }
+            else
+            {
+              mappedList[x][allowManage[i]] = 'no'
+            }
+            }
+
         }
 
-        /*if(puiOrganisationManager) 
-        {
-          console.log('role is included')
-          mappedList[0]['manageCases'] = 'yes'
-        }
-        if(!puiOrganisationManager)
-        {
-          console.log('role is not included')
-        }*/
-
-      console.log('Test list is',mappedList)
-      console.log(userList)
+      console.log('Mapped list is',mappedList)
 
       userList = mappedList
       return {

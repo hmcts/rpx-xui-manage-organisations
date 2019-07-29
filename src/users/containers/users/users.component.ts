@@ -26,8 +26,7 @@ export class UsersComponent implements OnInit {
       { header: 'Manage cases', key: 'manageCases' },
       { header: 'Manage organisation', key: 'manageOrganisations' },
       { header: 'Manage users', key: 'manageUsers' },
-      { header: 'Status', key: 'status' },
-      { header: 'Roles', key: 'roles' }
+      { header: 'Status', key: 'status' }
     ];
 
     this.store.dispatch(new fromStore.LoadUsers());

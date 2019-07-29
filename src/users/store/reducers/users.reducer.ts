@@ -58,7 +58,9 @@ export function reducer(
             "pui-finance-manager",
             "pui-case-manager"
           ]
-        }]
+        }
+    
+      ]
         
         for(var x = 0; x < mappedList.length; x++)
         {

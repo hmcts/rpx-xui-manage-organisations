@@ -14,7 +14,7 @@ export class OrganisationService {
   constructor(private http: HttpClient) { }
 
   // TO DO  - this hard coded orgId needs to come from the userStore
-  orgId = 'OOJ6M63';
+  orgId = 'E3F280A';
 
   fetchOrganisation(): Observable<any> {
     return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);

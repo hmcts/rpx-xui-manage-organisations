@@ -29,40 +29,38 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      let userList = action.payload.users;
-      console.log('User list is',userList)
+      let payload = action.payload.users;
 
-      let newData = userList.map((item) => 
+      let userListPayload = payload.map((item) => 
       Object.assign({}, item, {selected:false})
       )
-
-      console.log('New user list is',newData)
 
       const userListMapped = [
         {
           email: action.payload.users[0].email,
           status: action.payload.users[0].status,
           roles: [  
-            //"pui-organisation-manager",
-            //"pui-user-manager",
-            //"pui-finance-manager",
-            //"pui-case-manager"
+            "pui-organisation-manager",
+            "pui-user-manager",
+            "pui-finance-manager",
+            "pui-case-manager"
           ]
         },
         {
           email: action.payload.users[1].email,
           status: action.payload.users[1].status,
           roles: [  
-            //"pui-organisation-manager",
-          //"pui-user-manager",
-            //"pui-finance-manager",
-            //"pui-case-manager"
+            "pui-organisation-manager",
+            "pui-user-manager",
+            "pui-finance-manager",
+            "pui-case-manager"
           ]
         }
     
       ]
 
-      var users = userListMapped.map(function (user) {
+      //var userList = userListPayload.map(function (user)
+      var userList = userListMapped.map(function (user) {
         
           var roles = [
             { hasAccess: user.roles.includes("pui-organisation-manager"), name: 'manageOrganisations', access: "" },
@@ -91,7 +89,6 @@ export function reducer(
         return user
       });
 
-      userList = users
       return {
         ...state,
         userList,

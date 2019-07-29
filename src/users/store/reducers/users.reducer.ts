@@ -62,29 +62,29 @@ export function reducer(
       //var userList = userListPayload.map(function (user)
       var userList = userListMapped.map(function (user) {
         
-          var roles = [
-            { hasAccess: user.roles.includes("pui-organisation-manager"), name: 'manageOrganisations', access: "" },
-            { hasAccess: user.roles.includes("pui-user-manager"), name: 'manageUsers', access:"" },
-            { hasAccess: user.roles.includes("pui-case-manager"), name: 'manageCases', access:""},
+          var userRoles = [
+            { hasAccess: user.roles.includes("pui-organisation-manager"), accessRole: 'manageOrganisations', allowAccess: "" },
+            { hasAccess: user.roles.includes("pui-user-manager"), accessRole: 'manageUsers', allowAccess:"" },
+            { hasAccess: user.roles.includes("pui-case-manager"), accessRole: 'manageCases', allowAccess:""},
           ];
 
-          var mappedRoles = roles.map(function (role){
+          var mappedRoles = userRoles.map(function (userRole){
 
-            if(role.hasAccess)
+            if(userRole.hasAccess)
             {
-              role.access = 'yes'
+              userRole.allowAccess = 'yes'
 
             }
             else
             {
-              role.access = 'no'
+              userRole.allowAccess = 'no'
             }
-            return role
+            return userRole
           });
 
-        user[mappedRoles[0].name] = mappedRoles[0].access
-        user[mappedRoles[1].name] = mappedRoles[1].access
-        user[mappedRoles[2].name] = mappedRoles[2].access
+        user[mappedRoles[0].accessRole] = mappedRoles[0].allowAccess
+        user[mappedRoles[1].accessRole] = mappedRoles[1].allowAccess
+        user[mappedRoles[2].accessRole] = mappedRoles[2].allowAccess
 
         return user
       });

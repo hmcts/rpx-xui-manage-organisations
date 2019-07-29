@@ -1,14 +1,14 @@
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { ShutterComponent } from './shutter/shutter.component';
+import { ServiceDownComponent } from './service-down/service-down.component';
 
 export const containers: any[] = [
   HeaderComponent,
   FooterComponent,
-  ShutterComponent,
+  ServiceDownComponent,
 ];
 
 export * from './footer/footer.component';
 export * from './header/header.component';
-export * from './shutter/shutter.component';
+export * from './service-down/service-down.component';

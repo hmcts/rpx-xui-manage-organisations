@@ -16,26 +16,26 @@ export class HealthCheckGuard implements CanActivate {
     }
 
     canActivate() {
-        return this.checkStore().pipe(
+        return this.checkHealth().pipe(
             switchMap((res: any) => {
                 const state = res.healthState;
                 if (!state) {
-                    this.redirectToShutter();
+                    this.redirectToServiceDownPage();
                 }
                 return of(res.healthState);
             }),
             catchError(() => {
-                this.redirectToShutter();
+                this.redirectToServiceDownPage();
                 return of(false);
             })
         );
     }
 
-    checkStore(): Observable<boolean> {
+    checkHealth(): Observable<boolean> {
         return this.healthCheck.doHealthCheck();
     }
 
-    redirectToShutter() {
+    redirectToServiceDownPage() {
         this.store.dispatch(new fromRoot.Go({ path: ['/service-down'] }));
     }
 }

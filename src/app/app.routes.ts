@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import { ShutterComponent } from './containers/shutter/shutter.component';
+import { ServiceDownComponent } from './containers/service-down/service-down.component';
 
 
 export const ROUTES: Routes = [
@@ -32,7 +32,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'service-down',
-    component: ShutterComponent
+    component: ServiceDownComponent
   },
   {
     path: '**',

@@ -47,7 +47,6 @@ export function reducer(
 
           if (userRole.hasAccess) {
             userRole.allowAccess = 'yes'
-
           }
           else {
             userRole.allowAccess = 'no'

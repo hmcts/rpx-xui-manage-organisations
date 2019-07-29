@@ -31,56 +31,29 @@ export function reducer(
     case fromUsers.LOAD_USERS_SUCCESS: {
       let payload = action.payload.users;
 
-      let userListPayload = payload.map((item) => 
-      Object.assign({}, item, {selected:false})
+      let userListPayload = payload.map((item) =>
+        Object.assign({}, item, { selected: false })
       )
 
-      const userListMapped = [
-        {
-          email: action.payload.users[0].email,
-          status: action.payload.users[0].status,
-          roles: [  
-            "pui-organisation-manager",
-            "pui-user-manager",
-            "pui-finance-manager",
-            "pui-case-manager"
-          ]
-        },
-        {
-          email: action.payload.users[1].email,
-          status: action.payload.users[1].status,
-          roles: [  
-            "pui-organisation-manager",
-            "pui-user-manager",
-            "pui-finance-manager",
-            "pui-case-manager"
-          ]
-        }
-    
-      ]
+      var userList = userListPayload.map(function (user) {
 
-      //var userList = userListPayload.map(function (user)
-      var userList = userListMapped.map(function (user) {
-        
-          var userRoles = [
-            { hasAccess: user.roles.includes("pui-organisation-manager"), accessRole: 'manageOrganisations', allowAccess: "" },
-            { hasAccess: user.roles.includes("pui-user-manager"), accessRole: 'manageUsers', allowAccess:"" },
-            { hasAccess: user.roles.includes("pui-case-manager"), accessRole: 'manageCases', allowAccess:""},
-          ];
+        var userRoles = [
+          { hasAccess: user.roles.includes("pui-organisation-manager"), accessRole: 'manageOrganisations', allowAccess: "" },
+          { hasAccess: user.roles.includes("pui-user-manager"), accessRole: 'manageUsers', allowAccess: "" },
+          { hasAccess: user.roles.includes("pui-case-manager"), accessRole: 'manageCases', allowAccess: "" },
+        ];
 
-          var mappedRoles = userRoles.map(function (userRole){
+        var mappedRoles = userRoles.map(function (userRole) {
 
-            if(userRole.hasAccess)
-            {
-              userRole.allowAccess = 'yes'
+          if (userRole.hasAccess) {
+            userRole.allowAccess = 'yes'
 
-            }
-            else
-            {
-              userRole.allowAccess = 'no'
-            }
-            return userRole
-          });
+          }
+          else {
+            userRole.allowAccess = 'no'
+          }
+          return userRole
+        });
 
         user[mappedRoles[0].accessRole] = mappedRoles[0].allowAccess
         user[mappedRoles[1].accessRole] = mappedRoles[1].allowAccess

@@ -1,6 +1,7 @@
 import * as express from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
+import healthCheck from './healthCheck'
 import inviteUser from './inviteUser'
 import getappInsightsInstrumentationKey from './monitoring-tools'
 import organisationRouter from './organisation'
@@ -16,6 +17,7 @@ router.use('/decisions', stateRouter)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
 router.use('/user', userDetailsRouter)
+router.use('/healthCheck', healthCheck)
 router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
 router.use('/userDetails', getUserList)

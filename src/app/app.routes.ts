@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import {AuthGuard} from '../user-profile/guards/auth.guard';
+import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { ServiceDownComponent } from './containers/service-down/service-down.component';
 
 
 export const ROUTES: Routes = [
@@ -28,6 +29,10 @@ export const ROUTES: Routes = [
     path: 'register-org',
     canActivate: [AuthGuard],
     loadChildren: '../register/register.module#RegisterModule'
+  },
+  {
+    path: 'service-down',
+    component: ServiceDownComponent
   },
   {
     path: '**',

@@ -43,20 +43,20 @@ export function reducer(
           email: action.payload.users[0].email,
           status: action.payload.users[0].status,
           roles: [  
-            "pui-organisation-manager",
-            "pui-user-manager",
-            "pui-finance-manager",
-            "pui-case-manager"
+            //"pui-organisation-manager",
+            //"pui-user-manager",
+            //"pui-finance-manager",
+            //"pui-case-manager"
           ]
         },
         {
           email: action.payload.users[1].email,
           status: action.payload.users[1].status,
           roles: [  
-            "pui-organisation-manager",
-            "pui-user-manager",
-            "pui-finance-manager",
-            "pui-case-manager"
+            //"pui-organisation-manager",
+          //"pui-user-manager",
+            //"pui-finance-manager",
+            //"pui-case-manager"
           ]
         }
     
@@ -64,29 +64,32 @@ export function reducer(
 
       var users = userListMapped.map(function (user) {
         
-        var isOrgManager = user.roles.includes("pui-organisation-manager");
-        var isUserManager = user.roles.includes("pui-user-manager");
-        var isCaseManager = user.roles.includes("pui-case-manager");
+          var roles = [
+            { hasAccess: user.roles.includes("pui-organisation-manager"), name: 'manageOrganisations', access: "" },
+            { hasAccess: user.roles.includes("pui-user-manager"), name: 'manageUsers', access:"" },
+            { hasAccess: user.roles.includes("pui-case-manager"), name: 'manageCases', access:""},
+          ];
 
-        var userRoles = [isOrgManager,isUserManager, isCaseManager];
-        var userRolesMapped = ['manageOrganisations','manageUsers','manageCases']
+          var mappedRoles = roles.map(function (role){
 
-        for (var userRolesCount = 0; userRolesCount < userRoles.length; userRolesCount++) {
+            if(role.hasAccess)
+            {
+              role.access = 'yes'
 
-          if(userRoles[userRolesCount])
-          {
-            user[userRolesMapped[userRolesCount]] = 'yes'
-          }
-          else
-          {
-            user[userRolesMapped[userRolesCount]] = 'no'
-          }
-          }
+            }
+            else
+            {
+              role.access = 'no'
+            }
+            return role
+          });
+
+        user[mappedRoles[0].name] = mappedRoles[0].access
+        user[mappedRoles[1].name] = mappedRoles[1].access
+        user[mappedRoles[2].name] = mappedRoles[2].access
 
         return user
       });
-
-      console.log('users are',users)
 
       userList = users
       return {

@@ -11,7 +11,6 @@ router.post('/', inviteUserRoute)
 async function inviteUserRoute(req, res) {
     const orgId = req.session.auth.orgId
     const payload = req.body
-
     try {
         const response = await http.post(`${config.services.rdProfessionalApi}/organisations/${orgId}/users`, payload)
         logger.info('response::', response.data)

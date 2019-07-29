@@ -70,16 +70,11 @@ export function reducer(
           var managerArray = [puiOrganisationManager,puiUserManager, puiCaseManager];
           var allowManage = ['manageOrganisations','manageUsers','manageCases']
 
-
-          mappedList[x]['test'] = 'test'
-          console.log('mapped list test',mappedList) 
           for (var i = 0; i < managerArray.length; i++) {
-            console.log(managerArray[i]);
-            //Do something
+
             if(managerArray[i])
             {
               mappedList[x][allowManage[i]] = 'yes'
-              console.log(mappedList[x][allowManage[i]])
             }
             else
             {

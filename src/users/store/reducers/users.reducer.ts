@@ -61,32 +61,34 @@ export function reducer(
         }
     
       ]
+
+      var users = userListMapped.map(function (user) {
         
-        for(var userListCount = 0; userListCount < userListMapped.length; userListCount++)
-        {
-          var isOrgManager = userListMapped[userListCount].roles.includes("pui-organisation-manager");
-          var isUserManager = userListMapped[userListCount].roles.includes("pui-user-manager");
-          var isCaseManager = userListMapped[userListCount].roles.includes("pui-case-manager");
-  
-    
-          var userRoles = [isOrgManager,isUserManager, isCaseManager];
-          var userRolesMapped = ['manageOrganisations','manageUsers','manageCases']
+        var isOrgManager = user.roles.includes("pui-organisation-manager");
+        var isUserManager = user.roles.includes("pui-user-manager");
+        var isCaseManager = user.roles.includes("pui-case-manager");
 
-          for (var userRolesCount = 0; userRolesCount < userRoles.length; userRolesCount++) {
+        var userRoles = [isOrgManager,isUserManager, isCaseManager];
+        var userRolesMapped = ['manageOrganisations','manageUsers','manageCases']
 
-            if(userRoles[userRolesCount])
-            {
-              userListMapped[userListCount][userRolesMapped[userRolesCount]] = 'yes'
-            }
-            else
-            {
-              userListMapped[userListCount][userRolesMapped[userRolesCount]] = 'no'
-            }
-            }
+        for (var userRolesCount = 0; userRolesCount < userRoles.length; userRolesCount++) {
 
-        }
+          if(userRoles[userRolesCount])
+          {
+            user[userRolesMapped[userRolesCount]] = 'yes'
+          }
+          else
+          {
+            user[userRolesMapped[userRolesCount]] = 'no'
+          }
+          }
 
-      userList = userListMapped
+        return user
+      });
+
+      console.log('users are',users)
+
+      userList = users
       return {
         ...state,
         userList,

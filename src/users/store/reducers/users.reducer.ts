@@ -1,5 +1,6 @@
 import * as fromUsers from '../actions/user.actions';
 import {AppUtils} from 'src/app/utils/app-utils';
+import { AppConstants } from 'src/app/app.constants';
 
 export interface UsersListState {
   userList: object[];
@@ -40,22 +41,21 @@ export function reducer(
       }
       );
 
-      userListPayload[0].roles = ['pui-organisation-manager','pui-user-manager','pui-case-manager']
+      userListPayload[0].roles = ['pui-user-manager','pui-case-manager']
 
       const userList = userListPayload.map((user) => {
 
-        const userRoles = [
-          { hasAccess: user.roles.includes('pui-organisation-manager') ? 'Yes' : 'No' , accessRole: 'manageOrganisations'},
-          { hasAccess: user.roles.includes('pui-user-manager') ? 'Yes' : 'No', accessRole: 'manageUsers' },
-          { hasAccess: user.roles.includes('pui-case-manager') ? 'Yes' : 'No', accessRole: 'manageCases' },
-        ];
+        var userRolesMapped = AppConstants.USER_ROLES.map(function (role) {
+          console.log('user roles',user.roles)
+          return {accessRole : role.hasRole, hasAccess: user.roles.includes(role.role) ? 'Yes' : 'No'}
+        });
 
-        const statusCapitalised = AppUtils.capitalizeString(user.status)
+        console.log('user roles mapped is', userRolesMapped)
 
-        user.status = statusCapitalised;
-        user[userRoles[0].accessRole] = userRoles[0].hasAccess;
-        user[userRoles[1].accessRole] = userRoles[1].hasAccess;
-        user[userRoles[2].accessRole] = userRoles[2].hasAccess;
+        user.status = AppUtils.capitalizeString(user.status)
+        user[userRolesMapped[0].accessRole] = userRolesMapped[0].hasAccess;
+        user[userRolesMapped[1].accessRole] = userRolesMapped[1].hasAccess;
+        user[userRolesMapped[2].accessRole] = userRolesMapped[2].hasAccess;
 
         return user;
       });

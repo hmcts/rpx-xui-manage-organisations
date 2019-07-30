@@ -65,7 +65,7 @@ const userRolesConsts = [
     { role: 'pui-organisation-manager', hasRole: 'manageOrganisations'},
     { role: 'pui-user-manager', hasRole: 'manageUsers' },
     { role: 'pui-case-manager', hasRole: 'manageCases'}
-]
+];
 
 /**
  * Place to keep app constants.

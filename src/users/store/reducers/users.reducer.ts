@@ -31,31 +31,29 @@ export function reducer(
 
     case fromUsers.LOAD_USERS_SUCCESS: {
 
-      const payload = [...action.payload.users]; 
+      const payload = [...action.payload.users];
 
       const userListPayload = payload.map((item) => {
         return {
           ...item,
           selected: false
-        }
+        };
       }
       );
-
-      userListPayload[2].roles = ['pui-case-manager','pui-user-manager']
-      userListPayload[1].roles = ['pui-case-manager']
+      userListPayload[0].roles = ['pui-organisation-manager', 'pui-user-manager'];
+      userListPayload[2].roles = ['pui-case-manager', 'pui-user-manager'];
+      userListPayload[1].roles = ['pui-case-manager'];
 
       const userList = userListPayload.map((user) => {
 
-        AppConstants.USER_ROLES.map(function (role) {
-          user[role.hasRole] = user.roles.includes(role.role) ? 'Yes' : 'No'
+        AppConstants.USER_ROLES.map((role) => {
+          user[role.hasRole] = user.roles.includes(role.role) ? 'Yes' : 'No';
          });
 
-        user.status = AppUtils.capitalizeString(user.status)
+        user.status = AppUtils.capitalizeString(user.status);
 
         return user;
       });
-
-      console.log('payload is',userList)
 
       return {
         ...state,

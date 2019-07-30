@@ -7,7 +7,7 @@ export class AppUtils {
    * it changes active property based on the url
    */
   static setActiveLink(items, router) {
-    const nav = items.map((item: {href}) => {
+    const nav = items.map((item: { href }) => {
       return {
         ...item,
         active: item.href === router.state.url
@@ -30,8 +30,8 @@ export class AppUtils {
   static capitalizeString(stringToCapitalize: string) {
     const stringLowercase = stringToCapitalize.toLowerCase();
     const stringCapitalised = stringLowercase.charAt(0).toUpperCase() + stringLowercase.slice(1);
-    return stringCapitalised
-}
+    return stringCapitalised;
+  }
 
   static setPageTitle(url): string {
     /**

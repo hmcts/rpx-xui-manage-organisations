@@ -45,7 +45,7 @@ export function reducer(
     }
 
     case fromAction.SET_USER_ROLES: {
-      // TODO prehaps find better solution for rendering sequence of nav tabs. It will not work Fees Acc
+      // TODO perhaps find better sorting solution for rendering sequence of nav tabs. It will not work Fees Acc
       const roles = [...action.payload].sort();
       let navItems = [];
       roles.forEach(role => {

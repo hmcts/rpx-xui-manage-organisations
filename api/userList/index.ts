@@ -6,9 +6,9 @@ import { http } from '../lib/http'
 const logger = log4jui.getLogger('service-token')
 
 async function handleUserListRoute(req, res) {
-    const orgId = req.session.auth.orgId
+    //const orgId = req.session.auth.orgId
     //for testing hardcode your org id
-    //const orgId = 'B13GT1M'
+    const orgId = 'NA6DLIN'
     try {
         const response = await http.get(`${config.services.rdProfessionalApi}/organisations/${orgId}/users`)
         logger.info('response::', response.data)

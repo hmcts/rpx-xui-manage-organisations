@@ -46,14 +46,18 @@ export function reducer(
         var mappedRoles = userRoles.map(function (userRole) {
 
           if (userRole.hasAccess) {
-            userRole.allowAccess = 'yes'
+            userRole.allowAccess = 'Yes'
           }
           else {
-            userRole.allowAccess = 'no'
+            userRole.allowAccess = 'No'
           }
           return userRole
         });
 
+        const statusLowercase = user.status.toLowerCase();
+        const statusCapitalised = statusLowercase.charAt(0).toUpperCase() + statusLowercase.slice(1)
+
+        user.status = statusCapitalised
         user[mappedRoles[0].accessRole] = mappedRoles[0].allowAccess
         user[mappedRoles[1].accessRole] = mappedRoles[1].allowAccess
         user[mappedRoles[2].accessRole] = mappedRoles[2].allowAccess

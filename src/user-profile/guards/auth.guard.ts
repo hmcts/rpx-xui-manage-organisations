@@ -60,8 +60,8 @@ export class AuthGuard implements CanActivate {
   generateLoginUrl(): string {
     let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
     API_BASE_URL += window.location.port ? ':' + window.location.port : '';
-
     const base = config.services.idamWeb;
+    console.log('url is',base)
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
     return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;

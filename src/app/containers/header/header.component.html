@@ -5,10 +5,10 @@
       [navigation]="userNav"
       (navigate)="onNavigate($event)"
     ></app-hmcts-global-header>
-    <app-phase-banner type="beta"></app-phase-banner>
     <app-hmcts-primary-navigation
       [userLoggedIn]="isUserLoggedIn$ | async"
       [label]=""
       [items]="navItems.navItems"
     ></app-hmcts-primary-navigation>
+    <app-phase-banner type="beta"></app-phase-banner>
 </header>

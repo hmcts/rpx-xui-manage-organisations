@@ -62,9 +62,9 @@ const FooterDataNavigation = {
 
 const userRolesConsts = [
 
-    { role: 'pui-organisation-manager', hasRole: 'manageOrganisations'},
-    { role: 'pui-user-manager', hasRole: 'manageUsers' },
-    { role: 'pui-case-manager', hasRole: 'manageCases'}
+    { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
+    { role: 'pui-user-manager', roleType: 'manageUsers' },
+    { role: 'pui-case-manager', roleType: 'manageCases'}
 ];
 
 /**

@@ -40,9 +40,6 @@ export function reducer(
         };
       }
       );
-      userListPayload[0].roles = ['pui-organisation-manager', 'pui-user-manager'];
-      userListPayload[2].roles = ['pui-case-manager', 'pui-user-manager'];
-      userListPayload[1].roles = ['pui-case-manager'];
 
       const userList = userListPayload.map((user) => {
 

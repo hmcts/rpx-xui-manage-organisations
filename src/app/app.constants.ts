@@ -60,7 +60,7 @@ const FooterDataNavigation = {
   ]
 };
 
-const userRolesConsts = [
+const userRoles= [
 
     { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
     { role: 'pui-user-manager', roleType: 'manageUsers' },
@@ -80,5 +80,5 @@ export class AppConstants {
   static MANAGE_ORG_TITLE = manageOrgTitle;
   static FOOTER_DATA = FooterData;
   static FOOTER_DATA_NAVIGATION = FooterDataNavigation;
-  static USER_ROLES = userRolesConsts;
+  static USER_ROLES = userRoles;
 }

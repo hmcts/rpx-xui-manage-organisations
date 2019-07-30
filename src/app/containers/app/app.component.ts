@@ -3,10 +3,10 @@ import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
 import { Observable } from 'rxjs';
-import {NavItemsModel} from '../../models/nav-items.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
+import {tap} from 'rxjs/operators';
 /**
  * Root Component that bootstrap all application.
  * It holds the state for global components (header and footer)
@@ -22,9 +22,9 @@ export class AppComponent implements OnInit {
   identityBar$: Observable<string[]>;
 
   pageTitle$: Observable<string>;
-  navItems$: Observable<{navItems: NavItemsModel[]}> ;
+  navItems$: Observable<any> ;
   appHeaderTitle$: Observable<AppTitlesModel>;
-  userNav$: Observable<any>;
+  userNav$: Observable<UserNavModel>;
 
 
   constructor(
@@ -36,7 +36,13 @@ export class AppComponent implements OnInit {
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
     this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
-    this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
+    this.navItems$ = this.store.pipe(select(fromRoot.getNavItems),
+      tap(item => {
+        if (item.length) {
+          // always redirect to the first item due to assigned permissions landing pages can change.
+          this.store.dispatch(new fromRoot.Go({path: [item[0].href]}));
+        }
+      }));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
 

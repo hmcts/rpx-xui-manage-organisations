@@ -41,21 +41,16 @@ export function reducer(
       }
       );
 
-      userListPayload[0].roles = ['pui-user-manager','pui-case-manager']
+      userListPayload[2].roles = ['pui-case-manager','pui-user-manager']
+      userListPayload[1].roles = ['pui-case-manager']
 
       const userList = userListPayload.map((user) => {
 
-        var userRolesMapped = AppConstants.USER_ROLES.map(function (role) {
-          console.log('user roles',user.roles)
-          return {accessRole : role.hasRole, hasAccess: user.roles.includes(role.role) ? 'Yes' : 'No'}
-        });
-
-        console.log('user roles mapped is', userRolesMapped)
+        AppConstants.USER_ROLES.map(function (role) {
+          user[role.hasRole] = user.roles.includes(role.role) ? 'Yes' : 'No'
+         });
 
         user.status = AppUtils.capitalizeString(user.status)
-        user[userRolesMapped[0].accessRole] = userRolesMapped[0].hasAccess;
-        user[userRolesMapped[1].accessRole] = userRolesMapped[1].hasAccess;
-        user[userRolesMapped[2].accessRole] = userRolesMapped[2].hasAccess;
 
         return user;
       });

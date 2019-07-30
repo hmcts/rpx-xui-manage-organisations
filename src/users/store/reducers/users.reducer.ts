@@ -1,5 +1,5 @@
 import * as fromUsers from '../actions/user.actions';
-
+import {AppUtils} from 'src/app/utils/app-utils';
 
 export interface UsersListState {
   userList: object[];
@@ -29,40 +29,38 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      const payload = action.payload.users;
 
-      const userListPayload = payload.map((item) =>
-        Object.assign({}, item, { selected: false })
+      const payload = [...action.payload.users]; 
+
+      const userListPayload = payload.map((item) => {
+        return {
+          ...item,
+          selected: false
+        }
+      }
       );
+
+      userListPayload[0].roles = ['pui-organisation-manager','pui-user-manager','pui-case-manager']
 
       const userList = userListPayload.map((user) => {
 
         const userRoles = [
-          { hasAccess: user.roles.includes('pui-organisation-manager'), accessRole: 'manageOrganisations', allowAccess: '' },
-          { hasAccess: user.roles.includes('pui-user-manager'), accessRole: 'manageUsers', allowAccess: '' },
-          { hasAccess: user.roles.includes('pui-case-manager'), accessRole: 'manageCases', allowAccess: '' },
+          { hasAccess: user.roles.includes('pui-organisation-manager') ? 'Yes' : 'No' , accessRole: 'manageOrganisations'},
+          { hasAccess: user.roles.includes('pui-user-manager') ? 'Yes' : 'No', accessRole: 'manageUsers' },
+          { hasAccess: user.roles.includes('pui-case-manager') ? 'Yes' : 'No', accessRole: 'manageCases' },
         ];
 
-        const mappedRoles = userRoles.map((userRole) => {
-
-          if (userRole.hasAccess) {
-            userRole.allowAccess = 'Yes';
-          } else {
-            userRole.allowAccess = 'No';
-          }
-          return userRole;
-        });
-
-        const statusLowercase = user.status.toLowerCase();
-        const statusCapitalised = statusLowercase.charAt(0).toUpperCase() + statusLowercase.slice(1);
+        const statusCapitalised = AppUtils.capitalizeString(user.status)
 
         user.status = statusCapitalised;
-        user[mappedRoles[0].accessRole] = mappedRoles[0].allowAccess;
-        user[mappedRoles[1].accessRole] = mappedRoles[1].allowAccess;
-        user[mappedRoles[2].accessRole] = mappedRoles[2].allowAccess;
+        user[userRoles[0].accessRole] = userRoles[0].hasAccess;
+        user[userRoles[1].accessRole] = userRoles[1].hasAccess;
+        user[userRoles[2].accessRole] = userRoles[2].hasAccess;
 
         return user;
       });
+
+      console.log('payload is',userList)
 
       return {
         ...state,

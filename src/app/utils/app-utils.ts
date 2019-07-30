@@ -27,6 +27,12 @@ export class AppUtils {
     return [];
   }
 
+  static capitalizeString(stringToCapitalize: string) {
+    const stringLowercase = stringToCapitalize.toLowerCase();
+    const stringCapitalised = stringLowercase.charAt(0).toUpperCase() + stringLowercase.slice(1);
+    return stringCapitalised
+}
+
   static setPageTitle(url): string {
     /**
      * it sets correct page titles based on the url.

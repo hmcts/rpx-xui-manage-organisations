@@ -29,40 +29,39 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      let payload = action.payload.users;
+      const payload = action.payload.users;
 
-      let userListPayload = payload.map((item) =>
+      const userListPayload = payload.map((item) =>
         Object.assign({}, item, { selected: false })
-      )
+      );
 
-      var userList = userListPayload.map(function (user) {
+      const userList = userListPayload.map((user) => {
 
-        var userRoles = [
-          { hasAccess: user.roles.includes("pui-organisation-manager"), accessRole: 'manageOrganisations', allowAccess: "" },
-          { hasAccess: user.roles.includes("pui-user-manager"), accessRole: 'manageUsers', allowAccess: "" },
-          { hasAccess: user.roles.includes("pui-case-manager"), accessRole: 'manageCases', allowAccess: "" },
+        const userRoles = [
+          { hasAccess: user.roles.includes('pui-organisation-manager'), accessRole: 'manageOrganisations', allowAccess: '' },
+          { hasAccess: user.roles.includes('pui-user-manager'), accessRole: 'manageUsers', allowAccess: '' },
+          { hasAccess: user.roles.includes('pui-case-manager'), accessRole: 'manageCases', allowAccess: '' },
         ];
 
-        var mappedRoles = userRoles.map(function (userRole) {
+        const mappedRoles = userRoles.map((userRole) => {
 
           if (userRole.hasAccess) {
-            userRole.allowAccess = 'Yes'
+            userRole.allowAccess = 'Yes';
+          } else {
+            userRole.allowAccess = 'No';
           }
-          else {
-            userRole.allowAccess = 'No'
-          }
-          return userRole
+          return userRole;
         });
 
         const statusLowercase = user.status.toLowerCase();
-        const statusCapitalised = statusLowercase.charAt(0).toUpperCase() + statusLowercase.slice(1)
+        const statusCapitalised = statusLowercase.charAt(0).toUpperCase() + statusLowercase.slice(1);
 
-        user.status = statusCapitalised
-        user[mappedRoles[0].accessRole] = mappedRoles[0].allowAccess
-        user[mappedRoles[1].accessRole] = mappedRoles[1].allowAccess
-        user[mappedRoles[2].accessRole] = mappedRoles[2].allowAccess
+        user.status = statusCapitalised;
+        user[mappedRoles[0].accessRole] = mappedRoles[0].allowAccess;
+        user[mappedRoles[1].accessRole] = mappedRoles[1].allowAccess;
+        user[mappedRoles[2].accessRole] = mappedRoles[2].allowAccess;
 
-        return user
+        return user;
       });
 
       return {

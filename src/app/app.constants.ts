@@ -60,7 +60,7 @@ const FooterDataNavigation = {
   ]
 };
 
-const userRoles= [
+const userRoles = [
 
     { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
     { role: 'pui-user-manager', roleType: 'manageUsers' },

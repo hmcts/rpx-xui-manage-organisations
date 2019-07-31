@@ -7,12 +7,14 @@ import { map } from 'rxjs/operators';
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private cookieService: CookieService,
+    private authService: AuthService,
   ) { }
 
   @Effect()
@@ -36,7 +38,8 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      window.location.href = 'api/logout';
+      // window.location.href = 'api/logout';
+      this.authService.signOut();
     })
   );
 

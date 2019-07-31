@@ -61,6 +61,8 @@ export class AuthGuard implements CanActivate {
     let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
     API_BASE_URL += window.location.port ? ':' + window.location.port : '';
     console.log('in base login url');
+    const puiEnv = process.env.PUI_ENV
+    console.log('pui env is',puiEnv)
     const base = config.services.idamWeb;
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;

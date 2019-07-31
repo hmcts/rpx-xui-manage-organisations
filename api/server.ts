@@ -52,6 +52,8 @@ app.get('/oauth2/callback', auth.oauth)
 app.use(serviceRouter)
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
+app.use('/api', routes)
+
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)
     res.render('../index', {
@@ -61,9 +63,6 @@ app.use('/*', (req, res) => {
     })
     console.timeEnd(`GET: ${req.originalUrl}`)
 })
-
-
-app.use('/api', routes)
 
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY

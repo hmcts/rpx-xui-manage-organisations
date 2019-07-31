@@ -34,7 +34,8 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      window.location.href = 'api/logout';
+      // window.location.href = 'api/logout';
+      this.authService.signOut();
     })
   );
 

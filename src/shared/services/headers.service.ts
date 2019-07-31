@@ -23,7 +23,9 @@ export class HeadersService {
   }
 
   generateLoginUrl() {
-    const base = config.services.idam.idamLoginUrl;
+    console.log('old config is',config.services.idam.idamLoginUrl)
+    console.log('idam web is',config.services.idamWeb)
+    const base = config.services.idamWeb;
     const clientId = config.services.idam.idamClientID;
     const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
     return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=manage-user create-user`;

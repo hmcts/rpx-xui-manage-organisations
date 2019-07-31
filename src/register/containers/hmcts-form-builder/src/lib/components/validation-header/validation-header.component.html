@@ -8,12 +8,12 @@
             <li *ngFor="let validationHeaderErrorMessage of validationHeaderErrorMessages">
                 <ng-container *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_CONTROL) &&
                                         !isFormControlValid(formGroup, validationHeaderErrorMessage.controlId)">
-                    <a href="#">{{validationHeaderErrorMessage.text}}</a>
+                    <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
                 <ng-container
                         *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_GROUP) &&
                                 isFormGroupInvalid(formGroup, validationHeaderErrorMessage.formGroupValidationErrorId)">
-                    <a href="#">{{validationHeaderErrorMessage.text}}</a>
+                    <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
             </li>
         </ul>

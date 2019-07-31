@@ -15,6 +15,7 @@ import routes from './routes'
 const FileStore = sessionFileStore(session)
 
 const app = express()
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use(
     session({
@@ -49,6 +50,7 @@ app.use(cookieParser())
 app.get('/oauth2/callback', auth.oauth)
 
 app.use(serviceRouter)
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)
@@ -59,6 +61,7 @@ app.use('/*', (req, res) => {
     })
     console.timeEnd(`GET: ${req.originalUrl}`)
 })
+
 
 app.use('/api', routes)
 

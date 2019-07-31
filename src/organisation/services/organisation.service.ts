@@ -5,7 +5,6 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
 export const ENVIRONMENT = {
-
   orgUri: '/api/organisation'
 };
 
@@ -13,11 +12,8 @@ export const ENVIRONMENT = {
 export class OrganisationService {
   constructor(private http: HttpClient) { }
 
-  // TO DO  - this hard coded orgId needs to come from the userStore
-  orgId = 'E3F280A';
-
   fetchOrganisation(): Observable<any> {
-    return this.http.get<any>(`${ENVIRONMENT.orgUri}/${this.orgId}`);
+   return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
   }
 
   private handleError(error: HttpErrorResponse) {

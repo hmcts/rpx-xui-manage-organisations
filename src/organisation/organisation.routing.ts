@@ -2,16 +2,16 @@
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 import { OrganisationComponent } from './containers';
-import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
+import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     component: OrganisationComponent,
     canActivate: [
-      AuthGuard,
-      OrganisationGuard
+      OrganisationGuard,
+      HealthCheckGuard
     ]
   }
 ];

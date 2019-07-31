@@ -1,19 +1,22 @@
-let viewOrganisationPage = require('../pageObjects/viewOrganisationPage.js');
+let ViewOrganisationPage = require('../pageObjects/viewOrganisationPage.js');
 const headerPage = require('../pageObjects/headerPage');
 const loginPage = require('../pageObjects/loginLogoutObjects');
-const { defineSupportCode } = require('cucumber');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
+var {defineSupportCode} = require('cucumber');
+
 defineSupportCode(function ({And, But, Given, Then, When}) {
+  let viewOrganisationPage=new ViewOrganisationPage();
 
   When(/^I click on organisation button$/, async function () {
+    browser.sleep(LONG_DELAY);
     await headerPage.clickOrganisation();
   });
 
   Then(/^I should be on display the name and address details of organisation$/, async function () {
-    expect(await new ViewOrganisationPage().amOnPage()).to.be.true;
+    expect(await viewOrganisationPage.amOnPage()).to.be.true;
 
   });
 });

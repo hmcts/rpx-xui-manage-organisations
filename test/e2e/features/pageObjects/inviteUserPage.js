@@ -3,7 +3,7 @@ TextField = require('./webdriver-components/textField.js');
 
 const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
-class inviteUserPage{
+class InviteUserPage{
 
   constructor(){
     this.header = '.page .heading-h1';
@@ -53,4 +53,4 @@ class inviteUserPage{
     return header === 'Invite user'
   }
 }
-module.exports = new inviteUserPage;
+module.exports = InviteUserPage;

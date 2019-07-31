@@ -79,16 +79,14 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(SHORT_DELAY);
   });
 
-
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    browser.sleep(AMAZING_DELAY);
+    browser.sleep(LONG_DELAY);
     await waitForElement('hmcts-header__link');
     await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    console.log("loginPage.dashboard_header.getText():" + loginPage.dashboard_header.getText());
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage Organisation details for civil and family law cases');
+      .equal('Manage organisation details for civil and family law cases');
 
   });
 

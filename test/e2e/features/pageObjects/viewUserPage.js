@@ -2,11 +2,10 @@
 
 const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
-class viewUserPage {
+class ViewUserPage {
 
   constructor(){
-    this.header = '.page .heading-h1';
-
+    this.header= '#main-content h1';
   }
 
   async getPageHeader(){
@@ -15,7 +14,7 @@ class viewUserPage {
 
   async amOnPage(){
     let header = await this.getPageHeader();
-    return header === 'Users'
+    return header === 'Sorry, there is a problem with the service'
   }
 }
-module.exports = new viewUserPage;
+module.exports = ViewUserPage;

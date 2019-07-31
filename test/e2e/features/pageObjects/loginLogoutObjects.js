@@ -6,12 +6,12 @@ function loginLogoutObjects() {
 
   this.emailAddress = element(by.css("input#username"));
   this.password = element(by.css("[id='password']"));
-  this.signinTitle = element(by.css("h1.heading-large"));
+  this.signinTitle= element(by.xpath("//h1[@class='heading-large']"));
+  //this.signinTitle = element(by.css("h1"));
   this.signinBtn = element(by.css("input.button"));
   this.signOutlink = element(by.xpath("//a[@class='hmcts-header__navigation-link']"));
   this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
-  this.dashboard_header= element(by.css("[class='hmcts-header__link']"));
-
+  this.dashboard_header= element(by.xpath("//a[@class='hmcts-header__link']"));
 
   this.givenIAmLoggedIn = async function () {
     await this.enterUrEmail('');

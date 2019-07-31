@@ -1,7 +1,7 @@
 const loginPage = require('../pageObjects/loginLogoutObjects');
 const headerPage = require('../pageObjects/headerPage');
-const viewUserPage = require('../pageObjects/viewUserPage.js');
-const InviteUserPage = require('../pageObjects/inviteUserPage.js');
+let ViewUserPage = require('../pageObjects/viewUserPage.js');
+let InviteUserPage = require('../pageObjects/inviteUserPage.js');
 let TestData = require('../../utils/TestData.js');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
@@ -10,9 +10,11 @@ TextField = require('../pageObjects/webdriver-components/textField.js');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-const { defineSupportCode } = require('cucumber');
+var { defineSupportCode } = require('cucumber');
 
 defineSupportCode(function ({And, But, Given, Then, When}) {
+  let inviteUserPage=new InviteUserPage();
+  let viewUserPage=new ViewUserPage();
 
   Then(/^I should be on display the user page$/, async function () {
     expect(await new ViewUserPage().amOnPage()).to.be.true;

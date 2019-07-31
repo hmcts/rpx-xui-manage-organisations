@@ -1,7 +1,6 @@
 'use strict';
 
 const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-
 function HeaderPage() {
 
   this.moPage = element(by.xpath("//a[contains(text(),'Manage Organisation details for civil and family law cases')]"));
@@ -20,8 +19,11 @@ function HeaderPage() {
     browser.sleep(SHORT_DELAY);
   };
   this.clickUser = function () {
+    browser.sleep(LONG_DELAY);
+    console.log("clickUser");
     this.user.click();
-    browser.sleep(SHORT_DELAY);
+    console.log("post clickUser");
+    browser.sleep(LONG_DELAY);
   };
   this.clickInviteUser = function () {
     this.inviteUser.click();

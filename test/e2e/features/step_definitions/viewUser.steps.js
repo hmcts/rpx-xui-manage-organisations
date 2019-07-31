@@ -1,24 +1,24 @@
 let ViewUserPage = require('../pageObjects/viewUserPage.js');
 const headerPage = require('../pageObjects/headerPage');
 const loginPage = require('../pageObjects/loginLogoutObjects');
-const { defineSupportCode } = require('cucumber');
+
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-async function waitForElement(el) {
-  await browser.wait(result => {
-    return element(by.className(el)).isPresent();
-  }, 600000);
-}
+
+var {defineSupportCode} = require('cucumber');
+
 defineSupportCode(function ({And, But, Given, Then, When}) {
-  //let viewUserPage = new ViewUserPage();
+  let viewUserPage = new ViewUserPage();
 
   When(/^I click on user button$/, async function () {
+    browser.sleep(AMAZING_DELAY);
     await headerPage.clickUser();
-
   });
+
   Then(/^I should be on display the user details$/, async function () {
+    browser.sleep(LONG_DELAY);
     expect(await new ViewUserPage().amOnPage()).to.be.true;
 
   });

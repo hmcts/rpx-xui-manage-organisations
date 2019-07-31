@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie';
 import {AuthGuard} from '../../../user-profile/guards/auth.guard';
 import {combineReducers, StoreModule} from '@ngrx/store';
 import {reducers} from '../reducers';
+import { AuthService } from 'src/app/services/auth.service';
 
 describe('App Effects', () => {
   let actions$;
@@ -37,7 +38,8 @@ describe('App Effects', () => {
         fromAppEffects.AppEffects,
         provideMockActions(() => actions$),
         { provide: CookieService, useValue: cookieService },
-        AuthGuard
+        AuthGuard,
+        AuthService
       ]
     });
 

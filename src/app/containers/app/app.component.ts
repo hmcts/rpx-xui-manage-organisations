@@ -3,7 +3,6 @@ import { Store, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
 import { Observable } from 'rxjs';
-import {NavItemsModel} from '../../models/nav-items.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
@@ -22,9 +21,9 @@ export class AppComponent implements OnInit {
   identityBar$: Observable<string[]>;
 
   pageTitle$: Observable<string>;
-  navItems$: Observable<{navItems: NavItemsModel[]}> ;
+  navItems$: Observable<any> ;
   appHeaderTitle$: Observable<AppTitlesModel>;
-  userNav$: Observable<any>;
+  userNav$: Observable<UserNavModel>;
 
 
   constructor(

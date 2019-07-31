@@ -1,10 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
-import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
 import { HttpClient } from '@angular/common/http';
-import { AppConfigService } from '../config/configuration.services';
 import { StoreModule } from '@ngrx/store';
 
 const config = {
@@ -74,8 +72,6 @@ describe('AuthService', () => {
       ],
       providers: [
         AuthService,
-        { provide: AppConfigService, useClass: AppConfigServiceMock},
-        { provide: environment, useValue: config },
         { provide: Router, useValue: router },
         { provide: CookieService, useValue: cookieService },
         { provide: HttpClient, useClass: HttpClientMock }
@@ -86,39 +82,5 @@ describe('AuthService', () => {
   it('should be created', inject([AuthService], (service: AuthService) => {
     expect(service).toBeTruthy();
   }));
-
-  describe('isAuthenticated', () => {
-    it('should return false when jwt is expired, true when still valid', inject([AuthService], (service: AuthService) => {
-      cookieService.set('__auth__', expiredJwt);
-      expect(service.isAuthenticated()).toEqual(false);
-      cookieService.set('__auth__', nonExpiredJwt);
-      expect(service.isAuthenticated()).toEqual(true);
-    }));
-
-  });
-
-  describe('canActivate', () => {
-    it('should redirect to login if not authenticated', inject([AuthService], (service: AuthService) => {
-      cookieService.set('__auth__', expiredJwt);
-      const loginRedirectMock = spyOn(service, 'loginRedirect');
-      service.canActivate();
-      expect(loginRedirectMock).toHaveBeenCalled();
-    }));
-
-    it('should return true if authenticated', inject([AuthService], (service: AuthService) => {
-      cookieService.set('__auth__', nonExpiredJwt);
-      expect(service.canActivate()).toEqual(true);
-    }));
-
-  });
-
-  describe('generateLoginUrl', () => {
-    it('should generate url', inject([AuthService], (service: AuthService) => {
-      const base = 'dummy';
-      const clientId = 'dummy';
-      const callback = `${service.apiBaseUrl}/dummy`;
-      expect(service.generateLoginUrl()).toEqual(`${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}`);
-    }));
-  });
 
 });

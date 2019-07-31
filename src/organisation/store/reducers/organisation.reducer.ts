@@ -28,7 +28,7 @@ export function reducer(
       };
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
-      const organisationDetails = new Organisation(action.payload.organisations);
+      const organisationDetails = new Organisation(action.payload);
       return {
         ...state,
         organisationDetails,

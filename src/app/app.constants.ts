@@ -60,6 +60,13 @@ const FooterDataNavigation = {
   ]
 };
 
+const userRoles = [
+
+    { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
+    { role: 'pui-user-manager', roleType: 'manageUsers' },
+    { role: 'pui-case-manager', roleType: 'manageCases'}
+];
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -73,4 +80,5 @@ export class AppConstants {
   static MANAGE_ORG_TITLE = manageOrgTitle;
   static FOOTER_DATA = FooterData;
   static FOOTER_DATA_NAVIGATION = FooterDataNavigation;
+  static USER_ROLES = userRoles;
 }

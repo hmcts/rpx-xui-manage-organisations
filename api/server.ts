@@ -53,6 +53,9 @@ app.use(serviceRouter)
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use('/api', routes)
+app.get('/api/logout', (req, res, next) => {
+    auth.doLogout(req, res)
+})
 
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`)

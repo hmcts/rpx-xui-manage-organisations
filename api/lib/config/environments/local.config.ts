@@ -33,4 +33,5 @@ export default {
     secureCookie: false,
     sessionSecret: 'secretSauce',
     logging: 'debug',
+    config: 'local'
 }

@@ -41,6 +41,7 @@ export class HeadersService {
 
 
   loginRedirect() {
+    console.log('going to redirect')
     window.location.href = this.generateLoginUrl();
   }
 

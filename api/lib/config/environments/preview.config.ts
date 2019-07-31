@@ -19,4 +19,5 @@ export default {
     },
     sessionSecret: 'secretSauce',
     useProxy: false,
+    config: 'preview'
 }

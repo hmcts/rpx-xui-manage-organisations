@@ -30,6 +30,7 @@ const configs = {
 export const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
 console.log('config env is',configEnv)
 export const config = { ...application, ...configs[configEnv].default }
+console.log('config we are using is',config)
 
 export default { ...config }
 

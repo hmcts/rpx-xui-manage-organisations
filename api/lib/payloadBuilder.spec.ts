@@ -26,6 +26,42 @@ describe('Payload builder', () => {
         DXexchange: '12345 dx exchange field',
     }
 
+    const organisationPayload = {
+        contactInformation: [
+            {
+                addressLine1: '45',
+                addressLine2: 'Bridge Park',
+                county: 'Co. Antrim',
+                postcode: 'BT35ZAN',
+                townCity: 'Lisburn'
+            },
+        ],
+        name: 'Organisation Limited',
+        superUser: {
+            email: 'testuser@gmail.com',
+            firstName: 'Mary',
+            lastName: 'Murphy',
+        },
+    }
+
+    const organsiationPayloadDXAddressAdded = {
+        contactInformation: [
+            {
+                addressLine1: '45',
+                addressLine2: 'Bridge Park',
+                county: 'Co. Antrim',
+                postcode: 'BT35ZAN',
+                townCity: 'Lisburn'
+            },
+        ],
+        name: 'Organisation Limited',
+        superUser: {
+            email: 'testuser@gmail.com',
+            firstName: 'Mary',
+            lastName: 'Murphy',
+        },
+    }
+
     it('Should take the stored organsation name and set it on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
@@ -85,119 +121,39 @@ describe('Payload builder', () => {
         expect(organsiationPayload.contactInformation[0].townCity).to.equal(STATE_VALUES.townOrCity)
     })
 
-    xit('Should take the stored DX exchange field and set it as DX address, DX exchange on the payload.', () => {
-
-        const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.dxAddress.dxExchange).to.equal(STATE_VALUES.DXexchange)
-    })
-
-    xit('Should take the stored DX number field and set it as DX address, DX number on the payload.', () => {
-
-        const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.dxAddress.dxNumber).to.equal(STATE_VALUES.DXnumber)
-    })
-
-    it('Should set sraId on payload if not null', () => {
-        const organisationPayload = {
-            contactInformation: [
-                {
-                    addressLine1: '45',
-                    addressLine2: 'Bridge Park',
-                    county: 'Co. Antrim',
-                    postcode: 'BT35ZAN',
-                    townCity: 'Lisburn'
-                },
-            ],
-            name: 'Organisation Limited',
-            superUser: {
-                email: 'testuser@gmail.com',
-                firstName: 'Mary',
-                lastName: 'Murphy',
-            },
-        }
-
-        const organsiationPayloadSraAdded = {
-            contactInformation: [
-                {
-                    addressLine1: '45',
-                    addressLine2: 'Bridge Park',
-                    county: 'Co. Antrim',
-                    postcode: 'BT35ZAN',
-                    townCity: 'Lisburn'
-                },
-            ],
-            name: 'Organisation Limited',
-            sraId: 'SRA1234567',
-            superUser: {
-                email: 'testuser@gmail.com',
-                firstName: 'Mary',
-                lastName: 'Murphy',
-            },
-        }
+    it('Should not set sraId if null', () => {
 
         setPropertyIfNotNull(organisationPayload, 'sraId', null)
         expect(organisationPayload).to.equal(organisationPayload)
+    })
+
+    it('Should set sraId on payload if not null', () => {
+
         setPropertyIfNotNull(organisationPayload, 'sraId', 'SRA1234567')
-        expect(organisationPayload).to.equal(organsiationPayloadSraAdded)
+        expect(organisationPayload['sraId']).to.equal('SRA1234567')
     })
 
     it('Should set dxAddress on payload if not null', () => {
-        const organisationPayload = {
-            contactInformation: [
-                {
-                    addressLine1: '45',
-                    addressLine2: 'Bridge Park',
-                    county: 'Co. Antrim',
-                    postcode: 'BT35ZAN',
-                    townCity: 'Lisburn'
-                },
-            ],
-            name: 'Organisation Limited',
-            superUser: {
-                email: 'testuser@gmail.com',
-                firstName: 'Mary',
-                lastName: 'Murphy',
-            },
-        }
-
-        const organsiationPayloadDXAddressAdded = {
-            contactInformation: [
-                {
-                    addressLine1: '45',
-                    addressLine2: 'Bridge Park',
-                    county: 'Co. Antrim',
-                    postcode: 'BT35ZAN',
-                    townCity: 'Lisburn',
-                    dxAddress: [
-                        {
-                          "dxNumber": "DX 1234567890",
-                          "dxExchange": "dxexchange"
-                        }
-                      ]
-                },
-            ],
-            name: 'Organisation Limited',
-            sraId: 'SRA1234567',
-            superUser: {
-                email: 'testuser@gmail.com',
-                firstName: 'Mary',
-                lastName: 'Murphy',
-            },
-        }
 
         var stateValuesArray = ['DX 1234567890', 'dxexchange']
         const propretyNameArray = ['dxNumber', 'dxExchange']
         var [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
-        expect(organisationPayload).to.equal(organsiationPayloadDXAddressAdded)
 
-        stateValuesArray = [undefined, undefined]
+        expect(organisationPayload.contactInformation[0]['dxAddress'][0].dxNumber).to.equal('DX 1234567890')
+        expect(organisationPayload.contactInformation[0]['dxAddress'][0].dxExchange).to.equal('dxexchange')
+
+    })
+
+    it('Should not set dxAddress if null', () => {
+
+        const propretyNameArray = ['dxNumber', 'dxExchange']
+        var stateValuesArray = [undefined, undefined]
         var [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
         expect(organisationPayload).to.equal(organisationPayload)
     })
-
 });
 

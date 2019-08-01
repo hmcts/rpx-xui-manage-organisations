@@ -31,7 +31,6 @@ import {OrganisationModule} from '../organisation/organisation.module';
 import {UserService} from '../user-profile/services/user.service';
 import {HttpClientModule} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { AuthService } from './services/auth.service';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -58,8 +57,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    UserService,
-    AuthService
+    UserService
     ],
   bootstrap: [AppComponent]
 })

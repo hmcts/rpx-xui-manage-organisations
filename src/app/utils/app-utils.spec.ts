@@ -123,7 +123,7 @@ describe('AppUtils', () => {
       }
     };
 
-    const nav = ''
+    const nav = '';
     const returnNavItems = AppUtils.returnNavs(routerObj, nav);
     expect(returnNavItems).toEqual({navItems: []});
   });

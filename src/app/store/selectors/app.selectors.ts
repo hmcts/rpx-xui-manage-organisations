@@ -42,7 +42,6 @@ export const getNavItems = createSelector(
     // do not set nav items for register org
 
     return AppUtils.returnNavs(router, nav);
-
   }
 );
 

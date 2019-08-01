@@ -113,6 +113,7 @@ describe('AppUtils', () => {
     const nav = 'Navigation item';
     const returnNavItems = AppUtils.returnNavs(routerObj, nav);
     console.log('return nav itms', returnNavItems);
+
     expect(returnNavItems).toEqual({navItems: 'Navigation item'});
   });
 

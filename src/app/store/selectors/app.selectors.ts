@@ -24,9 +24,7 @@ export const getHeaderTitle = createSelector(
   getHeaderTitles,
   fromRoot.getRouterState,
   (title, router) => {
-    if (router && router.state) {
-      return router.state.url.indexOf('register') !== -1 ? title.regOrg : title.manageOrg;
-    }
+    return AppUtils.titleSwitcher(router, title);
   }
 );
 

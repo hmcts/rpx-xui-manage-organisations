@@ -103,4 +103,29 @@ describe('AppUtils', () => {
     expect(switchedTitle).toEqual('Manage Organisation');
   });
 
+  it('should return a nav item array', () => {
+    const routerObj = {
+      state: {
+        url: 'testurl'
+      }
+    };
+
+    let nav = 'Navigation item'
+    const returnNavItems = AppUtils.returnNavs(routerObj, nav);
+    console.log('return nav itms',returnNavItems)
+    expect(returnNavItems).toEqual({navItems: 'Navigation item'});
+  });
+
+  it('should return an undefined nav item array', () => {
+    const routerObj = {
+      state: {
+        url: 'register'
+      }
+    };
+
+    let nav;
+    const returnNavItems = AppUtils.returnNavs(routerObj, nav);
+    expect(returnNavItems).toEqual({navItems: []});
+  });
+
 });

@@ -22,6 +22,19 @@ export class AppUtils {
     }
   }
 
+  static returnNavs(router,nav)
+  {
+    if (router && router.state && router.state.url.indexOf('register') === -1) {
+      return {
+        navItems: nav
+      };
+    } else {
+      return {
+        navItems: []
+      };
+    }
+  }
+
   static setSetUserNavItems(state, routes) {
     /**
      * it manages user nav array based on the app that is running (register or otherwise)

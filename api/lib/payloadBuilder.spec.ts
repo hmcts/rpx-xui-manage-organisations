@@ -44,24 +44,6 @@ describe('Payload builder', () => {
         },
     }
 
-    const organsiationPayloadDXAddressAdded = {
-        contactInformation: [
-            {
-                addressLine1: '45',
-                addressLine2: 'Bridge Park',
-                county: 'Co. Antrim',
-                postcode: 'BT35ZAN',
-                townCity: 'Lisburn'
-            },
-        ],
-        name: 'Organisation Limited',
-        superUser: {
-            email: 'testuser@gmail.com',
-            firstName: 'Mary',
-            lastName: 'Murphy',
-        },
-    }
-
     it('Should take the stored organsation name and set it on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)

@@ -12,6 +12,7 @@ import {environment} from '../../environments/environment';
 import { withModule } from '@angular/core/testing';
 
 
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -65,8 +66,7 @@ export class AuthGuard implements CanActivate {
     const base = config.services.idamWeb;
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
-
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=manage-user create-user`;
   }
 
   signOut(): void {

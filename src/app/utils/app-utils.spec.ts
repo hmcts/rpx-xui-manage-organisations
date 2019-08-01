@@ -17,6 +17,12 @@ describe('AppUtils', () => {
     expect(array).toEqual([]);
   });
 
+  it('should change string from upper case to capitalized', () => {
+    const upperCaseString = 'PENDING';
+    const capitalizedString = AppUtils.capitalizeString(upperCaseString);
+    expect(capitalizedString).toEqual('Pending');
+  });
+
   it('should set user navigation as an array of items', () => {
     const state = {
       userNav: {

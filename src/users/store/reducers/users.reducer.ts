@@ -1,5 +1,6 @@
 import * as fromUsers from '../actions/user.actions';
-
+import {AppUtils} from 'src/app/utils/app-utils';
+import { AppConstants } from 'src/app/app.constants';
 
 export interface UsersListState {
   userList: object[];
@@ -29,7 +30,28 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      const userList = action.payload.users;
+
+      const payload = action.payload.users;
+
+      const userListPayload = payload.map((item) => {
+        return {
+          ...item,
+          selected: false
+        };
+      }
+      );
+
+      const userList = userListPayload.map((user) => {
+
+        AppConstants.USER_ROLES.map((userRoles) => {
+          user[userRoles.roleType] = user.roles.includes(userRoles.role) ? 'Yes' : 'No';
+         });
+
+        user.status = AppUtils.capitalizeString(user.status);
+
+        return user;
+      });
+
       return {
         ...state,
         userList,

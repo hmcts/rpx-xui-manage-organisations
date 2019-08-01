@@ -1,0 +1,15 @@
+<!-- <div [class.hidden]="!show">
+  <div class="loader-overlay">
+    <div *ngIf="show" class="loader"></div>
+  </div>
+</div> -->
+
+<div *ngIf="show" class="wrapper">
+  <div class="overlay">
+    <div class="spinner-wrapper">
+      <img src='./../../../../assets/images/loading.gif'>
+    </div>
+  </div>
+
+  <ng-content></ng-content>
+</div>

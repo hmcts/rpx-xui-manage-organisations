@@ -14,7 +14,7 @@ import { SuccessNotificationComponent } from './components/success-notification/
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { HealthCheckService } from './services/health-check.service';
-
+import { LoaderModule } from './modules/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,8 @@ import { HealthCheckService } from './services/health-check.service';
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    GovUiModule
+    GovUiModule,
+    LoaderModule
   ],
   exports: [
     ReactiveFormsModule,

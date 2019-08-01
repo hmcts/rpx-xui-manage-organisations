@@ -24,7 +24,7 @@ export const getHeaderTitle = createSelector(
   getHeaderTitles,
   fromRoot.getRouterState,
   (title, router) => {
-    return AppUtils.titleSwitcher(router,title)
+    return AppUtils.titleSwitcher(router, title);
   }
 );
 

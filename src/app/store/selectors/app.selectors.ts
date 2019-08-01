@@ -41,8 +41,7 @@ export const getNavItems = createSelector(
     const nav = AppUtils.setActiveLink(navItems, router);
     // do not set nav items for register org
 
-    return AppUtils.returnNavs(router,nav)
-
+    return AppUtils.returnNavs(router, nav);
   }
 );
 

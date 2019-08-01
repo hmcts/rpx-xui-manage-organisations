@@ -22,8 +22,7 @@ export class AppUtils {
     }
   }
 
-  static returnNavs(router,nav)
-  {
+  static returnNavs(router, nav) {
     if (router && router.state && router.state.url.indexOf('register') === -1) {
       return {
         navItems: nav

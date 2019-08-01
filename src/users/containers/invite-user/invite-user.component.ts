@@ -55,7 +55,6 @@ export class InviteUserComponent implements OnInit {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       let {value} = this.inviteUserForm;
-      debugger
       const permissions = Object.keys(value.roles).filter(key => {
         if (value.roles[key]) {
           return key;

@@ -31,7 +31,7 @@ export function reducer(
 
     case fromUsers.LOAD_USERS_SUCCESS: {
 
-      const payload = action.payload.users;
+      const payload = action.payload ? action.payload.users : null ;
 
       const userListPayload = payload.map((item) => {
         return {

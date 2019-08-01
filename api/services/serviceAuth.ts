@@ -6,10 +6,11 @@ import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { tunnel } from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
+import {application} from '../lib/config/application.config'
 
 const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
 const url = config.services.s2s
-const microservice =  'rd_professional_api'
+const microservice =  application.microservice
 const logger = log4jui.getLogger('service user-profile')
 
 export async function postS2SLease() {

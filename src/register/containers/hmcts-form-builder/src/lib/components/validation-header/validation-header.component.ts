@@ -85,4 +85,9 @@ export class ValidationHeaderComponent {
     isValidationLevel(validationLevel: string, level: string): boolean {
         return validationLevel === level;
     }
+    scrollToElement(id): boolean {
+        const el = document.getElementById(id);
+        el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+        return false;
+    }
 }

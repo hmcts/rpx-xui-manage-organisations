@@ -14,13 +14,14 @@ import { SuccessNotificationComponent } from './components/success-notification/
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { HealthCheckService } from './services/health-check.service';
-
+import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 
 @NgModule({
   declarations: [
     HmctsMainWrapperComponent,
     HmctsErrorSummaryComponent,
-    SuccessNotificationComponent
+    SuccessNotificationComponent,
+    PhaseBannerComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -32,7 +33,8 @@ import { HealthCheckService } from './services/health-check.service';
     ReactiveFormsModule,
     GovUiModule,
     HmctsMainWrapperComponent,
-    SuccessNotificationComponent
+    SuccessNotificationComponent,
+    PhaseBannerComponent
   ],
   providers: [
     {

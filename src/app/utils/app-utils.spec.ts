@@ -89,18 +89,18 @@ describe('AppUtils', () => {
   });
 
   it('should switch title', () => {
-    const router = {
+    const routerObj = {
       state: {
         url: 'testurl'
       }
-    }
+    };
 
-    const titleObject = {
+    const titleObj = {
       regOrg: 'Register Organisation',
       manageOrg: 'Manage Organisation'
-    }
-    const title = AppUtils.titleSwitcher(router,titleObject);
-    expect(title).toEqual('Manage Organisation');
+    };
+    const switchedTitle = AppUtils.titleSwitcher(routerObj, titleObj);
+    expect(switchedTitle).toEqual('Manage Organisation');
   });
 
 });

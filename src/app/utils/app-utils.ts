@@ -16,6 +16,12 @@ export class AppUtils {
     return nav;
   }
 
+  static titleSwitcher(router, title) {
+    if (router && router.state) {
+      return router.state.url.indexOf('register') !== -1 ? title.regOrg : title.manageOrg;
+    }
+  }
+
   static setSetUserNavItems(state, routes) {
     /**
      * it manages user nav array based on the app that is running (register or otherwise)

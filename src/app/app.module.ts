@@ -65,9 +65,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    LoggerService,
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
-    JurisdictionService
+    LoggerService, JurisdictionService
     ],
   bootstrap: [AppComponent]
 })

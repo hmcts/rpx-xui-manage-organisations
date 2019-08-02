@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { organisationRouting } from './organisation.routing';
@@ -19,6 +19,7 @@ import { MonitoringService } from '../shared/services/monitoring.service';
 import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
   declarations: [...fromContainers.containers],
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
-  MonitoringService, LoggerService],
+  MonitoringService, LoggerService, {provide: ErrorHandler, useClass: DefaultErrorHandler}]
 })
 
 

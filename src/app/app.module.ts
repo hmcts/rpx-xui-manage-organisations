@@ -1,6 +1,6 @@
 import { LoaderModule } from './../shared/modules/loader/loader.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './containers/app/app.component';
@@ -32,7 +32,9 @@ import {OrganisationModule} from '../organisation/organisation.module';
 import {UserService} from '../user-profile/services/user.service';
 import {HttpClientModule} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { JurisdictionService } from 'src/users/services';
+import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
+import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -56,11 +58,16 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     UserProfileModule,
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
-    LoaderModule
+    LoggerModule.forRoot({
+      level: NgxLoggerLevel.TRACE,
+      disableConsoleLogging: false
+    })
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    UserService, JurisdictionService
+    LoggerService,
+    UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
+    JurisdictionService
     ],
   bootstrap: [AppComponent]
 })

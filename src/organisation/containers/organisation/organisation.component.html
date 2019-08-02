@@ -9,6 +9,7 @@
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Address</th>
       <td class="govuk-table__cell">
+      <!-- TODO this is horrible please revisit -->
         {{ orgData.contactInformation[0].addressLine1 }}
         <br/>
         <div *ngIf="orgData.contactInformation[0].addressLine2">

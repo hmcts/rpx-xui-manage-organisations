@@ -56,9 +56,8 @@ const config = {
   //   '../features/**/recentEvents.feature',
   // ],
   baseUrl: process.env.TEST_URL || 'http://localhost:3000',
-  registerBaseUrl: process.env.REG_URL || 'http://localhost:3000/register-org/register',
   params: {
-    //serverUrls: process.env.TEST_URL || 'http://localhost:3000',
+    serverUrls: process.env.TEST_URL || 'http://localhost:3000',
     targetEnv: argv.env || 'local',
     // username: process.env.TEST_EMAIL,
     // password: process.env.TEST_PASSWORD,

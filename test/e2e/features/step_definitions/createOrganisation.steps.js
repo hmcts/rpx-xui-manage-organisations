@@ -14,18 +14,15 @@ async function waitForElement(el) {
 
 defineSupportCode(function ({ Given, When, Then }) {
 
-    When(/^I navigate to EUI Manage Organisation Url$/, { timeout: 600 * 1000 }, async function () {
-        console.log(config.config.registerBaseUrl);
-        await browser.get(config.config.registerBaseUrl);
-        await browser.driver.manage().deleteAllCookies();
-        await browser.refresh();
-        browser.sleep(AMAZING_DELAY);
-    });
+  When(/^I navigate to EUI Manage Organisation Url$/, { timeout: 600 * 1000 }, async function () {
+    await browser.get(config.config.baseUrl + '/register-org/register');
+    await browser.driver.manage()
+      .deleteAllCookies();
+    await browser.refresh();
+    browser.sleep(AMAZING_DELAY);
+  });
 
-
-
-
-    Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
         await waitForElement('govuk-heading-xl');
         browser.sleep(LONG_DELAY);
         await expect(loginPage.start_button.isDisplayed()).to.eventually.be.true;

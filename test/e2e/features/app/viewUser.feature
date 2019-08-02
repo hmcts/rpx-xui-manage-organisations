@@ -1,5 +1,5 @@
+@smoke
 Feature: view user workflow
-
 
   Scenario: view user workflow
     When I navigate to manage organisation Url

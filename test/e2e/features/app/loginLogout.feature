@@ -25,7 +25,6 @@ Feature: Login
     Then I should be redirected to the Idam login page
     Then I should see failure error summary
 
-
   Scenario: login and log out from manage organisation as SSCS user
     Given I am logged into manage organisation with SSCS judge details
     Then I should be redirected to manage organisation dashboard page

@@ -18,11 +18,10 @@ function HeaderPage() {
     this.organisation.click();
     browser.sleep(SHORT_DELAY);
   };
+
   this.clickUser = function () {
     browser.sleep(LONG_DELAY);
-    console.log("clickUser");
     this.user.click();
-    console.log("post clickUser");
     browser.sleep(LONG_DELAY);
   };
   this.clickInviteUser = function () {

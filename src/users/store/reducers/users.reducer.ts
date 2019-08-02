@@ -30,7 +30,6 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-
       const payload = action.payload ? action.payload.users : null ;
 
       const userListPayload = payload.map((item) => {
@@ -47,7 +46,7 @@ export function reducer(
           user[userRoles.roleType] = user.roles.includes(userRoles.role) ? 'Yes' : 'No';
          });
 
-        user.status = AppUtils.capitalizeString(user.status);
+        user.status = AppUtils.capitalizeString(user.idamStatus);
 
         return user;
       });

@@ -3,7 +3,7 @@ export const application = {
         token: '__auth__',
         userId: '__userid__',
     },
-    microservice: 'rd_professional_api',
+    microservice: 'xui_webapp',
     idamClient: 'xuiwebapp',
     oauthCallbackUrl: '/oauth2/callback',
     protocol: 'https',

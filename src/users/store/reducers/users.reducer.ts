@@ -43,7 +43,9 @@ export function reducer(
       const userList = userListPayload.map((user) => {
 
         AppConstants.USER_ROLES.map((userRoles) => {
-          user[userRoles.roleType] = user.roles.includes(userRoles.role) ? 'Yes' : 'No';
+          if (user.roles) {
+            user[userRoles.roleType] = user.roles.includes(userRoles.role) ? 'Yes' : 'No';
+          }
          });
 
         user.status = AppUtils.capitalizeString(user.idamStatus);

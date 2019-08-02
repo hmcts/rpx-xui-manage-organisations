@@ -41,7 +41,7 @@ export class InviteUserComponent implements OnInit {
       email: new FormControl('', [Validators.email, Validators.required]),
       roles: new FormGroup({
         'pui-case-manager': new FormControl(''),
-        'piu-user-manager': new FormControl(''),
+        'pui-user-manager': new FormControl(''),
         'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });

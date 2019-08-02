@@ -88,4 +88,44 @@ describe('AppUtils', () => {
     expect(array).toEqual('Register - Register organisation');
   });
 
+  it('should switch title', () => {
+    const routerObj = {
+      state: {
+        url: 'testurl'
+      }
+    };
+
+    const titleObj = {
+      regOrg: 'Register Organisation',
+      manageOrg: 'Manage Organisation'
+    };
+    const switchedTitle = AppUtils.titleSwitcher(routerObj, titleObj);
+    expect(switchedTitle).toEqual('Manage Organisation');
+  });
+
+  it('should return a nav item array', () => {
+    const routerObj = {
+      state: {
+        url: 'testurl'
+      }
+    };
+
+    const nav = 'Navigation item';
+    const returnNavItems = AppUtils.returnNavs(routerObj, nav);
+
+    expect(returnNavItems).toEqual({navItems: 'Navigation item'});
+  });
+
+  it('should return an undefined nav item array', () => {
+    const routerObj = {
+      state: {
+        url: 'register'
+      }
+    };
+
+    const nav = '';
+    const returnNavItems = AppUtils.returnNavs(routerObj, nav);
+    expect(returnNavItems).toEqual({navItems: []});
+  });
+
 });

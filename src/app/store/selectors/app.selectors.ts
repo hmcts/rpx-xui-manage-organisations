@@ -24,9 +24,7 @@ export const getHeaderTitle = createSelector(
   getHeaderTitles,
   fromRoot.getRouterState,
   (title, router) => {
-    if (router && router.state) {
-      return router.state.url.indexOf('register') !== -1 ? title.regOrg : title.manageOrg;
-    }
+    return AppUtils.titleSwitcher(router, title);
   }
 );
 
@@ -42,16 +40,8 @@ export const getNavItems = createSelector(
     // set the active state based on routes
     const nav = AppUtils.setActiveLink(navItems, router);
     // do not set nav items for register org
-    if (router && router.state && router.state.url.indexOf('register') === -1) {
-      return {
-        navItems: nav
-      };
-    } else {
-      return {
-        navItems: []
-      };
-    }
 
+    return AppUtils.returnNavs(router, nav);
   }
 );
 

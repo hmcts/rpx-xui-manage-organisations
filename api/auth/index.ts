@@ -1,5 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse } from 'axios'
-import * as exceptionFormatter from 'exception-formatter'
+import axios, { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as jwtDecode from 'jwt-decode'
 import * as log4js from 'log4js'
@@ -8,7 +7,6 @@ import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
 import { asyncReturnOrError } from '../lib/util'
 import { getUserDetails } from '../services/idam'
-import { getOrganisationId } from '../services/rdProfessional'
 import { serviceTokenGenerator } from './serviceToken'
 
 const secret = process.env.IDAM_SECRET

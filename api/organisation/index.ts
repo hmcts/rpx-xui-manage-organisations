@@ -5,7 +5,7 @@ import { http } from '../lib/http'
 async function handleAddressRoute(req, res) {
     try {
         const response = await http.get(
-          `${config.services.rdProfessionalApi}/refdata/internal/v1/organisations`
+          `${config.services.rdProfessionalApi}/refdata/external/v1/organisations`
         )
         res.send(response.data)
     } catch (error) {

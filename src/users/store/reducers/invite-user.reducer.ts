@@ -24,6 +24,13 @@ export function reducer(
   action: fromInviteUsers.InviteUserActions
 ): InviteUserState {
   switch (action.type) {
+    case fromInviteUsers.LOAD_JURISDICTIONS_FOR_USER_SUCCESS: {
+      const jurisdictions = action.payload;
+      return {
+        ...state,
+        jurisdictions
+      };
+    }
     case fromInviteUsers.UPDATE_ERROR_MESSAGES: {
       const errorMessagesPayload = action.payload.errorMessages;
       const formErrorIsInvalid = action.payload.isInvalid;
@@ -95,4 +102,5 @@ export const getInviteUserErrorMessage = (state: InviteUserState) => state.error
 export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
 export const getInviteUserErrorHeader = (state: InviteUserState) => state.errorHeader;
 export const getInviteUserIsUserConfirmed = (state: InviteUserState) => state.isUserConfirmed;
+export const getUserJuridictions = (state: InviteUserState) => state.jurisdictions;
 

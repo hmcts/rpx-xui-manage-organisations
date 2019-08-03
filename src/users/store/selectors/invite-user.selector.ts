@@ -28,6 +28,11 @@ export const getInviteUserIsUserConfirmed = createSelector(
   fromInviteUsers.getInviteUserIsUserConfirmed
 );
 
+export const getAllJuridictions = createSelector(
+  getInviteUserState,
+  fromInviteUsers.getUserJuridictions
+);
+
 export const getGetInviteUserErrorsArray = createSelector(
   getInviteUserErrorMessage,
   getInviteUserIsFormValid,

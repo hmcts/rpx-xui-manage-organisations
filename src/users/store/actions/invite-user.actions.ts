@@ -5,7 +5,25 @@ export const SEND_INVITE_USER = '[Invite User] Send Invite User';
 export const INVITE_USER_SUCCESS = '[Invite User] Invite User Success';
 export const INVITE_USER_FAIL = '[Invite User] Invite User Fail';
 export const RESET = '[Invite User] Reset';
+export const LOAD_JURISDICTIONS_FOR_USER = '[Invite User] Load Jurisdictions For User';
+export const LOAD_JURISDICTIONS_FOR_USER_SUCCESS = '[Invite User] Load Jurisdictions For User Success';
+export const LOAD_JURISDICTIONS_FOR_USER_FAIL = '[Invite User] Load Jurisdictions For User Fail';
 import { UserListApiModel } from '../../models/userform.model';
+
+export class LoadJurisdictionsForUser {
+  readonly type = LOAD_JURISDICTIONS_FOR_USER;
+  constructor() { }
+}
+
+export class LoadJurisdictionsForUserSuccess {
+  readonly type = LOAD_JURISDICTIONS_FOR_USER_SUCCESS;
+  constructor(public payload: any[]) { }
+}
+
+export class LoadJurisdictionsForUserFail {
+  readonly type = LOAD_JURISDICTIONS_FOR_USER_FAIL;
+  constructor(public payload: any) { }
+}
 
 export class SendInviteUser {
   readonly type = SEND_INVITE_USER;
@@ -37,6 +55,9 @@ export class Reset implements Action {
 }
 
 export type InviteUserActions =
+  | LoadJurisdictionsForUser
+  | LoadJurisdictionsForUserSuccess
+  | LoadJurisdictionsForUserFail
   | AddFromData
   | UpdateErrorMessages
   | SendInviteUser

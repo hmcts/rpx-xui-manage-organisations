@@ -7,6 +7,7 @@ import * as fromUsersEffects from './invite-user.effects';
 import { InviteUserEffects } from './invite-user.effects';
 import { SendInviteUser, InviteUserSuccess, InviteUserFail } from '../actions/invite-user.actions';
 import { InviteUserService } from '../../services/invite-user.service';
+import { JurisdictionService } from 'src/users/services';
 
 describe('Invite User Effects', () => {
     let actions$;
@@ -16,6 +17,8 @@ describe('Invite User Effects', () => {
         'inviteUser',
     ]);
 
+    const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
@@ -23,6 +26,10 @@ describe('Invite User Effects', () => {
                 {
                     provide: InviteUserService,
                     useValue: InviteUsersServiceMock,
+                },
+                {
+                    provide: JurisdictionService,
+                    useValue: mockJurisdictionService
                 },
                 fromUsersEffects.InviteUserEffects,
                 provideMockActions(() => actions$)

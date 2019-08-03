@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 /*
 * User Form entry mediator component
@@ -15,7 +15,7 @@ import {Observable} from 'rxjs';
   selector: 'app-prd-invite-user-component',
   templateUrl: './invite-user.component.html',
 })
-export class InviteUserComponent implements OnInit {
+export class InviteUserComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromStore.UserState>) { }
   inviteUserForm: FormGroup;
@@ -29,6 +29,8 @@ export class InviteUserComponent implements OnInit {
     email: ['Enter email address', 'Email must contain at least the @ character'],
     roles: ['Select at least one option'],
   };
+  jurisdictions: any[];
+  juridictionSubscription: Subscription;
 
   ngOnInit(): void {
 
@@ -45,7 +47,10 @@ export class InviteUserComponent implements OnInit {
         'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
-
+    this.juridictionSubscription = this.store.pipe(select(fromStore.getAllJuridictions))
+                                   .subscribe(value => this.jurisdictions = value,
+                                   (error) => this.store.dispatch(new fromStore.LoadJurisdictionsForUserFail(error)));
+    this.store.dispatch(new fromStore.LoadJurisdictionsForUser());
   }
 
   // convenience getter for easy access to form fields
@@ -63,6 +68,7 @@ export class InviteUserComponent implements OnInit {
       value = {
         ...value,
         roles: permissions,
+        jurisdictions: this.jurisdictions
       };
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }
@@ -88,5 +94,9 @@ export class InviteUserComponent implements OnInit {
 
   }
 
-
+  ngOnDestroy(): void {
+    if (this.juridictionSubscription) {
+      this.juridictionSubscription.unsubscribe();
+    }
+  }
 }

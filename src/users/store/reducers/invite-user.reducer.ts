@@ -7,6 +7,7 @@ export interface InviteUserState {
   isFormValid: boolean;
   errorHeader: string;
   isUserConfirmed: boolean;
+  jurisdictions: any[];
 }
 
 export const initialState: InviteUserState = {
@@ -14,7 +15,8 @@ export const initialState: InviteUserState = {
   errorMessages: {},
   isFormValid: true,
   errorHeader: '',
-  isUserConfirmed: false
+  isUserConfirmed: false,
+  jurisdictions: []
 };
 
 export function reducer(

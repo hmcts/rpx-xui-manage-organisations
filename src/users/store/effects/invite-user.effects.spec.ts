@@ -41,7 +41,8 @@ describe('Invite User Effects', () => {
                 firstName: 'Captain',
                 lastName: 'Caveman',
                 emailAddress: 'thecap@cave.com',
-                permissions: ['god']
+                permissions: ['god'],
+                jurisdictions: []
             };
             const action = new SendInviteUser(requestPayload);
             const completion = new InviteUserSuccess([{ payload: 'something' }]);
@@ -58,7 +59,8 @@ describe('Invite User Effects', () => {
                 firstName: 'Captain',
                 lastName: 'Caveman',
                 emailAddress: 'thecap@cave.com',
-                permissions: ['god']
+                permissions: ['god'],
+                jurisdictions: []
             };
             const action = new SendInviteUser(requestPayload);
             const completion = new InviteUserFail(new Error());

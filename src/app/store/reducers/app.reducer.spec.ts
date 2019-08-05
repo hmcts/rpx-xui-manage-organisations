@@ -76,5 +76,12 @@ describe('AppReducer', () => {
       expect(state.navItems).toEqual(navItems);
     });
 
+    it('Jurisdictions action should return correct state', () => {
+      const { initialState } = fromApp;
 
+      const action = new fromAppActions.LoadJurisdictionsSuccess([{id: 'Jurisdiction1'}]);
+      const state = fromApp.reducer(initialState, action);
+
+      expect(state.jurisdictions).toEqual([{id: 'Jurisdiction1'}]);
+    });
 });

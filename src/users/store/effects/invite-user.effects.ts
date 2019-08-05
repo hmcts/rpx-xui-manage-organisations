@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as usersActions from '../actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {InviteUserService } from '../../services';
+import {InviteUserService, JurisdictionService } from '../../services';
 import * as fromRoot from '../../../app/store';
 
 
@@ -12,7 +12,8 @@ import * as fromRoot from '../../../app/store';
 export class InviteUserEffects {
   constructor(
     private actions$: Actions,
-    private inviteUserSevice: InviteUserService
+    private inviteUserSevice: InviteUserService,
+    private jurisdictionService: JurisdictionService
   ) {}
 
   @Effect()
@@ -34,4 +35,5 @@ export class InviteUserEffects {
       return new fromRoot.Go({ path: ['users/invite-user-success'] });
     })
   );
+
 }

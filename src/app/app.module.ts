@@ -1,3 +1,4 @@
+import { LoaderModule } from './../shared/modules/loader/loader.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -31,6 +32,7 @@ import {OrganisationModule} from '../organisation/organisation.module';
 import {UserService} from '../user-profile/services/user.service';
 import {HttpClientModule} from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { JurisdictionService } from 'src/users/services';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -53,11 +55,12 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     SharedModule,
     UserProfileModule,
     StoreRouterConnectingModule,
-    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : []
+    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
+    LoaderModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    UserService
+    UserService, JurisdictionService
     ],
   bootstrap: [AppComponent]
 })

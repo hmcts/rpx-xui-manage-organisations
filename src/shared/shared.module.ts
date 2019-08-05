@@ -14,11 +14,8 @@ import { SuccessNotificationComponent } from './components/success-notification/
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { HealthCheckService } from './services/health-check.service';
-<<<<<<< HEAD
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
-=======
 import { LoaderModule } from './modules/loader/loader.module';
->>>>>>> EUI-517 Loading screen
 
 @NgModule({
   declarations: [

@@ -22,7 +22,7 @@ export default {
       fieldset: [
         {
           radios: {
-            control: 'have',
+            control: 'haveSra',
             classes: 'govuk-radios--inline',
             radioGroup: [
               {

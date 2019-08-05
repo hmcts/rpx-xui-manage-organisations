@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
+import * as fromAppStore from '../../../app/store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable, Subscription} from 'rxjs';
 
@@ -47,10 +48,10 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
-    this.juridictionSubscription = this.store.pipe(select(fromStore.getAllJuridictions))
+    this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJuridictions))
                                    .subscribe(value => this.jurisdictions = value,
-                                   (error) => this.store.dispatch(new fromStore.LoadJurisdictionsForUserFail(error)));
-    this.store.dispatch(new fromStore.LoadJurisdictionsForUser());
+                                   (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
+    this.store.dispatch(new fromAppStore.LoadJurisdictions());
   }
 
   // convenience getter for easy access to form fields

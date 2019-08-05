@@ -36,14 +36,4 @@ export class InviteUserEffects {
     })
   );
 
-  @Effect()
-  loadJuridictions$ = this.actions$.pipe(
-    ofType(usersActions.LOAD_JURISDICTIONS_FOR_USER),
-    switchMap(() => {
-      return this.jurisdictionService.getJurisdictions().pipe(
-        map(jurisdictions => new usersActions.LoadJurisdictionsForUserSuccess(jurisdictions)),
-        catchError(error => of(new usersActions.LoadJurisdictionsForUserFail(error)))
-      );
-    })
-  );
 }

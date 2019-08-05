@@ -2,17 +2,20 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as appActions from '../actions';
-import { map } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
+import { JurisdictionService } from 'src/users/services';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private cookieService: CookieService,
+    private jurisdictionService: JurisdictionService
   ) { }
 
   @Effect()
@@ -42,5 +45,15 @@ export class AppEffects {
     })
   );
 
+  @Effect()
+  loadJuridictions$ = this.actions$.pipe(
+    ofType(appActions.LOAD_JURISDICTIONS_GLOBAL),
+    switchMap(() => {
+      return this.jurisdictionService.getJurisdictions().pipe(
+        map(jurisdictions => new appActions.LoadJurisdictionsSuccess(jurisdictions)),
+        catchError(error => of(new appActions.LoadJurisdictionsFail(error)))
+      );
+    })
+  );
 
 }

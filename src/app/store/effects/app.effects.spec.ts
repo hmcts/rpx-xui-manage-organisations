@@ -11,10 +11,13 @@ import { CookieService } from 'ngx-cookie';
 import {AuthGuard} from '../../../user-profile/guards/auth.guard';
 import {combineReducers, StoreModule} from '@ngrx/store';
 import {reducers} from '../reducers';
+import { JurisdictionService } from 'src/users/services/jurisdiction.service';
 
 describe('App Effects', () => {
   let actions$;
   let effects: AppEffects;
+
+  const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
 
   const cookieService = {
     get: key => {
@@ -37,6 +40,7 @@ describe('App Effects', () => {
         fromAppEffects.AppEffects,
         provideMockActions(() => actions$),
         { provide: CookieService, useValue: cookieService },
+        { provide: JurisdictionService, useValue: mockJurisdictionService },
         AuthGuard
       ]
     });

@@ -7,7 +7,7 @@ Feature: register organization
     Then I should be redirected to manage organisation dashboard page
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
-  @smoke
+
   Scenario:register organization
     Then I Enter the Organization name
     Then I Enter the Office Address details
@@ -17,7 +17,7 @@ Feature: register organization
     Then I Enter the User name
     Then I Enter the Email Address
     Then I land on the summary page and check submit
-
+  @smoke
   Scenario:organisation name validation
     When I am not entered Organization name
     Then I should be display organization error

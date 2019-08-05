@@ -15,7 +15,6 @@ class ViewUserPage {
 
   async amOnPage() {
     let header = await this.getPageHeader();
-    console.log("hearder:" + header);
     return header === "Users";
   }
 

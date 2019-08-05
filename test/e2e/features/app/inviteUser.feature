@@ -1,4 +1,4 @@
-
+@smoke
 Feature: invite user workflow
 
   Background:
@@ -9,7 +9,6 @@ Feature: invite user workflow
     Then I should be on display the user details
     When I click on invite user button
     Then I should be on display invite user page
-
 
 
   Scenario: invite user workflow

@@ -1,4 +1,4 @@
-
+@smoke
 Feature: view user workflow
 
   Scenario: view user workflow

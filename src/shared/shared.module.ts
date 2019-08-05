@@ -15,6 +15,7 @@ import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appI
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { HealthCheckService } from './services/health-check.service';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
+import { LoaderModule } from './modules/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { PhaseBannerComponent } from './components/phase-banner/phase-banner.com
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    GovUiModule
+    GovUiModule,
+    LoaderModule
   ],
   exports: [
     ReactiveFormsModule,

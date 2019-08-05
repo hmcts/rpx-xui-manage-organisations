@@ -4,4 +4,5 @@ export interface UserListApiModel {
     lastName: string;
     emailAddress: string;
     permissions: string[];
+    jurisdictions: any[];
 }

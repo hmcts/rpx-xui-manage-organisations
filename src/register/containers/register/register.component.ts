@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store/';
 import * as fromRoot from '../../../app/store/';
+import * as fromAppStore from '../../../app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
@@ -33,6 +34,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   pageId: string;
   isPageValid = false;
   errorMessage: any;
+  jurisdictions: any[];
+  juridictionSubscription: Subscription;
 
   /**
    * ngOnInit
@@ -52,6 +55,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
           path: ['/register-org/register', nextUrl]
         }));
       }
+      this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJuridictions))
+                                   .subscribe(value => this.jurisdictions = value,
+                                   (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
+      this.store.dispatch(new fromAppStore.LoadJurisdictions());
     });
 
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
@@ -102,10 +109,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
     this.store.dispatch(new fromStore.ResetErrorMessage({}));
+    if (this.juridictionSubscription) {
+      this.juridictionSubscription.unsubscribe();
+    }
   }
 
   onSubmitData(): void {
-    this.store.dispatch( new fromStore.SubmitFormData(this.pageValues));
+    const pageValues = {
+      ...this.pageValues,
+      jurisdictions: this.jurisdictions
+    };
+    this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }
 
   onGoBack(event) {

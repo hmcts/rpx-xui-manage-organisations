@@ -10,6 +10,7 @@ export interface AppState {
   navItems;
   userNav: UserNavModel;
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
+  jurisdictions: any[];
 }
 
 export const initialState: AppState = {
@@ -17,7 +18,8 @@ export const initialState: AppState = {
   pageTitle: '',
   userNav: AppConstants.USER_NAV,
   navItems: [],
-  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE}
+  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
+  jurisdictions: []
 };
 
 export function reducer(
@@ -25,6 +27,12 @@ export function reducer(
   action: fromAction.appActions
 ): AppState {
   switch (action.type) {
+    case fromAction.LOAD_JURISDICTIONS_GLOBAL_SUCCESS:
+        const jurisdictions = action.payload;
+        return {
+          ...state,
+          jurisdictions
+        };
 
     case fromAction.SET_PAGE_TITLE: {
       const pageTitle = AppUtils.setPageTitle(action.payload);
@@ -77,5 +85,6 @@ export const getPageTitle = (state: AppState) => state.pageTitle;
 export const getNavItems = (state: AppState) => state.navItems;
 export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
+export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 
 

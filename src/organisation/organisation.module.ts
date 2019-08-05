@@ -37,7 +37,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
   declarations: [...fromContainers.containers],
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
-  MonitoringService, LoggerService]
+  MonitoringService, LoggerService],
 })
 
 

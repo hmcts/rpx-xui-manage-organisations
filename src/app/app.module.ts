@@ -1,3 +1,4 @@
+import { LoaderModule } from './../shared/modules/loader/loader.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -54,7 +55,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     SharedModule,
     UserProfileModule,
     StoreRouterConnectingModule,
-    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : []
+    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
+    LoaderModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

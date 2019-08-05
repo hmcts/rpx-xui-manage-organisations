@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 /**
  * Stateless component responsible for

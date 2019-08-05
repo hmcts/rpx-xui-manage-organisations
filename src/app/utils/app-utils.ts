@@ -100,6 +100,9 @@ export class AppUtils {
     if (url.indexOf('register-org/register') !== -1) {
       return 'Register - Register organisation';
     }
+    if (url.indexOf('register-org/confirmation') !== -1) {
+      return 'Confirmation - Register organisation';
+    }
     return 'Manage organisation';
   }
 }

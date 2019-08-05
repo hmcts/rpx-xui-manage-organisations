@@ -45,6 +45,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
+    this.isFromSubmitted$.subscribe((submitted: boolean) => {
+      if (submitted) {
+        this.router.navigateByUrl('/register-org/confirmation');
+      }
+    });
 
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
       if (nextUrl) {
@@ -53,7 +58,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }));
       }
     });
-
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
   }
 

@@ -12,7 +12,7 @@
       <div *ngIf="pageId === 'check' && (errorMessage | async) !== '' && !(isFromSubmitted$ | async)">
         <app-notification-banner-component>
             {{errorMessage | async}}
-        </app-notification-banner-component>      
+        </app-notification-banner-component>
       </div>
 
       <app-form-builder
@@ -27,7 +27,7 @@
         (submit)="onSubmitData()"
       ></app-check-your-answers>
 
-      <app-submitted-confirmation *ngIf="isFromSubmitted$ | async"></app-submitted-confirmation>
+      <!-- <app-submitted-confirmation *ngIf="isFromSubmitted$ | async"></app-submitted-confirmation> -->
     </div>
   </div>
 </main>

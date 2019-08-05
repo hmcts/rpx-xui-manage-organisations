@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import { Title } from '@angular/platform-browser';
-
 /**
  * Stateless component responsible for
  * displaying confirmation after form submit.

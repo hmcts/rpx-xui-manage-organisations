@@ -6,7 +6,6 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
-import { CookieService } from 'ngx-cookie';
 import { JurisdictionService } from 'src/users/services';
 import { of } from 'rxjs';
 
@@ -14,7 +13,6 @@ import { of } from 'rxjs';
 export class AppEffects {
   constructor(
     private actions$: Actions,
-    private cookieService: CookieService,
     private jurisdictionService: JurisdictionService
   ) { }
 
@@ -39,8 +37,6 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      // TODO: shouldn't need to clear cookies here
-      this.cookieService.removeAll();
       window.location.href = 'api/logout';
     })
   );

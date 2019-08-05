@@ -28,18 +28,18 @@
     <div class="govuk-checkboxes">
       <lib-gov-checkbox
         [group]="inviteUserForm.controls['roles']"
-        [config]="{value: 'manageCases',  label: 'Manage Cases', name: 'roles', hint: 'View, create and progress cases.', focusOn: 'roles'}">
+        [config]="{value: 'pui-case-manager',  label: 'Manage Cases', name: 'roles', hint: 'View, create and progress cases.', focusOn: 'roles'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
         [group]="inviteUserForm.controls['roles']"
-        [config]="{value: 'manageUsers', label: 'Manage Users', name: 'roles',
+        [config]="{value: 'pui-user-manager', label: 'Manage Users', name: 'roles',
         hint: 'Invite users.'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
         [group]="inviteUserForm.controls['roles']"
-        [config]="{value: 'manageOrg', label: 'Manage Organisation', name: 'roles',
+        [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
         hint: 'View organisation name and addresses.'}">
       </lib-gov-checkbox>
     </div>

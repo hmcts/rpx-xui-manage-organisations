@@ -40,9 +40,9 @@ export class InviteUserComponent implements OnInit {
       lastName: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.email, Validators.required]),
       roles: new FormGroup({
-        manageCases: new FormControl(''),
-        manageUsers: new FormControl(''),
-        manageOrg: new FormControl('')
+        'pui-case-manager': new FormControl(''),
+        'pui-user-manager': new FormControl(''),
+        'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
 
@@ -55,11 +55,14 @@ export class InviteUserComponent implements OnInit {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       let {value} = this.inviteUserForm;
-      const permissions = Object.keys(value.roles).map(key => key);
+      const permissions = Object.keys(value.roles).filter(key => {
+        if (value.roles[key]) {
+          return key;
+        }
+      });
       value = {
         ...value,
         roles: permissions,
-        status: 'pending'
       };
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }

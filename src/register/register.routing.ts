@@ -1,3 +1,4 @@
+import { SubmittedConfirmationComponent } from './components/submitted-confirmation/submitted-confirmation.component';
 // routes
 import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
@@ -12,6 +13,11 @@ export const ROUTES: Routes = [
   {
     path: 'register/:pageId',
     component: RegisterComponent,
+    canActivate: [HealthCheckGuard]
+  },
+  {
+    path: 'confirmation',
+    component: SubmittedConfirmationComponent,
     canActivate: [HealthCheckGuard]
   }
 ];

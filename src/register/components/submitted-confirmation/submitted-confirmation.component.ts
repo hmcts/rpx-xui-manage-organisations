@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-
 /**
  * Stateless component responsible for
  * displaying confirmation after form submit.

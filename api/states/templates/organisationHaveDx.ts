@@ -22,18 +22,19 @@ export default {
       fieldset: [
         {
           radios: {
-            control: 'have',
+            control: 'haveDx',
             classes: 'govuk-radios--inline',
             radioGroup: [
               {
                 value: 'yes',
                 text: 'Yes',
                 hiddenAccessibilityText: 'some hidden text',
+                checked: true,
               },
               {
                 value: 'no',
                 text: 'No',
-                hiddenAccessibilityText: 'some hidden text'
+                hiddenAccessibilityText: 'some hidden text',
               }
             ]
           }

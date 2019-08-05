@@ -89,8 +89,10 @@ export function reducer(
         ...action.payload.value
       };
 
-      const nextUrl = action.payload.value.have ?
-        state.navigation[action.payload.pageId][action.payload.value.have] :
+      const partialMatchHaveKey = Object.keys(action.payload.value).find(key => key.indexOf('have') > -1);
+
+      const nextUrl = partialMatchHaveKey ?
+        state.navigation[action.payload.pageId][action.payload.value[partialMatchHaveKey]] :
         state.navigation[action.payload.pageId];
 
       return {

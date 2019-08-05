@@ -1,6 +1,6 @@
 export default {
     services: {
-        ccdDataApi: 'https://ccd-data-store-api-aat.service.core-compute-aat.internal',
+        ccdDataApi: 'https://ccd-data-store-api-ithc.service.core-compute-ithc.internal',
         ccdDefApi: 'https://ccd-definition-store-api-ithc.service.core-compute-ithc.internal',
         idamWeb: 'https://idam-web-public.ithc.platform.hmcts.net',
         idamApi: 'https://idam-api.ithc.platform.hmcts.net',

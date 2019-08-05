@@ -6,25 +6,23 @@ import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { tunnel } from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
+import {application} from '../lib/config/application.config'
 
-const url = config.services.s2s
-const microservice = config.microservice
 const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
-
+const url = config.services.s2s
+const microservice =  application.microservice
 const logger = log4jui.getLogger('service user-profile')
 
 export async function postS2SLease() {
-    const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
-    let request: AxiosResponse<any>
-    console.log('PUI_ENV is now:', configEnv)
-    if (configEnv !== 'ldocker') {
+  const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
+  let request: AxiosResponse<any>
+  console.log('PUI_ENV is now:', configEnv)
+  if (configEnv !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
-
         logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
-
         request = await http.post(`${url}/lease`, {
-            microservice,
-            oneTimePassword,
+          microservice,
+          oneTimePassword,
         })
     } else {
         // this is only for local development against the RD docker image
@@ -32,7 +30,7 @@ export async function postS2SLease() {
         tunnel.end()
         request = await http.get(`${url}`)
     }
-    return request.data
+  return request.data
 }
 
 export const router = express.Router({ mergeParams: true })

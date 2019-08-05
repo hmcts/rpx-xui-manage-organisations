@@ -2,22 +2,7 @@ import * as fromAction from '../actions';
 import {AppConstants} from '../../app.constants';
 import {UserNavModel} from '../../models/user-nav.model';
 import {AppTitlesModel} from '../../models/app-titles.model';
-
-/* function that returns page title base on page url indexOf */
-export function setPageTitle(url): string {
-  if (url.indexOf('invite-user') !== -1) {
-    return 'Invite Users - Professional User Interface';
-  } else if (url.indexOf('organisation') !== -1) {
-    return 'Organisation - Professional User Interface';
-  } else if (url.indexOf('profile') !== -1) {
-    return 'Profile - Professional User Interface';
-  } else if (url.indexOf('users') !== -1) {
-    return 'Users - Professional User Interface';
-  } else if (url.indexOf('login') !== -1) {
-    return 'Login - Professional User Interface';
-  }
-  return 'Professional User Interface';
-}
+import {AppUtils} from '../../utils/app-utils';
 
 export interface AppState {
   allNavItems: {[id: string]: object};
@@ -42,7 +27,7 @@ export function reducer(
   switch (action.type) {
 
     case fromAction.SET_PAGE_TITLE: {
-      const pageTitle = setPageTitle(action.payload);
+      const pageTitle = AppUtils.setPageTitle(action.payload);
       return {
         ...state,
         pageTitle
@@ -60,7 +45,7 @@ export function reducer(
     }
 
     case fromAction.SET_USER_ROLES: {
-      // TODO prehaps find better solution for rendering sequence of nav tabs. It will not work Fees Acc
+      // TODO perhaps find better sorting solution for rendering sequence of nav tabs. It will not work Fees Acc
       const roles = [...action.payload].sort();
       let navItems = [];
       roles.forEach(role => {

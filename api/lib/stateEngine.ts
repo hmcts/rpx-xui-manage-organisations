@@ -141,7 +141,6 @@ export async function process(req, res, mapping, payload, templates, store) {
             meta,
             newRoute,
         }
-
         req.session.save(() => res.send(JSON.stringify(response)))
     }
 }

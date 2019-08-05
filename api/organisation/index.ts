@@ -5,7 +5,7 @@ import { http } from '../lib/http'
 async function handleAddressRoute(req, res) {
     try {
         const response = await http.get(
-          `${config.services.rdProfessionalApi}/organisations?organisation_identifier=${req.params.orgId}`
+          `${config.services.rdProfessionalApi}/refdata/external/v1/organisations`
         )
         res.send(response.data)
     } catch (error) {
@@ -16,6 +16,6 @@ async function handleAddressRoute(req, res) {
 
 export const router = express.Router({ mergeParams: true })
 
-router.get('/:orgId', handleAddressRoute)
+router.get('', handleAddressRoute)
 
 export default router

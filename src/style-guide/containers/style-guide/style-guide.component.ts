@@ -44,8 +44,8 @@ export class StyleGuideComponent implements OnInit {
     this.styleGuideForm = this.fb.group({
       [CONST.STG_FORM_MODEL.input]: new FormControl('', [Validators.required, Validators.email]),
       [CONST.STG_FORM_MODEL.checkboxes]: new FormGroup({ // checkboxes
-        createCases: new FormControl(),
-        viewCases: new FormControl(''),
+        manageCases: new FormControl(),
+        manageUsers: new FormControl(''),
       }, checkboxesBeCheckedValidator()),
       [CONST.STG_FORM_MODEL.contactPreference]: new FormControl('', Validators.required),
       [CONST.STG_FORM_MODEL.passport]: new FormGroup({ // date

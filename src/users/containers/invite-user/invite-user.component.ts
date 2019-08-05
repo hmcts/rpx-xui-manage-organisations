@@ -12,39 +12,37 @@ import {Observable} from 'rxjs';
 * */
 
 @Component({
-  selector: 'app-prd-user-form-component',
-  templateUrl: './user-form.component.html',
+  selector: 'app-prd-invite-user-component',
+  templateUrl: './invite-user.component.html',
 })
-export class UserFormComponent implements OnInit {
+export class InviteUserComponent implements OnInit {
 
   constructor(private store: Store<fromStore.UserState>) { }
   inviteUserForm: FormGroup;
 
-  formValidationErrors$: Observable<any>;
-  formValidationErrorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
+  errors$: Observable<any>;
+  errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
 
   errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
-    emailAddress: ['Enter email address', 'Email must contain at least the @ character'],
-    permissions: ['Select at least one option'],
+    email: ['Enter email address', 'Email must contain at least the @ character'],
+    roles: ['Select at least one option'],
   };
 
   ngOnInit(): void {
 
-    this.formValidationErrors$ = this.store.pipe(select(fromStore.getGetInviteUserErrorMessage));
-    this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
+    this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
+    this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
     this.inviteUserForm = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      emailAddress: new FormControl('', [Validators.email, Validators.required]),
-      permissions: new FormGroup({
-        createCases: new FormControl(''),
-        viewCases: new FormControl(''),
-        manageUsers: new FormControl(''),
-        viewDetails: new FormControl(''),
-        viewFees: new FormControl('')
+      email: new FormControl('', [Validators.email, Validators.required]),
+      roles: new FormGroup({
+        'pui-case-manager': new FormControl(''),
+        'pui-user-manager': new FormControl(''),
+        'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
 
@@ -56,7 +54,16 @@ export class UserFormComponent implements OnInit {
   onSubmit() {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
-      const {value} = this.inviteUserForm;
+      let {value} = this.inviteUserForm;
+      const permissions = Object.keys(value.roles).filter(key => {
+        if (value.roles[key]) {
+          return key;
+        }
+      });
+      value = {
+        ...value,
+        roles: permissions,
+      };
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }
   }
@@ -67,11 +74,11 @@ export class UserFormComponent implements OnInit {
       isInvalid: {
         firstName: [(this.f.firstName.errors && this.f.firstName.errors.required)],
         lastName: [(this.f.lastName.errors && this.f.lastName.errors.required)],
-        emailAddress: [
-          (this.f.emailAddress.errors && this.f.emailAddress.errors.required),
-          (this.f.emailAddress.errors && this.f.emailAddress.errors.email),
+        email: [
+          (this.f.email.errors && this.f.email.errors.required),
+          (this.f.email.errors && this.f.email.errors.email),
         ],
-        permissions: [(this.f.permissions.errors && this.f.permissions.errors.requireOneCheckboxToBeChecked)],
+        roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
       },
       errorMessages: this.errorMessages,
       isSubmitted: true
@@ -83,4 +90,3 @@ export class UserFormComponent implements OnInit {
 
 
 }
-

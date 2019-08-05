@@ -1,5 +1,4 @@
-import axios, { AxiosPromise, AxiosResponse } from 'axios'
-import * as exceptionFormatter from 'exception-formatter'
+import axios, { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as jwtDecode from 'jwt-decode'
 import * as log4js from 'log4js'
@@ -8,7 +7,6 @@ import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
 import { asyncReturnOrError } from '../lib/util'
 import { getUserDetails } from '../services/idam'
-import { getOrganisationId } from '../services/rdProfessional'
 import { serviceTokenGenerator } from './serviceToken'
 
 const secret = process.env.IDAM_SECRET
@@ -34,11 +32,9 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
         const check = await sessionChainCheck(req, res, accessToken)
         if (check) {
             logger.info('Attaching auth')
-
             // also use these as axios defaults
             logger.info('Using Idam Token in defaults')
             axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
-
             const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
             if (token) {
                 logger.info('Using S2S Token in defaults')
@@ -152,7 +148,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
     }
 }
 
-export function doLogout(req: EnhancedRequest, res: express.Response, status: number =  302) {
+export function doLogout(req: EnhancedRequest, res: express.Response, status: number = 302) {
     res.clearCookie(config.cookies.token)
     res.clearCookie(config.cookies.userId)
     req.session.user = null

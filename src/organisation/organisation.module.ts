@@ -15,7 +15,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
 import { OrganisationGuard } from './guards/organisation.guard';
-
+import { MonitoringService } from '../shared/services/monitoring.service';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
+import { LoggerService } from '../shared/services/logger.service';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 
 @NgModule({
   imports: [
@@ -25,10 +28,16 @@ import { OrganisationGuard } from './guards/organisation.guard';
     SharedModule,
     StoreModule.forFeature('org', reducers),
     EffectsModule.forFeature(effects),
+    LoggerModule.forRoot({
+      level: NgxLoggerLevel.TRACE,
+      disableConsoleLogging: false
+    })
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
-  providers: [...fromServices.services, OrganisationGuard]
+  providers: [...fromServices.services, OrganisationGuard,
+  { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
+  MonitoringService, LoggerService]
 })
 
 

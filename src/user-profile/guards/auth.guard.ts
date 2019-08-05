@@ -8,7 +8,6 @@ import * as fromStore from '../store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {CookieService} from 'ngx-cookie';
 import config from '../../../api/lib/config';
-import {environment} from '../../environments/environment';
 
 
 @Injectable()
@@ -64,8 +63,7 @@ export class AuthGuard implements CanActivate {
     const base = config.services.idamWeb;
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
-
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=openid profile roles manage-user create-user`;
   }
 
   signOut(): void {

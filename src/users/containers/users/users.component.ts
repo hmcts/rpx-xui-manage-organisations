@@ -24,9 +24,9 @@ export class UsersComponent implements OnInit {
     this.columnConfig = [
       { header: 'Email address', key: 'email' },
       { header: 'Manage cases', key: 'manageCases' },
-      { header: 'Manage organisation', key: 'manageOrganisation' },
+      { header: 'Manage organisation', key: 'manageOrganisations' },
       { header: 'Manage users', key: 'manageUsers' },
-      { header: 'status', key: 'status' }
+      { header: 'Status', key: 'status' }
     ];
 
     this.store.dispatch(new fromStore.LoadUsers());

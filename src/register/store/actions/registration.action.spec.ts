@@ -1,7 +1,7 @@
 import * as fromRegistration from './registration.actions';
-import {LoadPageItems} from './registration.actions';
-import {LoadPageItemsSuccess} from './registration.actions';
-import {LoadPageItemsFail} from './registration.actions';
+import { LoadPageItems } from './registration.actions';
+import { LoadPageItemsSuccess } from './registration.actions';
+import { LoadPageItemsFail } from './registration.actions';
 
 describe('Registration actions', () => {
   describe('LoadPageItems actions GROUP', () => {
@@ -19,8 +19,8 @@ describe('Registration actions', () => {
     // Success
     describe('LoadPageItemsSuccess', () => {
       it('should create an action', () => {
-        const payload = {payload: 'something', pageId: 'someString'};
-        const action = new fromRegistration.LoadPageItemsSuccess({payload: 'something', pageId: 'someString'} );
+        const payload = { payload: 'something', pageId: 'someString' };
+        const action = new fromRegistration.LoadPageItemsSuccess({ payload: 'something', pageId: 'someString' });
         expect({ ...action }).toEqual({
           type: fromRegistration.LOAD_PAGE_ITEMS_SUCCESS,
           payload
@@ -37,6 +37,18 @@ describe('Registration actions', () => {
           type: fromRegistration.LOAD_PAGE_ITEMS_FAIL,
           payload
         });
+      });
+    });
+  });
+
+  // Fail
+  describe('SubmitFormDataFail', () => {
+    it('should create an action', () => {
+      const action = new fromRegistration.SubmitFormDataFail('Error');
+      const payload = 'Error';
+      expect({ ...action }).toEqual({
+        type: fromRegistration.SUBMIT_FORM_DATA_FAIL,
+        payload
       });
     });
   });

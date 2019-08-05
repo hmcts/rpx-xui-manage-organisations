@@ -1,25 +1,32 @@
-<lib-gov-uk-main-wrapper [title]="'Organisation'">
-  <table class="govuk-table" *ngFor="let data of orgData">
+<app-hmcts-main-wrapper [title]="'Organisation'">
+  <table class="govuk-table">
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Name</th>
-      <td class="govuk-table__cell">{{data.name}}</td>
+      <td class="govuk-table__cell">{{orgData.name}}</td>
       <td class="govuk-table__cell"></td>
     </tr>
     <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">Address</th>
       <td class="govuk-table__cell">
-        {{ data.contactInformation[0].addressLine1 }}
-        {{ data.contactInformation[0].addressLine2 }}
-        {{ data.contactInformation[0].addressLine3 }}
-        {{ data.contactInformation[0].townCity }}
-        {{ data.contactInformation[0].postCode }}
-        {{ data.contactInformation[0].county }}
-        {{ data.contactInformation[0].country }}
+      <!-- TODO this is horrible please revisit -->
+        {{ orgData.contactInformation[0].addressLine1 }}
+        <br/>
+        <div *ngIf="orgData.contactInformation[0].addressLine2">
+          {{ orgData.contactInformation[0].addressLine2 }}
+          <br/>
+        </div>
+        {{ orgData.contactInformation[0].townCity }}
+        <br/>
+        <div *ngIf="orgData.contactInformation[0].postCode">
+          {{ orgData.contactInformation[0].postCode }}
+          <br/>
+        </div>
+        {{ orgData.contactInformation[0].county }}
       </td>
       <td class="govuk-table__cell"></td>
     </tr>
     </tbody>
   </table>
-</lib-gov-uk-main-wrapper>
+</app-hmcts-main-wrapper>
 

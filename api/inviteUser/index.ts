@@ -12,13 +12,18 @@ async function inviteUserRoute(req, res) {
     const orgId = req.session.auth.orgId
     const payload = req.body
     try {
-        const response = await http.post(`${config.services.rdProfessionalApi}/organisations/${orgId}/users`, payload)
+      console.log(payload)
+        const response = await http.post(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {
         logger.info('error', error)
-        const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
-        res.send(errReport).status(500)
+        const errReport = {
+            apiError: error.data.message,
+            apiStatusCode: error.status,
+            message: error.data.message,
+        }
+        res.status(error.status).send(errReport)
     }
 }
 export default router

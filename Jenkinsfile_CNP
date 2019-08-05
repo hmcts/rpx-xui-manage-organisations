@@ -24,6 +24,7 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
+    secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -44,6 +45,12 @@ withPipeline(type, product, component) {
 
 
     after('checkout') {sh 'yarn cache clean'}
+
+  before('buildinfra:prod') {
+    currentBuild.result = 'SUCCESS'
+    currentBuild.description = "SUCCESS"
+    error 'XUI  projects are not authorised to be in production environments yet.'
+  }
 
     after('build') {
         sh 'npm run build'
@@ -144,4 +151,5 @@ withPipeline(type, product, component) {
             reportName           : 'AAT Functional Test'
         ])
     }
+
 }

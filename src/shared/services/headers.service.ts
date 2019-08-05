@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
-import config from '../../api/lib/config';
+import config from '../../../api/lib/config';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,7 @@ export class HeadersService {
       USER: config.cookies.userId
     };
     this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+   // this.API_BASE_URL = 'https://rd-professional-api-preview.service.core-compute-preview.internal';
   }
 
   generateLoginUrl() {

@@ -26,7 +26,6 @@ export function getToken() {
 export async function generateToken() {
     logger.info('Getting new s2s token')
     const token = await postS2SLease()
-
     const tokenData: any = jwtDecode(token)
 
     _cache[microservice] = {
@@ -44,5 +43,19 @@ export async function serviceTokenGenerator() {
         return tokenData.token
     } else {
         return await generateToken()
+    }
+}
+
+export default async (req, res, next) => {
+    const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
+
+    const token = await asyncReturnOrError(generateToken(), 'Error getting s2s token', res, logger)
+    if (token) {
+        logger.info('Adding s2s token to defaults')
+        req.headers.ServiceAuthorization = `Bearer ${token}`
+
+        axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
+
+        next()
     }
 }

@@ -14,32 +14,32 @@
   </lib-gov-uk-input>
 
   <lib-gov-uk-input
-    [config]="{label: 'Email address', name: 'emailAddress', id: 'emailAddress', type: 'email'}"
-    [errorMessage]="isInvalid.emailAddress"
+    [config]="{label: 'Email address', name: 'email', id: 'email', type: 'email'}"
+    [errorMessage]="isInvalid.email"
     [group]="inviteUserForm">
   </lib-gov-uk-input>
 
   <!--permissions -->
   <lib-gov-uk-form-group-wrapper
-    [error]="isInvalid.permissions"
-    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions', key: 'permissions'}"
-    [formGroupName]="'permissions'">
+    [error]="isInvalid.roles"
+    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions', key: 'roles'}"
+    [formGroupName]="'roles'">
 
     <div class="govuk-checkboxes">
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'manageCases',  label: 'Manage Cases', name: 'permission', hint: 'View, create and progress cases.', focusOn: 'permissions'}">
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-case-manager',  label: 'Manage Cases', name: 'roles', hint: 'View, create and progress cases.', focusOn: 'roles'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'manageUsers', label: 'Manage Users', name: 'permission',
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-user-manager', label: 'Manage Users', name: 'roles',
         hint: 'Invite users.'}">
       </lib-gov-checkbox>
 
       <lib-gov-checkbox
-        [group]="inviteUserForm.controls['permissions']"
-        [config]="{value: 'manageOrganisation', label: 'Manage Organisation', name: 'permission',
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
         hint: 'View organisation name and addresses.'}">
       </lib-gov-checkbox>
     </div>

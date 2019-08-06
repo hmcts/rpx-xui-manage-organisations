@@ -33,6 +33,7 @@ export class HeadersService {
     interface HeaderObject {
       [key: string]: string;
     }
+      debugger;
     const headers: HeaderObject = {
       Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN)
     };

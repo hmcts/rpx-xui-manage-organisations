@@ -6,7 +6,7 @@ import {RegistrationConstants} from '../constants/registration.constants';
 
 // TODO MOVE THIS INTO THE EVIRONMENT FILE
 export const ENVIRONMENT = {
-  registerOrganisation: '/api/decisions/states/any/any/any/check'
+  registerOrganisation: '/open/decisions/prdTest'
 };
 
 /**

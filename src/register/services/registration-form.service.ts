@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import {RegistrationConstants} from '../constants/registration.constants';
 
 // TODO MOVE THIS INTO THE EVIRONMENT FILE
 export const ENVIRONMENT = {
@@ -20,7 +21,8 @@ export class RegistrationFormService {
 
   getRegistrationForm(pageId): Observable<any> { // TODO create type/model
     const url = `/api/decisions/states/any/any/any/${pageId}`;
-    return this.http.get(url);
+    // return this.http.get(url);
+    return of(RegistrationConstants.FORM_BUILDER_TEMPLATES[pageId]);
   }
 
   submitRegistrationForm(data: any): Observable<any> {

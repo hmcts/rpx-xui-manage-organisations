@@ -5,7 +5,7 @@ import { generateS2sToken } from '../lib/s2sTokenGeneration'
 export const router = express.Router({mergeParams: true})
 
 // Works and we can hit it.
-router.post('/prdTest', async (req, res) => {
+router.post('/register', async (req, res) => {
   console.log('prdTest')
   console.log(generateS2sToken())
 

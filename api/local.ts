@@ -52,14 +52,14 @@ app.use(cookieParser())
  * Any routes here do not have authentication attached and are therefore reachable.
  */
 app.get('/oauth2/callback', auth.oauth)
-app.get('/open/ping', (req, res) => {
+app.get('/external/ping', (req, res) => {
   console.log('Pong')
   res.send('Pong')
 })
 
 // So over here the open routes will
 // still need the s2s token
-app.use('/open', openRoutes)
+app.use('/external', openRoutes)
 
 /**
  * We are attaching authentication to all subsequent routes.

@@ -17,6 +17,6 @@ const router = express.Router({ mergeParams: true })
  *
  * @see local.ts / server.ts
  */
-router.use('/decisions', prdRouter)
+router.use('/register-org', prdRouter)
 
 export default router

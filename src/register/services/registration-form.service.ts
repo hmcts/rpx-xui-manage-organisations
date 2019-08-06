@@ -14,7 +14,6 @@ export const ENVIRONMENT = {
  * Responsible for communication between FE and BE only!
  */
 
-
 @Injectable()
 export class RegistrationFormService {
   constructor(private http: HttpClient) {}

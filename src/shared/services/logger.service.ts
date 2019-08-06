@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import config from '../../../api/lib/config';
 import * as jwtDecode from 'jwt-decode';
+import { AES, HmacSHA256 } from 'crypto-js';
 
 export interface ILoggerService {
     trace(message: any, ...additional: any[]): void;
@@ -68,6 +69,7 @@ export class LoggerService implements ILoggerService {
     getMessage(message: any): string {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
         const jwtData = jwtDecode(jwt);
-        return `User - ${jwtData.sid}, Message - ${message}, Timestamp - ${Date.now()}`;
+        const userIdEncrypted = AES.encrypt(jwtData.sid, 'secret', HmacSHA256);
+        return `User - ${jwtData.sid}, Message - ${userIdEncrypted}, Timestamp - ${Date.now()}`;
     }
 }

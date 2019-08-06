@@ -15,7 +15,7 @@ import {Subscription} from 'rxjs';
 })
 export class RedirectComponent implements OnInit, OnDestroy {
   redirected = false;
-  subscription: Subscription;
+  $navigationSubscription: Subscription;
 
   constructor(
     private store: Store<fromRoot.State>
@@ -23,7 +23,7 @@ export class RedirectComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.dispatch(new fromStore.GetUserDetails());
-    this.subscription = this.store.pipe(select(fromRoot.getNavItems)).subscribe(nav => {
+    this.$navigationSubscription = this.store.pipe(select(fromRoot.getNavItems)).subscribe(nav => {
       if (nav && nav.navItems.length && !this.redirected) {
         this.store.dispatch(new fromRoot.Go({path: [nav.navItems[0].href]}));
         this.redirected = true;
@@ -31,6 +31,6 @@ export class RedirectComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.$navigationSubscription.unsubscribe();
   }
 }

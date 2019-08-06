@@ -8,14 +8,8 @@ export const haveDx = {
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
-        controlId: 'firstName',
-        text: 'Enter first name',
-        href: '/register/organisation-address',
-      },
-      {
-        validationLevel: 'formControl',
-        controlId: 'lastName',
-        text: 'Enter Last Name',
+        controlId: 'haveDx',
+        text: 'Tell us if you have a DX reference',
         href: '/register/organisation-address',
       },
     ],
@@ -24,8 +18,13 @@ export const haveDx = {
         fieldset: [
           {
             radios: {
-              control: 'have',
+              control: 'haveDx',
               classes: 'govuk-radios--inline',
+              validators: ['required'],
+              validationError: {
+                value: 'Tell us if you have a DX reference',
+                controlId: 'haveDx',
+              },
               radioGroup: [
                 {
                   value: 'yes',
@@ -35,7 +34,7 @@ export const haveDx = {
                 {
                   value: 'no',
                   text: 'No',
-                  hiddenAccessibilityText: 'some hidden text'
+                  hiddenAccessibilityText: 'some hidden text',
                 }
               ]
             }
@@ -52,6 +51,4 @@ export const haveDx = {
         }
       }
     ]
-  },
-  newRoute: null
 }

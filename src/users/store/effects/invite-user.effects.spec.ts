@@ -8,6 +8,7 @@ import { InviteUserEffects } from './invite-user.effects';
 import { SendInviteUser, InviteUserSuccess, InviteUserFail } from '../actions/invite-user.actions';
 import { InviteUserService } from '../../services/invite-user.service';
 import { JurisdictionService } from 'src/users/services';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 describe('Invite User Effects', () => {
     let actions$;
@@ -16,6 +17,7 @@ describe('Invite User Effects', () => {
     const InviteUsersServiceMock = jasmine.createSpyObj('InviteUserService', [
         'inviteUser',
     ]);
+    const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
     const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
 
@@ -30,6 +32,10 @@ describe('Invite User Effects', () => {
                 {
                     provide: JurisdictionService,
                     useValue: mockJurisdictionService
+                },
+                {
+                    provide: LoggerService,
+                    useValue: mockedLoggerService
                 },
                 fromUsersEffects.InviteUserEffects,
                 provideMockActions(() => actions$)

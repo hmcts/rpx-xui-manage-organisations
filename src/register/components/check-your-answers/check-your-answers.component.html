@@ -44,8 +44,8 @@
          class="govuk-check-your-answers__contents">
       <ng-container question>DX reference</ng-container>
       <ng-container answer>
-        {{ formDataValues.DXnumber }}
-        {{ formDataValues.DXexchange }}
+        DX number: {{ formDataValues.DXnumber }}<br>
+        DX exchange: {{ formDataValues.DXexchange }}
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX reference</span></a>

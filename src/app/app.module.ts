@@ -62,7 +62,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
-    })
+    }),
+    LoaderModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

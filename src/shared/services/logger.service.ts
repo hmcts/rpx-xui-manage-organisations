@@ -22,8 +22,8 @@ export interface ILoggerService {
 export class LoggerService implements ILoggerService {
     COOKIE_KEYS;
     constructor(private monitoringService: MonitoringService,
-                private cookieService: CookieService,
                 private ngxLogger: NGXLogger,
+                private cookieService: CookieService,
                 private cryptoWrapper: CryptoWrapper) {
                     this.COOKIE_KEYS = {
                         TOKEN: config.cookies.token,

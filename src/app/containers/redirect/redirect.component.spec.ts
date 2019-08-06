@@ -6,8 +6,6 @@ import { cold } from 'jasmine-marbles';
 import * as fromAuth from '../../../user-profile/store';
 import {RedirectComponent} from './redirect.component';
 
-
-
 describe('AppRedirectComponent', () => {
   let store: Store<fromAuth.AuthState>;
   beforeEach(async(() => {

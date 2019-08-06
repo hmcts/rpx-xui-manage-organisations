@@ -84,6 +84,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.pageValues  = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
           this.nextUrl = formData.nextUrl;
+          this.store.dispatch(new fromStore.ResetNextUrl());
         }
       });
   }

@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { ServiceDownComponent } from './containers/service-down/service-down.component';
-
+import {RedirectComponent} from './containers/redirect/redirect.component';
 
 export const ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'organisation',
+    redirectTo: 'home',
     canActivate: [AuthGuard],
     pathMatch: 'full',
   },
@@ -27,7 +27,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
-    canActivate: [AuthGuard],
     loadChildren: '../register/register.module#RegisterModule'
   },
   {
@@ -35,8 +34,12 @@ export const ROUTES: Routes = [
     component: ServiceDownComponent
   },
   {
+    path: 'home',
+    component: RedirectComponent
+  },
+  {
     path: '**',
-    redirectTo: '/organisation',
+    redirectTo: '/home',
     pathMatch: 'full'
   }
 ];

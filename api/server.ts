@@ -52,6 +52,7 @@ app.use(cookieParser())
  * Open Routes
  *
  * Any routes here do not have authentication attached and are therefore reachable.
+ * TODO: Rename to external?
  */
 app.get('/oauth2/callback', auth.oauth)
 app.get('/open/ping', (req, res) => {
@@ -61,7 +62,8 @@ app.get('/open/ping', (req, res) => {
 app.use('/open', openRoutes)
 
 /**
- * We are attaching authentication to all subsequent routes.
+ * TODO: Are we are attaching authentication to all subsequent routes?
+ *
  */
 app.use(serviceRouter)
 

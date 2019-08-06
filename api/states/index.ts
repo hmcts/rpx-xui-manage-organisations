@@ -46,7 +46,7 @@ async function payload(req, res) {
     {
         res.status(result.statusCode).send(result.apiError + " " + result.apiErrorDescription)
     }
-    else 
+    else
     {
         return 'registration-confirmation'
     }
@@ -55,6 +55,7 @@ async function payload(req, res) {
 }
 
 async function handleStateRoute(req, res) {
+    console.log('handleStateRoute')
     process(req, res, mapping, payload, templates, new Store(req))
 }
 

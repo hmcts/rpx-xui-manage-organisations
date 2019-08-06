@@ -6,6 +6,7 @@ import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {InviteUserService, JurisdictionService } from '../../services';
 import * as fromRoot from '../../../app/store';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 
 @Injectable()
@@ -13,7 +14,8 @@ export class InviteUserEffects {
   constructor(
     private actions$: Actions,
     private inviteUserSevice: InviteUserService,
-    private jurisdictionService: JurisdictionService
+    private jurisdictionService: JurisdictionService,
+    private loggerService: LoggerService
   ) {}
 
   @Effect()
@@ -21,6 +23,7 @@ export class InviteUserEffects {
     ofType(usersActions.SEND_INVITE_USER),
     map((action: usersActions.SendInviteUser) => action.payload),
     switchMap((inviteUserFormData) => {
+      this.loggerService.info('User Invited');
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => new usersActions.InviteUserSuccess(userDetails)),
         catchError(error => of(new usersActions.InviteUserFail(error)))

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import config from '../../../api/lib/config';
 import * as jwtDecode from 'jwt-decode';
-import { AES, HmacSHA256 } from 'crypto-js';
+import { CryptoWrapper } from './cryptoWrapper';
 
 export interface ILoggerService {
     trace(message: any, ...additional: any[]): void;
@@ -14,6 +14,7 @@ export interface ILoggerService {
     warn(message: any, ...additional: any[]): void;
     error(message: any, ...additional: any[]): void;
     fatal(message: any, ...additional: any[]): void;
+    getMessage(message: any): string;
 }
 
 @Injectable()
@@ -22,7 +23,8 @@ export class LoggerService implements ILoggerService {
     COOKIE_KEYS;
     constructor(private monitoringService: MonitoringService,
                 private cookieService: CookieService,
-                private ngxLogger: NGXLogger) {
+                private ngxLogger: NGXLogger,
+                private cryptoWrapper: CryptoWrapper) {
                     this.COOKIE_KEYS = {
                         TOKEN: config.cookies.token,
                         USER: config.cookies.userId
@@ -69,7 +71,7 @@ export class LoggerService implements ILoggerService {
     getMessage(message: any): string {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
         const jwtData = jwtDecode(jwt);
-        const userIdEncrypted = AES.encrypt(jwtData.sid, 'secret', HmacSHA256);
-        return `User - ${jwtData.sid}, Message - ${userIdEncrypted}, Timestamp - ${Date.now()}`;
+        const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
+        return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
     }
 }

@@ -20,6 +20,7 @@ import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/app
 import { LoggerService } from '../shared/services/logger.service';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
+import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler
   declarations: [...fromContainers.containers],
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
-  MonitoringService, LoggerService, {provide: ErrorHandler, useClass: DefaultErrorHandler}]
+  CryptoWrapper, MonitoringService, LoggerService,
+  {provide: ErrorHandler, useClass: DefaultErrorHandler}]
 })
 
 

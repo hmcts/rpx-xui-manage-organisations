@@ -22,27 +22,21 @@ export class HeadersService {
    // this.API_BASE_URL = 'https://rd-professional-api-preview.service.core-compute-preview.internal';
   }
 
-  generateLoginUrl() {
-    const base = config.services.idam.idamLoginUrl;
-    const clientId = config.services.idam.idamClientID;
-    const callback = `${this.API_BASE_URL}${config.services.idam.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=manage-user create-user`;
-  }
 
   getAuthHeaders() {
     interface HeaderObject {
       [key: string]: string;
     }
-      debugger;
-    const headers: HeaderObject = {
-      Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN)
-    };
+    let headers: HeaderObject = {};
+    // if the cookie does not exist then do not set heathers so that
+    // register organisation calls can get through
+    const Authorization = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
+    if (Authorization)  {
+       headers = {
+          Authorization
+      };
+    }
     return headers;
-  }
-
-
-  loginRedirect() {
-    window.location.href = this.generateLoginUrl();
   }
 
   decodeJwt(jwt) {

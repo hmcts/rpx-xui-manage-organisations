@@ -1,15 +1,40 @@
 export const emailAddress = {
   "formValues": {},
   "meta": {
-    "idPrefix": "tbc",
-    "name": "organisation-name",
-    "header": "What's the name of your organisation?",
-    "formGroupValidators": [],
-    "validationHeaderErrorMessages": [
-      {"validationLevel":"formControl","controlId":"orgName","text":"Enter Organisation name","href":"/register/organisation-name"}
+    idPrefix: 'tbc',
+    name: 'email-address',
+    header: "What's your email address?",
+    formGroupValidators: [],
+    validationHeaderErrorMessages: [
+      {
+        validationLevel: 'formControl',
+        controlId: 'emailAddress',
+        text: 'Enter email address',
+        href: '/register/organisation-address',
+      },
     ],
-    "groups": [
-      {"input":{"label":{"text":"","classes":"govuk-label--m"},"validators": ["required"],"validationError": {"value":"Enter Organisation Name","controlId":"orgName"},"control":"orgName","classes":""}},{"button":{"control":"createButton","value":"Continue","type":"submit","classes":"","onEvent":"continue"}}
-    ]},
+    groups: [
+      {
+        input: {
+          validators: ['required', 'email'],
+          validationError: {
+            value: 'Enter email address',
+            controlId: 'emailAddress',
+          },
+          control: 'emailAddress',
+          classes: '',
+        },
+      },
+      {
+        button: {
+          control: 'createButton',
+          value: 'Continue',
+          type: 'submit',
+          classes: '',
+          onEvent: 'continue',
+        },
+      },
+    ],
+  },
   "newRoute":null
 }

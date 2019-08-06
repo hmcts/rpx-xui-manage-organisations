@@ -25,7 +25,7 @@ export async function postOrganisation(body: any): Promise<any> {
     logger.debug(JSON.stringify(body))
 
     try {
-        const response = await http.post(`${url}/refdata/internal/v1/organisations`, body)
+        const response = await http.post(`${url}/refdata/external/v1/organisations`, body)
         return response.data
 
     } catch (error) {

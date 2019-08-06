@@ -33,6 +33,11 @@ export const getNav = createSelector(
   fromAppFeature.getNavItems
 );
 
+export const getAllJuridictions = createSelector(
+  getAppState,
+  fromAppFeature.getUserJuridictions
+);
+
 export const getNavItems = createSelector(
   getNav,
   fromRoot.getRouterState,

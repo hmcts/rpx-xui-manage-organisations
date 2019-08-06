@@ -67,6 +67,19 @@ const userRoles = [
     { role: 'pui-case-manager', roleType: 'manageCases'}
 ];
 
+const jurisdictions = [
+  {id: 'SSCS'},
+  {id: 'Divorce'},
+  {id: 'Probate'},
+  {id: 'Public Law'},
+  {id: 'Bulk Scanning'},
+  {id: 'Immigration & Asylum'},
+  {id: 'Civil Money Claims'},
+  {id: 'Employment'},
+  {id: 'Family public law and adoption'},
+  {id: 'Civil enforcement and possession'},
+  ];
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -81,4 +94,5 @@ export class AppConstants {
   static FOOTER_DATA = FooterData;
   static FOOTER_DATA_NAVIGATION = FooterDataNavigation;
   static USER_ROLES = userRoles;
+  static JURISDICTIONS = jurisdictions;
 }

@@ -1,9 +1,9 @@
 export const name = {
-  "formValues":{},
-  "meta": {
+  formValues: {},
+  meta: {
     idPrefix: 'tbc',
     name: 'name',
-    header: "What's your name?",
+    header: 'What\'s your name?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -65,5 +65,5 @@ export const name = {
       },
     ],
   },
-  "newRoute":null
+  newRoute: null
 }

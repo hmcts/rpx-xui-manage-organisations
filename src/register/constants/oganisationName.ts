@@ -1,6 +1,6 @@
 export const organisationName = {
-  "formValues":{},
-  "meta":{
+  'formValues': {},
+  'meta':{
     idPrefix: 'tbc',
     name: 'organisation-name',
     header: "What's the name of your organisation?",
@@ -40,5 +40,5 @@ export const organisationName = {
       },
     ],
   },
-  "newRoute":null
+  newRoute: null
 }

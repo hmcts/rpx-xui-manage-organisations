@@ -1,6 +1,6 @@
 export const emailAddress = {
-  "formValues": {},
-  "meta": {
+  formValues: {},
+  meta: {
     idPrefix: 'tbc',
     name: 'email-address',
     header: "What's your email address?",
@@ -36,5 +36,5 @@ export const emailAddress = {
       },
     ],
   },
-  "newRoute":null
+  newRoute: null
 }

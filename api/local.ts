@@ -10,6 +10,7 @@ import { appInsights } from './lib/appInsights'
 import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
 import * as tunnel from './lib/tunnel'
+import openRoutes from './openRoutes'
 import routes from './routes'
 
 const FileStore = sessionFileStore(session)
@@ -44,12 +45,29 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+/**
+ * Open Routes
+ *
+ * Any routes here do not have authentication attached and are therefore reachable.
+ */
 app.get('/oauth2/callback', auth.oauth)
+app.get('/open/ping', (req, res) => {
+  console.log('Pong')
+  res.send('Pong')
+})
+app.use('/open', openRoutes)
 
+/**
+ * We are attaching authentication to all subsequent routes.
+ */
 app.use(auth.attach)
 
+/**
+ * Secure Routes
+ *
+ * TODO: rename routes to secureApiRoutes
+ */
 app.use('/api', routes)
-
 app.get('/api/logout', (req, res, next) => {
     auth.doLogout(req, res)
 })

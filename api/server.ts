@@ -10,6 +10,7 @@ import * as auth from './auth'
 import { appInsights } from './lib/appInsights'
 import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
+import openRoutes from './openRoutes'
 import routes from './routes'
 
 const FileStore = sessionFileStore(session)
@@ -47,9 +48,23 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+/**
+ * Open Routes
+ *
+ * Any routes here do not have authentication attached and are therefore reachable.
+ */
 app.get('/oauth2/callback', auth.oauth)
+app.get('/open/ping', (req, res) => {
+  console.log('Pong')
+  res.send('Pong')
+})
+app.use('/open', openRoutes)
 
+/**
+ * We are attaching authentication to all subsequent routes.
+ */
 app.use(serviceRouter)
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use('/api', routes)

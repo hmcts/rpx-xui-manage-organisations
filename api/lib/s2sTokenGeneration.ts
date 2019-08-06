@@ -1,20 +1,21 @@
 import * as otp from 'otp'
-import * as log4jui from '../lib/log4jui'
-import {application} from '../lib/config/application.config'
-import {config} from '../lib/config';
-import {http} from '../lib/http'
+import * as log4jui from './log4jui'
+import {application} from './config/application.config'
+import {config} from './config';
+import {http} from './http'
 
-const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
+const s2sSecret = process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
 
 const microservice = application.microservice
 const url = config.services.s2s
 
-const logger = log4jui.getLogger('service user-profile')
+const logger = log4jui.getLogger('s2s token generation')
 
+const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token.'
 /**
- * generateOneTimePassword
+ * Generate One Time Password
  *
- * With our S2S Secret we generate a one time password, that is used to get our our S2S Token.
+ * With our S2S Secret we generate a one time password. This S2S secret is used to get our our S2S Token.
  *
  * @param s2sSecret
  * @returns {any}
@@ -25,7 +26,7 @@ export function generateOneTimePassword(s2sSecret) {
 }
 
 /**
- * Return the generated S2S token
+ * Return a generated S2S Token
  *
  * Note we do not rely on Idam to generate an S2S Token. Therefore it can be outside of any Idam authentication
  * layer.
@@ -47,8 +48,9 @@ export async function generateS2sToken() {
     console.log(s2sToken)
     return s2sToken
   } catch (error) {
-    console.log('error')
-    console.log(error)
+    logger.error(`Error generating S2S Token`)
+    logger.error(`Error generating S2S Token: Status ${error.status}`)
+    return ERROR_GENERATING_S2S_TOKEN
   }
 }
 

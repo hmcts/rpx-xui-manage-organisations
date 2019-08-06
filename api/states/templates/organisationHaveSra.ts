@@ -6,14 +6,8 @@ export default {
   validationHeaderErrorMessages: [
     {
       validationLevel: 'formControl',
-      controlId: 'firstName',
-      text: 'Enter First Name',
-      href: '/register/organisation-address',
-    },
-    {
-      validationLevel: 'formControl',
-      controlId: 'lastName',
-      text: 'Enter Last Name',
+      controlId: 'haveSra',
+      text: 'You must select either "Yes" or "No"',
       href: '/register/organisation-address',
     },
   ],
@@ -24,6 +18,11 @@ export default {
           radios: {
             control: 'haveSra',
             classes: 'govuk-radios--inline',
+            validators: ['required'],
+            validationError: {
+              value: 'You must select either "Yes" or "No"',
+              controlId: 'haveDx',
+            },
             radioGroup: [
               {
                 value: 'yes',

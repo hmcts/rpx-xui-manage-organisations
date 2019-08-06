@@ -61,12 +61,7 @@ async function handleStateRoute(req, res) {
 
 export const router = express.Router({ mergeParams: true })
 
-// router.get('/states/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
-// router.post('/states/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
-
-// Works and we can hit it.
-router.post('/prdTest', (req, res) => {
-  res.send('in prdTest route')
-});
+router.get('/states/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
+router.post('/states/:jurId/:caseTypeId/:caseId/:stateId', handleStateRoute)
 
 export default router

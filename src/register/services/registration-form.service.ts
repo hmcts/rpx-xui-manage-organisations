@@ -4,11 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {RegistrationConstants} from '../constants/registration.constants';
 
-// TODO MOVE THIS INTO THE EVIRONMENT FILE
+// TODO MOVE THIS INTO THE ENVIRONMENT FILE
 export const ENVIRONMENT = {
-  registerOrganisation: '/open/decisions/prdTest'
+  registerOrganisation: '/external/register-org/register'
 };
-
 /**
  * Registration Services
  * Responsible for communication between FE and BE only!

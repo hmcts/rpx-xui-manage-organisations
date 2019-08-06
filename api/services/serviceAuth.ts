@@ -8,7 +8,7 @@ import { tunnel } from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
 import {application} from '../lib/config/application.config'
 
-const s2sSecret = '3GR7NM2LIN3IIVYE'
+const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA'
 const url = config.services.s2s
 // const microservice = 'rd_professional_api'
 const microservice =  application.microservice

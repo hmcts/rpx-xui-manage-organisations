@@ -27,7 +27,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
-    canActivate: [AuthGuard],
     loadChildren: '../register/register.module#RegisterModule'
   },
   {

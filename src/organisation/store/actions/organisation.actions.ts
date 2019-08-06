@@ -1,6 +1,5 @@
 // load organisation
 import { Action } from '@ngrx/store';
-import { Organisation } from 'src/organisation/organisation.model';
 
 export const LOAD_ORGANISATION = '[Organisation] Load Organisation';
 export const LOAD_ORGANISATION_SUCCESS = '[Organisation] Load Organisation Success';

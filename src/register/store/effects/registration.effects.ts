@@ -3,16 +3,18 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import * as registrationActions from '../actions';
 import * as fromRoot from '../../../app/store';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {RegistrationFormService} from '../../services/registration-form.service';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 
 @Injectable()
 export class RegistrationEffects {
   constructor(
     private actions$: Actions,
-    private registrationService: RegistrationFormService
+    private registrationService: RegistrationFormService,
+    private loggerService: LoggerService
   ) {}
 
   @Effect()
@@ -39,6 +41,7 @@ export class RegistrationEffects {
         map(obj => {
           return new registrationActions.SubmitFormDataSuccess();
         }),
+        tap(() => this.loggerService.log('Registation Submitted Successfully')),
         catchError(error => of(new registrationActions.SubmitFormDataFail(error)))
     );
     })

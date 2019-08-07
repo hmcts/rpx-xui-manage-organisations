@@ -15,7 +15,7 @@
         </app-notification-banner-component>
       </div>
 
-      <app-form-builder
+      <app-form-builder *ngIf="!(isFormDataLoaded | async)"
         [pageItems]="pageItems"
         [pageValues]="pageValues"
         [isPageValid]="isPageValid"

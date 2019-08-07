@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
 import { AppConstants } from 'src/app/app.constants';
+import {tap} from 'rxjs/operators';
 
 /**
  * Bootstraps the Register Components
@@ -30,6 +31,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   $nextUrlSubscription: Subscription;
   data$: Observable<FormDataValuesModel>;
   isFromSubmitted$: Observable<boolean>;
+  isFormDataLoaded: Observable<boolean>
   nextUrl: string;
   pageId: string;
   isPageValid = false;
@@ -46,6 +48,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
+    this.isFormDataLoaded = this.store.pipe(select(fromStore.gerRegistrationLoading));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
     this.isFromSubmitted$.subscribe((submitted: boolean) => {
       if (submitted) {

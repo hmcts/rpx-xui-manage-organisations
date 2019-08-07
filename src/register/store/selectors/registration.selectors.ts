@@ -39,6 +39,11 @@ export const getErrorMessages = createSelector(
   fromRegistration.getRegistrationErrorMessages
 );
 
+export const gerRegistrationLoading = createSelector(
+  getRegistrationState,
+  fromRegistration.getRegistrationFromLoading
+);
+
 export const getCurrentPageItems = createSelector(
   getRegistrationPages,
   fromRoot.getRouterState,

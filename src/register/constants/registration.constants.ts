@@ -11,13 +11,13 @@ import {organisationName} from './oganisationName';
 const formBuilderTemplates = {
   'email-address': emailAddress,
   haveSra: organisationHaveSra,
-  'name': name,
+  name,
   'organisation-address': organisationAddress,
   'organisation-dx': organisationDx,
   'organisation-have-dx': haveDx,
   'organisation-name': organisationName,
   'organisation-pba': pbaNumber,
-  'sraNumber': sraNumber,
+  sraNumber,
 };
 
 /**

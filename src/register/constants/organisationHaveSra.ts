@@ -1,9 +1,9 @@
 export const organisationHaveSra = {
-  formValues:{},
+  formValues: {},
   meta: {
     idPrefix: 'tbc',
     name: 'sra',
-    header: "Do you have an SRA number?",
+    header: 'Do you have an SRA number?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -54,4 +54,4 @@ export const organisationHaveSra = {
     ]
   },
   newRoute: null
-}
+};

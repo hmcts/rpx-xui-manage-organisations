@@ -3,9 +3,9 @@ export const pbaNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-pba',
-    header: "What's your payment by account (PBA) number for your organisation?",
+    header: 'What\'s your payment by account (PBA) number for your organisation?',
     formGroupValidators: [],
-    'validationHeaderErrorMessages': [
+    validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'PBAnumber1',
@@ -60,4 +60,4 @@ export const pbaNumber = {
     ],
   },
   newRoute: null
-}
+};

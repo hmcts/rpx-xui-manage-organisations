@@ -1,11 +1,11 @@
 export const organisationName = {
-  'formValues': {},
-  'meta':{
+  formValues: {},
+  meta: {
     idPrefix: 'tbc',
     name: 'organisation-name',
-    header: "What's the name of your organisation?",
+    header: 'What\'s the name of your organisation?',
     formGroupValidators: [],
-    'validationHeaderErrorMessages': [
+    validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'orgName',
@@ -41,4 +41,4 @@ export const organisationName = {
     ],
   },
   newRoute: null
-}
+};

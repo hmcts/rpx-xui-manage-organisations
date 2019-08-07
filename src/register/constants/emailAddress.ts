@@ -3,7 +3,7 @@ export const emailAddress = {
   meta: {
     idPrefix: 'tbc',
     name: 'email-address',
-    header: "What's your email address?",
+    header: 'What\'s your email address?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -37,4 +37,4 @@ export const emailAddress = {
     ],
   },
   newRoute: null
-}
+};

@@ -1,9 +1,9 @@
 export const organisationAddress = {
-  formValues:{},
+  formValues: {},
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-address',
-    header: "What's the address of your main office?",
+    header: 'What\'s the address of your main office?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -43,7 +43,6 @@ export const organisationAddress = {
       },
       {
         input: {
-          // validators: ['required'],
           validationError: {
             value: 'Enter the length of hearing in minutes, for example "20"',
             controlId: 'officeAddressTwo',
@@ -104,4 +103,4 @@ export const organisationAddress = {
     ],
   },
   newRoute: null
-}
+};

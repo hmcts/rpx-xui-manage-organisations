@@ -1,9 +1,9 @@
 export const haveDx = {
-  formValues:{},
+  formValues: {},
   meta: {
     idPrefix: 'tbc',
     name: 'name',
-    header: "Do you have a DX reference for your main office?",
+    header: 'Do you have a DX reference for your main office?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -51,4 +51,5 @@ export const haveDx = {
         }
       }
     ]
-}
+  }
+};

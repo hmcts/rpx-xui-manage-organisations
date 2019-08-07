@@ -66,4 +66,4 @@ export const name = {
     ],
   },
   newRoute: null
-}
+};

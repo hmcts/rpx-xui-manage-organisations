@@ -13,12 +13,12 @@ export const ROUTES: Routes = [
   {
     path: 'register/:pageId',
     component: RegisterComponent,
-    //canActivate: [HealthCheckGuard]
+    // canActivate: [HealthCheckGuard]
   },
   {
     path: 'confirmation',
     component: SubmittedConfirmationComponent,
-    //canActivate: [HealthCheckGuard]
+    // canActivate: [HealthCheckGuard]
   }
 ];
 

@@ -3,7 +3,7 @@ export const sraNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'sraNumber',
-    header: "SRA number",
+    header: 'SRA number',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -43,4 +43,4 @@ export const sraNumber = {
     ],
   },
   newRoute: null
-}
+};

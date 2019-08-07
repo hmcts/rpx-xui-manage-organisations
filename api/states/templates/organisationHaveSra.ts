@@ -21,7 +21,7 @@ export default {
             validators: ['required'],
             validationError: {
               value: 'Tell us if you have a SRA number',
-              controlId: 'haveDx',
+              controlId: 'haveSra',
             },
             radioGroup: [
               {

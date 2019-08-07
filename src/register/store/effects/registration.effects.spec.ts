@@ -9,6 +9,7 @@ import {RegistrationFormService} from '../../services/registration-form.service'
 import {RegistrationEffects} from './registration.effects';
 import {LoadPageItems, SubmitFormData, SubmitFormDataSuccess} from '../actions/registration.actions';
 import {LoadPageItemsSuccess} from '../actions';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 
 describe('Registration Effects', () => {
@@ -18,6 +19,7 @@ describe('Registration Effects', () => {
     'getRegistrationForm',
     'submitRegistrationForm'
   ]);
+  const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -25,6 +27,10 @@ describe('Registration Effects', () => {
           {
             provide: RegistrationFormService,
             useValue: RegistrationFormServiceMock,
+          },
+          {
+            provide: LoggerService,
+            useValue: mockedLoggerService
           },
           fromRegistrationEffects.RegistrationEffects,
           provideMockActions(() => actions$)

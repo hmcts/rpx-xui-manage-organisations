@@ -5,6 +5,7 @@ import * as singleFeeAccountActions from '../actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FeeAccountsService} from '../../services';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 
 
@@ -12,17 +13,18 @@ import {FeeAccountsService} from '../../services';
 export class SingleFeeAccountEffects {
   constructor(
     private actions$: Actions,
-    private feeAccountsService: FeeAccountsService
+    private feeAccountsService: FeeAccountsService,
+    private loggerService: LoggerService
   ) {}
 
   @Effect()
   loadSingleFeeAccount$ = this.actions$.pipe(
     ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT),
     switchMap((data: { payload: string, type: string}) => {
-      console.log('LOAD_SINGLE_FEE_ACCOUNT ::: data is', data);
+      this.loggerService.log('LOAD_SINGLE_FEE_ACCOUNT ::: data is');
       return this.feeAccountsService.fetchSingleFeeAccount(data.payload).pipe(
         map(singleFeeAccountDetails => {
-          console.log('singleFeeAccountDetails ===>', singleFeeAccountDetails);
+          this.loggerService.log('singleFeeAccountDetails ===>');
           return new singleFeeAccountActions.LoadSingleFeeAccountSuccess(singleFeeAccountDetails);
 
         }),
@@ -35,10 +37,10 @@ export class SingleFeeAccountEffects {
   loadSingleFeeAccountTransactions$ = this.actions$.pipe(
     ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS),
     switchMap((data: { payload: string, type: string}) => {
-      console.log('data is LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS', data);
+      this.loggerService.log('data is LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS');
       return this.feeAccountsService.fetchPbAAccountTransactions(data.payload).pipe(
         map(transactions => {
-          console.log('transactions', transactions);
+          this.loggerService.log('transactions');
           return new singleFeeAccountActions.LoadSingleFeeAccountTransactionsSuccess(transactions);
 
         }),

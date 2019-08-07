@@ -8,6 +8,7 @@ import { SingleFeeAccountEffects } from './single-fee-account.effects';
 import { LoadSingleFeeAccount, LoadSingleFeeAccountFail } from '../actions/single-fee-account.actions';
 import { LoadSingleFeeAccountSuccess } from '../actions';
 import { FeeAccountsService } from 'src/fee-accounts/services';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 describe('Single fee account Effects', () => {
   let actions$;
@@ -15,6 +16,7 @@ describe('Single fee account Effects', () => {
   const SingleFeeAccountServiceMock = jasmine.createSpyObj('FeeAccountsService', [
     'fetchSingleFeeAccount',
   ]);
+  const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -22,6 +24,10 @@ describe('Single fee account Effects', () => {
           {
             provide: FeeAccountsService,
             useValue: SingleFeeAccountServiceMock,
+          },
+          {
+            provide: LoggerService,
+            useValue: mockedLoggerService
           },
           fromSingleFeeAccountEffects.SingleFeeAccountEffects,
           provideMockActions(() => actions$)

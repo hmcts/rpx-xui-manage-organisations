@@ -74,7 +74,7 @@ console.log('WE ARE USING local.ts on the box.')
 /**
  * We are attaching authentication to all subsequent routes.
  */
-app.use(auth.attach)
+// app.use(auth.attach) // its called in routes.ts - no need to call it here
 
 /**
  * Secure Routes

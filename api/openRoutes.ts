@@ -1,7 +1,7 @@
 import * as express from 'express'
 
 // TODO: rename from prdRouter
-import prdRouter from './prd'
+import prdRouter from './register-org'
 
 // TODO: Not sure if this is needed
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'

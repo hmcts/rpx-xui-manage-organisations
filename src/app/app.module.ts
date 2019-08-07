@@ -37,6 +37,7 @@ import { LoggerService } from 'src/shared/services/logger.service';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { JurisdictionService } from 'src/users/services';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
+import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -69,7 +70,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
-    CryptoWrapper, LoggerService, JurisdictionService
+    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService
     ],
   bootstrap: [AppComponent]
 })

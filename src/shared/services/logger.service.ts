@@ -5,6 +5,7 @@ import { CookieService } from 'ngx-cookie';
 import config from '../../../api/lib/config';
 import * as jwtDecode from 'jwt-decode';
 import { CryptoWrapper } from './cryptoWrapper';
+import { JwtDecodeWrapper } from './jwtDecodeWrapper';
 
 export interface ILoggerService {
     trace(message: any, ...additional: any[]): void;
@@ -24,7 +25,8 @@ export class LoggerService implements ILoggerService {
     constructor(private monitoringService: MonitoringService,
                 private ngxLogger: NGXLogger,
                 private cookieService: CookieService,
-                private cryptoWrapper: CryptoWrapper) {
+                private cryptoWrapper: CryptoWrapper,
+                private jwtDecodeWrapper: JwtDecodeWrapper) {
                     this.COOKIE_KEYS = {
                         TOKEN: config.cookies.token,
                         USER: config.cookies.userId
@@ -70,8 +72,12 @@ export class LoggerService implements ILoggerService {
     }
     getMessage(message: any): string {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-        const jwtData = jwtDecode(jwt);
-        const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
-        return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
+        const jwtData = this.jwtDecodeWrapper.decode(jwt);
+        if (jwtData) {
+            const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
+            return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
+        } else {
+            return `Message - ${message}, Timestamp - ${Date.now()}`;
+        }
     }
 }

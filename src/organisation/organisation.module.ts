@@ -21,6 +21,7 @@ import { LoggerService } from '../shared/services/logger.service';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
+import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
   declarations: [...fromContainers.containers],
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
-  CryptoWrapper, MonitoringService, LoggerService,
+  CryptoWrapper, JwtDecodeWrapper, MonitoringService, LoggerService,
   {provide: ErrorHandler, useClass: DefaultErrorHandler}]
 })
 

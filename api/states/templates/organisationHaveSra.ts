@@ -6,14 +6,8 @@ export default {
   validationHeaderErrorMessages: [
     {
       validationLevel: 'formControl',
-      controlId: 'firstName',
-      text: 'Enter First Name',
-      href: '/register/organisation-address',
-    },
-    {
-      validationLevel: 'formControl',
-      controlId: 'lastName',
-      text: 'Enter Last Name',
+      controlId: 'haveSra',
+      text: 'Tell us if you have a SRA number',
       href: '/register/organisation-address',
     },
   ],
@@ -22,8 +16,13 @@ export default {
       fieldset: [
         {
           radios: {
-            control: 'have',
+            control: 'haveSra',
             classes: 'govuk-radios--inline',
+            validators: ['required'],
+            validationError: {
+              value: 'Tell us if you have a SRA number',
+              controlId: 'haveSra',
+            },
             radioGroup: [
               {
                 value: 'yes',

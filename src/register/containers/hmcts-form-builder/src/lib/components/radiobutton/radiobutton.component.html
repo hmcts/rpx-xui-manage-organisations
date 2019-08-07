@@ -2,7 +2,7 @@
   <ng-container *ngIf="validationError">
       <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="control">{{validationError.value}}</app-validation-error-formcontrol>
   </ng-container>
-  <div [class]="classes" [formGroup]="group">
+  <div [class]="classes" [formGroup]="group" id="{{control}}">
       <ng-container *ngFor="let data of items; let i = index">
         <div *ngIf="data.devider" class="govuk-radios__divider">{{data.devider}}</div>
         <div *ngIf="!data.devider" class="govuk-radios__item">

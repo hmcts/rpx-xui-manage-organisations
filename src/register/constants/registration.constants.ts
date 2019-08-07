@@ -1,5 +1,5 @@
 import {emailAddress} from './emailAddress';
-import {organisationAddress} from './organisationoAddress';
+import {organisationAddress} from './organisationAddress';
 import {pbaNumber} from './pbaNumber';
 import {haveDx} from './haveDx';
 import {organisationDx} from './organisationDx';

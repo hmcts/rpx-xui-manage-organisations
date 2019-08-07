@@ -18,8 +18,6 @@ export class RegistrationFormService {
   constructor(private http: HttpClient) {}
 
   getRegistrationForm(pageId): Observable<any> { // TODO create type/model
-    const url = `/api/decisions/states/any/any/any/${pageId}`;
-    // return this.http.get(url);
     return of(RegistrationConstants.FORM_BUILDER_TEMPLATES[pageId]);
   }
 

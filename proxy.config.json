@@ -4,7 +4,7 @@
       "secure": false,
       "logLevel": "debug"
   },
-  "/open/*": {
+  "/external/*": {
     "target": "http://localhost:3001",
     "secure": false,
     "logLevel": "debug"

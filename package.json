@@ -51,7 +51,7 @@
     "@types/crypto-js": "^3.1.43",
     "applicationinsights": "^1.4.0",
     "applicationinsights-js": "^1.0.20",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "base-64": "^0.1.0",
     "cookie-parser": "^1.4.4",
     "core-js": "^2.5.4",

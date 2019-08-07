@@ -7,7 +7,7 @@ export default {
     {
       validationLevel: 'formControl',
       controlId: 'haveDx',
-      text: 'You must select either "Yes" or "No"',
+      text: 'Tell us if you have a DX reference',
       href: '/register/organisation-address',
     },
   ],
@@ -20,7 +20,7 @@ export default {
             classes: 'govuk-radios--inline',
             validators: ['required'],
             validationError: {
-              value: 'You must select either "Yes" or "No"',
+              value: 'Tell us if you have a DX reference',
               controlId: 'haveDx',
             },
             radioGroup: [

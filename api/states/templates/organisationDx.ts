@@ -25,7 +25,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'DXnumber',
-                validators: ['dxNumberExactLength'],
+                validators: ['dxNumberExactLength', 'required'],
                 validationError: {
                   value: 'Enter DX number. It must be 13 characters',
                   controlId: 'DXnumber',
@@ -40,7 +40,7 @@ export default {
                     classes: 'govuk-label--m',
                 },
                 control: 'DXexchange',
-                validators: ['dxExchangeMaxLength'],
+                validators: ['dxExchangeMaxLength', 'required'],
                 validationError: {
                   value: 'Enter DX exchange. It can be up to 20 characters',
                   controlId: 'DXexchange',

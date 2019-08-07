@@ -59,7 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
           path: ['/register-org/register', nextUrl]
         }));
       }
-      this.store.dispatch(new fromAppStore.LoadJurisdictions());
     });
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
     this.jurisdictions = AppConstants.JURISDICTIONS;

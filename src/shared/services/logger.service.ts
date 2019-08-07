@@ -3,7 +3,6 @@ import { NGXLogger } from 'ngx-logger';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import config from '../../../api/lib/config';
-import * as jwtDecode from 'jwt-decode';
 import { CryptoWrapper } from './cryptoWrapper';
 import { JwtDecodeWrapper } from './jwtDecodeWrapper';
 

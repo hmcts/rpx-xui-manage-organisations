@@ -4,7 +4,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
         idamWeb: 'https://idam-web-public.preview.platform.hmcts.net',
         idamApi: 'https://idam-api.preview.platform.hmcts.net',
-        s2s: 'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+        s2s: 'https://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
         draftStoreApi: 'https://draft-store-service-aat.service.core-compute-aat.internal',
         dmStoreApi: 'https://dm-store-aat.service.core-compute-aat.internal',
         emAnnoApi: 'https://em-anno-aat.service.core-compute-aat.internal',

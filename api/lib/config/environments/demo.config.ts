@@ -9,7 +9,7 @@ export default {
         dmStoreApi: 'https://dm-store-demo.service.core-compute-demo.internal',
         emAnnoApi: 'https://em-anno-demo.service.core-compute-demo.internal',
         emNpaApi: 'https://em-npa-demo.service.core-compute-demo.internal',
-        rdProfessionalApi: 'https://rd-professional-api-preview.service.core-compute-preview.internal',
+        rdProfessionalApi: 'https://rd-professional-api-demo.service.core-compute-demo.internal',
     },
     health: {
         ccdDataApi: 'https://ccd-data-store-api-demo.service.core-compute-demo.internal/health',
@@ -21,7 +21,7 @@ export default {
         dmStoreApi: 'https://dm-store-demo.service.core-compute-demo.internal/health',
         emAnnoApi: 'https://em-anno-demo.service.core-compute-demo.internal/health',
         emNpaApi: 'https://em-npa-demo.service.core-compute-demo.internal/health',
-        rdProfessionalApi: 'https://rd-professional-api-preview.service.core-compute-preview.internal/health',
+        rdProfessionalApi: 'https://rd-professional-api-demo.service.core-compute-demo.internal/health',
     },
     useProxy: false,
     secureCookie: false,

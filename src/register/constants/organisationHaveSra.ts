@@ -8,14 +8,8 @@ export const organisationHaveSra = {
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
-        controlId: 'firstName',
-        text: 'Enter First Name',
-        href: '/register/organisation-address',
-      },
-      {
-        validationLevel: 'formControl',
-        controlId: 'lastName',
-        text: 'Enter Last Name',
+        controlId: 'haveSra',
+        text: 'Tell us if you have a SRA number',
         href: '/register/organisation-address',
       },
     ],
@@ -24,8 +18,13 @@ export const organisationHaveSra = {
         fieldset: [
           {
             radios: {
-              control: 'have',
+              control: 'haveSra',
               classes: 'govuk-radios--inline',
+              validators: ['required'],
+              validationError: {
+                value: 'Tell us if you have a SRA number',
+                controlId: 'haveSra',
+              },
               radioGroup: [
                 {
                   value: 'yes',

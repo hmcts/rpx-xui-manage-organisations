@@ -19,7 +19,6 @@ export class OrganisationEffects {
   loadOrganisation$ = this.actions$.pipe(
     ofType(organisationActions.LOAD_ORGANISATION),
     switchMap(() => {
-      this.loggerService.info('getting Organisations');
       return this.organisationService.fetchOrganisation().pipe(
         map(orgDetails => new organisationActions.LoadOrganisationSuccess(orgDetails)),
         catchError(error => of(new organisationActions.LoadOrganisationFail(error)))

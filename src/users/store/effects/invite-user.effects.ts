@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import * as usersActions from '../actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {InviteUserService, JurisdictionService } from '../../services';
 import * as fromRoot from '../../../app/store';
@@ -23,9 +23,9 @@ export class InviteUserEffects {
     ofType(usersActions.SEND_INVITE_USER),
     map((action: usersActions.SendInviteUser) => action.payload),
     switchMap((inviteUserFormData) => {
-      this.loggerService.info('User Invited');
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => new usersActions.InviteUserSuccess(userDetails)),
+        tap(() => this.loggerService.info('User Invited')),
         catchError(error => of(new usersActions.InviteUserFail(error)))
       );
     })

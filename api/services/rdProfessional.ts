@@ -20,9 +20,16 @@ export async function getAccountsForOrganisation(orgId: string): Promise<Payment
     return response.data
 }
 
+/**
+ * postOrganisation
+ *
+ * Hit when
+ */
 export async function postOrganisation(body: any): Promise<any> {
     logger.info(`Post organisation body`)
     logger.debug(JSON.stringify(body))
+    console.log('url')
+    console.log(url)
 
     try {
         const response = await http.post(`${url}/refdata/internal/v1/organisations`, body)

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store/';
 import * as fromRoot from '../../../app/store/';
@@ -17,7 +17,7 @@ import {tap, filter} from 'rxjs/operators';
   selector: 'app-prd-register-component',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
@@ -68,12 +68,28 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.jurisdictions = AppConstants.JURISDICTIONS;
   }
 
+  ngAfterViewInit() {
+    this.resetFocus();
+  }
+
+  resetFocus(): void {
+    const focusElement = document.getElementsByTagName('h1')[0];
+    if (focusElement) {
+      focusElement.setAttribute('tabindex', '-1');
+      focusElement.focus();
+    }
+  }
+
   subscribeToRoute(): void {
     this.$routeSubscription = this.store.pipe(select(fromStore.getCurrentPage)).subscribe((routeParams) => {
       if (routeParams.pageId && routeParams.pageId !== this.pageId) { // TODO see why double call.
         this.pageId = routeParams.pageId;
         this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
       }
+    });
+
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+      this.resetFocus();
     });
   }
 
@@ -86,7 +102,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.nextUrl = formData.nextUrl;
           this.store.dispatch(new fromStore.ResetNextUrl());
         }
-      });
+    });
   }
 
   /**

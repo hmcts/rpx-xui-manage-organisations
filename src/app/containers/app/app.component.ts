@@ -47,14 +47,6 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
-      const focusElement = document.getElementsByTagName('h1')[0];
-      if (focusElement) {
-        focusElement.setAttribute('tabindex', '-1');
-        focusElement.focus();
-      }
-    });
   }
   onNavigate(event): void {
     if (event === 'sign-out') {

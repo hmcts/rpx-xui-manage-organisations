@@ -17,6 +17,8 @@ export async function postS2SLease() {
   const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
   let request: AxiosResponse<any>
   console.log('PUI_ENV is now:', configEnv)
+  console.log('postS2SLease url')
+  console.log(url)
   if (configEnv !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
         logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)

@@ -6,15 +6,13 @@ import inviteUser from './inviteUser'
 import getJurisdictions from './jurisdictions'
 import getappInsightsInstrumentationKey from './monitoring-tools'
 import organisationRouter from './organisation'
-import stateRouter from './states'
 import userDetailsRouter from './user'
 import getUserList from './userList'
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const router = express.Router({ mergeParams: true })
 
-router.use(auth.attach) // attach user-profile to all api routes
-router.use('/decisions', stateRouter)
+router.use(auth.attach)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
 router.use('/user', userDetailsRouter)

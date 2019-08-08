@@ -1,9 +1,11 @@
-export default {
+export const organisationName = {
+  formValues: {},
+  meta: {
     idPrefix: 'tbc',
     name: 'organisation-name',
-    header: "What's the name of your organisation?",
+    header: 'What\'s the name of your organisation?',
     formGroupValidators: [],
-    'validationHeaderErrorMessages': [
+    validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'orgName',
@@ -27,14 +29,16 @@ export default {
           classes: ''
         },
       },
-        {
-            button: {
-                control: 'createButton',
-                value: 'Continue',
-                type: 'submit',
-                classes: '',
-                onEvent: 'continue',
-            },
+      {
+        button: {
+          control: 'createButton',
+          value: 'Continue',
+          type: 'submit',
+          classes: '',
+          onEvent: 'continue',
         },
+      },
     ],
-}
+  },
+  newRoute: null
+};

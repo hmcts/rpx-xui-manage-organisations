@@ -6,7 +6,7 @@ import * as fromAppStore from '../../../app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
-import { async } from 'q';
+import { AppConstants } from 'src/app/app.constants';
 
 /**
  * Bootstraps the Register Components
@@ -35,7 +35,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   isPageValid = false;
   errorMessage: any;
   jurisdictions: any[];
-  juridictionSubscription: Subscription;
 
   /**
    * ngOnInit
@@ -60,12 +59,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
           path: ['/register-org/register', nextUrl]
         }));
       }
-      this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJuridictions))
-                                   .subscribe(value => this.jurisdictions = value,
-                                   (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
-      this.store.dispatch(new fromAppStore.LoadJurisdictions());
     });
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+    this.jurisdictions = AppConstants.JURISDICTIONS;
   }
 
   subscribeToRoute(): void {
@@ -84,6 +80,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.pageValues  = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
           this.nextUrl = formData.nextUrl;
+          this.store.dispatch(new fromStore.ResetNextUrl());
         }
       });
   }
@@ -113,9 +110,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
     this.store.dispatch(new fromStore.ResetErrorMessage({}));
-    if (this.juridictionSubscription) {
-      this.juridictionSubscription.unsubscribe();
-    }
   }
 
   onSubmitData(): void {

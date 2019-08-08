@@ -96,16 +96,16 @@ withPipeline(type, product, component) {
 
     }
 
-//    after('smoketest:demo') {
-//        publishHTML([
-//            allowMissing         : true,
-//            alwaysLinkToLastBuild: true,
-//            keepAll              : true,
-//            reportDir            : "reports/tests/smoke/",
-//            reportFiles          : 'index.html',
-//            reportName           : 'DEMO Smoke Test'
-//        ])
-//    }
+   after('smoketest:demo') {
+       publishHTML([
+           allowMissing         : true,
+           alwaysLinkToLastBuild: true,
+           keepAll              : true,
+           reportDir            : "reports/tests/smoke/",
+           reportFiles          : 'index.html',
+           reportName           : 'DEMO Smoke Test'
+       ])
+   }
 
     after('smoketest:preview') {
         publishHTML([

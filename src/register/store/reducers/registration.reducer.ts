@@ -123,7 +123,6 @@ export function reducer(
     }
 
     case fromRegistration.SUBMIT_FORM_DATA_SUCCESS: {
-      debugger;
       return {
         ...state,
         submitted: true

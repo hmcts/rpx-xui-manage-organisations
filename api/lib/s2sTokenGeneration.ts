@@ -1,17 +1,15 @@
 import * as otp from 'otp'
 import * as log4jui from './log4jui'
 import {application} from './config/application.config'
-import {config} from './config';
 import {http} from './http'
 
 const s2sSecret = process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
 
 const microservice = application.microservice
-const url = config.services.s2s
 
 const logger = log4jui.getLogger('s2s token generation')
 
-const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token.'
+const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 /**
  * Generate One Time Password
  *
@@ -35,7 +33,7 @@ export function generateOneTimePassword(s2sSecret) {
  * @url https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
  * @returns {string}
  */
-export async function generateS2sToken() {
+export async function generateS2sToken(url) {
 
   const oneTimePassword = generateOneTimePassword(s2sSecret)
   logger.info('Generating the S2S token from secret  :', s2sSecret, microservice, oneTimePassword)
@@ -44,8 +42,6 @@ export async function generateS2sToken() {
 
     const s2sTokenResponse = await requestS2sToken(url, microservice, oneTimePassword)
     const s2sToken = s2sTokenResponse.data
-    console.log('s2sToken')
-    console.log(s2sToken)
     return s2sToken
   } catch (error) {
     logger.error(`Error generating S2S Token`)
@@ -53,8 +49,10 @@ export async function generateS2sToken() {
     logger.error(`Error generating S2S Token: path to token generation ${url}`)
     logger.error(`Error generating S2S Token: S2S secret ${s2sSecret}`)
     logger.error(`Error generating S2S Token: microservice ${microservice}`)
-    throw new Error(error)
-    // return ERROR_GENERATING_S2S_TOKEN
+
+    // TODO: This only passes up strings, in the future it should pass up
+    // the object
+    throw new Error(ERROR_GENERATING_S2S_TOKEN)
   }
 }
 

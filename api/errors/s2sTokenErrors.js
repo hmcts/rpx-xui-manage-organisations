@@ -1,4 +1,4 @@
-const ERROR_MESSAGE_S2S_TOKEN_GENERATION = 'Error finding image at path, please add it.';
+const ERROR_MESSAGE_S2S_TOKEN_GENERATION = 'Error generating S2S token.';
 
 class S2sTokenError extends Error {
     constructor(message) {

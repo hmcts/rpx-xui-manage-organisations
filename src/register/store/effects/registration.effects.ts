@@ -22,6 +22,7 @@ export class RegistrationEffects {
     switchMap((pageId) => {
       return this.registrationService.getRegistrationForm(pageId).pipe(
         map(returnedItems => {
+
           return new registrationActions.LoadPageItemsSuccess({payload: returnedItems, pageId});
         }),
         tap(() => this.loggerService.log('Registation Submitted Successfully')),

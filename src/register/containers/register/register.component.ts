@@ -3,11 +3,11 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store/';
 import * as fromRoot from '../../../app/store/';
 import * as fromAppStore from '../../../app/store';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
 import { AppConstants } from 'src/app/app.constants';
-import {tap} from 'rxjs/operators';
+import {tap, filter} from 'rxjs/operators';
 
 /**
  * Bootstraps the Register Components
@@ -31,7 +31,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   $nextUrlSubscription: Subscription;
   data$: Observable<FormDataValuesModel>;
   isFromSubmitted$: Observable<boolean>;
-  isFormDataLoaded: Observable<boolean>
+  isFormDataLoaded$: Observable<boolean>;
+
   nextUrl: string;
   pageId: string;
   isPageValid = false;
@@ -48,7 +49,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
-    this.isFormDataLoaded = this.store.pipe(select(fromStore.getRegistrationLoading));
+    this.isFormDataLoaded$ = this.store.pipe(select(fromStore.getRegistrationLoading));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
     this.isFromSubmitted$.subscribe((submitted: boolean) => {
       if (submitted) {

@@ -123,6 +123,7 @@ export function reducer(
     }
 
     case fromRegistration.SUBMIT_FORM_DATA_SUCCESS: {
+      debugger;
       return {
         ...state,
         submitted: true
@@ -131,10 +132,9 @@ export function reducer(
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
 
-      const apiError = action.payload.error;
+      const apiError = action.payload.error.apiError;
 
       let apiMessageMapped;
-
       for (const key in apiErrors) {
         if (apiError.includes(apiErrors[key])) {
           apiMessageMapped = errorMessageMappings[key];

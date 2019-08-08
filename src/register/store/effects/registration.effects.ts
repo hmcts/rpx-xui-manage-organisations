@@ -40,10 +40,14 @@ export class RegistrationEffects {
     switchMap((formValues) => {
       return this.registrationService.submitRegistrationForm(formValues).pipe(
         map(obj => {
+          debugger;
+          this.loggerService.log('Registation Submitted Successfully')
           return new registrationActions.SubmitFormDataSuccess();
         }),
-        tap(() => this.loggerService.log('Registation Submitted Successfully')),
-        catchError(error => of(new registrationActions.SubmitFormDataFail(error)))
+        catchError(error => {
+          debugger;
+          //return of(new registrationActions.SubmitFormDataFail(error))
+        })
     );
     })
   );

@@ -22,10 +22,9 @@ export class RegistrationEffects {
     switchMap((pageId) => {
       return this.registrationService.getRegistrationForm(pageId).pipe(
         map(returnedItems => {
-
+          this.loggerService.log('Registation Submitted Successfully');
           return new registrationActions.LoadPageItemsSuccess({payload: returnedItems, pageId});
         }),
-        tap(() => this.loggerService.log('Registation Submitted Successfully')),
         catchError(error => of(new registrationActions.LoadPageItemsSuccess(error)))
       );
     })

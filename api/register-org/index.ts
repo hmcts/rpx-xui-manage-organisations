@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
    * Check the payload comes in and is fine.
    */
   console.log('registerPayload')
-  console.log(registerPayload)
+  // console.log(registerPayload)
 
   try {
 
@@ -40,7 +40,10 @@ router.post('/register', async (req, res) => {
      */
     req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
     axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
-    const response = await http.post(`${rdProfessionalPath}/refdata/internal/v1/organisations`, registerPayload)
+    console.log(s2sToken)
+    const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
+
+    const response = await http.post(url, registerPayload)
 
     res.send(response.data)
   } catch (error) {

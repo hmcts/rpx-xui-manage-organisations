@@ -4,6 +4,7 @@ import {generateS2sToken} from '../lib/s2sTokenGeneration'
 import {config} from '../lib/config';
 import axios from 'axios';
 import {logger} from 'codelyzer/util/logger';
+import {makeOrganisationPayload} from '../lib/payloadBuilder';
 
 export const router = express.Router({mergeParams: true})
 
@@ -17,7 +18,7 @@ router.post('/register', async (req, res) => {
   const s2sServicePath = config.services.s2s
   const rdProfessionalPath = config.services.rdProfessionalApi
 
-  const registerPayload = req.body
+  const registerPayload = makeOrganisationPayload(req.body.fromValues)
 
   /**
    * Check the payload comes in and is fine.
@@ -39,8 +40,7 @@ router.post('/register', async (req, res) => {
      */
     req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
     axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
-
-    const response = await http.post(`${rdProfessionalPath}/refdata/internal/v1/organisations`, req.body)
+    const response = await http.post(`${rdProfessionalPath}/refdata/internal/v1/organisations`, registerPayload)
 
     res.send(response.data)
   } catch (error) {

@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
-    this.isFormDataLoaded = this.store.pipe(select(fromStore.gerRegistrationLoading));
+    this.isFormDataLoaded = this.store.pipe(select(fromStore.getRegistrationLoading));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
     this.isFromSubmitted$.subscribe((submitted: boolean) => {
       if (submitted) {

@@ -49,8 +49,12 @@ export async function generateS2sToken() {
     return s2sToken
   } catch (error) {
     logger.error(`Error generating S2S Token`)
-    logger.error(`Error generating S2S Token: Status ${error.status}`)
-    return ERROR_GENERATING_S2S_TOKEN
+    logger.error(`Error generating S2S Token: Status code ${error.status}`)
+    logger.error(`Error generating S2S Token: path to token generation ${url}`)
+    logger.error(`Error generating S2S Token: S2S secret ${s2sSecret}`)
+    logger.error(`Error generating S2S Token: microservice ${microservice}`)
+    throw new Error(error)
+    // return ERROR_GENERATING_S2S_TOKEN
   }
 }
 

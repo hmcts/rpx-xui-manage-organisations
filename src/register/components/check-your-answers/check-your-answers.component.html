@@ -17,11 +17,11 @@
          class="govuk-check-your-answers__contents">
       <ng-container question>Organisation address</ng-container>
       <ng-container answer>
-        <span style="display: block"> {{ formDataValues.officeAddressOne }} </span>
-        <span style="display: block">{{ formDataValues.officeAddressTwo }} </span>
-        <span style="display: block">{{ formDataValues.townOrCity }} </span>
-        <span style="display: block">{{ formDataValues.county }} </span>
-        <span style="display: block">{{ formDataValues.postcode }} </span>
+        <div> {{ formDataValues.officeAddressOne }} </div>
+        <div>{{ formDataValues.officeAddressTwo }} </div>
+        <div>{{ formDataValues.townOrCity }} </div>
+        <div>{{ formDataValues.county }} </div>
+        <div>{{ formDataValues.postcode }} </div>
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/organisation-address'" >Change <span class="govuk-visually-hidden">organistaion address</span></a>
@@ -32,7 +32,7 @@
          class="govuk-check-your-answers__contents">
       <ng-container question>PBA number</ng-container>
       <ng-container answer>
-        {{ formDataValues.PBAnumber1 }}
+        {{ formDataValues.PBAnumber1 }}, 
         {{ formDataValues.PBAnumber2 }}
       </ng-container>
       <ng-container button>
@@ -44,8 +44,8 @@
          class="govuk-check-your-answers__contents">
       <ng-container question>DX reference</ng-container>
       <ng-container answer>
-        {{ formDataValues.DXnumber }}
-        {{ formDataValues.DXexchange }}
+        <div>DX number: {{ formDataValues.DXnumber }}</div>
+        <div>DX exchange: {{ formDataValues.DXexchange }}</div>
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX reference</span></a>

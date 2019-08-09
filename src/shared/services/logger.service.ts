@@ -71,12 +71,13 @@ export class LoggerService implements ILoggerService {
     }
     getMessage(message: any): string {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-        const jwtData = this.jwtDecodeWrapper.decode(jwt);
-        if (jwtData) {
-            const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
-            return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
-        } else {
-            return `Message - ${message}, Timestamp - ${Date.now()}`;
+        if (jwt) {
+            const jwtData = this.jwtDecodeWrapper.decode(jwt);
+            if (jwtData) {
+                const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
+                return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
+            }
         }
+        return `Message - ${message}, Timestamp - ${Date.now()}`;
     }
 }

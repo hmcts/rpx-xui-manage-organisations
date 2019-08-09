@@ -14,7 +14,7 @@ import {Component, Input} from '@angular/core';
     <a *ngIf="backLink" [routerLink]="backLink" class="govuk-back-link">Back</a>
     <main id="content" role="main" class="govuk-main-wrapper">
       <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-grid-column-full">
           <app-hmcts-error-summary
             *ngIf="summaryErrors && !summaryErrors.isFromValid"
             [errorMessages]="summaryErrors.items"

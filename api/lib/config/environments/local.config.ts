@@ -1,5 +1,5 @@
 export default {
-    services: {
+  services: {
         ccdDataApi: 'https://ccd-data-store-api-ithc.service.core-compute-ithc.internal',
         ccdDefApi: 'https://ccd-definition-store-api-ithc.service.core-compute-ithc.internal',
         idamWeb: 'https://idam-web-public.ithc.platform.hmcts.net',
@@ -23,4 +23,16 @@ export default {
     secureCookie: false,
     sessionSecret: 'secretSauce',
     logging: 'debug',
+    jurisdictions: [
+        {id: 'SSCS'},
+        {id: 'Divorce'},
+        {id: 'Probate'},
+        {id: 'Public Law'},
+        {id: 'Bulk Scanning'},
+        {id: 'Immigration & Asylum'},
+        {id: 'Civil Money Claims'},
+        {id: 'Employment'},
+        {id: 'Family public law and adoption'},
+        {id: 'Civil enforcement and possession'},
+        ],
 }

@@ -2,17 +2,17 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import * as registrationActions from '../actions';
-import * as fromRoot from '../../../app/store';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {RegistrationFormService} from '../../services/registration-form.service';
-
+import { LoggerService } from 'src/shared/services/logger.service';
 
 @Injectable()
 export class RegistrationEffects {
   constructor(
     private actions$: Actions,
-    private registrationService: RegistrationFormService
+    private registrationService: RegistrationFormService,
+    private loggerService: LoggerService
   ) {}
 
   @Effect()
@@ -22,8 +22,8 @@ export class RegistrationEffects {
     switchMap((pageId) => {
       return this.registrationService.getRegistrationForm(pageId).pipe(
         map(returnedItems => {
+          this.loggerService.log('Registation Submitted Successfully');
           return new registrationActions.LoadPageItemsSuccess({payload: returnedItems, pageId});
-
         }),
         catchError(error => of(new registrationActions.LoadPageItemsSuccess(error)))
       );

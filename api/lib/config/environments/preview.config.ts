@@ -19,4 +19,16 @@ export default {
     },
     sessionSecret: 'secretSauce',
     useProxy: false,
+    jurisdictions: [
+        {id: 'SSCS'},
+        {id: 'Divorce'},
+        {id: 'Probate'},
+        {id: 'Public Law'},
+        {id: 'Bulk Scanning'},
+        {id: 'Immigration & Asylum'},
+        {id: 'Civil Money Claims'},
+        {id: 'Employment'},
+        {id: 'Family public law and adoption'},
+        {id: 'Civil enforcement and possession'},
+        ],
 }

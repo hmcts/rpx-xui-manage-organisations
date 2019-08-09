@@ -48,7 +48,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     after('checkout') {sh 'yarn cache clean'}
 
     after('build') {
-        sh 'npm run build'
+        sh 'yarn  build'
 
         publishHTML([
             allowMissing         : true,

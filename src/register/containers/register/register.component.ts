@@ -2,10 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store/';
 import * as fromRoot from '../../../app/store/';
+import * as fromAppStore from '../../../app/store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
-import { async } from 'q';
+import { AppConstants } from 'src/app/app.constants';
 
 /**
  * Bootstraps the Register Components
@@ -33,6 +34,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   pageId: string;
   isPageValid = false;
   errorMessage: any;
+  jurisdictions: any[];
 
   /**
    * ngOnInit
@@ -45,6 +47,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
+    this.isFromSubmitted$.subscribe((submitted: boolean) => {
+      if (submitted) {
+        this.router.navigateByUrl('/register-org/confirmation');
+      }
+    });
 
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
       if (nextUrl) {
@@ -53,8 +60,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }));
       }
     });
-
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+    this.jurisdictions = AppConstants.JURISDICTIONS;
   }
 
   subscribeToRoute(): void {
@@ -73,6 +80,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.pageValues  = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
           this.nextUrl = formData.nextUrl;
+          this.store.dispatch(new fromStore.ResetNextUrl());
         }
       });
   }
@@ -105,7 +113,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   onSubmitData(): void {
-    this.store.dispatch( new fromStore.SubmitFormData(this.pageValues));
+    const pageValues = {
+      ...this.pageValues,
+      jurisdictions: this.jurisdictions
+    };
+    this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }
 
   onGoBack(event) {

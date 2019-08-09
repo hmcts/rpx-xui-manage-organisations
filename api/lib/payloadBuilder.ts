@@ -1,5 +1,3 @@
-import { OrganisationPayload } from '../interfaces/organisationPayload'
-import { test } from 'mocha';
 
 /**
  * makeOrganisationPayload
@@ -44,7 +42,7 @@ export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray
 
   for (const key in stateValuesArray) {
     if (stateValuesArray[key])
-    { 
+    {
       organisationPayload[arrayName][key] = stateValuesArray[key]
     }
   }
@@ -54,7 +52,6 @@ export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray
 }
 
 export function makeOrganisationPayload(stateValues): any {
-
   const organisationPayload = {
     contactInformation: [
       {
@@ -69,6 +66,7 @@ export function makeOrganisationPayload(stateValues): any {
     superUser: {
       email: stateValues.emailAddress,
       firstName: stateValues.firstName,
+      jurisdictions: stateValues.jurisdictions,
       lastName: stateValues.lastName,
     },
   }

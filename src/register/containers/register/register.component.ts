@@ -72,6 +72,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resetFocus();
   }
 
+  // Set to focus to the title when the page/next route url started for accessibility
   resetFocus(): void {
     const focusElement = document.getElementsByTagName('h1')[0];
     if (focusElement) {

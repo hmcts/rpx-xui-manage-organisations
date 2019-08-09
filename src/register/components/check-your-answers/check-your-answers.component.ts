@@ -21,6 +21,7 @@ export class CheckYourAnswersComponent implements AfterViewInit {
     this.formDataValues = values;
   }
 
+  // Set to focus to the title when the page started for accessibility
   ngAfterViewInit() {
     const focusElement = document.getElementsByTagName('h1')[0];
     if (focusElement) {

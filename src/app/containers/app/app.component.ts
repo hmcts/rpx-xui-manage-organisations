@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
-import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+
 /**
  * Root Component that bootstrap all application.
  * It holds the state for global components (header and footer)
@@ -28,7 +27,6 @@ export class AppComponent implements OnInit {
 
 
   constructor(
-    private router: Router,
     private store: Store<fromRoot.State>
   ) {}
 

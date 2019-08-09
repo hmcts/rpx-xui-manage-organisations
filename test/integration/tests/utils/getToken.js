@@ -3,7 +3,7 @@ const idam_api= 'https://idam-api.aat.platform.hmcts.net'
 // const idam_api= 'https://idam-web-public.aat.platform.hmcts.net'
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
 const baseUrl= process.env.TEST_URL || 'https://localhost:3000'
-const idamClient = 'xuiwebapp'
+const idamClient = 'xuimowebapp'
 const fetch = require('node-fetch')
 
 async function getOauth2Token () {

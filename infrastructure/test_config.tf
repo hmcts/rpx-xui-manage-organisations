@@ -12,7 +12,7 @@ data "azurerm_key_vault_secret" "source_s2s-secret-for-tests" {
 resource "azurerm_key_vault_secret" "xui-s2s-token" {
   name         = "xui-s2s-token"
   value        = "${data.azurerm_key_vault_secret.source_s2s-secret-for-tests.value}"
-  key_vault_id = "${module.key-vault.key_vault_id}"
+  key_vault_id = "${data.azurerm_key_vault.key_vault.id}"
 }
 
 #endregion

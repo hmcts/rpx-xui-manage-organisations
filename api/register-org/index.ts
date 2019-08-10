@@ -42,7 +42,7 @@ router.post('/register', async (req, res) => {
     // axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
     console.log(s2sToken)
     // const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
-    const url = 'https://rd-professional-api-preview.service.core-compute-preview.internal'
+    const url = 'https://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations'
     const response = await http.post(url, registerPayload)
 
     res.send(response.data)

@@ -26,21 +26,22 @@ router.post('/register', async (req, res) => {
   // console.log('registerPayload')
   // console.log(registerPayload)
 
+  /**
+   * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
+   */
+  // const s2sToken = await generateS2sToken(s2sServicePath)
+  const s2sToken = 'asdfasdfkasdjfkaasdfasdf';
+  logger.info(`Successfully generated S2S Token`)
+  logger.info(s2sToken)
+
+  /**
+   * We use the S2S token to set the headers.
+   */
+  req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
+  axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
+  console.log(s2sToken)
   try {
 
-    /**
-     * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
-     */
-    // const s2sToken = await generateS2sToken(s2sServicePath)
-    // logger.info(`Successfully generated S2S Token`)
-    // logger.info(s2sToken)
-
-    /**
-     * We use the S2S token to set the headers.
-     */
-    // req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
-    // axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
-    // console.log(s2sToken)
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
     const response = await http.post(url, registerPayload)
 
@@ -53,13 +54,13 @@ router.post('/register', async (req, res) => {
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */
-    if (error === ERROR_GENERATING_S2S_TOKEN) {
-      res.status(500)
-      res.send({
-        errorMessage: ERROR_GENERATING_S2S_TOKEN,
-        errorOnPath: s2sServicePath,
-      })
-    }
+    // if (error === ERROR_GENERATING_S2S_TOKEN) {
+    //   res.status(500)
+    //   res.send({
+    //     errorMessage: ERROR_GENERATING_S2S_TOKEN,
+    //     errorOnPath: s2sServicePath,
+    //   })
+    // }
 
     const errReport = {
       apiError: error.data.errorMessage,

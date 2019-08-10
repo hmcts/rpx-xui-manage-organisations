@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
   /**
    * Check the payload comes in and is fine.
    */
-  console.log('registerPayload')
+  // console.log('registerPayload')
   // console.log(registerPayload)
 
   try {
@@ -31,18 +31,17 @@ router.post('/register', async (req, res) => {
     /**
      * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
      */
-    const s2sToken = await generateS2sToken(s2sServicePath)
-    logger.info(`Successfully generated S2S Token`)
-    logger.info(s2sToken)
+    // const s2sToken = await generateS2sToken(s2sServicePath)
+    // logger.info(`Successfully generated S2S Token`)
+    // logger.info(s2sToken)
 
     /**
      * We use the S2S token to set the headers.
      */
     // req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
     // axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
-    console.log(s2sToken)
-    // const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
-    const url = 'https://rd-professional-api-preview.service.core-compute-preview.internal/refdata/internal/v1/organisations'
+    // console.log(s2sToken)
+    const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
     const response = await http.post(url, registerPayload)
 
     res.send(response.data)

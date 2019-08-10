@@ -64,7 +64,7 @@ describe('Registration selectors', () => {
         result = value;
       });
       expect(result).toEqual('');
-      const payload = {error: {apiError: 'Undefined error'}, status: '500'};
+      const payload = {error : 'Undefined error', status : '500'};
       store.dispatch(new SubmitFormDataFail(payload));
       expect(result).toEqual('Sorry, there is a problem with the service. Try again later');
     });

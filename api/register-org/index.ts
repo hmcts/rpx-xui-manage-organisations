@@ -43,7 +43,7 @@ router.post('/register', async (req, res) => {
   const token = `Bearer ${s2sToken}`
   // axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
   // axios.defaults.headers.common.ServiceAuthorization = s2sToken
-  axios.defaults.headers.common.ServiceAuthorization = token;
+  // axios.defaults.headers.common.ServiceAuthorization = token
   console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
   console.log(s2sToken)
   try {

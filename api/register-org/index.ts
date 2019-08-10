@@ -31,8 +31,8 @@ router.post('/register', async (req, res) => {
   /**
    * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
    */
-  const s2sToken = await generateS2sToken(s2sServicePath)
-  // const s2sToken = 'asdfasdfkasdjfkaasdfasdf';
+  // const s2sToken = await generateS2sToken(s2sServicePath)
+  const s2sToken = 'asdfasdfkasdjfkaasdfasdf';
   logger.info(`Successfully generated S2S Token`)
   logger.info(s2sToken)
 

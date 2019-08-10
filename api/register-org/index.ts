@@ -49,18 +49,18 @@ router.post('/register', async (req, res) => {
   } catch (error) {
 
     // // Temporary while we are debugging.
-    // console.log('error')
-    // console.log(error)
-    // /**
-    //  * If there is a error generating the S2S token then we flag it to the UI.
-    //  */
-    // if (error === ERROR_GENERATING_S2S_TOKEN) {
-    //   res.status(500)
-    //   res.send({
-    //     errorMessage: ERROR_GENERATING_S2S_TOKEN,
-    //     errorOnPath: s2sServicePath,
-    //   })
-    // }
+    console.log('error')
+    console.log(error)
+    /**
+     * If there is a error generating the S2S token then we flag it to the UI.
+     */
+    if (error === ERROR_GENERATING_S2S_TOKEN) {
+      res.status(500)
+      res.send({
+        errorMessage: ERROR_GENERATING_S2S_TOKEN,
+        errorOnPath: s2sServicePath,
+      })
+    }
 
     const errReport = {
       apiError: error.data.errorMessage,

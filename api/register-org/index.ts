@@ -5,6 +5,8 @@ import {config} from '../lib/config';
 import axios from 'axios';
 import {logger} from 'codelyzer/util/logger';
 import {makeOrganisationPayload} from '../lib/payloadBuilder';
+import {generateToken} from '../lib/serviceToken';
+import {asyncReturnOrError} from '../lib/util';
 
 export const router = express.Router({mergeParams: true})
 
@@ -29,8 +31,9 @@ router.post('/register', async (req, res) => {
   /**
    * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
    */
+  const s2sToken = asyncReturnOrError(generateToken(), 'Error getting s2s token', res, logger)
   // const s2sToken = await generateS2sToken(s2sServicePath)
-  const s2sToken = 'asdfasdfkasdjfkaasdfasdf';
+  // const s2sToken = 'asdfasdfkasdjfkaasdfasdf';
   logger.info(`Successfully generated S2S Token`)
   logger.info(s2sToken)
 
@@ -39,6 +42,8 @@ router.post('/register', async (req, res) => {
    */
   req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
   axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
+  // axios.defaults.headers.common.ServiceAuthorization = s2sToken
+  console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
   console.log(s2sToken)
   try {
 
@@ -50,7 +55,7 @@ router.post('/register', async (req, res) => {
 
     // // Temporary while we are debugging.
     console.log('error')
-    console.log(error)
+    // console.log(error)
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */

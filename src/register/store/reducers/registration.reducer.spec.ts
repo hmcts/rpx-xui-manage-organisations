@@ -32,8 +32,9 @@ describe('RegistrationReducer', () => {
   describe('SUBMIT_FORM_DATA_FAIL action', () => {
     it('should update the state.errorMessage', () => {
 
-      const payload = {error: {apiError: 'Undefined error'}, status: '500'};
+      const payload = {error: 'Undefined error', status: '500'};
       const action = new SubmitFormDataFail(payload);
+
       const state = reducer(initialState, action);
       expect(state.errorMessage).toEqual('Sorry, there is a problem with the service. Try again later');
     });

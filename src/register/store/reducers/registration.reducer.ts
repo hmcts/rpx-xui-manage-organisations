@@ -131,9 +131,10 @@ export function reducer(
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
 
-      const apiError = action.payload.error.apiError;
+      const apiError = action.payload.error;
 
       let apiMessageMapped;
+
       for (const key in apiErrors) {
         if (apiError.includes(apiErrors[key])) {
           apiMessageMapped = errorMessageMappings[key];

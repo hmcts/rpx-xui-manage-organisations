@@ -31,8 +31,7 @@ router.post('/register', async (req, res) => {
   /**
    * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
    */
-  const s2sToken = asyncReturnOrError(generateToken(), 'Error getting s2s token', res, logger)
-  // const s2sToken = await generateS2sToken(s2sServicePath)
+  const s2sToken = await generateS2sToken(s2sServicePath)
   // const s2sToken = 'asdfasdfkasdjfkaasdfasdf';
   logger.info(`Successfully generated S2S Token`)
   logger.info(s2sToken)
@@ -40,9 +39,11 @@ router.post('/register', async (req, res) => {
   /**
    * We use the S2S token to set the headers.
    */
-  req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
-  axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
+  // req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
+  const token = `Bearer ${s2sToken}`
+  // axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
   // axios.defaults.headers.common.ServiceAuthorization = s2sToken
+  axios.defaults.headers.common.ServiceAuthorization = token;
   console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
   console.log(s2sToken)
   try {

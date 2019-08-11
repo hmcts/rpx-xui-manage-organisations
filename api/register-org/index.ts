@@ -31,20 +31,19 @@ router.post('/register', async (req, res) => {
     /**
      * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
      */
-
-    console.log(req.baseUrl)
-    if (req.baseUrl === '/external/register-org') {
-      // const s2sToken = await generateS2sToken(s2sServicePath)
-      logger.info(`Successfully generated S2S Token`)
-      const s2sToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4dWlfd2ViYXBwIiwiZXhwIjoxNTY1NTQxODc2fQ.9wpLwptchIfHIUf-fP2TcZm25KckVfw8_4OyP7qsqSaGCPRMzkYR1kK32ZsGT36rGgXWTNVZpa1OT66YLZ-OXw'
-      logger.info(s2sToken)
-      /**
-       * We use the S2S token to set the headers.
-       */
-      req.headers.ServiceAuthorization = `Token ${s2sToken}`
-      axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
-      console.log(s2sToken)
-    }
+    //
+    // console.log(req.baseUrl)
+    // if (req.baseUrl === '/external/register-org') {
+    //   const s2sToken = await generateS2sToken(s2sServicePath)
+    //   logger.info(`Successfully generated S2S Token`)
+    //   logger.info(s2sToken)
+    //   /**
+    //    * We use the S2S token to set the headers.
+    //    */
+    //   req.headers.ServiceAuthorization = `Token ${s2sToken}`
+    //   axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
+    //   console.log(s2sToken)
+    // }
 
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
     const response = await http.post(url, registerPayload)

@@ -16,7 +16,7 @@ import routes from './routes'
 /**
  * Used Server side
  */
-// import serviceRouter from './services/serviceAuth'
+import serviceRouter from './services/serviceAuth'
 import * as ejs from 'ejs'
 import * as path from 'path'
 
@@ -62,14 +62,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 
-// /**
-//  * Used Server Side only
-//  *
-//  * TODO: Are we are attaching authentication to all subsequent routes?
-//  * no probably not with this file, but then what is this doing here, and why don't we
-//  * do auth.attach?
-//  */
-// app.use(serviceRouter)
+/**
+ * Used Server Side only
+ *
+ * TODO: Are we are attaching authentication to all subsequent routes?
+ * no probably not with this file, but then what is this doing here, and why don't we
+ * do auth.attach?
+ */
+app.use(serviceRouter)
 
 /**
  * Open Routes

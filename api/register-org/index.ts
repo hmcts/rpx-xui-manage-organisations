@@ -34,13 +34,14 @@ router.post('/register', async (req, res) => {
 
     console.log(req.baseUrl)
     if (req.baseUrl === '/external/register-org') {
-      const s2sToken = await generateS2sToken(s2sServicePath)
+      // const s2sToken = await generateS2sToken(s2sServicePath)
       logger.info(`Successfully generated S2S Token`)
+      const s2sToken = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ4dWlfd2ViYXBwIiwiZXhwIjoxNTY1NTQxODc2fQ.9wpLwptchIfHIUf-fP2TcZm25KckVfw8_4OyP7qsqSaGCPRMzkYR1kK32ZsGT36rGgXWTNVZpa1OT66YLZ-OXw'
       logger.info(s2sToken)
       /**
        * We use the S2S token to set the headers.
        */
-      req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
+      req.headers.ServiceAuthorization = `Token ${s2sToken}`
       axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
       console.log(s2sToken)
     }

@@ -186,3 +186,6 @@ html {
   @extend %govuk-list--number;
 }
 
+h1:focus {
+  outline: none;
+}

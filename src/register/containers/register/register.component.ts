@@ -1,12 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store/';
 import * as fromRoot from '../../../app/store/';
 import * as fromAppStore from '../../../app/store';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
 import { AppConstants } from 'src/app/app.constants';
+import {tap, filter} from 'rxjs/operators';
 
 /**
  * Bootstraps the Register Components
@@ -16,7 +17,7 @@ import { AppConstants } from 'src/app/app.constants';
   selector: 'app-prd-register-component',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
@@ -30,6 +31,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
   $nextUrlSubscription: Subscription;
   data$: Observable<FormDataValuesModel>;
   isFromSubmitted$: Observable<boolean>;
+  isFormDataLoaded$: Observable<boolean>;
+
   nextUrl: string;
   pageId: string;
   isPageValid = false;
@@ -46,6 +49,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
+    this.isFormDataLoaded$ = this.store.pipe(select(fromStore.getRegistrationLoading));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
     this.isFromSubmitted$.subscribe((submitted: boolean) => {
       if (submitted) {
@@ -64,12 +68,29 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.jurisdictions = AppConstants.JURISDICTIONS;
   }
 
+  ngAfterViewInit() {
+    this.resetFocus();
+  }
+
+  // Set to focus to the title when the page/next route url started for accessibility
+  resetFocus(): void {
+    const focusElement = document.getElementsByTagName('h1')[0];
+    if (focusElement) {
+      focusElement.setAttribute('tabindex', '-1');
+      focusElement.focus();
+    }
+  }
+
   subscribeToRoute(): void {
     this.$routeSubscription = this.store.pipe(select(fromStore.getCurrentPage)).subscribe((routeParams) => {
       if (routeParams.pageId && routeParams.pageId !== this.pageId) { // TODO see why double call.
         this.pageId = routeParams.pageId;
         this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
       }
+    });
+
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+      this.resetFocus();
     });
   }
 
@@ -82,7 +103,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.nextUrl = formData.nextUrl;
           this.store.dispatch(new fromStore.ResetNextUrl());
         }
-      });
+    });
   }
 
   /**

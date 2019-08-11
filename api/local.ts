@@ -13,6 +13,7 @@ import {config} from './lib/config'
 import {errorStack} from './lib/errorStack'
 import openRoutes from './openRoutes'
 import routes from './routes'
+import serviceRouter from './services/serviceAuth'
 
 /**
  * Only used Locally
@@ -48,6 +49,16 @@ app.use(
 if (config.proxy) {
   tunnel.init()
 }
+
+/**
+ * Used Server Side only
+ *
+ * TODO: Are we are attaching authentication to all subsequent routes?
+ * no probably not with this file, but then what is this doing here, and why don't we
+ * do auth.attach?
+ */
+app.use(serviceRouter)
+
 
 /**
  * Common to both server.ts and local.ts files

@@ -41,7 +41,6 @@ export class RegistrationEffects {
         map(obj => {
           return new registrationActions.SubmitFormDataSuccess();
         }),
-        tap(() => this.loggerService.log('Registation Submitted Successfully')),
         catchError(error => of(new registrationActions.SubmitFormDataFail(error)))
     );
     })

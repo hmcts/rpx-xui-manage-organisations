@@ -23,8 +23,6 @@ router.post('/register', async (req, res) => {
     /**
      * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
      */
-
-    console.log(req.baseUrl)
     const s2sToken = await generateS2sToken(s2sServicePath)
 
     /**
@@ -55,8 +53,8 @@ router.post('/register', async (req, res) => {
       apiErrorDescription: error.data.errorDescription,
       statusCode: error.status,
     }
-
-    res.send(errReport).status(418)
+    res.status(error.status)
+    res.send(errReport)
   }
 });
 

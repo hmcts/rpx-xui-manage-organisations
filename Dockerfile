@@ -7,13 +7,12 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package.json .
-COPY package-lock.json .
 COPY yarn.lock .
 
-RUN npm install
+RUN yarn
 
 COPY . .
-RUN npm run build
+RUN yarn build
 
 EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

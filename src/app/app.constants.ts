@@ -82,8 +82,8 @@ const jurisdictions = [
 
 const ccdRoles = [
   'caseworker-divorce-financialremedy-solicitor',
-  'caseworker-divorce-solicitor',
-]
+  'caseworker-divorce-solicitor'
+];
 
 /**
  * Place to keep app constants.

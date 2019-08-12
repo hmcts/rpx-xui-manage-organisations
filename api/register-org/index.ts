@@ -2,8 +2,6 @@ import * as express from 'express'
 import {http} from '../lib/http'
 import {generateS2sToken} from '../lib/s2sTokenGeneration'
 import {config} from '../lib/config';
-import axios from 'axios';
-import {logger} from 'codelyzer/util/logger';
 import {makeOrganisationPayload} from '../lib/payloadBuilder';
 
 export const router = express.Router({mergeParams: true})
@@ -20,12 +18,6 @@ router.post('/register', async (req, res) => {
 
   const registerPayload = makeOrganisationPayload(req.body.fromValues)
 
-  /**
-   * Check the payload comes in and is fine.
-   */
-  // console.log('registerPayload')
-  // console.log(registerPayload)
-
   try {
 
     /**
@@ -33,27 +25,20 @@ router.post('/register', async (req, res) => {
      */
 
     console.log(req.baseUrl)
-    if (req.baseUrl === '/external/register-org') {
-      const s2sToken = await generateS2sToken(s2sServicePath)
-      logger.info(`Successfully generated S2S Token`)
-      logger.info(s2sToken)
-      /**
-       * We use the S2S token to set the headers.
-       */
-      req.headers.ServiceAuthorization = `Bearer ${s2sToken}`
-      axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
-      console.log(s2sToken)
-    }
+    const s2sToken = await generateS2sToken(s2sServicePath)
 
+    /**
+     * We use the S2S token to set the headers.
+     */
+    console.log(s2sToken)
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
-    const response = await http.post(url, registerPayload)
+    const options = {
+      headers: {'ServiceAuthorization': `Bearer ${s2sToken}`},
+    }
+    const response = await http.post(url, registerPayload, options)
 
     res.send(response.data)
   } catch (error) {
-
-    // // Temporary while we are debugging.
-    console.log('error')
-    console.log(error)
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */
@@ -70,8 +55,7 @@ router.post('/register', async (req, res) => {
       apiErrorDescription: error.data.errorDescription,
       statusCode: error.status,
     }
-    console.log('error')
-    console.log(error)
+
     res.send(errReport).status(418)
   }
 });

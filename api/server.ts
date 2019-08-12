@@ -82,6 +82,10 @@ app.get('/external/ping', (req, res) => {
   res.send('Pong')
 })
 app.use('/external', openRoutes)
+app.get('/health', (req, res) => {
+  console.log('health')
+  res.status(200).send('local health is up.')
+})
 
 console.log('WE ARE USING server.ts on the box.')
 

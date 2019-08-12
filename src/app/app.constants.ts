@@ -80,6 +80,11 @@ const jurisdictions = [
   {id: 'Civil enforcement and possession'},
   ];
 
+const ccdRoles = [
+  'caseworker-divorce-financialremedy-solicitor',
+  'caseworker-divorce-solicitor',
+]
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -95,4 +100,5 @@ export class AppConstants {
   static FOOTER_DATA_NAVIGATION = FooterDataNavigation;
   static USER_ROLES = userRoles;
   static JURISDICTIONS = jurisdictions;
+  static CCD_ROLES = ccdRoles;
 }

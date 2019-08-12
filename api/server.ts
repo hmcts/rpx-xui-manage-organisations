@@ -61,16 +61,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-
-/**
- * Used Server Side only
- *
- * TODO: Are we are attaching authentication to all subsequent routes?
- * no probably not with this file, but then what is this doing here, and why don't we
- * do auth.attach?
- */
-app.use(serviceRouter)
-
 /**
  * Open Routes
  *
@@ -89,7 +79,14 @@ app.get('/health', (req, res) => {
 
 console.log('WE ARE USING server.ts on the box.')
 
-
+/**
+ * Used Server Side only
+ *
+ * TODO: Are we are attaching authentication to all subsequent routes?
+ * no probably not with this file, but then what is this doing here, and why don't we
+ * do auth.attach?
+ */
+app.use(serviceRouter)
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 /**

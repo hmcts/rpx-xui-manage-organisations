@@ -55,8 +55,7 @@ router.post('/register', async (req, res) => {
       apiErrorDescription: error.data.errorDescription,
       statusCode: error.status,
     }
-    console.log('error')
-    console.log(error)
+
     res.send(errReport).status(418)
   }
 });

@@ -3,7 +3,6 @@ import {http} from '../lib/http'
 import {generateS2sToken} from '../lib/s2sTokenGeneration'
 import {config} from '../lib/config';
 import axios from 'axios';
-import {logger} from 'codelyzer/util/logger';
 import {makeOrganisationPayload} from '../lib/payloadBuilder';
 
 export const router = express.Router({mergeParams: true})
@@ -35,8 +34,6 @@ router.post('/register', async (req, res) => {
     console.log(req.baseUrl)
     if (req.baseUrl === '/external/register-org') {
       const s2sToken = await generateS2sToken(s2sServicePath)
-      logger.info(`Successfully generated S2S Token`)
-      logger.info(s2sToken)
       /**
        * We use the S2S token to set the headers.
        */

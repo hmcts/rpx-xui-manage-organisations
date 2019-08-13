@@ -10,7 +10,7 @@
            </a>
         </div>
      </div>
-     <div class="table-right_margin">
+     <div >
         <app-govuk-table *ngIf="!(isLoading$ | async) else isLoading"
           [columnConfig]="columnConfig"
           [rows]="tableUsersData$ | async" [firstCellIsHeader]="false"

@@ -7,8 +7,7 @@ import {UserListApiModel} from '../../models/userform.model';
 
 @Component({
   selector: 'app-prd-users-component',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit {
 

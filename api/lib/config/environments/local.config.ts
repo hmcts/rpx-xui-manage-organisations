@@ -2,7 +2,7 @@ export default {
   services: {
     ccdDataApi: 'https://ccd-data-store-api-demo.service.core-compute-demo.internal',
     ccdDefApi: 'https://ccd-definition-store-api-demo.service.core-compute-demo.internal',
-    idamWeb: 'https://idam-web-public.demo.platform.hmcts.net',
+    idamWeb: 'https://idam-web-public.ithc.platform.hmcts.net',
     idamApi: 'https://idam-api.demo.platform.hmcts.net',
     s2s: 'https://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
     draftStoreApi: 'https://draft-store-service-aat.service.core-compute-aat.internal',

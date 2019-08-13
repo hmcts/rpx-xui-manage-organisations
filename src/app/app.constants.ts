@@ -85,7 +85,9 @@ const ccdRoles = [
   'caseworker-divorce',
   'caseworker-divorce-solicitor',
   'caseworker-divorce-financialremedy',
-  'caseworker-divorce-financialremedy-solicitor'
+  'caseworker-divorce-financialremedy-solicitor',
+  'caseworker-probate',
+  'caseworker-probate-solicitor'
 ];
 
 /**

@@ -61,7 +61,7 @@ const config = {
     targetEnv: argv.env || 'local',
     // username: process.env.TEST_EMAIL,
     // password: process.env.TEST_PASSWORD,
-    username: 'xuinewsuperuser@mailnesia.com',
+    username: 'xuinewsuperuser3@mailnesia.com',
     password: 'Monday01',
     fr_judge_username: process.env.FR_EMAIL,
     fr_judge_password: process.env.FR_PASSWORD,

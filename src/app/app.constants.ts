@@ -68,21 +68,24 @@ const userRoles = [
 ];
 
 const jurisdictions = [
-  {id: 'SSCS'},
-  {id: 'Divorce'},
-  {id: 'Probate'},
-  {id: 'Public Law'},
-  {id: 'Bulk Scanning'},
-  {id: 'Immigration & Asylum'},
-  {id: 'Civil Money Claims'},
-  {id: 'Employment'},
-  {id: 'Family public law and adoption'},
-  {id: 'Civil enforcement and possession'},
+    {id: 'SSCS'},
+    {id: 'AUTOTEST1'},
+    {id: 'DIVORCE'},
+    {id: 'PROBATE'},
+    {id: 'PUBLICLAW'},
+    {id: 'bulkscan'},
+    {id: 'BULKSCAN'},
+    {id: 'IA'},
+    {id: 'EMPLOYMENT'},
+    {id: 'CMC'}
   ];
 
 const ccdRoles = [
-  'caseworker-divorce-financialremedy-solicitor',
-  'caseworker-divorce-solicitor'
+  'caseworker',
+  'caseworker-divorce',
+  'caseworker-divorce-solicitor',
+  'caseworker-divorce-financialremedy',
+  'caseworker-divorce-financialremedy-solicitor'
 ];
 
 /**

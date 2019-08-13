@@ -72,4 +72,5 @@ export function errorInterceptor(error) {
     errorStack.push(['response', JSON.parse(stringify(error.response))])
 
     return Promise.reject(error.response)
+
 }

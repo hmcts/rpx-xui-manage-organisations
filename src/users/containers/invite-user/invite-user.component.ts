@@ -6,6 +6,7 @@ import * as fromStore from '../../store';
 import * as fromAppStore from '../../../app/store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable, Subscription} from 'rxjs';
+import {AppConstants} from '../../../app/app.constants';
 
 /*
 * User Form entry mediator component
@@ -66,9 +67,14 @@ export class InviteUserComponent implements OnInit, OnDestroy {
           return key;
         }
       });
+
+      const roles = [
+        ...permissions,
+        ...AppConstants.CCD_ROLES
+      ];
       value = {
         ...value,
-        roles: permissions,
+        roles,
         jurisdictions: this.jurisdictions
       };
       this.store.dispatch(new fromStore.SendInviteUser(value));

@@ -4,7 +4,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-ithc.service.core-compute-ithc.internal',
         idamWeb: 'https://idam-web-public.ithc.platform.hmcts.net',
         idamApi: 'https://idam-api.ithc.platform.hmcts.net',
-        s2s: 'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+        s2s: 'http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal',
         rdProfessionalApi: 'https://rd-professional-api-ithc.service.core-compute-ithc.internal',
     },
     health: {

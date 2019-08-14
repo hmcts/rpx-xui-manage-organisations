@@ -153,6 +153,7 @@ export function doLogout(req: EnhancedRequest, res: express.Response, status: nu
     res.clearCookie(config.cookies.token)
     res.clearCookie(config.cookies.userId)
     req.session.user = null
+    delete req.session.auth // delete so it does not get returned to FE
     req.session.save(() => {
         res.redirect(status, req.query.redirect || '/')
     })

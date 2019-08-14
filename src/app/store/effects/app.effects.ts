@@ -39,7 +39,7 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      const redirectUrl = this.autGuard.generateLoginUrl()
+      const redirectUrl = this.autGuard.generateLoginUrl();
       const redirectUrlEncoded = encodeURIComponent(redirectUrl);
       window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
     })

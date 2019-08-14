@@ -17,7 +17,7 @@ Feature: register organization
     Then I Enter the User name
     Then I Enter the Email Address
     Then I land on the summary page and check submit
-  @smoke
+@smoke
   Scenario:organisation name validation
     When I am not entered Organization name
     Then I should be display organization error

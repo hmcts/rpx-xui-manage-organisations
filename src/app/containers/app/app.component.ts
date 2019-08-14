@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
+
 /**
  * Root Component that bootstrap all application.
  * It holds the state for global components (header and footer)
@@ -13,8 +14,7 @@ import * as fromActions from '../../store';
  */
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
 

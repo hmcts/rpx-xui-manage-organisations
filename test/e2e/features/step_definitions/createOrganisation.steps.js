@@ -52,7 +52,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I Enter the PBA1 details$/, { timeout: 600 * 1000 }, async function () {
     await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.PBAnumber1.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.PBAnumber1.sendKeys("TY23656"));
+    await expect(createOrganisationObject.PBAnumber1.sendKeys("PBA0022123"));
     await createOrganisationObject.continue_button.click();
   });
 

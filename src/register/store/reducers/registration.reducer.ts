@@ -89,8 +89,10 @@ export function reducer(
         ...action.payload.value
       };
 
-      const nextUrl = action.payload.value.have ?
-        state.navigation[action.payload.pageId][action.payload.value.have] :
+      const partialMatchHaveKey = Object.keys(action.payload.value).find(key => key.indexOf('have') > -1);
+
+      const nextUrl = partialMatchHaveKey ?
+        state.navigation[action.payload.pageId][action.payload.value[partialMatchHaveKey]] :
         state.navigation[action.payload.pageId];
 
       return {
@@ -129,10 +131,9 @@ export function reducer(
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
 
-      const apiError = action.payload.error;
+      const apiError = action.payload.error.apiError;
 
       let apiMessageMapped;
-
       for (const key in apiErrors) {
         if (apiError.includes(apiErrors[key])) {
           apiMessageMapped = errorMessageMappings[key];

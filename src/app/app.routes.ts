@@ -3,6 +3,7 @@ import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { ServiceDownComponent } from './containers/service-down/service-down.component';
 import {RedirectComponent} from './containers/redirect/redirect.component';
 import { CookiePolicyComponent } from './containers/cookie-policy/cookie-policy.component';
+import { PrivacyPolicyComponent } from './containers';
 
 export const ROUTES: Routes = [
   {
@@ -41,6 +42,10 @@ export const ROUTES: Routes = [
   {
     path: 'cookies',
     component: CookiePolicyComponent
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent
   },
   {
     path: '**',

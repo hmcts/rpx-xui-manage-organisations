@@ -146,6 +146,12 @@ export function reducer(
           submitted: false,
           errorMessage: apiMessageMapped
         };
+      } else if ( action.payload.error.statusCode === 400) {
+        return {
+          ...state,
+          submitted: false,
+          errorMessage: action.payload.error.apiErrorDescription
+        };
       }
 
       return {

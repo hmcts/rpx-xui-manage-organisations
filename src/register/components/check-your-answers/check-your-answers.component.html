@@ -2,19 +2,18 @@
   <h1 class="govuk-heading-xl">Check your answers before you register</h1>
   <dl class="govuk-check-your-answers  govuk-check-your-answers--short  govuk-!-margin-bottom-6">
 
-    <div app-govuk-dl-list-item
-         class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
       <ng-container question>Organisation name</ng-container>
       <ng-container answer>
         {{ formDataValues.orgName}}
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/organisation-name'">Change <span class="govuk-visually-hidden">organisation name</span></a>
+        <a [routerLink]="'/register-org/register/organisation-name'">Change <span
+            class="govuk-visually-hidden">organisation name</span></a>
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
-         class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
       <ng-container question>Organisation address</ng-container>
       <ng-container answer>
         <div> {{ formDataValues.officeAddressOne }} </div>
@@ -24,47 +23,49 @@
         <div>{{ formDataValues.postcode }} </div>
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/organisation-address'" >Change <span class="govuk-visually-hidden">organistaion address</span></a>
+        <a [routerLink]="'/register-org/register/organisation-address'">Change <span
+            class="govuk-visually-hidden">organistaion address</span></a>
       </ng-container>
     </div>
 
     <div app-govuk-dl-list-item *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2"
-         class="govuk-check-your-answers__contents">
+      class="govuk-check-your-answers__contents">
       <ng-container question>PBA number</ng-container>
       <ng-container answer>
-        {{ formDataValues.PBAnumber1 }}, 
+        {{ formDataValues.PBAnumber1 }},
         {{ formDataValues.PBAnumber2 }}
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/organisation-pba'">Change <span class="govuk-visually-hidden">PBA number</span></a>
+        <a [routerLink]="'/register-org/register/organisation-pba'">Change <span class="govuk-visually-hidden">PBA
+            number</span></a>
       </ng-container>
     </div>
 
     <div app-govuk-dl-list-item *ngIf="formDataValues.DXnumber && formDataValues.DXexchange"
-         class="govuk-check-your-answers__contents">
+      class="govuk-check-your-answers__contents">
       <ng-container question>DX reference</ng-container>
       <ng-container answer>
         <div>DX number: {{ formDataValues.DXnumber }}</div>
         <div>DX exchange: {{ formDataValues.DXexchange }}</div>
       </ng-container>
       <ng-container button>
-        <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX reference</span></a>
+        <a [routerLink]="'/register-org/register/organisation-dx'">Change <span class="govuk-visually-hidden">DX
+            reference</span></a>
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item *ngIf="formDataValues.sraNumber"
-         class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item *ngIf="formDataValues.sraNumber" class="govuk-check-your-answers__contents">
       <ng-container question>SRA Number</ng-container>
       <ng-container answer>
         {{ formDataValues.sraNumber }}
       </ng-container>
       <ng-container button>
-        <a  [routerLink]="'/register-org/register/sraNumber'">Change <span class="govuk-visually-hidden">email address</span></a>
+        <a [routerLink]="'/register-org/register/sraNumber'">Change <span class="govuk-visually-hidden">email
+            address</span></a>
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
-         class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
       <ng-container question>First name</ng-container>
       <ng-container answer>
         {{ formDataValues.firstName }}
@@ -74,8 +75,7 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
-         class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
       <ng-container question>Last name</ng-container>
       <ng-container answer>
         {{ formDataValues.lastName }}
@@ -85,27 +85,32 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item
-         class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
       <ng-container question>Email address</ng-container>
       <ng-container answer>
         {{ formDataValues.emailAddress }}
       </ng-container>
       <ng-container button>
-        <a  [routerLink]="'/register-org/register/email-address'">Change <span class="govuk-visually-hidden">email address</span></a>
+        <a [routerLink]="'/register-org/register/email-address'">Change <span class="govuk-visually-hidden">email
+            address</span></a>
       </ng-container>
     </div>
 
 
   </dl>
   <h2 class="govuk-heading-l">Now submit your registration details</h2>
-  <p>You are confirming that the details you've given are accurate.</p>
 
-  <button
-    role="button" draggable="false"
-    (click)="onSubmitData()"
-    class="govuk-button">
-    Submit
+  <ul class="govuk-list govuk-list--bullet">
+
+    <li>Your personal and organisation details are correct</li>
+    <li>You have read and understood the <a routerLink="/terms-and-conditions" rel="noopener noreferrer"
+        target="_blank">terms and conditions</a> and are eligible for an account to manage your organisation and cases
+    </li>
+    <li>You are creating an account for your organisation for the first time</li>
+  </ul>
+
+  <button role="button" draggable="false" (click)="onSubmitData()" class="govuk-button">
+    Confirm and submit details
   </button>
 
 </ng-container>

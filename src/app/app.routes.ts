@@ -4,6 +4,7 @@ import { ServiceDownComponent } from './containers/service-down/service-down.com
 import {RedirectComponent} from './containers/redirect/redirect.component';
 import { CookiePolicyComponent } from './containers/cookie-policy/cookie-policy.component';
 import { PrivacyPolicyComponent } from './containers';
+import { TermsAndConditionsComponent } from './containers';
 
 export const ROUTES: Routes = [
   {
@@ -46,6 +47,10 @@ export const ROUTES: Routes = [
   {
     path: 'privacy-policy',
     component: PrivacyPolicyComponent
+  },
+  {
+    path: 'terms-and-conditions',
+    component: TermsAndConditionsComponent
   },
   {
     path: '**',

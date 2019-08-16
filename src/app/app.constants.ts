@@ -54,7 +54,7 @@ const FooterData =  {
 
 const FooterDataNavigation = {
   items: [
-    { text: 'Terms and conditions', href: 'terms-and-conditions'},
+    { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
     { text: 'Cookies', href: 'cookies', target: '_blank' },
     { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'}
   ]

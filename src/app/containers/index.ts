@@ -13,7 +13,7 @@ export const containers: any[] = [
   ServiceDownComponent,
   RedirectComponent,
   CookiePolicyComponent,
-  PrivacyPolicyComponent
+  PrivacyPolicyComponent,
   TermsAndConditionsComponent
 ];
 

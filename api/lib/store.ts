@@ -12,4 +12,6 @@ export class Store {
     async get(key) {
         return this.session[key]
     }
+
+    // TODO: Add delete session that should be linked into the User Logging out.
 }

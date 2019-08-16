@@ -1,6 +1,7 @@
 import * as express from 'express'
 
 // TODO: rename from prdRouter
+import getappInsightsInstrumentationKey from './monitoring-tools'
 import prdRouter from './register-org'
 
 // TODO: Not sure if this is needed
@@ -18,5 +19,6 @@ const router = express.Router({ mergeParams: true })
  * @see local.ts / server.ts
  */
 router.use('/register-org', prdRouter)
+router.use('/monitoring-tools', getappInsightsInstrumentationKey)
 
 export default router

@@ -4,7 +4,6 @@ import * as auth from './auth'
 import healthCheck from './healthCheck'
 import inviteUser from './inviteUser'
 import getJurisdictions from './jurisdictions'
-import getappInsightsInstrumentationKey from './monitoring-tools'
 import organisationRouter from './organisation'
 import userDetailsRouter from './user'
 import getUserList from './userList'
@@ -20,7 +19,6 @@ router.use('/healthCheck', healthCheck)
 router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
 router.use('/userDetails', getUserList)
-router.use('/monitoring-tools', getappInsightsInstrumentationKey)
 router.use('/jurisdictions', getJurisdictions)
 
 export default router

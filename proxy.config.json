@@ -1,18 +1,19 @@
 {
   "/api/*": {
-      "target": "http://localhost:3001",
-      "secure": false,
-      "logLevel": "debug"
+    "target": "https://localhost:3001",
+    "secure": false,
+    "logLevel": "debug"
   },
   "/external/*": {
     "target": "http://localhost:3001",
     "secure": false,
     "logLevel": "debug"
   },
-    "/oauth2/callback": {
-        "target": "http://localhost:3001",
-        "secure": false,
-        "logLevel": "debug"
-    }
+  "/oauth2/callback": {
+    "_comment": "note that the target here needs to hit the node environment.",
+    "target": "https://localhost:3001",
+    "secure": false,
+    "logLevel": "debug"
+  }
 }
 

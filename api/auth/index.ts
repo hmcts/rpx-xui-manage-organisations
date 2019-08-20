@@ -60,7 +60,18 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
         },
     }
 
+    /**
+     * TODO: config.protocol keeps getting set as http, when it needs to be https, investigate.
+     * Hard code https for now as config.protocol
+     */
+    let protocol = config.protocol
+    protocol = 'https'
+
     logger.info('Getting Token from auth code.')
+    logger.info(protocol)
+    logger.info(`${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
+    protocol
+    }://${req.headers.host}${config.oauthCallbackUrl}`)
 
     console.log(
         `${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${

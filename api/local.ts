@@ -19,11 +19,14 @@ import routes from './routes'
  */
 import * as tunnel from './lib/tunnel'
 import * as log4js from 'log4js'
+import * as fs from "fs";
+import * as https from "https";
+import * as http from "http";
 
 const FileStore = sessionFileStore(session)
 
 const app = express()
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use(
   session({
@@ -90,7 +93,25 @@ app.get('/api/logout', (req, res, next) => {
 })
 
 const port = process.env.PORT || 3001
-app.listen(port)
+
+/**
+ * We can serve http content over any port. Hence I've left this as 3001.
+ */
+const httpPort = 3001
+const httpsPort = 3001
+// app.listen(port)
+const getSslCredentials = () => {
+  return {
+    key: fs.readFileSync('../ssl/server.key'),
+    cert: fs.readFileSync('../ssl/server.crt'),
+  }
+}
+const httpServer = http.createServer(app)
+const httpsServer = https.createServer(getSslCredentials(), app)
+
+httpsServer.listen(httpsPort, () => {
+  console.log(`Https Server started on port ${httpsPort}`)
+})
 
 if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY

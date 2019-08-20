@@ -19,11 +19,16 @@ import routes from './routes'
 import serviceRouter from './services/serviceAuth'
 import * as ejs from 'ejs'
 import * as path from 'path'
+import * as https from 'https'
+import * as fs from 'fs'
+import * as http from 'http'
 
 const FileStore = sessionFileStore(session)
 
 const app = express()
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+const unsecureApp = express()
+
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use(
     session({
@@ -77,6 +82,11 @@ app.use(serviceRouter)
  * Any routes here do not have authentication attached and are therefore reachable.
  */
 app.get('/oauth2/callback', auth.oauth)
+unsecureApp.get('/health', (req, res, next) => {
+  res.status(200)
+  res.send('Healthy')
+})
+
 app.get('/external/ping', (req, res) => {
   console.log('Pong')
   res.send('Pong')
@@ -115,4 +125,22 @@ if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
     config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
 }
 
-app.listen(process.env.PORT || 3000)
+const getSslCredentials = () => {
+  return {
+    key: fs.readFileSync('../ssl/server.key'),
+    cert: fs.readFileSync('../ssl/server.crt'),
+  }
+}
+
+const httpServer = http.createServer(unsecureApp)
+const httpsServer = https.createServer(getSslCredentials(), app)
+
+const httpsPort = 3001
+
+httpsServer.listen(httpsPort, () => {
+  console.log(`Https Server started on port ${httpsPort}`)
+})
+
+httpServer.listen(process.env.PORT || 3000, () => {
+  console.log(`Http Server started on port ${process.env.PORT || 3000}`)
+})

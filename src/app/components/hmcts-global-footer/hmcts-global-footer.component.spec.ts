@@ -3,6 +3,7 @@ import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
 import {Component, Input, ViewChild} from '@angular/core';
 import {Helper, Navigation} from '../../containers/footer/footer.model';
 import { AppConstants } from '../../app.constants';
+import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('HmctsGlobalFooterComponent', () => {
@@ -29,7 +30,10 @@ describe('HmctsGlobalFooterComponent', () => {
 
     beforeEach(async(() => {
       TestBed.configureTestingModule({
-        declarations: [ HmctsGlobalFooterComponent ]
+        declarations: [ HmctsGlobalFooterComponent ],
+        imports: [
+            RouterTestingModule
+        ]
       })
       .compileComponents();
     }));

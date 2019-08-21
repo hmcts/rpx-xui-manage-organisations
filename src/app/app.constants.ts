@@ -86,8 +86,17 @@ const ccdRoles = [
   'caseworker-divorce-solicitor',
   'caseworker-divorce-financialremedy',
   'caseworker-divorce-financialremedy-solicitor',
+  'caseworker-probate',
+  'caseworker-probate-solicitor'
 ];
 
+const ccdRolesWithoutProbate = [
+  'caseworker',
+  'caseworker-divorce',
+  'caseworker-divorce-solicitor',
+  'caseworker-divorce-financialremedy',
+  'caseworker-divorce-financialremedy-solicitor'
+];
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -104,4 +113,5 @@ export class AppConstants {
   static USER_ROLES = userRoles;
   static JURISDICTIONS = jurisdictions;
   static CCD_ROLES = ccdRoles;
+  static CCD_ROLES_WITHOUT_PROBATE = ccdRolesWithoutProbate;
 }

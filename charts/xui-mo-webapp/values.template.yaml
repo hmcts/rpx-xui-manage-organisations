@@ -11,6 +11,8 @@ nodejs:
     PUI_ENV: preview
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
+    SSL_KEY: ${SSL_KEY}
+    SSL_CERT: ${SSL_CERT}
   keyVaults:
     rpx:
       resourceGroup: rpx
@@ -23,6 +25,8 @@ nodejs:
         - sscs-email
         - sscs-password
         - AppInsightsInstrumentationKey
+        - ssl-key
+        - ssl-cert
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

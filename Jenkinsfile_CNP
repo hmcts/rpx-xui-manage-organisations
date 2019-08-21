@@ -24,6 +24,8 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
+    secret('ssl-key', 'SSL_KEY'),
+    secret('ssl-cert', 'SSL_CERT'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 ]
 

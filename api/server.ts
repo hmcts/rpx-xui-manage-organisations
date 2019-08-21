@@ -127,8 +127,8 @@ if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
 
 const getSslCredentials = () => {
   return {
-    key: fs.readFileSync('../ssl/server.key'),
-    cert: fs.readFileSync('../ssl/server.crt'),
+    key: process.env.SSL_KEY,
+    cert: process.env.SSL_CERT,
   }
 }
 

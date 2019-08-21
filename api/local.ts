@@ -100,6 +100,10 @@ const port = process.env.PORT || 3001
 const httpPort = 3001
 const httpsPort = 3001
 // app.listen(port)
+
+/**
+ * This is being pulled in from the Key Vault on the server, on Azure.
+ */
 const getSslCredentials = () => {
   return {
     key: fs.readFileSync('../ssl/server.key'),

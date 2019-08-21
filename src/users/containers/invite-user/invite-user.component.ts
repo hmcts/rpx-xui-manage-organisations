@@ -68,8 +68,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         }
       });
 
-      const ccdRoles = this.inviteUserForm.value.roles['pui-case-manager'] ?
-      AppConstants.CCD_ROLES : AppConstants.CCD_ROLES_WITHOUT_PROBATE;
+      const ccdRoles = this.inviteUserForm.value.roles['pui-case-manager'] ? AppConstants.CCD_ROLES : [];
 
       const roles = [
         ...permissions,

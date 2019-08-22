@@ -2,7 +2,7 @@ FROM node:8.9.0-alpine
 
 MAINTAINER "HMCTS Team <https://github.com/hmcts>"
 LABEL maintainer = "HMCTS Team <https://github.com/hmcts>"
-USER root
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

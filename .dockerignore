@@ -1,0 +1,10 @@
+*
+!config
+!api
+!src
+!angular.json
+!tsconfig.json
+!server.ts
+!package.json
+!package-lock.json
+!yarn.lock

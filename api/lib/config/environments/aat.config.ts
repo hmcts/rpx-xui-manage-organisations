@@ -4,7 +4,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
         idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
         idamApi: 'https://idam-api.aat.platform.hmcts.net',
-        s2s: 'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
+        s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
         rdProfessionalApi: 'https://rd-professional-api-aat.service.core-compute-aat.internal',
     },
     health: {
@@ -12,7 +12,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-aat.service.core-compute-aat.internal/health',
         idamWeb: 'https://idam-web-public.aat.platform.hmcts.net/health',
         idamApi: 'https://idam-api.aat.platform.hmcts.net/health',
-        s2s: 'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal/health',
+        s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/health',
         rdProfessionalApi: 'https://rd-professional-api-aat.service.core-compute-aat.internal/health',
     },
     useProxy: false,

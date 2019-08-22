@@ -23,8 +23,9 @@ export class InviteUserEffects {
     ofType(usersActions.SEND_INVITE_USER),
     map((action: usersActions.SendInviteUser) => action.payload),
     switchMap((inviteUserFormData) => {
+      const userEmail = (inviteUserFormData as any).email;
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
-        map(userDetails => new usersActions.InviteUserSuccess(userDetails)),
+        map(userDetails => new usersActions.InviteUserSuccess({...userDetails, userEmail})),
         tap(() => this.loggerService.info('User Invited')),
         catchError(error => of(new usersActions.InviteUserFail(error)))
       );

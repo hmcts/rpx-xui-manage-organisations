@@ -28,6 +28,11 @@ export const getInviteUserIsUserConfirmed = createSelector(
   fromInviteUsers.getInviteUserIsUserConfirmed
 );
 
+export const getInviteUserEmail = createSelector(
+  getInviteUserState,
+  fromInviteUsers.getInviteUserEmail
+);
+
 export const getGetInviteUserErrorsArray = createSelector(
   getInviteUserErrorMessage,
   getInviteUserIsFormValid,

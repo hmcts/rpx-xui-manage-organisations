@@ -8,12 +8,14 @@ import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from 'src/users/services';
 import { of } from 'rxjs';
+import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
-    private jurisdictionService: JurisdictionService
+    private jurisdictionService: JurisdictionService,
+    private autGuard: AuthGuard
   ) { }
 
   @Effect()
@@ -37,7 +39,9 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      window.location.href = 'api/logout';
+      const redirectUrl = this.autGuard.generateLoginUrl();
+      const redirectUrlEncoded = encodeURIComponent(redirectUrl);
+      window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
     })
   );
 

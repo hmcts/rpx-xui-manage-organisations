@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "node ./dist/rpa-pui-manager/api/server.js",
-    "build": "yarn build:ng && yarn build:node",
+    "build": "yarn run build:ng && yarn run build:node",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
     "test": "yarn test:ng",
     "build:node": "cd api && yarn build",

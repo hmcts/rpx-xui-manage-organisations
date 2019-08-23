@@ -7,7 +7,7 @@ RUN yarn install --production \
 # ---- Build image ----
 FROM base as build
 RUN yarn install
-COPY tsconfig.json gulpfile.js server.js ./
+COPY tsconfig.json server.js ./
 COPY --chown=hmcts:hmcts src/main ./src/main
 RUN yarn setup
 

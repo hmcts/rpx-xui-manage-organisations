@@ -1,18 +1,19 @@
-FROM node:8.9.0-alpine
+FROM hmctspublic.azurecr.io/base/node/stretch-slim-lts-8:8-stretch-slim as base
+RUN yarn config set proxy "$http_proxy" && yarn config set https-proxy "$https_proxy"
+COPY package.json yarn.lock ./
+RUN yarn install --production \
+  && yarn cache clean
 
-MAINTAINER "HMCTS Team <https://github.com/hmcts>"
-LABEL maintainer = "HMCTS Team <https://github.com/hmcts>"
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY package.json .
-COPY yarn.lock .
-
+# ---- Build image ----
+FROM base as build
 RUN yarn install
+COPY tsconfig.json gulpfile.js server.js ./
+COPY --chown=hmcts:hmcts src/main ./src/main
+RUN yarn setup
 
-COPY . .
-RUN yarn run build
-
-EXPOSE 8080
-CMD [ "yarn", "start" ]
+# ---- Runtime image ----
+FROM base as runtime
+COPY --from=build $WORKDIR/src/main ./src/main
+COPY --from=build $WORKDIR/server.js $WORKDIR/tsconfig.json ./
+COPY config ./config
+EXPOSE 3000

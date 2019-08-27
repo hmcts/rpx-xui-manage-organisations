@@ -16,19 +16,11 @@ properties([
 def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
-def vault = "rpx"
 def channel   = '#xui-pipeline'
 
-//List<LinkedHashMap<String, Object>> secrets = [
-//    secret('xui-s2s-token', 'S2S_SECRET'),
-//    secret('xui-oauth2-token', 'IDAM_SECRET'),
-//    secret('test-email', 'TEST_EMAIL'),
-//    secret('test-password', 'TEST_PASSWORD'),
-//    secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
-//]
 
 def secrets = [
-  'xui-mo-webapp-${env}': [
+  'rpx-${env}': [
     secret('xui-s2s-token', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
@@ -59,11 +51,11 @@ withPipeline(type, product, component) {
 
     after('checkout') {sh 'yarn cache clean'}
 
-//  before('buildinfra:prod') {
-//    currentBuild.result = 'SUCCESS'
-//    currentBuild.description = "SUCCESS"
-//    error 'XUI  projects are not authorised to be in production environments yet.'
-//  }
+  before('buildinfra:prod') {
+    currentBuild.result = 'SUCCESS'
+    currentBuild.description = "SUCCESS"
+    error 'XUI  projects are not authorised to be in production environments yet.'
+  }
 
     after('build') {
         sh 'yarn  build'

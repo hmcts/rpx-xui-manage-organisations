@@ -19,12 +19,26 @@ def component = "mo-webapp"
 def vault = "rpx"
 def channel   = '#xui-pipeline'
 
-List<LinkedHashMap<String, Object>> secrets = [
+//List<LinkedHashMap<String, Object>> secrets = [
+//    secret('xui-s2s-token', 'S2S_SECRET'),
+//    secret('xui-oauth2-token', 'IDAM_SECRET'),
+//    secret('test-email', 'TEST_EMAIL'),
+//    secret('test-password', 'TEST_PASSWORD'),
+//    secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+//]
+
+def secrets = [
+  'xui-mo-webapp-${env}': [
     secret('xui-s2s-token', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+
+  ],
+  's2s-${env}'      : [
+    secret('microservicekey-your-app', 'S2S_SECRET')
+  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {

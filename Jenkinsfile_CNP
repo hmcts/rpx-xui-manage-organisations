@@ -29,7 +29,7 @@ def secrets = [
 
   ],
   's2s-${env}'      : [
-    secret('microservicekey--xui-webapp', 'S2S_SECRET')
+    secret('microservicekey-xui-webapp', 'S2S_SECRET')
   ]
 ]
 

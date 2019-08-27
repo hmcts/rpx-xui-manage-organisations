@@ -28,9 +28,9 @@ def secrets = [
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
 
   ],
-  's2s-${env}'      : [
-    secret('microservicekey-xui-webapp', 'S2S_SECRET')
-  ]
+//  's2s-${env}'      : [
+//    secret('microservicekey-xui-webapp', 'S2S_SECRET')
+//  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {

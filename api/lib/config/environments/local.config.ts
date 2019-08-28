@@ -2,8 +2,8 @@ export default {
   services: {
     ccdDataApi: 'https://ccd-data-store-api-demo.service.core-compute-demo.internal',
     ccdDefApi: 'https://ccd-definition-store-api-demo.service.core-compute-demo.internal',
-    idam_web: 'https://hmcts-access.service.gov.uk',
-    idam_api: 'https://idam-api.platform.hmcts.net',
+    idamWeb: 'https://hmcts-access.service.gov.uk',
+    idamApi: 'https://idam-api.platform.hmcts.net',
     s2s: 'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
     rdProfessionalApi: 'https://rd-professional-api-prod.service.core-compute-prod.internal',
   },

@@ -105,4 +105,10 @@ export class AppUtils {
     }
     return 'Manage organisation';
   }
+
+  getEnvironment(url) {
+    if (url.indexOf('')) {
+
+    }
+  }
 }

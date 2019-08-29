@@ -106,9 +106,17 @@ export class AppUtils {
     return 'Manage organisation';
   }
 
-  getEnvironment(url) {
-    if (url.indexOf('')) {
-
+  static getEnvironment(url) {
+    if (url.indexOf('aat') || url.indexOf('localhost')) {
+      return 'aat';
     }
+    if (url.indexOf('demo')) {
+      return 'demo';
+    }
+    if (url.indexOf('ithc')) {
+      return 'ithc';
+    }
+
+    return 'prod';
   }
 }

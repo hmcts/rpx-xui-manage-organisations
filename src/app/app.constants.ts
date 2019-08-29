@@ -90,6 +90,13 @@ const ccdRoles = [
   'caseworker-probate-solicitor'
 ];
 
+const redirectUrl = {
+  aat: 'https://idam-api.aat.platform.hmcts.net',
+  demo: 'https://idam-web-public.demo.platform.hmcts.net',
+  ithc: 'https://idam-web-public.ithc.platform.hmcts.net',
+  pord: 'https://hmcts-access.service.gov.uk'
+}
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -106,4 +113,5 @@ export class AppConstants {
   static USER_ROLES = userRoles;
   static JURISDICTIONS = jurisdictions;
   static CCD_ROLES = ccdRoles;
+  static REDIRECT_URL = redirectUrl;
 }

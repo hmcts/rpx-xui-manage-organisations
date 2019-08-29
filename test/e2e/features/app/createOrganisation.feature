@@ -1,4 +1,4 @@
-@smoke
+
 Feature: register organization
 
   Background:
@@ -7,7 +7,7 @@ Feature: register organization
     Then I should be redirected to manage organisation dashboard page
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
-
+  @smoke
   Scenario:register organization
     Then I Enter the Organization name
     Then I Enter the Office Address details
@@ -46,4 +46,17 @@ Feature: register organization
     When I am not entered SRA number
     Then I should be display SRA error
 
+  Scenario:PBA validation
+    Then I Enter the Organization name
+    Then I Enter the Office Address details
+    Then I Enter the invalid PBA1 and PBA2 details
+    Then I should be display PBA error
 
+  Scenario:first name and last name validation
+    Then I Enter the Organization name
+    Then I Enter the Office Address details
+    Then I Enter the PBA1 and PBA2 details
+    Then I Enter the DX Reference details
+    Then I Select and Enter the SRA number
+    When I am not entered the firstName and lastName
+    Then I should be display firstName and lastName error

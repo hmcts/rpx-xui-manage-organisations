@@ -43,6 +43,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.officeAddressOne.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.officeAddressOne.sendKeys("1, Cliffinton"));
+    browser.sleep(MID_DELAY);
     await expect(createOrganisationObject.townName.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.townName.sendKeys("London"));
     await expect(createOrganisationObject.postcode.isDisplayed()).to.eventually.be.true;
@@ -64,6 +65,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function () {
     await waitForElement('govuk-heading-xl');
     await createOrganisationObject.clickDXreferenceCheck();
+    browser.sleep(MID_DELAY);
     await expect(createOrganisationObject.DXNumber.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.enterDXNumber());
     await expect(createOrganisationObject.DXexchange.isDisplayed()).to.eventually.be.true;
@@ -77,6 +79,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await waitForElement('govuk-heading-xl');
     //await expect(createOrganisationObject.SRACheckBox.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.clickSRAreferenceCheck();
+    browser.sleep(MID_DELAY);
     await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.SRANumber.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.enterSRANumber());
@@ -86,7 +89,6 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I Enter the firstName and lastName$/, { timeout: 600 * 1000 }, async function () {
     await waitForElement('govuk-heading-xl');
-    browser.sleep(MID_DELAY);
     await expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.firstName.sendKeys("Mario"));
     await expect(createOrganisationObject.lastName.isDisplayed()).to.eventually.be.true;
@@ -103,7 +105,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
   });
 
-  Then(/^I land on the summary page and check submit$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I land on the summary page and check submit$/, async function () {
     browser.sleep(MID_DELAY);
     await waitForElement('govuk-heading-l');
     await expect(createOrganisationObject.submit_button.isDisplayed()).to.eventually.be.true;
@@ -115,7 +117,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  Then(/^I created the organisation successfully$/,  { timeout: 600 * 1000 },async function () {
+  Then(/^I created the organisation successfully$/,  async function () {
     browser.sleep(MID_DELAY);
     await expect(createOrganisationObject.org_success_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.org_success_heading.getText())
@@ -125,13 +127,14 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  When(/^I am not entered Organization name$/,  { timeout: 600 * 1000 },async function () {
-    browser.sleep(MID_DELAY);
+  When(/^I am not entered Organization name$/, async function () {
+
     createOrganisationObject.org_name.sendKeys();
     await createOrganisationObject.continue_button.click();
+    browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display organization error$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I should be display organization error$/,  async function () {
     await expect(createOrganisationObject.org_failure_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.org_failure_error_heading.getText())
       .to
@@ -140,15 +143,15 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  When(/^I am not entered the Office Address details$/, { timeout: 600 * 1000 }, async function () {
-    browser.sleep(MID_DELAY);
+  When(/^I am not entered the Office Address details$/, async function () {
+
     await expect(createOrganisationObject.officeAddressOne.sendKeys());
     await expect(createOrganisationObject.townName.sendKeys());
     await expect(createOrganisationObject.postcode.sendKeys());
     await createOrganisationObject.continue_button.click();
-  });
-  Then(/^I should be display Office Address error$/,  { timeout: 600 * 1000 },async function () {
     browser.sleep(MID_DELAY);
+  });
+  Then(/^I should be display Office Address error$/,async function () {
     await expect(createOrganisationObject.off_address_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.off_address_error_heading.getText())
       .to
@@ -157,16 +160,15 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  When(/^I am not entered SRA number$/, { timeout: 600 * 1000 }, async function () {
-    browser.sleep(MID_DELAY);
+  When(/^I am not entered SRA number$/, async function () {
     await createOrganisationObject.clickSRAreferenceCheck();
     await expect(createOrganisationObject.SRANumber.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.SRANumber.sendKeys());
     await createOrganisationObject.continue_button.click();
+    browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display SRA error$/, { timeout: 600 * 1000 }, async function () {
-    browser.sleep(MID_DELAY);
+  Then(/^I should be display SRA error$/, async function () {
     await expect(createOrganisationObject.sra_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.sra_error_heading.getText())
       .to
@@ -175,17 +177,50 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  When(/^I am not entered the email address$/, { timeout: 600 * 1000 }, async function () {
-    browser.sleep(MID_DELAY);
+  When(/^I am not entered the email address$/,  async function () {
     await expect(createOrganisationObject.emailAddr.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.emailAddr.sendKeys());
     await createOrganisationObject.continue_button.click();
+    browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display email error$/, { timeout: 600 * 1000 }, async function () {
-    browser.sleep(MID_DELAY);
+  Then(/^I should be display email error$/,  async function () {
     await expect(createOrganisationObject.email_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.email_error_heading.getText())
+      .to
+      .eventually
+      .equal('There is a problem');
+
+  });
+
+  When(/^I Enter the invalid PBA1 and PBA2 details$/,  async function () {
+    await expect(createOrganisationObject.PBAnumber1.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.PBAnumber1.sendKeys(1234455558));
+    await expect(createOrganisationObject.PBAnumber2.sendKeys(1233334988));
+    await createOrganisationObject.continue_button.click();
+    browser.sleep(MID_DELAY);
+  });
+
+  Then(/^I should be display PBA error$/,  async function () {
+    await expect(createOrganisationObject.pba_error_heading.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.pba_error_heading.getText())
+      .to
+      .eventually
+      .equal('There is a problem');
+
+  });
+
+  When(/^I am not entered the firstName and lastName$/,  async function () {
+    await expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.firstName.sendKeys());
+    await expect(createOrganisationObject.lastName.sendKeys());
+    await createOrganisationObject.continue_button.click();
+    browser.sleep(MID_DELAY);
+  });
+
+  Then(/^I should be display firstName and lastName error$/,  async function () {
+    await expect(createOrganisationObject.name_error_heading.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.name_error_heading.getText())
       .to
       .eventually
       .equal('There is a problem');

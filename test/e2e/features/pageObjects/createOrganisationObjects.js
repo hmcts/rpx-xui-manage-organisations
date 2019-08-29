@@ -32,6 +32,8 @@ class CreateOrganisationObjects {
     this.org_success_heading = element(by.css("[class='govuk-panel__title']"))
     this.org_failure_error_heading = element(by.css("#error-summary-title"));
     this.off_address_error_heading = element(by.css("#error-summary-title"));
+    this.pba_error_heading = element(by.css("#error-summary-title"));
+    this.name_error_heading = element(by.css("#error-summary-title"));
     this.sra_error_heading = element(by.css("#error-summary-title"));
     this.email_error_heading = element(by.css("#error-summary-title"));
   }

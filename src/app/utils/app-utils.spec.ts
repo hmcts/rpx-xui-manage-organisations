@@ -128,4 +128,10 @@ describe('AppUtils', () => {
     expect(returnNavItems).toEqual({navItems: []});
   });
 
+  it('should return return environment string', () => {
+    const nav = 'http://localhost';
+    const url = AppUtils.getEnvironment(nav);
+    expect(url).toEqual('aat');
+  });
+
 });

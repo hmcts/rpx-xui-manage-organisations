@@ -91,11 +91,11 @@ const ccdRoles = [
 ];
 
 const redirectUrl = {
-  aat: 'https://idam-api.aat.platform.hmcts.net',
+  aat: 'https://idam-web-public.aat.platform.hmcts.net',
   demo: 'https://idam-web-public.demo.platform.hmcts.net',
   ithc: 'https://idam-web-public.ithc.platform.hmcts.net',
-  pord: 'https://hmcts-access.service.gov.uk'
-}
+  prod: 'https://hmcts-access.service.gov.uk'
+};
 
 /**
  * Place to keep app constants.

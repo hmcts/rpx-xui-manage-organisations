@@ -4,6 +4,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-prod.service.core-compute-prod.internal',
         idamWeb: 'https://hmcts-access.service.gov.uk',
         idamApi: 'https://idam-api.platform.hmcts.net',
+        idamLoginUrl: 'https://hmcts-access.service.gov.uk',
         s2s: 'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
           rdProfessionalApi: 'https://rd-professional-api-prod.service.core-compute-prod.internal',
     },

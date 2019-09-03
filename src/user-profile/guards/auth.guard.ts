@@ -63,7 +63,8 @@ export class AuthGuard implements CanActivate {
     const base = config.services.idamWeb;
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=openid profile roles manage-user create-user`;
+    // tslint:disable-next-line: max-line-length
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
   }
 
   signOut(): void {

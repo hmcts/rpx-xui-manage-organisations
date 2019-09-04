@@ -8,6 +8,8 @@ import * as fromStore from '../store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {CookieService} from 'ngx-cookie';
 import config from '../../../api/lib/config';
+import {AppUtils} from '../../app/utils/app-utils';
+import {AppConstants} from '../../app/app.constants';
 
 
 @Injectable()
@@ -57,13 +59,16 @@ export class AuthGuard implements CanActivate {
   }
 
   generateLoginUrl(): string {
+    const env = AppUtils.getEnvironment(window.location.origin);
     let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
     API_BASE_URL += window.location.port ? ':' + window.location.port : '';
 
-    const base = config.services.idamWeb;
+    const base = AppConstants.REDIRECT_URL[env];
+
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=openid profile roles manage-user create-user`;
+    // tslint:disable-next-line: max-line-length
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
   }
 
   signOut(): void {

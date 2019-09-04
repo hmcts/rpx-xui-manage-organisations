@@ -2,6 +2,7 @@
  * Contains static stateless utility methods for the App
  *
  */
+import { AppConstants } from '../app.constants';
 export class AppUtils {
   /**
    * it changes active property based on the url
@@ -115,18 +116,18 @@ export class AppUtils {
 
     if (matched && matched[0]) {
         switch (matched[0]) {
-          case 'aat':
-          case 'localhost':
-          case 'pr-':
-             return 'aat';
-          case 'demo':
-              return 'demo';
-          case 'ithc':
-              return 'ithc';
-          case 'perf-test':
-              return 'perf-test';
+          case AppConstants.ENVIRONMENT_NAMES.aat:
+          case AppConstants.ENVIRONMENT_NAMES.localhost:
+          case AppConstants.ENVIRONMENT_NAMES.pr:
+             return AppConstants.ENVIRONMENT_NAMES.aat;
+          case AppConstants.ENVIRONMENT_NAMES.demo:
+              return AppConstants.ENVIRONMENT_NAMES.demo;
+          case AppConstants.ENVIRONMENT_NAMES.ithc:
+              return AppConstants.ENVIRONMENT_NAMES.ithc;
+          case AppConstants.ENVIRONMENT_NAMES.perfTest:
+              return AppConstants.ENVIRONMENT_NAMES.perfTest;
         }
       }
-    return 'prod';
+    return AppConstants.ENVIRONMENT_NAMES.prod;
   }
 }

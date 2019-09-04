@@ -97,6 +97,16 @@ const redirectUrl = {
   prod: 'https://hmcts-access.service.gov.uk'
 };
 
+const environmentNames = {
+  aat: 'aat',
+  localhost: 'localhost',
+  pr: 'pr-',
+  demo: 'demo',
+  ithc: 'ithc',
+  perfTest: 'perf-test',
+  prod: 'prod'
+};
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -114,4 +124,5 @@ export class AppConstants {
   static JURISDICTIONS = jurisdictions;
   static CCD_ROLES = ccdRoles;
   static REDIRECT_URL = redirectUrl;
+  static ENVIRONMENT_NAMES = environmentNames;
 }

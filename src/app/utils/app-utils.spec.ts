@@ -131,30 +131,30 @@ describe('AppUtils', () => {
   it('should return aat environment string', () => {
     let nav = 'http://localhost';
     let url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual('aat');
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
 
     nav = 'http://aat/something';
     url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual('aat');
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
   });
 
   it('should return demo or ithc  or perf-test environment string', () => {
     let nav = 'http://demo/something';
     let url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual('demo');
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.demo);
 
     nav = 'http://ithc/something';
     url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual('ithc');
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.ithc);
 
     nav = 'http://perf-test/something';
     url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual('perf-test');
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.perfTest);
   });
 
   it('should return prod as it does not match any', () => {
     const nav = 'http://notany/something';
     const url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual('prod');
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.prod);
   });
 });

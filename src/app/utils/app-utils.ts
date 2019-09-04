@@ -106,17 +106,27 @@ export class AppUtils {
     return 'Manage organisation';
   }
 
-  static getEnvironment(url) {
-    if (url.indexOf('aat') || url.indexOf('localhost')) {
-      return 'aat';
-    }
-    if (url.indexOf('demo')) {
-      return 'demo';
-    }
-    if (url.indexOf('ithc')) {
-      return 'ithc';
-    }
+  // 04-Sep-2019 - Author U Denduluri
+  // Function which returns the environment name based on the Url
+  // by looking at the pattern
+  static getEnvironment(url: string): string {
+    const regex = 'pr-|localhost|aat|demo|ithc|perf-test';
+    const matched = url.match(regex);
 
+    if (matched && matched[0]) {
+        switch (matched[0]) {
+          case 'aat':
+          case 'localhost':
+          case 'pr-':
+             return 'aat';
+          case 'demo':
+              return 'demo';
+          case 'ithc':
+              return 'ithc';
+          case 'perf-test':
+              return 'perf-test';
+        }
+      }
     return 'prod';
   }
 }

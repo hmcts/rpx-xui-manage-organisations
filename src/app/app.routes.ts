@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { ServiceDownComponent } from './containers/service-down/service-down.component';
 import {RedirectComponent} from './containers/redirect/redirect.component';
+import { CookiePolicyComponent } from './containers/cookie-policy/cookie-policy.component';
+import { PrivacyPolicyComponent } from './containers';
+import { TermsAndConditionsComponent } from './containers';
 
 export const ROUTES: Routes = [
   {
@@ -36,6 +39,18 @@ export const ROUTES: Routes = [
   {
     path: 'home',
     component: RedirectComponent
+  },
+  {
+    path: 'cookies',
+    component: CookiePolicyComponent
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent
+  },
+  {
+    path: 'terms-and-conditions',
+    component: TermsAndConditionsComponent
   },
   {
     path: '**',

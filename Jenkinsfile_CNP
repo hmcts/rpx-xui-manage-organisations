@@ -16,15 +16,21 @@ properties([
 def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
-def vault = "rpx"
 def channel   = '#xui-pipeline'
 
-List<LinkedHashMap<String, Object>> secrets = [
+
+def secrets = [
+  'rpx-${env}': [
     secret('xui-s2s-token', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+
+  ],
+//  's2s-${env}'      : [
+//    secret('microservicekey-xui-webapp', 'S2S_SECRET')
+//  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -39,16 +45,15 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    setVaultName(vault)
     enableDockerBuild()
     installCharts()
 
 
     after('checkout') {sh 'yarn cache clean'}
-
+//
 //  before('buildinfra:prod') {
 //    currentBuild.result = 'SUCCESS'
-//    currentBuild.description = "SUCCESS"
+//    currentBuild.description = "SUCCESS TILL AAT"
 //    error 'XUI  projects are not authorised to be in production environments yet.'
 //  }
 

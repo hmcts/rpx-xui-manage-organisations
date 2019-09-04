@@ -25,7 +25,6 @@ export default {
     {id: 'DIVORCE'},
     {id: 'PROBATE'},
     {id: 'PUBLICLAW'},
-    {id: 'bulkscan'},
     {id: 'BULKSCAN'},
     {id: 'IA'},
     {id: 'EMPLOYMENT'},

@@ -6,8 +6,13 @@
           <h1 class="govuk-heading-xl">Register to manage civil and family law cases</h1>
           <p class="govuk-body">At the same time as you register your organisation, you'll give us details to create your user account.</p>
           <p class="govuk-body">We’ll approve the registration within 3 working days and send you an email asking you to finish creating your account.</p>
-          <a href="#" [routerLink]="'/register-org/register/organisation-name'" role="button" class="govuk-button govuk-button--start">Start</a>
-      </ng-container>
+          <a href="#"[routerLink]="'/register-org/register/organisation-name'" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+            Start
+            <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
+              <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+            </svg>
+          </a>
+       </ng-container>
 
       <div *ngIf="pageId === 'check' && (errorMessage | async) !== '' && !(isFromSubmitted$ | async)">
         <app-notification-banner-component>

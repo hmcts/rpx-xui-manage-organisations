@@ -21,7 +21,7 @@
 
 
 .jui-case-actions__link {
-  background-color: govuk-colour("grey-4");
+  background-color: govuk-colour("light-grey");
   display: block;
   padding: govuk-spacing(1) govuk-spacing(2);
   text-decoration: none;
@@ -33,7 +33,7 @@
   }
 
   &:hover {
-    background-color: govuk-colour("grey-3");
+    background-color: govuk-colour("light-grey");
   }
 
 }

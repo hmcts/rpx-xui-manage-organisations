@@ -57,8 +57,8 @@
 
 .jui-cf__toolbar-container {
   @include jui-width-container;
-  border-left:1px solid govuk-colour("grey-3");
-  border-right: 1px solid govuk-colour("grey-3");
+  border-left:1px solid govuk-colour("light-grey");
+  border-right: 1px solid govuk-colour("light-grey");
   height: 100%;
   position: relative;
   left: 0; top: 0;
@@ -110,12 +110,12 @@
 
 
   &:hover {
-    background-color: govuk-colour("grey-4");
+    background-color: govuk-colour("light-grey");
   }
 
 
   &[aria-pressed=true] {
-    background-color: govuk-colour("grey-3");
+    background-color: govuk-colour("light-grey");
     cursor: default;
   }
 
@@ -149,7 +149,7 @@
 
 
 .jui-cf__window {
-  background-color: govuk-colour("grey-4");
+  background-color: govuk-colour("light-grey");
   padding-bottom: 25px;
   padding-top: 25px;
   position: relative;

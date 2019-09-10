@@ -11,7 +11,7 @@
 
 
 .jui-tree__item {
-  border-top: 1px solid govuk-colour("grey-3");
+  border-top: 1px solid govuk-colour("light-grey");
   outline: 0;
 
   &:first-child {
@@ -141,7 +141,7 @@
 
 
   .jui-tree__doc-link[aria-current=true] {
-    background-color: rgba(govuk-colour("grey-3"), .5);
+    background-color: rgba(govuk-colour("light-grey"), .5);
     color: black;
     cursor: default;
   }

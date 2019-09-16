@@ -16,11 +16,9 @@ import {Component} from '@angular/core';
           </h1>
         </div>
         <h2 class="govuk-heading-m">What happens next</h2>
-        <p class="govuk-body">
-          We’ll approve the registration within 3 working days.
+        <p class="govuk-body">We’ll approve the registration within 3 working days.
         </p>
-        <p class="govuk-body">
-          You'll get an email from HM Courts and Tribunals Registrations asking you to finish creating your account.
+        <p class="govuk-body">You'll get an email from HM Courts and Tribunals Registrations asking you to finish creating your account.
         </p>
       </div>
     </div>

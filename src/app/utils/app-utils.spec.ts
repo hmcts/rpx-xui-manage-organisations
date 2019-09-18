@@ -128,19 +128,19 @@ describe('AppUtils', () => {
     expect(returnNavItems).toEqual({navItems: []});
   });
 
-  it('should return aat environment string', () => {
-    let nav = 'http://localhost';
-    let url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
-
-    nav = 'http://aat/something';
-    url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
-
-    nav = 'http://preview/something';
-    url = AppUtils.getEnvironment(nav);
-    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.preview);
-  });
+  // it('should return aat environment string', () => {
+  //   let nav = 'http://localhost';
+  //   let url = AppUtils.getEnvironment(nav);
+  //   expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
+  //
+  //   nav = 'http://aat/something';
+  //   url = AppUtils.getEnvironment(nav);
+  //   expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
+  //
+  //   nav = 'http://preview/something';
+  //   url = AppUtils.getEnvironment(nav);
+  //   expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.preview);
+  // });
 
   it('should return demo or ithc  or perf-test environment string', () => {
     let nav = 'http://demo/something';

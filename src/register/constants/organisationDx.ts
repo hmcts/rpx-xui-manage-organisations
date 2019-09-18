@@ -9,13 +9,13 @@ export const organisationDx = {
       {
         validationLevel: 'formControl',
         controlId: 'DXnumber',
-        text: 'Enter DX number. It must be 13 characters',
+        text: 'Enter DX number.',
         href: '/register/organisation-name',
       },
       {
         validationLevel: 'formControl',
         controlId: 'DXexchange',
-        text: 'Enter DX exchange. It can be up to 20 characters',
+        text: 'Enter DX exchange.',
         href: '/register/organisation-name',
       }
     ],
@@ -27,9 +27,9 @@ export const organisationDx = {
             classes: 'govuk-label--m',
           },
           control: 'DXnumber',
-          validators: ['dxNumberExactLength'],
+          validators: ['dxNumberMaxLength'],
           validationError: {
-            value: 'Enter DX number. It must be 13 characters',
+            value: 'This can be up to 13 characters (including letters and numbers). For example 931NR. You don\'t need to include \'DX\'',
             controlId: 'DXnumber',
           },
           classes: 'govuk-!-width-two-thirds',
@@ -44,7 +44,7 @@ export const organisationDx = {
           control: 'DXexchange',
           validators: ['dxExchangeMaxLength'],
           validationError: {
-            value: 'Enter DX exchange. It can be up to 20 characters',
+            value: 'This can be up to 20 characters (including letters, numbers and symbols). For example: HAYES (MIDDLESEX).',
             controlId: 'DXexchange',
           },
           classes: 'govuk-!-width-two-thirds',

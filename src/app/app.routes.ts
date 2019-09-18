@@ -25,7 +25,7 @@ export const ROUTES: Routes = [
     loadChildren: '../users/users.module#UsersModule'
   },
   {
-    path: 'feeAccounts',
+    path: 'fee-accounts',
     canActivate: [AuthGuard],
     loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },

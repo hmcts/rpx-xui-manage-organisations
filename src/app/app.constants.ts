@@ -15,7 +15,7 @@ const navItemsArray: NavItemModel[] = [
   },
   {
     text: 'Fee Accounts',
-    href: '/feeAccounts',
+    href: '/fee-accounts',
     active: false
   }
 ];

@@ -9,13 +9,13 @@ export const organisationDx = {
       {
         validationLevel: 'formControl',
         controlId: 'DXnumber',
-        text: 'Enter valid DX number.',
+        text: 'Enter valid DX number',
         href: '/register/organisation-name',
       },
       {
         validationLevel: 'formControl',
         controlId: 'DXexchange',
-        text: 'Enter valid DX exchange.',
+        text: 'Enter valid DX exchange',
         href: '/register/organisation-name',
       }
     ],

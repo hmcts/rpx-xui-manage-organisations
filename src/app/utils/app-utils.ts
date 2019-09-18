@@ -118,8 +118,8 @@ export class AppUtils {
         switch (matched[0]) {
           case AppConstants.ENVIRONMENT_NAMES.aat:
           case AppConstants.ENVIRONMENT_NAMES.localhost:
-          case AppConstants.ENVIRONMENT_NAMES.pr:
-             return AppConstants.ENVIRONMENT_NAMES.aat;
+          case AppConstants.ENVIRONMENT_NAMES.preview:
+             return AppConstants.ENVIRONMENT_NAMES.preview;
           case AppConstants.ENVIRONMENT_NAMES.demo:
               return AppConstants.ENVIRONMENT_NAMES.demo;
           case AppConstants.ENVIRONMENT_NAMES.ithc:

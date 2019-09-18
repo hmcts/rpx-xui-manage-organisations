@@ -47,8 +47,7 @@ export class FormsService {
             }
           } else {
             if (someData[someJson.control]) {
-
-              this.FormControls[someJson.control] = new FormControl(someData[someJson.control]);
+              this.createFormControl(someData[someJson.control], someJson.control, someJson.validators);
             } else {
               this.createFormControl(someJson.value, someJson.control, someJson.validators);
             }

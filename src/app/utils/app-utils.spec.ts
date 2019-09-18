@@ -136,6 +136,10 @@ describe('AppUtils', () => {
     nav = 'http://aat/something';
     url = AppUtils.getEnvironment(nav);
     expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.aat);
+
+    nav = 'http://preview/something';
+    url = AppUtils.getEnvironment(nav);
+    expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.preview);
   });
 
   it('should return demo or ithc  or perf-test environment string', () => {

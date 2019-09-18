@@ -5,6 +5,7 @@ import {RedirectComponent} from './containers/redirect/redirect.component';
 import { CookiePolicyComponent } from './containers/cookie-policy/cookie-policy.component';
 import { PrivacyPolicyComponent } from './containers';
 import { TermsAndConditionsComponent } from './containers';
+import { AccountSummaryComponent } from 'src/fee-accounts/containers/account-summary/account-summary.component';
 
 export const ROUTES: Routes = [
   {
@@ -22,6 +23,11 @@ export const ROUTES: Routes = [
     path: 'users',
     canActivate: [AuthGuard],
     loadChildren: '../users/users.module#UsersModule'
+  },
+  {
+    path: 'feeAccounts',
+    canActivate: [AuthGuard],
+    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },
   {
     path: 'style-guide',

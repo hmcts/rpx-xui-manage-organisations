@@ -12,12 +12,18 @@ const navItemsArray: NavItemModel[] = [
     text: 'Users',
     href: '/users',
     active: false
+  },
+  {
+    text: 'Fee Accounts',
+    href: '/feeAccounts',
+    active: false
   }
 ];
 
 const roleBasedNav = {
+  'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
-  'pui-organisation-manager': navItemsArray[0]
+  'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {

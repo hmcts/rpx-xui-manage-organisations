@@ -111,7 +111,7 @@ export class AppUtils {
   // Function which returns the environment name based on the Url
   // by looking at the pattern
   static getEnvironment(url: string): string {
-    const regex = 'pr|localhost|aat|demo|ithc|perf-test';
+    const regex = 'pr-|localhost|aat|demo|ithc|perf-test|preview';
     const matched = url.match(regex);
 
     if (matched && matched[0]) {

@@ -95,13 +95,12 @@ const redirectUrl = {
   demo: 'https://idam-web-public.demo.platform.hmcts.net',
   ithc: 'https://idam-web-public.ithc.platform.hmcts.net',
   prod: 'https://hmcts-access.service.gov.uk',
-  pr: 'https://idam-web-public.aat.platform.hmcts.net'
 };
 
 const environmentNames = {
   aat: 'aat',
   localhost: 'localhost',
-  pr: 'pr',
+  pr: 'preview',
   demo: 'demo',
   ithc: 'ithc',
   perfTest: 'perf-test',

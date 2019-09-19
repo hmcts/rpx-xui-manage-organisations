@@ -101,7 +101,7 @@ const redirectUrl = {
 const environmentNames = {
   aat: 'aat',
   localhost: 'localhost',
-  pr: 'preview',
+  preview: 'preview',
   demo: 'demo',
   ithc: 'ithc',
   perfTest: 'perf-test',

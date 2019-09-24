@@ -35,6 +35,10 @@ export class ValidationService {
       ngValidatorFunction: this.customValidatorService.exactLengthValidator(13)
     },
     {
+      simpleName: 'dxNumberMaxLength',
+      ngValidatorFunction: Validators.maxLength(13)
+    },
+    {
       simpleName: 'dxExchangeMaxLength',
       ngValidatorFunction: Validators.maxLength(20)
     },

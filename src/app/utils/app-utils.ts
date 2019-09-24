@@ -117,7 +117,7 @@ export class AppUtils {
     if (matched && matched[0]) {
         switch (matched[0]) {
           case AppConstants.ENVIRONMENT_NAMES.aat:
-          case AppConstants.ENVIRONMENT_NAMES.localhost:
+            case AppConstants.ENVIRONMENT_NAMES.localhost:
           case AppConstants.ENVIRONMENT_NAMES.pr:
              return AppConstants.ENVIRONMENT_NAMES.aat;
           case AppConstants.ENVIRONMENT_NAMES.demo:

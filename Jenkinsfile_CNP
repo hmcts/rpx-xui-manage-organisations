@@ -50,12 +50,12 @@ withPipeline(type, product, component) {
 
 
     after('checkout') {sh 'yarn cache clean'}
-//
-//  before('buildinfra:prod') {
-//    currentBuild.result = 'SUCCESS'
-//    currentBuild.description = "SUCCESS TILL AAT"
-//    error 'XUI  projects are not authorised to be in production environments yet.'
-//  }
+
+    before('buildinfra:prod') {
+    currentBuild.result = 'SUCCESS'
+    currentBuild.description = "SUCCESS TILL AAT"
+    error 'XUI  projects are not authorised to be in production environments yet.'
+  }
 
     after('build') {
         sh 'yarn  build'
@@ -101,16 +101,16 @@ withPipeline(type, product, component) {
 
     }
 
-    after('smoketest:demo') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/smoke/",
-            reportFiles          : 'index.html',
-            reportName           : 'DEMO Smoke Test'
-        ])
-    }
+//    after('smoketest:demo') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/smoke/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'DEMO Smoke Test'
+//        ])
+//    }
 
     after('smoketest:preview') {
         publishHTML([

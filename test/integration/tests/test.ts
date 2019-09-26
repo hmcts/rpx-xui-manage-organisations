@@ -1,4 +1,5 @@
-const Mocha = require('mocha');
+// const Mocha = require('mocha');
+import * as Mocha from 'mocha';
 
 const mocha = new Mocha({
     ui: 'tdd',

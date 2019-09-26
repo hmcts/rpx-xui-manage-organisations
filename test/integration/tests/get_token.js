@@ -1,7 +1,13 @@
 const { generateAPIRequest } = require('./utils/generateAPI');
+const getCookie = require('./utils/getToken.js');
 
 suite('API/CASES -> Get Token', function() {
-    this.timeout(10000);
+  let cookie = ''
+  // getCookie.getOauth2Token().then(function (token) {
+  //     cookie = token;
+  // });
+  // console.log(cookie)
+    // this.timeout(10000);
     test('GET XUI Organisation column details', () => generateAPIRequest('GET', '/v1/organisations?status=ACTIVE', {})
         .then(response => {
             response.statusCode.should.be.eql(200);

@@ -25,7 +25,7 @@ export const pbaNumber = {
             classes: 'govuk-label--m',
           },
           control: 'PBAnumber1',
-          validators: ['pbaNumberPattern', 'pbaNumberMaxLength'],
+          validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
           validationError: {
             value: 'Enter a valid PBA number',
             controlId: 'PBAnumber1',
@@ -40,7 +40,7 @@ export const pbaNumber = {
             classes: 'govuk-label--m',
           },
           control: 'PBAnumber2',
-          validators: ['pbaNumberPattern', 'pbaNumberMaxLength'],
+          validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
           validationError: {
             value: 'Enter a valid PBA number',
             controlId: 'PBAnumber2',

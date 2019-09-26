@@ -4,7 +4,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-prod.service.core-compute-prod.internal',
         idamWeb: 'https://hmcts-access.service.gov.uk',
         idamApi: 'https://idam-api.platform.hmcts.net',
-        s2s: 'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
+        s2s: 'http://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
           rdProfessionalApi: 'https://rd-professional-api-prod.service.core-compute-prod.internal',
     },
     health: {
@@ -12,7 +12,7 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-prod.service.core-compute-prod.internal/health',
         idamWeb: 'https://hmcts-access.service.gov.uk/health',
         idamApi: 'https://idam-api.platform.hmcts.net/health',
-        s2s: 'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal/health',
+        s2s: 'http://rpe-service-auth-provider-prod.service.core-compute-prod.internal/health',
         rdProfessionalApi: 'https://rd-professional-api-prod.service.core-compute-prod.internal/health',
     },
     useProxy: false,

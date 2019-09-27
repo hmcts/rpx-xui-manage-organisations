@@ -1,5 +1,12 @@
-// const Mocha = require('mocha');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import * as Mocha from 'mocha';
+import {config} from '../../../api/lib/config';
+import * as tunnel from '../../../api/lib/tunnel';
+
+
+if (config.proxy) {
+  tunnel.init();
+}
 
 const mocha = new Mocha({
     ui: 'tdd',
@@ -12,10 +19,11 @@ const mocha = new Mocha({
     }
 });
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-mocha.addFile('test/integration/tests/get_token.js');
+mocha.addFile('test/integration/tests/get_token.ts');
 // mocha.addFile('test/integration/tests/get_jui_cases.js');
 // mocha.addFile('test/integration/tests/get_jui_case_details.js');
 // mocha.addFile('test/integration/tests/get_jui_case_fields.js');
 // mocha.addFile('test/integration/tests/get_jui_case_summary.js');
-mocha.run();
+mocha.run( (failures) => {
+  process.exitCode = failures ? 1 : 0; // exit with non-zero status if there were failures
+});

@@ -1,6 +1,7 @@
 import { generateToken } from '../../../../api/auth/serviceToken';
 import { getTokenFromCode } from '../../../../api/auth/index';
-import * as http from 'http';
+// import * as http from 'http';
+import { http } from '../../../../api/lib/http';
 
 
 // const should = require('should');
@@ -12,8 +13,7 @@ const mainURL = 'https://rd-professional-api-aat.service.core-compute-aat.intern
 const LOG_REQUEST_ERROR_DETAILS = false;
 
 
-const authToken = getTokenFromCode()
-const s2sToken = generateToken()
+// const s2sToken = generateToken()
 
 export async function generateAPIRequest(method, subURL, params) {
 
@@ -21,18 +21,29 @@ export async function generateAPIRequest(method, subURL, params) {
     //     cookie = token;
     // });
 
+  let s2sToken;
+  let token;
+
+  try {
+    s2sToken = await generateToken();
+    token = await getCookie.getOauth2Token();
+  } catch (error) {
+    console.log(error);
+  }
+
+  return s2sToken;
 // console.log('cookie Value :' + cookie)
-    const options = {
+    /*const options = {
         headers: {
             // Cookie: '__auth__=' + cookie,
-            Authorization: 'Bearer' + authToken,
+            Authorization: `Bearer ${authToken}`,
             ServiceAuthorization: s2sToken,
             'Content-Type': 'application/json'
         },
         json: true,
         resolveWithFullResponse: true
     };
-    console.log(options);
+    console.log(options);*/
 //     if (params.body) options.body = params.body;
 //
 //     let response

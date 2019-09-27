@@ -9,7 +9,7 @@ const baseUrl= 'https://xui-mo-webapp-aat.service.core-compute-aat.internal'
 const idamClient = 'xuimowebapp'
 const fetch = require('node-fetch')
 
-async function getOauth2Token () {
+export async function getOauth2Token () {
     const redirectUri = baseUrl+'/oauth2/callback'
     let token
 

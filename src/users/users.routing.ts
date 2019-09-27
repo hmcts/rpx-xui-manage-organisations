@@ -1,7 +1,7 @@
 // routes
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { UsersComponent } from './containers';
+import { UsersComponent, UserDetailsComponent } from './containers';
 import { InviteUserComponent } from './containers/invite-user/invite-user.component';
 import { InviteUserSuccessComponent } from './containers/invite-user-success/invite-user-success.component';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
@@ -12,6 +12,10 @@ export const ROUTES: Routes = [
       path: '',
       component: UsersComponent,
       canActivate: [HealthCheckGuard],
+    },
+    {
+      path: 'user/:userId',
+      component: UserDetailsComponent
     },
     {
       path: 'invite-user',

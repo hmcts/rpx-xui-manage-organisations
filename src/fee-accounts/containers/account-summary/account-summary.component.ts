@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromfeatureStore from '../../store';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/internal/operators';
+import * as fromStore from '../../../organisation/store/index';
+import { Organisation } from 'src/organisation/organisation.model';
 
 @Component({
   selector: 'app-account-summary',
@@ -11,6 +13,8 @@ import {map} from 'rxjs/internal/operators';
   styleUrls: ['./account-summary.component.scss']
 })
 export class AccountSummaryComponent implements OnInit, OnDestroy {
+  orgData: Organisation;
+  organisationSubscription: Subscription;
   accountSummary$: Observable<any>;
   navItems = [
     {
@@ -31,6 +35,10 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // TODO move to a guard
+    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(( data) => {
+      this.orgData = data;
+      console.log(this.orgData);
+    });
     this.activeRoute.parent.params.pipe(
       map(payload => {
         this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccount({id: payload.id }));

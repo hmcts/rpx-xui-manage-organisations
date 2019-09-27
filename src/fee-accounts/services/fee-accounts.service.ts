@@ -15,9 +15,9 @@ export class FeeAccountsService {
   }
 
   fetchFeeAccounts(): Observable<Array<PbaAccounts>> {
-    const obj: PbaAccounts[] = PbaAccountsMock;
-    return of(obj);
-    // return this.http.get<Array<PbaAccounts>> (`/api/accounts/pbas/`);
+    //const obj: PbaAccounts[] = PbaAccountsMock;
+    //return of(obj);
+    return this.http.get<Array<PbaAccounts>> (`/api/accounts/`);
   }
   // Overview load
   fetchSingleFeeAccount(payload): Observable<SingleAccountSummary> {

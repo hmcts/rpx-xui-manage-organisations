@@ -298,10 +298,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@hmcts/frontend@0.0.24-alpha":
-  version "0.0.24-alpha"
-  resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.24-alpha.tgz#7e4fb95f66d14b66c90f582a8c400c61d5c93879"
-  integrity sha512-fIjnBjNpbsNipnGXXUwbtpQn9fze+u27vpSX+dPfkyy7jCggYG2GINBdRJ/KqbFKiGeQYlqHcW9tKKapceN7mw==
+"@hmcts/frontend@0.0.39-alpha":
+  version "0.0.39-alpha"
+  resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.39-alpha.tgz#782d4a4698dae040dd72b26711f04a8d8299d25c"
+  integrity sha512-M1364rFLuvktYz5+jVjJ5ZmNUx0/SgoAvH3RsIaT2wFqFf92emuiRyXqax5oSEC5kM9Jpw0rcxEcRbBJWMoglg==
 
 "@ngrx/effects@^6.0.3":
   version "6.1.2"
@@ -3753,10 +3753,10 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-govuk-frontend@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-2.5.1.tgz#96082aedfef23bfce6591c3520b06d803be2d7fa"
-  integrity sha512-DDi1HGRTNRH/UmqOYACOR01V+aae36pnHHf5/g08spscJO5AazA/BQTenlNm8WFJ4UAeikb1TrCbgGWJE4Vypw==
+govuk-frontend@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-3.1.0.tgz#77b95c0e6cef43c57055e8803f0971dda4ab31af"
+  integrity sha512-ozyG6ulmawzg3rsf9Efxcgj81mk4yzea3tfl0hgmXWILGC0/uEGj6A+g9pJ2ETgk78rgNlRLXDv0WvlaHd/LnA==
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.1"

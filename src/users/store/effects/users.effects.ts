@@ -20,7 +20,18 @@ export class UsersEffects {
     ofType(usersActions.LOAD_USERS),
     switchMap(() => {
       return this.usersService.getListOfUsers().pipe(
-        map(userDetals => new usersActions.LoadUsersSuccess(userDetals)),
+        map(userDetails => {
+          const amendedUsers = [];
+          userDetails.users.forEach(element => {
+              const fullName = element.firstName + ' ' + element.lastName;
+              const user = element;
+              user.fullName = fullName;
+              user.routerLink = 'user/' + user.userIdentifier;
+              amendedUsers.push(user);
+          });
+
+          return new usersActions.LoadUsersSuccess({users: amendedUsers});
+        }),
         catchError(error => of(new usersActions.LoadUsersFail(error)))
       );
     })

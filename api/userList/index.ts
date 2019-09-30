@@ -12,17 +12,7 @@ async function handleUserListRoute(req, res) {
     try {
         const url = `${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users`
         const response = await http.get(url)
-        const amendedUsers = []
-
-        response.data.users.forEach(element => {
-            const fullName = element.firstName + ' ' + element.lastName
-            const user = element
-            user.fullName = fullName
-            user.routerLink = 'user/' + user.userIdentifier
-            amendedUsers.push(user)
-        })
-
-        logger.info('response::', {users: amendedUsers})
+        logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {
         const errReport = JSON.stringify({

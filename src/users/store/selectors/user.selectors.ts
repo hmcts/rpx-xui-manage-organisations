@@ -18,3 +18,10 @@ export const getGetUserLoading = createSelector(
   fromUsers.getLoginFormLoading
 );
 
+export const getGetSingleUser = createSelector(
+  fromFeature.getRootUserState,
+  (state: fromFeature.UserState, prop) => {
+    console.log(prop);
+    return state.invitedUsers.userList.find(item => item['userIdentifier'] === prop.userIdentifier);
+  }
+);

@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -11,18 +13,19 @@ import {Observable} from 'rxjs';
 export class UserDetailsComponent implements OnInit {
 
   userData$: Observable<any>; // TODO add type
-  isLoading$: Observable<boolean>;
 
   constructor(
+    private activeRoute: ActivatedRoute,
     private store: Store<fromStore.UserState>
   ) { }
 
   ngOnInit(): void {
+    this.activeRoute.parent.params.pipe(
+      map(payload => {
+        this.userData$ = this.store.pipe(select(fromStore.getGetSingleUser, { userIdentifier: payload.userId }));
+      })
+    ).subscribe();
 
-
-    this.store.dispatch(new fromStore.LoadUsers());
-    this.userData$ = this.store.pipe(select(fromStore.getGetUserList));
-    this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 
 }

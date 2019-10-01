@@ -1,4 +1,5 @@
 import { generateToken } from '../../../../api/auth/serviceToken';
+import { getOauth2Token } from './getToken';
 import { getTokenFromCode } from '../../../../api/auth/index';
 // import * as http from 'http';
 import { http } from '../../../../api/lib/http';
@@ -24,14 +25,20 @@ export async function generateAPIRequest(method, subURL, params) {
   let s2sToken;
   let token;
 
+  // try {
+  //   s2sToken = await generateToken();
+  //   token = await getOauth2Token();
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  // return s2sToken;
+
   try {
-    s2sToken = await generateToken();
-    token = await getCookie.getOauth2Token();
+    token = await getOauth2Token();
   } catch (error) {
     console.log(error);
   }
-
-  return s2sToken;
+  return token;
 // console.log('cookie Value :' + cookie)
     /*const options = {
         headers: {

@@ -1,16 +1,26 @@
-<div class="hmcts-width-container">
-  <main role="main" class="govuk-main-wrapper">
-     <div class="hmcts-page-heading">
-        <div class="hmcts-page-heading__title-wrapper">
-           <h1 class="hmcts-page-heading__title govuk-heading-xl">User details</h1>
-        </div>
-     </div>
-     <div class="table-right_margin">
-        
-     </div>
-     <ng-template #isLoading>
-      <div>Loading...</div>
-    </ng-template>
-  </main>
-</div>
-
+<app-hmcts-main-wrapper
+   [title]="'User details'"
+   [backLink]="'/users'"
+   *ngIf="user"
+>
+   <table class="govuk-table">
+     <tbody class="govuk-table__body">
+     <tr class="govuk-table__row">
+       <th class="govuk-table__header" scope="row">Name</th>
+       <td class="govuk-table__cell">{{user.fullName}}</td>
+     </tr>
+     <tr class="govuk-table__row">
+       <th class="govuk-table__header" scope="row">Email address</th>
+       <td class="govuk-table__cell">{{user.email}}</td>
+     </tr>
+     <tr class="govuk-table__row">
+       <th class="govuk-table__header" scope="row">Permissions</th>
+       <td class="govuk-table__cell">
+         <div *ngIf="user.manageOrganisations === 'Yes'">Manage Organisations</div>
+         <div *ngIf="user.manageUsers === 'Yes'">Manage Users</div>
+         <div *ngIf="user.manageCases === 'Yes'">Manage Cases</div>
+       </td>
+     </tr>
+     </tbody>
+   </table>
+ </app-hmcts-main-wrapper>

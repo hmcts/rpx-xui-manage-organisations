@@ -13,9 +13,14 @@ export const getGetUserList = createSelector(
   fromUsers.getUsers
 );
 
+export const getGetUserLoaded = createSelector(
+  getUserState,
+  fromUsers.getUsersLoaded
+);
+
 export const getGetUserLoading = createSelector(
   getUserState,
-  fromUsers.getLoginFormLoading
+  fromUsers.getUsersLoading
 );
 
 export const getGetSingleUser = createSelector(

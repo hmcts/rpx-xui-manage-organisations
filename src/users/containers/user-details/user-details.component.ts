@@ -17,7 +17,7 @@ export class UserDetailsComponent implements OnInit {
   user: any;
 
   userSubscription: Subscription;
-  dependancySubscription: Subscription;
+  dependanciesSubscription: Subscription;
 
   constructor(
     private userStore: Store<fromStore.UserState>,
@@ -26,11 +26,11 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dependancySubscription = combineLatest([
+    this.dependanciesSubscription = combineLatest([
       this.routerStore.pipe(select(fromRoot.getRouterState)),
-      this.userStore.pipe(select(fromStore.getGetUserList))
+      this.userStore.pipe(select(fromStore.getGetUserLoaded))
     ]).subscribe(([route, users]) => {
-      if (users.length === 0) {
+      if (users === false) {
         this.userStore.dispatch(new fromStore.LoadUsers());
       }
       const userId = route.state.params.userId;
@@ -43,13 +43,17 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnDestroy() {
 
-    if (this.dependancySubscription) {
-      this.dependancySubscription.unsubscribe();
+    if (this.dependanciesSubscription) {
+      this.dependanciesSubscription.unsubscribe();
     }
 
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
+  }
+
+  isSuspended(status) {
+    return status === 'Suspended';
   }
 
 }

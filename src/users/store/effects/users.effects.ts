@@ -26,7 +26,9 @@ export class UsersEffects {
               const fullName = element.firstName + ' ' + element.lastName;
               const user = element;
               user.fullName = fullName;
-              user.routerLink = 'user/' + user.userIdentifier;
+              if (user.idamStatus !== 'PENDING') {
+                user.routerLink = 'user/' + user.userIdentifier;
+              }
               amendedUsers.push(user);
           });
 

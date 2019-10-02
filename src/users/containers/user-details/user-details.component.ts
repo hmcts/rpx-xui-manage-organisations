@@ -14,6 +14,7 @@ import { map } from 'rxjs/internal/operators';
 export class UserDetailsComponent implements OnInit {
 
   user$: Observable<any>;
+  isLoading$: Observable<boolean>;
   user: any;
 
   userSubscription: Subscription;
@@ -25,6 +26,7 @@ export class UserDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
     this.dependanciesSubscription = combineLatest([
       this.routerStore.pipe(select(fromRoot.getRouterState)),

@@ -76,6 +76,6 @@ export function reducer(
 }
 
 export const getUsers = (state: UsersListState) => state.userList;
-export const getLoginFormLoading = (state: UsersListState) => state.loading;
-export const getLoginFormLoaded = (state: UsersListState) => state.loaded;
+export const getUsersLoading = (state: UsersListState) => state.loading;
+export const getUsersLoaded = (state: UsersListState) => state.loaded;
 

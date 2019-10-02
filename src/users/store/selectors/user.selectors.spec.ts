@@ -1,69 +1,61 @@
-import { TestBed } from '@angular/core/testing';
-import { select, Store, StoreModule } from '@ngrx/store';
+
 import { UsersListState } from '../reducers/users.reducer';
-import { getGetUserList, getUserState } from './user.selectors';
-import { reducers } from '../index';
-import { UpdateErrorMessages, LoadUsersSuccess } from '../actions';
+import { getUserState, getGetSingleUser } from './user.selectors';
+import { UserState } from '../reducers';
 
+const userList = [
+    {
+        firstName: 'Test1firstname',
+        lastName: 'Test1lastname',
+        email: 'somthing1@something',
+        status: 'active',
+        roles: 'blabla1',
+        userIdentifier: 'userId1'
+    },
+    {
+        firstName: 'Test2fggftfirstname',
+        lastName: 'Test2gfgtlastname',
+        email: 'somthing2@somffgething',
+        status: 'active',
+        roles: 'blabfgfgla',
+        userIdentifier: 'userId2'
+    }
+];
 
+const mockUserListState: UsersListState = {
+    userList,
+    loaded: true,
+    loading: false
+};
+
+const mockUserState: UserState = {
+    inviteUser: null,
+    invitedUsers: mockUserListState
+};
 
 describe('User selectors', () => {
-    let store: Store<UsersListState>;
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                StoreModule.forRoot({}),
-                StoreModule.forFeature('userList', reducers),
-            ],
-        });
-        store = TestBed.get(Store);
-        spyOn(store, 'dispatch').and.callThrough();
-    });
 
-/*   TO DO - write proper unit test
     describe('getUserState', () => {
-        it('should return user state', () => {
-            let result;
-            store.pipe(select(getUserState)).subscribe(value => {
-                result = value;
-            });
+        it('should return user list state', () => {
 
-            expect(result).toEqual({ users: [], loaded: false, loading: false });
+            expect(getUserState({users: mockUserState})).toEqual(mockUserListState);
         });
     });
 
+    describe('getGetSingleUser', () => {
+        it('should return single user', () => {
 
+            const expectedUser = {
+                firstName: 'Test2fggftfirstname',
+                lastName: 'Test2gfgtlastname',
+                email: 'somthing2@somffgething',
+                status: 'active',
+                roles: 'blabfgfgla',
+                userIdentifier: 'userId2'
+            };
 
-    describe('getGetUserList', () => {
-        it('should return user array objects', () => {
-            let result;
-            store.pipe(select(getGetUserList)).subscribe(value => {
-                result = value;
-
-
-            });
-
-            const dummy = [
-                {
-                  firstName: 'Testfirstname',
-                  lastName: 'Testlastname',
-                    email: 'somthing@something',
-                    status: 'active',
-                  roles: 'blabla'
-                },
-                {
-                  firstName: 'Tesfggftfirstname',
-                  lastName: 'Tesgfgtlastname',
-                  email: 'somthing@somffgething',
-                  status: 'active',
-                  roles: 'blabfgfgla'
-                }
-            ];
-
-            store.dispatch(new LoadUsersSuccess(dummy));
-
-            expect(result).toEqual(dummy);
+            expect(getGetSingleUser({users: mockUserState}, { userIdentifier: 'userId2' })).toEqual(expectedUser);
         });
     });
-  */
+
 });

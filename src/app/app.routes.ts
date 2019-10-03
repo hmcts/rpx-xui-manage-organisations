@@ -59,6 +59,10 @@ export const ROUTES: Routes = [
     component: TermsAndConditionsComponent
   },
   {
+    path: 'accessibility',
+    component: AccessibilityComponent
+  },
+  {
     path: '**',
     redirectTo: '/home',
     pathMatch: 'full'

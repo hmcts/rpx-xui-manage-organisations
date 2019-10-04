@@ -20,24 +20,25 @@ export class AccountsGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return this.checkStore()
-      .pipe(
-        switchMap(() => of(true)),
-        catchError((error: any) => of(false))
-      );
+    // return this.checkStore()
+    //   .pipe(
+    //     switchMap(() => of(true)),
+    //     catchError((error: any) => of(false))
+    //   );
+    return of(true);
   }
 
-  checkStore(): Observable<boolean> {
-    return this.store.pipe(
-      select(feeAccountsLoaded),
-      tap(loaded => {
-        if (!loaded) {
-          this.store.dispatch(new LoadFeeAccounts());
-        }
-      }),
-      filter(loaded => loaded),
-      take(1)
-    );
-  }
+  // checkStore(): Observable<boolean> {
+  //   return this.store.pipe(
+  //     select(feeAccountsLoaded),
+  //     tap(loaded => {
+  //       if (!loaded) {
+  //         this.store.dispatch(new LoadFeeAccounts());
+  //       }
+  //     }),
+  //     filter(loaded => loaded),
+  //     take(1)
+  //   );
+  // }
 
 }

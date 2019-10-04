@@ -4,20 +4,24 @@ import { http } from '../lib/http'
 
 async function handleAddressRoute(req, res) {
     let errReport: any
-    // if (!req.account) {
-    //     errReport = {
-    //         apiError: 'Account is missing',
-    //         apiStatusCode: '400',
-    //         message: 'Fee And Pay route error',
-    //     }
-    //     res.status(500).send(errReport)
-    // }
+    if (!req.query.accountNames) {
+        errReport = {
+            apiError: 'Account is missing',
+            apiStatusCode: '400',
+            message: 'Fee And Pay route error',
+        }
+        res.status(500).send(errReport)
+    }
+    console.log('accountNames' + req.query.accountNames)
     try {
         const response = await http.get(
-          `${config.services.feeAndPayApi}/accounts/4332432434343243243/payments`
+          `https://payment-api-demo.service.core-compute-demo.internal/accounts/PBA0082848`
         )
-        res.send(response.data)
+        const accounts = new Array<any>()
+        accounts.push(response.data)
+        res.send(accounts)
     } catch (error) {
+        console.error(error)
         errReport = {
             apiError: error.data.message,
             apiStatusCode: error.status,

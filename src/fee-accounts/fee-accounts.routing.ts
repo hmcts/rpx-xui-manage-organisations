@@ -6,7 +6,7 @@ import {AccountOverviewComponent} from './containers/account-overview/account-ov
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
 import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';
 import {OrganisationAccountsComponent} from './containers/overview/account-overview.component';
-import {AccountsGuard} from './guards/accounts.guard';
+// import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
 
 export const ROUTES: Routes = [
@@ -15,7 +15,7 @@ export const ROUTES: Routes = [
     component: OrganisationAccountsComponent,
     canActivate: [
       AuthGuard,
-      AccountsGuard
+      // AccountsGuard
     ],
   },
   {

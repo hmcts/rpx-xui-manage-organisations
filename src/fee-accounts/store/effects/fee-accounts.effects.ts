@@ -18,8 +18,8 @@ export class FeeAccountsEffects {
   @Effect()
   loadFeeAccounts$ = this.actions$.pipe(
     ofType(feeAccountsActions.LOAD_FEE_ACCOUNTS),
-    switchMap(() => {
-      return this.feeAccountsService.fetchFeeAccounts().pipe(
+    switchMap((payload: any) => {
+      return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(
         map(feeAccountsDetails => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
         catchError(error => of(new feeAccountsActions.LoadFeeAccountsFail(error)))
       );

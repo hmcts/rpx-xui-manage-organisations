@@ -10,8 +10,7 @@ async function handleUserListRoute(req, res) {
     //for testing hardcode your org id
     //const orgId = 'B13GT1M'
     try {
-        const url = `${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users`;
-        console.log(url);
+        const url = `${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users`
         const response = await http.get(url)
         logger.info('response::', response.data)
         res.send(response.data)

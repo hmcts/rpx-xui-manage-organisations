@@ -35,10 +35,14 @@ describe('Users Effects', () => {
 
     describe('loadUsers$', () => {
         it('should return a collection from loadUsers$ - LoadUsersSuccess', () => {
-            const payload = [{ payload: 'something' }];
+            const payload = {users: [{ payload: 'something' }]};
             UsersServiceMock.getListOfUsers.and.returnValue(of(payload));
             const action = new LoadUsers();
-            const completion = new LoadUsersSuccess([{ payload: 'something' }]);
+            const completion = new LoadUsersSuccess({
+                users: [
+                    { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined' }
+                ]
+            });
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.loadUsers$).toBeObservable(expected);

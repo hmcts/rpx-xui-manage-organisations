@@ -30,7 +30,7 @@ export class OrganisationAccountsComponent implements OnInit {
     this.loading$ = this.store.pipe(select(fromFeeAccountsStore.feeAccountsLoading));
     this.columnConfig = [
       { header: 'Account number', key: 'account_number', type: 'link' },
-      { header: 'Oraganisation Id', key: 'organisationId' }
+      { header: 'Account name', key: 'account_name' }
     ];
   }
 

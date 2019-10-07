@@ -6,6 +6,8 @@ import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/internal/operators';
 import * as fromStore from '../../../organisation/store/index';
 import { Organisation } from 'src/organisation/organisation.model';
+import { FeeAccount } from 'src/fee-accounts/models/pba-accounts';
+import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 
 @Component({
   selector: 'app-account-summary',
@@ -13,9 +15,7 @@ import { Organisation } from 'src/organisation/organisation.model';
   styleUrls: ['./account-summary.component.scss']
 })
 export class AccountSummaryComponent implements OnInit, OnDestroy {
-  orgData: Organisation;
-  organisationSubscription: Subscription;
-  accountSummary$: Observable<any>;
+  accounts$: Observable<Array<FeeAccount>>;
   navItems = [
     {
       text: 'Summary',
@@ -34,18 +34,8 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
   ngOnInit() {
-    // TODO move to a guard
-    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(( data) => {
-      this.orgData = data;
-      console.log(this.orgData);
-    });
-    this.activeRoute.parent.params.pipe(
-      map(payload => {
-        this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccount({id: payload.id }));
-      })
-    ).subscribe();
-    this.accountSummary$ = this.store.pipe(select(fromfeatureStore.getSingleAccounOverview));
-    this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountSummaryLoading));
+    this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts([this.activeRoute.snapshot.params.id]));
+    this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.feeAccounts));
   }
   ngOnDestroy() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));

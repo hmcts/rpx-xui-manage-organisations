@@ -21,10 +21,8 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnConfig = [
-      { header: 'Email address', key: 'email' },
-      { header: 'Manage cases', key: 'manageCases' },
-      { header: 'Manage organisation', key: 'manageOrganisations' },
-      { header: 'Manage users', key: 'manageUsers' },
+      { header: 'Name', key: 'fullName', type: 'link'},
+      { header: 'Email', key: 'email' },
       { header: 'Status', key: 'status' }
     ];
 

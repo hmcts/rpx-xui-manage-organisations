@@ -21,6 +21,6 @@ router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
 router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
-router.use('/payments', payments)
+router.use('/payments/:account', payments)
 
 export default router

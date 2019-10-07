@@ -25,13 +25,12 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     }
   ];
   columnConfig = [
-    { header: 'Payment reference', key: 'paymentReference' },
-    { header: 'Case', key: 'case' },
-    { header: 'Reference', key: 'reference' },
-    { header: 'Submitted by', key: 'submittedBy' },
+    { header: 'Payment reference', key: 'payment_reference' },
+    { header: 'Case', key: 'ccd_case_number' },
+    { header: 'Reference', key: 'payment_reference' },
     { header: 'Status', key: 'status' },
-    { header: 'Date created', key: 'dateCreated' },
-    { header: 'Last updated', key: 'dateUpdated' },
+    { header: 'Date created', key: 'date_created' },
+    { header: 'Last updated', key: 'date_updated' },
     { header: 'Amount', key: 'amount' }
   ];
   loading$: Observable<boolean>;
@@ -41,13 +40,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactionsLoading));
-
-    // TODO move to a guard - find more elegant solution
-    this.activeRoute.parent.params.pipe(
-      map(payload => {
-        this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: payload.id }));
-      })
-    ).subscribe();
+    this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: this.activeRoute.snapshot.params.id }));
     this.accountTransactions$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactions));
 
   }

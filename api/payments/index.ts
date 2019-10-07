@@ -4,7 +4,7 @@ import { http } from '../lib/http'
 
 async function handleAddressRoute(req, res) {
     let errReport: any
-    if (!req.account) {
+    if (!req.params.account) {
         errReport = {
             apiError: 'Account is missing',
             apiStatusCode: '400',
@@ -14,9 +14,9 @@ async function handleAddressRoute(req, res) {
     }
     try {
         const response = await http.get(
-          `https://payment-api-demo.service.core-compute-demo.internal/pba-accounts/PBA0082848/payments`
-        )
-        res.send(response.data)
+            `https://payment-api-demo.service.core-compute-demo.internal/pba-accounts/PBA0082848/payments/`
+          )
+        res.send(response.data.payments)
     } catch (error) {
         errReport = {
             apiError: error.data.message,

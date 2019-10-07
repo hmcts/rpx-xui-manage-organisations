@@ -16,11 +16,11 @@ async function handleUserListRoute(req, res) {
         res.send(response.data)
     } catch (error) {
         const errReport = JSON.stringify({
-            apiError: error,
+            apiError: error.data.message,
             apiStatusCode: error.statusCode,
             message: 'List of users route error',
         })
-        res.send(errReport).status(500)
+        res.status(500).send(errReport)
     }
 }
 

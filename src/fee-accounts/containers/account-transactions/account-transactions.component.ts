@@ -11,6 +11,7 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./account-transactions.component.scss']
 })
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
+  backUrl: string;
   accountTransactions$: any;
   navItems = [
     {
@@ -42,7 +43,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactionsLoading));
     this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: this.activeRoute.snapshot.params.id }));
     this.accountTransactions$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactions));
-
+    this.backUrl = `/fee-accounts/account/${this.activeRoute.snapshot.params.id}`
   }
   ngOnDestroy() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));

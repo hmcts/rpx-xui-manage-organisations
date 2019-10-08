@@ -15,7 +15,7 @@ async function handleAddressRoute(req, res) {
     console.log('accountNames' + req.query.accountNames)
     try {
         const response = await http.get(
-          `https://payment-api-demo.service.core-compute-demo.internal/accounts/PBA0082848`
+          `${config.services.feeAndPayApi}/accounts/PBA0082848`
         )
         const accounts = new Array<any>()
         accounts.push(response.data)

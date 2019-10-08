@@ -30,8 +30,8 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     { header: 'Case', key: 'ccd_case_number' },
     { header: 'Reference', key: 'payment_reference' },
     { header: 'Status', key: 'status' },
-    { header: 'Date created', key: 'date_created' },
-    { header: 'Last updated', key: 'date_updated' },
+    { header: 'Date created', key: 'date_created', type: 'date' },
+    { header: 'Last updated', key: 'date_updated', type: 'date' },
     { header: 'Amount', key: 'amount' }
   ];
   loading$: Observable<boolean>;
@@ -43,7 +43,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactionsLoading));
     this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: this.activeRoute.snapshot.params.id }));
     this.accountTransactions$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactions));
-    this.backUrl = `/fee-accounts/account/${this.activeRoute.snapshot.params.id}`
+    this.backUrl = `/fee-accounts/account/${this.activeRoute.snapshot.params.id}`;
   }
   ngOnDestroy() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));

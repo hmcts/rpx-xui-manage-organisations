@@ -14,13 +14,16 @@ import {StoreModule} from '@ngrx/store';
 import {HttpClientModule} from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { reducers, effects } from './store';
+import { reducers as orgReducers, effects as orgEffects } from '../organisation/store';
 import { AccountOverviewComponent } from './containers/account-overview/account-overview.component';
 import { AccountSummaryComponent } from './containers/account-summary/account-summary.component';
 import { AccountTransactionsComponent } from './containers/account-transactions/account-transactions.component';
 import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
+import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
+import { OrganisationService } from 'src/organisation/services';
 
-export const GUARDS = [AccountsGuard, AccountSummaryGuard];
+export const GUARDS = [OrganisationGuard, AccountSummaryGuard];
 export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
 
 @NgModule({
@@ -31,10 +34,12 @@ export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, A
     SharedModule,
     StoreModule.forFeature('feeAccounts', reducers),
     EffectsModule.forFeature(effects),
+    StoreModule.forFeature('org', orgReducers),
+    EffectsModule.forFeature(orgEffects),
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers, ...COMPONENTS],
-  providers: [...fromServices.services, ...GUARDS]
+  providers: [...fromServices.services, ...GUARDS, OrganisationService]
 })
 
 /**

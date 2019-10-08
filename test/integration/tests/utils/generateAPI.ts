@@ -1,20 +1,20 @@
 import { generateToken } from '../../../../api/auth/serviceToken';
-import { getOauth2Token } from './getToken';
-import * as http from 'axios';
+import { getauthToken } from './getToken';
+const fetch = require('node-fetch');
 
 
 // const mainURL = process.env.TEST_URL || 'https://localhost:3000';
 const mainURL = 'https://rd-professional-api-aat.service.core-compute-aat.internal'
 const LOG_REQUEST_ERROR_DETAILS = false;
 
-export async function generateAPIRequest(method, subURL, params) {
+export async function generateAPIRequest(method, subURL, payload) {
 
   let s2sToken;
   let authToken;
 
   try {
     s2sToken = await generateToken();
-    authToken = await getOauth2Token();
+    authToken = await getauthToken();
 
     const options = {
       headers: {
@@ -22,19 +22,32 @@ export async function generateAPIRequest(method, subURL, params) {
         ServiceAuthorization: s2sToken,
         'Content-Type': 'application/json'
       },
-      json: true,
-      resolveWithFullResponse: true
+      // json: true,
+     //  resolveWithFullResponse: true,
+      method,
+      body: JSON.stringify(payload)
     };
 
-    if (params.body) {
-      options.body = params.body;
-    }
+    const url = `${mainURL}${subURL}`;
 
-    console.log('OPTIONS: ', method, mainURL + subURL, options);
+    console.log('url: ', url);
+    console.log('method: ', method);
+    console.log('options: ', options);
 
-    response = await http(method, mainURL + subURL, options);
+    // if (params.body) {
+    //   options.body = params.body;
+    // }
 
-    return response;
+   // console.log('OPTIONS: ', method, mainURL + subURL, options);
+    const response = await fetch(url, options);
+    const data = await response.json();
+    const headers = response.headers;
+    return {
+      headers,
+      status: response.status,
+      statusText: response.statusText,
+      data
+    };
 
   } catch (error) {
     console.log(error);

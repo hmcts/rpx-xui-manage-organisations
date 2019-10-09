@@ -16,7 +16,7 @@ async function handleUserListRoute(req, res) {
         res.send(response.data)
     } catch (error) {
         const errReport = {
-            apiError: error.data.message,
+            apiError: error.data && error.data.message ? error.data.message : error,
             apiStatusCode: error.statusCode,
             message: 'List of users route error',
         }

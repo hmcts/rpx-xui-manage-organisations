@@ -81,7 +81,7 @@ withPipeline(type, product, component) {
     }
 
     if (deployToProd) {
-      println("test")
+      println("test8")
     }
 
     after('test') {

@@ -80,15 +80,8 @@ withPipeline(type, product, component) {
         ])
     }
 
-    if (${deployToProd}) {
-      publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/test/",
-            reportFiles          : 'index.html',
-            reportName           : 'test Report'
-        ])
+    if (deployToProd) {
+      println("test- " deployToProd)
     }
 
     after('test') {

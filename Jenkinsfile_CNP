@@ -17,7 +17,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToProd = true
+def deployToAATOnly = true
 
 
 def secrets = [
@@ -80,8 +80,8 @@ withPipeline(type, product, component) {
         ])
     }
 
-    if (deployToProd) {
-      println("test9")
+    if (deployToAATOnly) {
+      println("Only Deploy up to AAT!")
     }
 
     after('test') {

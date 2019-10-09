@@ -5,9 +5,10 @@ describe('Fee accounts actions', () => {
     // Init state
     describe('LoadFeeAccounts', () => {
       it('should create an action', () => {
-        const action = new fromFeeAccounts.LoadFeeAccounts();
+        const action = new fromFeeAccounts.LoadFeeAccounts(['account1', 'account2']);
         expect({ ...action }).toEqual({
-          type: fromFeeAccounts.LOAD_FEE_ACCOUNTS
+          type: fromFeeAccounts.LOAD_FEE_ACCOUNTS,
+          paymentAccounts: []
         });
       });
     });

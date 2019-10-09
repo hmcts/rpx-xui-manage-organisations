@@ -63,12 +63,20 @@ describe('AppReducer', () => {
         {
           text: 'Organisation',
           href: '/organisation',
-          active: false
+          active: false,
+          orderId: 1
         },
         {
           text: 'Users',
           href: '/users',
-          active: false
+          active: false,
+          orderId: 2
+        },
+        {
+          href: '/fee-accounts',
+          text: 'Fee Accounts',
+          active: false,
+          orderId: 3
         }
       ];
       const action = new fromAppActions.SetUserRoles(payload);

@@ -6,6 +6,7 @@ import * as docker from './environments/docker.config'
 import * as spreview from './environments/spreview.config'
 import * as saat from './environments/saat.config'
 import * as sprod from './environments/sprod.config'
+import * as perftest from './environments/perftest.config'
 import * as preview from './environments/preview.config'
 import * as demo from './environments/demo.config'
 import * as aat from './environments/aat.config'
@@ -20,6 +21,7 @@ const configs = {
     ldocker,
     local,
     mock,
+    perftest,
     preview,
     prod,
     saat,

@@ -17,6 +17,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
+def deployToProd = true
 
 
 def secrets = [
@@ -55,7 +56,7 @@ withPipeline(type, product, component) {
     currentBuild.result = 'SUCCESS'
     currentBuild.description = "SUCCESS TILL AAT"
     error 'XUI  projects are not authorised to be in production environments yet.'
-  }
+    }
 
     after('build') {
         sh 'yarn  build'
@@ -76,6 +77,17 @@ withPipeline(type, product, component) {
             reportDir            : "reports/lint/ng/",
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
+        ])
+    }
+
+    if (${deployToProd}) {
+      publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/test/",
+            reportFiles          : 'index.html',
+            reportName           : 'test Report'
         ])
     }
 

@@ -17,7 +17,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToProd = false
+def deployToProd = true
 
 
 def secrets = [

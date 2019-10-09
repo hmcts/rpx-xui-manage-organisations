@@ -17,7 +17,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToProd = true
+def deployToProd = false
 
 
 def secrets = [
@@ -81,7 +81,7 @@ withPipeline(type, product, component) {
     }
 
     if (deployToProd) {
-      println("test8")
+      println("test9")
     }
 
     after('test') {

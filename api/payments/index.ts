@@ -14,7 +14,7 @@ async function handleAddressRoute(req, res) {
     }
     try {
         const response = await http.get(
-            `${config.services.feeAndPayApi}/pba-accounts/PBA0082848/payments/`
+            `${config.services.feeAndPayApi}/pba-accounts/${req.params.account}/payments/`
           )
         res.send(response.data.payments)
     } catch (error) {

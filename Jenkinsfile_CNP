@@ -17,8 +17,6 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToAATOnly = true
-
 
 def secrets = [
   'rpx-${env}': [
@@ -80,8 +78,7 @@ withPipeline(type, product, component) {
         ])
     }
 
-    if (deployToAATOnly) {
-      println("Only Deploy up to AAT!")
+
 
 
     after('test') {
@@ -103,8 +100,6 @@ withPipeline(type, product, component) {
             reportFiles          : "index.html",
             reportName           : "ng coverage tests"
         ])
-
-    }
 
     }
 

@@ -6,17 +6,20 @@ const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
-    active: false
+    active: false,
+    orderId: 1
   },
   {
     text: 'Users',
     href: '/users',
-    active: false
+    active: false,
+    orderId: 2
   },
   {
     text: 'Fee Accounts',
     href: '/fee-accounts',
-    active: false
+    active: false,
+    orderId: 3
   }
 ];
 

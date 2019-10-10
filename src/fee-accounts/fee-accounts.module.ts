@@ -20,10 +20,9 @@ import { AccountSummaryComponent } from './containers/account-summary/account-su
 import { AccountTransactionsComponent } from './containers/account-transactions/account-transactions.component';
 import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
-import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
 import { OrganisationService } from 'src/organisation/services';
 
-export const GUARDS = [OrganisationGuard, AccountSummaryGuard];
+export const GUARDS = [AccountsGuard, AccountSummaryGuard];
 export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
 
 @NgModule({

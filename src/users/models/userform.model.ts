@@ -2,7 +2,7 @@ export interface UserListApiModel {
     id?: number;
     firstName: string;
     lastName: string;
-    email: string;
+    emailAddress: string;
     permissions: string[];
     jurisdictions: any[];
 }

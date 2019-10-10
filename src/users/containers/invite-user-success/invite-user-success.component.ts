@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class InviteUserSuccessComponent implements OnInit, OnDestroy {
 
-    private userEmail$: Observable<string>;
+    userEmail$: Observable<string>;
 
     constructor(private store: Store<fromStore.UserState>) { }
 

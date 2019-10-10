@@ -22,7 +22,7 @@
   <!--permissions -->
   <lib-gov-uk-form-group-wrapper
     [error]="isInvalid.roles"
-    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions', key: 'roles'}"
+    [config]="{hint: 'Choose at least one action the user can do. You can change this later.', legend: 'Permissions', key: 'roles'}"
     [formGroupName]="'roles'">
 
     <div class="govuk-checkboxes">
@@ -41,6 +41,12 @@
         [group]="inviteUserForm.controls['roles']"
         [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
         hint: 'View organisation name and addresses.'}">
+      </lib-gov-checkbox>
+
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-finance-manager', label: 'Manage Payments', name: 'roles',
+        hint: 'View account balances, available credit and transactions.'}">
       </lib-gov-checkbox>
     </div>
 

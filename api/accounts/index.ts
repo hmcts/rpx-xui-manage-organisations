@@ -12,23 +12,32 @@ async function handleAddressRoute(req, res) {
         }
         res.status(500).send(errReport)
     }
-    console.log('accountNames' + req.query.accountNames)
-    try {
-        const response = await http.get(
-          `${config.services.feeAndPayApi}/accounts/PBA0082848`
-        )
-        const accounts = new Array<any>()
-        accounts.push(response.data)
-        res.send(accounts)
-    } catch (error) {
-        console.error(error)
-        errReport = {
-            apiError: error.data.message,
-            apiStatusCode: error.status,
-            message: 'Fee And Pay route error',
+    let accountNames = req.query.accountNames.split(',')
+    console.log('accountNames', accountNames)
+    const accounts = new Array()
+    for (const accountName of accountNames) {
+        try {
+            const account = await getAccount(accountName)
+            accounts.push(account)
+        } catch (error) {
+            console.error(error)
+            errReport = {
+                apiError: error.data.message,
+                apiStatusCode: error.status,
+                message: 'Fee And Pay route error',
+            }
+            res.status(500).send(errReport)
+            return
         }
-        res.status(500).send(errReport)
     }
+    res.send(accounts)
+}
+
+async function getAccount(account: any) {
+    const response = await http.get(
+    `${config.services.feeAndPayApi}/accounts/${account}`)
+    console.log('response.data', response.data)
+    return response.data
 }
 
 export const router = express.Router({ mergeParams: true })

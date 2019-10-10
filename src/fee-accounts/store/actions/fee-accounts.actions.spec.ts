@@ -8,7 +8,7 @@ describe('Fee accounts actions', () => {
         const action = new fromFeeAccounts.LoadFeeAccounts(['account1', 'account2']);
         expect({ ...action }).toEqual({
           type: fromFeeAccounts.LOAD_FEE_ACCOUNTS,
-          paymentAccounts: []
+          paymentAccounts: ['account1', 'account2']
         });
       });
     });

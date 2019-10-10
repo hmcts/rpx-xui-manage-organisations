@@ -24,18 +24,21 @@ export class OrganisationAccountsComponent implements OnInit {
               private organisationStore: Store<fromOrgStore.OrganisationState>) {}
 
   ngOnInit(): void {
-
-    this.dependanciesSubscription = this.organisationStore.pipe(select(fromOrgStore.getOrganisationLoaded)).subscribe((org) => {
-      if (!org) {
-        this.organisationStore.dispatch(new fromOrgStore.LoadOrganisation());
-      }
-      this.org$ = this.organisationStore.pipe(select(fromOrgStore.getOrganisationSel));
-    });
-
-    this.organisationSubscription = this.org$.subscribe(( data) => {
-      this.orgData = data;
-      this.feeStore.dispatch(new fromAccountStore.LoadFeeAccounts(data.paymentAccount));
-    });
+    const isOrgLoaded$ = this.organisationStore.pipe(select(fromOrgStore.getOrganisationLoaded));
+    if (isOrgLoaded$) {
+      this.dependanciesSubscription = isOrgLoaded$.subscribe((org) => {
+        if (!org) {
+          this.organisationStore.dispatch(new fromOrgStore.LoadOrganisation());
+        }
+        this.org$ = this.organisationStore.pipe(select(fromOrgStore.getOrganisationSel));
+      });
+    }
+    if (this.org$) {
+      this.organisationSubscription = this.org$.subscribe(( data) => {
+        this.orgData = data;
+        this.feeStore.dispatch(new fromAccountStore.LoadFeeAccounts(data.paymentAccount));
+      });
+    }
     this.accounts$ = this.feeStore.pipe(select(fromAccountStore.feeAccounts));
     this.loading$ = this.feeStore.pipe(select(fromAccountStore.feeAccountsLoading));
     this.columnConfig = [

@@ -65,7 +65,8 @@ const userRoles = [
 
     { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
     { role: 'pui-user-manager', roleType: 'manageUsers' },
-    { role: 'pui-case-manager', roleType: 'manageCases'}
+    { role: 'pui-case-manager', roleType: 'manageCases'},
+    { role: 'pui-finance-manager', roleType: 'managePayments'}
 ];
 
 const jurisdictions = [

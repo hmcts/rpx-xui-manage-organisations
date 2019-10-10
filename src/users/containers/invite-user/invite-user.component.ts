@@ -46,7 +46,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       roles: new FormGroup({
         'pui-case-manager': new FormControl(''),
         'pui-user-manager': new FormControl(''),
-        'pui-organisation-manager': new FormControl('')
+        'pui-organisation-manager': new FormControl(''),
+        'pui-finance-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
     this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJuridictions))

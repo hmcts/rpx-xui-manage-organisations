@@ -12,19 +12,20 @@ async function handleAddressRoute(req, res) {
         }
         res.status(500).send(errReport)
     }
-    let accountNames = req.query.accountNames.split(',')
+    const accountNames = req.query.accountNames.split(',')
     console.log('accountNames', accountNames)
     const accounts = new Array()
     for (const accountName of accountNames) {
+        const url = `${config.services.feeAndPayApi}/accounts/${accountName}`
         try {
-            const account = await getAccount(accountName)
+            const account = await getAccount(url)
             accounts.push(account)
         } catch (error) {
             console.error(error)
             errReport = {
-                apiError: error.data.message,
-                apiStatusCode: error.status,
-                message: 'Fee And Pay route error',
+                apiError: error && error.data && error.data.message ? error.data.message : error,
+                apiStatusCode: error && error.status ? error.status : '',
+                message: `Fee And Pay route error  with url - ${url}`,
             }
             res.status(500).send(errReport)
             return
@@ -33,9 +34,8 @@ async function handleAddressRoute(req, res) {
     res.send(accounts)
 }
 
-async function getAccount(account: any) {
-    const response = await http.get(
-    `${config.services.feeAndPayApi}/accounts/${account}`)
+async function getAccount(url: string) {
+    const response = await http.get(url)
     console.log('response.data', response.data)
     return response.data
 }

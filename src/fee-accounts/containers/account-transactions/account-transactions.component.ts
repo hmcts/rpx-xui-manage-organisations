@@ -28,7 +28,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
   columnConfig = [
     { header: 'Payment reference', key: 'payment_reference' },
     { header: 'Case', key: 'ccd_case_number' },
-    { header: 'Reference', key: 'payment_reference' },
+    { header: 'Your reference', key: 'payment_reference' },
     { header: 'Status', key: 'status' },
     { header: 'Date created', key: 'date_created', type: 'date' },
     { header: 'Last updated', key: 'date_updated', type: 'date' },

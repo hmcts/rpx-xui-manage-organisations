@@ -1,3 +1,4 @@
+  <a routerLink="/fee-accounts" class="govuk-back-link">Back</a>
   <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
   <div class="hmcts-page-heading">
     <div class="hmcts-page-heading__title-wrapper">
@@ -10,7 +11,7 @@
 
   <app-prd-summary-component
     *ngIf="!(loading$ | async) else loading"
-    [data]="accountSummary$ | async"
+    [data]="accounts$ | async"
   ></app-prd-summary-component>
   <ng-template #loading>
     <div>Loading...</div>

@@ -6,18 +6,27 @@ const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
-    active: false
+    active: false,
+    orderId: 1
   },
   {
     text: 'Users',
     href: '/users',
-    active: false
+    active: false,
+    orderId: 2
+  },
+  {
+    text: 'Fee Accounts',
+    href: '/fee-accounts',
+    active: false,
+    orderId: 3
   }
 ];
 
 const roleBasedNav = {
+  'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
-  'pui-organisation-manager': navItemsArray[0]
+  'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {

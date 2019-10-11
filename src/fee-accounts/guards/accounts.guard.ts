@@ -1,43 +1,32 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { take, filter, tap, catchError, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  switchMap,
-  take,
-  tap
-} from 'rxjs/operators';
-import * as fromFeature from '../store';
-import { LoadFeeAccounts } from '../store/actions/fee-accounts.actions';
-import { feeAccountsLoaded } from '../store/selectors/fee-accounts.selectors';
+import { select, Store } from '@ngrx/store';
+import * as fromStore from '../../organisation/store';
+
 
 @Injectable()
 export class AccountsGuard implements CanActivate {
+    constructor(private store: Store<fromStore.OrganisationState>) { }
 
-  constructor(private store: Store<fromFeature.FeeAccountsState>) {
-  }
+    canActivate(): Observable<boolean> {
+        return this.checkStore().pipe(
+            switchMap(() => of(true)),
+            catchError(() => of(false))
+        );
+    }
 
-  canActivate(): Observable<boolean> {
-    return this.checkStore()
-      .pipe(
-        switchMap(() => of(true)),
-        catchError((error: any) => of(false))
-      );
-  }
-
-  checkStore(): Observable<boolean> {
-    return this.store.pipe(
-      select(feeAccountsLoaded),
-      tap(loaded => {
-        if (!loaded) {
-          this.store.dispatch(new LoadFeeAccounts());
-        }
-      }),
-      filter(loaded => loaded),
-      take(1)
-    );
-  }
-
+    checkStore(): Observable<boolean> {
+        return this.store.pipe(select(fromStore.getOrganisationLoaded),
+            tap(loaded => {
+                if (!loaded) {
+                    this.store.dispatch(new fromStore.LoadOrganisation());
+                }
+            }),
+            filter(loaded => loaded),
+            take(1)
+        );
+    }
 }
+

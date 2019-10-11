@@ -23,7 +23,8 @@ describe('LoadOrganisationSuccess', () => {
       postcode: 'W1',
       addressLine2: '',
       country: 'UK',
-      contactInformation: []
+      contactInformation: [],
+      paymentAccount: []
     };
     const action = new LoadOrganisationSuccess(payload);
     expect({ ...action }).toEqual({

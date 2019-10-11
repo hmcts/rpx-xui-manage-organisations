@@ -1,3 +1,4 @@
+import { AxiosPromise } from 'axios'
 import * as express from 'express'
 import { config } from '../lib/config'
 import { http } from '../lib/http'
@@ -15,30 +16,33 @@ async function handleAddressRoute(req, res) {
     const accountNames = req.query.accountNames.split(',')
     console.log('accountNames', accountNames)
     const accounts = new Array()
-    for (const accountName of accountNames) {
-        const url = `${config.services.feeAndPayApi}/accounts/${accountName}`
-        try {
-            const account = await getAccount(url)
-            accounts.push(account)
+    const accountPromises = new Array<AxiosPromise<any>>()
+    accountNames.forEach((accountName: string) => accountPromises.push(getAccount(accountName)))
+
+    try {
+        await Promise.all(accountPromises).then(allAccounts => {
+            allAccounts.forEach(account => {
+                accounts.push(account.data)
+            })
+        })
         } catch (error) {
             console.error(error)
             errReport = {
                 apiError: error && error.data && error.data.message ? error.data.message : error,
                 apiStatusCode: error && error.status ? error.status : '',
-                message: `Fee And Pay route error  with url - ${url}`,
+                message: `Fee And Pay route error `,
             }
             res.status(500).send(errReport)
             return
         }
-    }
     res.send(accounts)
 }
 
-async function getAccount(url: string) {
-    const response = await http.get(url)
-    console.log('response.data', response.data)
-    return response.data
-}
+function getAccount(accountName: string): AxiosPromise<any> {
+    const url = `${config.services.feeAndPayApi}/accounts/${accountName}`
+    const promise = http.get(url)
+    return promise
+    }
 
 export const router = express.Router({ mergeParams: true })
 

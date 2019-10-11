@@ -13,5 +13,4 @@ export class InviteUserSuccessComponent implements OnInit {
     ngOnInit() {
         this.store.dispatch(new fromStore.Reset());
     }
-
 }

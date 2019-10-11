@@ -93,4 +93,3 @@ export const getInviteUserErrorMessage = (state: InviteUserState) => state.error
 export const getInviteUserIsFormValid = (state: InviteUserState) => state.isFormValid;
 export const getInviteUserErrorHeader = (state: InviteUserState) => state.errorHeader;
 export const getInviteUserIsUserConfirmed = (state: InviteUserState) => state.isUserConfirmed;
-

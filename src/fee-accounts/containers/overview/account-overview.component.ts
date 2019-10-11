@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
@@ -11,7 +11,7 @@ import { Organisation } from 'src/organisation/organisation.model';
   templateUrl: './account-overview.component.html',
 })
 
-export class OrganisationAccountsComponent implements OnInit {
+export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   columnConfig: GovukTableColumnConfig[];
   tableRows: {}[];
   accounts$: Observable<Array<FeeAccount>>;
@@ -46,5 +46,12 @@ export class OrganisationAccountsComponent implements OnInit {
       { header: 'Account name', key: 'account_name' }
     ];
   }
-
+  ngOnDestroy(): void {
+    if (this.organisationSubscription) {
+      this.organisationSubscription.unsubscribe();
+    }
+    if (this.dependanciesSubscription) {
+      this.dependanciesSubscription.unsubscribe();
+    }
+  }
 }

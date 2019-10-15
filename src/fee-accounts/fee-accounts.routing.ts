@@ -6,8 +6,8 @@ import {AccountOverviewComponent} from './containers/account-overview/account-ov
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
 import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';
 import {OrganisationAccountsComponent} from './containers/overview/account-overview.component';
-import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
+import { AccountsGuard } from './guards/accounts.guard';
 
 export const ROUTES: Routes = [
   {

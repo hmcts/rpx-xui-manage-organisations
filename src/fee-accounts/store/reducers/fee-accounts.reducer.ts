@@ -1,8 +1,8 @@
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
-import {PbaAccounts, PbaAccountsSummary} from '../../models/pba-accounts';
+import {PbaAccounts, PbaAccountsSummary, FeeAccount, FeeAccountSummary} from '../../models/pba-accounts';
 
 export interface FeeAccountsState {
-  feeAccounts: Array<PbaAccountsSummary> | null;
+  feeAccounts: Array<FeeAccount> | null;
   loaded: boolean;
   loading: boolean;
 }
@@ -30,10 +30,10 @@ export function reducer(
       const payload = action.payload;
       let feeAccounts = payload;
       if (feeAccounts.length !== 0) {
-        feeAccounts = payload.map((entity: PbaAccounts) => {
-            const element: PbaAccountsSummary = {
+        feeAccounts = payload.map((entity: FeeAccount) => {
+            const element: FeeAccountSummary = {
               ...entity,
-              routerLink: `/fee-accounts/account/${entity.pbaNumber}/`
+              routerLink: `/fee-accounts/account/${entity.account_number}/`
             };
             return element;
           });

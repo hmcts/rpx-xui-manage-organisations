@@ -23,7 +23,7 @@ describe('SingleFeeAccountReducer', () => {
       };
       const action = new LoadSingleFeeAccountSuccess(payload);
       const state = reducer(initialState, action);
-      expect(state.overview).toEqual({data: payload, loaded: true, loading: false});
+      expect(state.overview).toEqual({data: { ...payload }, loaded: true, loading: false});
     });
   });
 

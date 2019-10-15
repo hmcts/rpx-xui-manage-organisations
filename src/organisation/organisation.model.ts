@@ -6,6 +6,7 @@ export class Organisation {
     townCity: string;
     country: string;
     contactInformation: any[];
+    paymentAccount: any[];
     constructor(prop) {
         Object.assign(this, prop);
     }

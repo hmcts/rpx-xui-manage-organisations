@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import { RedirectComponent } from './containers/redirect/redirect.component';
-import { CookiePolicyComponent, AccessibilityComponent, PrivacyPolicyComponent, TermsAndConditionsComponent,
-          ServiceDownComponent } from './components';
+import {RedirectComponent} from './containers/redirect/redirect.component';
+import { ServiceDownComponent,
+  CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent } from './components';
 
 export const ROUTES: Routes = [
   {
@@ -20,6 +20,11 @@ export const ROUTES: Routes = [
     path: 'users',
     canActivate: [AuthGuard],
     loadChildren: '../users/users.module#UsersModule'
+  },
+  {
+    path: 'fee-accounts',
+    canActivate: [AuthGuard],
+    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },
   {
     path: 'style-guide',

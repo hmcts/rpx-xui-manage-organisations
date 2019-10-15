@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromfeatureStore from '../../store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {map} from 'rxjs/internal/operators';
 import {ActivatedRoute} from '@angular/router';
+import { FeeAccount } from 'src/fee-accounts/models/pba-accounts';
 
 @Component({
   selector: 'app-account-transactions',
@@ -13,6 +14,9 @@ import {ActivatedRoute} from '@angular/router';
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
   backUrl: string;
   accountTransactions$: any;
+  accounts$: Observable<Array<FeeAccount>>;
+  subscription: Subscription;
+  accounts: Array<FeeAccount>;
   navItems = [
     {
       text: 'Summary',
@@ -44,8 +48,19 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({id: this.activeRoute.snapshot.params.id }));
     this.accountTransactions$ = this.store.pipe(select(fromfeatureStore.pbaAccountTransactions));
     this.backUrl = `/fee-accounts/account/${this.activeRoute.snapshot.params.id}`;
+
+    this.store.dispatch(new fromfeatureStore.LoadFeeAccounts([this.activeRoute.snapshot.params.id]));
+    this.accounts$ = this.store.pipe(select(fromfeatureStore.feeAccounts));
+    this.subscription = this.accounts$.subscribe(acc => {
+      if (acc && acc[0]) {
+        this.accounts = acc;
+      }
+    });
   }
   ngOnDestroy() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

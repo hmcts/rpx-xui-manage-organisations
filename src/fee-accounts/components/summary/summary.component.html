@@ -1,4 +1,4 @@
-<p>Last updated on {{formatDate(data[0].effective_date)}}</p>
+<p>Last updated on {{data && data[0] ? (data[0].effective_date | date:"dd MMM yyyy hh:mm a") : ''}}</p>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <dl class="govuk-check-your-answers govuk-check-your-answers--pba-overview">

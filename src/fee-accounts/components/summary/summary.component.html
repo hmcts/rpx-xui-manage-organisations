@@ -5,8 +5,8 @@
                 <dt class="govuk-check-your-answers__question">
                     Available credit
                 </dt>
-                <dd class="govuk-check-your-answers__answer" *ngIf="data?.credit_limit">
-                  &pound; {{data.credit_limit}}
+                <dd class="govuk-check-your-answers__answer" *ngIf="data && data [0] && data[0]?.credit_limit">
+                  &pound; {{data[0].credit_limit}}
                 </dd>
                 <dd class="govuk-check-your-answers__change">
 
@@ -16,8 +16,8 @@
                 <dt class="govuk-check-your-answers__question">
                     Balance
                 </dt>
-                <dd class="govuk-check-your-answers__answer" *ngIf="data?.available_balance">
-                   &pound; {{data.available_balance}}
+                <dd class="govuk-check-your-answers__answer" *ngIf="data && data [0] && data[0]?.available_balance">
+                   &pound; {{data[0].available_balance}}
                 </dd>
                 <dd class="govuk-check-your-answers__change">
                 </dd>

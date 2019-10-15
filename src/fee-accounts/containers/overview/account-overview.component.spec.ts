@@ -24,6 +24,7 @@ describe('OrganisationAccountsComponent', () => {
             imports: [
                 StoreModule.forRoot({}),
                 StoreModule.forFeature('feeAccounts', reducers),
+                StoreModule.forFeature('org', reducers),
             ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [

@@ -15,7 +15,8 @@
                 </ng-container>
             </th>
             <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">
-                <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
+                <ng-container *ngIf="col.type === 'date'">{{formatDate(r[col.key])}}</ng-container>
+                <ng-container *ngIf="!col.type || col.type === 'text'">{{r[col.key]}}</ng-container>
                 <ng-container *ngIf="col.type === 'link' && r.routerLink">
                     <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
                 </ng-container>

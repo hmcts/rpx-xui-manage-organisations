@@ -3,13 +3,13 @@ export const sraNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'sraNumber',
-    header: 'SRA number',
+    header: 'Enter your organisation SRA ID',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'sraNumber',
-        text: 'Enter SRA number',
+        text: 'Enter your organisation SRA ID',
         href: '/register/sra-number',
       },
     ],
@@ -24,7 +24,7 @@ export const sraNumber = {
         input: {
           validators: ['required'],
           validationError: {
-            value: 'Enter SRA number',
+            value: 'Enter your organisation SRA ID',
             controlId: 'sraNumber',
           },
           control: 'sraNumber',

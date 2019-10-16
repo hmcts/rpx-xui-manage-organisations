@@ -17,6 +17,8 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
     const session = req.session!
     const accessToken = req.cookies[config.cookies.token]
 
+    console.log('accessToken')
+    console.log(accessToken)
     let expired
 
     if (accessToken) {
@@ -79,26 +81,36 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
 async function sessionChainCheck(req: EnhancedRequest, res: express.Response, accessToken: string) {
     if (!req.session.auth) {
         logger.warn('Session expired. Trying to get user details again')
-        console.log(getUserDetails(accessToken))
-        const details = await asyncReturnOrError(getUserDetails(accessToken), 'Cannot get user details', res, logger, false)
+        const userDetails = await asyncReturnOrError(getUserDetails(accessToken), 'Cannot get user details', res, logger, false)
 
-        if (details) {
+        if (!hasManageOrganisationAccess(userDetails)) {
+            logger.warn('User has no Manage Organisation role.')
+            doLogout(req, res, 401)
+        }
+
+        console.log('userDetails')
+        console.log(userDetails)
+        // So over here you have the roles.
+
+        if (userDetails) {
             logger.info('Setting session')
             const orgIdResponse = {
                 data: {
                     id: '1',
                 },
             }
+            // TODO: Do not pass details around on req objects.
             req.session.auth = {
-                email: details.data.email,
+                email: userDetails.data.email,
                 orgId: orgIdResponse.data.id,
-                roles: details.data.roles,
+                roles: userDetails.data.roles,
                 token: accessToken,
-                userId: details.data.id,
+                userId: userDetails.data.id,
             }
         }
     }
 
+    // So over here we're logging the User out.
     if (!req.session.auth) {
         logger.warn('Auth token  expired need to log in again')
         doLogout(req, res, 401)
@@ -110,6 +122,8 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
 
 export async function oauth(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const response = await getTokenFromCode(req, res)
+
+    // This User will never have an accessToken
     const accessToken = response.data.access_token
 
     if (accessToken) {

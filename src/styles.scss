@@ -7,7 +7,7 @@ $path: "";
 $jui-assets-path : "";
 
 $govuk-global-styles: true;
-@import "./assets/sass/application";
+@import "./assets/sass/application.scss";
 
 
 div.govuk-prose-scope, p {

@@ -109,8 +109,6 @@ describe('userRoleAuthentication', () => {
   })
 
   it('Should have the correct Pui Case Manager Role', () => {
-    expect(PUI_CASE_MANAGER).to.be.deep.equal([
-      'pui-case-manager',
-    ])
+    expect(PUI_CASE_MANAGER).to.be.deep.equal('pui-case-manager')
   })
 })

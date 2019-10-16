@@ -5,10 +5,10 @@
   "scripts": {
     "ng": "ng",
     "build": "tsc",
-    "coverage": "npx nyc mocha",
+    "coverage": "jest --coverage",
     "watch": "nodemon --watch '**/*.ts' --exec ts-node local.ts",
-    "test": "mocha",
-    "test:watch": "mocha --watch --recursive --watch-extensions ts"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "private": true,
   "nyc": {

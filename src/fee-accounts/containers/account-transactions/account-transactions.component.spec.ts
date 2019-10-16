@@ -46,4 +46,15 @@ describe('AccountTransactionsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should return back url', () => {
+    const backUrl = component.getBackUrl('1234');
+    expect(backUrl).toEqual('/fee-accounts/account/1234');
+  });
+
+  it('should unsubscribe', () => {
+    const subscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
+    component.unsubscribe(subscription);
+    expect(subscription.unsubscribe).toHaveBeenCalled();
+  });
 });

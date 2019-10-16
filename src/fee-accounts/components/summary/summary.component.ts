@@ -18,8 +18,4 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  formatDate(date: Date): string {
-    return formatDate(date, 'dd MMM yyyy hh:mm a', 'en-UK');
-  }
 }

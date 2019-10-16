@@ -1,3 +1,8 @@
+  <div class="hmcts-identity-bar__container">
+    <div class="hmcts-identity-bar__details">
+        <span class="hmcts-identity-bar__title">{{ accountName$ | async }}</span>
+    </div>
+  </div>
   <a routerLink="/fee-accounts" class="govuk-back-link">Back</a>
   <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
   <div class="hmcts-page-heading">

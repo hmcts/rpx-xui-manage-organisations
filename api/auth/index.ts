@@ -18,8 +18,6 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
     const session = req.session!
     const accessToken = req.cookies[config.cookies.token]
 
-    console.log('accessToken')
-    console.log(accessToken)
     let expired
 
     if (accessToken) {
@@ -97,7 +95,7 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
                     id: '1',
                 },
             }
-            // TODO: Do not pass details around on req objects.
+
             req.session.auth = {
                 email: userDetails.data.email,
                 orgId: orgIdResponse.data.id,
@@ -108,7 +106,6 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
         }
     }
 
-    // So over here we're logging the User out.
     if (!req.session.auth) {
         logger.warn('Auth token  expired need to log in again')
         doLogout(req, res, 401)
@@ -121,7 +118,6 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
 export async function oauth(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const response = await getTokenFromCode(req, res)
 
-    // This User will never have an accessToken
     const accessToken = response.data.access_token
 
     if (accessToken) {

@@ -8,6 +8,7 @@ import { EnhancedRequest } from '../lib/models'
 import { asyncReturnOrError } from '../lib/util'
 import { getUserDetails } from '../services/idam'
 import { serviceTokenGenerator } from './serviceToken'
+import { userHasAppAccess } from './userRoleAuth'
 
 const secret = process.env.IDAM_SECRET
 const logger = log4js.getLogger('auth')
@@ -81,9 +82,16 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
     if (!req.session.auth) {
         logger.warn('Session expired. Trying to get user details again')
         console.log(getUserDetails(accessToken, idamUrl))
-        const details = await asyncReturnOrError(getUserDetails(accessToken, idamUrl), 'Cannot get user details', res, logger, false)
+        const userDetails = await asyncReturnOrError(getUserDetails(accessToken, idamUrl), 'Cannot get user details', res, logger, false)
 
-        if (details) {
+
+      if (!userHasAppAccess(userDetails.data.roles)) {
+          logger.warn('User has no application access, as they do not have a Manage Organisations role.')
+          doLogout(req, res, 401)
+          return false
+        }
+
+        if (userDetails) {
             logger.info('Setting session')
             const orgIdResponse = {
                 data: {
@@ -91,11 +99,11 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
                 },
             }
             req.session.auth = {
-                email: details.data.email,
+                email: userDetails.data.email,
                 orgId: orgIdResponse.data.id,
-                roles: details.data.roles,
+                roles: userDetails.data.roles,
                 token: accessToken,
-                userId: details.data.id,
+                userId: userDetails.data.id,
             }
         }
     }

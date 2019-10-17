@@ -6,7 +6,7 @@ export default {
     idamApi: 'https://idam-api.aat.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal',
-    feeAndPayApi: 'https://payment-api-aat.service.core-compute-aat.internal',
+    feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal',
   },
   health: {
     ccdDataApi: 'http://ccd-data-store-api-demo.service.core-compute-demo.internal/health',
@@ -15,7 +15,7 @@ export default {
     idamApi: 'https://idam-api.aat.platform.hmcts.net/health',
     s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal/health',
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal/health',
-    feeAndPayApi: 'https://payment-api-aat.service.core-compute-aat.internal/health',
+    feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal/health',
   },
     proxy: {
         host: '172.16.0.7',

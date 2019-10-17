@@ -8,5 +8,5 @@ import { FormGroup } from '@angular/forms';
 
   export class InviteUserPermissionComponent {
     @Input() inviteUserForm: FormGroup;
-    // @Input() isInvalid;
+    @Input() isInvalid;
   }

@@ -19,8 +19,11 @@
     [group]="inviteUserForm">
   </lib-gov-uk-input>
 
+  <app-invite-permission-form [inviteUserForm]="inviteUserForm">
+  </app-invite-permission-form>
+
   <!--permissions -->
-  <lib-gov-uk-form-group-wrapper
+  <!-- <lib-gov-uk-form-group-wrapper
     [error]="isInvalid.roles"
     [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions', key: 'roles'}"
     [formGroupName]="'roles'">
@@ -44,7 +47,7 @@
       </lib-gov-checkbox>
     </div>
 
-  </lib-gov-uk-form-group-wrapper>
+  </lib-gov-uk-form-group-wrapper> -->
 
   <button type="submit" class="govuk-button">
     Send invitation

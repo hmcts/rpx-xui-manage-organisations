@@ -1,0 +1,27 @@
+  <!--permissions -->
+  <ng-container [formGroup]="inviteUserForm">
+  <lib-gov-uk-form-group-wrapper
+    [config]="{hint: 'Choose what the user will be able to do. You can change this later.', legend: 'Permissions', key: 'roles'}"
+    [formGroupName]="'roles'">
+
+    <div class="govuk-checkboxes">
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-case-manager',  label: 'Manage Cases', name: 'roles', hint: 'View, create and progress cases.', focusOn: 'roles'}">
+      </lib-gov-checkbox>
+
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-user-manager', label: 'Manage Users', name: 'roles',
+        hint: 'Invite users.'}">
+      </lib-gov-checkbox>
+
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
+        hint: 'View organisation name and addresses.'}">
+      </lib-gov-checkbox>
+    </div>
+
+  </lib-gov-uk-form-group-wrapper>
+</ng-container>

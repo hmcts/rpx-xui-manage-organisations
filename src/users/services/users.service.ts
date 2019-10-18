@@ -20,7 +20,6 @@ export class UsersService {
       ...user,
       idamStatus: 'Suspend'
     };
-    console.log(user);
     return this.http
        .put<any>(`/api/user/${user.userIdentifier}/suspend`, user)
        .pipe(catchError((error: any) => throwError(error.json())));

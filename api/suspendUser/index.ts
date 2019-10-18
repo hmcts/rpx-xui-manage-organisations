@@ -11,7 +11,7 @@ router.put('/', suspendUser)
 async function suspendUser(req, res) {
     const payload = req.body
     try {
-        const response = await http.put(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/user/${req.params.userId}`, payload)
+        const response = await http.put(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/${req.params.userId}`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

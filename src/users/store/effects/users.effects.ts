@@ -26,6 +26,7 @@ export class UsersEffects {
               const fullName = element.firstName + ' ' + element.lastName;
               const user = element;
               user.fullName = fullName;
+              user.idamStatus = 'ACTIVE';
               if (user.idamStatus !== 'PENDING') {
                 user.routerLink = 'user/' + user.userIdentifier;
               }
@@ -35,6 +36,18 @@ export class UsersEffects {
           return new usersActions.LoadUsersSuccess({users: amendedUsers});
         }),
         catchError(error => of(new usersActions.LoadUsersFail(error)))
+      );
+    })
+  );
+
+
+  @Effect()
+  suspendUsers$ = this.actions$.pipe(
+    ofType(usersActions.SUSPEND_USER),
+    switchMap((user) => {
+      return this.usersService.suspendUser(user).pipe(
+        map(res => new usersActions.SuspendUserSuccess({response: res})),
+        catchError(error => of(new usersActions.SuspendUserFail(error)))
       );
     })
   );

@@ -103,4 +103,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     return this.suspendViewFlag;
   }
 
+  suspendUser() {
+    this.userStore.dispatch(new fromStore.SuspendUser(this.user));
+  }
+
 }

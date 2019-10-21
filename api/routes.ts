@@ -1,6 +1,7 @@
 import * as express from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
+import editUserPermissions from './editUserPermissions'
 import healthCheck from './healthCheck'
 import inviteUser from './inviteUser'
 import getJurisdictions from './jurisdictions'
@@ -23,4 +24,5 @@ router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 
+router.use('/editUserPermissions/:orgId/users/:userId', editUserPermissions)
 export default router

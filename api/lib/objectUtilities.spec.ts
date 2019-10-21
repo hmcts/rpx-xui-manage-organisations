@@ -1,4 +1,5 @@
-import {propsExist} from './objectUtilities';
+import { expect } from 'chai'
+import { propsExist } from './objectUtilities'
 
 describe('Object Utilities ', () => {
 
@@ -8,28 +9,28 @@ describe('Object Utilities ', () => {
 
       const object = {level1: {level2: {level3: 'level3'}}}
 
-      expect(propsExist(object, ['level1', 'level2', 'level3'])).toBeTruthy()
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).to.be.true
     })
 
     it('Should return false if a property does not exist on an object.', () => {
 
       const object = {level1: {level2: {level3: 'level3'}}}
 
-      expect(propsExist(object, ['level1', 'breakingProperty', 'level3'])).toBeFalsy()
+      expect(propsExist(object, ['level1', 'breakingProperty', 'level3'])).to.be.false
     })
 
     it('Should return false if the object is undefined.', () => {
 
       const object = undefined
 
-      expect(propsExist(object, ['level1', 'level2', 'level3'])).toBeFalsy()
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).to.be.false
     })
 
     it('Should return false if the object is null.', () => {
 
       const object = null
 
-      expect(propsExist(object, ['level1', 'level2', 'level3'])).toBeFalsy()
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).to.be.false
     })
   })
 })

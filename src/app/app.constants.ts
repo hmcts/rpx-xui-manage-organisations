@@ -15,18 +15,20 @@ const navItemsArray: NavItemModel[] = [
     active: false,
     orderId: 2
   },
-  {
-    text: 'Fee Accounts',
-    href: '/fee-accounts',
-    active: false,
-    orderId: 3
-  }
+  // Hiding the Tab for the Fee And Accounts
+  // {
+  //   text: 'Fee Accounts',
+  //   href: '/fee-accounts',
+  //   active: false,
+  //   orderId: 3
+  // }
 ];
 
 const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
-  'pui-finance-manager': navItemsArray[2],
+  // Hiding the role
+  // 'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {

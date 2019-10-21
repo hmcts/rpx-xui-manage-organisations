@@ -1,3 +1,9 @@
 
-  <app-invite-permission-form [inviteUserForm]="inviteUserForm" [isInvalid]="isInvalid">
+<form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
+  <app-invite-permission-form [inviteUserForm]="inviteUserForm" [isInvalid]="isInvalid"
+  [isPuiCaseManager]="isPuiCaseManager" [isPuiUserManager]="isPuiUserManager" [isPuiOrganisationManager]="isPuiOrganisationManager">
   </app-invite-permission-form>
+  <button type="submit" class="govuk-button">
+    Submit
+  </button>
+</form>

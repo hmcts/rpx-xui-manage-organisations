@@ -41,7 +41,7 @@ export class UsersEffects {
 
 
   @Effect()
-  suspendUsers$ = this.actions$.pipe(
+  suspendUser$ = this.actions$.pipe(
     ofType(usersActions.SUSPEND_USER),
     switchMap((user) => {
       return this.usersService.suspendUser(user).pipe(

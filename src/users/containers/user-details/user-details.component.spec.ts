@@ -124,4 +124,11 @@ describe('User Details Component', () => {
         });
     });
 
+    describe('suspendUser', () => {
+        it('should dispatch an action', () => {
+            component.suspendUser();
+            expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
+        });
+    });
+
 });

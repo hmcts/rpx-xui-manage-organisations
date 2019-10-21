@@ -14,8 +14,8 @@ export class UsersService {
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  suspendUser(payload): Observable<any> {
-    let user = payload.payload;
+  suspendUser(param): Observable<any> {
+    let user = param.payload;
     user = {
       ...user,
       idamStatus: 'Suspend'

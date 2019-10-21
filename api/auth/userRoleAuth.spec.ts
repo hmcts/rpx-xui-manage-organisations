@@ -20,7 +20,7 @@ describe('userRoleAuthentication', () => {
     expect(userHasAppAccess(roles)).to.be.true
   })
 
-  it('Should return false if a User only has a Pui Case Manager Role.', () => {
+  it('Should return false if a User has a Pui Case Manager Role, without a Manage Organisations Role.', () => {
 
     const roles = [
       'pui-case-manager',
@@ -30,13 +30,16 @@ describe('userRoleAuthentication', () => {
     expect(userHasAppAccess(roles)).to.be.false
   })
 
-  it('Should return false if a User only has a Manage Organisation Role.', () => {
+  /**
+   * We should be allowing the User to get into the application if the User has a Manage Organisation Role.
+   */
+  it('Should return true if a User has a Manage Organisation Role, without a Pui Case Manager Role.', () => {
 
     const roles = [
       'pui-user-manager',
     ]
 
-    expect(userHasAppAccess(roles)).to.be.false
+    expect(userHasAppAccess(roles)).to.be.true
   })
 
   it('Should return false if a User only has no roles.', () => {

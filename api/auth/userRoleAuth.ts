@@ -25,7 +25,7 @@ export const PUI_CASE_MANAGER = 'pui-case-manager'
  */
 export function userHasAppAccess(roles) {
 
-  return hasPuiCaseManagerRole(roles) && hasManageOrganisationRole(roles, MANAGE_ORGANISATION_ROLES)
+  return hasManageOrganisationRole(roles, MANAGE_ORGANISATION_ROLES)
 }
 
 /**

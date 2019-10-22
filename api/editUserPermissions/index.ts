@@ -6,7 +6,7 @@ import * as log4jui from '../lib/log4jui'
 export const router = express.Router({ mergeParams: true })
 const logger = log4jui.getLogger('outgoing')
 
-router.put('/', inviteUserRoute)
+router.put('', inviteUserRoute)
 
 async function inviteUserRoute(req, res) {
     let errReport: any
@@ -15,14 +15,9 @@ async function inviteUserRoute(req, res) {
         res.status(500).send(errReport)
         return
     }
-    if (!req.params.orgId) {
-        errReport = getErrorReport('OrgId is missing', '400', 'User Permissions route error')
-        res.status(500).send(errReport)
-        return
-    }
     const payload = req.body
     try {
-      const response = await http.put(getEditPermissionsUrl(config.services.rdProfessionalApi, req.params.userId, req.params.orgId), payload)
+      const response = await http.put(getEditPermissionsUrl(config.services.rdProfessionalApi, req.params.userId), payload)
       logger.info('response::', response.data)
       res.send(response.data)
     } catch (error) {
@@ -42,7 +37,7 @@ function getErrorReport(apiError: string, apiStatusCode: string, message: string
         message,
     }
 }
-function getEditPermissionsUrl(rdProfessionalApiUrl: string, userId: string, orgId: string): string {
-    return `${rdProfessionalApiUrl}/refdata/internal/v1/organisations/${orgId}/users/${userId}`
+function getEditPermissionsUrl(rdProfessionalApiUrl: string, userId: string): string {
+    return `${rdProfessionalApiUrl}/refdata/external/v1/organisations/users/${userId}`
 }
 export default router

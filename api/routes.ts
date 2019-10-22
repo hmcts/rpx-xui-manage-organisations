@@ -24,5 +24,5 @@ router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 
-router.use('/editUserPermissions/:orgId/users/:userId', editUserPermissions)
+router.use('/editUserPermissions/users/:userId', editUserPermissions)
 export default router

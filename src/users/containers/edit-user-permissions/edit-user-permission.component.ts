@@ -23,6 +23,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
     isPuiCaseManager: boolean;
     isPuiOrganisationManager: boolean;
     isPuiUserManager: boolean;
+    userId: string;
 
     userSubscription: Subscription;
     dependanciesSubscription: Subscription;
@@ -42,8 +43,8 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       if (users === false) {
         this.userStore.dispatch(new fromStore.LoadUsers());
       }
-      const userId = route.state.params.userId;
-      this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
+      this.userId = route.state.params.userId;
+      this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: this.userId }));
     });
 
       this.userSubscription = this.user$.subscribe((user) => {
@@ -92,6 +93,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
       const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
       const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
+      this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
       console.log(editUserRolesObj);
     } else {
       const formValidationData = {

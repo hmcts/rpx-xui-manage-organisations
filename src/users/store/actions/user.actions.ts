@@ -4,7 +4,8 @@ import { Action } from '@ngrx/store';
 export const LOAD_USERS = '[User] Load Users';
 export const LOAD_USERS_SUCCESS = '[User] Load Users Success';
 export const LOAD_USERS_FAIL = '[User] Load Users Fail';
-
+export const EDIT_USER = '[User] Edit User';
+export const EDIT_USER_SUCCESS = '[User] Edit User Success';
 
 export class LoadUsers {
   readonly type = LOAD_USERS;
@@ -16,6 +17,18 @@ export class LoadUsersSuccess implements Action {
   constructor(public payload: any) { }  // TODO add type list of users
 }
 
+export class EditUser implements Action {
+  readonly type = EDIT_USER;
+  constructor(public payload: any) {
+  }
+}
+
+export class EditUserSuccess implements Action {
+  readonly type = EDIT_USER_SUCCESS;
+  constructor(public payload: any) {
+  }
+}
+
 export class LoadUsersFail implements Action {
   readonly type = LOAD_USERS_FAIL;
   constructor(public payload: any) { }
@@ -24,4 +37,5 @@ export class LoadUsersFail implements Action {
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
-  | LoadUsersFail;
+  | LoadUsersFail
+  | EditUser;

@@ -91,7 +91,7 @@ describe('Users Effects', () => {
             };
             UsersServiceMock.suspendUser.and.returnValue(of({}));
             const action = new SuspendUser({payload: user});
-            const completion = new SuspendUserSuccess({response: {}});
+            const completion = new SuspendUserSuccess({payload: user});
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.suspendUser$).toBeObservable(expected);

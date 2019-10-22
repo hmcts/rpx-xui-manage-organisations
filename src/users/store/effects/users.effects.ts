@@ -5,6 +5,7 @@ import * as usersActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UsersService } from '../../services';
+import { SuspendUser } from '../actions';
 
 
 
@@ -43,9 +44,9 @@ export class UsersEffects {
   @Effect()
   suspendUser$ = this.actions$.pipe(
     ofType(usersActions.SUSPEND_USER),
-    switchMap((user) => {
+    switchMap((user: SuspendUser) => {
       return this.usersService.suspendUser(user).pipe(
-        map(res => new usersActions.SuspendUserSuccess({response: res})),
+        map(res => new usersActions.SuspendUserSuccess(user.payload)),
         catchError(error => of(new usersActions.SuspendUserFail(error)))
       );
     })

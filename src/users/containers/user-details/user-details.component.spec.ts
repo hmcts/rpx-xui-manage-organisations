@@ -1,23 +1,27 @@
 import { UserDetailsComponent } from './user-details.component';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 describe('User Details Component', () => {
 
     let component: UserDetailsComponent;
     let userStoreSpyObject;
     let routerStoreSpyObject;
+    let actionsObject;
 
     beforeEach(() => {
         userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
         routerStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-        component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject);
+        actionsObject = jasmine.createSpyObj('Actions', ['pipe']);
+        component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject);
     });
 
     describe('ngOnInit', () => {
         it('should create subscriptions', () => {
+            actionsObject.pipe.and.returnValue(of());
             component.ngOnInit();
             expect(component.dependanciesSubscription).toBeDefined();
             expect(component.userSubscription).toBeDefined();
+            expect(component.suspendSuccessSubscription).toBeDefined();
         });
     });
 
@@ -79,12 +83,12 @@ describe('User Details Component', () => {
     describe('handleUserSubscription', () => {
         it('should set actionButtons when user is Active', () => {
             component.handleUserSubscription({ status: 'Active' });
-            expect(component.actionButtons.length).toBe(1);
+            expect(component.actionButtons).toBeDefined();
         });
 
         it('should not set actionButtons when user is Suspended', () => {
             component.handleUserSubscription({ status: 'Suspended' });
-            expect(component.actionButtons.length).toBe(0);
+            expect(component.actionButtons).toBeNull();
         });
     });
 
@@ -104,23 +108,30 @@ describe('User Details Component', () => {
         it('should unsubscribe from observables when subscribed', () => {
             component.dependanciesSubscription = new Observable().subscribe();
             component.userSubscription = new Observable().subscribe();
+            component.suspendSuccessSubscription = new Observable().subscribe();
             const componentDependanciesSubscriptionUnsubscribeSpy = spyOn(component.dependanciesSubscription, 'unsubscribe');
             const componentUserSubscriptionUnsubscribeSpy = spyOn(component.userSubscription, 'unsubscribe');
+            const componentSuspendSuccessSubscriptionUnsubscribeSpy = spyOn(component.suspendSuccessSubscription, 'unsubscribe');
             component.ngOnDestroy();
             expect(componentDependanciesSubscriptionUnsubscribeSpy).toHaveBeenCalled();
             expect(componentUserSubscriptionUnsubscribeSpy).toHaveBeenCalled();
+            expect(componentSuspendSuccessSubscriptionUnsubscribeSpy).toHaveBeenCalled();
         });
 
         it('should not unsubscribe from observables when not subscribed', () => {
             component.dependanciesSubscription = new Observable().subscribe();
             component.userSubscription = new Observable().subscribe();
+            component.suspendSuccessSubscription = new Observable().subscribe();
             const componentDependanciesSubscriptionUnsubscribeSpy = spyOn(component.dependanciesSubscription, 'unsubscribe');
             const componentUserSubscriptionUnsubscribeSpy = spyOn(component.userSubscription, 'unsubscribe');
+            const componentSuspendSuccessSubscriptionUnsubscribeSpy = spyOn(component.suspendSuccessSubscription, 'unsubscribe');
             component.dependanciesSubscription = undefined;
             component.userSubscription = undefined;
+            component.suspendSuccessSubscription = undefined;
             component.ngOnDestroy();
             expect(componentDependanciesSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
             expect(componentUserSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
+            expect(componentSuspendSuccessSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
         });
     });
 

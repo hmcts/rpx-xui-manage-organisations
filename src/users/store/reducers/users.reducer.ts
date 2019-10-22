@@ -61,12 +61,41 @@ export function reducer(
       };
     }
 
-
     case fromUsers.LOAD_USERS_FAIL: {
       return {
         ...state,
         loading: false,
         loaded: false
+      };
+    }
+
+    case fromUsers.SUSPEND_USER: {
+      return {
+        ...state,
+        loading: true,
+        loaded: true
+      };
+    }
+
+    case fromUsers.SUSPEND_USER_SUCCESS: {
+      const user = action.payload ? action.payload : null;
+      const amendedUserList = [];
+      state.userList.slice(0).forEach(element => {
+        const elementInstance = {...element};
+        if (elementInstance['userIdentifier'] ===  user.userIdentifier) {
+          elementInstance['idamStatus'] = 'SUSPENDED';
+          elementInstance['status'] = 'Suspended';
+        }
+        amendedUserList.push(elementInstance);
+      });
+
+      return {
+        ...state,
+        userList: [
+          ...amendedUserList
+        ],
+        loading: false,
+        loaded: true
       };
     }
 

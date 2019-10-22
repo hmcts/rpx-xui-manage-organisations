@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromRoot from '../../../app/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -25,9 +26,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   showSuspendView: () => {};
   hideSuspendView: () => {};
 
+  suspendSuccessSubscription: Subscription;
+
   constructor(
     private userStore: Store<fromStore.UserState>,
     private routerStore: Store<fromRoot.State>,
+    private actions$: Actions,
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +45,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user));
+
+    this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
+      this.hideSuspendView();
+    });
   }
 
   getDependancyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
@@ -76,6 +84,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
           action: this.showSuspendView
         }
       ];
+    } else {
+      this.actionButtons = null;
     }
   }
 
@@ -92,6 +102,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
+    }
+
+    if (this.suspendSuccessSubscription) {
+      this.suspendSuccessSubscription.unsubscribe();
     }
   }
 

@@ -1,4 +1,4 @@
-
+<h1 class="govuk-heading-l">{{user.firstName}}, {{user.lastName}}</h1>
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
   <app-invite-permission-form [inviteUserForm]="inviteUserForm" [isInvalid]="isInvalid"
   [isPuiCaseManager]="isPuiCaseManager" [isPuiUserManager]="isPuiUserManager" [isPuiOrganisationManager]="isPuiOrganisationManager">

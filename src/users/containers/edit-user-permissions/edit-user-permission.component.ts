@@ -5,15 +5,18 @@ import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromRoot from '../../../app/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
+import { UserRolesUtil } from '../utils/user-roles-util';
 
 @Component({
     selector: 'edit-user-permission',
     templateUrl: './edit-user-permission.component.html',
   })
   export class EditUserPermissionComponent  implements OnInit, OnDestroy {
-    inviteUserForm: FormGroup;
+    editUserForm: FormGroup;
     isInvalid;
-
+    errorMessages = {
+      roles: ['Select at least one option'],
+    };
     user$: Observable<any>;
     isLoading$: Observable<boolean>;
     user: any;
@@ -26,17 +29,10 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 
     constructor(
       private userStore: Store<fromStore.UserState>,
-      private routerStore: Store<fromRoot.State>,
+      private routerStore: Store<fromRoot.State>
     ) { }
 
     ngOnInit(): void {
-      this.inviteUserForm = new FormGroup({
-        roles: new FormGroup({
-          'pui-case-manager': new FormControl(''),
-          'pui-user-manager': new FormControl(''),
-          'pui-organisation-manager': new FormControl('')
-        }, checkboxesBeCheckedValidator())
-      });
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
       this.dependanciesSubscription = combineLatest([
@@ -55,6 +51,14 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
         this.isPuiCaseManager = this.getIsPuiCaseManager(user);
         this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
         this.isPuiUserManager = this.getIsPuiUserManager(user);
+
+        this.editUserForm = new FormGroup({
+          roles: new FormGroup({
+            'pui-case-manager': new FormControl(this.isPuiCaseManager),
+            'pui-user-manager': new FormControl(this.isPuiUserManager),
+            'pui-organisation-manager': new FormControl(this.isPuiOrganisationManager)
+          }, checkboxesBeCheckedValidator(1))
+        });
       });
     }
 
@@ -76,11 +80,31 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
     }
   }
 
-    ngOnDestroy() {
-      this.unsubscribe(this.userSubscription);
-      this.unsubscribe(this.dependanciesSubscription);
-    }
+  ngOnDestroy() {
+    this.unsubscribe(this.userSubscription);
+    this.unsubscribe(this.dependanciesSubscription);
+  }
 
-    onSubmit() {
+  onSubmit() {
+    if (this.editUserForm.valid) {
+      const {value} = this.editUserForm;
+      const permissions = UserRolesUtil.mapPermissions(value);
+      const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
+      const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
+      const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
+      console.log(editUserRolesObj);
+    } else {
+      const formValidationData = {
+        isInvalid: {
+          roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
+        },
+        errorMessages: this.errorMessages,
+        isSubmitted: true
+      };
+      this.userStore.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
     }
   }
+
+  get f() { return this.editUserForm.controls; }
+
+}

@@ -1,6 +1,6 @@
-<h1 class="govuk-heading-l">{{user.firstName}}, {{user.lastName}}</h1>
-<form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
-  <app-invite-permission-form [inviteUserForm]="inviteUserForm" [isInvalid]="isInvalid"
+<h1 class="govuk-heading-l">{{user ? user.firstName : ''}}, {{user ? user.lastName : ''}}</h1>
+<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" >
+  <app-invite-permission-form [inviteUserForm]="editUserForm" [isInvalid]="isInvalid"
   [isPuiCaseManager]="isPuiCaseManager" [isPuiUserManager]="isPuiUserManager" [isPuiOrganisationManager]="isPuiOrganisationManager">
   </app-invite-permission-form>
   <button type="submit" class="govuk-button">

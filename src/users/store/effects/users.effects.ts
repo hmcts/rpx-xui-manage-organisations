@@ -38,4 +38,16 @@ export class UsersEffects {
       );
     })
   );
+
+
+  @Effect()
+  suspendUser$ = this.actions$.pipe(
+    ofType(usersActions.SUSPEND_USER),
+    switchMap((user) => {
+      return this.usersService.suspendUser(user).pipe(
+        map(res => new usersActions.SuspendUserSuccess({response: res})),
+        catchError(error => of(new usersActions.SuspendUserFail(error)))
+      );
+    })
+  );
 }

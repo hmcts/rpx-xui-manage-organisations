@@ -4,18 +4,16 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as usersActions from '../actions';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {InviteUserService, JurisdictionService } from '../../services';
+import {InviteUserService } from '../../services';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { UserService } from 'src/user-profile/services/user.service';
-import { UserRolesUtil } from '../../containers/utils/user-roles-util';
 
 @Injectable()
 export class InviteUserEffects {
   constructor(
     private actions$: Actions,
     private inviteUserSevice: InviteUserService,
-    private userService: UserService,
     private loggerService: LoggerService
   ) {}
 
@@ -40,32 +38,5 @@ export class InviteUserEffects {
     })
   );
 
-  @Effect()
-  editUser$ = this.actions$.pipe(
-    ofType(usersActions.EDIT_USER),
-    map((action: usersActions.EditUser) => action.payload),
-    switchMap((user) => {
-      return this.userService.editUserPermissions(user).pipe(
-        map( response => {
-          if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
-            return new usersActions.EditUserSuccess(user.userId);
-          } else {
-            return new usersActions.EditUserFailure(user.userId);
-          }
-        })
-      );
-    })
-  );
 
-  @Effect()
-  confirmEditUser$ = this.actions$.pipe(
-    ofType(usersActions.EDIT_USER_SUCCESS),
-    map((user: any) => {
-      return user.payload; // this is the userId
-    }),
-    switchMap(userId => [
-      new usersActions.LoadUsers(),
-      new fromRoot.Go({ path: [`users/user/${userId}`] })
-  ])
-  );
 }

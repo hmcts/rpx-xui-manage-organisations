@@ -77,6 +77,14 @@ export function reducer(
       };
     }
 
+    case fromUsers.SUSPEND_USER_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true
+      };
+    }
+
     case fromUsers.SUSPEND_USER_SUCCESS: {
       const user = action.payload ? action.payload : null;
       const amendedUserList = [];

@@ -1,9 +1,12 @@
-<h1 class="govuk-heading-l">{{user ? user.firstName : ''}}, {{user ? user.lastName : ''}}</h1>
-<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" >
-  <app-invite-permission-form [inviteUserForm]="editUserForm" [isInvalid]="isInvalid"
-  [isPuiCaseManager]="isPuiCaseManager" [isPuiUserManager]="isPuiUserManager" [isPuiOrganisationManager]="isPuiOrganisationManager">
-  </app-invite-permission-form>
-  <button type="submit" class="govuk-button">
-    Submit
-  </button>
-</form>
+<a routerLink="{{backUrl}}" class="govuk-back-link">Back</a>
+<main role="main" class="govuk-main-wrapper">
+  <h1 class="govuk-heading-l">{{user ? user.firstName : ''}}, {{user ? user.lastName : ''}}</h1>
+  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" >
+    <app-invite-permission-form [inviteUserForm]="editUserForm" [isInvalid]="isInvalid"
+    [isPuiCaseManager]="isPuiCaseManager" [isPuiUserManager]="isPuiUserManager" [isPuiOrganisationManager]="isPuiOrganisationManager">
+    </app-invite-permission-form>
+    <button type="submit" class="govuk-button">
+      Submit
+    </button>
+  </form>
+</main>

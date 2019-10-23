@@ -8,7 +8,7 @@ import {InviteUserService, JurisdictionService } from '../../services';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { UserService } from 'src/user-profile/services/user.service';
-
+import { UserRolesUtil } from '../../containers/utils/user-roles-util';
 
 @Injectable()
 export class InviteUserEffects {
@@ -47,11 +47,11 @@ export class InviteUserEffects {
     switchMap((user) => {
       console.log(user);
       return this.userService.editUserPermissions(user).pipe(
-        map( result => {
-          if (result.addRolesResponse && result.addRolesResponse.idamStatusCode && result.addRolesResponse.idamStatusCode === '201') {
+        map( response => {
+          if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
             return new usersActions.EditUserSuccess(user.userId);
           } else {
-            // return new usersActions.EditUserSuccess(user.userId);
+            return new usersActions.EditUserFailure(user.userId);
           }
         })
       );
@@ -62,7 +62,11 @@ export class InviteUserEffects {
   confirmEditUser$ = this.actions$.pipe(
     ofType(usersActions.EDIT_USER_SUCCESS),
     map((user: any) => {
-       return new fromRoot.Go({ path: [`users/user/${user.payload}`] });
-    })
+      return user.payload; // this is the userId
+    }),
+    switchMap(userId => [
+      new usersActions.LoadUsers(),
+      new fromRoot.Go({ path: [`users/user/${userId}`] })
+  ])
   );
 }

@@ -27,6 +27,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
 
     userSubscription: Subscription;
     dependanciesSubscription: Subscription;
+    backUrl: string;
 
     constructor(
       private userStore: Store<fromStore.UserState>,
@@ -45,6 +46,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       }
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: this.userId }));
+      this.backUrl = `/users/user/${this.userId}`;
     });
 
       this.userSubscription = this.user$.subscribe((user) => {
@@ -94,7 +96,6 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
       const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
       this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
-      console.log(editUserRolesObj);
     } else {
       const formValidationData = {
         isInvalid: {

@@ -1,5 +1,5 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validator, ValidatorFn } from '@angular/forms';
 import { checkboxesBeCheckedValidator } from 'src/custom-validators/checkboxes-be-checked.validator';
 import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
@@ -46,7 +46,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       }
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: this.userId }));
-      this.backUrl = `/users/user/${this.userId}`;
+      this.backUrl = this.getBackurl(this.userId);
     });
 
       this.userSubscription = this.user$.subscribe((user) => {
@@ -55,15 +55,24 @@ import { UserRolesUtil } from '../utils/user-roles-util';
         this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
         this.isPuiUserManager = this.getIsPuiUserManager(user);
 
-        this.editUserForm = new FormGroup({
-          roles: new FormGroup({
-            'pui-case-manager': new FormControl(this.isPuiCaseManager),
-            'pui-user-manager': new FormControl(this.isPuiUserManager),
-            'pui-organisation-manager': new FormControl(this.isPuiOrganisationManager)
-          }, checkboxesBeCheckedValidator(1))
-        });
+        this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
+          this.isPuiUserManager, this.isPuiOrganisationManager, checkboxesBeCheckedValidator);
       });
     }
+
+  getBackurl(userId: string) {
+    return `/users/user/${userId}`;
+  }
+
+  getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, validator: any): FormGroup {
+    return new FormGroup({
+      roles: new FormGroup({
+        'pui-case-manager': new FormControl(isPuiCaseManager),
+        'pui-user-manager': new FormControl(isPuiUserManager),
+        'pui-organisation-manager': new FormControl(isPuiOrganisationManager)
+      }, validator(1))
+    });
+  }
 
   getIsPuiCaseManager(user: any): boolean {
     return user && user.manageCases === 'Yes';
@@ -95,19 +104,13 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
       const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
       const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
-      this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
+      if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
+        this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
+      } else {
+        return this.userStore.dispatch(new fromStore.EditUserFailure('No changes done.'));
+      }
     } else {
-      const formValidationData = {
-        isInvalid: {
-          roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
-        },
-        errorMessages: this.errorMessages,
-        isSubmitted: true
-      };
-      this.userStore.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
+      this.userStore.dispatch(new fromStore.EditUserFailure('Please select at least 1 checkbox'));
     }
   }
-
-  get f() { return this.editUserForm.controls; }
-
 }

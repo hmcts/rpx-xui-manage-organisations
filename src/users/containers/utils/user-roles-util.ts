@@ -43,4 +43,15 @@ export class UserRolesUtil {
             }
         });
     }
+    static isAddingRoleSuccessful(response: any): boolean {
+        return response.addRolesResponse &&
+        response.addRolesResponse.idamStatusCode &&
+        response.addRolesResponse.idamStatusCode === '201';
+    }
+
+    static isDeletingRoleSuccessful(result: any): boolean {
+        return result.deleteRolesResponse &&
+        result.deleteRolesResponse[0].idamStatusCode &&
+        result.deleteRolesResponse[0].idamStatusCode === '204';
+    }
 }

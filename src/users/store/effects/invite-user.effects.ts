@@ -45,7 +45,6 @@ export class InviteUserEffects {
     ofType(usersActions.EDIT_USER),
     map((action: usersActions.EditUser) => action.payload),
     switchMap((user) => {
-      console.log(user);
       return this.userService.editUserPermissions(user).pipe(
         map( response => {
           if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {

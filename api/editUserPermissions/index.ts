@@ -1,4 +1,5 @@
 import * as express from 'express'
+import { ErrorReport } from '../interfaces/errorReport'
 import { config } from '../lib/config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
@@ -9,7 +10,7 @@ const logger = log4jui.getLogger('outgoing')
 router.put('', inviteUserRoute)
 
 async function inviteUserRoute(req, res) {
-    let errReport: any
+    let errReport: ErrorReport
     if (!req.params.userId) {
         errReport = getErrorReport('UserId is missing', '500', 'User Permissions route error')
         res.status(500).send(errReport)
@@ -30,7 +31,7 @@ async function inviteUserRoute(req, res) {
 function getErrorMessage(error: any): string {
     return error && error.data ? error.data.message : ''
 }
-function getErrorReport(apiError: string, apiStatusCode: string, message: string): any {
+function getErrorReport(apiError: string, apiStatusCode: string, message: string): ErrorReport {
     return {
         apiError,
         apiStatusCode,

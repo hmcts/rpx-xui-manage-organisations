@@ -41,7 +41,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
       this.routerStore.pipe(select(fromRoot.getRouterState)),
       this.userStore.pipe(select(fromStore.getGetUserLoaded))
     ]).subscribe(([route, users]) => {
-      if (users === false) {
+      if (!users) {
         this.userStore.dispatch(new fromStore.LoadUsers());
       }
       this.userId = route.state.params.userId;

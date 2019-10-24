@@ -98,19 +98,20 @@ import { UserRolesUtil } from '../utils/user-roles-util';
   }
 
   onSubmit() {
-    if (this.editUserForm.valid) {
-      const {value} = this.editUserForm;
-      const permissions = UserRolesUtil.mapPermissions(value);
-      const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
-      const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
-      const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
-      if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
-        this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
-      } else {
-        return this.userStore.dispatch(new fromStore.EditUserFailure('No changes done.'));
-      }
-    } else {
+    if (!this.editUserForm.valid) {
       this.userStore.dispatch(new fromStore.EditUserFailure('Please select at least 1 checkbox'));
+      return;
+    }
+
+    const {value} = this.editUserForm;
+    const permissions = UserRolesUtil.mapPermissions(value);
+    const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
+    const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
+    if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
+      this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
+    } else {
+      return this.userStore.dispatch(new fromStore.EditUserFailure('No changes done.'));
     }
   }
 }

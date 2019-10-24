@@ -11,7 +11,7 @@ router.put('', inviteUserRoute)
 async function inviteUserRoute(req, res) {
     let errReport: any
     if (!req.params.userId) {
-        errReport = getErrorReport('UserId is missing', '400', 'User Permissions route error')
+        errReport = getErrorReport('UserId is missing', '500', 'User Permissions route error')
         res.status(500).send(errReport)
         return
     }

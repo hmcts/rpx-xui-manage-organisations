@@ -24,6 +24,13 @@
         [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
         hint: 'View organisation name and addresses.'}">
       </lib-gov-checkbox>
+
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [isChecked]="isPuiFinanceManager"
+        [config]="{value: 'pui-finance-manager', label: 'Manage Payments', name: 'roles',
+        hint: 'View account balances, available credit and transactions.'}">
+      </lib-gov-checkbox>
     </div>
 
   </lib-gov-uk-form-group-wrapper>

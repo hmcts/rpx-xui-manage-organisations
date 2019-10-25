@@ -23,6 +23,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
     isPuiCaseManager: boolean;
     isPuiOrganisationManager: boolean;
     isPuiUserManager: boolean;
+    isPuiFinanceManager: boolean;
     userId: string;
 
     userSubscription: Subscription;
@@ -54,9 +55,11 @@ import { UserRolesUtil } from '../utils/user-roles-util';
         this.isPuiCaseManager = this.getIsPuiCaseManager(user);
         this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
         this.isPuiUserManager = this.getIsPuiUserManager(user);
+        this.isPuiFinanceManager = this.getIsPuiFinanceManager(user);
 
         this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
-          this.isPuiUserManager, this.isPuiOrganisationManager, checkboxesBeCheckedValidator);
+          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager,
+          checkboxesBeCheckedValidator);
       });
     }
 
@@ -64,12 +67,13 @@ import { UserRolesUtil } from '../utils/user-roles-util';
     return `/users/user/${userId}`;
   }
 
-  getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, validator: any): FormGroup {
+  getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, validator: any): FormGroup {
     return new FormGroup({
       roles: new FormGroup({
         'pui-case-manager': new FormControl(isPuiCaseManager),
         'pui-user-manager': new FormControl(isPuiUserManager),
-        'pui-organisation-manager': new FormControl(isPuiOrganisationManager)
+        'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
+        'pui-finance-manager': new FormControl(isPuiFinanceManager)
       }, validator(1))
     });
   }
@@ -84,6 +88,10 @@ import { UserRolesUtil } from '../utils/user-roles-util';
 
   getIsPuiUserManager(user: any): boolean {
     return user && user.manageUsers === 'Yes';
+  }
+
+  getIsPuiFinanceManager(user: any): boolean {
+    return user && user.managePayments === 'Yes';
   }
 
   unsubscribe(subscription: Subscription) {

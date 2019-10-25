@@ -6,6 +6,7 @@ import * as fromStore from '../../store';
 import * as fromRoot from '../../../app/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { UserRolesUtil } from '../utils/user-roles-util';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Component({
     selector: 'edit-user-permission',
@@ -28,14 +29,21 @@ import { UserRolesUtil } from '../utils/user-roles-util';
 
     userSubscription: Subscription;
     dependanciesSubscription: Subscription;
+    editPermissionSuccessSubscription: Subscription;
     backUrl: string;
 
     constructor(
       private userStore: Store<fromStore.UserState>,
-      private routerStore: Store<fromRoot.State>
+      private routerStore: Store<fromRoot.State>,
+      private actions$: Actions
     ) { }
 
     ngOnInit(): void {
+
+      this.editPermissionSuccessSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
+        this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
+      });
+
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
       this.dependanciesSubscription = combineLatest([

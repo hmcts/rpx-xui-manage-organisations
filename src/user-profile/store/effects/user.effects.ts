@@ -75,8 +75,7 @@ export class UserEffects {
       return user.payload; // this is the userId
     }),
     switchMap(userId => [
-      new usersActions.LoadUsers(),
-      new fromRoot.Go({ path: [`users/user/${userId}`] })
+      new usersActions.LoadUsers()
   ])
   );
 }

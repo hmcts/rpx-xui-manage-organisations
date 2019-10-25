@@ -12,4 +12,5 @@ import { FormGroup } from '@angular/forms';
     @Input() isPuiCaseManager: boolean = false;
     @Input() isPuiUserManager: boolean = false;
     @Input() isPuiOrganisationManager: boolean = false;
+    @Input() isPuiFinanceManager: boolean = false;
   }

@@ -8,9 +8,9 @@ import { FormGroup } from '@angular/forms';
 
   export class InviteUserPermissionComponent {
     @Input() inviteUserForm: FormGroup;
-    @Input() isInvalid;
     @Input() isPuiCaseManager: boolean = false;
     @Input() isPuiUserManager: boolean = false;
     @Input() isPuiOrganisationManager: boolean = false;
     @Input() isPuiFinanceManager: boolean = false;
+    @Input() errorMessages: {isInvalid: boolean; messages: string[] };
   }

@@ -14,9 +14,9 @@ import { Actions, ofType } from '@ngrx/effects';
   })
   export class EditUserPermissionComponent  implements OnInit, OnDestroy {
     editUserForm: FormGroup;
-    isInvalid;
     errorMessages = {
-      roles: ['Select at least one option'],
+      header: 'There is a problem',
+      roles: ['You must select at least one action'],
     };
     user$: Observable<any>;
     isLoading$: Observable<boolean>;
@@ -31,6 +31,9 @@ import { Actions, ofType } from '@ngrx/effects';
     dependanciesSubscription: Subscription;
     editPermissionSuccessSubscription: Subscription;
     backUrl: string;
+
+    summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
+    permissionErrors: {isInvalid: boolean; messages: string[] };
 
     constructor(
       private userStore: Store<fromStore.UserState>,
@@ -69,6 +72,7 @@ import { Actions, ofType } from '@ngrx/effects';
           this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager,
           checkboxesBeCheckedValidator);
       });
+
     }
 
   getBackurl(userId: string) {
@@ -82,7 +86,7 @@ import { Actions, ofType } from '@ngrx/effects';
         'pui-user-manager': new FormControl(isPuiUserManager),
         'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
         'pui-finance-manager': new FormControl(isPuiFinanceManager)
-      }, validator(1))
+      }, checkboxesBeCheckedValidator())
     });
   }
 
@@ -115,7 +119,10 @@ import { Actions, ofType } from '@ngrx/effects';
 
   onSubmit() {
     if (!this.editUserForm.valid) {
-      this.userStore.dispatch(new fromStore.EditUserFailure('Please select at least 1 checkbox'));
+      this.summaryErrors = { isFromValid: false, items: [{id: 'roles',
+      message: this.errorMessages.roles[0] }], header: this.errorMessages.header};
+      this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]]};
+      this.userStore.dispatch(new fromStore.EditUserFailure(this.errorMessages.roles[0]));
       return;
     }
 
@@ -127,6 +134,9 @@ import { Actions, ofType } from '@ngrx/effects';
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
     } else {
+      this.summaryErrors = { isFromValid: false, items: [{id: 'roles', message: 'No changes done.' }],
+      header: this.errorMessages.header};
+      this.permissionErrors = { isInvalid: true, messages: ['No changes done.' ]};
       return this.userStore.dispatch(new fromStore.EditUserFailure('No changes done.'));
     }
   }

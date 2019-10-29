@@ -19,7 +19,7 @@
     [group]="inviteUserForm">
   </lib-gov-uk-input>
 
-  <app-invite-permission-form [inviteUserForm]="inviteUserForm" [isInvalid]="isInvalid">
+  <app-invite-permission-form [inviteUserForm]="inviteUserForm" [errorMessages]="isInvalid.roles">
   </app-invite-permission-form>
 
   <button type="submit" class="govuk-button">

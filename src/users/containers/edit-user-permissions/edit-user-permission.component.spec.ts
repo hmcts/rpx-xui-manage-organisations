@@ -1,16 +1,19 @@
 import { EditUserPermissionComponent } from './edit-user-permission.component';
 import { Observable, of } from 'rxjs';
+import { Actions } from '@ngrx/effects';
 
 describe('Edit User Permission Component Component', () => {
 
     let component: EditUserPermissionComponent;
     let userStoreSpyObject;
     let routerStoreSpyObject;
+    let actionsObject;
 
     beforeEach(() => {
         userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
         routerStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-        component = new EditUserPermissionComponent(userStoreSpyObject, routerStoreSpyObject);
+        actionsObject = jasmine.createSpyObj('Actions', ['pipe']);
+        component = new EditUserPermissionComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject);
     });
 
     describe('EditUserPermissionComponent is Truthy', () => {

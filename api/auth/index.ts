@@ -51,7 +51,7 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
 }
 
 export async function getTokenFromCode(req: express.Request, res: express.Response): Promise<AxiosResponse> {
-    console.log(`${config.idamClient}:${secret}`)
+    logger.info(`IDAM STUFF ===>> ${config.idamClient}:${secret}`)
     const Authorization = `Basic ${new Buffer(`${config.idamClient}:${secret}`).toString('base64')}`
     const options = {
         headers: {
@@ -109,7 +109,8 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
 }
 
 export async function oauth(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
-    const response = await getTokenFromCode(req, res)
+  logger.info('starting oauth callback')
+  const response = await getTokenFromCode(req, res)
     const accessToken = response.data.access_token
 
     if (accessToken) {

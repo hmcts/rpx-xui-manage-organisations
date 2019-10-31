@@ -17,11 +17,12 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
+def deployToAatOnly = true  // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
 
 def secrets = [
   'rpx-${env}': [
-    secret('xui-s2s-token', 'S2S_SECRET'),
+    secret('mo-s2s-client-secret', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
@@ -48,13 +49,14 @@ withPipeline(type, product, component) {
     enableDockerBuild()
     installCharts()
 
-
     after('checkout') {sh 'yarn cache clean'}
 
-    before('buildinfra:prod') {
-        currentBuild.result = 'SUCCESS'
-        currentBuild.description = "SUCCESS TILL AAT"
-        error 'XUI  projects are not authorised to be in production environments yet.'
+    if (deployToAatOnly) {
+        before('buildinfra:prod') {
+            currentBuild.result = 'SUCCESS'
+            currentBuild.description = "SUCCESS TILL AAT"
+            error 'XUI  projects are not authorised to be in production environments yet.'
+        }   
     }
 
     after('build') {

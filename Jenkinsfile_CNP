@@ -13,6 +13,7 @@ properties([
 
 @Library("Infrastructure")
 
+// To enable PACT testing on pipeline uncomment the next line
 // import uk.gov.hmcts.contino.AppPipelineDsl
 
 def type      = "nodejs"
@@ -50,6 +51,7 @@ withPipeline(type, product, component) {
     enableDockerBuild()
     installCharts()
 
+// To enable PACT testing on pipeline uncomment the next 3 lines
 //    enablePactAs([
 //      AppPipelineDsl.PactRoles.CONSUMER
 //    ])

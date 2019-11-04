@@ -12,6 +12,7 @@ import { serviceTokenGenerator } from './serviceToken'
 const secret = process.env.IDAM_SECRET
 const logger = log4js.getLogger('auth')
 logger.level = config.logging
+const idamUrl = config.services.idamApi
 
 export async function attach(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const session = req.session!
@@ -79,8 +80,8 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
 async function sessionChainCheck(req: EnhancedRequest, res: express.Response, accessToken: string) {
     if (!req.session.auth) {
         logger.warn('Session expired. Trying to get user details again')
-        console.log(getUserDetails(accessToken))
-        const details = await asyncReturnOrError(getUserDetails(accessToken), 'Cannot get user details', res, logger, false)
+        console.log(getUserDetails(accessToken, idamUrl))
+        const details = await asyncReturnOrError(getUserDetails(accessToken, idamUrl), 'Cannot get user details', res, logger, false)
 
         if (details) {
             logger.info('Setting session')

@@ -40,7 +40,8 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-
+/api/test/pact/logs
+/api/test/pact/pacts
 
 
 # System Files

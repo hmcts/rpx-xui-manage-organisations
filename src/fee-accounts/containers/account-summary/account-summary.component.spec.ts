@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AccountSummaryComponent } from './account-summary.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/fee-accounts/store/reducers';
@@ -16,8 +16,8 @@ describe('AccountSummaryComponent', () => {
 
   beforeEach(async(() => {
     activatedRoute = {
-      parent: {
-        params: of({})
+        snapshot: {
+          params: of({})
       }
     };
     TestBed.configureTestingModule({

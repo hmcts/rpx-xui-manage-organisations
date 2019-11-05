@@ -9,18 +9,15 @@
     <tr data-selector="table-row" class="govuk-table__row" *ngFor="let r of rows">
         <ng-container *ngFor="let col of columnConfig; first as isFirst">
             <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader">
-                <ng-container *ngIf="!col.type || col.type === 'text'">
-                    {{r[col.key]}}
-                </ng-container>
-                <ng-container *ngIf="col.type === 'link'">
+                <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
+                <ng-container *ngIf="col.type === 'link' && r.routerLink">
                     <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
                 </ng-container>
             </th>
             <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">
-                <ng-container *ngIf="!col.type || col.type === 'text'">
-                    {{r[col.key]}}
-                </ng-container>
-                <ng-container *ngIf="col.type === 'link'">
+                <ng-container *ngIf="col.type === 'date'">{{formatDate(r[col.key])}}</ng-container>
+                <ng-container *ngIf="!col.type || col.type === 'text'">{{r[col.key]}}</ng-container>
+                <ng-container *ngIf="col.type === 'link' && r.routerLink">
                     <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
                 </ng-container>
             </td>

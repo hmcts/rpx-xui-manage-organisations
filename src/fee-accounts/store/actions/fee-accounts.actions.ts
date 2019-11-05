@@ -5,6 +5,8 @@ export const LOAD_FEE_ACCOUNTS_SUCCESS = '[Fee Accounts] Load Fee Accounts Succe
 export const LOAD_FEE_ACCOUNTS_FAIL = '[Fee Accounts] Load Fee Accounts Fail';
 
 export class LoadFeeAccounts {
+  constructor(public paymentAccounts: string[]) {
+  }
   readonly type = LOAD_FEE_ACCOUNTS;
 }
 

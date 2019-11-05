@@ -97,4 +97,3 @@ export const getInviteUserIsFormValid = (state: InviteUserState) => state.isForm
 export const getInviteUserErrorHeader = (state: InviteUserState) => state.errorHeader;
 export const getInviteUserIsUserConfirmed = (state: InviteUserState) => state.isUserConfirmed;
 export const getInviteUserEmail = (state: InviteUserState) => state.invitedUserEmail;
-

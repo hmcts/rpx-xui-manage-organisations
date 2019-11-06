@@ -11,10 +11,10 @@ describe('Users service', () => {
         expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/userList');
     });
 
-    it('should call getJurisdictions', () => {
+    it('should suspend account', () => {
         const service = new UsersService(mockedHttpClient);
         mockedHttpClient.put.and.returnValue(of());
         service.suspendUser({payload: { userIdentifier: 'dummy' }});
-        expect(mockedHttpClient.put).toHaveBeenCalledWith('/api/user/dummy/suspend', { userIdentifier: 'dummy', idamStatus: 'Suspend' });
+        expect(mockedHttpClient.put).toHaveBeenCalledWith('/api/user/dummy/suspend', { userIdentifier: 'dummy', idamStatus: 'SUSPENDED' });
     });
 });

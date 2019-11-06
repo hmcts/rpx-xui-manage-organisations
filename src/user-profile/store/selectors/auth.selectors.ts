@@ -17,9 +17,14 @@ export const getUsers = createSelector(
   fromRoot.getUser
 );
 
-export const getUserPermissions = createSelector(
+export const getUid = createSelector(
   getUsers,
-  (user) => user.roles
+  (user) => {
+    debugger
+    if (user) {
+      return user['userId']
+    }
+  }
 );
 
 

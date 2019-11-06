@@ -18,7 +18,7 @@ export class UsersService {
     let user = param.payload;
     user = {
       ...user,
-      idamStatus: 'Suspend'
+      idamStatus: 'SUSPENDED'
     };
     return this.http
        .put<any>(`/api/user/${user.userIdentifier}/suspend`, user)

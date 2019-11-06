@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { HealthCheckGuard } from '../shared/guards/health-check.guard';
+import { AcceptTcComponent } from './containers/accept-tc.component';
+import { reducers, effects } from './store';
 
 // containers
 import * as fromContainers from './containers';
-import {RouterModule} from '@angular/router';
-import {HealthCheckGuard} from '../shared/guards/health-check.guard';
-import {AcceptTcComponent} from './containers/accept-tc.component';
-import {reducers, effects} from './store';
+// services
+import * as fromServices from './services';
 
 const ROUTES = [
   {
@@ -33,11 +35,10 @@ const ROUTES = [
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],
-  providers: []
+  providers: [...fromServices.services]
 })
 
 /**
- * Entry point to UsersModule
+ * Entry point to AcceptTandC
  */
-
 export class AcceptTcModule {}

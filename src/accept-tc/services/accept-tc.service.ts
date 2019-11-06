@@ -14,5 +14,9 @@ export class AcceptTcService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
+  acceptTandC(userData): Observable<any> {
+    return this.http.post('some/url', userData);
+  }
+
 
 }

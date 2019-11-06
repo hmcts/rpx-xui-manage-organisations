@@ -36,6 +36,10 @@ export const ROUTES: Routes = [
     loadChildren: '../register/register.module#RegisterModule'
   },
   {
+    path: 'accept-t-and-c',
+    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
+  },
+  {
     path: 'service-down',
     component: ServiceDownComponent
   },

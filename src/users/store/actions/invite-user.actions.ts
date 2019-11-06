@@ -7,7 +7,7 @@ export const INVITE_USER_FAIL = '[Invite User] Invite User Fail';
 export const RESET = '[Invite User] Reset';
 import { UserListApiModel } from '../../models/userform.model';
 
-export class SendInviteUser {
+export class SendInviteUser implements Action{
   readonly type = SEND_INVITE_USER;
   constructor(public payload: UserListApiModel) { }
 }

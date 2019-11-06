@@ -37,6 +37,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'accept-t-and-c',
+    canActivate: [AuthGuard],
     loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
   },
   {

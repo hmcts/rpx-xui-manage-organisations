@@ -5,13 +5,13 @@ import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 @Injectable()
-export class UsersService {
+export class AcceptTcService {
   constructor(private http: HttpClient) { }
 
-  getListOfUsers(): Observable<any> {
+  getHasUserAccepted(): Observable<any> {
     return this.http
-       .get<any>(`/api/userList`)
-       .pipe(catchError((error: any) => throwError(error.json())));
+      .get<any>(`/api/tbc`)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
 

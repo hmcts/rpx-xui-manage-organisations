@@ -1,28 +1,23 @@
 import * as fromAcceptTCActions from '../actions';
 
 export interface TermsAndCondition {
-  hasUserAcceptedTC: boolean;
+  copy: any;
 }
 
 export const initialState: TermsAndCondition = {
-  hasUserAcceptedTC: false,
+  copy: '',
 };
 
 export function reducer(
   state = initialState,
   action: fromAcceptTCActions.AceptTcActions
 ): TermsAndCondition {
-  switch (action.type) {
-    case fromAcceptTCActions.LOAD_HAS_ACCEPTED_TC_SUCCESS: {
-      return {
-        ...state,
-        hasUserAcceptedTC: action.payload
-      };
-    }
-  }
+  // switch (action.type) {
+  //
+  // }
 
   return state;
 }
 
-export const getHasuserAcepted = (state: TermsAndCondition) => state.hasUserAcceptedTC;
+export const getTCCopy = (state: TermsAndCondition) => state.copy;
 

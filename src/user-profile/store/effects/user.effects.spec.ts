@@ -3,15 +3,15 @@ import { TestBed } from '@angular/core/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromUserEffects from './user.effects';
-import { UserEffects } from './user.effects';
+import * as fromUserEffects from './user-profile.effects';
+import { UserProfileEffects } from './user-profile.effects';
 import { GetUserDetails, GetUserDetailsFailure, GetUserDetailsSuccess } from '../actions';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 describe('Fee accounts Effects', () => {
     let actions$;
-    let effects: UserEffects;
+    let effects: UserProfileEffects;
     const UserServiceMock = jasmine.createSpyObj('UserService', [
         'getUserDetails',
     ]);
@@ -24,12 +24,12 @@ describe('Fee accounts Effects', () => {
                     provide: UserService,
                     useValue: UserServiceMock,
                 },
-                fromUserEffects.UserEffects,
+                fromUserEffects.UserProfileEffects,
                 provideMockActions(() => actions$)
             ]
         });
 
-        effects = TestBed.get(UserEffects);
+        effects = TestBed.get(UserProfileEffects);
 
     });
 

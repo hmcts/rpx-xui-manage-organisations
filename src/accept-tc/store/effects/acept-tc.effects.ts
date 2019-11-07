@@ -14,19 +14,6 @@ export class AcceptTcEffects {
   ) { }
 
   @Effect()
-  loadHasAccepted$ = this.actions$.pipe(
-    ofType(acceptTandCActions.LOAD_HAS_ACCEPTED_TC),
-    switchMap(() => {
-      return this.acceptTcService.getHasUserAccepted().pipe(
-        map(tcDetails => {
-          return new acceptTandCActions.LoadHasAcceptedTCSuccess(tcDetails);
-        }),
-        catchError(error => of(new acceptTandCActions.LoadHasAcceptedTCFail(error)))
-      );
-    })
-  );
-
-  @Effect()
   acceptTandC$ = this.actions$.pipe(
     ofType(acceptTandCActions.ACCEPT_T_AND_C),
     map((action: acceptTandCActions.AcceptTandC) => action.payload),

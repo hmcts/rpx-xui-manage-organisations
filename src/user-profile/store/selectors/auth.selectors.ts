@@ -20,16 +20,21 @@ export const getUsers = createSelector(
 export const getUid = createSelector(
   getUsers,
   (user) => {
-    debugger
     if (user) {
-      return user['userId']
+      return user['userId'];
     }
   }
 );
 
+export const userLoaded = createSelector(
+  authState,
+  fromRoot.isUserLoaded
+);
 
-export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);
-export const userLoading = createSelector(authState, fromRoot.isUserLoading);
+export const getHasUserSelectedTC = createSelector(
+  authState,
+  fromRoot.gethasUserAcceptedTC
+);
 
 
 

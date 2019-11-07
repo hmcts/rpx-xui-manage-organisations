@@ -1,4 +1,4 @@
-import * as fromAcceptTCActions from '../actions'
+import * as fromAcceptTCActions from '../actions';
 
 export interface TermsAndCondition {
   hasUserAcceptedTC: boolean;

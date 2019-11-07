@@ -3,17 +3,18 @@ import { AuthGuard } from '../user-profile/guards/auth.guard';
 import {RedirectComponent} from './containers/redirect/redirect.component';
 import { ServiceDownComponent,
   CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent } from './components';
+import {TermsConditionGuard} from './guards/termsCondition.guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, TermsConditionGuard],
     pathMatch: 'full',
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, TermsConditionGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {

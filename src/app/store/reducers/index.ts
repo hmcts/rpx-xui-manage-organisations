@@ -7,7 +7,6 @@ import { createFeatureSelector, ActionReducerMap, createSelector } from '@ngrx/s
 
 import * as fromRouter from '@ngrx/router-store';
 import * as fromApp from '../reducers/app.reducer';
-import * as fromTC from '../../../accept-tc/store/reducers/acept-tc.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -18,13 +17,11 @@ export interface RouterStateUrl {
 export interface State {
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
   appState: fromApp.AppState;
-  TCAccepted: fromTC.TermsAndCondition;
 }
 
 export const reducers: ActionReducerMap<State> = {
   routerReducer: fromRouter.routerReducer,
   appState: fromApp.reducer,
-  TCAccepted: fromTC.reducer,
 };
 
 export const getRouterState = createFeatureSelector<
@@ -34,10 +31,6 @@ export const getRouterState = createFeatureSelector<
 export const getRootAppState = createFeatureSelector<fromApp.AppState>(
   'appState'
 );
-
-export const getTCAccepted = createFeatureSelector<fromApp.AppState>(
-  'TCAccepted'
-) as any;
 
 export const getRouterUrl = createSelector(
   getRouterState,

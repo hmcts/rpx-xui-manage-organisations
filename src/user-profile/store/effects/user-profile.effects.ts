@@ -7,13 +7,16 @@ import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
-import config from '../../../../api/lib/config';
+import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
+import * as usersActions from '../../../user-profile/store/';
+import * as fromRoot from '../../../app/store'
 
 @Injectable()
-export class UserEffects {
+export class UserProfileEffects {
   constructor(
     private actions$: Actions,
-    private authService: UserService
+    private authService: UserService,
+    private acceptTcService: AcceptTcService
   ) { }
 
   @Effect()
@@ -47,6 +50,20 @@ export class UserEffects {
       return new authActions.GetUserDetailsSuccess(hadCodedUser);
     })
   );
+
+  @Effect()
+  loadHasAccepted$ = this.actions$.pipe(
+    ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
+    switchMap(() => {
+      return this.acceptTcService.getHasUserAccepted().pipe(
+        map(tcDetails => {
+          return new authActions.LoadHasAcceptedTCSuccess(tcDetails);
+        }),
+        catchError(error => of(new authActions.LoadHasAcceptedTCFail(error)))
+      );
+    })
+  );
+
 
 }
 

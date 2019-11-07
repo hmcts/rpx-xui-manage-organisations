@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   @Output() navigate = new EventEmitter<string>();
 
 
+  public isBrandedHeader = false;
   isUserLoggedIn$: Observable<boolean>;
 
   constructor(public store: Store<fromRoot.State>) {}

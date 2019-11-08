@@ -12,13 +12,13 @@ export const getIsAuthenticated = createSelector(
   fromRoot.isAuthenticated
 );
 
-export const getUsers = createSelector(
+export const getUser = createSelector(
   authState,
   fromRoot.getUser
 );
 
 export const getUid = createSelector(
-  getUsers,
+  getUser,
   (user) => {
     if (user) {
       return user['userId'];

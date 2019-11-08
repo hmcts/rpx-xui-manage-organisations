@@ -5,7 +5,7 @@ import * as fromAcceptTCActions from '../../../accept-tc/store/actions';
 
 export interface AuthState {
   isAuthenticated: boolean;
-  tAndC: {hasUserAccepted: string; loaded: boolean}
+  tAndC: {hasUserAccepted: string; loaded: boolean;};
   user: UserModel | null;
   loaded: boolean;
   loading: boolean;
@@ -15,7 +15,7 @@ export const initialState: AuthState = {
   isAuthenticated: false,
   tAndC: {
     hasUserAccepted: 'false', // needs to be string otherwise canActivate will not redirect
-    loaded: false
+    loaded: false,
   },
   user: null,
   loaded: false,

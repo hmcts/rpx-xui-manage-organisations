@@ -8,6 +8,7 @@ import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class TermsConditionGuard implements CanActivate {
+  uId: string;
   constructor(
     private store: Store<fromRoot.State>,
   ) {
@@ -24,9 +25,13 @@ export class TermsConditionGuard implements CanActivate {
     return this.store.pipe(select(fromUserProfile.getHasUserSelectedTC),
       tap(tcConfirmed => {
         if (!tcConfirmed.loaded) {
-          this.store.dispatch(new fromUserProfile.LoadHasAcceptedTC());
+          this.store.pipe(select(fromUserProfile.getUid), take(2)).subscribe(uid => {
+            if (uid) {
+              this.store.dispatch(new fromUserProfile.LoadHasAcceptedTC(uid));
+            }
+          });
         }
-        if (tcConfirmed.hasUserAccepted === 'false') {
+        if (tcConfirmed.hasUserAccepted === 'false' && tcConfirmed.loaded) {
           this.store.dispatch(new fromRoot.Go({path: ['/accept-t-and-c']}));
         }
 

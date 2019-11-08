@@ -54,10 +54,10 @@ export class UserProfileEffects {
   @Effect()
   loadHasAccepted$ = this.actions$.pipe(
     ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
-    switchMap(() => {
-      return this.acceptTcService.getHasUserAccepted().pipe(
+    switchMap((action: any) => {
+      return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
         map(tcDetails => {
-          return new authActions.LoadHasAcceptedTCSuccess(tcDetails);
+          return new authActions.LoadHasAcceptedTCSuccess(tcDetails.toString());
         }),
         catchError(error => of(new authActions.LoadHasAcceptedTCFail(error)))
       );

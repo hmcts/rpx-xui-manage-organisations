@@ -8,16 +8,13 @@ import {catchError} from 'rxjs/operators';
 export class AcceptTcService {
   constructor(private http: HttpClient) { }
 
-  getHasUserAccepted(): Observable<any> {
-    return of({hasUserAccepted: 'false'});
-    // return this.http
-    //   .get<any>(`/api/tbc`)
-    //   .pipe(catchError((error: any) => throwError(error.json())));
+  getHasUserAccepted(userId: string): Observable<any> {
+    return this.http
+      .get<any>(`/api/userTermsAndConditions/${userId}`)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   acceptTandC(userData): Observable<any> {
-    return this.http.post('some/url', userData);
+    return this.http.post('/api/userTermsAndConditions', userData);
   }
-
-
 }

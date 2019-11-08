@@ -14,7 +14,7 @@ export const getIsAuthenticated = createSelector(
 
 export const getUser = createSelector(
   authState,
-  fromRoot.getUser
+  fromRoot.getUserConfig
 );
 
 export const getUid = createSelector(

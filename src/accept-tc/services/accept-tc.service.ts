@@ -9,9 +9,10 @@ export class AcceptTcService {
   constructor(private http: HttpClient) { }
 
   getHasUserAccepted(): Observable<any> {
-    return this.http
-      .get<any>(`/api/tbc`)
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return of({hasUserAccepted: 'false'})
+    // return this.http
+    //   .get<any>(`/api/tbc`)
+    //   .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   acceptTandC(userData): Observable<any> {

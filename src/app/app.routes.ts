@@ -9,17 +9,17 @@ export const ROUTES: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    canActivate: [AuthGuard, TermsConditionGuard],
+    canActivate: [AuthGuard],
     pathMatch: 'full',
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard, TermsConditionGuard],
+    canActivate: [AuthGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {
     path: 'users',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, TermsConditionGuard],
     loadChildren: '../users/users.module#UsersModule'
   },
   {

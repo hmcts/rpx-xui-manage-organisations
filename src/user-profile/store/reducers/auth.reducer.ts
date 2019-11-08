@@ -5,7 +5,7 @@ import * as fromAcceptTCActions from '../../../accept-tc/store/actions';
 
 export interface AuthState {
   isAuthenticated: boolean;
-  hasUserAcceptedTC: boolean
+  tAndC: {hasUserAccepted: string; loaded: boolean}
   user: UserModel | null;
   loaded: boolean;
   loading: boolean;
@@ -13,7 +13,10 @@ export interface AuthState {
 
 export const initialState: AuthState = {
   isAuthenticated: false,
-  hasUserAcceptedTC: true,
+  tAndC: {
+    hasUserAccepted: 'false', // needs to be string otherwise canActivate will not redirect
+    loaded: false
+  },
   user: null,
   loaded: false,
   loading: false,
@@ -36,9 +39,14 @@ export function reducer(
       };
     }
     case AuthActionTypes.LOAD_HAS_ACCEPTED_TC_SUCCESS: {
+      const hasUserAccepted = action.payload.hasUserAccepted;
+      const tAndC = {
+        loaded: true,
+        hasUserAccepted
+      }
       return {
         ...state,
-        hasUserAcceptedTC: action.payload
+        tAndC
       };
     }
   }
@@ -50,4 +58,4 @@ export const isAuthenticated = (state: AuthState) =>  state.isAuthenticated;
 export const getUser = (state: AuthState) => state.user;
 export const isUserLoaded = (state: AuthState) => state.loaded;
 export const isUserLoading = (state: AuthState) => state.loading;
-export const gethasUserAcceptedTC = (state: AuthState) => state.hasUserAcceptedTC;
+export const gethasUserAcceptedTC = (state: AuthState) => state.tAndC;

@@ -14,7 +14,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, TermsConditionGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {

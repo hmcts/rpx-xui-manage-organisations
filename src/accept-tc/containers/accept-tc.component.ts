@@ -14,9 +14,9 @@ export class AcceptTcComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.pipe(select(fromUserProfile.getUsers), take(1)).subscribe((id) => {
-      this.uId = id['userId'];
-    })
+    this.store.pipe(select(fromUserProfile.getUid), take(1)).subscribe((id) => {
+      this.uId = id;
+    });
   }
 
   onAcceptTandC() {

@@ -5,7 +5,7 @@
 
 export const environment = {
     production: false,
-    googleAnalyticsKey: 'UA-124734893-2',
+    googleAnalyticsKey: 'UA-124734893-4',
     serviceDeskEmail: 'DCD-ITServiceDesk@hmcts.net',
     serviceDeskTel: '0300 3030686',
   cookies: {

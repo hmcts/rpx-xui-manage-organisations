@@ -17,7 +17,7 @@ export async function postUserTermsAndConditions(req: express.Request, res: expr
         const data = {userId: req.body.userId}
         const url = postUserTermsAndConditionsUrl(config.services.termsAndConditions)
         //const response = await http.post(url, data)
-        res.send(true)
+        res.send(false)
     } catch (error) {
         errReport = {
             apiError: error.data.message,

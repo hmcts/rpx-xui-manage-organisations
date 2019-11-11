@@ -7,18 +7,20 @@ import { EffectsModule } from '@ngrx/effects';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
-import { AcceptTcComponent } from './containers/accept-tc.component';
+import { AcceptTcWrapperComponent } from './containers/accept-tc-wrapper.component';
 import { reducers, effects } from './store';
 
 // containers
 import * as fromContainers from './containers';
+// components
+import * as fromComponents from './components';
 // services
 import * as fromServices from './services';
 
 const ROUTES = [
   {
     path: '',
-    component: AcceptTcComponent,
+    component: AcceptTcWrapperComponent,
     canActivate: [HealthCheckGuard],
   },
 ];
@@ -34,7 +36,7 @@ const ROUTES = [
     FormsModule
   ],
   exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
   providers: [...fromServices.services]
 })
 

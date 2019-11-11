@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import * as fromUserProfile from '../../user-profile/store/';
 import {take} from 'rxjs/operators';
-
+/**
+ * Terms and Condition Component
+ * TODO - ADD TO NPM
+ */
 @Component({
-  selector: 'app-accept-terms-and-conditions',
+  selector: 'app-accept-terms-conditions',
   templateUrl: './accept-tc.component.html'
 })
 export class AcceptTcComponent implements OnInit {
-  uId: object;
+  @Input() uId: string;
+  @Output() acceptTC = new EventEmitter<string>();
   constructor(private store: Store<fromStore.TCState>) {
   }
 

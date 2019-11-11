@@ -1,6 +1,5 @@
 import * as express from 'express'
 import { config } from '../lib/config'
-import { http } from '../lib/http'
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
 
 async function getUserTermsAndConditions(req: express.Request, res: express.Response) {
@@ -16,11 +15,11 @@ async function getUserTermsAndConditions(req: express.Request, res: express.Resp
     try {
         const url = getUserTermsAndConditionsUrl(config.services.termsAndConditions, req.params.userId)
         // const response = await http.get(url)
-        res.send(true)
+        res.send(false)
     } catch (error) {
         // we get a 404 if the user has not agreed to Terms and conditions
         if (error.status === 404) {
-            res.send(false)
+            res.send(true)
             return
         }
         errReport = {

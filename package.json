@@ -30,7 +30,10 @@
     "e2e": "ng e2e",
     "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "rest-assured": "rest-assured"
+    "rest-assured": "rest-assured",
+    "test-pact": "NODE_PATH=. LOG_LEVEL=error mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/*.ts",
+    "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha 'api/test/pact/publish/*.js' --timeout 15000 --reporter spec",
+    "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact"
   },
   "private": true,
   "dependencies": {
@@ -77,7 +80,9 @@
     "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "@pact-foundation/pact": "^9.2.0",
+    "@pact-foundation/pact-node": "^9.0.6"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",

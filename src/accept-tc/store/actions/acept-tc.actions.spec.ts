@@ -1,13 +1,13 @@
-import * as fromFeeAccounts from './fee-accounts.actions';
+import * as fromTandCAccounts from './acept-tc.actions';
 
-describe('Accept Terms and Conditions', () => {
+describe('Fee accounts actions', () => {
   describe('LoadFeeAccounts actions GROUP', () => {
     // Init state
     describe('LoadFeeAccounts', () => {
       it('should create an action', () => {
-        const action = new fromFeeAccounts.LoadFeeAccounts(['account1', 'account2']);
+        const action = new fromTandCAccounts.LoadFeeAccounts(['account1', 'account2']);
         expect({ ...action }).toEqual({
-          type: fromFeeAccounts.LOAD_FEE_ACCOUNTS,
+          type: fromTandCAccounts.LOAD_FEE_ACCOUNTS,
           paymentAccounts: ['account1', 'account2']
         });
       });

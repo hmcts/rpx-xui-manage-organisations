@@ -8,7 +8,6 @@ import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class TermsConditionGuard implements CanActivate {
-  uId: string;
   constructor(
     private store: Store<fromRoot.State>,
   ) {

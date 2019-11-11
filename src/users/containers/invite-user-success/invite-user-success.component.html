@@ -1,8 +1,23 @@
 <div class="hmcts-width-container">
     <main role="main" class="govuk-main-wrapper">
-        <app-success-notification [notification]="'New user invited'"></app-success-notification>
-        <p class="govuk-body">
-            <span text><a [routerLink]="['/users/invite-user']">Invite another User</a></span>
-        </p>
-    </main>
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">      
+                <div class="govuk-panel govuk-panel--confirmation">
+                    <h1 class="govuk-panel__title">
+                        You've invited
+                    </h1>
+                    <div class="govuk-panel__body">
+                    {{this.userEmail$ | async}}
+                    </div>
+                </div>
+                <h3 class="govuk-heading-m">What happens next</h3>
+                <p class="govuk-body">
+                The recipient will receive an email from HM Courts and Tribunals Registrations so they can finish setting up their account.
+                </p>
+                <p class="govuk-body">
+                    <span text><a [routerLink]="['/users']">Go back to manage users</a></span>
+                </p>
+            </div>
+        </div>
+      </main>
 </div>

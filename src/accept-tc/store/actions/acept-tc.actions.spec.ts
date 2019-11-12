@@ -1,39 +1,38 @@
 import * as fromTandCAccounts from './acept-tc.actions';
 
-describe('Fee accounts actions', () => {
-  describe('LoadFeeAccounts actions GROUP', () => {
-    // Init state
-    describe('LoadFeeAccounts', () => {
-      it('should create an action', () => {
-        const action = new fromTandCAccounts.LoadFeeAccounts(['account1', 'account2']);
-        expect({ ...action }).toEqual({
-          type: fromTandCAccounts.LOAD_FEE_ACCOUNTS,
-          paymentAccounts: ['account1', 'account2']
-        });
+describe('Accept Terms and Conditions actions GROUP', () => {
+  // Init state
+  describe('Accept Terms and Condition ', () => {
+    it('accept T&C', () => {
+      const action = new fromTandCAccounts.AcceptTandC('1234');
+      expect({ ...action }).toEqual({
+        type: fromTandCAccounts.ACCEPT_T_AND_C,
+        payload: '1234'
       });
     });
-    // Success
-    describe('LoadFeeAccountsSuccess', () => {
-      it('should create an action', () => {
-        const payload = [{payload: 'something', pageId: 'someString'}];
-        const action = new fromFeeAccounts.LoadFeeAccountsSuccess([{payload: 'something', pageId: 'someString'}]);
-        expect({ ...action }).toEqual({
-          type: fromFeeAccounts.LOAD_FEE_ACCOUNTS_SUCCESS,
-          payload
-        });
+  });
+  // Success
+  describe('LoadFeeAccountsSuccess', () => {
+    it('should create an action', () => {
+      const payload = true;
+      const action = new fromTandCAccounts.AcceptTandCSuccess(payload);
+      expect({ ...action }).toEqual({
+        type: fromTandCAccounts.ACCEPT_T_AND_C_SUCCESS,
+        payload
       });
     });
-    // Fail
-    describe('LoadFeeAccountsFail', () => {
-      it('should create an action', () => {
-        // Action is not been used. Should be passing error handler or error friendly string.
-        const action = new fromFeeAccounts.LoadFeeAccountsFail('Something');
-        const payload = 'Something';
-        expect({ ...action }).toEqual({
-          type: fromFeeAccounts.LOAD_FEE_ACCOUNTS_FAIL,
-          payload
-        });
+  });
+  // Fail
+  describe('LoadFeeAccountsFail', () => {
+    it('should create an action', () => {
+      // Action is not been used. Should be passing error handler or error friendly string.
+      const payload = 'Something';
+      const action = new fromTandCAccounts.AcceptTandCFail(payload);
+      expect({ ...action }).toEqual({
+        type: fromTandCAccounts.ACCEPT_T_AND_C_FAIL,
+        payload
       });
     });
   });
 });
+

@@ -17,7 +17,7 @@ export class AcceptTandCSuccess implements Action {
 
 export class AcceptTandCFail implements Action {
   readonly type = ACCEPT_T_AND_C_FAIL;
-  constructor(public payload: boolean) {}
+  constructor(public payload: any) {}
 }
 
 export type AceptTcActions =

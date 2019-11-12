@@ -15,7 +15,7 @@ async function getUserTermsAndConditions(req: express.Request, res: express.Resp
     try {
         const url = getUserTermsAndConditionsUrl(config.services.termsAndConditions, req.params.userId)
         // const response = await http.get(url)
-        res.send(false)
+        res.send(true)
     } catch (error) {
         // we get a 404 if the user has not agreed to Terms and conditions
         if (error.status === 404) {

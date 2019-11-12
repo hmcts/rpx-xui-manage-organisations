@@ -1,0 +1,4 @@
+<ng-container *ngIf="document | async as doc">
+  <xuilib-terms-and-conditions [document]="doc"></xuilib-terms-and-conditions>
+  {{ doc | json }}
+</ng-container>

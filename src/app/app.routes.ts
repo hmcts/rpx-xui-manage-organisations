@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import {RedirectComponent} from './containers/redirect/redirect.component';
-import { ServiceDownComponent,
-  CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent } from './components';
+import { AccessibilityComponent, CookiePolicyComponent, PrivacyPolicyComponent, ServiceDownComponent } from './components';
+import { TermsAndConditionsComponent } from './containers';
+import { RedirectComponent } from './containers/redirect/redirect.component';
 
 export const ROUTES: Routes = [
   {

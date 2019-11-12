@@ -58,3 +58,8 @@ export const getUserNav = createSelector(
   }
 
 );
+
+export const getTermsAndConditions = createSelector(
+  getAppState,
+  state => state.termsAndConditions
+);

@@ -4,8 +4,8 @@
  */
 module.exports = {
 
-  firstName: 'nagendra',
-  lastName: 'kommuru',
-  emailAddress: 'nagendra@HMCTS.NET',
+  firstName: 'Peter',
+  lastName: 'Parker',
+  emailAddress: 'peter.parker@gmail.com',
 
 };

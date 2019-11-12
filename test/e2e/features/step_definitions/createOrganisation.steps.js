@@ -149,7 +149,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(createOrganisationObject.townName.sendKeys());
     await expect(createOrganisationObject.postcode.sendKeys());
     await createOrganisationObject.continue_button.click();
-    browser.sleep(MID_DELAY);
+    browser.sleep(LONG_DELAY);
   });
   Then(/^I should be display Office Address error$/,async function () {
     await expect(createOrganisationObject.off_address_error_heading.isDisplayed()).to.eventually.be.true;
@@ -198,7 +198,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(createOrganisationObject.PBAnumber1.sendKeys(1234455558));
     await expect(createOrganisationObject.PBAnumber2.sendKeys(1233334988));
     await createOrganisationObject.continue_button.click();
-    browser.sleep(MID_DELAY);
+    browser.sleep(LONG_DELAY);
   });
 
   Then(/^I should be display PBA error$/,  async function () {

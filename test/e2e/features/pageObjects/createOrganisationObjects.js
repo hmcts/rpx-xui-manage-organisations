@@ -10,11 +10,11 @@ class CreateOrganisationObjects {
     this.signinBtn = element(by.css("input.button"));
     this.signOutlink = element(by.xpath("//a[contains(text(),'Signout')]"));
     this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
-    this.start_button = element(by.xpath("//a[@class='govuk-button govuk-button--start']"));
+    this.start_button = element(by.xpath("//*[@id='content']/div/div/a"));
     this.org_name = element(by.css("[id='orgName']"));
     this.continue_button = element(by.css("[id='createButtonContinue']"));
     this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
-    this.townName = element(by.css("[id='townOrCity']"));
+    this.townName = element(by.xpath("//input[@id='townOrCity']"));
     this.postcode = element(by.css("[id='postcode']"));
     this.PBAnumber1 = element(by.css("#PBAnumber1"));
     this.PBAnumber2 = element(by.css("#PBAnumber2"));

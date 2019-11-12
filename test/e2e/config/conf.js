@@ -6,17 +6,6 @@ chai.use(chaiAsPromised);
 
 const argv = minimist(process.argv.slice(2));
 
-//const specFilesFilter = ['../features/**/*.feature'];
-
-// module.exports = {
-//   chai: chai,
-//   chaiAsPromised: chaiAsPromised,
-//   minimist: minimist,
-//   argv: argv,
-//   specFilesFilter: specFilesFilter
-// }
-//
-
 const jenkinsConfig = [
 
   {
@@ -31,7 +20,7 @@ const localConfig = [
   {
     browserName: 'chrome',
     acceptInsecureCerts: true,
-    chromeOptions: { args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
+    chromeOptions: { args: ['--headless','--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
     proxy: {
       proxyType: 'manual',
       httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -47,27 +36,12 @@ const config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   specs: ['../features/**/*.feature'],
-  // specs: [
-  //   '../features/**/caseFile.feature',
-  //   '../features/**/login.feature',
-  //   '../features/**/makeDecision.feature',
-  //   '../features/**/parties.feature',
-  //   '../features/**/questions.feature',
-  //   '../features/**/recentEvents.feature',
-  // ],
-  baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-demo.service.core-compute-demo.internal/',
+  baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
   params: {
-    serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-demo.service.core-compute-demo.internal/',
+    serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
     targetEnv: argv.env || 'local',
-    // username: process.env.TEST_EMAIL,
-    // password: process.env.TEST_PASSWORD,
-    username: 'xuinewsuperuser3@mailnesia.com',
-    password: 'Monday01',
-    fr_judge_username: process.env.FR_EMAIL,
-    fr_judge_password: process.env.FR_PASSWORD,
-    sscs_username: process.env.SSCS_EMAIL,
-    sscs_password: process.env.SSCS_PASSWORD
-
+    username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com' ,
+    password: process.env.TEST_PASSWORD || 'Monday01',
   },
   directConnect: true,
   // seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -86,7 +60,7 @@ const config = {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-    tags: ['@smoke'],
+    tags: ['@all'],
     require: [
       '../support/timeout.js',
       '../support/world.js',
@@ -101,7 +75,7 @@ const config = {
       options: {
         automaticallyGenerateReport: true,
         removeExistingJsonReportFile: true,
-        reportName: 'JUI Functional Tests',
+        reportName: 'XUI Manage Organisation Functional Tests',
         // openReportInBrowser: true,
         jsonDir: 'reports/tests/functional',
         reportPath: 'reports/tests/functional'

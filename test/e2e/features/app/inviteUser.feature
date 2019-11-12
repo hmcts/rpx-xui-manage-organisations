@@ -1,4 +1,4 @@
-@smoke
+@all
 Feature: invite user workflow
 
   Background:
@@ -10,16 +10,17 @@ Feature: invite user workflow
     When I click on invite user button
     Then I should be on display invite user page
 
-
+  @all
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
 
+  @all
   Scenario: invite user validation workflow
     When I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then I should be display the validation error
 
-
+  @all
   Scenario: back button workflow
     When I click on back button
     Then I should be on display the user details

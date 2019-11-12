@@ -1,43 +1,35 @@
-import { LoaderModule } from './../shared/modules/loader/loader.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { AppComponent } from './containers/app/app.component';
-import { SharedModule } from '../shared/shared.module';
-import { CookieModule } from 'ngx-cookie';
-
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
 import { MetaReducer, StoreModule } from '@ngrx/store';
-import { storeFreeze } from 'ngrx-store-freeze';
-import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { effects } from './store/effects';
-import { CustomSerializer, reducers } from './store/';
-
-// from Containers
-import * as fromContainers from './containers/';
-
-// from Components
-import * as fromComponents from './components';
-
-import { ROUTES } from './app.routes';
-
-import { UserProfileModule } from '../user-profile/user-profile.module';
-import { FeeAccountsModule } from 'src/fee-accounts/fee-accounts.module';
-
-import config from '../../api/lib/config';
-import {OrganisationModule} from '../organisation/organisation.module';
-import {UserService} from '../user-profile/services/user.service';
-import {HttpClientModule} from '@angular/common/http';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { CookieModule } from 'ngx-cookie';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
-import { LoggerService } from 'src/shared/services/logger.service';
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-import { JurisdictionService } from 'src/users/services';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
+import { LoggerService } from 'src/shared/services/logger.service';
+import { JurisdictionService } from 'src/users/services';
+import config from '../../api/lib/config';
+import { SharedModule } from '../shared/shared.module';
+import { UserService } from '../user-profile/services/user.service';
+import { UserProfileModule } from '../user-profile/user-profile.module';
+import { LoaderModule } from './../shared/modules/loader/loader.module';
+import { ROUTES } from './app.routes';
+// from Components
+import * as fromComponents from './components';
+// from Containers
+import * as fromContainers from './containers/';
+import { AppComponent } from './containers/app/app.component';
+import { CustomSerializer, reducers } from './store/';
+import { effects } from './store/effects';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -65,7 +57,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
     }),
-    LoaderModule
+    LoaderModule,
+    ExuiCommonLibModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

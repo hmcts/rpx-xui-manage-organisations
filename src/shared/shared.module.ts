@@ -17,6 +17,7 @@ import { HealthCheckService } from './services/health-check.service';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { LoaderModule } from './modules/loader/loader.module';
 import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+import { AllowTermsConditionGuard } from 'src/app/guards/allowTermsCondition.guard';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
     MonitoringService,
     HealthCheckGuard,
     HealthCheckService,
-    TermsConditionGuard
+    TermsConditionGuard,
+    AllowTermsConditionGuard
   ]
 })
 export class SharedModule {

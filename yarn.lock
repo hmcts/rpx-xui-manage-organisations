@@ -303,6 +303,13 @@
   resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.39-alpha.tgz#782d4a4698dae040dd72b26711f04a8d8299d25c"
   integrity sha512-M1364rFLuvktYz5+jVjJ5ZmNUx0/SgoAvH3RsIaT2wFqFf92emuiRyXqax5oSEC5kM9Jpw0rcxEcRbBJWMoglg==
 
+"@hmcts/rpx-xui-common-lib@0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.14.tgz#3be3af4ec6c4303cc2188cc2692c1175b19a5ce4"
+  integrity sha512-g5eSY7kmlllVbnju4S6SZwn4FtJ0ZKhdebpa8BRGngt97MB0/l1Kk+BLzkpHJ9WLpvtixc+bYBSUiFk4qY/H7A==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngrx/effects@^6.0.3":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.1.2.tgz#602f3ee9798e00179075ddef030ded88c28b1aa1"

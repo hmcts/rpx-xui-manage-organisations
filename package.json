@@ -47,11 +47,14 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@hmcts/frontend": "0.0.39-alpha",
+    "@hmcts/rpx-xui-common-lib": "0.0.14",
     "@ngrx/effects": "^6.0.3",
     "@ngrx/router-store": "^6.0.3",
     "@ngrx/store": "^6.0.3",
     "@ngrx/store-devtools": "^6.0.3",
     "@nguniversal/express-engine": "^7.1.0",
+    "@pact-foundation/pact": "^9.2.0",
+    "@pact-foundation/pact-node": "^9.0.6",
     "@types/crypto-js": "^3.1.43",
     "applicationinsights": "^1.4.0",
     "applicationinsights-js": "^1.0.20",
@@ -80,9 +83,7 @@
     "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
-    "zone.js": "^0.8.26",
-    "@pact-foundation/pact": "^9.2.0",
-    "@pact-foundation/pact-node": "^9.0.6"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",

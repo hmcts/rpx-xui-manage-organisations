@@ -1,5 +1,6 @@
 import * as express from 'express'
 import { config } from '../lib/config'
+import { application } from '../lib/config/application.config'
 import { http } from '../lib/http'
 import { postUserTermsAndConditionsUrl } from './termsAndConditionsUtil'
 
@@ -15,7 +16,7 @@ export async function postUserTermsAndConditions(req: express.Request, res: expr
     }
     try {
         const data = {userId: req.body.userId}
-        const url = postUserTermsAndConditionsUrl(config.services.termsAndConditions)
+        const url = postUserTermsAndConditionsUrl(config.services.termsAndConditions, application.idamClient)
         //const response = await http.post(url, data)
         res.send(false)
     } catch (error) {

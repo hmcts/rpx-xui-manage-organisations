@@ -79,7 +79,7 @@ describe('Fee accounts Effects', () => {
 
   describe('loadHasAccepted$', () => {
     it('should return a hasUserAccepted Object - LoadHasAcceptedTCSuccess', () => {
-      const returnValue = {hasUserAccepted: 'true'}
+      const returnValue = 'true';
       AcceptTandCSrviceMock.getHasUserAccepted.and.returnValue(of(returnValue));
       const action = new LoadHasAcceptedTC('1234');
       const completion = new LoadHasAcceptedTCSuccess(returnValue);

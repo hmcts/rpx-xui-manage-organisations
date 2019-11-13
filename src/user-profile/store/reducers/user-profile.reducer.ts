@@ -39,7 +39,7 @@ export function reducer(
       };
     }
     case AuthActionTypes.LOAD_HAS_ACCEPTED_TC_SUCCESS: {
-      const hasUserAccepted = action.payload.toString();
+      const hasUserAccepted = action.payload;
       const tAndC = {
         loaded: true,
         hasUserAccepted

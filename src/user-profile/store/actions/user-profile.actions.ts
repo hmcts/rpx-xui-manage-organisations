@@ -44,7 +44,7 @@ export class LoadHasAcceptedTC implements Action {
 
 export class LoadHasAcceptedTCSuccess implements Action {
   readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC_SUCCESS;
-  constructor(public payload: {hasUserAccepted: string}) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadHasAcceptedTCFail implements Action {

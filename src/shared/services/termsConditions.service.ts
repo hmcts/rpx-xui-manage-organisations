@@ -11,8 +11,8 @@ export class TermsConditionsService {
             version: 1,
             mimeType: 'text/html',
             content: `
-                <h1>Test Terms</h1>
-                <p>These are mock terms returned by the service until we can integrate the backend.</p>
+                <h1 class="govuk-heading-xl">Test Terms</h1>
+                <p class="govuk-body">These are mock terms returned by the service until we can integrate the backend.</p>
             `
         });
     }

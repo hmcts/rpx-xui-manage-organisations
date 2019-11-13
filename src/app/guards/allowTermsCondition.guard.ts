@@ -31,7 +31,7 @@ export class AllowTermsConditionGuard implements CanActivate {
           });
         }
         if (tcConfirmed.hasUserAccepted === 'true') {
-          this.store.dispatch(new fromRoot.Go({path: ['home']}));
+          this.store.dispatch(new fromRoot.Go({path: ['/home']}));
         }
 
       }),

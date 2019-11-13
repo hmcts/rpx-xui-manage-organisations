@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import * as fromRoot from '../../store';
 import { Store } from '@ngrx/store';
-import { NavItemsModel } from '../../models/nav-items.model';
 
 @Component({
     selector: 'app-hmcts-global-header',
@@ -14,6 +13,7 @@ export class HmctsGlobalHeaderComponent {
     }
     @Input() headerTitle: { name: string; url: string };
     @Input() navigation;
+    @Input() isBrandedHeader: boolean;
     @Output() navigate = new EventEmitter<string>();
 
     userValue: any;

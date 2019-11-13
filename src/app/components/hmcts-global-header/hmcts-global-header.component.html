@@ -1,15 +1,22 @@
 <div class="hmcts-header" role="heading" aria-level="1">
     <div class="hmcts-header__container">
-      <div class="govuk-header__logo">
-        <a href="#" class="govuk-header__link govuk-header__link--homepage">
-          <span class="govuk-header__logotype">
-            <span class="govuk-header__logotype-text">
-              MyHMCTS
+      <ng-container  *ngIf="isBrandedHeader ;else noBrandedHeader">
+        <div class="govuk-header__logo">
+          <a href="#" class="govuk-header__link govuk-header__link--homepage">
+            <span class="govuk-header__logotype">
+              <span class="govuk-header__logotype-text">
+                MyHMCTS
+              </span>
             </span>
-          </span>
-        </a>
-      </div>
-      <a class="hmcts-header__link" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+          </a>
+        </div>
+        <a class="hmcts-header__link" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>  
+      </ng-container>
+      <ng-template #noBrandedHeader>
+          <div class="hmcts-header__logo">
+              <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+          </div>
+      </ng-template>
       <div class="hmcts-header__content">
           <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">
               <ul class="hmcts-header__navigation-list" >

@@ -8,8 +8,6 @@ import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
-import * as usersActions from '../../../user-profile/store/';
-import * as fromRoot from '../../../app/store'
 
 @Injectable()
 export class UserProfileEffects {

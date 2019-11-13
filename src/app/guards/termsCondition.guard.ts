@@ -3,7 +3,7 @@ import {CanActivate, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromUserProfile from '../../user-profile/store';
 import * as fromRoot from '../../app/store';
-import {catchError, filter, switchMap, take, tap, map} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class TermsConditionGuard implements CanActivate {
     return this.checkStore().pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))
-    )
+    );
   }
 
   checkStore() {

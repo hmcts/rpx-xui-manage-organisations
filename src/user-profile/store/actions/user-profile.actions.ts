@@ -7,10 +7,10 @@ export enum AuthActionTypes {
   LOGIN_FAILURE = '[Auth] Login Failure',
   GET_USER_DETAILS = '[User] Get User Details',
   GET_USER_DETAILS_SUCCESS = '[User] Get User Details Success',
-  GET_USER_DETAILS_FAIL = '[User]Get User Details Fail',
-  LOAD_HAS_ACCEPTED_TC = '[T&C] Lad Has Accepted',
-  LOAD_HAS_ACCEPTED_TC_SUCCESS = '[T&C] Lad Has Accepted Success',
-  LOAD_HAS_ACCEPTED_TC_FAIL = '[T&C] Lad Has Accepted Fail'
+  GET_USER_DETAILS_FAIL = '[User] Get User Details Fail',
+  LOAD_HAS_ACCEPTED_TC = '[T&C] Load Has Accepted',
+  LOAD_HAS_ACCEPTED_TC_SUCCESS = '[T&C] Load Has Accepted Success',
+  LOAD_HAS_ACCEPTED_TC_FAIL = '[T&C] Load Has Accepted Fail'
 }
 
 export class LogIn implements Action {
@@ -49,7 +49,7 @@ export class LoadHasAcceptedTCSuccess implements Action {
 
 export class LoadHasAcceptedTCFail implements Action {
   readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC_FAIL;
-  constructor(public payload: boolean) {}
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export type UserProfileActions =

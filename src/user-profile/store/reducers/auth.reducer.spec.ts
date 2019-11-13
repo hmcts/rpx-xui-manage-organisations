@@ -38,13 +38,14 @@ describe('Authorisation Reducer', () => {
     it('should return correct state properties', () => {
         const payload: fromAuth.AuthState = {
             isAuthenticated: true,
+            tAndC: { hasUserAccepted: 'false', loaded: false },
             loaded: true,
             loading: false,
             user: null
         };
 
         expect(fromAuth.isAuthenticated(payload)).toEqual(true);
-        expect(fromAuth.getUser(payload)).toEqual(null);
+        expect(fromAuth.getUserConfig(payload)).toEqual(null);
         expect(fromAuth.isUserLoaded(payload)).toEqual(true);
         expect(fromAuth.isUserLoading(payload)).toEqual(false);
 

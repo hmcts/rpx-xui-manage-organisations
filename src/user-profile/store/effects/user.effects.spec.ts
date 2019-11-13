@@ -8,12 +8,17 @@ import { UserProfileEffects } from './user-profile.effects';
 import { GetUserDetails, GetUserDetailsFailure, GetUserDetailsSuccess } from '../actions';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AcceptTcService } from '../../../accept-tc/services/accept-tc.service';
 
 describe('Fee accounts Effects', () => {
     let actions$;
     let effects: UserProfileEffects;
     const UserServiceMock = jasmine.createSpyObj('UserService', [
         'getUserDetails',
+    ]);
+    const AcceptTandCSrviceMock = jasmine.createSpyObj('AcceptTcService', [
+      'getHasUserAccepted',
+      'acceptTandC'
     ]);
 
     beforeEach(() => {
@@ -23,6 +28,10 @@ describe('Fee accounts Effects', () => {
                 {
                     provide: UserService,
                     useValue: UserServiceMock,
+                },
+                {
+                  provide: AcceptTcService,
+                  useValue: AcceptTandCSrviceMock,
                 },
                 fromUserEffects.UserProfileEffects,
                 provideMockActions(() => actions$)

@@ -9,6 +9,7 @@ export const errorMessageMappings = {
     8: 'Dx number can not be null',
     9: 'Sorry, there is a problem with the service. Try again later',
     10: 'This SRA number has already been used. Enter a different SRA number.',
+    11: 'This PBA number has already been used. Enter a different PBA number.',
   };
 
 export const apiErrors = {
@@ -21,4 +22,5 @@ export const apiErrors = {
     7: 'dx_number',
     8: 'DxAddress',
     10: 'SRA_ID Invalid or already exists',
+    11: 'PBA_NUMBER Invalid or already exists',
   };

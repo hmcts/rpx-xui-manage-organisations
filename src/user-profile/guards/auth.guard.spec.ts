@@ -48,14 +48,13 @@ describe('AuthGuard', () => {
         });
     });
 
-    // TODO: fix tests
     describe('canActivate', () => {
-        xit('should return false if not authenticated', inject([AuthGuard], (authGuard: AuthGuard) => {
+        it('should return false if not authenticated', inject([AuthGuard], (authGuard: AuthGuard) => {
             AuthServiceMock.setAuth(false);
             expect(authGuard.canActivate()).toEqual(false);
         }));
 
-        xit('should return true if authenticated', inject([AuthGuard], (authGuard: AuthGuard) => {
+        it('should return true if authenticated', inject([AuthGuard], (authGuard: AuthGuard) => {
             AuthServiceMock.setAuth(true);
             expect(authGuard.canActivate()).toEqual(false);
         }));

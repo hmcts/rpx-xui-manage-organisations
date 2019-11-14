@@ -7,7 +7,7 @@ import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 
 @Injectable()
-export class AllowTermsConditionGuard implements CanActivate {
+export class AcceptTermsAndConditionGuard implements CanActivate {
   constructor(
     private store: Store<fromRoot.State>,
   ) {

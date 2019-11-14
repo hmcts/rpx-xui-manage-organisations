@@ -6,7 +6,11 @@ import * as fromRoot from '../../app/store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 
-@Injectable()
+@Injectable(
+  {
+    providedIn: 'root'
+  }
+)
 export class TermsConditionGuard implements CanActivate {
   constructor(
     private store: Store<fromRoot.State>,

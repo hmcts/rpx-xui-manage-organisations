@@ -7,7 +7,7 @@ import {catchError} from 'rxjs/operators';
 @Injectable()
 export class AcceptTcService {
   constructor(private http: HttpClient) { }
-
+  // TO DO add proper typings
   getHasUserAccepted(userId: string): Observable<any> {
     return this.http
       .get<any>(`/api/userTermsAndConditions/${userId}`)

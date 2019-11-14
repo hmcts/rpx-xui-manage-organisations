@@ -4,7 +4,7 @@ import {RedirectComponent} from './containers/redirect/redirect.component';
 import { ServiceDownComponent,
   CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent } from './components';
 import {TermsConditionGuard} from './guards/termsCondition.guard';
-import { AllowTermsConditionGuard } from './guards/allowTermsCondition.guard';
+import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 
 export const ROUTES: Routes = [
   {
@@ -39,7 +39,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'accept-t-and-c',
-    canActivate: [AuthGuard, AllowTermsConditionGuard],
+    canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
     loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
   },
   {

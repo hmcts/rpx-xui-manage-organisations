@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
+import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
+import { environment as config } from '../../../environments/environment';
 
 /**
  * Root Component that bootstrap all application.
@@ -27,7 +29,8 @@ export class AppComponent implements OnInit {
 
 
   constructor(
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private googleAnalyticsService: GoogleAnalyticsService
   ) {}
 
   ngOnInit() {
@@ -45,6 +48,8 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
+
+    this.googleAnalyticsService.init(config.googleAnalyticsKey);
   }
   onNavigate(event): void {
     if (event === 'sign-out') {

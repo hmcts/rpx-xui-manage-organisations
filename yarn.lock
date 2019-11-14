@@ -303,6 +303,13 @@
   resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.39-alpha.tgz#782d4a4698dae040dd72b26711f04a8d8299d25c"
   integrity sha512-M1364rFLuvktYz5+jVjJ5ZmNUx0/SgoAvH3RsIaT2wFqFf92emuiRyXqax5oSEC5kM9Jpw0rcxEcRbBJWMoglg==
 
+"@hmcts/rpx-xui-common-lib@0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.14.tgz#3be3af4ec6c4303cc2188cc2692c1175b19a5ce4"
+  integrity sha512-g5eSY7kmlllVbnju4S6SZwn4FtJ0ZKhdebpa8BRGngt97MB0/l1Kk+BLzkpHJ9WLpvtixc+bYBSUiFk4qY/H7A==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngrx/effects@^6.0.3":
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-6.1.2.tgz#602f3ee9798e00179075ddef030ded88c28b1aa1"
@@ -949,15 +956,15 @@ applicationinsights-js@^1.0.20:
   resolved "https://registry.yarnpkg.com/applicationinsights-js/-/applicationinsights-js-1.0.20.tgz#e0519a2c043e9b4683d32d327a06c3f18c63d5ca"
   integrity sha512-vN6fEv2fNPZtw76/mv5OJ44cTP/VzSDahdXVIGnRB5Apnf2/9PIl4IyWpwS9biG53I1sWvkw83RjdrAnsIKoRQ==
 
-applicationinsights@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.4.0.tgz#e17e436427b6e273291055181e29832cca978644"
-  integrity sha512-TV8MYb0Kw9uE2cdu4V/UvTKdOABkX2+Fga9iDz0zqV7FLrNXfmAugWZmmdTx4JoynYkln3d5CUHY3oVSUEbfFw==
+applicationinsights@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/applicationinsights/-/applicationinsights-1.5.0.tgz#074df9e525dcfd592822e7b80723b9284d2716fd"
+  integrity sha512-D+JyPrDx9RWVNIwukoe03ANKNdyVe/ejExbR7xMvZTm09553TzXenW2oPZmfN9jeguKSDugzIWdbILMPNSRRlg==
   dependencies:
     cls-hooked "^4.2.2"
     continuation-local-storage "^3.2.1"
     diagnostic-channel "0.2.0"
-    diagnostic-channel-publishers "^0.3.2"
+    diagnostic-channel-publishers "^0.3.3"
 
 aproba@^1.0.3, aproba@^1.1.1:
   version "1.2.0"
@@ -2819,10 +2826,10 @@ di@^0.0.1:
   resolved "https://registry.yarnpkg.com/di/-/di-0.0.1.tgz#806649326ceaa7caa3306d75d985ea2748ba913c"
   integrity sha1-gGZJMmzqp8qjMG112YXqJ0i6kTw=
 
-diagnostic-channel-publishers@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/diagnostic-channel-publishers/-/diagnostic-channel-publishers-0.3.2.tgz#c3d222e0588844b2caaf8b4bfeb98dda2eab0ff9"
-  integrity sha512-2hBlg1BtBT+nd04MGGGZinDv5gOTRQOCzdgk+KRQZ20XJ/uepC0B0rwWLQtz6Tk6InXymWqsk1sMC975cPEReA==
+diagnostic-channel-publishers@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/diagnostic-channel-publishers/-/diagnostic-channel-publishers-0.3.3.tgz#376b7798f4fa90f37eb4f94d2caca611b0e9c330"
+  integrity sha512-qIocRYU5TrGUkBlDDxaziAK1+squ8Yf2Ls4HldL3xxb/jzmWO2Enux7CvevNKYmF2kDXZ9HiRqwjPsjk8L+i2Q==
 
 diagnostic-channel@0.2.0:
   version "0.2.0"

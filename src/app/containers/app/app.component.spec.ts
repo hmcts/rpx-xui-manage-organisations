@@ -8,9 +8,11 @@ import { cold } from 'jasmine-marbles';
 
 import { AppConstants } from '../../app.constants';
 import * as fromAuth from '../../../user-profile/store';
+import { RouterTestingModule } from '@angular/router/testing';
+import { windowToken } from '@hmcts/rpx-xui-common-lib';
 
 
-
+const windowMock: Window = { gtag: () => {}} as any;
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
   beforeEach(async(() => {
@@ -21,12 +23,19 @@ describe('AppComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        RouterTestingModule,
         StoreModule.forRoot(
           {
             ...reducers,
             userProfile: combineReducers(fromAuth.reducer)
           })
-      ]
+      ],
+      providers: [
+        {
+          provide: windowToken,
+          useValue: windowMock
+        },
+      ],
     }).compileComponents();
     store = TestBed.get(Store);
 

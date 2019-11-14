@@ -90,15 +90,15 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  Given(/^I am logged into manage organisation with SSCS judge details$/, async function () {
-    browser.sleep(LONG_DELAY);
-    await loginPage.emailAddress.sendKeys(this.config.username);
-    await loginPage.password.sendKeys(this.config.password);
-    await loginPage.clickSignIn();
-    browser.sleep(MID_DELAY);
-  });
+  // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
+  //   browser.sleep(LONG_DELAY);
+  //   await loginPage.emailAddress.sendKeys(this.config.username);
+  //   await loginPage.password.sendKeys(this.config.password);
+  //   await loginPage.clickSignIn();
+  //   browser.sleep(MID_DELAY);
+  // });
 
-  Given(/^I am logged into manage organisation with FR judge details$/, async function () {
+  Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     browser.sleep(LONG_DELAY);
     await loginPage.emailAddress.sendKeys(this.config.username);
     await loginPage.password.sendKeys(this.config.password);

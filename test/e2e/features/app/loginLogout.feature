@@ -1,4 +1,3 @@
-@smoke
 Feature: Login
 
   Background:
@@ -26,15 +25,15 @@ Feature: Login
     Then I should see failure error summary
 
   @all
-  Scenario: login and log out from manage organisation as SSCS user
-    Given I am logged into manage organisation with SSCS judge details
+  Scenario: login and log out from manage organisation as ManageOrg user
+    Given I am logged into manage organisation with ManageOrg user details
     Then I should be redirected to manage organisation dashboard page
     When I select the sign out link
     Then I should be redirected to the Idam login page
 
   @all
-  Scenario: login and log out from manage organisation as FR user
-    Given I am logged into manage organisation with FR judge details
+  Scenario: login and log out from manage organisation as ManageOrg user
+    Given I am logged into manage organisation with ManageOrg user details
     Then I should be redirected to manage organisation dashboard page
     When I select the sign out link
     Then I should be redirected to the Idam login page

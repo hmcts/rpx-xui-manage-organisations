@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TCDocument } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import * as fromRoot from '../../store';
 import { LoadTermsConditions } from '../../store';
 

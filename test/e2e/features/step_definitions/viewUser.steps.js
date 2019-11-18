@@ -13,6 +13,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   let headerPage = new HeaderPage();
 
   When(/^I click on user button$/, async function () {
+    browser.sleep(LONG_DELAY);
     await headerPage.clickUser();
     browser.sleep(AMAZING_DELAY);
   });
@@ -20,6 +21,6 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   Then(/^I should be on display the user details$/, async function () {
     browser.sleep(AMAZING_DELAY);
     expect(await viewUserPage.amOnPage()).to.be.true;
-
+    browser.sleep(LONG_DELAY);
   });
 });

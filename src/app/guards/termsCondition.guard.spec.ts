@@ -6,7 +6,7 @@ describe('Accept Tc Component', () => {
   let guard: TermsConditionGuard;
   let mockStore: any;
   let mockService: any;
-  let actions$;
+  // let actions$;
 
   beforeEach(() => {
     mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);

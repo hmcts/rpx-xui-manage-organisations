@@ -1,4 +1,6 @@
 import * as express from 'express'
+import { http } from 'lib/http'
+import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 import { config } from '../lib/config'
 import { application } from '../lib/config/application.config'
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
@@ -15,8 +17,9 @@ async function getUserTermsAndConditions(req: express.Request, res: express.Resp
     }
     try {
         const url = getUserTermsAndConditionsUrl(config.services.termsAndConditions, req.params.userId, application.idamClient)
-        // const response = await http.get(url)
-        res.send(true)
+        const response = await http.get(url)
+        const userTandCResponse = response.data as GetUserAcceptTandCResponse
+        res.send(userTandCResponse.accepted)
     } catch (error) {
         // we get a 404 if the user has not agreed to Terms and conditions
         if (error.status === 404) {

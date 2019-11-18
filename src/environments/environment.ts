@@ -5,8 +5,20 @@
 
 export const environment = {
     production: false,
-    // remove this line if GA is need only for production. For time being, to test on aat env, added this.
-    googleAnalyticsKey: 'UA-124734893-1',
+    googleAnalyticsKey: 'UA-124734893-4',
     serviceDeskEmail: 'DCD-ITServiceDesk@hmcts.net',
-    serviceDeskTel: '0300 3030686'
+    serviceDeskTel: '0300 3030686',
+  cookies: {
+    token: '__auth__',
+    userId: '__userid__',
+  },
+  urls: {
+    idam: {
+      idamApiUrl: 'https://idam-api.platform.hmcts.net',
+      idamClientID: 'xuimowebapp',
+      idamLoginUrl: 'https://hmcts-access.service.gov.uk',
+      indexUrl: '/',
+      oauthCallbackUrl: 'oauth2/callback'
+    }
+  }
 };

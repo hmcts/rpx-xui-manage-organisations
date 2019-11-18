@@ -15,7 +15,7 @@ module "app" {
     capacity     = "${var.capacity}"
     is_frontend = "${!(var.env == "preview" || var.env == "spreview") ? 1 : 0}"
     additional_host_name = "${var.additional_host_name}"
-    https_only="false"
+    https_only="true"
     common_tags  = "${var.common_tags}"
     asp_rg = "${local.app_full_name}-${var.env}"
     asp_name = "${var.shared_product_name}-${var.env}"
@@ -46,7 +46,7 @@ data "azurerm_key_vault" "key_vault" {
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {
-    name = "xui-s2s-token"
+    name = "mo-s2s-client-secret"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 

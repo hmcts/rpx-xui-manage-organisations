@@ -20,7 +20,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
           <h1>{{config.legend}}</h1>
         </legend>
 
-        <span [id]="config.key+'-hint'" class="govuk-hint" *ngIf="config.hint">
+        <span [id]="config.id+'-hint'" class="govuk-hint" *ngIf="config.hint">
           {{config.hint}}
         </span>
         <ng-content></ng-content>

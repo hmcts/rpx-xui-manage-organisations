@@ -10,18 +10,17 @@ async function handleUserListRoute(req, res) {
     //for testing hardcode your org id
     //const orgId = 'B13GT1M'
     try {
-        const url = `${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users`;
-        console.log(url);
+        const url = `${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users`
         const response = await http.get(url)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {
-        const errReport = JSON.stringify({
-            apiError: error,
+        const errReport = {
+            apiError: error.data && error.data.message ? error.data.message : error,
             apiStatusCode: error.statusCode,
             message: 'List of users route error',
-        })
-        res.send(errReport).status(500)
+        }
+        res.status(500).send(errReport)
     }
 }
 

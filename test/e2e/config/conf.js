@@ -36,9 +36,9 @@ const config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   specs: ['../features/**/*.feature'],
-  baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat-staging.service.core-compute-aat.internal',
+  baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
   params: {
-    serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat-staging.service.core-compute-aat.internal',
+    serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
     targetEnv: argv.env || 'local',
     username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com' ,
     password: process.env.TEST_PASSWORD || 'Monday01',

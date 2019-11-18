@@ -4,7 +4,7 @@ export interface FormDataValuesModel {
   officeAddressTwo?: string;
   townOrCity?: string;
   county?: string;
-  postcode?: string;
+  postCode?: string;
   PBAnumber1?: number;
   PBAnumber2?: number;
   DXnumber?: number;

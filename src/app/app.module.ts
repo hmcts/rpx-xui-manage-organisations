@@ -38,6 +38,7 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { JurisdictionService } from 'src/users/services';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -65,7 +66,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
     }),
-    LoaderModule
+    LoaderModule,
+    ExuiCommonLibModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

@@ -26,6 +26,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   When(/^I click on invite user button$/, async function () {
     await viewUserPage.clickInviteUser();
+    browser.sleep(LONG_DELAY);
   });
 
   Then(/^I should be on display invite user page$/, async function () {

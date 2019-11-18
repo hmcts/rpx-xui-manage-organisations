@@ -17,7 +17,7 @@ Feature: Login
 #    Then I logout successfully and back to Login page
 
 
-
+  @all
   Scenario: un-authenticated user login
     Then I am on Idam login page
     When I enter an Invalid email-address and password to login
@@ -31,7 +31,6 @@ Feature: Login
     When I select the sign out link
     Then I should be redirected to the Idam login page
 
-  @all
   Scenario: login and log out from manage organisation as ManageOrg user
     Given I am logged into manage organisation with ManageOrg user details
     Then I should be redirected to manage organisation dashboard page

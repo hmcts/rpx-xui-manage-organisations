@@ -87,7 +87,7 @@ defineSupportCode(function ({ Given, When, Then }) {
       .to
       .eventually
       .equal('Manage organisation details for civil and family law cases');
-
+    browser.sleep(LONG_DELAY);
   });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {

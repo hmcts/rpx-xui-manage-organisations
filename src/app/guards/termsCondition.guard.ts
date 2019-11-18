@@ -14,25 +14,17 @@ export class TermsConditionGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return this.checkStore().pipe(
+    return this.checkStore(this.store).pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))
     );
   }
 
-  checkStore() {
-    return this.store.pipe(select(fromUserProfile.getHasUserSelectedTC),
+  checkStore(store: Store<fromRoot.State>) {
+    return store.pipe(select(fromUserProfile.getHasUserSelectedTC),
       tap(tcConfirmed => {
-        if (!tcConfirmed.loaded) {
-          this.store.pipe(select(fromUserProfile.getUid), take(2)).subscribe(uid => {
-            if (uid) {
-              this.store.dispatch(new fromUserProfile.LoadHasAcceptedTC(uid));
-            }
-          });
-        }
-        if (tcConfirmed.hasUserAccepted === 'false' && tcConfirmed.loaded) {
-          this.store.dispatch(new fromRoot.Go({path: ['/accept-t-and-c']}));
-        }
+        this.loadTandCIfNotLoaded(tcConfirmed, store);
+        this.dispatchGoIfUserHasNotAccepted(tcConfirmed, store, '/accept-t-and-c');
 
       }),
       filter(tcConfirmed => tcConfirmed.loaded),
@@ -40,5 +32,23 @@ export class TermsConditionGuard implements CanActivate {
     );
   }
 
+  dispatchGoIfUserHasNotAccepted(tcConfirmed: { hasUserAccepted: string; loaded: boolean; }, store: Store<fromRoot.State>, url: string) {
+    if (tcConfirmed.hasUserAccepted === 'false' && tcConfirmed.loaded) {
+      store.dispatch(new fromRoot.Go({ path: [url] }));
+    }
+  }
 
+  loadTandCIfNotLoaded(tcConfirmed: { hasUserAccepted: string; loaded: boolean; }, store: Store<fromRoot.State>) {
+    if (!tcConfirmed.loaded) {
+      store.pipe(select(fromUserProfile.getUid), take(2)).subscribe(uid => {
+        this.dispatchLoadHasAcceptedTC(uid, store);
+      });
+    }
+  }
+
+  dispatchLoadHasAcceptedTC(uid: any, store: Store<fromRoot.State>) {
+    if (uid) {
+      store.dispatch(new fromUserProfile.LoadHasAcceptedTC(uid));
+    }
+  }
 }

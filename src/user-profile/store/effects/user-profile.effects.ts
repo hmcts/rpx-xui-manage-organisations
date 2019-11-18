@@ -60,6 +60,20 @@ export class UserProfileEffects {
     })
   );
 
+  @Effect()
+  acceptTandC$ = this.actions$.pipe(
+    ofType(AuthActionTypes.ACCEPT_T_AND_C),
+    map((action: authActions.AcceptTandC) => action.payload),
+    switchMap((userData) => {
+      return this.acceptTcService.acceptTandC(userData).pipe(
+        map(tcDetails => {
+          return new authActions.AcceptTandCSuccess(tcDetails);
+        }),
+        catchError(error => of(new authActions.AcceptTandCFail(error)))
+      );
+    })
+  );
+
 
 }
 

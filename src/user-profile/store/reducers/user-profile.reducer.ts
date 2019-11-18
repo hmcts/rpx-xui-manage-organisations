@@ -49,6 +49,16 @@ export function reducer(
         tAndC
       };
     }
+    case AuthActionTypes.ACCEPT_T_AND_C_SUCCESS: {
+      const tAndC = {
+        loaded: true,
+        hasUserAccepted: action.payload.toString()
+      };
+      return {
+        ...state,
+        tAndC
+      };
+    }
   }
   return state;
 }

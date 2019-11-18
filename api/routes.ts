@@ -25,6 +25,6 @@ router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 router.use('/userTermsAndConditions/:userId', getUserTermsAndConditions)
-router.use('/api/userTermsAndConditions', postUserTermsAndConditions)
+router.use('/userTermsAndConditions', postUserTermsAndConditions)
 
 export default router

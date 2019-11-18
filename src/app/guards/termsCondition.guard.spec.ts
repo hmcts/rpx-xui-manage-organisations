@@ -16,9 +16,14 @@ describe('Accept Tc Component', () => {
     expect(guard).toBeTruthy();
   });
 
-  it('can dispatchLoadHasAcceptedTC', () => {
+  it('can dispatchLoadHasAcceptedTC with userId', () => {
     guard.dispatchLoadHasAcceptedTC('userId', mockStore);
     expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('dispatchLoadHasAcceptedTC with invalid userId', () => {
+    guard.dispatchLoadHasAcceptedTC(undefined, mockStore);
+    expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 
   it('can loadTandCIfNotLoaded', () => {
@@ -29,9 +34,23 @@ describe('Accept Tc Component', () => {
     expect(mockStore.pipe).toHaveBeenCalled();
   });
 
+  it('can loadTandCIfNotLoaded when not loaded', () => {
+    const tAndC = { hasUserAccepted: 'false', loaded: true };
+    const observable = of({ hasUserAccepted: 'false', loaded: true });
+    mockStore.pipe.and.returnValue(observable);
+    guard.loadTandCIfNotLoaded(tAndC, mockStore);
+    expect(mockStore.pipe).not.toHaveBeenCalled();
+  });
+
   it('can dispatchGoIfUserHasNotAccepted', () => {
     const tAndC = { hasUserAccepted: 'false', loaded: true };
     guard.dispatchGoIfUserHasNotAccepted(tAndC, mockStore, 'tAndC');
     expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('can dispatchGoIfUserHasNotAccepted', () => {
+    const tAndC = { hasUserAccepted: 'true', loaded: true };
+    guard.dispatchGoIfUserHasNotAccepted(tAndC, mockStore, 'tAndC');
+    expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 });

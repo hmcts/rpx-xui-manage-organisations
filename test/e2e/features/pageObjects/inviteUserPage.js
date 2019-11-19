@@ -60,5 +60,11 @@ class InviteUserPage{
     let header = await this.getPageHeader();
     return header === 'Invite user';
   }
+
+  async amOnUserConfirmationPage(){
+    let header = await this.getPageHeader();
+    return header === "You've invited";
+  }
+
 }
 module.exports = InviteUserPage;

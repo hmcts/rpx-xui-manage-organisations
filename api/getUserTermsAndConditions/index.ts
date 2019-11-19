@@ -1,8 +1,8 @@
 import * as express from 'express'
-import { http } from 'lib/http'
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 import { config } from '../lib/config'
 import { application } from '../lib/config/application.config'
+import { http } from '../lib/http'
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
 
 async function getUserTermsAndConditions(req: express.Request, res: express.Response) {

@@ -38,14 +38,19 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
     await inviteUserPage.enterIntoTextFieldFirstName(TestData.firstName);
     await inviteUserPage.enterIntoTextFieldLastName(TestData.lastName);
-    await inviteUserPage.enterIntoTextFieldEmailAddress(TestData.emailAddress);
+
+      var emailAddress =Math.random().toString(36).substring(2);
+
+    await inviteUserPage.enterIntoTextFieldEmailAddress(emailAddress+"@gmail.com");
     await inviteUserPage.manageUserCheckbox.click();
-    browser.sleep(AMAZING_DELAY);
+    browser.sleep(LONG_DELAY);
     await inviteUserPage.clickSendInvitationButton();
+    browser.sleep(LONG_DELAY);
 
   });
   Then(/^user should be created successfuly$/, async function () {
-    expect(await new InviteUserPage().amOnPage()).to.be.true;
+    browser.sleep(LONG_DELAY);
+    expect(await new InviteUserPage().amOnUserConfirmationPage()).to.be.true;
 
   });
   When(/^I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
@@ -63,6 +68,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
       .eventually
       .equal('There is a problem');
   });
+
   When(/^I click on back button$/, async function () {
     browser.sleep(AMAZING_DELAY);
     await inviteUserPage.clickBackButton();

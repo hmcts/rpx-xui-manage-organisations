@@ -40,8 +40,10 @@ const config = {
   params: {
     serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
     targetEnv: argv.env || 'local',
-    username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com' ,
-    password: process.env.TEST_PASSWORD || 'Monday01',
+    // username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com' ,
+    // password: process.env.TEST_PASSWORD || 'Monday01',
+    username: 'lukesuperuserxui@mailnesia.com',
+    password: 'Monday01'
   },
   directConnect: true,
   // seleniumAddress: 'http://localhost:4444/wd/hub',

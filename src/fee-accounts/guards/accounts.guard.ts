@@ -11,8 +11,6 @@ export class AccountsGuard implements CanActivate {
     constructor(private store: Store<fromStore.OrganisationState>) { }
 
     canActivate(): Observable<boolean> {
-        // purposefully not allowing the user to hit Fee and Accounts tab
-        return of(false);
         return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))

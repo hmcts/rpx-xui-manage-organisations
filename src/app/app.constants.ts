@@ -101,6 +101,7 @@ const ccdRoles = [
   'caseworker-probate',
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
+  'caseworker-ia-legalrep-solicitor',
   'caseworker-publiclaw-solicitor'
 ];
 

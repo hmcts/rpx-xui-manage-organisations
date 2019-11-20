@@ -28,7 +28,6 @@ export default {
     logging: 'debug',
     jurisdictions: [
       {id: 'SSCS'},
-      {id: 'SSCS'},
       {id: 'AUTOTEST1'},
       {id: 'DIVORCE'},
       {id: 'PROBATE'},

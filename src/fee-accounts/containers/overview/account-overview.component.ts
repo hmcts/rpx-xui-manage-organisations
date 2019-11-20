@@ -1,8 +1,8 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Store, select, Action } from '@ngrx/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import {Observable, Subscription, combineLatest} from 'rxjs';
+import {Observable, Subscription, combineLatest, of} from 'rxjs';
 import {FeeAccount} from '../../models/pba-accounts';
 import * as fromOrgStore from '../../../organisation/store/index';
 import { Organisation } from 'src/organisation/organisation.model';
@@ -18,6 +18,7 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>;
   orgData: Organisation;
   org$: Observable<Organisation>;
+  isOrgAccountAvailable$: Observable<boolean>;
   organisationSubscription: Subscription;
   dependanciesSubscription: Subscription;
   constructor(private feeStore: Store<fromAccountStore.FeeAccountsState>,
@@ -36,7 +37,8 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
     if (this.org$) {
       this.organisationSubscription = this.org$.subscribe(( data) => {
         this.orgData = data;
-        this.feeStore.dispatch(new fromAccountStore.LoadFeeAccounts(data.paymentAccount));
+        const anyAccountForOrg = this.dispatchLoadFeeAccount(data);
+        this.isOrgAccountAvailable$ = of(anyAccountForOrg);
       });
     }
     this.accounts$ = this.feeStore.pipe(select(fromAccountStore.feeAccounts));
@@ -46,6 +48,17 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
       { header: 'Account name', key: 'account_name' }
     ];
   }
+  dispatchLoadFeeAccount(organisation: Organisation): boolean {
+    const anyAccountForOrg = organisation.paymentAccount.length > 0;
+    anyAccountForOrg ? this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(organisation.paymentAccount)) :
+      this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountsSuccess([]));
+    return anyAccountForOrg;
+  }
+
+  dispatchAction(feeStore: Store<fromAccountStore.FeeAccountsState>, action: Action) {
+    feeStore.dispatch(action);
+  }
+
   ngOnDestroy(): void {
     if (this.organisationSubscription) {
       this.organisationSubscription.unsubscribe();

@@ -14,8 +14,10 @@ class ViewUserPage {
   }
 
   async amOnPage() {
+    browser.sleep(LONG_DELAY);
     let header = await this.getPageHeader();
     return header === "Users";
+    browser.sleep(LONG_DELAY);
   }
 
   async clickInviteUser() {

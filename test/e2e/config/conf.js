@@ -36,9 +36,9 @@ const config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   specs: ['../features/**/*.feature'],
-  baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
+  baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
   params: {
-    serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
+    serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
     targetEnv: argv.env || 'local',
     // username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com' ,
     // password: process.env.TEST_PASSWORD || 'Monday01',
@@ -53,6 +53,9 @@ const config = {
 
   onPrepare() {
     browser.waitForAngularEnabled(false);
+    browser.executeScript('window.localStorage.clear();');
+    browser.executeScript('window.sessionStorage.clear();');
+    browser.driver.manage().deleteAllCookies();
     global.expect = chai.expect;
     global.assert = chai.assert;
     global.should = chai.should;

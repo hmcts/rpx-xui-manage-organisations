@@ -45,6 +45,25 @@ export function reducer(
           loaded: true,
           loading: false
       };
+      }
+      case fromFeeAccountActions.LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL: {
+        const payload = action.payload;
+        let feeAccounts = payload;
+        if (feeAccounts.length !== 0) {
+          feeAccounts = payload.map((entity: FeeAccount) => {
+              const element: FeeAccountSummary = {
+                ...entity,
+                routerLink: entity.account_number ? `/fee-accounts/account/${entity.account_number}/` : ''
+              };
+              return element;
+            });
+        }
+        return {
+          ...state,
+            feeAccounts,
+            loaded: true,
+            loading: false
+        };
     }
 
   }

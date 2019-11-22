@@ -15,7 +15,7 @@ nodejs:
     rpx:
       resourceGroup: rpx
       secrets:
-        - xui-s2s-token
+        - mo-s2s-client-secret
         - xui-oauth2-token
         - AppInsightsInstrumentationKey
   # Don't modify below here

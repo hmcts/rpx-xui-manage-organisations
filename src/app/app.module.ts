@@ -29,6 +29,7 @@ import * as fromContainers from './containers/';
 import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
+import {TermsConditionGuard} from './guards/termsCondition.guard';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const metaReducers: MetaReducer<any>[] = !config.production

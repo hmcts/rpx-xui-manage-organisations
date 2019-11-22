@@ -29,7 +29,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
     email: ['Enter email address', 'Email must contain at least the @ character'],
-    roles: ['Select at least one option'],
+    roles: ['You must select at least one action'],
   };
   jurisdictions: any[];
   juridictionSubscription: Subscription;
@@ -49,7 +49,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
-    this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJuridictions))
+    this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
                                    .subscribe(value => this.jurisdictions = value,
                                    (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
     this.store.dispatch(new fromAppStore.LoadJurisdictions());

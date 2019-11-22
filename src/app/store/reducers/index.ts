@@ -21,7 +21,8 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
   routerReducer: fromRouter.routerReducer,
-  appState: fromApp.reducer
+  appState: fromApp.reducer,
+
 };
 
 export const getRouterState = createFeatureSelector<

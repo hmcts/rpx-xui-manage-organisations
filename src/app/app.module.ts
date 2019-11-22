@@ -7,7 +7,7 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 // ngrx
 import { MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { storeFreeze } from 'ngrx-store-freeze';
+
 import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
@@ -33,7 +33,7 @@ import {TermsConditionGuard} from './guards/termsCondition.guard';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
-  ? [storeFreeze]
+  ? []
   : [];
 
 
@@ -48,11 +48,11 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     HttpClientModule,
     CookieModule.forRoot(),
     RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers, runtimeChecks: { strictStateImmutability: true, strictActionImmutability: true } }),
     EffectsModule.forRoot(effects),
     SharedModule,
     UserProfileModule,
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,

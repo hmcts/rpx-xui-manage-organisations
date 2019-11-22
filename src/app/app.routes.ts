@@ -16,31 +16,31 @@ export const ROUTES: Routes = [
   {
     path: 'organisation',
     canActivate: [AuthGuard, TermsConditionGuard],
-    loadChildren: '../organisation/organisation.module#OrganisationModule'
+    loadChildren: () => import('../organisation/organisation.module').then(m => m.OrganisationModule)
   },
   {
     path: 'users',
     canActivate: [AuthGuard, TermsConditionGuard],
-    loadChildren: '../users/users.module#UsersModule'
+    loadChildren: () => import('../users/users.module').then(m => m.UsersModule)
   },
   {
     path: 'fee-accounts',
     canActivate: [AuthGuard],
-    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
+    loadChildren: () => import('../fee-accounts/fee-accounts.module').then(m => m.FeeAccountsModule)
   },
   {
     path: 'style-guide',
     canActivate: [AuthGuard],
-    loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
+    loadChildren: () => import('../style-guide/style-guide.module').then(m => m.StyleGuideModule)
   },
   {
     path: 'register-org',
-    loadChildren: '../register/register.module#RegisterModule'
+    loadChildren: () => import('../register/register.module').then(m => m.RegisterModule)
   },
   {
     path: 'accept-t-and-c',
     canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
-    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
+    loadChildren: () => import('../accept-tc/accept-tc.module').then(m => m.AcceptTcModule)
   },
   {
     path: 'service-down',

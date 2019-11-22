@@ -47,7 +47,7 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "@hmcts/frontend": "0.0.39-alpha",
-    "@hmcts/rpx-xui-common-lib": "0.0.14",
+    "@hmcts/rpx-xui-common-lib": "0.0.16",
     "@ngrx/effects": "^6.0.3",
     "@ngrx/router-store": "^6.0.3",
     "@ngrx/store": "^6.0.3",

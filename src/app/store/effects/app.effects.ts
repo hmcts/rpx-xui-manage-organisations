@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
-import * as appActions from '../actions';
-import { map, switchMap, catchError } from 'rxjs/operators';
-
-import * as usersActions from '../../../users/store/actions';
-import * as fromUserProfile from '../../../user-profile/store';
-import { JurisdictionService } from 'src/users/services';
 import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
+import { JurisdictionService } from 'src/users/services';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import * as fromUserProfile from '../../../user-profile/store';
+import * as usersActions from '../../../users/store/actions';
+import * as appActions from '../actions';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
-    private autGuard: AuthGuard
+    private autGuard: AuthGuard,
+    private readonly termsService: TermsConditionsService
   ) { }
 
   @Effect()
@@ -52,6 +52,17 @@ export class AppEffects {
       return this.jurisdictionService.getJurisdictions().pipe(
         map(jurisdictions => new appActions.LoadJurisdictionsSuccess(jurisdictions)),
         catchError(error => of(new appActions.LoadJurisdictionsFail(error)))
+      );
+    })
+  );
+
+  @Effect()
+  loadTermsConditions$ = this.actions$.pipe(
+    ofType(appActions.LOAD_TERMS_CONDITIONS),
+    switchMap(() => {
+      return this.termsService.getTermsConditions().pipe(
+        map(doc => new appActions.LoadTermsConditionsSuccess(doc)),
+        catchError(err => of(new appActions.LoadTermsConditionsFail(err)))
       );
     })
   );

@@ -24,7 +24,7 @@ describe('CheckboxComponent', () => {
         classes;
         labelClasses;
         validate;
-        @ViewChild(CheckboxComponent, /* TODO: add static flag */ {})
+        @ViewChild(CheckboxComponent, { static: false })
         public checkboxComponent: CheckboxComponent;
     }
 

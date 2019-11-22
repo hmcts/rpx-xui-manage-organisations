@@ -20,7 +20,7 @@ describe('FieldsetComponent', () => {
         data: Array<any>;
 
 
-        @ViewChild(FieldsetComponent, /* TODO: add static flag */ {})
+        @ViewChild(FieldsetComponent, { static: false })
         public fieldsetComponent: FieldsetComponent;
     }
 

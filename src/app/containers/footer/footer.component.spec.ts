@@ -9,7 +9,7 @@ describe('FooterComponent', () => {
         template: `<app-footer></app-footer>`
     })
     class TestDummyHostComponent {
-        @ViewChild(FooterComponent, /* TODO: add static flag */ {})
+        @ViewChild(FooterComponent, { static: false })
         public footerComponent: FooterComponent;
     }
 

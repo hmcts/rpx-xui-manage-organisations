@@ -1,3 +1,6 @@
+<app-notification-banner-component>
+    {{errorMessages$ | async }}
+</app-notification-banner-component>
 <app-hmcts-main-wrapper [title]="'Fee accounts'">
   <account-overview-container
   *ngIf="!(loading$ | async) else loading"

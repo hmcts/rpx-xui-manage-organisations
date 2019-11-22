@@ -20,12 +20,13 @@ export class HeaderComponent implements OnInit {
   @Output() navigate = new EventEmitter<string>();
 
 
+  public isBrandedHeader = false;
   isUserLoggedIn$: Observable<boolean>;
 
   constructor(public store: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
-    this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
+    this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getShowHeaderItems));
 
   }
 

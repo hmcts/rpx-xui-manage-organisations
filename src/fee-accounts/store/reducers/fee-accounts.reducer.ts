@@ -1,14 +1,16 @@
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
-import {PbaAccounts, PbaAccountsSummary, FeeAccount, FeeAccountSummary} from '../../models/pba-accounts';
+import {FeeAccount, FeeAccountSummary} from '../../models/pba-accounts';
 
 export interface FeeAccountsState {
   feeAccounts: Array<FeeAccount> | null;
+  oneOrMoreAccountMissing: boolean;
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: FeeAccountsState = {
   feeAccounts: null,
+  oneOrMoreAccountMissing: false,
   loaded: false,
   loading: false,
 };
@@ -33,7 +35,8 @@ export function reducer(
         feeAccounts = payload.map((entity: FeeAccount) => {
             const element: FeeAccountSummary = {
               ...entity,
-              routerLink: `/fee-accounts/account/${entity.account_number}/`
+              routerLink: `/fee-accounts/account/${entity.account_number}/`,
+              isAccountInfoMissing: false
             };
             return element;
           });
@@ -42,6 +45,7 @@ export function reducer(
       return {
         ...state,
           feeAccounts,
+          oneOrMoreAccountMissing: false,
           loaded: true,
           loading: false
       };
@@ -53,7 +57,8 @@ export function reducer(
           feeAccounts = payload.map((entity: FeeAccount) => {
               const element: FeeAccountSummary = {
                 ...entity,
-                routerLink: entity.account_number ? `/fee-accounts/account/${entity.account_number}/` : ''
+                routerLink: entity.account_name ? `/fee-accounts/account/${entity.account_number}/` : '',
+                isAccountInfoMissing: entity.account_name === null || entity.account_name === undefined || entity.account_name === ''
               };
               return element;
             });
@@ -61,6 +66,7 @@ export function reducer(
         return {
           ...state,
             feeAccounts,
+            oneOrMoreAccountMissing: true,
             loaded: true,
             loading: false
         };
@@ -74,3 +80,4 @@ export function reducer(
 export const getFeeAccounts = (state: FeeAccountsState) => state.feeAccounts;
 export const getFeeAccountsLoading = (state: FeeAccountsState) => state.loading;
 export const getFeeAccountsLoaded = (state: FeeAccountsState) => state.loaded;
+export const getOneOrMoreAccountMissingLoaded = (state: FeeAccountsState) => state.oneOrMoreAccountMissing;

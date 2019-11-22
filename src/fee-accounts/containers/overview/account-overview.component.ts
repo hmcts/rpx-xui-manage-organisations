@@ -22,10 +22,12 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   organisationSubscription: Subscription;
   dependanciesSubscription: Subscription;
   oneOrMoreAccountMissing$: Observable<boolean>;
+  errorMessages$: Observable<Array<string>>;
   constructor(private feeStore: Store<fromAccountStore.FeeAccountsState>,
               private organisationStore: Store<fromOrgStore.OrganisationState>) {}
 
   ngOnInit(): void {
+    this.errorMessages$ = this.feeStore.pipe(select(fromAccountStore.getErrorMessages));
     const isOrgLoaded$ = this.organisationStore.pipe(select(fromOrgStore.getOrganisationLoaded));
     if (isOrgLoaded$) {
       this.dependanciesSubscription = isOrgLoaded$.subscribe((org) => {

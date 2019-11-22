@@ -9,3 +9,4 @@ export const feeAccounts = createSelector( getFeeAccountsState, fromFeeAccounts.
 export const feeAccountsLoading = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoading);
 export const feeAccountsLoaded = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoaded);
 export const isOneOrMorefeeAccountsMissing = createSelector(getFeeAccountsState, fromFeeAccounts.getOneOrMoreAccountMissingLoaded);
+export const getErrorMessages = createSelector(getFeeAccountsState, fromFeeAccounts.getFeeAccountErrorMessages);

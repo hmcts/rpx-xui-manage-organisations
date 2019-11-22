@@ -303,10 +303,10 @@
   resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.39-alpha.tgz#782d4a4698dae040dd72b26711f04a8d8299d25c"
   integrity sha512-M1364rFLuvktYz5+jVjJ5ZmNUx0/SgoAvH3RsIaT2wFqFf92emuiRyXqax5oSEC5kM9Jpw0rcxEcRbBJWMoglg==
 
-"@hmcts/rpx-xui-common-lib@0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.16.tgz#31605c7e29c152e3ac9f9f95671f48f35ac84a3e"
-  integrity sha512-cYla6US8D+bTp6GJVAVUTt7g6l5T/K9JdsyRVpTdI2GtnfkUzYtoMfyNLOFo4bi2WdhBTMMkqWuks0F2b8SQUw==
+"@hmcts/rpx-xui-common-lib@0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.18.tgz#bcac01d40547991bebb3586075bc08abe9f6abab"
+  integrity sha512-P9G5bLlDeyu0XFwWtMnu/pGcnivZmDlXMU66DnM7OqSyrJS1vj5bHJOFC3dFlDgdKA07Jr5YDHYC4O/R5mCOxw==
   dependencies:
     tslib "^1.9.0"
 

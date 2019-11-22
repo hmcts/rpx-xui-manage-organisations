@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(public store: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
-    this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
+    this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getShowHeaderItems));
 
   }
 

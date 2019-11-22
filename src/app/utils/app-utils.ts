@@ -130,4 +130,7 @@ export class AppUtils {
       }
     return AppConstants.ENVIRONMENT_NAMES.prod;
   }
+  static showSubHeaderItems(isAuth: boolean, router: any) {
+    return isAuth && router && router.state && router.state.url.indexOf('accept-t-and-c') <= 0;
+  }
 }

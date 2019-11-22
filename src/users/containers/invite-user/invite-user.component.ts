@@ -49,7 +49,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         'pui-organisation-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
-    this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJuridictions))
+    this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
                                    .subscribe(value => this.jurisdictions = value,
                                    (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
     this.store.dispatch(new fromAppStore.LoadJurisdictions());

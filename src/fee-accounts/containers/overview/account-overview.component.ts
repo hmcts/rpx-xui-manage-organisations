@@ -21,6 +21,7 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   isOrgAccountAvailable$: Observable<boolean>;
   organisationSubscription: Subscription;
   dependanciesSubscription: Subscription;
+  oneOrMoreAccountMissing$: Observable<boolean>;
   constructor(private feeStore: Store<fromAccountStore.FeeAccountsState>,
               private organisationStore: Store<fromOrgStore.OrganisationState>) {}
 
@@ -39,6 +40,7 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
         this.orgData = data;
         const anyAccountForOrg = this.dispatchLoadFeeAccount(data);
         this.isOrgAccountAvailable$ = of(anyAccountForOrg);
+        this.oneOrMoreAccountMissing$ = this.feeStore.pipe(select(fromAccountStore.isOneOrMorefeeAccountsMissing));
       });
     }
     this.accounts$ = this.feeStore.pipe(select(fromAccountStore.feeAccounts));

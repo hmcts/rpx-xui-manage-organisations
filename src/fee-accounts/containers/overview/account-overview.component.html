@@ -2,6 +2,7 @@
   <account-overview-container
   *ngIf="!(loading$ | async) else loading"
   [isAccountAvailableForOrg]="isOrgAccountAvailable$ | async"
+  [oneOrMoreAccountInfoMissing]="oneOrMoreAccountMissing$ | async"
   [columnConfig]="columnConfig" [rows]="accounts$ | async" [firstCellIsHeader]="false" [caption]="''"
 ></account-overview-container>
   <ng-template #loading>

@@ -8,3 +8,4 @@ export const getFeeAccountsState = createSelector( selectFeatureFee, (state: any
 export const feeAccounts = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccounts);
 export const feeAccountsLoading = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoading);
 export const feeAccountsLoaded = createSelector( getFeeAccountsState, fromFeeAccounts.getFeeAccountsLoaded);
+export const isOneOrMorefeeAccountsMissing = createSelector(getFeeAccountsState, fromFeeAccounts.getOneOrMoreAccountMissingLoaded);

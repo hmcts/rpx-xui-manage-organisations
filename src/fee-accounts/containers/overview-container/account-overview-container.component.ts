@@ -17,6 +17,7 @@ export class OrganisationAccountsOverviewContainerComponent {
 
     @Input() columnConfig: any;
     @Input() isAccountAvailableForOrg = true;
+    @Input() oneOrMoreAccountInfoMissing = false;
 
     constructor() {
     }

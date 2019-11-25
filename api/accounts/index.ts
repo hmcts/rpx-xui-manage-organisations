@@ -12,7 +12,7 @@ async function handleAddressRoute(req, res) {
             apiStatusCode: '400',
             message: 'Fee And Pay route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
     const accountNames = req.query.accountNames.split(',')
     const accounts = new Array<FeeAccount>()

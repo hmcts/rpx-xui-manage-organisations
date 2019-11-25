@@ -25,7 +25,10 @@
                             <font color="#b10e1e" class="govuk-!-font-weight-bold">{{r[col.key]}}</font>
                         </ng-container>
                         <ng-template #showAsLink>
-                            <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+                            <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
+                            <ng-container *ngIf="col.type === 'link' && r.routerLink">
+                                <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+                            </ng-container>
                         </ng-template>
                     </td>
                 </ng-container>

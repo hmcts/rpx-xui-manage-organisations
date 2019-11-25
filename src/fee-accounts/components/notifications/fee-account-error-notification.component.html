@@ -1,14 +1,16 @@
-<div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-    <h2 class="govuk-error-summary__title" id="error-summary-title">
-      There is a problem
-    </h2>
-    <div class="govuk-error-summary__body">
-      <ul class="govuk-list govuk-error-summary__list">
-        <ng-container *ngFor="let errorMessage of errorMessages">
-            <li>
-              <a href="#fee-error">{{ errorMessage }}</a>
-            </li>
-        </ng-container>
-      </ul>
-    </div>
+<ng-container *ngIf="errorMessages.length > 0">
+  <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <ng-container *ngFor="let errorMessage of errorMessages">
+              <li>
+                <a href="#fee-error">{{ errorMessage }}</a>
+              </li>
+          </ng-container>
+        </ul>
+      </div>
   </div>
+</ng-container>

@@ -3,13 +3,15 @@ import { TransactionsComponent } from '../components/transactions/transactions.c
 import { SummaryComponent } from '../components/summary/summary.component';
 import { OrganisationAccountsOverviewContainerComponent } from './overview-container/account-overview-container.component';
 import { OrganisationAccountMissingComponent } from './account-missing/account-missing.component';
+import { FeeAccountErrorNotificationComponent } from '../components/notifications/fee-account-error-notification.component';
 
 export const containers: any[] = [
   OrganisationAccountsComponent,
   OrganisationAccountsOverviewContainerComponent,
   OrganisationAccountMissingComponent,
   TransactionsComponent,
-  SummaryComponent
+  SummaryComponent,
+  FeeAccountErrorNotificationComponent
 ];
 
 export * from './overview/account-overview.component';
@@ -17,3 +19,4 @@ export * from './account-missing/account-missing.component';
 export * from './overview-container/account-overview-container.component';
 export * from '../components/transactions/transactions.component';
 export * from '../components/summary/summary.component';
+export * from '../components/notifications/fee-account-error-notification.component';

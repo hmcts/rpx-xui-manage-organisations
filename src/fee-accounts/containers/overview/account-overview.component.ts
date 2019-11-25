@@ -6,6 +6,8 @@ import {Observable, Subscription, combineLatest, of} from 'rxjs';
 import {FeeAccount} from '../../models/pba-accounts';
 import * as fromOrgStore from '../../../organisation/store/index';
 import { Organisation } from 'src/organisation/organisation.model';
+import { Actions, ofType } from '@ngrx/effects';
+import * as fromRoot from '../../../app/store';
 @Component({
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './account-overview.component.html',
@@ -24,7 +26,9 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   oneOrMoreAccountMissing$: Observable<boolean>;
   errorMessages$: Observable<Array<string>>;
   constructor(private feeStore: Store<fromAccountStore.FeeAccountsState>,
-              private organisationStore: Store<fromOrgStore.OrganisationState>) {}
+              private organisationStore: Store<fromOrgStore.OrganisationState>,
+              private actions$: Actions,
+              private routerStore: Store<fromRoot.State>) {}
 
   ngOnInit(): void {
     this.errorMessages$ = this.feeStore.pipe(select(fromAccountStore.getErrorMessages));
@@ -51,6 +55,9 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
       { header: 'Account number', key: 'account_number', type: 'link' },
       { header: 'Account name', key: 'account_name' }
     ];
+    this.actions$.pipe(ofType(fromAccountStore.LOAD_FEE_ACCOUNTS_FAIL)).subscribe(() => {
+      this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
+    });
   }
   dispatchLoadFeeAccount(organisation: Organisation): boolean {
     const anyAccountForOrg = organisation.paymentAccount.length > 0;

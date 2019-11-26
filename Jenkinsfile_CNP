@@ -11,7 +11,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure@helm2.16.1")
+@Library("Infrastructure")
 
 // To enable PACT testing on pipeline uncomment the next line
 // import uk.gov.hmcts.contino.AppPipelineDsl

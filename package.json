@@ -6,7 +6,7 @@
     "build": "yarn build:prod && yarn build:node",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
     "test": "yarn test:ng",
-    "build:prod": "ng build --prod",
+    "build:prod": "npx ng build --prod",
     "build:node": "cd api && yarn build",
     "start:node": "cd api && yarn watch",
     "start:node:docker": "PUI_ENV=ldocker;cd api && yarn watch",

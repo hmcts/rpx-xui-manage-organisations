@@ -44,14 +44,14 @@ export class UserRolesUtil {
         });
     }
     static isAddingRoleSuccessful(response: any): boolean {
-        return response.addRolesResponse &&
-        response.addRolesResponse.idamStatusCode &&
-        response.addRolesResponse.idamStatusCode === '201';
+        return response.roleAdditionResponse &&
+        response.roleAdditionResponse.idamStatusCode &&
+        response.roleAdditionResponse.idamStatusCode === '201';
     }
 
     static isDeletingRoleSuccessful(result: any): boolean {
-        return result.deleteRolesResponse &&
-        result.deleteRolesResponse[0].idamStatusCode &&
-        result.deleteRolesResponse[0].idamStatusCode === '204';
+        return result.roleDeletionResponse &&
+        result.roleDeletionResponse[0].idamStatusCode &&
+        result.roleDeletionResponse[0].idamStatusCode === '204';
     }
 }

@@ -24,6 +24,6 @@ export function getMissingFeeAccount(accountNumber: string): FeeAccount {
         credit_limit: 0,
         available_balance: 0,
         status: '',
-        effective_date: '',
+        effective_date: new Date(2017, 1, 1),
     }
 }

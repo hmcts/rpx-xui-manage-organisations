@@ -21,7 +21,6 @@ import { AccountTransactionsComponent } from './containers/account-transactions/
 import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
 import { OrganisationService } from 'src/organisation/services';
-import { NotificationBannerComponent } from 'src/register/components';
 
 export const GUARDS = [AccountsGuard, AccountSummaryGuard];
 export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
@@ -38,7 +37,7 @@ export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, A
     EffectsModule.forFeature(orgEffects),
   ],
   exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers, ...COMPONENTS, NotificationBannerComponent],
+  declarations: [...fromContainers.containers, ...COMPONENTS],
   providers: [...fromServices.services, ...GUARDS, OrganisationService]
 })
 

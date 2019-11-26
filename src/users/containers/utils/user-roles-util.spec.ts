@@ -37,7 +37,7 @@ describe('UserRolesUtil class ', () => {
         let isAddingSuccessful = UserRolesUtil.isAddingRoleSuccessful(response);
         expect(isAddingSuccessful).toEqual(undefined);
 
-        response = {addRolesResponse: {idamStatusCode: '201'}};
+        response = {roleAdditionResponse: {idamStatusCode: '201'}};
         isAddingSuccessful = UserRolesUtil.isAddingRoleSuccessful(response);
         expect(isAddingSuccessful).toEqual(true);
     });
@@ -47,7 +47,7 @@ describe('UserRolesUtil class ', () => {
         let isDeletingSuccessful = UserRolesUtil.isDeletingRoleSuccessful(response);
         expect(isDeletingSuccessful).toEqual(undefined);
 
-        response = {deleteRolesResponse: [{idamStatusCode: '204'}]};
+        response = {roleDeletionResponse: [{idamStatusCode: '204'}]};
         isDeletingSuccessful = UserRolesUtil.isDeletingRoleSuccessful(response);
         expect(isDeletingSuccessful).toEqual(true);
     });

@@ -7,9 +7,7 @@ const fetch = require('node-fetch');
 const mainURL = 'http://rd-professional-api-aat.service.core-compute-aat.internal'
 const LOG_REQUEST_ERROR_DETAILS = false;
 
-// export async function generateAPIRequest(method, subURL, payload) {
-
-export async function generateAPIRequest(method, subURL) {
+export async function generatePOSTAPIRequest(method, subURL, payload) {
 
   let s2sToken;
   let authToken;
@@ -27,7 +25,7 @@ export async function generateAPIRequest(method, subURL) {
       // json: true,
      //  resolveWithFullResponse: true,
       method,
-     // body: JSON.stringify(payload)
+      body: JSON.stringify(payload)
     };
 
     const url = `${mainURL}${subURL}`;

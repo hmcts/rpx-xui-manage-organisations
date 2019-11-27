@@ -23,7 +23,6 @@ import * as log4js from 'log4js'
 const FileStore = sessionFileStore(session)
 
 const app = express()
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use(
   session({

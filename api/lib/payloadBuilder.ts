@@ -44,7 +44,7 @@ export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray
 
   for (const key in stateValuesArray) {
     if (stateValuesArray[key])
-    { 
+    {
       organisationPayload[arrayName][key] = stateValuesArray[key]
     }
   }
@@ -61,8 +61,8 @@ export function makeOrganisationPayload(stateValues): any {
         addressLine1: stateValues.officeAddressOne,
         addressLine2: stateValues.officeAddressTwo,
         county: stateValues.county,
-        postcode: stateValues.postcode,
-        townCity: stateValues.townOrCity
+        townCity: stateValues.townOrCity,
+        postCode: stateValues.postcode,
       },
     ],
     name: stateValues.orgName,

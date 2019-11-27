@@ -3,13 +3,13 @@ export const organisationHaveSra = {
   meta: {
     idPrefix: 'tbc',
     name: 'sra',
-    header: 'Do you have an SRA number?',
+    header: 'Do you have an organisation SRA ID?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'haveSra',
-        text: 'Tell us if you have a SRA number',
+        text: 'Tell us if you have an organisation SRA ID',
         href: '/register/organisation-address',
       },
     ],
@@ -22,7 +22,7 @@ export const organisationHaveSra = {
               classes: 'govuk-radios--inline',
               validators: ['required'],
               validationError: {
-                value: 'Tell us if you have a SRA number',
+                value: 'Tell us if you have an organisation SRA ID',
                 controlId: 'haveSra',
               },
               radioGroup: [

@@ -2,6 +2,7 @@
  * Contains static stateless utility methods for the App
  *
  */
+import { AppConstants } from '../app.constants';
 export class AppUtils {
   /**
    * it changes active property based on the url
@@ -104,5 +105,29 @@ export class AppUtils {
       return 'Confirmation - Register organisation';
     }
     return 'Manage organisation';
+  }
+
+  // 04-Sep-2019 - Author U Denduluri
+  // Function which returns the environment name based on the Url
+  // by looking at the pattern
+  static getEnvironment(url: string): string {
+    const regex = 'pr-|localhost|aat|demo|ithc|perf-test';
+    const matched = url.match(regex);
+
+    if (matched && matched[0]) {
+        switch (matched[0]) {
+          case AppConstants.ENVIRONMENT_NAMES.aat:
+            case AppConstants.ENVIRONMENT_NAMES.localhost:
+          case AppConstants.ENVIRONMENT_NAMES.pr:
+             return AppConstants.ENVIRONMENT_NAMES.aat;
+          case AppConstants.ENVIRONMENT_NAMES.demo:
+              return AppConstants.ENVIRONMENT_NAMES.demo;
+          case AppConstants.ENVIRONMENT_NAMES.ithc:
+              return AppConstants.ENVIRONMENT_NAMES.ithc;
+          case AppConstants.ENVIRONMENT_NAMES.perfTest:
+              return AppConstants.ENVIRONMENT_NAMES.perfTest;
+        }
+      }
+    return AppConstants.ENVIRONMENT_NAMES.prod;
   }
 }

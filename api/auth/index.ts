@@ -8,10 +8,13 @@ import { EnhancedRequest } from '../lib/models'
 import { asyncReturnOrError } from '../lib/util'
 import { getUserDetails } from '../services/idam'
 import { serviceTokenGenerator } from './serviceToken'
+import { userHasAppAccess } from './userRoleAuth'
+import { propsExist } from '../lib/objectUtilities'
 
 const secret = process.env.IDAM_SECRET
 const logger = log4js.getLogger('auth')
 logger.level = config.logging
+const idamUrl = config.services.idamApi
 
 export async function attach(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const session = req.session!
@@ -79,10 +82,23 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
 async function sessionChainCheck(req: EnhancedRequest, res: express.Response, accessToken: string) {
     if (!req.session.auth) {
         logger.warn('Session expired. Trying to get user details again')
-        console.log(getUserDetails(accessToken))
-        const details = await asyncReturnOrError(getUserDetails(accessToken), 'Cannot get user details', res, logger, false)
+        console.log(getUserDetails(accessToken, idamUrl))
+        const userDetails = await asyncReturnOrError(getUserDetails(accessToken, idamUrl), 'Cannot get user details', res, logger, false)
 
-        if (details) {
+
+        if (!propsExist(userDetails, ['data', 'roles'])) {
+            logger.warn('User does not have any access roles.')
+            doLogout(req, res, 401)
+            return false
+        }
+
+        if (!userHasAppAccess(userDetails.data.roles)) {
+          logger.warn('User has no application access, as they do not have a Manage Organisations role.')
+          doLogout(req, res, 401)
+          return false
+        }
+
+        if (userDetails) {
             logger.info('Setting session')
             const orgIdResponse = {
                 data: {
@@ -90,11 +106,11 @@ async function sessionChainCheck(req: EnhancedRequest, res: express.Response, ac
                 },
             }
             req.session.auth = {
-                email: details.data.email,
+                email: userDetails.data.email,
                 orgId: orgIdResponse.data.id,
-                roles: details.data.roles,
+                roles: userDetails.data.roles,
                 token: accessToken,
-                userId: details.data.id,
+                userId: userDetails.data.id,
             }
         }
     }

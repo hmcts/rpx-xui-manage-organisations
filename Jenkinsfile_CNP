@@ -13,18 +13,28 @@ properties([
 
 @Library("Infrastructure")
 
+// To enable PACT testing on pipeline uncomment the next line
+// import uk.gov.hmcts.contino.AppPipelineDsl
+
 def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
-def vault = "rpx"
 def channel   = '#xui-pipeline'
+def deployToAatOnly = true  // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
-List<LinkedHashMap<String, Object>> secrets = [
-    secret('xui-s2s-token', 'S2S_SECRET'),
+
+def secrets = [
+  'rpx-${env}': [
+    secret('mo-s2s-client-secret', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+
+  ],
+//  's2s-${env}'      : [
+//    secret('microservicekey-xui-webapp', 'S2S_SECRET')
+//  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -39,18 +49,23 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    setVaultName(vault)
     enableDockerBuild()
     installCharts()
 
+// To enable PACT testing on pipeline uncomment the next 3 lines
+//    enablePactAs([
+//      AppPipelineDsl.PactRoles.CONSUMER
+//    ])
 
     after('checkout') {sh 'yarn cache clean'}
 
-  before('buildinfra:prod') {
-    currentBuild.result = 'SUCCESS'
-    currentBuild.description = "SUCCESS"
-    error 'XUI  projects are not authorised to be in production environments yet.'
-  }
+    if (deployToAatOnly) {
+        before('buildinfra:prod') {
+            currentBuild.result = 'SUCCESS'
+            currentBuild.description = "SUCCESS TILL AAT"
+            error 'XUI  projects are not authorised to be in production environments yet.'
+        }   
+    }
 
     after('build') {
         sh 'yarn  build'
@@ -96,16 +111,16 @@ withPipeline(type, product, component) {
 
     }
 
-    after('smoketest:demo') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/smoke/",
-            reportFiles          : 'index.html',
-            reportName           : 'DEMO Smoke Test'
-        ])
-    }
+//    after('smoketest:demo') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/smoke/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'DEMO Smoke Test'
+//        ])
+//    }
 
     after('smoketest:preview') {
         publishHTML([

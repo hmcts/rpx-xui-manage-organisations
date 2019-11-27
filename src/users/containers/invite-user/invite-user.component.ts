@@ -29,7 +29,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
     email: ['Enter email address', 'Email must contain at least the @ character'],
-    roles: ['Select at least one option'],
+    roles: ['You must select at least one action'],
   };
   jurisdictions: any[];
   juridictionSubscription: Subscription;
@@ -68,9 +68,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         }
       });
 
+      const ccdRoles = this.inviteUserForm.value.roles['pui-case-manager'] ? AppConstants.CCD_ROLES : [];
+
       const roles = [
         ...permissions,
-        ...AppConstants.CCD_ROLES
+        ...ccdRoles
       ];
       value = {
         ...value,

@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import * as fromStore from '../../store';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import * as fromRoot from '../../../app/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/internal/operators';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-user-details-component',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, OnDestroy {
 
   user$: Observable<any>;
   isLoading$: Observable<boolean>;

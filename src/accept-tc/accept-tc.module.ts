@@ -12,10 +12,9 @@ import { reducers, effects } from './store';
 
 // containers
 import * as fromContainers from './containers';
-// components
-import * as fromComponents from './components';
 // services
 import * as fromServices from './services';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 const ROUTES = [
   {
@@ -33,10 +32,11 @@ const ROUTES = [
     SharedModule,
     StoreModule.forFeature('acceptTc', reducers),
     EffectsModule.forFeature(effects),
-    FormsModule
+    FormsModule,
+    ExuiCommonLibModule.forChild()
   ],
   exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers],
   providers: [...fromServices.services]
 })
 

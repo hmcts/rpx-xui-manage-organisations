@@ -1,12 +1,11 @@
-import { AcceptTcWrapperComponent } from './accept-tc-wrapper.component';
-import { Subscription, of } from 'rxjs';
 import { Action } from '@ngrx/store';
-import { ofType } from '@ngrx/effects';
+import { AcceptTcWrapperComponent } from './accept-tc-wrapper.component';
 
 describe('Accept Tc Wrapper Component', () => {
     let component: AcceptTcWrapperComponent;
     let mockStore: any;
     let mockActions: any;
+    let mockCookie: any;
 
     class TestAction implements Action {
         type: string;
@@ -15,7 +14,8 @@ describe('Accept Tc Wrapper Component', () => {
     beforeEach(() => {
         mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch']);
         mockActions = jasmine.createSpyObj('mockActions', ['pipe']);
-        component = new AcceptTcWrapperComponent(mockStore, mockActions);
+        mockCookie = jasmine.createSpyObj('mockCookie', ['get']);
+        component = new AcceptTcWrapperComponent(mockStore, mockActions, mockCookie);
     });
 
     it('should create', () => {
@@ -40,7 +40,8 @@ describe('Accept Tc Wrapper Component', () => {
     });
 
     it('should onAcceptTandC', () => {
-        component.onAcceptTandC('userId');
+        mockCookie.get.and.returnValue('userId');
+        component.onAcceptTandC();
         expect(mockStore.dispatch).toHaveBeenCalled();
     });
 });

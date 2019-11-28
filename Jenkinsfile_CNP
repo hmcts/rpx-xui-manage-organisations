@@ -127,9 +127,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Smoke Test'
+            reportDir            : "reports/tests/api_functional/",
+            reportFiles          : 'mochawesome.html',
+            reportName           : 'PREVIEW API Test'
         ])
     }
 
@@ -150,9 +150,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Smoke Test'
+            reportDir            : "reports/tests/api_functional/",
+            reportFiles          : 'mochawesome.html',
+            reportName           : 'API Smoke Test'
         ])
     }
 

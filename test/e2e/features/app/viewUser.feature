@@ -1,4 +1,4 @@
-@all @fullFunctional
+ @fullFunctional
 Feature: view user workflow
 
   Scenario: view user workflow

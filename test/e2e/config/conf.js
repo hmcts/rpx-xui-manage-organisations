@@ -53,9 +53,6 @@ const config = {
 
   onPrepare() {
     browser.waitForAngularEnabled(false);
-    browser.executeScript('window.localStorage.clear();');
-    browser.executeScript('window.sessionStorage.clear();');
-    browser.driver.manage().deleteAllCookies();
     global.expect = chai.expect;
     global.assert = chai.assert;
     global.should = chai.should;

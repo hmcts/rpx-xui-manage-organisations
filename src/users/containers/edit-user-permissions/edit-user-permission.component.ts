@@ -30,6 +30,7 @@ import { Actions, ofType } from '@ngrx/effects';
     userSubscription: Subscription;
     dependanciesSubscription: Subscription;
     editPermissionSuccessSubscription: Subscription;
+    editPermissionServerErrorSubscription: Subscription;
     backUrl: string;
 
     summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
@@ -45,6 +46,10 @@ import { Actions, ofType } from '@ngrx/effects';
 
       this.editPermissionSuccessSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
+      });
+
+      this.editPermissionServerErrorSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
+        this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
       });
 
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));

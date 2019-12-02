@@ -7,16 +7,16 @@ import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
-import config from '../../../../api/lib/config';
 import * as usersActions from '../../../users/store/actions/user.actions';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
-import * as fromRoot from '../../../app/store';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -59,10 +59,16 @@ export class UserEffects {
       return this.userService.editUserPermissions(user).pipe(
         map( response => {
           if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
+            this.loggerService.info('User permissions modified');
             return new usersActions.EditUserSuccess(user.userId);
           } else {
+            this.loggerService.error('user permissions failed');
             return new usersActions.EditUserFailure(user.userId);
           }
+        }),
+        catchError(error => {
+          this.loggerService.error(error);
+          return of(new usersActions.EditUserServerError({userId: user.userId, errorCode: error.apiStatusCode}));
         })
       );
     })

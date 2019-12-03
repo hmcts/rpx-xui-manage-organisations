@@ -48,17 +48,17 @@ describe('Invite User Effects', () => {
 
     describe('saveUser$', () => {
         it('should return a collection from user details - InviteUserSuccess', () => {
-            const payload = [{ payload: 'something' }];
+            const payload = { payload: 'something' };
             InviteUsersServiceMock.inviteUser.and.returnValue(of(payload));
             const requestPayload = {
                 firstName: 'Captain',
                 lastName: 'Caveman',
-                emailAddress: 'thecap@cave.com',
+                email: 'thecap@cave.com',
                 permissions: ['god'],
                 jurisdictions: []
             };
             const action = new SendInviteUser(requestPayload);
-            const completion = new InviteUserSuccess([{ payload: 'something' }]);
+            const completion = new InviteUserSuccess({ payload: 'something', userEmail: 'thecap@cave.com' });
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);
@@ -71,7 +71,7 @@ describe('Invite User Effects', () => {
             const requestPayload = {
                 firstName: 'Captain',
                 lastName: 'Caveman',
-                emailAddress: 'thecap@cave.com',
+                email: 'thecap@cave.com',
                 permissions: ['god'],
                 jurisdictions: []
             };

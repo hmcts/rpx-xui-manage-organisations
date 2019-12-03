@@ -79,7 +79,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(SHORT_DELAY);
   });
 
-
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
     browser.sleep(LONG_DELAY);
     await waitForElement('hmcts-header__link');
@@ -87,19 +86,27 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage Organisation details for civil and family law cases');
-
-  });
-
-  Given(/^I am logged into manage organisation with SSCS judge details$/, async function () {
+      .equal('Manage organisation details for civil and family law cases');
     browser.sleep(LONG_DELAY);
-    await loginPage.emailAddress.sendKeys(this.config.username);
-    await loginPage.password.sendKeys(this.config.password);
-    await loginPage.clickSignIn();
-    browser.sleep(MID_DELAY);
   });
 
-  Given(/^I am logged into manage organisation with FR judge details$/, async function () {
+  // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
+  //   browser.sleep(LONG_DELAY);
+  //   await loginPage.emailAddress.sendKeys(this.config.username);
+  //   await loginPage.password.sendKeys(this.config.password);
+  //   await loginPage.clickSignIn();
+  //   browser.sleep(MID_DELAY);
+  // });
+
+  // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
+  //   browser.sleep(LONG_DELAY);
+  //   await loginPage.emailAddress.sendKeys(this.config.username);
+  //   await loginPage.password.sendKeys(this.config.password);
+  //   await loginPage.clickSignIn();
+  //   browser.sleep(MID_DELAY);
+  // });
+
+  Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     browser.sleep(LONG_DELAY);
     await loginPage.emailAddress.sendKeys(this.config.username);
     await loginPage.password.sendKeys(this.config.password);

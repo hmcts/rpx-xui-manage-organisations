@@ -11,7 +11,6 @@ import suspendUser from './suspendUser'
 import userDetailsRouter from './user'
 import getUserList from './userList'
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1'
 const router = express.Router({ mergeParams: true })
 
 router.use(auth.attach)

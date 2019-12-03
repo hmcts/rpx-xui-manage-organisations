@@ -23,7 +23,7 @@
 
 .jui-tree__item--open .jui-tree__folder {
   background-image: url(#{$jui-assets-path}icon-documents-folder-open.svg);
-  color: govuk-colour(black);
+  color: govuk-colour("black");
 }
 
 
@@ -70,7 +70,7 @@
 
 
   &:focus {
-    color: govuk-colour(black);
+    color: govuk-colour("black");
   }
 
 }
@@ -99,7 +99,7 @@
 
     .jui-tree__folder {
       background-color: $govuk-focus-colour;
-      color: govuk-colour(black);
+      color: govuk-colour("black");
       outline: 3px solid $govuk-focus-colour;
     }
 
@@ -130,7 +130,7 @@
     padding-bottom: 10px;
 
     .jui-tree__folder {
-      color: govuk-colour(black);
+      color: govuk-colour("black");
     }
 
     .jui-tree__folder-group {

@@ -8,6 +8,7 @@ import getJurisdictions from './jurisdictions'
 import organisationRouter from './organisation'
 import payments from './payments'
 import postUserTermsAndConditions from './postUserTermsAndConditions'
+import getTermsAndConditions from './termsAndConditions'
 import userDetailsRouter from './user'
 import getUserList from './userList'
 
@@ -25,5 +26,6 @@ router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 router.use('/userTermsAndConditions/:userId', getUserTermsAndConditions)
 router.use('/userTermsAndConditions', postUserTermsAndConditions)
+router.use('/termsAndConditions', getTermsAndConditions)
 
 export default router

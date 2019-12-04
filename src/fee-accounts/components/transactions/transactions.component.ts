@@ -11,7 +11,7 @@ import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk
 })
 export class TransactionsComponent implements OnChanges {
 
-  @Input() transactions;
+  @Input() transactions = [];
 
   columnConfig: GovukTableColumnConfig[];
 

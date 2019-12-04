@@ -77,5 +77,6 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
     if (this.dependanciesSubscription) {
       this.dependanciesSubscription.unsubscribe();
     }
+    this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountResetState());
   }
 }

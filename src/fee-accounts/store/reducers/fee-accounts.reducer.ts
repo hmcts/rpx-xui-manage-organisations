@@ -82,7 +82,16 @@ export function reducer(
         };
     }
 
+    case fromFeeAccountActions.LOAD_FEE_RESET_STATE: {
+      const errorMessages = [];
+      return {
+        ...state,
+        loaded: false,
+        loading: false,
+        errorMessages
+      };
   }
+}
 
   return state;
 }

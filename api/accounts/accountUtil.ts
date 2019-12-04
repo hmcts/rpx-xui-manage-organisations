@@ -20,10 +20,10 @@ export function getAccount(accountNumber: string, url: string): Promise<any> {
 export function getMissingFeeAccount(accountNumber: string): FeeAccount {
     return {
         account_number: accountNumber,
-        account_name: '',
-        credit_limit: 0,
+        account_name: null,
+        credit_limit: null,
         available_balance: 0,
-        status: '',
-        effective_date: new Date(2017, 1, 1),
+        status: null,
+        effective_date: new Date(),
     }
 }

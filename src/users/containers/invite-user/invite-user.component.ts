@@ -35,7 +35,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   juridictionSubscription: Subscription;
 
   ngOnInit(): void {
-
+    this.store.dispatch(new fromStore.Reset());
     this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 

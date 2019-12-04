@@ -4,6 +4,7 @@ export const LOAD_FEE_ACCOUNTS = '[Fee Accounts] Load Fee Accounts';
 export const LOAD_FEE_ACCOUNTS_SUCCESS = '[Fee Accounts] Load Fee Accounts Success';
 export const LOAD_FEE_ACCOUNTS_FAIL = '[Fee Accounts] Load Fee Accounts Fail';
 export const LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL = '[Fee Accounts] Load Fee One or more Accounts Fail';
+export const LOAD_FEE_RESET_STATE = '[Fee Accounts] Reset State';
 
 export class LoadFeeAccounts {
   constructor(public paymentAccounts: string[]) {
@@ -26,9 +27,14 @@ export class LoadFeeOneOrMoreAccountsFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class LoadFeeAccountResetState implements Action {
+  readonly type = LOAD_FEE_RESET_STATE;
+}
+
 export type FeeAccountsActions =
   | LoadFeeAccounts
   | LoadFeeAccountsSuccess
   | LoadFeeAccountsFail
-  | LoadFeeOneOrMoreAccountsFail;
+  | LoadFeeOneOrMoreAccountsFail
+  | LoadFeeAccountResetState;
 

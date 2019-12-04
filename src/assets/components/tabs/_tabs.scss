@@ -26,7 +26,7 @@
   padding-bottom: govuk-spacing(2);
 
   &[aria-current=true] {
-    color: govuk-colour(black);
+    color: govuk-colour("black");
     text-decoration: none;
   }
 }
@@ -62,7 +62,7 @@
       padding-right: govuk-spacing(4);
       text-align: center;
       text-decoration: none;
-      color: govuk-colour(black);
+      color: govuk-colour("black");
 
       &:focus {
         background-color: $govuk-focus-colour;
@@ -71,10 +71,10 @@
       }
 
       &[aria-selected=true] {
-        background-color: govuk-colour(white);
+        background-color: govuk-colour("white");
         border: 1px solid $govuk-border-colour;
         border-bottom: 0;
-        color: govuk-colour(black);
+        color: govuk-colour("black");
         margin-bottom: -1px;
         margin-top: - govuk-spacing(1);
 

@@ -4,7 +4,7 @@
 
    .jui-header {
     @include govuk-clearfix;
-    background-color: govuk-colour(black);
+    background-color: govuk-colour("black");
     padding-top: govuk-spacing(3);
     padding-bottom: govuk-spacing(3);
   }
@@ -17,7 +17,7 @@
     a:link,
     a:active,
     a:visited {
-      color: govuk-colour(white);
+      color: govuk-colour("white");
       text-decoration: none;
     }
 

@@ -1,4 +1,4 @@
-import { FeeAccount } from "../../src/fee-accounts/models/pba-accounts"
+import { FeeAccount } from "../interfaces/feeAccountPayload"
 import { http } from '../lib/http'
 
 export function getAccountUrl(baseUrl: string, accountName: string) {

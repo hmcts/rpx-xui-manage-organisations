@@ -21,7 +21,10 @@ export class FeeAccountsEffects {
     switchMap((payload: any) => {
       return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(
         map(feeAccountsDetails => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
-        catchError(error => of(new feeAccountsActions.LoadFeeAccountsFail(error)))
+        catchError(errorResponse => {
+          return errorResponse.status === 404 ? of(new feeAccountsActions.LoadFeeOneOrMoreAccountsFail(errorResponse.error)) :
+          of(new feeAccountsActions.LoadFeeAccountsFail(errorResponse));
+        })
       );
     })
   );

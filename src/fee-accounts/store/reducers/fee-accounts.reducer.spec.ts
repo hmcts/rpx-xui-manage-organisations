@@ -31,7 +31,8 @@ describe('FeeAccountsReducer', () => {
         available_balance: null,
         status: null,
         effective_date: null,
-        routerLink: `/fee-accounts/account/123/`
+        routerLink: `/fee-accounts/account/123/`,
+        isAccountInfoMissing: false
       };
       expect(state.feeAccounts).toEqual([expected]);
     });

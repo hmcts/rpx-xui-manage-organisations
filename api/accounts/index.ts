@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios'
 import * as express from 'express'
-import { FeeAccount } from '../../src/fee-accounts/models/pba-accounts'
+import { FeeAccount } from '../interfaces/feeAccountPayload'
 import { config } from '../lib/config'
 import { getAccount, getAccountUrl } from './accountUtil'
 

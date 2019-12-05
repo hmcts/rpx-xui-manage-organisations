@@ -1,7 +1,8 @@
 import { AxiosPromise } from 'axios'
 import * as express from 'express'
+import { FeeAccount } from '../../src/fee-accounts/models/pba-accounts'
 import { config } from '../lib/config'
-import { http } from '../lib/http'
+import { getAccount, getAccountUrl } from './accountUtil'
 
 async function handleAddressRoute(req, res) {
     let errReport: any
@@ -11,41 +12,43 @@ async function handleAddressRoute(req, res) {
             apiStatusCode: '400',
             message: 'Fee And Pay route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
     const accountNames = req.query.accountNames.split(',')
-    console.log('accountNames', accountNames)
-    const accounts = new Array()
+    const accounts = new Array<FeeAccount>()
     const accountPromises = new Array<AxiosPromise<any>>()
-    accountNames.forEach((accountName: string) => accountPromises.push(getAccount(accountName)))
 
+    accountNames.forEach((accountNumber: string) => {
+        const url = getAccountUrl(config.services.feeAndPayApi, accountNumber)
+        accountPromises.push(getAccount(accountNumber, url))
+    })
+    let responseStatusCode
     try {
-        await Promise.all(accountPromises).then(allAccounts => {
-            allAccounts.forEach(account => {
-                accounts.push(account.data)
+            await Promise.all(accountPromises).then(allAccounts => {
+                allAccounts.forEach(account => {
+                    if (account.status === 404) {
+                        responseStatusCode = 404
+                    }
+                    accounts.push(account.data)
+                })
             })
-        })
         } catch (error) {
-            console.error(error)
             errReport = {
                 apiError: error && error.data && error.data.message ? error.data.message : error,
                 apiStatusCode: error && error.status ? error.status : '',
                 message: `Fee And Pay route error `,
             }
-            res.status(500).send(errReport)
+            res.status(error.status).send(errReport)
             return
         }
-    res.send(accounts)
+
+    if (responseStatusCode) {
+        res.status(responseStatusCode).send(accounts)
+    } else {
+        res.send(accounts)
+    }
 }
 
-function getAccount(accountName: string): AxiosPromise<any> {
-    const url = `${config.services.feeAndPayApi}/accounts/${accountName}`
-    const promise = http.get(url)
-    return promise
-    }
-
 export const router = express.Router({ mergeParams: true })
-
 router.get('', handleAddressRoute)
-
 export default router

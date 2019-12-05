@@ -28,10 +28,4 @@ describe('TransactionsComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should fill tableRows', () => {
-        component.transactions = [{dummy: 'something'}];
-        component.ngOnChanges();
-        expect(component.tableRows).toBeTruthy([{dummy: 'something'}]);
-    });
-
 });

@@ -38,7 +38,7 @@ export const ROUTES: Routes = [
     loadChildren: '../register/register.module#RegisterModule'
   },
   {
-    path: 'accept-t-and-c',
+    path: 'accept-terms-and-conditions',
     canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
     loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
   },

@@ -8,19 +8,22 @@ import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import config from '../../../../api/lib/config';
+import * as usersActions from '../../../users/store/actions/user.actions';
+import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
+import * as fromRoot from '../../../app/store';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
-    private authService: UserService
+    private userService: UserService,
   ) { }
 
   @Effect()
   getUser$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS),
     switchMap(() => {
-      return this.authService.getUserDetails()
+      return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
           catchError((error: HttpErrorResponse) => of(new authActions.GetUserDetailsFailure(error)))
@@ -48,6 +51,31 @@ export class UserEffects {
     })
   );
 
+  @Effect()
+  editUser$ = this.actions$.pipe(
+    ofType(usersActions.EDIT_USER),
+    map((action: usersActions.EditUser) => action.payload),
+    switchMap((user) => {
+      return this.userService.editUserPermissions(user).pipe(
+        map( response => {
+          if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
+            return new usersActions.EditUserSuccess(user.userId);
+          } else {
+            return new usersActions.EditUserFailure(user.userId);
+          }
+        })
+      );
+    })
+  );
+
+  @Effect()
+  confirmEditUser$ = this.actions$.pipe(
+    ofType(usersActions.EDIT_USER_SUCCESS),
+    map((user: any) => {
+      return user.payload; // this is the userId
+    }),
+    switchMap(userId => [
+      new usersActions.LoadUsers()
+  ])
+  );
 }
-
-

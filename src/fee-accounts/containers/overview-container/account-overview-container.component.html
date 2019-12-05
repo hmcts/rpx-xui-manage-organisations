@@ -1,0 +1,42 @@
+<ng-container *ngIf="isAccountAvailableForOrg; else newDeb">
+    <div [ngClass]="{'govuk-form-group govuk-form-group--error' : oneOrMoreAccountInfoMissing}">
+        <span *ngIf="oneOrMoreAccountInfoMissing" id="fee-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> PBA number not found
+        </span>
+        <table class="{{'govuk-table ' + classes}}" role="presentation">
+            <caption class="govuk-table__caption">{{caption}}</caption>
+            <thead class="govuk-table__head" >
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="col" *ngFor="let h of columnConfig">{{h.header}}</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            <tr data-selector="table-row" class="govuk-table__row" *ngFor="let r of rows">
+                <ng-container *ngFor="let col of columnConfig; first as isFirst">
+                    <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader">
+                        <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
+                        <ng-container *ngIf="col.type === 'link' && r.routerLink">
+                            <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+                        </ng-container>
+                    </th>
+                    <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">
+                        <ng-container *ngIf="col.type === 'date'">{{formatDate(r[col.key])}}</ng-container>
+                        <ng-container *ngIf="(oneOrMoreAccountInfoMissing && r.isAccountInfoMissing) else showAsLink;">
+                            <font color="#b10e1e" class="govuk-!-font-weight-bold">{{r[col.key]}}</font>
+                        </ng-container>
+                        <ng-template #showAsLink>
+                            <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
+                            <ng-container *ngIf="col.type === 'link' && r.routerLink">
+                                <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+                            </ng-container>
+                        </ng-template>
+                    </td>
+                </ng-container>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-container>
+<ng-template #newDeb>
+    <organisation-account-missing></organisation-account-missing>
+</ng-template>

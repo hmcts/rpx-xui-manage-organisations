@@ -24,7 +24,7 @@ export class TermsConditionGuard implements CanActivate {
     return store.pipe(select(fromUserProfile.getHasUserSelectedTC),
       tap(tcConfirmed => {
         this.loadTandCIfNotLoaded(tcConfirmed, store);
-        this.dispatchGoIfUserHasNotAccepted(tcConfirmed, store, '/accept-t-and-c');
+        this.dispatchGoIfUserHasNotAccepted(tcConfirmed, store, '/accept-terms-and-conditions');
 
       }),
       filter(tcConfirmed => tcConfirmed.loaded),

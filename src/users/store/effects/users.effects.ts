@@ -38,4 +38,15 @@ export class UsersEffects {
       );
     })
   );
+
+  loadSingleUser$ = this.actions$.pipe(
+    ofType(usersActions.LOAD_SINGLE_USER),
+    switchMap((userIdentifier) => {
+      console.log(userIdentifier);
+      return this.usersService.getSingleUser(userIdentifier).pipe(
+        map(user => new usersActions.LoadSingleUserSuccess(user)),
+        catchError(error => of(new usersActions.LoadSingleUserFail(error)))
+      );
+    })
+  );
 }

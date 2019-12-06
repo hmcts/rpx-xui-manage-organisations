@@ -23,7 +23,22 @@ export const getGetUserLoading = createSelector(
   fromUsers.getUsersLoading
 );
 
-export const getGetSingleUser = createSelector(
+export const getGetSingleUserState = createSelector(
   fromFeature.getRootUserState,
-  (state: fromFeature.UserState, prop) => state.invitedUsers.userList.find(item => item['userIdentifier'] === prop.userIdentifier)
+  (state: fromFeature.UserState) => state.selectedUser
+);
+
+export const getGetSingleUser = createSelector(
+  getGetSingleUserState,
+  fromUsers.getSingleUser
+);
+
+export const getGetSingleUserLoaded = createSelector(
+  getGetSingleUserState,
+  fromUsers.getSingleUserLoaded
+);
+
+export const getGetSingleUserLoading = createSelector(
+  getGetSingleUserState,
+  fromUsers.getSingleUserLoading
 );

@@ -3,8 +3,6 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromRoot from '../../../app/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -18,7 +16,7 @@ export class UserDetailsComponent implements OnInit {
   user: any;
 
   userSubscription: Subscription;
-  dependanciesSubscription: Subscription;
+  routerSubscription: Subscription;
 
   constructor(
     private userStore: Store<fromStore.UserState>,
@@ -26,27 +24,24 @@ export class UserDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
-
-    this.dependanciesSubscription = combineLatest([
-      this.routerStore.pipe(select(fromRoot.getRouterState)),
-      this.userStore.pipe(select(fromStore.getGetUserLoaded))
-    ]).subscribe(([route, users]) => {
-      if (users === false) {
-        this.userStore.dispatch(new fromStore.LoadUsers());
-      }
-      const userId = route.state.params.userId;
-      this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
+    this.isLoading$ = this.userStore.pipe(select(fromStore.getGetSingleUserLoading));
+    this.userSubscription = this.userStore.pipe(select(fromStore.getGetSingleUser)).subscribe((user) => {
+      this.user = user;
     });
 
-    this.userSubscription = this.user$.subscribe((user) => this.user = user);
+    this.routerSubscription = this.routerStore.pipe(select(fromRoot.getRouterState)).subscribe((route) => {
+      const userId = route.state.params.userId;
+      if (userId) {
+        this.userStore.dispatch(new fromStore.LoadSingleUser(userId));
+      }
+    });
 
   }
 
   ngOnDestroy() {
 
-    if (this.dependanciesSubscription) {
-      this.dependanciesSubscription.unsubscribe();
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
     }
 
     if (this.userSubscription) {

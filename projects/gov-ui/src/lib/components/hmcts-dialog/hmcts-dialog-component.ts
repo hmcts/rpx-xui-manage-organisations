@@ -11,6 +11,7 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./hmcts-dialog.component.scss']
 })
 export class HmctsDialogComponent {
-  constructor () { }
+  @Input() positionTop: string;
+  constructor () {}
 
 }

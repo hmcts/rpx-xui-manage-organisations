@@ -14,7 +14,19 @@
 
 <app-footer></app-footer>
 
-<lib-dialog></lib-dialog>
+<lib-dialog positionTop="300px">
+  <h3 class="govuk-heading-m">We are about so sign you out</h3>
+  <p class="govuk-body">
+    For your security, we will sing you out of your account in <strong>3 minutes</strong>
+  </p>
+  <p>Any information you have not saved will be lost</p>
+  <button type="submit" class="govuk-button">
+    Stay signed in
+  </button>
+  <div>
+    <a [routerLink]="">Sign out</a>
+  </div>
+</lib-dialog>
 
 
 <!--this is the part of fee accounts leaving it here so we know it exist-->

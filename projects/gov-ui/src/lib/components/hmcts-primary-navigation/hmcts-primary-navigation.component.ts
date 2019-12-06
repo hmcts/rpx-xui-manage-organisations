@@ -14,6 +14,7 @@ export class HmctsPrimaryNavigationComponent {
 
     @Input() label: string;
     @Input() items: object[];
+    @Input() isBrandedHeader: boolean;
 
     isUserLoggedIn: boolean;
     constructor(private route: ActivatedRoute) {

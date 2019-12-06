@@ -5,6 +5,7 @@ import * as usersActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UsersService } from '../../services';
+import { SuspendUser } from '../actions';
 
 
 
@@ -20,8 +21,33 @@ export class UsersEffects {
     ofType(usersActions.LOAD_USERS),
     switchMap(() => {
       return this.usersService.getListOfUsers().pipe(
-        map(userDetals => new usersActions.LoadUsersSuccess(userDetals)),
+        map(userDetails => {
+          const amendedUsers = [];
+          userDetails.users.forEach(element => {
+              const fullName = element.firstName + ' ' + element.lastName;
+              const user = element;
+              user.fullName = fullName;
+              if (user.idamStatus !== 'PENDING') {
+                user.routerLink = 'user/' + user.userIdentifier;
+              }
+              amendedUsers.push(user);
+          });
+
+          return new usersActions.LoadUsersSuccess({users: amendedUsers});
+        }),
         catchError(error => of(new usersActions.LoadUsersFail(error)))
+      );
+    })
+  );
+
+
+  @Effect()
+  suspendUser$ = this.actions$.pipe(
+    ofType(usersActions.SUSPEND_USER),
+    switchMap((user: SuspendUser) => {
+      return this.usersService.suspendUser(user).pipe(
+        map(res => new usersActions.SuspendUserSuccess(user.payload)),
+        catchError(error => of(new usersActions.SuspendUserFail(error)))
       );
     })
   );

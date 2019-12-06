@@ -1,9 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromfeatureStore from '../../store';
 import {select, Store} from '@ngrx/store';
-import {Observable} from 'rxjs';
+import {Observable, Subscription, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {map} from 'rxjs/internal/operators';
+import * as fromStore from '../../../organisation/store/index';
+import { Organisation } from 'src/organisation/organisation.model';
+import { FeeAccount } from 'src/fee-accounts/models/pba-accounts';
+import * as fromFeeAccountsStore from '../../../fee-accounts/store';
 
 @Component({
   selector: 'app-account-summary',
@@ -11,11 +15,13 @@ import {map} from 'rxjs/internal/operators';
   styleUrls: ['./account-summary.component.scss']
 })
 export class AccountSummaryComponent implements OnInit, OnDestroy {
-  accountSummary$: Observable<any>;
+  accounts$: Observable<Array<FeeAccount>>;
+  accountName$: Observable<string>;
+  subscription: Subscription;
   navItems = [
     {
       text: 'Summary',
-      href: `/`,
+      href: `./`,
       active: true
     },
     {
@@ -30,16 +36,18 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
   ngOnInit() {
-    // TODO move to a guard
-    this.activeRoute.parent.params.pipe(
-      map(payload => {
-        this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccount({id: payload.id }));
-      })
-    ).subscribe();
-    this.accountSummary$ = this.store.pipe(select(fromfeatureStore.getSingleAccounOverview));
-    this.loading$ = this.store.pipe(select(fromfeatureStore.pbaAccountSummaryLoading));
+    this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts([this.activeRoute.snapshot.params.id]));
+    this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.feeAccounts));
+    this.subscription = this.accounts$.subscribe(acc => {
+      if (acc && acc[0]) {
+        this.accountName$ = of(acc[0].account_name);
+      }
+    });
   }
   ngOnDestroy() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

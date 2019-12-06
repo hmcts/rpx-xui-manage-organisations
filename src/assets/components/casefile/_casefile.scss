@@ -25,7 +25,7 @@
 
 
   .jui-casefile-page {
-    background-color: govuk-colour("grey-4");
+    background-color: govuk-colour("light-grey");
     box-sizing: border-box;
     padding: govuk-spacing(4);
     //width: 938px;
@@ -37,8 +37,8 @@
   }
 
   .jui-casefile-page-content {
-    background: govuk-colour(white);
-    box-shadow: 0 4px 6px 0 rgba(govuk-colour(black), .10);
+    background: govuk-colour("white");
+    box-shadow: 0 4px 6px 0 rgba(govuk-colour("black"), .10);
     box-sizing: border-box;
     margin-top: govuk-spacing(4);
     padding: govuk-spacing(8);
@@ -91,7 +91,7 @@
 
 
 .jui-casefile-list__link[aria-current] {
-  color: govuk-colour(black);
+  color: govuk-colour("black");
   font-weight: bold;
   text-decoration: none;
 }

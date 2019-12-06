@@ -9,9 +9,8 @@ $govuk-global-styles: true;
 // Width of main container
 $hmcts-page-width: 1220px;
 
-
 // Import GOV.UK Frontend
-@import "~govuk-frontend/all";
+@import "~govuk-frontend/govuk/all";
 @import "~@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend
@@ -28,7 +27,7 @@ $hmcts-page-width: 1220px;
 @import "jui/all";
 
 html {
-  background-color: govuk-colour("grey-3");
+  background-color: govuk-colour("light-grey");
 }
 
 .js-enabled .js-hidden {

@@ -1,28 +1,22 @@
 export default {
-
   services: {
-    ccdDataApi: 'https://ccd-data-store-api-demo.service.core-compute-demo.internal',
-    ccdDefApi: 'https://ccd-definition-store-api-demo.service.core-compute-demo.internal',
+    ccdDataApi: 'http://ccd-data-store-api-demo.service.core-compute-demo.internal',
+    ccdDefApi: 'http://ccd-definition-store-api-demo.service.core-compute-demo.internal',
     idamWeb: 'https://idam-web-public.demo.platform.hmcts.net',
     idamApi: 'https://idam-api.demo.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
-    draftStoreApi: 'https://draft-store-service-demo.service.core-compute-demo.internal',
-    dmStoreApi: 'https://dm-store-demo.service.core-compute-demo.internal',
-    emAnnoApi: 'https://em-anno-demo.service.core-compute-demo.internal',
-    emNpaApi: 'https://em-npa-demo.service.core-compute-demo.internal',
-    rdProfessionalApi: 'https://rd-professional-api-demo.service.core-compute-demo.internal',
+    rdProfessionalApi: 'http://rd-professional-api-demo.service.core-compute-demo.internal',
+    feeAndPayApi: 'http://payment-api-demo.service.core-compute-demo.internal',
   },
   health: {
-    ccdDataApi: 'https://ccd-data-store-api-demo.service.core-compute-demo.internal/health',
-    ccdDefApi: 'https://ccd-definition-store-api-demo.service.core-compute-demo.internal/health',
+    ccdDataApi: 'http://ccd-data-store-api-demo.service.core-compute-demo.internal/health',
+    ccdDefApi: 'http://ccd-definition-store-api-demo.service.core-compute-demo.internal/health',
     idamWeb: 'https://idam-web-public.demo.platform.hmcts.net/health',
     idamApi: 'https://idam-api.demo.platform.hmcts.net/health',
     s2s: 'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal/health',
-    draftStoreApi: 'https://draft-store-service-demo.service.core-compute-demo.internal/health',
-    dmStoreApi: 'https://dm-store-demo.service.core-compute-demo.internal/health',
-    emAnnoApi: 'https://em-anno-demo.service.core-compute-demo.internal/health',
-    emNpaApi: 'https://em-npa-demo.service.core-compute-demo.internal/health',
-    rdProfessionalApi: 'https://rd-professional-api-demo.service.core-compute-demo.internal/health',
+    rdProfessionalApi: 'http://rd-professional-api-demo.service.core-compute-demo.internal/health',
+    feeAndPayApi: 'http://payment-api-demo.service.core-compute-demo.internal/health',
+
   },
   useProxy: false,
   secureCookie: false,
@@ -39,5 +33,5 @@ export default {
     {id: 'IA'},
     {id: 'EMPLOYMENT'},
     {id: 'CMC'}
-  ],
+      ],
 }

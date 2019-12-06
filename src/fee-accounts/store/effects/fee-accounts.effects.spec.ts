@@ -35,7 +35,7 @@ describe('Fee accounts Effects', () => {
     it('should return a collection from loadFeeAccounts$ - LoadFeeAccountsSuccess', () => {
       const payload = [{payload: 'something'}];
       FeeAccountsServiceMock.fetchFeeAccounts.and.returnValue(of(payload));
-      const action = new LoadFeeAccounts();
+      const action = new LoadFeeAccounts(['account1', 'account2']);
       const completion = new LoadFeeAccountsSuccess([{payload: 'something'}]);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -46,7 +46,7 @@ describe('Fee accounts Effects', () => {
   describe('loadFeeAccounts$ error', () => {
     it('should return LoadFeeAccountsFail', () => {
       FeeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(new Error()));
-      const action = new LoadFeeAccounts();
+      const action = new LoadFeeAccounts(['account1', 'account2']);
       const completion = new LoadFeeAccountsFail(new Error());
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -6,18 +6,27 @@ const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
     href: '/organisation',
-    active: false
+    active: false,
+    orderId: 1
   },
   {
     text: 'Users',
     href: '/users',
-    active: false
+    active: false,
+    orderId: 2
+  },
+  {
+    text: 'Fee Accounts',
+    href: '/fee-accounts',
+    active: false,
+    orderId: 3
   }
 ];
 
 const roleBasedNav = {
+  'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
-  'pui-organisation-manager': navItemsArray[0]
+  'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {
@@ -54,6 +63,7 @@ const FooterData =  {
 
 const FooterDataNavigation = {
   items: [
+    { text: 'Accessibility', href: 'accessibility', target: '_blank'},
     { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
     { text: 'Cookies', href: 'cookies', target: '_blank' },
     { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'}
@@ -64,7 +74,8 @@ const userRoles = [
 
     { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
     { role: 'pui-user-manager', roleType: 'manageUsers' },
-    { role: 'pui-case-manager', roleType: 'manageCases'}
+    { role: 'pui-case-manager', roleType: 'manageCases'},
+    { role: 'pui-finance-manager', roleType: 'managePayments'}
 ];
 
 const jurisdictions = [
@@ -82,12 +93,16 @@ const jurisdictions = [
 
 const ccdRoles = [
   'caseworker',
+  'caseworker-ia',
   'caseworker-divorce',
   'caseworker-divorce-solicitor',
   'caseworker-divorce-financialremedy',
   'caseworker-divorce-financialremedy-solicitor',
   'caseworker-probate',
-  'caseworker-probate-solicitor'
+  'caseworker-probate-solicitor',
+  'caseworker-publiclaw',
+  'caseworker-ia-legalrep-solicitor',
+  'caseworker-publiclaw-solicitor'
 ];
 
 const redirectUrl = {

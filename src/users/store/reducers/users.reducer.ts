@@ -30,7 +30,7 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USERS_SUCCESS: {
-      const payload = action.payload ? action.payload.users : null ;
+      const payload = action.payload ? action.payload.users : null;
 
       const userListPayload = payload.map((item) => {
         return {
@@ -61,12 +61,49 @@ export function reducer(
       };
     }
 
-
     case fromUsers.LOAD_USERS_FAIL: {
       return {
         ...state,
         loading: false,
         loaded: false
+      };
+    }
+
+    case fromUsers.SUSPEND_USER: {
+      return {
+        ...state,
+        loading: true,
+        loaded: true
+      };
+    }
+
+    case fromUsers.SUSPEND_USER_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true
+      };
+    }
+
+    case fromUsers.SUSPEND_USER_SUCCESS: {
+      const user = action.payload ? action.payload : null;
+      const amendedUserList = [];
+      state.userList.slice(0).forEach(element => {
+        const elementInstance = {...element};
+        if (elementInstance['userIdentifier'] ===  user.userIdentifier) {
+          elementInstance['idamStatus'] = 'SUSPENDED';
+          elementInstance['status'] = 'Suspended';
+        }
+        amendedUserList.push(elementInstance);
+      });
+
+      return {
+        ...state,
+        userList: [
+          ...amendedUserList
+        ],
+        loading: false,
+        loaded: true
       };
     }
 
@@ -76,6 +113,6 @@ export function reducer(
 }
 
 export const getUsers = (state: UsersListState) => state.userList;
-export const getLoginFormLoading = (state: UsersListState) => state.loading;
-export const getLoginFormLoaded = (state: UsersListState) => state.loaded;
+export const getUsersLoading = (state: UsersListState) => state.loading;
+export const getUsersLoaded = (state: UsersListState) => state.loaded;
 

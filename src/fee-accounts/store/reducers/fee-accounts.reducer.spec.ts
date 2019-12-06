@@ -1,6 +1,6 @@
 import { initialState, reducer, getFeeAccounts, getFeeAccountsLoading, getFeeAccountsLoaded } from './fee-accounts.reducer';
 import { LoadFeeAccountsSuccess } from '../actions';
-import { PbaAccountsSummary } from 'src/fee-accounts/models/pba-accounts';
+import { FeeAccount, FeeAccountSummary } from 'src/fee-accounts/models/pba-accounts';
 
 describe('FeeAccountsReducer', () => {
   describe('undefined action', () => {
@@ -15,15 +15,24 @@ describe('FeeAccountsReducer', () => {
     it('should update the state.feeAccounts', () => {
       const action = new LoadFeeAccountsSuccess([
         {
-          pbaNumber: '1',
-          organisationId: '0'
+          account_number: '123',
+          account_name: '',
+          credit_limit: null,
+          available_balance: null,
+          status: null,
+          effective_date: null,
         }
       ]);
       const state = reducer(initialState, action);
-      const expected: PbaAccountsSummary = {
-        routerLink: '/fee-accounts/account/1/',
-        pbaNumber: '1',
-        organisationId: '0'
+      const expected: FeeAccountSummary = {
+        account_number: '123',
+        account_name: '',
+        credit_limit: null,
+        available_balance: null,
+        status: null,
+        effective_date: null,
+        routerLink: `/fee-accounts/account/123/`,
+        isAccountInfoMissing: false
       };
       expect(state.feeAccounts).toEqual([expected]);
     });

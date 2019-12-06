@@ -19,11 +19,11 @@ import routes from './routes'
 import serviceRouter from './services/serviceAuth'
 import * as ejs from 'ejs'
 import * as path from 'path'
+import * as tunnel from './lib/tunnel'
 
 const FileStore = sessionFileStore(session)
 
 const app = express()
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 app.use(
     session({
@@ -41,6 +41,10 @@ app.use(
         }),
     })
 )
+
+if (config.proxy) {
+  tunnel.init()
+}
 
 /**
  * Used Server side
@@ -84,9 +88,6 @@ app.get('/external/ping', (req, res) => {
 app.use('/external', openRoutes)
 
 console.log('WE ARE USING server.ts on the box.')
-
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 /**
  * Secure Routes

@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
-import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
+import { AbstractAppInsights, AppInsightsWrapper } from './services/appInsightsWrapper';
 import { HealthCheckGuard } from './guards/health-check.guard';
 import { HealthCheckService } from './services/health-check.service';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
@@ -49,8 +49,11 @@ import { LoaderModule } from './modules/loader/loader.module';
       useClass: AuthIntercepterServer,
       multi: true
     },
+    {
+      provide: AbstractAppInsights,
+      useClass: AppInsightsWrapper
+    },
     HeadersService,
-    { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
     MonitoringService,
     HealthCheckGuard,
     HealthCheckService

@@ -17,8 +17,7 @@ async function inviteUserRoute(req, res) {
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {
-        logger.info('===========================================')
-        console.log(error)
+        logger.info('error', error)
         const errReport = {
             apiError: error.data.message,
             apiStatusCode: error.status,

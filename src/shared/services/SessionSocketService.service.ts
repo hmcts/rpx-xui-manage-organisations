@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Socket} from 'ngx-socket-io';
 import {environment} from '../../environments/environment';
-import * as fromRoot from '../../app/store'
+import * as fromRoot from '../../app/store';
 
 
 @Injectable()

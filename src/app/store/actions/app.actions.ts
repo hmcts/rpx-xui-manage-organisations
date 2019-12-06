@@ -7,6 +7,8 @@ export const LOAD_JURISDICTIONS_GLOBAL = '[Invite User] Load Jurisdictions Globa
 export const LOAD_JURISDICTIONS_GLOBAL_SUCCESS = '[Invite User] Load Jurisdictions Global Success';
 export const LOAD_JURISDICTIONS_GLOBAL_FAIL = '[Invite User] Load Jurisdictions Global Fail';
 
+export const LIVE_SESSION = '[Web Sockets] Live Session';
+
 export const LOGOUT = '[App] Logout';
 
 export class SetPageTitle implements Action {
@@ -42,6 +44,11 @@ export class LoadJurisdictionsFail {
   constructor(public payload: any) { }
 }
 
+export class LiveSession {
+  readonly type = LIVE_SESSION;
+  constructor(public payload: boolean) { }
+}
+
 
 export type appActions =
   | LoadJurisdictions
@@ -50,4 +57,5 @@ export type appActions =
   | SetPageTitle
   | SetPageTitleErrors
   | Logout
-  | SetUserRoles;
+  | SetUserRoles
+  | LiveSession;

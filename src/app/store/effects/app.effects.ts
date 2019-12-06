@@ -9,13 +9,15 @@ import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from 'src/users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import {SessionSocketServiceService} from '../../../shared/services/SessionSocketService.service';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
-    private autGuard: AuthGuard
+    private autGuard: AuthGuard,
+    private sessionSocketService: SessionSocketServiceService
   ) { }
 
   @Effect()
@@ -54,6 +56,11 @@ export class AppEffects {
         catchError(error => of(new appActions.LoadJurisdictionsFail(error)))
       );
     })
+  );
+
+  @Effect()
+  liveCreate$ = this.sessionSocketService.liveSessionOff$.pipe(
+    map(value => new appActions.LiveSession(value))
   );
 
 }

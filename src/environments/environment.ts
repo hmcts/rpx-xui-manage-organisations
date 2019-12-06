@@ -20,5 +20,11 @@ export const environment = {
       indexUrl: '/',
       oauthCallbackUrl: 'oauth2/callback'
     }
+  },
+  socketConfig: {
+    url: 'http://localhost:3001',
+    opts: {
+      transports: ['websocket']
+    }
   }
 };

@@ -56,5 +56,9 @@ export const getUserNav = createSelector(
   (state, routes) => {
     return AppUtils.setSetUserNavItems(state, routes);
   }
+);
 
+export const getModalSessionData = createSelector(
+  getAppState,
+  (state) => state.modal.session
 );

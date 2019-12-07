@@ -9,6 +9,8 @@ import * as fromActions from '../../store';
 import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
 import { environment as config } from '../../../environments/environment';
 import {IdleService} from '../../../shared/services/idleService.service';
+import {tap} from 'rxjs/operators';
+
 
 /**
  * Root Component that bootstrap all application.
@@ -27,12 +29,13 @@ export class AppComponent implements OnInit {
   navItems$: Observable<any> ;
   appHeaderTitle$: Observable<AppTitlesModel>;
   userNav$: Observable<UserNavModel>;
+  modalData$: Observable<any>
 
 
   constructor(
     private store: Store<fromRoot.State>,
     private googleAnalyticsService: GoogleAnalyticsService,
-    private idleService: IdleService
+    private idleService: IdleService,
   ) {}
 
   ngOnInit() {
@@ -52,6 +55,9 @@ export class AppComponent implements OnInit {
     });
 
     this.googleAnalyticsService.init(config.googleAnalyticsKey);
+    this.modalData$ = this.store.pipe(
+      select(fromRoot.getModalSessionData), tap(console.log));
+
   }
 
 

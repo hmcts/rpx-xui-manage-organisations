@@ -6,6 +6,7 @@ export const SET_USER_ROLES = '[APP] Set User Roles';
 export const LOAD_JURISDICTIONS_GLOBAL = '[Invite User] Load Jurisdictions Global';
 export const LOAD_JURISDICTIONS_GLOBAL_SUCCESS = '[Invite User] Load Jurisdictions Global Success';
 export const LOAD_JURISDICTIONS_GLOBAL_FAIL = '[Invite User] Load Jurisdictions Global Fail';
+export const SET_MODAL = '[APP] Set Modal';
 
 export const LOGOUT = '[App] Logout';
 
@@ -42,6 +43,11 @@ export class LoadJurisdictionsFail {
   constructor(public payload: any) { }
 }
 
+export class SetModal {
+  readonly type = SET_MODAL;
+  constructor(public payload: any) { }
+}
+
 
 export type appActions =
   | LoadJurisdictions
@@ -50,4 +56,5 @@ export type appActions =
   | SetPageTitle
   | SetPageTitleErrors
   | Logout
-  | SetUserRoles;
+  | SetUserRoles
+  | SetModal;

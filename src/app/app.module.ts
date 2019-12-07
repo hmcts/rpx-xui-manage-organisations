@@ -33,6 +33,7 @@ import * as fromContainers from './containers/';
 
 // from Components
 import * as fromComponents from './components';
+import {IdleService} from '../shared/services/idleService.service';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -67,7 +68,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
-    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService
+    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService, IdleService
     ],
   bootstrap: [AppComponent]
 })

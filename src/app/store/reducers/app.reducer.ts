@@ -5,21 +5,28 @@ import {AppTitlesModel} from '../../models/app-titles.model';
 import {AppUtils} from '../../utils/app-utils';
 
 export interface AppState {
+  headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   allNavItems: {[id: string]: object};
   pageTitle: string;
   navItems;
   userNav: UserNavModel;
-  headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
+  modal: {[id: string]: {isVisible: boolean; countdown: string}};
 }
 
 export const initialState: AppState = {
+  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
   allNavItems: AppConstants.ROLES_BASED_NAV,
   pageTitle: '',
   userNav: AppConstants.USER_NAV,
   navItems: [],
-  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
-  jurisdictions: []
+  jurisdictions: [],
+  modal: {
+    session: {
+      isVisible: false,
+      countdown: ''
+    }
+  }
 };
 
 export function reducer(
@@ -70,6 +77,15 @@ export function reducer(
       };
     }
 
+    case fromAction.SET_MODAL: {
+
+      return {
+        ...state,
+        modal: {...action.payload}
+
+      }
+    }
+
     case fromAction.LOGOUT: {
       return {
         ...state,
@@ -86,5 +102,6 @@ export const getNavItems = (state: AppState) => state.navItems;
 export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
+export const getModal = (state: AppState) => state.modal;
 
 

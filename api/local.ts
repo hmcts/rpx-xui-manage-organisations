@@ -86,6 +86,7 @@ console.log('WE ARE USING local.ts on the box.')
 app.use('/api', routes)
 app.get('/api/logout', (req, res, next) => {
   auth.doLogout(req, res)
+  console.log('Logged Out')
 })
 
 const port = process.env.PORT || 3001

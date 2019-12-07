@@ -49,6 +49,8 @@
     "@angular/router": "^6.0.3",
     "@hmcts/frontend": "0.0.41-alpha",
     "@hmcts/rpx-xui-common-lib": "0.0.14",
+    "@ng-idle/core": "^8.0.0-beta.4",
+    "@ng-idle/keepalive": "^8.0.0-beta.4",
     "@ngrx/effects": "^6.0.3",
     "@ngrx/router-store": "^6.0.3",
     "@ngrx/store": "^6.0.3",

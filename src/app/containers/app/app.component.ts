@@ -8,6 +8,7 @@ import {UserNavModel} from '../../models/user-nav.model';
 import * as fromActions from '../../store';
 import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
 import { environment as config } from '../../../environments/environment';
+import {IdleService} from '../../../shared/services/idleService.service';
 
 /**
  * Root Component that bootstrap all application.
@@ -30,13 +31,14 @@ export class AppComponent implements OnInit {
 
   constructor(
     private store: Store<fromRoot.State>,
-    private googleAnalyticsService: GoogleAnalyticsService
+    private googleAnalyticsService: GoogleAnalyticsService,
+    private idleService: IdleService
   ) {}
 
   ngOnInit() {
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
-
+    this.idleService.init();
     this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
@@ -51,6 +53,8 @@ export class AppComponent implements OnInit {
 
     this.googleAnalyticsService.init(config.googleAnalyticsKey);
   }
+
+
   onNavigate(event): void {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromActions.Logout());

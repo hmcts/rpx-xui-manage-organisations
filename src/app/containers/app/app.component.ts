@@ -55,11 +55,18 @@ export class AppComponent implements OnInit {
     });
 
     this.googleAnalyticsService.init(config.googleAnalyticsKey);
-    this.modalData$ = this.store.pipe(
-      select(fromRoot.getModalSessionData), tap(console.log));
+    this.modalData$ = this.store.pipe(select(fromRoot.getModalSessionData));
 
   }
 
+  onStaySignedIn() {
+    const payload = {
+      session : {
+        isVisible: false
+      }
+    }
+    this.store.dispatch(new fromRoot.SetModal(payload));
+  }
 
   onNavigate(event): void {
     if (event === 'sign-out') {

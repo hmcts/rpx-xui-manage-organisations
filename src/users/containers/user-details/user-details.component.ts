@@ -29,6 +29,7 @@ export class UserDetailsComponent implements OnInit {
     this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
     this.dependanciesSubscription = combineLatest([
+      // TODO move this into selectors
       this.routerStore.pipe(select(fromRoot.getRouterState)),
       this.userStore.pipe(select(fromStore.getGetUserLoaded))
     ]).subscribe(([route, users]) => {

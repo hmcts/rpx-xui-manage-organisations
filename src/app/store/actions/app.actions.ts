@@ -45,7 +45,7 @@ export class LoadJurisdictionsFail {
 
 export class SetModal {
   readonly type = SET_MODAL;
-  constructor(public payload: any) { }
+  constructor(public payload: {[id: string]: {isVisible?: boolean; countdown?: string}}) { }
 }
 
 

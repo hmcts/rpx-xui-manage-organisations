@@ -11,7 +11,7 @@ export interface AppState {
   navItems;
   userNav: UserNavModel;
   jurisdictions: any[];
-  modal: {[id: string]: {isVisible: boolean; countdown: string}};
+  modal: {[id: string]: {isVisible?: boolean; countdown?: string}};
 }
 
 export const initialState: AppState = {
@@ -82,7 +82,6 @@ export function reducer(
       return {
         ...state,
         modal: {...action.payload}
-
       }
     }
 

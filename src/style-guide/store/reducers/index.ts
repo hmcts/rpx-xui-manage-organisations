@@ -11,7 +11,7 @@ export const reducers: ActionReducerMap<UserState> = {
 };
 
 export const getRootStyleGuideState = createFeatureSelector<UserState>(
-  'style-guide'
+  'signed-out'
 );
 
 

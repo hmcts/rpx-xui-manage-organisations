@@ -32,6 +32,10 @@ export const ROUTES: Routes = [
     loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
   },
   {
+    path: 'signed-out',
+    loadChildren: '../signed-out/signed-out.module#SignedOutModule'
+  },
+  {
     path: 'register-org',
     loadChildren: '../register/register.module#RegisterModule'
   },
@@ -65,4 +69,3 @@ export const ROUTES: Routes = [
     pathMatch: 'full'
   }
 ];
-

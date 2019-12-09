@@ -27,7 +27,7 @@ describe('AppUtils', () => {
     const state = {
       userNav: {
         label: 'Account navigation',
-        items: [{text: 'Sign out', emit: 'sign-out'}]
+        items: [{text: 'Sign out', emit: 'signed-out'}]
       }
     };
     const routerOrg = {

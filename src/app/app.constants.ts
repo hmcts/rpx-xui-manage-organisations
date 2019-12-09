@@ -35,7 +35,7 @@ const userNav: UserNavModel = {
   label: 'Account navigation',
   items: [{
     text: 'Sign out',
-    emit: 'sign-out'
+    emit: 'signed-out'
   }]
 };
 

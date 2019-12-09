@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
   }
 
   onNavigate(event): void {
-    if (event === 'sign-out') {
+    if (event === 'signed-out') {
       return this.store.dispatch(new fromActions.Logout());
     }
   }

@@ -105,7 +105,7 @@ describe('AppComponent', () => {
   it('should dispatch a logout action', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    app.onNavigate('sign-out');
+    app.onNavigate('signed-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());

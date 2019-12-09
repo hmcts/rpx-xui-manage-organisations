@@ -1,12 +1,12 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-import { FormGroup, FormControl, Validator, ValidatorFn } from '@angular/forms';
-import { checkboxesBeCheckedValidator } from 'src/custom-validators/checkboxes-be-checked.validator';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromRoot from '../../../app/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { UserRolesUtil } from '../utils/user-roles-util';
 import { Actions, ofType } from '@ngrx/effects';
+import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
 
 @Component({
     selector: 'edit-user-permission',

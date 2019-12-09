@@ -5,7 +5,6 @@ describe('Accept Tc Wrapper Component', () => {
     let component: AcceptTcWrapperComponent;
     let mockStore: any;
     let mockActions: any;
-    let mockCookie: any;
 
     class TestAction implements Action {
         type: string;
@@ -14,8 +13,7 @@ describe('Accept Tc Wrapper Component', () => {
     beforeEach(() => {
         mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch']);
         mockActions = jasmine.createSpyObj('mockActions', ['pipe']);
-        mockCookie = jasmine.createSpyObj('mockCookie', ['get']);
-        component = new AcceptTcWrapperComponent(mockStore, mockActions, mockCookie);
+        component = new AcceptTcWrapperComponent(mockStore, mockActions);
     });
 
     it('should create', () => {
@@ -40,7 +38,6 @@ describe('Accept Tc Wrapper Component', () => {
     });
 
     it('should onAcceptTandC', () => {
-        mockCookie.get.and.returnValue('userId');
         component.onAcceptTandC();
         expect(mockStore.dispatch).toHaveBeenCalled();
     });

@@ -9,13 +9,16 @@ import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from 'src/users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import {SignedOut} from '../actions';
+import {LogOutService} from '../../../shared/services/logOutService.service';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
-    private authGuard: AuthGuard
+    private authGuard: AuthGuard,
+    private logOutService: LogOutService
   ) { }
 
   @Effect()
@@ -46,7 +49,17 @@ export class AppEffects {
   );
 
   @Effect()
-  loadJuridictions$ = this.actions$.pipe(
+  signedOut = this.actions$.pipe(
+    ofType(appActions.SIGNED_OUT),
+    switchMap(() => {
+      return this.logOutService.logOut().pipe(
+        map(() => new appActions.SignedOutSuccess())
+      );
+    })
+  );
+
+  @Effect()
+  loadJurisdictions$ = this.actions$.pipe(
     ofType(appActions.LOAD_JURISDICTIONS_GLOBAL),
     switchMap(() => {
       return this.jurisdictionService.getJurisdictions().pipe(

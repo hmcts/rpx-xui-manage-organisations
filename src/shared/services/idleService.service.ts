@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {DEFAULT_INTERRUPTSOURCES, Idle, DocumentInterruptSource } from '@ng-idle/core';
 import {select, Store} from '@ngrx/store';
 import * as fromRoot from '../../app/store';
-import {delay, distinctUntilChanged, first, map} from 'rxjs/operators';
+import {delay, distinctUntilChanged, first, map, tap} from 'rxjs/operators';
 import {Keepalive} from '@ng-idle/keepalive';
 
 @Injectable({
@@ -41,6 +41,7 @@ export class IdleService {
     this.idle.onTimeout.subscribe(() => {
       console.log('Timed out!');
       this.store.dispatch(new fromRoot.Go({path: ['/signed-out']}));
+      this.store.dispatch(new fromRoot.SignedOut());
       this.dispatchModal(undefined, false);
     });
 
@@ -50,6 +51,7 @@ export class IdleService {
 
     this.idle.onTimeoutWarning.pipe(
       map(sec => (sec > 60) ? Math.ceil(sec / 60) + ' minutes' : sec + ' seconds'),
+      tap(console.log), // remove when happy
       distinctUntilChanged()
     ).subscribe((countdown) => {
       this.dispatchModal(countdown, true);

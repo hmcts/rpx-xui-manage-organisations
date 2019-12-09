@@ -9,6 +9,8 @@ export const LOAD_JURISDICTIONS_GLOBAL_FAIL = '[Invite User] Load Jurisdictions 
 export const SET_MODAL = '[APP] Set Modal';
 
 export const LOGOUT = '[App] Logout';
+export const SIGNED_OUT = '[App] Signed Out'; // used by session management
+export const SIGNED_OUT_SUCCESS = '[App] Signed Out Success'; // used by session management
 
 export class SetPageTitle implements Action {
   readonly type = SET_PAGE_TITLE;
@@ -21,6 +23,13 @@ export class SetPageTitleErrors implements Action {
 
 export class Logout implements Action {
   readonly type = LOGOUT;
+}
+
+export class SignedOut implements Action {
+  readonly type = SIGNED_OUT;
+}
+export class SignedOutSuccess implements Action {
+  readonly type = SIGNED_OUT_SUCCESS;
 }
 
 export class SetUserRoles implements Action {
@@ -57,4 +66,5 @@ export type appActions =
   | SetPageTitleErrors
   | Logout
   | SetUserRoles
-  | SetModal;
+  | SetModal
+  | SignedOut;

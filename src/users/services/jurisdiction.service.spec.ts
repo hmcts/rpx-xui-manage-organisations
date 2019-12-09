@@ -8,7 +8,7 @@ describe('Jurisdiction service', () => {
         expect(service).toBeTruthy();
     });
 
-    it('should call getJurisdictions', () => {
+    it('should call logOut', () => {
         const service = new JurisdictionService(mockedHttpClient);
         service.getJurisdictions();
         expect(mockedHttpClient.get).toHaveBeenCalledWith('api/jurisdictions');

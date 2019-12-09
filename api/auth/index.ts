@@ -172,8 +172,13 @@ export function doLogout(req: EnhancedRequest, res: express.Response, status: nu
     req.session.user = null
     delete req.session.auth // delete so it does not get returned to FE
     req.session.save(() => {
-      // todo if no rediirect do nothing for session logg in
-        res.redirect(status, req.query.redirect || '/')
+      if (req.query.redirect) {
+        res.redirect(status, req.query.redirect)
+        console.log('Logged out by user')
+      } else {
+        res.status(200).send('You have been logged out!')
+        console.log('Logged out by Session')
+      }
     })
 }
 

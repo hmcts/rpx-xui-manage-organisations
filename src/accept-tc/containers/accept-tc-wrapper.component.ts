@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action, Store, select } from '@ngrx/store';
 import { CookieService } from 'ngx-cookie';
 import { Observable, Subscription } from 'rxjs';
 import * as fromStore from '../../../src/user-profile/store';
 import * as fromRoot from '../../app/store';
+import * as fromUserProfile from '../../user-profile/store';
 /**
  * Terms And Condition smart component wrapper
  * absorbs Terms and Condition dumb component
@@ -14,13 +15,16 @@ import * as fromRoot from '../../app/store';
   templateUrl: './accept-tc-wrapper.component.html'
 })
 export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  private subscription: Subscription;
+  private uidSubscription: Subscription;
+  private uid: string;
   constructor(private store: Store<fromStore.AuthState>,
               private actions$: Actions,
               private cookieService: CookieService) {
   }
 
   ngOnInit(): void {
+    this.uidSubscription = this.store.pipe(select(fromUserProfile.getUid)).subscribe(uid => this.uid = uid);
     this.subscription = this.getObservable(this.actions$, fromStore.AuthActionTypes.ACCEPT_T_AND_C_SUCCESS).subscribe(() => {
       this.dispatchAction(this.store, new fromRoot.Go({ path: ['home'] }));
     });
@@ -36,6 +40,7 @@ export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe(this.subscription);
+    this.unsubscribe(this.uidSubscription);
   }
 
   unsubscribe(subscription: Subscription) {
@@ -45,7 +50,6 @@ export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
   }
 
   onAcceptTandC() {
-    const uid = this.cookieService.get('__userid__');
-    this.store.dispatch(new fromStore.AcceptTandC(uid));
+    this.store.dispatch(new fromStore.AcceptTandC(this.uid));
   }
 }

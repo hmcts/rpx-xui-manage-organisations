@@ -8,6 +8,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { AccessibilityComponent } from './accessibility/accessibility.component';
 import { ServiceDownComponent } from './service-down/service-down.component';
+import {SignedOutComponent} from './signed-out/signed-out.component';
 
 export const components: any[] = [
   HmctsGlobalHeaderComponent,
@@ -17,7 +18,8 @@ export const components: any[] = [
   PrivacyPolicyComponent,
   TermsAndConditionsComponent,
   AccessibilityComponent,
-  ServiceDownComponent
+  ServiceDownComponent,
+  SignedOutComponent
 ];
 
 export * from './hmcts-global-header/hmcts-global-header.component';
@@ -28,3 +30,4 @@ export * from './privacy-policy/privacy-policy.component';
 export * from './terms-and-conditions/terms-and-conditions.component';
 export * from './accessibility/accessibility.component';
 export * from './service-down/service-down.component';
+export * from './signed-out/signed-out.component';

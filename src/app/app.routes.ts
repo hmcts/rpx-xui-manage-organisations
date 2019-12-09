@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
 import {RedirectComponent} from './containers/redirect/redirect.component';
-import { ServiceDownComponent,
-  CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent } from './components';
+import {
+  ServiceDownComponent,
+  CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent, SignedOutComponent
+} from './components';
 
 export const ROUTES: Routes = [
   {
@@ -32,10 +34,6 @@ export const ROUTES: Routes = [
     loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
   },
   {
-    path: 'signed-out',
-    loadChildren: '../signed-out/signed-out.module#SignedOutModule'
-  },
-  {
     path: 'register-org',
     loadChildren: '../register/register.module#RegisterModule'
   },
@@ -62,6 +60,10 @@ export const ROUTES: Routes = [
   {
     path: 'accessibility',
     component: AccessibilityComponent
+  },
+  {
+    path: 'signed-out',
+    component: SignedOutComponent
   },
   {
     path: '**',

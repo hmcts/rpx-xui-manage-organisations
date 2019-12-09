@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {DEFAULT_INTERRUPTSOURCES, Idle, DocumentInterruptSource } from '@ng-idle/core';
 import {select, Store} from '@ngrx/store';
 import * as fromRoot from '../../app/store';
-import {distinctUntilChanged, first, map} from 'rxjs/operators';
+import {delay, distinctUntilChanged, first, map} from 'rxjs/operators';
 import {Keepalive} from '@ng-idle/keepalive';
 
 @Injectable({
@@ -19,26 +19,29 @@ export class IdleService {
   ) {}
 
   public init(): void {
-    this.timeout = 180; // set to 5 minutes
+    this.timeout = 10; // set to 5 minutes
 
     this.idle.setIdleName('idleSession');
     // todo set based on user role
-    this.idle.setIdle(10);
+    this.idle.setIdle(5);
 
     this.idle.setTimeout(this.timeout);
+
     // console.log(DEFAULT_INTERRUPTSOURCES) // leave for comparison
     const interrupt =
       new DocumentInterruptSource('mousedown keydown DOMMouseScroll mousewheel touchstart touchmove scroll');
     this.idle.setInterrupts([interrupt]);
 
-    this.idle.onIdleEnd.subscribe(() => {
+    // adding delay so that user can click on sign out before the windows closes
+    this.idle.onIdleEnd.pipe(delay(250)).subscribe(() => {
       console.log('No longer idle.');
       this.dispatchModal(undefined, false);
     });
 
     this.idle.onTimeout.subscribe(() => {
       console.log('Timed out!');
-      this.store.dispatch(new fromRoot.Go({path: ['./signout']}));
+      this.store.dispatch(new fromRoot.Go({path: ['/signed-out']}));
+      this.dispatchModal(undefined, false);
     });
 
     this.idle.onIdleStart.subscribe(() => {

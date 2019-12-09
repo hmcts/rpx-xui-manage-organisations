@@ -23,7 +23,7 @@ export class IdleService {
 
     this.idle.setIdleName('idleSession');
     // todo set based on user role
-    this.idle.setIdle(5);
+    this.idle.setIdle(20);
 
     this.idle.setTimeout(this.timeout);
 
@@ -76,7 +76,9 @@ export class IdleService {
     this.store.pipe(
       select(fromRoot.getRouterUrl),
       first(value => typeof value === 'string' )).subscribe(route => {
-      if (route && route.indexOf('register-org') === -1) {
+      const isRegisterOrg: boolean = route.indexOf('register-org') !== -1;
+      const isSignedOut: boolean = route.indexOf('signed-out') !== -1;
+      if (route && !(isRegisterOrg || isSignedOut)) {
         this.idle.watch();
       }
     });

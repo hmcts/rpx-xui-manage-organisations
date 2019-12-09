@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {AuthGuard} from '../../../user-profile/guards/auth.guard';
 
 /*
-* Style Sig Out Component
+* Sign Out Component
 * Responsible for telling user that have been signed out.
 * */
 
@@ -11,10 +11,11 @@ import {Store} from '@ngrx/store';
   templateUrl: './signed-out.component.html',
 })
 export class SignedOutComponent implements OnInit {
-
-  constructor() { }
+  public redirectUrl: string
+  constructor(private authGuard: AuthGuard) { }
 
   ngOnInit(): void {
+    this.redirectUrl = this.authGuard.generateLoginUrl();
   }
 
 

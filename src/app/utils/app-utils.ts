@@ -40,8 +40,10 @@ export class AppUtils {
      * it manages user nav array based on the app that is running (register or otherwise)
      */
     if (state && state.userNav && routes && routes.state.url) {
+      // do not display navigtion for the following pages
       const isRegister = routes.state.url.indexOf('register') === -1;
-      return isRegister ? state.userNav : [];
+      const isSignedOut = routes.state.url.indexOf('signed-out') === -1;
+      return (isRegister || isSignedOut) ? state.userNav : [];
     }
     return [];
   }
@@ -103,6 +105,9 @@ export class AppUtils {
     }
     if (url.indexOf('register-org/confirmation') !== -1) {
       return 'Confirmation - Register organisation';
+    }
+    if (url.indexOf('signed-out') !== -1) {
+      return 'We have signed you out';
     }
     return 'Manage organisation';
   }

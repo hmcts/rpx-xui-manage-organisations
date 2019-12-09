@@ -15,7 +15,7 @@ export class AppEffects {
   constructor(
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
-    private autGuard: AuthGuard
+    private authGuard: AuthGuard
   ) { }
 
   @Effect()
@@ -39,7 +39,7 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      const redirectUrl = this.autGuard.generateLoginUrl();
+      const redirectUrl = this.authGuard.generateLoginUrl();
       const redirectUrlEncoded = encodeURIComponent(redirectUrl);
       window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
     })

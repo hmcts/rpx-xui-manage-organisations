@@ -7,6 +7,7 @@ import getJurisdictions from './jurisdictions'
 import organisationRouter from './organisation'
 import payments from './payments'
 import userDetailsRouter from './user'
+import getUserDetails from './userDetails'
 import getUserList from './userList'
 
 const router = express.Router({ mergeParams: true })
@@ -18,7 +19,7 @@ router.use('/user', userDetailsRouter)
 router.use('/healthCheck', healthCheck)
 router.use('/inviteUser', inviteUser)
 router.use('/userList', getUserList)
-router.use('/userDetails', getUserList)
+router.use('/userDetails', getUserDetails)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 

@@ -39,11 +39,11 @@ export class UsersEffects {
     })
   );
 
+  @Effect()
   loadSingleUser$ = this.actions$.pipe(
     ofType(usersActions.LOAD_SINGLE_USER),
-    switchMap((userIdentifier) => {
-      console.log(userIdentifier);
-      return this.usersService.getSingleUser(userIdentifier).pipe(
+    switchMap((userIdentifier: {type: string, payload: string}) => {
+      return this.usersService.getSingleUser(userIdentifier.payload).pipe(
         map(user => new usersActions.LoadSingleUserSuccess(user)),
         catchError(error => of(new usersActions.LoadSingleUserFail(error)))
       );

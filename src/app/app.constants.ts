@@ -93,12 +93,16 @@ const jurisdictions = [
 
 const ccdRoles = [
   'caseworker',
+  'caseworker-ia',
   'caseworker-divorce',
   'caseworker-divorce-solicitor',
   'caseworker-divorce-financialremedy',
   'caseworker-divorce-financialremedy-solicitor',
   'caseworker-probate',
-  'caseworker-probate-solicitor'
+  'caseworker-probate-solicitor',
+  'caseworker-publiclaw',
+  'caseworker-ia-legalrep-solicitor',
+  'caseworker-publiclaw-solicitor'
 ];
 
 const redirectUrl = {

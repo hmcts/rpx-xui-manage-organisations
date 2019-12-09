@@ -8,8 +8,8 @@ import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import * as usersActions from '../../../users/store/actions/user.actions';
-import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { UserRolesUtil } from '../../../users/containers/utils/user-roles-util';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class UserEffects {

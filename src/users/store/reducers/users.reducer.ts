@@ -9,7 +9,7 @@ export interface UsersListState {
   loading: boolean;
 }
 
-export interface UserState {
+export interface SelectedUserState {
   user: User;
   loaded: boolean;
   loading: boolean;
@@ -21,7 +21,7 @@ export const initialUsersListState: UsersListState = {
   loading: false,
 };
 
-export const initialUserState: UserState = {
+export const initialUserState: SelectedUserState = {
   user: {
     email: '',
     firstName: '',
@@ -97,13 +97,13 @@ export function reducer(
 }
 
 
-export function singleUserReducer(
+export function selectedUserReducer(
   state = initialUserState,
   action: fromUsers.UserActions
-): UserState {
+): SelectedUserState {
   switch (action.type) {
 
-    case fromUsers.LOAD_SINGLE_USER: {
+    case fromUsers.LOAD_SELECTED_USER: {
       const user = {
         email: '',
         firstName: '',
@@ -120,7 +120,7 @@ export function singleUserReducer(
       };
     }
 
-    case fromUsers.LOAD_SINGLE_USER_SUCCESS: {
+    case fromUsers.LOAD_SELECTED_USER_SUCCESS: {
       const user = action.payload;
       return {
         ...state,
@@ -131,7 +131,7 @@ export function singleUserReducer(
     }
 
 
-    case fromUsers.LOAD_SINGLE_USER_FAIL: {
+    case fromUsers.LOAD_SELECTED_USER_FAIL: {
       return {
         ...state,
         loading: false,
@@ -147,7 +147,7 @@ export const getUsers = (state: UsersListState) => state.userList;
 export const getUsersLoading = (state: UsersListState) => state.loading;
 export const getUsersLoaded = (state: UsersListState) => state.loaded;
 
-export const getSingleUser = (state: UserState) => state.user;
-export const getSingleUserLoading = (state: UserState) => state.loading;
-export const getSingleUserLoaded = (state: UserState) => state.loaded;
+export const getSelectedUser = (state: SelectedUserState) => state.user;
+export const getSelectedUserLoading = (state: SelectedUserState) => state.loading;
+export const getSelectedUserLoaded = (state: SelectedUserState) => state.loaded;
 

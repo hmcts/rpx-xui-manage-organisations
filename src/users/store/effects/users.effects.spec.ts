@@ -7,6 +7,7 @@ import * as fromUsersEffects from './users.effects';
 import { UsersEffects } from './users.effects';
 import { LoadUsersSuccess, LoadUsersFail, LoadUsers } from '../actions/user.actions';
 import { UsersService } from '../../services/users.service';
+import { User } from '../../../users/models/user.model';
 
 describe('Users Effects', () => {
     let actions$;
@@ -35,12 +36,25 @@ describe('Users Effects', () => {
 
     describe('loadUsers$', () => {
         it('should return a collection from loadUsers$ - LoadUsersSuccess', () => {
-            const payload = {users: [{ payload: 'something' }]};
+            const user1: User = {
+                email: 'dummy',
+                firstName: 'dummy',
+                idamMessage: 'dummy',
+                idamStatus: 'dummy',
+                idamStatusCode: 'dummy',
+                lastName: 'dummy',
+                userIdentifier: 'dummy',
+            };
+            const payload = {users: [user1]};
             UsersServiceMock.getListOfUsers.and.returnValue(of(payload));
             const action = new LoadUsers();
             const completion = new LoadUsersSuccess({
                 users: [
-                    { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined' }
+                    {
+                        ...user1,
+                        fullName: 'dummy dummy',
+                        routerLink: 'user/dummy'
+                    }
                 ]
             });
             actions$ = hot('-a', { a: action });

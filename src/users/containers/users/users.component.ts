@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import {UserListApiModel} from '../../models/userform.model';
 
 @Component({
   selector: 'app-prd-users-component',
@@ -28,8 +27,8 @@ export class UsersComponent implements OnInit {
     ];
 
     this.store.dispatch(new fromStore.LoadUsers());
-    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
-    this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
+    this.tableUsersData$ = this.store.pipe(select(fromStore.getUserList));
+    this.isLoading$ = this.store.pipe(select(fromStore.getUserLoading));
   }
 
 }

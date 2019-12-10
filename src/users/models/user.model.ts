@@ -6,6 +6,12 @@ export interface User {
     idamStatusCode: string;
     lastName: string;
     roles?: string[];
-    status?: string;
     userIdentifier: string;
+    fullName?: string;
+    routerLink?: string;
+    status?: string;
+    selected?: boolean;
+    manageOrganisations?: string;
+    manageUsers?: string;
+    manageCases?: string;
 }

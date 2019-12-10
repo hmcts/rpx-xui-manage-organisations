@@ -8,37 +8,37 @@ export const getUserState = createSelector(
   (state: fromFeature.UserState) => state.invitedUsers
 );
 
-export const getGetUserList = createSelector(
+export const getUserList = createSelector(
   getUserState,
   fromUsers.getUsers
 );
 
-export const getGetUserLoaded = createSelector(
+export const getUserLoaded = createSelector(
   getUserState,
   fromUsers.getUsersLoaded
 );
 
-export const getGetUserLoading = createSelector(
+export const getUserLoading = createSelector(
   getUserState,
   fromUsers.getUsersLoading
 );
 
-export const getGetSingleUserState = createSelector(
+export const getSelectedUserState = createSelector(
   fromFeature.getRootUserState,
   (state: fromFeature.UserState) => state.selectedUser
 );
 
-export const getGetSingleUser = createSelector(
-  getGetSingleUserState,
-  fromUsers.getSingleUser
+export const getSelectedUser = createSelector(
+  getSelectedUserState,
+  fromUsers.getSelectedUser
 );
 
-export const getGetSingleUserLoaded = createSelector(
-  getGetSingleUserState,
-  fromUsers.getSingleUserLoaded
+export const getSelectedUserLoaded = createSelector(
+  getSelectedUserState,
+  fromUsers.getSelectedUserLoaded
 );
 
-export const getGetSingleUserLoading = createSelector(
-  getGetSingleUserState,
-  fromUsers.getSingleUserLoading
+export const getSelectedUserLoading = createSelector(
+  getSelectedUserState,
+  fromUsers.getSelectedUserLoading
 );

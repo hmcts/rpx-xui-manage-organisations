@@ -1,14 +1,17 @@
 import * as fromUsers from './users.reducer';
 import * as fromUserActions from '../actions/user.actions';
+import { User } from '../../../users/models/user.model';
 
-const mockUserList = [
+const mockUserList: User[] = [
     {
         firstName: 'Test1firstname',
         lastName: 'Test1lastname',
         email: 'somthing1@something',
         idamStatus: 'active',
         userIdentifier: 'userId1',
-        roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager']
+        roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager'],
+        idamMessage: '',
+        idamStatusCode: ''
     },
     {
         firstName: 'Test2fggftfirstname',
@@ -16,11 +19,13 @@ const mockUserList = [
         email: 'somthing2@somffgething',
         idamStatus: 'active',
         userIdentifier: 'userId2',
-        roles: ['pui-organisation-manager', 'pui-user-manager']
+        roles: ['pui-organisation-manager', 'pui-user-manager'],
+        idamMessage: '',
+        idamStatusCode: ''
     }
 ];
 
-const resultUserList = [
+const resultUserList: User[] = [
     {
         firstName: 'Test1firstname',
         lastName: 'Test1lastname',
@@ -32,7 +37,9 @@ const resultUserList = [
         roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager'],
         manageOrganisations: 'Yes',
         manageUsers: 'Yes',
-        manageCases: 'Yes'
+        manageCases: 'Yes',
+        idamStatusCode: '',
+        idamMessage: ''
     },
     {
         firstName: 'Test2fggftfirstname',
@@ -45,26 +52,28 @@ const resultUserList = [
         roles: ['pui-organisation-manager', 'pui-user-manager'],
         manageOrganisations: 'Yes',
         manageUsers: 'Yes',
-        manageCases: 'No'
+        manageCases: 'No',
+        idamStatusCode: '',
+        idamMessage: ''
     }
 ];
 
 describe('Users Reducer', () => {
     it('undefined action should return the default state', () => {
-        const { initialState } = fromUsers;
+        const { initialUsersListState } = fromUsers;
         const action = {} as any;
         const state = fromUsers.reducer(undefined, action);
 
-        expect(state).toBe(initialState);
+        expect(state).toBe(initialUsersListState);
     });
 
     it('LOAD_USERS_SUCCESS action should return correct state', () => {
-        const { initialState } = fromUsers;
+        const { initialUsersListState } = fromUsers;
 
         const action = new fromUserActions.LoadUsersSuccess({
             users: mockUserList
         });
-        const state = fromUsers.reducer(initialState, action);
+        const state = fromUsers.reducer(initialUsersListState, action);
 
         expect(state.userList).toEqual(resultUserList);
         expect(fromUsers.getUsers(state)).toEqual(resultUserList);
@@ -75,19 +84,19 @@ describe('Users Reducer', () => {
     });
 
     it('LOAD_USERS action should return correct state', () => {
-        const { initialState } = fromUsers;
+        const { initialUsersListState } = fromUsers;
 
         const action = new fromUserActions.LoadUsers();
-        const state = fromUsers.reducer(initialState, action);
+        const state = fromUsers.reducer(initialUsersListState, action);
 
         expect(state.userList).toEqual([]);
     });
 
     it('LOAD_USERS_FAIL action should return correct state', () => {
-        const { initialState } = fromUsers;
+        const { initialUsersListState } = fromUsers;
 
         const action = new fromUserActions.LoadUsersFail({});
-        const state = fromUsers.reducer(initialState, action);
+        const state = fromUsers.reducer(initialUsersListState, action);
 
         expect(state.userList).toEqual([]);
     });

@@ -5,6 +5,7 @@ import * as usersActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UsersService } from '../../services';
+import { User } from '../../../users/models/user.model';
 
 
 
@@ -24,7 +25,7 @@ export class UsersEffects {
           const amendedUsers = [];
           userDetails.users.forEach(element => {
               const fullName = element.firstName + ' ' + element.lastName;
-              const user = element;
+              const user: User = element;
               user.fullName = fullName;
               if (user.idamStatus !== 'PENDING') {
                 user.routerLink = 'user/' + user.userIdentifier;
@@ -40,12 +41,12 @@ export class UsersEffects {
   );
 
   @Effect()
-  loadSingleUser$ = this.actions$.pipe(
-    ofType(usersActions.LOAD_SINGLE_USER),
+  loadSelectedUser$ = this.actions$.pipe(
+    ofType(usersActions.LOAD_SELECTED_USER),
     switchMap((userIdentifier: {type: string, payload: string}) => {
-      return this.usersService.getSingleUser(userIdentifier.payload).pipe(
-        map(user => new usersActions.LoadSingleUserSuccess(user)),
-        catchError(error => of(new usersActions.LoadSingleUserFail(error)))
+      return this.usersService.getSelectedUser(userIdentifier.payload).pipe(
+        map(user => new usersActions.LoadSelectedUserSuccess(user)),
+        catchError(error => of(new usersActions.LoadSelectedUserFail(error)))
       );
     })
   );

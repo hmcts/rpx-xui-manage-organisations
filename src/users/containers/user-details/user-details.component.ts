@@ -24,15 +24,15 @@ export class UserDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.isLoading$ = this.userStore.pipe(select(fromStore.getGetSingleUserLoading));
-    this.userSubscription = this.userStore.pipe(select(fromStore.getGetSingleUser)).subscribe((user) => {
+    this.isLoading$ = this.userStore.pipe(select(fromStore.getSelectedUserLoading));
+    this.userSubscription = this.userStore.pipe(select(fromStore.getSelectedUser)).subscribe((user) => {
       this.user = user;
     });
 
     this.routerSubscription = this.routerStore.pipe(select(fromRoot.getRouterState)).subscribe((route) => {
       const userId = route.state.params.userId;
       if (userId) {
-        this.userStore.dispatch(new fromStore.LoadSingleUser(userId));
+        this.userStore.dispatch(new fromStore.LoadSelectedUser(userId));
       }
     });
 

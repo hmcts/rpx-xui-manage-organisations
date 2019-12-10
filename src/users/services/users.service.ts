@@ -14,7 +14,7 @@ export class UsersService {
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  getSingleUser(userIdentifier): Observable<any> {
+  getSelectedUser(userIdentifier): Observable<any> {
     return this.http
        .get<any>(`/api/userDetails/${userIdentifier}`)
        .pipe(catchError((error: any) => throwError(error.json())));

@@ -7,9 +7,9 @@ export const LOAD_USERS = '[User] Load Users';
 export const LOAD_USERS_SUCCESS = '[User] Load Users Success';
 export const LOAD_USERS_FAIL = '[User] Load Users Fail';
 
-export const LOAD_SINGLE_USER = '[User] Load Single User';
-export const LOAD_SINGLE_USER_SUCCESS = '[User] Load Single User Success';
-export const LOAD_SINGLE_USER_FAIL = '[User] Load Single User Fail';
+export const LOAD_SELECTED_USER = '[User] Load Selected User';
+export const LOAD_SELECTED_USER_SUCCESS = '[User] Load Selected User Success';
+export const LOAD_SELECTED_USER_FAIL = '[User] Load Selected User Fail';
 
 export class LoadUsers {
   readonly type = LOAD_USERS;
@@ -26,18 +26,18 @@ export class LoadUsersFail implements Action {
   constructor(public payload: any) { }
 }
 
-export class LoadSingleUser {
-  readonly type = LOAD_SINGLE_USER;
+export class LoadSelectedUser {
+  readonly type = LOAD_SELECTED_USER;
   constructor(public payload: string) {}
 }
 
-export class LoadSingleUserSuccess implements Action {
-  readonly type = LOAD_SINGLE_USER_SUCCESS;
+export class LoadSelectedUserSuccess implements Action {
+  readonly type = LOAD_SELECTED_USER_SUCCESS;
   constructor(public payload: User) { }
 }
 
-export class LoadSingleUserFail implements Action {
-  readonly type = LOAD_SINGLE_USER_FAIL;
+export class LoadSelectedUserFail implements Action {
+  readonly type = LOAD_SELECTED_USER_FAIL;
   constructor(public payload: any) { }
 }
 
@@ -45,6 +45,6 @@ export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
   | LoadUsersFail
-  | LoadSingleUser
-  | LoadSingleUserSuccess
-  | LoadSingleUserFail;
+  | LoadSelectedUser
+  | LoadSelectedUserSuccess
+  | LoadSelectedUserFail;

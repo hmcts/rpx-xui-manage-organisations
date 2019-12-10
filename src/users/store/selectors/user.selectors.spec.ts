@@ -1,24 +1,29 @@
 
-import { UsersListState } from '../reducers/users.reducer';
-import { getUserState, getGetSingleUser } from './user.selectors';
+import { UsersListState, SelectedUserState } from '../reducers/users.reducer';
+import { getUserState, getSelectedUserState } from './user.selectors';
 import { UserState } from '../reducers';
+import { User } from '../../models/user.model';
 
-const userList = [
+const userList: User[] = [
     {
         firstName: 'Test1firstname',
         lastName: 'Test1lastname',
         email: 'somthing1@something',
-        status: 'active',
-        roles: 'blabla1',
-        userIdentifier: 'userId1'
+        roles: ['blabla1'],
+        userIdentifier: 'userId1',
+        idamMessage: '',
+        idamStatusCode: '',
+        idamStatus: ''
     },
     {
         firstName: 'Test2fggftfirstname',
         lastName: 'Test2gfgtlastname',
         email: 'somthing2@somffgething',
-        status: 'active',
-        roles: 'blabfgfgla',
-        userIdentifier: 'userId2'
+        roles: ['blabfgfgla'],
+        userIdentifier: 'userId2',
+        idamMessage: '',
+        idamStatusCode: '',
+        idamStatus: ''
     }
 ];
 
@@ -28,9 +33,16 @@ const mockUserListState: UsersListState = {
     loading: false
 };
 
+const mockSelectedUserState: SelectedUserState = {
+    user: userList[1],
+    loaded: true,
+    loading: false
+}
+
 const mockUserState: UserState = {
     inviteUser: null,
-    invitedUsers: mockUserListState
+    invitedUsers: mockUserListState,
+    selectedUser: mockSelectedUserState
 };
 
 describe('User selectors', () => {
@@ -42,19 +54,10 @@ describe('User selectors', () => {
         });
     });
 
-    describe('getGetSingleUser', () => {
-        it('should return single user', () => {
+    describe('getSelectedUser', () => {
+        it('should return selected user', () => {
 
-            const expectedUser = {
-                firstName: 'Test2fggftfirstname',
-                lastName: 'Test2gfgtlastname',
-                email: 'somthing2@somffgething',
-                status: 'active',
-                roles: 'blabfgfgla',
-                userIdentifier: 'userId2'
-            };
-
-            expect(getGetSingleUser({users: mockUserState}, { userIdentifier: 'userId2' })).toEqual(expectedUser);
+            expect(getSelectedUserState({users: mockUserState})).toEqual(mockSelectedUserState);
         });
     });
 

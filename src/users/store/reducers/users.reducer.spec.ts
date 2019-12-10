@@ -103,3 +103,58 @@ describe('Users Reducer', () => {
 
 });
 
+describe('Selected User Reducer', () => {
+    it('undefined action should return the default state', () => {
+        const { initialUserState } = fromUsers;
+        const action = {} as any;
+        const state = fromUsers.selectedUserReducer(undefined, action);
+
+        expect(state).toBe(initialUserState);
+    });
+
+    it('LOAD_SELECTED_USER_SUCCESS action should return correct state', () => {
+        const { initialUserState } = fromUsers;
+
+        const user: User = {
+            email: 'dummy',
+            firstName: 'dummy',
+            idamMessage: 'dummy',
+            idamStatus: 'dummy',
+            idamStatusCode: 'dummy',
+            lastName: 'dummy',
+            userIdentifier: 'dummy'
+        };
+
+        const action = new fromUserActions.LoadSelectedUserSuccess({
+            ...user
+        });
+        const state = fromUsers.selectedUserReducer(initialUserState, action);
+
+        expect(state.user).toEqual(user);
+        expect(fromUsers.getSelectedUser(state)).toEqual(user);
+        expect(fromUsers.getSelectedUserLoaded(state)).toEqual(true);
+        expect(fromUsers.getSelectedUserLoading(state)).toEqual(false);
+        expect(state.loaded).toEqual(true);
+        expect(state.loading).toEqual(false);
+    });
+
+    it('LOAD_SELECTED_USER action should return correct state', () => {
+        const { initialUserState } = fromUsers;
+
+        const action = new fromUserActions.LoadSelectedUser('dummy');
+        const state = fromUsers.selectedUserReducer(initialUserState, action);
+
+        expect(state.user).toEqual(initialUserState.user);
+    });
+
+    it('LOAD_SELECTED_USER_FAIL action should return correct state', () => {
+        const { initialUserState } = fromUsers;
+
+        const action = new fromUserActions.LoadSelectedUserFail({});
+        const state = fromUsers.selectedUserReducer(initialUserState, action);
+
+        expect(state.user).toEqual(initialUserState.user);
+    });
+
+});
+

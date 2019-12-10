@@ -11,6 +11,7 @@ export const SET_MODAL = '[APP] Set Modal';
 export const LOGOUT = '[App] Logout';
 export const SIGNED_OUT = '[App] Signed Out'; // used by session management
 export const SIGNED_OUT_SUCCESS = '[App] Signed Out Success'; // used by session management
+export const KEEP_ALIVE = '[App] Keep Alive';
 
 export class SetPageTitle implements Action {
   readonly type = SET_PAGE_TITLE;
@@ -28,8 +29,13 @@ export class Logout implements Action {
 export class SignedOut implements Action {
   readonly type = SIGNED_OUT;
 }
+
 export class SignedOutSuccess implements Action {
   readonly type = SIGNED_OUT_SUCCESS;
+}
+
+export class KeepAlive implements Action {
+  readonly type = KEEP_ALIVE;
 }
 
 export class SetUserRoles implements Action {
@@ -67,4 +73,5 @@ export type appActions =
   | Logout
   | SetUserRoles
   | SetModal
-  | SignedOut;
+  | SignedOut
+  | KeepAlive;

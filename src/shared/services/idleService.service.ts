@@ -23,7 +23,7 @@ export class IdleService {
 
     this.idle.setIdleName('idleSession');
     // todo set based on user role
-    this.idle.setIdle(20);
+    this.idle.setIdle(5);
 
     this.idle.setTimeout(this.timeout);
 
@@ -58,8 +58,11 @@ export class IdleService {
     });
 
     // sets the ping interval to 600 seconds
-    this.keepalive.interval(600);
-    this.keepalive.onPing.subscribe(console.log);
+    this.keepalive.interval(20);
+    this.keepalive.onPing.subscribe(() => {
+      console.log('Keep alive');
+      this.store.dispatch(new fromRoot.KeepAlive());
+    });
 
     this.initWatch();
   }

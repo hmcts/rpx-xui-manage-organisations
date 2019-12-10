@@ -10,7 +10,7 @@ import { JurisdictionService } from 'src/users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import {SignedOut} from '../actions';
-import {LogOutService} from '../../../shared/services/logOutService.service';
+import {LogOutKeepAliveService} from '../../../shared/services/logOutService.service';
 
 @Injectable()
 export class AppEffects {
@@ -18,7 +18,7 @@ export class AppEffects {
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
     private authGuard: AuthGuard,
-    private logOutService: LogOutService
+    private logOutService: LogOutKeepAliveService
   ) { }
 
   @Effect()
@@ -55,6 +55,15 @@ export class AppEffects {
       return this.logOutService.logOut().pipe(
         map(() => new appActions.SignedOutSuccess())
       );
+    })
+  );
+
+  @Effect({ dispatch: false})
+  keepAlive = this.actions$.pipe(
+    ofType(appActions.KEEP_ALIVE),
+    switchMap((date) => {
+      return this.logOutService.heartBeat()
+      ;
     })
   );
 

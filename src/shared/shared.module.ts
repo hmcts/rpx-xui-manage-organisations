@@ -16,7 +16,7 @@ import { HealthCheckGuard } from './guards/health-check.guard';
 import { HealthCheckService } from './services/health-check.service';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { LoaderModule } from './modules/loader/loader.module';
-import { LogOutService } from './services/logOutService.service';
+import { LogOutKeepAliveService } from './services/logOutService.service';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { LogOutService } from './services/logOutService.service';
     MonitoringService,
     HealthCheckGuard,
     HealthCheckService,
-    LogOutService
+    LogOutKeepAliveService
   ]
 })
 export class SharedModule {

@@ -2,6 +2,7 @@ import * as express from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
 import healthCheck from './healthCheck'
+import keepAlive from './keepalive'
 import inviteUser from './inviteUser'
 import getJurisdictions from './jurisdictions'
 import organisationRouter from './organisation'
@@ -21,5 +22,7 @@ router.use('/userList', getUserList)
 router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
+router.use('/keepalive', keepAlive)
+
 
 export default router

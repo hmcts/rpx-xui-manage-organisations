@@ -101,10 +101,13 @@ const ccdRoles = [
   'caseworker-divorce-financialremedy',
   'caseworker-divorce-financialremedy-solicitor',
   'caseworker-probate',
+  'caseworker-ia',
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
-  'caseworker-publiclaw-solicitor'
+  'caseworker-publiclaw-solicitor',
+  'caseworker-sscs',
+  'caseworker-sscs-dwpresponsewriter'
 ];
 
 const redirectUrl = {

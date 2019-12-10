@@ -5,7 +5,10 @@ import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromUsersEffects from './users.effects';
 import { UsersEffects } from './users.effects';
-import { LoadUsersSuccess, LoadUsersFail, LoadUsers, LoadSelectedUser, LoadSelectedUserSuccess, LoadSelectedUserFail } from '../actions/user.actions';
+import {
+    LoadUsersSuccess, LoadUsersFail, LoadUsers,
+    LoadSelectedUser, LoadSelectedUserSuccess, LoadSelectedUserFail
+} from '../actions/user.actions';
 import { UsersService } from '../../services/users.service';
 import { User } from '../../../users/models/user.model';
 

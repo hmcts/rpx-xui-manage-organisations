@@ -37,7 +37,7 @@ const mockSelectedUserState: SelectedUserState = {
     user: userList[1],
     loaded: true,
     loading: false
-}
+};
 
 const mockUserState: UserState = {
     inviteUser: null,

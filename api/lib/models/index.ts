@@ -1,5 +1,4 @@
 import * as express from 'express'
-import * as session from 'express-session'
 
 export interface JurisdictionObject {
     caseType: string

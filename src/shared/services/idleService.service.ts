@@ -19,11 +19,11 @@ export class IdleService {
   ) {}
 
   public init(): void {
-    this.timeout = 10; // set to 5 minutes
+    this.timeout = 600; // set to 10 minutes
 
     this.idle.setIdleName('idleSession');
     // todo set based on user role
-    this.idle.setIdle(5);
+    this.idle.setIdle(600);
 
     this.idle.setTimeout(this.timeout);
 
@@ -59,9 +59,9 @@ export class IdleService {
 
     // sets the ping interval to 600 seconds
     this.keepalive.interval(20);
-    this.keepalive.onPing.subscribe(() => {
+    this.keepalive.onPing.pipe(delay(250)).subscribe(() => {
       console.log('Keep alive');
-      this.store.dispatch(new fromRoot.KeepAlive());
+      // this.store.dispatch(new fromRoot.KeepAlive());
     });
 
     this.initWatch();

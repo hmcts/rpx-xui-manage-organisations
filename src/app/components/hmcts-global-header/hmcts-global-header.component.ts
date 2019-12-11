@@ -15,6 +15,7 @@ export class HmctsGlobalHeaderComponent {
     @Input() navigation;
     @Input() isBrandedHeader: boolean;
     @Output() navigate = new EventEmitter<string>();
+    @Input() showHeaderItems: boolean;
 
     userValue: any;
     constructor(public store: Store<fromRoot.State>) { }

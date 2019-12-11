@@ -95,7 +95,6 @@ const jurisdictions = [
 
 const ccdRoles = [
   'caseworker',
-  'caseworker-ia',
   'caseworker-divorce',
   'caseworker-divorce-solicitor',
   'caseworker-divorce-financialremedy',

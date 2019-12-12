@@ -21,6 +21,7 @@ export class UserProfileModel {
   userId: string
   email: string;
   roles: string[];
+  sessionTimeOut: number;
   constructor(prop) {
     Object.assign(this, prop);
   }

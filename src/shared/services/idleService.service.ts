@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import {DEFAULT_INTERRUPTSOURCES, Idle, DocumentInterruptSource } from '@ng-idle/core';
+import {Idle, DocumentInterruptSource } from '@ng-idle/core';
 import {select, Store} from '@ngrx/store';
 import * as fromRoot from '../../app/store';
-import {delay, distinctUntilChanged, first, map, tap} from 'rxjs/operators';
+import * as fromUserProfile from '../../user-profile/store';
+import {delay, distinctUntilChanged, filter, first, map, take, tap} from 'rxjs/operators';
 import {Keepalive} from '@ng-idle/keepalive';
+import {combineLatest} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +24,6 @@ export class IdleService {
     this.timeout = 600; // set to 10 minutes
 
     this.idle.setIdleName('idleSession');
-    // todo set based on user role
-    this.idle.setIdle(600);
-
     this.idle.setTimeout(this.timeout);
 
     // console.log(DEFAULT_INTERRUPTSOURCES) // leave for comparison
@@ -58,11 +57,12 @@ export class IdleService {
     });
 
     // sets the ping interval to 600 seconds
-    this.keepalive.interval(20);
-    this.keepalive.onPing.pipe(delay(250)).subscribe(() => {
-      console.log('Keep alive');
-      // this.store.dispatch(new fromRoot.KeepAlive());
-    });
+    // not sure if this is going to be used
+    // this.keepalive.interval(20);
+    // this.keepalive.onPing.pipe(delay(250)).subscribe(() => {
+    //   console.log('Keep alive');
+    //   // this.store.dispatch(new fromRoot.KeepAlive());
+    // });
 
     this.initWatch();
   }
@@ -78,15 +78,24 @@ export class IdleService {
   }
 
   initWatch(): void {
-    this.store.pipe(
-      select(fromRoot.getRouterUrl),
-      first(value => typeof value === 'string' )).subscribe(route => {
-      const isRegisterOrg: boolean = route.indexOf('register-org') !== -1;
-      const isSignedOut: boolean = route.indexOf('signed-out') !== -1;
-      if (route && !(isRegisterOrg || isSignedOut)) {
+    const route$ = this.store.pipe(select(fromRoot.getRouterUrl));
+    const userIdleSession$ =  this.store.pipe(select(fromUserProfile.getUserTimeOut));
+
+    combineLatest(
+      route$.pipe(first(value => typeof value === 'string' )),
+      userIdleSession$.pipe(filter(value => !isNaN(value)), take(1))
+    ).subscribe(([routes, idle]) => {
+
+      const isRegisterOrg: boolean = routes.indexOf('register-org') !== -1;
+      const isSignedOut: boolean = routes.indexOf('signed-out') !== -1;
+
+      if (routes && !(isRegisterOrg || isSignedOut) && idle) {
+        const idleInSeconds = (idle / 1000) - this.timeout;
+        console.log('idleInSeconds', idleInSeconds / 60);
+        this.idle.setIdle(idleInSeconds);
         this.idle.watch();
       }
-    });
+    })
   }
 
 }

@@ -9,10 +9,28 @@ router.get('/details', handleUserRoute)
 
 function handleUserRoute(req, res) {
 
+  const timeOuts = {
+    caseworker: 8 * 60 * 60 * 1000,  // 8 hr
+    solicitors: 60 * 60 * 1000, // 1 hr
+    special: 20 * 60 * 1000 // 20 min
+  };
+  const userRoles = req.session.auth.roles;
+
+  function getUserTimeouts() {
+    if (userRoles.indexOf('caseworker') !== -1) {
+      return timeOuts['caseworker']
+    }
+  }
+
+  const sessionTimeOut = getUserTimeouts()
+  req.session.cookie.maxAge = sessionTimeOut
+  req.session.touch()
+
   const UserDetails: UserProfileModel = {
     email: req.session.auth.email,
     orgId: req.session.auth.orgId,
     roles: req.session.auth.roles,
+    sessionTimeOut,
     userId: req.session.auth.userId
   };
 

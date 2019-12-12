@@ -17,14 +17,12 @@ export const getUsers = createSelector(
   fromRoot.getUser
 );
 
-export const getUserPermissions = createSelector(
+export const getUserTimeOut = createSelector(
   getUsers,
-  (user) => user.roles
+  (user) => (user && user.sessionTimeOut) ? user.sessionTimeOut : NaN
 );
 
-
 export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);
-export const userLoading = createSelector(authState, fromRoot.isUserLoading);
 
 
 

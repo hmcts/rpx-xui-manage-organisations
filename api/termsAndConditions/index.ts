@@ -9,8 +9,7 @@ async function getTermsAndConditions(req: express.Request, res: express.Response
     try {
         const url = getTermsAndConditionsUrl(config.services.termsAndConditions, application.idamClient)
         const response = await http.get(url)
-        const TandCResponse = response.data
-        res.send(TandCResponse.accepted)
+        res.send(response.data)
     } catch (error) {
         if (error.status === 404) {
             res.send(null)

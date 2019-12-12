@@ -35,7 +35,7 @@ export class UserDetailsComponent implements OnInit {
       if (users === false) {
         this.userStore.dispatch(new fromStore.LoadUsers());
       }
-      const userId = route.state.params.userId;
+      const userId = route['state'].params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
     });
 

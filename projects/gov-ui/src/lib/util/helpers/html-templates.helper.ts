@@ -16,6 +16,5 @@ export class HtmlTemplatesHelper {
     } else {
       return config.hint ? `${config.id}-hint` : null;
     }
-    return null;
   }
 }

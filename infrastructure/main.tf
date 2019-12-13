@@ -38,6 +38,8 @@ module "app" {
 
         NODE_TLS_REJECT_UNAUTHORIZED = "${var.node_tls_reject_unauthorized}"
 
+        TERRAFORM_TEST = "${var.terraform_test}"
+
     }
 }
 

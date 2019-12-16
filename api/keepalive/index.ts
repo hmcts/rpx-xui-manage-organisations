@@ -2,7 +2,8 @@ import * as express from 'express'
 
 async function handleAddressRoute(req, res) {
   try {
-    const response = JSON.stringify({message: 'Keeping alive'})
+    const response = JSON.stringify({message: 'Keeping alive for another 20sec'})
+    req.session.cookie.maxAge = 20 * 1000
     res.status(200).send(response)
   } catch (e) {
     const errorMessage = JSON.stringify({message: 'Something went wrong with the heart beat'});

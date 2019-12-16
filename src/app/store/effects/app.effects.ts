@@ -11,6 +11,7 @@ import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import {SignedOut} from '../actions';
 import {LogOutKeepAliveService} from '../../../shared/services/logOutService.service';
+import * as fromRoot from '../actions';
 
 @Injectable()
 export class AppEffects {
@@ -56,6 +57,12 @@ export class AppEffects {
         map(() => new appActions.SignedOutSuccess())
       );
     })
+  );
+
+  @Effect()
+  signedOutSuccess = this.actions$.pipe(
+    ofType(appActions.SIGNED_OUT_SUCCESS),
+    map(() => new fromRoot.Go({path: ['/signed-out']}))
   );
 
   @Effect({ dispatch: false})

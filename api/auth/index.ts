@@ -176,7 +176,8 @@ export function doLogout(req: EnhancedRequest, res: express.Response, status: nu
         res.redirect(status, req.query.redirect)
         console.log('Logged out by user')
       } else {
-        res.status(200).send('You have been logged out!')
+        const message = JSON.stringify({message: 'You have been logged out!'})
+        res.status(200).send(message)
         console.log('Logged out by Session')
       }
     })

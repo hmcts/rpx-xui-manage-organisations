@@ -8,9 +8,8 @@ import {
   delay,
   distinctUntilChanged,
   filter,
-  finalize,
   first,
-  map, mapTo, scan,
+  map,
   switchMap,
   take,
   takeWhile,
@@ -35,10 +34,8 @@ export class IdleService {
     // use this to extend node session every 30 minutes
     // this.keepAlive();
 
-    this.setJwtTimeOut();
-
     // time is set in seconds
-    this.timeout = 3 * 60; // set to 10 minutes
+    this.timeout = 5; // set to 10 minutes
 
     this.idle.setIdleName('idleSession');
     this.idle.setTimeout(this.timeout);
@@ -95,32 +92,32 @@ export class IdleService {
     this.store.dispatch(new fromRoot.SetModal(modalConfig));
   }
 
-  setJwtTimeOut() {
-    // set 7.50hr countdown
-    const jwtTime = 5 * 60 * 60 * 1000;
-    this.startCountDown(jwtTime);
-  }
+  // setJwtTimeOut() {
+  //   // set 7.50hr countdown
+  //   const jwtTime = 5 * 60 * 60 * 1000;
+  //   this.startCountDown(jwtTime);
+  // }
 
-  startCountDown(jwtTime) {
-    const timeout = 10 * 60;
-    const jwtSessionCountdown = timer(jwtTime, 1000);
-    jwtSessionCountdown.pipe(
-      mapTo(-1),
-      scan((accumulator, current) => {
-        return accumulator + current;
-      }, timeout),
-      // tap((value) => localStorage.setItem('jwtSession', JSON.stringify(value))),
-      takeWhile(value => value >= 0),
-      map(sec =>  (sec > 10) ? Math.ceil(sec / 60) + ' minutes' : sec + ' seconds'),
-      distinctUntilChanged(),
-      finalize(() => {
-        this.dispatchSignedOut();
-      })
-    ).subscribe((tout: any) => {
-      this.dispatchModal(tout, true);
-      console.log('Dispatch Warning');
-    });
-  }
+  // startCountDown(jwtTime) {
+  //   const timeout = 10 * 60;
+  //   const jwtSessionCountdown = timer(jwtTime, 1000);
+  //   jwtSessionCountdown.pipe(
+  //     mapTo(-1),
+  //     scan((accumulator, current) => {
+  //       return accumulator + current;
+  //     }, timeout),
+  //     // tap((value) => localStorage.setItem('jwtSession', JSON.stringify(value))),
+  //     takeWhile(value => value >= 0),
+  //     map(sec =>  (sec > 10) ? Math.ceil(sec / 60) + ' minutes' : sec + ' seconds'),
+  //     distinctUntilChanged(),
+  //     finalize(() => {
+  //       this.dispatchSignedOut();
+  //     })
+  //   ).subscribe((tout: any) => {
+  //     this.dispatchModal(tout, true);
+  //     console.log('Dispatch Warning');
+  //   });
+  // }
 
   keepAlive() {
     const thirtyMinutes = 20 * 1000;

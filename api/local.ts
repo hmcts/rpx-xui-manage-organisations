@@ -29,7 +29,7 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 20 * 1000,
-      secure: config.secureCookie !== false,
+      secure: !config.secureCookie,
     },
     name: 'jui-webapp',
     resave: true,

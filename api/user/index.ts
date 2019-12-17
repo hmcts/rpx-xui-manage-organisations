@@ -10,7 +10,7 @@ router.get('/details', handleUserRoute)
 function handleUserRoute(req, res) {
   // todo get this from config
   const timeOuts = {
-    caseworker: 60 * 60 * 1000,  // 8 hr
+    caseworker: 2 * 60 * 1000,  // 8 hr
     solicitors: 60 * 60 * 1000, // 1 hr
     special: 20 * 60 * 1000 // 20 min
   };
@@ -23,7 +23,6 @@ function handleUserRoute(req, res) {
   }
 
   const sessionTimeOut = getUserTimeouts()
-  req.session.touch()
 
   const UserDetails: UserProfileModel = {
     email: req.session.auth.email,

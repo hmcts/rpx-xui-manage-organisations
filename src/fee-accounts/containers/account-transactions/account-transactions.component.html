@@ -4,7 +4,7 @@
   </div>
 </div>
 <a routerLink="{{backUrl}}" class="govuk-back-link">Back</a>
-  <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
+  <xuilib-hmcts-sub-navigation [label]="" [items]="navItems"></xuilib-hmcts-sub-navigation>
   <div class="hmcts-page-heading">
     <div class="hmcts-page-heading__title-wrapper">
       <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
@@ -14,10 +14,10 @@
     <div class="hmcts-page-heading__actions-wrapper"></div>
   </div>
   <p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | date:"dd MMM yyyy hh:mm a") : ''}}</p>
-  <app-govuk-table
+  <xuilib-gov-uk-table
     *ngIf="!(loading$ | async) else loading"
     [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
-  ></app-govuk-table>
+  ></<xuilib-gov-uk-table>
   <ng-template #loading>
     <div>Loading...</div>
   </ng-template>

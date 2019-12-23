@@ -2,8 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
-import {UserListApiModel} from '../../models/userform.model';
-import { GovukTableColumnConfig } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/govuk-table/govuk-table.component';
+import { GovukTableColumnConfig } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/gov-uk-table/gov-uk-table.component';
 
 @Component({
   selector: 'app-prd-users-component',

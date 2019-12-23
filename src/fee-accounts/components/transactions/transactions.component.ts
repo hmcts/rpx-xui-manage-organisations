@@ -1,6 +1,5 @@
 import {Component, OnChanges, Input} from '@angular/core';
-import { GovukTableColumnConfig } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/govuk-table/govuk-table.component';
-
+import { GovukTableColumnConfig } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/gov-uk-table/gov-uk-table.component';
 /**
  * Bootstraps the Transactions Components
  */

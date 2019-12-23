@@ -1,11 +1,11 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
-import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import {Observable, Subscription, combineLatest} from 'rxjs';
 import {FeeAccount} from '../../models/pba-accounts';
 import * as fromOrgStore from '../../../organisation/store/index';
 import { Organisation } from 'src/organisation/organisation.model';
+import { GovukTableColumnConfig } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/govuk-table/govuk-table.component';
 @Component({
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './account-overview.component.html',

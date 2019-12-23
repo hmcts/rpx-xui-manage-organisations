@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { GovUiModule } from 'projects/gov-ui/src/public_api';
 import { HttpIntercepterServer } from './services/http-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeadersService } from './services/headers.service';
@@ -28,12 +27,10 @@ import { LoaderModule } from './modules/loader/loader.module';
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    GovUiModule,
     LoaderModule
   ],
   exports: [
     ReactiveFormsModule,
-    GovUiModule,
     HmctsMainWrapperComponent,
     SuccessNotificationComponent,
     PhaseBannerComponent

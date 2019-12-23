@@ -67,7 +67,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule
+    ExuiCommonLibModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

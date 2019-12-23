@@ -12,6 +12,7 @@ import * as fromContainers from './containers';
 
 // containers
 import * as fromComponents from './components';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import * as fromComponents from './components';
     styleGuideRouting,
     SharedModule,
     StoreModule.forFeature('style-guide', reducers),
-    FormsModule
+    FormsModule,
+    ExuiCommonLibModule.forChild()
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers,  ...fromComponents.components]

@@ -2,6 +2,7 @@ Button = require('./webdriver-components/button.js');
 TextField = require('./webdriver-components/textField.js');
 
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
+var BrowserWaits = require('../../support/customWaits')
 
 class InviteUserPage{
 
@@ -14,6 +15,9 @@ class InviteUserPage{
     this.manageUserCheckbox = element(by.css('#pui-user-manager'));
     this.failure_error_heading = element(by.css('#error-summary-title'));
     this.back = element(by.xpath("//a[contains(text(),'Back')]"));
+
+    this.spinner = element(by.css(".spinner-wrapper"));
+
   }
 
   /**
@@ -43,12 +47,15 @@ class InviteUserPage{
    * @returns {Promise<void>}
    */
   async clickSendInvitationButton(){
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
     await this.sendInvitationButton.click();
   }
 
   async clickBackButton(){
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
+    await BrowserWaits.waitForElement(this.back);
+    await BrowserWaits.waitForElementNotVisible(this.spinner);
+
     await this.back.click();
   }
 
@@ -64,6 +71,10 @@ class InviteUserPage{
   async amOnUserConfirmationPage(){
     let header = await this.getPageHeader();
     return header === "You've invited";
+  }
+
+  async waitForPage(){
+    await BrowserWaits.waitForElement(this.firstName);
   }
 
 }

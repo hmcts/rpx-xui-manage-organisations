@@ -2,6 +2,8 @@
 let RadioField = require('./webdriver-components/radioField.js');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
+var BrowserWaits = require('../../support/customWaits')
+
 class CreateOrganisationObjects {
   constructor() {
     this.emailAddress = element(by.css("[id='emailAddress']"));
@@ -36,60 +38,115 @@ class CreateOrganisationObjects {
     this.name_error_heading = element(by.css("#error-summary-title"));
     this.sra_error_heading = element(by.css("#error-summary-title"));
     this.email_error_heading = element(by.css("#error-summary-title"));
+
+    this.checkYourAnswers = element(by.css("govuk-check-your-answers"));
+
+    this.registrationDetailsSubmitted = element(by.xpath("//h1[contains(text() ,'Registration details submitted')]"));
   }
   async clickDXreferenceCheck(){
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
     await this.DXreference.click();
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
     await this.DXContinuee.click();
   }
 
   async clickSRAreferenceCheck(){
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
     await this.SRACheckBox.click();
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
     await this.SRAContinuee.click();
   }
 
   async enterPBANumber() {
+    BrowserWaits.waitForElement(this.PBAnumber1);
+
     var ramdomPBA = Math.floor(Math.random() * 9000000) + 1000000;
     await this.PBAnumber1.sendKeys("PBA" + ramdomPBA);
 
   }
   async enterPBA2Number() {
+    BrowserWaits.waitForElement(this.PBAnumber2);
+
     var ramdomPBA2 = Math.floor(Math.random() * 9000000) + 1000000;
     await this.PBAnumber2.sendKeys("PBA" + ramdomPBA2);
 
   }
 
   async enterDXNumber() {
+    BrowserWaits.waitForElement(this.DXNumber);
+
     var ramdomDX = Math.floor(Math.random() * 9000000000) + 1000000000;
     await this.DXNumber.sendKeys("DX " + ramdomDX);
 
   }
 
   async enterDXENumber() {
+    BrowserWaits.waitForElement(this.DXexchange);
+
     var ramdomDX = Math.floor(Math.random() * 9000000000) + 1000000000;
     await this.DXexchange.sendKeys("DXE" + ramdomDX);
 
   }
   async enterSRANumber() {
+    BrowserWaits.waitForElement(this.SRANumber);
+ 
     var ramdomSRA = Math.floor(Math.random() * 9000000000) + 1000000000;
     await this.SRANumber.sendKeys("SRA" + ramdomSRA);
 
   }
 
   async enterOrgName() {
+    BrowserWaits.waitForElement(this.org_name);
     var orgName =Math.random().toString(36).substring(2);
-
       //Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     await this.org_name.sendKeys(orgName);
 
   }
   async enterEmailAddress() {
+    BrowserWaits.waitForElement(this.emailAddr);
     var emailAddress =Math.random().toString(36).substring(2);
     await this.emailAddr.sendKeys(emailAddress+"@gmail.com");
 
+  }
+
+  async waitForPage(page){
+    switch(page){
+      case "What's the name of your organisation?":
+        BrowserWaits.waitForElement(this.org_name);
+      break;
+      case "What's the address of your main office?":
+        BrowserWaits.waitForElement(this.officeAddressOne);
+      break;
+      case "What's your payment by account (PBA) number for your organisation?":
+        BrowserWaits.waitForElement(this.PBAnumber1);
+      break;
+      case "Do you have a DX reference for your main office?":
+        BrowserWaits.waitForElement(this.DXreference);
+      break;
+      case "What's the DX reference for your main office?":
+        BrowserWaits.waitForElement(this.DXNumber);
+      break;
+      case "Do you have an organisation SRA ID?":
+        BrowserWaits.waitForElement(this.SRACheckBox);
+        break;
+      case "Enter your organisation SRA ID":
+        BrowserWaits.waitForElement(this.SRANumber);
+      break;
+      case "What's your name?":
+        BrowserWaits.waitForElement(this.lastName);
+      break;
+      case "What's your email address?":
+        BrowserWaits.waitForElement(this.emailAddress);
+        break;
+      case "Check your answers before you register":
+        BrowserWaits.waitForElement(this.checkYourAnswers);
+      break;
+    }
+  }
+
+  async waitForSubmission(){
+    BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
+ 
   }
 }
 module.exports = CreateOrganisationObjects;

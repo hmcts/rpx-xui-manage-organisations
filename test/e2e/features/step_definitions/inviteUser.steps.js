@@ -26,16 +26,17 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   When(/^I click on invite user button$/, async function () {
     await viewUserPage.clickInviteUser();
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
   });
 
   Then(/^I should be on display invite user page$/, async function () {
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
+    await inviteUserPage.waitForPage();
     expect(await inviteUserPage.amOnPage()).to.be.true;
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
-
+    await inviteUserPage.waitForPage(); 
     await inviteUserPage.enterIntoTextFieldFirstName(TestData.firstName);
     await inviteUserPage.enterIntoTextFieldLastName(TestData.lastName);
 
@@ -43,9 +44,9 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(emailAddress+"@gmail.com");
     await inviteUserPage.manageUserCheckbox.click();
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
     await inviteUserPage.clickSendInvitationButton();
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
 
   });
   Then(/^user should be created successfuly$/, async function () {
@@ -70,7 +71,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   When(/^I click on back button$/, async function () {
-    browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);
     await inviteUserPage.clickBackButton();
 
   });

@@ -16,7 +16,8 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   Then(/^I should be on display the name and address details of organisation$/, async function () {
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
+    
     expect(await viewOrganisationPage.amOnPage()).to.be.true;
   });
 

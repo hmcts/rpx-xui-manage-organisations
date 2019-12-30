@@ -20,7 +20,7 @@ const localConfig = [
   {
     browserName: 'chrome',
     acceptInsecureCerts: true,
-    chromeOptions: { args: ['--headless','--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
+    chromeOptions: { args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
     proxy: {
       proxyType: 'manual',
       httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -42,7 +42,7 @@ const config = {
     targetEnv: argv.env || 'local',
     // username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com' ,
     // password: process.env.TEST_PASSWORD || 'Monday01',
-    username: 'lukesuperuserxui@mailnesia.com',
+    username: 'peterxuisuperuser@mailnesia.com',
     password: 'Monday01'
   },
   directConnect: true,
@@ -63,7 +63,7 @@ const config = {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-    tags: ['@all'],
+    tags: ['@test'],
     require: [
       '../support/timeout.js',
       '../support/world.js',

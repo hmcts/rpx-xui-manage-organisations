@@ -80,14 +80,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
     await waitForElement('hmcts-header__link');
     await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil and family law cases');
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
   });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
@@ -107,11 +107,11 @@ defineSupportCode(function ({ Given, When, Then }) {
   // });
 
   Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
     await loginPage.emailAddress.sendKeys(this.config.username);
     await loginPage.password.sendKeys(this.config.password);
     await loginPage.clickSignIn();
-    browser.sleep(LONG_DELAY);
+    // browser.sleep(LONG_DELAY);
   });
 
   Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {

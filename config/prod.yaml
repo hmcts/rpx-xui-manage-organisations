@@ -1,0 +1,27 @@
+environment: 'PROD ENVIRONMENT'
+appInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+cookies:
+  token: COOKIE_TOKEN
+  userId: COOKIE_USER_ID
+exceptionOptions:
+  maxLines: EXCEPTION_OPTIONS_MAX_LINES
+indexUrl: INDEX_URL
+logging: LOGGING
+maxLogLine: MAX_LOG_LINE
+idamClient: IDAM_CLIENT
+microservice: MICROSERVICE
+now: NOW
+oauthCallbackUrl: OAUTH_CALLBACK_URL
+protocol: PROTOCOL
+secureCookie: SECURE_COOKIE
+services:
+  ccdDataApi: CCD_DATA_API_SERVICE
+  ccdDefApi: CCD_DEFINITION_API_SERVICE
+  idamApi: IDAM_API_SERVICE
+  idamWeb: IDAM_WEB_SERVICE
+  rdProfessionalApi: RD_PROFESSIONAL_API_SERVICE
+  s2s: S2S_SERVICE
+sessionSecret: SESSION_SECRET
+proxyConfig:
+  host: PROXY_HOST
+  port: PROXY_PORT

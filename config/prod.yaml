@@ -25,3 +25,14 @@ sessionSecret: SESSION_SECRET
 proxyConfig:
   host: PROXY_HOST
   port: PROXY_PORT
+jurisdictions:
+  - 'SSCS'
+  - 'AUTOTEST1'
+  - 'DIVORCE'
+  - 'PROBATE'
+  - 'PUBLICLAW'
+  - 'bulkscan'
+  - 'BULKSCAN'
+  - 'IA'
+  - 'EMPLOYMENT'
+  - 'CMC'

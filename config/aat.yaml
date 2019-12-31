@@ -1,4 +1,4 @@
-environment: 'AAT ENVIRONMENT'
+environment: 'AAT MO ENVIRONMENT'
 appInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
 cookies:
   token: COOKIE_TOKEN
@@ -19,9 +19,21 @@ services:
   ccdDefApi: CCD_DEFINITION_API_SERVICE
   idamApi: IDAM_API_SERVICE
   idamWeb: IDAM_WEB_SERVICE
-  rdProfessionalApi: RD_PROFESSIONAL_API_SERVICE
   s2s: S2S_SERVICE
+  rdProfessionalApi: RD_PROFESSIONAL_API_SERVICE
+  feeAndPayApi: FEE_AND_PAY_API_SERVICE
 sessionSecret: SESSION_SECRET
 proxyConfig:
   host: PROXY_HOST
   port: PROXY_PORT
+jurisdictions:
+  - 'SSCS'
+  - 'AUTOTEST1'
+  - 'DIVORCE'
+  - 'PROBATE'
+  - 'PUBLICLAW'
+  - 'bulkscan'
+  - 'BULKSCAN'
+  - 'IA'
+  - 'EMPLOYMENT'
+  - 'CMC'

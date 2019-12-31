@@ -3,3 +3,14 @@
 environment: 'DEFAULT ENVIRONMENT'
 parent:
   child: 'testRead default.yaml'
+jurisdictions:
+  - 'SSCS'
+  - 'AUTOTEST1'
+  - 'DIVORCE'
+  - 'PROBATE'
+  - 'PUBLICLAW'
+  - 'bulkscan'
+  - 'BULKSCAN'
+  - 'IA'
+  - 'EMPLOYMENT'
+  - 'CMC'

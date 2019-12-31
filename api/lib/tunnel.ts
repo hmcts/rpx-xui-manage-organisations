@@ -1,16 +1,18 @@
 import * as globalTunnel from 'global-tunnel-ng'
-import {config} from './config'
 import * as log4js from 'log4js'
+import { getConfigValue } from '../configuration'
+import {LOGGING, PROXY_HOST, PROXY_PORT} from '../configuration/references'
 
 export const tunnel = globalTunnel
 
 const logger = log4js.getLogger('tunnel')
-logger.level = config.logging
+logger.level = getConfigValue(LOGGING)
 
 export function init() {
-  logger.info('initialising tunnel: ', config.proxy)
+  logger.info('initialising tunnel, host: ', PROXY_HOST)
+  logger.info('initialising tunnel, port: ', PROXY_PORT)
   globalTunnel.initialize({
-    host: config.proxy.host,
-    port: config.proxy.port,
+    host: getConfigValue(PROXY_HOST),
+    port: getConfigValue(PROXY_PORT),
   })
 }

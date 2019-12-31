@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { config } from '../lib/config'
+import { healthEndpoints } from '../configuration/health'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
@@ -38,7 +38,10 @@ function getPromises(path): any[] {
     const Promises = []
     if (healthCheckEndpointDictionary[path]) {
         healthCheckEndpointDictionary[path].forEach(endpoint => {
-            Promises.push(http.get(config.health[endpoint]))
+            // TODO: Have health config for this.
+            console.log('healthEndpoints')
+            console.log(healthEndpoints()[endpoint])
+            Promises.push(http.get(healthEndpoints()[endpoint]))
         })
     }
     return Promises

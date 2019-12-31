@@ -17,7 +17,7 @@
   <xuilib-gov-uk-table
     *ngIf="!(loading$ | async) else loading"
     [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
-  ></<xuilib-gov-uk-table>
+  ><xuilib-gov-uk-table>
   <ng-template #loading>
     <div>Loading...</div>
   </ng-template>

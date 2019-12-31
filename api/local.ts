@@ -1,28 +1,35 @@
 /**
  * Common to both server.ts and local.ts files
  */
-
+import * as config from 'config'
 import * as propertiesVolume from '@hmcts/properties-volume'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as session from 'express-session'
+import * as log4js from 'log4js'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
+  APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
   IDAM_CLIENT,
-  MAX_LINES, NOW, SECURE_COOKIE,
+  JURISDICTIONS,
+  LOGGING,
+  MAX_LINES, NOW,
+  PROXY_HOST,
+  SECURE_COOKIE,
   SERVICES_CCD_DATA_API_PATH,
   SERVICES_CCD_DEF_API_PATH,
   SERVICES_IDAM_API_PATH,
   SESSION_SECRET,
 } from './configuration/references'
 import {appInsights} from './lib/appInsights'
-import {config} from './lib/config'
+// TODO: Remove old config
+// import {config} from './lib/config'
 import {errorStack} from './lib/errorStack'
 import openRoutes from './openRoutes'
 import routes from './routes'
@@ -31,7 +38,6 @@ import routes from './routes'
  * Only used Locally
  */
 import * as tunnel from './lib/tunnel'
-import * as log4js from 'log4js'
 
 const FileStore = sessionFileStore(session)
 
@@ -50,7 +56,6 @@ if (!getEnvironment()) {
   console.log(ERROR_NODE_CONFIG_ENV)
 }
 
-
 /**
  * TODO: Implement a logger on the Node layer.
  */
@@ -67,20 +72,21 @@ console.log(getConfigValue(SERVICES_CCD_DEF_API_PATH))
 console.log(getConfigValue(SERVICES_IDAM_API_PATH))
 console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
+console.log(getConfigValue(JURISDICTIONS))
 
 app.use(
   session({
     cookie: {
       httpOnly: true,
       maxAge: 1800000,
-      secure: config.secureCookie !== false,
+      secure: getConfigValue(SECURE_COOKIE) !== false,
     },
     name: 'jui-webapp',
     resave: true,
     saveUninitialized: true,
-    secret: config.sessionSecret,
+    secret: getConfigValue(SESSION_SECRET),
     store: new FileStore({
-      path: process.env.NOW ? '/tmp/sessions' : '.sessions',
+      path: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions',
     }),
   })
 )
@@ -88,12 +94,9 @@ app.use(
 /**
  * Used Client side
  */
-if (config.proxy) {
+if (getConfigValue(PROXY_HOST)) {
   tunnel.init()
 }
-
-
-
 
 /**
  * Common to both server.ts and local.ts files
@@ -135,11 +138,14 @@ app.get('/api/logout', (req, res, next) => {
 const port = process.env.PORT || 3001
 app.listen(port)
 
-if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
-  config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
-}
+// TODO: Slightly confusing, need to ask why we're not setting a value on config through an interface. ie. config.setAppInsightKey()
+// program to an interface over implementation
+// TODO: Add back in once refactored
+// if (getConfigValue(APP_INSIGHTS_KEY)) {
+//   config.appInsightsInstrumentationKey = getConfigValue(APP_INSIGHTS_KEY)
+// }
 
 const logger = log4js.getLogger('server')
-logger.level = config.logging ? config.logging : 'OFF'
+logger.level = getConfigValue(LOGGING) ? getConfigValue(LOGGING) : 'OFF'
 
 logger.info(`Local server up at ${port}`)

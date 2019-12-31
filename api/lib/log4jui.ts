@@ -1,5 +1,6 @@
 import * as log4js from 'log4js'
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { LOGGING } from '../configuration/references'
 import * as errorStack from './errorStack'
 import { client } from './appInsights'
 
@@ -9,7 +10,7 @@ let logger = null
 
 export function getLogger(category: string) {
     logger = log4js.getLogger(category)
-    logger.level = config.logging || 'off'
+    logger.level = getConfigValue(LOGGING) || 'off'
 
     return {
         _logger: logger,
@@ -73,7 +74,9 @@ function error(...messages: any[]) {
     }
     this._logger.error(fullMessage)
 
-    if (config.logging === 'debug' || config.logging === 'error') {
+    const logging = getConfigValue(LOGGING)
+
+    if (logging === 'debug' || logging === 'error') {
         errorStack.push([category, fullMessage])
     }
 }

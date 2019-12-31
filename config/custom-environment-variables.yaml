@@ -25,3 +25,14 @@ sessionSecret: SESSION_SECRET
 proxyConfig:
   host: PROXY_HOST
   port: PROXY_PORT
+
+#
+# Do not add 'jurisdictions:' here.
+#
+# If you do you will see encounter this error:
+# Error: Illegal key type for substitution map at : object
+#
+# You can add arrays to environment specific configuration files
+# ie. aat.yaml
+#
+# @see https://github.com/lorenwest/node-config/issues/472

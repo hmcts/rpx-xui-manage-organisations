@@ -4,6 +4,7 @@
 import * as propertiesVolume from '@hmcts/properties-volume'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
+import * as config from 'config'
 import * as express from 'express'
 import * as session from 'express-session'
 import * as sessionFileStore from 'session-file-store'
@@ -11,17 +12,20 @@ import * as auth from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
+  APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
   IDAM_CLIENT,
-  MAX_LINES, NOW, SECURE_COOKIE,
+  MAX_LINES, NOW,
+  PROXY_HOST,
+  SECURE_COOKIE,
   SERVICES_CCD_DATA_API_PATH,
   SERVICES_CCD_DEF_API_PATH,
   SERVICES_IDAM_API_PATH,
   SESSION_SECRET,
 } from './configuration/references'
 import { appInsights } from './lib/appInsights'
-import { config } from './lib/config'
+// import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
 import openRoutes from './openRoutes'
 import routes from './routes'
@@ -73,19 +77,19 @@ app.use(
         cookie: {
             httpOnly: true,
             maxAge: 1800000,
-            secure: config.secureCookie !== false,
+            secure: getConfigValue(SECURE_COOKIE) !== false,
         },
         name: 'jui-webapp',
         resave: true,
         saveUninitialized: true,
-        secret: config.sessionSecret,
+        secret: getConfigValue(SESSION_SECRET),
         store: new FileStore({
-            path: process.env.NOW ? '/tmp/sessions' : '.sessions',
+            path: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions',
         }),
     })
 )
 
-if (config.proxy) {
+if (getConfigValue(PROXY_HOST)) {
   tunnel.init()
 }
 
@@ -154,8 +158,11 @@ app.use('/*', (req, res) => {
     console.timeEnd(`GET: ${req.originalUrl}`)
 })
 
-if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
-    config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
-}
+// TODO: Slightly confusing, need to ask why we're not setting a value on config through an interface. ie. config.setAppInsightKey()
+// program to an interface over implementation
+// TODO: Add back in once refactored
+// if (getConfigValue(APP_INSIGHTS_KEY)) {
+//     config.appInsightsInstrumentationKey = getConfigValue(APP_INSIGHTS_KEY)
+// }
 
 app.listen(process.env.PORT || 3000)

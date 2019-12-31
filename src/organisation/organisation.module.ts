@@ -22,19 +22,21 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     organisationRouting,
+    ExuiCommonLibModule.forChild(),
     SharedModule,
     StoreModule.forFeature('org', reducers),
     EffectsModule.forFeature(effects),
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
-    })
+    }),
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],

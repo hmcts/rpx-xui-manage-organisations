@@ -61,7 +61,7 @@ if (!getEnvironment()) {
 console.log(environmentCheckText())
 
 // TODO: Testing that we can get the environment variables on AAT from the .yaml file
-console.log('COOKIE_TOKEN')
+console.log('NODE_CONFIG_ENV')
 console.log(process.env.NODE_CONFIG_ENV)
 console.log(getConfigValue(COOKIE_TOKEN))
 console.log(getConfigValue(COOKIES_USERID))

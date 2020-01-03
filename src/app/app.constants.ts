@@ -1,6 +1,7 @@
 import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 import {AppTitlesModel} from './models/app-titles.model';
+import { ContactDetailsDataModel, BadgeColour } from '@hmcts/rpx-xui-common-lib';
 
 const navItemsArray: NavItemModel[] = [
   {
@@ -68,9 +69,35 @@ const FooterDataNavigation = {
     { text: 'Accessibility', href: 'accessibility', target: '_blank'},
     { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
     { text: 'Cookies', href: 'cookies', target: '_blank' },
-    { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'}
+    { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'},
+    { text: 'Get Help', href: '/get-help', target: '_blank' }
   ]
 };
+
+
+const getHelpDetailsData: ContactDetailsDataModel[] = [
+  {
+    title: 'Probate',
+    badgeColour: BadgeColour.BADGE_BLUE,
+    email: 'contactprobate@justice.gov.uk',
+    phone: '0300 303 0648',
+    openingTimes: 'Monday to Friday, 9.30pm to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Divorce',
+    badgeColour: BadgeColour.BADGE_BLUE,
+    email: 'divorcecase@justice.gov.uk',
+    phone: '0300 303 0642',
+    openingTimes: 'Monday to Friday, 9.30pm to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Financial Remedy',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'contactfinancialremedy@justice.gov.uk',
+    phone: '0300 303 0642',
+    openingTimes: 'Monday to Friday, 9.30pm to 5pm (excluding public holidays)'
+  }
+];
 
 const userRoles = [
 
@@ -143,4 +170,5 @@ export class AppConstants {
   static CCD_ROLES = ccdRoles;
   static REDIRECT_URL = redirectUrl;
   static ENVIRONMENT_NAMES = environmentNames;
+  static GET_HELP_DETAILS_DATA = getHelpDetailsData;
 }

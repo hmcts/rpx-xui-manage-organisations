@@ -14,11 +14,5 @@
     <div class="hmcts-page-heading__actions-wrapper"></div>
   </div>
   <p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | date:"dd MMM yyyy hh:mm a") : ''}}</p>
-  <app-govuk-table
-    *ngIf="!(loading$ | async) else loading"
-    [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
-  ></app-govuk-table>
-  <ng-template #loading>
-    <div>Loading...</div>
-  </ng-template>
+  <app-prd-transactions-component [transactions]="accountTransactions$ | async"></app-prd-transactions-component>
 

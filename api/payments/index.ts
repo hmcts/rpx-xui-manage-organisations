@@ -10,7 +10,7 @@ async function handleAddressRoute(req, res) {
             apiStatusCode: '400',
             message: 'Fee And Pay route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
     try {
         const response = await http.get(
@@ -23,7 +23,7 @@ async function handleAddressRoute(req, res) {
             apiStatusCode: error.status,
             message: 'Fee And Pay route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
 }
 

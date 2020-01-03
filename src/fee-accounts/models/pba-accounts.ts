@@ -18,4 +18,5 @@ effective_date: Date;
 
 export interface FeeAccountSummary extends FeeAccount {
   routerLink: string;
+  isAccountInfoMissing: boolean;
 }

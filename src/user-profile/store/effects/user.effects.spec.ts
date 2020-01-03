@@ -8,6 +8,7 @@ import { UserEffects } from './user.effects';
 import { GetUserDetails, GetUserDetailsFailure, GetUserDetailsSuccess } from '../actions';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 describe('Fee accounts Effects', () => {
     let actions$;
@@ -16,6 +17,8 @@ describe('Fee accounts Effects', () => {
         'getUserDetails',
     ]);
 
+    const LoggerServiceMock = jasmine.createSpyObj('LoggerService', ['log', 'error']);
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
@@ -23,6 +26,10 @@ describe('Fee accounts Effects', () => {
                 {
                     provide: UserService,
                     useValue: UserServiceMock,
+                },
+                {
+                    provide: LoggerService,
+                    useValue: LoggerServiceMock
                 },
                 fromUserEffects.UserEffects,
                 provideMockActions(() => actions$)

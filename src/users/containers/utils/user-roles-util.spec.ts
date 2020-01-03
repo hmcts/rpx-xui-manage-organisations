@@ -51,4 +51,18 @@ describe('UserRolesUtil class ', () => {
         isDeletingSuccessful = UserRolesUtil.isDeletingRoleSuccessful(response);
         expect(isDeletingSuccessful).toEqual(true);
     });
+
+    it('should get deletable roles GetCCDRoles', () => {
+      const user = {roles: ['Perm1', 'caseworker', 'caseworker-divorce']};
+      const roles = ['caseworker', 'caseworker-divorce'];
+      const result = UserRolesUtil.GetRemovableRolesForUser(user, roles);
+      expect(result).toEqual([{ name: 'caseworker' }, {name: 'caseworker-divorce'}]);
+    });
+
+    it('should get roles ccd roles to add GetCCDRoles', () => {
+      const user = {roles: ['role-1', 'role-2']};
+      const roles = ['caseworker', 'caseworker-divorce'];
+      const result = UserRolesUtil.GetRolesToBeAddedForUser(user, roles);
+      expect(result).toEqual([{name: 'caseworker'}, {name: 'caseworker-divorce'}]);
+    });
 });

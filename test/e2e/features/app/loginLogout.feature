@@ -1,4 +1,4 @@
-@test
+
 Feature: Login
 
   Background:

@@ -6,6 +6,11 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
+const MailinatorService = require('../pageObjects/mailinatorService');
+
+let mailinatorService = new MailinatorService();
+
+
 async function waitForElement(el) {
   await browser.wait(result => {
     return element(by.className(el)).isPresent();
@@ -20,6 +25,12 @@ defineSupportCode(function ({ Given, When, Then }) {
       .deleteAllCookies();
     await browser.refresh();
     browser.sleep(AMAZING_DELAY);
+
+
+    await mailinatorService.init();
+    await mailinatorService.openRegistrationEmailForUser('test_protractor_1@mailinator.com');
+    await mailinatorService.completeUserRegistrationFromEmail();
+
   });
 
   Then(/^I should see failure error summary$/, async function () {

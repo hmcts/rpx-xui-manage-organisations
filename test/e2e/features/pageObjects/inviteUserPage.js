@@ -49,6 +49,7 @@ class InviteUserPage{
   async clickSendInvitationButton(){
     // browser.sleep(AMAZING_DELAY);
     await this.sendInvitationButton.click();
+
   }
 
   async clickBackButton(){

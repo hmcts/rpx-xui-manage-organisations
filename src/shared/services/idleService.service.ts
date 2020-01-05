@@ -7,7 +7,7 @@ import * as fromUserProfile from '../../user-profile/store';
 import {
   delay,
   distinctUntilChanged,
-  filter,
+  filter, finalize,
   first,
   map,
   switchMap,
@@ -50,7 +50,6 @@ export class IdleService {
       console.log('No longer idle.');
       this.dispatchModal(undefined, false);
       // check time remain and set new
-      // this.idle.setIdle(idleInSeconds);
     });
 
     this.idle.onTimeout.subscribe(() => {
@@ -92,33 +91,6 @@ export class IdleService {
     this.store.dispatch(new fromRoot.SetModal(modalConfig));
   }
 
-  // setJwtTimeOut() {
-  //   // set 7.50hr countdown
-  //   const jwtTime = 5 * 60 * 60 * 1000;
-  //   this.startCountDown(jwtTime);
-  // }
-
-  // startCountDown(jwtTime) {
-  //   const timeout = 10 * 60;
-  //   const jwtSessionCountdown = timer(jwtTime, 1000);
-  //   jwtSessionCountdown.pipe(
-  //     mapTo(-1),
-  //     scan((accumulator, current) => {
-  //       return accumulator + current;
-  //     }, timeout),
-  //     // tap((value) => localStorage.setItem('jwtSession', JSON.stringify(value))),
-  //     takeWhile(value => value >= 0),
-  //     map(sec =>  (sec > 10) ? Math.ceil(sec / 60) + ' minutes' : sec + ' seconds'),
-  //     distinctUntilChanged(),
-  //     finalize(() => {
-  //       this.dispatchSignedOut();
-  //     })
-  //   ).subscribe((tout: any) => {
-  //     this.dispatchModal(tout, true);
-  //     console.log('Dispatch Warning');
-  //   });
-  // }
-
   keepAlive() {
     const thirtyMinutes = 20 * 1000;
     const thirtyMinInterval$ = timer(thirtyMinutes, thirtyMinutes);
@@ -134,9 +106,27 @@ export class IdleService {
   }
 
   initWatch(): void {
+    /* limiting session to up to max server session 8 hrs */
+    this.store.pipe(select(fromUserProfile.getSessionTimeOut))
+      .pipe(filter(value => !isNaN(value)), take(1))
+      .subscribe(value => {
+        const now = Math.round(new Date().getTime());
+        const timeDifference = Math.round(value - now);
+        const timeOut$ = timer(timeDifference, 1000).pipe(
+          takeWhile(val => val <= 60),
+          finalize(() => {
+            this.dispatchSignedOut();
+            this.dispatchModal(undefined, false);
+          })
+          );
+        timeOut$.subscribe(time => {
+          this.dispatchModal(time, true);
+        });
+      });
+
+    /* setting user idle time */
     const route$ = this.store.pipe(select(fromRoot.getRouterUrl));
     const userIdleSession$ =  this.store.pipe(select(fromUserProfile.getUserTimeOut));
-
     combineLatest(
       route$.pipe(first(value => typeof value === 'string' )),
       userIdleSession$.pipe(filter(value => !isNaN(value)), take(1))

@@ -22,6 +22,11 @@ export const getUserTimeOut = createSelector(
   (user) => (user && user.sessionTimeOut) ? user.sessionTimeOut : NaN
 );
 
+export const getSessionTimeOut = createSelector(
+  getUsers,
+  (user) => (user && user.sessionTimeStamp) ? user.sessionTimeStamp : NaN
+);
+
 export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);
 
 

@@ -30,16 +30,12 @@ export class IdleService {
   ) {}
 
   public init(): void {
-    // use this to extend node session every 30 minutes
-    // this.keepAlive();
-
     // time is set in seconds
     this.timeout = 60; // set to 10 minutes
 
     this.idle.setIdleName('idleSession');
     this.idle.setTimeout(this.timeout);
 
-    // console.log(DEFAULT_INTERRUPTSOURCES) // leave for comparison
     const interrupt =
       new DocumentInterruptSource('mousedown keydown DOMMouseScroll mousewheel touchstart touchmove scroll');
     this.idle.setInterrupts([interrupt]);

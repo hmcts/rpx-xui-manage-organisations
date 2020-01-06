@@ -41,16 +41,6 @@ import { LogOutKeepAliveService } from './services/logOutService.service';
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpIntercepterServer,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthIntercepterServer,
-      multi: true
-    },
-    {
       provide: AbstractAppInsights,
       useClass: AppInsightsWrapper
     },

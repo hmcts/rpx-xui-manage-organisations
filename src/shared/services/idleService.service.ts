@@ -10,13 +10,12 @@ import {
   filter, finalize,
   first,
   map,
-  switchMap,
   take,
   takeWhile,
   tap
 } from 'rxjs/operators';
 import {Keepalive} from '@ng-idle/keepalive';
-import {combineLatest, fromEvent, interval, timer} from 'rxjs';
+import {combineLatest, timer} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +34,7 @@ export class IdleService {
     // this.keepAlive();
 
     // time is set in seconds
-    this.timeout = 5; // set to 10 minutes
+    this.timeout = 60; // set to 10 minutes
 
     this.idle.setIdleName('idleSession');
     this.idle.setTimeout(this.timeout);
@@ -49,7 +48,6 @@ export class IdleService {
     this.idle.onIdleEnd.pipe(delay(250)).subscribe(() => {
       console.log('No longer idle.');
       this.dispatchModal(undefined, false);
-      // check time remain and set new
     });
 
     this.idle.onTimeout.subscribe(() => {
@@ -70,13 +68,12 @@ export class IdleService {
       this.dispatchModal(countdown, true);
     });
 
-    // sets the ping interval to 600 seconds
-    // not sure if this is going to be used
-    // this.keepalive.interval(20);
-    // this.keepalive.onPing.pipe(delay(250)).subscribe(() => {
-    //   console.log('Keep alive');
-    //   // this.store.dispatch(new fromRoot.KeepAlive());
-    // });
+    // sets the ping interval to 600 seconds - check the backend needs.
+    this.keepalive.interval(30);
+    this.keepalive.onPing.pipe(delay(250)).subscribe(() => {
+      console.log('Keep alive');
+      this.store.dispatch(new fromRoot.KeepAlive());
+    });
 
     this.initWatch();
   }
@@ -133,10 +130,9 @@ export class IdleService {
     ).subscribe(([routes, idle]) => {
       const isRegisterOrg: boolean = routes.indexOf('register-org') !== -1;
       const isSignedOut: boolean = routes.indexOf('signed-out') !== -1;
-
       if (routes && !(isRegisterOrg || isSignedOut) && idle) {
         const idleInSeconds = Math.floor((idle / 1000)) - this.timeout;
-        console.log('idleInSeconds', idleInSeconds / 60);
+        console.log('idleInSeconds', idleInSeconds);
         this.idle.setIdle(idleInSeconds);
         this.idle.watch();
       }

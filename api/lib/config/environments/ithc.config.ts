@@ -7,6 +7,7 @@ export default {
     idamApi: 'https://idam-api.ithc.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal',
     rdProfessionalApi: 'http://rd-professional-api-ithc.service.core-compute-ithc.internal',
+    feeAndPayApi: 'http://payment-api-ithc.service.core-compute-ithc.internal',
   },
   health: {
     ccdDataApi: 'http://ccd-data-store-api-ithc.service.core-compute-ithc.internal/health',
@@ -15,6 +16,7 @@ export default {
     idamApi: 'https://idam-api.ithc.platform.hmcts.net/health',
     s2s: 'http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal/health',
     rdProfessionalApi: 'http://rd-professional-api-ithc.service.core-compute-ithc.internal/health',
+    feeAndPayApi: 'http://payment-api-ithc.service.core-compute-ithc.internal',
   },
   useProxy: false,
   secureCookie: false,

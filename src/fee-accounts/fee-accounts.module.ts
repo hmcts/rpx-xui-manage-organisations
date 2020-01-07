@@ -21,6 +21,7 @@ import { AccountTransactionsComponent } from './containers/account-transactions/
 import {AccountsGuard} from './guards/accounts.guard';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
 import { OrganisationService } from 'src/organisation/services';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const GUARDS = [AccountsGuard, AccountSummaryGuard];
 export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
@@ -35,6 +36,7 @@ export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, A
     EffectsModule.forFeature(effects),
     StoreModule.forFeature('org', orgReducers),
     EffectsModule.forFeature(orgEffects),
+    ExuiCommonLibModule.forChild()
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers, ...COMPONENTS],

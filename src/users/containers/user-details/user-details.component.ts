@@ -11,7 +11,7 @@ import { map } from 'rxjs/internal/operators';
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss']
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, OnDestroy {
 
   user$: Observable<any>;
   isLoading$: Observable<boolean>;

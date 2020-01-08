@@ -61,4 +61,20 @@ describe('Fee accounts Effects', () => {
         });
     });
 
+    describe('getUserFail$', () => {
+        it('should return hardcoded UserInterface - GetUserDetailsSuccess', () => {
+            const returnValue = {
+                email: 'hardcoded@user.com',
+                orgId: '12345',
+                roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
+                userId: '1'
+            };
+            const action = new GetUserDetailsFailure(new HttpErrorResponse({}));
+            const completion = new GetUserDetailsSuccess(returnValue);
+            actions$ = hot('-a', { a: action });
+            const expected = cold('-b', { b: completion });
+            expect(effects.getUserFail$).toBeObservable(expected);
+        });
+    });
+
 });

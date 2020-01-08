@@ -5,7 +5,7 @@ import * as singleFeeAccountActions from '../actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FeeAccountsService} from '../../services';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 
 

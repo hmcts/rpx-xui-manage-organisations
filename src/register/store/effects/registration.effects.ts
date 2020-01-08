@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import * as registrationActions from '../actions';
-import * as fromRoot from '../../../app/store';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {RegistrationFormService} from '../../services/registration-form.service';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 
 @Injectable()
@@ -27,7 +25,7 @@ export class RegistrationEffects {
           return new registrationActions.LoadPageItemsSuccess({payload: returnedItems, pageId});
 
         }),
-        catchError(error => of(new registrationActions.LoadPageItemsSuccess(error)))
+        catchError(error => of(new registrationActions.LoadPageItemsFail(error)))
       );
     })
   );

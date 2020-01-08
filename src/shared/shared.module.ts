@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
-import { HttpIntercepterServer } from './services/http-interceptor.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeadersService } from './services/headers.service';
-import { AuthIntercepterServer } from './services/auth-interceptor.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MonitoringService } from './services/monitoring.service';
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';

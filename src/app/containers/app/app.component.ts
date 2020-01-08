@@ -9,8 +9,6 @@ import * as fromActions from '../../store';
 import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
 import { environment as config } from '../../../environments/environment';
 import {IdleService} from '../../../shared/services/idleService.service';
-import {tap} from 'rxjs/operators';
-
 
 /**
  * Root Component that bootstrap all application.
@@ -29,7 +27,7 @@ export class AppComponent implements OnInit {
   navItems$: Observable<any> ;
   appHeaderTitle$: Observable<AppTitlesModel>;
   userNav$: Observable<UserNavModel>;
-  modalData$: Observable<any>
+  modalData$: Observable<any>;
 
 
   constructor(
@@ -64,7 +62,7 @@ export class AppComponent implements OnInit {
       session : {
         isVisible: false
       }
-    }
+    };
     this.store.dispatch(new fromRoot.SetModal(payload));
   }
 

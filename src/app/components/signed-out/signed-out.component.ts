@@ -11,7 +11,7 @@ import {AuthGuard} from '../../../user-profile/guards/auth.guard';
   templateUrl: './signed-out.component.html',
 })
 export class SignedOutComponent implements OnInit {
-  public redirectUrl: string
+  public redirectUrl: string;
   constructor(private authGuard: AuthGuard) { }
 
   ngOnInit(): void {

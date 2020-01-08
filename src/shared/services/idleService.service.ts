@@ -84,15 +84,6 @@ export class IdleService {
     this.store.dispatch(new fromRoot.SetModal(modalConfig));
   }
 
-  keepAlive() {
-    const thirtyMinutes = 20 * 1000;
-    const thirtyMinInterval$ = timer(thirtyMinutes, thirtyMinutes);
-    thirtyMinInterval$.subscribe(() => {
-      console.log('Keep alive');
-      this.store.dispatch(new fromRoot.KeepAlive());
-    });
-  }
-
   dispatchSignedOut() {
     this.dispatchModal(undefined, false);
     this.store.dispatch(new fromRoot.SignedOut()); // sing out BE

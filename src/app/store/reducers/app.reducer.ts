@@ -82,7 +82,7 @@ export function reducer(
       return {
         ...state,
         modal: {...action.payload}
-      }
+      };
     }
 
     case fromAction.LOGOUT: {

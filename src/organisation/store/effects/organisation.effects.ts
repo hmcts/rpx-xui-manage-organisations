@@ -5,7 +5,7 @@ import * as organisationActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { OrganisationService } from '../../services/organisation.service';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class OrganisationEffects {

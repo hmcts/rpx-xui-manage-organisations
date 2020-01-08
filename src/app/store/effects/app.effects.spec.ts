@@ -9,15 +9,18 @@ import * as appActions from '../../store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
 import {AuthGuard} from '../../../user-profile/guards/auth.guard';
-import {combineReducers, StoreModule} from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 import {reducers} from '../reducers';
-import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import { JurisdictionService } from '../../../users/services/jurisdiction.service';
+import { of, throwError } from 'rxjs';
 
 describe('App Effects', () => {
   let actions$;
   let effects: AppEffects;
 
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
+  const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
+
 
   const cookieService = {
     get: key => {
@@ -41,7 +44,7 @@ describe('App Effects', () => {
         provideMockActions(() => actions$),
         { provide: CookieService, useValue: cookieService },
         { provide: JurisdictionService, useValue: mockJurisdictionService },
-        AuthGuard
+        { provide: AuthGuard, useValue: mockAuthGuard }
       ]
     });
 
@@ -87,4 +90,23 @@ describe('App Effects', () => {
     });
   });
 
+  describe('loadJuridictions$', () => {
+    it('should dispatch success', () => {
+      mockJurisdictionService.getJurisdictions.and.returnValue(of([]));
+      const action = new appActions.LoadJurisdictions();
+      const completion = new appActions.LoadJurisdictionsSuccess([]);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadJuridictions$).toBeObservable(expected);
+    });
+
+    it('should dispatch error', () => {
+      mockJurisdictionService.getJurisdictions.and.returnValue(throwError(new Error()));
+      const action = new appActions.LoadJurisdictions();
+      const completion = new appActions.LoadJurisdictionsFail(new Error());
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadJuridictions$).toBeObservable(expected);
+    });
+  });
 });

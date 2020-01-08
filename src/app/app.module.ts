@@ -67,7 +67,7 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule
+    ExuiCommonLibModule.forRoot({launchDarklyKey: ''})
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

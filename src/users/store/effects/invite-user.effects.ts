@@ -27,7 +27,7 @@ export class InviteUserEffects {
         map(userDetails => new usersActions.InviteUserSuccess({...userDetails, userEmail})),
         tap(() => this.loggerService.info('User Invited')),
         catchError(error => {
-          this.loggerService.error(error);
+          this.loggerService.error(error.message);
           return of(new usersActions.InviteUserFail(error));
         })
       );

@@ -5,7 +5,7 @@ import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromSingleFeeAccountEffects from './single-fee-account.effects';
 import { SingleFeeAccountEffects } from './single-fee-account.effects';
-import { 
+import {
   LoadSingleFeeAccount, LoadSingleFeeAccountFail, LoadSingleFeeAccountSuccess,
   LoadSingleFeeAccountTransactions, LoadSingleFeeAccountTransactionsFail, LoadSingleFeeAccountTransactionsSuccess
 } from '../actions';

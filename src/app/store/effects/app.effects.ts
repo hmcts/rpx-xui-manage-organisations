@@ -6,7 +6,7 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
-import { JurisdictionService } from 'src/users/services';
+import { JurisdictionService } from '../../../users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 

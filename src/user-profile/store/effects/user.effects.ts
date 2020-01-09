@@ -7,7 +7,6 @@ import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
-import config from '../../../../api/lib/config';
 
 @Injectable()
 export class UserEffects {

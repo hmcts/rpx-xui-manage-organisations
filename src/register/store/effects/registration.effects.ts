@@ -25,7 +25,10 @@ export class RegistrationEffects {
           return new registrationActions.LoadPageItemsSuccess({payload: returnedItems, pageId});
 
         }),
-        catchError(error => of(new registrationActions.LoadPageItemsFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new registrationActions.LoadPageItemsFail(error));
+        })
       );
     })
   );
@@ -39,7 +42,10 @@ export class RegistrationEffects {
         map(obj => {
           return new registrationActions.SubmitFormDataSuccess();
         }),
-        catchError(error => of(new registrationActions.SubmitFormDataFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new registrationActions.SubmitFormDataFail(error));
+        })
     );
     })
   );

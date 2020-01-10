@@ -21,7 +21,10 @@ export class OrganisationEffects {
     switchMap(() => {
       return this.organisationService.fetchOrganisation().pipe(
         map(orgDetails => new organisationActions.LoadOrganisationSuccess(orgDetails)),
-        catchError(error => of(new organisationActions.LoadOrganisationFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new organisationActions.LoadOrganisationFail(error));
+        })
       );
     })
   );

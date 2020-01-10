@@ -7,12 +7,14 @@ import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
-    private authService: UserService
+    private authService: UserService,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -22,7 +24,10 @@ export class UserEffects {
       return this.authService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
-          catchError((error: HttpErrorResponse) => of(new authActions.GetUserDetailsFailure(error)))
+          catchError((error: HttpErrorResponse) => {
+            this.loggerService.error(error.message);
+            return of(new authActions.GetUserDetailsFailure(error));
+          })
         );
     })
   );

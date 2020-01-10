@@ -12,6 +12,7 @@ import { LoadOrganisation, LoadOrganisationSuccess, LoadOrganisationFail } from 
 describe('Organisation Effects', () => {
   let actions$;
   let effects: OrganisationEffects;
+  let loggerService: LoggerService;
 
   const organisationServiceMock = jasmine.createSpyObj('OrganisationService', [
     'fetchOrganisation',
@@ -36,6 +37,7 @@ describe('Organisation Effects', () => {
     });
 
     effects = TestBed.get(OrganisationEffects);
+    loggerService = TestBed.get(LoggerService);
 
   });
 
@@ -67,6 +69,7 @@ describe('Organisation Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadOrganisation$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
     });
   });
 

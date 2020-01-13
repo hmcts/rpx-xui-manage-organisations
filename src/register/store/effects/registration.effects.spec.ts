@@ -15,6 +15,8 @@ import { LoggerService } from '../../../shared/services/logger.service';
 describe('Registration Effects', () => {
   let actions$;
   let effects: RegistrationEffects;
+  let loggerService: LoggerService;
+
   const mockedRegistrationFormService = jasmine.createSpyObj('RegistrationFormService', [
     'getRegistrationForm',
     'submitRegistrationForm'
@@ -38,6 +40,7 @@ describe('Registration Effects', () => {
     });
 
     effects = TestBed.get(RegistrationEffects);
+    loggerService = TestBed.get(LoggerService);
 
   });
   describe('loadRegistrationForm$', () => {
@@ -61,6 +64,7 @@ describe('Registration Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadRegistrationForm$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
     });
   });
 
@@ -82,6 +86,7 @@ describe('Registration Effects', () => {
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
         expect(effects.postRegistrationFormData$).toBeObservable(expected);
+        expect(loggerService.error).toHaveBeenCalled();
       });
     });
   });

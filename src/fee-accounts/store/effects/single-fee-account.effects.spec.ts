@@ -15,6 +15,8 @@ import { LoggerService } from '../../../shared/services/logger.service';
 describe('Single fee account Effects', () => {
   let actions$;
   let effects: SingleFeeAccountEffects;
+  let loggerService: LoggerService;
+
   const SingleFeeAccountServiceMock = jasmine.createSpyObj('FeeAccountsService', [
     'fetchSingleFeeAccount',
     'fetchPbAAccountTransactions'
@@ -38,6 +40,7 @@ describe('Single fee account Effects', () => {
     });
 
     effects = TestBed.get(SingleFeeAccountEffects);
+    loggerService = TestBed.get(LoggerService);
 
   });
   describe('loadSingleFeeAccount$', () => {
@@ -68,6 +71,7 @@ describe('Single fee account Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadSingleFeeAccount$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
     });
   });
 
@@ -92,6 +96,7 @@ describe('Single fee account Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadSingleFeeAccountTransactions$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
     });
   });
 

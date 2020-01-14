@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
+import { catchError, map, switchMap } from 'rxjs/operators';
 import * as appActions from '../actions';
-import { map, switchMap, catchError } from 'rxjs/operators';
 
-import * as usersActions from '../../../users/store/actions';
-import * as fromUserProfile from '../../../user-profile/store';
-import { JurisdictionService } from '../../../users/services';
 import { of } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
-import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import * as fromUserProfile from '../../../user-profile/store';
+import { JurisdictionService } from '../../../users/services';
+import * as usersActions from '../../../users/store/actions';
 
 @Injectable()
 export class AppEffects {
   constructor(
-    private actions$: Actions,
-    private jurisdictionService: JurisdictionService,
-    private autGuard: AuthGuard,
+    private readonly actions$: Actions,
+    private readonly jurisdictionService: JurisdictionService,
+    private readonly autGuard: AuthGuard,
     private readonly termsService: TermsConditionsService,
-    private loggerService: LoggerService
+    private readonly loggerService: LoggerService
   ) { }
 
   @Effect()
-  updateTitle$ = this.actions$.pipe(
+  public updateTitle$ = this.actions$.pipe(
     ofType(usersActions.UPDATE_ERROR_MESSAGES),
     map(() => {
       return new appActions.SetPageTitleErrors();
@@ -31,7 +31,7 @@ export class AppEffects {
   );
 
   @Effect()
-  setUserRoles$ = this.actions$.pipe(
+  public setUserRoles$ = this.actions$.pipe(
     ofType(fromUserProfile.AuthActionTypes.GET_USER_DETAILS_SUCCESS),
     map((actions: fromUserProfile.GetUserDetailsSuccess) => actions.payload.roles),
     map((roles) => {
@@ -40,7 +40,7 @@ export class AppEffects {
   );
 
   @Effect({ dispatch: false })
-  logout$ = this.actions$.pipe(
+  public logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
       const redirectUrl = this.autGuard.generateLoginUrl();
@@ -50,7 +50,7 @@ export class AppEffects {
   );
 
   @Effect()
-  loadJuridictions$ = this.actions$.pipe(
+  public loadJuridictions$ = this.actions$.pipe(
     ofType(appActions.LOAD_JURISDICTIONS_GLOBAL),
     switchMap(() => {
       return this.jurisdictionService.getJurisdictions().pipe(
@@ -64,7 +64,7 @@ export class AppEffects {
   );
 
   @Effect()
-  loadTermsConditions$ = this.actions$.pipe(
+  public loadTermsConditions$ = this.actions$.pipe(
     ofType(appActions.LOAD_TERMS_CONDITIONS),
     switchMap(() => {
       return this.termsService.getTermsConditions().pipe(

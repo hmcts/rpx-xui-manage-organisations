@@ -1,26 +1,26 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import * as authActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import {UserService} from '../../services/user.service';
-import {AuthActionTypes} from '../actions/';
-import {UserInterface} from '../../models/user.model';
-import {HttpErrorResponse} from '@angular/common/http';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
 import { LoggerService } from '../../../shared/services/logger.service';
+import {UserInterface} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
+import * as authActions from '../actions';
+import {AuthActionTypes} from '../actions/';
 
 @Injectable()
 export class UserProfileEffects {
   constructor(
-    private actions$: Actions,
-    private authService: UserService,
-    private acceptTcService: AcceptTcService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly authService: UserService,
+    private readonly acceptTcService: AcceptTcService,
+    private readonly loggerService: LoggerService
   ) { }
 
   @Effect()
-  getUser$ = this.actions$.pipe(
+  public getUser$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS),
     switchMap(() => {
       return this.authService.getUserDetails()
@@ -35,7 +35,7 @@ export class UserProfileEffects {
   );
 
   @Effect()
-  getUserFail$ = this.actions$.pipe(
+  public getUserFail$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
     map((actions: authActions.GetUserDetailsFailure) => actions.payload),
     map((error) => {
@@ -55,7 +55,7 @@ export class UserProfileEffects {
   );
 
   @Effect()
-  loadHasAccepted$ = this.actions$.pipe(
+  public loadHasAccepted$ = this.actions$.pipe(
     ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
     switchMap((action: any) => {
       return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
@@ -66,7 +66,7 @@ export class UserProfileEffects {
   );
 
   @Effect()
-  acceptTandC$ = this.actions$.pipe(
+  public acceptTandC$ = this.actions$.pipe(
     ofType(AuthActionTypes.ACCEPT_T_AND_C),
     map((action: authActions.AcceptTandC) => action.payload),
     switchMap((userData) => {

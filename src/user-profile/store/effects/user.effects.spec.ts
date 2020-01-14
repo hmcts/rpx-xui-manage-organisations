@@ -15,10 +15,13 @@ import {
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AcceptTcService } from '../../../accept-tc/services/accept-tc.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('Fee accounts Effects', () => {
   let actions$;
   let effects: UserProfileEffects;
+  let loggerService: LoggerService;
+
   const UserServiceMock = jasmine.createSpyObj('UserService', [
       'getUserDetails',
   ]);
@@ -26,6 +29,9 @@ describe('Fee accounts Effects', () => {
     'getHasUserAccepted',
     'acceptTandC'
   ]);
+
+  const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+
 
   beforeEach(() => {
       TestBed.configureTestingModule({
@@ -39,12 +45,17 @@ describe('Fee accounts Effects', () => {
                 provide: AcceptTcService,
                 useValue: AcceptTandCSrviceMock,
               },
+              {
+                provide: LoggerService,
+                useValue: mockedLoggerService,
+              },
               fromUserEffects.UserProfileEffects,
               provideMockActions(() => actions$)
           ]
       });
 
       effects = TestBed.get(UserProfileEffects);
+      loggerService = TestBed.get(LoggerService);
 
   });
 
@@ -100,4 +111,31 @@ describe('Fee accounts Effects', () => {
     });
   });
 
-});
+  describe('getUser$ error', () => {
+      it('should return GetUserDetailsFailure', () => {
+          UserServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
+          const action = new GetUserDetails();
+          const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
+          actions$ = hot('-a', { a: action });
+          const expected = cold('-b', { b: completion });
+          expect(effects.getUser$).toBeObservable(expected);
+          expect(loggerService.error).toHaveBeenCalled();
+      });
+  });
+
+    describe('getUserFail$', () => {
+        it('should return hardcoded UserInterface - GetUserDetailsSuccess', () => {
+            const returnValue = {
+                email: 'hardcoded@user.com',
+                orgId: '12345',
+                roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
+                userId: '1'
+            };
+            const action = new GetUserDetailsFailure(new HttpErrorResponse({}));
+            const completion = new GetUserDetailsSuccess(returnValue);
+            actions$ = hot('-a', { a: action });
+            const expected = cold('-b', { b: completion });
+            expect(effects.getUserFail$).toBeObservable(expected);
+        });
+    });
+  });

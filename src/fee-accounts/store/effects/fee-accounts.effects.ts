@@ -5,6 +5,7 @@ import * as feeAccountsActions from '../actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FeeAccountsService} from '../../services';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 
 
@@ -12,7 +13,8 @@ import {FeeAccountsService} from '../../services';
 export class FeeAccountsEffects {
   constructor(
     private actions$: Actions,
-    private feeAccountsService: FeeAccountsService
+    private feeAccountsService: FeeAccountsService,
+    private loggerService: LoggerService
   ) {}
 
   @Effect()
@@ -21,7 +23,10 @@ export class FeeAccountsEffects {
     switchMap((payload: any) => {
       return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(
         map(feeAccountsDetails => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
-        catchError(error => of(new feeAccountsActions.LoadFeeAccountsFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new feeAccountsActions.LoadFeeAccountsFail(error));
+        })
       );
     })
   );

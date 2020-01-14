@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
-import { JurisdictionService } from 'src/users/services';
-import { AuthGuard } from '../../../user-profile/guards/auth.guard';
-import * as fromUserProfile from '../../../user-profile/store';
-import * as usersActions from '../../../users/store/actions';
+
 import * as appActions from '../actions';
+import { map, switchMap, catchError } from 'rxjs/operators';
+
+import * as usersActions from '../../../users/store/actions';
+import * as fromUserProfile from '../../../user-profile/store';
+import { JurisdictionService } from '../../../users/services';
+import { of } from 'rxjs';
+import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
+import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class AppEffects {
@@ -15,7 +18,8 @@ export class AppEffects {
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
     private autGuard: AuthGuard,
-    private readonly termsService: TermsConditionsService
+    private readonly termsService: TermsConditionsService,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -51,7 +55,10 @@ export class AppEffects {
     switchMap(() => {
       return this.jurisdictionService.getJurisdictions().pipe(
         map(jurisdictions => new appActions.LoadJurisdictionsSuccess(jurisdictions)),
-        catchError(error => of(new appActions.LoadJurisdictionsFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new appActions.LoadJurisdictionsFail(error));
+        })
       );
     })
   );

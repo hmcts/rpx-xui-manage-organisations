@@ -8,13 +8,15 @@ import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class UserProfileEffects {
   constructor(
     private actions$: Actions,
     private authService: UserService,
-    private acceptTcService: AcceptTcService
+    private acceptTcService: AcceptTcService,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -24,7 +26,10 @@ export class UserProfileEffects {
       return this.authService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
-          catchError((error: HttpErrorResponse) => of(new authActions.GetUserDetailsFailure(error)))
+          catchError((error: HttpErrorResponse) => {
+            this.loggerService.error(error.message);
+            return of(new authActions.GetUserDetailsFailure(error));
+          })
         );
     })
   );

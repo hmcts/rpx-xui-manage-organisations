@@ -5,6 +5,7 @@ import * as usersActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UsersService } from '../../services';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 
 
@@ -12,7 +13,8 @@ import { UsersService } from '../../services';
 export class UsersEffects {
   constructor(
     private actions$: Actions,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -34,7 +36,10 @@ export class UsersEffects {
 
           return new usersActions.LoadUsersSuccess({users: amendedUsers});
         }),
-        catchError(error => of(new usersActions.LoadUsersFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.LoadUsersFail(error));
+        })
       );
     })
   );

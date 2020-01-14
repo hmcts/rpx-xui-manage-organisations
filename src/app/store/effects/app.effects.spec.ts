@@ -9,17 +9,22 @@ import * as appActions from '../../store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
 import { CookieService } from 'ngx-cookie';
 import {AuthGuard} from '../../../user-profile/guards/auth.guard';
-import {combineReducers, StoreModule} from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 import {reducers} from '../reducers';
 import { JurisdictionService } from 'src/users/services/jurisdiction.service';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
+import { of, throwError } from 'rxjs';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('App Effects', () => {
   let actions$;
   let effects: AppEffects;
+  let loggerService: LoggerService;
 
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
   const mockTermsService = jasmine.createSpyObj('mockTermsService', ['getTermsConditions']);
+  const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
+  const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
   const cookieService = {
     get: key => {
@@ -44,11 +49,16 @@ describe('App Effects', () => {
         { provide: CookieService, useValue: cookieService },
         { provide: JurisdictionService, useValue: mockJurisdictionService },
         { provide: TermsConditionsService, useValue: mockTermsService },
-        AuthGuard
+        { provide: AuthGuard, useValue: mockAuthGuard },
+        {
+          provide: LoggerService,
+          useValue: mockedLoggerService
+        }
       ]
     });
 
     effects = TestBed.get(AppEffects);
+    loggerService = TestBed.get(LoggerService);
 
   });
 
@@ -90,4 +100,24 @@ describe('App Effects', () => {
     });
   });
 
+  describe('loadJuridictions$', () => {
+    it('should dispatch success', () => {
+      mockJurisdictionService.getJurisdictions.and.returnValue(of([]));
+      const action = new appActions.LoadJurisdictions();
+      const completion = new appActions.LoadJurisdictionsSuccess([]);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadJuridictions$).toBeObservable(expected);
+    });
+
+    it('should dispatch error', () => {
+      mockJurisdictionService.getJurisdictions.and.returnValue(throwError(new Error()));
+      const action = new appActions.LoadJurisdictions();
+      const completion = new appActions.LoadJurisdictionsFail(new Error());
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadJuridictions$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
+    });
+  });
 });

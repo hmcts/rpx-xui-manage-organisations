@@ -27,6 +27,20 @@ class InviteUserPage{
   async enterIntoTextFieldFirstName(value){
     await this.firstName.sendKeys(value);
   }
+
+  async selectPermission(permission,isSelect){
+    const permisssionCheckboxXpath = by.xpath('//div[@class = "govuk-checkboxes"]//div[contains(@class,"govuk-checkboxes__item")]/label[contains(text(),"' + permission+'")]/../input');
+    
+    let isSelected = await element(permisssionCheckboxXpath).isSelected();
+    console.log(isSelected);
+
+    if (isSelect !== isSelected){
+      await element(permisssionCheckboxXpath).click();
+
+    }
+    isSelected = await element(permisssionCheckboxXpath).isSelected();
+    console.log(isSelected)
+  }
   /**
    * Enter random text into the Text field
    * @returns EUIStringField Object

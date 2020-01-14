@@ -6,11 +6,6 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-const MailinatorService = require('../pageObjects/mailinatorService');
-
-let mailinatorService = new MailinatorService();
-
-
 async function waitForElement(el) {
   await browser.wait(result => {
     return element(by.className(el)).isPresent();
@@ -25,12 +20,6 @@ defineSupportCode(function ({ Given, When, Then }) {
       .deleteAllCookies();
     await browser.refresh();
     browser.sleep(AMAZING_DELAY);
-
-
-    await mailinatorService.init();
-    await mailinatorService.openRegistrationEmailForUser('test_protractor_1@mailinator.com');
-    await mailinatorService.completeUserRegistrationFromEmail();
-
   });
 
   Then(/^I should see failure error summary$/, async function () {
@@ -55,6 +44,20 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
+  When("I login with latest invited user", async function () {
+    await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
+    await loginPage.password.sendKeys(global.latestInvitedUserPassword);
+    // browser.sleep(SHORT_DELAY);
+    await loginPage.signinBtn.click();
+
+    await waitForElement('hmcts-header__link');
+    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.dashboard_header.getText())
+      .to
+      .eventually
+      .equal('Manage organisation details for civil and family law cases');
+
+  });
 
   When(/^I enter an valid email-address and password to login$/, async function () {
     await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password

@@ -10,10 +10,43 @@ Feature: invite user workflow
     When I click on invite user button
     Then I should be on display invite user page
 
- @crossbrowser @test
+ @crossbrowser
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
+   
+   
+  @crossbrowser
+  Scenario: Login with invited user
+    When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
+      |Permission|
+      |Manage Users|
+      | Manage Organisation |
+      | Manage fee accounts |
+    Then user should be created successfuly
+    When I activate invited user 
+    Then I select the sign out link
+    Then I login with latest invited user
+    Then I should be redirected to manage organisation dashboard page
+    Then I should see navigation tab in header
+      | NavigationTab|
+      |Orgnisation|
+      |Users|
+
+  @crossbrowser @test
+  Scenario: Login with invited user
+    When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
+      | Permission          |
+      | Manage Organisation |
+      | Manage fee accounts |
+    Then user should be created successfuly
+    When I activate invited user
+    Then I select the sign out link
+    Then I login with latest invited user
+    Then I should be redirected to manage organisation dashboard page
+    Then I should see navigation tab in header
+      | NavigationTab |
+      | Orgnisation   |
 
   @fullFunctional 
   Scenario: invite user validation workflow
@@ -24,3 +57,4 @@ Feature: invite user workflow
   Scenario: back button workflow
     When I click on back button
     Then I should be on display the user details
+

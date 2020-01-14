@@ -21,8 +21,15 @@ class MailinatorService{
 
 
     async gotToInbox(useremail){
-        await this.mailinatorElement(by.css('#inbox_field')).clear();
-        await this.mailinatorElement(by.css('#inbox_field')).sendKeys(useremail);
+        let emailFieldElement = this.mailinatorElement(by.css('#inbox_field'));
+        await this.mailinatorbrowser.wait(EC.presenceOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
+        await this.mailinatorbrowser.wait(EC.visibilityOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
+
+        this.mailinatorbrowser.sleep(2000);
+
+        await emailFieldElement.clear();
+        this.mailinatorbrowser.sleep(2000);
+        await emailFieldElement.sendKeys(useremail);
         await this.mailinatorElement(by.css('#go_inbox')).click();
         let inboxLabelElement = this.mailinatorElement(by.css(this.currentInboxLabel));
         let inboxName = await inboxLabelElement.getText(); 
@@ -36,12 +43,17 @@ class MailinatorService{
             timer = timer - 1;
             inboxName = await inboxLabelElement.getText(); 
         }
+       
+        if (!inboxName.includes(username)){
+            throw new Error("Error/Unable to open inbox " + useremail);
+        }
+
         console.log("In inbox "+useremail);
     }
 
     async openRegistrationEmailForUser(useremail){
         await this.gotToInbox(useremail);
-        let timer = 5;
+        let timer = 15;
         let latestEmailElement = this.mailinatorElement(by.css(this.latestEmailRowCssSelector));
         let isEmailPresent = await latestEmailElement.isPresent();
         while (!isEmailPresent  && timer > 0){
@@ -61,8 +73,20 @@ class MailinatorService{
         await this.mailinatorbrowser.switchTo().frame(this.mailinatorElement(by.css("#msg_body")).getWebElement());
         let activationLinkEle = this.mailinatorElement(by.css(this.activationEmaillinkCSsSelector));
         await this.mailinatorbrowser.wait(EC.presenceOf(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
-        await activationLinkEle.click();
 
+        let mainWinHandle = await this.mailinatorbrowser.driver.getWindowHandle();
+        await activationLinkEle.click();
+        let winHandles = await this.mailinatorbrowser.driver.getAllWindowHandles();
+        await this.mailinatorbrowser.switchTo().window(winHandles[1]);
+
+        await this.mailinatorElement(by.css("#password1")).sendKeys("Monday01");
+        await this.mailinatorElement(by.css("#password2")).sendKeys("Monday01");
+        await this.mailinatorElement(by.css("#activate")).click();
+
+        let accountCreatedMessageElement = this.mailinatorElement(by.xpath("//h1[contains(text(), 'Account created')]"));
+        await this.mailinatorbrowser.wait(EC.presenceOf(accountCreatedMessageElement), this.waitTime, "Error : " + accountCreatedMessageElement.locator().toString());
+        await this.mailinatorbrowser.driver.close();
+        await this.mailinatorbrowser.switchTo().window(mainWinHandle);
 
     }
 

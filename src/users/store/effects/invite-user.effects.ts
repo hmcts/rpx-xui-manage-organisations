@@ -6,8 +6,13 @@ import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {InviteUserService } from '../../services';
 import * as fromRoot from '../../../app/store';
+<<<<<<< HEAD
 import { LoggerService } from 'src/shared/services/logger.service';
 import { UserService } from 'src/user-profile/services/user.service';
+=======
+import { LoggerService } from '../../../shared/services/logger.service';
+
+>>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
 
 @Injectable()
 export class InviteUserEffects {
@@ -26,7 +31,10 @@ export class InviteUserEffects {
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => new usersActions.InviteUserSuccess({...userDetails, userEmail})),
         tap(() => this.loggerService.info('User Invited')),
-        catchError(error => of(new usersActions.InviteUserFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.InviteUserFail(error));
+        })
       );
     })
   );

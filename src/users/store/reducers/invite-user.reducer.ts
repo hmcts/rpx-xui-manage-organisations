@@ -61,7 +61,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: [
-            'Try again later.'
+            action.payload.error.message
           ]
         }
       };

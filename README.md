@@ -5,6 +5,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Therefore it requires you to install Angular CLI:
 `npm install -g @angular/cli`
 
+Confirmed to be working with `node version 10.14.2`. When having token issues despite having correct secrets set in environment variables, try downgrading node.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.

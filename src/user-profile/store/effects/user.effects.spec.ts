@@ -8,7 +8,7 @@ import { UserEffects } from './user.effects';
 import { GetUserDetails, GetUserDetailsFailure, GetUserDetailsSuccess } from '../actions';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('Fee accounts Effects', () => {
     let actions$;
@@ -16,8 +16,9 @@ describe('Fee accounts Effects', () => {
     const UserServiceMock = jasmine.createSpyObj('UserService', [
         'getUserDetails',
     ]);
+    let loggerService: LoggerService;
 
-    const LoggerServiceMock = jasmine.createSpyObj('LoggerService', ['log', 'error']);
+    const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -29,7 +30,7 @@ describe('Fee accounts Effects', () => {
                 },
                 {
                     provide: LoggerService,
-                    useValue: LoggerServiceMock
+                    useValue: mockedLoggerService
                 },
                 fromUserEffects.UserEffects,
                 provideMockActions(() => actions$)
@@ -37,6 +38,7 @@ describe('Fee accounts Effects', () => {
         });
 
         effects = TestBed.get(UserEffects);
+        loggerService = TestBed.get(LoggerService);
 
     });
 
@@ -65,6 +67,23 @@ describe('Fee accounts Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.getUser$).toBeObservable(expected);
+            expect(loggerService.error).toHaveBeenCalled();
+        });
+    });
+
+    describe('getUserFail$', () => {
+        it('should return hardcoded UserInterface - GetUserDetailsSuccess', () => {
+            const returnValue = {
+                email: 'hardcoded@user.com',
+                orgId: '12345',
+                roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
+                userId: '1'
+            };
+            const action = new GetUserDetailsFailure(new HttpErrorResponse({}));
+            const completion = new GetUserDetailsSuccess(returnValue);
+            actions$ = hot('-a', { a: action });
+            const expected = cold('-b', { b: completion });
+            expect(effects.getUserFail$).toBeObservable(expected);
         });
     });
 

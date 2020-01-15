@@ -30,6 +30,7 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
     userSubscription: Subscription;
     dependanciesSubscription: Subscription;
     editPermissionSuccessSubscription: Subscription;
+    editPermissionServerErrorSubscription: Subscription;
     backUrl: string;
 
     summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
@@ -45,6 +46,10 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
 
       this.editPermissionSuccessSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
+      });
+
+      this.editPermissionServerErrorSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
+        this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
       });
 
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
@@ -134,10 +139,13 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
     } else {
-      this.summaryErrors = { isFromValid: false, items: [{id: 'roles', message: 'No changes done.' }],
+     /* tslint:disable-next-line */
+      this.summaryErrors = { isFromValid: false, items: [{id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
       header: this.errorMessages.header};
-      this.permissionErrors = { isInvalid: true, messages: ['No changes done.' ]};
-      return this.userStore.dispatch(new fromStore.EditUserFailure('No changes done.'));
+      /* tslint:disable-next-line */
+      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' ]};
+      /* tslint:disable-next-line */
+      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }
   }
 }

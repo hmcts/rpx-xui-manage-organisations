@@ -6,10 +6,14 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UsersService } from '../../services';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { SuspendUser } from '../actions';
 =======
 import { LoggerService } from '../../../shared/services/logger.service';
 >>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
+=======
+import { LoggerService } from '../../../shared/services/logger.service';
+>>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
 
 
 

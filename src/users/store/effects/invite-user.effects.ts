@@ -7,6 +7,7 @@ import {of} from 'rxjs';
 import {InviteUserService } from '../../services';
 import * as fromRoot from '../../../app/store';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { LoggerService } from 'src/shared/services/logger.service';
 import { UserService } from 'src/user-profile/services/user.service';
 =======
@@ -14,6 +15,10 @@ import { LoggerService } from '../../../shared/services/logger.service';
 
 >>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
 
+=======
+import { LoggerService } from '../../../shared/services/logger.service';
+
+>>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
 @Injectable()
 export class InviteUserEffects {
   constructor(

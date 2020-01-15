@@ -7,19 +7,18 @@ import * as fromUsersEffects from './invite-user.effects';
 import { InviteUserEffects } from './invite-user.effects';
 import { SendInviteUser, InviteUserSuccess, InviteUserFail } from '../actions/invite-user.actions';
 import { InviteUserService } from '../../services/invite-user.service';
-import { JurisdictionService } from 'src/users/services';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('Invite User Effects', () => {
     let actions$;
     let effects: InviteUserEffects;
+    let loggerService: LoggerService;
 
     const InviteUsersServiceMock = jasmine.createSpyObj('InviteUserService', [
         'inviteUser',
     ]);
-    const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
-    const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
+    const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -28,10 +27,6 @@ describe('Invite User Effects', () => {
                 {
                     provide: InviteUserService,
                     useValue: InviteUsersServiceMock,
-                },
-                {
-                    provide: JurisdictionService,
-                    useValue: mockJurisdictionService
                 },
                 {
                     provide: LoggerService,
@@ -43,7 +38,7 @@ describe('Invite User Effects', () => {
         });
 
         effects = TestBed.get(InviteUserEffects);
-
+        loggerService = TestBed.get(LoggerService);
     });
 
     describe('saveUser$', () => {
@@ -80,6 +75,7 @@ describe('Invite User Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);
+            expect(loggerService.error).toHaveBeenCalled();
         });
     });
 

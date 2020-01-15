@@ -7,6 +7,7 @@ import * as fromUsersEffects from './users.effects';
 import { UsersEffects } from './users.effects';
 import { LoadUsersSuccess, LoadUsersFail, LoadUsers, SuspendUser, SuspendUserSuccess, SuspendUserFail } from '../actions/user.actions';
 import { UsersService } from '../../services/users.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('Users Effects', () => {
     let actions$;
@@ -14,7 +15,9 @@ describe('Users Effects', () => {
     const UsersServiceMock = jasmine.createSpyObj('UsersService', [
         'getListOfUsers', 'suspendUser',
     ]);
+    let loggerService: LoggerService;
 
+    const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -24,12 +27,17 @@ describe('Users Effects', () => {
                     provide: UsersService,
                     useValue: UsersServiceMock,
                 },
+                {
+                    provide: LoggerService,
+                    useValue: mockedLoggerService
+                },
                 fromUsersEffects.UsersEffects,
                 provideMockActions(() => actions$)
             ]
         });
 
         effects = TestBed.get(UsersEffects);
+        loggerService = TestBed.get(LoggerService);
 
     });
 
@@ -71,6 +79,7 @@ describe('Users Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.loadUsers$).toBeObservable(expected);
+            expect(loggerService.error).toHaveBeenCalled();
         });
     });
 

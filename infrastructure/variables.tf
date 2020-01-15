@@ -58,3 +58,7 @@ variable "additional_host_name" {
 variable "node_tls_reject_unauthorized" {
   default = "1"
 }
+
+variable "terraform_test" {
+  default = "tf test var to web app"
+}

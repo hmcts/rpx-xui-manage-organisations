@@ -7,15 +7,13 @@ import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
-import * as usersActions from '../../../users/store/actions/user.actions';
-import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
-    private userService: UserService,
+    private authService: UserService,
     private loggerService: LoggerService
   ) { }
 
@@ -26,7 +24,10 @@ export class UserEffects {
       return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
-          catchError((error: HttpErrorResponse) => of(new authActions.GetUserDetailsFailure(error)))
+          catchError((error: HttpErrorResponse) => {
+            this.loggerService.error(error.message);
+            return of(new authActions.GetUserDetailsFailure(error));
+          })
         );
     })
   );

@@ -8,13 +8,17 @@ import { FeeAccountsEffects } from './fee-accounts.effects';
 import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { FeeAccountsService } from 'src/fee-accounts/services';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('Fee accounts Effects', () => {
   let actions$;
   let effects: FeeAccountsEffects;
+  let loggerService: LoggerService;
+
   const FeeAccountsServiceMock = jasmine.createSpyObj('FeeAccountsService', [
     'fetchFeeAccounts',
   ]);
+  const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -23,12 +27,17 @@ describe('Fee accounts Effects', () => {
             provide: FeeAccountsService,
             useValue: FeeAccountsServiceMock,
           },
+          {
+            provide: LoggerService,
+            useValue: mockedLoggerService
+          },
           fromFeeAccountsEffects.FeeAccountsEffects,
           provideMockActions(() => actions$)
       ]
     });
 
     effects = TestBed.get(FeeAccountsEffects);
+    loggerService = TestBed.get(LoggerService);
 
   });
   describe('loadFeeAccounts$', () => {
@@ -51,6 +60,7 @@ describe('Fee accounts Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadFeeAccounts$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
     });
   });
 

@@ -7,16 +7,25 @@ import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
+<<<<<<< HEAD
 import config from '../../../../api/lib/config';
 import * as usersActions from '../../../users/store/actions/user.actions';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
 import * as fromRoot from '../../../app/store';
+=======
+import { LoggerService } from '../../../shared/services/logger.service';
+>>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
+<<<<<<< HEAD
     private userService: UserService,
+=======
+    private authService: UserService,
+    private loggerService: LoggerService
+>>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
   ) { }
 
   @Effect()
@@ -26,7 +35,10 @@ export class UserEffects {
       return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
-          catchError((error: HttpErrorResponse) => of(new authActions.GetUserDetailsFailure(error)))
+          catchError((error: HttpErrorResponse) => {
+            this.loggerService.error(error.message);
+            return of(new authActions.GetUserDetailsFailure(error));
+          })
         );
     })
   );

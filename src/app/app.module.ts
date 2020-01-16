@@ -36,7 +36,6 @@ import { JurisdictionService } from 'src/users/services';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
-import { RemoveHostDirective } from './directives/remove-host.directive';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -46,7 +45,6 @@ export const metaReducers: MetaReducer<any>[] = !config.production
 @NgModule({
   declarations: [
     AppComponent,
-    RemoveHostDirective,
     ...fromComponents.components,
     ...fromContainers.containers,
   ],

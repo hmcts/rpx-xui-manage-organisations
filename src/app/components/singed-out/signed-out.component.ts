@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
 * */
 
 @Component({
-  selector: 'exui-sign-out',
+  selector: 'app-sign-out',
   templateUrl: './signed-out.component.html',
 })
 export class SignedOutComponent implements OnInit {

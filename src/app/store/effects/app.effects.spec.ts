@@ -3,7 +3,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromAppEffects from './app.effects';
 import { AppEffects } from './app.effects';
-import {SetPageTitleErrors, SignedOut, SignedOutSuccess} from '../actions/app.actions';
+import {SetPageTitleErrors} from '../actions/app.actions';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
@@ -14,7 +14,7 @@ import {reducers, State} from '../reducers';
 import { JurisdictionService } from '../../../users/services/jurisdiction.service';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
-import { LogOutKeepAliveService } from '../../../shared/services/keep-alive/keep-alive.services';
+
 describe('App Effects', () => {
   let actions$;
   let effects: AppEffects;
@@ -22,10 +22,6 @@ describe('App Effects', () => {
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
   const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
-  const LogOutServiceMock = jasmine.createSpyObj('LogOutKeepAliveService', [
-    'logOut',
-    'heartBeat'
-  ]);
   const cookieService = {
     get: key => {
       return cookieService[key];
@@ -53,10 +49,6 @@ describe('App Effects', () => {
         {
           provide: LoggerService,
           useValue: mockedLoggerService
-        },
-        {
-          provide: LogOutKeepAliveService,
-          useValue: LogOutServiceMock
         },
       ]
     });
@@ -121,17 +113,6 @@ describe('App Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadJuridictions$).toBeObservable(expected);
       expect(loggerService.error).toHaveBeenCalled();
-    });
-  });
-
-  describe('sigout', () => {
-    it('should return a sign out sucess', () => {
-      LogOutServiceMock.logOut.and.returnValue(of('something'));
-      const action = new SignedOut();
-      const completion = new SignedOutSuccess();
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.sigout$).toBeObservable(expected);
     });
   });
 });

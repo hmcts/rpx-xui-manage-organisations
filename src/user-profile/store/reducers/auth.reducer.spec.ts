@@ -1,6 +1,8 @@
 import * as fromAuth from './auth.reducer';
 import * as fromAuthActions from '../actions/user-profile.actions';
 import { UserModel} from '../../models/user.model';
+import * as fromApp from '../';
+import * as fromAppActions from '../actions';
 
 describe('Authorisation Reducer', () => {
     it('undefined action should return the default state', () => {
@@ -49,6 +51,17 @@ describe('Authorisation Reducer', () => {
         expect(fromAuth.isUserLoaded(payload)).toEqual(true);
         expect(fromAuth.isUserLoading(payload)).toEqual(false);
 
+    });
+
+    describe('SET_MODAL action', () => {
+      it('should reset to init', () => {
+        const { initialState } = fromApp;
+        const payload = {session: {isVisible: false}};
+        const action = new fromAppActions.SetModal(payload);
+        const state = fromApp.reducer(initialState, action);
+
+        expect(state.modal).toEqual(payload);
+      });
     });
 
 });

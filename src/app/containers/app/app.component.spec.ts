@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
-import {Logout, reducers} from 'src/app/store';
+import {Logout, reducers, State} from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { cold } from 'jasmine-marbles';
@@ -9,9 +9,13 @@ import { cold } from 'jasmine-marbles';
 import { AppConstants } from '../../app.constants';
 import * as fromAuth from '../../../user-profile/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { windowToken } from '@hmcts/rpx-xui-common-lib';
+import {ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
+import {Keepalive} from '@ng-idle/keepalive';
+import {Idle} from '@ng-idle/core';
+import {HttpClientModule} from '@angular/common/http';
+import {KeepAlive, SetModal} from '../../../user-profile/store';
 
-
+const mockedServices = { init: () => {}}
 const windowMock: Window = { gtag: () => {}} as any;
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
@@ -24,6 +28,7 @@ describe('AppComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         RouterTestingModule,
+        HttpClientModule,
         StoreModule.forRoot(
           {
             ...reducers,
@@ -34,6 +39,12 @@ describe('AppComponent', () => {
         {
           provide: windowToken,
           useValue: windowMock
+        },
+        Keepalive,
+        ManageSessionServices,
+        {
+          provide: Idle,
+          useValue: mockedServices
         },
       ],
     }).compileComponents();
@@ -111,5 +122,66 @@ describe('AppComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
 
   }));
+
+  it('should dispatchSessionAction dispatich setModal ', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.dispatchSessionAction({type: 'modal', countdown: '0', isVisible: true});
+    fixture.detectChanges();
+    const payload = {
+      session : {
+        countdown: '0',
+        isVisible: true
+      }
+    };
+    expect(store.dispatch).toHaveBeenCalledWith(new SetModal(payload));
+  }));
+
+  it('should dispatchSessionAction dispatich singout', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.dispatchSessionAction({type: 'keepalive'});
+    fixture.detectChanges();
+    expect(store.dispatch).toHaveBeenCalledWith(new KeepAlive());
+  }));
+
+  it('should dispatch a setmodal action', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.dispatchModal('0', true);
+    fixture.detectChanges();
+    const payload = {
+      session : {
+        countdown: '0',
+        isVisible: true
+      }
+    };
+    expect(store.dispatch).toHaveBeenCalledWith(new SetModal(payload));
+
+  }));
+
+  it('should dispatch a onStaySigned', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.onStaySignedIn();
+    fixture.detectChanges();
+    const payload = {
+      session : {
+        isVisible: false
+      }
+    };
+    expect(store.dispatch).toHaveBeenCalledWith(new SetModal(payload));
+
+  }));
+
+  // it('should have modalData$ Observable the app', async(() => {
+  //   const fixture = TestBed.createComponent(AppComponent);
+  //   const app = fixture.componentInstance;
+  //   fixture.detectChanges();
+  //
+  //   const expected = cold('a', { a: { isVisible: false, countdown: '' } });
+  //   expect(app.modalData$).toBeObservable(expected);
+  //
+  // }));
 
 });

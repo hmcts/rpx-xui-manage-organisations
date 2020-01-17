@@ -30,7 +30,7 @@ export const getUserTimeOut = createSelector(
 
 export const getModalSessionData = createSelector(
   authState,
-  (state) => state.modal.session
+  (state) =>  state.modal ? state.modal.session : {}
 );
 // add missing tests
 

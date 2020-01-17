@@ -5,10 +5,16 @@ import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromUserEffects from './user.effects';
 import { UserEffects } from './user.effects';
-import { GetUserDetails, GetUserDetailsFailure, GetUserDetailsSuccess } from '../actions';
+import {GetUserDetails, GetUserDetailsFailure, GetUserDetailsSuccess, SignedOut, SignedOutSuccess} from '../actions';
 import { UserService } from '../../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoggerService } from '../../../shared/services/logger.service';
+import {LogOutKeepAliveService} from '../../../shared/services/keep-alive/keep-alive.services';
+
+const LogOutServiceMock = jasmine.createSpyObj('LogOutKeepAliveService', [
+  'logOut',
+  'heartBeat'
+]);
 
 describe('Fee accounts Effects', () => {
     let actions$;
@@ -31,6 +37,10 @@ describe('Fee accounts Effects', () => {
                 {
                     provide: LoggerService,
                     useValue: mockedLoggerService
+                },
+                {
+                  provide: LogOutKeepAliveService,
+                  useValue: LogOutServiceMock
                 },
                 fromUserEffects.UserEffects,
                 provideMockActions(() => actions$)
@@ -85,6 +95,17 @@ describe('Fee accounts Effects', () => {
             const expected = cold('-b', { b: completion });
             expect(effects.getUserFail$).toBeObservable(expected);
         });
+    });
+
+    describe('sigout', () => {
+      it('should return a sign out sucess', () => {
+        LogOutServiceMock.logOut.and.returnValue(of('something'));
+        const action = new SignedOut();
+        const completion = new SignedOutSuccess();
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+        expect(effects.sigout$).toBeObservable(expected);
+      });
     });
 
 });

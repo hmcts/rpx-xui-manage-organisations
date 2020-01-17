@@ -1,6 +1,7 @@
 import {createSelector} from '@ngrx/store';
 
 import * as fromRoot from '../reducers/';
+import {getAppState} from '../../../app/store/selectors';
 
 export const authState = createSelector(
   fromRoot.getAuthState,
@@ -17,10 +18,21 @@ export const getUsers = createSelector(
   fromRoot.getUser
 );
 
-export const getUserPermissions = createSelector(
+export const getUserIdleTime = createSelector(
   getUsers,
-  (user) => user.roles
+  (user) => (user && user.idleTime) ? user.idleTime : NaN
 );
+
+export const getUserTimeOut = createSelector(
+  getUsers,
+  (user) => (user && user.timeout) ? user.timeout : NaN
+);
+
+export const getModalSessionData = createSelector(
+  authState,
+  (state) => state.modal.session
+);
+// add missing tests
 
 
 export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);

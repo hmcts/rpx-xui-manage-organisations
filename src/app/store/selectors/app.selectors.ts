@@ -56,5 +56,4 @@ export const getUserNav = createSelector(
   (state, routes) => {
     return AppUtils.setSetUserNavItems(state, routes);
   }
-
 );

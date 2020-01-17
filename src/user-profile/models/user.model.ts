@@ -6,6 +6,8 @@ export class UserModel {
   status: string;
   organisationId: string;
   roles: string[];
+  idleTime: number;
+  timeout: number;
   constructor(prop) {
     Object.assign(this, prop);
   }

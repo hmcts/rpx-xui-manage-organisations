@@ -40,7 +40,8 @@ describe('Authorisation Reducer', () => {
             isAuthenticated: true,
             loaded: true,
             loading: false,
-            user: null
+            user: null,
+            modal: {}
         };
 
         expect(fromAuth.isAuthenticated(payload)).toEqual(true);

@@ -10,6 +10,10 @@ export enum AuthActionTypes {
   GET_USER_DETAILS = '[User] Get User Details',
   GET_USER_DETAILS_SUCCESS = '[User] Get User Details Success',
   GET_USER_DETAILS_FAIL = '[User]Get User Details Fail',
+  SET_MODAL = '[APP] Set Modal',
+  SIGNED_OUT = '[APP] Set Modal',
+  KEEP_ALIVE = '[App] Keep Alive',
+  SIGNED_OUT_SUCCESS = '[App] Signed Out Success',
 }
 
 export class LogIn implements Action {
@@ -36,9 +40,31 @@ export class GetUserDetailsFailure implements Action {
   constructor(public payload: HttpErrorResponse) {}
 }
 
+export class SetModal implements Action {
+  readonly type = AuthActionTypes.SET_MODAL;
+  constructor(public payload: {[id: string]: {isVisible?: boolean; countdown?: string}}) { }
+}
+
+export class SignedOut implements Action {
+  readonly type = AuthActionTypes.SIGNED_OUT;
+}
+
+export class SignedOutSuccess implements Action {
+  readonly type = AuthActionTypes.SIGNED_OUT_SUCCESS;
+}
+
+export class KeepAlive implements Action {
+  readonly type = AuthActionTypes.KEEP_ALIVE;
+}
+
+
 export type UserProfileActions =
   | LogIn
   | LogInFailure
   | GetUserDetails
   | GetUserDetailsSuccess
-  | GetUserDetailsFailure;
+  | GetUserDetailsFailure
+  | SetModal
+  | SignedOut
+  | SignedOutSuccess
+  | KeepAlive;

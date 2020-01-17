@@ -8,13 +8,16 @@ import {AuthActionTypes} from '../actions/';
 import {UserInterface} from '../../models/user.model';
 import {HttpErrorResponse} from '@angular/common/http';
 import { LoggerService } from '../../../shared/services/logger.service';
+import * as appActions from '../../../app/store/actions';
+import {LogOutKeepAliveService} from '../../../shared/services/keep-alive/keep-alive.services';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
     private authService: UserService,
-    private loggerService: LoggerService
+    private loggerService: LoggerService,
+    private logOutService: LogOutKeepAliveService,
   ) { }
 
   @Effect()
@@ -49,6 +52,31 @@ export class UserEffects {
         userId: '1'
       };
       return new authActions.GetUserDetailsSuccess(hadCodedUser);
+    })
+  );
+
+  @Effect()
+  sigout$ = this.actions$.pipe(
+    ofType(authActions.AuthActionTypes.SIGNED_OUT),
+    switchMap(() => {
+      return this.logOutService.logOut().pipe(
+        map(() => new authActions.SignedOutSuccess())
+      );
+    })
+  );
+
+  @Effect()
+  signedOutSuccess$ = this.actions$.pipe(
+    ofType(authActions.AuthActionTypes.SIGNED_OUT_SUCCESS),
+    map(() => new appActions.Go({path: ['/signed-out']}))
+  );
+
+  @Effect({ dispatch: false})
+  keepAlive$ = this.actions$.pipe(
+    ofType(authActions.AuthActionTypes.KEEP_ALIVE),
+    switchMap((date) => {
+      return this.logOutService.heartBeat()
+        ;
     })
   );
 

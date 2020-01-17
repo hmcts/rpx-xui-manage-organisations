@@ -6,6 +6,16 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/app.selectors';
 
+
+const appConfigLoaded = {
+  modal: {
+    session: {
+      isVisible: false,
+      countdown: ''
+    }
+  }
+};
+
 describe('App Selectors', () => {
   let store: Store<fromReducers.State>;
 
@@ -75,4 +85,6 @@ describe('App Selectors', () => {
 
     });
   });
+
+
 });

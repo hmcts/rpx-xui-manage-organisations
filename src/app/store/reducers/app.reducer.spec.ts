@@ -93,4 +93,15 @@ describe('AppReducer', () => {
 
       expect(state.jurisdictions).toEqual([{id: 'Jurisdiction1'}]);
     });
+
+    describe('SET_MODAL action', () => {
+      it('should reset to init', () => {
+        const { initialState } = fromApp;
+        const payload = {session: {isVisible: false}}
+        const action = new fromAppActions.SetModal(payload);
+        const state = fromApp.reducer(initialState, action);
+
+        expect(state.modal).toEqual(payload);
+      });
+    });
 });

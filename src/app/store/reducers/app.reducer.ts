@@ -11,6 +11,7 @@ export interface AppState {
   userNav: UserNavModel;
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
+  modal: {[id: string]: {isVisible?: boolean; countdown?: string}};
 }
 
 export const initialState: AppState = {
@@ -19,7 +20,13 @@ export const initialState: AppState = {
   userNav: AppConstants.USER_NAV,
   navItems: [],
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
-  jurisdictions: []
+  jurisdictions: [],
+  modal: {
+    session: {
+      isVisible: false,
+      countdown: ''
+    }
+  },
 };
 
 export function reducer(
@@ -74,6 +81,13 @@ export function reducer(
       return {
         ...state,
         ...initialState
+      };
+    }
+
+    case fromAction.SET_MODAL: {
+      return {
+        ...state,
+        modal: {...action.payload}
       };
     }
   }

@@ -39,6 +39,7 @@ import { JurisdictionService } from 'src/users/services';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -67,7 +68,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule.forRoot({launchDarklyKey: ''})
+    ExuiCommonLibModule.forRoot({launchDarklyKey: ''}),
+    NgIdleKeepaliveModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

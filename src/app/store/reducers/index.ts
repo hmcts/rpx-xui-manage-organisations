@@ -34,7 +34,7 @@ export const getRootAppState = createFeatureSelector<fromApp.AppState>(
 
 export const getRouterUrl = createSelector(
   getRouterState,
-  state => state.state.url
+  state => state ? state.state.url : null
 );
 
 export class CustomSerializer

@@ -42,9 +42,10 @@ export function reducer(
     }
 
     case AuthActionTypes.SET_MODAL: {
+      const modal = action.payload
       return {
         ...state,
-        // modal: {...action.payload}
+        modal
       };
     }
   }

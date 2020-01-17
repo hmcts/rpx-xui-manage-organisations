@@ -11,7 +11,7 @@ export enum AuthActionTypes {
   GET_USER_DETAILS_SUCCESS = '[User] Get User Details Success',
   GET_USER_DETAILS_FAIL = '[User]Get User Details Fail',
   SET_MODAL = '[APP] Set Modal',
-  SIGNED_OUT = '[APP] Set Modal',
+  SIGNED_OUT = '[App] Signed Out',
   KEEP_ALIVE = '[App] Keep Alive',
   SIGNED_OUT_SUCCESS = '[App] Signed Out Success',
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class LogOutKeepAliveService {
@@ -11,6 +11,7 @@ export class LogOutKeepAliveService {
   }
 
   heartBeat(): Observable<any> {
-    return this.http.get('auth/keepalive');
+    return of('somethig')
+    // return this.http.get('auth/keepalive');
   }
 }

@@ -10,6 +10,7 @@ import { JurisdictionService } from '../../../users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { LogOutKeepAliveService } from '../../../shared/services/keep-alive/keep-alive.services';
 
 @Injectable()
 export class AppEffects {
@@ -17,7 +18,8 @@ export class AppEffects {
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
     private autGuard: AuthGuard,
-    private loggerService: LoggerService
+    private loggerService: LoggerService,
+    private logOutService: LogOutKeepAliveService,
   ) { }
 
   @Effect()
@@ -58,6 +60,31 @@ export class AppEffects {
           return of(new appActions.LoadJurisdictionsFail(error));
         })
       );
+    })
+  );
+
+  @Effect()
+  sigout$ = this.actions$.pipe(
+    ofType(appActions.SIGNED_OUT),
+    switchMap(() => {
+      return this.logOutService.logOut().pipe(
+        map(() => new appActions.SignedOutSuccess())
+      );
+    })
+  );
+
+  @Effect()
+  signedOutSuccess$ = this.actions$.pipe(
+    ofType(appActions.SIGNED_OUT_SUCCESS),
+    map(() => new appActions.Go({path: ['/signed-out']}))
+  );
+
+  @Effect({ dispatch: false})
+  keepAlive$ = this.actions$.pipe(
+    ofType(appActions.KEEP_ALIVE),
+    switchMap((date) => {
+      return this.logOutService.heartBeat()
+        ;
     })
   );
 

@@ -7,6 +7,11 @@ export const LOAD_JURISDICTIONS_GLOBAL = '[Invite User] Load Jurisdictions Globa
 export const LOAD_JURISDICTIONS_GLOBAL_SUCCESS = '[Invite User] Load Jurisdictions Global Success';
 export const LOAD_JURISDICTIONS_GLOBAL_FAIL = '[Invite User] Load Jurisdictions Global Fail';
 
+export const SIGNED_OUT = '[App] Signed Out'; // used by session management
+export const SIGNED_OUT_SUCCESS = '[App] Signed Out Success'; // used by session management
+export const KEEP_ALIVE = '[App] Keep Alive';
+export const SET_MODAL = '[APP] Set Modal';
+
 export const LOGOUT = '[App] Logout';
 
 export class SetPageTitle implements Action {
@@ -42,6 +47,22 @@ export class LoadJurisdictionsFail {
   constructor(public payload: any) { }
 }
 
+export class SignedOut implements Action {
+  readonly type = SIGNED_OUT;
+}
+
+export class SignedOutSuccess implements Action {
+  readonly type = SIGNED_OUT_SUCCESS;
+}
+
+export class KeepAlive implements Action {
+  readonly type = KEEP_ALIVE;
+}
+
+export class SetModal implements Action {
+  readonly type = SET_MODAL;
+  constructor(public payload: {[id: string]: {isVisible?: boolean; countdown?: string}}) { }
+}
 
 export type appActions =
   | LoadJurisdictions
@@ -50,4 +71,8 @@ export type appActions =
   | SetPageTitle
   | SetPageTitleErrors
   | Logout
-  | SetUserRoles;
+  | SetUserRoles
+  | SignedOut
+  | SignedOutSuccess
+  | KeepAlive
+  | SetModal;

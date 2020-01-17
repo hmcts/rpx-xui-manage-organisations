@@ -39,4 +39,20 @@ describe('App actions', () => {
       });
     });
   });
+
+  describe('Sign Out ', () => {
+    it('should have sign out action', () => {
+      const action = new fromAppActions.SignedOut();
+      expect({ ...action }).toEqual({
+        type: fromAppActions.SIGNED_OUT,
+      });
+    });
+
+    it('should have sign out success action', () => {
+      const action = new fromAppActions.SignedOutSuccess();
+      expect({ ...action }).toEqual({
+        type: fromAppActions.SIGNED_OUT_SUCCESS,
+      });
+    });
+  });
 });

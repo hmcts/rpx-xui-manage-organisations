@@ -1,5 +1,4 @@
-
-@all
+@end2end
 Feature: End to End Create approve and manager org
 
     Background:
@@ -9,7 +8,7 @@ Feature: End to End Create approve and manager org
         When I navigate to EUI Manage Organisation Url
         Then I land on register organisation page and continue
 
-    @all @crossbrowse @test
+
     Scenario:register organization
         When I am on page "What's the name of your organisation?" in registration step
         Then I Enter the Organization name

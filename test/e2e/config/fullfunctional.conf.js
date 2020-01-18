@@ -2,36 +2,10 @@ const chai            = require('chai');
 const chaiAsPromised  = require('chai-as-promised');
 const minimist        = require('minimist');
 var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
-
+var  {localConfig,jenkinsConfig} = require('./common.conf');
 chai.use(chaiAsPromised);
 
 const argv = minimist(process.argv.slice(2));
-
-const jenkinsConfig = [
-
-  {
-    browserName: 'chrome',
-    acceptInsecureCerts: true,
-    nogui: true,
-    unexpectedAlertBehaviour: 'accept',
-    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications'] }
-  }
-];
-
-const localConfig = [
-  {
-    browserName: 'chrome',
-    acceptInsecureCerts: true,
-    unexpectedAlertBehaviour: 'accept',
-    chromeOptions: { args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications'] },
-    proxy: {
-      proxyType: 'manual',
-      httpProxy: 'proxyout.reform.hmcts.net:8080',
-      sslProxy: 'proxyout.reform.hmcts.net:8080',
-      noProxy: 'localhost:3000'
-    }
-  }
-];
 
 const cap = (argv.local) ? localConfig : jenkinsConfig;
 
@@ -69,7 +43,7 @@ const config = {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-    tags: ['@all'],
+    tags: ['@all or @smoke or @fullFunctional'],
     require: [
       '../support/timeout.js',
       '../support/world.js',

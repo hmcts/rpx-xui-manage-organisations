@@ -3,7 +3,7 @@
 let CreateOrganisationObjects = require('../pageObjects/createOrganisationObjects');
 const { defineSupportCode } = require('cucumber');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-const config = require('../../config/conf.js');
+const {config} = require('../../config/common.conf.js');
 const EC = protractor.ExpectedConditions;
 
 async function waitForElement(el) {

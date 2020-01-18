@@ -1,4 +1,4 @@
-@all
+
 Feature: invite user workflow
 
   Background:
@@ -10,13 +10,13 @@ Feature: invite user workflow
     When I click on invite user button
     Then I should be on display invite user page
 
- @crossbrowser
+ @crossbrowser @ll
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
    
    
-  @crossbrowser
+  @crossbrowser @all
   Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       |Permission|
@@ -72,7 +72,7 @@ Feature: invite user workflow
       | NavigationTab |
       | Users         |
 
-  @fullFunctional 
+  @fullFunctional  
   Scenario: invite user validation workflow
     When I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then I should be display the validation error

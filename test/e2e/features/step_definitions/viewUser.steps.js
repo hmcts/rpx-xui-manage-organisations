@@ -3,7 +3,6 @@ let HeaderPage = require('../pageObjects/headerPage');
 const loginPage = require('../pageObjects/loginLogoutObjects');
 
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
 var {defineSupportCode} = require('cucumber');

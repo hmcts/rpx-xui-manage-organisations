@@ -1,5 +1,4 @@
 
-@all
 Feature: register organization
 
   Background:

@@ -6,16 +6,18 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
-import { JurisdictionService } from 'src/users/services';
+import { JurisdictionService } from '../../../users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private jurisdictionService: JurisdictionService,
-    private autGuard: AuthGuard
+    private autGuard: AuthGuard,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -51,7 +53,10 @@ export class AppEffects {
     switchMap(() => {
       return this.jurisdictionService.getJurisdictions().pipe(
         map(jurisdictions => new appActions.LoadJurisdictionsSuccess(jurisdictions)),
-        catchError(error => of(new appActions.LoadJurisdictionsFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new appActions.LoadJurisdictionsFail(error));
+        })
       );
     })
   );

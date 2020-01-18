@@ -5,7 +5,7 @@ import * as singleFeeAccountActions from '../actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FeeAccountsService} from '../../services';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 
 
@@ -28,7 +28,10 @@ export class SingleFeeAccountEffects {
           return new singleFeeAccountActions.LoadSingleFeeAccountSuccess(singleFeeAccountDetails);
 
         }),
-        catchError(error => of(new singleFeeAccountActions.LoadSingleFeeAccountFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new singleFeeAccountActions.LoadSingleFeeAccountFail(error));
+        })
       );
     })
   );
@@ -44,7 +47,10 @@ export class SingleFeeAccountEffects {
           return new singleFeeAccountActions.LoadSingleFeeAccountTransactionsSuccess(transactions);
 
         }),
-        catchError(error => of(new singleFeeAccountActions.LoadSingleFeeAccountTransactionsFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new singleFeeAccountActions.LoadSingleFeeAccountTransactionsFail(error));
+        })
       );
     })
   );

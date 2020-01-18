@@ -1,6 +1,7 @@
 const common = require('./support/common.conf');
 const localConfig = require('./support/local.conf')
 const jenkinsConfig = require('./support/jenkins.conf')
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 const cap = (common.argv.local) ? localConfig : jenkinsConfig;
 
@@ -25,6 +26,9 @@ const config = {
         global.expect = common.chai.expect;
         global.assert = common.chai.assert;
         global.should = common.chai.should;
+        global.screenShotUtils = new screenShotUtils({
+            browserInstance: browser
+        });
     },
 
     cucumberOpts: {

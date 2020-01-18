@@ -95,12 +95,23 @@ const { Given, When, Then } = require('cucumber');
 defineSupportCode(({ After }) => {
     After(function(scenario, done) {
         const world = this;
-        if (scenario.result.status === 'failed') {
-            browser.takeScreenshot().then(stream => {
+        if (scenario.result.status !== 'failed1') {
+            console.log("After scenario : " + scenario.result.status);
+            browser.takeScreenshot()
+            .then(stream => {
                 const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
                 world.attach(decodedImage, 'image/png');
             })
-                .then(() => {
+            .then(async () => {
+                    let errorSummaryOnPage = element(by.css(".error-summary"));
+                    let isErrorMessageDisplayed = await errorSummaryOnPage.isPresent();
+                    if (isErrorMessageDisplayed) {
+                        let errorSummary = await errorSummaryOnPage.getText();
+                        world.attach("Error Summary Displayed : " + errorSummary);
+
+                    } else {
+                        world.attach("Error summary empty or not displayed : ");
+                    }
                     done();
                 });
         } else {

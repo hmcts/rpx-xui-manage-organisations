@@ -10,8 +10,7 @@ TextField = require('../pageObjects/webdriver-components/textField.js');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-const MailinatorService = require('../pageObjects/mailinatorService');
-let mailinatorService = new MailinatorService();
+const mailinatorService = require('../pageObjects/mailinatorService');
 
 var { defineSupportCode } = require('cucumber');
 
@@ -25,11 +24,9 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
 
     let headerPage = new HeaderPage();
 
-    Then('I should see navigation tab in header', async function (dataTable) {
-        let tabs = dataTable.hashes();
-        for(let tabCounter = 0; tabCounter < tabs.length; tabCounter++){
-            expect(await headerPage.isHeaderTabPresent(tabs.NavigationTab)).to.be.true;
-        }
+    Then('I should see navigation tab in header', async function (dataTable) { 
+        await headerPage.waitForPrimaryNavigationToDisplay();
+        await headerPage.validateNavigationTabDisplayed(dataTable);
     });
 
 });

@@ -52,12 +52,12 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the PBA1 and PBA2 details$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the PBA1 and PBA2 details$/, async function () {
     await waitForElement('govuk-heading-xl');
-    await expect(createOrganisationObject.PBAnumber1.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.enterPBANumber());
-    await expect(createOrganisationObject.PBAnumber2.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.enterPBA2Number());
+    await createOrganisationObject.PBAnumber1.isDisplayed();
+    await createOrganisationObject.enterPBANumber();
+    await createOrganisationObject.PBAnumber2.isDisplayed();
+    await createOrganisationObject.enterPBA2Number();
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
   });
@@ -65,9 +65,9 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function () {
     await createOrganisationObject.clickDXreferenceCheck();
     // browser.sleep(MID_DELAY);
-    await expect(createOrganisationObject.DXNumber.isDisplayed()).to.eventually.be.true;
+    await createOrganisationObject.DXNumber.isDisplayed();
     await createOrganisationObject.enterDXNumber();
-    await expect(createOrganisationObject.DXexchange.isDisplayed()).to.eventually.be.true;
+    await createOrganisationObject.DXexchange.isDisplayed();
     await createOrganisationObject.enterDXENumber();
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
@@ -88,9 +88,9 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I Enter the firstName and lastName$/, { timeout: 600 * 1000 }, async function () {
     await waitForElement('govuk-heading-xl');
-    await expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
+    expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.firstName.sendKeys("Mario");
-    await expect(createOrganisationObject.lastName.isDisplayed()).to.eventually.be.true;
+    expect(createOrganisationObject.lastName.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.lastName.sendKeys("Perta");
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
@@ -99,8 +99,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I Enter the Email Address$/, { timeout: 600 * 1000 }, async function () {
     // await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.emailAddr.isDisplayed()).to.eventually.be.true;
-    await createOrganisationObject.enterEmailAddress();
+
+    global.latestOrgSuperUser = Math.random().toString(36).substring(2) + "@mailinator.com";
+    global.latestOrgSuperUserPassword = "Monday01";
+
+    await createOrganisationObject.enterEmailAddress(global.latestOrgSuperUser);
     await createOrganisationObject.continue_button.click();
+
+    
     // browser.sleep(MID_DELAY);
   });
 
@@ -163,15 +169,15 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^I am not entered SRA number$/, async function () {
     await createOrganisationObject.clickSRAreferenceCheck();
-    await expect(createOrganisationObject.SRANumber.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.SRANumber.sendKeys());
+    await createOrganisationObject.waitForPage("Enter your organisation SRA ID");
+    await createOrganisationObject.SRANumber.sendKeys();
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
   });
 
   Then(/^I should be display SRA error$/, async function () {
-    await expect(createOrganisationObject.sra_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.sra_error_heading.getText())
+    await createOrganisationObject.waitForPage("Enter your organisation SRA ID");
+      await expect(createOrganisationObject.sra_error_heading.getText())
       .to
       .eventually
       .equal('There is a problem');
@@ -196,8 +202,8 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^I Enter the invalid PBA1 and PBA2 details$/,  async function () {
     await expect(createOrganisationObject.PBAnumber1.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.PBAnumber1.sendKeys(1234455558));
-    await expect(createOrganisationObject.PBAnumber2.sendKeys(1233334988));
+    await createOrganisationObject.PBAnumber1.sendKeys(1234455558);
+    await createOrganisationObject.PBAnumber2.sendKeys(1233334988);
     await createOrganisationObject.continue_button.click();
     // browser.sleep(LONG_DELAY);
   });
@@ -229,6 +235,6 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When('I am on page {string} in registration step', async function (page) {
-    createOrganisationObject.waitForPage(page);
+    await createOrganisationObject.waitForPage(page);
   });
 });

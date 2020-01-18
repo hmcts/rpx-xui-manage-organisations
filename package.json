@@ -124,6 +124,7 @@
     "protractor": "~5.4.0",
     "protractor-cucumber-framework": "6.1.1",
     "protractor-multiple-cucumber-html-reporter-plugin": "1.8.0",
+    "protractor-screenshot-utils": "^1.0.5",
     "rest-assured": "^0.1.0",
     "should": "13.2.3",
     "sinon": "^7.2.3",

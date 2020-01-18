@@ -1,4 +1,4 @@
-@fullFunctional
+@fullFunctional @all
 Feature: view organisation workflow
   Scenario: view organisation workflow
     When I navigate to manage organisation Url

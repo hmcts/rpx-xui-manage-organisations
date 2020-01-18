@@ -20,7 +20,7 @@ class CreateOrganisationObjects {
     this.postcode = element(by.css("[id='postcode']"));
     this.PBAnumber1 = element(by.css("#PBAnumber1"));
     this.PBAnumber2 = element(by.css("#PBAnumber2"));
-    this.DXreference = element(by.css("[id='haveDxyes']"));
+    this.DXreference = element(by.css("input[id='haveDxyes']"));
     this.DXNumber = element(by.css("[id='DXnumber']"));
     this.DXContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
     this.DXexchange = element(by.css("[id='DXexchange']"));
@@ -39,7 +39,7 @@ class CreateOrganisationObjects {
     this.sra_error_heading = element(by.css("#error-summary-title"));
     this.email_error_heading = element(by.css("#error-summary-title"));
 
-    this.checkYourAnswers = element(by.css("govuk-check-your-answers"));
+    this.checkYourAnswers = element(by.css(".govuk-check-your-answers"));
 
     this.registrationDetailsSubmitted = element(by.xpath("//h1[contains(text() ,'Registration details submitted')]"));
   }
@@ -97,49 +97,53 @@ class CreateOrganisationObjects {
 
   async enterOrgName() {
     BrowserWaits.waitForElement(this.org_name);
-    var orgName =Math.random().toString(36).substring(2);
+    var orgName ="AutoTest"+Math.random().toString(36).substring(2);
       //Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    global.latestOrgCreated = orgName;
     await this.org_name.sendKeys(orgName);
 
+    await browser.sleep(5000);
+
   }
-  async enterEmailAddress() {
+  async enterEmailAddress(email) {
     BrowserWaits.waitForElement(this.emailAddr);
-    var emailAddress =Math.random().toString(36).substring(2);
-    await this.emailAddr.sendKeys(emailAddress+"@gmail.com");
+    // var emailAddress =Math.random().toString(36).substring(2)+"@mailinator.com";
+    await this.emailAddr.sendKeys(email);
 
   }
 
   async waitForPage(page){
     switch(page){
       case "What's the name of your organisation?":
-        BrowserWaits.waitForElement(this.org_name);
+        await BrowserWaits.waitForElement(this.org_name);
       break;
       case "What's the address of your main office?":
-        BrowserWaits.waitForElement(this.officeAddressOne);
+        await BrowserWaits.waitForElement(this.officeAddressOne);
       break;
       case "What's your payment by account (PBA) number for your organisation?":
-        BrowserWaits.waitForElement(this.PBAnumber1);
+        await BrowserWaits.waitForElement(this.PBAnumber1);
       break;
       case "Do you have a DX reference for your main office?":
-        BrowserWaits.waitForElement(this.DXreference);
+     
+        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a DX reference for your main office')]")));
       break;
       case "What's the DX reference for your main office?":
-        BrowserWaits.waitForElement(this.DXNumber);
+        await BrowserWaits.waitForElement(this.DXNumber);
       break;
       case "Do you have an organisation SRA ID?":
-        BrowserWaits.waitForElement(this.SRACheckBox);
+        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have an organisation SRA ID')]")));
         break;
       case "Enter your organisation SRA ID":
-        BrowserWaits.waitForElement(this.SRANumber);
+        await BrowserWaits.waitForElement(this.SRANumber);
       break;
       case "What's your name?":
-        BrowserWaits.waitForElement(this.lastName);
+        await BrowserWaits.waitForElement(this.lastName);
       break;
       case "What's your email address?":
-        BrowserWaits.waitForElement(this.emailAddress);
+        await BrowserWaits.waitForElement(this.emailAddress);
         break;
       case "Check your answers before you register":
-        BrowserWaits.waitForElement(this.checkYourAnswers);
+        await BrowserWaits.waitForElement(this.checkYourAnswers);
       break;
     }
   }

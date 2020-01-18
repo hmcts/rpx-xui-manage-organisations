@@ -1,4 +1,4 @@
-
+@all
 Feature: invite user workflow
 
   Background:
@@ -17,36 +17,60 @@ Feature: invite user workflow
    
    
   @crossbrowser
-  Scenario: Login with invited user
+  Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       |Permission|
       |Manage Users|
       | Manage Organisation |
-      | Manage fee accounts |
+      # | Manage fee accounts |
     Then user should be created successfuly
     When I activate invited user 
+    When I click on user button
+    Then I should be on display the user details
+    Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
     Then I should be redirected to manage organisation dashboard page
     Then I should see navigation tab in header
       | NavigationTab|
-      |Orgnisation|
+      |Organisation|
       |Users|
 
-  @crossbrowser @test
-  Scenario: Login with invited user
+  @crossbrowser
+  Scenario: Invite user with Mnage Org permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
       | Manage Organisation |
-      | Manage fee accounts |
+      # | Manage fee accounts |
     Then user should be created successfuly
     When I activate invited user
+    When I click on user button
+    Then I should be on display the user details
+    Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
     Then I should be redirected to manage organisation dashboard page
     Then I should see navigation tab in header
       | NavigationTab |
-      | Orgnisation   |
+      | Organisation   |
+
+  @crossbrowser
+  Scenario: invited use with Manage Users permission
+    When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
+      | Permission          |
+      | Manage Users        |
+    # | Manage fee accounts |
+    Then user should be created successfuly
+    When I activate invited user
+    When I click on user button
+    Then I should be on display the user details
+    Then I should see invited user is listed in users table
+    Then I select the sign out link
+    Then I login with latest invited user
+    Then I should be redirected to manage organisation dashboard page
+    Then I should see navigation tab in header
+      | NavigationTab |
+      | Users         |
 
   @fullFunctional 
   Scenario: invite user validation workflow

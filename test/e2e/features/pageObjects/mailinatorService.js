@@ -3,22 +3,32 @@
 var EC = protractor.ExpectedConditions;
 
 class MailinatorService{
-
     constructor(){
         this.currentInboxLabel = "#inbox_page_title .title_left:nth-of-type(3) .top_search";
-        this.latestEmailRowCssSelector = ".x_panel .x_content tbody tr:nth-of-type(1)"
-
+        this.latestEmailRowCssSelector = ".x_panel .x_content tbody tr:nth-of-type(1) td:nth-of-type(3)"
         this.activationEmaillinkCSsSelector = ".content tr:nth-of-type(2) td:nth-of-type(2) a:nth-of-type(1)";
+
+        this.latestLoginVerificationEmail = "//div[@class = 'table-responsive'][1]//tbody//tr[1]//*[contains(text(),'verification code')]";
+
     }
 
     async init(){
-        this.mailinatorbrowser = await  browser.forkNewDriverInstance().ready; 
+        if (!this.mailinatorbrowser){
+            this.mailinatorbrowser = await browser.forkNewDriverInstance().ready;
+        }
+        
         this.mailinatorbrowser.ignoreSynchronization = true;
         this.mailinatorElement = this.mailinatorbrowser.element;
         await this.mailinatorbrowser.waitForAngularEnabled(false);
-        await this.mailinatorbrowser.get("https://www.mailinator.com/v3/index.jsp?zone=public&query=exuitest#/#inboxpane");
-    }
 
+
+        this.mailinatorbrowser.driver.executeScript('alert = function(){};');
+        this.mailinatorbrowser.driver.executeScript('confirm = function(){};');
+
+
+        await this.mailinatorbrowser.get("https://www.mailinator.com/v3/index.jsp?zone=public&query=exuitest#/#inboxpane")
+
+    }
 
     async gotToInbox(useremail){
         let emailFieldElement = this.mailinatorElement(by.css('#inbox_field'));
@@ -51,25 +61,33 @@ class MailinatorService{
         console.log("In inbox "+useremail);
     }
 
-    async openRegistrationEmailForUser(useremail){
+
+
+    async openEmailForUser(useremail,emailElement){
         await this.gotToInbox(useremail);
         let timer = 15;
-        let latestEmailElement = this.mailinatorElement(by.css(this.latestEmailRowCssSelector));
+        let latestEmailElement = emailElement;
         let isEmailPresent = await latestEmailElement.isPresent();
+
         while (!isEmailPresent  && timer > 0){
-            browser.sleep(1000);
-            isEmailPresent = await this.mailinatorElement(by.css(this.latestEmailRowCssSelector)).isPresent();
+
+            await browser.sleep(1000);
+            isEmailPresent = await latestEmailElement.isPresent();
             timer = timer - 1; 
 
             console.log("email not received : "+timer);
        } 
         if (!isEmailPresent){
-            throw new Error("No email received :"+useremail);
+            throw new Error("No email received :" + useremail + emailElement);
        }
-        await latestEmailElement.element(by.css("td:nth-of-type(4) a")).click();
+        let latestEmailEle = this.mailinatorElement(by.css(this.latestEmailRowCssSelector));
+        await latestEmailEle.click();
+ 
+
     }
 
     async completeUserRegistrationFromEmail(){
+    
         await this.mailinatorbrowser.switchTo().frame(this.mailinatorElement(by.css("#msg_body")).getWebElement());
         let activationLinkEle = this.mailinatorElement(by.css(this.activationEmaillinkCSsSelector));
         await this.mailinatorbrowser.wait(EC.presenceOf(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
@@ -90,10 +108,36 @@ class MailinatorService{
 
     }
 
+    async openRegistrationEmailForUser(email){
+        await this.openEmailForUser(email, this.mailinatorElement(by.css(this.latestEmailRowCssSelector)));
+    }
+
+    async getLoginVerificationEmailCode(email) {
+        await this.openEmailForUser(email, this.mailinatorElement(by.xpath(this.latestLoginVerificationEmail)));
+        this.mailinatorbrowser.sleep(5000);
+        let messageBody = this.mailinatorElement(by.css("#msg_body"));
+        await this.mailinatorbrowser.wait(EC.presenceOf(messageBody), this.waitTime, "Error : " + messageBody.locator().toString());
+
+        await this.mailinatorbrowser.switchTo().frame(messageBody.getWebElement());
+        console.log(await this.mailinatorElement(by.css("body")).getText());
+       let verificationCode = await this.mailinatorElement(by.css("tbody tr td p:nth-of-type(3)")).getText();
+       
+        // await this.mailinatorbrowser.switchTo().frame(this.mailinatorElement(by.css("#msg_body")).getWebElement());
+        return verificationCode;
+
+    }
+
 
 
 }
 
-module.exports =  MailinatorService;
+const mailinatorService = new MailinatorService(); 
+mailinatorService.init().then(() => {
+    console.log("*************************************************************************");
+    console.log("***************  Browser  Mailinator Service Started ********************");
+    console.log("*************************************************************************");
+
+});
+module.exports = mailinatorService;
 
 

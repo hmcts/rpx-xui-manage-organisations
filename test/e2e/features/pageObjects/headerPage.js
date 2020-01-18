@@ -8,6 +8,8 @@ class HeaderPage {
   constructor() {
     this.moPage = element(by.xpath("//a[contains(text(),'Manage Organisation details for civil and family law cases')]"));
 
+    this.hmctsPrimaryNavigation = element(by.css(".hmcts-primary-navigation"));
+
     this.organisation = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Organisation']"));
     this.user = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Users']"));
     this.feeAccounts = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Fee Accounts']"));
@@ -20,8 +22,24 @@ class HeaderPage {
     this.spinner = element(by.css(".spinner-wrapper"));
   }
 
+  async waitForPrimaryNavigationToDisplay(){
+    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation);
+ 
+  }
+
   async isHeaderTabPresent(displayText){
     return await element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + displayText+"']")).isPresent();
+  }
+
+  async validateNavigationTabDisplayed(datatable){
+    let navTabs = datatable.hashes();
+
+    console.log("bavigation tab databale : "+JSON.stringify(navTabs));
+
+    for(let tabCounter = 0; tabCounter < navTabs.length; tabCounter++){
+      let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab); 
+      assert(isNavTabPresent, "Navigation Tab is not displayed/present : " + navTabs[tabCounter].NavigationTab);
+    }
   }
 
   async clickUser(){

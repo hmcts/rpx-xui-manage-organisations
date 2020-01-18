@@ -10,8 +10,8 @@ TextField = require('../pageObjects/webdriver-components/textField.js');
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-const MailinatorService = require('../pageObjects/mailinatorService');
-let mailinatorService = new MailinatorService();
+const mailinatorService = require('../pageObjects/mailinatorService');
+
 
 var { defineSupportCode } = require('cucumber');
 
@@ -56,8 +56,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   });
   Then(/^user should be created successfuly$/, async function () {
-    browser.sleep(LONG_DELAY);
-    expect(await new InviteUserPage().amOnUserConfirmationPage()).to.be.true;
+    expect(await inviteUserPage.amOnUserConfirmationPage()).to.be.true;
 
   });
 
@@ -108,7 +107,6 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   Then("I activate invited user", async function () {
-    await mailinatorService.init();
     await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
     await mailinatorService.completeUserRegistrationFromEmail();
   });

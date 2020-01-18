@@ -39,7 +39,7 @@ class InviteUserPage{
 
     }
     isSelected = await element(permisssionCheckboxXpath).isSelected();
-    console.log(isSelected)
+    assert(isSelected === isSelect, permission + " selection status is not  " + isSelect );  
   }
   /**
    * Enter random text into the Text field
@@ -84,6 +84,8 @@ class InviteUserPage{
   }
 
   async amOnUserConfirmationPage(){
+    await BrowserWaits.waitForElement(element(by.css(".govuk-panel.govuk-panel--confirmation")));
+
     let header = await this.getPageHeader();
     return header === "You've invited";
   }

@@ -6,10 +6,13 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 const config = require('../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
+const mailinatorService = require('../pageObjects/mailinatorService');
+
+
 async function waitForElement(el) {
   await browser.wait(result => {
     return element(by.className(el)).isPresent();
-  }, 600000);
+  }, 40000);
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
@@ -96,8 +99,8 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
     // browser.sleep(LONG_DELAY);
     await waitForElement('hmcts-header__link');
-    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.dashboard_header.getText())
+    expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil and family law cases');
@@ -125,6 +128,23 @@ defineSupportCode(function ({ Given, When, Then }) {
     await loginPage.emailAddress.sendKeys(this.config.username);
     await loginPage.password.sendKeys(this.config.password);
     await loginPage.clickSignIn();
+    // browser.sleep(LONG_DELAY);
+  });
+
+  Given("I am logged in to created approve organisation", async function () {
+    // browser.sleep(LONG_DELAY);
+    await loginPage.emailAddress.sendKeys(global.latestOrgSuperUser);
+    await loginPage.password.sendKeys("Monday01");
+    await loginPage.clickSignIn();
+
+    browser.wait(async () => { return !(await loginPage.emailAddress.isPresent())},30000);
+
+    let verificationCodeInput = element(by.css("#code"));
+    if (await verificationCodeInput.isPresent()){
+      let loginVerificationCode = await mailinatorService.getLoginVerificationEmailCode(global.latestOrgSuperUser);
+      await verificationCodeInput.sendKeys(loginVerificationCode); 
+      await element(by.css(".button[type = 'submit']")).click(); 
+    }
     // browser.sleep(LONG_DELAY);
   });
 

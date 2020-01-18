@@ -9,8 +9,8 @@ class BrowserWaits {
         this.pageErrors = $$(".error-summary");
     }
 
-    async waitForElement(element) {
-        await browser.wait(EC.visibilityOf(element), this.waitTime, "Error : " + element.locator().toString());
+    async waitForElement(waitelement) {
+        await browser.wait(EC.visibilityOf(waitelement), this.waitTime, "Error : " + waitelement.locator().toString());
     }
 
     async waitForElementNotVisible(element) {

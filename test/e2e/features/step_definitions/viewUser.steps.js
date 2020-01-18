@@ -25,4 +25,13 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     expect(await viewUserPage.amOnPage()).to.be.true;
     // browser.sleep(LONG_DELAY);
   });
+
+  Then("I should see invited user is listed in users table", async function () {
+    await viewUserPage.validateUserWithEmailListed(global.latestInvitedUser);
+  });
+
+  Then("I should see all user details displayed in table", async function () {
+    await viewUserPage.validateUsersTableDisplaysAllDetails();
+  });
+
 });

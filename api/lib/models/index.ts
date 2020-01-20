@@ -6,25 +6,18 @@ export interface JurisdictionObject {
     filter: string
     jur: string
 }
+
 export interface EnhancedRequest extends express.Request {
-    auth?: {
-        roles: string
-        token: string
-        userId: string
-        expires: number
-        email: string
-    }
-    session?: {
-        save?: any
-        auth?: {
-            orgId: string
-            email?: string
-            roles?: string
-            token?: string
-            userId?: string
-        }
-        user?
-    }
+  auth?: {
+    roles: string[]
+    token: string
+    userId: string
+    expires: number
+  }
+  body,
+  headers
+  session?
+  url: string
 }
 
 export interface Token {

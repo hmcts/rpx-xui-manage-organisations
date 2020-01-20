@@ -146,7 +146,7 @@ export function authCallbackSuccess(req: Request, res: Response) {
 }
 
 router.get('/logout', (req: Request, res: Response) => {
-    doLogout(req, res)
+    doLogout(req, res)x
 })
 
 router.get('/login', passport.authenticate('oidc'))

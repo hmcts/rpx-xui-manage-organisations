@@ -16,10 +16,10 @@ import routes from './routes'
 /**
  * Used Server side
  */
-import serviceRouter from './services/serviceAuth'
 import * as ejs from 'ejs'
 import * as path from 'path'
 import * as tunnel from './lib/tunnel'
+import serviceRouter from './services/serviceAuth'
 
 const FileStore = sessionFileStore(session)
 
@@ -80,7 +80,7 @@ app.use(serviceRouter)
  *
  * Any routes here do not have authentication attached and are therefore reachable.
  */
-app.get('/oauth2/callback', auth.oauth)
+// app.get('/oauth2/callback', auth.oauth)
 app.get('/external/ping', (req, res) => {
   console.log('Pong')
   res.send('Pong')

@@ -16,8 +16,7 @@ function handleUserRoute(req, res) {
     special: isProd ? 20 * 60 * 1000 :  60 * 1000, // 20 min
   }
 
-  // const userRoles: string[] = req.session.passport.user.userinfo.roles
-  const userRoles: string[] = req.session.auth.roles
+  const userRoles: string[] = req.session.passport.user.userinfo.roles
 
   const isDwpOrHomeOffice: boolean = (
     userRoles.includes('caseworker-sscs-dwpresponsewriter') ||
@@ -38,14 +37,13 @@ function handleUserRoute(req, res) {
     }
   }
 
-
   const UserDetails: UserProfileModel = {
-    email: req.session.auth.email,
-    orgId: req.session.auth.orgId,
-    roles: req.session.auth.roles,
-    userId: req.session.auth.userId,
+   // email: req.session.auth.email,
     idleTime: getUserTimeouts(),
+   // orgId: req.session.auth.orgId,
+    roles: req.session.passport.user.userinfo.roles,
     timeout: isProd ? 10 * 60 : 50, // in seconds
+    //userId: req.session.auth.userId,
   }
   try {
       const payload = JSON.stringify(UserDetails);

@@ -26,7 +26,7 @@ export async function configureIssuer(url: string) {
     issuer = await Issuer.discover(`${url}/o`)
 
     const metadata = issuer.metadata
-    metadata.issuer = config.services.idam.iss
+    metadata.issuer = config.services.iss
 
     return new Issuer(metadata)
 }

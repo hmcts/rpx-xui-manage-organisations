@@ -11,7 +11,6 @@ import getUserList from './userList'
 
 const router = express.Router({ mergeParams: true })
 
-router.use(auth.attach)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
 router.use('/user', userDetailsRouter)

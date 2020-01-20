@@ -4,18 +4,18 @@ import * as net from 'net'
 import {Client, ClientMetadata, Issuer, Strategy, TokenSet, UserinfoResponse} from 'openid-client'
 import * as passport from 'passport'
 import * as process from 'process'
-import {app} from '../application'
-import {config} from '../config'
 import {router as keepAlive} from '../keepalive'
+import {config} from '../lib/config'
 import * as log4jui from '../lib/log4jui'
 import {propsExist} from '../lib/objectUtilities'
+import {app} from '../local'
 import {userHasAppAccess} from './manageCasesUserRoleAuth'
 
 export const router = Router({mergeParams: true})
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
-const idamURl = config.services.idam.idamApiUrl
+const idamURl = config.services.idamApiUrl
 
 const logger = log4jui.getLogger('auth')
 

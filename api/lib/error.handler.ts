@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import * as log4jui from '../log4jui'
+import * as log4jui from '../lib/log4jui'
 
 const logger = log4jui.getLogger('error')
 

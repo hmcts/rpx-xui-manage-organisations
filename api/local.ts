@@ -16,6 +16,7 @@ import {errorStack} from './lib/errorStack'
 import errorHandler from './lib/error.handler'
 import openRoutes from './openRoutes'
 import routes from './routes'
+import * as log4jui from './lib/log4jui'
 
 /**
  * Only used Locally
@@ -25,7 +26,7 @@ import * as log4js from 'log4js'
 
 const FileStore = sessionFileStore(session)
 
-const app = express()
+export const app = express()
 
 app.use(
   session({
@@ -140,7 +141,7 @@ if (process.env.APPINSIGHTS_INSTRUMENTATIONKEY) {
   config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY
 }
 
-const logger = log4js.getLogger('server')
+// const logger = log4js.getLogger('server')
 logger.level = config.logging ? config.logging : 'OFF'
 
 logger.info(`Local server up at ${port}`)

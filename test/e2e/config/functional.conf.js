@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised);
 
 var { localConfig, jenkinsConfig } = require('./common.conf');
 const minimist = require('minimist');

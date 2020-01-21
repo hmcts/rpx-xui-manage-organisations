@@ -6,6 +6,8 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 const {config} = require('../../config/common.conf.js');
 const EC = protractor.ExpectedConditions;
 
+const browserWaits = require('../../support/customWaits');
+
 const mailinatorService = require('../pageObjects/mailinatorService');
 
 
@@ -13,6 +15,12 @@ async function waitForElement(el) {
   await browser.wait(result => {
     return element(by.className(el)).isPresent();
   }, 40000);
+}
+
+async function twoFactorAuthEmailCode(){
+  if (config.config.twoFactorAuthEnabled){
+    
+  }
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
@@ -63,8 +71,8 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When(/^I enter an valid email-address and password to login$/, async function () {
-    await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password
-    await loginPage.password.sendKeys(this.config.password);
+    await loginPage.emailAddress.sendKeys(config.config.username);          //replace username and password
+    await loginPage.password.sendKeys(config.config.password);
     // browser.sleep(SHORT_DELAY);
     await loginPage.signinBtn.click();
     browser.sleep(SHORT_DELAY);
@@ -109,24 +117,25 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
   //   browser.sleep(LONG_DELAY);
-  //   await loginPage.emailAddress.sendKeys(this.config.username);
-  //   await loginPage.password.sendKeys(this.config.password);
+  //   await loginPage.emailAddress.sendKeys(config.config.username);
+  //   await loginPage.password.sendKeys(config.config.password);
   //   await loginPage.clickSignIn();
   //   browser.sleep(MID_DELAY);
   // });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
   //   browser.sleep(LONG_DELAY);
-  //   await loginPage.emailAddress.sendKeys(this.config.username);
-  //   await loginPage.password.sendKeys(this.config.password);
+  //   await loginPage.emailAddress.sendKeys(config.config.username);
+  //   await loginPage.password.sendKeys(config.config.password);
   //   await loginPage.clickSignIn();
   //   browser.sleep(MID_DELAY);
   // });
 
   Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     // browser.sleep(LONG_DELAY);
-    await loginPage.emailAddress.sendKeys(this.config.username);
-    await loginPage.password.sendKeys(this.config.password);
+    browserWaits.waitForElement(loginPage.emailAddress);
+    await loginPage.emailAddress.sendKeys(config.config.username);
+    await loginPage.password.sendKeys(config.config.password);
     await loginPage.clickSignIn();
     // browser.sleep(LONG_DELAY);
   });
@@ -139,13 +148,17 @@ defineSupportCode(function ({ Given, When, Then }) {
 
     browser.wait(async () => { return !(await loginPage.emailAddress.isPresent())},30000);
 
-    let verificationCodeInput = element(by.css("#code"));
-    if (await verificationCodeInput.isPresent()){
-      let loginVerificationCode = await mailinatorService.getLoginVerificationEmailCode(global.latestOrgSuperUser);
-      await verificationCodeInput.sendKeys(loginVerificationCode); 
-      await element(by.css(".button[type = 'submit']")).click(); 
+    if(config.config.twoFactorAuthEnabled){
+      let verificationCodeInput = element(by.css("#code"));
+      await browserWaits.waitForElement(verificationCodeInput);
+      if (await verificationCodeInput.isPresent()) {
+        let loginVerificationCode = await mailinatorService.getLoginVerificationEmailCode(global.latestOrgSuperUser);
+        await verificationCodeInput.sendKeys(loginVerificationCode);
+        await element(by.css(".button[type = 'submit']")).click();
+      }
     }
-    // browser.sleep(LONG_DELAY);
+    
+   
   });
 
   Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {

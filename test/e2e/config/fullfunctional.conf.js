@@ -2,7 +2,7 @@ const chai            = require('chai');
 const chaiAsPromised  = require('chai-as-promised');
 const minimist        = require('minimist');
 var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
-var  {localConfig,jenkinsConfig} = require('./common.conf');
+var { localConfig, jenkinsConfig, cucumberOpts} = require('./common.conf');
 chai.use(chaiAsPromised);
 
 const argv = minimist(process.argv.slice(2));
@@ -43,13 +43,10 @@ const config = {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-    tags: ['@all or @smoke or @fullFunctional'],
-    require: [
-      '../support/timeout.js',
-      '../support/world.js',
-      '../support/*.js',
-      '../features/step_definitions/*.steps.js'
-    ]
+    tags: ['@all or @smoke or @fullFunctional','@end2end'],
+    // tags: ['@end2end'],
+    require: cucumberOpts
+
   },
 
   plugins: [

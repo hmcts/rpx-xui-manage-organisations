@@ -22,7 +22,7 @@ Feature: invite user workflow
       |Permission|
       |Manage Users|
       | Manage Organisation |
-      # | Manage fee accounts |
+      | Manage Cases |
     Then user should be created successfuly
     When I activate invited user 
     When I click on user button

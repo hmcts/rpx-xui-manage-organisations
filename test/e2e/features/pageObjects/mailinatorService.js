@@ -35,10 +35,15 @@ class MailinatorService{
         await this.mailinatorbrowser.wait(EC.presenceOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
         await this.mailinatorbrowser.wait(EC.visibilityOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
 
-        this.mailinatorbrowser.sleep(2000);
 
-        await emailFieldElement.clear();
         this.mailinatorbrowser.sleep(2000);
+        await emailFieldElement.clear();
+        let emailId = await emailFieldElement.getText(); 
+        while (emailId.includes('exuitest')){
+            this.mailinatorbrowser.sleep(2000);
+            await emailFieldElement.clear()
+        }
+    
         await emailFieldElement.sendKeys(useremail);
         await this.mailinatorElement(by.css('#go_inbox')).click();
         let inboxLabelElement = this.mailinatorElement(by.css(this.currentInboxLabel));

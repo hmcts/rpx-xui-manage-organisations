@@ -6,6 +6,9 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 const EC = protractor.ExpectedConditions;
 
 var {defineSupportCode} = require('cucumber');
+const browserWaits = require('../../support/customWaits');
+
+
 
 defineSupportCode(function ({And, But, Given, Then, When}) {
   let viewUserPage = new ViewUserPage();
@@ -13,7 +16,14 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   When(/^I click on user button$/, async function () {
     // browser.sleep(LONG_DELAY);
+    const world = this;
+
     await headerPage.clickUser();
+
+    await browserWaits.retryWithAction(viewUserPage.header, async function (message) {
+      world.attach("Retrying Click Organisation  : " + message);
+      await headerPage.clickUser();
+    });
     await viewUserPage.amOnPage(); 
 
     // browser.sleep(AMAZING_DELAY);

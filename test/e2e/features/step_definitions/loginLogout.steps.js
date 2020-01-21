@@ -26,11 +26,13 @@ async function twoFactorAuthEmailCode(){
 defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
+    const world = this;
+
     await browser.get(config.config.baseUrl);
     await browser.driver.manage()
       .deleteAllCookies();
     await browser.refresh();
-    await BrowserWaits.retryForPageLoad(loginPage.signinTitle, function (message) {
+    await browserWaits.retryForPageLoad(loginPage.signinTitle, function (message) {
       world.attach("Retrying Login page load : " + message)
     });
   });
@@ -58,12 +60,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When("I login with latest invited user", async function () {
+    const world = this;
+
     await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
     await loginPage.password.sendKeys(global.latestInvitedUserPassword);
     // browser.sleep(SHORT_DELAY);
     await loginPage.signinBtn.click();
 
-    await BrowserWaits.retryForPageLoad($("hmcts-header__link"), function (message) {
+    await browserWaits.retryForPageLoad($(".hmcts-header__link"), function (message) {
       world.attach("Retrying page load after login : " + message)
     });
     await waitForElement('hmcts-header__link');

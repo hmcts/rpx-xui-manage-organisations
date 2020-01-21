@@ -73,6 +73,25 @@ class BrowserWaits {
         }
     }
 
+
+    async retryWithAction(element, action) {
+        let retryCounter = 0;
+
+        while (retryCounter < 3) {
+            try {
+                await this.waitForElement(element);
+                retryCounter += 3;
+            }
+            catch (err) {
+                retryCounter += 1;
+                if (action) {
+                    action(retryCounter + "");
+                }
+                console.log(element.locator().toString() + " .    Retry attempt for page load : " + retryCounter);
+            }
+        }
+    }
+
 }
 
 module.exports = new BrowserWaits(); 

@@ -13,7 +13,7 @@ import {ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 import {Keepalive} from '@ng-idle/keepalive';
 import {Idle} from '@ng-idle/core';
 import {HttpClientModule} from '@angular/common/http';
-import {KeepAlive, SetModal} from '../../../user-profile/store';
+import {KeepAlive, SetModal, SignedOut} from '../../../user-profile/store';
 
 const mockedServices = { init: () => {}}
 const windowMock: Window = { gtag: () => {}} as any;
@@ -137,12 +137,20 @@ describe('AppComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetModal(payload));
   }));
 
-  it('should dispatchSessionAction dispatich singout', async(() => {
+  it('should dispatchSessionAction dispatich keepalive', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     app.dispatchSessionAction({type: 'keepalive'});
     fixture.detectChanges();
     expect(store.dispatch).toHaveBeenCalledWith(new KeepAlive());
+  }));
+
+  it('should dispatchSessionAction dispatich singout', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    app.dispatchSessionAction({type: 'signout'});
+    fixture.detectChanges();
+    expect(store.dispatch).toHaveBeenCalledWith(new SignedOut());
   }));
 
   it('should dispatch a setmodal action', async(() => {
@@ -157,6 +165,7 @@ describe('AppComponent', () => {
       }
     };
     expect(store.dispatch).toHaveBeenCalledWith(new SetModal(payload));
+    expect(app.dispatchModal).toBeDefined()
 
   }));
 

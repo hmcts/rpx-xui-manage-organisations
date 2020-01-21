@@ -9,13 +9,12 @@ const logger = log4jui.getLogger('outgoing')
 router.post('/', inviteUserRoute)
 
 async function inviteUserRoute(req, res) {
-    const orgId = req.session.auth.orgId
     const payload = req.body
     try {
       console.log(payload)
-        const response = await http.post(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/`, payload)
-        logger.info('response::', response.data)
-        res.send(response.data)
+      const response = await http.post(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/`, payload)
+      logger.info('response::', response.data)
+      res.send(response.data)
     } catch (error) {
         logger.info('error', error)
         const errReport = {

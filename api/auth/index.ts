@@ -8,8 +8,10 @@ import {router as keepAlive} from '../keepalive'
 import {config} from '../lib/config'
 import * as log4jui from '../lib/log4jui'
 import {propsExist} from '../lib/objectUtilities'
+import {serviceTokenGenerator} from '../lib/serviceToken';
+import {asyncReturnOrError} from '../lib/util';
 import {app} from '../local'
-import {userHasAppAccess} from './manageCasesUserRoleAuth'
+  import {userHasAppAccess} from './manageCasesUserRoleAuth'
 
 export const router = Router({mergeParams: true})
 
@@ -121,11 +123,12 @@ export async function oidcVerify(tokenset: TokenSet, userinfo: UserinfoResponse,
         logger.warn('User has no application access, as they do not have a Caseworker role.')
         return done(null, false, {message: 'User has no application access, as they do not have a Caseworker role.'})
     }
+
     return done(null, {tokenset, userinfo})
 
 }
 
-export function authCallbackSuccess(req: Request, res: Response) {
+export async function authCallbackSuccess(req: Request, res: Response) {
     // console.log('callback', req.session)
 
     // we need extra logic before success redirect
@@ -134,6 +137,15 @@ export function authCallbackSuccess(req: Request, res: Response) {
 
     axios.defaults.headers.common.Authorization = `Bearer ${userDetails.tokenset.access_token}`
     axios.defaults.headers.common['user-roles'] = roles.join()
+    const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', null, logger)
+
+    if (token) {
+      logger.info('Using S2S Token in defaults')
+      axios.defaults.headers.common.ServiceAuthorization = token
+    } else {
+      logger.warn('Cannot attach S2S token ')
+      doLogout(req, res, 401)
+    }
 
     res.cookie(cookieUserId, userDetails.userinfo.uid)
     res.cookie(cookieToken, userDetails.tokenset.access_token)

@@ -6,9 +6,6 @@ import { http } from '../lib/http'
 const logger = log4jui.getLogger('service-token')
 
 async function handleUserListRoute(req, res) {
-    const orgId = req.session.auth.orgId
-    //for testing hardcode your org id
-    //const orgId = 'B13GT1M'
     try {
         const url = `${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users`
         const response = await http.get(url)

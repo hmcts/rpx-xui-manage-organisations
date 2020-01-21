@@ -6,24 +6,22 @@ import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as session from 'express-session'
-import * as sessionFileStore from 'session-file-store'
-import * as auth from './auth'
 import * as passport from 'passport'
 import * as process from 'process'
+import * as sessionFileStore from 'session-file-store'
+import * as auth from './auth'
 import {appInsights} from './lib/appInsights'
 import {config} from './lib/config'
-import {errorStack} from './lib/errorStack'
 import errorHandler from './lib/error.handler'
+import {errorStack} from './lib/errorStack'
+import * as log4jui from './lib/log4jui'
 import openRoutes from './openRoutes'
 import routes from './routes'
-import * as log4jui from './lib/log4jui'
 
 /**
  * Only used Locally
  */
 import * as tunnel from './lib/tunnel'
-import * as log4js from 'log4js'
-
 const FileStore = sessionFileStore(session)
 
 export const app = express()

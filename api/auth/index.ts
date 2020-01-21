@@ -8,10 +8,8 @@ import {router as keepAlive} from '../keepalive'
 import {config} from '../lib/config'
 import * as log4jui from '../lib/log4jui'
 import {propsExist} from '../lib/objectUtilities'
-import {serviceTokenGenerator} from '../lib/serviceToken';
-import {asyncReturnOrError} from '../lib/util';
 import {app} from '../local'
-  import {userHasAppAccess} from './manageCasesUserRoleAuth'
+import {userHasAppAccess} from './manageCasesUserRoleAuth'
 
 export const router = Router({mergeParams: true})
 

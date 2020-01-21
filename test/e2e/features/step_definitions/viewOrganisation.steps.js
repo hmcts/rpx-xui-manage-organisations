@@ -14,10 +14,16 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     await headerPage.clickOrganisation();
   });
 
-  Then('I should be on display the name and address details of organisation', async function () {
+  Then(/^I should be on display the name and address details of organisation$/, async function () {
     // browser.sleep(LONG_DELAY);
     
     expect(await viewOrganisationPage.amOnPage()).to.be.true;
   });
+
+  Then(/^I should see name and address details of Organisation$/, async function () {
+    // browser.sleep(LONG_DELAY);
+
+    expect(await viewOrganisationPage.amOnPage()).to.be.true;
+  })
 
 });

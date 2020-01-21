@@ -37,7 +37,7 @@ Feature: End to End Create approve and manager org
         When I navigate to manage organisation Url
         Given I am logged in to created approve organisation
         Then I should be redirected to manage organisation dashboard page
-        Then I should be on display the name and address details of Organisation
+        Then I should see name and address details of Organisation
 
         When I click on user button
         Then I should be on display the user details

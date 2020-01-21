@@ -1,4 +1,4 @@
-
+@fullFunctional
 Feature: invite user workflow
 
   Background:
@@ -16,7 +16,7 @@ Feature: invite user workflow
     Then user should be created successfuly
    
    
-  @crossbrowser @all
+  @crossbrowser
   Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       |Permission|

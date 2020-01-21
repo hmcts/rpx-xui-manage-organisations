@@ -5,7 +5,6 @@ export const router = express.Router({ mergeParams: true })
 import { config } from '../lib/config'
 import { UserProfileModel } from './user'
 router.get('/details', handleUserRoute)
-
 function handleUserRoute(req, res) {
 
   const isProd: boolean = (config.environment === 'prod')

@@ -137,15 +137,6 @@ export async function authCallbackSuccess(req: Request, res: Response) {
 
     axios.defaults.headers.common.Authorization = `Bearer ${userDetails.tokenset.access_token}`
     axios.defaults.headers.common['user-roles'] = roles.join()
-    const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', null, logger)
-
-    if (token) {
-      logger.info('Using S2S Token in defaults')
-      axios.defaults.headers.common.ServiceAuthorization = token
-    } else {
-      logger.warn('Cannot attach S2S token ')
-      doLogout(req, res, 401)
-    }
 
     res.cookie(cookieUserId, userDetails.userinfo.uid)
     res.cookie(cookieToken, userDetails.tokenset.access_token)

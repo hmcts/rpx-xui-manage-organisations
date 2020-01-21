@@ -30,7 +30,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browser.driver.manage()
       .deleteAllCookies();
     await browser.refresh();
-    browser.sleep(AMAZING_DELAY);
+    await BrowserWaits.retryForPageLoad(loginPage.signinTitle, function (message) {
+      world.attach("Retrying Login page load : " + message)
+    });
   });
 
   Then(/^I should see failure error summary$/, async function () {
@@ -61,6 +63,9 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(SHORT_DELAY);
     await loginPage.signinBtn.click();
 
+    await BrowserWaits.retryForPageLoad($("hmcts-header__link"), function (message) {
+      world.attach("Retrying page load after login : " + message)
+    });
     await waitForElement('hmcts-header__link');
     await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
     await expect(loginPage.dashboard_header.getText())

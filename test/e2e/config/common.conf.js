@@ -15,11 +15,7 @@ const localConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
         unexpectedAlertBehaviour: 'accept',
-<<<<<<< HEAD
         chromeOptions: { args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications'] },
-=======
-        chromeOptions: { args: ['--headless','--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications'] },
->>>>>>> 64c8926afe54c99d0eed5c3c976666434bd62fed
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',

@@ -49,7 +49,10 @@ Feature: End to End Create approve and manager org
             | Permission          |
             | Manage Users        |
             | Manage Organisation |
+<<<<<<< HEAD
             | Manage Cases |
+=======
+>>>>>>> 64c8926afe54c99d0eed5c3c976666434bd62fed
         # | Manage fee accounts |
         Then user should be created successfuly
         When I activate invited user

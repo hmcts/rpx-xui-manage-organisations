@@ -183,14 +183,4 @@ describe('AppComponent', () => {
 
   }));
 
-  // it('should have modalData$ Observable the app', async(() => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   fixture.detectChanges();
-  //
-  //   const expected = cold('a', { a: { isVisible: false, countdown: '' } });
-  //   expect(app.modalData$).toBeObservable(expected);
-  //
-  // }));
-
 });

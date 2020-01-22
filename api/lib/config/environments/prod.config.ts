@@ -3,7 +3,7 @@ export default {
         ccdDataApi: 'http://ccd-data-store-api-prod.service.core-compute-prod.internal',
         ccdDefApi: 'http://ccd-definition-store-api-prod.service.core-compute-prod.internal',
         idamWeb: 'https://hmcts-access.service.gov.uk',
-        idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
+        idamApi: 'https://idam-api.platform.hmcts.net',
         iss: 'https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/hmcts',
         s2s: 'http://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
         rdProfessionalApi: 'http://rd-professional-api-prod.service.core-compute-prod.internal',

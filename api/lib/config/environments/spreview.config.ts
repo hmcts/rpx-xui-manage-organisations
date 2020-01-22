@@ -3,7 +3,7 @@ export default {
         ccdDataApi: 'https://ccd-data-store-api-saat.service.core-compute-saat.internal',
         ccdDefApi: 'https://ccd-definition-store-api-saat.service.core-compute-saat.internal',
         idamWeb: 'https://idam-test.dev.ccidam.reform.hmcts.net',
-        idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
+        idamApi: 'https://idam-api.aat.platform.hmcts.net',
         s2s: 'http://rpe-service-auth-provider-saat.service.core-compute-saat.internal',
         iss: 'https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/hmcts',
         draftStoreApi: 'https://draft-store-service-saat.service.core-compute-saat.internal',

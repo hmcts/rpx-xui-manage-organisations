@@ -15,7 +15,7 @@ export const router = Router({mergeParams: true})
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
-const idamURl = config.services.idamApiUrl
+const idamURl = config.services.idamApi
 
 const logger = log4jui.getLogger('auth')
 

@@ -2,12 +2,12 @@ export default {
     services: {
         ccdDataApi: 'http://ccd-data-store-api-aat.service.core-compute-aat.internal',
         ccdDefApi: 'http://ccd-definition-store-api-aat.service.core-compute-aat.internal',
-        feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal',
-        idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
         idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
+        idamApi: 'https://idam-api.aat.platform.hmcts.net',
         iss: 'https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/hmcts',
-        rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal',
         s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+        rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal',
+        feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal',
     },
     health: {
         ccdDataApi: 'http://ccd-data-store-api-aat.service.core-compute-aat.internal/health',

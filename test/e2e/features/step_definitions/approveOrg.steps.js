@@ -1,8 +1,5 @@
 
-const ApproveOrganizationService = require('../pageObjects/approveOrganizationService');
-let approveOrganizationService = new ApproveOrganizationService();
-approveOrganizationService.init();
-
+const approveOrganizationService = require('../pageObjects/approveOrganizationService');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 

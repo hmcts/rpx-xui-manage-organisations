@@ -101,5 +101,11 @@ class ApproveOrganisationService{
 
 }
 
+const approveOrganisationService = new ApproveOrganisationService();
+approveOrganisationService.init().then(() => {
+    console.log("*************************************************************************");
+    console.log("***************  Browser  Approve Organisation Service Started ********************");
+    console.log("*************************************************************************");
 
-module.exports = ApproveOrganisationService; 
+});
+module.exports = approveOrganisationService; 

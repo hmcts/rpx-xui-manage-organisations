@@ -10,12 +10,16 @@ var {defineSupportCode} = require('cucumber');
 defineSupportCode(function ({And, But, Given, Then, When}) {
   let viewOrganisationPage=new ViewOrganisationPage();
 
-  When(/^I click on organisation button$/, async function () {
-    browser.sleep(LONG_DELAY);
+  When(/^I click on organisation button$/, { timeout: 600 * 1000 } ,async function () {
     await headerPage.clickOrganisation();
+
+    await browserWaits.retryWithAction(viewOrganisationPage.header, async function (message) {
+      world.attach("Retrying Click Organisation  : " + message);
+      await headerPage.clickOrganisation();
+    });
   });
 
-  Then(/^I should be on display the name and address details of organisation$/, async function () {
+  Then(/^I should be on display the name and address details of organisation$/, { timeout: 600 * 1000 } ,async function () {
     // browser.sleep(LONG_DELAY);
     const world = this;
  

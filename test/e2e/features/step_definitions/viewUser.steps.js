@@ -14,14 +14,14 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   let viewUserPage = new ViewUserPage();
   let headerPage = new HeaderPage();
 
-  When(/^I click on user button$/, async function () {
+  When(/^I click on user button$/, { timeout: 600 * 1000 } ,async function () {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
     await headerPage.clickUser();
 
     await browserWaits.retryWithAction(viewUserPage.header, async function (message) {
-      world.attach("Retrying Click Organisation  : " + message);
+      world.attach("Retrying Click User  : " + message);
       await headerPage.clickUser();
     });
     await viewUserPage.amOnPage(); 

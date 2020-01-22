@@ -85,11 +85,7 @@ class BrowserWaits {
             catch (err) {
                 retryCounter += 1;
                 if (action) {
-<<<<<<< HEAD
                     await action(retryCounter + "");
-=======
-                    action(retryCounter + "");
->>>>>>> d2ef4d800c951fee14a1de1b52357d88e26c9af5
                 }
                 console.log(element.locator().toString() + " .    Retry attempt for page load : " + retryCounter);
             }

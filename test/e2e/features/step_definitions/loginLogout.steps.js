@@ -9,18 +9,14 @@ const EC = protractor.ExpectedConditions;
 const browserWaits = require('../../support/customWaits');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
+const manageCasesService = require('../pageObjects/manageCasesService');
+
 
 
 async function waitForElement(el) {
   await browser.wait(result => {
     return element(by.className(el)).isPresent();
   }, 40000);
-}
-
-async function twoFactorAuthEmailCode(){
-  if (config.config.twoFactorAuthEnabled){
-    
-  }
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
@@ -185,6 +181,19 @@ defineSupportCode(function ({ Given, When, Then }) {
       .eventually
       .equal('Sign in');
     browser.sleep(LONG_DELAY);
+  });
+
+  Then('I login to MC with invited user', async function () {
+    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
+  });
+
+  Then('I see login to MC with invited user is {string}', async function (loginStatus) {
+    if (loginStatus.includes('success')){
+      await manageCasesService.validateLoginSuccess();
+    }else{
+      await manageCasesService.validateLoginFailure();
+
+    }
   });
 
 });

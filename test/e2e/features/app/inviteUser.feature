@@ -35,6 +35,8 @@ Feature: invite user workflow
       | NavigationTab|
       |Organisation|
       |Users|
+    Then I login to MC with invited user
+    Then I see login to MC with invited user is success
 
   @crossbrowser
   Scenario: Invite user with Mnage Org permission
@@ -53,6 +55,8 @@ Feature: invite user workflow
     Then I should see navigation tab in header
       | NavigationTab |
       | Organisation   |
+    Then I login to MC with invited user
+    Then I see login to MC with invited user is failed
 
   @crossbrowser
   Scenario: invited use with Manage Users permission
@@ -71,6 +75,8 @@ Feature: invite user workflow
     Then I should see navigation tab in header
       | NavigationTab |
       | Users         |
+    Then I login to MC with invited user
+    Then I see login to MC with invited user is failed
 
   @fullFunctional  
   Scenario: invite user validation workflow

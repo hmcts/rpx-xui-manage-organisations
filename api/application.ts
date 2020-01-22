@@ -126,7 +126,8 @@ console.log('WE ARE USING local.ts on the box.')
 
 app.use('/auth', auth.router)
 app.use('/api', routes)
-app.get('/api/logout', (req, res, next) => {
+app.get('/api/logout', (req, res) => {
+  console.log('going through logout')
   auth.doLogout(req, res)
 })
 

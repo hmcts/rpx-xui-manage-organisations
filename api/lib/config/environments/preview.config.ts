@@ -4,7 +4,9 @@ export default {
     ccdDefApi: 'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
     idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
     idamApi: 'https://idam-api.aat.platform.hmcts.net',
+    idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
+    iss: 'https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/hmcts',
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal',
   },
   health: {

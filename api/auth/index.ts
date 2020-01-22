@@ -99,14 +99,16 @@ export async function doLogout(req: Request, res: Response, status = 302) {
     req.logout()
 
     req.session.destroy( () => {
-        if (req.query.redirect || status === 401) {  // 401 is when no accessToken
-            res.redirect(status, req.query.redirect || '/')
-            console.log('Logged out by userDetails')
-        } else {
+        // if (req.query.redirect) {  // 401 is when no accessToken
+        //     console.log('first if')
+        //     res.redirect(status, req.query.redirect || '/')
+        //     console.log('Logged out by user')
+        // } else {
+
             const message = JSON.stringify({message: 'You have been logged out!'})
             res.status(200).send(message)
             console.log('Logged out by Session')
-        }
+        //}
     })
 }
 

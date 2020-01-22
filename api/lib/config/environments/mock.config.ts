@@ -4,6 +4,8 @@ export default {
         ccdDefApi: 'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
         idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
         idamApi: 'https://idam-api.aat.platform.hmcts.net',
+        idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
+        iss: 'https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/hmcts',
         s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
         draftStoreApi: 'https://draft-store-service-aat.service.core-compute-aat.internal',
         dmStoreApi: 'https://dm-store-aat.service.core-compute-aat.internal',

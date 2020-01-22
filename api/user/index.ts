@@ -11,7 +11,7 @@ function handleUserRoute(req, res) {
   // in milliseconds
   const idleTimeOuts: {caseworker: number; solicitors: number; special: number} = {
     caseworker: isProd ? 8 * 60 * 60 * 1000 : 60 * 1000, // 8 hr
-    solicitors: isProd ? 60 * 60 * 1000 : 5 * 60 * 1000, // 1 hr
+    solicitors: isProd ? 60 * 60 * 1000 : 60 * 1000, // 1 hr
     special: isProd ? 20 * 60 * 1000 :  60 * 1000, // 20 min
   }
 

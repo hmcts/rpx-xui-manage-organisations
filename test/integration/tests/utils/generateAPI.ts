@@ -1,5 +1,6 @@
-import { generateToken } from '../../../../api/auth/serviceToken';
+
 import { getauthToken } from './getToken';
+import {generateToken} from '../../../../api/lib/serviceToken';
 const fetch = require('node-fetch');
 
 

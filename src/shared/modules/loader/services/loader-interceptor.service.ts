@@ -3,13 +3,16 @@ import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } fr
 import { Observable, pipe } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoaderService } from './loader.service';
+// TODO REMOVE THIS HORID IMPLEMENTATION AND USE STANDARD NGRX LOADER DESIGN
 @Injectable({
   providedIn: 'root'
 })
 export class LoaderInterceptorService implements HttpInterceptor {
   constructor(private loaderService: LoaderService) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.showLoader();
+    if (req.url !== 'auth/keepalive') {
+      this.showLoader();
+    }
     return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         this.onEnd();

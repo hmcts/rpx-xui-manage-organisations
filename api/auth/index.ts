@@ -31,16 +31,18 @@ export async function configureIssuer(url: string) {
     return new Issuer(metadata)
 }
 
-export async function configure(req: Request, res: Response, next: NextFunction) {
-
+export async function configure(req: any, res: any, next: any) {
     const host = req.get('host')
     const fqdn = req.protocol + '://' + host
-
+    //Strip out port number
+    const hostname = ( host.match(/:/g) ) ? host.slice( 0, host.indexOf(":") ) : host
     // we don't want to configure strategy if coming from direct IP address (e.g. could be health endpoint)
-    if (net.isIP(host)) {
+    if (net.isIP(hostname)) {
         return next()
     }
-
+    if (app.locals.client) {
+        return next()
+    }
     if (!app.locals.issuer) {
         try {
             app.locals.issuer = await configureIssuer(idamURl)
@@ -49,7 +51,6 @@ export async function configure(req: Request, res: Response, next: NextFunction)
         }
     }
     logger.info('fqdn: ', fqdn)
-
     const clientMetadata: ClientMetadata = {
         client_id: config.idamClient,
         client_secret: process.env.IDAM_SECRET,
@@ -58,20 +59,13 @@ export async function configure(req: Request, res: Response, next: NextFunction)
         response_types: ['code'],
         token_endpoint_auth_method: 'client_secret_post', // The default is 'client_secret_basic'.
     }
-
     app.locals.client = new app.locals.issuer.Client(clientMetadata)
-
     logger.info('configuring strategy')
-
-    passport.unuse('oidc').use('oidc', new Strategy({
+    passport.use('oidc', new Strategy({
         client: app.locals.client,
         params: {scope: 'profile openid roles manage-user create-user'},
-        sessionKey: 'xui_webapp', // being explicit here so we can set manually on logout
-        usePKCE: false, // issuer doesn't support pkce - no code_challenge_methods_supported
     }, oidcVerify))
-
     next()
-
     // passport.use('s2s', new BearerStrategy())
 }
 

@@ -17,7 +17,6 @@ export class UserModel {
   }
 }
 export class UserProfileModel {
-  orgId: string;
   userId: string
   email: string;
   roles: string[];

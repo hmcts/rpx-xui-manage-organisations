@@ -39,7 +39,6 @@ function handleUserRoute(req, res) {
   const UserDetails: UserProfileModel = {
     email: req.session.passport.user.userinfo.sub,
     idleTime: getUserTimeouts(),
-    orgId: req.session.passport, // todo find org id
     roles: req.session.passport.user.userinfo.roles,
     timeout: isProd ? 10 * 60 : 50, // in seconds
     userId: req.session.passport.user.userinfo.uid,

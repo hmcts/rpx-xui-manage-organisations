@@ -36,7 +36,11 @@ Feature: invite user workflow
       |Organisation|
       |Users|
     Then I login to MC with invited user
+<<<<<<< HEAD
     Then I see login to MC with invited user is "success"
+=======
+    Then I see login to MC with invited user is success
+>>>>>>> d2ef4d800c951fee14a1de1b52357d88e26c9af5
 
   @crossbrowser
   Scenario: Invite user with Mnage Org permission
@@ -56,7 +60,11 @@ Feature: invite user workflow
       | NavigationTab |
       | Organisation   |
     Then I login to MC with invited user
+<<<<<<< HEAD
     Then I see login to MC with invited user is "failed"
+=======
+    Then I see login to MC with invited user is failed
+>>>>>>> d2ef4d800c951fee14a1de1b52357d88e26c9af5
 
   @crossbrowser
   Scenario: invited use with Manage Users permission
@@ -76,7 +84,11 @@ Feature: invite user workflow
       | NavigationTab |
       | Users         |
     Then I login to MC with invited user
+<<<<<<< HEAD
     Then I see login to MC with invited user is "failed"
+=======
+    Then I see login to MC with invited user is failed
+>>>>>>> d2ef4d800c951fee14a1de1b52357d88e26c9af5
 
   @fullFunctional  
   Scenario: invite user validation workflow

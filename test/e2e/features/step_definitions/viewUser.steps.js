@@ -21,7 +21,11 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     await headerPage.clickUser();
 
     await browserWaits.retryWithAction(viewUserPage.header, async function (message) {
+<<<<<<< HEAD
       world.attach("Retrying Click User  : " + message);
+=======
+      world.attach("Retrying Click Organisation  : " + message);
+>>>>>>> d2ef4d800c951fee14a1de1b52357d88e26c9af5
       await headerPage.clickUser();
     });
     await viewUserPage.amOnPage(); 

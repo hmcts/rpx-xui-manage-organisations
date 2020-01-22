@@ -3,7 +3,6 @@ export default {
     ccdDataApi: 'http://ccd-data-store-api-demo.service.core-compute-demo.internal',
     ccdDefApi: 'http://ccd-definition-store-api-demo.service.core-compute-demo.internal',
     idamWeb: 'https://idam-web-public.aat.platform.hmcts.net',
-    idamApi: 'https://idam-api.aat.platform.hmcts.net',
     idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal',

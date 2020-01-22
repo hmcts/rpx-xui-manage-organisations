@@ -3,7 +3,6 @@ export default {
         ccdDataApi: 'https://ccd-data-store-api-saat.service.core-compute-saat.internal',
         ccdDefApi: 'https://ccd-definition-store-api-saat.service.core-compute-saat.internal',
         idamWeb: 'https://idam-test.dev.ccidam.reform.hmcts.net',
-        idamApi: 'https://betaDevBccidamAppLB.reform.hmcts.net',
         idamApiUrl: 'https://idam-api.aat.platform.hmcts.net',
         s2s: 'http://rpe-service-auth-provider-saat.service.core-compute-saat.internal',
         draftStoreApi: 'https://draft-store-service-saat.service.core-compute-saat.internal',

@@ -32,7 +32,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browser.driver.manage()
       .deleteAllCookies();
     await browser.refresh();
-    await browserWaits.retryForPageLoad(loginPage.signinTitle, function (message) {
+    await browserWaits.retryForPageLoad(loginPage.emailAddress, function (message) {
       world.attach("Retrying Login page load : " + message)
     });
   });

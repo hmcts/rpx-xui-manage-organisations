@@ -9,6 +9,8 @@ const EC = protractor.ExpectedConditions;
 const browserWaits = require('../../support/customWaits');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
+const manageCasesService = require('../pageObjects/manageCasesService');
+
 
 
 async function waitForElement(el) {
@@ -17,20 +19,18 @@ async function waitForElement(el) {
   }, 40000);
 }
 
-async function twoFactorAuthEmailCode(){
-  if (config.config.twoFactorAuthEnabled){
-    
-  }
-}
-
 defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
+    const world = this;
+
     await browser.get(config.config.baseUrl);
     await browser.driver.manage()
       .deleteAllCookies();
     await browser.refresh();
-    browser.sleep(AMAZING_DELAY);
+    await browserWaits.retryForPageLoad(loginPage.emailAddress, function (message) {
+      world.attach("Retrying Login page load : " + message)
+    });
   });
 
   Then(/^I should see failure error summary$/, async function () {
@@ -56,11 +56,16 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When("I login with latest invited user", async function () {
+    const world = this;
+
     await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
     await loginPage.password.sendKeys(global.latestInvitedUserPassword);
     // browser.sleep(SHORT_DELAY);
     await loginPage.signinBtn.click();
 
+    await browserWaits.retryForPageLoad($(".hmcts-header__link"), function (message) {
+      world.attach("Retrying page load after login : " + message)
+    });
     await waitForElement('hmcts-header__link');
     await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
     await expect(loginPage.dashboard_header.getText())
@@ -176,6 +181,19 @@ defineSupportCode(function ({ Given, When, Then }) {
       .eventually
       .equal('Sign in');
     browser.sleep(LONG_DELAY);
+  });
+
+  Then('I login to MC with invited user', async function () {
+    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
+  });
+
+  Then('I see login to MC with invited user is {string}', async function (loginStatus) {
+    if (loginStatus.includes('success')){
+      await manageCasesService.validateLoginSuccess();
+    }else{
+      await manageCasesService.validateLoginFailure();
+
+    }
   });
 
 });

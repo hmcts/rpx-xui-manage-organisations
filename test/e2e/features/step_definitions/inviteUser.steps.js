@@ -34,7 +34,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   Then(/^I should be on display invite user page$/, async function () {
-    // browser.sleep(AMAZING_DELAY);
+    // browser.sleep(AMAZING_DELAY);;
     await inviteUserPage.waitForPage();
     expect(await inviteUserPage.amOnPage()).to.be.true;
   });

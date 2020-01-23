@@ -143,7 +143,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     // browser.sleep(LONG_DELAY);
-
+    const world = this;
     await browserWaits.retryForPageLoad(loginPage.emailAddress,async function (message) {
       world.attach("Retrying Login page load : " + message);
       browser.takeScreenshot()

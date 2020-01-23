@@ -10,7 +10,7 @@ import { JurisdictionService } from '../../../users/services';
 import { of } from 'rxjs';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import { LoggerService } from '../../../shared/services/logger.service';
-import { LogOutKeepAliveService } from '../../../shared/services/keep-alive/keep-alive.services';
+import {AppUtils} from '../../../app/utils/app-utils'
 
 @Injectable()
 export class AppEffects {
@@ -42,7 +42,7 @@ export class AppEffects {
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      window.location.href = '/auth/logout';
+      AppUtils.windowRedirect(null, '/auth/logout');
     })
   );
 

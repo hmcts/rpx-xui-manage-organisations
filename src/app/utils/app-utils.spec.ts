@@ -157,4 +157,15 @@ describe('AppUtils', () => {
     const url = AppUtils.getEnvironment(nav);
     expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.prod);
   });
+
+  it('should redirect window.location.href', () => {
+    const redirect = '/auth/logout';
+    const window = {
+      location: {
+        href: ''
+      }
+    };
+    AppUtils.windowRedirect(window, redirect);
+    expect(window.location.href).toEqual(redirect);
+  });
 });

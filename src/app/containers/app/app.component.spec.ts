@@ -5,8 +5,6 @@ import {Logout, reducers, State} from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { cold } from 'jasmine-marbles';
-
-import { AppConstants } from '../../app.constants';
 import * as fromAuth from '../../../user-profile/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import {ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';

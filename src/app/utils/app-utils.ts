@@ -130,4 +130,9 @@ export class AppUtils {
       }
     return AppConstants.ENVIRONMENT_NAMES.prod;
   }
+
+  static windowRedirect(wind, url) {
+    const $window = wind ? wind : window
+    $window.location.href = url;
+  }
 }

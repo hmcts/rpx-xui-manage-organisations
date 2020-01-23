@@ -8,6 +8,7 @@ import * as fromStore from '../store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {CookieService} from 'ngx-cookie';
 import config from '../../../api/lib/config';
+import {AppUtils} from '../../app/utils/app-utils';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -56,7 +57,7 @@ export class AuthGuard implements CanActivate {
   }
 
   loginRedirect() {
-    window.location.href =  '/auth/login';
+    AppUtils.windowRedirect(null, '/auth/login');
   }
 }
 

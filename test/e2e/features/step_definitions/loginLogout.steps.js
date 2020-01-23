@@ -28,7 +28,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browser.driver.manage()
       .deleteAllCookies();
     await browser.refresh();
-    await browserWaits.retryWithAction(loginPage.emailAddress, function (message) {
+    await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
       world.attach("Retrying Login page load : " + message);
       browser.takeScreenshot()
         .then(stream => {

@@ -16,6 +16,8 @@ class InviteUserPage{
     this.failure_error_heading = element(by.css('#error-summary-title'));
     this.back = element(by.xpath("//a[contains(text(),'Back')]"));
 
+    this.userInvitaionConfirmation = element(by.css(".govuk-panel.govuk-panel--confirmation"));
+
     this.spinner = element(by.css(".spinner-wrapper"));
 
   }
@@ -84,7 +86,7 @@ class InviteUserPage{
   }
 
   async amOnUserConfirmationPage(){
-    await BrowserWaits.waitForElement(element(by.css(".govuk-panel.govuk-panel--confirmation")));
+    await BrowserWaits.waitForElement(this.userInvitaionConfirmation );
 
     let header = await this.getPageHeader();
     return header === "You've invited";

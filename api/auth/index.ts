@@ -33,7 +33,7 @@ export async function configureIssuer(url: string) {
 
 export async function configure(req: any, res: any, next: any) {
     const host = req.get('host')
-    const fqdn = 'https://' + host
+    const fqdn = `${config.protocol}://` + host
     //Strip out port number
     const hostname = ( host.match(/:/g) ) ? host.slice( 0, host.indexOf(":") ) : host
     // we don't want to configure strategy if coming from direct IP address (e.g. could be health endpoint)
@@ -43,8 +43,9 @@ export async function configure(req: any, res: any, next: any) {
     }
 
     if (app.locals.client) {
-        return next()
+      return next()
     }
+
     if (!app.locals.issuer) {
         try {
             app.locals.issuer = await configureIssuer(idamURl)
@@ -52,6 +53,7 @@ export async function configure(req: any, res: any, next: any) {
             return next(error)
         }
     }
+
     logger.info('fqdn: ', fqdn)
 
     const clientMetadata: ClientMetadata = {
@@ -65,10 +67,12 @@ export async function configure(req: any, res: any, next: any) {
 
     app.locals.client = new app.locals.issuer.Client(clientMetadata)
     logger.info('configuring strategy')
+
     passport.use('oidc', new Strategy({
         client: app.locals.client,
         params: {scope: 'profile openid roles manage-user create-user'},
     }, oidcVerify))
+
     next()
 
 }

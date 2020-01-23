@@ -144,7 +144,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     // browser.sleep(LONG_DELAY);
 
-    await browserWaits.retryForPageLoad(loginPage.emailAddress, function (message) {
+    await browserWaits.retryForPageLoad(loginPage.emailAddress,async function (message) {
       world.attach("Retrying Login page load : " + message);
       browser.takeScreenshot()
         .then(stream => {

@@ -71,6 +71,8 @@ export async function configure(req: any, res: any, next: any) {
     passport.use('oidc', new Strategy({
         client: app.locals.client,
         params: {scope: 'profile openid roles manage-user create-user'},
+        sessionKey: 'xui_webapp', // being explicit here so we can set manually on logout
+        usePKCE: false, // issuer doesn't support pkce - no code_challenge_methods_supported
     }, oidcVerify))
 
     next()
@@ -79,33 +81,22 @@ export async function configure(req: any, res: any, next: any) {
 
 export async function doLogout(req: Request, res: Response, status = 302) {
 
-    req.query.redirect = app.locals.client.endSessionUrl({
-        id_token_hint: req.session.passport.user.tokenset.id_token,
-        // TODO: we can generate a random state and use that
-        // post_logout_redirect_uri: app.locals.client.authorizationUrl({ state: 'testState' })
-    })
-
     delete axios.defaults.headers.common.Authorization
     delete axios.defaults.headers.common['user-roles']
 
     res.clearCookie('roles')
     res.clearCookie(cookieToken)
     res.clearCookie(cookieUserId)
-
-    //passport provides this method on request object
     req.logout()
-
     req.session.destroy( () => {
-        // if (req.query.redirect) {  // 401 is when no accessToken
-        //     console.log('first if')
-        //     res.redirect(status, req.query.redirect || '/')
-        //     console.log('Logged out by user')
-        // } else {
-
-            const message = JSON.stringify({message: 'You have been logged out!'})
-            res.status(200).send(message)
-            console.log('Logged out by Session')
-        //}
+        if (req.query.noredirect) {  // 401 is when no accessToken
+          const message = JSON.stringify({message: 'You have been logged out!'})
+          res.status(200).send(message)
+          console.log('Logged out by Session')
+        } else {
+          res.redirect(status, req.query.redirect || '/auth/login')
+          console.log('Logged out by user')
+        }
     })
 }
 

@@ -8,9 +8,6 @@ import * as fromStore from '../store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {CookieService} from 'ngx-cookie';
 import config from '../../../api/lib/config';
-import {AppUtils} from '../../app/utils/app-utils';
-import {AppConstants} from '../../app/app.constants';
-
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -45,7 +42,7 @@ export class AuthGuard implements CanActivate {
   isAuthenticated(): boolean {
     const jwt = this.cookieService.get(config.cookies.token);
     if (!jwt) {
-      this.signOut();
+      this.loginRedirect();
       return false;
     }
 
@@ -53,26 +50,13 @@ export class AuthGuard implements CanActivate {
     const notExpired = jwtData.exp > Math.round(new Date().getTime() / 1000);
 
     if (!notExpired) {
-      this.signOut();
+      this.loginRedirect();
     }
     return notExpired;
   }
 
-  generateLoginUrl(): string {
-    const env = AppUtils.getEnvironment(window.location.origin);
-    let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
-    API_BASE_URL += window.location.port ? ':' + window.location.port : '';
-
-    const base = AppConstants.REDIRECT_URL[env];
-
-    const clientId = config.idamClient;
-    const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    // tslint:disable-next-line: max-line-length
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
-  }
-
-  signOut(): void {
-    window.location.href = this.generateLoginUrl();
+  loginRedirect() {
+    window.location.href =  '/auth/login';
   }
 }
 

@@ -21,7 +21,7 @@ describe('Keep Alive Service', () => {
   describe('logOut function', () => {
     it('should should have logout get call', inject([LogOutKeepAliveService], (service: LogOutKeepAliveService) => {
       service.logOut();
-      expect(httpClientMock.get).toHaveBeenCalledWith('api/logout');
+      expect(httpClientMock.get).toHaveBeenCalledWith('api/logout?noredirect="null"');
     }));
   });
 

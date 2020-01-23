@@ -43,6 +43,7 @@ class HeaderPage {
   }
 
   async clickUser(){
+    await BrowserWaits.waitForElementNotVisible(element(by.css('div.spinner-wrapper')));
     await BrowserWaits.waitForElementNotVisible(this.spinner);
     await BrowserWaits.waitForElement(this.user);
     await BrowserWaits.waitForElementClickable(this.user);
@@ -51,6 +52,8 @@ class HeaderPage {
   }
 
   async clickOrganisation() {
+    await BrowserWaits.waitForElementNotVisible(element(by.css('div.spinner-wrapper')));
+
     await BrowserWaits.waitForElementNotVisible(this.spinner);
     await BrowserWaits.waitForElement(this.organisation);
     await BrowserWaits.waitForElementClickable(this.organisation);

@@ -33,13 +33,15 @@ export async function configureIssuer(url: string) {
 
 export async function configure(req: any, res: any, next: any) {
     const host = req.get('host')
-    const fqdn = req.protocol + '://' + host
+    const fqdn = 'https://' + host
     //Strip out port number
     const hostname = ( host.match(/:/g) ) ? host.slice( 0, host.indexOf(":") ) : host
     // we don't want to configure strategy if coming from direct IP address (e.g. could be health endpoint)
+
     if (net.isIP(hostname)) {
         return next()
     }
+
     if (app.locals.client) {
         return next()
     }
@@ -51,6 +53,7 @@ export async function configure(req: any, res: any, next: any) {
         }
     }
     logger.info('fqdn: ', fqdn)
+
     const clientMetadata: ClientMetadata = {
         client_id: config.idamClient,
         client_secret: process.env.IDAM_SECRET,
@@ -59,6 +62,7 @@ export async function configure(req: any, res: any, next: any) {
         response_types: ['code'],
         token_endpoint_auth_method: 'client_secret_post', // The default is 'client_secret_basic'.
     }
+
     app.locals.client = new app.locals.issuer.Client(clientMetadata)
     logger.info('configuring strategy')
     passport.use('oidc', new Strategy({
@@ -66,7 +70,7 @@ export async function configure(req: any, res: any, next: any) {
         params: {scope: 'profile openid roles manage-user create-user'},
     }, oidcVerify))
     next()
-    // passport.use('s2s', new BearerStrategy())
+
 }
 
 export async function doLogout(req: Request, res: Response, status = 302) {

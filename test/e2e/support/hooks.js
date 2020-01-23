@@ -97,7 +97,7 @@ defineSupportCode(({ After }) => {
         const world = this;
         if (scenario.result.status !== 'failed1') {
             console.log("After scenario : " + scenario.result.status);
-            browser.takeScreenshot()
+            screenShotUtils.takeScreenshot()
             .then(stream => {
                 const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
                 world.attach(decodedImage, 'image/png');

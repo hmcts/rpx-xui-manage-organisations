@@ -28,9 +28,17 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browser.driver.manage()
       .deleteAllCookies();
     await browser.refresh();
-    await browserWaits.retryForPageLoad(loginPage.emailAddress, function (message) {
-      world.attach("Retrying Login page load : " + message)
+    await browserWaits.retryWithAction(loginPage.emailAddress, function (message) {
+      world.attach("Retrying Login page load : " + message);
+      browser.takeScreenshot()
+        .then(stream => {
+          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+          world.attach(decodedImage, 'image/png');
+        });
+      await browser.get(config.config.baseUrl);
     });
+    await browserWaits.waitForElement(loginPage.emailAddress);
+    
   });
 
   Then(/^I should see failure error summary$/, async function () {
@@ -138,7 +146,18 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     // browser.sleep(LONG_DELAY);
-    browserWaits.waitForElement(loginPage.emailAddress);
+    const world = this;
+    await browserWaits.retryForPageLoad(loginPage.emailAddress,async function (message) {
+      world.attach("Retrying Login page load : " + message);
+      browser.takeScreenshot()
+        .then(stream => {
+          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+          world.attach(decodedImage, 'image/png');
+        });
+      await browser.get(config.config.baseUrl);
+    });
+
+    await browserWaits.waitForElement(loginPage.emailAddress);
     await loginPage.emailAddress.sendKeys(config.config.username);
     await loginPage.password.sendKeys(config.config.password);
     await loginPage.clickSignIn();

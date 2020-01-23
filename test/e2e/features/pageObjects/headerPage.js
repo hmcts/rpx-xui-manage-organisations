@@ -50,6 +50,14 @@ class HeaderPage {
     // browser.sleep(AMAZING_DELAY);
   }
 
+  async clickOrganisation() {
+    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    await BrowserWaits.waitForElement(this.organisation);
+    await BrowserWaits.waitForElementClickable(this.organisation);
+    await this.organisation.click();
+    // browser.sleep(AMAZING_DELAY);
+  }
+
 
 
 }

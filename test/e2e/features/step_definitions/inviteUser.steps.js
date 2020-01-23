@@ -11,6 +11,7 @@ const config = require('../../config/common.conf.js');
 const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');
+const browserWaits = require('../../support/customWaits');
 
 
 var { defineSupportCode } = require('cucumber');
@@ -56,8 +57,18 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   });
   Then(/^user should be created successfuly$/, async function () {
-    expect(await inviteUserPage.amOnUserConfirmationPage()).to.be.true;
+    const world = this;
+    await browserWaits.retryWithAction(inviteUserPage.userInvitaionConfirmation, async (message) => {
+      world.attach("Retry clicking Invite user button  : " + message);
+      screenShotUtils.takeScreenshot()
+        .then(stream => {
+          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+          world.attach(decodedImage, 'image/png');
+        })
+      await inviteUserPage.clickSendInvitationButton();
+    });
 
+    expect(await inviteUserPage.amOnUserConfirmationPage()).to.be.true;
   });
 
   When(/^I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {

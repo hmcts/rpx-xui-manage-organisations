@@ -22,6 +22,11 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
     await browserWaits.retryWithAction(viewUserPage.header, async function (message) {
       world.attach("Retrying Click User  : " + message);
+      browser.takeScreenshot()
+        .then(stream => {
+          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+          world.attach(decodedImage, 'image/png');
+        })
       await headerPage.clickUser();
     });
     await viewUserPage.amOnPage(); 

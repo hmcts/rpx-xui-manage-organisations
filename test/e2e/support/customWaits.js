@@ -87,7 +87,7 @@ class BrowserWaits {
                 if (action) {
                     await action(retryCounter + "");
                 }
-                console.log(element.locator().toString() + " .    Retry attempt for page load : " + retryCounter);
+                console.log(element.locator().toString() + " .    Retry attempt with user action(s) : " + retryCounter);
             }
         }
     }

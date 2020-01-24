@@ -11,7 +11,8 @@ const browserWaits = require('../../support/customWaits');
 const mailinatorService = require('../pageObjects/mailinatorService');
 const manageCasesService = require('../pageObjects/manageCasesService');
 
-
+const HeaderPage = require('../pageObjects/headerPage');
+const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
   await browser.wait(result => {
@@ -113,6 +114,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(SHORT_DELAY);
     await expect(loginPage.signOutlink.isDisplayed()).to.eventually.be.true;
     browser.sleep(SHORT_DELAY);
+    await headerPage.waitForSpinnerNotPresent();
     await loginPage.signOutlink.click();
     browser.sleep(SHORT_DELAY);
   });

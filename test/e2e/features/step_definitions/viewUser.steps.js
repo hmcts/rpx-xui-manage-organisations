@@ -4,6 +4,7 @@ const loginPage = require('../pageObjects/loginLogoutObjects');
 
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const EC = protractor.ExpectedConditions;
+const { config } = require('../../config/common.conf.js');
 
 var {defineSupportCode} = require('cucumber');
 const browserWaits = require('../../support/customWaits');
@@ -27,8 +28,10 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
           const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
           world.attach(decodedImage, 'image/png');
         })
-      await headerPage.clickUser();
+      await browser.get(config.config.baseUrl+'/users');
+      // await headerPage.clickUser();
     });
+
     await viewUserPage.amOnPage(); 
 
     // browser.sleep(AMAZING_DELAY);

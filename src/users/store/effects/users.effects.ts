@@ -5,7 +5,15 @@ import * as usersActions from '../actions';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { UsersService } from '../../services';
+<<<<<<< HEAD
+<<<<<<< HEAD
 import { SuspendUser } from '../actions';
+=======
+import { LoggerService } from '../../../shared/services/logger.service';
+>>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
+=======
+import { LoggerService } from '../../../shared/services/logger.service';
+>>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
 
 
 
@@ -13,7 +21,8 @@ import { SuspendUser } from '../actions';
 export class UsersEffects {
   constructor(
     private actions$: Actions,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -35,7 +44,10 @@ export class UsersEffects {
 
           return new usersActions.LoadUsersSuccess({users: amendedUsers});
         }),
-        catchError(error => of(new usersActions.LoadUsersFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.LoadUsersFail(error));
+        })
       );
     })
   );

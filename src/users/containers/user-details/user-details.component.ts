@@ -18,6 +18,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   userSubscription: Subscription;
   dependanciesSubscription: Subscription;
+  suspendUserServerErrorSubscription: Subscription;
 
   actionButtons: { name: string, class: string, action: () => {} }[] = [];
 
@@ -48,6 +49,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
       this.hideSuspendView();
+    });
+
+    this.suspendUserServerErrorSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_FAIL)).subscribe(() => {
+      this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
     });
   }
 
@@ -106,6 +111,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     if (this.suspendSuccessSubscription) {
       this.suspendSuccessSubscription.unsubscribe();
+    }
+
+    if (this.suspendUserServerErrorSubscription) {
+      this.suspendUserServerErrorSubscription.unsubscribe();
     }
   }
 

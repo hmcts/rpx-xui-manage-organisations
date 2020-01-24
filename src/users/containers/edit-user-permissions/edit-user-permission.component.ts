@@ -9,7 +9,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
 
 @Component({
-    selector: 'edit-user-permission',
+    selector: 'app-edit-user-permission',
     templateUrl: './edit-user-permission.component.html',
   })
   export class EditUserPermissionComponent  implements OnInit, OnDestroy {

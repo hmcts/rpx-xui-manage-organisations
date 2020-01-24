@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'organisation-account-missing',
+    selector: 'app-organisation-account-missing',
     templateUrl: './account-missing.component.html'
 })
 

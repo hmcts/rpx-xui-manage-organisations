@@ -23,22 +23,10 @@ export class FeeAccountsEffects {
     switchMap((payload: any) => {
       return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(
         map(feeAccountsDetails => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
         catchError(errorResponse => {
           this.loggerService.error(errorResponse);
           return errorResponse.status === 404 ? of(new feeAccountsActions.LoadFeeOneOrMoreAccountsFail(errorResponse.error)) :
           of(new feeAccountsActions.LoadFeeAccountsFail(errorResponse));
-<<<<<<< HEAD
-=======
-        catchError(error => {
-          this.loggerService.error(error.message);
-          return of(new feeAccountsActions.LoadFeeAccountsFail(error));
->>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
-=======
->>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
         })
       );
     })

@@ -13,8 +13,8 @@ class BrowserWaits {
         await browser.wait(EC.visibilityOf(waitelement), this.waitTime, "Error : " + waitelement.locator().toString());
     }
 
-    async waitForElementNotVisible(element) {
-        await browser.wait(EC.not(EC.presenceOf(element), this.waitTime, "Error : " + element.locator().toString()));
+    async waitForElementNotVisible(element,customWait) {
+        await browser.wait(EC.not(EC.presenceOf(element), customWait ? customWait : this.waitTime, "Error : " + element.locator().toString()));
     }
 
     async waitForPresenceOfElement(element) {

@@ -1,40 +1,25 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import * as authActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import {UserService} from '../../services/user.service';
-import {AuthActionTypes} from '../actions/';
-import {UserInterface} from '../../models/user.model';
-import {HttpErrorResponse} from '@angular/common/http';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import config from '../../../../api/lib/config';
-import * as usersActions from '../../../users/store/actions/user.actions';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
+import config from '../../../../api/lib/config';
 import * as fromRoot from '../../../app/store';
-=======
 import { LoggerService } from '../../../shared/services/logger.service';
->>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
-=======
-import { LoggerService } from '../../../shared/services/logger.service';
->>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
+import * as usersActions from '../../../users/store/actions/user.actions';
+import {UserInterface} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
+import * as authActions from '../actions';
+import {AuthActionTypes} from '../actions/';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
-<<<<<<< HEAD
-<<<<<<< HEAD
     private userService: UserService,
-=======
     private authService: UserService,
     private loggerService: LoggerService
->>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
-=======
-    private authService: UserService,
-    private loggerService: LoggerService
->>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
   ) { }
 
   @Effect()

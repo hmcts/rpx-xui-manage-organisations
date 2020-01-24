@@ -1,21 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import * as usersActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { SuspendUser } from '../actions';
-=======
-import { LoggerService } from '../../../shared/services/logger.service';
->>>>>>> 5c7f86a1f0b68ad3a23c6ab8a0e2496080c7e850
-=======
-import { LoggerService } from '../../../shared/services/logger.service';
->>>>>>> f1619da3f05cd26213bcc03e8f3d299e1997f3d8
-
-
+import * as usersActions from '../actions';
 
 @Injectable()
 export class UsersEffects {
@@ -56,7 +46,7 @@ export class UsersEffects {
   @Effect()
   suspendUser$ = this.actions$.pipe(
     ofType(usersActions.SUSPEND_USER),
-    switchMap((user: SuspendUser) => {
+    switchMap((user: usersActions.SuspendUser) => {
       return this.usersService.suspendUser(user).pipe(
         map(res => new usersActions.SuspendUserSuccess(user.payload)),
         catchError(error => of(new usersActions.SuspendUserFail(error)))

@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
     this.idleService.appStateChanges().subscribe(value => {
       this.dispatchSessionAction(value);
     });
-   // this.googleAnalyticsService.init(config.googleAnalyticsKey);
+   this.googleAnalyticsService.init(config.googleAnalyticsKey);
   }
 
   public dispatchSessionAction(value) {

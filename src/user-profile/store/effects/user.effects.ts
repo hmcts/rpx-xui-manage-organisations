@@ -79,8 +79,9 @@ export class UserEffects {
   @Effect({ dispatch: false})
   keepAlive$ = this.actions$.pipe(
     ofType(authActions.AuthActionTypes.KEEP_ALIVE),
-    switchMap((date) => {
-      return this.logOutService.heartBeat()
+    switchMap(() => {
+      // return this.logOutService.heartBeat()
+      return of('somethign')
         ;
     })
   );

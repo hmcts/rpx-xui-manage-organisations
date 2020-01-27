@@ -1,7 +1,7 @@
+import { BadgeColour, ContactDetailsDataModel } from '@hmcts/rpx-xui-common-lib';
+import {AppTitlesModel} from './models/app-titles.model';
 import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
-import {AppTitlesModel} from './models/app-titles.model';
-import { ContactDetailsDataModel, BadgeColour } from '@hmcts/rpx-xui-common-lib';
 
 const navItemsArray: NavItemModel[] = [
   {
@@ -50,7 +50,7 @@ const manageOrgTitle: AppTitlesModel = {
   url: '/'
 };
 
-const FooterData =  {
+const footerData =  {
   heading: 'Help',
   email: {
     address: 'service-desk@hmcts.gov.uk',
@@ -64,7 +64,7 @@ const FooterData =  {
   }
 };
 
-const FooterDataNavigation = {
+const footerDataNavigation = {
   items: [
     { text: 'Accessibility', href: 'accessibility', target: '_blank'},
     { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
@@ -163,17 +163,17 @@ const environmentNames = {
  */
 
 export class AppConstants {
-  static ROLES_BASED_NAV = roleBasedNav;
-  static NAV_ITEMS_ARRAY = navItemsArray;
-  static USER_NAV = userNav;
-  static REG_ORG_TITLE = regOrgTitle;
-  static MANAGE_ORG_TITLE = manageOrgTitle;
-  static FOOTER_DATA = FooterData;
-  static FOOTER_DATA_NAVIGATION = FooterDataNavigation;
-  static USER_ROLES = userRoles;
-  static JURISDICTIONS = jurisdictions;
-  static CCD_ROLES = ccdRoles;
-  static REDIRECT_URL = redirectUrl;
-  static ENVIRONMENT_NAMES = environmentNames;
-  static GET_HELP_DETAILS_DATA = getHelpDetailsData;
+  public static ROLES_BASED_NAV = roleBasedNav;
+  public static NAV_ITEMS_ARRAY = navItemsArray;
+  public static USER_NAV = userNav;
+  public static REG_ORG_TITLE = regOrgTitle;
+  public static MANAGE_ORG_TITLE = manageOrgTitle;
+  public static FOOTER_DATA = footerData;
+  public static FOOTER_DATA_NAVIGATION = footerDataNavigation;
+  public static USER_ROLES = userRoles;
+  public static JURISDICTIONS = jurisdictions;
+  public static CCD_ROLES = ccdRoles;
+  public static REDIRECT_URL = redirectUrl;
+  public static ENVIRONMENT_NAMES = environmentNames;
+  public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
 }

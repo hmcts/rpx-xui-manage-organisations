@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { AppConstants } from 'src/app/app.constants';
 import { ContactDetailsDataModel } from '@hmcts/rpx-xui-common-lib';
+import { AppConstants } from 'src/app/app.constants';
 
 @Component({
-    selector: 'exui-get-help',
+    selector: 'app-get-help',
     templateUrl: './get-help.component.html'
 })
 export class GetHelpComponent {

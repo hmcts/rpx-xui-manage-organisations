@@ -4,10 +4,10 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-    production: false,
-    googleAnalyticsKey: 'UA-124734893-4',
-    serviceDeskEmail: 'DCD-ITServiceDesk@hmcts.net',
-    serviceDeskTel: '0300 3030686',
+  production: false,
+  googleAnalyticsKey: 'UA-124734893-4',
+  serviceDeskEmail: 'DCD-ITServiceDesk@hmcts.net',
+  serviceDeskTel: '0300 3030686',
   cookies: {
     token: '__auth__',
     userId: '__userid__',

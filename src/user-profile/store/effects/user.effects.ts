@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import * as authActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import { of } from 'rxjs';
 import {UserService} from '../../services/user.service';
 import {AuthActionTypes} from '../actions/';
@@ -68,7 +68,12 @@ export class UserEffects {
   @Effect()
   signedOutSuccess$ = this.actions$.pipe(
     ofType(authActions.AuthActionTypes.SIGNED_OUT_SUCCESS),
-    map(() => new appActions.Go({path: ['/signed-out']}))
+    mergeMap(() => {
+      return [
+        new appActions.Go({path: ['/signed-out']}),
+        new appActions.SetUserRoles([]) // needed to remove navigation from signed-out page
+      ]
+    })
   );
 
   @Effect({ dispatch: false})

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as appActions from '../actions';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import {map, switchMap, catchError, delay} from 'rxjs/operators';
 
 import * as usersActions from '../../../users/store/actions';
 import * as fromUserProfile from '../../../user-profile/store';
@@ -41,6 +41,7 @@ export class AppEffects {
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
+    delay(500),
     map(() => {
       AppUtils.windowRedirect(null, '/auth/logout');
     })

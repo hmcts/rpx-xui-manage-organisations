@@ -45,7 +45,6 @@ export const getNavItems = createSelector(
     // set the active state based on routes
     const nav = AppUtils.setActiveLink(navItems, router);
     // do not set nav items for register org
-
     return AppUtils.returnNavs(router, nav);
   }
 );

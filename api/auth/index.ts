@@ -89,7 +89,7 @@ export async function doLogout(req: Request, res: Response, status = 302) {
     res.clearCookie(cookieUserId)
     req.logout()
     req.session.destroy( () => {
-        if (req.query.noredirect) {  // 401 is when no accessToken
+        if (req.query.noredirect) {
           const message = JSON.stringify({message: 'You have been logged out!'})
           res.status(200).send(message)
           console.log('Logged out by Session')

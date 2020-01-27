@@ -80,8 +80,7 @@ export class UserEffects {
   keepAlive$ = this.actions$.pipe(
     ofType(authActions.AuthActionTypes.KEEP_ALIVE),
     switchMap(() => {
-      // return this.logOutService.heartBeat()
-      return of('somethign')
+      return this.logOutService.heartBeat();
         ;
     })
   );

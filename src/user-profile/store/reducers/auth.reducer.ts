@@ -48,6 +48,13 @@ export function reducer(
         modal
       };
     }
+
+    case AuthActionTypes.SIGNED_OUT_SUCCESS: {
+      return {
+        ...state,
+        ...initialState
+      };
+    }
   }
   return state;
 }

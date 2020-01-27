@@ -64,5 +64,14 @@ describe('Authorisation Reducer', () => {
       });
     });
 
+    describe('SIGNED_OUT_SUCCESS action', () => {
+      it('should reset to init', () => {
+        const { initialState } = fromApp;
+        const action = new fromAppActions.SignedOutSuccess();
+        const state = fromApp.reducer(initialState, action);
+        expect(state).toEqual(initialState);
+      });
+    });
+
 });
 

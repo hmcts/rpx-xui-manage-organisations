@@ -1,18 +1,23 @@
-const common = require('./support/common.conf');
-const localConfig = require('./support/local.conf')
-const jenkinsConfig = require('./support/jenkins.conf')
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised);
 
-const cap = (common.argv.local) ? localConfig : jenkinsConfig;
+var { localConfig, jenkinsConfig, cucumberOpts } = require('./common.conf');
+const minimist = require('minimist');
+
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
+
+const argv = minimist(process.argv.slice(2));
+const cap = (argv.local) ? localConfig : jenkinsConfig;
 
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: common.specFilesFilter,
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
-
+    specs: ['../features/**/*.feature'],
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
-        targetEnv: common.argv.env || 'local'
+        targetEnv: argv.env || 'local'
     },
 
     directConnect: true,
@@ -22,16 +27,19 @@ const config = {
 
     onPrepare() {
         browser.waitForAngularEnabled(false);
-        global.expect = common.chai.expect;
-        global.assert = common.chai.assert;
-        global.should = common.chai.should;
+        global.expect = chai.expect;
+        global.assert = chai.assert;
+        global.should = chai.should;
+        global.screenShotUtils = new screenShotUtils({
+            browserInstance: browser
+        });
     },
 
     cucumberOpts: {
         strict: true,
         format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-        tags: ['@functional'],
-        require: ['../features/step_definitions/**/*.steps.js']
+        tags: ['@all'],
+        require: cucumberOpts
     },
 
     plugins: [

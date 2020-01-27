@@ -4,9 +4,9 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as usersActions from '../actions';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {InviteUserService, JurisdictionService } from '../../services';
+import {InviteUserService } from '../../services';
 import * as fromRoot from '../../../app/store';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 
 @Injectable()
@@ -14,7 +14,6 @@ export class InviteUserEffects {
   constructor(
     private actions$: Actions,
     private inviteUserSevice: InviteUserService,
-    private jurisdictionService: JurisdictionService,
     private loggerService: LoggerService
   ) {}
 
@@ -27,7 +26,10 @@ export class InviteUserEffects {
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => new usersActions.InviteUserSuccess({...userDetails, userEmail})),
         tap(() => this.loggerService.info('User Invited')),
-        catchError(error => of(new usersActions.InviteUserFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.InviteUserFail(error));
+        })
       );
     })
   );

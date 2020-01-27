@@ -1,4 +1,5 @@
 const common = require('./support/common.conf');
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 const config = {
     framework: 'custom',
@@ -62,6 +63,9 @@ const config = {
         global.expect = common.chai.expect;
         global.assert = common.chai.assert;
         global.should = common.chai.should;
+        global.screenShotUtils = new screenShotUtils({
+            browserInstance: browser
+        });
     }
 };
 

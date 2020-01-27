@@ -72,7 +72,6 @@ describe('AppReducer', () => {
           active: false,
           orderId: 2
         },
-        // Fix the failing test
         // {
         //   href: '/fee-accounts',
         //   text: 'Fee Accounts',

@@ -10,7 +10,7 @@ import {FormGroup} from '@angular/forms';
   template: `
       <div class="govuk-checkboxes__item" [formGroup]="group">
         <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.hint ? config.value+'-item-hint' : null"
-        [id]="config.id" [name]="config.name" [formControlName]="config.value">
+        [id]="config.id" [name]="config.name" [formControlName]="config.value" [checked]="isChecked">
         <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
         <span [id]="config.value+'-item-hint'" class="govuk-hint govuk-checkboxes__hint">
           {{config.hint}}
@@ -22,6 +22,7 @@ export class GovUkCheckboxComponent implements OnInit {
   constructor() { }
   @Input() group: FormGroup;
   @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string; id: string; classes: string};
+  @Input() isChecked: boolean = false;
 
   id: string;
 /**

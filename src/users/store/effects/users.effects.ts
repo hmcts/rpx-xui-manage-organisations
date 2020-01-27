@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import * as usersActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { UsersService } from '../../services';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
-
-
+import { UsersService } from '../../services';
+import * as usersActions from '../actions';
 
 @Injectable()
 export class UsersEffects {
@@ -40,6 +38,18 @@ export class UsersEffects {
           this.loggerService.error(error.message);
           return of(new usersActions.LoadUsersFail(error));
         })
+      );
+    })
+  );
+
+
+  @Effect()
+  suspendUser$ = this.actions$.pipe(
+    ofType(usersActions.SUSPEND_USER),
+    switchMap((user: usersActions.SuspendUser) => {
+      return this.usersService.suspendUser(user).pipe(
+        map(res => new usersActions.SuspendUserSuccess(user.payload)),
+        catchError(error => of(new usersActions.SuspendUserFail(error)))
       );
     })
   );

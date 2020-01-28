@@ -6,8 +6,8 @@ import {Component, OnInit, Input} from '@angular/core';
 
 export class FeeAccountErrorNotificationComponent implements OnInit {
   constructor() {}
-@Input() errorMessages: Array<string>;
-  ngOnInit(): void {
+@Input() public errorMessages: string[];
+  public ngOnInit(): void {
 
   }
 

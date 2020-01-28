@@ -11,7 +11,7 @@ function handleUserRoute(req, res) {
   // in milliseconds
   const idleTimeOuts: {caseworker: number; solicitors: number; special: number} = {
     caseworker: isProd ? 8 * 60 * 60 * 1000 : 60 * 1000, // 8 hr
-    solicitors: isProd ? 60 * 60 * 1000 : 3 * 60 * 1000, // 1 hr
+    solicitors: isProd ? 60 * 60 * 1000 : 60 * 1000, // 1 hr
     special: isProd ? 20 * 60 * 1000 :  60 * 1000, // 20 min
   }
 
@@ -40,7 +40,7 @@ function handleUserRoute(req, res) {
     email: req.session.passport.user.userinfo.sub,
     idleTime: getUserTimeouts(),
     roles: req.session.passport.user.userinfo.roles,
-    timeout: isProd ? 10 * 60 : 2 * 60, // in seconds
+    timeout: isProd ? 10 * 60 : 50, // in seconds
     userId: req.session.passport.user.userinfo.uid,
   }
   try {

@@ -62,7 +62,10 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     SharedModule,
     UserProfileModule,
     StoreRouterConnectingModule,
-    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
+    StoreDevtoolsModule.instrument({
+      maxAge: 40,
+      logOnly: environment.production
+    }),
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false

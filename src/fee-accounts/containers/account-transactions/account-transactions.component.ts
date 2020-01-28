@@ -30,13 +30,12 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     }
   ];
   columnConfig = [
-    { header: 'Payment reference', key: 'payment_reference' },
+    { header: 'Payment Reference', key: 'payment_reference' },
     { header: 'Case', key: 'ccd_case_number' },
-    { header: 'Your reference', key: 'payment_reference' },
+    { header: 'Service', key: 'service_name' },
     { header: 'Status', key: 'status' },
-    { header: 'Date created', key: 'date_created', type: 'date' },
-    { header: 'Last updated', key: 'date_updated', type: 'date' },
-    { header: 'Amount', key: 'amount' }
+    { header: 'Date created', key: 'date_created', type: 'dateAtTime' },
+    { header: 'Amount', key: 'amount', type: 'money' }
   ];
   loading$: Observable<boolean>;
   constructor(

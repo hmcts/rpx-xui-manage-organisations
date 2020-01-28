@@ -63,7 +63,6 @@ export const metaReducers: MetaReducer<any>[] = !config.production
     UserProfileModule,
     StoreRouterConnectingModule,
     StoreDevtoolsModule.instrument({
-      maxAge: 40,
       logOnly: environment.production
     }),
     LoggerModule.forRoot({

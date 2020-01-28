@@ -13,7 +13,7 @@
     </div>
     <div class="hmcts-page-heading__actions-wrapper"></div>
   </div>
-  <p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | date:"dd MMM yyyy hh:mm a") : ''}}</p>
+  <p>Last updated on {{accounts && accounts[0] ? formatDateAtTime(accounts[0].effective_date) : ''}}</p>
   <app-govuk-table
     *ngIf="!(loading$ | async) else loading"
     [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"

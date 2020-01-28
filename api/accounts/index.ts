@@ -9,7 +9,7 @@ async function handleAddressRoute(req, res) {
     if (!req.query.accountNames) {
         errReport = {
             apiError: 'Account is missing',
-            apiStatusCode: '400',
+            apiStatusCode: 400,
             message: 'Fee And Pay route error',
         }
         res.status(errReport.apiStatusCode).send(errReport)

@@ -1,5 +1,6 @@
 import {formatDate} from '@angular/common';
 import {Component, Input} from '@angular/core';
+import { AppUtils } from '../../../../../../src/app/utils/app-utils';
 
 @Component({
     selector: 'app-govuk-table',
@@ -27,7 +28,7 @@ export class GovukTableComponent {
     }
 
     public formatDateAtTime(date: Date): string {
-        return `${formatDate(date, 'dd MMM yy', 'en-UK')} at ${formatDate(date, 'h:mm a', 'en-UK')}`;
+        return AppUtils.formatDateAtTime(date);
     }
 
 }

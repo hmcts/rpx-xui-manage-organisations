@@ -1,6 +1,6 @@
 import {Component, OnChanges, Input} from '@angular/core';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-
+import { Payment } from '../../models/pba-transactions';
 /**
  * Bootstraps the Transactions Components
  */
@@ -11,13 +11,13 @@ import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk
 })
 export class TransactionsComponent implements OnChanges {
 
-  @Input() transactions = [];
+  @Input() public transactions = Array<Payment>();
 
-  columnConfig: GovukTableColumnConfig[];
+  public columnConfig: GovukTableColumnConfig[];
 
   constructor() {}
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.columnConfig = [
       { header: 'Payment reference', key: 'payment_reference' },
       { header: 'Case', key: 'ccd_case_number' },

@@ -54,7 +54,7 @@ export class AppUtils {
   }
 
   public static formatDateAtTime(date: Date, is24Hour: boolean = false): string {
-    return `${formatDate(date, 'dd MMM yy', 'en-UK')} at ${AppUtils.formatTime(date, is24Hour)}`;
+    return `${formatDate(date, 'dd MMM yyyy', 'en-UK')} at ${AppUtils.formatTime(date, is24Hour)}`;
   }
 
   public static formatTime(date: Date, is24Hour: boolean): string {

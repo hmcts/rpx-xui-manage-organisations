@@ -15,9 +15,10 @@ import * as fromfeatureStore from '../../store';
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public accountTransactions$: any;
-  public accounts$: Observable<Array<FeeAccount>>;
+  public accounts$: Observable<FeeAccount[]>;
   public subscription: Subscription;
-  public accounts: Array<FeeAccount>;
+  public accounts: FeeAccount[];
+  public accountName$: Observable<string>;
   public navItems = [
     {
       text: 'Summary',
@@ -58,6 +59,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     return accounts$.subscribe(acc => {
       if (acc && acc[0]) {
         this.accounts = acc;
+        this.accountName$ = of(acc[0].account_name);
       }
     });
   }

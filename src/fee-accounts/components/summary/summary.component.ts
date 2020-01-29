@@ -1,7 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import { AppUtils } from 'src/app/utils/app-utils';
 import {SingleAccountSummary} from '../../models/single-account-summary';
-import { formatDate } from '@angular/common';
-
 /**
  * Bootstraps the Summary Components
  */
@@ -17,5 +16,9 @@ export class SummaryComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+  }
+
+  public formatDateAtTime(date: Date): string {
+    return AppUtils.formatDateAtTime(date, true);
   }
 }

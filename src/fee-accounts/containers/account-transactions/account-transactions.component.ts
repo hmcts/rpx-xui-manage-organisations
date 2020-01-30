@@ -105,6 +105,6 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
   }
 
   public formatDateAtTime(date: Date): string {
-    return AppUtils.formatDateAtTime(date, true);
+    return AppUtils.formatDateAtTime(date, false);
   }
 }

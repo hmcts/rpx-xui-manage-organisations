@@ -53,7 +53,7 @@ export class AppUtils {
     return stringCapitalised;
   }
 
-  public static formatDateAtTime(date: Date, is24Hour: boolean = false): string {
+  public static formatDateAtTime(date: Date, is24Hour: boolean): string {
     return `${formatDate(date, 'dd MMM yyyy', 'en-UK')} at ${AppUtils.formatTime(date, is24Hour)}`;
   }
 

@@ -28,7 +28,7 @@ export class GovukTableComponent {
     }
 
     public formatDateAtTime(date: Date): string {
-        return AppUtils.formatDateAtTime(date);
+        return AppUtils.formatDateAtTime(date, false);
     }
 
 }

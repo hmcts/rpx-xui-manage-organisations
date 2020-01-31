@@ -40,12 +40,12 @@ const userNav: UserNavModel = {
 };
 
 const regOrgTitle: AppTitlesModel = {
-  name: 'Register to manage civil and family law cases',
+  name: 'Register to manage civil, family, and tribunal law cases',
   url: '/register-org/register/'
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage organisation details for civil and family law cases',
+  name: 'Manage organisation details for civil, family, and tribunal law cases',
   url: '/'
 };
 

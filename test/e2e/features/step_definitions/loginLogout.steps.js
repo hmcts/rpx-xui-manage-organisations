@@ -80,7 +80,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage organisation details for civil and family law cases');
+      .equal('Manage organisation details for civil, family, and tribunal law cases');
 
   });
 
@@ -126,7 +126,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage organisation details for civil and family law cases');
+      .equal('Manage organisation details for civil, family, and tribunal law cases');
     // browser.sleep(LONG_DELAY);
   });
 

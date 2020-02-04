@@ -58,7 +58,7 @@ export class AppUtils {
   }
 
   public static formatTime(date: Date, is24Hour: boolean): string {
-    return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK');
+    return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
   }
 
   static setPageTitle(url): string {

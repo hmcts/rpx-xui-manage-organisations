@@ -157,4 +157,14 @@ describe('AppUtils', () => {
     const url = AppUtils.getEnvironment(nav);
     expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.prod);
   });
+  it('should format date with time in 12 hour format', () => {
+    const dateTime = new Date(2020, 0, 1, 21, 12);
+    const dateString = AppUtils.formatDateAtTime(dateTime, false);
+    expect(dateString).toEqual('01 Jan 2020 at 9:12 pm');
+  });
+  it('should format date with time in 24 hour format', () => {
+    const dateTime = new Date(2020, 0, 1, 21, 12);
+    const dateString = AppUtils.formatDateAtTime(dateTime, true);
+    expect(dateString).toEqual('01 Jan 2020 at 21:12');
+  });
 });

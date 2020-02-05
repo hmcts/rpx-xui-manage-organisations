@@ -17,8 +17,4 @@ export class SummaryComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  public formatDateAtTime(date: Date): string {
-    return AppUtils.formatDateAtTime(date, false);
-  }
 }

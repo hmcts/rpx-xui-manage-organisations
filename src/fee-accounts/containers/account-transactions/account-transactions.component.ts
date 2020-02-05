@@ -103,8 +103,4 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public resetSingleFeeAccount() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
   }
-
-  public formatDateAtTime(date: Date): string {
-    return AppUtils.formatDateAtTime(date, false);
-  }
 }

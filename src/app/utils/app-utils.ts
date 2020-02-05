@@ -2,6 +2,7 @@
  * Contains static stateless utility methods for the App
  *
  */
+import {formatDate} from '@angular/common';
 import { AppConstants } from '../app.constants';
 export class AppUtils {
   /**
@@ -50,6 +51,14 @@ export class AppUtils {
     const stringLowercase = stringToCapitalize.toLowerCase();
     const stringCapitalised = stringLowercase.charAt(0).toUpperCase() + stringLowercase.slice(1);
     return stringCapitalised;
+  }
+
+  public static formatDateAtTime(date: Date, is24Hour: boolean): string {
+    return `${formatDate(date, 'dd MMM yyyy', 'en-UK')} at ${AppUtils.formatTime(date, is24Hour)}`;
+  }
+
+  public static formatTime(date: Date, is24Hour: boolean): string {
+    return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
   }
 
   static setPageTitle(url): string {

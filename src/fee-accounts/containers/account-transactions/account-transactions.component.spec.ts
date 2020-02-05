@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/fee-accounts/store/reducers';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DateFormatAtTimePipe } from 'src/shared/components/custom-pipe/date-pipe-with-to';
 
 describe('AccountTransactionsComponent', () => {
   let component: AccountTransactionsComponent;
@@ -27,7 +28,7 @@ describe('AccountTransactionsComponent', () => {
         StoreModule.forFeature('feeAccounts', reducers),
         RouterTestingModule
       ],
-      declarations: [ AccountTransactionsComponent ],
+      declarations: [ AccountTransactionsComponent, DateFormatAtTimePipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },

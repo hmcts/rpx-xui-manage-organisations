@@ -64,7 +64,6 @@
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "body-parser": "^1.19.0",
-    "classlist.js": "^1.1.20150312",
     "cookie-parser": "^1.4.4",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
@@ -88,7 +87,6 @@
     "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
-    "web-animations-js": "^2.3.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

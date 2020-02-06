@@ -1,18 +1,20 @@
-<div class="hmcts-identity-bar__container">
-  <div class="hmcts-identity-bar__details">
-      <span class="hmcts-identity-bar__title">{{ accounts && accounts[0] ? accounts[0].account_name : '' }}</span>
-  </div>
-</div>
-<a routerLink="{{backUrl}}" class="govuk-back-link">Back</a>
+
   <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
   <div class="hmcts-page-heading">
     <div class="hmcts-page-heading__title-wrapper">
       <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
+        <span class="govuk-caption-xl">{{ accountName$ | async }}</span>
         Transactions
       </h1>
     </div>
     <div class="hmcts-page-heading__actions-wrapper"></div>
   </div>
-  <p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | date:"dd MMM yyyy hh:mm a") : ''}}</p>
-  <app-prd-transactions-component [transactions]="accountTransactions$ | async"></app-prd-transactions-component>
+  <p>Last updated on {{accounts && accounts[0] ? (accounts[0].effective_date | dateFormatAtTime) : ''}}</p>
+  <app-govuk-table
+    *ngIf="!(loading$ | async) else loading"
+    [columnConfig]="columnConfig" [rows]="accountTransactions$ | async" [firstCellIsHeader]="false" [caption]="''"
+  ></app-govuk-table>
+  <ng-template #loading>
+    <div>Loading...</div>
+  </ng-template>
 

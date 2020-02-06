@@ -21,7 +21,7 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
   navItems = [
     {
       text: 'Summary',
-      href: `/`,
+      href: `./`,
       active: true
     },
     {

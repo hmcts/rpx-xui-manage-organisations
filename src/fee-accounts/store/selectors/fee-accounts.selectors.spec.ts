@@ -25,7 +25,7 @@ describe('Fee accounts selectors', () => {
         result = value;
 
       });
-      expect(result).toEqual({ feeAccounts: null, loaded: false, loading: false });
+      expect(result).toEqual({ feeAccounts: null, loaded: false, loading: false, oneOrMoreAccountMissing: false, errorMessages: null });
     });
   });
 
@@ -42,7 +42,8 @@ describe('Fee accounts selectors', () => {
       expect(result).toEqual([
         {
           payload: 'something',
-          routerLink: '/fee-accounts/account/undefined/'
+          routerLink: '/fee-accounts/account/undefined/',
+          isAccountInfoMissing: false
         }
       ]);
     });

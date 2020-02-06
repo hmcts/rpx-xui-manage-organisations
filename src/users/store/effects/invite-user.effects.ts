@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import * as usersActions from '../actions';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {InviteUserService } from '../../services';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import { LoggerService } from 'src/shared/services/logger.service';
 import * as fromRoot from '../../../app/store';
-import { LoggerService } from '../../../shared/services/logger.service';
-
+import {InviteUserService } from '../../services';
+import * as usersActions from '../actions';
 
 @Injectable()
 export class InviteUserEffects {
@@ -41,5 +40,4 @@ export class InviteUserEffects {
       return new fromRoot.Go({ path: ['users/invite-user-success'] });
     })
   );
-
 }

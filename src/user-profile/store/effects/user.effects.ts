@@ -1,18 +1,23 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import * as authActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import {UserService} from '../../services/user.service';
-import {AuthActionTypes} from '../actions/';
-import {UserInterface} from '../../models/user.model';
-import {HttpErrorResponse} from '@angular/common/http';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
+import config from '../../../../api/lib/config';
+import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
+import * as usersActions from '../../../users/store/actions/user.actions';
+import {UserInterface} from '../../models/user.model';
+import {UserService} from '../../services/user.service';
+import * as authActions from '../actions';
+import {AuthActionTypes} from '../actions/';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
+    private userService: UserService,
     private authService: UserService,
     private loggerService: LoggerService
   ) { }
@@ -21,7 +26,7 @@ export class UserEffects {
   getUser$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS),
     switchMap(() => {
-      return this.authService.getUserDetails()
+      return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
           catchError((error: HttpErrorResponse) => {
@@ -52,6 +57,37 @@ export class UserEffects {
     })
   );
 
+  @Effect()
+  editUser$ = this.actions$.pipe(
+    ofType(usersActions.EDIT_USER),
+    map((action: usersActions.EditUser) => action.payload),
+    switchMap((user) => {
+      return this.userService.editUserPermissions(user).pipe(
+        map( response => {
+          if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
+            this.loggerService.info('User permissions modified');
+            return new usersActions.EditUserSuccess(user.userId);
+          } else {
+            this.loggerService.error('user permissions failed');
+            return new usersActions.EditUserFailure(user.userId);
+          }
+        }),
+        catchError(error => {
+          this.loggerService.error(error);
+          return of(new usersActions.EditUserServerError({userId: user.userId, errorCode: error.apiStatusCode}));
+        })
+      );
+    })
+  );
+
+  @Effect()
+  confirmEditUser$ = this.actions$.pipe(
+    ofType(usersActions.EDIT_USER_SUCCESS),
+    map((user: any) => {
+      return user.payload; // this is the userId
+    }),
+    switchMap(userId => [
+      new usersActions.LoadUsers()
+  ])
+  );
 }
-
-

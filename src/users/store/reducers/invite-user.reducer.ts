@@ -62,7 +62,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: [
-            action.payload.error.apiStatusCode === 409 ? errorMessageMappings[1] :  action.payload.error.message
+            action.payload.error.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
           ]
         }
       };

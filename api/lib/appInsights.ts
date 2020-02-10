@@ -7,6 +7,7 @@ export let client
 // shouldnt do this check here but this is a high level dep
 const environment = process.env.PUI_ENV || 'local'
 
+//TODO: Change the direct reference to the config.appInsightsInstrumentationKey as config will be removed.
 if (environment !== 'local') {
     applicationinsights
         .setup(config.appInsightsInstrumentationKey)

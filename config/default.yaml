@@ -1,0 +1,16 @@
+# The values in this file should be reflective of the production
+# environment.
+environment: 'DEFAULT ENVIRONMENT'
+parent:
+  child: 'testRead default.yaml'
+jurisdictions:
+  - 'SSCS'
+  - 'AUTOTEST1'
+  - 'DIVORCE'
+  - 'PROBATE'
+  - 'PUBLICLAW'
+  - 'bulkscan'
+  - 'BULKSCAN'
+  - 'IA'
+  - 'EMPLOYMENT'
+  - 'CMC'

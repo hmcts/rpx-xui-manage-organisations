@@ -22,9 +22,4 @@ describe('AccessibilityComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('date should be contained inside the html', () => {
-   component.date = 'Any date time';
-   fixture.detectChanges();
-   expect(fixture.debugElement.nativeElement.textContent).toContain(component.date);
-  });
 });

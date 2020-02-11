@@ -14,7 +14,7 @@ export function init(): void {
   const proxyHost = getConfigValue(PROXY_HOST)
   const environment = getConfigValue(ENVIRONMENT)
   const proxyPort = getConfigValue(PROXY_PORT)
-  if (proxyHost && environment === 'local') {
+  if (proxyHost && environment === 'DEFAULT ENVIRONMENT') {
     logger.info('initialising tunnel, host: ', PROXY_HOST)
     logger.info('initialising tunnel, port: ', PROXY_PORT)
     globalProxyAgent.HTTP_PROXY = `http://${proxyHost}:${proxyPort}`

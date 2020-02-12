@@ -20,8 +20,8 @@ def channel   = '#xui-pipeline'
 
 def secrets = [
   'rpx-${env}': [
-    secret('xui-s2s-token', 'S2S_SECRET'),
-    secret('xui-oauth2-token', 'IDAM_SECRET'),
+    secret('mc-s2s-client-secret', 'S2S_SECRET'),
+    secret('xmc-idam-client-secret', 'IDAM_SECRET'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')

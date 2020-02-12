@@ -1,14 +1,14 @@
 <ng-container *ngIf="errorMessages$ | async as errorMessages">
-  <fee-account-notification-banner [errorMessages]="errorMessages">
-  </fee-account-notification-banner>
+  <app-fee-account-notification-banner [errorMessages]="errorMessages">
+  </app-fee-account-notification-banner>
 </ng-container>
 <app-hmcts-main-wrapper [title]="'Fee accounts'">
-  <account-overview-container
+  <app-account-overview-container
   *ngIf="!(loading$ | async) else loading"
   [isAccountAvailableForOrg]="isOrgAccountAvailable$ | async"
   [oneOrMoreAccountInfoMissing]="oneOrMoreAccountMissing$ | async"
   [columnConfig]="columnConfig" [rows]="accounts$ | async" [firstCellIsHeader]="false" [caption]="''"
-></account-overview-container>
+></app-account-overview-container>
   <ng-template #loading>
     <div>Loading...</div>
   </ng-template>

@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 @Component({
-  selector: 'fee-account-notification-banner',
+  selector: 'app-fee-account-notification-banner',
   templateUrl: './fee-account-error-notification.component.html',
 })
 

@@ -5,16 +5,21 @@ import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as fromSingleFeeAccountEffects from './single-fee-account.effects';
 import { SingleFeeAccountEffects } from './single-fee-account.effects';
-import { LoadSingleFeeAccount, LoadSingleFeeAccountFail } from '../actions/single-fee-account.actions';
-import { LoadSingleFeeAccountSuccess } from '../actions';
-import { FeeAccountsService } from 'src/fee-accounts/services';
-import { LoggerService } from 'src/shared/services/logger.service';
+import {
+  LoadSingleFeeAccount, LoadSingleFeeAccountFail, LoadSingleFeeAccountSuccess,
+  LoadSingleFeeAccountTransactions, LoadSingleFeeAccountTransactionsFail, LoadSingleFeeAccountTransactionsSuccess
+} from '../actions';
+import { FeeAccountsService } from '../../../fee-accounts/services';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 describe('Single fee account Effects', () => {
   let actions$;
   let effects: SingleFeeAccountEffects;
+  let loggerService: LoggerService;
+
   const SingleFeeAccountServiceMock = jasmine.createSpyObj('FeeAccountsService', [
     'fetchSingleFeeAccount',
+    'fetchPbAAccountTransactions'
   ]);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   beforeEach(() => {
@@ -35,6 +40,7 @@ describe('Single fee account Effects', () => {
     });
 
     effects = TestBed.get(SingleFeeAccountEffects);
+    loggerService = TestBed.get(LoggerService);
 
   });
   describe('loadSingleFeeAccount$', () => {
@@ -65,6 +71,32 @@ describe('Single fee account Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadSingleFeeAccount$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('loadSingleFeeAccountTransactions$', () => {
+    it('should return a collection from loadSingleFeeAccountTransactions$ - loadSingleFeeAccountTransactionsSuccess', () => {
+      // const payload = [{payload: 'something'}];
+      const payload = [];
+      SingleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(of(payload));
+      const action = new LoadSingleFeeAccountTransactions({});
+      const completion = new LoadSingleFeeAccountTransactionsSuccess([]);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadSingleFeeAccountTransactions$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadSingleFeeAccountTransactions$ error', () => {
+    it('should return loadSingleFeeAccountTransactionsFail', () => {
+      SingleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(throwError(new Error()));
+      const action = new LoadSingleFeeAccountTransactions({});
+      const completion = new LoadSingleFeeAccountTransactionsFail(new Error());
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadSingleFeeAccountTransactions$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
     });
   });
 

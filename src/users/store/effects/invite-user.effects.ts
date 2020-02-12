@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
-import * as usersActions from '../actions';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {InviteUserService } from '../../services';
-import * as fromRoot from '../../../app/store';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import { LoggerService } from 'src/shared/services/logger.service';
-import { UserService } from 'src/user-profile/services/user.service';
+import * as fromRoot from '../../../app/store';
+import {InviteUserService } from '../../services';
+import * as usersActions from '../actions';
 
 @Injectable()
 export class InviteUserEffects {
@@ -26,7 +24,10 @@ export class InviteUserEffects {
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => new usersActions.InviteUserSuccess({...userDetails, userEmail})),
         tap(() => this.loggerService.info('User Invited')),
-        catchError(error => of(new usersActions.InviteUserFail(error)))
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.InviteUserFail(error));
+        })
       );
     })
   );
@@ -38,6 +39,4 @@ export class InviteUserEffects {
       return new fromRoot.Go({ path: ['users/invite-user-success'] });
     })
   );
-
-
 }

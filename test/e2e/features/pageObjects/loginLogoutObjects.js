@@ -25,6 +25,13 @@ function loginLogoutObjects() {
     await this.clickSignIn();
   };
 
+  this.loginWithCredentials = async function (email,password) {
+    await this.waitFor("input#username");
+    await this.enterUrEmail(email);
+    await this.enterPassword(password);
+    await this.clickSignIn();
+  }
+
   this.enterUrEmail = async function (email) {
     await this.emailAddress.sendKeys(email);
   };

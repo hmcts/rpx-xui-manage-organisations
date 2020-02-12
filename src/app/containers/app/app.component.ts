@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
-import * as fromRoot from '../../store';
+import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
+import { environment as config } from '../../../environments/environment';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
+import * as fromRoot from '../../store';
 import * as fromActions from '../../store';
-import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
-import { environment as config } from '../../../environments/environment';
 
 /**
  * Root Component that bootstrap all application.
@@ -20,20 +20,20 @@ import { environment as config } from '../../../environments/environment';
 })
 export class AppComponent implements OnInit {
 
-  identityBar$: Observable<string[]>;
+  public identityBar$: Observable<string[]>;
 
-  pageTitle$: Observable<string>;
-  navItems$: Observable<any> ;
-  appHeaderTitle$: Observable<AppTitlesModel>;
-  userNav$: Observable<UserNavModel>;
+  public pageTitle$: Observable<string>;
+  public navItems$: Observable<any> ;
+  public appHeaderTitle$: Observable<AppTitlesModel>;
+  public userNav$: Observable<UserNavModel>;
 
 
   constructor(
-    private store: Store<fromRoot.State>,
-    private googleAnalyticsService: GoogleAnalyticsService
+    private readonly store: Store<fromRoot.State>,
+    private readonly googleAnalyticsService: GoogleAnalyticsService
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
@@ -51,7 +51,8 @@ export class AppComponent implements OnInit {
 
     this.googleAnalyticsService.init(config.googleAnalyticsKey);
   }
-  onNavigate(event): void {
+
+  public onNavigate(event): void {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromActions.Logout());
     }

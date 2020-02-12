@@ -16,6 +16,10 @@ export const emailAddress = {
     groups: [
       {
         input: {
+          hint: {
+            text: 'You should use your business email address wherever possible.',
+            classes: 'govuk-hint'
+          },
           validators: ['required', 'email'],
           validationError: {
             value: 'Enter email address',

@@ -1,6 +1,7 @@
+import { BadgeColour, ContactDetailsDataModel } from '@hmcts/rpx-xui-common-lib';
+import {AppTitlesModel} from './models/app-titles.model';
 import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
-import {AppTitlesModel} from './models/app-titles.model';
 
 const navItemsArray: NavItemModel[] = [
   {
@@ -38,16 +39,16 @@ const userNav: UserNavModel = {
 };
 
 const regOrgTitle: AppTitlesModel = {
-  name: 'Register to manage civil and family law cases',
+  name: 'Register to manage civil, family, and tribunal law cases',
   url: '/register-org/register/'
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage organisation details for civil and family law cases',
+  name: 'Manage organisation details for civil, family, and tribunal law cases',
   url: '/'
 };
 
-const FooterData =  {
+const footerData =  {
   heading: 'Help',
   email: {
     address: 'service-desk@hmcts.gov.uk',
@@ -61,14 +62,47 @@ const FooterData =  {
   }
 };
 
-const FooterDataNavigation = {
+const footerDataNavigation = {
   items: [
     { text: 'Accessibility', href: 'accessibility', target: '_blank'},
     { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
     { text: 'Cookies', href: 'cookies', target: '_blank' },
-    { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'}
+    { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'},
+    { text: 'Get Help', href: 'get-help', target: '_blank' }
   ]
 };
+
+
+const getHelpDetailsData: ContactDetailsDataModel[] = [
+  {
+    title: 'Probate',
+    badgeColour: BadgeColour.BADGE_BLUE,
+    email: 'contactprobate@justice.gov.uk',
+    phone: '0300 303 0648',
+    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Divorce',
+    badgeColour: BadgeColour.BADGE_BLUE,
+    email: 'divorcecase@justice.gov.uk',
+    phone: '0300 303 0642',
+    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Financial Remedy',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'contactfinancialremedy@justice.gov.uk',
+    phone: '0300 303 0642',
+    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Immigration and Asylum',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'customer.service@justice.gov.uk',
+    phone: '0300 123 1711',
+    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
+  }
+];
 
 const userRoles = [
 
@@ -93,12 +127,12 @@ const jurisdictions = [
 
 const ccdRoles = [
   'caseworker',
-  'caseworker-ia',
   'caseworker-divorce',
   'caseworker-divorce-solicitor',
   'caseworker-divorce-financialremedy',
   'caseworker-divorce-financialremedy-solicitor',
   'caseworker-probate',
+  'caseworker-ia',
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
@@ -128,16 +162,17 @@ const environmentNames = {
  */
 
 export class AppConstants {
-  static ROLES_BASED_NAV = roleBasedNav;
-  static NAV_ITEMS_ARRAY = navItemsArray;
-  static USER_NAV = userNav;
-  static REG_ORG_TITLE = regOrgTitle;
-  static MANAGE_ORG_TITLE = manageOrgTitle;
-  static FOOTER_DATA = FooterData;
-  static FOOTER_DATA_NAVIGATION = FooterDataNavigation;
-  static USER_ROLES = userRoles;
-  static JURISDICTIONS = jurisdictions;
-  static CCD_ROLES = ccdRoles;
-  static REDIRECT_URL = redirectUrl;
-  static ENVIRONMENT_NAMES = environmentNames;
+  public static ROLES_BASED_NAV = roleBasedNav;
+  public static NAV_ITEMS_ARRAY = navItemsArray;
+  public static USER_NAV = userNav;
+  public static REG_ORG_TITLE = regOrgTitle;
+  public static MANAGE_ORG_TITLE = manageOrgTitle;
+  public static FOOTER_DATA = footerData;
+  public static FOOTER_DATA_NAVIGATION = footerDataNavigation;
+  public static USER_ROLES = userRoles;
+  public static JURISDICTIONS = jurisdictions;
+  public static CCD_ROLES = ccdRoles;
+  public static REDIRECT_URL = redirectUrl;
+  public static ENVIRONMENT_NAMES = environmentNames;
+  public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
 }

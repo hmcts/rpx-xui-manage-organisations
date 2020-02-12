@@ -3,6 +3,7 @@ const chaiAsPromised  = require('chai-as-promised');
 const minimist        = require('minimist');
 
 chai.use(chaiAsPromised);
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 const argv = minimist(process.argv.slice(2));
 
@@ -23,7 +24,8 @@ const jenkinsConfig = [
     browserName: 'chrome',
     acceptInsecureCerts: true,
     nogui: true,
-    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks'] }
+    unexpectedAlertBehaviour: 'accept',
+    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications'] }
   }
 ];
 
@@ -31,7 +33,8 @@ const localConfig = [
   {
     browserName: 'chrome',
     acceptInsecureCerts: true,
-    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ']} ,
+    unexpectedAlertBehaviour: 'accept',
+    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications']} ,
     proxy: {
       proxyType: 'manual',
       httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -80,13 +83,16 @@ const config = {
     global.expect = chai.expect;
     global.assert = chai.assert;
     global.should = chai.should;
+    global.screenShotUtils = new screenShotUtils({
+      browserInstance: browser
+    });
   },
 
   cucumberOpts: {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-    tags: ['@ignore'],
+    tags: ['@smoke'],
     require: [
       '../support/timeout.js',
       '../support/world.js',

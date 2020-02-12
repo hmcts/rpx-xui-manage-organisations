@@ -53,6 +53,7 @@ async function handleAddressRoute(req, res) {
 
 function getAccount(accountName: string): AxiosPromise<any> {
     const url = `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/accounts/${accountName}`
+    console.log('url is', url)
     const promise = http.get(url)
     return promise
 }

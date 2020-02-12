@@ -3,13 +3,13 @@
  */
 import * as propertiesVolume from '@hmcts/properties-volume'
 import * as bodyParser from 'body-parser'
-import * as cookieParser from 'cookie-parser'
 import * as config from 'config'
+import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as session from 'express-session'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
-import {environmentCheckText, getConfigValue, getEnvironment} from './configuration'
+import {environmentCheckText, getConfigValue, getEnvironment, getIDamSecret, getS2sSecret} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
   APP_INSIGHTS_KEY,
@@ -33,14 +33,16 @@ import routes from './routes'
 /**
  * Used Server side
  */
-import serviceRouter from './services/serviceAuth'
 import * as ejs from 'ejs'
 import * as path from 'path'
 import * as tunnel from './lib/tunnel'
+import serviceRouter from './services/serviceAuth'
 
 const FileStore = sessionFileStore(session)
 
 const app = express()
+
+const mountedSecrets = propertiesVolume.addTo({})
 
 /**
  * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
@@ -71,6 +73,8 @@ console.log(getConfigValue(SERVICES_CCD_DEF_API_PATH))
 console.log(getConfigValue(SERVICES_IDAM_API_PATH))
 console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
+console.log('s2sSecret', getS2sSecret(mountedSecrets))
+console.log('idamsecret', getIDamSecret(mountedSecrets))
 
 app.use(
     session({

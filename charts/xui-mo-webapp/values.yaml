@@ -25,6 +25,7 @@ nodejs:
     COOKIE_TOKEN: __auth__
     COOKIE_USER_ID: __userid__
     MICROSERVICE: xui_webapp
+    NODE_CONFIG_ENV: prod
   keyVaults:
     rpx:
       resourceGroup: rpx

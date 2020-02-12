@@ -16,13 +16,13 @@ import {
   COOKIE_TOKEN,
   COOKIES_USERID,
   IDAM_CLIENT,
-  MAX_LINES, NOW,
-  PROXY_HOST,
+  MAX_LINES,
+  NOW,
   SECURE_COOKIE,
   SERVICES_CCD_DATA_API_PATH,
   SERVICES_CCD_DEF_API_PATH,
   SERVICES_IDAM_API_PATH,
-  SESSION_SECRET,
+  SESSION_SECRET
 } from './configuration/references'
 import { appInsights } from './lib/appInsights'
 // import { config } from './lib/config'
@@ -93,7 +93,7 @@ app.use(
     })
 )
 
-if (getConfigValue(PROXY_HOST)) {
+if (process.env.NODE_CONFIG_ENV !== 'prod') {
   tunnel.init()
 }
 

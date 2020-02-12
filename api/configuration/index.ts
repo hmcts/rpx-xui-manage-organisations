@@ -1,4 +1,5 @@
 import * as config from 'config'
+import { propsExist } from '../lib/objectUtilities'
 import {DEVELOPMENT, HTTP} from './constants'
 import {ENVIRONMENT, PROTOCOL} from './references'
 
@@ -33,7 +34,7 @@ export const getConfigValue = reference => config.get(reference)
  *
  * @returns {string}
  */
-export const getIdamSecret = () => process.env.IDAM_SECRET
+// export const getIdamSecret = () => process.env.IDAM_SECRET
 
 /**
  * Get S2S Secret
@@ -43,7 +44,7 @@ export const getIdamSecret = () => process.env.IDAM_SECRET
  *
  * @returns {string}
  */
-export const getS2SSecret = () => process.env.S2S_SECRET
+// export const getS2SSecret = () => process.env.S2S_SECRET
 
 /**
  * Generate Environment Check Text
@@ -61,3 +62,38 @@ export const environmentCheckText = () => `NODE_CONFIG_ENV is set as ${process.e
  * @returns {string | string}
  */
 export const getProtocol = () => getEnvironment() === DEVELOPMENT ? HTTP : getConfigValue(PROTOCOL)
+
+/**
+ * Get S2S Secret
+ *
+ * We're able to pull in the S2S secret into the application using the following:
+ * secretsConfig['secrets']['rpx']['mc-s2s-client-secret']
+ *
+ * The secret always comes from keyVaults.rpx.secrets.mc-s2s-client-secret
+ * @see values.yaml
+ *
+ * @returns {string}
+ */
+export const getS2sSecret = (secretsConfig): string => {
+    const ERROR_S2S_SECRET_NOT_FOUND =
+      'mo-s2s-client-secret not found on this environment.'
+    if (propsExist(secretsConfig, ['secrets', 'rpx', 'mo-s2s-client-secret'])) {
+      // tslint:disable-next-line: no-string-literal
+      return secretsConfig['secrets']['rpx']['mo-s2s-client-secret']
+    } else {
+      console.log(ERROR_S2S_SECRET_NOT_FOUND)
+      return ''
+    }
+  }
+
+export const getIDamSecret = (secretsConfig): string => {
+    const ERROR_IDAM_SECRET_NOT_FOUND =
+      'xui-oauth2-token not found on this environment.'
+    if (propsExist(secretsConfig, ['secrets', 'rpx', 'xui-oauth2-token'])) {
+      // tslint:disable-next-line: no-string-literal
+      return secretsConfig['secrets']['rpx']['xui-oauth2-token']
+    } else {
+      console.log(ERROR_IDAM_SECRET_NOT_FOUND)
+      return ''
+    }
+  }

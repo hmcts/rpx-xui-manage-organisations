@@ -1,7 +1,6 @@
 /**
  * Common to both server.ts and local.ts files
  */
-import * as config from 'config'
 import * as propertiesVolume from '@hmcts/properties-volume'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
@@ -10,7 +9,7 @@ import * as session from 'express-session'
 import * as log4js from 'log4js'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
-import {environmentCheckText, getConfigValue, getEnvironment} from './configuration'
+import {environmentCheckText, getConfigValue, getEnvironment, getIDamSecret, getS2sSecret} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
   APP_INSIGHTS_KEY,
@@ -46,7 +45,7 @@ const app = express()
 /**
  * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
  */
-propertiesVolume.addTo(config)
+const mountedSecrets = propertiesVolume.addTo({})
 
 /**
  * If there are no configuration properties found we highlight this to the person attempting to initialise
@@ -73,6 +72,8 @@ console.log(getConfigValue(SERVICES_IDAM_API_PATH))
 console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
 console.log(getConfigValue(JURISDICTIONS))
+console.log('s2sSecret', getS2sSecret(mountedSecrets))
+console.log('idamSecret', getIDamSecret(mountedSecrets))
 
 app.use(
   session({

@@ -23,7 +23,8 @@
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
-        "s2s": "S2S_SERVICE"
+        "s2s": "S2S_SERVICE",
+        "feeAndPayApi": "FEE_AND_PAY_API_SERVICE"
     },
     "sessionSecret": "SESSION_SECRET",
     "proxyConfig": {

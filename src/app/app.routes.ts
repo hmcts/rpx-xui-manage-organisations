@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { AccessibilityComponent,
+  CookiePolicyComponent, PrivacyPolicyComponent, ServiceDownComponent, TermsAndConditionsComponent } from './components';
+import { GetHelpComponent } from './components/get-help/get-help.component';
 import {RedirectComponent} from './containers/redirect/redirect.component';
-import { ServiceDownComponent,
-  CookiePolicyComponent, PrivacyPolicyComponent, TermsAndConditionsComponent, AccessibilityComponent } from './components';
 
 export const ROUTES: Routes = [
   {
@@ -58,6 +59,10 @@ export const ROUTES: Routes = [
   {
     path: 'accessibility',
     component: AccessibilityComponent
+  },
+  {
+    path: 'get-help',
+    component: GetHelpComponent
   },
   {
     path: '**',

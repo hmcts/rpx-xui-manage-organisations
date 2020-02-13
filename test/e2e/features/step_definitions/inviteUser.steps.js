@@ -117,7 +117,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   });
 
-  Then("I activate invited user", async function () {
+  Then("I activate invited user", { timeout: 600 * 1000 },async function () {
     await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
     await mailinatorService.completeUserRegistrationFromEmail();
   });

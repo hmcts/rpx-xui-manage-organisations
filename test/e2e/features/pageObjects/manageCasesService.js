@@ -9,12 +9,17 @@ class ManageCasesService {
         this.baseUrl = "";
         this.useremail = "";
         this.password = "";
+        this.waitTime = 30000;
         if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")) {
             this.baseUrl = "https://xui-webapp-aat.service.core-compute-aat.internal/";
         } else if (process.env.TEST_URL.includes("demo")) {
             this.baseUrl = "https://xui-webapp-demo.service.core-compute-demo.internal/";
         }
 
+    }
+
+    setWorld(worldObj){
+        this.world = worldObj;
     }
 
     async init() {
@@ -46,6 +51,13 @@ class ManageCasesService {
     }
 
     async login(username,password) {
+
+        this.world.attach("MC Login Step started");
+        await this.mcBrowser.driver.manage()
+            .deleteAllCookies();
+        await this.mcBrowser.get(this.baseUrl)
+        await this.waitForElement(this.emailAddressElement);
+
         await this.emailAddressElement.sendKeys(username);
         await this.passwordElement.sendKeys(password);
         await this.signinBtn.click();
@@ -56,11 +68,14 @@ class ManageCasesService {
     }
 
     async validateLoginFailure(){
-        await this.waitForElement(this.erroSummaryBannner);
+        await this.mcBrowser.wait(async () => {
+            await this.waitForElement(this.emailAddressElement);
+            let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value'); 
+            return loginEmailFieldValue === ''; 
+        }, this.waitTime)
+        // await this.waitForElement(this.erroSummaryBannner);
     }
-
 }
-
 
 const manageCasesService = new ManageCasesService();
 manageCasesService.init().then(() => {

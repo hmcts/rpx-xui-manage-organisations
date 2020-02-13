@@ -6,7 +6,7 @@ var BrowserWaits = require('../../support/customWaits')
 class HeaderPage {
 
   constructor() {
-    this.moPage = element(by.xpath("//a[contains(text(),'Manage Organisation details for civil and family law cases')]"));
+    this.moPage = element(by.xpath("//a[contains(text(),'Manage organisation details for civil, family, and tribunal law cases')]"));
 
     this.hmctsPrimaryNavigation = element(by.css(".hmcts-primary-navigation"));
 

@@ -21,7 +21,6 @@ async function waitForElement(el) {
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
-
   When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
     const world = this;
 
@@ -80,7 +79,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage organisation details for civil and family law cases');
+      .equal('Manage organisation details for civil, family, and tribunal law cases');
 
   });
 
@@ -126,7 +125,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage organisation details for civil and family law cases');
+      .equal('Manage organisation details for civil, family, and tribunal law cases');
     // browser.sleep(LONG_DELAY);
   });
 
@@ -205,6 +204,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then('I login to MC with invited user', async function () {
+    manageCasesService.setWorld(this);
     await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
   });
 

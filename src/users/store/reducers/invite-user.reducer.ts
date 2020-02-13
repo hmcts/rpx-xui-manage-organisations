@@ -1,3 +1,4 @@
+import { errorMessageMappings } from 'src/register/mappings/apiErrorMappings';
 import * as fromInviteUsers from '../actions/invite-user.actions';
 
 
@@ -61,7 +62,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: [
-            action.payload.error.message
+            action.payload.error.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
           ]
         }
       };
@@ -86,9 +87,10 @@ export function reducer(
         ...initialState
       };
     }
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 export const getInviteUserData = (state: InviteUserState) => state.inviteUserFormData;

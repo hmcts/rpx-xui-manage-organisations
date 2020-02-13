@@ -23,3 +23,8 @@ export function init(): void {
     createGlobalProxyAgent({})
   }
 }
+
+export function end() {
+  process.env.GLOBAL_AGENT_HTTP_PROXY = ''
+  process.env.GLOBAL_AGENT_NO_PROXY = ''
+}

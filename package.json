@@ -2,7 +2,7 @@
   "name": "rpa-pui-manager",
   "version": "0.0.0",
   "scripts": {
-    "start": "node ./dist/rpa-pui-manager/api/server.js",
+    "start": "node ./dist/rpa-pui-manager/api/server.bundle.js",
     "build": "yarn build:prod && yarn build:node",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
     "test": "yarn test:ng",
@@ -60,6 +60,7 @@
     "@pact-foundation/pact": "^9.2.0",
     "@pact-foundation/pact-node": "^9.0.6",
     "@types/crypto-js": "^3.1.43",
+    "@types/global-agent": "^2.1.0",
     "applicationinsights": "^1.5.0",
     "applicationinsights-js": "^1.0.20",
     "axios": "^0.18.0",
@@ -91,6 +92,10 @@
     "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
+    "ts-loader": "^6.2.1",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

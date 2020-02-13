@@ -1,11 +1,11 @@
-import {healthEndpoints} from './health'
-import {getConfigValue, getEnvironment} from './index'
 import {
   EnvironmentConfigCookies,
   EnvironmentConfigExceptionOptions,
   EnvironmentConfigProxy,
   EnvironmentConfigServices
 } from '../interfaces/environment.config'
+import {healthEndpoints} from './health'
+import {getConfigValue, getEnvironment} from './index'
 import {
   COOKIE_TOKEN,
   COOKIES_USERID,
@@ -24,6 +24,7 @@ import {
   SERVICE_S2S_PATH,
   SERVICES_CCD_DATA_API_PATH,
   SERVICES_CCD_DEF_API_PATH,
+  SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
@@ -60,6 +61,7 @@ export const uiConfig = () => {
     services: {
       ccdDataApi: getConfigValue(SERVICES_CCD_DATA_API_PATH),
       ccdDefApi: getConfigValue(SERVICES_CCD_DEF_API_PATH),
+      feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),
       rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),

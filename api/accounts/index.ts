@@ -3,7 +3,6 @@ import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references'
 import { FeeAccount } from '../interfaces/feeAccountPayload'
-import { config } from '../lib/config'
 import { http } from '../lib/http'
 import { getAccountUrl } from './accountUtil'
 
@@ -22,8 +21,9 @@ async function handleAddressRoute(req, res) {
     const accountPromises = new Array<AxiosPromise<any>>()
 
     accountNames.forEach((accountNumber: string) => {
-        const url = getAccountUrl(config.services.feeAndPayApi, accountNumber)
-        accountPromises.push(getAccount(accountNumber))
+        const feeAndPayHostUrl = getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)
+        const url = getAccountUrl(feeAndPayHostUrl, accountNumber)
+        accountPromises.push(getAccountPromise(url))
     })
     let responseStatusCode
     try {
@@ -51,10 +51,8 @@ async function handleAddressRoute(req, res) {
     }
 }
 
-function getAccount(accountName: string): AxiosPromise<any> {
-    const url = `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/accounts/${accountName}`
-    console.log('url is', url)
-    const promise = http.get(url)
+function getAccountPromise(url: string): AxiosPromise<any> {
+    const promise = http.get(url).catch(err => err)
     return promise
 }
 

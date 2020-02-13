@@ -49,7 +49,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    enableDockerBuild()
     installCharts()
 
 // To enable PACT testing on pipeline uncomment the next 3 lines

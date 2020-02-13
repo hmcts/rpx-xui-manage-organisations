@@ -6,8 +6,6 @@ import { Component } from '@angular/core';
 })
 export class AccessibilityComponent {
 
-date: string = '16 September 2019';
-
 constructor() {
   }
 }

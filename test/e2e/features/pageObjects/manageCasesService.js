@@ -61,10 +61,14 @@ class ManageCasesService {
         await this.emailAddressElement.sendKeys(username);
         await this.passwordElement.sendKeys(password);
         await this.signinBtn.click();
+        this.world.attach("MC Login submitted for user : " + username);
+
     }
 
     async validateLoginSuccess(){
         await this.waitForElement(this.hmctsHeader);
+        this.world.attach("MC Login Success as expected");
+
     }
 
     async validateLoginFailure(){
@@ -72,8 +76,8 @@ class ManageCasesService {
             await this.waitForElement(this.emailAddressElement);
             let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value'); 
             return loginEmailFieldValue === ''; 
-        }, this.waitTime)
-        // await this.waitForElement(this.erroSummaryBannner);
+        }, this.waitTime);
+        this.world.attach("MC Login Failed as expected");
     }
 }
 

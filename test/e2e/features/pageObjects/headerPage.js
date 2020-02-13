@@ -7,7 +7,6 @@ class HeaderPage {
 
   constructor() {
     this.moPage = element(by.xpath("//a[contains(text(),'Manage organisation details for civil, family, and tribunal law cases')]"));
-
     this.hmctsPrimaryNavigation = element(by.css(".hmcts-primary-navigation"));
 
     this.organisation = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Organisation']"));

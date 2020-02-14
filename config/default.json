@@ -22,16 +22,5 @@
         "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal"
     },
     "sessionSecret": "secretSauce",
-    "jurisdictions": [
-        {"id": "SSCS"},
-        {"id": "AUTOTEST1"},
-        {"id": "DIVORCE"},
-        {"id": "PROBATE"},
-        {"id": "PUBLICLAW"},
-        {"id": "bulkscan"},
-        {"id": "BULKSCAN"},
-        {"id": "IA"},
-        {"id": "EMPLOYMENT"},
-        {"id": "CMC"}
-      ]
+    "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ]
 }

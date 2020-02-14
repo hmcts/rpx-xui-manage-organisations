@@ -35,6 +35,8 @@ class MailinatorService{
 
     async gotToInbox(useremail){
         this.logger("Opening user inbox");
+        let username = useremail.replace("@mailinator.com", "");
+
         let emailFieldElement = this.mailinatorElement(by.css('#inbox_field'));
         await this.mailinatorbrowser.wait(EC.presenceOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
         await this.mailinatorbrowser.wait(EC.visibilityOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
@@ -42,7 +44,7 @@ class MailinatorService{
         this.mailinatorbrowser.sleep(2000);
         await emailFieldElement.clear();
         let emailId = await emailFieldElement.getText(); 
-        while (emailId.includes('exuitest')){
+        while (!emailId.includes(username)){
             this.mailinatorbrowser.sleep(2000);
             await emailFieldElement.clear()
         }
@@ -51,7 +53,6 @@ class MailinatorService{
         await this.mailinatorElement(by.css('#go_inbox')).click();
         let inboxLabelElement = this.mailinatorElement(by.css(this.currentInboxLabel));
         let inboxName = await inboxLabelElement.getText(); 
-        let username = useremail.replace("@mailinator.com","");
 
         let timer = 5;
         setTimeout(() => { timer = false},5000);

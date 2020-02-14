@@ -1,35 +1,37 @@
 {
     "environment": "DEFAULT ENVIRONMENT",
-    "appInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+    "appInsightsInstrumentationKey": "",
     "cookies": {
-        "token": "COOKIE_TOKEN",
-        "userId": "COOKIE_USER_ID"
+        "token": "__auth__",
+        "userId": "__userid__"
     },
-    "exceptionOptions": {
-        "maxLines": "EXCEPTION_OPTIONS_MAX_LINES"
-    },
-    "indexUrl": "INDEX_URL",
-    "logging": "LOGGING",
-    "maxLogLine": "MAX_LOG_LINE",
-    "idamClient": "IDAM_CLIENT",
-    "microservice": "MICROSERVICE",
+    "logging": "debug",
+    "idamClient": "xuimowebapp",
+    "microservice": "xui_webapp",
     "now": "NOW",
-    "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
-    "protocol": "PROTOCOL",
-    "secureCookie": "SECURE_COOKIE",
+    "oauthCallbackUrl": "oauth2/callback",
+    "protocol": "https",
+    "secureCookie": true,
     "services": {
-        "ccdDataApi": "CCD_DATA_API_SERVICE",
-        "ccdDefApi": "CCD_DEFINITION_API_SERVICE",
-        "idamApi": "IDAM_API_SERVICE",
-        "idamWeb": "IDAM_WEB_SERVICE",
-        "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
-        "s2s": "S2S_SERVICE",
-        "feeAndPayApi": "FEE_AND_PAY_API_SERVICE"
+        "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",
+        "ccdDefApi": "http://ccd-definition-store-api-prod.service.core-compute-prod.internal",
+        "idamApi": "https://idam-api.platform.hmcts.net",
+        "idamWeb": "https://hmcts-access.service.gov.uk",
+        "rdProfessionalApi": "http://rd-professional-api-prod.service.core-compute-prod.internal",
+        "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
+        "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal"
     },
-    "sessionSecret": "SESSION_SECRET",
-    "proxyConfig": {
-        "host": "PROXY_HOST",
-        "port": "PROXY_PORT"
-    },
-    "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ]
+    "sessionSecret": "secretSauce",
+    "jurisdictions": [
+        {"id": "SSCS"},
+        {"id": "AUTOTEST1"},
+        {"id": "DIVORCE"},
+        {"id": "PROBATE"},
+        {"id": "PUBLICLAW"},
+        {"id": "bulkscan"},
+        {"id": "BULKSCAN"},
+        {"id": "IA"},
+        {"id": "EMPLOYMENT"},
+        {"id": "CMC"}
+      ]
 }

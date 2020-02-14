@@ -1,5 +1,6 @@
 import * as express from 'express'
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
@@ -11,7 +12,7 @@ router.put('/', suspendUser)
 async function suspendUser(req, res) {
     const payload = req.body
     try {
-        const response = await http.put(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/${req.params.userId}`, payload)
+        const response = await http.put(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/${req.params.userId}`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

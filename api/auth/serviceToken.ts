@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios'
 import * as jwtDecode from 'jwt-decode'
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { MICROSERVICE } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import { asyncReturnOrError } from '../lib/util'
 import { postS2SLease } from '../services/serviceAuth'
@@ -8,7 +9,7 @@ import { postS2SLease } from '../services/serviceAuth'
 const logger = log4jui.getLogger('service-token')
 
 const _cache = {}
-const microservice = config.microservice
+const microservice = getConfigValue(MICROSERVICE)
 
 export function validateCache() {
     logger.info('validaing s2s cache')

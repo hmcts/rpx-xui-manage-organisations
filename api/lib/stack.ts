@@ -1,3 +1,4 @@
+// TODO: It looks like this is no longer being used? Ask team and remove.
 import * as log4js from 'log4js'
 import { config } from '../lib/config'
 import { Store } from './store'

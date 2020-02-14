@@ -1,15 +1,15 @@
 import axios from 'axios'
 import * as jwtDecode from 'jwt-decode'
-import { postS2SLease } from '../services/serviceAuth'
-import { config } from '../lib/config'
-import { http } from './http'
 import * as log4jui from './log4jui'
+import { getConfigValue } from '../configuration'
+import { MICROSERVICE } from '../configuration/references'
 import { asyncReturnOrError } from '../lib/util'
+import { postS2SLease } from '../services/serviceAuth'
 
 const logger = log4jui.getLogger('service-token')
 const that = this
 const _cache = {}
-const microservice = config.microservice
+const microservice = getConfigValue(MICROSERVICE)
 
 export function validateCache() {
     logger.info('validaing s2s cache')
@@ -49,7 +49,6 @@ export async function serviceTokenGenerator() {
 }
 
 export default async (req, res, next) => {
-    const configEnv = process ? process.env.PUI_ENV || 'local' : 'local'
 
     const token = await asyncReturnOrError(generateToken(), 'Error getting s2s token', res, logger)
     if (token) {

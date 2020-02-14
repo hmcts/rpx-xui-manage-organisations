@@ -1,7 +1,8 @@
 import * as express from 'express'
+import { getConfigValue } from '../configuration'
+import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import {http} from '../lib/http'
 import {generateS2sToken} from '../lib/s2sTokenGeneration'
-import {config} from '../lib/config';
 import {makeOrganisationPayload} from '../lib/payloadBuilder';
 
 export const router = express.Router({mergeParams: true})
@@ -13,8 +14,8 @@ router.post('/register', async (req, res) => {
   // TODO: Should be in common constants
   const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 
-  const s2sServicePath = config.services.s2s
-  const rdProfessionalPath = config.services.rdProfessionalApi
+  const s2sServicePath = getConfigValue(SERVICE_S2S_PATH)
+  const rdProfessionalPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
 
   const registerPayload = makeOrganisationPayload(req.body.fromValues)
 

@@ -95,9 +95,8 @@ app.use(
 /**
  * Used Client side
  */
-if (getConfigValue(PROXY_HOST)) {
-  tunnel.init()
-}
+
+tunnel.init()
 
 /**
  * Common to both server.ts and local.ts files

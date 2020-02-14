@@ -118,7 +118,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   Then("I activate invited user", { timeout: 600 * 1000 },async function () {
-    mailinatorService.setLogger((message) => logger(this,message));
+    mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
     await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
     this.attach("Registration email received successfully.");
     await mailinatorService.completeUserRegistrationFromEmail();
@@ -129,7 +129,13 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
 });
 
-function logger(world,message){
-  world.attach(message);
-  console.log(message); 
+function logger(world,message,isScreenshot){
+  if (isScreenshot){
+    world.attach(message,'image/png');
+    console.log('Screenshot attached');
+  }else{
+    world.attach(message);
+    console.log(message);
+  }
+   
 }

@@ -13,7 +13,16 @@ class MailinatorService{
     }
 
     setLogger(loggerFunction){
-        this.logger = loggerFunction;
+        this.loggerService = loggerFunction;
+    }
+
+    logger(message,isScreenshot){
+        if (isScreenshot){
+            this.loggerService(message,true);
+
+        }else{
+            this.loggerService("Mailinator : " + this.getCurrentTime() + " " + message);
+        }
     }
     async init(){
         if (!this.mailinatorbrowser){
@@ -27,34 +36,57 @@ class MailinatorService{
 
         this.mailinatorbrowser.driver.executeScript('alert = function(){};');
         this.mailinatorbrowser.driver.executeScript('confirm = function(){};');
+        this.emailFieldElement = this.mailinatorElement(by.css('#inbox_field'))
 
+        this.acceptCookiesLink = this.mailinatorElement(by.css('.cc-btn.cc-dismiss'));
 
+        await this.loadMailinatorService();
+
+    }
+
+    async loadMailinatorService(){
         await this.mailinatorbrowser.get("https://www.mailinator.com/v3/index.jsp?zone=public&query=exuitest#/#inboxpane")
 
+    }
+    async checkAndReloadService(){
+        let counter = 0;
+        let isPageLoaded =  await this.emailFieldElement.isPresent();
+        this.logger("Retrying opening mailinator service : " + counter);
+        while (counter < 5 && !isPageLoaded){
+            this.logger("Retrying opening mailinator service : " + counter);
+            await this.loadMailinatorService();
+            isPageLoaded = await this.emailFieldElement.isPresent();
+            counter++;
+        }
     }
 
     async gotToInbox(useremail){
         this.logger("Opening user inbox");
         let username = useremail.replace("@mailinator.com", "");
-
-        let emailFieldElement = this.mailinatorElement(by.css('#inbox_field'));
-        await this.mailinatorbrowser.wait(EC.presenceOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
-        await this.mailinatorbrowser.wait(EC.visibilityOf(emailFieldElement), this.waitTime, "Error : " + emailFieldElement.locator().toString());
+        await this.checkAndReloadService();
+        await this.mailinatorbrowser.wait(EC.presenceOf(this.emailFieldElement), this.waitTime, "Error : " + this.emailFieldElement.locator().toString());
+        await this.mailinatorbrowser.wait(EC.visibilityOf(this.emailFieldElement), this.waitTime, "Error : " + this.emailFieldElement.locator().toString());
 
         this.mailinatorbrowser.sleep(2000);
-        await emailFieldElement.clear();
-        let emailId = await emailFieldElement.getText(); 
-        while (!emailId.includes(username)){
+        await this.emailFieldElement.clear();
+        await this.emailFieldElement.sendKeys(useremail);
+
+        let emailId = await this.emailFieldElement.getAttribute("value");
+        
+        let counter = 5;
+        this.logger('Input user email : ' + useremail); 
+        while (!emailId.includes(username) && counter <= 0){
             this.mailinatorbrowser.sleep(2000);
-            await emailFieldElement.clear()
+            await this.emailFieldElement.clear();
+            await this.emailFieldElement.sendKeys(useremail);
+            emailId = await this.emailFieldElement.getAttribute("value");
+            counter--;
         }
-        this.logger('Input user email : '+useremail); 
-        await emailFieldElement.sendKeys(useremail);
         await this.mailinatorElement(by.css('#go_inbox')).click();
         let inboxLabelElement = this.mailinatorElement(by.css(this.currentInboxLabel));
         let inboxName = await inboxLabelElement.getText(); 
 
-        let timer = 5;
+        let timer = 15;
         setTimeout(() => { timer = false},5000);
         this.logger('Waiting for inbox to load : ' + useremail); 
 
@@ -82,13 +114,14 @@ class MailinatorService{
         let latestEmailElement = emailElement;
         let isEmailPresent = await latestEmailElement.isPresent();
 
+        this.logger(" Email received status check started  " + isEmailPresent); 
+
         while (!isEmailPresent  && timer > 0){
 
             await browser.sleep(1000);
             isEmailPresent = await latestEmailElement.isPresent();
 
-            var time = Date.now().getHours()+":"+ Date.now().getMinutes()+":"+ Date.now().getSeconds();
-            this.logger(time+" Email received status  " + isEmailPresent); 
+            this.logger(" Email received status  " + isEmailPresent); 
             timer = timer - 1; 
        } 
         if (!isEmailPresent){
@@ -107,14 +140,25 @@ class MailinatorService{
     async completeUserRegistrationFromEmail(){
         this.logger("Started User Registration "); 
 
-    
+        let isCookiesInfoLinkPresent = await this.acceptCookiesLink.isDisplayed();
+        if (isCookiesInfoLinkPresent) {
+            this.logger("cookies usage  banner found");
+            await this.acceptCookiesLink.click();
+            await this.mailinatorbrowser.sleep(2000);
+        }
         await this.mailinatorbrowser.switchTo().frame(this.mailinatorElement(by.css("#msg_body")).getWebElement());
         let activationLinkEle = this.mailinatorElement(by.css(this.activationEmaillinkCSsSelector));
         await this.mailinatorbrowser.wait(EC.presenceOf(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
+        await this.mailinatorbrowser.wait(EC.elementToBeClickable(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
 
         let mainWinHandle = await this.mailinatorbrowser.driver.getWindowHandle();
         this.logger("Clicking Regsiatrtion link in email"); 
 
+        this.mailinatorbrowser.takeScreenshot()
+            .then(stream => {
+                const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                this.logger(decodedImage, true);
+            });
         await activationLinkEle.click();
         let winHandles = await this.mailinatorbrowser.driver.getAllWindowHandles();
         await this.mailinatorbrowser.switchTo().window(winHandles[1]);
@@ -153,6 +197,11 @@ class MailinatorService{
     }
 
 
+    getCurrentTime(){
+        let nowDate = new Date();
+        var time = nowDate.getHours() + ":" + nowDate.getMinutes() + ":" + nowDate.getSeconds();
+        return time;
+    }
 
 }
 

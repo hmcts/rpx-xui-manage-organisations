@@ -43,7 +43,7 @@ const config = {
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
     tags: ['@all or @smoke or @fullFunctional or @end2end'],
-    // tags: ['@end2end'],
+    // tags: ['@test'],
     require: cucumberOpts
 
   },

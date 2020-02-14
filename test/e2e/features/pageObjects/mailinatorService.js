@@ -85,7 +85,7 @@ class MailinatorService{
             await browser.sleep(1000);
             isEmailPresent = await latestEmailElement.isPresent();
 
-            var time = Date.now.getHours()+":"+ Date.now.getMinutes()+":"+ Date.now.getSeconds();
+            var time = Date.now().getHours()+":"+ Date.now().getMinutes()+":"+ Date.now().getSeconds();
             this.logger(time+" Email received status  " + isEmailPresent); 
             timer = timer - 1; 
        } 

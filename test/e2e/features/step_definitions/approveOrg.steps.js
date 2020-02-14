@@ -15,8 +15,15 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
     },);
 
     When("I activate approved organisation super user", async function () {
+        mailinatorService.setLogger((message) => logger(this, message));
         await mailinatorService.openRegistrationEmailForUser(global.latestOrgSuperUser);
         await mailinatorService.completeUserRegistrationFromEmail();;
     })
 
 });
+
+function logger(world, message) {
+    world.attach(message);
+    console.log(message);
+}
+

@@ -1,6 +1,7 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { APP_INSIGHTS_KEY } from '../configuration/references'
 
 export let client
 
@@ -10,7 +11,7 @@ const environment = process.env.PUI_ENV || 'local'
 //TODO: Change the direct reference to the config.appInsightsInstrumentationKey as config will be removed.
 if (environment !== 'local') {
     applicationinsights
-        .setup(config.appInsightsInstrumentationKey)
+        .setup(getConfigValue(APP_INSIGHTS_KEY))
         .setAutoDependencyCorrelation(true)
         .setAutoCollectRequests(true)
         .setAutoCollectPerformance(true)

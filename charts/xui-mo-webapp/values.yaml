@@ -7,10 +7,25 @@ nodejs:
     REFORM_SERVICE_NAME: xui-mo-webapp
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    PUI_ENV: preview
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
+    PUI_ENV: prod
+    SESSION_SECRET: secretSauce
+    NODE_TLS_REJECT_UNAUTHORIZED: 1
+    PROXY_HOST: 172.16.0.7
+    PROXY_PORT: 0
+    PORT: 3000
+    NOW: false
+    IDAM_CLIENT: xuimowebapp
+    OAUTH_CALLBACK_URL: /oauth2/callback
+    MAX_LOG_LINE: 80
+    EXCEPTION_OPTIONS_MAX_LINES: 1
+    INDEX_URL: /
+    LOGGING: debug
+    PROTOCOL: https
+    SECURE_COOKIE: false
+    COOKIE_TOKEN: __auth__
+    COOKIE_USER_ID: __userid__
+    MICROSERVICE: xui_webapp
+    NODE_CONFIG_ENV: prod
   keyVaults:
     rpx:
       resourceGroup: rpx

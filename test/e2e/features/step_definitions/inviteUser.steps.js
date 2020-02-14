@@ -118,8 +118,18 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   Then("I activate invited user", { timeout: 600 * 1000 },async function () {
+    mailinatorService.setLogger(logger);
     await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
+    this.attach("Registration email received successfully.");
     await mailinatorService.completeUserRegistrationFromEmail();
+    this.attach("Registration completed successfully.");
+
   });
 
+
 });
+
+function logger(world,message){
+  world.attach(message);
+  console.log(message); 
+}

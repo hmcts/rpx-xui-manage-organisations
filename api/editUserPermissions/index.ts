@@ -1,6 +1,7 @@
 import * as express from 'express'
+import { getConfigValue } from '../configuration'
+import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { ErrorReport } from '../interfaces/errorReport'
-import { config } from '../lib/config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
@@ -18,7 +19,7 @@ async function inviteUserRoute(req, res) {
     }
     const payload = req.body
     try {
-      const response = await http.put(getEditPermissionsUrl(config.services.rdProfessionalApi, req.params.userId), payload)
+      const response = await http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload)
       logger.info('response::', response.data)
       res.send(response.data)
     } catch (error) {

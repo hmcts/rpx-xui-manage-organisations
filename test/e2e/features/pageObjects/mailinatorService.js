@@ -9,6 +9,7 @@ class MailinatorService{
         this.activationEmaillinkCSsSelector = ".content tr:nth-of-type(2) td:nth-of-type(2) a:nth-of-type(1)";
 
         this.latestLoginVerificationEmail = "//div[@class = 'table-responsive'][1]//tbody//tr[1]//*[contains(text(),'verification code')]";
+        this.waitTime = 30000;
     }
 
     setLogger(loggerFunction){

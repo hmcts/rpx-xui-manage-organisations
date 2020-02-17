@@ -205,7 +205,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then('I login to MC with invited user', { timeout: 120 * 1000 },async function () {
     manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
-    manageCasesService.setWorld(this);
+    // manageCasesService.setWorld(this);
     await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
   });
 

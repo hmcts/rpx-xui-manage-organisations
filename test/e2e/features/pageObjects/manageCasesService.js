@@ -18,8 +18,17 @@ class ManageCasesService {
 
     }
 
-    setWorld(worldObj){
-        this.world = worldObj;
+    setLogger(loggerObj){
+        this.logger = loggerObj;
+    }
+
+    logger(message,isScreenshot){
+        if (isScreenshot){
+            this.logger(message,true);
+
+        }else{
+            this.logger("[Manage Cases] " + this.getCurrentTime() + " " + message);
+        }
     }
 
     async init() {
@@ -52,7 +61,7 @@ class ManageCasesService {
 
     async login(username,password) {
 
-        this.world.attach("MC Login Step started");
+        this.logger("MC Login Step started");
         await this.mcBrowser.driver.manage()
             .deleteAllCookies();
         await this.mcBrowser.get(this.baseUrl)
@@ -61,13 +70,13 @@ class ManageCasesService {
         await this.emailAddressElement.sendKeys(username);
         await this.passwordElement.sendKeys(password);
         await this.signinBtn.click();
-        this.world.attach("MC Login submitted for user : " + username);
+        this.logger("MC Login submitted for user : " + username);
 
     }
 
     async validateLoginSuccess(){
         await this.waitForElement(this.hmctsHeader);
-        this.world.attach("MC Login Success as expected");
+        this.logger("MC Login Success as expected");
 
     }
 
@@ -77,7 +86,13 @@ class ManageCasesService {
             let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value'); 
             return loginEmailFieldValue === ''; 
         }, this.waitTime);
-        this.world.attach("MC Login Failed as expected");
+        this.logger("MC Login Failed as expected");
+    }
+
+    getCurrentTime() {
+        let nowDate = new Date();
+        var time = nowDate.getHours() + ":" + nowDate.getMinutes() + ":" + nowDate.getSeconds();
+        return time;
     }
 }
 

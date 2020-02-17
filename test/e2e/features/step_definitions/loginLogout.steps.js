@@ -203,7 +203,8 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(LONG_DELAY);
   });
 
-  Then('I login to MC with invited user', async function () {
+  Then('I login to MC with invited user', { timeout: 120 * 1000 },async function () {
+    manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
     manageCasesService.setWorld(this);
     await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
   });
@@ -218,3 +219,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
 });
+
+function logger(world, message, isScreenshot) {
+  if (isScreenshot) {
+    world.attach(message, 'image/png');
+    console.log('Screenshot attached');
+  } else {
+    world.attach(message);
+    console.log(message);
+  }
+
+}

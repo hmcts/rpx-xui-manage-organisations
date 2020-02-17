@@ -28,8 +28,10 @@ const localConfig = [
 const config = {
     config : {
         baseUrl: process.env.TEST_URL || 'http://localhost:3000/' ,
-        username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com',
+        // username: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com',
+        username: process.env.TEST_EMAIL ||'autotest_superuser@mailinator.com',
         password: process.env.TEST_PASSWORD || 'Monday01'
+
     },
     twoFactorAuthEnabled: false
     

@@ -21,7 +21,7 @@ class MailinatorService{
             this.loggerService(message,true);
 
         }else{
-            this.loggerService("Mailinator : " + this.getCurrentTime() + " " + message);
+            this.loggerService("[ Mailinator ] " + this.getCurrentTime() + " " + message);
         }
     }
     async init(){

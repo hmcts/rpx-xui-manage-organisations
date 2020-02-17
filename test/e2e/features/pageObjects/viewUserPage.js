@@ -32,7 +32,7 @@ class ViewUserPage {
   }
 
   async validateUserWithEmailListed(useremail){
-    await BrowserWaits.waitForElement(this.userstable); 
+    await BrowserWaits.waitForElement(this.userstable,300*1000); 
     let users = await this.userstable.getText();
     assert(users.includes(useremail), "User with email is not listed : " + useremail);
   }

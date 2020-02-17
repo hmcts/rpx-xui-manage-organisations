@@ -43,7 +43,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     // browser.sleep(LONG_DELAY);
   });
 
-  Then("I should see invited user is listed in users table", async function () {
+  Then("I should see invited user is listed in users table", { timeout: 300 * 1000 },async function () {
     await viewUserPage.validateUserWithEmailListed(global.latestInvitedUser);
   });
 

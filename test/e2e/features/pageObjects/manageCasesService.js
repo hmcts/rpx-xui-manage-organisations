@@ -19,15 +19,15 @@ class ManageCasesService {
     }
 
     setLogger(loggerObj){
-        this.logger = loggerObj;
+        this.loggerObj = loggerObj;
     }
 
     logger(message,isScreenshot){
         if (isScreenshot){
-            this.logger(message,true);
+            this.loggerObj(message,true);
 
         }else{
-            this.logger("[Manage Cases] " + this.getCurrentTime() + " " + message);
+            this.loggerObj("[Manage Cases] " + this.getCurrentTime() + " " + message);
         }
     }
 
@@ -61,16 +61,46 @@ class ManageCasesService {
 
     async login(username,password) {
 
-        this.logger("MC Login Step started");
-        await this.mcBrowser.driver.manage()
-            .deleteAllCookies();
-        await this.mcBrowser.get(this.baseUrl)
-        await this.waitForElement(this.emailAddressElement);
+        try{
+            this.logger("MC Login Step started");
+            await this.mcBrowser.driver.manage()
+                .deleteAllCookies();
+            await this.mcBrowser.get(this.baseUrl);
 
-        await this.emailAddressElement.sendKeys(username);
-        await this.passwordElement.sendKeys(password);
-        await this.signinBtn.click();
-        this.logger("MC Login submitted for user : " + username);
+            let counter =0;
+            while (!(await this.emailAddressElement.isPresent()) && counter <=5){
+                await this.mcBrowser.get(this.baseUrl);
+
+                try{
+                    await this.waitForElement(this.emailAddressElement);
+                    break;
+                }catch(error){
+                    this.logger("MC Login page not loaded. Retry page load "+counter);
+                    this.mcBrowser.takeScreenshot()
+                        .then(stream => {
+                            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                            this.logger(decodedImage, true);
+                        });
+                    counter+=1;
+                }
+
+            }
+            await this.waitForElement(this.emailAddressElement);
+
+            await this.emailAddressElement.sendKeys(username);
+            await this.passwordElement.sendKeys(password);
+            await this.signinBtn.click();
+            this.logger("MC Login submitted for user : " + username)
+        }
+        catch(error){
+            this.mcBrowser.takeScreenshot()
+                .then(stream => {
+                    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                    this.logger(decodedImage, true);
+                });
+            throw new Error(error);
+        }
+        
 
     }
 

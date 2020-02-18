@@ -8,10 +8,11 @@ import {UserService} from './services/user.service';
 import {effects, reducer} from './store';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
+import {AcceptTcService} from '../accept-tc/services/accept-tc.service';
 
 const PROVIDERS = [AuthGuard, UserGuard];
 const COMPONENTS = [ProfileComponent];
-const SERVICES = [UserService];
+const SERVICES = [UserService, AcceptTcService];
 
 @NgModule({
   imports: [

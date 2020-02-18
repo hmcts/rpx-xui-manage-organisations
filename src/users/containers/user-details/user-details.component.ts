@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import * as fromStore from '../../store';
-import * as fromRoot from '../../../app/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import * as fromRoot from '../../../app/store';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-user-details-component',

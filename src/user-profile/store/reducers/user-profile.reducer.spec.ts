@@ -1,8 +1,8 @@
-import * as fromAuth from './auth.reducer';
+import * as fromAuth from './user-profile.reducer';
 import * as fromAuthActions from '../actions/user-profile.actions';
 import { UserModel} from '../../models/user.model';
 
-describe('Authorisation Reducer', () => {
+describe('User Profile Reducer', () => {
     it('undefined action should return the default state', () => {
         const { initialState } = fromAuth;
         const action = {} as any;
@@ -38,15 +38,25 @@ describe('Authorisation Reducer', () => {
     it('should return correct state properties', () => {
         const payload: fromAuth.AuthState = {
             isAuthenticated: true,
+            tAndC: { hasUserAccepted: 'false', loaded: false },
             loaded: true,
             loading: false,
             user: null
         };
 
         expect(fromAuth.isAuthenticated(payload)).toEqual(true);
-        expect(fromAuth.getUser(payload)).toEqual(null);
+        expect(fromAuth.getUserConfig(payload)).toEqual(null);
         expect(fromAuth.isUserLoaded(payload)).toEqual(true);
         expect(fromAuth.isUserLoading(payload)).toEqual(false);
+
+    });
+
+    it('LOAD_HAS_ACCEPTED_TC_SUCCESS should return correct state properties', () => {
+      const { initialState } = fromAuth;
+      const payload = 'true';
+      const action = new fromAuthActions.LoadHasAcceptedTCSuccess(payload);
+      const state = fromAuth.reducer(initialState, action);
+      expect(state.tAndC).toEqual({hasUserAccepted: 'true', loaded: true});
 
     });
 

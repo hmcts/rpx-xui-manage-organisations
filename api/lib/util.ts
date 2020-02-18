@@ -1,4 +1,5 @@
 import * as express from 'express'
+import { PostUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 import { http } from './http'
 
 export function asyncReturnOrError(
@@ -82,4 +83,8 @@ export async function getInfo(url: string) {
     const response = await http.get(`${url}/info`)
 
     return response.data
+}
+
+export function isUserTandCPostSuccessful(postResponse: PostUserAcceptTandCResponse, userId: string): any {
+    return postResponse.userId === userId
 }

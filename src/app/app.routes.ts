@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import { AccessibilityComponent,
-  CookiePolicyComponent, PrivacyPolicyComponent, ServiceDownComponent, TermsAndConditionsComponent } from './components';
-import { GetHelpComponent } from './components/get-help/get-help.component';
-import {RedirectComponent} from './containers/redirect/redirect.component';
+import { AccessibilityComponent, CookiePolicyComponent, PrivacyPolicyComponent, ServiceDownComponent, GetHelpComponent } from './components';
+import { TermsAndConditionsComponent } from './containers';
+import { RedirectComponent } from './containers/redirect/redirect.component';
+import {TermsConditionGuard} from './guards/termsCondition.guard';
+import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 
 export const ROUTES: Routes = [
   {
@@ -14,12 +15,12 @@ export const ROUTES: Routes = [
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, TermsConditionGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {
     path: 'users',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, TermsConditionGuard],
     loadChildren: '../users/users.module#UsersModule'
   },
   {
@@ -35,6 +36,11 @@ export const ROUTES: Routes = [
   {
     path: 'register-org',
     loadChildren: '../register/register.module#RegisterModule'
+  },
+  {
+    path: 'accept-terms-and-conditions',
+    canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
+    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
   },
   {
     path: 'service-down',

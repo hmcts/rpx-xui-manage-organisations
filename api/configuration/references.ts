@@ -34,6 +34,7 @@ export const SERVICES_IDAM_WEB = 'services.idamWeb'
 export const SERVICE_S2S_PATH = 'services.s2s'
 export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi'
 export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi'
+export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions'
 
 export const SESSION_SECRET = 'sessionSecret'
 export const PROXY_HOST = 'proxyConfig.host'

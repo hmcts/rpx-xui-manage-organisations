@@ -1,13 +1,14 @@
 <header>
     <app-hmcts-global-header
       [userLoggedIn]="isUserLoggedIn$ | async"
+      [showHeaderItems]="showHeaderItems$ | async"
       [headerTitle]="title"
       [navigation]="userNav"
       [isBrandedHeader]="isBrandedHeader"
       (navigate)="onNavigate($event)"
     ></app-hmcts-global-header>
     <app-hmcts-primary-navigation
-      [userLoggedIn]="isUserLoggedIn$ | async"
+      [userLoggedIn]="showHeaderItems$ | async"
       [label]=""
       [items]="navItems?.navItems"
       [isBrandedHeader]="isBrandedHeader"

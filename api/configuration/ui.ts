@@ -28,6 +28,7 @@ import {
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET
 } from './references'
 
@@ -66,6 +67,7 @@ export const uiConfig = () => {
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),
       rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
       s2s: getConfigValue(SERVICE_S2S_PATH),
+      termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
     } as EnvironmentConfigServices,
     sessionSecret: getConfigValue(SESSION_SECRET),
   }

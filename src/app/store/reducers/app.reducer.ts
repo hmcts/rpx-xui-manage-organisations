@@ -1,8 +1,9 @@
+import { TCDocument } from '@hmcts/rpx-xui-common-lib';
+import { AppConstants } from '../../app.constants';
+import { AppTitlesModel } from '../../models/app-titles.model';
+import { UserNavModel } from '../../models/user-nav.model';
+import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
-import {AppConstants} from '../../app.constants';
-import {UserNavModel} from '../../models/user-nav.model';
-import {AppTitlesModel} from '../../models/app-titles.model';
-import {AppUtils} from '../../utils/app-utils';
 
 export interface AppState {
   allNavItems: {[id: string]: object};
@@ -11,6 +12,7 @@ export interface AppState {
   userNav: UserNavModel;
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
+  termsAndConditions: TCDocument;
 }
 
 export const initialState: AppState = {
@@ -19,7 +21,8 @@ export const initialState: AppState = {
   userNav: AppConstants.USER_NAV,
   navItems: [],
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
-  jurisdictions: []
+  jurisdictions: [],
+  termsAndConditions: null
 };
 
 export function reducer(
@@ -76,6 +79,12 @@ export function reducer(
         ...initialState
       };
     }
+
+    case fromAction.LOAD_TERMS_CONDITIONS_SUCCESS:
+      return {
+        ...state,
+        termsAndConditions: action.payload
+      };
   }
 
   return state;
@@ -86,5 +95,5 @@ export const getNavItems = (state: AppState) => state.navItems;
 export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
-
+export const getTermsConditions = (state: AppState) => state.termsAndConditions;
 

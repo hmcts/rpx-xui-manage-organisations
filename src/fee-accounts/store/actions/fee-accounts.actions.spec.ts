@@ -1,6 +1,6 @@
 import * as fromFeeAccounts from './fee-accounts.actions';
 
-describe('Fee accounts actions', () => {
+describe('Accept Terms and Conditions', () => {
   describe('LoadFeeAccounts actions GROUP', () => {
     // Init state
     describe('LoadFeeAccounts', () => {

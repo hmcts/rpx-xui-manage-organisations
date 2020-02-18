@@ -1,0 +1,4 @@
+<ng-container *ngIf="document; else loading">
+  <xuilib-terms-and-conditions [document]="document"></xuilib-terms-and-conditions>
+</ng-container>
+<ng-template #loading>Loading...</ng-template>

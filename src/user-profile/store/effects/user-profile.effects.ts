@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
 import config from '../../../../api/lib/config';
+import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import * as usersActions from '../../../users/store/actions/user.actions';
@@ -14,16 +15,17 @@ import * as authActions from '../actions';
 import {AuthActionTypes} from '../actions/';
 
 @Injectable()
-export class UserEffects {
+export class UserProfileEffects {
   constructor(
-    private actions$: Actions,
-    private userService: UserService,
-    private authService: UserService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly userService: UserService,
+    private readonly loggerService: LoggerService,
+    private readonly authService: UserService,
+    private readonly acceptTcService: AcceptTcService
   ) { }
 
   @Effect()
-  getUser$ = this.actions$.pipe(
+  public getUser$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS),
     switchMap(() => {
       return this.userService.getUserDetails()
@@ -38,7 +40,7 @@ export class UserEffects {
   );
 
   @Effect()
-  getUserFail$ = this.actions$.pipe(
+  public getUserFail$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
     map((actions: authActions.GetUserDetailsFailure) => actions.payload),
     map((error) => {
@@ -81,7 +83,32 @@ export class UserEffects {
   );
 
   @Effect()
-  confirmEditUser$ = this.actions$.pipe(
+  public loadHasAccepted$ = this.actions$.pipe(
+    ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
+    switchMap((action: any) => {
+      return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
+        map(tcDetails => new authActions.LoadHasAcceptedTCSuccess(tcDetails.toString())),
+        catchError(error => of(new authActions.LoadHasAcceptedTCFail(error)))
+      );
+    })
+  );
+
+  @Effect()
+  public acceptTandC$ = this.actions$.pipe(
+    ofType(AuthActionTypes.ACCEPT_T_AND_C),
+    map((action: authActions.AcceptTandC) => action.payload),
+    switchMap((userData) => {
+      return this.acceptTcService.acceptTandC(userData).pipe(
+        map(tcDetails => {
+          return new authActions.AcceptTandCSuccess(tcDetails);
+        }),
+        catchError(error => of(new authActions.AcceptTandCFail(error)))
+      );
+    })
+  );
+
+  @Effect()
+  public confirmEditUser$ = this.actions$.pipe(
     ofType(usersActions.EDIT_USER_SUCCESS),
     map((user: any) => {
       return user.payload; // this is the userId
@@ -90,4 +117,5 @@ export class UserEffects {
       new usersActions.LoadUsers()
   ])
   );
+
 }

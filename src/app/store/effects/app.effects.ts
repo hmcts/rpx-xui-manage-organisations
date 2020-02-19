@@ -11,7 +11,6 @@ import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
 import * as usersActions from '../../../users/store/actions';
-
 @Injectable()
 export class AppEffects {
   constructor(
@@ -69,7 +68,7 @@ export class AppEffects {
     switchMap(() => {
       return this.termsService.getTermsConditions().pipe(
         map(doc => new appActions.LoadTermsConditionsSuccess(doc)),
-        catchError(err => of(new appActions.LoadTermsConditionsFail(err)))
+        catchError(err => of(new appActions.Go({ path: ['/service-down'] })))
       );
     })
   );

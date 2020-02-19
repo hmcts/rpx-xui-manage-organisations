@@ -1,31 +1,32 @@
 import { Routes } from '@angular/router';
+import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
+import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import { AccessibilityComponent, CookiePolicyComponent, PrivacyPolicyComponent, ServiceDownComponent, GetHelpComponent } from './components';
+import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent } from './components';
 import { TermsAndConditionsComponent } from './containers';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import {TermsConditionGuard} from './guards/termsCondition.guard';
-import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 
 export const ROUTES: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HealthCheckGuard],
     pathMatch: 'full',
   },
   {
     path: 'organisation',
-    canActivate: [AuthGuard, TermsConditionGuard],
+    canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
     loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {
     path: 'users',
-    canActivate: [AuthGuard, TermsConditionGuard],
+    canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
     loadChildren: '../users/users.module#UsersModule'
   },
   {
     path: 'fee-accounts',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HealthCheckGuard],
     loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },
   {

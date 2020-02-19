@@ -88,10 +88,10 @@ export const getS2sSecret = (secretsConfig): string => {
 
 export const getIDamSecret = (secretsConfig): string => {
     const ERROR_IDAM_SECRET_NOT_FOUND =
-      'xui-oauth2-token not found on this environment.'
-    if (propsExist(secretsConfig, ['secrets', 'rpx', 'xui-oauth2-token'])) {
+      'mo-idam-client-secret not found on this environment.'
+    if (propsExist(secretsConfig, ['secrets', 'rpx', 'mo-idam-client-secret'])) {
       // tslint:disable-next-line: no-string-literal
-      return secretsConfig['secrets']['rpx']['xui-oauth2-token']
+      return secretsConfig['secrets']['rpx']['mo-idam-client-secret']
     } else {
       console.log(ERROR_IDAM_SECRET_NOT_FOUND)
       return ''

@@ -17,9 +17,10 @@ router.get('/', healthCheckRoute)
 */
 
 const healthCheckEndpointDictionary = {
-    '/organisation': ['rdProfessionalApi'],
+    '/fee-accounts': ['rdProfessionalApi', 'termsAndConditions'],
+    '/organisation': ['rdProfessionalApi', 'termsAndConditions'],
     '/register-org/register/check': ['rdProfessionalApi'],
-    '/users': ['rdProfessionalApi'],
+    '/users': ['rdProfessionalApi', 'termsAndConditions'],
     '/users/invite-user': ['rdProfessionalApi'],
 }
 
@@ -66,7 +67,6 @@ async function healthCheckRoute(req, res) {
         logger.info('response::', response)
         res.send(response)
     } catch (error) {
-        console.log(error)
         logger.info('error', { healthState: false })
         res.status(error.status).send({ healthState: false })
     }

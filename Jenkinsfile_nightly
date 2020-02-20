@@ -23,6 +23,7 @@ withNightlyPipeline(type, product, component) {
 
     enableFullFunctionalTest(30)
 
+    enableSecurityScan()
     env.TEST_URL = 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/'
     after('checkout') {sh 'yarn cache clean'}
     after('build') {

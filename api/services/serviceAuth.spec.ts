@@ -5,6 +5,7 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 import { http } from '../lib/http'
 import * as serviceAuth from './serviceAuth'
 
+//TODO: Remove config
 import { config } from '../lib/config'
 
 describe('serviceAuth', () => {

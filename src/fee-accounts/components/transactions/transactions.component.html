@@ -1,1 +1,8 @@
-<app-govuk-table [columnConfig]="columnConfig" [rows]="tableRows" [firstCellIsHeader]="false" [caption]="''"></app-govuk-table>
+<ng-container *ngIf="transactions.length > 0; else noRows">
+    <app-govuk-table
+    [columnConfig]="columnConfig" [rows]="transactions" [firstCellIsHeader]="false" [caption]="''"
+    ></app-govuk-table>
+</ng-container>
+<ng-template #noRows>
+    <p>No transactions found.</p>
+</ng-template>

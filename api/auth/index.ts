@@ -1,24 +1,28 @@
+import * as propertiesVolume from '@hmcts/properties-volume'
 import axios, { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as jwtDecode from 'jwt-decode'
 import * as log4js from 'log4js'
-import { config } from '../lib/config'
+import { getConfigValue, getIDamSecret, getProtocol } from '../configuration'
+import { COOKIE_TOKEN, COOKIES_USERID, IDAM_CLIENT, INDEX_URL, LOGGING, OAUTH_CALLBACK_URL, SERVICES_IDAM_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
+import { propsExist } from '../lib/objectUtilities'
 import { asyncReturnOrError } from '../lib/util'
 import { getUserDetails } from '../services/idam'
 import { serviceTokenGenerator } from './serviceToken'
 import { userHasAppAccess } from './userRoleAuth'
-import { propsExist } from '../lib/objectUtilities'
 
-const secret = process.env.IDAM_SECRET
+const idamUrl = getConfigValue(SERVICES_IDAM_API_PATH)
+
+const mountedSecrets = propertiesVolume.addTo({})
+const secret = getIDamSecret(mountedSecrets)
 const logger = log4js.getLogger('auth')
-logger.level = config.logging
-const idamUrl = config.services.idamApi
+logger.level = getConfigValue(LOGGING)
 
 export async function attach(req: EnhancedRequest, res: express.Response, next: express.NextFunction) {
     const session = req.session!
-    const accessToken = req.cookies[config.cookies.token]
+    const accessToken = req.cookies[getConfigValue(COOKIE_TOKEN)]
 
     let expired
 
@@ -54,8 +58,8 @@ export async function attach(req: EnhancedRequest, res: express.Response, next: 
 }
 
 export async function getTokenFromCode(req: express.Request, res: express.Response): Promise<AxiosResponse> {
-    logger.info(`IDAM STUFF ===>> ${config.idamClient}:${secret}`)
-    const Authorization = `Basic ${new Buffer(`${config.idamClient}:${secret}`).toString('base64')}`
+    logger.info(`IDAM STUFF ===>> ${getConfigValue(IDAM_CLIENT)}:${secret}`)
+    const Authorization = `Basic ${new Buffer(`${getConfigValue(IDAM_CLIENT)}:${secret}`).toString('base64')}`
     const options = {
         headers: {
             Authorization,
@@ -66,14 +70,14 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
     logger.info('Getting Token from auth code.')
 
     console.log(
-        `${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
-            config.protocol
-        }://${req.headers.host}${config.oauthCallbackUrl}`
+        `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
+            getProtocol()
+        }://${req.headers.host}${getConfigValue(OAUTH_CALLBACK_URL)}`
     )
     return http.post(
-        `${config.services.idamApi}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
-            config.protocol
-        }://${req.headers.host}${config.oauthCallbackUrl}`,
+        `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
+            getProtocol()
+        }://${req.headers.host}${getConfigValue(OAUTH_CALLBACK_URL)}`,
         {},
         options
     )
@@ -131,7 +135,7 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
 
     if (accessToken) {
         // set browser cookie
-        res.cookie(config.cookies.token, accessToken)
+        res.cookie(getConfigValue(COOKIE_TOKEN), accessToken)
 
         const jwtData: any = jwtDecode(accessToken)
         const expires = new Date(jwtData.exp).getTime()
@@ -156,19 +160,19 @@ export async function oauth(req: EnhancedRequest, res: express.Response, next: e
 
                 logger.info('save session', req.session)
                 req.session.save(() => {
-                    res.redirect(config.indexUrl || '/')
+                    res.redirect(getConfigValue(INDEX_URL) || '/')
                 })
             }
         }
     } else {
         logger.error('No user-profile token')
-        res.redirect(config.indexUrl || '/')
+        res.redirect(getConfigValue(INDEX_URL) || '/')
     }
 }
 
 export function doLogout(req: EnhancedRequest, res: express.Response, status: number = 302) {
-    res.clearCookie(config.cookies.token)
-    res.clearCookie(config.cookies.userId)
+    res.clearCookie(getConfigValue(COOKIE_TOKEN))
+    res.clearCookie(getConfigValue(COOKIES_USERID))
     req.session.user = null
     delete req.session.auth // delete so it does not get returned to FE
     req.session.save(() => {

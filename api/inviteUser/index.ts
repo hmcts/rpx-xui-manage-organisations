@@ -1,5 +1,6 @@
 import * as express from 'express'
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
@@ -12,8 +13,7 @@ async function inviteUserRoute(req, res) {
     const orgId = req.session.auth.orgId
     const payload = req.body
     try {
-      console.log(payload)
-        const response = await http.post(`${config.services.rdProfessionalApi}/refdata/external/v1/organisations/users/`, payload)
+        const response = await http.post(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

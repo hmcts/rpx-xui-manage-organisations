@@ -12,7 +12,7 @@ export async function getOauth2Token() {
   const urlPost = `${url}?response_type=code&client_id=${idamClient}&redirect_uri=${redirectUri}&scope=openid profile roles manage-user create-user`;
 
   // let encode = base64.encode((process.env.TEST_EMAIL + ':' + process.env.TEST_PASSWORD))
-  const encode = base64.encode(('lukesuperuserxui@mailnesia.com:Monday01'));
+  const encode = base64.encode(('autotest_superuser@mailinator.com:Monday01'));
 
   const otherParam = {
     headers: {

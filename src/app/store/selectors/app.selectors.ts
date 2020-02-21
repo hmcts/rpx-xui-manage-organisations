@@ -33,7 +33,7 @@ export const getNav = createSelector(
   fromAppFeature.getNavItems
 );
 
-export const getAllJuridictions = createSelector(
+export const getAllJurisdictions = createSelector(
   getAppState,
   fromAppFeature.getUserJuridictions
 );
@@ -57,4 +57,9 @@ export const getUserNav = createSelector(
     return AppUtils.setSetUserNavItems(state, routes);
   }
 
+);
+
+export const getTermsAndConditions = createSelector(
+  getAppState,
+  state => state.termsAndConditions
 );

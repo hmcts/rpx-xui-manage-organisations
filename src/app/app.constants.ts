@@ -17,19 +17,19 @@ const navItemsArray: NavItemModel[] = [
     orderId: 2
   },
   // Hiding the Tab for the Fee And Accounts
-  // {
-  //   text: 'Fee Accounts',
-  //   href: '/fee-accounts',
-  //   active: false,
-  //   orderId: 3
-  // }
+  {
+    text: 'Fee Accounts',
+    href: '/fee-accounts',
+    active: false,
+    orderId: 3
+  }
 ];
 
 const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   // Hiding the role
-  // 'pui-finance-manager': navItemsArray[2],
+  'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {
@@ -110,7 +110,8 @@ const userRoles = [
 
     { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
     { role: 'pui-user-manager', roleType: 'manageUsers' },
-    { role: 'pui-case-manager', roleType: 'manageCases'}
+    { role: 'pui-case-manager', roleType: 'manageCases'},
+    { role: 'pui-finance-manager', roleType: 'managePayments'}
 ];
 
 const jurisdictions = [

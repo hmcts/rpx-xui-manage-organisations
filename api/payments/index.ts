@@ -1,5 +1,6 @@
 import * as express from 'express'
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 
 async function handleAddressRoute(req, res) {
@@ -10,11 +11,11 @@ async function handleAddressRoute(req, res) {
             apiStatusCode: '400',
             message: 'Fee And Pay route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
     try {
         const response = await http.get(
-            `${config.services.feeAndPayApi}/pba-accounts/${req.params.account}/payments/`
+            `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/pba-accounts/${req.params.account}/payments/`
           )
         res.send(response.data.payments)
     } catch (error) {
@@ -23,7 +24,7 @@ async function handleAddressRoute(req, res) {
             apiStatusCode: error.status,
             message: 'Fee And Pay route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
 }
 

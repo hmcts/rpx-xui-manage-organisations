@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { config } from '../lib/config'
+import { healthEndpoints } from '../configuration/health'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
@@ -17,9 +17,10 @@ router.get('/', healthCheckRoute)
 */
 
 const healthCheckEndpointDictionary = {
-    '/organisation': ['rdProfessionalApi'],
+    '/fee-accounts': ['rdProfessionalApi', 'termsAndConditions'],
+    '/organisation': ['rdProfessionalApi', 'termsAndConditions'],
     '/register-org/register/check': ['rdProfessionalApi'],
-    '/users': ['rdProfessionalApi'],
+    '/users': ['rdProfessionalApi', 'termsAndConditions'],
     '/users/invite-user': ['rdProfessionalApi'],
 }
 
@@ -38,7 +39,10 @@ function getPromises(path): any[] {
     const Promises = []
     if (healthCheckEndpointDictionary[path]) {
         healthCheckEndpointDictionary[path].forEach(endpoint => {
-            Promises.push(http.get(config.health[endpoint]))
+            // TODO: Have health config for this.
+            console.log('healthEndpoints')
+            console.log(healthEndpoints()[endpoint])
+            Promises.push(http.get(healthEndpoints()[endpoint]))
         })
     }
     return Promises
@@ -63,7 +67,6 @@ async function healthCheckRoute(req, res) {
         logger.info('response::', response)
         res.send(response)
     } catch (error) {
-        console.log(error)
         logger.info('error', { healthState: false })
         res.status(error.status).send({ healthState: false })
     }

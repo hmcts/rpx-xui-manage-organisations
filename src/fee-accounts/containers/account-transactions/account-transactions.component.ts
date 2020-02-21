@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import * as fromfeatureStore from '../../store';
-import {Observable, Subscription, of} from 'rxjs';
-import {select, Store, MemoizedSelector} from '@ngrx/store';
 import {ActivatedRoute} from '@angular/router';
+import {MemoizedSelector, select, Store} from '@ngrx/store';
+import {Observable, of, Subscription} from 'rxjs';
 import { FeeAccount } from 'src/fee-accounts/models/pba-accounts';
 import { SingleAccountSummary } from 'src/fee-accounts/models/single-account-summary';
+import { AppUtils } from '../../../../src/app/utils/app-utils';
+import * as fromfeatureStore from '../../store';
 
 @Component({
   selector: 'app-account-transactions',
@@ -12,12 +13,13 @@ import { SingleAccountSummary } from 'src/fee-accounts/models/single-account-sum
   styleUrls: ['./account-transactions.component.scss']
 })
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
-  backUrl: string;
-  accountTransactions$: any;
-  accounts$: Observable<Array<FeeAccount>>;
-  subscription: Subscription;
-  accounts: Array<FeeAccount>;
-  navItems = [
+  public backUrl: string;
+  public accountTransactions$: any;
+  public accounts$: Observable<FeeAccount[]>;
+  public subscription: Subscription;
+  public accounts: FeeAccount[];
+  public accountName$: Observable<string>;
+  public navItems = [
     {
       text: 'Summary',
       href: `../`,
@@ -29,21 +31,20 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
       active: true
     }
   ];
-  columnConfig = [
-    { header: 'Payment reference', key: 'payment_reference' },
+  public columnConfig = [
+    { header: 'Payment Reference', key: 'payment_reference' },
     { header: 'Case', key: 'ccd_case_number' },
-    { header: 'Your reference', key: 'payment_reference' },
+    { header: 'Service', key: 'service_name' },
     { header: 'Status', key: 'status' },
-    { header: 'Date created', key: 'date_created', type: 'date' },
-    { header: 'Last updated', key: 'date_updated', type: 'date' },
-    { header: 'Amount', key: 'amount' }
+    { header: 'Date created', key: 'date_created', type: 'dateAtTime' },
+    { header: 'Amount', key: 'amount', type: 'money' }
   ];
-  loading$: Observable<boolean>;
+  public loading$: Observable<boolean>;
   constructor(
     private activeRoute: ActivatedRoute,
     private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.loading$ = this.isTransactionLoading(fromfeatureStore.pbaAccountTransactionsLoading);
     this.dispatchAccountTransactions(this.activeRoute.snapshot.params.id);
     this.accountTransactions$ = this.getAccountTransactions(fromfeatureStore.pbaAccountTransactions);
@@ -54,51 +55,52 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     this.subscription = this.subscribeAccounts(this.accounts$);
   }
 
-  subscribeAccounts(accounts$: Observable<FeeAccount[]>): Subscription {
+  public subscribeAccounts(accounts$: Observable<FeeAccount[]>): Subscription {
     return accounts$.subscribe(acc => {
       if (acc && acc[0]) {
         this.accounts = acc;
+        this.accountName$ = of(acc[0].account_name);
       }
     });
   }
 
-  getFeeAccounts(feeAccounts: MemoizedSelector<object, FeeAccount[]>): Observable<FeeAccount[]> {
+  public getFeeAccounts(feeAccounts: MemoizedSelector<object, FeeAccount[]>): Observable<FeeAccount[]> {
     return this.store.pipe(select(feeAccounts));
   }
 
-  dispatchLoadFeeAccounts(id: string) {
+  public dispatchLoadFeeAccounts(id: string) {
     this.store.dispatch(new fromfeatureStore.LoadFeeAccounts([id]));
   }
 
-  getBackUrl(id: string): string {
+  public getBackUrl(id: string): string {
     return `/fee-accounts/account/${id}`;
   }
 
-  getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, {} | SingleAccountSummary>):
+  public getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, {} | SingleAccountSummary>):
   Observable<{} | SingleAccountSummary> {
     return this.store.pipe(select(pbaAccountTransactions));
   }
 
-  dispatchAccountTransactions(id: string) {
+  public dispatchAccountTransactions(id: string) {
     this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({ id }));
   }
 
-  isTransactionLoading(isTransactionLoading: MemoizedSelector<object, boolean>) {
+  public isTransactionLoading(isTransactionLoading: MemoizedSelector<object, boolean>) {
     return this.store.pipe(select(isTransactionLoading));
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.resetSingleFeeAccount();
     this.unsubscribe(this.subscription);
   }
 
-  unsubscribe(subscription: Subscription) {
+  public unsubscribe(subscription: Subscription) {
     if (subscription) {
       subscription.unsubscribe();
     }
   }
 
-  resetSingleFeeAccount() {
+  public resetSingleFeeAccount() {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
   }
 }

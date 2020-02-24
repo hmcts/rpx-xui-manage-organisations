@@ -40,6 +40,8 @@ module "app" {
 
         TERRAFORM_TEST = "${var.terraform_test}"
 
+         WEBSITE_NODE_DEFAULT_VERSION  = "12.13.0"
+
     }
 }
 

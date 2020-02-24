@@ -1,6 +1,9 @@
 {
   "name": "rpa-pui-manager",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=12.13.0"
+  },
   "scripts": {
     "start": "node ./dist/rpa-pui-manager/api/server.bundle.js",
     "build": "yarn build:prod && yarn build:node",

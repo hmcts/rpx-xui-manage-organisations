@@ -22,8 +22,6 @@ import {
   PROXY_PORT,
   SECURE_COOKIE,
   SERVICE_S2S_PATH,
-  SERVICES_CCD_DATA_API_PATH,
-  SERVICES_CCD_DEF_API_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
@@ -60,8 +58,6 @@ export const uiConfig = () => {
     } as EnvironmentConfigProxy,
     secureCookie: getConfigValue(SECURE_COOKIE),
     services: {
-      ccdDataApi: getConfigValue(SERVICES_CCD_DATA_API_PATH),
-      ccdDefApi: getConfigValue(SERVICES_CCD_DEF_API_PATH),
       feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),

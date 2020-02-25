@@ -18,8 +18,6 @@
     "protocol": "PROTOCOL",
     "secureCookie": "SECURE_COOKIE",
     "services": {
-        "ccdDataApi": "CCD_DATA_API_SERVICE",
-        "ccdDefApi": "CCD_DEFINITION_API_SERVICE",
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",

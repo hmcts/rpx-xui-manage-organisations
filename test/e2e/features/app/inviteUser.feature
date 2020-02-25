@@ -10,7 +10,7 @@ Feature: invite user workflow
     When I click on invite user button
     Then I should be on display invite user page
 
- @all @crossbrowser
+ @crossbrowser
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly

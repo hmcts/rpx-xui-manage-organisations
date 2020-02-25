@@ -11,7 +11,8 @@ import { CookieService } from 'ngx-cookie';
 import {AuthGuard} from '../../../user-profile/guards/auth.guard';
 import {StoreModule} from '@ngrx/store';
 import {reducers} from '../reducers';
-import { JurisdictionService } from '../../../users/services/jurisdiction.service';
+import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 
@@ -21,6 +22,7 @@ describe('App Effects', () => {
   let loggerService: LoggerService;
 
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
+  const mockTermsService = jasmine.createSpyObj('mockTermsService', ['getTermsConditions']);
   const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
@@ -46,6 +48,7 @@ describe('App Effects', () => {
         provideMockActions(() => actions$),
         { provide: CookieService, useValue: cookieService },
         { provide: JurisdictionService, useValue: mockJurisdictionService },
+        { provide: TermsConditionsService, useValue: mockTermsService },
         { provide: AuthGuard, useValue: mockAuthGuard },
         {
           provide: LoggerService,

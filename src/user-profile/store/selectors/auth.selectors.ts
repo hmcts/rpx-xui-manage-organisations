@@ -1,6 +1,7 @@
 import {createSelector} from '@ngrx/store';
-
+import * as fromApp from '../../../../src/app/store/index';
 import * as fromRoot from '../reducers/';
+import { AppUtils } from 'src/app/utils/app-utils';
 
 export const authState = createSelector(
   fromRoot.getAuthState,
@@ -12,19 +13,37 @@ export const getIsAuthenticated = createSelector(
   fromRoot.isAuthenticated
 );
 
-export const getUsers = createSelector(
+export const getShowHeaderItems = createSelector(
+  fromApp.getRouterState,
+  getIsAuthenticated,
+  (router, isAuth) => {
+    return AppUtils.showSubHeaderItems(isAuth, router);
+  }
+);
+
+export const getUser = createSelector(
   authState,
-  fromRoot.getUser
+  fromRoot.getUserConfig
 );
 
-export const getUserPermissions = createSelector(
-  getUsers,
-  (user) => user.roles
+export const getUid = createSelector(
+  getUser,
+  (user) => {
+    if (user) {
+      return user['userId'];
+    }
+  }
 );
 
+export const userLoaded = createSelector(
+  authState,
+  fromRoot.isUserLoaded
+);
 
-export const userLoaded = createSelector(authState, fromRoot.isUserLoaded);
-export const userLoading = createSelector(authState, fromRoot.isUserLoading);
+export const getHasUserSelectedTC = createSelector(
+  authState,
+  fromRoot.gethasUserAcceptedTC
+);
 
 
 

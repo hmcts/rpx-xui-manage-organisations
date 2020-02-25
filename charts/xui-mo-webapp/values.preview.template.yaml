@@ -4,6 +4,16 @@ nodejs:
   environment:
     IDAM_URL: https://idam-api.aat.platform.hmcts.net
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    NODE_TLS_REJECT_UNAUTHORIZED: 0
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
-    NODE_TLS_REJECT_UNAUTHORIZED: 0
+    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
+    RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal
+    FEE_AND_PAY_API_SERVICE: https://payment-api-aat.service.core-compute-aat.internal
+    SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
+    S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
+    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    PUI_ENV: preview
+    NODE_CONFIG_ENV: prod

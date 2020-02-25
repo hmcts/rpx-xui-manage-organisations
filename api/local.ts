@@ -21,8 +21,6 @@ import {
   MAX_LINES, NOW,
   PROXY_HOST,
   SECURE_COOKIE,
-  SERVICES_CCD_DATA_API_PATH,
-  SERVICES_CCD_DEF_API_PATH,
   SERVICES_IDAM_API_PATH,
   SESSION_SECRET,
 } from './configuration/references'
@@ -66,8 +64,6 @@ console.log(process.env.NODE_CONFIG_ENV)
 console.log(getConfigValue(COOKIE_TOKEN))
 console.log(getConfigValue(COOKIES_USERID))
 console.log(getConfigValue(MAX_LINES))
-console.log(getConfigValue(SERVICES_CCD_DATA_API_PATH))
-console.log(getConfigValue(SERVICES_CCD_DEF_API_PATH))
 console.log(getConfigValue(SERVICES_IDAM_API_PATH))
 console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))

@@ -27,8 +27,6 @@ export const OAUTH_CALLBACK_URL = 'oauthCallbackUrl'
 export const PROTOCOL = 'protocol'
 export const SECURE_COOKIE = 'secureCookie'
 
-export const SERVICES_CCD_DATA_API_PATH = 'services.ccdDataApi'
-export const SERVICES_CCD_DEF_API_PATH = 'services.ccdDefApi'
 export const SERVICES_IDAM_API_PATH = 'services.idamApi'
 export const SERVICES_IDAM_WEB = 'services.idamWeb'
 export const SERVICE_S2S_PATH = 'services.s2s'

@@ -30,8 +30,6 @@ nodejs:
     # New config
     IDAM_URL: https://idam-api.aat.platform.hmcts.net
     S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    CCD_DATA_API_SERVICE: http://ccd-data-store-api-demo.service.core-compute-demo.internal
-    CCD_DEFINITION_API_SERVICE: http://ccd-definition-store-api-demo.service.core-compute-demo.internal
     IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
     IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
     RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal

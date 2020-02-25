@@ -28,8 +28,6 @@ export interface EnvironmentConfigExceptionOptions {
 }
 
 export interface EnvironmentConfigServices {
-  ccdDataApi: string,
-  ccdDefApi: string,
   idamApi: string,
   idamWeb: string,
   rdProfessionalApi: string,

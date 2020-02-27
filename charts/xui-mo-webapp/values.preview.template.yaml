@@ -10,7 +10,6 @@ nodejs:
     IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
     IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
     RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal
-    FEE_AND_PAY_API_SERVICE: https://payment-api-aat.service.core-compute-aat.internal
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
     S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal

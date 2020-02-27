@@ -28,15 +28,14 @@ nodejs:
     MICROSERVICE: xui_webapp
     NODE_CONFIG_ENV: prod
     # New config
-    IDAM_URL: https://idam-api.aat.platform.hmcts.net
-    S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
-    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
-    RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal
-    FEE_AND_PAY_API_SERVICE: https://payment-api-aat.service.core-compute-aat.internal
-    SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
-    S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
+    IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    IDAM_API_SERVICE: https://idam-api.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://hmcts-access.service.gov.uk
+    RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   keyVaults:
     rpx:
       resourceGroup: rpx

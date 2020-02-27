@@ -22,7 +22,7 @@
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
         "s2s": "S2S_SERVICE",
-        "feeAndPayApi": "FEE_AND_PAY_API_SERVICE",
+        "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
     },
     "sessionSecret": "SESSION_SECRET",

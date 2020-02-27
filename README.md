@@ -168,4 +168,4 @@ are set within the values.yaml and there should be NO REFERENCE to them within a
 
 The application pulls out the secrets directly using `propertiesVolume.addTo()`
 
-END3
+END4

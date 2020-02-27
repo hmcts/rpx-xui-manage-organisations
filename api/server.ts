@@ -89,10 +89,6 @@ app.use(
     })
 )
 
-if (process.env.NODE_CONFIG_ENV !== 'prod') {
-  tunnel.init()
-}
-
 /**
  * Used Server side
  */

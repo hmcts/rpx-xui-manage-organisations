@@ -9,6 +9,10 @@
  * This file should be representative of the .yaml files in /config, and not
  * contain any additional constants. They are grouped as a representation of the .yaml structure.
  */
+export const APP_INSIGHTS_SECRET = 'secrets.rpx.AppInsightsInstrumentationKey'
+export const S2S_SECRET = 'secrets.rpx.mo-s2s-client-secret'
+export const IDAM_SECRET = 'secrets.rpx.xui-oauth2-token'
+
 export const ENVIRONMENT = 'environment'
 
 export const APP_INSIGHTS_KEY = 'appInsightsInstrumentationKey'

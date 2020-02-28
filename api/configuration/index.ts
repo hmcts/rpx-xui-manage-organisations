@@ -1,7 +1,23 @@
+import * as propertiesVolume from '@hmcts/properties-volume'
 import * as config from 'config'
 import { propsExist } from '../lib/objectUtilities'
 import {DEVELOPMENT, HTTP} from './constants'
 import {ENVIRONMENT, PROTOCOL} from './references'
+
+/**
+ * If you are running locally you might need to set the mountPoint up as documented in the readme.
+ * ie. propertiesVolume.addTo(config, { mountPoint: '/Volumes/mnt/secrets/'})
+ *
+ * ALLOW_CONFIG_MUTATIONS should equal true on the environment otherwise HMCTS Properties Volume will
+ * not be able to merge the volume secrets into the Node config object.
+ *
+ * @see Readme.md
+ * @see https://github.com/lorenwest/node-config/wiki/Environment-Variables
+ */
+export const initialiseSecrets = () => {
+  propertiesVolume.addTo(config)
+  // propertiesVolume.addTo(config, { mountPoint: '/Volumes/mnt/secrets/'})
+}
 
 /**
  * Get Environment
@@ -27,26 +43,6 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV
 export const getConfigValue = reference => config.get(reference)
 
 /**
- * Get Idam Secret
- *
- * The Idam secret is contained within the Azure Key Vault, and not within our .yaml file. All references to process.env
- * are managed from this file therefore we call process.env.IDAM_SECRET here.
- *
- * @returns {string}
- */
-// export const getIdamSecret = () => process.env.IDAM_SECRET
-
-/**
- * Get S2S Secret
- *
- * The S2S secret is contained within the Azure Key Vault, and not within our .yaml file. All references to process.env
- * are managed from this file therefore we call process.env.S2S_SECRET here.
- *
- * @returns {string}
- */
-// export const getS2SSecret = () => process.env.S2S_SECRET
-
-/**
  * Generate Environment Check Text
  *
  * We generate text to be used for debugging purposes, so as the person attempting to initialise the application knows
@@ -62,38 +58,3 @@ export const environmentCheckText = () => `NODE_CONFIG_ENV is set as ${process.e
  * @returns {string | string}
  */
 export const getProtocol = () => getEnvironment() === DEVELOPMENT ? HTTP : getConfigValue(PROTOCOL)
-
-/**
- * Get S2S Secret
- *
- * We're able to pull in the S2S secret into the application using the following:
- * secretsConfig['secrets']['rpx']['mc-s2s-client-secret']
- *
- * The secret always comes from keyVaults.rpx.secrets.mc-s2s-client-secret
- * @see values.yaml
- *
- * @returns {string}
- */
-export const getS2sSecret = (secretsConfig): string => {
-    const ERROR_S2S_SECRET_NOT_FOUND =
-      'mo-s2s-client-secret not found on this environment.'
-    if (propsExist(secretsConfig, ['secrets', 'rpx', 'mo-s2s-client-secret'])) {
-      // tslint:disable-next-line: no-string-literal
-      return secretsConfig['secrets']['rpx']['mo-s2s-client-secret']
-    } else {
-      console.log(ERROR_S2S_SECRET_NOT_FOUND)
-      return ''
-    }
-  }
-
-export const getIDamSecret = (secretsConfig): string => {
-    const ERROR_IDAM_SECRET_NOT_FOUND =
-      'xui-oauth2-token not found on this environment.'
-    if (propsExist(secretsConfig, ['secrets', 'rpx', 'xui-oauth2-token'])) {
-      // tslint:disable-next-line: no-string-literal
-      return secretsConfig['secrets']['rpx']['xui-oauth2-token']
-    } else {
-      console.log(ERROR_IDAM_SECRET_NOT_FOUND)
-      return ''
-    }
-  }

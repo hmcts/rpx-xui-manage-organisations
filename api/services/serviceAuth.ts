@@ -1,18 +1,21 @@
 import { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as otp from 'otp'
-import { getConfigValue, getS2sSecret } from '../configuration'
-import { SERVICE_S2S_PATH } from '../configuration/references'
+import {getConfigValue, initialiseSecrets} from '../configuration'
+import {S2S_SECRET, SERVICE_S2S_PATH} from '../configuration/references'
 import { application } from '../lib/config/application.config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
-import * as propertiesVolume from '@hmcts/properties-volume'
 import * as tunnel from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
 
-const mountedSecrets = propertiesVolume.addTo({})
-const s2sSecret = getS2sSecret(mountedSecrets) || 'AAAAAAAAAAAAAAAA'
+/**
+ * Allows us to integrate the key-vault secrets
+ */
+initialiseSecrets()
+
+const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
 const url = getConfigValue(SERVICE_S2S_PATH)
 const microservice =  application.microservice
 const logger = log4jui.getLogger('service user-profile')

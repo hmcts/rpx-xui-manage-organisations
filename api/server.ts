@@ -1,29 +1,28 @@
 /**
  * Common to both server.ts and local.ts files
  */
-import * as propertiesVolume from '@hmcts/properties-volume'
 import * as bodyParser from 'body-parser'
-import * as config from 'config'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as session from 'express-session'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
-import {environmentCheckText, getConfigValue, getEnvironment, getIDamSecret, getS2sSecret} from './configuration'
+import {environmentCheckText, getConfigValue, getEnvironment, initialiseSecrets} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
-  APP_INSIGHTS_KEY,
+  APP_INSIGHTS_SECRET,
   COOKIE_TOKEN,
   COOKIES_USERID,
   IDAM_CLIENT,
+  IDAM_SECRET,
   MAX_LINES,
   NOW,
+  S2S_SECRET,
   SECURE_COOKIE,
   SERVICES_IDAM_API_PATH,
   SESSION_SECRET
 } from './configuration/references'
 import { appInsights } from './lib/appInsights'
-// import { config } from './lib/config'
 import { errorStack } from './lib/errorStack'
 import openRoutes from './openRoutes'
 import routes from './routes'
@@ -40,12 +39,10 @@ const FileStore = sessionFileStore(session)
 
 const app = express()
 
-const mountedSecrets = propertiesVolume.addTo({})
-
 /**
  * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
  */
-propertiesVolume.addTo(config)
+initialiseSecrets()
 
 /**
  * If there are no configuration properties found we highlight this to the person attempting to initialise
@@ -69,8 +66,10 @@ console.log(getConfigValue(MAX_LINES))
 console.log(getConfigValue(SERVICES_IDAM_API_PATH))
 console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
-console.log('s2sSecret', getS2sSecret(mountedSecrets))
-console.log('idamsecret', getIDamSecret(mountedSecrets))
+
+console.log(getConfigValue(S2S_SECRET))
+console.log(getConfigValue(IDAM_SECRET))
+console.log(getConfigValue(APP_INSIGHTS_SECRET))
 
 app.use(
     session({

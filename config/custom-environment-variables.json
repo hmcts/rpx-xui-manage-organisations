@@ -16,7 +16,6 @@
     "now": "NOW",
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
     "protocol": "PROTOCOL",
-    "secureCookie": "SECURE_COOKIE",
     "services": {
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
@@ -35,6 +34,20 @@
         "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
         "xui-oauth2-token": "IDAM_SECRET"
+      }
+    },
+    "feature": {
+      "appInsightsEnabled": {
+        "__name": "FEATURE_APP_INSIGHTS_ENABLED",
+        "__format": "json"
+      },
+      "proxyEnabled": {
+        "__name": "FEATURE_PROXY_ENABLED",
+        "__format": "json"
+      },
+      "secureCookieEnabled": {
+        "__name": "FEATURE_SECURE_COOKIE_ENABLED",
+        "__format": "json"
       }
     }
 }

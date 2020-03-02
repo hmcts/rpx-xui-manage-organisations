@@ -88,9 +88,6 @@ variable "logging" {
 variable "protocol" {
   default = "https"
 }
-variable "secure_cookie" {
-  default = "false"
-}
 variable "cookie_token" {
   default = "__auth__"
 }
@@ -122,6 +119,18 @@ variable "ao_no_proxy" {
 
 variable "app_insights_enabled" {
   default = "1"
+}
+
+variable "feature_secure_cookie_enabled" {
+  default = "true"
+}
+
+variable "feature_app_insights_enabled" {
+  default = "true"
+}
+
+variable "feature_proxy_enabled" {
+  default = "false"
 }
 
 variable "terraform_test" {

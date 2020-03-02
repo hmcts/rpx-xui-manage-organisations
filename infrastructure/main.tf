@@ -54,8 +54,12 @@ module "app" {
         ALLOW_CONFIG_MUTATIONS = "${var.allow_config_mutations}"
         APP_INSIGHTS_ENABLED = "${var.app_insights_enabled}"
 
+        # FEATURE TOGGLES
+        FEATURE_APP_INSIGHTS_ENABLED = "${var.feature_app_insights_enabled}"
+        FEATURE_SECURE_COOKIE_ENABLED = "${var.feature_secure_cookie_enabled}"
+        FEATURE_PROXY_ENABLED = "${var.feature_proxy_enabled}"
+
         # COOKIE SETTINGS
-        SECURE_COOKIE = "${var.secure_cookie}"
         COOKIE_TOKEN = "${var.cookie_token}"
         COOKIE_USER_ID = "${var.cookie_user_id}"
         MICROSERVICE = "${var.microservice}"

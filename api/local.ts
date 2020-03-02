@@ -8,18 +8,20 @@ import * as session from 'express-session'
 import * as log4js from 'log4js'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
-import {environmentCheckText, getConfigValue, getEnvironment, initialiseSecrets} from './configuration'
+import {environmentCheckText, getConfigValue, getEnvironment, initialiseSecrets, showFeature} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
   APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
-  IDAM_CLIENT, IDAM_SECRET,
+  FEATURE_APP_INSIGHTS_ENABLED, FEATURE_PROXY_ENABLED,
+  FEATURE_SECURE_COOKIE_ENABLED,
+  IDAM_CLIENT,
+  IDAM_SECRET,
   JURISDICTIONS,
-  LOGGING,
-  MAX_LINES, NOW,
-  PROXY_HOST, S2S_SECRET,
-  SECURE_COOKIE,
+  LOGGING, MAX_LINES,
+  NOW, PROXY_HOST,
+  S2S_SECRET,
   SERVICES_IDAM_API_PATH,
   SESSION_SECRET,
 } from './configuration/references'
@@ -66,6 +68,13 @@ console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
 console.log(getConfigValue(JURISDICTIONS))
 
+console.log('Secure Cookie is:')
+console.log(showFeature(FEATURE_SECURE_COOKIE_ENABLED))
+console.log('App Insights enabled:')
+console.log(showFeature(FEATURE_APP_INSIGHTS_ENABLED))
+console.log('Proxy enabled:')
+console.log(showFeature(FEATURE_PROXY_ENABLED))
+
 console.log('process.env.ALLOW_CONFIG_MUTATIONS')
 console.log(process.env.ALLOW_CONFIG_MUTATIONS)
 console.log('S2S_SECRET')
@@ -80,7 +89,7 @@ app.use(
     cookie: {
       httpOnly: true,
       maxAge: 1800000,
-      secure: getConfigValue(SECURE_COOKIE) !== false,
+      secure: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     },
     name: 'jui-webapp',
     resave: true,

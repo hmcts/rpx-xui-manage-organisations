@@ -5,10 +5,11 @@ import {
   EnvironmentConfigServices
 } from '../interfaces/environment.config'
 import {healthEndpoints} from './health'
-import {getConfigValue, getEnvironment} from './index'
+import {getConfigValue, getEnvironment, showFeature} from './index'
 import {
   COOKIE_TOKEN,
   COOKIES_USERID,
+  FEATURE_SECURE_COOKIE_ENABLED,
   IDAM_CLIENT,
   INDEX_URL,
   LOGGING,
@@ -20,7 +21,6 @@ import {
   PROTOCOL,
   PROXY_HOST,
   PROXY_PORT,
-  SECURE_COOKIE,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
@@ -56,7 +56,7 @@ export const uiConfig = () => {
       host: getConfigValue(PROXY_HOST),
       port: getConfigValue(PROXY_PORT),
     } as EnvironmentConfigProxy,
-    secureCookie: getConfigValue(SECURE_COOKIE),
+    secureCookie: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     services: {
       feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),

@@ -1,15 +1,11 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
 import { getConfigValue } from '../configuration'
-import { APP_INSIGHTS_KEY } from '../configuration/references'
+import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references'
 
 export let client
 
-/**
- * TODO: Write feature toggle around this.
- */
 export function initialiseAppInsights() {
-  console.log('app insights inside')
   applicationinsights
     .setup(getConfigValue(APP_INSIGHTS_KEY))
     .setAutoDependencyCorrelation(true)
@@ -26,7 +22,10 @@ export function initialiseAppInsights() {
   client.trackTrace({ message: 'App Insight Activated' })
 }
 
-initialiseAppInsights()
+if (FEATURE_APP_INSIGHTS_ENABLED) {
+  console.log('App Insights Enabled.')
+  initialiseAppInsights()
+}
 
 export function appInsights(req: express.Request, res: express.Response, next) {
     if (client) {

@@ -27,7 +27,7 @@ export const MICROSERVICE = 'microservice'
 export const NOW = 'now'
 export const OAUTH_CALLBACK_URL = 'oauthCallbackUrl'
 export const PROTOCOL = 'protocol'
-export const SECURE_COOKIE = 'secureCookie'
+// export const SECURE_COOKIE = 'secureCookie'
 
 export const SERVICES_IDAM_API_PATH = 'services.idamApi'
 export const SERVICES_IDAM_WEB = 'services.idamWeb'
@@ -42,3 +42,7 @@ export const PROXY_PORT = 'proxyConfig.port'
 
 export const LOGGING = 'logging'
 export const JURISDICTIONS = 'jurisdictions'
+
+export const FEATURE_SECURE_COOKIE_ENABLED = 'secureCookieEnabled'
+export const FEATURE_APP_INSIGHTS_ENABLED = 'appInsightsEnabled'
+export const FEATURE_PROXY_ENABLED = 'proxyEnabled'

@@ -4,6 +4,7 @@ import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import {UserListApiModel} from '../../models/userform.model';
+import { User } from '@hmcts/rpx-xui-common-lib';
 
 @Component({
   selector: 'app-prd-users-component',
@@ -13,7 +14,7 @@ import {UserListApiModel} from '../../models/userform.model';
 export class UsersComponent implements OnInit {
 
   columnConfig: GovukTableColumnConfig[];
-  tableUsersData$: Observable<any>; // TODO add type
+  tableUsersData$: Observable<User[]>; // TODO add type
   isLoading$: Observable<boolean>;
 
   constructor(
@@ -21,11 +22,11 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.columnConfig = [
-      { header: 'Name', key: 'fullName', type: 'link'},
-      { header: 'Email', key: 'email' },
-      { header: 'Status', key: 'status' }
-    ];
+    // this.columnConfig = [
+    //   { header: 'Name', key: 'fullName', type: 'link'},
+    //   { header: 'Email', key: 'email' },
+    //   { header: 'Status', key: 'status' }
+    // ];
 
     this.store.dispatch(new fromStore.LoadUsers());
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));

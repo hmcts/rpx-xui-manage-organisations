@@ -5,28 +5,28 @@ import { APP_INSIGHTS_KEY } from '../configuration/references'
 
 export let client
 
-// shouldnt do this check here but this is a high level dep
-const environment = process.env.PUI_ENV || 'local'
+/**
+ * TODO: Write feature toggle around this.
+ */
+export function initialiseAppInsights() {
+  console.log('app insights inside')
+  applicationinsights
+    .setup(getConfigValue(APP_INSIGHTS_KEY))
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setSendLiveMetrics(true)
+    .setUseDiskRetryCaching(true)
+    .start()
 
-//TODO: Change the direct reference to the config.appInsightsInstrumentationKey as config will be removed.
-if (environment !== 'local') {
-    applicationinsights
-        .setup(getConfigValue(APP_INSIGHTS_KEY))
-        .setAutoDependencyCorrelation(true)
-        .setAutoCollectRequests(true)
-        .setAutoCollectPerformance(true)
-        .setAutoCollectExceptions(true)
-        .setAutoCollectDependencies(true)
-        .setAutoCollectConsole(true)
-        .setSendLiveMetrics(true)
-        .setUseDiskRetryCaching(true)
-        .start()
-
-    client = applicationinsights.defaultClient
-    client.trackTrace({ message: 'App Insight Activated' })
-} else {
-    client = null
+  client = applicationinsights.defaultClient
+  client.trackTrace({ message: 'App Insight Activated' })
 }
+
+initialiseAppInsights()
 
 export function appInsights(req: express.Request, res: express.Response, next) {
     if (client) {

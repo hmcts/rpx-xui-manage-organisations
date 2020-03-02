@@ -11,7 +11,7 @@ import * as auth from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, initialiseSecrets} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
-  APP_INSIGHTS_KEY, APP_INSIGHTS_SECRET,
+  APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
   IDAM_CLIENT, IDAM_SECRET,
@@ -72,8 +72,8 @@ console.log('S2S_SECRET')
 console.log(getConfigValue(S2S_SECRET))
 console.log('IDAM_SECRET')
 console.log(getConfigValue(IDAM_SECRET))
-console.log('APP_INSIGHTS_SECRET')
-console.log(getConfigValue(APP_INSIGHTS_SECRET))
+console.log('APP_INSIGHTS_KEY')
+console.log(getConfigValue(APP_INSIGHTS_KEY))
 
 app.use(
   session({
@@ -141,13 +141,6 @@ app.get('/api/logout', (req, res, next) => {
 
 const port = process.env.PORT || 3001
 app.listen(port)
-
-// TODO: Slightly confusing, need to ask why we're not setting a value on config through an interface. ie. config.setAppInsightKey()
-// program to an interface over implementation
-// TODO: Add back in once refactored
-// if (getConfigValue(APP_INSIGHTS_KEY)) {
-//   config.appInsightsInstrumentationKey = getConfigValue(APP_INSIGHTS_KEY)
-// }
 
 const logger = log4js.getLogger('server')
 logger.level = getConfigValue(LOGGING) ? getConfigValue(LOGGING) : 'OFF'

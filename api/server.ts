@@ -67,7 +67,11 @@ console.log(getConfigValue(SERVICES_IDAM_API_PATH))
 console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
 
+console.log('process.env.ALLOW_CONFIG_MUTATIONS')
+console.log(process.env.ALLOW_CONFIG_MUTATIONS)
+console.log('S2S_SECRET')
 console.log(getConfigValue(S2S_SECRET))
+console.log('IDAM_SECRET')
 console.log(getConfigValue(IDAM_SECRET))
 console.log(getConfigValue(APP_INSIGHTS_SECRET))
 

@@ -14,7 +14,7 @@ import {
   APP_INSIGHTS_KEY, APP_INSIGHTS_SECRET,
   COOKIE_TOKEN,
   COOKIES_USERID,
-  IDAM_CLIENT,
+  IDAM_CLIENT, IDAM_SECRET,
   JURISDICTIONS,
   LOGGING,
   MAX_LINES, NOW,
@@ -66,7 +66,13 @@ console.log(getConfigValue(SESSION_SECRET))
 console.log(getConfigValue(IDAM_CLIENT))
 console.log(getConfigValue(JURISDICTIONS))
 
+console.log('process.env.ALLOW_CONFIG_MUTATIONS')
+console.log(process.env.ALLOW_CONFIG_MUTATIONS)
+console.log('S2S_SECRET')
 console.log(getConfigValue(S2S_SECRET))
+console.log('IDAM_SECRET')
+console.log(getConfigValue(IDAM_SECRET))
+console.log('APP_INSIGHTS_SECRET')
 console.log(getConfigValue(APP_INSIGHTS_SECRET))
 
 app.use(

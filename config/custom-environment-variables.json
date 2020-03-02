@@ -29,5 +29,12 @@
     "proxyConfig": {
         "host": "PROXY_HOST",
         "port": "PROXY_PORT"
+    },
+    "secrets": {
+      "rpx": {
+        "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+        "mo-s2s-client-secret": "S2S_SECRET",
+        "xui-oauth2-token": "IDAM_SECRET"
+      }
     }
 }

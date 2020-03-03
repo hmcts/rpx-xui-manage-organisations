@@ -67,7 +67,7 @@ variable "api_now" {
   default = "false"
 }
 variable "idam_client" {
-  default = "xuiaowebapp"
+  default = "xuimowebapp"
 }
 variable "oauth_callback_url" {
   default = "/oauth2/callback"
@@ -130,6 +130,10 @@ variable "feature_app_insights_enabled" {
 }
 
 variable "feature_proxy_enabled" {
+  default = "false"
+}
+
+variable "feature_terms_and_conditions_enabled" {
   default = "false"
 }
 

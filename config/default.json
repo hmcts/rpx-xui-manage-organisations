@@ -24,6 +24,7 @@
     "feature": {
       "appInsightsEnabled": true,
       "proxyEnabled": false,
-      "secureCookieEnabled": true
+      "secureCookieEnabled": true,
+      "termsAndConditionsEnabled": false
     }
 }

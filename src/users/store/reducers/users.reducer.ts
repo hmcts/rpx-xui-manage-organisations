@@ -10,7 +10,7 @@ export interface UsersListState {
 }
 
 export const initialState: UsersListState = {
-  userList: [],
+  userList: [] as User[],
   loaded: false,
   loading: false,
 };
@@ -111,9 +111,7 @@ export function reducer(
     }
 
     default:
-      return {
-        ...state
-      };
+      return state;
 
   }
 }

@@ -1,5 +1,5 @@
-import { UserDetailsComponent } from './user-details.component';
 import { Observable, of } from 'rxjs';
+import { UserDetailsComponent } from './user-details.component';
 
 describe('User Details Component', () => {
 

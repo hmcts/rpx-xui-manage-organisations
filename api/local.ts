@@ -14,8 +14,10 @@ import {
   APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
-  FEATURE_APP_INSIGHTS_ENABLED, FEATURE_PROXY_ENABLED,
+  FEATURE_APP_INSIGHTS_ENABLED,
+  FEATURE_PROXY_ENABLED,
   FEATURE_SECURE_COOKIE_ENABLED,
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   IDAM_CLIENT,
   IDAM_SECRET,
   JURISDICTIONS,
@@ -74,6 +76,8 @@ console.log('App Insights enabled:')
 console.log(showFeature(FEATURE_APP_INSIGHTS_ENABLED))
 console.log('Proxy enabled:')
 console.log(showFeature(FEATURE_PROXY_ENABLED))
+console.log('Terms and Conditions enabled:')
+console.log(showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED))
 
 console.log('process.env.ALLOW_CONFIG_MUTATIONS')
 console.log(process.env.ALLOW_CONFIG_MUTATIONS)

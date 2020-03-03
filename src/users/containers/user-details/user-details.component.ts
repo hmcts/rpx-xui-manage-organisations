@@ -12,30 +12,30 @@ import * as fromStore from '../../store';
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
 
-  user$: Observable<any>;
-  isLoading$: Observable<boolean>;
-  user: any;
+  public user$: Observable<any>;
+  public isLoading$: Observable<boolean>;
+  public user: any;
 
-  userSubscription: Subscription;
-  dependanciesSubscription: Subscription;
-  suspendUserServerErrorSubscription: Subscription;
+  public userSubscription: Subscription;
+  public dependanciesSubscription: Subscription;
+  public suspendUserServerErrorSubscription: Subscription;
 
-  actionButtons: { name: string, class: string, action: () => {} }[] = [];
+  public actionButtons: { name: string, class: string, action(): {} }[] = [];
 
-  suspendViewFlag: boolean = false;
+  public suspendViewFlag: boolean = false;
 
-  showSuspendView: () => {};
-  hideSuspendView: () => {};
+  public showSuspendView: () => {};
+  public hideSuspendView: () => {};
 
-  suspendSuccessSubscription: Subscription;
+  public suspendSuccessSubscription: Subscription;
 
   constructor(
-    private userStore: Store<fromStore.UserState>,
-    private routerStore: Store<fromRoot.State>,
-    private actions$: Actions,
+    private readonly userStore: Store<fromStore.UserState>,
+    private readonly routerStore: Store<fromRoot.State>,
+    private readonly actions$: Actions,
   ) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.user$ = new Observable();
     this.setSuspendViewFunctions();
 
@@ -56,29 +56,29 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  getDependancyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
+  public getDependancyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
     return combineLatest([
       routerStore.pipe(select(fromRoot.getRouterState)),
       userStore.pipe(select(fromStore.getGetUserLoaded))
     ]);
   }
 
-  dispatchGetUsers(users, userStore) {
+  public dispatchGetUsers(users, userStore) {
     if (!users) {
       userStore.dispatch(new fromStore.LoadUsers());
     }
   }
 
-  getUserObservable(userId, userStore) {
+  public getUserObservable(userId, userStore) {
     return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
   }
 
-  setSuspendViewFunctions() {
+  public setSuspendViewFunctions() {
     this.hideSuspendView = () => this.suspendViewFlag = false;
     this.showSuspendView = () => this.suspendViewFlag = true;
   }
 
-  handleUserSubscription(user) {
+  public handleUserSubscription(user) {
     this.user = user;
     if (this.user && this.user.status === 'Active') {
 
@@ -94,12 +94,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  handleDependanciesSubscription(users, route) {
+  public handleDependanciesSubscription(users, route) {
     this.dispatchGetUsers(users, this.userStore);
     this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
 
     if (this.dependanciesSubscription) {
       this.dependanciesSubscription.unsubscribe();
@@ -118,15 +118,15 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  isSuspended(status) {
+  public isSuspended(status) {
     return status === 'Suspended';
   }
 
-  isSuspendView() {
+  public isSuspendView() {
     return this.suspendViewFlag;
   }
 
-  suspendUser() {
+  public suspendUser() {
     this.userStore.dispatch(new fromStore.SuspendUser(this.user));
   }
 

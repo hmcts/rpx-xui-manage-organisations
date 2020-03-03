@@ -8,6 +8,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { AccessibilityComponent } from './accessibility/accessibility.component';
 import { ServiceDownComponent } from './service-down/service-down.component';
 import { GetHelpComponent } from './get-help/get-help.component';
+import { LegacyTermsAndConditionsComponent } from './legacy-terms-and-conditions/legacy-terms-and-conditions.component';
 
 export const components: any[] = [
   HmctsGlobalHeaderComponent,
@@ -17,7 +18,8 @@ export const components: any[] = [
   PrivacyPolicyComponent,
   AccessibilityComponent,
   ServiceDownComponent,
-  GetHelpComponent
+  GetHelpComponent,
+  LegacyTermsAndConditionsComponent
 ];
 
 export * from './hmcts-global-header/hmcts-global-header.component';
@@ -28,3 +30,4 @@ export * from './privacy-policy/privacy-policy.component';
 export * from './accessibility/accessibility.component';
 export * from './service-down/service-down.component';
 export * from './get-help/get-help.component';
+export * from './legacy-terms-and-conditions/legacy-terms-and-conditions.component';

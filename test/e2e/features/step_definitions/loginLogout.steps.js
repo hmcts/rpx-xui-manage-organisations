@@ -10,6 +10,7 @@ const browserWaits = require('../../support/customWaits');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 const manageCasesService = require('../pageObjects/manageCasesService');
+const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 
 const HeaderPage = require('../pageObjects/headerPage');
 const headerPage = new HeaderPage();
@@ -81,6 +82,11 @@ defineSupportCode(function ({ Given, When, Then }) {
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
 
+      if(config.termsAndConditionsEnabled){
+        expect(acceptTermsAndConditionsPage.amOnPage()).to.eventually.be.true;
+        await acceptTermsAndConditionsPage.acceptTremsAndConditions();  
+      }
+    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation);
   });
 
   When(/^I enter an valid email-address and password to login$/, async function () {
@@ -119,14 +125,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    // browser.sleep(LONG_DELAY);
-    await waitForElement('hmcts-header__link');
+    await browserWaits.waitForElement(loginPage.dashboard_header); 
     expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
     expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
-    // browser.sleep(LONG_DELAY);
+   
+    expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true
   });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {

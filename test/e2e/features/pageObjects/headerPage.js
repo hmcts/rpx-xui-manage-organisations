@@ -22,8 +22,11 @@ class HeaderPage {
   }
 
   async waitForPrimaryNavigationToDisplay(){
-    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation);
- 
+    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation); 
+  }
+
+ async isPrimaryNavigationTabDisplayed(){
+   return await this.hmctsPrimaryNavigation.isPresent(); 
   }
 
   async isHeaderTabPresent(displayText){
@@ -46,6 +49,9 @@ class HeaderPage {
     await BrowserWaits.waitForElementNotVisible(this.spinner);
     await BrowserWaits.waitForElement(this.user);
     await BrowserWaits.waitForElementClickable(this.user);
+
+    await this.waitForSpinnerNotPresent();
+
     await this.user.click();
     // browser.sleep(AMAZING_DELAY);
   }
@@ -60,7 +66,7 @@ class HeaderPage {
   }
 
   async waitForSpinnerNotPresent(){
-    await BrowserWaits.waitForElementNotVisible(element(by.css('div.spinner-wrapper')), 60000);
+    await BrowserWaits.waitForElementNotVisible(this.spinner, 60000);
 
   }
 

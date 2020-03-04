@@ -21,10 +21,20 @@ import {
   IDAM_CLIENT,
   IDAM_SECRET,
   JURISDICTIONS,
-  LOGGING, MAX_LINES,
-  NOW, PROXY_HOST,
+  LOGGING,
+  MAX_LINES,
+  MAX_LOG_LINE,
+  MICROSERVICE,
+  NOW,
+  OAUTH_CALLBACK_URL,
+  PROTOCOL,
   S2S_SECRET,
+  SERVICE_S2S_PATH,
+  SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
+  SERVICES_IDAM_WEB,
+  SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET,
 } from './configuration/references'
 import {appInsights} from './lib/appInsights'
@@ -60,15 +70,42 @@ if (!getEnvironment()) {
 console.log(environmentCheckText())
 
 // TODO: Testing that we can get the environment variables on AAT from the .yaml file
-console.log('COOKIE_TOKEN')
+console.log('ENV PRINT')
 console.log(process.env.NODE_CONFIG_ENV)
+console.log('process.env.ALLOW_CONFIG_MUTATIONS')
+console.log(process.env.ALLOW_CONFIG_MUTATIONS)
+
+// 1st set
+console.log(getConfigValue(IDAM_CLIENT))
+console.log(getConfigValue(MAX_LOG_LINE))
+console.log(getConfigValue(MICROSERVICE))
+console.log(getConfigValue(MAX_LINES))
+console.log(getConfigValue(NOW))
+
+// 2nd set
 console.log(getConfigValue(COOKIE_TOKEN))
 console.log(getConfigValue(COOKIES_USERID))
-console.log(getConfigValue(MAX_LINES))
+console.log(getConfigValue(OAUTH_CALLBACK_URL))
+console.log(getConfigValue(PROTOCOL))
+
+// 3rd set
 console.log(getConfigValue(SERVICES_IDAM_API_PATH))
+console.log(getConfigValue(SERVICES_IDAM_WEB))
+console.log(getConfigValue(SERVICE_S2S_PATH))
+console.log(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
+console.log(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH))
+console.log(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))
+
+// 4th set
 console.log(getConfigValue(SESSION_SECRET))
-console.log(getConfigValue(IDAM_CLIENT))
 console.log(getConfigValue(JURISDICTIONS))
+
+console.log('S2S_SECRET:')
+console.log(getConfigValue(S2S_SECRET))
+console.log('IDAM_SECRET:')
+console.log(getConfigValue(IDAM_SECRET))
+console.log('APP_INSIGHTS_KEY:')
+console.log(getConfigValue(APP_INSIGHTS_KEY))
 
 console.log('Secure Cookie is:')
 console.log(showFeature(FEATURE_SECURE_COOKIE_ENABLED))
@@ -78,15 +115,6 @@ console.log('Proxy enabled:')
 console.log(showFeature(FEATURE_PROXY_ENABLED))
 console.log('Terms and Conditions enabled:')
 console.log(showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED))
-
-console.log('process.env.ALLOW_CONFIG_MUTATIONS')
-console.log(process.env.ALLOW_CONFIG_MUTATIONS)
-console.log('S2S_SECRET')
-console.log(getConfigValue(S2S_SECRET))
-console.log('IDAM_SECRET')
-console.log(getConfigValue(IDAM_SECRET))
-console.log('APP_INSIGHTS_KEY')
-console.log(getConfigValue(APP_INSIGHTS_KEY))
 
 app.use(
   session({

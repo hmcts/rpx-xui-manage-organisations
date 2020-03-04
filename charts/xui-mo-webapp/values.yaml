@@ -27,16 +27,19 @@ nodejs:
     COOKIE_USER_ID: __userid__
     MICROSERVICE: xui_webapp
     NODE_CONFIG_ENV: prod
-    # New config
+    # Allow config mutations is required for Secrets to attach to config object within code
     ALLOW_CONFIG_MUTATIONS: 1
+    # Feature Toggles
     FEATURE_APP_INSIGHTS_ENABLED: true
     FEATURE_SECURE_COOKIE_ENABLED: true
     FEATURE_PROXY_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
-    IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
-    S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    IDAM_API_SERVICE: https://idam-api.platform.hmcts.net
-    IDAM_WEB_SERVICE: https://hmcts-access.service.gov.uk
+
+    # IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    # S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+
+    IDAM_API_SERVICE: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
     RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal

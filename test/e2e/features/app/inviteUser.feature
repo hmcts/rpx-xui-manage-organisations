@@ -30,6 +30,8 @@ Feature: invite user workflow
     Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
+    Then I am on Accept Terms and Conditions page
+    When I click Confirm in Accept Terms and Conditions page
     Then I should be redirected to manage organisation dashboard page
     Then I should see navigation tab in header
       | NavigationTab|
@@ -41,7 +43,7 @@ Feature: invite user workflow
 
 
   @crossbrowser
-  Scenario: Invite user with Mnage Org permission
+  Scenario: Invite user with Manage Org permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
       | Manage Organisation |
@@ -53,6 +55,8 @@ Feature: invite user workflow
     Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
+    Then I am on Accept Terms and Conditions page
+    When I click Confirm in Accept Terms and Conditions page
     Then I should be redirected to manage organisation dashboard page
     Then I should see navigation tab in header
       | NavigationTab |
@@ -73,6 +77,8 @@ Feature: invite user workflow
     Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
+    Then I am on Accept Terms and Conditions page
+    When I click Confirm in Accept Terms and Conditions page
     Then I should be redirected to manage organisation dashboard page
     Then I should see navigation tab in header
       | NavigationTab |

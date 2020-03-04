@@ -81,12 +81,6 @@ defineSupportCode(function ({ Given, When, Then }) {
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
-
-      if(config.termsAndConditionsEnabled){
-        expect(acceptTermsAndConditionsPage.amOnPage()).to.eventually.be.true;
-        await acceptTermsAndConditionsPage.acceptTremsAndConditions();  
-      }
-    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation);
   });
 
   When(/^I enter an valid email-address and password to login$/, async function () {

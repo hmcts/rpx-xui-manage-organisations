@@ -45,26 +45,45 @@ class HeaderPage {
   }
 
   async clickUser(){
-    await this.waitForSpinnerNotPresent();
-    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    // await this.waitForSpinnerNotPresent();
+
+    await BrowserWaits.waitForCondition(async () => {
+      const isSpinnerPresent = await this.spinner.isPresent();
+      return !isSpinnerPresent;
+    });
     await BrowserWaits.waitForElement(this.user);
-    await BrowserWaits.waitForElementClickable(this.user);
-
-    await this.waitForSpinnerNotPresent();
-
-    await this.user.click();
-    // browser.sleep(AMAZING_DELAY);
+    await this.clickHeaderTab(this.user);
   }
+
 
   async clickOrganisation() {
-    await this.waitForSpinnerNotPresent();
-    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    await BrowserWaits.waitForCondition( async () => {
+      const isSpinnerPresent = await this.spinner.isPresent();
+      console.log("Spinner present status : " + isSpinnerPresent);
+      return !isSpinnerPresent;
+    });
     await BrowserWaits.waitForElement(this.organisation);
-    await BrowserWaits.waitForElementClickable(this.organisation);
-    await this.organisation.click();
+    await this.clickHeaderTab(this.organisation);
     // browser.sleep(AMAZING_DELAY);
   }
 
+
+  async clickHeaderTab(tabElement) {
+    let clickSuccess = false;
+    let counter = 0;
+    while (!clickSuccess && counter < 5) {
+      try {
+        await tabElement.click();
+        clickSuccess = true;
+      }
+      catch (err) {
+        counter++;
+    browser.sleep(SHORT_DELAY);
+        console.log("Error clicking element : " + err);
+      }
+    }
+
+  }
   async waitForSpinnerNotPresent(){
     await BrowserWaits.waitForElementNotVisible(this.spinner, 60000);
 

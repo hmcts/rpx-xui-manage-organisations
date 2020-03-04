@@ -5,7 +5,7 @@ class TermsAndConditionsConfirmPage{
 
     constructor(){
         this.accepttermsAndConditionsContainer = element(by.id('mo-tc'));
-        this.confirmBtn = element(by.xpath("//div[@id = 'mo-tc']//button[contains(text(),'Confirm')]"));
+        this.confirmBtn = element(by.xpath("//*[@id = 'mo-tc']//button[contains(text(),'Confirm')]"));
     }
 
     async amOnPage(){

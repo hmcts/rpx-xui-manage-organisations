@@ -109,14 +109,6 @@ variable "allow_config_mutations" {
   default = "1"
 }
 
-variable "ao_http_proxy" {
-  default = "http://172.16.0.7:8080"
-}
-
-variable "ao_no_proxy" {
-  default = "localhost"
-}
-
 variable "app_insights_enabled" {
   default = "1"
 }

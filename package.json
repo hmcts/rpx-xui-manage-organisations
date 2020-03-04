@@ -16,7 +16,7 @@
     "test:node": "cd api && yarn test",
     "test:smoke": "sh whitelist.sh",
     "test:smoke:functional": "sh whitelist.sh && webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
-    "test:functional": "echo 'not implemented'",
+    "test:functional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js",
     "test:functional:backup": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js",
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js --local",
     "test:fullfunctional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js",

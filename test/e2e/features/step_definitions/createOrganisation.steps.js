@@ -17,12 +17,12 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^I navigate to EUI Manage Organisation Url$/, { timeout: 600 * 1000 }, async function () {
     await browser.get(config.config.baseUrl + '/register-org/register');
-    // browser.sleep(AMAZING_DELAY);
+    browser.sleep(MID_DELAY);
   });
 
   Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
-        await waitForElement('govuk-heading-xl');
-        // browser.sleep(LONG_DELAY);
+        // await waitForElement('govuk-heading-xl');
+        browser.sleep(LONG_DELAY);
         await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
         await expect(createOrganisationObject.start_button.getText())
             .to

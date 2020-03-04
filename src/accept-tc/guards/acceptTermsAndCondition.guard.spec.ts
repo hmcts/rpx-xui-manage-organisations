@@ -22,7 +22,8 @@ describe('Accept terms guard', () => {
         });
     });
 
-    it('cant activate when TC have not been accepted', (done: any) => {
+    // Commenting this test as Terms and Conditions are temporarilily commented 
+    xit('cant activate when TC have not been accepted', (done: any) => {
         mockStore.pipe.and.returnValue(throwError('test'));
         guard.canActivate().subscribe(v => {
             expect(v).toBeFalsy();

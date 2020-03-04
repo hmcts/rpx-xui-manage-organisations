@@ -53,18 +53,19 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I Enter the PBA1 and PBA2 details$/, async function () {
-    await waitForElement('govuk-heading-xl');
+    // await waitForElement('govuk-heading-xl');
+    browser.sleep(MID_DELAY);
     await createOrganisationObject.PBAnumber1.isDisplayed();
     await createOrganisationObject.enterPBANumber();
     await createOrganisationObject.PBAnumber2.isDisplayed();
     await createOrganisationObject.enterPBA2Number();
     await createOrganisationObject.continue_button.click();
-    // browser.sleep(MID_DELAY);
+    browser.sleep(MID_DELAY);
   });
 
   Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function () {
     await createOrganisationObject.clickDXreferenceCheck();
-    // browser.sleep(MID_DELAY);
+    browser.sleep(MID_DELAY);
     await createOrganisationObject.DXNumber.isDisplayed();
     await createOrganisationObject.enterDXNumber();
     await createOrganisationObject.DXexchange.isDisplayed();

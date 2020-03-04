@@ -33,7 +33,8 @@
               <div *ngIf="user.manageCases === 'Yes'">Manage Cases</div>
               <!-- <div *ngIf="user.managePayments === 'Yes'">Manage fee accounts</div> -->
             </td>
-            <td *ngIf="!isSuspended(user.status)" class="govuk-table__cell"><a routerLink="editpermission">Change</a></td>
+            <!-- TODO: Add back in after AKS migration -->
+            <!-- <td *ngIf="!isSuspended(user.status)" class="govuk-table__cell"><a routerLink="editpermission">Change</a></td>-->
           </tr>
           </tbody>
         </table>
@@ -81,6 +82,6 @@
     <button class="govuk-button govuk-button--warning" (click)="suspendUser()">
       Suspend account
     </button>
- 
+
   </ng-container>
 </app-hmcts-main-wrapper>

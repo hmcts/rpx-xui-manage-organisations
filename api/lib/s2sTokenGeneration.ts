@@ -1,11 +1,15 @@
 import * as otp from 'otp'
-import * as log4jui from './log4jui'
-import {application} from './config/application.config'
+import {getConfigValue} from '../configuration'
+import {
+  MICROSERVICE,
+  S2S_SECRET,
+} from '../configuration/references'
 import {http} from './http'
+import * as log4jui from './log4jui'
 
-const s2sSecret = process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
+const s2sSecret = getConfigValue(S2S_SECRET) // process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
 
-const microservice = application.microservice
+const microservice = getConfigValue(MICROSERVICE) //application.microservice
 
 const logger = log4jui.getLogger('s2s token generation')
 

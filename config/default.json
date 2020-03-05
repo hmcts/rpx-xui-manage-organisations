@@ -11,7 +11,6 @@
     "now": "NOW",
     "oauthCallbackUrl": "oauth2/callback",
     "protocol": "https",
-    "secureCookie": true,
     "services": {
         "idamApi": "https://idam-api.platform.hmcts.net",
         "idamWeb": "https://hmcts-access.service.gov.uk",
@@ -21,5 +20,11 @@
         "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal"
     },
     "sessionSecret": "secretSauce",
-    "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ]
+    "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
+    "feature": {
+      "appInsightsEnabled": true,
+      "proxyEnabled": false,
+      "secureCookieEnabled": true,
+      "termsAndConditionsEnabled": false
+    }
 }

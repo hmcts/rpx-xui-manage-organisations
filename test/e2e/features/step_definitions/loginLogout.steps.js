@@ -120,14 +120,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    // browser.sleep(LONG_DELAY);
-    await waitForElement('hmcts-header__link');
+    browser.sleep(LONG_DELAY);
+    // await waitForElement('hmcts-header__link');
     expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
     expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
-    // browser.sleep(LONG_DELAY);
+    browser.sleep(LONG_DELAY);
   });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
@@ -205,7 +205,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then('I login to MC with invited user', async function () {
-    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
+    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword);
   });
 
   Then('I see login to MC with invited user is {string}', async function (loginStatus) {

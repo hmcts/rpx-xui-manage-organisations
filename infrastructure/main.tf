@@ -31,17 +31,50 @@ module "app" {
         PACKAGES_PROJECT = "${var.team_name}"
         PACKAGES_ENVIRONMENT = "${var.env}"
         PUI_ENV = "${var.env}"
+        NODE_ENV = "${var.env}"
+        NODE_CONFIG_ENV = "${var.env}"
+        NODE_CONFIG_DIR = "${var.node_config_dir}"
         DUMMY_VAR = "TRUE"
+        WEBSITE_NODE_DEFAULT_VERSION  = "12.13.0"
 
         S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
 
+        # API CONFIG
+        SESSION_SECRET = "${var.session_secret}"
         NODE_TLS_REJECT_UNAUTHORIZED = "${var.node_tls_reject_unauthorized}"
+        NOW = "${var.api_now}"
+        IDAM_CLIENT = "${var.idam_client}"
+        OAUTH_CALLBACK_URL = "${var.oauth_callback_url}"
+        MAX_LOG_LINE = "${var.max_log_line}"
+        EXCEPTION_OPTIONS_MAX_LINES = "${var.exception_options_max_lines}"
+        INDEX_URL = "${var.index_url}"
+        LOGGING = "${var.logging}"
+        PROTOCOL = "${var.protocol}"
+        ALLOW_CONFIG_MUTATIONS = "${var.allow_config_mutations}"
+        APP_INSIGHTS_ENABLED = "${var.app_insights_enabled}"
+
+        # FEATURE TOGGLES
+        FEATURE_APP_INSIGHTS_ENABLED = "${var.feature_app_insights_enabled}"
+        FEATURE_SECURE_COOKIE_ENABLED = "${var.feature_secure_cookie_enabled}"
+        FEATURE_PROXY_ENABLED = "${var.feature_proxy_enabled}"
+        FEATURE_TERMS_AND_CONDITIONS_ENABLED = "${var.feature_terms_and_conditions_enabled}"
+
+        # COOKIE SETTINGS
+        COOKIE_TOKEN = "${var.cookie_token}"
+        COOKIE_USER_ID = "${var.cookie_user_id}"
+        MICROSERVICE = "${var.microservice}"
+
+        # SERVICE URLS
+        CCD_DATA_API_SERVICE = "${var.ccd_data_api_service}"
+        CCD_DEFINITION_API_SERVICE = "${var.ccd_definition_api_service}"
+        IDAM_API_SERVICE = "${var.idam_api_service}"
+        IDAM_WEB_SERVICE = "${var.idam_web_service}"
+        RD_PROFESSIONAL_API_SERVICE = "${var.rd_professional_api_service}"
+        S2S_SERVICE = "${var.s2s_service}"
+        FEE_AND_PAY_API = "${var.fee_and_pay_api}"
 
         TERRAFORM_TEST = "${var.terraform_test}"
-
-         WEBSITE_NODE_DEFAULT_VERSION  = "12.13.0"
-
     }
 }
 

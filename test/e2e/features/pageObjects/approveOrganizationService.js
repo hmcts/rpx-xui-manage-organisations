@@ -53,6 +53,10 @@ class ApproveOrganisationService{
 
     }
 
+    async destroy(){
+        this.aoBrowser.driver.quit(); 
+    }
+
     async waitForElement(element){
         await this.aoBrowser.wait(EC.presenceOf(element), 60000, "Error : " + element.locator().toString());
 
@@ -102,10 +106,5 @@ class ApproveOrganisationService{
 }
 
 const approveOrganisationService = new ApproveOrganisationService();
-approveOrganisationService.init().then(() => {
-    console.log("*************************************************************************");
-    console.log("***************  Browser  Approve Organisation Service Started ********************");
-    console.log("*************************************************************************");
 
-});
 module.exports = approveOrganisationService; 

@@ -29,7 +29,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   let invitedUserEmail = "";
 
-  When(/^I click on invite user button$/, ,async function () {
+  When(/^I click on invite user button$/, async function () {
     await viewUserPage.clickInviteUser();
     // browser.sleep(LONG_DELAY);
   });
@@ -118,11 +118,14 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   Then("I activate invited user", { timeout: 600 * 1000 },async function () {
+    await mailinatorService.init();
     mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
     await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
     this.attach("Registration email received successfully.");
     await mailinatorService.completeUserRegistrationFromEmail();
     this.attach("Registration completed successfully.");
+    await mailinatorService.destroy();
+
 
   });
 

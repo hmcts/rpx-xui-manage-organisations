@@ -44,6 +44,10 @@ class MailinatorService{
 
     }
 
+    async destroy(){
+        this.mailinatorbrowser.driver.quit();
+    }
+
     async loadMailinatorService(){
         await this.mailinatorbrowser.get("https://www.mailinator.com/v3/index.jsp?zone=public&query=exuitest#/#inboxpane")
 
@@ -206,12 +210,12 @@ class MailinatorService{
 }
 
 const mailinatorService = new MailinatorService(); 
-mailinatorService.init().then(() => {
-    console.log("*************************************************************************");
-    console.log("***************  Browser  Mailinator Service Started ********************");
-    console.log("*************************************************************************");
+// mailinatorService.init().then(() => {
+//     console.log("*************************************************************************");
+//     console.log("***************  Browser  Mailinator Service Started ********************");
+//     console.log("*************************************************************************");
 
-});
+// });
 module.exports = mailinatorService;
 
 

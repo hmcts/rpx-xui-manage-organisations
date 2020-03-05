@@ -54,6 +54,10 @@ class ManageCasesService {
 
     }
 
+    async destroy(){
+        this.mcBrowser.driver.quit(); 
+    }
+
     async waitForElement(element) {
         await this.mcBrowser.wait(EC.presenceOf(element), 60000, "Error : " + element.locator().toString());
 
@@ -127,10 +131,5 @@ class ManageCasesService {
 }
 
 const manageCasesService = new ManageCasesService();
-manageCasesService.init().then(() => {
-    console.log("*************************************************************************");
-    console.log("***************  Browser  Manage Cases Service Started ********************");
-    console.log("*************************************************************************");
 
-});
 module.exports = manageCasesService; 

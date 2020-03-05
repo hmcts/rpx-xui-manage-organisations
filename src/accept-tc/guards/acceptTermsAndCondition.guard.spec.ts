@@ -22,7 +22,7 @@ describe('Accept terms guard', () => {
         });
     });
 
-    it('cant activate when TC have not been accepted', (done: any) => {
+    xit('cant activate when TC have not been accepted', (done: any) => {
         mockStore.pipe.and.returnValue(throwError('test'));
         guard.canActivate().subscribe(v => {
             expect(v).toBeFalsy();

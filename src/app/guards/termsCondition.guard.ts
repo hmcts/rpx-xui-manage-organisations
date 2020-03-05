@@ -14,10 +14,12 @@ export class TermsConditionGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean> {
-    return this.checkStore(this.store).pipe(
-      switchMap(() => of(true)),
-      catchError(() => of(false))
-    );
+    // returning true to help to resolve prod issues [4th March 2020]
+    return of(true)
+    // return this.checkStore(this.store).pipe(
+    //   switchMap(() => of(true)),
+    //   catchError(() => of(false))
+    // );
   }
 
   checkStore(store: Store<fromRoot.State>) {

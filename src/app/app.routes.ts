@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent } from './components';
+import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, LegacyTermsAndConditionsComponent } from './components';
 import { TermsAndConditionsComponent } from './containers';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import {TermsConditionGuard} from './guards/termsCondition.guard';
@@ -62,6 +62,10 @@ export const ROUTES: Routes = [
   {
     path: 'terms-and-conditions',
     component: TermsAndConditionsComponent
+  },
+  {
+    path: 'legacy-terms-and-conditions',
+    component: LegacyTermsAndConditionsComponent
   },
   {
     path: 'accessibility',

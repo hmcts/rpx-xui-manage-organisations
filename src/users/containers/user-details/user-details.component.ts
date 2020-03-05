@@ -84,11 +84,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     if (this.user && this.user.status === 'Active') {
 
       this.actionButtons = [
-        {
-          name: 'Suspend account',
-          class: 'hmcts-button--secondary',
-          action: this.showSuspendView
-        }
+        // {
+        //   name: 'Suspend account',
+        //   class: 'hmcts-button--secondary',
+        //   action: this.showSuspendView
+        // }
       ];
     } else {
       this.actionButtons = null;

@@ -17,10 +17,10 @@ router.get('/', healthCheckRoute)
 */
 
 const healthCheckEndpointDictionary = {
-    '/fee-accounts': ['rdProfessionalApi', 'termsAndConditions'],
-    '/organisation': ['rdProfessionalApi', 'termsAndConditions'],
+    '/fee-accounts': ['rdProfessionalApi'],
+    '/organisation': ['rdProfessionalApi'],
     '/register-org/register/check': ['rdProfessionalApi'],
-    '/users': ['rdProfessionalApi', 'termsAndConditions'],
+    '/users': ['rdProfessionalApi'],
     '/users/invite-user': ['rdProfessionalApi'],
 }
 

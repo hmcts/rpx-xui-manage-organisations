@@ -33,7 +33,6 @@ export interface EnvironmentConfigServices {
   rdProfessionalApi: string,
   s2s: string,
   feeAndPayApi: string,
-  termsAndConditions: string
 }
 
 export interface EnvironmentConfigProxy {

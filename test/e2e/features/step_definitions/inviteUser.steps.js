@@ -29,7 +29,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   let invitedUserEmail = "";
 
-  When(/^I click on invite user button$/, { timeout: 300 * 1000 },async function () {
+  When(/^I click on invite user button$/, ,async function () {
     await viewUserPage.clickInviteUser();
     // browser.sleep(LONG_DELAY);
   });

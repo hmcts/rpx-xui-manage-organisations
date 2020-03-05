@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -12,7 +13,7 @@ import * as fromStore from '../../store';
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
 
-  public user$: Observable<any>;
+  public user$: Observable<User>;
   public isLoading$: Observable<boolean>;
   public user: any;
 
@@ -126,8 +127,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     return this.suspendViewFlag;
   }
 
-  public suspendUser() {
-    this.userStore.dispatch(new fromStore.SuspendUser(this.user));
+  public suspendUser(suspendUser: User) {
+    this.userStore.dispatch(new fromStore.SuspendUser(suspendUser));
   }
 
 }

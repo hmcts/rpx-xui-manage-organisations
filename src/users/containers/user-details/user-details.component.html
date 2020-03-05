@@ -23,5 +23,6 @@
 <xuilib-user-details
     [user]="user" 
     [warningTitle]="'If you suspend this user’s account, they’ll no longer be able to access MyHMCTS services. You will need to contact the service desk to reactivate this account.'"
-    (suspendUserEvent)="suspendUser()"></xuilib-user-details>
+    (suspendUserEvent)="suspendUser($event)"
+    [showSuspendUserButton]="true"></xuilib-user-details>
 </app-hmcts-main-wrapper>

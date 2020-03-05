@@ -17,19 +17,19 @@ const navItemsArray: NavItemModel[] = [
     orderId: 2
   },
   // Hiding the Tab for the Fee And Accounts
-  {
-    text: 'Fee Accounts',
-    href: '/fee-accounts',
-    active: false,
-    orderId: 3
-  }
+  // {
+  //   text: 'Fee Accounts',
+  //   href: '/fee-accounts',
+  //   active: false,
+  //   orderId: 3
+  // }
 ];
 
 const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   // Hiding the role
-  'pui-finance-manager': navItemsArray[2],
+  // 'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {
@@ -67,7 +67,7 @@ const footerData =  {
 const footerDataNavigation = {
   items: [
     { text: 'Accessibility', href: 'accessibility', target: '_blank'},
-    { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
+    { text: 'Terms and conditions', href: 'legacy-terms-and-conditions', target: '_blank'},
     { text: 'Cookies', href: 'cookies', target: '_blank' },
     { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'},
     { text: 'Get Help', href: 'get-help', target: '_blank' }

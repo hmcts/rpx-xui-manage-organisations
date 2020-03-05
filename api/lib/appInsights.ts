@@ -1,31 +1,30 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
 import { getConfigValue } from '../configuration'
-import { APP_INSIGHTS_KEY } from '../configuration/references'
+import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references'
 
 export let client
 
-// shouldnt do this check here but this is a high level dep
-const environment = process.env.PUI_ENV || 'local'
+export function initialiseAppInsights() {
+  applicationinsights
+    .setup(getConfigValue(APP_INSIGHTS_KEY))
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setSendLiveMetrics(true)
+    .setUseDiskRetryCaching(true)
+    .start()
 
-//TODO: Change the direct reference to the config.appInsightsInstrumentationKey as config will be removed.
-if (environment !== 'local') {
-    applicationinsights
-        .setup(getConfigValue(APP_INSIGHTS_KEY))
-        .setAutoDependencyCorrelation(true)
-        .setAutoCollectRequests(true)
-        .setAutoCollectPerformance(true)
-        .setAutoCollectExceptions(true)
-        .setAutoCollectDependencies(true)
-        .setAutoCollectConsole(true)
-        .setSendLiveMetrics(true)
-        .setUseDiskRetryCaching(true)
-        .start()
+  client = applicationinsights.defaultClient
+  client.trackTrace({ message: 'App Insight Activated' })
+}
 
-    client = applicationinsights.defaultClient
-    client.trackTrace({ message: 'App Insight Activated' })
-} else {
-    client = null
+if (FEATURE_APP_INSIGHTS_ENABLED) {
+  console.log('App Insights Enabled.')
+  initialiseAppInsights()
 }
 
 export function appInsights(req: express.Request, res: express.Response, next) {

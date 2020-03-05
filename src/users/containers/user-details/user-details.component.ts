@@ -78,16 +78,17 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.showSuspendView = () => this.suspendViewFlag = true;
   }
 
+  // TODO: Add Suspend account button in after AKS migrations
   handleUserSubscription(user) {
     this.user = user;
     if (this.user && this.user.status === 'Active') {
 
       this.actionButtons = [
-        {
-          name: 'Suspend account',
-          class: 'hmcts-button--secondary',
-          action: this.showSuspendView
-        }
+        // {
+        //   name: 'Suspend account',
+        //   class: 'hmcts-button--secondary',
+        //   action: this.showSuspendView
+        // }
       ];
     } else {
       this.actionButtons = null;

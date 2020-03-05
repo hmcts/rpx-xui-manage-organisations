@@ -72,12 +72,12 @@ describe('AppReducer', () => {
           active: false,
           orderId: 2
         },
-        {
-          href: '/fee-accounts',
-          text: 'Fee Accounts',
-          active: false,
-          orderId: 3
-        }
+        // {
+        //   href: '/fee-accounts',
+        //   text: 'Fee Accounts',
+        //   active: false,
+        //   orderId: 3
+        // }
       ];
       const action = new fromAppActions.SetUserRoles(payload);
       const state = fromApp.reducer(initialState, action);

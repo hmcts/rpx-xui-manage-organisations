@@ -350,10 +350,10 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.24.tgz#0f0e4c6591a20152f9c589c948c80acfef108f64"
-  integrity sha512-WuuktZweyNbyjNUppF4tww0uOEt2F4rKRXONT9jUWQxD/p0Z2d7euVjnzMVz+y5LOH3PW8JuiMolSiSv00Qwvg==
+"@hmcts/rpx-xui-common-lib@0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.25.tgz#b3b9a242df70ff64bbbf3f67fa9c2a66e4a8429d"
+  integrity sha512-cAJ1ASzuevdtgeH1NGuWhIBRLi5BBK4wOwpb7aGTNVA855bqgeDTIjPlVcq3SP1S8DXbqPrkWLFcsjs9cPqnGA==
   dependencies:
     tslib "^1.9.0"
 
@@ -3830,13 +3830,6 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
-expand-tilde@^2.0.0, expand-tilde@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/expand-tilde/-/expand-tilde-2.0.2.tgz#97e801aa052df02454de46b02bf621642cdc8502"
-  integrity sha1-l+gBqgUt8CRU3kawK/YhZCzchQI=
-  dependencies:
-    homedir-polyfill "^1.0.1"
-
 express-session@^1.15.6:
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.0.tgz#9b50dbb5e8a03c3537368138f072736150b7f9b3"
@@ -5314,11 +5307,6 @@ is-number@^3.0.0:
   integrity sha1-JP1iAaR4LPUFYcgQJ2r8fRLXEZU=
   dependencies:
     kind-of "^3.0.2"
-
-is-number@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/is-number/-/is-number-7.0.0.tgz#7535345b896734d5f80c4d06c50955527a14f12b"
-  integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
 
 is-number@^7.0.0:
   version "7.0.0"

@@ -1,6 +1,7 @@
 import * as express from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
+import getConfigValue from './configValueRouter'
 import editUserPermissions from './editUserPermissions'
 import getUserTermsAndConditions from './getUserTermsAndConditions'
 import healthCheck from './healthCheck'
@@ -31,4 +32,5 @@ router.use('/userTermsAndConditions', postUserTermsAndConditions)
 router.use('/termsAndConditions', getTermsAndConditions)
 router.use('/user/:userId/suspend', suspendUser)
 router.use('/editUserPermissions/users/:userId', editUserPermissions)
+router.use('/configuration', getConfigValue)
 export default router

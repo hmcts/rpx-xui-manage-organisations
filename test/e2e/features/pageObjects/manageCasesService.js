@@ -32,12 +32,17 @@ class ManageCasesService {
     }
 
     async init() {
+        if (this.BrowserStatus === "STARTED") {
+            this.destroy();
+
+        }
+
         console.log("MC ENV : " + this.baseUrl);
         this.mcBrowser = await browser.forkNewDriverInstance().ready;
         this.mcBrowser.ignoreSynchronization = true;
         this.mcElement = this.mcBrowser.element;
         await this.mcBrowser.waitForAngularEnabled(false);
-
+        this.BrowserStatus = "STARTED"
         this.emailAddressElement = this.mcElement(by.css("input#username"));
         this.passwordElement = this.mcElement(by.css("[id='password']"));
         this.signinTitle = this.mcElement(by.xpath("//h1[@class='heading-large']"));
@@ -49,8 +54,7 @@ class ManageCasesService {
 
         await this.mcBrowser.get(this.baseUrl)
         await this.waitForElement(this.emailAddressElement);
-
-
+        this.BrowserStatus === "QUIT";
 
     }
 

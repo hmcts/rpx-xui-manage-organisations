@@ -2,7 +2,7 @@
 const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 let HeaderPage = require('../pageObjects/headerPage');
 
-const { config } = require('../../config/common.conf.js');
+const { config } = require('../../config/common.conf');
 const browserWaits = require('../../support/customWaits');
 
 
@@ -18,7 +18,8 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
             await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer); 
             expect(await acceptTermsAndConditionsPage.amOnPage()).to.eventually.be.true;
         }else{
-            world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js");
+            world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js. Validating Home page displayed");
+            await headerPage.waitForPrimaryNavigationToDisplay();
         }
     });
 
@@ -29,7 +30,8 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
             await acceptTermsAndConditionsPage.acceptTremsAndConditions();
             await headerPage.waitForPrimaryNavigationToDisplay();
         } else {
-            world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js");
+            world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js.Validating Home page displayed");
+            await headerPage.waitForPrimaryNavigationToDisplay();
         }
     })
 

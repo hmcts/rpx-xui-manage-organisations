@@ -44,13 +44,16 @@ class CreateOrganisationObjects {
     this.registrationDetailsSubmitted = element(by.xpath("//h1[contains(text() ,'Registration details submitted')]"));
   }
   async clickDXreferenceCheck(){
-    // browser.sleep(AMAZING_DELAY);
-    await this.DXreference.click();
+    BrowserWaits.waitForElement(this.DXContinuee); 
+        // browser.sleep(AMAZING_DELAY);
+
+      await this.DXreference.click();
     // browser.sleep(AMAZING_DELAY);
     await this.DXContinuee.click();
   }
 
   async clickSRAreferenceCheck(){
+    BrowserWaits.waitForElement(this.SRAContinuee); 
     // browser.sleep(AMAZING_DELAY);
     await this.SRACheckBox.click();
     // browser.sleep(AMAZING_DELAY);
@@ -95,12 +98,12 @@ class CreateOrganisationObjects {
 
   }
 
-  async enterOrgName() {
+  async enterOrgName(testorgName) {
     BrowserWaits.waitForElement(this.org_name);
     var orgName ="AutoTest"+Math.random().toString(36).substring(2);
       //Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     global.latestOrgCreated = orgName;
-    await this.org_name.sendKeys(orgName);
+    await this.org_name.sendKeys(testorgName ? testorgName : orgName);
 
     await browser.sleep(1000);
 
@@ -151,6 +154,66 @@ class CreateOrganisationObjects {
   async waitForSubmission(){
     BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
  
+  }
+
+async enterAddressDetails(){
+  await this.officeAddressOne.isDisplayed()
+  await this.officeAddressOne.sendKeys("1, Cliffinton");
+
+  await this.townName.sendKeys("London");
+  await this.postcode.sendKeys("SE15TY");
+}
+
+async enterUserFirtandLastName(){
+  await this.firstName.sendKeys("Mario");
+  await this.lastName.sendKeys("Perta");
+}
+
+  async createOrganisation(orgName,email){
+   ;
+
+    await BrowserWaits.waitForElement(this.start_button);
+    await this.start_button.click();
+
+    await BrowserWaits.waitForElement(this.org_name);
+    await this.enterOrgName(orgName);
+    await this.continue_button.click();
+
+    await BrowserWaits.waitForElement(this.officeAddressOne);
+    await this.enterAddressDetails();
+    await this.continue_button.click();
+
+    await BrowserWaits.waitForElement(this.PBAnumber1);
+    await this.enterPBANumber();
+    await this.enterPBA2Number();
+    await this.continue_button.click();
+
+    await this.clickDXreferenceCheck();
+
+    await BrowserWaits.waitForElement(this.DXNumber);
+    await this.enterDXNumber();
+    await this.enterDXENumber();
+    await this.continue_button.click();
+
+    await this.clickSRAreferenceCheck();
+
+    await BrowserWaits.waitForElement(this.SRANumber);
+    await this.enterSRANumber();
+    await this.continue_button.click();
+
+    await BrowserWaits.waitForElement(this.firstName);
+    await this.enterUserFirtandLastName();
+    await this.continue_button.click();
+
+    await BrowserWaits.waitForElement(this.emailAddress);
+    await this.enterEmailAddress(email);
+    await this.continue_button.click();
+
+    await BrowserWaits.waitForElement(this.checkYourAnswers);
+    await this.submit_button.click();
+    await BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
+
+    ;
   }
 }
 module.exports = CreateOrganisationObjects;

@@ -25,14 +25,16 @@ class MailinatorService{
         }
     }
     async init(){
-        if (!this.mailinatorbrowser){
-            this.mailinatorbrowser = await browser.forkNewDriverInstance().ready;
+
+        if (this.BrowserStatus === "STARTED") {
+            this.destroy();
+
         }
-        
+         this.mailinatorbrowser = await browser.forkNewDriverInstance().ready;
         this.mailinatorbrowser.ignoreSynchronization = true;
         this.mailinatorElement = this.mailinatorbrowser.element;
         await this.mailinatorbrowser.waitForAngularEnabled(false);
-
+        this.BrowserStatus === "STARTED";
 
         this.mailinatorbrowser.driver.executeScript('alert = function(){};');
         this.mailinatorbrowser.driver.executeScript('confirm = function(){};');
@@ -46,6 +48,7 @@ class MailinatorService{
 
     async destroy(){
         this.mailinatorbrowser.driver.quit();
+        this.BrowserStatus === "QUIT";
     }
 
     async loadMailinatorService(){

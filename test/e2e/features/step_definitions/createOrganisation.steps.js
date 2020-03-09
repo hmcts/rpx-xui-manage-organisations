@@ -4,6 +4,8 @@ let CreateOrganisationObjects = require('../pageObjects/createOrganisationObject
 const { defineSupportCode } = require('cucumber');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const {config} = require('../../config/common.conf.js');
+const approveOrganizationService = require('../pageObjects/approveOrganizationService');
+
 const EC = protractor.ExpectedConditions;
 
 async function waitForElement(el) {
@@ -17,6 +19,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When(/^I navigate to EUI Manage Organisation Url$/, { timeout: 600 * 1000 }, async function () {
     await browser.get(config.config.baseUrl + '/register-org/register');
+    
     // browser.sleep(AMAZING_DELAY);
   });
 

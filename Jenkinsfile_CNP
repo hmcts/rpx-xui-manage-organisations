@@ -142,14 +142,6 @@ withPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Functional Test'
         ])
-         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'result.*.json',
-            reportName           : 'CucumberJsonReport'
-        ])
     }
 
 
@@ -172,14 +164,6 @@ withPipeline(type, product, component) {
             reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'AAT Functional Test'
-        ])
-         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'result.*.json',
-            reportName           : 'CucumberJsonReport'
         ])
     }
 

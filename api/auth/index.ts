@@ -1,10 +1,12 @@
-import * as propertiesVolume from '@hmcts/properties-volume'
 import axios, { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as jwtDecode from 'jwt-decode'
 import * as log4js from 'log4js'
-import { getConfigValue, getIDamSecret, getProtocol } from '../configuration'
-import { COOKIE_TOKEN, COOKIES_USERID, IDAM_CLIENT, INDEX_URL, LOGGING, OAUTH_CALLBACK_URL, SERVICES_IDAM_API_PATH } from '../configuration/references'
+import {getConfigValue, getProtocol, initialiseSecrets} from '../configuration'
+import {
+  COOKIE_TOKEN, COOKIES_USERID, IDAM_CLIENT, IDAM_SECRET, INDEX_URL, LOGGING, OAUTH_CALLBACK_URL,
+  SERVICES_IDAM_API_PATH
+} from '../configuration/references'
 import { http } from '../lib/http'
 import { EnhancedRequest } from '../lib/models'
 import { propsExist } from '../lib/objectUtilities'
@@ -13,10 +15,13 @@ import { getUserDetails } from '../services/idam'
 import { serviceTokenGenerator } from './serviceToken'
 import { userHasAppAccess } from './userRoleAuth'
 
-const idamUrl = getConfigValue(SERVICES_IDAM_API_PATH)
+/**
+ * Allows us to integrate the key-vault secrets
+ */
+initialiseSecrets()
 
-const mountedSecrets = propertiesVolume.addTo({})
-const secret = getIDamSecret(mountedSecrets)
+const idamUrl = getConfigValue(SERVICES_IDAM_API_PATH)
+const secret = getConfigValue(IDAM_SECRET)
 const logger = log4js.getLogger('auth')
 logger.level = getConfigValue(LOGGING)
 

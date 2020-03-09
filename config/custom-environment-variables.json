@@ -16,18 +16,42 @@
     "now": "NOW",
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
     "protocol": "PROTOCOL",
-    "secureCookie": "SECURE_COOKIE",
     "services": {
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
         "s2s": "S2S_SERVICE",
-        "feeAndPayApi": "FEE_AND_PAY_API_SERVICE",
+        "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
     },
     "sessionSecret": "SESSION_SECRET",
     "proxyConfig": {
         "host": "PROXY_HOST",
         "port": "PROXY_PORT"
+    },
+    "secrets": {
+      "rpx": {
+        "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+        "mo-s2s-client-secret": "S2S_SECRET",
+        "xui-oauth2-token": "IDAM_SECRET"
+      }
+    },
+    "feature": {
+      "appInsightsEnabled": {
+        "__name": "FEATURE_APP_INSIGHTS_ENABLED",
+        "__format": "json"
+      },
+      "proxyEnabled": {
+        "__name": "FEATURE_PROXY_ENABLED",
+        "__format": "json"
+      },
+      "secureCookieEnabled": {
+        "__name": "FEATURE_SECURE_COOKIE_ENABLED",
+        "__format": "json"
+      },
+      "termsAndConditionsEnabled": {
+        "__name": "FEATURE_TERMS_AND_CONDITIONS_ENABLED",
+        "__format": "json"
+      }
     }
 }

@@ -53,8 +53,9 @@ class ManageCasesService {
         this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link')); 
 
         await this.mcBrowser.get(this.baseUrl)
-        await this.waitForElement(this.emailAddressElement);
-    
+        await this.retryForPageLoad(this.emailAddressElement, async () => {
+            await this.mcBrowser.get(this.baseUrl);
+        }); 
     }
 
     async destroy(){
@@ -67,6 +68,27 @@ class ManageCasesService {
     async waitForElement(element) {
         await this.mcBrowser.wait(EC.presenceOf(element), 60000, "Error : " + element.locator().toString());
 
+    }
+
+    async retryForPageLoad(element, callback) {
+        let retryCounter = 0;
+
+        while (retryCounter < 3) {
+            try {
+                await this.waitForElement(element);
+                retryCounter += 3;
+            }
+            catch (err) {
+                retryCounter += 1;
+                if (callback) {
+                    callback(retryCounter + "");
+                }
+                console.log(element.locator().toString() + " .    Retry attempt for page load : " + retryCounter);
+
+                await browser.refresh();
+
+            }
+        }
     }
 
     async login(username,password) {

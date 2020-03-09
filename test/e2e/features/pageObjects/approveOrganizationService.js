@@ -54,11 +54,11 @@ class ApproveOrganisationService{
 ""
         this.organisationDetailsHeader = this.aoElement(by.xpath('//h1[contains(@class,"govuk-heading-xl") and contains(text(),"Organisation details")]'));
 
-        await this.aoBrowser.get(this.baseUrl)
-        await this.waitForElement(this.emailAddressElement);
+        await this.aoBrowser.get(this.baseUrl);
 
-        
-
+        await this.retryForPageLoad(this.emailAddressElement, async () => {
+            await this.aoBrowser.get(this.baseUrl);
+        });
     }
 
     async destroy(){
@@ -69,6 +69,27 @@ class ApproveOrganisationService{
     async waitForElement(element){
         await this.aoBrowser.wait(EC.presenceOf(element), 60000, "Error : " + element.locator().toString());
 
+    }
+
+    async retryForPageLoad(element, callback) {
+        let retryCounter = 0;
+
+        while (retryCounter < 3) {
+            try {
+                await this.waitForElement(element);
+                retryCounter += 3;
+            }
+            catch (err) {
+                retryCounter += 1;
+                if (callback) {
+                    callback(retryCounter + "");
+                }
+                console.log(element.locator().toString() + " .    Retry attempt for page load : " + retryCounter);
+
+                await browser.refresh();
+
+            }
+        }
     }
 
     async approveOrg(orgName){

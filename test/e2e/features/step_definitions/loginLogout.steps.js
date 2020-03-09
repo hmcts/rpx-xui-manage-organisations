@@ -208,7 +208,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  Then('I see login to MC with invited user is {string}', async function (loginStatus) {
+  Then('I see login to MC with invited user is {string}', { timeout: 120 * 1000 }, async function (loginStatus) {
     await manageCasesService.init();
     manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
     await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)

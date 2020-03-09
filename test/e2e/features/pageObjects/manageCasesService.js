@@ -34,7 +34,6 @@ class ManageCasesService {
     async init() {
         if (this.BrowserStatus === "STARTED") {
             this.destroy();
-
         }
 
         console.log("MC ENV : " + this.baseUrl);
@@ -54,12 +53,12 @@ class ManageCasesService {
 
         await this.mcBrowser.get(this.baseUrl)
         await this.waitForElement(this.emailAddressElement);
-        this.BrowserStatus === "QUIT";
-
+    
     }
 
     async destroy(){
         this.mcBrowser.driver.quit(); 
+        this.BrowserStatus === "QUIT";
     }
 
     async waitForElement(element) {

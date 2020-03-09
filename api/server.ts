@@ -194,9 +194,7 @@ app.get('/external/ping', (req, res) => {
     feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
     termsAndConditionsApi: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
     // 4th set
-    sessionSecret: getConfigValue(SESSION_SECRET),
     jurisdictions: getConfigValue(JURISDICTIONS),
-    appInsightKey: getConfigValue(APP_INSIGHTS_KEY),
     // 5th set
     featureSecureCookieEnabled: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     featureAppInsightEnabled: showFeature(FEATURE_APP_INSIGHTS_ENABLED),

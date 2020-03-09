@@ -7,10 +7,14 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class TermsConditionsService {
+    constructor(private readonly http: HttpClient) {}
 
-    constructor(private http: HttpClient) {}
-
+    private readonly configuration = 'feature.termsAndConditionsEnabled';
     public getTermsConditions(): Observable<TCDocument> {
         return this.http.get<TCDocument>(`api/termsAndConditions`);
+    }
+
+    public isTermsConditionsFeatureEnabled(): Observable<boolean> {
+        return this.http.get<boolean>(`external/configuration?configurationKey=${this.configuration}`);
     }
 }

@@ -41,7 +41,8 @@ class ManageCasesService {
         this.mcBrowser.ignoreSynchronization = true;
         this.mcElement = this.mcBrowser.element;
         await this.mcBrowser.waitForAngularEnabled(false);
-        this.BrowserStatus = "STARTED"
+        this.BrowserStatus = "STARTED";
+
         this.emailAddressElement = this.mcElement(by.css("input#username"));
         this.passwordElement = this.mcElement(by.css("[id='password']"));
         this.signinTitle = this.mcElement(by.xpath("//h1[@class='heading-large']"));
@@ -57,8 +58,10 @@ class ManageCasesService {
     }
 
     async destroy(){
-        this.mcBrowser.driver.quit(); 
-        this.BrowserStatus === "QUIT";
+        if (this.BrowserStatus !== "QUIT"){
+            this.mcBrowser.driver.quit();
+            this.BrowserStatus = "QUIT";
+        }
     }
 
     async waitForElement(element) {

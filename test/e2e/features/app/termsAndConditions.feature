@@ -30,7 +30,7 @@ Scenario: New User first time loggged in presented with Accept Terms and Consiti
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
 
-@all
+
 Scenario: New user cannot procced to use application without accepting T&C's
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
@@ -38,7 +38,7 @@ Scenario: New user cannot procced to use application without accepting T&C's
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
 
-@all
+
 Scenario: New user Accepting T&C's should not be presented with Accept T&C's page on future logins
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page

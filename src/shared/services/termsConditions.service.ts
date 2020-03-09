@@ -15,6 +15,6 @@ export class TermsConditionsService {
     }
 
     public isTermsConditionsFeatureEnabled(): Observable<boolean> {
-        return this.http.get<boolean>(`api/configuration?configurationKey=${this.configuration}`);
+        return this.http.get<boolean>(`external/configuration?configurationKey=${this.configuration}`);
     }
 }

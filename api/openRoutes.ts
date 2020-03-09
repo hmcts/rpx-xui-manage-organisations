@@ -1,4 +1,5 @@
 import * as express from 'express'
+import getConfigValue from './configValueRouter'
 
 // TODO: rename from prdRouter
 import getappInsightsInstrumentationKey from './monitoring-tools'
@@ -20,5 +21,6 @@ const router = express.Router({ mergeParams: true })
  */
 router.use('/register-org', prdRouter)
 router.use('/monitoring-tools', getappInsightsInstrumentationKey)
+router.use('/configuration', getConfigValue)
 
 export default router

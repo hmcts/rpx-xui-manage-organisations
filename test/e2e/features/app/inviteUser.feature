@@ -41,7 +41,6 @@ Feature: invite user workflow
       | NavigationTab|
       |Organisation|
       |Users|
-    Then I login to MC with invited user
     Then I see login to MC with invited user is "success"
 
 
@@ -65,7 +64,6 @@ Feature: invite user workflow
     Then I should see navigation tab in header
       | NavigationTab |
       | Organisation   |
-    Then I login to MC with invited user
     Then I see login to MC with invited user is "failed"
 
   @crossbrowser
@@ -87,7 +85,6 @@ Feature: invite user workflow
     Then I should see navigation tab in header
       | NavigationTab |
       | Users         |
-    Then I login to MC with invited user
     Then I see login to MC with invited user is "failed"
 
   @fullFunctional  

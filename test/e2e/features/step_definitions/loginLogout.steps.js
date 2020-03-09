@@ -209,12 +209,15 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then('I see login to MC with invited user is {string}', async function (loginStatus) {
+    await manageCasesService.init();
+    manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
+    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)
     if (loginStatus.includes('success')){
       await manageCasesService.validateLoginSuccess();
     }else{
       await manageCasesService.validateLoginFailure();
-
     }
+    await manageCasesService.destroy(); 
   });
 
 });

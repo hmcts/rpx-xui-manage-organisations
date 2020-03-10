@@ -129,6 +129,13 @@ variable "feature_terms_and_conditions_enabled" {
   default = "false"
 }
 
+<<<<<<< HEAD
+=======
+variable "feature_helmet_enabled" {
+  default = "false"
+}
+
+>>>>>>> feature/helmet
 variable "terraform_test" {
   default = "tf test var to web app"
 }

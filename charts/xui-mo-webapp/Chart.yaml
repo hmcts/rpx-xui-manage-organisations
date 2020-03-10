@@ -1,7 +1,11 @@
 apiVersion: v1
 name: xui-mo-webapp
 home: https://github.com/hmcts/rpx-xui-manage-organisations
+<<<<<<< HEAD
 version: 0.1.33
+=======
+version: 0.1.20
+>>>>>>> feature/helmet
 description: Expert UI
 maintainers:
   - name: HMCTS RPX XUI

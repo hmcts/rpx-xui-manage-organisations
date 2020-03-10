@@ -42,8 +42,16 @@ export const PROXY_PORT = 'proxyConfig.port'
 
 export const LOGGING = 'logging'
 export const JURISDICTIONS = 'jurisdictions'
+<<<<<<< HEAD
+=======
+export const HELMET = 'helmet'
+>>>>>>> feature/helmet
 
 export const FEATURE_SECURE_COOKIE_ENABLED = 'secureCookieEnabled'
 export const FEATURE_APP_INSIGHTS_ENABLED = 'appInsightsEnabled'
 export const FEATURE_PROXY_ENABLED = 'proxyEnabled'
 export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
+<<<<<<< HEAD
+=======
+export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
+>>>>>>> feature/helmet

@@ -52,6 +52,13 @@
       "termsAndConditionsEnabled": {
         "__name": "FEATURE_TERMS_AND_CONDITIONS_ENABLED",
         "__format": "json"
+<<<<<<< HEAD
+=======
+      },
+      "helmetEnabled": {
+        "__name": "FEATURE_HELMET_ENABLED",
+        "__format": "json"
+>>>>>>> feature/helmet
       }
     }
 }

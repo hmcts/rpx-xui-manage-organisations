@@ -15,7 +15,6 @@ export class TermsConditionGuard implements CanActivate {
   ) {
   }
 
-<<<<<<< HEAD
   public canActivate(): Observable<boolean> {
     const isTandCEnabled$ = this.termsAndConditionsService.isTermsConditionsFeatureEnabled();
     return isTandCEnabled$.pipe(switchMap(enabled => enabled ? this.queryTermsAndConditions() : of(true)));
@@ -23,15 +22,6 @@ export class TermsConditionGuard implements CanActivate {
 
   private queryTermsAndConditions(): Observable<boolean> {
     return this.checkStore(this.store).pipe(switchMap(() => of(true)), catchError(() => of(false)));
-=======
-  canActivate(): Observable<boolean> {
-    // returning true to help to resolve prod issues [4th March 2020]
-    return of(true)
-    // return this.checkStore(this.store).pipe(
-    //   switchMap(() => of(true)),
-    //   catchError(() => of(false))
-    // );
->>>>>>> feature/helmet
   }
 
   public checkStore(store: Store<fromRoot.State>) {

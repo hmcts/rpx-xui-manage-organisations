@@ -1,8 +1,4 @@
 dependencies:
   - name: nodejs
-<<<<<<< HEAD
     version: 1.9.0
-=======
-    version: 1.8.0
->>>>>>> feature/helmet
     repository: '@hmctspublic'

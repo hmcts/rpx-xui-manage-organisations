@@ -25,9 +25,6 @@
       "appInsightsEnabled": true,
       "proxyEnabled": false,
       "secureCookieEnabled": true,
-<<<<<<< HEAD
-      "termsAndConditionsEnabled": false
-=======
       "termsAndConditionsEnabled": false,
       "helmetEnabled": true
     },
@@ -79,6 +76,5 @@
       "hidePoweredBy": {
         "setTo": "XUI Server 1.0"
       }
->>>>>>> feature/helmet
     }
 }

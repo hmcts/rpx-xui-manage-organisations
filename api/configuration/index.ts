@@ -42,11 +42,8 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV
  */
 export const getConfigValue = reference => config.get(reference)
 
-<<<<<<< HEAD
 export const hasConfigValue = reference => config.has(reference)
 
-=======
->>>>>>> feature/helmet
 /**
  * Show Feature
  *

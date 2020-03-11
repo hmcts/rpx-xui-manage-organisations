@@ -1,4 +1,6 @@
 import * as express from 'express'
+import getConfigurationUIRouter from './configurationUI'
+import getConfigValue from './configValueRouter'
 
 // TODO: rename from prdRouter
 import getappInsightsInstrumentationKey from './monitoring-tools'
@@ -20,5 +22,10 @@ const router = express.Router({ mergeParams: true })
  */
 router.use('/register-org', prdRouter)
 router.use('/monitoring-tools', getappInsightsInstrumentationKey)
+
+// TODO: Discuss which method we use across all projects to send the
+// Node configuration to the UI.
+router.use('/configuration', getConfigValue)
+router.use('/configuration-ui', getConfigurationUIRouter)
 
 export default router

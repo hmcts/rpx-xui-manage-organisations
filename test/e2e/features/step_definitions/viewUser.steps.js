@@ -49,4 +49,8 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     await viewUserPage.validateUsersTableDisplaysAllDetails();
   });
 
+  Then("I should see no empty cells in table", async function () {
+    await viewUserPage.validateTableHasNoEmptyCells();
+  })
+
 });

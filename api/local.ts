@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as session from 'express-session'
+import * as helmet from 'helmet'
 import * as log4js from 'log4js'
 import * as sessionFileStore from 'session-file-store'
 import * as auth from './auth'
@@ -15,9 +16,11 @@ import {
   COOKIE_TOKEN,
   COOKIES_USERID,
   FEATURE_APP_INSIGHTS_ENABLED,
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
+  FEATURE_HELMET_ENABLED,
   FEATURE_PROXY_ENABLED,
   FEATURE_SECURE_COOKIE_ENABLED,
-  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
+  HELMET,
   IDAM_CLIENT,
   IDAM_SECRET,
   JURISDICTIONS,
@@ -85,6 +88,7 @@ console.log(getConfigValue(NOW))
 // 2nd set
 console.log(getConfigValue(COOKIE_TOKEN))
 console.log(getConfigValue(COOKIES_USERID))
+
 console.log(getConfigValue(OAUTH_CALLBACK_URL))
 console.log(getConfigValue(PROTOCOL))
 
@@ -115,6 +119,13 @@ console.log('Proxy enabled:')
 console.log(showFeature(FEATURE_PROXY_ENABLED))
 console.log('Terms and Conditions enabled:')
 console.log(showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED))
+console.log('Helmet enabled:')
+console.log(showFeature(FEATURE_HELMET_ENABLED))
+
+if (showFeature(FEATURE_HELMET_ENABLED)) {
+  console.log('Helmet enabled')
+  app.use(helmet(getConfigValue(HELMET)))
+}
 
 app.use(
   session({

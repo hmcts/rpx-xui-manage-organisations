@@ -9,7 +9,8 @@ describe('Accept Tc Component', () => {
   beforeEach(() => {
     mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
     mockService = jasmine.createSpyObj('mockService', ['get']);
-    guard = new TermsConditionGuard(mockStore);
+    const mockTermsService = jasmine.createSpyObj('mockTermsService', ['getTermsConditions']);
+    guard = new TermsConditionGuard(mockStore, mockTermsService);
   });
 
   it('is Truthy', () => {

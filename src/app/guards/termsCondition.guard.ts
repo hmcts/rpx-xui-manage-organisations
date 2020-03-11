@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
+import {CanActivate} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import * as fromUserProfile from '../../user-profile/store';
-import * as fromRoot from '../../app/store';
-import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
+import { TermsConditionsService } from '../../../src/shared/services/termsConditions.service';
+import * as fromRoot from '../../app/store';
+import * as fromUserProfile from '../../user-profile/store';
 
 @Injectable()
 export class TermsConditionGuard implements CanActivate {
   constructor(
-    private store: Store<fromRoot.State>,
+    private readonly store: Store<fromRoot.State>,
+    private readonly termsAndConditionsService: TermsConditionsService
   ) {
   }
 
-  canActivate(): Observable<boolean> {
-    // returning true to help to resolve prod issues [4th March 2020]
-    return of(true)
-    // return this.checkStore(this.store).pipe(
-    //   switchMap(() => of(true)),
-    //   catchError(() => of(false))
-    // );
+  public canActivate(): Observable<boolean> {
+    const isTandCEnabled$ = this.termsAndConditionsService.isTermsConditionsFeatureEnabled();
+    return isTandCEnabled$.pipe(switchMap(enabled => enabled ? this.queryTermsAndConditions() : of(true)));
   }
 
-  checkStore(store: Store<fromRoot.State>) {
+  private queryTermsAndConditions(): Observable<boolean> {
+    return this.checkStore(this.store).pipe(switchMap(() => of(true)), catchError(() => of(false)));
+  }
+
+  public checkStore(store: Store<fromRoot.State>) {
     return store.pipe(select(fromUserProfile.getHasUserSelectedTC),
       tap(tcConfirmed => {
         this.loadTandCIfNotLoaded(tcConfirmed, store);
@@ -34,13 +36,13 @@ export class TermsConditionGuard implements CanActivate {
     );
   }
 
-  dispatchGoIfUserHasNotAccepted(tcConfirmed: { hasUserAccepted: string; loaded: boolean; }, store: Store<fromRoot.State>, url: string) {
+  public dispatchGoIfUserHasNotAccepted(tcConfirmed: { hasUserAccepted: string; loaded: boolean; }, store: Store<fromRoot.State>, url: string) {
     if (tcConfirmed.hasUserAccepted === 'false' && tcConfirmed.loaded) {
       store.dispatch(new fromRoot.Go({ path: [url] }));
     }
   }
 
-  loadTandCIfNotLoaded(tcConfirmed: { hasUserAccepted: string; loaded: boolean; }, store: Store<fromRoot.State>) {
+  public loadTandCIfNotLoaded(tcConfirmed: { hasUserAccepted: string; loaded: boolean; }, store: Store<fromRoot.State>) {
     if (!tcConfirmed.loaded) {
       store.pipe(select(fromUserProfile.getUid), take(2)).subscribe(uid => {
         this.dispatchLoadHasAcceptedTC(uid, store);
@@ -48,7 +50,7 @@ export class TermsConditionGuard implements CanActivate {
     }
   }
 
-  dispatchLoadHasAcceptedTC(uid: any, store: Store<fromRoot.State>) {
+  public dispatchLoadHasAcceptedTC(uid: any, store: Store<fromRoot.State>) {
     if (uid) {
       store.dispatch(new fromUserProfile.LoadHasAcceptedTC(uid));
     }

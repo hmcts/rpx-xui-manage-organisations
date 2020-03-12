@@ -1,7 +1,10 @@
 import * as express from 'express'
+import { showFeature } from '../configuration'
 import { healthEndpoints } from '../configuration/health'
+import { FEATURE_TERMS_AND_CONDITIONS_ENABLED } from '../configuration/references'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
+import { HealthCheckUtil } from './healthCheckUtil'
 
 export const router = express.Router({ mergeParams: true })
 const logger = log4jui.getLogger('outgoing')
@@ -36,6 +39,8 @@ const healthCheckEndpointDictionary = {
 */
 
 function getPromises(path): any[] {
+    const isTandCEnabled = showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)
+    HealthCheckUtil.manageTAndCFeature(isTandCEnabled, healthCheckEndpointDictionary)
     const Promises = []
     if (healthCheckEndpointDictionary[path]) {
         healthCheckEndpointDictionary[path].forEach(endpoint => {

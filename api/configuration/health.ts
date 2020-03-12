@@ -19,5 +19,6 @@ export const healthEndpoints = (): EnvironmentConfigServices => {
     idamWeb: getConfigValue(SERVICES_IDAM_WEB) + HEALTH,
     rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH) + HEALTH,
     s2s: getConfigValue(SERVICE_S2S_PATH) + HEALTH,
+    termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH) + HEALTH,
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {CanActivate} from '@angular/router';
 
+import 'rxjs/add/operator/map';
 import {Observable, of} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as jwtDecode from 'jwt-decode';
@@ -10,6 +11,7 @@ import {CookieService} from 'ngx-cookie';
 import config from '../../../api/lib/config';
 import {AppUtils} from '../../app/utils/app-utils';
 import {AppConstants} from '../../app/app.constants';
+import {EnvironmentService} from '../../shared/services/environment.service';
 
 
 @Injectable()
@@ -17,6 +19,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private store: Store<fromStore.AuthState>,
     private cookieService: CookieService,
+    private environmentService: EnvironmentService
   ) {
   }
 
@@ -58,21 +61,24 @@ export class AuthGuard implements CanActivate {
     return notExpired;
   }
 
-  generateLoginUrl(): string {
-    const env = AppUtils.getEnvironment(window.location.origin);
+  generateLoginUrl(): Observable<string> {
     let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
     API_BASE_URL += window.location.port ? ':' + window.location.port : '';
 
-    const base = AppConstants.REDIRECT_URL[env];
-
     const clientId = config.idamClient;
     const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-    // tslint:disable-next-line: max-line-length
-    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
+
+    return this.environmentService.config$.map( environmentConfig => {
+      const base = environmentConfig.idamWeb;
+      // tslint:disable-next-line: max-line-length
+      return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
+    });
   }
 
   signOut(): void {
-    window.location.href = this.generateLoginUrl();
+    this.generateLoginUrl().subscribe( url => {
+      window.location.href = url;
+    });
   }
 }
 

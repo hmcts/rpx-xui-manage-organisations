@@ -34,6 +34,7 @@ nodejs:
     FEATURE_SECURE_COOKIE_ENABLED: true
     FEATURE_PROXY_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_HELMET_ENABLED: true
 
     # IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     # S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal

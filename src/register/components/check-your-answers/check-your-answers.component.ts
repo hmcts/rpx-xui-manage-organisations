@@ -15,10 +15,9 @@ import {FormDataValuesModel} from '../../models/form-data-values.model';
 })
 export class CheckYourAnswersComponent implements OnInit, AfterViewInit {
 
-  constructor(private readonly termsAndConditionsService: TermsConditionsService) {}
+  constructor() {}
 
   public formDataValues: FormDataValuesModel;
-  public termsAndConditionsUrl$: Observable<string>;
 
   @Output() public submit = new EventEmitter();
   @Input() public set fromValues(values: FormDataValuesModel) {
@@ -26,8 +25,6 @@ export class CheckYourAnswersComponent implements OnInit, AfterViewInit {
   }
 
   public ngOnInit() {
-    const isTandCEnabled$ = this.termsAndConditionsService.isTermsConditionsFeatureEnabled();
-    this.termsAndConditionsUrl$ = isTandCEnabled$.pipe(map(enabled => enabled ? '/terms-and-conditions' : '/legacy-terms-and-conditions'));
   }
 
   // Set to focus to the title when the page started for accessibility

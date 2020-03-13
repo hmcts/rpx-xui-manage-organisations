@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -42,7 +42,7 @@ describe('TermsAndConditionsComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
-                HttpClientModule
+                HttpClientTestingModule
             ],
             declarations: [ TermsAndConditionsComponent, TestDummyHostComponent ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],

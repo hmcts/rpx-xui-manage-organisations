@@ -1,15 +1,16 @@
-import * as fromUsers from '../actions/user.actions';
-import {AppUtils} from 'src/app/utils/app-utils';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from 'src/app/app.constants';
+import {AppUtils} from 'src/app/utils/app-utils';
+import * as fromUsers from '../actions/user.actions';
 
 export interface UsersListState {
-  userList: object[];
+  userList: User[];
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: UsersListState = {
-  userList: [],
+  userList: [] as User[],
   loaded: false,
   loading: false,
 };
@@ -42,11 +43,13 @@ export function reducer(
 
       const userList = userListPayload.map((user) => {
 
-        AppConstants.USER_ROLES.map((userRoles) => {
+        user.status = AppUtils.capitalizeString(user.idamStatus);
+
+        AppConstants.USER_ROLES.forEach((userRoles) => {
           if (user.roles) {
             user[userRoles.roleType] = user.roles.includes(userRoles.role) ? 'Yes' : 'No';
           }
-         });
+        });
 
         user.status = AppUtils.capitalizeString(user.idamStatus);
 
@@ -107,9 +110,10 @@ export function reducer(
       };
     }
 
-  }
+    default:
+      return state;
 
-  return state;
+  }
 }
 
 export const getUsers = (state: UsersListState) => state.userList;

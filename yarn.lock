@@ -350,10 +350,24 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@0.0.24":
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.0.24.tgz#0f0e4c6591a20152f9c589c948c80acfef108f64"
-  integrity sha512-WuuktZweyNbyjNUppF4tww0uOEt2F4rKRXONT9jUWQxD/p0Z2d7euVjnzMVz+y5LOH3PW8JuiMolSiSv00Qwvg==
+"@hmcts/rpx-xui-common-lib@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.1.2.tgz#ee482d3103a17354ea5e54c6a2efc97dceef3844"
+  integrity sha512-+KvrA25WKVVxxXuZlhPiDu5ZeOEQnFF/p+XDoamO3XuQUXCePaNdaqogIjtxX8EYnR+Et7xRd2m5tcpmeqfJ9w==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ng-idle/core@^8.0.0-beta.4":
+  version "8.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@ng-idle/core/-/core-8.0.0-beta.4.tgz#c856bb2dd3c8407321380faac8c5692a5728fd0d"
+  integrity sha512-bI/tt7F5+z/w6b6SzNPc0+9rJ1knWgLzQweLd6xUQ7HHFrHsmBlJYUGiSv0cYUY+2RZAmIDbevwUDKLWmdE55w==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ng-idle/keepalive@^8.0.0-beta.4":
+  version "8.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@ng-idle/keepalive/-/keepalive-8.0.0-beta.4.tgz#db385ad8833a9c42d1d8301531c47a68515a3089"
+  integrity sha512-yj7Y0pu2C7LhcjTcBE9DK5mFPFVHDj3vIVPTDzK3dN+51WoDQMrELl7BMuvzmTViat7mjsSP+00EwFvg6+FDEQ==
   dependencies:
     tslib "^1.9.0"
 

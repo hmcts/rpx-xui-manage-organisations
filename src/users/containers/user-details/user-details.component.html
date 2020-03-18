@@ -4,44 +4,12 @@
    [actionButtons]="actionButtons"
    *ngIf="!isSuspendView()"
 >
-  <ng-container *ngIf="!(isLoading$ | async) else isLoading">
-    <div class="govuk-warning-text" *ngIf="isSuspended(user?.status)">
-      <span class="govuk-warning-text__icon">!</span>
-      <strong class="govuk-warning-text__text">
-        This user's account has been suspended.
-      </strong>
-    </div>
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-two-thirds">
-        <table class="govuk-table">
-          <tbody class="govuk-table__body">
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="row">Name</th>
-            <td class="govuk-table__cell">{{user.fullName}}</td>
-            <td class="govuk-table__cell"></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="row">Email address</th>
-            <td class="govuk-table__cell">{{user.email}}</td>
-            <td class="govuk-table__cell"></td>
-          </tr>
-          <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="row">Permissions</th>
-            <td class="govuk-table__cell">
-              <div *ngIf="user.manageOrganisations === 'Yes'">Manage Organisations</div>
-              <div *ngIf="user.manageUsers === 'Yes'">Manage Users</div>
-              <div *ngIf="user.manageCases === 'Yes'">Manage Cases</div>
-              <!-- <div *ngIf="user.managePayments === 'Yes'">Manage fee accounts</div> -->
-            </td>
-            <!-- TODO: Add back in after AKS migration -->
-            <!-- <td *ngIf="!isSuspended(user.status)" class="govuk-table__cell"><a routerLink="editpermission">Change</a></td>-->
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <p class="govuk-body" *ngIf="isSuspended(user.status)">Contact <a href="mailto:service-desk@hmcts.gov.uk">service-desk@hmcts.gov.uk</a> to reactivate this account.</p>
-  </ng-container>
+  <xuilib-user-details  *ngIf="!(isLoading$ | async) else isLoading" 
+    [user]="user" 
+    [editPermissionRouterLink]="'editpermission'"
+    [isSuspended]="isSuspended(user?.status)"
+    [warningTitle]="isSuspended(user?.status)?'This user\'s account has been suspended.': null">
+  </xuilib-user-details>
   <ng-template #isLoading>
     <div>Loading...</div>
   </ng-template>
@@ -52,36 +20,9 @@
    [backAction]="hideSuspendView"
    *ngIf="isSuspendView()"
 >
-  <ng-container>
-    <div class="govuk-warning-text">
-      <span class="govuk-warning-text__icon">!</span>
-      <strong class="govuk-warning-text__text">
-        If you suspend this user’s account, they’ll no longer be able to access MyHMCTS services. You will need to contact the service desk to reactivate this account.
-      </strong>
-    </div>
-    <table class="govuk-table">
-      <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">Name</th>
-        <td class="govuk-table__cell">{{user.fullName}}</td>
-      </tr>
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">Email address</th>
-        <td class="govuk-table__cell">{{user.email}}</td>
-      </tr>
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">Permissions</th>
-        <td class="govuk-table__cell">
-          <div *ngIf="user.manageOrganisations === 'Yes'">Manage Organisations</div>
-          <div *ngIf="user.manageUsers === 'Yes'">Manage Users</div>
-          <div *ngIf="user.manageCases === 'Yes'">Manage Cases</div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <button class="govuk-button govuk-button--warning" (click)="suspendUser()">
-      Suspend account
-    </button>
-
-  </ng-container>
+<xuilib-user-details
+    [user]="user" 
+    [warningTitle]="'If you suspend this user’s account, they’ll no longer be able to access MyHMCTS services. You will need to contact the service desk to reactivate this account.'"
+    (suspendUserEvent)="suspendUser($event)"
+    [showSuspendUserButton]="true"></xuilib-user-details>
 </app-hmcts-main-wrapper>

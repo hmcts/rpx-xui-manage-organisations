@@ -10,13 +10,13 @@ Feature: invite user workflow
     When I click on invite user button
     Then I should be on display invite user page
 
- @crossbrowser
+
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
-   
-   
-  @crossbrowser
+
+
+
   Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       |Permission|
@@ -24,7 +24,7 @@ Feature: invite user workflow
       | Manage Organisation |
       | Manage Cases |
     Then user should be created successfuly
-    When I activate invited user 
+    When I activate invited user
     When I click on user button
     Then I should be on display the user details
     Then I should see invited user is listed in users table
@@ -40,7 +40,7 @@ Feature: invite user workflow
 
 
 
-  @crossbrowser
+
   Scenario: Invite user with Mnage Org permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
@@ -60,7 +60,7 @@ Feature: invite user workflow
     Then I login to MC with invited user
     Then I see login to MC with invited user is "failed"
 
-  @crossbrowser
+
   Scenario: invited use with Manage Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
@@ -80,7 +80,7 @@ Feature: invite user workflow
     Then I login to MC with invited user
     Then I see login to MC with invited user is "failed"
 
-  @fullFunctional  
+  @fullFunctional
   Scenario: invite user validation workflow
     When I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then I should be display the validation error

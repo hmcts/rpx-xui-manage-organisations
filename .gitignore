@@ -24,6 +24,9 @@ api/.sessions/
 *.sublime-workspace
 .sessions/
 
+# environments - stop accidental commit of a local.yaml file. See Readme.
+/config/local*.*
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json

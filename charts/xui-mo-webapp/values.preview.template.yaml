@@ -18,3 +18,9 @@ nodejs:
     PUI_ENV: preview
     NODE_CONFIG_ENV: prod
     FEATURE_SECURE_COOKIE_ENABLED: false
+    REDIS_HOST: ${SERVICE_NAME}-redis-master
+    REDIS_PORT: 6379
+    REDIS_PASSWORD: fake-password
+    REDIS_SSL_ENABLED: false
+  redis:
+    enabled: true

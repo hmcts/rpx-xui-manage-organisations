@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import * as express from 'express'
 import * as otp from 'otp'
-import {getConfigValue, initialiseSecrets, showFeature} from '../configuration'
+import {getConfigValue, showFeature} from '../configuration'
 import {
   APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
@@ -35,10 +35,6 @@ import * as log4jui from '../lib/log4jui'
 import * as tunnel from '../lib/tunnel'
 import { getHealth, getInfo } from '../lib/util'
 
-/**
- * Allows us to integrate the key-vault secrets
- */
-initialiseSecrets()
 
 const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
 const url = getConfigValue(SERVICE_S2S_PATH)

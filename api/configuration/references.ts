@@ -37,8 +37,6 @@ export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi'
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions'
 
 export const SESSION_SECRET = 'sessionSecret'
-export const PROXY_HOST = 'proxyConfig.host'
-export const PROXY_PORT = 'proxyConfig.port'
 
 export const LOGGING = 'logging'
 export const JURISDICTIONS = 'jurisdictions'
@@ -50,3 +48,12 @@ export const FEATURE_APP_INSIGHTS_ENABLED = 'appInsightsEnabled'
 export const FEATURE_PROXY_ENABLED = 'proxyEnabled'
 export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
+export const FEATURE_REDIS_ENABLED = 'redisEnabled'
+
+// REDIS CONFIG
+export const REDIS_HOST = 'redis.host'
+export const REDIS_PORT = 'redis.port'
+export const REDIS_PASSWORD = 'redis.password'
+export const REDIS_SSL_ENABLED = 'redis.tls'
+export const REDIS_TTL = 'redis.ttl'
+export const REDIS_KEY_PREFIX = 'redis.prefix'

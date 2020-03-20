@@ -12,14 +12,17 @@ import {
   REDIS_SSL_ENABLED,
   REDIS_TTL
 } from '../configuration/references'
+import * as log4jui from './log4jui'
+
+export const logger = log4jui.getLogger('sessionStore')
 
 const RedisStore = connectRedis(session)
 const FileStore = sessionFileStore(session)
 
-let store = null
+let store: session.Store = null
 
-export const getRedisStore = () => {
-  console.log('using RedisStore')
+export const getRedisStore = (): connectRedis.RedisStore => {
+  logger.info('using RedisStore')
 
   const tlsOptions = {
     password: getConfigValue(REDIS_PASSWORD),
@@ -34,10 +37,10 @@ export const getRedisStore = () => {
   )
 
   redisClient.on('ready', () => {
-    console.log('redis client connected successfully')
+    logger.info('redis client connected successfully')
   })
 
-  redisClient.on('error', console.error)
+  redisClient.on('error', logger.error)
 
   return new RedisStore({
     client: redisClient,
@@ -45,14 +48,14 @@ export const getRedisStore = () => {
   })
 }
 
-export const getFileStore = () => {
-  console.log('using FileStore')
+export const getFileStore = (): session.Store => {
+  logger.info('using FileStore')
   return new FileStore({
     path: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions',
   })
 }
 
-export const getStore = () => {
+export const getStore = (): session.Store => {
   if (!store) {
     if (showFeature(FEATURE_REDIS_ENABLED)) {
       store = getRedisStore()

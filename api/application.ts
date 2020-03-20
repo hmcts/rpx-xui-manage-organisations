@@ -3,7 +3,7 @@ import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as session from 'express-session'
 import * as helmet from 'helmet'
-import * as log4js from 'log4js'
+import * as log4jui from './lib/log4jui'
 import * as auth from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
@@ -46,8 +46,7 @@ import serviceRouter from './services/serviceAuth'
 
 export const app = express()
 
-export const logger = log4js.getLogger('server')
-logger.level = getConfigValue(LOGGING) ? getConfigValue(LOGGING) : 'OFF'
+export const logger = log4jui.getLogger('server')
 
 /**
  * If there are no configuration properties found we highlight this to the person attempting to initialise

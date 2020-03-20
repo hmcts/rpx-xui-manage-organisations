@@ -1,8 +1,8 @@
 import * as log4js from 'log4js'
 import { getConfigValue } from '../configuration'
 import { LOGGING } from '../configuration/references'
-import * as errorStack from './errorStack'
 import { client } from './appInsights'
+import * as errorStack from './errorStack'
 
 let logger = null
 

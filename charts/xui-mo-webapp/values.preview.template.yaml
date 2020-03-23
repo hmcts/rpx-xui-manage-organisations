@@ -19,5 +19,5 @@ nodejs:
     NODE_CONFIG_ENV: prod
     FEATURE_SECURE_COOKIE_ENABLED: false
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
-  redis:
-    enabled: true
+redis:
+  enabled: true

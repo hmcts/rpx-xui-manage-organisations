@@ -28,6 +28,10 @@
       "termsAndConditionsEnabled": false,
       "helmetEnabled": true
     },
+    "links": {
+      "manageCaseLink": "https://xui-webapp-aat.service.core-compute-aat.internal/cases",
+      "manageOrgLink": "https://xui-mo-aat.service.core-compute-aat.internal"
+    },
     "helmet": {
       "contentSecurityPolicy": {
         "directives": {

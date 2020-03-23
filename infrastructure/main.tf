@@ -64,7 +64,7 @@ module "app" {
 
         // Redis Cloud
         REDISCLOUD_URL = "redis://ignore:${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
-        REDIS_ENCRYPTION_SECRET = "${module.redis-cache.access_key}"
+        REDIS_KEY_PREFIX: 'activity:'
 
         # COOKIE SETTINGS
         COOKIE_TOKEN = "${var.cookie_token}"
@@ -114,12 +114,6 @@ data "azurerm_subnet" "core_infra_redis_subnet" {
   resource_group_name  = "core-infra-${var.env}"
 }
 
-resource "azurerm_key_vault_secret" "redis_access_key" {
-  name         = "${var.product}-redis-access-key"
-  value        = "${module.redis-cache.access_key}"
-  key_vault_id = "${data.azurerm_key_vault.key_vault.id}"
-}
-
 resource "azurerm_key_vault_secret" "redis_connection_string" {
   name = "${var.component}-redis-connection-string"
   value = "redis://ignore:${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
@@ -128,7 +122,7 @@ resource "azurerm_key_vault_secret" "redis_connection_string" {
 
 module "redis-cache" {
   source      = "git@github.com:hmcts/cnp-module-redis?ref=master"
-  product     = "${var.shared_product_name}-redis"
+  product     = "${var.shared_product_name}-mo-redis"
   location    = "${var.location}"
   env         = "${var.env}"
   subnetid    = "${data.azurerm_subnet.core_infra_redis_subnet.id}"

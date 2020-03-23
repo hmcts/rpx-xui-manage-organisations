@@ -51,9 +51,6 @@ export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
 export const FEATURE_REDIS_ENABLED = 'redisEnabled'
 
 // REDIS CONFIG
-export const REDIS_HOST = 'redis.host'
-export const REDIS_PORT = 'redis.port'
-export const REDIS_PASSWORD = 'redis.password'
-export const REDIS_SSL_ENABLED = 'redis.tls'
+export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-redis-connection-string'
 export const REDIS_TTL = 'redis.ttl'
 export const REDIS_KEY_PREFIX = 'redis.prefix'

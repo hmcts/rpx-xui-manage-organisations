@@ -6,11 +6,9 @@ import {getConfigValue, showFeature} from '../configuration'
 import {
   FEATURE_REDIS_ENABLED,
   NOW,
-  REDIS_HOST, REDIS_KEY_PREFIX,
-  REDIS_PASSWORD,
-  REDIS_PORT,
-  REDIS_SSL_ENABLED,
-  REDIS_TTL
+  REDIS_KEY_PREFIX,
+  REDIS_TTL,
+  REDISCLOUD_URL
 } from '../configuration/references'
 import * as log4jui from './log4jui'
 
@@ -25,14 +23,11 @@ export const getRedisStore = (): connectRedis.RedisStore => {
   logger.info('using RedisStore')
 
   const tlsOptions = {
-    password: getConfigValue(REDIS_PASSWORD),
     prefix: getConfigValue(REDIS_KEY_PREFIX),
-    tls: getConfigValue(REDIS_SSL_ENABLED),
   }
 
   const redisClient = redis.createClient(
-    getConfigValue(REDIS_PORT),
-    getConfigValue(REDIS_HOST),
+    getConfigValue(REDISCLOUD_URL),
     tlsOptions
   )
 

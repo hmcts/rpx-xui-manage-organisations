@@ -29,7 +29,8 @@
       "rpx": {
         "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
-        "xui-oauth2-token": "IDAM_SECRET"
+        "xui-oauth2-token": "IDAM_SECRET",
+        "mo-webapp-redis-connection-string": "REDISCLOUD_URL"
       }
     },
     "feature": {
@@ -63,17 +64,7 @@
       "__format": "json"
     },
     "redis": {
-      "host": "REDIS_HOST",
-      "port": {
-        "__name": "REDIS_PORT",
-        "__format": "json"
-      },
-      "tls": {
-        "__name": "REDIS_SSL_ENABLED",
-        "__format": "json"
-      },
       "prefix": "REDIS_KEY_PREFIX",
-      "ttl": "REDIS_USER_DETAILS_TTL",
-      "password": "REDIS_PASSWORD"
+      "ttl": "REDIS_TTL"
     }
 }

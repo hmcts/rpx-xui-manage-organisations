@@ -35,7 +35,9 @@ export const getRedisStore = (): connectRedis.RedisStore => {
     logger.info('redis client connected successfully')
   })
 
-  redisClient.on('error', logger.error)
+  redisClient.on('error', error => {
+    logger.error(error)
+  })
 
   return new redisStore({
     client: redisClient,

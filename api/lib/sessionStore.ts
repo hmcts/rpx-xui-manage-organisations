@@ -14,8 +14,8 @@ import * as log4jui from './log4jui'
 
 export const logger = log4jui.getLogger('sessionStore')
 
-const RedisStore = connectRedis(session)
-const FileStore = sessionFileStore(session)
+const redisStore = connectRedis(session)
+const fileStore = sessionFileStore(session)
 
 let store: session.Store = null
 
@@ -37,7 +37,7 @@ export const getRedisStore = (): connectRedis.RedisStore => {
 
   redisClient.on('error', logger.error)
 
-  return new RedisStore({
+  return new redisStore({
     client: redisClient,
     ttl: getConfigValue(REDIS_TTL),
   })
@@ -45,7 +45,7 @@ export const getRedisStore = (): connectRedis.RedisStore => {
 
 export const getFileStore = (): session.Store => {
   logger.info('using FileStore')
-  return new FileStore({
+  return new fileStore({
     path: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions',
   })
 }

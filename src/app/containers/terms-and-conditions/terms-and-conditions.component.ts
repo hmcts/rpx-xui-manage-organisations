@@ -32,6 +32,10 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+        this.subscriptions.forEach(s => {
+          if (s) {
+            s.unsubscribe();
+          }
+        });
     }
 }

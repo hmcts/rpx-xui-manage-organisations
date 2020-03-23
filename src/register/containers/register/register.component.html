@@ -13,11 +13,11 @@
             </svg>
           </a>
 
-          <h3 class="govuk-heading-l">Already registered for a MyHMCTS account?</h3>
+          <h3 class="govuk-heading-m">Already registered for a MyHMCTS account?</h3>
           <p>You can:</p>
-          <ul>
-            <li><a href="" target="_blank">manage your case,</a> for example track a case's progress</li>
-            <li><a href="" target="_blank">manage your organisation,</a> for example invite new users</li>
+          <ul class="govuk-list govuk-list--bullet">
+            <li><a [href]="manageCaseLink" target="_blank">manage your cases,</a> for example track a case's progress</li>
+            <li><a [href]="manageOrgLink" target="_blank">manage your organisation,</a> for example invite new users</li>
           </ul>
        </ng-container>
 

@@ -39,6 +39,8 @@ import {
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET,
+  LINKS_MANAGE_CASES_LINK,
+  LINKS_MANAGE_ORG_LINK,
 } from './configuration/references'
 import {appInsights} from './lib/appInsights'
 import {errorStack} from './lib/errorStack'
@@ -127,6 +129,11 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   app.use(helmet(getConfigValue(HELMET)))
 }
 
+console.log('Manage Case Link: ')
+console.log(getConfigValue(LINKS_MANAGE_CASES_LINK))
+console.log('Manage Org Link: ')
+console.log(getConfigValue(LINKS_MANAGE_ORG_LINK))
+
 app.use(
   session({
     cookie: {
@@ -198,6 +205,9 @@ app.get('/external/ping', (req, res) => {
     featureAppInsightEnabled: showFeature(FEATURE_APP_INSIGHTS_ENABLED),
     featureProxyEnabled: showFeature(FEATURE_PROXY_ENABLED),
     featureTermsAndConditionsEnabled: showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED),
+
+    manageCaseLink: getConfigValue(LINKS_MANAGE_CASES_LINK),
+    manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),
   })
 })
 app.use('/external', openRoutes)

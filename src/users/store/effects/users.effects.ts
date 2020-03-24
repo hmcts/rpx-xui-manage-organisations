@@ -10,25 +10,23 @@ import * as usersActions from '../actions';
 @Injectable()
 export class UsersEffects {
   constructor(
-    private actions$: Actions,
-    private usersService: UsersService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly usersService: UsersService,
+    private readonly loggerService: LoggerService
   ) { }
 
   @Effect()
-  loadUsers$ = this.actions$.pipe(
+  public loadUsers$ = this.actions$.pipe(
     ofType(usersActions.LOAD_USERS),
     switchMap(() => {
       return this.usersService.getListOfUsers().pipe(
         map(userDetails => {
           const amendedUsers = [];
           userDetails.users.forEach(element => {
-              const fullName = element.firstName + ' ' + element.lastName;
+              const fullName = `${element.firstName} ${element.lastName}`;
               const user = element;
               user.fullName = fullName;
-              if (user.idamStatus !== 'PENDING') {
-                user.routerLink = 'user/' + user.userIdentifier;
-              }
+              user.routerLink = `user/${user.userIdentifier}`;
               amendedUsers.push(user);
           });
 
@@ -44,7 +42,7 @@ export class UsersEffects {
 
 
   @Effect()
-  suspendUser$ = this.actions$.pipe(
+  public suspendUser$ = this.actions$.pipe(
     ofType(usersActions.SUSPEND_USER),
     switchMap((user: usersActions.SuspendUser) => {
       return this.usersService.suspendUser(user).pipe(

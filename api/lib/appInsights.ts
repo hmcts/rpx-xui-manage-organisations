@@ -19,6 +19,7 @@ export function initialiseAppInsights() {
     .start()
 
   client = applicationinsights.defaultClient
+  client.context.tags[client.context.keys.cloudRole] = 'xui-mo'
   client.trackTrace({ message: 'App Insight Activated' })
 }
 

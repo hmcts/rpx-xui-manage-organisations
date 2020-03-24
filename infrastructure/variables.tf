@@ -109,6 +109,14 @@ variable "allow_config_mutations" {
   default = "1"
 }
 
+variable "mo_http_proxy" {
+  default = "http://172.16.0.7:8080"
+}
+
+variable "mo_no_proxy" {
+  default = "localhost"
+}
+
 variable "app_insights_enabled" {
   default = "1"
 }
@@ -130,6 +138,10 @@ variable "feature_terms_and_conditions_enabled" {
 }
 
 variable "feature_helmet_enabled" {
+  default = "false"
+}
+
+variable "feature_redis_enabled" {
   default = "false"
 }
 

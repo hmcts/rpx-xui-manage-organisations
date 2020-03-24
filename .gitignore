@@ -12,7 +12,6 @@ api/.sessions/
 /node_modules
 /projects/gov-ui/node_modules
 /api/node_modules/*
-api/.sessions/
 
 # IDEs and editors
 /.idea
@@ -23,6 +22,9 @@ api/.sessions/
 .settings/
 *.sublime-workspace
 .sessions/
+
+# environments - stop accidental commit of a local.yaml file. See Readme.
+/config/local*.*
 
 # IDE - VSCode
 .vscode/*
@@ -50,7 +52,6 @@ Thumbs.db
 /test/reports/
 reports/
 .tmp/
-.sessions/
 .sessions/*
 reports_json/
 .nyc_output/

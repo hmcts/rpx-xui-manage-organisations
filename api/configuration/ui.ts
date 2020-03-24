@@ -1,7 +1,6 @@
 import {
   EnvironmentConfigCookies,
   EnvironmentConfigExceptionOptions,
-  EnvironmentConfigProxy,
   EnvironmentConfigServices
 } from '../interfaces/environment.config'
 import {healthEndpoints} from './health'
@@ -19,8 +18,6 @@ import {
   NOW,
   OAUTH_CALLBACK_URL,
   PROTOCOL,
-  PROXY_HOST,
-  PROXY_PORT,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
@@ -52,10 +49,6 @@ export const uiConfig = () => {
     now: getConfigValue(NOW),
     oauthCallbackUrl: getConfigValue(OAUTH_CALLBACK_URL),
     protocol: getConfigValue(PROTOCOL),
-    proxy: {
-      host: getConfigValue(PROXY_HOST),
-      port: getConfigValue(PROXY_PORT),
-    } as EnvironmentConfigProxy,
     secureCookie: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     services: {
       feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),

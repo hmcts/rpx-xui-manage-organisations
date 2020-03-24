@@ -64,7 +64,7 @@ module "app" {
 
         // Redis Cloud
         REDISCLOUD_URL = "redis://ignore:${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
-        REDIS_KEY_PREFIX: "activity:"
+        REDIS_KEY_PREFIX = "activity:"
 
         # COOKIE SETTINGS
         COOKIE_TOKEN = "${var.cookie_token}"

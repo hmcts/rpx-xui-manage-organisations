@@ -27,6 +27,7 @@ def secrets = [
   'rpx-${env}': [
     secret('mo-s2s-client-secret', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
+    secret('mo-webapp-redis-connection-string', 'REDISCLOUD_URL'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')

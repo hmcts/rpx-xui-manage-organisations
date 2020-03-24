@@ -37,8 +37,6 @@ export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi'
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions'
 
 export const SESSION_SECRET = 'sessionSecret'
-export const PROXY_HOST = 'proxyConfig.host'
-export const PROXY_PORT = 'proxyConfig.port'
 
 export const LOGGING = 'logging'
 export const JURISDICTIONS = 'jurisdictions'
@@ -50,6 +48,12 @@ export const FEATURE_APP_INSIGHTS_ENABLED = 'appInsightsEnabled'
 export const FEATURE_PROXY_ENABLED = 'proxyEnabled'
 export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
+export const FEATURE_REDIS_ENABLED = 'redisEnabled'
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink'
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'
+
+// REDIS CONFIG
+export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-redis-connection-string'
+export const REDIS_TTL = 'redis.ttl'
+export const REDIS_KEY_PREFIX = 'redis.prefix'

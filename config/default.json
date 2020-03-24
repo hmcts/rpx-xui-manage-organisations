@@ -1,6 +1,11 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
   "appInsightsInstrumentationKey": "",
+  "secrets": {
+    "rpx": {
+      "AppInsightsInstrumentationKey": ""
+    }
+  },
   "cookies": {
     "token": "__auth__",
     "userId": "__userid__"

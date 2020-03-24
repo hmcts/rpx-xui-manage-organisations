@@ -60,8 +60,10 @@ nodejs:
     S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    MANAGE_CASE_LINK: https://manage-case.platform.hmcts.net/cases
-    MANAGE_ORG_LINK: https://manage-org.platform.hmcts.net
+    # MANAGE_CASE_LINK: https://manage-case.platform.hmcts.net/cases
+    # MANAGE_ORG_LINK: https://manage-org.platform.hmcts.net
+    MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
+    MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/
   keyVaults:
     rpx:
       resourceGroup: rpx

@@ -3,7 +3,7 @@
   "appInsightsInstrumentationKey": "",
   "secrets": {
     "rpx": {
-      "AppInsightsInstrumentationKey": ""
+      "AppInsightsInstrumentationKey": "AAA"
     }
   },
   "cookies": {

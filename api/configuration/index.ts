@@ -15,7 +15,7 @@ import {ENVIRONMENT, PROTOCOL} from './references'
  * @see https://github.com/lorenwest/node-config/wiki/Environment-Variables
  */
 export const initialiseSecrets = () => {
-  propertiesVolume.addTo(config)
+  propertiesVolume.addTo(config, { mountPoint: '/Volumes/mnt/secrets/' })
   // propertiesVolume.addTo(config, { mountPoint: '/Volumes/mnt/secrets/'})
 }
 

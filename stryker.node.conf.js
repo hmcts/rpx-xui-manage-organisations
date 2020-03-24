@@ -5,15 +5,16 @@ module.exports = function (config) {
         // logLevel: 'trace',
         mutate: ["api/**/*.ts", "!api/**/*.spec.ts", "!api/test/**/*.ts"],
         mutator: 'typescript',
-        transpilers: [
-            'typescript'
-        ],
+        // transpilers: [
+        //     'typescript'
+        // ],
         testFramework: "mocha",
         testRunner: "mocha",
         reporters: ["clear-text", "progress", "html"],
         tsconfigFile: 'tsconfig.json',
         mochaOptions: {
-            files: ["dist/out-tsc/api/{,!(test)/**/}*.spec.js"],
+            // opts:'api/test/mocha.opts',
+            files: ["api/{,!(test|accounts)/**/}*.spec.ts", "!(api/accounts/index.spec.ts)"],
             timeout: 5000
         },
         htmlReporter: {

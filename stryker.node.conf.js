@@ -1,4 +1,4 @@
-require('dotenv-extended').load({ path: 'api/.env.defaults' });
+// require('dotenv-extended').load({ path: 'api/.env.defaults' });
 module.exports = function (config) {
     config.set({
         // fileLogLevel: 'trace',

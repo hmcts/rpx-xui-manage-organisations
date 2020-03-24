@@ -66,6 +66,7 @@ nodejs:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
+        - mo-webapp-redis-connection-string
         - AppInsightsInstrumentationKey
   # Don't modify below here
   image: ${IMAGE_NAME}

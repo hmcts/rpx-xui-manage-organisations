@@ -1,30 +1,7 @@
-import * as express from 'express'
-import * as session from 'express-session'
-
 export interface JurisdictionObject {
     caseType: string
     filter: string
     jur: string
-}
-export interface EnhancedRequest extends express.Request {
-    auth?: {
-        roles: string
-        token: string
-        userId: string
-        expires: number
-        email: string
-    }
-    session?: {
-        save?: any
-        auth?: {
-            orgId: string
-            email?: string
-            roles?: string
-            token?: string
-            userId?: string
-        }
-        user?
-    }
 }
 
 export interface Token {

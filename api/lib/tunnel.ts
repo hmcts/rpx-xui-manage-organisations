@@ -3,27 +3,21 @@ import { createGlobalProxyAgent } from 'global-agent'
 import * as log4js from 'log4js'
 
 import { getConfigValue, showFeature } from '../configuration'
-import { FEATURE_PROXY_ENABLED, LOGGING, PROXY_HOST, PROXY_PORT} from '../configuration/references'
-
-export const globalProxyAgent = createGlobalProxyAgent({})
+import { FEATURE_PROXY_ENABLED, LOGGING} from '../configuration/references'
 
 const logger = log4js.getLogger('tunnel')
 logger.level = getConfigValue(LOGGING)
 
 export function init(): void {
-  const proxyHost = getConfigValue(PROXY_HOST)
-  const proxyPort = getConfigValue(PROXY_PORT)
   if (showFeature(FEATURE_PROXY_ENABLED)) {
-    logger.info('Initialise Tunnel.')
-    logger.info('initialising tunnel, host: ', proxyHost)
-    logger.info('initialising tunnel, port: ', proxyPort)
-    process.env.GLOBAL_AGENT_HTTP_PROXY = `http://${proxyHost}:${proxyPort}`
-    process.env.GLOBAL_AGENT_NO_PROXY = 'localhost'
-    createGlobalProxyAgent({})
+    logger.info('configuring global-agent: ', process.env.MO_HTTP_PROXY, ' no proxy: ', process.env.MO_NO_PROXY)
+    createGlobalProxyAgent({
+      environmentVariableNamespace: 'MO_',
+    })
   }
 }
 
 export function end() {
-  process.env.GLOBAL_AGENT_HTTP_PROXY = ''
-  process.env.GLOBAL_AGENT_NO_PROXY = ''
+  process.env.MO_HTTP_PROXY = ''
+  process.env.MO_NO_PROXY = ''
 }

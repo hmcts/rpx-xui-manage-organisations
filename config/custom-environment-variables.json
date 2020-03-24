@@ -25,15 +25,12 @@
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
     },
     "sessionSecret": "SESSION_SECRET",
-    "proxyConfig": {
-        "host": "PROXY_HOST",
-        "port": "PROXY_PORT"
-    },
     "secrets": {
       "rpx": {
         "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
-        "xui-oauth2-token": "IDAM_SECRET"
+        "xui-oauth2-token": "IDAM_SECRET",
+        "mo-webapp-redis-connection-string": "REDISCLOUD_URL"
       }
     },
     "feature": {
@@ -56,6 +53,18 @@
       "helmetEnabled": {
         "__name": "FEATURE_HELMET_ENABLED",
         "__format": "json"
+      },
+      "redisEnabled": {
+        "__name": "FEATURE_REDIS_ENABLED",
+        "__format": "json"
       }
+    },
+    "helmet": {
+      "__name": "HELMET_CONFIG",
+      "__format": "json"
+    },
+    "redis": {
+      "prefix": "REDIS_KEY_PREFIX",
+      "ttl": "REDIS_TTL"
     }
 }

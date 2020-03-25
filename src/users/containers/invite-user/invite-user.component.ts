@@ -50,6 +50,16 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         'pui-finance-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
+
+    this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
+      if (pendingUser) {
+        console.log('pendingUser is not null');
+        this.inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
+        this.inviteUserForm.controls.lastName.setValue(pendingUser.lastName);
+        this.inviteUserForm.controls.email.setValue(pendingUser.email);
+      }
+    });
+
     this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
                                    .subscribe(value => this.jurisdictions = value,
                                    (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));

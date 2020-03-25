@@ -7,12 +7,14 @@ export interface UsersListState {
   userList: User[];
   loaded: boolean;
   loading: boolean;
+  reinvitePendingUser: User;
 }
 
 export const initialState: UsersListState = {
   userList: [] as User[],
   loaded: false,
   loading: false,
+  reinvitePendingUser: null
 };
 
 export function reducer(
@@ -110,6 +112,15 @@ export function reducer(
       };
     }
 
+    case fromUsers.REINVITE_PENDING_USER: {
+      console.log('REINVITE_PENDING_USER reducer');
+      console.log(action.payload);
+      return {
+        ...state,
+        reinvitePendingUser: action.payload
+      };
+    }
+
     default:
       return state;
 
@@ -119,4 +130,5 @@ export function reducer(
 export const getUsers = (state: UsersListState) => state.userList;
 export const getUsersLoading = (state: UsersListState) => state.loading;
 export const getUsersLoaded = (state: UsersListState) => state.loaded;
+export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 

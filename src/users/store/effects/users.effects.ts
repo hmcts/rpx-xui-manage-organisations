@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
 import * as usersActions from '../actions';
@@ -49,6 +50,14 @@ export class UsersEffects {
         map(res => new usersActions.SuspendUserSuccess(user.payload)),
         catchError(error => of(new usersActions.SuspendUserFail(error)))
       );
+    })
+  );
+
+  @Effect()
+  public reinviteUser$ = this.actions$.pipe(
+    ofType(usersActions.REINVITE_PENDING_USER),
+    map(() => {
+      return new fromRoot.Go({ path: ['users/invite-user'] });
     })
   );
 }

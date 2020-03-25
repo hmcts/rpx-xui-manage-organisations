@@ -11,6 +11,7 @@ export const EDIT_USER_SERVER_ERROR = '[User] Edit User Server Error';
 export const SUSPEND_USER = '[User] Suspend User';
 export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
 export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
+export const REINVITE_PENDING_USER = '[User]Reinvite Pending User';
 
 export class LoadUsers {
   readonly type = LOAD_USERS;
@@ -66,6 +67,11 @@ export class SuspendUserFail implements Action {
   constructor(public payload: any) { }
 }
 
+export class ReinvitePendingUser {
+  readonly type = REINVITE_PENDING_USER;
+  constructor(public payload: any) { }
+}
+
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
@@ -75,4 +81,5 @@ export type UserActions =
   | SuspendUser
   | SuspendUserSuccess
   | SuspendUserFail
-  | EditUserServerError;
+  | EditUserServerError
+  | ReinvitePendingUser;

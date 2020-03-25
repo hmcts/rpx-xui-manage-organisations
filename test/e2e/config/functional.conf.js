@@ -38,7 +38,7 @@ const config = {
     cucumberOpts: {
         strict: true,
         format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-        tags: ['@ignore'],
+        tags: ['@all'],
         require: cucumberOpts
     },
 

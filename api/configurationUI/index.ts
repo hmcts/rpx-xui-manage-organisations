@@ -1,6 +1,7 @@
 import * as express from 'express'
 import {getConfigValue} from '../configuration'
 import {
+  PROTOCOL,
   SERVICES_IDAM_WEB,
 } from '../configuration/references'
 
@@ -14,6 +15,7 @@ router.get('/', configurationUIRoute)
 async function configurationUIRoute(req, res) {
   res.status(200).send({
     idamWeb: getConfigValue(SERVICES_IDAM_WEB),
+    protocol: getConfigValue(PROTOCOL)
   })
 }
 

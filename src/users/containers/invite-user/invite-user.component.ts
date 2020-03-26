@@ -3,10 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
-import * as fromAppStore from '../../../app/store';
-import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 import {Observable, Subscription} from 'rxjs';
 import {AppConstants} from '../../../app/app.constants';
+import * as fromAppStore from '../../../app/store';
+import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
 
 /*
 * User Form entry mediator component
@@ -19,22 +19,22 @@ import {AppConstants} from '../../../app/app.constants';
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
 
-  constructor(private store: Store<fromStore.UserState>) { }
-  inviteUserForm: FormGroup;
+  constructor(private readonly store: Store<fromStore.UserState>) { }
+  public inviteUserForm: FormGroup;
 
-  errors$: Observable<any>;
-  errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
+  public errors$: Observable<any>;
+  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
 
-  errorMessages = {
+  public errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
     email: ['Enter email address', 'Email must contain at least the @ character'],
     roles: ['You must select at least one action'],
   };
-  jurisdictions: any[];
-  juridictionSubscription: Subscription;
+  public jurisdictions: any[];
+  public juridictionSubscription: Subscription;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new fromStore.Reset());
     this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
@@ -71,9 +71,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.inviteUserForm.controls; }
+  public get f() { return this.inviteUserForm.controls; }
 
-  onSubmit() {
+  public onSubmit() {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       let value = this.inviteUserForm.getRawValue();
@@ -100,7 +100,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  dispatchValidationAction() {
+  public dispatchValidationAction() {
     // set form errors
     const formValidationData = {
       isInvalid: {
@@ -120,7 +120,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     if (this.juridictionSubscription) {
       this.juridictionSubscription.unsubscribe();
     }

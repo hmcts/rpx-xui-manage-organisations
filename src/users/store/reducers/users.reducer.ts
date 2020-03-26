@@ -112,9 +112,14 @@ export function reducer(
       };
     }
 
+    case fromUsers.INVITE_NEW_USER: {
+      return {
+        ...state,
+        reinvitePendingUser: null
+      };
+    }
+
     case fromUsers.REINVITE_PENDING_USER: {
-      console.log('REINVITE_PENDING_USER reducer');
-      console.log(action.payload);
       return {
         ...state,
         reinvitePendingUser: action.payload

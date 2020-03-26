@@ -57,6 +57,10 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         this.inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
         this.inviteUserForm.controls.lastName.setValue(pendingUser.lastName);
         this.inviteUserForm.controls.email.setValue(pendingUser.email);
+
+        this.inviteUserForm.controls.firstName.disable();
+        this.inviteUserForm.controls.lastName.disable();
+        this.inviteUserForm.controls.email.disable();
       }
     });
 
@@ -72,7 +76,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
-      let {value} = this.inviteUserForm;
+      let value = this.inviteUserForm.getRawValue();
+      console.log('value => ');
+      console.log(value);
       const permissions = Object.keys(value.roles).filter(key => {
         if (value.roles[key]) {
           return key;

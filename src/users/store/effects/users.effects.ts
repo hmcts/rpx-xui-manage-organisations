@@ -54,6 +54,14 @@ export class UsersEffects {
   );
 
   @Effect()
+  public inviteNewUser$ = this.actions$.pipe(
+    ofType(usersActions.INVITE_NEW_USER),
+    map(() => {
+      return new fromRoot.Go({ path: ['users/invite-user'] });
+    })
+  );
+
+  @Effect()
   public reinviteUser$ = this.actions$.pipe(
     ofType(usersActions.REINVITE_PENDING_USER),
     map(() => {

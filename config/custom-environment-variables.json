@@ -1,5 +1,5 @@
 {
-    "environment": "DEFAULT ENVIRONMENT",
+    "environment": "NODE_CONFIG_ENV",
     "appInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
     "cookies": {
         "token": "COOKIE_TOKEN",

@@ -25,7 +25,8 @@ def channel   = '#xui-pipeline'
 List<LinkedHashMap<String, Object>> secrets = [
   secret('mo-s2s-client-secret',                 'S2S_SECRET'),
   secret('xui-oauth2-token',              'IDAM_SECRET'),
-  secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+  secret('appinsights-instrumentation-mo', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+  secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {

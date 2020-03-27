@@ -33,9 +33,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   };
   public jurisdictions: any[];
   public juridictionSubscription: Subscription;
+  public isReinvite: boolean = false;
 
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.Reset());
+    this.isReinvite = false;
     this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
@@ -53,7 +55,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
     this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
       if (pendingUser) {
-        console.log('pendingUser is not null');
+        this.isReinvite = true;
         this.inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
         this.inviteUserForm.controls.lastName.setValue(pendingUser.lastName);
         this.inviteUserForm.controls.email.setValue(pendingUser.email);
@@ -77,8 +79,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       let value = this.inviteUserForm.getRawValue();
-      console.log('value => ');
-      console.log(value);
       const permissions = Object.keys(value.roles).filter(key => {
         if (value.roles[key]) {
           return key;
@@ -94,7 +94,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       value = {
         ...value,
         roles,
-        jurisdictions: this.jurisdictions
+        jurisdictions: this.jurisdictions,
+        isReinvite: this.isReinvite
       };
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }

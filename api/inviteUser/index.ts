@@ -12,8 +12,12 @@ router.post('/', inviteUserRoute)
 async function inviteUserRoute(req, res) {
     const orgId = req.session.auth.orgId
     const payload = req.body
+    let reinviteString = ''
+    if (payload && payload.isReinvite) {
+      reinviteString = 'resendinvite'
+    }
     try {
-        const response = await http.post(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/`, payload)
+        const response = await http.post(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/${reinviteString}`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

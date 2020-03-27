@@ -8,10 +8,10 @@ import {
   COOKIES_USERID,
   FEATURE_APP_INSIGHTS_ENABLED,
   FEATURE_PROXY_ENABLED,
+  FEATURE_REDIS_ENABLED,
   FEATURE_SECURE_COOKIE_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   IDAM_CLIENT,
-  IDAM_SECRET,
   JURISDICTIONS,
   MAX_LINES,
   MAX_LOG_LINE,
@@ -19,6 +19,9 @@ import {
   NOW,
   OAUTH_CALLBACK_URL,
   PROTOCOL,
+  REDIS_KEY_PREFIX,
+  REDIS_TTL,
+  REDISCLOUD_URL,
   S2S_SECRET,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
@@ -95,6 +98,13 @@ router.get('/health', (req, res, next) => {
       featureAppInsightEnabled: showFeature(FEATURE_APP_INSIGHTS_ENABLED),
       featureProxyEnabled: showFeature(FEATURE_PROXY_ENABLED),
       featureTermsAndConditionsEnabled: showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED),
+      featureRedisEnabled: showFeature(FEATURE_REDIS_ENABLED),
+
+      redis: {
+        prefix: getConfigValue(REDIS_KEY_PREFIX),
+        ttl: getConfigValue(REDIS_TTL),
+        url: getConfigValue(REDISCLOUD_URL)
+      }
     })
 })
 

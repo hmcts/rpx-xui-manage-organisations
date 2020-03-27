@@ -27,7 +27,7 @@
     "sessionSecret": "SESSION_SECRET",
     "secrets": {
       "rpx": {
-        "appinsights-instrumentation-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",
+        "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
         "xui-oauth2-token": "IDAM_SECRET",
         "mo-webapp-redis-connection-string": "REDISCLOUD_URL",

@@ -9,7 +9,7 @@
  * This file should be representative of the .yaml files in /config, and not
  * contain any additional constants. They are grouped as a representation of the .yaml structure.
  */
-export const APP_INSIGHTS_KEY = 'secrets.rpx.appinsights-instrumentation-mo'
+export const APP_INSIGHTS_KEY = 'secrets.rpx.appinsights-instrumentationkey-mo'
 export const S2S_SECRET = 'secrets.rpx.mo-s2s-client-secret'
 export const IDAM_SECRET = 'secrets.rpx.xui-oauth2-token'
 export const GOOGLE_ANALYTICS_KEY = 'secrets.rpx.google-analytics-key'

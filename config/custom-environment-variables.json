@@ -27,10 +27,11 @@
     "sessionSecret": "SESSION_SECRET",
     "secrets": {
       "rpx": {
-        "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+        "appinsights-instrumentation-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
         "xui-oauth2-token": "IDAM_SECRET",
-        "mo-webapp-redis-connection-string": "REDISCLOUD_URL"
+        "mo-webapp-redis-connection-string": "REDISCLOUD_URL",
+        "google-analytics-key": "GOOGLE_ANALYTICS_KEY"
       }
     },
     "feature": {

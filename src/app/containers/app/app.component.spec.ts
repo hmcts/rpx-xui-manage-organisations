@@ -6,10 +6,11 @@ import { HeaderComponent } from '../header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { cold } from 'jasmine-marbles';
 
-import { AppConstants } from '../../app.constants';
-import * as fromAuth from '../../../user-profile/store';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { windowToken } from '@hmcts/rpx-xui-common-lib';
+import * as fromAuth from '../../../user-profile/store';
+import { AppConstants } from '../../app.constants';
 
 
 const windowMock: Window = { gtag: () => {}} as any;
@@ -23,6 +24,7 @@ describe('AppComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
+        HttpClientTestingModule,
         RouterTestingModule,
         StoreModule.forRoot(
           {

@@ -92,7 +92,6 @@ router.get('/health', (req, res, next) => {
       // 4th set
       sessionSecret: getConfigValue(SESSION_SECRET),
       jurisdictions: getConfigValue(JURISDICTIONS),
-      appInsightKey: getConfigValue(APP_INSIGHTS_KEY),
       // 5th set
       featureSecureCookieEnabled: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
       featureAppInsightEnabled: showFeature(FEATURE_APP_INSIGHTS_ENABLED),
@@ -102,8 +101,7 @@ router.get('/health', (req, res, next) => {
 
       redis: {
         prefix: getConfigValue(REDIS_KEY_PREFIX),
-        ttl: getConfigValue(REDIS_TTL),
-        url: getConfigValue(REDISCLOUD_URL)
+        ttl: getConfigValue(REDIS_TTL)
       }
     })
 })

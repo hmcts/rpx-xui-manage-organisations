@@ -27,10 +27,10 @@ export const ROUTES: Routes = [
       component: InviteUserSuccessComponent,
       canActivate: [InviteUserSuccessGuard],
     },
-    {
+    /*{
       path: 'user/:userId/editpermission',
       component: EditUserPermissionComponent,
-    }
+    }*/
 ];
 
 

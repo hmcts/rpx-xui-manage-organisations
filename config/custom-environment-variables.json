@@ -13,7 +13,10 @@
     "maxLogLine": "MAX_LOG_LINE",
     "idamClient": "IDAM_CLIENT",
     "microservice": "MICROSERVICE",
-    "now": "NOW",
+    "now": {
+      "__name": "NOW",
+      "__format": "json"
+    },
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
     "protocol": "PROTOCOL",
     "services": {

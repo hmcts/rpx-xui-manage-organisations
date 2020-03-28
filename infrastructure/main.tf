@@ -39,6 +39,7 @@ module "app" {
 
         S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
+        GOOGLE_ANALYTICS_KEY = "${data.azurerm_key_vault_secret.google-analytics-key.value}"
 
         # API CONFIG
         SESSION_SECRET = "${var.session_secret}"
@@ -103,6 +104,12 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
     name = "xui-oauth2-token"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
+
+data "azurerm_key_vault_secret" "google-analytics-key" {
+  name = "google-analytics-key"
+  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+}
+
 
 provider "azurerm" {
     version = "1.22.1"

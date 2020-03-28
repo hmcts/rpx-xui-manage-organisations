@@ -173,7 +173,6 @@ app.get('/external/ping', (req, res) => {
     // 4th set
     sessionSecret: getConfigValue(SESSION_SECRET),
     jurisdictions: getConfigValue(JURISDICTIONS),
-    appInsightKey: getConfigValue(APP_INSIGHTS_KEY),
     // 5th set
     featureSecureCookieEnabled: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     featureAppInsightEnabled: showFeature(FEATURE_APP_INSIGHTS_ENABLED),

@@ -61,14 +61,14 @@ export class AuthGuard implements CanActivate {
     return notExpired;
   }
 
-  generateLoginUrl(): Observable<string> {
-    let API_BASE_URL = window.location.protocol + '//' + window.location.hostname;
-    API_BASE_URL += window.location.port ? ':' + window.location.port : '';
-
-    const clientId = config.idamClient;
-    const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
-
+  public generateLoginUrl(): Observable<string> {
     return this.environmentService.config$.map( environmentConfig => {
+      const port = window.location.port ? ':' + window.location.port : '';
+      const API_BASE_URL = `${environmentConfig.protocol}://${window.location.hostname}${port}`
+
+      const clientId = config.idamClient;
+      const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
+
       const base = environmentConfig.idamWeb;
       // tslint:disable-next-line: max-line-length
       return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;

@@ -70,7 +70,9 @@ nodejs:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - AppInsightsInstrumentationKey
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - mo-webapp-redis-connection-string
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

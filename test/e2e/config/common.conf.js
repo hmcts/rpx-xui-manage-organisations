@@ -32,7 +32,7 @@ const config = {
         password: process.env.TEST_PASSWORD || 'Monday01'
     },
     twoFactorAuthEnabled: false
-    
+
 };
 
 const cucumberOpts = [

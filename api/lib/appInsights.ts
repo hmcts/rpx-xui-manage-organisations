@@ -1,6 +1,6 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
-import { getConfigValue } from '../configuration'
+import {getConfigValue, showFeature} from '../configuration'
 import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references'
 
 export let client
@@ -23,7 +23,7 @@ export function initialiseAppInsights() {
   client.trackTrace({ message: 'App Insight Activated' })
 }
 
-if (FEATURE_APP_INSIGHTS_ENABLED) {
+if (showFeature(FEATURE_APP_INSIGHTS_ENABLED)) {
   console.log('App Insights Enabled.')
   initialiseAppInsights()
 }

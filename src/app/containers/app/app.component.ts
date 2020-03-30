@@ -46,7 +46,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.environmentService.config$.map( environmentConfig => {
+    this.environmentService.config$.subscribe( environmentConfig => {
       this.googleAnalyticsService.init(environmentConfig.googleAnalyticsKey);
     });
   }

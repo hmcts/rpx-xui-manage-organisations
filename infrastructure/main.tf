@@ -40,6 +40,7 @@ module "app" {
         S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
         GOOGLE_ANALYTICS_KEY = "${data.azurerm_key_vault_secret.google-analytics-key.value}"
+        LAUNCH_DARKLY_CLIENT_ID = "${data.azurerm_key_vault_secret.launch-darkly-client-id.value}"
 
         # API CONFIG
         SESSION_SECRET = "${var.session_secret}"

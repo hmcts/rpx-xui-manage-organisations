@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {select, Store} from '@ngrx/store';
+import { AbstractControlOptions, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {Action, select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
+import { User } from '@hmcts/rpx-xui-common-lib';
 import {Observable, Subscription} from 'rxjs';
 import {AppConstants} from '../../../app/app.constants';
 import * as fromAppStore from '../../../app/store';
@@ -34,43 +35,67 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   public jurisdictions: any[];
   public juridictionSubscription: Subscription;
   public isReinvite: boolean = false;
+  public pendingUserSubscription: Subscription;
 
   public ngOnInit(): void {
-    this.store.dispatch(new fromStore.Reset());
+    this.dispathAction(new fromStore.Reset(), this.store);
     this.isReinvite = false;
     this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
-    this.inviteUserForm = new FormGroup({
-      firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.email, Validators.required]),
-      roles: new FormGroup({
-        'pui-case-manager': new FormControl(''),
-        'pui-user-manager': new FormControl(''),
-        'pui-organisation-manager': new FormControl(''),
-        'pui-finance-manager': new FormControl('')
-      }, checkboxesBeCheckedValidator())
-    });
-    this.backLink = '/users';
-    this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
-      if (pendingUser) {
-        this.backLink = `/users/user/${pendingUser.userIdentifier}`;
-        this.isReinvite = true;
-        this.inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
-        this.inviteUserForm.controls.lastName.setValue(pendingUser.lastName);
-        this.inviteUserForm.controls.email.setValue(pendingUser.email);
-
-        this.inviteUserForm.controls.firstName.disable();
-        this.inviteUserForm.controls.lastName.disable();
-        this.inviteUserForm.controls.email.disable();
-      }
+    this.inviteUserForm = this.initialiseUserForm();
+    this.backLink = this.getBackLink(null);
+    this.pendingUserSubscription = this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
+      this.populateFormControl(pendingUser, this.backLink, this.inviteUserForm);
     });
 
     this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
                                    .subscribe(value => this.jurisdictions = value,
                                    (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
-    this.store.dispatch(new fromAppStore.LoadJurisdictions());
+    this.dispathAction(new fromAppStore.LoadJurisdictions(), this.store);
+  }
+
+  public dispathAction(action: Action, store: Store<any>) {
+    store.dispatch(action);
+  }
+
+  public initialiseUserForm(): FormGroup {
+    return new FormGroup({
+      firstName: this.createFormControl('', Validators.required),
+      lastName: this.createFormControl('', Validators.required),
+      email: this.createFormControl('', [Validators.email, Validators.required]),
+      roles: this.createFormGroup(checkboxesBeCheckedValidator())
+    });
+  }
+
+  public createFormControl(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions): FormControl {
+    return new FormControl(formState, validatorOrOpts);
+  }
+
+  public createFormGroup(checkBoxValidator: ValidatorFn): FormGroup {
+    return new FormGroup({
+      'pui-case-manager': this.createFormControl(''),
+      'pui-user-manager': this.createFormControl(''),
+      'pui-organisation-manager': this.createFormControl(''),
+      'pui-finance-manager': this.createFormControl('')
+    }, checkBoxValidator);
+  }
+
+  public populateFormControl(pendingUser: User, backLink: string, inviteUserForm: FormGroup) {
+    if (pendingUser) {
+      backLink = this.getBackLink(pendingUser);
+      this.isReinvite = true;
+      inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
+      inviteUserForm.controls.lastName.setValue(pendingUser.lastName);
+      inviteUserForm.controls.email.setValue(pendingUser.email);
+      inviteUserForm.controls.firstName.disable();
+      inviteUserForm.controls.lastName.disable();
+      inviteUserForm.controls.email.disable();
+    }
+  }
+
+  public getBackLink(pendingUser?: User): string {
+    return pendingUser ? `/users/user/${pendingUser.userIdentifier}` : '/users';
   }
 
   // convenience getter for easy access to form fields
@@ -118,13 +143,16 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       isSubmitted: true
     };
     this.store.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
-
-
   }
 
   public ngOnDestroy(): void {
-    if (this.juridictionSubscription) {
-      this.juridictionSubscription.unsubscribe();
+    this.unSubscribe(this.juridictionSubscription);
+    this.unSubscribe(this.pendingUserSubscription);
+  }
+
+  public unSubscribe(subscription: Subscription) {
+    if (subscription) {
+      subscription.unsubscribe();
     }
   }
 }

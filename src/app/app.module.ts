@@ -12,7 +12,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
-import { EnvironmentConfig, ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
@@ -36,8 +36,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
   : [];
 
-export function launchDarklyKeyFactory(envConfig: EnvironmentConfig): string {
-  return envConfig.launchDarklyKey || '';
+export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): string {
+  return envConfig.launchDarklyClientId || '';
 }
 
 @NgModule({
@@ -68,7 +68,7 @@ export function launchDarklyKeyFactory(envConfig: EnvironmentConfig): string {
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
-    { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyKeyFactory, deps: [ENVIRONMENT_CONFIG] }
+    { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyClientIdFactory, deps: [ENVIRONMENT_CONFIG] }
     ],
   bootstrap: [AppComponent]
 })

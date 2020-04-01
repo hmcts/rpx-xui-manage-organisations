@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ExuiCommonLibModule, LAUNCHDARKLYKEY } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
@@ -11,6 +12,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
+import { EnvironmentConfig, ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
@@ -29,13 +31,14 @@ import * as fromContainers from './containers/';
 import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
-import {TermsConditionGuard} from './guards/termsCondition.guard';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
   : [];
 
+export function launchDarklyKeyFactory(envConfig: EnvironmentConfig): string {
+  return envConfig.launchDarklyKey || '';
+}
 
 @NgModule({
   declarations: [
@@ -59,12 +62,13 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule.forRoot({launchDarklyKey: ''})
+    ExuiCommonLibModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
-    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService
+    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
+    { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyKeyFactory, deps: [ENVIRONMENT_CONFIG] }
     ],
   bootstrap: [AppComponent]
 })

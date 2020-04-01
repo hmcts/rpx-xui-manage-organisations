@@ -1,5 +1,5 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
@@ -21,7 +21,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
   constructor(private readonly store: Store<fromStore.UserState>) { }
   public inviteUserForm: FormGroup;
-
+  public backLink: string;
   public errors$: Observable<any>;
   public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
 
@@ -52,9 +52,10 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         'pui-finance-manager': new FormControl('')
       }, checkboxesBeCheckedValidator())
     });
-
+    this.backLink = '/users';
     this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
       if (pendingUser) {
+        this.backLink = `/users/user/${pendingUser.userIdentifier}`;
         this.isReinvite = true;
         this.inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
         this.inviteUserForm.controls.lastName.setValue(pendingUser.lastName);

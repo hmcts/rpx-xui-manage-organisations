@@ -111,6 +111,11 @@ data "azurerm_key_vault_secret" "google-analytics-key" {
   vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
+data "azurerm_key_vault_secret" "launch-darkly-client-id" {
+  name = "launch-darkly-client-id"
+  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+}
+
 
 provider "azurerm" {
     version = "1.22.1"

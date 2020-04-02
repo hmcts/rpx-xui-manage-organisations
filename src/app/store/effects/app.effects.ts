@@ -42,10 +42,8 @@ export class AppEffects {
   public logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      this.autGuard.generateLoginUrl().subscribe( url => {
-        const redirectUrlEncoded = encodeURIComponent(url);
-        window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
-      });
+      const redirectUrlEncoded = encodeURIComponent(this.autGuard.generateLoginUrl());
+      window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
     })
   );
 

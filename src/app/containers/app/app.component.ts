@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-
+import { Component, Inject, OnInit } from '@angular/core';
 import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {EnvironmentService} from '../../../shared/services/environment.service';
-import {AppTitlesModel} from '../../models/app-titles.model';
-import {UserNavModel} from '../../models/user-nav.model';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
+import { AppTitlesModel } from '../../models/app-titles.model';
+import { UserNavModel } from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
 
 /**
@@ -27,7 +26,7 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
-    private readonly environmentService: EnvironmentService
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) {}
 
   public ngOnInit() {
@@ -45,10 +44,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-
-    this.environmentService.config$.subscribe( environmentConfig => {
-      this.googleAnalyticsService.init(environmentConfig.googleAnalyticsKey);
-    });
+    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
   }
 
   public onNavigate(event): void {

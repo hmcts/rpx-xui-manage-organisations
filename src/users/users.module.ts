@@ -19,6 +19,7 @@ import * as fromComponents from './components';
 
 import * as fromServices from './services';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
     SharedModule,
     StoreModule.forFeature('users', reducers),
     EffectsModule.forFeature(effects),
-    FormsModule
+    FormsModule,
+    ExuiCommonLibModule.forChild()
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers,  ...fromComponents.components],

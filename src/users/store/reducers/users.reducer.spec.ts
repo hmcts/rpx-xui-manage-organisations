@@ -1,5 +1,5 @@
-import * as fromUsers from './users.reducer';
 import * as fromUserActions from '../actions/user.actions';
+import * as fromUsers from './users.reducer';
 
 const mockUserList = [
     {

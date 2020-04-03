@@ -1,3 +1,13 @@
+redis:
+  enabled: false
+  cluster:
+    enabled: false
+    slaveCount: 0
+  password: fake-password
+  master:
+    persistence:
+      enabled: false
+
 nodejs:
   aadIdentityName: xui
   applicationPort: 3000
@@ -11,8 +21,8 @@ nodejs:
     PUI_ENV: prod
     SESSION_SECRET: secretSauce
     NODE_TLS_REJECT_UNAUTHORIZED: 1
-    PROXY_HOST: 172.16.0.7
-    PROXY_PORT: 0
+    MO_HTTP_PROXY: http://172.16.0.7:8080
+    MO_NO_PROXY: localhost
     PORT: 3000
     NOW: false
     IDAM_CLIENT: xuimowebapp
@@ -35,6 +45,11 @@ nodejs:
     FEATURE_PROXY_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_HELMET_ENABLED: true
+    FEATURE_REDIS_ENABLED: true
+
+    # Redis
+    REDIS_KEY_PREFIX: 'activity:'
+    REDIS_TTL: 6000
 
     # IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     # S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
@@ -45,13 +60,18 @@ nodejs:
     S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
+    MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    
   keyVaults:
     rpx:
       resourceGroup: rpx
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - AppInsightsInstrumentationKey
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - mo-webapp-redis-connection-string
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

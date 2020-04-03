@@ -21,7 +21,7 @@
                 <ng-container *ngIf="col.type === 'money'">-{{ r[col.key] | currency:'GBP' }}</ng-container>
                 <ng-container *ngIf="col.type === 'date'">{{formatDate(r[col.key])}}</ng-container>
                 <ng-container *ngIf="col.type === 'dateAtTime'">{{formatDateAtTime(r[col.key])}}</ng-container>
-                <ng-container *ngIf="!col.type || col.type === 'text'">{{r[col.key]}}</ng-container>
+                <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
             </td>
         </ng-container>
     </tr>

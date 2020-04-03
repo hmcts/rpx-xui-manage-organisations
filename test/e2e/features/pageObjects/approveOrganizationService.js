@@ -105,7 +105,8 @@ class ApproveOrganisationService{
 
         await viewLink.click();
 
-        await this.waitForElement(this.organisationDetailsHeader);
+        await this.waitForElement(this.organisationDetailsHeader)
+        await this.waitForElement(this.approveOrganisationBtn);
         await this.approveOrganisationBtn.click();
 
         // await this.activateOrganisationBtn.click();

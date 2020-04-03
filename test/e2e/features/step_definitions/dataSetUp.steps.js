@@ -32,10 +32,16 @@ defineSupportCode(function ({ Given, When, Then }) {
             return;
         }
         await approveOrganizationService.init();
-        await approveOrganizationService.approveOrg(global.TestOrg_rw_name);
-        global.testorgStatus = "2";
-        await approveOrganizationService.destroy();
-
+        try{
+            await approveOrganizationService.approveOrg(global.TestOrg_rw_name);
+            global.testorgStatus = "2";
+            await approveOrganizationService.destroy();
+        }
+        catch(err){
+            this.attach("Error occured Approving organisation");
+            await approveOrganizationService.destroy();
+            throw err;
+        }
     });
 
     When("I activate test read write approved organisation super user", { timeout: 300 * 1000 }, async function () {

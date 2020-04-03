@@ -4,7 +4,9 @@ import {Action, select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 
 import { User } from '@hmcts/rpx-xui-common-lib';
+import { Actions, ofType } from '@ngrx/effects';
 import {Observable, Subscription} from 'rxjs';
+import { GlobalError } from 'src/app/store/reducers/app.reducer';
 import {AppConstants} from '../../../app/app.constants';
 import * as fromAppStore from '../../../app/store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
@@ -20,7 +22,8 @@ import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxe
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
 
-  constructor(private readonly store: Store<fromStore.UserState>) { }
+  constructor(private readonly store: Store<fromStore.UserState>,
+              private readonly actions$: Actions) { }
   public inviteUserForm: FormGroup;
   public backLink: string;
   public errors$: Observable<any>;
@@ -53,6 +56,38 @@ export class InviteUserComponent implements OnInit, OnDestroy {
                                    .subscribe(value => this.jurisdictions = value,
                                    (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
     this.dispathAction(new fromAppStore.LoadJurisdictions(), this.store);
+
+    this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400)).subscribe(() => {
+      this.handle400Error(this.store);
+    });
+  }
+
+  public handle400Error(store: Store<any>) {
+    const globalError = this.getGlobalError(400);
+    store.dispatch(new fromAppStore.AddGlobalError(globalError));
+    store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+  }
+
+  public getGlobalError(error: number): GlobalError {
+    switch (error) {
+      case 400:
+        return this.get400Error();
+      default:
+        return null;
+    }
+  }
+
+  public get400Error() {
+    const errorMessage = {
+      bodyText: 'to check the status of the user',
+      urlText: 'Refresh and go back',
+      url: '/users'
+    };
+    const globalError = {
+      header: 'Sorry, there is a problem',
+      errors: [errorMessage]
+    };
+    return globalError;
   }
 
   public dispathAction(action: Action, store: Store<any>) {

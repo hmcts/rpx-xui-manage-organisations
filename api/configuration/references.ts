@@ -50,6 +50,9 @@ export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
 export const FEATURE_REDIS_ENABLED = 'redisEnabled'
 
+export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink'
+export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'
+
 // REDIS CONFIG
 export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-redis-connection-string'
 export const REDIS_TTL = 'redis.ttl'

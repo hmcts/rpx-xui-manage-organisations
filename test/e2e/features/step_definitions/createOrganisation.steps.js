@@ -4,6 +4,8 @@ let CreateOrganisationObjects = require('../pageObjects/createOrganisationObject
 const { defineSupportCode } = require('cucumber');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const {config} = require('../../config/common.conf.js');
+const approveOrganizationService = require('../pageObjects/approveOrganizationService');
+
 const EC = protractor.ExpectedConditions;
 
 async function waitForElement(el) {
@@ -15,7 +17,7 @@ async function waitForElement(el) {
 defineSupportCode(function ({ Given, When, Then }) {
   let createOrganisationObject = new CreateOrganisationObjects();
 
-  When(/^I navigate to EUI Manage Organisation Url$/, { timeout: 600 * 1000 }, async function () {
+  When(/^I navigate to EUI Manage Organisation Url$/, async function () {
     await browser.get(config.config.baseUrl + '/register-org/register');
     browser.sleep(MID_DELAY);
   });
@@ -32,6 +34,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
         // await waitForElement('govuk-heading-xl');
         browser.sleep(LONG_DELAY);
+        await waitForElement('govuk-heading-xl', LONG_DELAY);
         await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
         await expect(createOrganisationObject.start_button.getText())
             .to

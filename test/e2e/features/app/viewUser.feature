@@ -1,4 +1,4 @@
- @fullFunctional
+ @fullFunctional @test
 Feature: view user workflow
 
 
@@ -8,4 +8,5 @@ Feature: view user workflow
     Then I should be redirected to manage organisation dashboard page
     When I click on user button
     Then I should be on display the user details
+    Then I should see no empty cells in table
     # Then I should see all user details displayed in table

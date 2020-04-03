@@ -9,12 +9,13 @@ class BrowserWaits {
         this.pageErrors = $$(".error-summary");
     }
 
-    async waitForElement(waitelement) {
-        await browser.wait(EC.visibilityOf(waitelement), this.waitTime, "Error : " + waitelement.locator().toString());
+    async waitForElement(waitelement, customWait) {
+        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString());
     }
 
     async waitForElementNotVisible(element,customWait) {
         await browser.wait(EC.not(EC.presenceOf(element), customWait ? customWait : this.waitTime, "Error : " + element.locator().toString()));
+       
     }
 
     async waitForPresenceOfElement(element) {
@@ -26,7 +27,18 @@ class BrowserWaits {
     }
 
     async waitForCondition(condition) {
-        await browser.wait(condition(), this.waitTime);
+        const startTime = new Date();
+        let conditionResult = await condition();
+
+        let counter = 0;
+        while (!conditionResult && counter < 10){
+            browser.sleep(5000);
+            counter++;
+            conditionResult = await condition();
+        }
+        const endtime = new Date();
+
+        console.log("Wait for condition : " + (endtime - startTime));
     }
 
     async waitForSelector(selector) {

@@ -42,9 +42,10 @@ export class AppEffects {
   public logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      const redirectUrl = this.autGuard.generateLoginUrl();
-      const redirectUrlEncoded = encodeURIComponent(redirectUrl);
-      window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
+      this.autGuard.generateLoginUrl().subscribe( url => {
+        const redirectUrlEncoded = encodeURIComponent(url);
+        window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
+      });
     })
   );
 

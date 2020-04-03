@@ -1,5 +1,6 @@
-import { UserDetailsComponent } from './user-details.component';
 import { Observable, of } from 'rxjs';
+import { UserDetailsComponent } from './user-details.component';
+import { User } from '@hmcts/rpx-xui-common-lib';
 
 describe('User Details Component', () => {
 
@@ -137,8 +138,9 @@ describe('User Details Component', () => {
 
     describe('suspendUser', () => {
         it('should dispatch an action', () => {
-            component.suspendUser();
-            expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
+          const mockUser: User = {};
+          component.suspendUser(mockUser);
+          expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
         });
     });
 

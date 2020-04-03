@@ -15,7 +15,7 @@ const localConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
         unexpectedAlertBehaviour: 'accept',
-        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications'] },
+        chromeOptions: { args: ['--headless1', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications'] },
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -32,8 +32,13 @@ const config = {
         password: process.env.TEST_PASSWORD || 'Monday01'
 
     },
+<<<<<<< HEAD
     twoFactorAuthEnabled: false,
     termsAndConditionsEnabled: false 
+=======
+    twoFactorAuthEnabled: false
+
+>>>>>>> develop
 };
 
 const cucumberOpts = [

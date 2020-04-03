@@ -3,11 +3,10 @@ import { select, Store } from '@ngrx/store';
 
 import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
-import { environment as config } from '../../../environments/environment';
+import {EnvironmentService} from '../../../shared/services/environment.service';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
-import * as fromActions from '../../store';
 
 /**
  * Root Component that bootstrap all application.
@@ -19,9 +18,6 @@ import * as fromActions from '../../store';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-
-  public identityBar$: Observable<string[]>;
-
   public pageTitle$: Observable<string>;
   public navItems$: Observable<any> ;
   public appHeaderTitle$: Observable<AppTitlesModel>;
@@ -30,7 +26,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromRoot.State>,
-    private readonly googleAnalyticsService: GoogleAnalyticsService
+    private readonly googleAnalyticsService: GoogleAnalyticsService,
+    private readonly environmentService: EnvironmentService
   ) {}
 
   public ngOnInit() {
@@ -49,12 +46,14 @@ export class AppComponent implements OnInit {
       }
     });
 
-    this.googleAnalyticsService.init(config.googleAnalyticsKey);
+    this.environmentService.config$.subscribe( environmentConfig => {
+      this.googleAnalyticsService.init(environmentConfig.googleAnalyticsKey);
+    });
   }
 
   public onNavigate(event): void {
     if (event === 'sign-out') {
-      return this.store.dispatch(new fromActions.Logout());
+      return this.store.dispatch(new fromRoot.Logout());
     }
   }
 }

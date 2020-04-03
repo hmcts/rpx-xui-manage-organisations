@@ -1,6 +1,5 @@
 import * as propertiesVolume from '@hmcts/properties-volume'
 import * as config from 'config'
-import { propsExist } from '../lib/objectUtilities'
 import {DEVELOPMENT, HTTP} from './constants'
 import {ENVIRONMENT, PROTOCOL} from './references'
 
@@ -18,6 +17,11 @@ export const initialiseSecrets = () => {
   propertiesVolume.addTo(config)
   // propertiesVolume.addTo(config, { mountPoint: '/Volumes/mnt/secrets/'})
 }
+
+/**
+ * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
+ */
+initialiseSecrets()
 
 /**
  * Get Environment
@@ -41,6 +45,8 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV
  * @param reference - ie. 'services.ccdDefApi'
  */
 export const getConfigValue = reference => config.get(reference)
+
+export const hasConfigValue = reference => config.has(reference)
 
 /**
  * Show Feature

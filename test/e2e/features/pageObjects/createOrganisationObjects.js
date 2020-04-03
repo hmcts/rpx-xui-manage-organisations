@@ -42,6 +42,12 @@ class CreateOrganisationObjects {
     this.checkYourAnswers = element(by.css(".govuk-check-your-answers"));
 
     this.registrationDetailsSubmitted = element(by.xpath("//h1[contains(text() ,'Registration details submitted')]"));
+
+    this.backLink = element(by.css('.govuk-back-link'));
+    this.alreadyRegisteredAccountHeader = element(by.css('h3.govuk-heading-m'));
+    this.manageCasesAppLink = element(by.xpath('//a[contains(text(),"manage your cases")]'));
+    this.manageOrgAppLink = element(by.xpath('//a[contains(text(),"manage your organisation")]'));
+    this.mcWindowHandle = "";
   }
   async clickDXreferenceCheck(){
     BrowserWaits.waitForElement(this.DXContinuee); 
@@ -152,10 +158,11 @@ class CreateOrganisationObjects {
   }
 
   async waitForSubmission(){
-    BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
+    await BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
  
   }
 
+<<<<<<< HEAD
 async enterAddressDetails(){
   await this.officeAddressOne.isDisplayed()
   await this.officeAddressOne.sendKeys("1, Cliffinton");
@@ -215,5 +222,64 @@ async enterUserFirtandLastName(){
 
     ;
   }
+=======
+  async clickBackLink(){
+    await BrowserWaits.waitForElement(this.backLink);
+    await this.backLink.click();
+  }
+
+  async waitForStartRegisterPage(){
+    await BrowserWaits.waitForElement(this.start_button);
+
+  }
+
+  async getAlreadyRegisteredAccountHeaderText(){
+    await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
+    return await this.alreadyRegisteredAccountHeader.getText();
+  }
+
+  async isManageCasesLinkPresent() {
+    await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
+    return await this.manageCasesAppLink.isPresent();
+  }
+
+  async isManageOrgLinkPresent() {
+    await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
+    return await this.manageOrgAppLink.isPresent();
+  }
+
+  async clickAndValidateMCLink(){
+    await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
+    this.mainWindowHandle = await browser.driver.getWindowHandle();
+
+    await this.manageCasesAppLink.click();
+    let windowHandles = await browser.driver.getAllWindowHandles();
+    expect(windowHandles.length > 1).to.be.true;
+    await browser.switchTo().window(windowHandles[1]);
+
+    await browser.driver.close();
+    await browser.switchTo().window(this.mainWindowHandle);
+    let url = await browser.getCurrentUrl();
+    expect(url.includes("xui-webapp-"));
+
+  }
+
+  async clickAndValidateMOLink() {
+    await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
+    this.mainWindowHandle = await browser.driver.getWindowHandle();
+
+    await this.manageOrgAppLink.click();
+    let windowHandles = await browser.driver.getAllWindowHandles();
+    expect(windowHandles.length > 1).to.be.true;
+    await browser.switchTo().window(windowHandles[1]);
+
+    await browser.driver.close();
+    await browser.switchTo().window(this.mainWindowHandle);
+    let url = await browser.getCurrentUrl();
+    expect(url.includes("xui-webapp-"));
+
+  }
+  
+>>>>>>> develop
 }
 module.exports = CreateOrganisationObjects;

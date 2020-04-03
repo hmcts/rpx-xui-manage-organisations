@@ -11,11 +11,7 @@
         </div>
      </div>
      <div class="table-right_margin">
-        <app-govuk-table *ngIf="!(isLoading$ | async) else isLoading"
-          [columnConfig]="columnConfig"
-          [rows]="tableUsersData$ | async" [firstCellIsHeader]="false"
-          [caption]="''">
-        </app-govuk-table>
+      <xuilib-user-list *ngIf="!(isLoading$ | async) else isLoading" [users]="tableUsersData$ | async"></xuilib-user-list>
      </div>
      <ng-template #isLoading>
       <div>Loading...</div>

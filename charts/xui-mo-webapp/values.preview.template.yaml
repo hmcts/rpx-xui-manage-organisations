@@ -14,8 +14,14 @@ nodejs:
     #SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
     #S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
+    MANAGE_CASE_LINK: https://xui-webapp-aat.service.core-compute-aat.internal/cases
+    MANAGE_ORG_LINK: https://xui-mo-webapp-aat.service.core-compute-aat.internal/
+    
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     PUI_ENV: preview
     NODE_CONFIG_ENV: prod
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: true
+    REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
+redis:
+  enabled: true

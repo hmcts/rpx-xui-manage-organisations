@@ -39,10 +39,6 @@ const config = {
         strict: true,
         format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
         tags: ['@all'],
-<<<<<<< HEAD
-        // tags: ['@all or @smoke or @fullFunctional or @end2end'],
-=======
->>>>>>> develop
         require: cucumberOpts
     },
 

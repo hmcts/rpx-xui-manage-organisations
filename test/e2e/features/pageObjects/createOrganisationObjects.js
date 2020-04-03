@@ -162,7 +162,6 @@ class CreateOrganisationObjects {
  
   }
 
-<<<<<<< HEAD
 async enterAddressDetails(){
   await this.officeAddressOne.isDisplayed()
   await this.officeAddressOne.sendKeys("1, Cliffinton");
@@ -222,7 +221,6 @@ async enterUserFirtandLastName(){
 
     ;
   }
-=======
   async clickBackLink(){
     await BrowserWaits.waitForElement(this.backLink);
     await this.backLink.click();
@@ -280,6 +278,5 @@ async enterUserFirtandLastName(){
 
   }
   
->>>>>>> develop
 }
 module.exports = CreateOrganisationObjects;

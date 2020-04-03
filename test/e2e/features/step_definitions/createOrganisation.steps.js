@@ -22,9 +22,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
   });
 
-<<<<<<< HEAD
-  Then(/^I land on register organisation page and continue$/ , async function () {
-=======
   Then('I am on Register organisation start page', async function () {
    await createOrganisationObject.waitForStartRegisterPage(); 
     await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
@@ -36,7 +33,6 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
         // await waitForElement('govuk-heading-xl');
->>>>>>> develop
         browser.sleep(LONG_DELAY);
         await waitForElement('govuk-heading-xl', LONG_DELAY);
         await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;

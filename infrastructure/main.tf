@@ -87,8 +87,8 @@ module "app" {
         AO_HTTP_PROXY = "${var.mo_http_proxy}"
         AO_NO_PROXY = "${var.mo_no_proxy}"
       
-        MANAGE_CASE_LINK= "${var.manage_case_link}"
-        MANAGE_ORG_LINK= "${var.manage_org_link}"
+        MANAGE_CASE_LINK = "${var.manage_case_link}"
+        MANAGE_ORG_LINK = "${var.manage_org_link}"
     }
 }
 

@@ -1,6 +1,8 @@
 import * as express from 'express'
 import {getConfigValue} from '../configuration'
 import {
+  LINKS_MANAGE_CASES_LINK, 
+  LINKS_MANAGE_ORG_LINK,
   PROTOCOL,
   GOOGLE_ANALYTICS_KEY,
   SERVICES_IDAM_WEB,
@@ -16,6 +18,8 @@ router.get('/', configurationUIRoute)
 async function configurationUIRoute(req, res) {
   res.status(200).send({
     idamWeb: getConfigValue(SERVICES_IDAM_WEB),
+    manageCaseLink: getConfigValue(LINKS_MANAGE_CASES_LINK),
+    manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),
     protocol: getConfigValue(PROTOCOL),
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY)
   })

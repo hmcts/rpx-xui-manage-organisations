@@ -86,5 +86,9 @@
   "redis": {
     "prefix": "activity:",
     "ttl": 86400
+  },
+  "links": {
+    "manageCaseLink": "https://manage-case.platform.hmcts.net/cases",
+    "manageOrgLink": "https://manage-org.platform.hmcts.net"
   }
 }

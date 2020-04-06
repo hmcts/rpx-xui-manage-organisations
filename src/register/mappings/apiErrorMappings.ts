@@ -13,8 +13,8 @@ export const errorMessageMappings = {
   };
 
 export const apiErrors = {
-    1: 'email_address',
-    2: 'Validation failed',
+    1: '6 : EMAIL Invalid or already exists',
+    2: '5 : validation on an argument failed',
     3: 'sra_id_uq1',
     4: 'pbaNumber',
     5: 'pba_number',

@@ -1,5 +1,5 @@
 
-Feature: register organization
+Feature: Register Organization
 
   Background:
     # When I navigate to manage organisation Url
@@ -99,3 +99,24 @@ Feature: register organization
     When I am on page "What's your name?" in registration step
     When I am not entered the firstName and lastName
     Then I should be display firstName and lastName error
+
+  @fullFunctional @all
+  Scenario: Register Organisation first page Content/info for already registered org user
+    When I am on page "What's the name of your organisation?" in registration step
+    When I click back link in register org workflow 
+    Then I am on Register organisation start page
+    Then I see content header already registered account
+    Then I see manage cases link under already registered account header
+    Then I see manage org link under already registered account header
+
+  @fullFunctional @all
+  Scenario: Register Organisation first page links to MC and MO
+    When I am on page "What's the name of your organisation?" in registration step
+    When I click back link in register org workflow
+    Then I am on Register organisation start page
+    Then I see content header already registered account
+    Then I see manage cases link under already registered account header
+    Then I see manage org link under already registered account header
+    Then I click and validate MC link opens in new tab
+    Then I click and validate MO link opens in new tab
+

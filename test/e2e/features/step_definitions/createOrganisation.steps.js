@@ -4,6 +4,8 @@ let CreateOrganisationObjects = require('../pageObjects/createOrganisationObject
 const { defineSupportCode } = require('cucumber');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const {config} = require('../../config/common.conf.js');
+const approveOrganizationService = require('../pageObjects/approveOrganizationService');
+
 const EC = protractor.ExpectedConditions;
 
 async function waitForElement(el) {
@@ -15,14 +17,24 @@ async function waitForElement(el) {
 defineSupportCode(function ({ Given, When, Then }) {
   let createOrganisationObject = new CreateOrganisationObjects();
 
-  When(/^I navigate to EUI Manage Organisation Url$/, { timeout: 600 * 1000 }, async function () {
+  When(/^I navigate to EUI Manage Organisation Url$/, async function () {
     await browser.get(config.config.baseUrl + '/register-org/register');
     browser.sleep(MID_DELAY);
+  });
+
+  Then('I am on Register organisation start page', async function () {
+   await createOrganisationObject.waitForStartRegisterPage(); 
+    await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.start_button.getText())
+      .to
+      .eventually
+      .equal('Start');
   });
 
   Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
         // await waitForElement('govuk-heading-xl');
         browser.sleep(LONG_DELAY);
+        await waitForElement('govuk-heading-xl', LONG_DELAY);
         await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
         await expect(createOrganisationObject.start_button.getText())
             .to
@@ -237,5 +249,36 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When('I am on page {string} in registration step', async function (page) {
     await createOrganisationObject.waitForPage(page);
+  });
+
+  Then('I see content header already registered account',  function () {
+    expect(createOrganisationObject.getAlreadyRegisteredAccountHeaderText()).to
+    .eventually.
+    equal('Already registered for a MyHMCTS account?');
+  });
+
+  Then('I see manage cases link under already registered account header',  function () {
+    expect(createOrganisationObject.isManageCasesLinkPresent()).to
+      .eventually.
+      be.true;
+  });
+
+  Then('I see manage org link under already registered account header',  function () {
+    expect(createOrganisationObject.isManageOrgLinkPresent()).to
+      .eventually.
+      be.true;
+  });
+
+  Then('I click and validate MC link opens in new tab', async function () {
+    await createOrganisationObject.clickAndValidateMCLink();
+  });
+
+  Then('I click and validate MO link opens in new tab', async function () {
+    await createOrganisationObject.clickAndValidateMOLink();
+  })
+
+  When('I click back link in register org workflow', async function () {
+    await createOrganisationObject.clickBackLink();
+
   });
 });

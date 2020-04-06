@@ -91,7 +91,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: ['The user has already been invited in the last 1 hour',
-          'The recepient will receive an email from HM courts and tribunals Registration so that they can finish setting up thier account']
+          'The recipient will receive an email from HM courts and tribunals Registration so they can finish setting up thier account']
         }
       };
       return {

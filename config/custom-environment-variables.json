@@ -27,6 +27,10 @@
         "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
     },
+    "links": {
+      "manageCaseLink": "MANAGE_CASE_LINK",
+      "manageOrgLink": "MANAGE_ORG_LINK"
+    },
     "sessionSecret": "SESSION_SECRET",
     "secrets": {
       "rpx": {

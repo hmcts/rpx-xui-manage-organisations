@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit, AfterViewInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../../store/';
-import * as fromRoot from '../../../app/store/';
-import * as fromAppStore from '../../../app/store';
-import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
 import {Observable, Subscription} from 'rxjs';
-import {FormDataValuesModel} from '../../models/form-data-values.model';
+import {filter, tap} from 'rxjs/operators';
 import { AppConstants } from 'src/app/app.constants';
-import {tap, filter} from 'rxjs/operators';
+import { EnvironmentService } from 'src/shared/services/environment.service';
+import * as fromAppStore from '../../../app/store';
+import * as fromRoot from '../../../app/store/';
+import {FormDataValuesModel} from '../../models/form-data-values.model';
+import * as fromStore from '../../store/';
 
 /**
  * Bootstraps the Register Components
@@ -20,24 +21,27 @@ import {tap, filter} from 'rxjs/operators';
 export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<fromStore.RegistrationState>) {}
+    private readonly router: Router,
+    private readonly store: Store<fromStore.RegistrationState>,
+    private readonly enviromentService: EnvironmentService) {}
 
-  pageItems: any; // todo add the type
-  pageValues: FormDataValuesModel;
-  $routeSubscription: Subscription;
-  $pageItemsSubscription: Subscription;
-  $nextUrlSubscription: Subscription;
-  data$: Observable<FormDataValuesModel>;
-  isFromSubmitted$: Observable<boolean>;
-  isFormDataLoaded$: Observable<boolean>;
+  public pageItems: any; // todo add the type
+  public pageValues: FormDataValuesModel;
+  public $routeSubscription: Subscription;
+  public $pageItemsSubscription: Subscription;
+  public $nextUrlSubscription: Subscription;
+  public data$: Observable<FormDataValuesModel>;
+  public isFromSubmitted$: Observable<boolean>;
+  public isFormDataLoaded$: Observable<boolean>;
 
-  nextUrl: string;
-  pageId: string;
-  isPageValid = false;
-  errorMessage: any;
-  jurisdictions: any[];
+  public nextUrl: string;
+  public pageId: string;
+  public isPageValid = false;
+  public errorMessage: any;
+  public jurisdictions: any[];
+
+  public manageCaseLink: string;
+  public manageOrgLink: string;
 
   /**
    * ngOnInit
@@ -45,7 +49,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
    * <code>this.$nextUrlSubscription</code>
    * We listen to nextUrl on the Store. When nextUrl on the store changes we dispatch an action to navigate the User to the next Url (page).
    */
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscribeToRoute();
     this.subscribeToPageItems();
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
@@ -66,14 +70,17 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
     this.jurisdictions = AppConstants.JURISDICTIONS;
+
+    this.manageCaseLink = this.enviromentService.get('manageCaseLink');
+    this.manageOrgLink = this.enviromentService.get('manageOrgLink');
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit() {
     this.resetFocus();
   }
 
   // Set to focus to the title when the page/next route url started for accessibility
-  resetFocus(): void {
+  public resetFocus(): void {
     const focusElement = document.getElementsByTagName('h1')[0];
     if (focusElement) {
       focusElement.setAttribute('tabindex', '-1');
@@ -81,7 +88,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  subscribeToRoute(): void {
+  public subscribeToRoute(): void {
     this.$routeSubscription = this.store.pipe(select(fromStore.getCurrentPage)).subscribe((routeParams) => {
       if (routeParams.pageId && routeParams.pageId !== this.pageId) { // TODO see why double call.
         this.pageId = routeParams.pageId;
@@ -94,7 +101,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  subscribeToPageItems(): void {
+  public subscribeToPageItems(): void {
     this.$pageItemsSubscription = this.store.pipe(select(fromStore.getCurrentPageItems))
       .subscribe(formData => {
         if (this.pageId && formData.pageItems && formData.pageValues) {
@@ -111,11 +118,11 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
    *
    * Inform the Form Builder component to turn on or off the in-line form validation.
    */
-  showFormValidation(isValid: boolean) {
+  public showFormValidation(isValid: boolean) {
     this.isPageValid = isValid;
   }
 
-  onPageContinue(formDraft): void {
+  public onPageContinue(formDraft): void {
     if (formDraft.invalid ) {
       this.showFormValidation(true);
     } else {
@@ -126,14 +133,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.$pageItemsSubscription.unsubscribe();
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
     this.store.dispatch(new fromStore.ResetErrorMessage({}));
   }
 
-  onSubmitData(): void {
+  public onSubmitData(): void {
     const pageValues = {
       ...this.pageValues,
       jurisdictions: this.jurisdictions
@@ -141,7 +148,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }
 
-  onGoBack(event) {
+  public onGoBack(event) {
     this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }

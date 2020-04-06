@@ -6,8 +6,7 @@ var BrowserWaits = require('../../support/customWaits')
 class HeaderPage {
 
   constructor() {
-    this.moPage = element(by.xpath("//a[contains(text(),'Manage Organisation details for civil, family, and tribunal law cases')]"));
-
+    this.moPage = element(by.xpath("//a[contains(text(),'Manage organisation details for civil, family, and tribunal law cases')]"));
     this.hmctsPrimaryNavigation = element(by.css(".hmcts-primary-navigation"));
 
     this.organisation = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Organisation']"));
@@ -23,8 +22,11 @@ class HeaderPage {
   }
 
   async waitForPrimaryNavigationToDisplay(){
-    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation);
- 
+    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation); 
+  }
+
+ async isPrimaryNavigationTabDisplayed(){
+   return await this.hmctsPrimaryNavigation.isPresent(); 
   }
 
   async isHeaderTabPresent(displayText){
@@ -43,25 +45,47 @@ class HeaderPage {
   }
 
   async clickUser(){
-    await this.waitForSpinnerNotPresent();
-    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    // await this.waitForSpinnerNotPresent();
+
+    await BrowserWaits.waitForCondition(async () => {
+      const isSpinnerPresent = await this.spinner.isPresent();
+      return !isSpinnerPresent;
+    });
     await BrowserWaits.waitForElement(this.user);
-    await BrowserWaits.waitForElementClickable(this.user);
-    await this.user.click();
-    // browser.sleep(AMAZING_DELAY);
+    await this.clickHeaderTab(this.user);
   }
+
 
   async clickOrganisation() {
-    await this.waitForSpinnerNotPresent();
-    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    await BrowserWaits.waitForCondition( async () => {
+      const isSpinnerPresent = await this.spinner.isPresent();
+      console.log("Spinner present status : " + isSpinnerPresent);
+      return !isSpinnerPresent;
+    });
     await BrowserWaits.waitForElement(this.organisation);
-    await BrowserWaits.waitForElementClickable(this.organisation);
-    await this.organisation.click();
+    await this.clickHeaderTab(this.organisation);
     // browser.sleep(AMAZING_DELAY);
   }
 
+
+  async clickHeaderTab(tabElement) {
+    let clickSuccess = false;
+    let counter = 0;
+    while (!clickSuccess && counter < 5) {
+      try {
+        await tabElement.click();
+        clickSuccess = true;
+      }
+      catch (err) {
+        counter++;
+    browser.sleep(SHORT_DELAY);
+        console.log("Error clicking element : " + err);
+      }
+    }
+
+  }
   async waitForSpinnerNotPresent(){
-    await BrowserWaits.waitForElementNotVisible(element(by.css('div.spinner-wrapper')), 60000);
+    await BrowserWaits.waitForElementNotVisible(this.spinner, 60000);
 
   }
 

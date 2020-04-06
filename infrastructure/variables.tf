@@ -153,3 +153,11 @@ variable "node_config_dir" {
   // for Windows
   default = "D:\\home\\site\\wwwroot\\config"
 }
+
+variable "manage_case_link" {
+  default = "https://manage-case.platform.hmcts.net/cases"
+}
+
+variable "manage_org_link" {
+  default = "https://manage-org.platform.hmcts.net"
+}

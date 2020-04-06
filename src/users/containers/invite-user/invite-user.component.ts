@@ -58,12 +58,18 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.dispathAction(new fromAppStore.LoadJurisdictions(), this.store);
 
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400)).subscribe(() => {
-      this.handle400Error(this.store);
+      this.handleError(this.store, 400);
+    });
+    this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_404)).subscribe(() => {
+      this.handleError(this.store, 404);
+    });
+    this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500)).subscribe(() => {
+      this.handleError(this.store, 500);
     });
   }
 
-  public handle400Error(store: Store<any>) {
-    const globalError = this.getGlobalError(400);
+  public handleError(store: Store<any>, errorNumber: number) {
+    const globalError = this.getGlobalError(errorNumber);
     store.dispatch(new fromAppStore.AddGlobalError(globalError));
     store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
   }
@@ -72,12 +78,35 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     switch (error) {
       case 400:
         return this.get400Error();
+      case 404:
+        return this.get404Error();
+      case 500:
+        return this.get500Error();
       default:
-        return null;
+        throw new Error(`Unexpected error number ${error}`);
     }
   }
 
-  public get400Error() {
+  public get500Error(): GlobalError {
+    const errorMessages = [{
+      bodyText: 'Try again later.',
+      urlText: null,
+      url: null
+    },
+    {
+      bodyText: null,
+      urlText: 'Go back to manage users',
+      url: '/users'
+    }];
+
+    const globalError = {
+      header: 'Sorry, there is a problem with the service',
+      errors: errorMessages
+    };
+    return globalError;
+  }
+
+  public get400Error(): GlobalError {
     const errorMessage = {
       bodyText: 'to check the status of the user',
       urlText: 'Refresh and go back',
@@ -86,6 +115,26 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     const globalError = {
       header: 'Sorry, there is a problem',
       errors: [errorMessage]
+    };
+    return globalError;
+  }
+
+  public get404Error(): GlobalError {
+
+    const errorMessages = [{
+      bodyText: 'to reactivate this account',
+      urlText: 'Get help',
+      url: 'get-help'
+    },
+    {
+      bodyText: null,
+      urlText: 'Go back to manage users',
+      url: '/users'
+    }];
+
+    const globalError = {
+      header: 'Sorry, there is a problem with this account',
+      errors: errorMessages
     };
     return globalError;
   }

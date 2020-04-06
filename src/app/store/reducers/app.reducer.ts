@@ -106,6 +106,13 @@ export function reducer(
       };
     }
 
+    case fromAction.APP_CLEAR_GLOBAL_ERROR: {
+      return {
+        ...state,
+        globalError: null
+      };
+    }
+
     default: {
       return {
         ...state

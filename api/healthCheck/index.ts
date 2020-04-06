@@ -2,7 +2,6 @@ import * as express from 'express'
 import { showFeature } from '../configuration'
 import { healthEndpoints } from '../configuration/health'
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED } from '../configuration/references'
-import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { HealthCheckUtil } from './healthCheckUtil'
 
@@ -38,7 +37,7 @@ const healthCheckEndpointDictionary = {
     endpoint may be different from a regular endpoint
 */
 
-function getPromises(path): any[] {
+function getPromises(path, req: express.Request): any[] {
     const isTandCEnabled = showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)
     HealthCheckUtil.manageTAndCFeature(isTandCEnabled, healthCheckEndpointDictionary)
     const Promises = []
@@ -47,7 +46,7 @@ function getPromises(path): any[] {
             // TODO: Have health config for this.
             console.log('healthEndpoints')
             console.log(healthEndpoints()[endpoint])
-            Promises.push(http.get(healthEndpoints()[endpoint]))
+            Promises.push(req.http.get(healthEndpoints()[endpoint]))
         })
     }
     return Promises
@@ -61,7 +60,7 @@ async function healthCheckRoute(req, res) {
         let response = { healthState: true }
 
         if (path !== '') {
-            PromiseArr = getPromises(path)
+            PromiseArr = getPromises(path, req)
         }
 
         // comment out following block to bypass actual check

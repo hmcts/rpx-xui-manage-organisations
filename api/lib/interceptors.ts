@@ -3,19 +3,21 @@ import * as stringify from 'json-stringify-safe'
 import { getConfigValue } from '../configuration'
 import { MAX_LOG_LINE } from '../configuration/references'
 import * as errorStack from '../lib/errorStack'
-import { shorten, valueOrNull } from '../lib/util'
 import * as log4jui from './log4jui'
+import { shorten, valueOrNull } from './util'
+import axios from 'axios'
 
 const exceptionOptions = {
     maxLines: 1,
 }
 
 export function requestInterceptor(request) {
+    console.log('AXIOS DEFAULTS:', axios.defaults.headers)
     const logger = log4jui.getLogger('outgoing')
 
     const url = shorten(request.url, getConfigValue(MAX_LOG_LINE))
     logger.info(`${request.method.toUpperCase()} to ${url}`)
-    //add timings to requests
+    // add timings to requests
     request.metadata = { startTime: new Date() }
     return request
 }

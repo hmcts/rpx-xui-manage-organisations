@@ -22,18 +22,24 @@ class ApproveOrganisationService{
     }
 
     async init() {
+
+        if(this.BrowserStatus === "STARTED"){
+            this.destroy();
+        }
+
         console.log("AO ENV : " + this.baseUrl);
         this.aoBrowser = await browser.forkNewDriverInstance().ready;
         this.aoBrowser.ignoreSynchronization = true;
         this.aoElement = this.aoBrowser.element;
         await this.aoBrowser.waitForAngularEnabled(false);
+        this.BrowserStatus === "STARTED";
 
 
         this.checkNowLink = this.aoElement(by.xpath("//a[contains(text(),'Check now')]"));
         this.pendingOrgPageHeader = this.aoElement(by.xpath("//h1[contains(text(),'Organisations pending activation')]"));
         this.activateOrganisationBtn = this.aoElement(by.css(".govuk-button[type = 'submit']"));
 
-        this.activateApproveOrgPageHeader = this.aoElement(by.xpath("//h1[contains(text(),'Check selected organisations before you activate them')]"));
+        this.activateApproveOrgPageHeader = this.aoElement(by.xpath("//h1[contains(text(),'Check selected organisation details before')]"));
         this.approveOrganisationBtn = this.aoElement(by.css(".govuk-button"));
 
         this.approveOrgConfirmationPageHeader = this.aoElement(by.xpath("//h1[contains(text(),'Organisation approved successfully')]"));
@@ -45,12 +51,19 @@ class ApproveOrganisationService{
         this.signinTitle = this.aoElement(by.xpath("//h1[@class='heading-large']"));
         //this.signinTitle = element(by.css("h1"));
         this.signinBtn = this.aoElement(by.css("input.button"));
+""
+        this.organisationDetailsHeader = this.aoElement(by.xpath('//h1[contains(@class,"govuk-heading-xl") and contains(text(),"Organisation details")]'));
 
-        await this.aoBrowser.get(this.baseUrl)
-        await this.waitForElement(this.emailAddressElement);
+        await this.aoBrowser.get(this.baseUrl);
 
+        await this.retryForPageLoad(this.emailAddressElement, async () => {
+            await this.aoBrowser.get(this.baseUrl);
+        });
+    }
 
-
+    async destroy(){
+        this.aoBrowser.driver.quit();
+        this.BrowserStatus = "QUIT"; 
     }
 
     async waitForElement(element){
@@ -58,37 +71,45 @@ class ApproveOrganisationService{
 
     }
 
+    async retryForPageLoad(element, callback) {
+        let retryCounter = 0;
+
+        while (retryCounter < 3) {
+            try {
+                await this.waitForElement(element);
+                retryCounter += 3;
+            }
+            catch (err) {
+                retryCounter += 1;
+                if (callback) {
+                    callback(retryCounter + "");
+                }
+                console.log(element.locator().toString() + " .    Retry attempt for page load : " + retryCounter);
+
+                await browser.refresh();
+
+            }
+        }
+    }
+
     async approveOrg(orgName){
         await this.emailAddressElement.sendKeys(this.useremail);
         await this.passwordElement.sendKeys(this.password);
         await this.signinBtn.click();
-
-
-        this.waitForElement(this.checkNowLink);
-        await this.checkNowLink.click();
-
+        // this.waitForElement(this.checkNowLink);
+        // await this.checkNowLink.click();
         await this.waitForElement(this.pendingOrgPageHeader);
         await this.waitForElement(this.activateOrganisationBtn);
 
+        let viewLink = this.aoElement(by.xpath("//*[contains(@class,'govuk-table')]//td[contains(text(),'" + orgName+"')]/..//a"));
 
-        let orgRadioInput = this.aoElement(by.xpath("//*[contains(@class,'govuk-table')]//td[contains(text(),'" + orgName+"')]/..//input"));
+        await viewLink.click();
 
-        let retryCounter = 0;
-        while (!(await orgRadioInput.isPresent()) ){
-            if (retryCounter > 5){
-                break;
-            }
-            console.log("Org Name:"+orgName );
-            this.aoBrowser.sleep(20000);
-            retryCounter = retryCounter + 1;
-            this.aoBrowser.refresh();
-            await this.waitForElement(this.activateOrganisationBtn);
+        await this.waitForElement(this.organisationDetailsHeader)
+        await this.waitForElement(this.approveOrganisationBtn);
+        await this.approveOrganisationBtn.click();
 
-
-        }
-
-        await orgRadioInput.click();
-        await this.activateOrganisationBtn.click();
+        // await this.activateOrganisationBtn.click();
 
         await this.waitForElement(this.activateApproveOrgPageHeader);
         await this.approveOrganisationBtn.click();
@@ -102,10 +123,5 @@ class ApproveOrganisationService{
 }
 
 const approveOrganisationService = new ApproveOrganisationService();
-approveOrganisationService.init().then(() => {
-    console.log("*************************************************************************");
-    console.log("***************  Browser  Approve Organisation Service Started ********************");
-    console.log("*************************************************************************");
 
-});
 module.exports = approveOrganisationService; 

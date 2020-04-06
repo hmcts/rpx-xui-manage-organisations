@@ -67,10 +67,10 @@ const footerData =  {
 const footerDataNavigation = {
   items: [
     { text: 'Accessibility', href: 'accessibility', target: '_blank'},
-    { text: 'Terms and conditions', href: 'legacy-terms-and-conditions', target: '_blank'},
+    { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
     { text: 'Cookies', href: 'cookies', target: '_blank' },
     { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'},
-    { text: 'Get Help', href: 'get-help', target: '_blank' }
+    { text: 'Get help', href: 'get-help', target: '_blank' }
   ]
 };
 
@@ -103,6 +103,13 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     email: 'customer.service@justice.gov.uk',
     phone: '0300 123 1711',
     openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Family Public Law and Adoption',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'fpla@justice.gov.uk',
+    phone: '0330 808 4424',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
   }
 ];
 

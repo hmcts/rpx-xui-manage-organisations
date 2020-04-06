@@ -10,7 +10,7 @@ const logger = log4jui.getLogger('outgoing')
 
 router.put('', inviteUserRoute)
 
-async function inviteUserRoute(req, res) {
+async function inviteUserRoute(req: express.Request, res: express.Response) {
     let errReport: ErrorReport
     if (!req.params.userId) {
         errReport = getErrorReport('UserId is missing', '400', 'User Permissions route error')
@@ -19,7 +19,7 @@ async function inviteUserRoute(req, res) {
     }
     const payload = req.body
     try {
-      const response = await http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload)
+      const response = await req.http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload)
       logger.info('response::', response.data)
       res.send(response.data)
     } catch (error) {

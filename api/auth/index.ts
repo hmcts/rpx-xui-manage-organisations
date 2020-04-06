@@ -40,7 +40,8 @@ export async function attach(req: express.Request, res: express.Response, next: 
       logger.info('Attaching auth')
       // also use these as axios defaults
       logger.info('Using Idam Token in defaults')
-      axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+      // axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+      req.http = http(req)
       const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
       if (token) {
         logger.info('Using S2S Token in defaults')
@@ -56,7 +57,7 @@ export async function attach(req: express.Request, res: express.Response, next: 
   }
 }
 
-export async function getTokenFromCode(req: express.Request, res: express.Response): Promise<AxiosResponse> {
+export async function getTokenFromCode(req: express.Request): Promise<AxiosResponse> {
   logger.info(`IDAM STUFF ===>> ${getConfigValue(IDAM_CLIENT)}:${secret}`)
   const Authorization = `Basic ${Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${secret}`).toString('base64')}`
   const options = {
@@ -65,6 +66,13 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   }
+  const axiosInstance = http({
+    session: {
+      auth: {
+        token: ''
+      }
+    }
+  } as unknown as express.Request)
 
   logger.info('Getting Token from auth code.')
 
@@ -73,7 +81,7 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
       getProtocol()
     }://${req.headers.host}${getConfigValue(OAUTH_CALLBACK_URL)}`
   )
-  return http.post(
+  return axiosInstance.post(
     `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
       getProtocol()
     }://${req.headers.host}${getConfigValue(OAUTH_CALLBACK_URL)}`,
@@ -129,7 +137,7 @@ async function sessionChainCheck(req: express.Request, res: express.Response, ac
 
 export async function oauth(req: express.Request, res: express.Response, next: express.NextFunction) {
   logger.info('starting oauth callback')
-  const response = await getTokenFromCode(req, res)
+  const response = await getTokenFromCode(req)
   const accessToken = response.data.access_token
 
   if (accessToken) {
@@ -145,13 +153,11 @@ export async function oauth(req: express.Request, res: express.Response, next: e
       logger.warn('Auth token  expired need to log in again')
       doLogout(req, res, 401)
     } else {
-      let orgId
-      let details
-
       const check = await sessionChainCheck(req, res, accessToken)
       if (check) {
-        axios.defaults.headers.common.Authorization = `Bearer ${req.session.auth.token}`
-        axios.defaults.headers.common['user-roles'] = req.session.auth.roles
+        // axios.defaults.headers.common.Authorization = `Bearer ${req.session.auth.token}`
+        // axios.defaults.headers.common['user-roles'] = req.session.auth.roles
+        req.http = http(req)
 
         if (req.headers.ServiceAuthorization) {
           axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization

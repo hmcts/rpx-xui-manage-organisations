@@ -3,7 +3,6 @@ import { getConfigValue, showFeature } from '../configuration'
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 import { application } from '../lib/config/application.config'
-import { http } from '../lib/http'
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
 
 /**
@@ -30,7 +29,7 @@ async function getUserTermsAndConditions(req: express.Request, res: express.Resp
       }
       try {
         const url = getUserTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), req.params.userId, application.idamClient)
-        const response = await http.get(url)
+        const response = await req.http.get(url)
         const userTandCResponse = response.data as GetUserAcceptTandCResponse
         res.send(userTandCResponse.accepted)
       } catch (error) {

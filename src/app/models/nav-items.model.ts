@@ -3,9 +3,15 @@ export interface NavItemModel {
   href: string;
   active: boolean;
   orderId: number;
+  featureToggle?: FeatureToggleModel;
 }
 
 export interface NavItemsModel {
   users: NavItemModel;
   organisation: NavItemModel;
+}
+
+export interface FeatureToggleModel {
+  isFeatureEnabled: boolean;
+  featureName?: string;
 }

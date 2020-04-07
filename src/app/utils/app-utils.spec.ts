@@ -1,12 +1,41 @@
 
-import {AppUtils} from './app-utils';
 import {AppConstants} from '../app.constants';
+import {AppUtils} from './app-utils';
 const router = {
   state: {
     url: 'register'
   }
 };
 describe('AppUtils', () => {
+
+  it('should return only getFeatureEnabledNavItems', () => {
+    const navItems = [{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    },
+    {
+      text: 'Fee Accounts',
+      href: '/fee-accounts',
+      active: false,
+      orderId: 3,
+      featureToggle: {
+        isFeatureEnabled: true,
+        featureName: 'fee-account'
+      }
+    }];
+
+    const result = AppUtils.getFeatureEnabledNavItems(navItems);
+    expect(result).toEqual(navItems);
+  });
+
   it('should set active links values', () => {
     const array = AppUtils.setActiveLink(AppConstants.NAV_ITEMS_ARRAY, router);
     expect(array).toEqual(AppConstants.NAV_ITEMS_ARRAY);

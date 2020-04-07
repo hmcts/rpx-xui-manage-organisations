@@ -4,11 +4,23 @@
  */
 import {formatDate} from '@angular/common';
 import { AppConstants } from '../app.constants';
+import { NavItemModel, NavItemsModel } from '../models/nav-items.model';
 export class AppUtils {
+
+  public static getFeatureEnabledNavItems(navItems: NavItemModel[]): NavItemModel[] {
+    let featureNavItems = new Array<NavItemModel>();
+    navItems.forEach(navItem => {
+      if (!navItem.featureToggle || (navItem.featureToggle && navItem.featureToggle.isFeatureEnabled)) {
+        featureNavItems = [...featureNavItems, navItem];
+      }
+    });
+    return featureNavItems;
+  }
+
   /**
    * it changes active property based on the url
    */
-  static setActiveLink(items, router) {
+  public static setActiveLink(items: NavItemModel[], router) {
     const nav = items.map((item: { href }) => {
       return {
         ...item,
@@ -18,13 +30,13 @@ export class AppUtils {
     return nav;
   }
 
-  static titleSwitcher(router, title) {
+  public static titleSwitcher(router, title) {
     if (router && router.state) {
       return router.state.url.indexOf('register') !== -1 ? title.regOrg : title.manageOrg;
     }
   }
 
-  static returnNavs(router, nav) {
+  public static returnNavs(router, nav) {
     if (router && router.state && router.state.url.indexOf('register') === -1) {
       return {
         navItems: nav
@@ -36,7 +48,7 @@ export class AppUtils {
     }
   }
 
-  static setSetUserNavItems(state, routes) {
+  public static setSetUserNavItems(state, routes) {
     /**
      * it manages user nav array based on the app that is running (register or otherwise)
      */
@@ -47,7 +59,7 @@ export class AppUtils {
     return [];
   }
 
-  static capitalizeString(stringToCapitalize: string) {
+  public static capitalizeString(stringToCapitalize: string) {
     const stringLowercase = stringToCapitalize.toLowerCase();
     const stringCapitalised = stringLowercase.charAt(0).toUpperCase() + stringLowercase.slice(1);
     return stringCapitalised;
@@ -61,7 +73,7 @@ export class AppUtils {
     return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
   }
 
-  static setPageTitle(url): string {
+  public static setPageTitle(url): string {
     /**
      * it sets correct page titles based on the url.
      */
@@ -119,7 +131,7 @@ export class AppUtils {
   // 04-Sep-2019 - Author U Denduluri
   // Function which returns the environment name based on the Url
   // by looking at the pattern
-  static getEnvironment(url: string): string {
+  public static getEnvironment(url: string): string {
     const regex = 'pr-|localhost|aat|demo|ithc|perf-test';
     const matched = url.match(regex);
 
@@ -139,7 +151,7 @@ export class AppUtils {
       }
     return AppConstants.ENVIRONMENT_NAMES.prod;
   }
-  static showSubHeaderItems(isAuth: boolean, router: any) {
+  public static showSubHeaderItems(isAuth: boolean, router: any) {
     return isAuth && router && router.state && router.state.url.indexOf('accept-terms-and-conditions') <= 0;
   }
 }

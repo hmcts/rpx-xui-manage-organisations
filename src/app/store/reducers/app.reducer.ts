@@ -1,6 +1,7 @@
 import { TCDocument } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from '../../app.constants';
 import { AppTitlesModel } from '../../models/app-titles.model';
+import {NavItemModel} from '../../models/nav-items.model';
 import { UserNavModel } from '../../models/user-nav.model';
 import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
@@ -8,7 +9,7 @@ import * as fromAction from '../actions';
 export interface AppState {
   allNavItems: {[id: string]: object};
   pageTitle: string;
-  navItems;
+  navItems: NavItemModel[];
   userNav: UserNavModel;
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
@@ -48,7 +49,7 @@ export function reducer(
     case fromAction.SET_PAGE_TITLE_ERRORS: {
       const EXISTS = -1;
       const pageTitle = (state.pageTitle.indexOf('Error') !== EXISTS) ?
-        state.pageTitle : 'Error: ' + state.pageTitle;
+        state.pageTitle : `Error: ${state.pageTitle}`;
       return {
         ...state,
         pageTitle
@@ -85,9 +86,10 @@ export function reducer(
         ...state,
         termsAndConditions: action.payload
       };
-  }
 
-  return state;
+    default:
+      return state;
+    }
 }
 
 export const getPageTitle = (state: AppState) => state.pageTitle;
@@ -96,4 +98,3 @@ export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
-

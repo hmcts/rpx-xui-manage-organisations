@@ -1,5 +1,5 @@
-import * as fromApp from './app.reducer';
 import * as fromAppActions from '../actions/app.actions';
+import * as fromApp from './app.reducer';
 
 
 describe('AppReducer', () => {
@@ -72,12 +72,16 @@ describe('AppReducer', () => {
           active: false,
           orderId: 2
         },
-        // {
-        //   href: '/fee-accounts',
-        //   text: 'Fee Accounts',
-        //   active: false,
-        //   orderId: 3
-        // }
+        {
+          href: '/fee-accounts',
+          text: 'Fee Accounts',
+          active: false,
+          orderId: 3,
+          featureToggle: {
+            isFeatureEnabled: null,
+            featureName: 'FeeAccount'
+          }
+        }
       ];
       const action = new fromAppActions.SetUserRoles(payload);
       const state = fromApp.reducer(initialState, action);

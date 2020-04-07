@@ -54,7 +54,8 @@ app.use(
   session({
     cookie: {
       httpOnly: true,
-      maxAge: 28800000,
+      // maxAge: 28800000,
+      maxAge: 30000,
       secure: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     },
     name: 'jui-webapp',

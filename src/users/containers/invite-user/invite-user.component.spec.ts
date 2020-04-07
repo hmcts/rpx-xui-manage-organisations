@@ -7,7 +7,8 @@ describe('User Details Component', () => {
 
     beforeEach(() => {
         userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-        component = new InviteUserComponent(userStoreSpyObject);
+        const actionSpy = jasmine.createSpyObj('actionSpy', ['pipe']);
+        component = new InviteUserComponent(userStoreSpyObject, actionSpy);
     });
 
     it('Is Truthy', () => {

@@ -99,7 +99,7 @@ export function reducer(
       return {
         ...state,
         isFormValid: false,
-        errorHeader: 'There is a problem',
+        errorHeader: '',
         errorMessages
       };
     }

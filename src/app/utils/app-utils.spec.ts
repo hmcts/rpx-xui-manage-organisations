@@ -9,7 +9,7 @@ const router = {
 describe('AppUtils', () => {
 
   it('should return only getFeatureEnabledNavItems', () => {
-    const navItems = [{
+    let navItems = [{
       text: 'Organisation',
       href: '/organisation',
       active: false,
@@ -32,8 +32,22 @@ describe('AppUtils', () => {
       }
     }];
 
-    const result = AppUtils.getFeatureEnabledNavItems(navItems);
-    expect(result).toEqual(navItems);
+    let result = AppUtils.getFeatureEnabledNavItems(navItems);
+
+    navItems[2].featureToggle.isFeatureEnabled = false;
+    result = AppUtils.getFeatureEnabledNavItems(navItems);
+    expect(result).toEqual([{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    }]);
   });
 
   it('should set active links values', () => {

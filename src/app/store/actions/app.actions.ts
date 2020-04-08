@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
 import { TCDocument } from '@hmcts/rpx-xui-common-lib';
+import { Action } from '@ngrx/store';
 
 export const SET_PAGE_TITLE = '[APP] Set Page Title';
 export const SET_PAGE_TITLE_ERRORS = '[APP] Set Page Title Errors';
@@ -11,38 +11,68 @@ export const LOAD_TERMS_CONDITIONS = '[TC] Load Terms Conditions';
 export const LOAD_TERMS_CONDITIONS_SUCCESS = '[TC] Load Terms Conditions Success';
 export const LOAD_TERMS_CONDITIONS_FAIL = '[TC] Load Terms Conditions Fail';
 
+export const LOAD_FEATURE_TOGGLE_CONFIG = '[App] Load Feature Toggle Config';
+export const LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS = '[App] Load Feature Toggle Config Success';
+export const LOAD_FEATURE_TOGGLE_CONFIG_FAIL = '[App] Load Feature Toggle Config Fail';
+
+export const START_APP_INITIALIZER = '[App] Start App initializer';
+export const FINISH_APP_INITIALIZER = '[App] Finish Start App initializer';
+
 export const LOGOUT = '[App] Logout';
 
+export class StartAppInitilizer implements Action {
+  public readonly type = START_APP_INITIALIZER;
+}
+
+export class FinishAppInitilizer implements Action {
+  public readonly type = FINISH_APP_INITIALIZER;
+}
+
+export class LoadFeatureToggleConfig implements Action {
+  constructor(public payload: any) { }
+  public readonly type = LOAD_FEATURE_TOGGLE_CONFIG;
+}
+
+export class LoadFeatureToggleConfigSuccess implements Action {
+  public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+export class LoadFeatureToggleConfigFail implements Action {
+  public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_FAIL;
+  constructor(public payload: any) { }
+}
+
 export class SetPageTitle implements Action {
-  readonly type = SET_PAGE_TITLE;
+  public readonly type = SET_PAGE_TITLE;
   constructor(public payload: string) {}
 }
 
 export class SetPageTitleErrors implements Action {
-  readonly type = SET_PAGE_TITLE_ERRORS;
+  public readonly type = SET_PAGE_TITLE_ERRORS;
 }
 
 export class Logout implements Action {
-  readonly type = LOGOUT;
+  public readonly type = LOGOUT;
 }
 
 export class SetUserRoles implements Action {
-  readonly type = SET_USER_ROLES;
+  public readonly type = SET_USER_ROLES;
   constructor(public payload: string[]) {}
 }
 
 export class LoadJurisdictions {
-  readonly type = LOAD_JURISDICTIONS_GLOBAL;
+  public readonly type = LOAD_JURISDICTIONS_GLOBAL;
   constructor() { }
 }
 
 export class LoadJurisdictionsSuccess {
-  readonly type = LOAD_JURISDICTIONS_GLOBAL_SUCCESS;
+  public readonly type = LOAD_JURISDICTIONS_GLOBAL_SUCCESS;
   constructor(public payload: any[]) { }
 }
 
 export class LoadJurisdictionsFail {
-  readonly type = LOAD_JURISDICTIONS_GLOBAL_FAIL;
+  public readonly type = LOAD_JURISDICTIONS_GLOBAL_FAIL;
   constructor(public payload: any) { }
 }
 
@@ -70,4 +100,9 @@ export type appActions =
   | SetUserRoles
   | LoadTermsConditions
   | LoadTermsConditionsSuccess
-  | LoadTermsConditionsFail;
+  | LoadTermsConditionsFail
+  | LoadFeatureToggleConfig
+  | LoadFeatureToggleConfigSuccess
+  | LoadFeatureToggleConfigFail
+  | StartAppInitilizer
+  | FinishAppInitilizer;

@@ -5,13 +5,20 @@
 import {formatDate} from '@angular/common';
 import { AppConstants } from '../app.constants';
 import { NavItemModel, NavItemsModel } from '../models/nav-items.model';
+import { AppFeatureFlag } from '../store/reducers/app.reducer';
 export class AppUtils {
 
-  public static getFeatureEnabledNavItems(navItems: NavItemModel[]): NavItemModel[] {
+  public static getFeatureEnabledNavItems(navItems: NavItemModel[],
+                                          featureFlags: AppFeatureFlag[]): NavItemModel[] {
     let featureNavItems = new Array<NavItemModel>();
     navItems.forEach(navItem => {
-      if (!navItem.featureToggle || (navItem.featureToggle && navItem.featureToggle.isFeatureEnabled)) {
+      if (!navItem.featureToggle) {
         featureNavItems = [...featureNavItems, navItem];
+      } else {
+        const currentFeature = featureFlags.filter(flag => flag.featureName === navItem.featureToggle.featureName)[0];
+        if (currentFeature.isEnabled) {
+          featureNavItems = [...featureNavItems, navItem];
+        }
       }
     });
     return featureNavItems;

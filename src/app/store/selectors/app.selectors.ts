@@ -32,10 +32,16 @@ export const getNav = createSelector(
   fromAppFeature.getNavItems
 );
 
+export const getFeatureFlag = createSelector(
+  getAppState,
+  state => state.featureFlags
+);
+
 export const getFeatureEnabledNav = createSelector(
   getNav,
-  (navItems) => {
-    return AppUtils.getFeatureEnabledNavItems(navItems);
+  getFeatureFlag,
+  (navItems, featureFlags) => {
+    return AppUtils.getFeatureEnabledNavItems(navItems, featureFlags);
   }
 );
 

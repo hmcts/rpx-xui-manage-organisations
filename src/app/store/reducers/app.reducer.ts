@@ -6,6 +6,11 @@ import { UserNavModel } from '../../models/user-nav.model';
 import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
 
+export interface AppFeatureFlag {
+ featureName: string;
+ isEnabled: boolean;
+}
+
 export interface AppState {
   allNavItems: {[id: string]: object};
   pageTitle: string;
@@ -14,6 +19,7 @@ export interface AppState {
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
   termsAndConditions: TCDocument;
+  featureFlags: AppFeatureFlag[];
 }
 
 export const initialState: AppState = {
@@ -23,7 +29,8 @@ export const initialState: AppState = {
   navItems: [],
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
   jurisdictions: [],
-  termsAndConditions: null
+  termsAndConditions: null,
+  featureFlags: []
 };
 
 export function reducer(
@@ -86,7 +93,12 @@ export function reducer(
         ...state,
         termsAndConditions: action.payload
       };
-
+    case fromAction.LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS:
+      const featureFlags = [...state.featureFlags, action.payload];
+      return {
+        ...state,
+        featureFlags
+      };
     default:
       return state;
     }
@@ -98,3 +110,4 @@ export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
+export const getFeatureFlag = (state: AppState) => state.featureFlags;

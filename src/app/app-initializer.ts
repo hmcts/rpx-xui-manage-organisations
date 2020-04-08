@@ -7,7 +7,6 @@ export function initApplication(store: Store<fromApp.State>): VoidFunction {
     return () => new Promise(resolve => {
         store.dispatch(new fromApp.StartAppInitilizer());
         store.dispatch(new fromApp.LoadFeatureToggleConfig(AppConstants.FEATURE_NAMES.feeAccount));
-        store.dispatch(new fromApp.LoadFeatureToggleConfig(AppConstants.FEATURE_NAMES.editUserPermissions));
         store.pipe(
             select((state: fromApp.State) => state.appState), take(2)).subscribe(appState => {
             if (appState.featureFlags) {

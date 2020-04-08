@@ -16,7 +16,7 @@ export class AppUtils {
         featureNavItems = [...featureNavItems, navItem];
       } else {
         const currentFeature = featureFlags.filter(flag => flag.featureName === navItem.featureToggle.featureName)[0];
-        if (currentFeature.isEnabled) {
+        if (currentFeature && currentFeature.isEnabled) {
           featureNavItems = [...featureNavItems, navItem];
         }
       }

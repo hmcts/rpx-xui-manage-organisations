@@ -1,5 +1,6 @@
 
 import {AppConstants} from '../app.constants';
+import { AppFeatureFlag } from '../store/reducers/app.reducer';
 import {AppUtils} from './app-utils';
 const router = {
   state: {
@@ -9,7 +10,7 @@ const router = {
 describe('AppUtils', () => {
 
   it('should return only getFeatureEnabledNavItems', () => {
-    let navItems = [{
+    const navItems = [{
       text: 'Organisation',
       href: '/organisation',
       active: false,
@@ -27,15 +28,20 @@ describe('AppUtils', () => {
       active: false,
       orderId: 3,
       featureToggle: {
-        isFeatureEnabled: true,
-        featureName: 'fee-account'
+        featureName: AppConstants.FEATURE_NAMES.feeAccount
       }
     }];
 
-    let result = AppUtils.getFeatureEnabledNavItems(navItems);
+    const featureFlag: AppFeatureFlag = {
+      isEnabled: true,
+      featureName: AppConstants.FEATURE_NAMES.feeAccount
+    };
 
-    navItems[2].featureToggle.isFeatureEnabled = false;
-    result = AppUtils.getFeatureEnabledNavItems(navItems);
+    let result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
+    expect(result).toEqual(navItems);
+
+    featureFlag.isEnabled = false;
+    result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
     expect(result).toEqual([{
       text: 'Organisation',
       href: '/organisation',

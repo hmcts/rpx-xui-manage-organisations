@@ -1,12 +1,12 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ExuiCommonLibModule, LAUNCHDARKLYKEY } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
-import { MetaReducer, StoreModule } from '@ngrx/store';
+import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
@@ -23,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
 import { UserService } from '../user-profile/services/user.service';
 import { UserProfileModule } from '../user-profile/user-profile.module';
 import { LoaderModule } from './../shared/modules/loader/loader.module';
+import { initApplication } from './app-initializer';
 import { ROUTES } from './app.routes';
 // from Components
 import * as fromComponents from './components';
@@ -68,7 +69,8 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
-    { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyClientIdFactory, deps: [ENVIRONMENT_CONFIG] }
+    { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyClientIdFactory, deps: [ENVIRONMENT_CONFIG] },
+    { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store], multi: true },
     ],
   bootstrap: [AppComponent]
 })

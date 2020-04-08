@@ -4,6 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as appActions from '../actions';
 
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { of } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -18,7 +19,8 @@ export class AppEffects {
     private readonly jurisdictionService: JurisdictionService,
     private readonly autGuard: AuthGuard,
     private readonly termsService: TermsConditionsService,
-    private readonly loggerService: LoggerService
+    private readonly loggerService: LoggerService,
+    private readonly featureToggleService: FeatureToggleService
   ) { }
 
   @Effect()
@@ -72,4 +74,13 @@ export class AppEffects {
     })
   );
 
+  @Effect()
+  public featureToggleConfig = this.actions$.pipe(
+    ofType(appActions.LOAD_FEATURE_TOGGLE_CONFIG),
+    map((action: appActions.LoadFeatureToggleConfig) => action.payload),
+    switchMap((featureName) => {
+      return this.featureToggleService.isEnabled(featureName).pipe(
+        map(isFeatureEnabled => new appActions.LoadFeatureToggleConfigSuccess({featureName, isFeatureEnabled})));
+    })
+  );
 }

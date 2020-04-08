@@ -27,7 +27,6 @@ const navItemsArray: NavItemModel[] = [
     active: false,
     orderId: 3,
     featureToggle: {
-      isFeatureEnabled: null,
       featureName: featureNames.feeAccount
     }
   }

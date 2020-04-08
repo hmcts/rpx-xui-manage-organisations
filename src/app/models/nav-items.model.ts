@@ -12,6 +12,5 @@ export interface NavItemsModel {
 }
 
 export interface FeatureToggleModel {
-  isFeatureEnabled: boolean;
   featureName?: string;
 }

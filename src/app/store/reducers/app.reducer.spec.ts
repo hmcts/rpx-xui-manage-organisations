@@ -1,3 +1,4 @@
+import { AppConstants } from 'src/app/app.constants';
 import * as fromAppActions from '../actions/app.actions';
 import * as fromApp from './app.reducer';
 
@@ -78,8 +79,7 @@ describe('AppReducer', () => {
           active: false,
           orderId: 3,
           featureToggle: {
-            isFeatureEnabled: null,
-            featureName: 'FeeAccount'
+            featureName: AppConstants.FEATURE_NAMES.feeAccount
           }
         }
       ];

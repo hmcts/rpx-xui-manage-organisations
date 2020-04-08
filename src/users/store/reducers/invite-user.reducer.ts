@@ -90,10 +90,10 @@ export function reducer(
     case fromInviteUsers.INVITE_USER_FAIL_WITH_429: {
       const errorMessages = {
         serverResponse1: {
-          messages: ['The user has already been invited in the last 1 hour']
+          messages: ['This user has already been invited in the last hour']
         },
         serverResponse2: {
-          messages: ['The recipient will receive an email from HM courts and tribunals Registration so they can finish setting up thier account']
+          messages: ['The recipient will receive an email from HM Courts and Tribunals Registrations so they can finish setting up their account']
         }
       };
       return {

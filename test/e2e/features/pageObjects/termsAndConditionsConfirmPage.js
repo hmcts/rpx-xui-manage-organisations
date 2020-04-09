@@ -26,7 +26,7 @@ class TermsAndConditionsConfirmPage{
         await this.confirmBtn.click();
     }
 
-    async isFeatureToggleEnabled(){
+    async isFeatureToggleEnabled(world){
         if (this.isFeatureEnabled !== undefined){
             return this.isFeatureEnabled;
         }
@@ -37,7 +37,14 @@ class TermsAndConditionsConfirmPage{
         await  browser.switchTo().window(winHandles[1]);
     
         await browser.get(config.config.baseUrl + 'external/configuration?configurationKey=feature.termsAndConditionsEnabled');
-        let feattureToggleStatus = await element(by.css('body pre')).getText();
+       
+        let bodyElement = element(by.css('body pre'));
+        await BrowserWaits.waitForElement(bodyElement); 
+        let feattureToggleStatus = await bodyElement.getText();
+        let browserCurrentUtl = await browser.getCurrentUrl();
+        if (world) {
+            world.attach(feattureToggleStatus + " is reposne  from T&C feature status api " + browserCurrentUtl);
+        }
         await browser.driver.close();
         await browser.switchTo().window(mainWinHandle);
         this.isFeatureEnabled = feattureToggleStatus.includes('true'); 

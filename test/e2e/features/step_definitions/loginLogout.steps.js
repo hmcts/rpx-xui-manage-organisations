@@ -67,6 +67,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   When("I login with latest invited user", async function () {
     const world = this;
 
+    this.attach("User email : " + global.latestInvitedUser);
     await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
     await loginPage.password.sendKeys(global.latestInvitedUserPassword);
     // browser.sleep(SHORT_DELAY);
@@ -161,7 +162,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     console.log('Login user : ' + global.testorg_rw_superuser_email);
     await loginWithCredentials(global.testorg_rw_superuser_email, 'Monday01',world);
 
-    let tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled();
+    let tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled(this);
     if (tandcfeatureToggle){
       if (global.testorgStatus >= 4) {
         console.log("User accepted T&C already");

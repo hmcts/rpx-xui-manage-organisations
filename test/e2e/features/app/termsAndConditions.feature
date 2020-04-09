@@ -1,7 +1,7 @@
 @fullFunctional
 Feature: Accept Terms and Conditions
 
-Background: Invite a user
+Background: background setup
     Given I create test read write organisation
     Given I approve test read write  organisation
     Given I activate test read write approved organisation super user
@@ -26,6 +26,7 @@ Background: Invite a user
     Then I should see invited user is listed in users table
     Then I select the sign out link
 
+@test
 Scenario: New User first time loggged in presented with Accept Terms and Consitions page
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page

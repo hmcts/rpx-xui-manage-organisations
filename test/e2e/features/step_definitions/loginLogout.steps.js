@@ -157,8 +157,22 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
+    this.attach('Login user : ' + global.testorg_rw_superuser_email);
+    console.log('Login user : ' + global.testorg_rw_superuser_email);
     await loginWithCredentials(global.testorg_rw_superuser_email, 'Monday01',world);
-; 
+
+    let tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled();
+    if (tandcfeatureToggle){
+      if (global.testorgStatus >= 4) {
+        console.log("User accepted T&C already");
+      } else {
+        await waitForElement('hmcts-header__link');
+        let tandcAcceptPageDisplayed = await acceptTermsAndConditionsPage.amOnPage();
+        console.log("tandcAcceptPageDisplayed : " + tandcAcceptPageDisplayed);
+        await acceptTermsAndConditionsPage.acceptTremsAndConditions();
+        global.testorgStatus = 4;
+      }
+    } 
   });
 
   Given("I am logged in to created approve organisation", async function () {

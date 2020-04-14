@@ -51,7 +51,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.inviteUserForm = this.initialiseUserForm();
     this.backLink = this.getBackLink(null);
     this.pendingUserSubscription = this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
-      this.populateFormControl(pendingUser, this.backLink, this.inviteUserForm);
+      this.populateFormControl(pendingUser, this.inviteUserForm);
+      this.backLink = this.getBackLink(pendingUser);
     });
 
     this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
@@ -173,9 +174,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     }, checkBoxValidator);
   }
 
-  public populateFormControl(pendingUser: User, backLink: string, inviteUserForm: FormGroup) {
+  public populateFormControl(pendingUser: User, inviteUserForm: FormGroup) {
     if (pendingUser) {
-      backLink = this.getBackLink(pendingUser);
       this.resendInvite = true;
       inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
       inviteUserForm.controls.lastName.setValue(pendingUser.lastName);

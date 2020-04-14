@@ -94,10 +94,9 @@ export function reducer(
         termsAndConditions: action.payload
       };
     case fromAction.LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS:
-      const featureFlags = [...state.featureFlags, action.payload];
       return {
         ...state,
-        featureFlags
+        featureFlags: action.payload
       };
     default:
       return state;

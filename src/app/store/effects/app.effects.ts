@@ -5,13 +5,15 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import * as appActions from '../actions';
 
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
+import { AppConstants } from 'src/app/app.constants';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
 import * as usersActions from '../../../users/store/actions';
+import {AppFeatureFlag} from '../reducers/app.reducer';
 @Injectable()
 export class AppEffects {
   constructor(
@@ -78,9 +80,25 @@ export class AppEffects {
   public featureToggleConfig = this.actions$.pipe(
     ofType(appActions.LOAD_FEATURE_TOGGLE_CONFIG),
     map((action: appActions.LoadFeatureToggleConfig) => action.payload),
-    switchMap((featureName) => {
-      return this.featureToggleService.isEnabled(featureName).pipe(
-        map(isFeatureEnabled => new appActions.LoadFeatureToggleConfigSuccess({featureName, isFeatureEnabled})));
-    })
+    switchMap((featureNames: string[]) => {
+      return forkJoin(this.getObservable(featureNames)).pipe(
+        map(feature => this.getFeaturesPayload(feature, featureNames))
+      );
+    }
+   )
   );
+
+  private getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
+    const result: AppFeatureFlag[] = features.map((isEnabled, i) => {
+      return {isEnabled, featureName: featureNames[i]};
+    });
+    return new appActions.LoadFeatureToggleConfigSuccess(result);
+  }
+
+  private getObservable(featureNames: string[]): Observable<boolean>[] {
+    return [
+      this.featureToggleService.isEnabled(AppConstants.FEATURE_NAMES.feeAccount),
+      this.featureToggleService.isEnabled(AppConstants.FEATURE_NAMES.editUserPermissions)
+    ];
+  }
 }

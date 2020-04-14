@@ -39,6 +39,7 @@ module "app" {
 
         S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
+        GOOGLE_ANALYTICS_KEY = "${data.azurerm_key_vault_secret.google-analytics-key.value}"
 
         # API CONFIG
         SESSION_SECRET = "${var.session_secret}"
@@ -64,7 +65,7 @@ module "app" {
 
         // Redis Cloud
         REDISCLOUD_URL = "redis://ignore:${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
-        REDIS_KEY_PREFIX: 'activity:'
+        REDIS_KEY_PREFIX = "activity:"
 
         # COOKIE SETTINGS
         COOKIE_TOKEN = "${var.cookie_token}"
@@ -85,6 +86,9 @@ module "app" {
         # PROXY (If required)
         AO_HTTP_PROXY = "${var.mo_http_proxy}"
         AO_NO_PROXY = "${var.mo_no_proxy}"
+
+        MANAGE_CASE_LINK: "${var.manage_case_link}"
+        MANAGE_ORG_LINK: "${var.manage_org_link}"
     }
 }
 
@@ -103,6 +107,12 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
     name = "xui-oauth2-token"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
+
+data "azurerm_key_vault_secret" "google-analytics-key" {
+  name = "google-analytics-key"
+  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+}
+
 
 provider "azurerm" {
     version = "1.22.1"

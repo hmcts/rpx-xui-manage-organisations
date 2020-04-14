@@ -1,6 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "paths": { "*": ["types/*"] },
         "outDir": "../dist/rpa-pui-manager/api",
         "target": "es5",
         "types": [

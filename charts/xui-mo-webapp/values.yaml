@@ -60,13 +60,18 @@ nodejs:
     S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
+    MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    
   keyVaults:
     rpx:
       resourceGroup: rpx
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - AppInsightsInstrumentationKey
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - mo-webapp-redis-connection-string
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

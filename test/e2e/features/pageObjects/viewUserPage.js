@@ -13,9 +13,8 @@ class ViewUserPage {
     this.spinner = element(by.css(".spinner-wrapper"));
 
     this.userstable = element(by.css('table'));
-    this.userRows = element.all(by.css('.govuk-table tbody tr'));
+    this.userRowsBy = by.css('.govuk-table tbody tr');
     this.userRowsHeader = element.all(by.css('.govuk-table thead tr th'));
-
 
   }
 
@@ -32,7 +31,7 @@ class ViewUserPage {
   }
 
   async validateUserWithEmailListed(useremail){
-    await BrowserWaits.waitForElement(this.userstable); 
+    await BrowserWaits.waitForElement(this.userstable,300*1000); 
     let users = await this.userstable.getText();
     assert(users.includes(useremail), "User with email is not listed : " + useremail);
   }
@@ -60,12 +59,34 @@ class ViewUserPage {
   async clickInviteUser() {
     await BrowserWaits.waitForElementNotVisible(this.spinner);
     await BrowserWaits.waitForElement(this.userstable);
-
     await BrowserWaits.waitForElementClickable(this.inviteUser);
-
 
     await this.inviteUser.click();
     // browser.sleep(AMAZING_DELAY);
+  }
+
+  async validateTableHasNoEmptyCells(){
+    await BrowserWaits.waitForElement(element(this.userRowsBy));
+    let userRows =  await element.all(this.userRowsBy);
+    const rowCount = userRows.length; 
+    console.log("Users coundt : " + rowCount);
+    for (var ctr = 0; ctr < rowCount; ctr++){
+      let userRow = userRows[ctr];
+      let userNameElement = userRow.element(by.css('td:nth-of-type(1)'));
+      let userEmail = userRow.element(by.css('td:nth-of-type(2)'));
+      let userActivationStatus = userRow.element(by.css('td:nth-of-type(3)'));
+
+      let name = await userNameElement.getText(); 
+      let email = await userEmail.getText(); 
+      let status = await userActivationStatus.getText(); 
+
+      console.log(` |${name}|${email}|${status}|`);
+
+      expect(name, "Name is empty at row " + (ctr + 1)).to.not.equal('');
+      expect(email, "Email is empty at row " + (ctr + 1)).to.not.equal('');
+      expect(status, "Status is empty at row " + (ctr + 1)).to.not.equal('');
+    };
+
   }
 }
 module.exports = ViewUserPage;

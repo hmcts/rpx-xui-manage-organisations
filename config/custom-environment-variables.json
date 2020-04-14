@@ -1,5 +1,5 @@
 {
-    "environment": "DEFAULT ENVIRONMENT",
+    "environment": "NODE_CONFIG_ENV",
     "appInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
     "cookies": {
         "token": "COOKIE_TOKEN",
@@ -13,7 +13,10 @@
     "maxLogLine": "MAX_LOG_LINE",
     "idamClient": "IDAM_CLIENT",
     "microservice": "MICROSERVICE",
-    "now": "NOW",
+    "now": {
+      "__name": "NOW",
+      "__format": "json"
+    },
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
     "protocol": "PROTOCOL",
     "services": {
@@ -24,13 +27,18 @@
         "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
     },
+    "links": {
+      "manageCaseLink": "MANAGE_CASE_LINK",
+      "manageOrgLink": "MANAGE_ORG_LINK"
+    },
     "sessionSecret": "SESSION_SECRET",
     "secrets": {
       "rpx": {
-        "AppInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+        "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
         "xui-oauth2-token": "IDAM_SECRET",
-        "mo-webapp-redis-connection-string": "REDISCLOUD_URL"
+        "mo-webapp-redis-connection-string": "REDISCLOUD_URL",
+        "google-analytics-key": "GOOGLE_ANALYTICS_KEY"
       }
     },
     "feature": {

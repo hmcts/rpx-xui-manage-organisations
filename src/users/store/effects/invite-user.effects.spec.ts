@@ -5,7 +5,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { InviteUserService } from '../../services/invite-user.service';
-import { InviteUserFail, InviteUserSuccess, SendInviteUser } from '../actions/invite-user.actions';
+import * as fromUsersActions from '../actions/invite-user.actions';
 import * as fromUsersEffects from './invite-user.effects';
 
 describe('Invite User Effects', () => {
@@ -51,11 +51,80 @@ describe('Invite User Effects', () => {
                 jurisdictions: [],
                 isReinvite: false
             };
-            const action = new SendInviteUser(requestPayload);
-            const completion = new InviteUserSuccess({ payload: 'something', userEmail: 'thecap@cave.com' });
+            const action = new fromUsersActions.SendInviteUser(requestPayload);
+            const completion = new fromUsersActions.InviteUserSuccess({ payload: 'something', userEmail: 'thecap@cave.com' });
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);
+        });
+    });
+
+    describe('getErrorAction', () => {
+        it('should return 400 Action', () => {
+            const error = {
+                apiError: '',
+                apiStatusCode: 400,
+                message: ''
+            };
+
+            let action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_400);
+
+            error.apiStatusCode = 402;
+            action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_400);
+
+            error.apiStatusCode = 403;
+            action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_400);
+
+            error.apiStatusCode = 405;
+            action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_400);
+        });
+
+        it('should return 404 Action', () => {
+            const error = {
+                apiError: '',
+                apiStatusCode: 404,
+                message: ''
+            };
+
+            const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_404);
+        });
+
+        it('should return 429 Action', () => {
+            const error = {
+                apiError: '',
+                apiStatusCode: 429,
+                message: ''
+            };
+
+            const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_429);
+        });
+
+        it('should return 500 Action', () => {
+            const error = {
+                apiError: '',
+                apiStatusCode: 500,
+                message: ''
+            };
+
+            const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_500);
+        });
+
+        it('should return 409 Action', () => {
+            const error = {
+                apiError: '',
+                apiStatusCode: 409,
+                message: ''
+            };
+
+            const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL);
         });
     });
 
@@ -70,8 +139,8 @@ describe('Invite User Effects', () => {
                 jurisdictions: [],
                 isReinvite: false
             };
-            const action = new SendInviteUser(requestPayload);
-            const completion = new InviteUserFail(new Error());
+            const action = new fromUsersActions.SendInviteUser(requestPayload);
+            const completion = new fromUsersActions.InviteUserFail(new Error());
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);

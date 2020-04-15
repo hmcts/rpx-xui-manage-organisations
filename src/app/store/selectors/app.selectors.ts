@@ -48,6 +48,16 @@ export const getFeeAndPayFeatureIsEnabled = createSelector(
   featureFlag => featureFlag && featureFlag.isEnabled
 );
 
+export const getEditUserFeature = createSelector(
+  getFeatureFlag,
+  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions)
+);
+
+export const getEditUserFeatureIsEnabled = createSelector(
+  getEditUserFeature,
+  featureFlag => featureFlag && featureFlag.isEnabled
+);
+
 export const getFeatureEnabledNav = createSelector(
   getNav,
   getFeatureFlag,

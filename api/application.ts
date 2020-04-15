@@ -19,6 +19,7 @@ import {
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET,
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
 } from './configuration/references'
 import {appInsights} from './lib/appInsights'
 import {errorStack} from './lib/errorStack'
@@ -86,9 +87,14 @@ const healthChecks = {
     idamWeb: healthcheckConfig(getConfigValue(SERVICES_IDAM_WEB)),
     rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)),
     s2s: healthcheckConfig(getConfigValue(SERVICE_S2S_PATH)),
-    feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)),
+    feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH))
+  },
+}
+
+if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
+  healthChecks.checks = {...healthChecks.checks, ...{
     termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))
-  }
+  }}
 }
 
 if (showFeature(FEATURE_REDIS_ENABLED)) {
@@ -99,7 +105,9 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
   }}
 }
 
-healthcheck.addTo(app, healthChecks);
+console.log('healthChecks', healthChecks)
+
+healthcheck.addTo(app, healthChecks)
 
 /**
  * Open Routes

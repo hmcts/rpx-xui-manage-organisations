@@ -94,7 +94,7 @@ describe('Payload builder', () => {
     it('Should take the postcode and set it as the postcode on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.contactInformation[0].postcode).to.equal(STATE_VALUES.postcode)
+        expect(organsiationPayload.contactInformation[0].postCode).to.equal(STATE_VALUES.postcode)
     })
 
     it('Should take the town or city and set it as the town city on the payload.', () => {

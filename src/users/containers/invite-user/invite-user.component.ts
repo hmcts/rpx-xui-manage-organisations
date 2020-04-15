@@ -79,21 +79,20 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
   public handleError(store: Store<any>, errorNumber: number) {
     const globalError = this.getGlobalError(errorNumber);
-    store.dispatch(new fromAppStore.AddGlobalError(globalError));
-    store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+    if (globalError) {
+        store.dispatch(new fromAppStore.AddGlobalError(globalError));
+        store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+    }
   }
 
   public getGlobalError(error: number): GlobalError {
-    switch (error) {
-      case 400:
-        return this.get400Error();
-      case 404:
-        return this.get404Error();
-      case 500:
-        return this.get500Error();
-      default:
-        throw new Error(`Unexpected error number ${error}`);
-    }
+
+    const mappedError = {
+      400: this.get400Error(),
+      404: this.get404Error(),
+      500: this.get500Error()
+    };
+    return mappedError[error];
   }
 
   public get500Error(): GlobalError {

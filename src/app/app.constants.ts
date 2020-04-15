@@ -4,8 +4,8 @@ import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 
 const featureNames = {
-  feeAccount: 'FeeAccount',
-  editUserPermissions: 'EditPermissions'
+  feeAccount: 'fee-and-accounts',
+  editUserPermissions: 'edit-permissions'
 };
 
 const navItemsArray: NavItemModel[] = [

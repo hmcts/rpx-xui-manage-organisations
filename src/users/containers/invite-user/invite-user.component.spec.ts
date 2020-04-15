@@ -43,4 +43,24 @@ describe('User Details Component', () => {
         component.dispathAction(mockAction, mockStore);
         expect(mockStore.dispatch).toHaveBeenCalledWith(mockAction);
     });
+
+    it('global error 400', () => {
+        const globalError = component.getGlobalError(400);
+        expect(globalError.header).toEqual('Sorry, there is a problem');
+    });
+
+    it('global error 404', () => {
+        const globalError = component.getGlobalError(404);
+        expect(globalError.header).toEqual('Sorry, there is a problem with this account');
+    });
+
+    it('global error 500', () => {
+        const globalError = component.getGlobalError(500);
+        expect(globalError.header).toEqual('Sorry, there is a problem with the service');
+    });
+
+    it('global error 999', () => {
+        const globalError = component.getGlobalError(999);
+        expect(globalError).toEqual(undefined);
+    });
 });

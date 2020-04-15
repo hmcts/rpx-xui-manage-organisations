@@ -58,7 +58,7 @@ app.use(
       secure: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     },
     name: 'jui-webapp',
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     secret: getConfigValue(SESSION_SECRET),
     store: getStore(),
@@ -119,6 +119,6 @@ app.use('/external', openRoutes)
  *
  */
 app.use('/api', routes)
-app.get('/api/logout', (req, res) => {
-  auth.doLogout(req, res)
+app.get('/api/logout', async (req, res) => {
+  await auth.doLogout(req, res)
 })

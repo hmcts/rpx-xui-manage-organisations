@@ -49,13 +49,24 @@ describe('Invite User Effects', () => {
                 email: 'thecap@cave.com',
                 permissions: ['god'],
                 jurisdictions: [],
-                isReinvite: false
+                resendInvite: false
             };
             const action = new fromUsersActions.SendInviteUser(requestPayload);
             const completion = new fromUsersActions.InviteUserSuccess({ payload: 'something', userEmail: 'thecap@cave.com' });
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);
+        });
+    });
+
+    describe('getUserInviteLoggerMessage', () => {
+        it('user re-invited', () => {
+            const message = fromUsersEffects.InviteUserEffects.getUserInviteLoggerMessage(true);
+            expect(message).toEqual('User Re-Invited');
+        });
+        it('user invited', () => {
+            const message = fromUsersEffects.InviteUserEffects.getUserInviteLoggerMessage(false);
+            expect(message).toEqual('User Invited');
         });
     });
 
@@ -137,7 +148,7 @@ describe('Invite User Effects', () => {
                 email: 'thecap@cave.com',
                 permissions: ['god'],
                 jurisdictions: [],
-                isReinvite: false
+                resendInvite: false
             };
             const action = new fromUsersActions.SendInviteUser(requestPayload);
             const completion = new fromUsersActions.InviteUserFail(new Error());

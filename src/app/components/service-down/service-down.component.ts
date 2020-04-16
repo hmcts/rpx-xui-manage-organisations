@@ -17,7 +17,7 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
     }
     public ngOnInit(): void {
         this.currentError = {
-            errors: [{bodyText: 'Try again later.', urlText: null, url: null}],
+            errors: [{bodyText: 'Try again later.', urlText: null, url: null, newTab: null}],
             header: 'Sorry, there is a problem with the service'
         };
         this.store.pipe(select(fromAppStore.getCurrentError))

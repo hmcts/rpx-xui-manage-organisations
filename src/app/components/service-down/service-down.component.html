@@ -3,7 +3,9 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">{{currentError.header}}</h1>
       <p class="govuk-body" *ngFor="let error of currentError.errors">
-        <a *ngIf="error.urlText" routerLink="{{error.url}}">{{error.urlText}}</a> {{ error.bodyText }}
+        <a *ngIf="error.urlText && !error.newTab" routerLink="{{error.url}}">{{error.urlText}}</a> 
+        <a *ngIf="error.urlText && error.newTab" routerLink="{{error.url}}" target="_blank">{{error.urlText}}</a> 
+        {{ error.bodyText }}
       </p>
     </div>
   </div>

@@ -135,7 +135,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     const errorMessages = [{
       bodyText: 'to reactivate this account',
       urlText: 'Get help',
-      url: '/get-help'
+      url: '/get-help',
+      newTab: true
     },
     {
       bodyText: null,

@@ -135,7 +135,7 @@ describe('Invite User Effects', () => {
             };
 
             const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
-            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL);
+            expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_409);
         });
     });
 

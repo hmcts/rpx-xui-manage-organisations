@@ -94,8 +94,8 @@ export function reducer(
         isFormValid: false,
         errorHeader: '',
         errorMessages: {
-          serverResponse1: { messages: ['Sorry, there is a problem'] },
-          serverResponse2: { messages: [action.payload.apiError] }
+          serverResponse1: { messages: ['Sorry, there is a problem with the service.'] },
+          serverResponse2: { messages: ['A user with this email address already exists'] }
         }
       };
     }

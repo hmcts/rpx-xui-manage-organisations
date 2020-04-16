@@ -94,7 +94,8 @@ export function reducer(
         isFormValid: false,
         errorHeader: '',
         errorMessages: {
-          serverResponse1: { messages: ['This user has already been invited in the last hour'] }
+          serverResponse1: { messages: ['Sorry, there is a problem'] },
+          serverResponse2: { messages: ['This user has already been invited in the last hour'] }
         }
       };
     }

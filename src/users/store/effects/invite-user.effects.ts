@@ -25,8 +25,11 @@ export class InviteUserEffects {
     switchMap((inviteUserFormData) => {
       const userEmail = (inviteUserFormData as any).email;
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
-        map(userDetails => new usersActions.InviteUserSuccess({...userDetails, userEmail})),
-        tap(() => this.loggerService.info('User Invited')),
+        map(userDetails => {
+          const userInvitedLoggerMessage = inviteUserFormData.resendInvite ? 'User Re-Invited' : 'User Invited';
+          this.loggerService.info(userInvitedLoggerMessage);
+          return new usersActions.InviteUserSuccess({...userDetails, userEmail});
+        }),
         catchError(errorReport => {
           this.loggerService.error(errorReport.message);
           const action = InviteUserEffects.getErrorAction(errorReport.error);

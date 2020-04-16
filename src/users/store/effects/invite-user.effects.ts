@@ -26,7 +26,7 @@ export class InviteUserEffects {
       const userEmail = (inviteUserFormData as any).email;
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => {
-          const userInvitedLoggerMessage = inviteUserFormData.resendInvite ? 'User Re-Invited' : 'User Invited';
+          const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(inviteUserFormData.resendInvite);
           this.loggerService.info(userInvitedLoggerMessage);
           return new usersActions.InviteUserSuccess({...userDetails, userEmail});
         }),
@@ -46,6 +46,10 @@ export class InviteUserEffects {
       return new fromRoot.Go({ path: ['users/invite-user-success'] });
     })
   );
+
+  public static getUserInviteLoggerMessage(resendInvite: boolean) {
+    return resendInvite ? 'User Re-Invited' : 'User Invited';
+  }
 
   public static getErrorAction(error: ErrorReport): Action {
     switch (error.apiStatusCode) {

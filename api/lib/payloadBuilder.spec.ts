@@ -94,7 +94,7 @@ describe('Payload builder', () => {
     it('Should take the postcode and set it as the postcode on the payload.', () => {
 
         const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.contactInformation[0].postcode).to.equal(STATE_VALUES.postcode)
+        expect(organsiationPayload.contactInformation[0].postCode).to.equal(STATE_VALUES.postcode)
     })
 
     it('Should take the town or city and set it as the town city on the payload.', () => {
@@ -117,9 +117,9 @@ describe('Payload builder', () => {
 
     it('Should set dxAddress on payload if not null', () => {
 
-        var stateValuesArray = ['DX 1234567890', 'dxexchange']
+        const stateValuesArray = ['DX 1234567890', 'dxexchange']
         const propretyNameArray = ['dxNumber', 'dxExchange']
-        var [contactInformationArray] = organisationPayload.contactInformation
+        const [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
 
@@ -131,8 +131,8 @@ describe('Payload builder', () => {
     it('Should not set dxAddress if null', () => {
 
         const propretyNameArray = ['dxNumber', 'dxExchange']
-        var stateValuesArray = [undefined, undefined]
-        var [contactInformationArray] = organisationPayload.contactInformation
+        const stateValuesArray = [undefined, undefined]
+        const [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
         expect(organisationPayload).to.equal(organisationPayload)

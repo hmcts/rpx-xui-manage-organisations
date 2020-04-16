@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
+import {AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 /*
   Error Summary component
   State Less component
@@ -8,46 +8,32 @@ import {DOCUMENT} from '@angular/common';
 */
 @Component({
   selector: 'app-hmcts-error-summary',
-  template: `<div id="errorSummary" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-                  data-module="error-summary">
-              <h2 class="govuk-error-summary__title" id="error-summary-title">
-                {{header}}
-              </h2>
-              <div class="govuk-error-summary__body">
-                <ul class="govuk-list govuk-error-summary__list">
-                  <li *ngFor="let message of messages">
-                    <a (click)="scrollTo(message['id'])" [routerLink]="" [fragment]="message['id']"
-                      *ngIf="hasElement(message['id'])">{{message['message']}}</a>
-                    <span *ngIf="!hasElement(message['id'])">{{message['message']}}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-  `
+  templateUrl: './hmcts-error-summary.component.html'
 })
 export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
 
-  @Input() set errorMessages(value) {
+  @Input() public set errorMessages(value: object[]) {
     this.messages = value;
   }
 
-  @Input() header: string;
+  @Input() public header: string;
+  @Input() public showWarningMessage: boolean;
 
-  messages: object[];
+  public messages: object[];
 
-  constructor(@Inject(DOCUMENT) private document) { }
+  constructor(@Inject(DOCUMENT) private readonly document) { }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.scrollTo('errorSummary');
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.errorMessages) {
       this.scrollTo('errorSummary');
     }
   }
 
-  scrollTo(selector) {
+  public scrollTo(selector) {
     if (this.document.querySelector(`#${selector}`)) {
       const el = this.document.querySelector(`#${selector}`);
 
@@ -55,7 +41,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  hasElement(selector) {
+  public hasElement(selector) {
     return this.document.querySelector(`#${selector}`);
   }
 

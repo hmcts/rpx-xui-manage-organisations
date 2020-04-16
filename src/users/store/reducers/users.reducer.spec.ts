@@ -94,5 +94,23 @@ describe('Users Reducer', () => {
         expect(state.userList).toEqual([]);
     });
 
+    it('INVITE_NEW_USER action should return correct state', () => {
+      const { initialState } = fromUsers;
+
+      const action = new fromUserActions.InviteNewUser();
+      const state = fromUsers.reducer(initialState, action);
+
+      expect(state.reinvitePendingUser).toEqual(null);
+    });
+
+    it('REINVITE_PENDING_USER action should return correct state', () => {
+      const { initialState } = fromUsers;
+
+      const action = new fromUserActions.ReinvitePendingUser(mockUserList[0]);
+      const state = fromUsers.reducer(initialState, action);
+
+      expect(state.reinvitePendingUser).toEqual(mockUserList[0]);
+  });
+
 });
 

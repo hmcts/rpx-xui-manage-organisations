@@ -1,5 +1,4 @@
-/*
-import * as chai from 'chai'
+/*import * as chai from 'chai'
 import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
@@ -128,5 +127,4 @@ describe('account index', () => {
     await accountIndex.handleAccountPbaTransactionsRoute(req, res)
     expect(res.send).to.have.been.calledWith(PaymentMock)
   })
-})
-*/
+})*/

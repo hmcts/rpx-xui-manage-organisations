@@ -5,7 +5,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import * as appActions from '../actions';
 
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { forkJoin, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { AppConstants } from 'src/app/app.constants';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -81,7 +81,7 @@ export class AppEffects {
     ofType(appActions.LOAD_FEATURE_TOGGLE_CONFIG),
     map((action: appActions.LoadFeatureToggleConfig) => action.payload),
     switchMap((featureNames: string[]) => {
-      return forkJoin(this.getObservable(featureNames)).pipe(
+      return combineLatest(this.getObservable(featureNames)).pipe(
         map(feature => this.getFeaturesPayload(feature, featureNames))
       );
     }
@@ -96,9 +96,11 @@ export class AppEffects {
   }
 
   private getObservable(featureNames: string[]): Observable<boolean>[] {
-    return [
-      this.featureToggleService.isEnabled(AppConstants.FEATURE_NAMES.feeAccount),
-      this.featureToggleService.isEnabled(AppConstants.FEATURE_NAMES.editUserPermissions)
-    ];
+    let observables = new Array<Observable<boolean>>();
+    featureNames.forEach(featureName => {
+      const observable = this.featureToggleService.isEnabled(featureName);
+      observables = [...observables, observable];
+    });
+    return observables;
   }
 }

@@ -9,6 +9,7 @@ export interface ErrorMessage {
   bodyText: string;
   urlText: string;
   url: string;
+  newTab?: boolean;
 }
 
 export interface GlobalError {

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { GlobalError } from 'src/app/store/reducers/app.reducer';
+import { ErrorMessage, GlobalError } from 'src/app/store/reducers/app.reducer';
 import * as fromAppStore from '../../../app/store';
 
 @Component({
@@ -17,7 +16,7 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
     }
     public ngOnInit(): void {
         this.currentError = {
-            errors: [{bodyText: 'Try again later.', urlText: null, url: null}],
+            errors: [{bodyText: 'Try again later.', urlText: null, url: null, newTab: null}],
             header: 'Sorry, there is a problem with the service'
         };
         this.store.pipe(select(fromAppStore.getCurrentError))
@@ -26,5 +25,9 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
                 this.currentError = error;
             }
         });
+    }
+
+    public showErrorLinkWithNewTab(newTab?: boolean): string {
+        return (newTab !== null && newTab === true) ? '_blank' : '_self';
     }
 }

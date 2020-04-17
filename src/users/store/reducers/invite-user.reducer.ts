@@ -62,7 +62,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: [
-            action.payload.error.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
+            action.payload.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
           ]
         }
       };
@@ -85,6 +85,18 @@ export function reducer(
         ...state,
         isFormValid: false,
         errorHeader: 'Sorry, there is a problem with this account'
+      };
+    }
+
+    case fromInviteUsers.INVITE_USER_FAIL_WITH_409: {
+      return {
+        ...state,
+        isFormValid: false,
+        errorHeader: '',
+        errorMessages: {
+          serverResponse1: { messages: ['Sorry, there is a problem with the service.'] },
+          serverResponse2: { messages: ['A user with this email address already exists'] }
+        }
       };
     }
     case fromInviteUsers.INVITE_USER_FAIL_WITH_429: {

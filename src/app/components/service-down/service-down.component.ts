@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { GlobalError } from 'src/app/store/reducers/app.reducer';
+import { ErrorMessage, GlobalError } from 'src/app/store/reducers/app.reducer';
 import * as fromAppStore from '../../../app/store';
 
 @Component({
@@ -26,5 +25,13 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
                 this.currentError = error;
             }
         });
+    }
+
+    public showErrorLink(error: ErrorMessage): boolean {
+        return error.urlText && !error.newTab === true;
+    }
+
+    public showErrorLinkWithNewTab(error: ErrorMessage): boolean {
+        return error.urlText && error.newTab === true;
     }
 }

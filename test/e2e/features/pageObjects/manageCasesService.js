@@ -108,11 +108,9 @@ class ManageCasesService {
                     break;
                 }catch(error){
                     this.logger("MC Login page not loaded. Retry page load "+counter);
-                    this.mcBrowser.takeScreenshot()
-                        .then(stream => {
-                            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-                            this.logger(decodedImage, true);
-                        });
+                    let stream = await this.mcBrowser.takeScreenshot();
+                    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                    this.logger(decodedImage, true);
                     counter+=1;
                 }
 
@@ -125,11 +123,9 @@ class ManageCasesService {
             this.logger("MC Login submitted for user : " + username)
         }
         catch(error){
-            this.mcBrowser.takeScreenshot()
-                .then(stream => {
-                    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-                    this.logger(decodedImage, true);
-                });
+            let stream = await this.mcBrowser.takeScreenshot();
+            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+            this.logger(decodedImage, true);
             throw new Error(error);
         }
         

@@ -2,7 +2,7 @@
   <app-fee-account-notification-banner [errorMessages]="errorMessages">
   </app-fee-account-notification-banner>
 </ng-container>
-<app-hmcts-main-wrapper [title]="'Fee accounts'">
+<xuilib-hmcts-main-wrapper [title]="'Fee accounts'">
   <app-account-overview-container
   *ngIf="!(loading$ | async) else loading"
   [isAccountAvailableForOrg]="isOrgAccountAvailable$ | async"
@@ -12,5 +12,5 @@
   <ng-template #loading>
     <div>Loading...</div>
   </ng-template>
-</app-hmcts-main-wrapper>
+</xuilib-hmcts-main-wrapper>
 

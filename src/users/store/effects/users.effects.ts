@@ -28,6 +28,7 @@ export class UsersEffects {
               const user = element;
               user.fullName = fullName;
               user.routerLink = `user/${user.userIdentifier}`;
+              user.resendInvite = element.idamStatus === 'PENDING';
               amendedUsers.push(user);
           });
 

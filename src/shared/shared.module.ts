@@ -1,28 +1,24 @@
-import { NgModule } from '@angular/core';
-import { GovUiModule } from 'projects/gov-ui/src/public_api';
-import { HttpIntercepterServer } from './services/http-interceptor.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HeadersService } from './services/headers.service';
-import { AuthIntercepterServer } from './services/auth-interceptor.service';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MonitoringService } from './services/monitoring.service';
-import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
-import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
-import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
-import { HealthCheckGuard } from './guards/health-check.guard';
-import { HealthCheckService } from './services/health-check.service';
-import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
-import { LoaderModule } from './modules/loader/loader.module';
-import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAndCondition.guard';
+import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
+import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
+import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
+import { HealthCheckGuard } from './guards/health-check.guard';
+import { LoaderModule } from './modules/loader/loader.module';
+import { AuthIntercepterServer } from './services/auth-interceptor.service';
+import { HeadersService } from './services/headers.service';
+import { HealthCheckService } from './services/health-check.service';
+import { HttpIntercepterServer } from './services/http-interceptor.service';
+import { MonitoringService } from './services/monitoring.service';
 
 @NgModule({
   declarations: [
-    HmctsMainWrapperComponent,
-    HmctsErrorSummaryComponent,
     SuccessNotificationComponent,
     PhaseBannerComponent
   ],
@@ -30,13 +26,11 @@ import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAn
     ReactiveFormsModule,
     RouterModule,
     CommonModule,
-    GovUiModule,
-    LoaderModule
+    LoaderModule,
+    ExuiCommonLibModule.forChild()
   ],
   exports: [
     ReactiveFormsModule,
-    GovUiModule,
-    HmctsMainWrapperComponent,
     SuccessNotificationComponent,
     PhaseBannerComponent
   ],

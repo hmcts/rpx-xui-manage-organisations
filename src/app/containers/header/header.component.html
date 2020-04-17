@@ -7,11 +7,11 @@
       [isBrandedHeader]="isBrandedHeader"
       (navigate)="onNavigate($event)"
     ></app-hmcts-global-header>
-    <app-hmcts-primary-navigation
+    <xuilib-hmcts-primary-navigation
       [userLoggedIn]="showHeaderItems$ | async"
       [label]=""
       [items]="navItems?.navItems"
       [isBrandedHeader]="isBrandedHeader"
-    ></app-hmcts-primary-navigation>
+    ></xuilib-hmcts-primary-navigation>
     <app-phase-banner type="beta"></app-phase-banner>
 </header>

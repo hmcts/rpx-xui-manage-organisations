@@ -1,5 +1,5 @@
-import {Component, OnChanges, Input} from '@angular/core';
-import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
+import {Component, Input, OnChanges} from '@angular/core';
+import { GovukTableColumnConfig } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/gov-uk-table/gov-uk-table.component';
 import { Payment } from '../../models/pba-transactions';
 /**
  * Bootstraps the Transactions Components

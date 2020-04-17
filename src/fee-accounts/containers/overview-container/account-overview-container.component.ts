@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 
 @Component({
     selector: 'app-account-overview-container',

@@ -3,40 +3,40 @@
 
   <ng-container *ngIf="dispatchLoadData()">
 
-    <lib-gov-uk-input
+    <xuilib-gov-uk-input
       [config]="{label: 'Input Component', hint: 'Include some text.', name: 'input', id: 'input', type: 'text', classes: 'testClass'}"
       [errorMessage]="errors[formConstModel.input]"
       [group]="styleGuideFromGroup">
-    </lib-gov-uk-input>
+    </xuilib-gov-uk-input>
 
-    <lib-gov-uk-checkboxes [errors]="errors[formConstModel.checkboxes]" [options]="checkboxes"></lib-gov-uk-checkboxes>
+    <xuilib-gov-uk-checkboxes [errors]="errors[formConstModel.checkboxes]" [options]="checkboxes"></xuilib-gov-uk-checkboxes>
 
-    <lib-gov-uk-radios [errors]="errors[formConstModel.contactPreference]" [options]="contactPreference"></lib-gov-uk-radios>
+    <xuilib-gov-uk-radios [errors]="errors[formConstModel.contactPreference]" [options]="contactPreference"></xuilib-gov-uk-radios>
 
-    <lib-gov-uk-date
+    <xuilib-gov-uk-date
       [config]="{id: formConstModel.passport}"
       [formGroup]="styleGuideFromGroup.controls[formConstModel.passport]"
       [errorMessage]="errors[formConstModel.passport]">
-    </lib-gov-uk-date>
+    </xuilib-gov-uk-date>
 
-    <lib-gov-select
+    <xuilib-gov-select
       [group]="styleGuideFromGroup"
       [config]="sortBySelect.config"
       [items]="sortBySelect.items"
       [errorMessage]="errors[formConstModel.sortBy]">
-    </lib-gov-select>
+    </xuilib-gov-select>
 
-    <lib-gov-uk-file-upload
+    <xuilib-gov-uk-file-upload
       [errorMessage]="errors[formConstModel.fileUpload]"
       [group]="styleGuideFromGroup"
       [config]="{label: 'Upload a file', id: formConstModel.fileUpload, name: 'fileUpload'}"
-    ></lib-gov-uk-file-upload>
+    ></xuilib-gov-uk-file-upload>
 
-    <lib-gov-uk-textarea
+    <xuilib-gov-uk-textarea
       [config]="moreDetail"
       [group]="styleGuideFromGroup"
       [errorMessage]="errors[formConstModel.moreDetails]"
-    ></lib-gov-uk-textarea>
+    ></xuilib-gov-uk-textarea>
 
     <button type="submit" class="govuk-button">
       Send invitation

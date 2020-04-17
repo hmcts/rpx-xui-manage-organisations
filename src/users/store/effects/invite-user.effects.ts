@@ -61,6 +61,8 @@ export class InviteUserEffects {
         return new usersActions.InviteUserFailWith400(error);
       case 404:
         return new usersActions.InviteUserFailWith404(error);
+      case 409:
+        return new usersActions.InviteUserFailWith409(error);
       case 429:
         return new usersActions.InviteUserFailWith429(error);
       case 500:

@@ -27,11 +27,7 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
         });
     }
 
-    public showErrorLink(error: ErrorMessage): boolean {
-        return error.urlText && !error.newTab === true;
-    }
-
-    public showErrorLinkWithNewTab(error: ErrorMessage): boolean {
-        return error.urlText && error.newTab === true;
+    public showErrorLinkWithNewTab(newTab?: boolean): string {
+        return (newTab !== null && newTab === true) ? '_blank' : '_self';
     }
 }

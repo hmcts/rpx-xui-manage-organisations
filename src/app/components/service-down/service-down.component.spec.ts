@@ -8,43 +8,16 @@ describe('ServiceDownComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('showErrorLink', () => {
-        const appStore = jasmine.createSpyObj('store', ['pipe']);
-        const component = new ServiceDownComponent(appStore);
-        let result = component.showErrorLink({
-            bodyText: null,
-            urlText: 'someText',
-            url: 'someUrl',
-            newTab: null
-          });
-        expect(result).toEqual(true);
-
-        result = component.showErrorLink({
-            bodyText: null,
-            urlText: 'someText',
-            url: 'someUrl',
-            newTab: true
-          });
-        expect(result).toEqual(false);
-    });
-
     it('showErrorLinkWithNewTab', () => {
         const appStore = jasmine.createSpyObj('store', ['pipe']);
         const component = new ServiceDownComponent(appStore);
-        let result = component.showErrorLinkWithNewTab({
-            bodyText: null,
-            urlText: 'someText',
-            url: 'someUrl',
-            newTab: true
-          });
-        expect(result).toEqual(true);
+        let result = component.showErrorLinkWithNewTab(null);
+        expect(result).toEqual('_self');
 
-        result = component.showErrorLinkWithNewTab({
-            bodyText: null,
-            urlText: 'someText',
-            url: 'someUrl',
-            newTab: null
-          });
-        expect(result).toEqual(false);
+        result = component.showErrorLinkWithNewTab(false);
+        expect(result).toEqual('_self');
+
+        result = component.showErrorLinkWithNewTab(true);
+        expect(result).toEqual('_blank');
     });
 });

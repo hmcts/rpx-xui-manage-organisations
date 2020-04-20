@@ -226,13 +226,20 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then('I see login to MC with invited user is {string}', { timeout: 120 * 1000 }, async function (loginStatus) {
     await manageCasesService.init();
     manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
-    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)
-    if (loginStatus.includes('success')){
-      await manageCasesService.validateLoginSuccess();
-    }else{
-      await manageCasesService.validateLoginFailure();
+    try{
+      await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)
+      if (loginStatus.includes('success')) {
+        await manageCasesService.validateLoginSuccess();
+      } else {
+        await manageCasesService.validateLoginFailure();
+      }
+      await manageCasesService.destroy();
+    }catch(err){
+      await manageCasesService.attachScreenshot();
+      await manageCasesService.destroy()
+      throw err;
     }
-    await manageCasesService.destroy(); 
+   
   });
 
 });
@@ -252,6 +259,8 @@ async function loginWithCredentials(username,password,world){
   await browserWaits.waitForElement(loginPage.emailAddress);
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);
+  await browserWaits.waitForElement(loginPage.signinBtn);
+
   await loginPage.clickSignIn();
 }
 

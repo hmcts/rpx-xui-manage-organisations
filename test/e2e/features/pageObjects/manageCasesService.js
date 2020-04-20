@@ -53,9 +53,9 @@ class ManageCasesService {
         this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link')); 
 
         await this.mcBrowser.get(this.baseUrl)
-        await this.retryForPageLoad(this.emailAddressElement, async () => {
-            await this.mcBrowser.get(this.baseUrl);
-        }); 
+        // await this.retryForPageLoad(this.emailAddressElement, async () => {
+        //     await this.mcBrowser.get(this.baseUrl);
+        // }); 
     }
 
     async destroy(){
@@ -65,8 +65,8 @@ class ManageCasesService {
         }
     }
 
-    async waitForElement(element) {
-        await this.mcBrowser.wait(EC.presenceOf(element), 60000, "Error : " + element.locator().toString());
+    async waitForElement(element,waitTime) {
+        await this.mcBrowser.wait(EC.presenceOf(element), waitTime ? waitTime :  10000, "Error : " + element.locator().toString());
 
     }
 
@@ -108,9 +108,7 @@ class ManageCasesService {
                     break;
                 }catch(error){
                     this.logger("MC Login page not loaded. Retry page load "+counter);
-                    let stream = await this.mcBrowser.takeScreenshot();
-                    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-                    this.logger(decodedImage, true);
+                    await this.attachScreenshot();
                     counter+=1;
                 }
 
@@ -123,13 +121,17 @@ class ManageCasesService {
             this.logger("MC Login submitted for user : " + username)
         }
         catch(error){
-            let stream = await this.mcBrowser.takeScreenshot();
-            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-            this.logger(decodedImage, true);
+            await this.attachScreenshot();
             throw new Error(error);
         }
         
 
+    }
+
+    async attachScreenshot(){
+        let stream = await this.mcBrowser.takeScreenshot();
+        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+        this.logger(decodedImage, true)
     }
 
     async validateLoginSuccess(){

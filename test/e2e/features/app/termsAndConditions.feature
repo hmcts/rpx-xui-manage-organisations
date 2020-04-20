@@ -26,7 +26,6 @@ Background: background setup
     Then I should see invited user is listed in users table
     Then I select the sign out link
 
-@test
 Scenario: New User first time loggged in presented with Accept Terms and Consitions page
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page

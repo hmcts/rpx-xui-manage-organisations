@@ -1,17 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
-import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromUsersEffects from './users.effects';
-import { UsersEffects } from './users.effects';
-import { LoadUsersSuccess, LoadUsersFail, LoadUsers, SuspendUser, SuspendUserSuccess, SuspendUserFail } from '../actions/user.actions';
-import { UsersService } from '../../services/users.service';
+import { cold, hot } from 'jasmine-marbles';
+import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { UsersService } from '../../services/users.service';
+import { LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import * as fromUsersEffects from './users.effects';
 
 describe('Users Effects', () => {
     let actions$;
-    let effects: UsersEffects;
+    let effects: fromUsersEffects.UsersEffects;
     const UsersServiceMock = jasmine.createSpyObj('UsersService', [
         'getListOfUsers', 'suspendUser',
     ]);
@@ -36,7 +35,7 @@ describe('Users Effects', () => {
             ]
         });
 
-        effects = TestBed.get(UsersEffects);
+        effects = TestBed.get(fromUsersEffects.UsersEffects);
         loggerService = TestBed.get(LoggerService);
 
     });
@@ -62,7 +61,7 @@ describe('Users Effects', () => {
             const action = new LoadUsers();
             const completion = new LoadUsersSuccess({
                 users: [
-                    { idamStatus: 'PENDING', fullName: 'undefined undefined' }
+                    { idamStatus: 'PENDING', fullName: 'undefined undefined', routerLink: 'user/undefined'  }
                 ]
             });
             actions$ = hot('-a', { a: action });

@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
-import * as fromStore from '../../store';
-import {Observable} from 'rxjs';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import {UserListApiModel} from '../../models/userform.model';
+import {Observable} from 'rxjs';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-users-component',
@@ -12,24 +12,23 @@ import {UserListApiModel} from '../../models/userform.model';
 })
 export class UsersComponent implements OnInit {
 
-  columnConfig: GovukTableColumnConfig[];
-  tableUsersData$: Observable<any>; // TODO add type
-  isLoading$: Observable<boolean>;
+  public columnConfig: GovukTableColumnConfig[];
+  public tableUsersData$: Observable<User[]>;
+  public isLoading$: Observable<boolean>;
 
   constructor(
-    private store: Store<fromStore.UserState>
+    private readonly store: Store<fromStore.UserState>
   ) { }
 
-  ngOnInit(): void {
-    this.columnConfig = [
-      { header: 'Name', key: 'fullName', type: 'link'},
-      { header: 'Email', key: 'email' },
-      { header: 'Status', key: 'status' }
-    ];
+  public ngOnInit(): void {
 
     this.store.dispatch(new fromStore.LoadUsers());
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
+  }
+
+  public inviteNewUser(): void {
+    this.store.dispatch(new fromStore.InviteNewUser());
   }
 
 }

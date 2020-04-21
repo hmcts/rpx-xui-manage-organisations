@@ -1,8 +1,8 @@
 import { createSelector } from '@ngrx/store';
 
+import {AppUtils} from '../../utils/app-utils';
 import * as fromRoot from '../reducers';
 import * as fromAppFeature from '../reducers/app.reducer';
-import {AppUtils} from '../../utils/app-utils';
 
 
 export const getAppState = createSelector(
@@ -36,6 +36,11 @@ export const getNav = createSelector(
 export const getAllJurisdictions = createSelector(
   getAppState,
   fromAppFeature.getUserJuridictions
+);
+
+export const getCurrentError = createSelector(
+  getAppState,
+  fromAppFeature.getGlobalError
 );
 
 export const getNavItems = createSelector(

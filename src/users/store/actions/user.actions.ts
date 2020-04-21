@@ -11,58 +11,70 @@ export const EDIT_USER_SERVER_ERROR = '[User] Edit User Server Error';
 export const SUSPEND_USER = '[User] Suspend User';
 export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
 export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
+export const INVITE_NEW_USER = '[User] Invite New User';
+export const REINVITE_PENDING_USER = '[User]Reinvite Pending User';
 
 export class LoadUsers {
-  readonly type = LOAD_USERS;
+  public readonly type = LOAD_USERS;
   constructor() { }
 }
 
 export class LoadUsersSuccess implements Action {
-  readonly type = LOAD_USERS_SUCCESS;
+  public readonly type = LOAD_USERS_SUCCESS;
   constructor(public payload: any) { }  // TODO add type list of users
 }
 
 export class EditUser implements Action {
-  readonly type = EDIT_USER;
+  public readonly type = EDIT_USER;
   constructor(public payload: any) {
   }
 }
 
 export class EditUserSuccess implements Action {
-  readonly type = EDIT_USER_SUCCESS;
+  public readonly type = EDIT_USER_SUCCESS;
   constructor(public payload: any) {
   }
 }
 
 export class EditUserServerError implements Action {
-  readonly type = EDIT_USER_SERVER_ERROR;
+  public readonly type = EDIT_USER_SERVER_ERROR;
   constructor(public payload: any) {
   }
 }
 
 export class EditUserFailure implements Action {
-  readonly type = EDIT_USER_FAILURE;
+  public readonly type = EDIT_USER_FAILURE;
   constructor(public payload: any) {
   }
 }
 
 export class LoadUsersFail implements Action {
-  readonly type = LOAD_USERS_FAIL;
+  public readonly type = LOAD_USERS_FAIL;
   constructor(public payload: any) { }
 }
 
 export class SuspendUser {
-  readonly type = SUSPEND_USER;
+  public readonly type = SUSPEND_USER;
   constructor(public payload: any) { }
 }
 
 export class SuspendUserSuccess implements Action {
-  readonly type = SUSPEND_USER_SUCCESS;
+  public readonly type = SUSPEND_USER_SUCCESS;
   constructor(public payload: any) { }
 }
 
 export class SuspendUserFail implements Action {
-  readonly type = SUSPEND_USER_FAIL;
+  public readonly type = SUSPEND_USER_FAIL;
+  constructor(public payload: any) { }
+}
+
+export class InviteNewUser {
+  public readonly type = INVITE_NEW_USER;
+  constructor() { }
+}
+
+export class ReinvitePendingUser {
+  public readonly type = REINVITE_PENDING_USER;
   constructor(public payload: any) { }
 }
 
@@ -75,4 +87,6 @@ export type UserActions =
   | SuspendUser
   | SuspendUserSuccess
   | SuspendUserFail
-  | EditUserServerError;
+  | EditUserServerError
+  | ReinvitePendingUser
+  | InviteNewUser;

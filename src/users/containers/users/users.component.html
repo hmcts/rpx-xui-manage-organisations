@@ -5,17 +5,13 @@
            <h1 class="hmcts-page-heading__title govuk-heading-xl">Users</h1>
         </div>
         <div class="hmcts-page-heading__actions-wrapper">
-           <a [routerLink]="'/users/invite-user'" role="button" draggable="false" class="govuk-button hmcts-page-heading__button">
+           <a (click)="inviteNewUser()" role="button" draggable="false" class="govuk-button hmcts-page-heading__button">
            Invite user
            </a>
         </div>
      </div>
      <div class="table-right_margin">
-        <app-govuk-table *ngIf="!(isLoading$ | async) else isLoading"
-          [columnConfig]="columnConfig"
-          [rows]="tableUsersData$ | async" [firstCellIsHeader]="false"
-          [caption]="''">
-        </app-govuk-table>
+      <xuilib-user-list *ngIf="!(isLoading$ | async) else isLoading" [users]="tableUsersData$ | async"></xuilib-user-list>
      </div>
      <ng-template #isLoading>
       <div>Loading...</div>

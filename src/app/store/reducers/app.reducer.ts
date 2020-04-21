@@ -5,6 +5,18 @@ import { UserNavModel } from '../../models/user-nav.model';
 import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
 
+export interface ErrorMessage {
+  bodyText: string;
+  urlText: string;
+  url: string;
+  newTab?: boolean;
+}
+
+export interface GlobalError {
+  header: string;
+  errors: ErrorMessage [];
+}
+
 export interface AppState {
   allNavItems: {[id: string]: object};
   pageTitle: string;
@@ -13,6 +25,7 @@ export interface AppState {
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
   termsAndConditions: TCDocument;
+  globalError: GlobalError;
 }
 
 export const initialState: AppState = {
@@ -22,7 +35,8 @@ export const initialState: AppState = {
   navItems: [],
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
   jurisdictions: [],
-  termsAndConditions: null
+  termsAndConditions: null,
+  globalError: null
 };
 
 export function reducer(
@@ -85,9 +99,25 @@ export function reducer(
         ...state,
         termsAndConditions: action.payload
       };
-  }
 
-  return state;
+    case fromAction.APP_ADD_GLOBAL_ERROR: {
+      return {
+        ...state,
+        globalError: action.payload
+      };
+    }
+
+    case fromAction.APP_CLEAR_GLOBAL_ERROR: {
+      return {
+        ...state,
+        globalError: null
+      };
+    }
+
+    default: {
+      return state;
+    }
+  }
 }
 
 export const getPageTitle = (state: AppState) => state.pageTitle;
@@ -96,4 +126,5 @@ export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
+export const getGlobalError = (state: AppState) => state.globalError;
 

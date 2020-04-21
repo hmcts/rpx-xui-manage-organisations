@@ -21,6 +21,7 @@
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js --local",
     "test:fullfunctional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js",
     "test:fullfunctional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js --local",
+    "test:crossbrowser": "webdriver-manager update && protractor ./test/e2e/config/crossbrowser.conf.js",
     "test:coverage": "echo 'not implemented'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:api": "ts-node ./test/integration/tests/test.ts",

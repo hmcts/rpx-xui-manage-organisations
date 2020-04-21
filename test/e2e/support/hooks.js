@@ -14,6 +14,7 @@ const htmlReports = `${process.cwd()}/reports/html`;
 const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
 const { Given, When, Then } = require('cucumber');
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 
 // defineSupportCode(function({After }) {

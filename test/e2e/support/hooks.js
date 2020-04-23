@@ -95,7 +95,7 @@ const { Given, When, Then } = require('cucumber');
 defineSupportCode(({ After }) => {
     After(function(scenario, done) {
         const world = this;
-        if (scenario.result.status !== 'failed1') {
+        if (scenario.result.status === 'failed1') {
             console.log("After scenario : " + scenario.result.status);
             screenShotUtils.takeScreenshot()
             .then(stream => {
@@ -115,6 +115,7 @@ defineSupportCode(({ After }) => {
                     done();
                 });
         } else {
+            world.attach("Screenshots disabled. Work in progress to fix issue in kenkins ");
             done();
         }
     });

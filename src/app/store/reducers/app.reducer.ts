@@ -10,6 +10,17 @@ export interface AppFeatureFlag {
  featureName: string;
  isEnabled: boolean;
 }
+export interface ErrorMessage {
+  bodyText: string;
+  urlText: string;
+  url: string;
+  newTab?: boolean;
+}
+
+export interface GlobalError {
+  header: string;
+  errors: ErrorMessage [];
+}
 
 export interface AppState {
   allNavItems: {[id: string]: object};
@@ -20,6 +31,7 @@ export interface AppState {
   jurisdictions: any[];
   termsAndConditions: TCDocument;
   featureFlags: AppFeatureFlag[];
+  globalError: GlobalError;
 }
 
 export const initialState: AppState = {
@@ -30,7 +42,8 @@ export const initialState: AppState = {
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
   jurisdictions: [],
   termsAndConditions: null,
-  featureFlags: []
+  featureFlags: [],
+  globalError: null
 };
 
 export function reducer(
@@ -98,9 +111,25 @@ export function reducer(
         ...state,
         featureFlags: action.payload
       };
-    default:
+
+    case fromAction.APP_ADD_GLOBAL_ERROR: {
+      return {
+        ...state,
+        globalError: action.payload
+      };
+    }
+
+    case fromAction.APP_CLEAR_GLOBAL_ERROR: {
+      return {
+        ...state,
+        globalError: null
+      };
+    }
+
+    default: {
       return state;
     }
+  }
 }
 
 export const getPageTitle = (state: AppState) => state.pageTitle;
@@ -110,3 +139,4 @@ export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
 export const getFeatureFlag = (state: AppState) => state.featureFlags;
+export const getGlobalError = (state: AppState) => state.globalError;

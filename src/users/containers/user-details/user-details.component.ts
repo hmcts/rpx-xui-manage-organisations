@@ -134,12 +134,23 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     return status === 'Suspended';
   }
 
+  public isPending(status) {
+    return status === 'Pending';
+  }
+
+
   public isSuspendView() {
     return this.suspendViewFlag;
   }
 
   public suspendUser(suspendUser: User) {
     this.userStore.dispatch(new fromStore.SuspendUser(suspendUser));
+  }
+
+  public reinviteUser(user: User) {
+    console.log('REINVITE USER');
+    console.log(user);
+    this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
 
 }

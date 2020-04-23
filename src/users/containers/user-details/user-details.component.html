@@ -1,5 +1,5 @@
 <app-hmcts-main-wrapper
-   [title]="'User details'"
+   [title]="isPending(user?.status)?'Pending user details':'User details'"
    [backLink]="'/users'"
    [actionButtons]="actionButtons"
    *ngIf="!isSuspendView()"
@@ -9,7 +9,10 @@
     [editPermissionRouterLink]="editPermissionRouter"
     [isSuspended]="isSuspended(user?.status)"
     [warningTitle]="isSuspended(user?.status)?'This user\'s account has been suspended.': null"
-    [suspendHelpLink]="'/get-help'">
+    [suspendHelpLink]="'/get-help'"
+    [showPermissions]="!isPending(user?.status)"
+    [reinviteButton]="isPending(user?.status)"
+    (reinvite)="reinviteUser($event)">
   </xuilib-user-details>
   <ng-template #isLoading>
     <div>Loading...</div>

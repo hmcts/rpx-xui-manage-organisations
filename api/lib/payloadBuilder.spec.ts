@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import 'mocha'
-import { makeOrganisationPayload, setPropertyIfNotNull, setDXIfNotNull } from './payloadBuilder'
+import { makeOrganisationPayload, setDXIfNotNull, setPropertyIfNotNull } from './payloadBuilder'
 
 describe('Payload builder', () => {
 
@@ -92,9 +92,8 @@ describe('Payload builder', () => {
     })
 
     it('Should take the postcode and set it as the postcode on the payload.', () => {
-
-        const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(organsiationPayload.contactInformation[0].postCode).to.equal(STATE_VALUES.postcode)
+        const organisationPayloadPostCode = makeOrganisationPayload(STATE_VALUES)
+        expect(organisationPayloadPostCode.contactInformation[0].postCode).to.equal(STATE_VALUES.postcode)
     })
 
     it('Should take the town or city and set it as the town city on the payload.', () => {

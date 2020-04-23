@@ -22,6 +22,7 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def deployToAatOnly = true // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'rpx-${env}': [
@@ -59,7 +60,9 @@ withPipeline(type, product, component) {
 //      AppPipelineDsl.PactRoles.CONSUMER
 //    ])
 
-    after('checkout') {sh 'yarn cache clean'}
+    after('checkout') {
+        yarnBuilder.yarn('cache clean')
+    }
 
     if (deployToAatOnly) {
         before('buildinfra:prod') {
@@ -70,7 +73,7 @@ withPipeline(type, product, component) {
     }
 
     after('build') {
-        sh 'yarn  build'
+        yarnBuilder.yarn('build')
 
         publishHTML([
             allowMissing         : true,

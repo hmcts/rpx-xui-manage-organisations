@@ -43,7 +43,7 @@ nodejs:
     FEATURE_APP_INSIGHTS_ENABLED: true
     FEATURE_SECURE_COOKIE_ENABLED: true
     FEATURE_PROXY_ENABLED: false
-    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_TERMS_AND_CONDITIONS_ENABLED: true
     FEATURE_HELMET_ENABLED: true
     FEATURE_REDIS_ENABLED: true
 
@@ -62,7 +62,7 @@ nodejs:
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
     MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    
+
   keyVaults:
     rpx:
       resourceGroup: rpx

@@ -27,4 +27,8 @@ export class UsersComponent implements OnInit {
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 
+  public inviteNewUser(): void {
+    this.store.dispatch(new fromStore.InviteNewUser());
+  }
+
 }

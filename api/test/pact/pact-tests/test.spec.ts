@@ -3,8 +3,7 @@ import { expect } from 'chai'
 import * as path from 'path'
 import { getUserDetails } from '../../../services/idam'
 
-
-describe("Reference Data API", () => {
+xdescribe("Reference Data API", () => {
   const idamTestUrl = "http://localhost:8992"
   const port = 8992
   const provider = new Pact({

@@ -88,7 +88,6 @@ async function sessionChainCheck(req: express.Request, res: express.Response, ac
     console.log(getUserDetails(accessToken, idamUrl))
     const userDetails = await asyncReturnOrError(getUserDetails(accessToken, idamUrl), 'Cannot get user details', res, logger, false)
 
-
     if (!propsExist(userDetails, ['data', 'roles'])) {
       logger.warn('User does not have any access roles.')
       doLogout(req, res, 401)
@@ -145,9 +144,6 @@ export async function oauth(req: express.Request, res: express.Response, next: e
       logger.warn('Auth token  expired need to log in again')
       doLogout(req, res, 401)
     } else {
-      let orgId
-      let details
-
       const check = await sessionChainCheck(req, res, accessToken)
       if (check) {
         axios.defaults.headers.common.Authorization = `Bearer ${req.session.auth.token}`

@@ -8,6 +8,9 @@ export const LOAD_PAGE_ITEMS_FAIL = '[Registration] LoadPageItems Fail';
 export const SAVE_FORM_DATA = '[Registration] Save Form Data';
 
 export const RESET_ERROR_MESSAGE = '[Registration] ResetErrorMessage';
+
+export const RESET_ERROR_MESSAGE_CODE = '[Registration] ResetErrorMessageCode';
+
 export const RESET_NEXT_URL = '[Registration] Reset Next Url';
 
 export class LoadPageItems implements Action {
@@ -55,6 +58,11 @@ export class ResetErrorMessage implements Action {
   constructor(public payload: any) {}
 }
 
+export class ResetErrorMessageCode implements Action {
+  readonly type = RESET_ERROR_MESSAGE_CODE;
+  constructor(public payload: any) {}
+}
+
 export class ResetNextUrl implements Action {
   readonly type = RESET_NEXT_URL;
   constructor() {
@@ -70,4 +78,5 @@ export type RegistrationActions =
   | SubmitFormDataSuccess
   | SubmitFormDataFail
   | ResetErrorMessage
+  | ResetErrorMessageCode
   | ResetNextUrl;

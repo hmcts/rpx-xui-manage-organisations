@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
 export const router = express.Router({ mergeParams: true })
@@ -9,10 +8,10 @@ const logger = log4jui.getLogger('outgoing')
 
 router.put('/', suspendUser)
 
-async function suspendUser(req, res) {
+async function suspendUser(req: express.Request, res: express.Response) {
     const payload = req.body
     try {
-        const response = await http.put(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/${req.params.userId}`, payload)
+        const response = await req.http.put(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/${req.params.userId}`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

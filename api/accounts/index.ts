@@ -1,10 +1,9 @@
-import { AxiosPromise } from 'axios'
+import {AxiosPromise} from 'axios'
 import * as express from 'express'
-import { getConfigValue } from '../configuration'
-import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references'
-import { FeeAccount } from '../interfaces/feeAccountPayload'
-import { http } from '../lib/http'
-import { getAccountUrl } from './accountUtil'
+import {getConfigValue} from '../configuration'
+import {SERVICES_FEE_AND_PAY_API_PATH} from '../configuration/references'
+import {FeeAccount} from '../interfaces/feeAccountPayload'
+import {getAccountUrl} from './accountUtil'
 
 async function handleAddressRoute(req, res) {
     let errReport: any
@@ -23,7 +22,7 @@ async function handleAddressRoute(req, res) {
     accountNames.forEach((accountNumber: string) => {
         const feeAndPayHostUrl = getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)
         const url = getAccountUrl(feeAndPayHostUrl, accountNumber)
-        accountPromises.push(getAccountPromise(url))
+        accountPromises.push(getAccountPromise(url, req))
     })
     let responseStatusCode
     try {
@@ -51,9 +50,8 @@ async function handleAddressRoute(req, res) {
     }
 }
 
-function getAccountPromise(url: string): AxiosPromise<any> {
-    const promise = http.get(url).catch(err => err)
-    return promise
+function getAccountPromise(url: string, req: express.Request): AxiosPromise<any> {
+  return req.http.get(url).catch(err => err)
 }
 
 export const router = express.Router({ mergeParams: true })

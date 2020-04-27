@@ -40,6 +40,8 @@ defineSupportCode(function ({ Given, When, Then }) {
         catch(err){
             this.attach("Error occured Approving organisation");
             await approveOrganizationService.destroy();
+            logger(this,await approveOrganizationService.getScrenshot(),true );
+            await approveOrganizationService.destroy();
             throw err;
         }
     });

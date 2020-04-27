@@ -1,15 +1,13 @@
+import * as express from 'express'
 import * as otp from 'otp'
 import {getConfigValue} from '../configuration'
-import {
-  MICROSERVICE,
-  S2S_SECRET,
-} from '../configuration/references'
+import {MICROSERVICE, S2S_SECRET,} from '../configuration/references'
 import {http} from './http'
 import * as log4jui from './log4jui'
 
 const s2sSecret = getConfigValue(S2S_SECRET) // process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
 
-const microservice = getConfigValue(MICROSERVICE) //application.microservice
+const microservice = getConfigValue(MICROSERVICE) // application.microservice
 
 const logger = log4jui.getLogger('s2s token generation')
 
@@ -19,12 +17,11 @@ const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
  *
  * With our S2S Secret we generate a one time password. This S2S secret is used to get our our S2S Token.
  *
- * @param s2sSecret
- * @returns {any}
+ * @param s2sSecretStr
+ * @returns string
  */
-export function generateOneTimePassword(s2sSecret) {
-
-  return otp({secret: s2sSecret}).totp()
+export function generateOneTimePassword(s2sSecretStr: string) {
+  return otp({secret: s2sSecretStr}).totp()
 }
 
 /**
@@ -35,7 +32,7 @@ export function generateOneTimePassword(s2sSecret) {
  *
  * @microservice xui_webapp
  * @url https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
- * @returns {string}
+ * @returns string
  */
 export async function generateS2sToken(url) {
 
@@ -45,8 +42,7 @@ export async function generateS2sToken(url) {
   try {
 
     const s2sTokenResponse = await requestS2sToken(url, microservice, oneTimePassword)
-    const s2sToken = s2sTokenResponse.data
-    return s2sToken
+    return s2sTokenResponse.data
   } catch (error) {
     logger.error(`Error generating S2S Token`)
     logger.error(`Error generating S2S Token: Status code ${error.status}`)
@@ -64,15 +60,17 @@ export async function generateS2sToken(url) {
  * Request S2S Token
  *
  * @param url - ie. https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
- * @param microservice - xui_webapp
+ * @param microserviceName - xui_webapp
  * @param oneTimePassword - Generated with a one time password generator
  *
  * @returns {Promise<AxiosPromise<any>>}
  */
-export async function requestS2sToken(url, microservice, oneTimePassword) {
+export async function requestS2sToken(url, microserviceName, oneTimePassword) {
 
-  return http.post(`${url}/lease`, {
-    microservice,
+  const axiosInstance = http({} as unknown as express.Request)
+
+  return axiosInstance.post(`${url}/lease`, {
+    microservice: microserviceName,
     oneTimePassword,
   })
 }

@@ -67,6 +67,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   When("I login with latest invited user", async function () {
     const world = this;
 
+    this.attach("User email : " + global.latestInvitedUser);
     await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
     await loginPage.password.sendKeys(global.latestInvitedUserPassword);
     // browser.sleep(SHORT_DELAY);
@@ -157,8 +158,22 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
+    this.attach('Login user : ' + global.testorg_rw_superuser_email);
+    console.log('Login user : ' + global.testorg_rw_superuser_email);
     await loginWithCredentials(global.testorg_rw_superuser_email, 'Monday01',world);
-; 
+
+    let tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled(this);
+    if (tandcfeatureToggle){
+      if (global.testorgStatus >= 4) {
+        console.log("User accepted T&C already");
+      } else {
+        await waitForElement('hmcts-header__link');
+        let tandcAcceptPageDisplayed = await acceptTermsAndConditionsPage.amOnPage();
+        console.log("tandcAcceptPageDisplayed : " + tandcAcceptPageDisplayed);
+        await acceptTermsAndConditionsPage.acceptTremsAndConditions();
+        global.testorgStatus = 4;
+      }
+    } 
   });
 
   Given("I am logged in to created approve organisation", async function () {
@@ -211,13 +226,20 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then('I see login to MC with invited user is {string}', { timeout: 120 * 1000 }, async function (loginStatus) {
     await manageCasesService.init();
     manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
-    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)
-    if (loginStatus.includes('success')){
-      await manageCasesService.validateLoginSuccess();
-    }else{
-      await manageCasesService.validateLoginFailure();
+    try{
+      await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)
+      if (loginStatus.includes('success')) {
+        await manageCasesService.validateLoginSuccess();
+      } else {
+        await manageCasesService.validateLoginFailure();
+      }
+      await manageCasesService.destroy();
+    }catch(err){
+      await manageCasesService.attachScreenshot();
+      await manageCasesService.destroy()
+      throw err;
     }
-    await manageCasesService.destroy(); 
+   
   });
 
 });
@@ -237,6 +259,8 @@ async function loginWithCredentials(username,password,world){
   await browserWaits.waitForElement(loginPage.emailAddress);
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);
+  await browserWaits.waitForElement(loginPage.signinBtn);
+
   await loginPage.clickSignIn();
 }
 

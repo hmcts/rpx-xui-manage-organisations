@@ -1,11 +1,10 @@
 import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
 
-async function handleAddressRoute(req, res) {
+async function handleAddressRoute(req: express.Request, res: express.Response) {
     try {
-        const response = await http.get(
+        const response = await req.http.get(
           `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
         )
         res.send(response.data)

@@ -10,7 +10,7 @@ class ApproveOrganisationService{
         this.useremail = "";
         this.password = "";
         if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")){
-            this.baseUrl = "https://xui-ao-webapp-aat.service.core-compute-aat.internal";
+            this.baseUrl = "https://administer-orgs.aat.platform.hmcts.net";
             this.useremail = "vmuniganti@mailnesia.com";
             this.password = "Monday01";
         } else if (process.env.TEST_URL.includes("demo")){

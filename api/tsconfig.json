@@ -9,6 +9,10 @@
             "mocha",
             "rxjs"
         ],
+        "typeRoots": [
+          "./customTypings",
+          "node_modules/@types"
+        ],
         "baseUrl": ".",
         "lib": [
             "es2017",

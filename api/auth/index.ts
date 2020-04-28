@@ -9,7 +9,7 @@ import {
 } from '../configuration/references'
 import {http} from '../lib/http'
 import {propsExist} from '../lib/objectUtilities'
-import {asyncReturnOrError} from '../lib/util'
+import {asyncReturnOrError, exists} from '../lib/util'
 import {getUserDetails} from '../services/idam'
 import {serviceTokenGenerator} from './serviceToken'
 import {userHasAppAccess} from './userRoleAuth'
@@ -20,7 +20,6 @@ const logger = log4js.getLogger('auth')
 logger.level = getConfigValue(LOGGING)
 
 export async function attach(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const session = req.session!
   const accessToken = req.cookies[getConfigValue(COOKIE_TOKEN)]
 
   let expired
@@ -33,14 +32,15 @@ export async function attach(req: express.Request, res: express.Response, next: 
   }
   if (!accessToken || expired) {
     logger.info('Auth Token expired!')
-    doLogout(req, res, 401)
+    await doLogout(req, res, 401)
   } else {
     const check = await sessionChainCheck(req, res, accessToken)
     if (check) {
       logger.info('Attaching auth')
       // also use these as axios defaults
       logger.info('Using Idam Token in defaults')
-      axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+      // axios.defaults.headers.common.Authorization = `Bearer ${session.auth.token}`
+      req.http = http(req)
       const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
       if (token) {
         logger.info('Using S2S Token in defaults')
@@ -48,7 +48,7 @@ export async function attach(req: express.Request, res: express.Response, next: 
         axios.defaults.headers.common.ServiceAuthorization = token
       } else {
         logger.warn('Cannot attach S2S token ')
-        doLogout(req, res, 401)
+        await doLogout(req, res, 401)
       }
     }
 
@@ -56,7 +56,7 @@ export async function attach(req: express.Request, res: express.Response, next: 
   }
 }
 
-export async function getTokenFromCode(req: express.Request, res: express.Response): Promise<AxiosResponse> {
+export async function getTokenFromCode(req: express.Request): Promise<AxiosResponse> {
   logger.info(`IDAM STUFF ===>> ${getConfigValue(IDAM_CLIENT)}:${secret}`)
   const Authorization = `Basic ${Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${secret}`).toString('base64')}`
   const options = {
@@ -65,6 +65,7 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   }
+  const axiosInstance = http({} as unknown as express.Request)
 
   logger.info('Getting Token from auth code.')
 
@@ -73,7 +74,7 @@ export async function getTokenFromCode(req: express.Request, res: express.Respon
       getProtocol()
     }://${req.headers.host}${getConfigValue(OAUTH_CALLBACK_URL)}`
   )
-  return http.post(
+  return axiosInstance.post(
     `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token?grant_type=authorization_code&code=${req.query.code}&redirect_uri=${
       getProtocol()
     }://${req.headers.host}${getConfigValue(OAUTH_CALLBACK_URL)}`,
@@ -90,13 +91,13 @@ async function sessionChainCheck(req: express.Request, res: express.Response, ac
 
     if (!propsExist(userDetails, ['data', 'roles'])) {
       logger.warn('User does not have any access roles.')
-      doLogout(req, res, 401)
+      await doLogout(req, res, 401)
       return false
     }
 
     if (!userHasAppAccess(userDetails.data.roles)) {
       logger.warn('User has no application access, as they do not have a Manage Organisations role.')
-      doLogout(req, res, 401)
+      await doLogout(req, res, 401)
       return false
     }
 
@@ -119,7 +120,7 @@ async function sessionChainCheck(req: express.Request, res: express.Response, ac
 
   if (!req.session.auth) {
     logger.warn('Auth token  expired need to log in again')
-    doLogout(req, res, 401)
+    await doLogout(req, res, 401)
     return false
   }
 
@@ -128,7 +129,7 @@ async function sessionChainCheck(req: express.Request, res: express.Response, ac
 
 export async function oauth(req: express.Request, res: express.Response, next: express.NextFunction) {
   logger.info('starting oauth callback')
-  const response = await getTokenFromCode(req, res)
+  const response = await getTokenFromCode(req)
   const accessToken = response.data.access_token
 
   if (accessToken) {
@@ -142,12 +143,13 @@ export async function oauth(req: express.Request, res: express.Response, next: e
 
     if (expired) {
       logger.warn('Auth token  expired need to log in again')
-      doLogout(req, res, 401)
+      await doLogout(req, res, 401)
     } else {
       const check = await sessionChainCheck(req, res, accessToken)
       if (check) {
-        axios.defaults.headers.common.Authorization = `Bearer ${req.session.auth.token}`
-        axios.defaults.headers.common['user-roles'] = req.session.auth.roles
+        // axios.defaults.headers.common.Authorization = `Bearer ${req.session.auth.token}`
+        // axios.defaults.headers.common['user-roles'] = req.session.auth.roles
+        req.http = http(req)
 
         if (req.headers.ServiceAuthorization) {
           axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
@@ -165,16 +167,30 @@ export async function oauth(req: express.Request, res: express.Response, next: e
   }
 }
 
-export function doLogout(req: express.Request, res: express.Response, status: number = 302) {
-  res.clearCookie(getConfigValue(COOKIE_TOKEN))
-  res.clearCookie(getConfigValue(COOKIES_USERID))
-  req.session.user = null
-  delete req.session.auth // delete so it does not get returned to FE
-  req.session.save(() => {
-    res.redirect(status, `${req.query.redirect}` || '/')
+export async function doLogout(req: express.Request, res: express.Response, status: number = 302) {
+  const auth = `Basic ${
+    Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${getConfigValue(IDAM_SECRET)
+    }`).toString('base64')}`
+
+  const axiosInstance = http({} as unknown as express.Request)
+
+  if (exists(req, 'session.auth.token')) {
+    await axiosInstance.delete(`${getConfigValue(SERVICES_IDAM_API_PATH)}/session/${req.session.auth.token}`, {
+      headers: {
+        Authorization: auth,
+      }
+    }).catch( err => {
+      logger.error('Unable to delete idam session:', err)
+    })
+  }
+
+  req.session.destroy(() => {
+    res.clearCookie(getConfigValue(COOKIE_TOKEN))
+    res.clearCookie(getConfigValue(COOKIES_USERID))
+    res.redirect(status, req.query.redirect || '/')
   })
 }
 
-export function logout(req, res) {
-  doLogout(req, res, 200)
+export async function logout(req, res) {
+  await doLogout(req, res, 200)
 }

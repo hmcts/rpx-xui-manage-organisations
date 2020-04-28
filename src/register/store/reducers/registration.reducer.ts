@@ -35,6 +35,7 @@ export interface RegistrationFormState {
   loading: boolean;
   submitted: boolean;
   errorMessage: string;
+  errorMessageCode: string;
 }
 
 export const initialState: RegistrationFormState = {
@@ -45,7 +46,8 @@ export const initialState: RegistrationFormState = {
   loaded: false,
   loading: false,
   submitted: false,
-  errorMessage: ''
+  errorMessage: '',
+  errorMessageCode: ''
 };
 
 export function reducer(
@@ -134,30 +136,40 @@ export function reducer(
       const apiError = action.payload.error.apiError;
 
       let apiMessageMapped;
+      // tslint:disable-next-line:forin
       for (const key in apiErrors) {
+        if (apiError.includes('PBA_NUMBER Invalid or already exists')) {
+          const errorDescription = action.payload.error.apiErrorDescription;
+          const pbaErrorNumber = errorDescription.substring(errorDescription.indexOf(')=(') + 3, errorDescription.indexOf(') already exists'));
+          apiMessageMapped = `This PBA number ${pbaErrorNumber} has already been used.`;
+        }
         if (apiError.includes(apiErrors[key])) {
           apiMessageMapped = errorMessageMappings[key];
         }
       }
 
-      if (apiMessageMapped) {
+      if (apiMessageMapped && apiError) {
         return {
           ...state,
           submitted: false,
-          errorMessage: apiMessageMapped
+          errorMessage: apiMessageMapped,
+          errorMessageCode: apiError
         };
       } else if ( action.payload.error.statusCode === 400) {
         return {
           ...state,
           submitted: false,
-          errorMessage: action.payload.error.apiErrorDescription
+          errorMessage: action.payload.error.apiErrorDescription,
+          errorMessageCode: ''
+
         };
       }
 
       return {
         ...state,
         submitted: false,
-        errorMessage: errorMessageMappings[9]
+        errorMessage: errorMessageMappings[9],
+        errorMessageCode: ''
       };
     }
 
@@ -165,7 +177,17 @@ export function reducer(
       return {
         ...state,
         submitted: false,
-        errorMessage: ''
+        errorMessage: '',
+        errorMessageCode: ''
+      };
+    }
+
+    case fromRegistration.RESET_ERROR_MESSAGE_CODE: {
+      return {
+        ...state,
+        submitted: false,
+        errorMessage: '',
+        errorMessageCode: ''
       };
     }
   }
@@ -180,4 +202,5 @@ export const getRegistrationNextUrl = (state: RegistrationFormState) => state.ne
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
 export const getRegistrationPagesLoaded = (state: RegistrationFormState) => state.loaded;
 export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
+export const getRegistrationErrorMessagesCodes = (state: RegistrationFormState) => state.errorMessageCode;
 

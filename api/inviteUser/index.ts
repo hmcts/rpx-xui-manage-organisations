@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { getInviteUserUrl } from './inviteUserUtil'
 
@@ -10,11 +9,11 @@ const logger = log4jui.getLogger('outgoing')
 
 router.post('/', inviteUserRoute)
 
-async function inviteUserRoute(req, res) {
+async function inviteUserRoute(req: express.Request, res: express.Response) {
     const payload = req.body
     try {
         const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const response = await http.post(getInviteUserUrl(rdProfessionalApiPath), payload)
+        const response = await req.http.post(getInviteUserUrl(rdProfessionalApiPath), payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

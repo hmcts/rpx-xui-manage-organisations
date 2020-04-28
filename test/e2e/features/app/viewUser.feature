@@ -1,4 +1,4 @@
- @fullFunctional @test
+ @fullFunctional
 Feature: view user workflow
 
 

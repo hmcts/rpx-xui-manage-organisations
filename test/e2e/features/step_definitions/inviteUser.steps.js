@@ -60,7 +60,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     const world = this;
     await browserWaits.retryWithAction(inviteUserPage.userInvitaionConfirmation, async (message) => {
       world.attach("Retry clicking Invite user button  : " + message);
-      screenShotUtils.takeScreenshot()
+      global.screenShotUtils.takeScreenshot()
         .then(stream => {
           const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
           world.attach(decodedImage, 'image/png');

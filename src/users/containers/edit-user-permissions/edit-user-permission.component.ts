@@ -52,6 +52,12 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
         this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
       });
 
+      this.userStore.select(editUserFailureSelector).subscribe(editUserFailure => {
+        if (editUserFailure) {
+          this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
+        }
+      });
+
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
       this.dependanciesSubscription = combineLatest([

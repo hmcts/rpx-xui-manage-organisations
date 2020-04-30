@@ -126,6 +126,20 @@ export function reducer(
       };
     }
 
+    case fromUsers.EDIT_USER_FAILURE: {
+      return {
+        ...state,
+        editUserFailure: true,
+      };
+    }
+
+    case fromUsers.EDIT_USER_FAILURE_RESET: {
+      return {
+        ...state,
+        editUserFailure: false,
+      };
+    }
+
     default:
       return state;
 

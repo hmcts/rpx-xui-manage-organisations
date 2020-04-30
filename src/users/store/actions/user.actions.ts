@@ -49,6 +49,12 @@ export class EditUserFailure implements Action {
   }
 }
 
+export class EditUserFailureReset implements Action {
+  public readonly type = EDIT_USER_FAILURE_RESET;
+  constructor() {
+  }
+}
+
 export class LoadUsersFail implements Action {
   public readonly type = LOAD_USERS_FAIL;
   constructor(public payload: any) { }
@@ -85,6 +91,7 @@ export type UserActions =
   | LoadUsersFail
   | EditUser
   | EditUserFailure
+  | EditUserFailureReset
   | SuspendUser
   | SuspendUserSuccess
   | SuspendUserFail

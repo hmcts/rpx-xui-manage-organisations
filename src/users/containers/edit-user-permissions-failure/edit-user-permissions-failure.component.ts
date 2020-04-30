@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Store} from '@ngrx/store';
-import {EditUserFailureReset} from '../../store/actions';
 import {UserState} from '../../store/reducers';
+import {EditUserFailureReset} from '../../store/actions';
 
 @Component({
   selector: 'app-edit-user-permissions-failure',

@@ -1,7 +1,9 @@
 
 import { UserState } from '../reducers';
 import { UsersListState } from '../reducers/users.reducer';
-import { getGetSingleUser, getUserState } from './user.selectors';
+import {editUserFailureSelector, getGetSingleUser, getUserState} from './user.selectors';
+import {User} from '@hmcts/rpx-xui-common-lib';
+import * as fromUsers from '../reducers/users.reducer';
 
 const userList = [
     {
@@ -60,4 +62,9 @@ describe('User selectors', () => {
         });
     });
 
+    describe('editUserFailureSelector', () => {
+      it('should get the edit user failure state', () => {
+        expect(editUserFailureSelector({ users: mockUserState })).toBeFalsy();
+      });
+    });
 });

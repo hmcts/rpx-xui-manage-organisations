@@ -7,6 +7,7 @@ import { Observable, Subscription, combineLatest } from 'rxjs';
 import { UserRolesUtil } from '../utils/user-roles-util';
 import { Actions, ofType } from '@ngrx/effects';
 import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
+import {editUserFailureSelector} from '../../store/selectors';
 
 @Component({
     selector: 'app-edit-user-permission',
@@ -50,6 +51,12 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
 
       this.editPermissionServerErrorSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
+      });
+
+      this.userStore.select(editUserFailureSelector).subscribe(editUserFailure => {
+        if (editUserFailure) {
+          this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
+        }
       });
 
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));

@@ -32,3 +32,8 @@ export const getGetReinvitePendingUser = createSelector(
   getUserState,
   fromUsers.getReinvitePendingUser
 );
+
+export const editUserFailureSelector = createSelector(
+  getUserState,
+  fromUsers.getEditUserFailure
+);

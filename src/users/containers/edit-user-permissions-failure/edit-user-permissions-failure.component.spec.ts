@@ -7,7 +7,7 @@ import {of} from 'rxjs';
 import {EditUserFailureReset} from '../../store/actions';
 import {EditUserPermissionsFailureComponent} from './edit-user-permissions-failure.component';
 
-fdescribe('EditUserPermissionsFailureComponent', () => {
+describe('EditUserPermissionsFailureComponent', () => {
   let component: EditUserPermissionsFailureComponent;
   let fixture: ComponentFixture<EditUserPermissionsFailureComponent>;
 

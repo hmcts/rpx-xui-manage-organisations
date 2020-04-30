@@ -45,7 +45,7 @@ export class EditUserServerError implements Action {
 
 export class EditUserFailure implements Action {
   public readonly type = EDIT_USER_FAILURE;
-  constructor() {
+  constructor(public payload: any) {
   }
 }
 

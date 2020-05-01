@@ -161,3 +161,8 @@ variable "manage_case_link" {
 variable "manage_org_link" {
   default = "https://manage-org.platform.hmcts.net"
 }
+
+variable "enable_ase" {
+    default = false
+}
+

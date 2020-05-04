@@ -31,6 +31,10 @@ export const ROUTES: Routes = [
     {
       path: 'user/:userId/editpermission-failure',
       component: EditUserPermissionsFailureComponent,
+    },
+    {
+      path: 'user/:userId/editpermission',
+      component: EditUserPermissionComponent,
       canActivate: [FeatureToggleEditUserGuard]
     }
 ];

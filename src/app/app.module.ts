@@ -32,6 +32,11 @@ import { effects } from './store/effects';
 import {TermsConditionGuard} from './guards/termsCondition.guard';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
+import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
+
+// TODO: Add this later
+// import {LogOutKeepAliveService} from './services/keep-alive/keep-alive.service';
+
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
   : [];
@@ -59,7 +64,8 @@ export const metaReducers: MetaReducer<any>[] = !config.production
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule.forRoot({launchDarklyKey: ''})
+    ExuiCommonLibModule.forRoot(),
+    NgIdleKeepaliveModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

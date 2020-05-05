@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
-import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
+import { GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
 import {EnvironmentService} from '../../../shared/services/environment.service';
 import {AppTitlesModel} from '../../models/app-titles.model';
@@ -27,10 +27,12 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
+    private readonly idleService: ManageSessionServices,
     private readonly environmentService: EnvironmentService
   ) {}
 
   public ngOnInit() {
+    console.log('ngOnInit');
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
@@ -49,6 +51,11 @@ export class AppComponent implements OnInit {
     this.environmentService.config$.subscribe( environmentConfig => {
       this.googleAnalyticsService.init(environmentConfig.googleAnalyticsKey);
     });
+
+    // this.idleService.appStateChanges().subscribe(value => {
+    //   console.log('appStateChanges');
+    //   console.log(value);
+    // });
   }
 
   public onNavigate(event): void {

@@ -68,3 +68,8 @@ export const getTermsAndConditions = createSelector(
   getAppState,
   state => state.termsAndConditions
 );
+
+export const getModalSessionData = createSelector(
+  getAppState,
+  (state) => state.modal.session
+);

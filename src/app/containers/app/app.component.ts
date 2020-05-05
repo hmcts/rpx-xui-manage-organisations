@@ -117,6 +117,8 @@ export class AppComponent implements OnInit {
     // ]).subscribe(([routes, idleMilliseconds, timeout]) => {
     //   const isSignedOut: boolean = routes.indexOf('signed-out') !== -1;
     //   if (timeout && idleMilliseconds && !isSignedOut) {
+
+    // TODO: This configuration needs to change dependent on the User.
     const idleConfig: any = { // todo change this any
       timeout: 5, // TODO: This is in seconds not milliseconds
       idleMilliseconds: 30000,

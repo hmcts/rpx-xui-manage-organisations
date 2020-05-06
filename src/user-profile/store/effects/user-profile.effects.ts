@@ -30,7 +30,11 @@ export class UserProfileEffects {
     switchMap(() => {
       return this.userService.getUserDetails()
         .pipe(
-          map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
+          map((userDetails: UserInterface) => {
+            console.log('userDetails from the node layer');
+            console.log(userDetails);
+            return new authActions.GetUserDetailsSuccess(userDetails)
+          }),
           catchError((error: HttpErrorResponse) => {
             this.loggerService.error(error.message);
             return of(new authActions.GetUserDetailsFailure(error));

@@ -3,16 +3,48 @@ import * as log4jui from '../lib/log4jui'
 const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
+import { calcUserTimeout } from './userTimeout';
 
 router.get('/details', handleUserRoute)
 
+// Setup timeouts for the application
+// {
+//   role: '*DwP', // takes in regEx so you can set this to be DwPensions.
+//     idleTime: 43200// idle time in seconds
+// },
+// default
+// {
+//   role: '*', // takes in regEx so you can set this to be DwPensions.
+//     idleTime: 180000// idle time in seconds
+//}
+
+// So what we need to do here is get the timeouts
+// and then run these by the users role.
+// ok so the roles come in here,
+// let's get the usertimeout configuration here and pass it through to the timeoutCalcService
 function handleUserRoute(req, res) {
 
+  const { email, orgId, roles, userId } = req.session.auth;
+
+  const userGroupTimeouts = [
+    {
+      idleTime: 43200, // idle time in seconds
+      role: '*DwP', // takes in regEx so you can set this to be DwPensions.
+    },
+    {
+      idleTime: 180000, // idle time in seconds
+      role: '*', // takes in regEx so you can set this to be DwPensions.
+    },
+  ]
+
+  const userTimeOut = calcUserTimeout(roles, );
+
   const UserDetails: UserProfileModel = {
-    email: req.session.auth.email,
-    orgId: req.session.auth.orgId,
-    roles: req.session.auth.roles,
-    userId: req.session.auth.userId
+    email,
+    orgId,
+    roles,
+    userId,
+    hello: 'hello',
   }
   try {
       const payload = JSON.stringify(UserDetails);

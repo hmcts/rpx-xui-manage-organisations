@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
     private readonly environmentService: EnvironmentService
   ) {}
 
+  // TODO: In the AO application the first thing we do is get the User details,
+  // where does this happen in the MO application
   public ngOnInit() {
     console.log('ngOnInit');
     // TODO when we run FeeAccounts story, this will get uncommented

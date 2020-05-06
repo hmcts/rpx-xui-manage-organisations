@@ -1,31 +1,29 @@
-import { Injectable } from '@angular/core';
-import {CanActivate} from '@angular/router';
-
-import 'rxjs/add/operator/map';
-import {Observable, of} from 'rxjs';
-import {select, Store} from '@ngrx/store';
+import { Inject, Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
+import { select, Store } from '@ngrx/store';
 import * as jwtDecode from 'jwt-decode';
-import * as fromStore from '../store';
-import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
-import {CookieService} from 'ngx-cookie';
+import { CookieService } from 'ngx-cookie';
+import { Observable, of } from 'rxjs';
+import 'rxjs/add/operator/map';
+import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
 import config from '../../../api/lib/config';
-import {AppUtils} from '../../app/utils/app-utils';
-import {AppConstants} from '../../app/app.constants';
-import {EnvironmentService} from '../../shared/services/environment.service';
+import * as fromStore from '../store';
+
 
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private store: Store<fromStore.AuthState>,
-    private cookieService: CookieService,
-    private environmentService: EnvironmentService
+    private readonly store: Store<fromStore.AuthState>,
+    private readonly cookieService: CookieService,
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) {
   }
 
-  canActivate() {
+  public canActivate(): Observable<boolean> {
     if (!this.isAuthenticated()) {
-      return false;
+      return of(false);
     }
     return this.checkStore().pipe(
       switchMap(() => of(true)),
@@ -33,7 +31,7 @@ export class AuthGuard implements CanActivate {
     );
   }
 
-  checkStore(): Observable<boolean> {
+  private checkStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.userLoaded),
       tap(loaded => {
         if (!loaded) {
@@ -45,7 +43,7 @@ export class AuthGuard implements CanActivate {
     );
   }
 
-  isAuthenticated(): boolean {
+  public isAuthenticated(): boolean {
     const jwt = this.cookieService.get(config.cookies.token);
     if (!jwt) {
       this.signOut();
@@ -61,24 +59,20 @@ export class AuthGuard implements CanActivate {
     return notExpired;
   }
 
-  public generateLoginUrl(): Observable<string> {
-    return this.environmentService.config$.map( environmentConfig => {
-      const port = window.location.port ? ':' + window.location.port : '';
-      const API_BASE_URL = `${environmentConfig.protocol}://${window.location.hostname}${port}`
+  public generateLoginUrl(): string {
+    const port = window.location.port ? `:${window.location.port}` : '';
+    const API_BASE_URL = `${this.environmentConfig.protocol}://${window.location.hostname}${port}`;
 
-      const clientId = config.idamClient;
-      const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
+    const clientId = config.idamClient;
+    const callback = `${API_BASE_URL}${config.oauthCallbackUrl}`;
 
-      const base = environmentConfig.idamWeb;
-      // tslint:disable-next-line: max-line-length
-      return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
-    });
+    const base = this.environmentConfig.idamWeb;
+    // tslint:disable-next-line: max-line-length
+    return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=profile openid roles manage-user create-user manage-roles`;
   }
 
-  signOut(): void {
-    this.generateLoginUrl().subscribe( url => {
-      window.location.href = url;
-    });
+  public signOut(): void {
+    window.location.href = this.generateLoginUrl();
   }
 }
 

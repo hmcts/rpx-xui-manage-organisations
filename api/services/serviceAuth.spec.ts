@@ -32,7 +32,7 @@ describe('serviceAuth', () => {
         spyPost.restore()
     })
 
-    describe('service Auth', async () => {
+    xdescribe('service Auth', async () => {
         it('Should make a http.post call ', async () => {
             expect(await serviceAuth.postS2SLease()).to.equal('okay')
         })

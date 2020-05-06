@@ -1,6 +1,6 @@
 // routes
-import {RouterModule, Routes} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from '../user-profile/guards/auth.guard';
 import {AccountOverviewComponent} from './containers/account-overview/account-overview.component';
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
@@ -8,6 +8,7 @@ import {AccountTransactionsComponent} from './containers/account-transactions/ac
 import {OrganisationAccountsComponent} from './containers/overview/account-overview.component';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
 import { AccountsGuard } from './guards/accounts.guard';
+import { FeatureToggleAccountGuard } from './guards/feature-toggle-account.guard';
 
 export const ROUTES: Routes = [
   {
@@ -15,6 +16,7 @@ export const ROUTES: Routes = [
     component: OrganisationAccountsComponent,
     canActivate: [
       AuthGuard,
+      FeatureToggleAccountGuard,
       AccountsGuard
     ],
   },

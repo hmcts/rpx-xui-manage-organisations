@@ -1,7 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "paths": { "*": ["types/*"] },
+        "paths": { "*": ["customTypings/*"] },
         "outDir": "../dist/rpa-pui-manager/api",
         "target": "es5",
         "types": [
@@ -25,5 +25,8 @@
     ],
     "exclude": [
         "**/*.spec.ts"
+    ],
+    "files": [
+        "./customTypings/customExpress/index.d.ts"
     ]
 }

@@ -1,5 +1,5 @@
 /**
- * Calculate User Timeout
+ * Calculate User Session Timeout
  *
  * We calculate the timeout for this user.
  *
@@ -12,9 +12,7 @@
  * @param userGroupTimeouts -
  * @returns
  */
-export const calcUserTimeout = (userRoles, userGroupTimeouts) => {
+export const calcUserSessionTimeout = (userRoles, roleGroupSessionTimeouts) => {
 
-  return {
-
-  }
+  return false;
 }

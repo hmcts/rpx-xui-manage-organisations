@@ -17,11 +17,11 @@ export class UserModel {
   }
 }
 export class UserProfileModel {
-  orgId: string;
+  orgId: string
   userId: string
-  email: string;
-  roles: string[];
-  hello: string
+  email: string
+  roles: string[]
+  sessionTimeout: boolean
   constructor(prop) {
     Object.assign(this, prop);
   }

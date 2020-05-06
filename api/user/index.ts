@@ -3,7 +3,7 @@ import * as log4jui from '../lib/log4jui'
 const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
-import { calcUserTimeout } from './userTimeout';
+import { calcUserSessionTimeout } from './userTimeout';
 
 router.get('/details', handleUserRoute)
 
@@ -24,9 +24,9 @@ router.get('/details', handleUserRoute)
 // let's get the usertimeout configuration here and pass it through to the timeoutCalcService
 function handleUserRoute(req, res) {
 
-  const { email, orgId, roles, userId } = req.session.auth;
+  const { email, orgId, roles, userId } = req.session.auth
 
-  const userGroupTimeouts = [
+  const roleGroupSessionTimeouts = [
     {
       idleTime: 43200, // idle time in seconds
       role: '*DwP', // takes in regEx so you can set this to be DwPensions.
@@ -37,15 +37,16 @@ function handleUserRoute(req, res) {
     },
   ]
 
-  const userTimeOut = calcUserTimeout(roles, );
+  const sessionTimeout = calcUserSessionTimeout(roles, roleGroupSessionTimeouts)
 
   const UserDetails: UserProfileModel = {
     email,
     orgId,
     roles,
+    sessionTimeout,
     userId,
-    hello: 'hello',
   }
+
   try {
       const payload = JSON.stringify(UserDetails);
       console.log(payload)

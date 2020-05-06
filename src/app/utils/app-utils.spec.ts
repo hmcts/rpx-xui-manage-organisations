@@ -1,12 +1,61 @@
 
-import {AppUtils} from './app-utils';
 import {AppConstants} from '../app.constants';
+import { AppFeatureFlag } from '../store/reducers/app.reducer';
+import {AppUtils} from './app-utils';
 const router = {
   state: {
     url: 'register'
   }
 };
 describe('AppUtils', () => {
+
+  it('should return only getFeatureEnabledNavItems', () => {
+    const navItems = [{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    },
+    {
+      text: 'Fee Accounts',
+      href: '/fee-accounts',
+      active: false,
+      orderId: 3,
+      featureToggle: {
+        featureName: AppConstants.FEATURE_NAMES.feeAccount
+      }
+    }];
+
+    const featureFlag: AppFeatureFlag = {
+      isEnabled: true,
+      featureName: AppConstants.FEATURE_NAMES.feeAccount
+    };
+
+    let result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
+    expect(result).toEqual(navItems);
+
+    featureFlag.isEnabled = false;
+    result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
+    expect(result).toEqual([{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    }]);
+  });
+
   it('should set active links values', () => {
     const array = AppUtils.setActiveLink(AppConstants.NAV_ITEMS_ARRAY, router);
     expect(array).toEqual(AppConstants.NAV_ITEMS_ARRAY);

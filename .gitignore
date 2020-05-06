@@ -44,6 +44,7 @@ testem.log
 /typings
 /api/test/pact/logs
 /api/test/pact/pacts
+config/.env
 
 
 # System Files

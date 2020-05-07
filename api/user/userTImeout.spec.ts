@@ -1,9 +1,11 @@
 import { expect } from 'chai'
 import { anyRolesMatch, calcUserSessionTimeout, DEFAULT_SESSION_IDLE_TIME, isRoleMatch} from './userTimeout'
 
-
 // TODO: What is idle time?
 describe('userTimeout', () => {
+
+  const DEFAULT_IDLE_TIME = 180000
+
   xit('should return the default time out of 12 minutes if there is an empty array input, as ' +
     'this is the least amount of time a user group can be logged in for.', () => {
 
@@ -96,27 +98,155 @@ describe('userTimeout', () => {
   // Note that the group setting refers to DWP having a timeout of 12 minutes
   // the rest having a timeout of 50, and the requirement
   // that these should be easily configurable.
-  it('should return the Idle Time of a User based on their User roles, and the ' +
-    'User Role group settings.', () => {
 
-    const roles = [
-      'pui-organisation-manager',
-      'pui-user-manager',
-      'pui-finance-manager',
-    ]
+  describe('anyRolesMatch()', () => {
+    /**
+     * The session timeouts array is in priority order ie. The first Idle Time will be used
+     * if the Regular Expression matches a role.
+     *
+     * If the first Idle Time out is not used then the second is tried to see if
+     * the pattern matches any Role the User may have.
+     *
+     * This goes on until, the final pattern which is the default timeout time.
+     */
+    it('should return the FIRST matching Idle Time from the Session Timeouts, if the User Role matches the pattern.', () => {
 
-    // Note that the default is the last item in this array.
-    const roleGroupSessionTimeouts = [
-      {
-        idleTime: 43200, // idle time in seconds
-        userRolePattern: 'pui-', // takes in regEx so you can set this to be DwPensions.
-      },
-      {
-        idleTime: 180000, // idle time in seconds
-        userRolePattern: '.', // takes in regEx so you can set this to be DwPensions.
-      },
-    ]
+      const roles = [
+        'pui-organisation-manager',
+      ]
 
-    expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(false)
+      const roleGroupSessionTimeouts = [
+        {
+          idleTime: 43200,
+          pattern: 'pui-',
+        },
+        {
+          idleTime: 180000,
+          pattern: '.',
+        },
+      ]
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[0].idleTime)
+    })
+
+    it('should return the FIRST matching Idle Time from the Session Timeouts, if the User Role matches the pattern. (More complex roles list)', () => {
+
+      const roles = [
+        'pui-organisation-manager',
+        'pui-case-manager',
+      ]
+
+      const roleGroupSessionTimeouts = [
+        {
+          idleTime: 43200,
+          pattern: 'pui-case-manager',
+        },
+        {
+          idleTime: DEFAULT_IDLE_TIME,
+          pattern: '.',
+        },
+      ]
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[0].idleTime)
+    })
+
+    it('should return the LAST matching Idle Time from the Session Timeouts, if there is NO User Role that matches the pattern ie.' +
+      'the Default.', () => {
+
+      const roles = [
+        'pui-organisation-manager',
+      ]
+
+      const roleGroupSessionTimeouts = [
+        {
+          idleTime: 43200,
+          pattern: 'doesnotmatch',
+        },
+        {
+          idleTime: DEFAULT_IDLE_TIME,
+          pattern: '.',
+        },
+      ]
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_IDLE_TIME)
+    })
+
+    it('should return the LAST matching Idle Time from the Session Timeouts, if there is NO User Role that matches the pattern ie.' +
+      'the Default. ( More complex roles and timeout list )', () => {
+
+      const roles = [
+        'pui-organisation-manager',
+        'pui-case-manager',
+        'pui-finance-manager',
+      ]
+
+      const roleGroupSessionTimeouts = [
+        {
+          idleTime: 43200,
+          pattern: 'doesnotmatch',
+        },
+        {
+          idleTime: 60000,
+          pattern: 'seconddoesnotmatch',
+        },
+        {
+          idleTime: DEFAULT_IDLE_TIME,
+          pattern: '.',
+        },
+      ]
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_IDLE_TIME)
+    })
+
+    it('should return the SECOND matching Idle Time from the Session Timeouts, if the Session Timeout pattern DOES NOT match' +
+      'the FIRST Session Timeout role.', () => {
+
+      const roles = [
+        'pui-organisation-manager',
+      ]
+
+      const roleGroupSessionTimeouts = [
+        {
+          idleTime: 43200,
+          pattern: 'doesnotmatch',
+        },
+        {
+          idleTime: 60000,
+          pattern: 'organisation',
+        },
+        {
+          idleTime: DEFAULT_IDLE_TIME,
+          pattern: '.',
+        },
+      ]
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[1].idleTime)
+    })
+
+    it('should return the DEFAULT_SESSION_IDLE_TIME if someone accidentally does not set a default session idle time via' +
+      'configuration.', () => {
+
+      const roles = [
+        'pui-organisation-manager',
+      ]
+
+      const roleGroupSessionTimeouts = []
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_IDLE_TIME)
+    })
+
+    it('should return the DEFAULT_SESSION_IDLE_TIME if there are no User Roles.', () => {
+
+      const roles = []
+
+      const roleGroupSessionTimeouts = [
+        {
+          idleTime: 43200,
+          pattern: 'doesnotmatch',
+        },
+      ]
+
+      expect(calcUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_IDLE_TIME)
+    })
   })
 })

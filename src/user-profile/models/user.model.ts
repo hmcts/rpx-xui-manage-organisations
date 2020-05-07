@@ -11,10 +11,16 @@ export class UserModel {
   }
 }
 
+export interface SessionTimeout {
+  idleModalDisplayTime: number;
+  totalIdleTime: number;
+}
+
 export interface UserInterface {
   email: string;
   orgId: string;
   roles: string[];
+  sessionTimeout: SessionTimeout;
   userId: string;
 }
 

@@ -78,6 +78,7 @@ export class AppComponent implements OnInit {
       }
       case 'signout': {
         this.dispatchModal(undefined, false);
+        console.log('Signout');
         // this.store.dispatch(new fromRoot.SignedOut()); // sing out BE
         return;
       }
@@ -121,10 +122,34 @@ export class AppComponent implements OnInit {
     //   if (timeout && idleMilliseconds && !isSignedOut) {
 
     // TODO: This configuration needs to change dependent on the User.
+    // What do these things do they meant nothing to me apart from the service name
+
+    // timeout is the amount of time, between now and when the modal is initially opened.
+
+    /**
+     * idleMilliseconds is the number of milliseconds the User has been idle for ie. They
+     * have not interacted with the page.
+     *
+     * TODO: rename: idleTime?
+     *
+     * timeout is how long to show a popup Modal for, the timeout is shown at idleMilliseconds -
+     * timeout time.
+     *
+     *
+     * from when the idle has concluded to when the 'signout' signal
+     * is sent.
+     *
+     * idleMilliseconds is the number of milliseconds the User has been idle for ie. They
+     * have not interacted with the page.
+     * TODO: Rename to userIdleDuration?
+     *
+     * timeout is the amount of seconds that the we show a modal for.
+     */
     const idleConfig: any = { // todo change this any
-      timeout: 5, // TODO: This is in seconds not milliseconds
-      idleMilliseconds: 30000,
-      keepAliveInSeconds: 5 * 60 * 60, // 5 hrs
+      timeout: 2, // TODO: This is in seconds not milliseconds, let's call this idleModalDisplayTime let's get it to here in milliseconds
+      idleMilliseconds: 10000, // This should be consistent. ie. milliseconds everywhere. 10 seconds usersTotalIdleTime
+      keepAliveInSeconds: 5 * 60 * 60, // 5 hrs // TODO: We don't need to do this anymore, as on
+      // OpenID it just auto-refreshes.
       idleServiceName: 'idleSession'
     };
     this.idleService.init(idleConfig);

@@ -43,7 +43,10 @@ function handleUserRoute(req, res) {
     email,
     orgId,
     roles,
-    sessionTimeout,
+    sessionTimeout: {
+      idleModalDisplayTime: 5000,
+      totalIdleTime: 15000,
+    },
     userId,
   }
 

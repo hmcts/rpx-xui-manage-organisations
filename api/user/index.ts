@@ -3,7 +3,7 @@ import * as log4jui from '../lib/log4jui'
 const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
-import { calcUserSessionTimeout } from './userTimeout';
+import { getUserSessionTimeout } from './userTimeout';
 
 router.get('/details', handleUserRoute)
 
@@ -37,7 +37,7 @@ function handleUserRoute(req, res) {
     },
   ]
 
-  const sessionTimeout = calcUserSessionTimeout(roles, roleGroupSessionTimeouts)
+  const sessionTimeout = getUserSessionTimeout(roles, roleGroupSessionTimeouts)
 
   const UserDetails: UserProfileModel = {
     email,

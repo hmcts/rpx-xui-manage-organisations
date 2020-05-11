@@ -13,6 +13,7 @@ import {UserInterface} from '../../models/user.model';
 import {UserService} from '../../services/user.service';
 import * as authActions from '../actions';
 import {AuthActionTypes} from '../actions/';
+import {propsExist} from '../../../../api/lib/objectUtilities';
 
 @Injectable()
 export class UserProfileEffects {
@@ -78,13 +79,69 @@ export class UserProfileEffects {
     switchMap((user) => {
       return this.userService.editUserPermissions(user).pipe(
         map( response => {
-          if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
-            this.loggerService.info('User permissions modified');
-            return new usersActions.EditUserSuccess(user.userId);
-          } else {
-            this.loggerService.error('user permissions failed');
-            return new usersActions.EditUserFailure(user.userId);
+          console.log('user-profile.effects.ts');
+          console.log(response);
+
+          // If roleAdditionResponse exists and it's not 201 then
+          // throw an error
+          // This is fine.
+          if (propsExist(response, ['roleAdditionResponse', 'idamStatusCode'])) {
+            console.log('Check roleAdditionResponse');
+            if (response.roleAdditionResponse.idamStatusCode !== '201') {
+              return new usersActions.EditUserFailure(user.userId);
+            }
           }
+
+          // If roleAdditionResponse exists and it's not 201 then
+          // throw an error
+          // if (UserRolesUtil.roleDeleteResponseExists(response)) {
+          if (propsExist(response, ['roleDeletionResponse'])) {
+            console.log('Check roleDeletionResponse');
+            console.log(UserRolesUtil.checkAllDeletionsAreSuccessful(response));
+
+            if (response.roleDeletionResponse[0].idamStatusCode !== '204') {
+              return new usersActions.EditUserFailure(user.userId);
+            }
+          }
+
+          return new usersActions.EditUserSuccess(user.userId);
+          // METHOD THREE
+          // if() adding of role exists, then check that it's a success if not throw error
+
+          // if deleting of role exists then check if it's a success if not throw error.
+
+          // METHOD TWO
+          // if (!UserRolesUtil.isAddingRoleSuccessful(response))
+          // or  !UserRolesUtil.isDeletingRoleSuccessful(response) then it's a success
+          // then fails
+          //
+
+
+          // METHOD ONE doesn't work for if one action fails
+          // if (UserRolesUtil.isAddingRoleSuccessful(response))
+          // or  UserRolesUtil.isDeletingRoleSuccessful(response) then it's a success
+
+          // this covers
+          // If only Role addition in request, works as expected
+          // If only Role deletion in request, works as expected
+          // If both addition and deletion have failures, works as expected
+          // If only one action failed (addition or deletion) error message page not displayed
+          // how do we detect one action fails
+
+          // If only Role addition in request, works as expected
+          // If only Role deletion in request, works as expected
+          // If both addition and deletion have failures, works as expected
+          // If only one action failed (addition or deletion) error message page not displayed
+
+          // if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
+          //   this.loggerService.info('User permissions failed');
+          //   console.log('User permissions failed');
+          //   return new usersActions.EditUserSuccess(user.userId);
+          // } else {
+          //   this.loggerService.error('user permissions modified');
+          //   console.log('User permissions success');
+          //   return new usersActions.EditUserFailure(user.userId);
+          // }
         }),
         catchError(error => {
           this.loggerService.error(error);

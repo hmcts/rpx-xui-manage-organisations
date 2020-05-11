@@ -1,5 +1,6 @@
 import { AppConstants } from '../../../app/app.constants';
 import {boolean} from '@pact-foundation/pact/dsl/matchers';
+import {propsExist} from '../../../../api/lib/objectUtilities';
 
 export class UserRolesUtil {
     static getRolesAdded(user: any, permissions: string[]): any[] {
@@ -56,6 +57,36 @@ export class UserRolesUtil {
         return response.roleAdditionResponse &&
         response.roleAdditionResponse.idamStatusCode &&
         response.roleAdditionResponse.idamStatusCode === '201';
+    }
+
+    static roleAdditionResponseExists(prdResponse: any): boolean {
+      return prdResponse.roleAdditionResponse && prdResponse.roleAdditionResponse.idamStatusCode;
+    }
+
+    static roleDeleteResponseExists(prdResponse: any): boolean {
+      return prdResponse.roleDeletionResponse && prdResponse.roleDeletionResponse[0].idamStatusCode;
+    }
+
+    /**
+     * [
+     * {
+     *  "roleName": "pui-organisation-manager",
+     *  "idamStatusCode": "204",
+     *  "idamMessage": "20 User Role Deleted"
+     * },
+     * {
+     *  "roleName": "pui-user-manager",
+     *  "idamStatusCode": "204",
+     *  "idamMessage": "20 User Role Deleted"
+     * }
+     * ]
+     */
+    static checkAllDeletionsAreSuccessful(prdResponse) {
+      return prdResponse.roleDeletionResponse.filter(deleteResponse => {
+        console.log('deleteResponse.idamStatusCode');
+        console.log(deleteResponse.idamStatusCode);
+        return deleteResponse.idamStatusCode !== 204;
+      });
     }
 
     static isDeletingRoleSuccessful(result: any): boolean {

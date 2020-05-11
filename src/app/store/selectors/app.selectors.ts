@@ -56,7 +56,7 @@ export const getEditUserFeature = createSelector(
 
 export const getEditUserFeatureIsEnabled = createSelector(
   getEditUserFeature,
-  featureFlag => featureFlag && featureFlag.isEnabled
+  featureFlag => true
 );
 
 export const getFeatureEnabledNav = createSelector(

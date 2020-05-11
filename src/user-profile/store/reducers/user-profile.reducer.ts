@@ -31,7 +31,7 @@ export function reducer(
     case AuthActionTypes.GET_USER_DETAILS_SUCCESS: {
       // TODO: Check this
       const user = new UserModel(action.payload);
-      console.log('GET_USER_DETAILS_SUCCESS');
+      console.log('Reducer: GET_USER_DETAILS_SUCCESS');
       console.log(user);
       return {
         ...state,

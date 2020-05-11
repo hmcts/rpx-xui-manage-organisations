@@ -1,3 +1,4 @@
+// TODO: Clean up UserModel
 export class UserModel {
   id: string;
   emailId: string;

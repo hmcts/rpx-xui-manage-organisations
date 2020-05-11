@@ -7,6 +7,9 @@ import {EnvironmentService} from '../../../shared/services/environment.service';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
+import * as fromUserProfile from '../../../user-profile/store';
+import {take} from 'rxjs/operators';
+import {UserModel} from '../../../user-profile/models/user.model';
 
 /**
  * Root Component that bootstrap all application.
@@ -23,6 +26,10 @@ export class AppComponent implements OnInit {
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
   public modalData$: Observable<{isVisible?: boolean; countdown?: string}>;
+
+  // TODO: What's the point of saying that the observable will return a type of UserModel.
+  // ok that makes sense.
+  public userProfile$: Observable<UserModel>;
 
   constructor(
     private readonly store: Store<fromRoot.State>,
@@ -42,7 +49,7 @@ export class AppComponent implements OnInit {
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
-
+    // this.uid$ = this.store.pipe(select(fromUserProfile.getUid))
     this.modalData$ = this.store.pipe(select(fromRoot.getModalSessionData));
     this.modalData$.subscribe(modal => {
       console.log('modal');
@@ -65,7 +72,33 @@ export class AppComponent implements OnInit {
       console.log(value);
       this.dispatchSessionAction(value);
     });
-    this.initIdleService();
+
+    this.userProfileListener();
+  }
+
+  /**
+   * User Profile Listener
+   *
+   * Listen for User Profile details. Once the application has these we are able to initialise the idle timer,
+   * which display a message to the User if they have been idle for x amount of time.
+   *
+   * We await the User Profile details as these contain the User's session timeout information.
+   *
+   * The session timeout information is different per User dependent on their access group.
+   *
+   * TODO: Instead of getUser call it getUserProfile?
+   */
+  public userProfileListener() {
+
+    this.store.pipe(select(fromUserProfile.getUser)).subscribe(userProfile => {
+      console.log('userProfile');
+      console.log(userProfile);
+      if (userProfile) {
+        console.log('initIdleservice');
+        console.log(userProfile);
+        this.initIdleService();
+      }
+    });
   }
 
   public dispatchSessionAction(value) {

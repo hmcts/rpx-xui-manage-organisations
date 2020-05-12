@@ -32,26 +32,6 @@ describe('UserRolesUtil class ', () => {
                                     );
     });
 
-    it('should get isAddingRoleSuccessful', () => {
-        let response = {};
-        let isAddingSuccessful = UserRolesUtil.isAddingRoleSuccessful(response);
-        expect(isAddingSuccessful).toEqual(undefined);
-
-        response = {roleAdditionResponse: {idamStatusCode: '201'}};
-        isAddingSuccessful = UserRolesUtil.isAddingRoleSuccessful(response);
-        expect(isAddingSuccessful).toEqual(true);
-    });
-
-    it('should get isDeletingRoleSuccessful', () => {
-        let response = {};
-        let isDeletingSuccessful = UserRolesUtil.isDeletingRoleSuccessful(response);
-        expect(isDeletingSuccessful).toEqual(undefined);
-
-        response = {roleDeletionResponse: [{idamStatusCode: '204'}]};
-        isDeletingSuccessful = UserRolesUtil.isDeletingRoleSuccessful(response);
-        expect(isDeletingSuccessful).toEqual(true);
-    });
-
     it('should get deletable roles GetCCDRoles', () => {
       const user = {roles: ['Perm1', 'caseworker', 'caseworker-divorce']};
       const roles = ['caseworker', 'caseworker-divorce'];

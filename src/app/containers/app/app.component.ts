@@ -6,10 +6,8 @@ import { Observable } from 'rxjs';
 import {EnvironmentService} from '../../../shared/services/environment.service';
 import {AppTitlesModel} from '../../models/app-titles.model';
 import {UserNavModel} from '../../models/user-nav.model';
-import * as fromRoot from '../../store';
 import * as fromUserProfile from '../../../user-profile/store';
-import {take} from 'rxjs/operators';
-import {UserModel} from '../../../user-profile/models/user.model';
+import * as fromRoot from '../../store';
 
 /**
  * Root Component that bootstrap all application.
@@ -26,10 +24,6 @@ export class AppComponent implements OnInit {
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
   public modalData$: Observable<{isVisible?: boolean; countdown?: string}>;
-
-  // TODO: What's the point of saying that the observable will return a type of UserModel.
-  // ok that makes sense.
-  public userProfile$: Observable<UserModel>;
 
   constructor(
     private readonly store: Store<fromRoot.State>,
@@ -49,12 +43,7 @@ export class AppComponent implements OnInit {
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
-    // this.uid$ = this.store.pipe(select(fromUserProfile.getUid))
     this.modalData$ = this.store.pipe(select(fromRoot.getModalSessionData));
-    this.modalData$.subscribe(modal => {
-      console.log('modal');
-      console.log(modal);
-    });
 
     // no need to unsubscribe as app component is always init.
     this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
@@ -67,19 +56,26 @@ export class AppComponent implements OnInit {
       this.googleAnalyticsService.init(environmentConfig.googleAnalyticsKey);
     });
 
-    this.idleService.appStateChanges().subscribe(value => {
-      console.log('appStateChanges');
-      console.log(value);
-      this.dispatchSessionAction(value);
-    });
-
-    this.userProfileListener();
+    this.addIdleServiceListener();
+    this.addUserProfileListener();
   }
 
   /**
-   * User Profile Listener
+   * Add Idle Service Listener
    *
-   * Listen for User Profile details. Once the application has these we are able to initialise the idle timer,
+   * We listen for idle service events, that alert the application to the User being idle.
+   */
+  public addIdleServiceListener() {
+
+    this.idleService.appStateChanges().subscribe(event => {
+      this.idleServiceEventHandler(event);
+    });
+  }
+
+  /**
+   * Add User Profile Listener
+   *
+   * We listen for User Profile details. Once the application has these we are able to initialise the idle timer,
    * which display a message to the User if they have been idle for x amount of time.
    *
    * We await the User Profile details as these contain the User's session timeout information.
@@ -88,34 +84,44 @@ export class AppComponent implements OnInit {
    *
    * TODO: Instead of getUser call it getUserProfile?
    */
-  public userProfileListener() {
+  public addUserProfileListener() {
 
     this.store.pipe(select(fromUserProfile.getUser)).subscribe(userProfile => {
-      console.log('userProfile');
-      console.log(userProfile);
       if (userProfile) {
-        console.log('initIdleservice');
-        console.log(userProfile);
-        this.initIdleService();
+        const { idleModalDisplayTime, totalIdleTime } = userProfile.sessionTimeout;
+
+        this.initIdleService(idleModalDisplayTime, totalIdleTime);
       }
     });
   }
 
-  public dispatchSessionAction(value) {
+  /**
+   * Idle Service Event Handler
+   *
+   * It shouldn't really be the common libs responsibility to tell the application whether to show and hide the modal,
+   * the application should show and hide the modal. The common lib, should only throw the Idle events.
+   *
+   * TODO: Once keep alive is implemented in Open ID connect then keep alive can be removed.
+   *
+   * @param value - { 'isVisible': false, 'countdown': ''}
+   */
+  public idleServiceEventHandler(value) {
+
+    const IDLE_EVENT_MODAL = 'modal';
+    const IDLE_EVENT_SIGNOUT = 'signout';
+    const IDLE_EVENT_KEEPALIVE = 'keepalive';
+
     switch (value.type) {
-      case 'modal': {
-        console.log(value.countdown);
-        console.log(value.isVisible);
+      case IDLE_EVENT_MODAL: {
         this.dispatchModal(value.countdown, value.isVisible);
         return;
       }
-      case 'signout': {
+      case IDLE_EVENT_SIGNOUT: {
         this.dispatchModal(undefined, false);
-        console.log('Signout');
-        // this.store.dispatch(new fromRoot.SignedOut()); // sing out BE
+        this.onNavigate('sign-out');
         return;
       }
-      case 'keepalive': {
+      case IDLE_EVENT_KEEPALIVE: {
         // this.store.dispatch(new fromRoot.KeepAlive());
         return;
       }
@@ -132,59 +138,58 @@ export class AppComponent implements OnInit {
         isVisible
       }
     };
-    console.log('modalConfig');
-    console.log(modalConfig);
     this.store.dispatch(new fromRoot.SetModal(modalConfig));
   }
 
   /**
+   * Initialise Idle Service
+   *
    * Timeout is the time we allow the User to interact with the Modal.
    * Idle is the amount of time we wait, until we should the modal.
    * Not sure what keepAliveInSeconds is.
+   *
+   * Why minutes over seconds, or milliseconds?
+   *
+   * i. Easy to see in the configuration how many minutes each User group's modal
+   * and timeout lasts.
+   * ii. Less zero's mean less human mistakes.
+   *
+   * totalIdleTime is the total amount of time in minutes that the User is idle for.
+   * idleModalDisplayTime is the total amount of time to display the 'continue' to stay signed in modal.
+   *
+   * Important note: The idleModalDisplayTime IS PART of the totalIdleTime. The idleModalDisplayTime does not get added to the end of
+   * the totalIdleTime.
+   *
+   * TODO: You may need to hook into signout and use the following:
+   * this.store.pipe(select(fromRoot.getRouterUrl));
+   * const isSignedOut: boolean = routes.indexOf('signed-out') !== -1;
+   *
+   * TODO: We don't need the keepAliveInSeconds once Open ID connect has been implemented, as this will automatically keep
+   * alive on new async requests from the Node layer.
+   *
+   * @param idleModalDisplayTime - Should reach here in minutes
+   * @param totalIdleTime - Should reach here in minutes
    */
-  public initIdleService() {
-    // const route$ = this.store.pipe(select(fromRoot.getRouterUrl));
-    // const userIdleSession$ =  this.store.pipe(select(fromRoot.getUserIdleTime));
-    // const userTimeOut$ =  this.store.pipe(select(fromRoot.getUserTimeOut));
-    // combineLatest([
-    //   route$.pipe(first(value => typeof value === 'string' )),
-    //   userIdleSession$.pipe(filter(value => !isNaN(value)), take(1)),
-    //   userTimeOut$.pipe(filter(value => !isNaN(value)), take(1))
-    // ]).subscribe(([routes, idleMilliseconds, timeout]) => {
-    //   const isSignedOut: boolean = routes.indexOf('signed-out') !== -1;
-    //   if (timeout && idleMilliseconds && !isSignedOut) {
+  public initIdleService(idleModalDisplayTime, totalIdleTime) {
 
-    // TODO: This configuration needs to change dependent on the User.
-    // What do these things do they meant nothing to me apart from the service name
+    console.log('idleModalDisplayTime');
+    console.log(idleModalDisplayTime);
 
-    // timeout is the amount of time, between now and when the modal is initially opened.
+    console.log('totalIdleTime');
+    console.log(totalIdleTime);
 
-    /**
-     * idleMilliseconds is the number of milliseconds the User has been idle for ie. They
-     * have not interacted with the page.
-     *
-     * TODO: rename: idleTime?
-     *
-     * timeout is how long to show a popup Modal for, the timeout is shown at idleMilliseconds -
-     * timeout time.
-     *
-     *
-     * from when the idle has concluded to when the 'signout' signal
-     * is sent.
-     *
-     * idleMilliseconds is the number of milliseconds the User has been idle for ie. They
-     * have not interacted with the page.
-     * TODO: Rename to userIdleDuration?
-     *
-     * timeout is the amount of seconds that the we show a modal for.
-     */
-    const idleConfig: any = { // todo change this any
-      timeout: 2, // TODO: This is in seconds not milliseconds, let's call this idleModalDisplayTime let's get it to here in milliseconds
-      idleMilliseconds: 10000, // This should be consistent. ie. milliseconds everywhere. 10 seconds usersTotalIdleTime
-      keepAliveInSeconds: 5 * 60 * 60, // 5 hrs // TODO: We don't need to do this anymore, as on
-      // OpenID it just auto-refreshes.
-      idleServiceName: 'idleSession'
+    // TODO: Move to utils a conversion for minutes to seconds, not required, convert timeout lib to use minutes over
+    // both seconds and milliseconds.
+    const idleModalDisplayTimeInSeconds = idleModalDisplayTime * 60;
+    const totalIdleTimeInMilliseconds = (totalIdleTime * 60) * 1000;
+
+    const idleConfig: any = {
+      timeout: idleModalDisplayTimeInSeconds, // TODO: This is in seconds not milliseconds, let's call this idleModalDisplayTime let's get it to here in milliseconds
+      idleMilliseconds: totalIdleTimeInMilliseconds, // This should be consistent. ie. milliseconds everywhere. 10 seconds usersTotalIdleTime
+      idleServiceName: 'idleSession',
+      keepAliveInSeconds: 5 * 60 * 60, // 5 hrs
     };
+
     this.idleService.init(idleConfig);
   }
 

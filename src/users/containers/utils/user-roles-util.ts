@@ -1,5 +1,4 @@
 import { AppConstants } from '../../../app/app.constants';
-import {boolean} from '@pact-foundation/pact/dsl/matchers';
 import {propsExist} from '../../../../api/lib/objectUtilities';
 
 export class UserRolesUtil {
@@ -53,22 +52,38 @@ export class UserRolesUtil {
             }
         });
     }
-    static isAddingRoleSuccessful(response: any): boolean {
-        return response.roleAdditionResponse &&
-        response.roleAdditionResponse.idamStatusCode &&
-        response.roleAdditionResponse.idamStatusCode === '201';
-    }
 
-    static roleAdditionResponseExists(prdResponse: any): boolean {
-      return prdResponse.roleAdditionResponse && prdResponse.roleAdditionResponse.idamStatusCode;
-    }
-
-    static roleDeleteResponseExists(prdResponse: any): boolean {
-      return prdResponse.roleDeletionResponse && prdResponse.roleDeletionResponse[0].idamStatusCode;
+    /**
+     * Does Role Addition Exist
+     *
+     * Checks if role addition exists in the object returned from PRD.
+     *
+     * @param response - the response object from PRD.
+     */
+    public static doesRoleAdditionExist(response) {
+      return propsExist(response, ['roleAdditionResponse', 'idamStatusCode']);
     }
 
     /**
-     * [
+     * Does Role Deletion Exist
+     *
+     * @param response - the response object from PRD.
+     */
+    public static doesRoleDeletionExist(response) {
+      return propsExist(response, ['roleDeletionResponse']);
+    }
+
+    /**
+     * Check for Role Deletion Success
+     *
+     * When we do a deletion, multiply roles are sent back from PRD,
+     * each role sent back informs us if that role has been deleted for the User.
+     *
+     * On success, each role deletion should return an idamStatusCode of '204'.
+     *
+     * If a role does not return a 204 there has been a problem.
+     *
+     * @param roleDeletionResponse - [
      * {
      *  "roleName": "pui-organisation-manager",
      *  "idamStatusCode": "204",
@@ -80,19 +95,15 @@ export class UserRolesUtil {
      *  "idamMessage": "20 User Role Deleted"
      * }
      * ]
+     * @see unit
      */
-    static checkAllDeletionsAreSuccessful(prdResponse) {
-      return prdResponse.roleDeletionResponse.filter(deleteResponse => {
-        console.log('deleteResponse.idamStatusCode');
-        console.log(deleteResponse.idamStatusCode);
-        return deleteResponse.idamStatusCode !== 204;
-      });
-    }
+    public static checkRoleDeletionsSuccess(roleDeletionResponse) {
 
-    static isDeletingRoleSuccessful(result: any): boolean {
-        return result.roleDeletionResponse &&
-        result.roleDeletionResponse[0].idamStatusCode &&
-        result.roleDeletionResponse[0].idamStatusCode === '204';
+      const deleteFailures = roleDeletionResponse.filter(deleteResponse => {
+        return deleteResponse.idamStatusCode !== '204';
+      });
+
+      return !(deleteFailures.length > 0);
     }
 
     static GetRemovableRolesForUser(user: any, roles: Array<string>): Array<any> {

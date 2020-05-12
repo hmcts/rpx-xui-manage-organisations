@@ -22,6 +22,7 @@ async function inviteUserRoute(req: express.Request, res: express.Response) {
       const response = await req.http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload)
       logger.info('response::', response.data)
 
+      // TODO: For the purpose of testing locally, remove once tested by QA team.
       // if (response.data.roleAdditionResponse) {
       //     response.data.roleAdditionResponse.idamStatusCode = 400
       // }

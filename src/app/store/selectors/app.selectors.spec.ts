@@ -74,15 +74,5 @@ describe('App Selectors', () => {
       expect(result).toEqual([]);
 
     });
-
-    it('should return user navigation items', () => {
-      let result;
-
-      store.pipe(select(fromSelectors.getUserNav))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual([]);
-
-    });
   });
 });

@@ -83,7 +83,12 @@ describe('App Effects', () => {
           'pui-user-manager',
           'pui-finance-manager',
           'pui-organisation-manager'
-        ],
+          ],
+          sessionTimeout: {
+            idleModalDisplayTime: 10,
+            pattern: '.',
+            totalIdleTime: 50
+          },
           userId: '5b9639a7-49a5-4c85-9e17-bf55186c8afa'
       };
       const userRolesPayload = [

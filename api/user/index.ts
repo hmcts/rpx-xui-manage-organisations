@@ -4,6 +4,8 @@ const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
 import { getUserSessionTimeout } from './userTimeout';
+import { getConfigValue } from '../configuration'
+import { SESSION_TIMEOUTS } from '../configuration/references'
 
 router.get('/details', handleUserRoute)
 
@@ -11,34 +13,8 @@ function handleUserRoute(req, res) {
 
   const { email, orgId, roles, userId } = req.session.auth
 
-  const roleGroupSessionTimeouts = [
-    {
-      idleModalDisplayTime: 6,
-      pattern: 'pui-',
-      totalIdleTime: 55,
-    },
-    {
-      idleModalDisplayTime: 3,
-      pattern: 'caseworker',
-      totalIdleTime: 30,
-    },
-    {
-      idleModalDisplayTime: 6,
-      pattern: '.',
-      totalIdleTime: 60,
-    },
-    // {
-    //   idleModalDisplayTime: 6,
-    //   pattern: 'asdasdasd',
-    //   totalIdleTime: 60,
-    // },
-  ]
-
-  console.log('roles')
-  console.log(roles)
-  console.log(roles.sort())
-
-  const userSessionTimeout = getUserSessionTimeout(roles, roleGroupSessionTimeouts)
+  const sessionTimeouts = getConfigValue(SESSION_TIMEOUTS)
+  const userSessionTimeout = getUserSessionTimeout(roles, sessionTimeouts)
 
   const UserDetails: UserProfileModel = {
     email,

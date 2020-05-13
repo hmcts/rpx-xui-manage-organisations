@@ -8,12 +8,14 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { windowToken } from '@hmcts/rpx-xui-common-lib';
+import { ManageSessionServices, windowToken } from '@hmcts/rpx-xui-common-lib';
 import * as fromAuth from '../../../user-profile/store';
 import { AppConstants } from '../../app.constants';
 
 
 const windowMock: Window = { gtag: () => {}} as any;
+const idleMockService = jasmine.createSpyObj('idleService', ['appStateChanges']);
+
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
   beforeEach(async(() => {
@@ -37,6 +39,7 @@ describe('AppComponent', () => {
           provide: windowToken,
           useValue: windowMock
         },
+        { provide: ManageSessionServices, useValue: idleMockService},
       ],
     }).compileComponents();
     store = TestBed.get(Store);

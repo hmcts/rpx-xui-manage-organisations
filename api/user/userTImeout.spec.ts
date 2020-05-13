@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { anyRolesMatch, getUserSessionTimeout, DEFAULT_SESSION_IDLE_TIME, isRoleMatch} from './userTimeout'
+import { anyRolesMatch, getUserSessionTimeout, DEFAULT_SESSION_TIMEOUT, isRoleMatch} from './userTimeout'
 
 // TODO: What is idle time?
 describe('userTimeout', () => {
@@ -75,7 +75,7 @@ describe('userTimeout', () => {
    */
   describe('getUserSessionTimeout()', () => {
 
-    it('should return the FIRST matching Idle Time from the Session Timeouts, if a User Role matches the pattern.', () => {
+    it('should return the FIRST matching Session Timeout, if one of a User\'s Roles matches that Session Timeout\'s pattern.', () => {
 
       const roles = [
         'pui-organisation-manager',
@@ -84,20 +84,30 @@ describe('userTimeout', () => {
 
       const roleGroupSessionTimeouts = [
         {
-          idleTime: 43200,
+          idleModalDisplayTime: 5,
           pattern: 'pui-',
+          totalIdleTime: 50,
         },
         {
-          idleTime: 180000,
+          idleModalDisplayTime: 2,
           pattern: '.',
+          totalIdleTime: 12,
         },
       ]
 
-      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[0].idleTime)
+      const usersSessionTimeout = getUserSessionTimeout(roles, roleGroupSessionTimeouts);
+
+      expect(usersSessionTimeout).to.equal(roleGroupSessionTimeouts[0])
     })
 
-    it('should return the LAST matching Idle Time from the Session Timeouts, if there is NO User Role that matches the pattern ie.' +
-      'the DEFAULT session timeout.', () => {
+    it('should return the LAST matching Session Timeout, if there is NO User Role\'s that matches the pattern ie.' +
+      'return the DEFAULT Session Timeout.', () => {
+
+      const DEFAULT_SESSION_TIMEOUT = [{
+          idleModalDisplayTime: 2,
+          pattern: '.',
+          totalIdleTime: 12,
+      }]
 
       const roles = [
         'pui-organisation-manager',
@@ -107,20 +117,18 @@ describe('userTimeout', () => {
 
       const roleGroupSessionTimeouts = [
         {
-          idleTime: 43200,
+          idleModalDisplayTime: 5,
           pattern: 'doesnotmatch',
+          totalIdleTime: 50,
         },
-        // The last item is the default
-        {
-          idleTime: 72000,
-          pattern: '.',
-        },
+        // The last item is the default so that we can easily configure the default as IT will change on Go Live.
+        ...DEFAULT_SESSION_TIMEOUT,
       ]
 
-      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[1].idleTime)
+      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_TIMEOUT[0])
     })
 
-    it('should return the SECOND matching Idle Time, if the Session Timeout pattern DOES NOT match' +
+    it('should return the SECOND matching Session Timeout, if the Session Timeout pattern DOES NOT match' +
       'the FIRST Session Timeout pattern.', () => {
 
       const roles = [
@@ -129,23 +137,26 @@ describe('userTimeout', () => {
 
       const roleGroupSessionTimeouts = [
         {
-          idleTime: 43200,
+          idleModalDisplayTime: 5,
           pattern: 'doesnotmatch',
+          totalIdleTime: 50,
         },
         {
-          idleTime: 60000,
+          idleModalDisplayTime: 10,
           pattern: 'organisation',
+          totalIdleTime: 80,
         },
         {
-          idleTime: 72000,
+          idleModalDisplayTime: 2,
           pattern: '.',
+          totalIdleTime: 12,
         },
       ]
 
-      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[1].idleTime)
+      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[1])
     })
 
-    it('should return the DEFAULT_SESSION_IDLE_TIME if the XUI team accidentally does not set a DEFAULT session idle time via the' +
+    it('should return the DEFAULT_SESSION_TIMEOUT if the XUI team accidentally does not set a DEFAULT Session Timeout via the' +
       'configuration.', () => {
 
       const roles = [
@@ -154,24 +165,25 @@ describe('userTimeout', () => {
 
       const roleGroupSessionTimeouts = []
 
-      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_IDLE_TIME)
+      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_TIMEOUT)
     })
 
     /**
      * The following should never happen but the production code should be resilient to this edge case.
      */
-    it('should return the DEFAULT_SESSION_IDLE_TIME if there are no User Roles.', () => {
+    it('should return the DEFAULT_SESSION_TIMEOUT if there are no User Roles.', () => {
 
       const roles = []
 
       const roleGroupSessionTimeouts = [
         {
-          idleTime: 43200,
-          pattern: 'doesnotmatch',
+          idleModalDisplayTime: 10,
+          pattern: 'organisation',
+          totalIdleTime: 80,
         },
       ]
 
-      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_IDLE_TIME)
+      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_TIMEOUT)
     })
   })
 })

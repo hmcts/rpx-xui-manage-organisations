@@ -6,7 +6,10 @@
  * default session idle time will be used.
  */
 
-export const DEFAULT_SESSION_IDLE_TIME = 45000
+export const DEFAULT_SESSION_TIMEOUT = {
+  idleModalDisplayTime: 2,
+  totalIdleTime: 12,
+}
 
 /**
  * Is Role Match
@@ -71,12 +74,12 @@ export const anyRolesMatch = (roles: string[], pattern: string): boolean => {
 export const getUserSessionTimeout = (userRoles, sessionTimeouts) => {
 
   if (!sessionTimeouts.length || !userRoles.length) {
-    return DEFAULT_SESSION_IDLE_TIME
+    return DEFAULT_SESSION_TIMEOUT
   }
 
   for (const sessionTimeout of sessionTimeouts) {
     if (anyRolesMatch(userRoles, sessionTimeout.pattern)) {
-      return sessionTimeout.idleTime
+      return sessionTimeout
     }
   }
 }

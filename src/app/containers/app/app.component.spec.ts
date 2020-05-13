@@ -8,8 +8,7 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { windowToken, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { ManageSessionServices, windowToken } from '@hmcts/rpx-xui-common-lib';
+import { FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 
 import * as fromAuth from '../../../user-profile/store';
 import { AppConstants } from '../../app.constants';

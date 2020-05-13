@@ -17,10 +17,11 @@ export class UserModel {
   }
 }
 export class UserProfileModel {
-  orgId: string;
+  orgId: string
   userId: string
-  email: string;
-  roles: string[];
+  email: string
+  roles: string[]
+  sessionTimeout: object
   constructor(prop) {
     Object.assign(this, prop);
   }

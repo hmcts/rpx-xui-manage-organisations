@@ -30,7 +30,11 @@ export class UserProfileEffects {
     switchMap(() => {
       return this.userService.getUserDetails()
         .pipe(
-          map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
+          map((userDetails: UserInterface) => {
+            console.log('userDetails from the node layer');
+            console.log(userDetails);
+            return new authActions.GetUserDetailsSuccess(userDetails)
+          }),
           catchError((error: HttpErrorResponse) => {
             this.loggerService.error(error.message);
             return of(new authActions.GetUserDetailsFailure(error));
@@ -39,6 +43,7 @@ export class UserProfileEffects {
     })
   );
 
+  // TODO: Not sure why a hard coded user is needed here
   @Effect()
   public getUserFail$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
@@ -53,7 +58,11 @@ export class UserProfileEffects {
         email: 'hardcoded@user.com',
         orgId: '12345',
         roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
-        userId: '1'
+        sessionTimeout: {
+          idleModalDisplayTime: 2,
+          totalIdleTime: 600000
+        },
+        userId: '1',
       };
       return new authActions.GetUserDetailsSuccess(hadCodedUser);
     })

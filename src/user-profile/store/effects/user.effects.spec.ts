@@ -64,6 +64,11 @@ describe('Fee accounts Effects', () => {
               userId: 'something',
               email: 'something',
               orgId: 'something',
+              sessionTimeout: {
+                idleModalDisplayTime: 10,
+                pattern: '.',
+                totalIdleTime: 50
+              },
               roles: []
           };
           userServiceMock.getUserDetails.and.returnValue(of(returnValue));
@@ -128,7 +133,12 @@ describe('Fee accounts Effects', () => {
                 email: 'hardcoded@user.com',
                 orgId: '12345',
                 roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
-                userId: '1'
+                userId: '1',
+                sessionTimeout: {
+                  idleModalDisplayTime: 10,
+                  pattern: '.',
+                  totalIdleTime: 50
+                },
             };
             const action = new GetUserDetailsFailure(new HttpErrorResponse({}));
             const completion = new GetUserDetailsSuccess(returnValue);

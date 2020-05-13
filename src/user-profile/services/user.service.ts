@@ -15,6 +15,7 @@ export class UserService {
   }
 
   getUserDetails(): Observable<UserInterface> {
+    console.log('get user details async call');
     return this.http.get<UserInterface>(`/api/user/details`);
   }
 

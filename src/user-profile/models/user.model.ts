@@ -1,3 +1,4 @@
+// TODO: Clean up UserModel
 export class UserModel {
   id: string;
   emailId: string;
@@ -6,15 +7,22 @@ export class UserModel {
   status: string;
   organisationId: string;
   roles: string[];
+  sessionTimeout: SessionTimeout;
   constructor(prop) {
     Object.assign(this, prop);
   }
+}
+
+export interface SessionTimeout {
+  idleModalDisplayTime: number;
+  totalIdleTime: number;
 }
 
 export interface UserInterface {
   email: string;
   orgId: string;
   roles: string[];
+  sessionTimeout: SessionTimeout;
   userId: string;
 }
 

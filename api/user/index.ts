@@ -28,16 +28,34 @@ function handleUserRoute(req, res) {
 
   const roleGroupSessionTimeouts = [
     {
-      idleTime: 43200, // idle time in seconds
-      role: '*DwP', // takes in regEx so you can set this to be DwPensions.
+      idleModalDisplayTime: 3,
+      pattern: 'caseworker',
+      totalIdleTime: 30,
     },
     {
-      idleTime: 180000, // idle time in seconds
-      role: '*', // takes in regEx so you can set this to be DwPensions.
+      idleModalDisplayTime: 5,
+      pattern: 'pui-',
+      totalIdleTime: 50,
+    },
+    {
+      idleModalDisplayTime: 6,
+      pattern: '.',
+      totalIdleTime: 60,
+    },
+    {
+      idleModalDisplayTime: 6,
+      pattern: 'asdasdasd',
+      totalIdleTime: 60,
     },
   ]
 
+  console.log('roles')
+  console.log(roles)
+  console.log(roles.sort())
+
   const sessionTimeout = getUserSessionTimeout(roles, roleGroupSessionTimeouts)
+
+  console.log(sessionTimeout);
 
   const UserDetails: UserProfileModel = {
     email,

@@ -1,5 +1,5 @@
-import { expect } from 'chai'
-import { anyRolesMatch, getUserSessionTimeout, DEFAULT_SESSION_TIMEOUT, isRoleMatch} from './userTimeout'
+import {expect} from 'chai'
+import {anyRolesMatch, DEFAULT_SESSION_TIMEOUT, getUserSessionTimeout, isRoleMatch, sortUserRoles} from './userTimeout'
 
 // TODO: What is idle time?
 describe('userTimeout', () => {
@@ -104,9 +104,9 @@ describe('userTimeout', () => {
       'return the DEFAULT Session Timeout.', () => {
 
       const DEFAULT_SESSION_TIMEOUT = [{
-          idleModalDisplayTime: 2,
-          pattern: '.',
-          totalIdleTime: 12,
+        idleModalDisplayTime: 2,
+        pattern: '.',
+        totalIdleTime: 12,
       }]
 
       const roles = [
@@ -156,6 +156,21 @@ describe('userTimeout', () => {
       expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[1])
     })
 
+    it('should return the DEFAULT_SESSION_TIMEOUT if the XUI team accidentally sets an incorrect default pattern.', () => {
+
+      const roles = [
+        'pui-organisation-manager',
+      ]
+
+      const roleGroupSessionTimeouts = [{
+        idleModalDisplayTime: 6,
+        pattern: 'a-non-descript-pattern',
+        totalIdleTime: 60,
+      }]
+
+      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_TIMEOUT)
+    })
+
     it('should return the DEFAULT_SESSION_TIMEOUT if the XUI team accidentally does not set a DEFAULT Session Timeout via the' +
       'configuration.', () => {
 
@@ -185,5 +200,67 @@ describe('userTimeout', () => {
 
       expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(DEFAULT_SESSION_TIMEOUT)
     })
+
+    it('should give preference to Session Timeout patterns in a priority order. A pattern nearer to the top of the list is' +
+      'higher priority.', () => {
+
+      // Roles are sorted by sortUserRoles() which is a side effect within getUserSessionTimeout(), but we are
+      // showing the sorted roles here, as it's easier to understand what happens.
+      const roles = [
+        'caseworker',
+        'caseworker-divorce-financialremedy',
+        'caseworker-divorce-solicitor',
+        'caseworker-probate',
+        'caseworker-probate-solicitor',
+        'pui-user-manager',
+        'pui-finance-manager',
+      ]
+
+      const roleGroupSessionTimeouts = [
+        {
+          idleModalDisplayTime: 10,
+          pattern: 'pui-user-manager',
+          totalIdleTime: 80,
+        },
+        {
+          idleModalDisplayTime: 20,
+          pattern: 'caseworker-probate',
+          totalIdleTime: 200,
+        },
+      ]
+
+      expect(getUserSessionTimeout(roles, roleGroupSessionTimeouts)).to.equal(roleGroupSessionTimeouts[0])
+    })
   })
+
+  /**
+   * Should sort the User's Roles alphabetically. Why? So that a priority order can be given to the Session Timeout +
+   * configuration list.
+   *
+   * Example: If we want a PUI Session Timeout to be given preference over another Session Timeout it would be further
+   * up the Session Timeout Configuration list.
+   */
+  describe('sortRolesAlphabetically()', () => {
+    it('should sort the User\'s Roles alphabetically, so that a priority order can be given to the Session Timeout' +
+      'configuration list.', () => {
+
+      const roles = [
+        'caseworker-divorce-financialremedy',
+        'pui-user-manager',
+        'pui-case-manager',
+        'caseworker-probate-solicitor',
+        'caseworker',
+        'caseworker-probate',
+        'caseworker-divorce-financialremedy-solicitor',
+        'caseworker-divorce',
+        'pui-organisation-manager',
+        'pui-finance-manager',
+        'caseworker-divorce-solicitor',
+      ]
+
+      const sortedRoles = roles.sort()
+
+      expect(sortUserRoles(roles)).to.equal(sortedRoles)
+    })
+  });
 })

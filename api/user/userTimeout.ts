@@ -46,6 +46,36 @@ export const anyRolesMatch = (roles: string[], pattern: string): boolean => {
 }
 
 /**
+ * Sort User Roles
+ *
+ * Should sort the User's Roles alphabetically. Why? So that a priority order can be given to the Session Timeout +
+ * configuration list.
+ *
+ * Example: If we want a PUI Session Timeout to be given preference over another Session Timeout it would be further
+ * up the Session Timeout Configuration list.
+ *
+ * @param - [
+ * 'caseworker-divorce-financialremedy',
+ * 'pui-user-manager',
+ * 'caseworker-probate-solicitor',
+ * 'caseworker',
+ * 'caseworker-probate',
+ * 'pui-finance-manager',
+ * 'caseworker-divorce-solicitor',
+ * ]
+ * @return - [
+ * 'caseworker',
+ * 'caseworker-divorce-financialremedy',
+ * 'caseworker-divorce-solicitor',
+ * 'caseworker-probate',
+ * 'caseworker-probate-solicitor',
+ * 'pui-user-manager',
+ * 'pui-finance-manager',
+ * ]
+ */
+export const sortUserRoles = (roles: string[]) => roles.sort()
+
+/**
  * Get User Session Timeout
  *
  * We calculate the timeout for this user.
@@ -73,13 +103,13 @@ export const anyRolesMatch = (roles: string[], pattern: string): boolean => {
  */
 export const getUserSessionTimeout = (userRoles, sessionTimeouts) => {
 
-  if (!sessionTimeouts.length || !userRoles.length) {
-    return DEFAULT_SESSION_TIMEOUT
-  }
+  const sortedUserRoles = sortUserRoles(userRoles)
 
   for (const sessionTimeout of sessionTimeouts) {
-    if (anyRolesMatch(userRoles, sessionTimeout.pattern)) {
+    if (anyRolesMatch(sortedUserRoles, sessionTimeout.pattern)) {
       return sessionTimeout
     }
   }
+
+  return DEFAULT_SESSION_TIMEOUT
 }

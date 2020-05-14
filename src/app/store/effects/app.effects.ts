@@ -14,6 +14,7 @@ import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
 import * as usersActions from '../../../users/store/actions';
 import {AppFeatureFlag} from '../reducers/app.reducer';
+import {IDLE_USER_SIGNOUT} from '../actions/app.actions';
 @Injectable()
 export class AppEffects {
   constructor(
@@ -86,6 +87,19 @@ export class AppEffects {
       );
     }
    )
+  );
+
+  @Effect()
+  public idleSignout = this.actions$.pipe(
+    ofType(appActions.IDLE_USER_SIGNOUT),
+
+    // TODO: We need to make a call to the backend to logout, and then
+    // re-direct the UI to idle-sign-out
+
+    map(() => {
+      window.location.href = `api/idleUserLogout`;
+      // new appActions.Go({ path: ['/idle-sign-out'] })
+    })
   );
 
   private getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {

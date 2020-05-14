@@ -120,6 +120,7 @@ export class AppComponent implements OnInit {
 
     const IDLE_EVENT_MODAL = 'modal';
     const IDLE_EVENT_SIGNOUT = 'signout';
+    const IDLE_EVENT_KEEP_ALIVE = 'keepalive';
 
     switch (value.type) {
       case IDLE_EVENT_MODAL: {
@@ -128,7 +129,11 @@ export class AppComponent implements OnInit {
       }
       case IDLE_EVENT_SIGNOUT: {
         this.dispatchModal(undefined, false);
-        this.onNavigate('sign-out');
+        // this.onNavigate('sign-out');
+        this.store.dispatch(new fromRoot.IdleUserSignOut());
+        return;
+      }
+      case IDLE_EVENT_KEEP_ALIVE: {
         return;
       }
       default: {
@@ -200,6 +205,10 @@ export class AppComponent implements OnInit {
     };
     this.store.dispatch(new fromRoot.SetModal(payload));
   }
+
+  // ok so we should dispatch an action here
+  // which hits the effect, the effect signs out for us
+
 
   public onNavigate(event): void {
     if (event === 'sign-out') {

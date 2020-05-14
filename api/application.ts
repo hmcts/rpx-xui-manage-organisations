@@ -130,3 +130,7 @@ app.use('/api', routes)
 app.get('/api/logout', async (req, res) => {
   await auth.doLogout(req, res)
 })
+
+app.get('/api/idleUserLogout', async (req, res) => {
+  await auth.idleUserLogout(req, res)
+})

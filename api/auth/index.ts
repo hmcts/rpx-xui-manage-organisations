@@ -113,7 +113,7 @@ async function sessionChainCheck(req: Request, res: Response, accessToken: strin
       } catch (e) {
         console.log(e)
       }
-      
+
       req.session.auth = {
         email: userDetails.data.email,
         orgId: orgIdResponse.data.id,
@@ -194,6 +194,29 @@ export async function doLogout(req: Request, res: Response, status: number = 302
     res.clearCookie(getConfigValue(COOKIE_TOKEN))
     res.clearCookie(getConfigValue(COOKIES_USERID))
     res.redirect(status, `${req.query.redirect}` || '/')
+  })
+}
+
+export async function idleUserLogout(req: Request, res: Response) {
+  const auth = `Basic ${
+    Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${getConfigValue(IDAM_SECRET)}`).toString('base64')}`
+
+  const axiosInstance = http({} as unknown as Request)
+
+  if (exists(req, 'session.auth.token')) {
+    await axiosInstance.delete(`${getConfigValue(SERVICES_IDAM_API_PATH)}/session/${req.session.auth.token}`, {
+      headers: {
+        Authorization: auth,
+      },
+    }).catch( err => {
+      logger.error('Unable to delete idam session:', err)
+    })
+  }
+
+  req.session.destroy(() => {
+    res.clearCookie(getConfigValue(COOKIE_TOKEN))
+    res.clearCookie(getConfigValue(COOKIES_USERID))
+    res.send(`User is now logged out.`)
   })
 }
 

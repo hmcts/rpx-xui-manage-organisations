@@ -23,6 +23,8 @@ export const LOAD_FEATURE_TOGGLE_CONFIG_FAIL = '[App] Load Feature Toggle Config
 export const START_APP_INITIALIZER = '[App] Start App initializer';
 export const FINISH_APP_INITIALIZER = '[App] Finish Start App initializer';
 
+export const IDLE_USER_SIGNOUT = '[App] Idle User Signout';
+
 export const LOGOUT = '[App] Logout';
 
 export class StartAppInitilizer implements Action {
@@ -72,6 +74,10 @@ export class SetPageTitleErrors implements Action {
 
 export class Logout implements Action {
   public readonly type = LOGOUT;
+}
+
+export class IdleUserSignOut implements Action {
+  public readonly type = IDLE_USER_SIGNOUT;
 }
 
 export class SetUserRoles implements Action {
@@ -132,4 +138,5 @@ export type appActions =
   | AddGlobalError
   | ClearGlobalError
   | AddGlobalErrorSuccess
-  | SetModal;
+  | SetModal
+  | IdleUserSignOut;

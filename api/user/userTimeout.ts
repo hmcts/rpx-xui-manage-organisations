@@ -19,8 +19,10 @@ export const DEFAULT_SESSION_TIMEOUT = {
  * Checks if a User's role, matches a specified Regular Expression.
  *
  * We use a Regular Expression so that we can set the default session timeout via configuration ie. '.', hence we used
- * JS .match over .includes. Note that we should never fall over to using the DEFAULT_SESSION_IDLE_TIME in code. As
- * there will be a different default session timeout per application, hence setting it via configuration.
+ * JS .match over .includes.
+ *
+ * There will be a different default session timeout per application, and different session timeouts per user groups
+ * hence setting it via configuration.
  *
  * @param role - 'pui-case-manager'
  * @param pattern - 'case-manager' / 'pui-' / '.'
@@ -87,15 +89,22 @@ export const sortUserRoles = (roles: string[]) => roles.sort()
  *
  * Example:
  *
- * A Department of Work & Pensions User should have an Idle Time of 12 minutes, and their
- * countdown takes 3 minutes.
+ * A Department of Work & Pensions User on Manage Cases should have a Total Idle Time of 12 minutes, and
+ * and should show the Session Timeout Modal 3 minutes before the end of their session.
  *
- * Note that the Session Timeouts needs to be easily configurable and will change for each XUI application.
+ * Whereas a Manage Organisation application user should have an Total Idle Time of 50 minutes,
+ * and should show the Session Timeout Modal 10 minutes before the end of their session.
  *
- * TODO: What is Idle Time?
+ * Note that the Session Timeout needs to be easily configurable and will change for each XUI application, and each User role group.
  *
- * Important: the Session Timeout array should be in PRIORITY ORDER, with the
- * DEFAULT for this application being the last item in the array.
+ * Important: the Session Timeout configuration should be in PRIORITY ORDER, with the DEFAULT for this application being the last item in the array.
+ *
+ * Jargon:
+ *
+ * Session Timeout Modal - The modal popup that appears BEFORE the users Total Idle Time is over.
+ * Total Idle Time - The Users total idle time, this includes time in which we show the Session Timeout Modal to the User.
+ * Session Timeout Configuration - An array that contains the Applications and User Groups session timeout times.
+ * Session Timeout - The idle timeout time for that User.
  *
  * @param userRoles - [
  * 'pui-organisation-manager',

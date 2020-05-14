@@ -2,7 +2,6 @@ import {createSelector} from '@ngrx/store';
 import * as fromApp from '../../../../src/app/store/index';
 import * as fromRoot from '../reducers/';
 import { AppUtils } from 'src/app/utils/app-utils';
-import {AuthState} from '../reducers';
 
 export const authState = createSelector(
   fromRoot.getAuthState,

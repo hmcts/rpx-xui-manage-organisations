@@ -31,8 +31,6 @@ export class UserProfileEffects {
       return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => {
-            console.log('userDetails from the node layer');
-            console.log(userDetails);
             return new authActions.GetUserDetailsSuccess(userDetails)
           }),
           catchError((error: HttpErrorResponse) => {
@@ -43,7 +41,6 @@ export class UserProfileEffects {
     })
   );
 
-  // TODO: Not sure why a hard coded user is needed here
   @Effect()
   public getUserFail$ = this.actions$.pipe(
     ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),

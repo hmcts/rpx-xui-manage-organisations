@@ -14,13 +14,13 @@ function handleUserRoute(req, res) {
   const { email, orgId, roles, userId } = req.session.auth
 
   const sessionTimeouts = getConfigValue(SESSION_TIMEOUTS)
-  const userSessionTimeout = getUserSessionTimeout(roles, sessionTimeouts)
+  const sessionTimeout = getUserSessionTimeout(roles, sessionTimeouts)
 
   const UserDetails: UserProfileModel = {
     email,
     orgId,
     roles,
-    sessionTimeout: userSessionTimeout,
+    sessionTimeout,
     userId,
   }
 

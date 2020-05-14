@@ -35,9 +35,6 @@ import { effects } from './store/effects';
 
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 
-// TODO: Add this later
-// import {LogOutKeepAliveService} from './services/keep-alive/keep-alive.service';
-
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
   : [];

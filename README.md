@@ -173,6 +173,18 @@ The application pulls out the secrets directly using `propertiesVolume.addTo()`
 The applications Session Timeouts are set via configuration and can be overridden, please @see default.json
 and @see .env.defaults.
 
+Example configuration:
+```javascript
+SESSION_TIMEOUTS=[{"idleModalDisplayTime": 6, "pattern":"pui-", "totalIdleTime": 55},{"idleModalDisplayTime": 3, "pattern":"caseworker-", "totalIdleTime": 30}, {"idleModalDisplayTime": 6, "pattern":".", "totalIdleTime": 60}]
+ ```
+ 
+Note that the wildcard Reg Ex '.' pattern seen in the following sets the applications default.
+```javascript
+{"idleModalDisplayTime": 6, "pattern":".", "totalIdleTime": 60
+```
+
+Each Session Timeout object accepts a Reg Ex pattern, which sets the Session Timeout for that User group.
+
 Jargon used:
 
 Session Timeout Modal - The modal popup that appears BEFORE the users Total Idle Time is over.
@@ -186,4 +198,4 @@ Session Timeout Configuration - An array that contains the Applications and User
 Session Timeout - An object that contains the Idle Modal Display Time, Reg Ex pattern so that we use
 the correct Session Timeout for the application / and or User Groups and Total Idle Time.  
 
-END2
+END

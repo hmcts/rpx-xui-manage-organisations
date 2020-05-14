@@ -59,8 +59,8 @@ export class UserProfileEffects {
         orgId: '12345',
         roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
         sessionTimeout: {
-          idleModalDisplayTime: 2,
-          totalIdleTime: 600000
+          idleModalDisplayTime: 10,
+          totalIdleTime: 50
         },
         userId: '1',
       };

@@ -136,7 +136,6 @@ describe('Fee accounts Effects', () => {
                 userId: '1',
                 sessionTimeout: {
                   idleModalDisplayTime: 10,
-                  pattern: '.',
                   totalIdleTime: 50
                 },
             };

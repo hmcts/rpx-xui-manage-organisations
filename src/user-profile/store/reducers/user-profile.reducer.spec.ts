@@ -30,6 +30,10 @@ describe('User Profile Reducer', () => {
             orgId: 'id',
             email: 'email',
             roles: [],
+            sessionTimeout: {
+              idleModalDisplayTime: 10,
+              totalIdleTime: 50
+            },
             userId: ''
         });
 

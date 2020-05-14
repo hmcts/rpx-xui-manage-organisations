@@ -23,7 +23,13 @@ const featureMock: FeatureToggleService = {
   isEnabled: () => of(false)
 };
 
-const idleMockService = jasmine.createSpyObj('idleService', ['appStateChanges']);
+const idleServiceMock = {
+  appStateChanges: () => of({
+    countdown: 3,
+    isVisible: true,
+    type: 'modal'
+  })
+};
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
@@ -59,7 +65,7 @@ describe('AppComponent', () => {
         },
         {
           provide: ManageSessionServices,
-          useValue: idleMockService
+          useValue: idleServiceMock
         },
       ],
     }).compileComponents();

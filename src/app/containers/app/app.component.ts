@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   public navItems$: Observable<any> ;
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
-
+  public modalData$: Observable<{isVisible?: boolean; countdown?: string}>;
 
   constructor(
     private readonly store: Store<fromRoot.State>,
@@ -44,6 +44,7 @@ export class AppComponent implements OnInit {
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
+    this.modalData$ = this.store.pipe(select(fromRoot.getModalSessionData));
 
     // no need to unsubscribe as app component is always init.
     this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {

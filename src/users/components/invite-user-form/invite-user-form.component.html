@@ -1,23 +1,23 @@
 
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
-  <lib-gov-uk-input
+  <xuilib-gov-uk-input
     [config]="{label: 'First name', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass'}"
     [errorMessage]="isInvalid.firstName"
     [group]="inviteUserForm">
-  </lib-gov-uk-input>
+  </xuilib-gov-uk-input>
 
-  <lib-gov-uk-input
+  <xuilib-gov-uk-input
     [config]="{label: 'Last name', name: 'lastName', id: 'lastName', type: 'text'}"
     [errorMessage]="isInvalid.lastName"
     [group]="inviteUserForm">
-  </lib-gov-uk-input>
+  </xuilib-gov-uk-input>
 
-  <lib-gov-uk-input
+  <xuilib-gov-uk-input
     [config]="{label: 'Email address', name: 'email', id: 'email', type: 'email'}"
     [errorMessage]="isInvalid.email"
     [group]="inviteUserForm">
-  </lib-gov-uk-input>
+  </xuilib-gov-uk-input>
 
   <app-invite-permission-form [inviteUserForm]="inviteUserForm" [errorMessages]="isInvalid.roles">
   </app-invite-permission-form>

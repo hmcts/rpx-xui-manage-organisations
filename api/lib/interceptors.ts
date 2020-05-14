@@ -3,8 +3,8 @@ import * as stringify from 'json-stringify-safe'
 import { getConfigValue } from '../configuration'
 import { MAX_LOG_LINE } from '../configuration/references'
 import * as errorStack from '../lib/errorStack'
-import { shorten, valueOrNull } from '../lib/util'
 import * as log4jui from './log4jui'
+import { shorten, valueOrNull } from './util'
 
 const exceptionOptions = {
     maxLines: 1,
@@ -15,7 +15,7 @@ export function requestInterceptor(request) {
 
     const url = shorten(request.url, getConfigValue(MAX_LOG_LINE))
     logger.info(`${request.method.toUpperCase()} to ${url}`)
-    //add timings to requests
+    // add timings to requests
     request.metadata = { startTime: new Date() }
     return request
 }
@@ -41,7 +41,8 @@ export function successInterceptor(response) {
 }
 
 export function errorInterceptor(error) {
-    console.log('url: ', error.response.config.url)
+    // console.log('url: ', error.response.config.url)
+    console.log(error)
     error.config.metadata.endTime = new Date()
     error.duration = error.config.metadata.endTime - error.config.metadata.startTime
 

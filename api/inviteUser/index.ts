@@ -1,19 +1,19 @@
 import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
+import { getInviteUserUrl } from './inviteUserUtil'
 
 export const router = express.Router({ mergeParams: true })
 const logger = log4jui.getLogger('outgoing')
 
 router.post('/', inviteUserRoute)
 
-async function inviteUserRoute(req, res) {
-    const orgId = req.session.auth.orgId
+async function inviteUserRoute(req: express.Request, res: express.Response) {
     const payload = req.body
     try {
-        const response = await http.post(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/`, payload)
+        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+        const response = await req.http.post(getInviteUserUrl(rdProfessionalApiPath), payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

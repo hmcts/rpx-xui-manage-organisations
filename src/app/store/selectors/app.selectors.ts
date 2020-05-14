@@ -54,12 +54,9 @@ export const getEditUserFeature = createSelector(
   featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions)
 );
 
-// TODO: For the purpose of testing locally, revert back to
-// featureFlag => featureFlag && featureFlag.isEnabled once finished testing.
 export const getEditUserFeatureIsEnabled = createSelector(
   getEditUserFeature,
-  // featureFlag => featureFlag && featureFlag.isEnabled
-  featureFlag => true
+  featureFlag => featureFlag && featureFlag.isEnabled
 );
 
 export const getFeatureEnabledNav = createSelector(

@@ -175,7 +175,9 @@ export function doLogout(req: express.Request, res: express.Response, status: nu
   req.session.user = null
   delete req.session.auth // delete so it does not get returned to FE
   req.session.save(() => {
-    res.redirect(status,  '/')
+    const redirectUrl = (req.query.redirect || '/') as string;
+    res.redirect(status,redirectUrl)
+    //res.redirect('/')
   })
 }
 

@@ -35,7 +35,7 @@ import { JURISDICTIONS } from '../configuration/references'
  */
 const formatJurisdictions = jurisdictionFromConfig => jurisdictionFromConfig.map(jurisdiction => ({ id: jurisdiction }))
 
-async function handleJurisdictions(req, res) {
+export async function handleJurisdictions(req, res) {
 
     const uiJurisdictions = formatJurisdictions(getConfigValue(JURISDICTIONS))
 
@@ -47,7 +47,7 @@ async function handleJurisdictions(req, res) {
             apiStatusCode: error.statusCode,
             message: 'List of jurisdictions route error',
         })
-        res.send(errReport).status(500)
+        res.send(errReport).status(error.statusCode)
     }
 }
 

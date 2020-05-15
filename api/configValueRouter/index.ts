@@ -1,7 +1,7 @@
 import * as express from 'express'
-import { getConfigValue, hasConfigValue, showFeature } from '../configuration'
+import { getConfigValue, hasConfigValue } from '../configuration'
 
-async function handleAddressRoute(req, res) {
+export async function handleAddressRoute(req, res) {
     console.log('req.query.configurationKey', hasConfigValue(req.query.configurationKey))
     if (hasConfigValue(req.query.configurationKey)) {
         const configurationValue = getConfigValue(req.query.configurationKey)

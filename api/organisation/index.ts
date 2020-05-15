@@ -4,15 +4,19 @@ import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 
-async function handleAddressRoute(req: express.Request, res: express.Response) {
+export async function handleOrganisationRoute(req: express.Request, res: express.Response) {
     try {
         const response = await req.http.get(
           `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
         )
         res.send(response.data)
     } catch (error) {
-        const errReport = { apiError: error.data.message, apiStatusCode: error.status, message: 'Organsiation route error' }
-        res.status(500).send(errReport)
+        const errReport = {
+            apiError: error.data.message,
+            apiStatusCode: error.status,
+            message: 'Organisation route error',
+        }
+        res.status(errReport.apiStatusCode).send(errReport)
     }
 }
 
@@ -22,15 +26,15 @@ export function getOrganisationDetails(jwt: string, roles: string[], url: string
           auth: {
             roles,
             token: jwt,
-          }
-        }
+          },
+        },
       } as any)
-  
+
     return axiosInstance.get(`${url}/refdata/external/v1/organisations`)
 }
 
 export const router = express.Router({ mergeParams: true })
 
-router.get('', handleAddressRoute)
+router.get('', handleOrganisationRoute)
 
 export default router

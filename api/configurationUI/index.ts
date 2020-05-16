@@ -16,7 +16,7 @@ router.get('/', configurationUIRoute)
 /**
  * All the following environmental variables are passed to the UI.
  */
-async function configurationUIRoute(req, res) {
+export async function configurationUIRoute(req, res) {
   res.status(200).send({
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),
     idamWeb: getConfigValue(SERVICES_IDAM_WEB),

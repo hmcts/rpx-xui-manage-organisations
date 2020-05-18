@@ -7,10 +7,10 @@
  */
 
 export const DEFAULT_SESSION_TIMEOUT = {
-  idleModalDisplayTime: 2,
+  idleModalDisplayTime: 10,
   pattern: 'ERROR: NO-SESSION_TIMEOUT_SET. You need to set a DEFAULT Session Timeout for this application through the configuration file. ie.' +
   'use the pattern ".", @see unit tests. The totalIdleTime will be set to a low value.',
-  totalIdleTime: 12,
+  totalIdleTime: 480,
 }
 
 /**

@@ -129,7 +129,6 @@ export class AppComponent implements OnInit {
       }
       case IDLE_EVENT_SIGNOUT: {
         this.dispatchModal(undefined, false);
-        // this.onNavigate('sign-out');
         this.store.dispatch(new fromRoot.IdleUserSignOut());
         return;
       }
@@ -205,10 +204,6 @@ export class AppComponent implements OnInit {
     };
     this.store.dispatch(new fromRoot.SetModal(payload));
   }
-
-  // ok so we should dispatch an action here
-  // which hits the effect, the effect signs out for us
-
 
   public onNavigate(event): void {
     if (event === 'sign-out') {

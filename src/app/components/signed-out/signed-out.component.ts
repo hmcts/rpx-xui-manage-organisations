@@ -13,6 +13,6 @@ export class SignedOutComponent implements OnInit {
   constructor() { }
 
   public ngOnInit(): void {
-    // this.redirectUrl = './';
+    this.redirectUrl = './';
   }
 }

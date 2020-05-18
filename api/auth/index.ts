@@ -197,29 +197,6 @@ export async function doLogout(req: Request, res: Response, status: number = 302
   })
 }
 
-export async function idleUserLogout(req: Request, res: Response) {
-  const auth = `Basic ${
-    Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${getConfigValue(IDAM_SECRET)}`).toString('base64')}`
-
-  const axiosInstance = http({} as unknown as Request)
-
-  if (exists(req, 'session.auth.token')) {
-    await axiosInstance.delete(`${getConfigValue(SERVICES_IDAM_API_PATH)}/session/${req.session.auth.token}`, {
-      headers: {
-        Authorization: auth,
-      },
-    }).catch( err => {
-      logger.error('Unable to delete idam session:', err)
-    })
-  }
-
-  req.session.destroy(() => {
-    res.clearCookie(getConfigValue(COOKIE_TOKEN))
-    res.clearCookie(getConfigValue(COOKIES_USERID))
-    res.send(`User is now logged out.`)
-  })
-}
-
 export async function logout(req, res) {
   await doLogout(req, res, 200)
 }

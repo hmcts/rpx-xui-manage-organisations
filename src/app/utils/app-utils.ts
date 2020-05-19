@@ -145,7 +145,7 @@ export class AppUtils {
     if (matched && matched[0]) {
         switch (matched[0]) {
           case AppConstants.ENVIRONMENT_NAMES.aat:
-            case AppConstants.ENVIRONMENT_NAMES.localhost:
+          case AppConstants.ENVIRONMENT_NAMES.localhost:
           case AppConstants.ENVIRONMENT_NAMES.pr:
              return AppConstants.ENVIRONMENT_NAMES.aat;
           case AppConstants.ENVIRONMENT_NAMES.demo:
@@ -161,4 +161,24 @@ export class AppUtils {
   public static showSubHeaderItems(isAuth: boolean, router: any) {
     return isAuth && router && router.state && router.state.url.indexOf('accept-terms-and-conditions') <= 0;
   }
+
+  /**
+   * Checks if nested properties exists on an object.
+   *
+   * Ref: https://stackoverflow.com/questions/2631001/test-for-existence-of-nested-javascript-object-key
+   *
+   * @see unit tests
+   */
+  public static propsExist(object, nestedProps) {
+
+    for (const nestedProperty of nestedProps) {
+      if (!object || !object.hasOwnProperty(nestedProperty)) {
+        return false;
+      }
+      object = object[nestedProperty];
+    }
+
+    return true;
+  }
+
 }

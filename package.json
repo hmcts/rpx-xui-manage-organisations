@@ -27,6 +27,7 @@
     "test:api": "ts-node ./test/integration/tests/test.ts",
     "test:coverage:ng": "ng test rpa-pui-manager --code-coverage --watch",
     "test:coverage:node": "cd api && yarn coverage",
+    "test:mutation": "NODE_CONFIG_DIR=../../config stryker run stryker.node.conf.js ",
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
     "ng": "ng",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
@@ -164,6 +165,12 @@
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.2.2",
+    "@stryker-mutator/api": "^3.0.1",
+    "@stryker-mutator/core": "^3.0.1",
+    "@stryker-mutator/html-reporter": "^3.0.1",
+    "@stryker-mutator/karma-runner": "^3.0.1",
+    "@stryker-mutator/mocha-runner": "^3.0.1",
+    "@stryker-mutator/typescript": "^3.0.1"
   }
 }

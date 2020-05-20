@@ -1,15 +1,16 @@
-import * as fromUsers from '../actions/user.actions';
-import {AppUtils} from 'src/app/utils/app-utils';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from 'src/app/app.constants';
+import {AppUtils} from 'src/app/utils/app-utils';
+import * as fromUsers from '../actions/user.actions';
 
 export interface UsersListState {
-  userList: object[];
+  userList: User[];
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: UsersListState = {
-  userList: [],
+  userList: [] as User[],
   loaded: false,
   loading: false,
 };
@@ -42,11 +43,13 @@ export function reducer(
 
       const userList = userListPayload.map((user) => {
 
-        AppConstants.USER_ROLES.map((userRoles) => {
+        user.status = AppUtils.capitalizeString(user.idamStatus);
+
+        AppConstants.USER_ROLES.forEach((userRoles) => {
           if (user.roles) {
             user[userRoles.roleType] = user.roles.includes(userRoles.role) ? 'Yes' : 'No';
           }
-         });
+        });
 
         user.status = AppUtils.capitalizeString(user.idamStatus);
 
@@ -61,7 +64,6 @@ export function reducer(
       };
     }
 
-
     case fromUsers.LOAD_USERS_FAIL: {
       return {
         ...state,
@@ -70,9 +72,48 @@ export function reducer(
       };
     }
 
-  }
+    case fromUsers.SUSPEND_USER: {
+      return {
+        ...state,
+        loading: true,
+        loaded: true
+      };
+    }
 
-  return state;
+    case fromUsers.SUSPEND_USER_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: true
+      };
+    }
+
+    case fromUsers.SUSPEND_USER_SUCCESS: {
+      const user = action.payload ? action.payload : null;
+      const amendedUserList = [];
+      state.userList.slice(0).forEach(element => {
+        const elementInstance = {...element};
+        if (elementInstance['userIdentifier'] ===  user.userIdentifier) {
+          elementInstance['idamStatus'] = 'SUSPENDED';
+          elementInstance['status'] = 'Suspended';
+        }
+        amendedUserList.push(elementInstance);
+      });
+
+      return {
+        ...state,
+        userList: [
+          ...amendedUserList
+        ],
+        loading: false,
+        loaded: true
+      };
+    }
+
+    default:
+      return state;
+
+  }
 }
 
 export const getUsers = (state: UsersListState) => state.userList;

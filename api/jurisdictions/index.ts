@@ -1,12 +1,46 @@
 import * as express from 'express'
-import { config } from '../lib/config'
-import * as log4jui from '../lib/log4jui'
+import { getConfigValue } from '../configuration'
+import { JURISDICTIONS } from '../configuration/references'
 
-const logger = log4jui.getLogger('service-token')
+/**
+ * getJurisdiction
+ *
+ * TODO: Test if this is working correctly.
+ *
+ * @param jurisdictionFromConfig - [
+ * 'SSCS',
+ * 'AUTOTEST1',
+ * 'DIVORCE',
+ * 'PROBATE',
+ * 'PUBLICLAW',
+ * 'bulkscan',
+ * 'BULKSCAN',
+ * 'IA',
+ * 'EMPLOYMENT',
+ * 'CMC'
+ * ]
+ * @return - [
+ *  {id: 'SSCS'},
+ *  {id: 'AUTOTEST1'},
+ *  {id: 'DIVORCE'},
+ *  {id: 'PROBATE'},
+ *  {id: 'PUBLICLAW'},
+ *  {id: 'bulkscan'},
+ *  {id: 'BULKSCAN'},
+ *  {id: 'IA'},
+ *  {id: 'EMPLOYMENT'},
+ *  {id: 'CMC'}
+ * ]
+ *
+ */
+const formatJurisdictions = jurisdictionFromConfig => jurisdictionFromConfig.map(jurisdiction => ({ id: jurisdiction }))
 
 async function handleJurisdictions(req, res) {
+
+    const uiJurisdictions = formatJurisdictions(getConfigValue(JURISDICTIONS))
+
     try {
-        res.send(config.jurisdictions)
+        res.send(uiJurisdictions)
     } catch (error) {
         const errReport = JSON.stringify({
             apiError: error,

@@ -20,16 +20,18 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToAatOnly = true  // set to true if only deploy upto AAT, set to false will deploy all the way to production
+def deployToAatOnly = true // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
 
 def secrets = [
   'rpx-${env}': [
     secret('mo-s2s-client-secret', 'S2S_SECRET'),
     secret('xui-oauth2-token', 'IDAM_SECRET'),
+    secret('mo-webapp-redis-connection-string', 'REDISCLOUD_URL'),
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
-    secret('APPINSIGHTS-INSTRUMENTATIONKEY-MO', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+    secret('appinsights-instrumentationkey-mo', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
 
   ],
 //  's2s-${env}'      : [
@@ -51,7 +53,9 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     installCharts()
     enableSecurityScan()
-    env.TEST_URL = 'https://xui-webapp-aat.service.core-compute-aat.internal'
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net'
+    enableAksStagingDeployment()
+    disableLegacyDeployment()
 
 // To enable PACT testing on pipeline uncomment the next 3 lines
 //    enablePactAs([

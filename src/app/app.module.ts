@@ -1,29 +1,14 @@
-import { LoaderModule } from './../shared/modules/loader/loader.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, ErrorHandler } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { AppComponent } from './containers/app/app.component';
-import { SharedModule } from '../shared/shared.module';
-import { CookieModule } from 'ngx-cookie';
-
-// ngrx
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+// ngrx
 import { MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
-import { CustomSerializer, reducers } from './store/';
-import { effects } from './store/effects';
-
-// from Containers
-import * as fromContainers from './containers/';
-
-// from Components
-import * as fromComponents from './components';
-
-import {HttpClientModule} from '@angular/common/http';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
@@ -32,9 +17,20 @@ import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { JurisdictionService } from 'src/users/services';
 import config from '../../api/lib/config';
-import {UserService} from '../user-profile/services/user.service';
+import { SharedModule } from '../shared/shared.module';
+import { UserService } from '../user-profile/services/user.service';
 import { UserProfileModule } from '../user-profile/user-profile.module';
+import { LoaderModule } from './../shared/modules/loader/loader.module';
 import { ROUTES } from './app.routes';
+// from Components
+import * as fromComponents from './components';
+// from Containers
+import * as fromContainers from './containers/';
+import { AppComponent } from './containers/app/app.component';
+import { CustomSerializer, reducers } from './store/';
+import { effects } from './store/effects';
+import {TermsConditionGuard} from './guards/termsCondition.guard';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]

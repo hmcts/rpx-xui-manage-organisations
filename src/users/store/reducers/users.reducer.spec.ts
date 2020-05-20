@@ -1,5 +1,5 @@
-import * as fromUsers from './users.reducer';
 import * as fromUserActions from '../actions/user.actions';
+import * as fromUsers from './users.reducer';
 
 const mockUserList = [
     {
@@ -8,7 +8,7 @@ const mockUserList = [
         email: 'somthing1@something',
         idamStatus: 'active',
         userIdentifier: 'userId1',
-        roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager']
+        roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager', 'pui-finance-manager']
     },
     {
         firstName: 'Test2fggftfirstname',
@@ -29,10 +29,11 @@ const resultUserList = [
         userIdentifier: 'userId1',
         selected: false,
         status: 'Active',
-        roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager'],
+        roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager', 'pui-finance-manager'],
         manageOrganisations: 'Yes',
         manageUsers: 'Yes',
-        manageCases: 'Yes'
+        manageCases: 'Yes',
+        managePayments: 'Yes'
     },
     {
         firstName: 'Test2fggftfirstname',
@@ -45,7 +46,8 @@ const resultUserList = [
         roles: ['pui-organisation-manager', 'pui-user-manager'],
         manageOrganisations: 'Yes',
         manageUsers: 'Yes',
-        manageCases: 'No'
+        manageCases: 'No',
+        managePayments: 'No'
     }
 ];
 

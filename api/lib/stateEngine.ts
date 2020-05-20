@@ -1,3 +1,4 @@
+// TODO: It looks like this is no longer being used? Ask team and remove.
 import { map } from 'p-iteration'
 import { config } from '../lib/config'
 import * as log4jui from './log4jui'

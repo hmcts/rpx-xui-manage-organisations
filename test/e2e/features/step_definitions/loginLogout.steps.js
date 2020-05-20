@@ -10,6 +10,7 @@ const browserWaits = require('../../support/customWaits');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 const manageCasesService = require('../pageObjects/manageCasesService');
+const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 
 const HeaderPage = require('../pageObjects/headerPage');
 const headerPage = new HeaderPage();
@@ -21,7 +22,6 @@ async function waitForElement(el) {
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
-
   When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
     const world = this;
 
@@ -81,7 +81,6 @@ defineSupportCode(function ({ Given, When, Then }) {
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
-
   });
 
   When(/^I enter an valid email-address and password to login$/, async function () {
@@ -120,14 +119,15 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    // browser.sleep(LONG_DELAY);
-    await waitForElement('hmcts-header__link');
+    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY); 
     expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
     expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
-    // browser.sleep(LONG_DELAY);
+ 
+    expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true;
+    browser.sleep(LONG_DELAY);
   });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
@@ -149,21 +149,16 @@ defineSupportCode(function ({ Given, When, Then }) {
   Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
     // browser.sleep(LONG_DELAY);
     const world = this;
-    await browserWaits.retryForPageLoad(loginPage.emailAddress,async function (message) {
-      world.attach("Retrying Login page load : " + message);
-      browser.takeScreenshot()
-        .then(stream => {
-          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-          world.attach(decodedImage, 'image/png');
-        });
-      await browser.get(config.config.baseUrl);
-    });
 
-    await browserWaits.waitForElement(loginPage.emailAddress);
-    await loginPage.emailAddress.sendKeys(config.config.username);
-    await loginPage.password.sendKeys(config.config.password);
-    await loginPage.clickSignIn();
+    await loginWithCredentials(config.config.username, config.config.password,world);
+
     // browser.sleep(LONG_DELAY);
+  });
+
+  Given('I am logged into manage organisation with test org user', async function(){
+    const world = this;
+    await loginWithCredentials(global.testorg_rw_superuser_email, 'Monday01',world);
+; 
   });
 
   Given("I am logged in to created approve organisation", async function () {
@@ -204,17 +199,54 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(LONG_DELAY);
   });
 
-  Then('I login to MC with invited user', async function () {
-    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword); 
+  Then('I login to MC with invited user', { timeout: 120 * 1000 },async function () {
+    await manageCasesService.init();
+    manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
+    // manageCasesService.setWorld(this);
+    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword);
+    await manageCasesService.destroy(); 
+
   });
 
-  Then('I see login to MC with invited user is {string}', async function (loginStatus) {
+  Then('I see login to MC with invited user is {string}', { timeout: 120 * 1000 }, async function (loginStatus) {
+    await manageCasesService.init();
+    manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
+    await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword)
     if (loginStatus.includes('success')){
       await manageCasesService.validateLoginSuccess();
     }else{
       await manageCasesService.validateLoginFailure();
-
     }
+    await manageCasesService.destroy(); 
   });
 
 });
+
+
+async function loginWithCredentials(username,password,world){
+  await browserWaits.retryForPageLoad(loginPage.emailAddress, async function (message) {
+    world.attach("Retrying Login page load : " + message);
+    browser.takeScreenshot()
+      .then(stream => {
+        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+        world.attach(decodedImage, 'image/png');
+      });
+    await browser.get(config.config.baseUrl);
+  });
+
+  await browserWaits.waitForElement(loginPage.emailAddress);
+  await loginPage.emailAddress.sendKeys(username);
+  await loginPage.password.sendKeys(password);
+  await loginPage.clickSignIn();
+}
+
+function logger(world, message, isScreenshot) {
+  if (isScreenshot) {
+    world.attach(message, 'image/png');
+    console.log('Screenshot attached');
+  } else {
+    world.attach(message);
+    console.log(message);
+  }
+
+}

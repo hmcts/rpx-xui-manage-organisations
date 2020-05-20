@@ -1,7 +1,10 @@
 import * as express from 'express'
-import { config } from '../lib/config'
+import { showFeature } from '../configuration'
+import { healthEndpoints } from '../configuration/health'
+import { FEATURE_TERMS_AND_CONDITIONS_ENABLED } from '../configuration/references'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
+import { HealthCheckUtil } from './healthCheckUtil'
 
 export const router = express.Router({ mergeParams: true })
 const logger = log4jui.getLogger('outgoing')
@@ -17,6 +20,7 @@ router.get('/', healthCheckRoute)
 */
 
 const healthCheckEndpointDictionary = {
+    '/fee-accounts': ['rdProfessionalApi'],
     '/organisation': ['rdProfessionalApi'],
     '/register-org/register/check': ['rdProfessionalApi'],
     '/users': ['rdProfessionalApi'],
@@ -35,10 +39,15 @@ const healthCheckEndpointDictionary = {
 */
 
 function getPromises(path): any[] {
+    const isTandCEnabled = showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)
+    HealthCheckUtil.manageTAndCFeature(isTandCEnabled, healthCheckEndpointDictionary)
     const Promises = []
     if (healthCheckEndpointDictionary[path]) {
         healthCheckEndpointDictionary[path].forEach(endpoint => {
-            Promises.push(http.get(config.health[endpoint]))
+            // TODO: Have health config for this.
+            console.log('healthEndpoints')
+            console.log(healthEndpoints()[endpoint])
+            Promises.push(http.get(healthEndpoints()[endpoint]))
         })
     }
     return Promises
@@ -63,7 +72,6 @@ async function healthCheckRoute(req, res) {
         logger.info('response::', response)
         res.send(response)
     } catch (error) {
-        console.log(error)
         logger.info('error', { healthState: false })
         res.status(error.status).send({ healthState: false })
     }

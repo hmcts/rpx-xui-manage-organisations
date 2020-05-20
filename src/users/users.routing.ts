@@ -1,7 +1,7 @@
 // routes
 import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { UsersComponent, UserDetailsComponent } from './containers';
+import { UsersComponent, UserDetailsComponent, EditUserPermissionComponent } from './containers';
 import { InviteUserComponent } from './containers/invite-user/invite-user.component';
 import { InviteUserSuccessComponent } from './containers/invite-user-success/invite-user-success.component';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
@@ -26,7 +26,11 @@ export const ROUTES: Routes = [
       path: 'invite-user-success',
       component: InviteUserSuccessComponent,
       canActivate: [InviteUserSuccessGuard],
-    }
+    },
+    /*{
+      path: 'user/:userId/editpermission',
+      component: EditUserPermissionComponent,
+    }*/
 ];
 
 

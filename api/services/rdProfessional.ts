@@ -1,4 +1,5 @@
-import { config } from '../lib/config'
+import { getConfigValue } from '../configuration'
+import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 
 import { http } from '../lib/http'
@@ -6,17 +7,17 @@ import { PaymentAccountDto } from '../lib/models/transactions'
 
 const logger = log4jui.getLogger('rd-professional')
 
-const url = config.services.rdProfessionalApi
+const url = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
 
 export async function getOrganisationId(details) {
     // TODO remove the hardcoded email when correct user gets returned from idam
     // const email = details.data.email;
     const email = 'henry_fr_harper@yahoo.com'
-    return await http.get(`${config.services.rdProfessionalApi}/search/organisations/${email}`)
+    return await http.get(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/search/organisations/${email}`)
 }
 
 export async function getAccountsForOrganisation(orgId: string): Promise<PaymentAccountDto[]> {
-    const response = await http.get(`${config.services.rdProfessionalApi}/organisations/${orgId}/pbas`)
+    const response = await http.get(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/organisations/${orgId}/pbas`)
     return response.data
 }
 

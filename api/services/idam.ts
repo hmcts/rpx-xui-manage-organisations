@@ -1,6 +1,5 @@
 import { AxiosResponse } from 'axios'
 import { http } from '../lib/http'
-import { config } from '../lib/config'
 
 export async function getUserDetails(jwt: string,  url: string): Promise<AxiosResponse> {
     const options = {

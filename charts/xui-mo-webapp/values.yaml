@@ -1,4 +1,15 @@
+redis:
+  enabled: false
+  cluster:
+    enabled: false
+    slaveCount: 0
+  password: fake-password
+  master:
+    persistence:
+      enabled: false
+
 nodejs:
+  aadIdentityName: xui
   applicationPort: 3000
   memoryLimits: 1024Mi
   cpuLimits: 1000m
@@ -7,17 +18,60 @@ nodejs:
     REFORM_SERVICE_NAME: xui-mo-webapp
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    PUI_ENV: preview
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
+    PUI_ENV: prod
+    SESSION_SECRET: secretSauce
+    NODE_TLS_REJECT_UNAUTHORIZED: 1
+    MO_HTTP_PROXY: http://172.16.0.7:8080
+    MO_NO_PROXY: localhost
+    PORT: 3000
+    NOW: false
+    IDAM_CLIENT: xuimowebapp
+    OAUTH_CALLBACK_URL: /oauth2/callback
+    MAX_LOG_LINE: 80
+    EXCEPTION_OPTIONS_MAX_LINES: 1
+    INDEX_URL: /
+    LOGGING: debug
+    PROTOCOL: https
+    SECURE_COOKIE: false
+    COOKIE_TOKEN: __auth__
+    COOKIE_USER_ID: __userid__
+    MICROSERVICE: xui_webapp
+    NODE_CONFIG_ENV: prod
+    # Allow config mutations is required for Secrets to attach to config object within code
+    ALLOW_CONFIG_MUTATIONS: 1
+    # Feature Toggles
+    FEATURE_APP_INSIGHTS_ENABLED: true
+    FEATURE_SECURE_COOKIE_ENABLED: true
+    FEATURE_PROXY_ENABLED: false
+    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_HELMET_ENABLED: true
+    FEATURE_REDIS_ENABLED: true
+
+    # Redis
+    REDIS_KEY_PREFIX: 'activity:'
+    REDIS_TTL: 6000
+
+    # IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    # S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+
+    IDAM_API_SERVICE: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
+    RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
+    MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    
   keyVaults:
     rpx:
       resourceGroup: rpx
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - AppInsightsInstrumentationKey
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - mo-webapp-redis-connection-string
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

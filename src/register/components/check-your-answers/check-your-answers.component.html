@@ -26,11 +26,11 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2" class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item *ngIf="formDataValues.PBAnumber1 || formDataValues.PBAnumber2" class="govuk-check-your-answers__contents">
       <ng-container question>PBA number</ng-container>
       <ng-container answer>
-        {{ formDataValues.PBAnumber1 }},
-        {{ formDataValues.PBAnumber2 }}
+        <span *ngIf="formDataValues.PBAnumber1">{{ formDataValues.PBAnumber1 }}</span><span *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2">, </span>
+        <span *ngIf="formDataValues.PBAnumber2">{{ formDataValues.PBAnumber2 }}</span>
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/organisation-pba'">Change <span class="govuk-visually-hidden">PBA number</span></a>
@@ -96,6 +96,7 @@
     <li>Your personal and organisation details are correct</li>
     <li>You have read and understood the <a routerLink="/terms-and-conditions" rel="noopener noreferrer" target="_blank">terms and conditions</a> and are eligible for an account to manage your organisation and cases</li>
     <li>You are creating an account for your organisation for the first time</li>
+    <li>You will be asked to accept the terms and conditions again when logging into a MyHMCTS application for the first time</li>
   </ul>
 
   <button role="button" draggable="false" (click)="onSubmitData()" class="govuk-button">

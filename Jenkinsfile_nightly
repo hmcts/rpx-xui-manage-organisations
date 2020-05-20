@@ -20,11 +20,11 @@ def channel   = '#xui-pipeline'
 
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
-
-    enableFullFunctionalTest(30)
     enableSecurityScan()
+    enableFullFunctionalTest(30)
+    enableCrossBrowserTest()
 
-    env.TEST_URL = 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/'
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
     after('checkout') {sh 'yarn cache clean'}
     after('build') {
         sh 'npm run build'

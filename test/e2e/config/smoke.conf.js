@@ -48,7 +48,7 @@ const config = {
       options: {
         automaticallyGenerateReport: true,
         removeExistingJsonReportFile: true,
-        reportName: 'XUI Functional Tests',
+        reportName: 'XUI Smoke Tests',
         jsonDir: 'reports/tests/functional',
         reportPath: 'reports/tests/functional'
       }

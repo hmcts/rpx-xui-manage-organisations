@@ -52,6 +52,8 @@ withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
     installCharts()
+    enableSecurityScan()
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net'
     enableAksStagingDeployment()
     disableLegacyDeployment()
 

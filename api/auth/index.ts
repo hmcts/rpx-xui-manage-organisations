@@ -188,7 +188,7 @@ export async function doLogout(req: express.Request, res: express.Response, stat
   req.session.destroy(() => {
     res.clearCookie(getConfigValue(COOKIE_TOKEN))
     res.clearCookie(getConfigValue(COOKIES_USERID))
-    res.redirect(status, req.query.redirect || '/')
+    res.redirect(status, `${req.query.redirect}` || '/')
   })
 }
 

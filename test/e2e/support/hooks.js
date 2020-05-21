@@ -14,6 +14,7 @@ const htmlReports = `${process.cwd()}/reports/html`;
 const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
 const { Given, When, Then } = require('cucumber');
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 
 // defineSupportCode(function({After }) {
@@ -95,27 +96,23 @@ const { Given, When, Then } = require('cucumber');
 defineSupportCode(({ After }) => {
     After(function(scenario, done) {
         const world = this;
-        if (scenario.result.status !== 'failed1') {
-            console.log("After scenario : " + scenario.result.status);
-            screenShotUtils.takeScreenshot()
-            .then(stream => {
-                const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-                world.attach(decodedImage, 'image/png');
-            })
-            .then(async () => {
-                    let errorSummaryOnPage = element(by.css(".error-summary"));
-                    let isErrorMessageDisplayed = await errorSummaryOnPage.isPresent();
-                    if (isErrorMessageDisplayed) {
-                        let errorSummary = await errorSummaryOnPage.getText();
-                        world.attach("Error Summary Displayed : " + errorSummary);
+        console.log("After scenario : " + scenario.result.status);
+        global.screenShotUtils.takeScreenshot()
+        .then(stream => {
+            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+            world.attach(decodedImage, 'image/png');
+        })
+        .then(async () => {
+                let errorSummaryOnPage = element(by.css(".error-summary"));
+                let isErrorMessageDisplayed = await errorSummaryOnPage.isPresent();
+                if (isErrorMessageDisplayed) {
+                    let errorSummary = await errorSummaryOnPage.getText();
+                    world.attach("Error Summary Displayed : " + errorSummary);
 
-                    } else {
-                        world.attach("Error summary empty or not displayed : ");
-                    }
-                    done();
-                });
-        } else {
-            done();
-        }
+                } else {
+                    world.attach("Error summary empty or not displayed : ");
+                }
+                done();
+            });
     });
 });

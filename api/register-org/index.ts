@@ -2,8 +2,8 @@ import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import {http} from '../lib/http'
+import {makeOrganisationPayload} from '../lib/payloadBuilder'
 import {generateS2sToken} from '../lib/s2sTokenGeneration'
-import {makeOrganisationPayload} from '../lib/payloadBuilder';
 
 export const router = express.Router({mergeParams: true})
 
@@ -32,18 +32,18 @@ router.post('/register', async (req, res) => {
     console.log(s2sToken)
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
     const options = {
-      headers: {'ServiceAuthorization': `Bearer ${s2sToken}`},
+      headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
     }
-    const response = await http.post(url, registerPayload, options)
+    const axiosInstance = http({} as unknown as express.Request)
+    const response = await axiosInstance.post(url, registerPayload, options)
 
     res.send(response.data)
   } catch (error) {
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */
-    if (error === ERROR_GENERATING_S2S_TOKEN) {
-      res.status(500)
-      res.send({
+    if (error.message === ERROR_GENERATING_S2S_TOKEN) {
+      return res.status(500).send({
         errorMessage: ERROR_GENERATING_S2S_TOKEN,
         errorOnPath: s2sServicePath,
       })

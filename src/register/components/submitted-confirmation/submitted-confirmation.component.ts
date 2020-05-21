@@ -20,6 +20,8 @@ import {Component} from '@angular/core';
         </p>
         <p class="govuk-body">You'll get an email from HM Courts and Tribunals Registrations asking you to finish creating your account.
         </p>
+        <p class="govuk-body">If you already have an account, you’ll be able to log in to the applications once your organisation has been approved.
+        </p>
       </div>
     </div>
   </main>

@@ -22,8 +22,13 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
 
     enableFullFunctionalTest(30)
+    installCharts()
 
-    env.TEST_URL = 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/'
+    enableSecurityScan()
+    enableFullFunctionalTest(30)
+    enableCrossBrowserTest()
+
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
     after('checkout') {sh 'yarn cache clean'}
     after('build') {
         sh 'npm run build'
@@ -53,6 +58,18 @@ withNightlyPipeline(type, product, component) {
             reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Full functional Tests'
+        ])
+
+    }
+
+    after('mutationTest') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/mutation/node/",
+            reportFiles          : 'index.html',
+            reportName           : 'XUI Manage Organisation Mutation tests'
         ])
     }
 }

@@ -9,13 +9,6 @@ const logger = log4jui.getLogger('rd-professional')
 
 const url = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
 
-export async function getOrganisationId(details, req: Request) {
-    // TODO remove the hardcoded email when correct user gets returned from idam
-    // const email = details.data.email;
-    const email = 'henry_fr_harper@yahoo.com'
-    return await req.http.get(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/search/organisations/${email}`)
-}
-
 export async function getAccountsForOrganisation(orgId: string, req: Request): Promise<PaymentAccountDto[]> {
     const response = await req.http.get(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/organisations/${orgId}/pbas`)
     return response.data

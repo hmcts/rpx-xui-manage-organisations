@@ -49,8 +49,8 @@ const config = {
         automaticallyGenerateReport: true,
         removeExistingJsonReportFile: true,
         reportName: 'XUI Smoke Tests',
-        jsonDir: 'reports/tests/functional',
-        reportPath: 'reports/tests/functional'
+        jsonDir: 'reports/tests/smoke',
+        reportPath: 'reports/tests/smoke'
       }
     }
   ]

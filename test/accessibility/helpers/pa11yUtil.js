@@ -14,7 +14,7 @@ async function pa11ytest(test,actions,timeoutVal) {
 
     let screenshotPath = process.env.PWD + "/" + conf.reportPath + 'assets/';
     if (!fs.existsSync(screenshotPath)) {
-        fs.mkdirSync(screenshotPath);
+        fs.mkdirSync(screenshotPath, { recursive: true });
     } 
     screenshotPath = screenshotPath + Date.now()+'.png';
 

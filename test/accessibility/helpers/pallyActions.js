@@ -1,12 +1,6 @@
+const {conf} = require('../config/config');
 class Actions{
-    idamLogin(username,password){
-        return [
-            'wait for element #username to be visible',
-            'set field #username to ' + username,
-            'set field #password to ' + password,
-            'click element input.button'
-        ];
-    }
+   
 
     waitForurl(url){
         return ['wait for url to be '+url];

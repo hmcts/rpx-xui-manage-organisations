@@ -19,6 +19,7 @@ function report(runner) {
 
     runner.on('fail', function (test, err) {
         console.log('[fail]%s(%s)', test.title, err.message);
+        // console.log(test);
         tests.push(getTestDetails(test))
         failCounter++;
 

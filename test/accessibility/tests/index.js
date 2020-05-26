@@ -1,43 +1,60 @@
 ;
 
-const Actions = require('../helpers/actions');
+const AppActions = require('../helpers/applicationActions');
+const PallyActions = require('../helpers/pallyActions');
+
 const assert = require('assert');
 const { pa11ytest, getResults } = require('../helpers/pa11yUtil');
 const html = require('pa11y-reporter-html');
 
-const addContext = require('mochawesome/addContext');
-
+const {conf} = require('../config/config');
 
 describe('Pa11y tests', function () {
-    it('oragnisation page', async  function() {
+
+    conf.unauthenticatedUrls.forEach(pageUrl => {
+        it('Registration page url ' + pageUrl, async function () {
+            const actions = [];
+            actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
+            await pa11ytest(this, actions);
+
+        }).timeout(30000);;
+
+    });
+
+    conf.authenticatedUrls.forEach( pageUrl => {
+        it('a11y test page url ' + pageUrl, async function () {
+            const actions = [];
+            actions.push(...AppActions.idamLogin(conf.params.username, conf.params.password));
+            actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
+            await pa11ytest(this, actions);
+
+        }).timeout(30000);;
+        
+    });
+
+    it('a11y test Invite user success page', async function () {
         const actions = [];
-        actions.push(...Actions.idamLogin("sreekanth_su@mailinator.com","Monday01"));
-        actions.push(...Actions.navigateTourl("https://manage-org.aat.platform.hmcts.net/organisation"));
-        
-        
-        await pa11ytest(this, actions); 
-        
-    }).timeout(30000);;
+        actions.push(...AppActions.idamLogin(conf.params.username, conf.params.password));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
+        actions.push(...AppActions.fillAndSubmitInviteUsers('firstname', 'lastname', Date.now() +'test@testemail.com'));
+        actions.push(...AppActions.waitForInviteuserSuccess());
 
-    it('users page' , async function() {
+        await pa11ytest(this, actions,60000);
 
-        let actions = [];
-       actions.push(...Actions.idamLogin("sreekanth_su@mailinator.com", "Monday01"));
-        actions.push(...Actions.navigateTourl("https://manage-org.aat.platform.hmcts.net/users"));
+    }).timeout(60000);
+
+    it('a11y test Invite user error page', async function () {
+        const actions = [];
+        actions.push(...AppActions.idamLogin(conf.params.username, conf.params.password));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
+        actions.push(...AppActions.fillAndSubmitInviteUsers('firstname', 'lastname', 'dummyInvalid'));
+        actions.push(...AppActions.waitForInviteUserError());
 
         await pa11ytest(this, actions);
 
-    }).timeout(30000)
+    }).timeout(30000);
 
-    it('invite user page',async function() {
-
-        let actions = [];
-        actions.push(...Actions.idamLogin("sreekanth_su@mailinator.com", "Monday01"));
-        actions.push(...Actions.navigateTourl("https://manage-org.aat.platform.hmcts.net/users/invite-user"));
-
-        await pa11ytest(this,actions);
-
-    }).timeout(30000)
+   
 
 });
 

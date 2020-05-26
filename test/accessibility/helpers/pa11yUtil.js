@@ -2,28 +2,53 @@
 
 const pa11y = require('pa11y');
 const assert = require('assert');
+const {conf} = require('../config/config');
 
 
-async function pa11ytest(test,actions) {
+const fs = require('fs');
 
-    let result = await pa11y('manage-org.aat.platform.hmcts.net', {
-        // log: {
-        //     debug: console.log,
-        //     error: console.error,
-        //     info: console.info
-        // },
-        actions: actions
-    });
+
+async function pa11ytest(test,actions,timeoutVal) {
+    console.log("pally test with actions : " + test.test.title);
+    console.log(actions);
+
+    let screenshotPath = process.env.PWD + "/" + conf.reportPath + 'assets/';
+    if (!fs.existsSync(screenshotPath)) {
+        fs.mkdirSync(screenshotPath);
+    } 
+    screenshotPath = screenshotPath + Date.now()+'.png';
+
+    const startTime = Date.now();
+
+    let result;
+    try{
+        result = await pa11y(conf.baseUrl, {
+            "chromeLaunchConfig": { "ignoreHTTPSErrors": false , headless:true } ,
+            timeout: 60000,
+            screenCapture: screenshotPath,
+            // log: {
+            //     debug: console.log,
+            //     error: console.error,
+            //     info: console.info
+            // },
+            actions: actions
+        })
+    }catch(err){
+        const elapsedTime = Date.now() - startTime;
+        console.log("Test Execution time : " + elapsedTime);
+        console.log(err);
+        throw err;
+
+    }
+   
+    const elapsedTime = Date.now() - startTime;
+    result.executionTime = elapsedTime;
+    result.screenshot = screenshotPath;
     test.a11yResult = result;
+    console.log("Test Execution time : "+elapsedTime);
     assert(result.issues.length === 0, "accessibility issues reported") 
     return result;
-    // const htmlResults = await html.results(result);
 
 }
 
-function getResults(){
-
-    return results; 
-}
-
-module.exports = { pa11ytest, getResults}
+module.exports = { pa11ytest}

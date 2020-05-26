@@ -3,46 +3,41 @@
 const Actions = require('../helpers/actions');
 const assert = require('assert');
 const { pa11ytest, getResults } = require('../helpers/pa11yUtil');
+const html = require('pa11y-reporter-html');
 
 const addContext = require('mochawesome/addContext');
 
 
 describe('Pa11y tests', function () {
-   
-    it('oragnisation page',  () =>{
+    it('oragnisation page', async  function() {
         const actions = [];
         actions.push(...Actions.idamLogin("sreekanth_su@mailinator.com","Monday01"));
         actions.push(...Actions.navigateTourl("https://manage-org.aat.platform.hmcts.net/organisation"));
-        pa11ytest(actions).then(result => {
-            addContext(result);
-            assert(result.issues.length === 0, "Acceisbility issues reported");
-
-        });
         
-    });
+        
+        await pa11ytest(this, actions); 
+        
+    }).timeout(30000);;
 
-    it('users page' ,() => {
+    it('users page' , async function() {
+
         let actions = [];
        actions.push(...Actions.idamLogin("sreekanth_su@mailinator.com", "Monday01"));
         actions.push(...Actions.navigateTourl("https://manage-org.aat.platform.hmcts.net/users"));
 
-         pa11ytest(actions).then(result => {
-             addContext(result);
-            assert(result.issues.length === 0, "Acceisbility issues reported");
-             
-         });
-    })
+        await pa11ytest(this, actions);
 
-    it('invite user page', () => {
+    }).timeout(30000)
+
+    it('invite user page',async function() {
+
         let actions = [];
         actions.push(...Actions.idamLogin("sreekanth_su@mailinator.com", "Monday01"));
         actions.push(...Actions.navigateTourl("https://manage-org.aat.platform.hmcts.net/users/invite-user"));
 
-        pa11ytest(actions).then(result => {
-            addContext(result);
-            assert(result.issues.length === 0, "Acceisbility issues reported");
-        });
-    })
+        await pa11ytest(this,actions);
+
+    }).timeout(30000)
 
 });
 

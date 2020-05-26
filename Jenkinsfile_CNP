@@ -51,7 +51,6 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    installCharts()
     enableSecurityScan()
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net'
     enableAksStagingDeployment()
@@ -141,9 +140,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Test'
+            reportDir            : "reports/tests/smoke/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Smoke Test'
         ])
     }
 
@@ -164,9 +163,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'API Smoke Test'
+            reportDir            : "reports/tests/smoke/",
+            reportFiles          : 'index.html',
+            reportName           : 'AAT Smoke Test'
         ])
     }
 

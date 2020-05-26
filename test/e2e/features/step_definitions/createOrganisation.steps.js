@@ -22,6 +22,11 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
   });
 
+  When(/^I navigate to EUI Register Organisation Url$/, async function () {
+    await browser.get(config.config.baseUrl + '/register-org/register');
+    browser.sleep(MID_DELAY);
+  })
+
   Then('I am on Register organisation start page', async function () {
    await createOrganisationObject.waitForStartRegisterPage(); 
     await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;

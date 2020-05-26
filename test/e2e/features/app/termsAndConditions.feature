@@ -1,7 +1,7 @@
 @fullFunctional
 Feature: Accept Terms and Conditions
 
-Background: Invite a user
+Background: background setup
     Given I create test read write organisation
     Given I approve test read write  organisation
     Given I activate test read write approved organisation super user

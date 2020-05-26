@@ -117,9 +117,9 @@ describe('Payload builder', () => {
 
     it('Should set dxAddress on payload if not null', () => {
 
-        var stateValuesArray = ['DX 1234567890', 'dxexchange']
+        const stateValuesArray = ['DX 1234567890', 'dxexchange']
         const propretyNameArray = ['dxNumber', 'dxExchange']
-        var [contactInformationArray] = organisationPayload.contactInformation
+        const [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
 
@@ -131,8 +131,8 @@ describe('Payload builder', () => {
     it('Should not set dxAddress if null', () => {
 
         const propretyNameArray = ['dxNumber', 'dxExchange']
-        var stateValuesArray = [undefined, undefined]
-        var [contactInformationArray] = organisationPayload.contactInformation
+        const stateValuesArray = [undefined, undefined]
+        const [contactInformationArray] = organisationPayload.contactInformation
         setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
         expect(organisationPayload).to.equal(organisationPayload)

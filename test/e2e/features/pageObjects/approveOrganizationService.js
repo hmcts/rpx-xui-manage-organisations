@@ -10,11 +10,11 @@ class ApproveOrganisationService{
         this.useremail = "";
         this.password = "";
         if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")){
-            this.baseUrl = "https://xui-ao-webapp-aat.service.core-compute-aat.internal/";
+            this.baseUrl = "https://administer-orgs.aat.platform.hmcts.net";
             this.useremail = "vmuniganti@mailnesia.com";
             this.password = "Monday01";
         } else if (process.env.TEST_URL.includes("demo")){
-            this.baseUrl = "https://xui-ao-webapp-demo.service.core-compute-demo.internal/";
+            this.baseUrl = "https://xui-ao-webapp-demo.service.core-compute-demo.internal";
             this.useremail = "sourav.bhattacharya@hmcts.net";
             this.password = "ReferenceData2019";
        } 
@@ -103,7 +103,10 @@ class ApproveOrganisationService{
 
         let viewLink = this.aoElement(by.xpath("//*[contains(@class,'govuk-table')]//td[contains(text(),'" + orgName+"')]/..//a"));
 
-        await viewLink.click();
+        // await viewLink.click();
+        let orgPageLink = await viewLink.getAttribute('href'); 
+        console.log(orgPageLink);
+        await this.aoBrowser.get(orgPageLink);
 
         await this.waitForElement(this.organisationDetailsHeader)
         await this.waitForElement(this.approveOrganisationBtn);
@@ -118,6 +121,11 @@ class ApproveOrganisationService{
 
         await this.backToOrganisationsLink.click();
         await this.waitForElement(this.checkNowLink);
+    }
+
+    async getScrenshot(){
+
+        return await this.aoBrowser.takeScreenshot();
     }
 
 }

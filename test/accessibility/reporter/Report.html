@@ -5,15 +5,15 @@
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="Content-Security-Policy"
+        <!-- <meta http-equiv="Content-Security-Policy"
             content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'
-             https://cdnjs.cloudflare.com https://ajax.googleapis.com http://www.google.com">
+             https://cdnjs.cloudflare.com https://ajax.googleapis.com http://www.google.com"> -->
+        <script src="./resources/angular.min.js"></script>
 
         <title>EXUI Web Accesibility Test Report</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" src="./resources/fontawesome.min.css">
         <style>
             pre {
             white-space: pre-wrap;       /* css-3 */
@@ -197,8 +197,7 @@
 
     
     </div>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
-        <!-- <script src="./app.js" ></script> -->
+        <script src="./report_output.js" ></script>
 
         <script>
             var data = replacejsoncontent;

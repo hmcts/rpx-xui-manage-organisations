@@ -39,27 +39,22 @@ function generateReport(passCount,failCount, tests){
         failed: failCount,
         tests:tests
     };
-;
+
     let sourceReport = __dirname + '/Report.html';
     let destDir = process.env.PWD + "/" + conf.reportPath;
     if (!fs.existsSync(destDir)) {
         fs.mkdirSync(destDir);
     } 
-    let destReport = destDir+"Report.html"
+    let destReport = destDir+"Report_output.html"
+    let destJson = destDir + "report_output.js"
 
+    fs.copyFileSync(sourceReport, destReport);
 
-        fs.copyFileSync(sourceReport, destReport);
+    let htmlData = fs.readFileSync(sourceReport, 'utf8');
+    var result = 'var replacejsoncontent = ' +JSON.stringify(reportJson);
+    fs.writeFileSync(destJson, result);
+    copyResources();
 
-        // if (err) throw err;
-    // console.log('source.txt was copied to destination.txt' + destReport);
-
-
-    let htmlData = fs.readFileSync(destReport, 'utf8');
-
-    var result = htmlData.replace(/replacejsoncontent/g, JSON.stringify(reportJson));
-
-    fs.writeFileSync(destReport, result);
-    // console.log(JSON.stringify(reportJson)); 
 
 }
 
@@ -70,5 +65,17 @@ function getTestDetails(test){
         error: test.err.message,
         a11yResult: test.ctx.a11yResult
     };
+
+}
+
+
+function copyResources(){
+    let destDir = process.env.PWD + "/" + conf.reportPath+'resources/';
+    if (!fs.existsSync(destDir)) {
+        fs.mkdirSync(destDir);
+    }  
+
+    fs.copyFileSync(__dirname + '/resources/angular.min.js', destDir+'angular.min.js'); 
+    fs.copyFileSync(__dirname + '/resources/fontawesome.min.js', destDir + 'fontawesome.min.js'); 
 
 }

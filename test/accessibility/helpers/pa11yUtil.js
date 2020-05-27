@@ -15,8 +15,10 @@ async function pa11ytest(test,actions,timeoutVal) {
     let screenshotPath = process.env.PWD + "/" + conf.reportPath + 'assets/';
     if (!fs.existsSync(screenshotPath)) {
         fs.mkdirSync(screenshotPath, { recursive: true });
-    } 
+    }
+    screenshotName = Date.now() + '.png'; 
     screenshotPath = screenshotPath + Date.now()+'.png';
+    screenshotReportRef = 'assets/' + screenshotName;
 
     const startTime = Date.now();
 
@@ -43,7 +45,7 @@ async function pa11ytest(test,actions,timeoutVal) {
    
     const elapsedTime = Date.now() - startTime;
     result.executionTime = elapsedTime;
-    result.screenshot = screenshotPath;
+    result.screenshot = screenshotReportRef;
     test.a11yResult = result;
     console.log("Test Execution time : "+elapsedTime);
     assert(result.issues.length === 0, "accessibility issues reported") 

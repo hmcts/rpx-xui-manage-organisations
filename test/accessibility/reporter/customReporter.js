@@ -70,12 +70,20 @@ function getTestDetails(test){
 
 
 function copyResources(){
-    let destDir = process.env.PWD + "/" + conf.reportPath+'resources/';
-    if (!fs.existsSync(destDir)) {
-        fs.mkdirSync(destDir);
+    let resourceDir = process.env.PWD + "/" + conf.reportPath + 'resources/'; 
+    let cssDir = resourceDir+ 'css/';
+    if (!fs.existsSync(cssDir)) {
+        fs.mkdirSync(cssDir, { recursive: true });
+    } 
+    
+    let webfontsDir = resourceDir+'webfonts/';
+    if (!fs.existsSync(webfontsDir)) {
+        fs.mkdirSync(webfontsDir, { recursive: true });
     }  
 
-    fs.copyFileSync(__dirname + '/resources/angular.min.js', destDir+'angular.min.js'); 
-    fs.copyFileSync(__dirname + '/resources/fontawesome.min.js', destDir + 'fontawesome.min.js'); 
+    fs.copyFileSync(__dirname + '/resources/angular.min.js', resourceDir+'angular.min.js'); 
+    fs.copyFileSync(__dirname + '/resources/css/all.css', cssDir + 'all.css');
+    fs.copyFileSync(__dirname + '/resources/webfonts/fa-solid-900.woff2', webfontsDir + 'fa-solid-900.woff2'); 
+ 
 
 }

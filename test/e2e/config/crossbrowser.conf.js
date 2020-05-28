@@ -11,10 +11,9 @@ const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
 
-   sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
+    sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
 
- // sauceSeleniumAddress: 'https://vmuniganti:b88acf59-6ec8-43cb-bbfb-3c0ddc7fd781@ondemand.eu-central-1.saucelabs.com:443/wd/hub',
-
+ 
    host: 'ondemand.eu-central-1.saucelabs.com',
    sauceregion: 'eu',
    port: 80,
@@ -31,11 +30,9 @@ const config = {
         fr_judge_password: process.env.FR_PASSWORD
     },
 
-    // sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
-  //  sauceUser: process.env.SAUCE_USERNAME,
- //   sauceKey: process.env.SAUCE_ACCESS_KEY,
-   sauceUser: 'vmuniganti',
-   sauceKey: 'b88acf59-6ec8-43cb-bbfb-3c0ddc7fd781',
+    sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
+    sauceUser: process.env.SAUCE_USERNAME,
+    sauceKey: process.env.SAUCE_ACCESS_KEY,
     SAUCE_REST_ENDPOINT: 'https://eu-central-1.saucelabs.com/',
     allScriptsTimeout: 111000,
 
@@ -50,58 +47,7 @@ const config = {
             extendedDebugging: true,
             sharedTestFiles: false,
             maxInstances: 1
-
         },
-
-        // {
-        //     browserName: 'chrome',
-        //     name: 'MAC_CHROME_LATEST',
-        //     platform: 'macOS 10.13',
-        //     version: 'latest',
-        //     'tunnel-identifier': 'reformtunnel'
-        //         // shardTestFiles: true,
-        //         // maxInstances: 1
-        //
-        // },
-
-        //
-        // {
-        //     browserName: 'firefox',
-        //     name: 'WIN_FIREFOX_LATEST',
-        //     platform: 'Windows 10',
-        //     version: 'latest',
-        //     'tunnel-identifier': 'reformtunnel',
-        //     shardTestFiles: false,
-        //     maxInstances: 1
-        //
-        //  }
-        //
-        // {
-        //     browserName: 'firefox',
-        //     name: 'MAC_FIREFOX_LATEST',
-        //     platform: 'macOS 10.13',
-        //     version: 'latest',
-        //     'tunnel-identifier': 'reformtunne',
-        //     shardTestFiles: true,
-        //     maxInstances: 1
-        // }
-        //
-
-        //
-        // {
-        //     'browserName': 'internet explorer',
-        //     'platform': 'Windows 10',
-        //     'version': '11.103',
-        //     'name': 'XUI-MO-IE11-TEST',
-        //     'tunnelIdentifier': 'reformtunnel',
-        //     'extendedDebugging': true,
-        //     'shardTestFiles': true,
-        //     'maxInstances': 1
-        //
-        // }
-        //
-
-
     ],
 
 
@@ -148,6 +94,9 @@ const config = {
         global.expect = chai.expect;
         global.assert = chai.assert;
         global.should = chai.should;
+        global.screenShotUtils = new screenShotUtils({
+        browserInstance: browser
+    })
     }
 
 

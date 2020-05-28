@@ -5,15 +5,14 @@ chai.use(chaiAsPromised);
 const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
-
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 const config = {
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
+   framework: 'custom',
+   frameworkPath: require.resolve('protractor-cucumber-framework'),
 
-    sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
+   sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
 
- 
    host: 'ondemand.eu-central-1.saucelabs.com',
    sauceregion: 'eu',
    port: 80,
@@ -50,7 +49,6 @@ const config = {
         },
     ],
 
-
     exclude: [],
 
     cucumberOpts: {
@@ -69,8 +67,6 @@ const config = {
     //     };
     //     printSessionId('JUI CB Tests');
     // },
-
-
 
     plugins: [
         {
@@ -98,9 +94,6 @@ const config = {
         browserInstance: browser
     })
     }
-
-
 };
-
 
 exports.config = config;

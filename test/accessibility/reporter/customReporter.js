@@ -45,7 +45,7 @@ function generateReport(passCount,failCount, tests){
     if (!fs.existsSync(destDir)) {
         fs.mkdirSync(destDir);
     } 
-    let destReport = destDir+"Report_output.html"
+    let destReport = destDir+"Report.html"
     let destJson = destDir + "report_output.js"
 
     fs.copyFileSync(sourceReport, destReport);

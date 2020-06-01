@@ -96,5 +96,12 @@
   "links": {
     "manageCaseLink": "https://manage-case.platform.hmcts.net/cases",
     "manageOrgLink": "https://manage-org.platform.hmcts.net"
-  }
+  },
+  "sessionTimeouts": [
+    {
+      "idleModalDisplayTime": 10,
+      "pattern": ".",
+      "totalIdleTime": 50
+    }
+  ]
 }

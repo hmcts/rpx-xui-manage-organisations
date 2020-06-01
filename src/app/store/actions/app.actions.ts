@@ -14,6 +14,7 @@ export const LOAD_TERMS_CONDITIONS_FAIL = '[TC] Load Terms Conditions Fail';
 export const APP_ADD_GLOBAL_ERROR = '[APP] Add Global Error';
 export const APP_ADD_GLOBAL_ERROR_SUCCESS = '[APP] Add Global Error Success';
 export const APP_CLEAR_GLOBAL_ERROR = '[APP] Clear Global Error';
+export const SET_MODAL = '[APP] Set Modal';
 
 export const LOAD_FEATURE_TOGGLE_CONFIG = '[App] Load Feature Toggle Config';
 export const LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS = '[App] Load Feature Toggle Config Success';
@@ -21,6 +22,8 @@ export const LOAD_FEATURE_TOGGLE_CONFIG_FAIL = '[App] Load Feature Toggle Config
 
 export const START_APP_INITIALIZER = '[App] Start App initializer';
 export const FINISH_APP_INITIALIZER = '[App] Finish Start App initializer';
+
+export const IDLE_USER_SIGNOUT = '[App] Idle User Signout';
 
 export const LOGOUT = '[App] Logout';
 
@@ -73,6 +76,10 @@ export class Logout implements Action {
   public readonly type = LOGOUT;
 }
 
+export class IdleUserSignOut implements Action {
+  public readonly type = IDLE_USER_SIGNOUT;
+}
+
 export class SetUserRoles implements Action {
   public readonly type = SET_USER_ROLES;
   constructor(public payload: string[]) {}
@@ -107,6 +114,11 @@ export class LoadTermsConditionsFail {
   constructor(public payload: any) {}
 }
 
+export class SetModal implements Action {
+  public readonly type = SET_MODAL;
+  constructor(public payload: {[id: string]: {isVisible?: boolean; countdown?: string}}) { }
+}
+
 export type appActions =
   | LoadJurisdictions
   | LoadJurisdictionsFail
@@ -125,4 +137,6 @@ export type appActions =
   | FinishAppInitilizer
   | AddGlobalError
   | ClearGlobalError
-  | AddGlobalErrorSuccess;
+  | AddGlobalErrorSuccess
+  | SetModal
+  | IdleUserSignOut;

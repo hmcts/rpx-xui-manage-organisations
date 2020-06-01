@@ -15,6 +15,7 @@ import * as appActions from '../../store/actions';
 import { SetPageTitleErrors } from '../actions/app.actions';
 import {reducers} from '../reducers';
 import * as fromAppEffects from './app.effects';
+import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 
 describe('App Effects', () => {
   let actions$;
@@ -58,7 +59,11 @@ describe('App Effects', () => {
         {
           provide: FeatureToggleService,
           useValue: mockFeatureToggleService
-        }
+        },
+        {
+          provide: ENVIRONMENT_CONFIG,
+          useValue: {}
+        },
       ]
     });
 
@@ -88,7 +93,12 @@ describe('App Effects', () => {
           'pui-user-manager',
           'pui-finance-manager',
           'pui-organisation-manager'
-        ],
+          ],
+          sessionTimeout: {
+            idleModalDisplayTime: 10,
+            pattern: '.',
+            totalIdleTime: 50
+          },
           userId: '5b9639a7-49a5-4c85-9e17-bf55186c8afa'
       };
       const userRolesPayload = [

@@ -32,6 +32,7 @@ export interface AppState {
   termsAndConditions: TCDocument;
   featureFlags: AppFeatureFlag[];
   globalError: GlobalError;
+  modal: {[id: string]: {isVisible?: boolean; countdown?: string}};
 }
 
 export const initialState: AppState = {
@@ -43,7 +44,13 @@ export const initialState: AppState = {
   jurisdictions: [],
   termsAndConditions: null,
   featureFlags: [],
-  globalError: null
+  globalError: null,
+  modal: {
+    session: {
+      isVisible: false,
+      countdown: ''
+    }
+  },
 };
 
 export function reducer(
@@ -126,6 +133,13 @@ export function reducer(
       };
     }
 
+    case fromAction.SET_MODAL: {
+      return {
+        ...state,
+        modal: {...action.payload}
+      };
+    }
+
     default: {
       return state;
     }
@@ -140,3 +154,4 @@ export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
 export const getFeatureFlag = (state: AppState) => state.featureFlags;
 export const getGlobalError = (state: AppState) => state.globalError;
+export const getModal = (state: AppState) => state.modal;

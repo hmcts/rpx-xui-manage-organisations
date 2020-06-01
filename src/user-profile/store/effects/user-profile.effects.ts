@@ -28,7 +28,9 @@ export class UserProfileEffects {
     switchMap(() => {
       return this.userService.getUserDetails()
         .pipe(
-          map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
+          map((userDetails: UserInterface) => {
+            return new authActions.GetUserDetailsSuccess(userDetails)
+          }),
           catchError((error: HttpErrorResponse) => {
             this.loggerService.error(error.message);
             return of(new authActions.GetUserDetailsFailure(error));
@@ -51,7 +53,11 @@ export class UserProfileEffects {
         email: 'hardcoded@user.com',
         orgId: '12345',
         roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
-        userId: '1'
+        sessionTimeout: {
+          idleModalDisplayTime: 10,
+          totalIdleTime: 50
+        },
+        userId: '1',
       };
       return new authActions.GetUserDetailsSuccess(hadCodedUser);
     })

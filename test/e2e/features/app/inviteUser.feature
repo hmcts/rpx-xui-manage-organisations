@@ -1,4 +1,4 @@
-@fullFunctional @test
+@fullFunctional
 Feature: invite user workflow
 
   Background:

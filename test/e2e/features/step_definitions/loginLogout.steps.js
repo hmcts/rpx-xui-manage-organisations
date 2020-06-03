@@ -121,13 +121,13 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
     await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY); 
-    expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    expect(loginPage.dashboard_header.getText())
+    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
  
-    expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true;
+    await expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true;
     browser.sleep(LONG_DELAY);
   });
 
@@ -152,6 +152,15 @@ defineSupportCode(function ({ Given, When, Then }) {
     const world = this;
 
     await loginWithCredentials(config.config.username, config.config.password,world);
+
+    // browser.sleep(LONG_DELAY);
+  });
+
+  Given(/^I am logged into manage organisation to invite users$/, async function () {
+    // browser.sleep(LONG_DELAY);
+    const world = this;
+
+    await loginWithCredentials(config.config.username_rw, config.config.password_rw, world);
 
     // browser.sleep(LONG_DELAY);
   });

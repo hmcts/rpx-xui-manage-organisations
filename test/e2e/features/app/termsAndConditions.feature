@@ -2,17 +2,11 @@
 Feature: Accept Terms and Conditions
 
 Background: background setup
-    Given I create test read write organisation
-    Given I approve test read write  organisation
-    Given I activate test read write approved organisation super user
-
     When I navigate to manage organisation Url
-    Given I am logged into manage organisation with test org user
+    Given I am logged into manage organisation to invite users
 
     Then I should be redirected to manage organisation dashboard page
-    When I click on user button
-    Then I should be on display the user details
-    When I click on invite user button
+    When I navigate to invite user page
     Then I should be on display invite user page
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
         | Permission          |
@@ -21,9 +15,6 @@ Background: background setup
         | Manage Cases        |
     Then user should be created successfuly
     When I activate invited user
-    When I click on user button
-    Then I should be on display the user details
-    Then I should see invited user is listed in users table
     Then I select the sign out link
 
 Scenario: New User first time loggged in presented with Accept Terms and Consitions page

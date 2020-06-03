@@ -14,13 +14,14 @@ const config = {
    sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
 
    host: 'ondemand.eu-central-1.saucelabs.com',
-   sauceregion: 'eu',
+   sauceRegion: 'eu',
    port: 80,
-    specs: ['../features/**/*.feature'],
+   sauceConnect: true,
+   specs: ['../features/**/*.feature'],
 
-    baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
+   baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
 
-    params: {
+   params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
@@ -29,10 +30,10 @@ const config = {
         fr_judge_password: process.env.FR_PASSWORD
     },
 
-    sauceProxy: 'https://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
+    sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
-    SAUCE_REST_ENDPOINT: 'https://eu-central-1.saucelabs.com/',
+    SAUCE_REST_ENDPOINT: 'https://eu-central-1.saucelabs.com/rest/v1/',
     allScriptsTimeout: 111000,
 
     useAllAngular2AppRoots: true,
@@ -57,16 +58,6 @@ const config = {
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
         tags: ['@crossbrowser']
     },
-
-    //
-    // onComplete() {
-    //     const printSessionId = function(jobName) {
-    //         browser.getSession()
-    //             .then(session => {
-    //             });
-    //     };
-    //     printSessionId('JUI CB Tests');
-    // },
 
     plugins: [
         {

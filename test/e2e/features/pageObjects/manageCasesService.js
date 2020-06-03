@@ -11,9 +11,9 @@ class ManageCasesService {
         this.password = "";
         this.waitTime = 30000;
         if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")) {
-            this.baseUrl = "https://xui-webapp-aat.service.core-compute-aat.internal/";
+            this.baseUrl = "https://manage-case.aat.platform.hmcts.net/";
         } else if (process.env.TEST_URL.includes("demo")) {
-            this.baseUrl = "https://xui-webapp-demo.service.core-compute-demo.internal/";
+            this.baseUrl = "https://manage-case.demo.platform.hmcts.net/";
         }
 
     }

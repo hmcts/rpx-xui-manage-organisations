@@ -7,7 +7,7 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 
 Dropdown = require('../pageObjects/webdriver-components/dropdown.js');
 TextField = require('../pageObjects/webdriver-components/textField.js');
-const config = require('../../config/common.conf.js');
+const { config } = require('../../config/common.conf.js');
 const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');
@@ -33,6 +33,13 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     await viewUserPage.clickInviteUser();
     // browser.sleep(LONG_DELAY);
   });
+
+  When(/^I navigate to invite user page$/, async function () {
+    let inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/invite-user' : '/users/invite-user'; 
+    await browser.driver.get(config.config.baseUrl + inviteUserPath);
+    await inviteUserPage.waitForPage(); 
+  });
+
 
   Then(/^I should be on display invite user page$/, async function () {
     // browser.sleep(AMAZING_DELAY);;

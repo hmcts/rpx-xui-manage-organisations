@@ -64,7 +64,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "reports/tests/fullfunctional/",
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Full functional Tests'
         ])

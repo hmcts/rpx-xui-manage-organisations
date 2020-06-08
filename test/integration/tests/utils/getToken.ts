@@ -13,7 +13,7 @@ export async function getOauth2Token() {
 
   // let encode = base64.encode((process.env.TEST_EMAIL + ':' + process.env.TEST_PASSWORD))
   const encode = base64.encode(('autotest_superuser@mailinator.com:Monday01'));
-
+  console.log (encode)
   const otherParam = {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

@@ -10,6 +10,7 @@ logger.level = getConfigValue(LOGGING)
 
 export function init(): void {
   if (showFeature(FEATURE_PROXY_ENABLED)) {
+    console.log('THIS IS TEST for TUNNEL')
     logger.info('configuring global-agent: ', process.env.MO_HTTP_PROXY, ' no proxy: ', process.env.MO_NO_PROXY)
     createGlobalProxyAgent({
       environmentVariableNamespace: 'MO_',

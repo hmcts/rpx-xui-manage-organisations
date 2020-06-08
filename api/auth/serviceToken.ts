@@ -25,6 +25,7 @@ export function getToken() {
 export async function generateToken() {
     logger.info('Getting new s2s token')
     const token = await postS2SLease()
+    console.log(token)
     const tokenData: any = jwtDecode(token)
 
     cache[microservice] = {

@@ -14,7 +14,7 @@
 
 <app-footer></app-footer>
 
-<xuilib-session-dialog positionTop="300px" *ngIf="true" (close)="onStaySignedIn()">
+<xuilib-session-dialog positionTop="300px" *ngIf="(modalData$ | async).isVisible" (close)="onStaySignedIn()">
   <p class="govuk-body">For your security, we will sign you out of your account in
     <strong>{{(modalData$ | async).countdown}}</strong>
   </p>

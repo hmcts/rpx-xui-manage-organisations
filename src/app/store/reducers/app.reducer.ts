@@ -128,4 +128,4 @@ export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
-
+export const getGlobalError = (state: AppState) => state.globalError;

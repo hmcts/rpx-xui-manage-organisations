@@ -38,21 +38,22 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   };
   public jurisdictions: any[];
   public juridictionSubscription: Subscription;
-  public isReinvite: boolean = false;
+  public resendInvite: boolean = false;
   public pendingUserSubscription: Subscription;
   public showWarningMessage: boolean;
 
   public ngOnInit(): void {
     this.showWarningMessage = false;
     this.dispathAction(new fromStore.Reset(), this.store);
-    this.isReinvite = false;
+    this.resendInvite = false;
     this.errors$ = this.store.pipe(select(fromStore.getInviteUserErrorMessage));
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
 
     this.inviteUserForm = this.initialiseUserForm();
     this.backLink = this.getBackLink(null);
     this.pendingUserSubscription = this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
-      this.populateFormControl(pendingUser, this.backLink, this.inviteUserForm);
+      this.populateFormControl(pendingUser, this.inviteUserForm);
+      this.backLink = this.getBackLink(pendingUser);
     });
 
     this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
@@ -72,25 +73,27 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429)).subscribe(() => {
       this.showWarningMessage = true;
     });
+    this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL)).subscribe(() => {
+      this.store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+    });
   }
 
   public handleError(store: Store<any>, errorNumber: number) {
     const globalError = this.getGlobalError(errorNumber);
-    store.dispatch(new fromAppStore.AddGlobalError(globalError));
-    store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+    if (globalError) {
+        store.dispatch(new fromAppStore.AddGlobalError(globalError));
+        store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+    }
   }
 
   public getGlobalError(error: number): GlobalError {
-    switch (error) {
-      case 400:
-        return this.get400Error();
-      case 404:
-        return this.get404Error();
-      case 500:
-        return this.get500Error();
-      default:
-        throw new Error(`Unexpected error number ${error}`);
-    }
+
+    const mappedError = {
+      400: this.get400Error(),
+      404: this.get404Error(),
+      500: this.get500Error()
+    };
+    return mappedError[error];
   }
 
   public get500Error(): GlobalError {
@@ -130,7 +133,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     const errorMessages = [{
       bodyText: 'to reactivate this account',
       urlText: 'Get help',
-      url: 'get-help'
+      url: '/get-help'
     },
     {
       bodyText: null,
@@ -171,10 +174,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     }, checkBoxValidator);
   }
 
-  public populateFormControl(pendingUser: User, backLink: string, inviteUserForm: FormGroup) {
+  public populateFormControl(pendingUser: User, inviteUserForm: FormGroup) {
     if (pendingUser) {
-      backLink = this.getBackLink(pendingUser);
-      this.isReinvite = true;
+      this.resendInvite = true;
       inviteUserForm.controls.firstName.setValue(pendingUser.firstName);
       inviteUserForm.controls.lastName.setValue(pendingUser.lastName);
       inviteUserForm.controls.email.setValue(pendingUser.email);
@@ -212,7 +214,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         ...value,
         roles,
         jurisdictions: this.jurisdictions,
-        isReinvite: this.isReinvite
+        resendInvite: this.resendInvite
       };
       this.store.dispatch(new fromStore.SendInviteUser(value));
     }

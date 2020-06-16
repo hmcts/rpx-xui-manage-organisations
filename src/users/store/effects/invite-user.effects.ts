@@ -40,4 +40,23 @@ export class InviteUserEffects {
       return new fromRoot.Go({ path: ['users/invite-user-success'] });
     })
   );
+
+  public static getErrorAction(error: ErrorReport): Action {
+    switch (error.apiStatusCode) {
+      case 400:
+      case 401:
+      case 402:
+      case 403:
+      case 405:
+        return new usersActions.InviteUserFailWith400(error);
+      case 404:
+        return new usersActions.InviteUserFailWith404(error);
+      case 429:
+        return new usersActions.InviteUserFailWith429(error);
+      case 500:
+        return new usersActions.InviteUserFailWith500(error);
+      default:
+          return new usersActions.InviteUserFail(error);
+    }
+  }
 }

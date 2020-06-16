@@ -1,7 +1,7 @@
 
-import { UsersListState } from '../reducers/users.reducer';
-import { getUserState, getGetSingleUser } from './user.selectors';
 import { UserState } from '../reducers';
+import { UsersListState } from '../reducers/users.reducer';
+import { getGetSingleUser, getUserState } from './user.selectors';
 
 const userList = [
     {
@@ -25,7 +25,8 @@ const userList = [
 const mockUserListState: UsersListState = {
     userList,
     loaded: true,
-    loading: false
+    loading: false,
+    reinvitePendingUser: null
 };
 
 const mockUserState: UserState = {

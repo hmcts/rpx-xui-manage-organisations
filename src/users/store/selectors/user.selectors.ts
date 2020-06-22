@@ -27,3 +27,8 @@ export const getGetSingleUser = createSelector(
   fromFeature.getRootUserState,
   (state: fromFeature.UserState, prop) => state.invitedUsers.userList.find(item => item['userIdentifier'] === prop.userIdentifier)
 );
+
+export const getGetReinvitePendingUser = createSelector(
+  getUserState,
+  fromUsers.getReinvitePendingUser
+);

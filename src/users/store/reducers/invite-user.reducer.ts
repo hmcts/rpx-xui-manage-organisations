@@ -74,6 +74,37 @@ export function reducer(
       };
     }
 
+    case fromInviteUsers.INVITE_USER_FAIL_WITH_400: {
+      return {
+        ...state,
+        isFormValid: false,
+        errorHeader: 'Sorry, there is a problem'
+      };
+    }
+    case fromInviteUsers.INVITE_USER_FAIL_WITH_404: {
+      return {
+        ...state,
+        isFormValid: false,
+        errorHeader: 'Sorry, there is a problem with this account'
+      };
+    }
+    case fromInviteUsers.INVITE_USER_FAIL_WITH_429: {
+      const errorMessages = {
+        serverResponse1: {
+          messages: ['This user has already been invited in the last hour']
+        },
+        serverResponse2: {
+          messages: ['The recipient will receive an email from HM Courts and Tribunals Registrations so they can finish setting up their account']
+        }
+      };
+      return {
+        ...state,
+        isFormValid: false,
+        errorHeader: '',
+        errorMessages
+      };
+    }
+
     case fromInviteUsers.INVITE_USER_SUCCESS: {
       return {
         ...state,

@@ -138,7 +138,14 @@ describe('User Details Component', () => {
 
     describe('suspendUser', () => {
         it('should dispatch an action', () => {
-          const mockUser: User = {};
+          const mockUser: User = {
+            routerLink: '',
+            fullName: 'name',
+            email: 'someemail',
+            status: 'active',
+            resendInvite: false,
+            userIdentifier: ''
+          };
           component.suspendUser(mockUser);
           expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
         });

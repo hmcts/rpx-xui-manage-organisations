@@ -1,5 +1,6 @@
-import { Action } from '@ngrx/store';
 import { TCDocument } from '@hmcts/rpx-xui-common-lib';
+import { Action } from '@ngrx/store';
+import { GlobalError } from '../reducers/app.reducer';
 
 export const SET_PAGE_TITLE = '[APP] Set Page Title';
 export const SET_PAGE_TITLE_ERRORS = '[APP] Set Page Title Errors';
@@ -10,6 +11,9 @@ export const LOAD_JURISDICTIONS_GLOBAL_FAIL = '[Invite User] Load Jurisdictions 
 export const LOAD_TERMS_CONDITIONS = '[TC] Load Terms Conditions';
 export const LOAD_TERMS_CONDITIONS_SUCCESS = '[TC] Load Terms Conditions Success';
 export const LOAD_TERMS_CONDITIONS_FAIL = '[TC] Load Terms Conditions Fail';
+export const APP_ADD_GLOBAL_ERROR = '[APP] Add Global Error';
+export const APP_ADD_GLOBAL_ERROR_SUCCESS = '[APP] Add Global Error Success';
+export const APP_CLEAR_GLOBAL_ERROR = '[APP] Clear Global Error';
 
 export const LOGOUT = '[App] Logout';
 
@@ -60,6 +64,20 @@ export class LoadTermsConditionsFail {
   constructor(public payload: any) {}
 }
 
+export class AddGlobalErrorSuccess implements Action {
+  public readonly type = APP_ADD_GLOBAL_ERROR_SUCCESS;
+  constructor() {}
+}
+export class AddGlobalError implements Action {
+  public readonly type = APP_ADD_GLOBAL_ERROR;
+  constructor(public payload: GlobalError) {}
+}
+
+export class ClearGlobalError implements Action {
+  public readonly type = APP_CLEAR_GLOBAL_ERROR;
+  constructor() {}
+}
+
 export type appActions =
   | LoadJurisdictions
   | LoadJurisdictionsFail
@@ -70,4 +88,7 @@ export type appActions =
   | SetUserRoles
   | LoadTermsConditions
   | LoadTermsConditionsSuccess
-  | LoadTermsConditionsFail;
+  | LoadTermsConditionsFail
+  | AddGlobalErrorSuccess
+  | AddGlobalError
+  | ClearGlobalError;

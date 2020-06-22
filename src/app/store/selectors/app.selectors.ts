@@ -38,6 +38,11 @@ export const getAllJurisdictions = createSelector(
   fromAppFeature.getUserJuridictions
 );
 
+export const getCurrentError = createSelector(
+  getAppState,
+  fromAppFeature.getGlobalError
+);
+
 export const getNavItems = createSelector(
   getNav,
   fromRoot.getRouterState,

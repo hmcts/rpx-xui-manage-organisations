@@ -73,6 +73,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429)).subscribe(() => {
       this.showWarningMessage = true;
     });
+    this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_409)).subscribe(() => {
+      this.showWarningMessage = true;
+    });
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL)).subscribe(() => {
       this.store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
     });

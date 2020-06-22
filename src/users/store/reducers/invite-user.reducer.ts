@@ -88,6 +88,17 @@ export function reducer(
         errorHeader: 'Sorry, there is a problem with this account'
       };
     }
+    case fromInviteUsers.INVITE_USER_FAIL_WITH_409: {
+      return {
+        ...state,
+        isFormValid: false,
+        errorHeader: '',
+        errorMessages: {
+          serverResponse1: { messages: ['Sorry, there is a problem with the service.'] },
+          serverResponse2: { messages: ['A user with this email address already exists'] }
+        }
+      };
+    }
     case fromInviteUsers.INVITE_USER_FAIL_WITH_429: {
       const errorMessages = {
         serverResponse1: {

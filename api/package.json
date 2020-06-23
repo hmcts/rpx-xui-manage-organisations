@@ -23,7 +23,9 @@
       ".tsx"
     ],
     "exclude": [
+      "**/*.js",
       "**/*.d.ts",
+      "**/*.spec.ts",
       "application.ts",
       "local.ts",
       "openRoutes.ts",

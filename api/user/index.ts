@@ -1,11 +1,12 @@
-import * as express from 'express'
-import * as log4jui from '../lib/log4jui'
-const logger = log4jui.getLogger('auth')
-export const router = express.Router({ mergeParams: true })
-import { UserProfileModel } from './user'
-import { getUserSessionTimeout } from './userTimeout';
+import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SESSION_TIMEOUTS } from '../configuration/references'
+import * as log4jui from '../lib/log4jui'
+import { UserProfileModel } from './user'
+import { getUserSessionTimeout } from './userTimeout'
+
+const logger = log4jui.getLogger('auth')
+export const router = Router({ mergeParams: true })
 
 router.get('/details', handleUserRoute)
 
@@ -25,7 +26,7 @@ function handleUserRoute(req, res) {
   }
 
   try {
-      const payload = JSON.stringify(UserDetails);
+      const payload = JSON.stringify(UserDetails)
       console.log(payload)
       res.send(payload)
   } catch (error) {

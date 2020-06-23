@@ -49,7 +49,6 @@ export class Case {
         this.securityClassification = caseData.security_classification
         this.caseData = CaseData.create(caseData.case_data)
         this.dataClassification = caseData.data_classification
-        this.securityClassification = caseData.security_classification
         this.state = caseData.state
     }
 }
@@ -73,7 +72,7 @@ export class CaseData {
     constructor(caseData) {
         this.applicantFMName = caseData.applicantFMName
         this.applicantLName = caseData.applicantLName
-        this.appRespondentFMName = caseData.appRespondentLName
+        this.appRespondentFMName = caseData.appRespondentFMName
         this.appRespondentLName = caseData.appRespondentLName
         this.D8PetitionerFirstName = caseData.D8PetitionerFirstName
         this.D8PetitionerLastName = caseData.D8PetitionerLastName

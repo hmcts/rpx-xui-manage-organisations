@@ -1,11 +1,11 @@
-import * as express from 'express'
+import { Request, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 import { makeOrganisationPayload } from '../lib/payloadBuilder'
 import { generateS2sToken } from '../lib/s2sTokenGeneration'
 
-export const router = express.Router({mergeParams: true})
+export const router = Router({mergeParams: true})
 
 export async function handleRegisterOrgRoute(req, res) {
   // TODO: Should be in common constants
@@ -31,7 +31,7 @@ export async function handleRegisterOrgRoute(req, res) {
     const options = {
       headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
     }
-    const axiosInstance = http({} as unknown as express.Request)
+    const axiosInstance = http({} as unknown as Request)
     const response = await axiosInstance.post(url, registerPayload, options)
 
     res.send(response.data)

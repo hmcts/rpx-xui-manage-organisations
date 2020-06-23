@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as chai from 'chai'
 import { expect } from 'chai'
-import * as globalAgent from 'global-agent'
 import * as log4js from 'log4js'
 import { Logger } from 'log4js'
 import * as sinon from 'sinon'
@@ -14,14 +13,13 @@ chai.use(sinonChai)
 
 describe('tunnel', () => {
     let spiedLogger: Logger
-    let globalProxyStub
+    let showFeatureStub: sinon.SinonStub
 
     beforeEach(() => {
         spiedLogger = { info: sinon.spy(), level: sinon.spy() } as unknown as Logger
         sinon.stub(log4js, 'getLogger').returns(spiedLogger)
-        sinon.stub(configuration, 'showFeature').withArgs(FEATURE_PROXY_ENABLED).returns(true)
+        showFeatureStub = sinon.stub(configuration, 'showFeature')
         sinon.stub(configuration, 'getConfigValue').withArgs(LOGGING).returns('info')
-        globalProxyStub = sinon.stub(globalAgent, 'createGlobalProxyAgent')
     })
 
     afterEach(() => {
@@ -29,6 +27,7 @@ describe('tunnel', () => {
     })
 
     it('should setup the proxy', () => {
+        showFeatureStub.withArgs(FEATURE_PROXY_ENABLED).returns(true)
         process.env.MO_HTTP_PROXY = 'http://proxy.local'
         process.env.MO_NO_PROXY = 'http://noproxy.local'
         tunnel.init()
@@ -36,8 +35,15 @@ describe('tunnel', () => {
         assert.equal(spiedLogger.level, 'info')
         expect(spiedLogger.info).to.be.calledWith(
             'configuring global-agent: ', 'http://proxy.local', ' no proxy: ', 'http://noproxy.local')
-        // TODO The stub is not being called...?
-        // expect(globalProxyStub).to.be.called
+        // Sinon cannot spy on createGlobalProxyAgent() and tunnel.init() returns nothing, so proxy agent creation
+        // cannot be tested
+    })
+
+    it('should not setup the proxy', () => {
+        showFeatureStub.withArgs(FEATURE_PROXY_ENABLED).returns(false)
+        tunnel.init()
+        // tslint:disable-next-line:no-unused-expression
+        expect(spiedLogger.info).not.to.be.called
     })
 
     it('should clear the proxy configuration', () => {

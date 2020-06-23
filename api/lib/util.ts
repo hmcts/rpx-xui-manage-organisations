@@ -1,10 +1,10 @@
-import * as express from 'express'
+import { Response } from 'express'
 import { PostUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 
 export function asyncReturnOrError(
     promise: any,
     message: string,
-    res: express.Response | null,
+    res: Response | null,
     logger,
     setResponse: boolean = true
 ): any {

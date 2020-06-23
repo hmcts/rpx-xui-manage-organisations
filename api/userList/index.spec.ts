@@ -64,4 +64,26 @@ describe('userList index', () => {
         expect(res.status).to.be.calledWith(errorCode)
         expect(res.send).to.be.calledWith(errorReport)
     })
+
+    it('should return an HTTP error response (no error data present)', async () => {
+        // Stub the http.get call to throw an exception
+        const errorMessage = 'Something went wrong'
+        const errorCode = 599
+        const error = {
+            statusCode: errorCode,
+            statusText: errorMessage,
+        }
+        sinon.stub(req.http, 'get').throws(error)
+
+        const errorReport = {
+            apiError: errorMessage,
+            apiStatusCode: errorCode,
+            message: 'List of users route error',
+        }
+
+        // Test the function and check expectations
+        await handleUserListRoute(req, res)
+        expect(res.status).to.be.calledWith(errorCode)
+        expect(res.send).to.be.calledWith(errorReport)
+    })
 })

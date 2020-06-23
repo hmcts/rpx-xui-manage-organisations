@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router } from 'express'
 import { getConfigValue, hasConfigValue } from '../configuration'
 
 export async function handleAddressRoute(req, res) {
@@ -16,6 +16,6 @@ export async function handleAddressRoute(req, res) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 router.get('', handleAddressRoute)
 export default router

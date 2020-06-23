@@ -1,5 +1,5 @@
 import * as applicationinsights from 'applicationinsights'
-import * as express from 'express'
+import { NextFunction, Request, Response } from 'express'
 import {getConfigValue, showFeature} from '../configuration'
 import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references'
 
@@ -28,10 +28,16 @@ if (showFeature(FEATURE_APP_INSIGHTS_ENABLED)) {
   initialiseAppInsights()
 }
 
-export function appInsights(req: express.Request, res: express.Response, next) {
+export function appInsights(req: Request, res: Response, next: NextFunction) {
     if (client) {
         client.trackNodeHttpRequest({ request: req, response: res })
     }
 
     next()
+}
+
+export function resetAppInsights() {
+  if (client) {
+    client = null
+  }
 }

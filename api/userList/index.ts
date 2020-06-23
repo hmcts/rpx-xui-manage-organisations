@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
@@ -6,7 +6,7 @@ import { getRefdataUserUrl } from '../refdataUserUrlUtil'
 
 const logger = log4jui.getLogger('user-list')
 
-export async function handleUserListRoute(req: express.Request, res: express.Response) {
+export async function handleUserListRoute(req: Request, res: Response) {
     // Commented out orgId as it is not used
     // const orgId = req.session.auth.orgId
     //for testing hardcode your org id
@@ -27,7 +27,7 @@ export async function handleUserListRoute(req: express.Request, res: express.Res
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleUserListRoute)
 

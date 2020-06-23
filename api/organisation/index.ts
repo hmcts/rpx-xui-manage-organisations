@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios'
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 
-export async function handleOrganisationRoute(req: express.Request, res: express.Response) {
+export async function handleOrganisationRoute(req: Request, res: Response) {
     try {
         const response = await req.http.get(
           `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
@@ -33,7 +33,7 @@ export function getOrganisationDetails(jwt: string, roles: string[], url: string
     return axiosInstance.get(`${url}/refdata/external/v1/organisations`)
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('', handleOrganisationRoute)
 

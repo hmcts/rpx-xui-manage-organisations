@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { JURISDICTIONS } from '../configuration/references'
 
@@ -51,7 +51,7 @@ export async function handleJurisdictions(req, res) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleJurisdictions)
 

@@ -1,13 +1,13 @@
-import * as express from 'express'
+import { NextFunction, Request, Response } from 'express'
 
-let  request = null
+let request = null
 
-export function errorStack(req: express.Request, res: express.Response, next) {
+export function errorStack(req: Request, res: Response, next: NextFunction) {
     request = req
     request.session.errorStack = []
     next()
-
 }
+
 // if the data is an array the first entry will be a key when returned by get()
 export function push(data: any): void {
     request.session.errorStack.push(data)

@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import * as express from 'express'
+import { Request, Router } from 'express'
 import * as otp from 'otp'
 import { getConfigValue, showFeature } from '../configuration'
 import {
@@ -48,12 +48,12 @@ export async function postS2SLease() {
         token: '',
       },
     },
-  } as unknown as express.Request)
+  } as unknown as Request)
   console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV)
   console.log('postS2SLease url:', url)
   if (process.env.NODE_CONFIG_ENV !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
-        logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
+        logger.info('Generating S2S token for microservice: ', microservice)
         request = await axiosInstance.post(`${url}/lease`, {
           microservice,
           oneTimePassword,
@@ -67,7 +67,7 @@ export async function postS2SLease() {
   return request.data
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/health', (req, res, next) => {
     res.status(200).send({

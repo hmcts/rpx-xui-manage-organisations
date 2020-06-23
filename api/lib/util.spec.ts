@@ -92,6 +92,14 @@ describe('util', () => {
             const result = some(array, predicate)
             expect(result).to.equal(null)
         })
+        it('Should return null if the array values are null or undefined', () => {
+            const array = [null, undefined]
+            const predicate = x => {
+                return x[1] === 1
+            }
+            const result = some(array, predicate)
+            expect(result).to.equal(null)
+        })
     })
 
     describe('exists', () => {
@@ -166,6 +174,19 @@ describe('util', () => {
             const result = await asyncReturnOrError(promise, 'string', res, logger, true)
             expect(logger.error).to.have.been.calledWith('string')
             expect(res.status).to.be.calledWith(403)
+            expect(res.send).to.be.calledWith('string')
+            // tslint:disable-next-line:no-unused-expression
+            expect(result).to.be.null
+        })
+
+        it('should log the error and return null on error, and send a response with a default HTTP 500 code and message if setResponse is true', async () => {
+            const promise = Promise.reject({})
+            const res = mockRes()
+            const logger = log4jui.getLogger('util')
+            // Omission of last boolean parameter should default setResponse to true
+            const result = await asyncReturnOrError(promise, 'string', res, logger)
+            expect(logger.error).to.have.been.calledWith('string')
+            expect(res.status).to.be.calledWith(500)
             expect(res.send).to.be.calledWith('string')
             // tslint:disable-next-line:no-unused-expression
             expect(result).to.be.null

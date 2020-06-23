@@ -1,15 +1,15 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import { getRefdataUserUrl } from '../refdataUserUrlUtil'
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 const logger = log4jui.getLogger('invite-user')
 
 router.post('/', inviteUserRoute)
 
-export async function inviteUserRoute(req: express.Request, res: express.Response) {
+export async function inviteUserRoute(req: Request, res: Response) {
     const payload = req.body
     try {
         const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)

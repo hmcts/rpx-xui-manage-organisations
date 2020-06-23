@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { APP_INSIGHTS_KEY } from '../configuration/references'
 
@@ -15,7 +15,7 @@ export async function handleInstrumentationKeyRoute(req, res) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleInstrumentationKeyRoute)
 

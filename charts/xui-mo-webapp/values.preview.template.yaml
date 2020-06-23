@@ -23,5 +23,10 @@ nodejs:
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: true
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
+  keyVaults:
+    rpx:
+      secrets:
+        - mo-s2s-client-secret
+        - xui-oauth2-token
 redis:
   enabled: true

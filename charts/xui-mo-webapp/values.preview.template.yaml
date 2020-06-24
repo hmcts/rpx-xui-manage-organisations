@@ -27,8 +27,6 @@ nodejs:
     rpx:
       secrets:
         - appinsights-instrumentationkey-mo
-        - mo-s2s-client-secret
-        - mo-idam-client-secret
-
+        
 redis:
   enabled: true

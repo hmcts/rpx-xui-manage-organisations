@@ -28,6 +28,7 @@ nodejs:
       secrets:
         - appinsights-instrumentationkey-mo
         - mo-s2s-client-secret
-        - xui-oauth2-token
+        - mo-idam-client-secret
+
 redis:
   enabled: true

@@ -16,11 +16,11 @@ import * as appInsights from './appInsights'
 import * as errorStack from './errorStack'
 
 describe('log4jui', () => {
-    let configValueStub: sinon.SinonStub
+    let getConfigValueStub: sinon.SinonStub
 
     beforeEach(() => {
-        configValueStub = sinon.stub(configuration, 'getConfigValue')
-        configValueStub.withArgs(APP_INSIGHTS_KEY).returns('app_insights_key')
+        sinon.stub(configuration, 'hasConfigValue').withArgs(APP_INSIGHTS_KEY).returns(true)
+        getConfigValueStub = sinon.stub(configuration, 'getConfigValue').withArgs(APP_INSIGHTS_KEY).returns('app_insights_key')
         sinon.stub(applicationinsights.Configuration, 'start')
 
         // Stub tracking functions on the AppInsights client
@@ -91,7 +91,7 @@ describe('log4jui', () => {
             // Set the category for the logger stub to "test", to check it is used when calling errorStack.push
             sinon.stub(log4js, 'getLogger').returns({ category: 'test', error: spy } as any)
             // Set the logging level to "error" to test calling errorStack.push
-            configValueStub.withArgs(LOGGING).returns('error')
+            getConfigValueStub.withArgs(LOGGING).returns('error')
             sinon.stub(errorStack, 'push')
 
             // Initialise AppInsights client to test trackException function call
@@ -118,7 +118,7 @@ describe('log4jui', () => {
             const spy = sinon.spy()
             sinon.stub(log4js, 'getLogger').returns({ debug: spy } as any)
             // Ensure no logging level is set
-            configValueStub.withArgs(LOGGING).returns(null)
+            getConfigValueStub.withArgs(LOGGING).returns(null)
 
             const logger = log4jui.getLogger('test')
             logger.debug('message')

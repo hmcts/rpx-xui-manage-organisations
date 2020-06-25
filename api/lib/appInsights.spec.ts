@@ -11,7 +11,10 @@ import * as appInsights from './appInsights'
 chai.use(sinonChai)
 
 describe('appInsights', () => {
+    let hasConfigValueStub: sinon.SinonStub
+
     beforeEach(() => {
+        hasConfigValueStub = sinon.stub(configuration, 'hasConfigValue').withArgs(APP_INSIGHTS_KEY).returns(true)
         sinon.stub(configuration, 'getConfigValue').withArgs(APP_INSIGHTS_KEY).returns('app_insights_key')
         sinon.spy(applicationinsights, 'setup')
 
@@ -38,6 +41,7 @@ describe('appInsights', () => {
 
     it('should initialise AppInsights', () => {
         appInsights.initialiseAppInsights()
+        expect(configuration.hasConfigValue).to.be.calledWith(APP_INSIGHTS_KEY)
         expect(configuration.getConfigValue).to.be.calledWith(APP_INSIGHTS_KEY)
         expect(applicationinsights.setup).to.be.calledWith('app_insights_key')
         expect(applicationinsights.Configuration.setAutoCollectConsole).to.be.calledWith(true)
@@ -51,7 +55,21 @@ describe('appInsights', () => {
         // tslint:disable-next-line:no-unused-expression
         expect(applicationinsights.Configuration.start).to.be.called
         expect(applicationinsights.TelemetryClient.prototype.trackTrace).to.be.calledWith(
-            { message: 'App Insight Activated'})
+            { message: 'App Insights activated'})
+    })
+
+    it('should not activate AppInsights if the key is not defined', () => {
+      hasConfigValueStub.withArgs(APP_INSIGHTS_KEY).returns(false)
+      const consoleSpy = sinon.spy(console, 'error')
+      appInsights.initialiseAppInsights()
+      expect(configuration.hasConfigValue).to.be.calledWith(APP_INSIGHTS_KEY)
+      // tslint:disable:no-unused-expression
+      expect(configuration.getConfigValue).not.to.be.called
+      expect(applicationinsights.setup).not.to.be.called
+      expect(applicationinsights.Configuration.start).not.to.be.called
+      expect(applicationinsights.TelemetryClient.prototype.trackTrace).not.to.be.called
+      // tslint:enable:no-unused-expression
+      expect(consoleSpy).to.be.calledWith(`App Insights not activated: Key "${APP_INSIGHTS_KEY}" is not defined!`)
     })
 
     it('should call trackNodeHttpRequest in the Express middleware if the AppInsights client is initialised', () => {

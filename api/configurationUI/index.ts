@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import {
   GOOGLE_ANALYTICS_KEY,
@@ -9,14 +9,14 @@ import {
   SERVICES_IDAM_WEB
 } from '../configuration/references'
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', configurationUIRoute)
 
 /**
  * All the following environmental variables are passed to the UI.
  */
-async function configurationUIRoute(req, res) {
+export async function configurationUIRoute(req, res) {
   res.status(200).send({
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),
     idamWeb: getConfigValue(SERVICES_IDAM_WEB),

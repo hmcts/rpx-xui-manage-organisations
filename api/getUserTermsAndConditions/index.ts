@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue, showFeature } from '../configuration'
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
@@ -14,7 +14,7 @@ import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
  * @param req
  * @param res
  */
-async function getUserTermsAndConditions(req: express.Request, res: express.Response) {
+async function getUserTermsAndConditions(req: Request, res: Response) {
     if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
       console.log('T&Cs is enabled.')
       res.setHeader('debugger', 'T&Cs is enabled.')
@@ -52,6 +52,6 @@ async function getUserTermsAndConditions(req: express.Request, res: express.Resp
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 router.get('', getUserTermsAndConditions)
 export default getUserTermsAndConditions

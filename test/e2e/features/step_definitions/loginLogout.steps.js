@@ -38,7 +38,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         });
       await browser.get(config.config.baseUrl);
     });
-    await browserWaits.waitForElement(loginPage.emailAddress);
+    await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
     
   });
 
@@ -120,14 +120,16 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY); 
-    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY,"Dashboard Header not present");
+    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation, LONG_DELAY,"Primary navigation Tab not present"); 
+ 
+    await expect(loginPage.dashboard_header.isDisplayed(),"Dashboard header not displayed").to.eventually.be.true;
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
  
-    await expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true;
+    await expect(headerPage.isPrimaryNavigationTabDisplayed(),"Primary navigation tabs not displayed").to.eventually.be.true;
     browser.sleep(LONG_DELAY);
   });
 

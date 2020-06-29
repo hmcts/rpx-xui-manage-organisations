@@ -27,7 +27,7 @@
     "test:api": "ts-node ./test/integration/tests/test.ts",
     "test:coverage:ng": "ng test rpa-pui-manager --code-coverage --watch",
     "test:coverage:node": "cd api && yarn coverage",
-    "test:mutation": "echo 'not implemented'",
+    "test:mutation": "cd api && yarn test:mutation",
     "ng": "ng",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "build:ng": "ng build",

@@ -27,7 +27,7 @@ class HeaderPage {
 
  async isPrimaryNavigationTabDisplayed(){
    await this.waitForSpinnerNotPresent();
-   return await this.hmctsPrimaryNavigation.isPresent(); 
+   return await this.hmctsPrimaryNavigation.isDisplayed(); 
   }
 
   async isHeaderTabPresent(displayText){

@@ -8,7 +8,8 @@
     "coverage": "npx nyc mocha -r dotenv-extended/config",
     "watch": "nodemon --watch '**/*.ts' --exec ts-node -r dotenv-extended/config --files local.ts",
     "test": "mocha -r dotenv-extended/config",
-    "test:watch": "mocha -r dotenv-extended/config --watch --recursive --watch-extensions ts"
+    "test:watch": "mocha -r dotenv-extended/config --watch --recursive --watch-extensions ts",
+    "test:mutation": "stryker run stryker.node.conf.js"
   },
   "private": true,
   "nyc": {

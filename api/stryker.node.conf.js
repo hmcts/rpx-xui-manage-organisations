@@ -1,9 +1,9 @@
-// require('dotenv-extended').load({ path: 'api/.env.defaults' });
+require('dotenv-extended').load({ path: '.env.defaults' });
 module.exports = function (config) {
     config.set({
         // fileLogLevel: 'trace',
         // logLevel: 'trace',
-        mutate: ["api/**/*.ts", "!api/**/*.spec.ts", "!api/test/**/*.ts"],
+        mutate: ["**/*.ts", "!**/*.spec.ts", "!test/**/*.ts"],
         mutator: 'typescript',
         // transpilers: [
         //     'typescript'
@@ -11,11 +11,11 @@ module.exports = function (config) {
         testFramework: "mocha",
         testRunner: "mocha",
         reporters: ["clear-text", "progress", "html"],
-        tsconfigFile: 'tsconfig.json',
+        tsconfigFile: './tsconfig.json',
         mochaOptions: {
-            // opts:'api/test/mocha.opts',
-            files: ["api/{,!(test|accounts)/**/}*.spec.ts", "!(api/accounts/index.spec.ts)"],
-            timeout: 5000
+            opts:'test/mocha.opts',
+            spec: ["**/*.spec.ts", "!services/serviceAuth.spec.ts", "!accounts/*.spec.ts"],
+            // timeout: 5000
         },
         htmlReporter: {
             baseDir: 'reports/tests/mutation/node/'

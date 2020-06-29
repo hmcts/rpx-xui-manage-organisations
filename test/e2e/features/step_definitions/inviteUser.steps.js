@@ -44,7 +44,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   Then(/^I should be on display invite user page$/, async function () {
     // browser.sleep(AMAZING_DELAY);;
     await inviteUserPage.waitForPage();
-    expect(await inviteUserPage.amOnPage()).to.be.true;
+    expect(await inviteUserPage.amOnPage(),"Invite User page is not displayed").to.be.true;
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
@@ -111,7 +111,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
 
   Then(/^I should be display the validation error$/, async function () {
-    await expect(inviteUserPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
+    await expect(inviteUserPage.failure_error_heading.isDisplayed(),"Invite user error message not diaplayed ").to.eventually.be.true;
     await expect(inviteUserPage.failure_error_heading.getText())
       .to
       .eventually

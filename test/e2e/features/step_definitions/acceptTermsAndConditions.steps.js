@@ -16,7 +16,7 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
         const world = this;
         if (await acceptTermsAndConditionsPage.isFeatureToggleEnabled()){
             await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer); 
-            expect(await acceptTermsAndConditionsPage.amOnPage()).to.be.true;
+            expect(await acceptTermsAndConditionsPage.amOnPage(),"Accept T&C page not displayed").to.be.true;
         }else{
             world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js. Validating Home page displayed");
             await headerPage.waitForPrimaryNavigationToDisplay();
@@ -26,7 +26,7 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
     When("I click Confirm in Accept Terms and Conditions page", async function () {
         const world = this;
         if (await acceptTermsAndConditionsPage.isFeatureToggleEnabled()) {
-            await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer); 
+            await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer," Accept T&C contained not present"); 
             await acceptTermsAndConditionsPage.acceptTremsAndConditions();
             await headerPage.waitForPrimaryNavigationToDisplay();
         } else {

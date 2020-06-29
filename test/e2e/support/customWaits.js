@@ -47,7 +47,7 @@ class BrowserWaits {
     }
 
     async waitForstalenessOf(element,message) {
-        await browser.wait(EC.stalenessOf(element), this.waitTime,, "Error : " + element.locator().toString() + " | " + message ? message : "");
+        await browser.wait(EC.stalenessOf(element), this.waitTime, "Error : " + element.locator().toString() + " | " + message ? message : "");
     }
 
     async waitForPageNavigation(currentPageUrl) {

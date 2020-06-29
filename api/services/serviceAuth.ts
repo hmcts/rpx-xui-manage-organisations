@@ -54,17 +54,13 @@ export async function postS2SLease() {
   console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV)
   console.log('postS2SLease url:', url)
   if (process.env.NODE_CONFIG_ENV !== 'ldocker') {
-
-        console.log(s2sSecret)
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
-        console.log('generating from secret  :', s2sSecret, microservice, oneTimePassword)
-        // logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
+        logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
         request = await axiosInstance.post(`${url}/lease`, {
           microservice,
           oneTimePassword,
         })
     } else {
-    console.log("THIS IS TEST")
         // this is only for local development against the RD docker image
         // end tunnel before posting to docker
         tunnel.end()

@@ -1,5 +1,6 @@
 import { generateToken } from '../../../../api/auth/serviceToken';
 import { getauthToken } from './getToken';
+
 const fetch = require('node-fetch');
 
 
@@ -18,6 +19,7 @@ export async function generateAPIRequest(method, subURL) {
     s2sToken = await generateToken();
     authToken = await getauthToken();
 
+    // console.log(authToken)
     const options = {
       headers: {
         Authorization: `Bearer ${authToken}`,

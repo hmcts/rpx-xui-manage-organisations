@@ -6,7 +6,7 @@ suite('API/CASES3 -> POST Invite User', function() {
   const payload = {
     firstName: 'Vamshi',
     lastName: 'Muniganti',
-    email: 'vam.mun' + Math.round(Math.random() * 1000) + '@mailnesia.com',
+    email: `vam.mun${Math.round(Math.random() * 10000)}@mailnesia.com`,
     roles: [
     'pui-user-manager'
   ],
@@ -14,7 +14,8 @@ suite('API/CASES3 -> POST Invite User', function() {
     {
       id: 'Probate'
     }
-  ]
+  ],
+    resendInvite: false
   };
   test('POST Invite User', () => generatePOSTAPIRequest ('POST', '/refdata/external/v1/organisations/users/', payload)
      // console.log('response', response.headers.get('cache-control'))

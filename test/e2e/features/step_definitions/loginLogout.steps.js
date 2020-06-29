@@ -38,7 +38,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         });
       await browser.get(config.config.baseUrl);
     });
-    await browserWaits.waitForElement(loginPage.emailAddress,"IDAM login page Email Address input not present");
+    await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
     
   });
 

@@ -26,7 +26,7 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
     When("I click Confirm in Accept Terms and Conditions page", async function () {
         const world = this;
         if (await acceptTermsAndConditionsPage.isFeatureToggleEnabled()) {
-            await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer," Accept T&C contained not present"); 
+            await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer,10000," Accept T&C contained not present"); 
             await acceptTermsAndConditionsPage.acceptTremsAndConditions();
             await headerPage.waitForPrimaryNavigationToDisplay();
         } else {

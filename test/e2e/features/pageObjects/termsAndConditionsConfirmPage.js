@@ -35,8 +35,9 @@ class TermsAndConditionsConfirmPage{
         await browser.executeScript('window.open()');
         let winHandles = await browser.driver.getAllWindowHandles();
         await  browser.switchTo().window(winHandles[1]);
-    
-        await browser.get(config.config.baseUrl + 'external/configuration?configurationKey=feature.termsAndConditionsEnabled');
+        let configPath = "external/configuration?configurationKey=feature.termsAndConditionsEnabled";
+        let url = config.config.baseUrl.endsWith("/") ? config.config.baseUrl + configPath : config.config.baseUrl +"/" +configPath  
+        await browser.get(url);
        
         let bodyElement = element(by.css('body pre'));
         await BrowserWaits.waitForElement(bodyElement); 

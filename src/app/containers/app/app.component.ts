@@ -99,7 +99,6 @@ export class AppComponent implements OnInit {
 
     this.store.pipe(select(fromUserProfile.getUser)).subscribe(userProfile => {
       if (userProfile) {
-        console.log(userProfile);
         const { idleModalDisplayTime, totalIdleTime } = userProfile.sessionTimeout;
 
         this.initIdleService(idleModalDisplayTime, totalIdleTime);

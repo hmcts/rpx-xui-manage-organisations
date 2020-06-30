@@ -31,7 +31,7 @@ export const ROUTES: Routes = [
   {
     path: 'unassigned-cases',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: '../organisation/organisation.module#OrganisationModule'
+    loadChildren: '../unassigned-cases/unassigned-cases.module#UnassignedCasesModule'
   },
   {
     path: 'style-guide',

@@ -98,7 +98,7 @@
               "**/api/**",
               "**/src/style-guide/**/*",
               "**/projects/**",
-              "**/hmcts-form-builder/**" // TODO REMOVE AND LINT
+              "**/hmcts-form-builder/**"
             ]
           }
         }
@@ -124,46 +124,6 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "gov-ui": {
-      "root": "projects/gov-ui",
-      "sourceRoot": "projects/gov-ui/src",
-      "projectType": "library",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/gov-ui/tsconfig.lib.json",
-            "project": "projects/gov-ui/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/gov-ui/ng-package.prod.json"
-            }
-          }
-        },
-        "testx": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/gov-ui/src/test.ts",
-            "tsConfig": "projects/gov-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/gov-ui/karma.conf.js"
-          }
-        },
-        "lintx": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/gov-ui/tsconfig.lib.json",
-              "projects/gov-ui/tsconfig.spec.json"
-            ],
             "exclude": [
               "**/node_modules/**"
             ]

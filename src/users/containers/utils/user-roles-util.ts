@@ -1,11 +1,11 @@
-import { AppConstants } from '../../../app/app.constants';
 import {propsExist} from '../../../../api/lib/objectUtilities';
+import { AppConstants } from '../../../app/app.constants';
 
 export class UserRolesUtil {
-    static getRolesAdded(user: any, permissions: string[]): any[] {
+    public static getRolesAdded(user: any, permissions: string[]): any[] {
         const roles = [];
         permissions.forEach( (permission) => {
-            if (!user.roles.includes(permission)) {
+            if (!user.roles || !user.roles.includes(permission)) {
             roles.push({
                 name: permission
             });
@@ -18,23 +18,25 @@ export class UserRolesUtil {
         return roles;
         }
 
-    static getRolesDeleted(user: any, permissions: string[]): any[] {
+    public static getRolesDeleted(user: any, permissions: string[]): any[] {
         const roles = [];
-        user.roles.forEach( (permission) => {
-            if (!permissions.includes(permission) && !AppConstants.CCD_ROLES.includes(permission)) {
-              roles.push({
-                  name: permission
-              });
-              if (permission === 'pui-case-manager') {
-                const ccdRolesTobeRemoved = UserRolesUtil.GetRemovableRolesForUser(user, AppConstants.CCD_ROLES);
-                ccdRolesTobeRemoved.forEach(newRole => roles.push(newRole));
+        if (user.roles) {
+          user.roles.forEach( (permission) => {
+              if (!permissions.includes(permission) && !AppConstants.CCD_ROLES.includes(permission)) {
+                roles.push({
+                    name: permission
+                });
+                if (permission === 'pui-case-manager') {
+                  const ccdRolesTobeRemoved = UserRolesUtil.GetRemovableRolesForUser(user, AppConstants.CCD_ROLES);
+                  ccdRolesTobeRemoved.forEach(newRole => roles.push(newRole));
+                }
               }
-            }
-        });
+          });
+        }
         return roles;
     }
 
-    static mapEditUserRoles(user: any, rolesAdd: any[], rolesDelete: any[]): any {
+    public static mapEditUserRoles(user: any, rolesAdd: any[], rolesDelete: any[]): any {
         return {
             email: user.email,
             firstName: user.firstName,
@@ -45,7 +47,7 @@ export class UserRolesUtil {
         };
     }
 
-    static mapPermissions(value: any) {
+    public static mapPermissions(value: any) {
         return Object.keys(value.roles).filter(key => {
             if (value.roles[key]) {
             return key;
@@ -106,7 +108,7 @@ export class UserRolesUtil {
       return !(deleteFailures.length > 0);
     }
 
-    static GetRemovableRolesForUser(user: any, roles: Array<string>): Array<any> {
+    public static GetRemovableRolesForUser(user: any, roles: string[]): any[] {
       const rolesTobeRemoved = new Array<any>();
       roles.forEach(role => {
         if (user.roles.includes(role)) {
@@ -116,7 +118,7 @@ export class UserRolesUtil {
       return  rolesTobeRemoved;
     }
 
-    static GetRolesToBeAddedForUser(user: any, roles: Array<string>): Array<any> {
+    public static GetRolesToBeAddedForUser(user: any, roles: string[]): any[] {
       const rolesTobeAdded = new Array<any>();
       roles.forEach(role => {
           rolesTobeAdded.push({name: role});

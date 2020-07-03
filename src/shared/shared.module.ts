@@ -5,7 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAndCondition.guard';
-import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+import { FeatureToggleEditUserGuard } from 'src/users/guards/feature-toggle-edit-user.guard';
+import { TermsConditionGuard } from '../app/guards/termsCondition.guard';
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
@@ -51,7 +52,8 @@ import { MonitoringService } from './services/monitoring.service';
     HealthCheckGuard,
     HealthCheckService,
     TermsConditionGuard,
-    AcceptTermsAndConditionGuard
+    AcceptTermsAndConditionGuard,
+    FeatureToggleEditUserGuard
   ]
 })
 export class SharedModule {

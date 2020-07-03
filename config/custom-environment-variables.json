@@ -38,7 +38,8 @@
         "mo-s2s-client-secret": "S2S_SECRET",
         "xui-oauth2-token": "IDAM_SECRET",
         "mo-webapp-redis-connection-string": "REDISCLOUD_URL",
-        "google-analytics-key": "GOOGLE_ANALYTICS_KEY"
+        "google-analytics-key": "GOOGLE_ANALYTICS_KEY",
+        "launch-darkly-client-id": "LAUNCH_DARKLY_CLIENT_ID"
       }
     },
     "feature": {
@@ -74,5 +75,9 @@
     "redis": {
       "prefix": "REDIS_KEY_PREFIX",
       "ttl": "REDIS_TTL"
+    },
+    "sessionTimeouts": {
+      "__name": "SESSION_TIMEOUTS",
+      "__format": "json"
     }
 }

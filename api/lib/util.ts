@@ -1,11 +1,10 @@
-import * as express from 'express'
+import { Response } from 'express'
 import { PostUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
-import { http } from './http'
 
 export function asyncReturnOrError(
     promise: any,
     message: string,
-    res: express.Response | null,
+    res: Response | null,
     logger,
     setResponse: boolean = true
 ): any {
@@ -71,18 +70,6 @@ export function shorten(str: string, maxLen: number): string {
 
 export function isObject(o) {
     return o !== null && typeof o === 'object' && Array.isArray(o) === false
-}
-
-export async function getHealth(url: string) {
-    const response = await http.get(`${url}/health`)
-
-    return response.data
-}
-
-export async function getInfo(url: string) {
-    const response = await http.get(`${url}/info`)
-
-    return response.data
 }
 
 export function isUserTandCPostSuccessful(postResponse: PostUserAcceptTandCResponse, userId: string): any {

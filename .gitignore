@@ -44,6 +44,7 @@ testem.log
 /typings
 /api/test/pact/logs
 /api/test/pact/pacts
+config/.env
 
 
 # System Files
@@ -57,3 +58,8 @@ reports_json/
 .nyc_output/
 cb_reports/
 report.json
+
+
+# Stryker - mutation tests
+.stryker-tmp/
+stryker.log 

@@ -1,31 +1,33 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
+import { getRefdataUserUrl } from '../refdataUserUrlUtil'
 
-const logger = log4jui.getLogger('service-token')
+const logger = log4jui.getLogger('user-list')
 
-async function handleUserListRoute(req, res) {
-    const orgId = req.session.auth.orgId
+export async function handleUserListRoute(req: Request, res: Response) {
+    // Commented out orgId as it is not used
+    // const orgId = req.session.auth.orgId
     //for testing hardcode your org id
     //const orgId = 'B13GT1M'
     try {
-        const url = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users`
-        const response = await http.get(url)
+        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+        const response = await req.http.get(getRefdataUserUrl(rdProfessionalApiPath))
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {
+        logger.error('error', error)
         const errReport = {
-            apiError: error.data && error.data.message ? error.data.message : error,
+            apiError: error.data && error.data.message ? error.data.message : error.statusText,
             apiStatusCode: error.statusCode,
             message: 'List of users route error',
         }
-        res.status(500).send(errReport)
+        res.status(errReport.apiStatusCode).send(errReport)
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleUserListRoute)
 

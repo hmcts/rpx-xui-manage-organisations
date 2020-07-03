@@ -1,7 +1,7 @@
-import * as express from 'express'
-import { getConfigValue, hasConfigValue, showFeature } from '../configuration'
+import { Router } from 'express'
+import { getConfigValue, hasConfigValue } from '../configuration'
 
-async function handleAddressRoute(req, res) {
+export async function handleAddressRoute(req, res) {
     console.log('req.query.configurationKey', hasConfigValue(req.query.configurationKey))
     if (hasConfigValue(req.query.configurationKey)) {
         const configurationValue = getConfigValue(req.query.configurationKey)
@@ -16,6 +16,6 @@ async function handleAddressRoute(req, res) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 router.get('', handleAddressRoute)
 export default router

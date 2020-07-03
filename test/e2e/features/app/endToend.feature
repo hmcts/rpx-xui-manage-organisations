@@ -8,7 +8,6 @@ Feature: End to End Create approve and manager org
         When I navigate to EUI Manage Organisation Url
         Then I land on register organisation page and continue
 
-
     Scenario:register organization
         When I am on page "What's the name of your organisation?" in registration step
         Then I Enter the Organization name
@@ -36,6 +35,8 @@ Feature: End to End Create approve and manager org
 
         When I navigate to manage organisation Url
         Given I am logged in to created approve organisation
+        Then I am on Accept Terms and Conditions page
+        When I click Confirm in Accept Terms and Conditions page
         Then I should be redirected to manage organisation dashboard page
         Then I should see name and address details of Organisation
 
@@ -58,6 +59,8 @@ Feature: End to End Create approve and manager org
         Then I should see invited user is listed in users table
         Then I select the sign out link
         Then I login with latest invited user
+        Then I am on Accept Terms and Conditions page
+        When I click Confirm in Accept Terms and Conditions page
         Then I should be redirected to manage organisation dashboard page
         Then I should see navigation tab in header
             | NavigationTab |

@@ -1,14 +1,20 @@
 import { TCDocument } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from '../../app.constants';
 import { AppTitlesModel } from '../../models/app-titles.model';
+import {NavItemModel} from '../../models/nav-items.model';
 import { UserNavModel } from '../../models/user-nav.model';
 import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
 
+export interface AppFeatureFlag {
+ featureName: string;
+ isEnabled: boolean;
+}
 export interface ErrorMessage {
   bodyText: string;
   urlText: string;
   url: string;
+  newTab?: boolean;
 }
 
 export interface GlobalError {
@@ -19,12 +25,14 @@ export interface GlobalError {
 export interface AppState {
   allNavItems: {[id: string]: object};
   pageTitle: string;
-  navItems;
+  navItems: NavItemModel[];
   userNav: UserNavModel;
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
   jurisdictions: any[];
   termsAndConditions: TCDocument;
+  featureFlags: AppFeatureFlag[];
   globalError: GlobalError;
+  modal: {[id: string]: {isVisible?: boolean; countdown?: string}};
 }
 
 export const initialState: AppState = {
@@ -35,7 +43,14 @@ export const initialState: AppState = {
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
   jurisdictions: [],
   termsAndConditions: null,
-  globalError: null
+  featureFlags: [],
+  globalError: null,
+  modal: {
+    session: {
+      isVisible: false,
+      countdown: ''
+    }
+  },
 };
 
 export function reducer(
@@ -61,7 +76,7 @@ export function reducer(
     case fromAction.SET_PAGE_TITLE_ERRORS: {
       const EXISTS = -1;
       const pageTitle = (state.pageTitle.indexOf('Error') !== EXISTS) ?
-        state.pageTitle : 'Error: ' + state.pageTitle;
+        state.pageTitle : `Error: ${state.pageTitle}`;
       return {
         ...state,
         pageTitle
@@ -98,6 +113,11 @@ export function reducer(
         ...state,
         termsAndConditions: action.payload
       };
+    case fromAction.LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS:
+      return {
+        ...state,
+        featureFlags: action.payload
+      };
 
     case fromAction.APP_ADD_GLOBAL_ERROR: {
       return {
@@ -113,6 +133,13 @@ export function reducer(
       };
     }
 
+    case fromAction.SET_MODAL: {
+      return {
+        ...state,
+        modal: {...action.payload}
+      };
+    }
+
     default: {
       return state;
     }
@@ -125,5 +152,6 @@ export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;
 export const getUserJuridictions = (state: AppState) => state.jurisdictions;
 export const getTermsConditions = (state: AppState) => state.termsAndConditions;
+export const getFeatureFlag = (state: AppState) => state.featureFlags;
 export const getGlobalError = (state: AppState) => state.globalError;
-
+export const getModal = (state: AppState) => state.modal;

@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
-import * as express from 'express'
+import { Request, Router } from 'express'
 import * as otp from 'otp'
-import {getConfigValue, showFeature} from '../configuration'
+import { getConfigValue, showFeature } from '../configuration'
 import {
   APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
@@ -34,24 +34,27 @@ import {
 import { application } from '../lib/config/application.config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
-
 import * as tunnel from '../lib/tunnel'
-import { getHealth, getInfo } from '../lib/util'
-
-
-const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
-const url = getConfigValue(SERVICE_S2S_PATH)
-const microservice =  application.microservice
-const logger = log4jui.getLogger('service user-profile')
 
 export async function postS2SLease() {
+  const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
+  const url = getConfigValue(SERVICE_S2S_PATH)
+  const microservice =  application.microservice
+  const logger = log4jui.getLogger('service user-profile')
   let request: AxiosResponse<any>
+  const axiosInstance = http({
+    session: {
+      auth: {
+        token: '',
+      },
+    },
+  } as unknown as Request)
   console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV)
   console.log('postS2SLease url:', url)
   if (process.env.NODE_CONFIG_ENV !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
-        logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
-        request = await http.post(`${url}/lease`, {
+        logger.info('Generating S2S token for microservice: ', microservice)
+        request = await axiosInstance.post(`${url}/lease`, {
           microservice,
           oneTimePassword,
         })
@@ -59,12 +62,12 @@ export async function postS2SLease() {
         // this is only for local development against the RD docker image
         // end tunnel before posting to docker
         tunnel.end()
-        request = await http.get(`${url}`)
+        request = await axiosInstance.get(`${url}`)
     }
   return request.data
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/health', (req, res, next) => {
     res.status(200).send({
@@ -101,12 +104,7 @@ router.get('/health', (req, res, next) => {
 
       redis: {
         prefix: getConfigValue(REDIS_KEY_PREFIX),
-        ttl: getConfigValue(REDIS_TTL)
-      }
+        ttl: getConfigValue(REDIS_TTL),
+      },
     })
 })
-
-router.get('/info', (req, res, next) => {
-    res.status(200).send(getInfo(url))
-})
-export default router

@@ -1,9 +1,8 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
 
-async function handleAddressRoute(req, res) {
+async function handleAddressRoute(req: Request, res: Response) {
     let errReport: any
     if (!req.params.account) {
         errReport = {
@@ -14,7 +13,7 @@ async function handleAddressRoute(req, res) {
         res.status(errReport.apiStatusCode).send(errReport)
     }
     try {
-        const response = await http.get(
+        const response = await req.http.get(
             `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/pba-accounts/${req.params.account}/payments/`
           )
         res.send(response.data.payments)
@@ -28,7 +27,7 @@ async function handleAddressRoute(req, res) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('', handleAddressRoute)
 

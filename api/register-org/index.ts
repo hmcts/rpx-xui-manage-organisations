@@ -1,16 +1,13 @@
-import * as express from 'express'
+import { Request, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import {http} from '../lib/http'
-import {generateS2sToken} from '../lib/s2sTokenGeneration'
-import {makeOrganisationPayload} from '../lib/payloadBuilder';
+import { http } from '../lib/http'
+import { makeOrganisationPayload } from '../lib/payloadBuilder'
+import { generateS2sToken } from '../lib/s2sTokenGeneration'
 
-export const router = express.Router({mergeParams: true})
+export const router = Router({mergeParams: true})
 
-router.post('/register', async (req, res) => {
-
-  console.log('in /register')
-
+export async function handleRegisterOrgRoute(req, res) {
   // TODO: Should be in common constants
   const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 
@@ -32,31 +29,33 @@ router.post('/register', async (req, res) => {
     console.log(s2sToken)
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`
     const options = {
-      headers: {'ServiceAuthorization': `Bearer ${s2sToken}`},
+      headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
     }
-    const response = await http.post(url, registerPayload, options)
+    const axiosInstance = http({} as unknown as Request)
+    const response = await axiosInstance.post(url, registerPayload, options)
 
     res.send(response.data)
   } catch (error) {
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */
-    if (error === ERROR_GENERATING_S2S_TOKEN) {
-      res.status(500)
-      res.send({
+    if (error.message === ERROR_GENERATING_S2S_TOKEN) {
+      return res.status(500).send({
         errorMessage: ERROR_GENERATING_S2S_TOKEN,
         errorOnPath: s2sServicePath,
       })
+    } else {
+      const errReport = {
+        apiError: error.data.errorMessage,
+        apiErrorDescription: error.data.errorDescription,
+        statusCode: error.status,
+      }
+      res.status(error.status)
+      res.send(errReport)
     }
-
-    const errReport = {
-      apiError: error.data.errorMessage,
-      apiErrorDescription: error.data.errorDescription,
-      statusCode: error.status,
-    }
-    res.status(error.status)
-    res.send(errReport)
   }
-});
+}
+
+router.post('/register', handleRegisterOrgRoute)
 
 export default router

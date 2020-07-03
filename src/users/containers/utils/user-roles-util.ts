@@ -70,7 +70,7 @@ export class UserRolesUtil {
      * @param response - the response object from PRD.
      */
     public static doesRoleDeletionExist(response) {
-      return propsExist(response, ['roleDeletionResponse']);
+      return response.roleDeletionResponse && propsExist(response, ['roleDeletionResponse']);
     }
 
     /**

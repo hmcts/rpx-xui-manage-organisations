@@ -1,26 +1,20 @@
-import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+// services
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { SharedModule } from '../shared/shared.module';
-import { effects, reducers } from './store';
-import { usersRouting } from './users.routing';
-
 // containers
-
-import * as fromContainers from './containers';
-// containers
-
 import * as fromComponents from './components';
-// services
-
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+// containers
+import * as fromContainers from './containers';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
-
+import { effects, reducers } from './store';
+import { usersRouting } from './users.routing';
 
 @NgModule({
   imports: [

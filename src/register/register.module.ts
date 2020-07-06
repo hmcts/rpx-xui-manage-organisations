@@ -1,25 +1,19 @@
-import {NgModule} from '@angular/core';
-
-import {CommonModule} from '@angular/common';
-import {registerRouting} from './register.routing';
-import {SharedModule} from '../shared/shared.module';
-
-// containers
-import * as fromContainers from './containers';
-
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import { SharedModule } from '../shared/shared.module';
 // components
 import * as fromComponent from './components';
-
+// containers
+import * as fromContainers from './containers';
+import { HmctsFormBuilderModule } from './containers/hmcts-form-builder/src/lib/hmcts-form-builder.module';
+import { registerRouting } from './register.routing';
 // services
 import * as fromServices from './services';
-import {StoreModule} from '@ngrx/store';
-import {EffectsModule} from '@ngrx/effects';
-
-import { reducers, effects } from './store';
-import {HttpClientModule} from '@angular/common/http';
-import {HmctsFormBuilderModule} from './containers/hmcts-form-builder/src/lib/hmcts-form-builder.module';
-
-
+import { effects, reducers } from './store';
 
 @NgModule({
   imports: [
@@ -30,7 +24,7 @@ import {HmctsFormBuilderModule} from './containers/hmcts-form-builder/src/lib/hm
     SharedModule,
     StoreModule.forFeature('registration', reducers),
     EffectsModule.forFeature(effects),
-
+    ExuiCommonLibModule.forChild()
   ],
   exports: [...fromContainers.containers, ...fromComponent.components],
   declarations: [...fromContainers.containers, ...fromComponent.components],

@@ -1,28 +1,24 @@
-import { NgModule, ErrorHandler } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-import { organisationRouting } from './organisation.routing';
-import { SharedModule } from '../shared/shared.module';
-
-// containers
-import * as fromContainers from './containers';
-
-// services
-import * as fromServices from './services';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-
-import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
-import { OrganisationGuard } from './guards/organisation.guard';
-import { MonitoringService } from '../shared/services/monitoring.service';
-import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
-import { LoggerService } from '../shared/services/logger.service';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { LoggerService } from '../shared/services/logger.service';
+import { MonitoringService } from '../shared/services/monitoring.service';
+import { SharedModule } from '../shared/shared.module';
+// containers
+import * as fromContainers from './containers';
+import { OrganisationGuard } from './guards/organisation.guard';
+import { organisationRouting } from './organisation.routing';
+// services
+import * as fromServices from './services';
+import { effects, reducers } from './store';
 
 @NgModule({
   imports: [

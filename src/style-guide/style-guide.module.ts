@@ -1,18 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
-import { reducers } from './store';
-import { styleGuideRouting } from './style-guide.routing';
 import { HttpClientModule } from '@angular/common/http';
-
-// containers
-import * as fromContainers from './containers';
-
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { StoreModule } from '@ngrx/store';
+import { SharedModule } from '../shared/shared.module';
 // containers
 import * as fromComponents from './components';
-
+// containers
+import * as fromContainers from './containers';
+import { reducers } from './store';
+import { styleGuideRouting } from './style-guide.routing';
 
 @NgModule({
   imports: [
@@ -21,7 +19,8 @@ import * as fromComponents from './components';
     styleGuideRouting,
     SharedModule,
     StoreModule.forFeature('style-guide', reducers),
-    FormsModule
+    FormsModule,
+    ExuiCommonLibModule.forChild()
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers,  ...fromComponents.components]

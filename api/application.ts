@@ -1,4 +1,3 @@
-import * as healthcheck from '@hmcts/nodejs-healthcheck'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
@@ -9,18 +8,11 @@ import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from 
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
   FEATURE_HELMET_ENABLED,
-  FEATURE_REDIS_ENABLED,
   FEATURE_SECURE_COOKIE_ENABLED,
   HELMET,
-  SERVICE_S2S_PATH,
-  SERVICES_FEE_AND_PAY_API_PATH,
-  SERVICES_IDAM_API_PATH,
-  SERVICES_IDAM_WEB,
-  SERVICES_RD_PROFESSIONAL_API_PATH,
-  SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET,
-  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
 } from './configuration/references'
+import {addReformHealthCheck} from './health'
 import {appInsights} from './lib/appInsights'
 import {errorStack} from './lib/errorStack'
 import * as log4jui from './lib/log4jui'
@@ -74,40 +66,7 @@ app.use(cookieParser())
 
 tunnel.init()
 
-function healthcheckConfig(msUrl) {
-  return healthcheck.web(`${msUrl}/health`, {
-    timeout: 6000,
-    deadline: 6000
-  });
-}
-
-const healthChecks = {
-  checks: {
-    idamApi: healthcheckConfig(getConfigValue(SERVICES_IDAM_API_PATH)),
-    idamWeb: healthcheckConfig(getConfigValue(SERVICES_IDAM_WEB)),
-    rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)),
-    s2s: healthcheckConfig(getConfigValue(SERVICE_S2S_PATH)),
-    feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH))
-  },
-}
-
-if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
-  healthChecks.checks = {...healthChecks.checks, ...{
-    termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))
-  }}
-}
-
-if (showFeature(FEATURE_REDIS_ENABLED)) {
-  healthChecks.checks = {...healthChecks.checks, ...{
-    redis: healthcheck.raw(() => {
-      return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down()
-    })
-  }}
-}
-
-console.log('healthChecks', healthChecks)
-
-healthcheck.addTo(app, healthChecks)
+addReformHealthCheck(app)
 
 /**
  * Open Routes

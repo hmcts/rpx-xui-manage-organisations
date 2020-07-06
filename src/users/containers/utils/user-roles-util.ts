@@ -1,5 +1,5 @@
-import {propsExist} from '../../../../api/lib/objectUtilities';
 import { AppConstants } from '../../../app/app.constants';
+import {AppUtils} from '../../../app/utils/app-utils';
 
 export class UserRolesUtil {
     public static getRolesAdded(user: any, permissions: string[]): any[] {
@@ -63,7 +63,7 @@ export class UserRolesUtil {
      * @param response - the response object from PRD.
      */
     public static doesRoleAdditionExist(response) {
-      return propsExist(response, ['roleAdditionResponse', 'idamStatusCode']);
+      return AppUtils.propsExist(response, ['roleAdditionResponse', 'idamStatusCode']);
     }
 
     /**
@@ -72,7 +72,7 @@ export class UserRolesUtil {
      * @param response - the response object from PRD.
      */
     public static doesRoleDeletionExist(response) {
-      return response.roleDeletionResponse && propsExist(response, ['roleDeletionResponse']);
+      return response.roleDeletionResponse && AppUtils.propsExist(response, ['roleDeletionResponse']);
     }
 
     /**

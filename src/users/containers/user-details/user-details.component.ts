@@ -131,7 +131,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public isInactive(status, inactiveStatuses: string[] = ['Suspended', 'Pending']) {
-    return inactiveStatuses.includes(status);
+    return !inactiveStatuses.includes(status);
   }
 
   public isSuspended(status) {

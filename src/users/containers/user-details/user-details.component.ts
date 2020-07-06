@@ -130,8 +130,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isSuspendedOrPending(status) {
-    return status === 'Suspended' || status === 'Pending';
+  public isInactive(status, inactiveStatuses: string[] = ['Suspended', 'Pending']) {
+    return inactiveStatuses.includes(status);
   }
 
   public isSuspended(status) {

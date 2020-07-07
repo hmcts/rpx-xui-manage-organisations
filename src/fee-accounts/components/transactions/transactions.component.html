@@ -1,7 +1,7 @@
 <ng-container *ngIf="transactions.length > 0; else noRows">
-    <app-govuk-table
+    <xuilib-gov-uk-table
     [columnConfig]="columnConfig" [rows]="transactions" [firstCellIsHeader]="false" [caption]="''"
-    ></app-govuk-table>
+    ></xuilib-gov-uk-table>
 </ng-container>
 <ng-template #noRows>
     <p>No transactions found.</p>

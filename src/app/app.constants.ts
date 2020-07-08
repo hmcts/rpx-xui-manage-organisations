@@ -46,7 +46,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
-  'pui-case-manager': navItemsArray[3]
+  'pui-caa': navItemsArray[3]
 };
 
 const userNav: UserNavModel = {
@@ -163,8 +163,7 @@ const ccdRoles = [
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
   'caseworker-publiclaw-solicitor',
-  // 'pui-ca',
-  // 'caseworker-caa'
+  'pui-caa',
 ];
 
 const redirectUrl = {

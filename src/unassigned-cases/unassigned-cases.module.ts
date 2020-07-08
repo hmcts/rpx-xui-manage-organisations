@@ -22,12 +22,9 @@ export const COMPONENTS = [ UnassignedCasesComponent ];
         HttpClientModule,
         SharedModule,
         unassignedCasesRouting,
-        // StoreModule.forFeature('feeAccounts', reducers),
-        // EffectsModule.forFeature(effects),
         StoreModule.forFeature('org', orgReducers),
         EffectsModule.forFeature(orgEffects),
       ],
-      // exports: [...fromContainers.containers],
       declarations: [...COMPONENTS],
       providers: [OrganisationService, FeatureToggleAccountGuard, RoleGuard]
     })

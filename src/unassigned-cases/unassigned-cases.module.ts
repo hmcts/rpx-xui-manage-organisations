@@ -7,6 +7,8 @@ import { OrganisationService } from 'src/organisation/services';
 import { SharedModule } from 'src/shared/shared.module';
 import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
 import { UnassignedCasesComponent } from './containers';
+import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
+import { RoleGuard } from './guards/user-role.guard';
 import {unassignedCasesRouting} from './unassigned-cases.routing';
 // import * as fromServices from './services';
 // import * as fromContainers from './containers';
@@ -27,7 +29,7 @@ export const COMPONENTS = [ UnassignedCasesComponent ];
       ],
       // exports: [...fromContainers.containers],
       declarations: [...COMPONENTS],
-      providers: [OrganisationService]
+      providers: [OrganisationService, FeatureToggleAccountGuard, RoleGuard]
     })
 
 export class UnassignedCasesModule {

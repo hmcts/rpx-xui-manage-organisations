@@ -1,11 +1,12 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { UsersComponent, UserDetailsComponent, EditUserPermissionComponent } from './containers';
-import { InviteUserComponent } from './containers/invite-user/invite-user.component';
-import { InviteUserSuccessComponent } from './containers/invite-user-success/invite-user-success.component';
-import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
+import { RouterModule, Routes } from '@angular/router';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
+import {UsersComponent, UserDetailsComponent, EditUserPermissionComponent, EditUserPermissionsFailureComponent} from './containers';
+import { InviteUserSuccessComponent } from './containers/invite-user-success/invite-user-success.component';
+import { InviteUserComponent } from './containers/invite-user/invite-user.component';
+import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.guard';
+import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 
 export const ROUTES: Routes = [
     {
@@ -27,10 +28,15 @@ export const ROUTES: Routes = [
       component: InviteUserSuccessComponent,
       canActivate: [InviteUserSuccessGuard],
     },
-    /*{
+    {
+      path: 'user/:userId/editpermission-failure',
+      component: EditUserPermissionsFailureComponent,
+    },
+    {
       path: 'user/:userId/editpermission',
       component: EditUserPermissionComponent,
-    }*/
+      canActivate: [FeatureToggleEditUserGuard]
+    }
 ];
 
 

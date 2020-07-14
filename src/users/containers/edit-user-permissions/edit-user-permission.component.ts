@@ -7,7 +7,7 @@ import * as fromRoot from '../../../app/store';
 import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
 import * as fromStore from '../../store';
 import { UserRolesUtil } from '../utils/user-roles-util';
-import {editUserFailureSelector} from '../../store/selectors';
+// import {editUserFailureSelector} from '../../store/selectors';
 
 @Component({
     selector: 'app-edit-user-permission',

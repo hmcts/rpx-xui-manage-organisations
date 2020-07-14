@@ -6,17 +6,6 @@ import { UserNavModel } from '../../models/user-nav.model';
 import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
 
-export interface AppState {
-  allNavItems: {[id: string]: object};
-  pageTitle: string;
-  navItems;
-  userNav: UserNavModel;
-  headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
-  jurisdictions: any[];
-  termsAndConditions: TCDocument;
-  globalError: GlobalError;
-}
-
 export interface AppFeatureFlag {
  featureName: string;
  isEnabled: boolean;
@@ -56,7 +45,6 @@ export const initialState: AppState = {
   termsAndConditions: null,
   globalError: null,
   featureFlags: [],
-  globalError: null
 };
 
 export function reducer(

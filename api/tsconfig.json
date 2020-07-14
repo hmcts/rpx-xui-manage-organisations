@@ -1,32 +1,32 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "paths": { "*": ["customTypings/*"] },
-    "outDir": "../dist/rpa-pui-manager/api",
-    "target": "es5",
-    "types": [
-      "node",
-      "mocha",
-      "rxjs"
+    "compileOnSave": false,
+    "compilerOptions": {
+        "paths": { "*": ["customTypings/*"] },
+        "outDir": "../dist/rpa-pui-manager/api",
+        "target": "es5",
+        "types": [
+            "node",
+            "mocha",
+            "rxjs"
+        ],
+        "typeRoots": [
+          "./customTypings",
+          "node_modules/@types"
+        ],
+        "baseUrl": ".",
+        "lib": [
+            "es2017",
+            "dom"
+        ]
+    },
+    "include": [
+        "**/*.ts",
+        "../*.ts"
     ],
-    "typeRoots": [
-      "./customTypings",
-      "node_modules/@types"
+    "exclude": [
+        "**/*.spec.ts"
     ],
-    "baseUrl": ".",
-    "lib": [
-      "es2017",
-      "dom"
+    "files": [
+        "./customTypings/customExpress/index.d.ts"
     ]
-  },
-  "include": [
-    "**/*.ts",
-    "../*.ts"
-  ],
-  "exclude": [
-    "**/*.spec.ts"
-  ],
-  "files": [
-    "./customTypings/customExpress/index.d.ts"
-  ]
 }

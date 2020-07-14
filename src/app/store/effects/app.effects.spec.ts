@@ -1,30 +1,31 @@
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromAppEffects from './app.effects';
-import { AppEffects } from './app.effects';
-import { SetPageTitleErrors } from '../actions/app.actions';
+import {StoreModule} from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
+import { CookieService } from 'ngx-cookie';
+import { of, throwError } from 'rxjs';
+import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
+import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import { LoggerService } from '../../../shared/services/logger.service';
+import {AuthGuard} from '../../../user-profile/guards/auth.guard';
+import * as fromUserProfile from '../../../user-profile/store';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
-import * as fromUserProfile from '../../../user-profile/store';
-import { CookieService } from 'ngx-cookie';
-import {AuthGuard} from '../../../user-profile/guards/auth.guard';
-import {StoreModule} from '@ngrx/store';
+import { SetPageTitleErrors } from '../actions/app.actions';
 import {reducers} from '../reducers';
-import { JurisdictionService } from 'src/users/services/jurisdiction.service';
-import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
-import { of, throwError } from 'rxjs';
-import { LoggerService } from '../../../shared/services/logger.service';
+import * as fromAppEffects from './app.effects';
 
 describe('App Effects', () => {
   let actions$;
-  let effects: AppEffects;
   let loggerService: LoggerService;
 
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
   const mockTermsService = jasmine.createSpyObj('mockTermsService', ['getTermsConditions']);
   const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+  const mockFeatureToggleService = jasmine.createSpyObj('mockFeatureToggleService', ['isEnabled', 'initialised']);
+  let effects: fromAppEffects.AppEffects;
 
   const cookieService = {
     get: key => {
@@ -53,11 +54,15 @@ describe('App Effects', () => {
         {
           provide: LoggerService,
           useValue: mockedLoggerService
+        },
+        {
+          provide: FeatureToggleService,
+          useValue: mockFeatureToggleService
         }
       ]
     });
 
-    effects = TestBed.get(AppEffects);
+    effects = TestBed.get(fromAppEffects.AppEffects);
     loggerService = TestBed.get(LoggerService);
 
   });

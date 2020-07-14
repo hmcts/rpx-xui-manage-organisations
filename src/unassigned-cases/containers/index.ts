@@ -1,5 +1,5 @@
-import { UnassignedCasesComponent } from './unassinged-cases/unassigned-cases.component';
+import { UnassignedCasesComponent } from './unassigned-cases/unassigned-cases.component';
 
 export const containers: any[] = [UnassignedCasesComponent];
 
-export * from './unassinged-cases/unassigned-cases.component';
+export * from './unassigned-cases/unassigned-cases.component';

@@ -46,19 +46,6 @@ export class LoadFeatureToggleConfigFail implements Action {
   public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_FAIL;
   constructor(public payload: any) { }
 }
-export class AddGlobalErrorSuccess implements Action {
-  public readonly type = APP_ADD_GLOBAL_ERROR_SUCCESS;
-  constructor() {}
-}
-export class AddGlobalError implements Action {
-  public readonly type = APP_ADD_GLOBAL_ERROR;
-  constructor(public payload: GlobalError) {}
-}
-
-export class ClearGlobalError implements Action {
-  public readonly type = APP_CLEAR_GLOBAL_ERROR;
-  constructor() {}
-}
 
 export class SetPageTitle implements Action {
   readonly type = SET_PAGE_TITLE;

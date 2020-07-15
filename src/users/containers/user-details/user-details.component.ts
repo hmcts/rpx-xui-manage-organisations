@@ -90,7 +90,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>) {
     this.user = {...user, resendInvite: user.status === 'Pending' };
-    this.user = user;
     isFeatureEnabled$.subscribe(isFeatureEnabled => {
       if (isFeatureEnabled && this.user && this.user.status === 'Active') {
 

@@ -18,3 +18,8 @@ export class LoadUnassignedCasesFailure  implements Action {
     public readonly type = LOAD_UNASSINGED_CASES_FAILURE;
     constructor(public payload: any[]) {}
 }
+
+export type UnassignedCasesActions =
+    LoadUnassignedCases
+  | LoadUnassignedCasesSuccess
+  | LoadUnassignedCasesFailure;

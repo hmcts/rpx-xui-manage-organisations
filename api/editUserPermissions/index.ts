@@ -21,6 +21,7 @@ async function inviteUserRoute(req: express.Request, res: express.Response) {
     try {
       const response = await req.http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload)
       logger.info('response::', response.data)
+
       res.send(response.data)
     } catch (error) {
         logger.info('error', error)

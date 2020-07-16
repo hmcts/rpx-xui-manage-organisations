@@ -41,13 +41,13 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
-    await inviteUserPage.waitForPage(); 
+    await inviteUserPage.waitForPage();
     await inviteUserPage.enterIntoTextFieldFirstName(TestData.firstName);
     await inviteUserPage.enterIntoTextFieldLastName(TestData.lastName);
 
       // var emailAddress =Math.random().toString(36).substring(2);
     global.latestInvitedUser = Math.random().toString(36).substring(2)+"@mailinator.com";
-    global.latestInvitedUserPassword = "Monday01"; 
+    global.latestInvitedUserPassword = "Monday01";
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
     await inviteUserPage.manageUserCheckbox.click();
@@ -88,9 +88,9 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     global.latestInvitedUserPassword = "Monday01";
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
-    let permissions = table.hashes(); 
+    let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length;permCounter++){
-      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true); 
+      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true);
     }
     await inviteUserPage.clickSendInvitationButton()
   });
@@ -99,7 +99,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
       await inviteUserPage.selectPermission(permissions[permCounter].Permission, permissions[permCounter].isSelected === "true");
-    } 
+    }
   });
 
 
@@ -126,10 +126,51 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     this.attach("Registration completed successfully.");
     await mailinatorService.destroy();
 
+  });
 
+  Then(/^I click on a Active User$/, async function () {
+    browser.sleep(AMAZING_DELAY);;
+    await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
+    await inviteUserPage.activeUser.click();
+  });
+
+  Then(/^I see change link and suspend button$/, async function () {
+    browser.sleep(MID_DELAY);;
+    await expect(inviteUserPage.changeLink.isDisplayed()).to.eventually.be.true;
+    await expect(inviteUserPage.suspendButton.isDisplayed()).to.eventually.be.true;
+  });
+
+  Then(/^I click on change link$/, async function () {
+    browser.sleep(MID_DELAY);
+    await inviteUserPage.changeLink.click();
+    await expect(inviteUserPage.editUserText.isDisplayed()).to.eventually.be.true;
+    await expect(inviteUserPage.editUserText.getText())
+      .to
+      .eventually
+      .equal('Edit user');
   });
 
 
+  Then(/^I edit the Manage User checkbox and click submit$/, async function () {
+    browser.sleep(MID_DELAY);
+    await inviteUserPage.manageUserCheckbox.click();
+    await inviteUserPage.clickSendInvitationButton();
+    browser.sleep(MID_DELAY);
+    await expect(inviteUserPage.suspendButton.isDisplayed()).to.eventually.be.true;
+  });
+
+  Then(/^I click the suspend button$/, async function () {
+    await inviteUserPage.suspendButton.click();
+  });
+
+  Then(/^I see the suspend user page$/, async function () {
+    browser.sleep(MID_DELAY);
+    await expect(inviteUserPage.editUserText.isDisplayed()).to.eventually.be.true;
+    await expect(inviteUserPage.editUserText.getText())
+      .to
+      .eventually
+      .equal('Are you sure you want to suspend this account?');
+  });
 });
 
 function logger(world,message,isScreenshot){
@@ -140,5 +181,5 @@ function logger(world,message,isScreenshot){
     world.attach(message);
     console.log(message);
   }
-   
+
 }

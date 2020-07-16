@@ -19,6 +19,11 @@ class InviteUserPage{
     this.userInvitaionConfirmation = element(by.css(".govuk-panel.govuk-panel--confirmation"));
 
     this.spinner = element(by.css(".spinner-wrapper"));
+    this.activeUser = element(by.xpath("//a[contains(text(),'Townley MCUser')]"));
+    this.changeLink = element(by.linkText("Change"));
+    this.suspendButton = element(by.css(".hmcts-button--secondary"));
+    this.editUserText = element(by.css(".govuk-heading-xl"));
+    this.suspendUserText = element(by.css(".govuk-heading-xl"));
 
   }
 
@@ -32,7 +37,7 @@ class InviteUserPage{
 
   async selectPermission(permission,isSelect){
     const permisssionCheckboxXpath = by.xpath('//div[@class = "govuk-checkboxes"]//div[contains(@class,"govuk-checkboxes__item")]/label[contains(text(),"' + permission+'")]/../input');
-    
+
     let isSelected = await element(permisssionCheckboxXpath).isSelected();
     console.log(isSelected);
 
@@ -41,7 +46,7 @@ class InviteUserPage{
 
     }
     isSelected = await element(permisssionCheckboxXpath).isSelected();
-    assert(isSelected === isSelect, permission + " selection status is not  " + isSelect );  
+    assert(isSelected === isSelect, permission + " selection status is not  " + isSelect );
   }
   /**
    * Enter random text into the Text field

@@ -128,7 +128,7 @@ export function reducer(
       };
     }
 
-    /**
+  /**
    * Initialise Editing of User, resetting the state back to editing of a User.
    */
     case fromUsers.EDIT_USER: {

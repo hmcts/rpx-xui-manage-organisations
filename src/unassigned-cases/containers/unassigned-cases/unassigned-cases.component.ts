@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 @Component({
     selector: 'app-unassigned-cases-component',
@@ -7,11 +7,12 @@ import * as fromStore from '../../store';
   })
 
 export class UnassignedCasesComponent implements OnInit {
-    constructor(private store: Store<fromStore.UnassignedCaseState>) {}
+    constructor(private readonly store: Store<fromStore.UnassignedCasesState>) {}
     public ngOnInit(): void {
-        // this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(( data) => {
-        //     this.orgData = data;
-        //   });
+      this.store.dispatch(new fromStore.LoadUnassignedCases());
+      this.store.pipe(select(fromStore.getUnassignedCasesState)).subscribe(( data) => {
+          console.log(data);
+        });
     }
 
 }

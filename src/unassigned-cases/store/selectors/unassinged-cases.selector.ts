@@ -1,8 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import * as fromFeature from '../../store/reducers';
-import * as fromCases from '../reducers/unassigned-cases.reducer';
+import * as fromUnAssingedCases from '../reducers/unassigned-cases.reducer';
 
-export const selectUnassignedCases = createFeatureSelector<fromFeature.UnassignedCaseState>('unassignedCases');
+export const getUnassignedCasesState = createSelector(
+    fromFeature.getRootUnassingedCases,
+    (state: fromFeature.UnassignedCasesState) => state.unassignedCases
+  );
 
-export const getUnassingedCases = createSelector(selectUnassignedCases, (state: any) => state.unassignedCases);

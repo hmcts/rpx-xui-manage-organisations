@@ -1,14 +1,14 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 import * as fromUnassingedCases from './unassigned-cases.reducer';
 
-export interface UnassignedCaseState {
+export interface UnassignedCasesState {
     unassignedCases: fromUnassingedCases.UnassignedCasesState;
 }
 
-export const reducers: ActionReducerMap<UnassignedCaseState> = {
+export const reducers: ActionReducerMap<UnassignedCasesState> = {
     unassignedCases: fromUnassingedCases.reducer
   };
 
-export const getRootUnassingedCases = createFeatureSelector<fromUnassingedCases.UnassignedCasesState>(
+export const getRootUnassingedCases = createFeatureSelector<UnassignedCasesState>(
     'unassignedCases'
   );

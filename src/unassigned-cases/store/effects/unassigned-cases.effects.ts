@@ -17,7 +17,7 @@ export class UnassignedCasesEffects {
     ofType(LOAD_UNASSINGED_CASES),
     switchMap((payload: any) => {
         return this.service.fetchUnassignedCases().pipe(
-          map(feeAccountsDetails => new LoadUnassignedCasesSuccess(feeAccountsDetails)),
+          map(unassingedCases => new LoadUnassignedCasesSuccess(unassingedCases)),
           catchError(errorResponse => {
             this.loggerService.error(errorResponse);
             return of(new LoadUnassignedCasesFailure(errorResponse.error));

@@ -24,8 +24,10 @@ export function reducer(
     action: UnassignedCasesActions): UnassignedCasesState {
         switch (action.type) {
             case LOAD_UNASSINGED_CASES_SUCCESS:
-                return initialState;
+                return {...initialState, unassignedCases: action.payload};
             default:
                 return initialState;
     }
 }
+
+export const getUnassignedCases = (state: UnassignedCasesState) => state.unassignedCases;

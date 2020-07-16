@@ -11,7 +11,7 @@ function loginLogoutObjects() {
   this.signinBtn = element(by.css("input.button"));
   this.signOutlink = element(by.xpath("//a[@class='hmcts-header__navigation-link']"));
   this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
-  this.dashboard_header= element(by.xpath("//a[@class='hmcts-header__link']"));
+  this.dashboard_header= element(by.css(".hmcts-header__link.my_hmcts_application_name"));
 
   this.givenIAmLoggedIn = async function () {
     await this.enterUrEmail('');

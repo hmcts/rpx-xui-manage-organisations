@@ -68,7 +68,7 @@
     "@ngrx/store-devtools": "^7.4.0",
     "@nguniversal/express-engine": "^7.1.0",
     "@pact-foundation/pact": "^9.2.0",
-    "@pact-foundation/pact-node": "^9.0.6",
+    "@pact-foundation/pact-node": "^10.9.7",
     "@types/crypto-js": "^3.1.43",
     "@types/global-agent": "^2.1.0",
     "applicationinsights": "^1.5.0",

@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { AppConstants } from 'src/app/app.constants';
 
 import * as fromRoot from '../reducers';
 import * as fromAppFeature from '../reducers/app.reducer';
@@ -33,6 +34,39 @@ export const getNav = createSelector(
   fromAppFeature.getNavItems
 );
 
+export const getFeatureFlag = createSelector(
+  getAppState,
+  state => state.featureFlags
+);
+
+export const getFeeAndPayFeature = createSelector(
+  getFeatureFlag,
+  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.feeAccount)
+);
+
+export const getFeeAndPayFeatureIsEnabled = createSelector(
+  getFeeAndPayFeature,
+  featureFlag => featureFlag && featureFlag.isEnabled
+);
+
+export const getEditUserFeature = createSelector(
+  getFeatureFlag,
+  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions)
+);
+
+export const getEditUserFeatureIsEnabled = createSelector(
+  getEditUserFeature,
+  featureFlag => featureFlag && featureFlag.isEnabled
+);
+
+export const getFeatureEnabledNav = createSelector(
+  getNav,
+  getFeatureFlag,
+  (navItems, featureFlags) => {
+    return AppUtils.getFeatureEnabledNavItems(navItems, featureFlags);
+  }
+);
+
 export const getAllJurisdictions = createSelector(
   getAppState,
   fromAppFeature.getUserJuridictions
@@ -44,7 +78,7 @@ export const getCurrentError = createSelector(
 );
 
 export const getNavItems = createSelector(
-  getNav,
+  getFeatureEnabledNav,
   fromRoot.getRouterState,
   (navItems, router) => {
     // set the active state based on routes

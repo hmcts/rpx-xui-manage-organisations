@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import {
-  CaseListModule,
-  PlaceholderService
-} from '@hmcts/ccd-case-ui-toolkit';
+import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { OrganisationService } from 'src/organisation/services';
@@ -30,7 +27,7 @@ import {unassignedCasesRouting} from './unassigned-cases.routing';
         CaseListModule,
       ],
       declarations: [...fromContainers.containers],
-      providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard, PlaceholderService]
+      providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard]
     })
 
 export class UnassignedCasesModule {

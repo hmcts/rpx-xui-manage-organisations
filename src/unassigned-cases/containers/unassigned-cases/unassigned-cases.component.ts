@@ -8,13 +8,13 @@ import * as fromStore from '../../store';
   })
 export class UnassignedCasesComponent implements OnInit {
 
-  private readonly resultsArr: any[] = new Array();
-  private caseListItems: any;
+  private caseListItems: any[];
   private columnNames: string[];
 
   constructor(private readonly store: Store<fromStore.UnassignedCasesState>) {}
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadUnassignedCases());
+    // Static column names for now
     this.columnNames = [
       'Case created date',
       'Case due date',
@@ -27,7 +27,8 @@ export class UnassignedCasesComponent implements OnInit {
     ];
     this.store.pipe(select(fromStore.getUnassignedCasesState)).subscribe((data) => {
       console.log(data);
-      this.caseListItems = data;
+      // Problem is this is asynchronous and will be populated too late for Case List component
+      this.caseListItems = data as unknown as any[];
     });
   }
 }

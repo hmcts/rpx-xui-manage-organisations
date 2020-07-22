@@ -15,7 +15,37 @@ export const APP_ADD_GLOBAL_ERROR = '[APP] Add Global Error';
 export const APP_ADD_GLOBAL_ERROR_SUCCESS = '[APP] Add Global Error Success';
 export const APP_CLEAR_GLOBAL_ERROR = '[APP] Clear Global Error';
 
+export const LOAD_FEATURE_TOGGLE_CONFIG = '[App] Load Feature Toggle Config';
+export const LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS = '[App] Load Feature Toggle Config Success';
+export const LOAD_FEATURE_TOGGLE_CONFIG_FAIL = '[App] Load Feature Toggle Config Fail';
+
+export const START_APP_INITIALIZER = '[App] Start App initializer';
+export const FINISH_APP_INITIALIZER = '[App] Finish Start App initializer';
+
 export const LOGOUT = '[App] Logout';
+
+export class StartAppInitilizer implements Action {
+  public readonly type = START_APP_INITIALIZER;
+}
+
+export class FinishAppInitilizer implements Action {
+  public readonly type = FINISH_APP_INITIALIZER;
+}
+
+export class LoadFeatureToggleConfig implements Action {
+  constructor(public payload: any) { }
+  public readonly type = LOAD_FEATURE_TOGGLE_CONFIG;
+}
+
+export class LoadFeatureToggleConfigSuccess implements Action {
+  public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+export class LoadFeatureToggleConfigFail implements Action {
+  public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_FAIL;
+  constructor(public payload: any) { }
+}
 
 export class SetPageTitle implements Action {
   readonly type = SET_PAGE_TITLE;
@@ -90,5 +120,10 @@ export type appActions =
   | LoadTermsConditionsSuccess
   | LoadTermsConditionsFail
   | AddGlobalErrorSuccess
+  | LoadFeatureToggleConfig
+  | LoadFeatureToggleConfigSuccess
+  | LoadFeatureToggleConfigFail
+  | StartAppInitilizer
+  | FinishAppInitilizer
   | AddGlobalError
   | ClearGlobalError;

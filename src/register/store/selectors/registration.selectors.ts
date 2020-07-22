@@ -39,6 +39,11 @@ export const getErrorMessages = createSelector(
   fromRegistration.getRegistrationErrorMessages
 );
 
+export const getErrorMessagesCodes = createSelector(
+  getRegistrationState,
+  fromRegistration.getRegistrationErrorMessagesCodes
+);
+
 export const getRegistrationLoading = createSelector(
   getRegistrationState,
   fromRegistration.getRegistrationFromLoading

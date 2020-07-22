@@ -20,7 +20,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToAatOnly = true // set to true if only deploy upto AAT, set to false will deploy all the way to production
+def deployToAatOnly = false // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
 
 def secrets = [
@@ -32,6 +32,7 @@ def secrets = [
     secret('test-password', 'TEST_PASSWORD'),
     secret('appinsights-instrumentationkey-mo', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
     secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
+    secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID')
 
   ],
 //  's2s-${env}'      : [

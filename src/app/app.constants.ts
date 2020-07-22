@@ -3,6 +3,11 @@ import {AppTitlesModel} from './models/app-titles.model';
 import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 
+const featureNames = {
+  feeAccount: 'fee-and-accounts',
+  editUserPermissions: 'edit-permissions'
+};
+
 const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
@@ -16,20 +21,21 @@ const navItemsArray: NavItemModel[] = [
     active: false,
     orderId: 2
   },
-  // Hiding the Tab for the Fee And Accounts
-  // {
-  //   text: 'Fee Accounts',
-  //   href: '/fee-accounts',
-  //   active: false,
-  //   orderId: 3
-  // }
+  {
+    text: 'Fee Accounts',
+    href: '/fee-accounts',
+    active: false,
+    orderId: 3,
+    featureToggle: {
+      featureName: featureNames.feeAccount
+    }
+  }
 ];
 
 const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
-  // Hiding the role
-  // 'pui-finance-manager': navItemsArray[2],
+  'pui-finance-manager': navItemsArray[2],
 };
 
 const userNav: UserNavModel = {
@@ -184,4 +190,5 @@ export class AppConstants {
   public static REDIRECT_URL = redirectUrl;
   public static ENVIRONMENT_NAMES = environmentNames;
   public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
+  public static FEATURE_NAMES = featureNames;
 }

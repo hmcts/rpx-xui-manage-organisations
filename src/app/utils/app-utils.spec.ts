@@ -1,12 +1,62 @@
 
-import {AppUtils} from './app-utils';
 import {AppConstants} from '../app.constants';
+import { AppFeatureFlag } from '../store/reducers/app.reducer';
+import {AppUtils} from './app-utils';
+import { propsExist } from '../../../api/lib/objectUtilities';
 const router = {
   state: {
     url: 'register'
   }
 };
 describe('AppUtils', () => {
+
+  it('should return only getFeatureEnabledNavItems', () => {
+    const navItems = [{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    },
+    {
+      text: 'Fee Accounts',
+      href: '/fee-accounts',
+      active: false,
+      orderId: 3,
+      featureToggle: {
+        featureName: AppConstants.FEATURE_NAMES.feeAccount
+      }
+    }];
+
+    const featureFlag: AppFeatureFlag = {
+      isEnabled: true,
+      featureName: AppConstants.FEATURE_NAMES.feeAccount
+    };
+
+    let result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
+    expect(result).toEqual(navItems);
+
+    featureFlag.isEnabled = false;
+    result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
+    expect(result).toEqual([{
+      text: 'Organisation',
+      href: '/organisation',
+      active: false,
+      orderId: 1
+    },
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    }]);
+  });
+
   it('should set active links values', () => {
     const array = AppUtils.setActiveLink(AppConstants.NAV_ITEMS_ARRAY, router);
     expect(array).toEqual(AppConstants.NAV_ITEMS_ARRAY);
@@ -167,4 +217,35 @@ describe('AppUtils', () => {
     const dateString = AppUtils.formatDateAtTime(dateTime, true);
     expect(dateString).toEqual('01 Jan 2020 at 21:12');
   });
+
+  describe('propsExist()', () => {
+
+    it('Should return true if all the properties exist on an object.', () => {
+
+      const object = {level1: {level2: {level3: 'level3'}}}
+
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(true);
+    })
+
+    it('Should return false if a property does not exist on an object.', () => {
+
+      const object = {level1: {level2: {level3: 'level3'}}}
+
+      expect(propsExist(object, ['level1', 'breakingProperty', 'level3'])).toEqual(false);
+    })
+
+    it('Should return false if the object is undefined.', () => {
+
+      const object = undefined
+
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
+    })
+
+    it('Should return false if the object is null.', () => {
+
+      const object = null
+
+      expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
+    })
+  })
 });

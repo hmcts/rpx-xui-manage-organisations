@@ -19,7 +19,6 @@ describe('User Details Component', () => {
     describe('ngOnInit', () => {
         it('should create subscriptions', () => {
             actionsObject.pipe.and.returnValue(of());
-            routerStoreSpyObject.pipe.and.returnValue(of());
             component.ngOnInit();
             expect(component.dependanciesSubscription).toBeDefined();
             expect(component.userSubscription).toBeDefined();
@@ -84,12 +83,12 @@ describe('User Details Component', () => {
 
     describe('handleUserSubscription', () => {
         it('should set actionButtons when user is Active', () => {
-            component.handleUserSubscription({ status: 'Active' }, of(true));
+            component.handleUserSubscription({ status: 'Active' });
             expect(component.actionButtons).toBeDefined();
         });
 
         it('should not set actionButtons when user is Suspended', () => {
-            component.handleUserSubscription({ status: 'Suspended' }, of(true));
+            component.handleUserSubscription({ status: 'Suspended' });
             expect(component.actionButtons).toBeNull();
         });
     });

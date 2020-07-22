@@ -4,16 +4,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as appActions from '../actions';
 
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { combineLatest, Observable, of } from 'rxjs';
-import { AppConstants } from 'src/app/app.constants';
+import { of } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
 import * as usersActions from '../../../users/store/actions';
-import {AppFeatureFlag} from '../reducers/app.reducer';
 @Injectable()
 export class AppEffects {
   constructor(
@@ -21,8 +18,7 @@ export class AppEffects {
     private readonly jurisdictionService: JurisdictionService,
     private readonly autGuard: AuthGuard,
     private readonly termsService: TermsConditionsService,
-    private readonly loggerService: LoggerService,
-    private readonly featureToggleService: FeatureToggleService
+    private readonly loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -46,8 +42,10 @@ export class AppEffects {
   public logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      const redirectUrlEncoded = encodeURIComponent(this.autGuard.generateLoginUrl());
-      window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
+      this.autGuard.generateLoginUrl().subscribe( url => {
+        const redirectUrlEncoded = encodeURIComponent(url);
+        window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
+      });
     })
   );
 
@@ -76,31 +74,4 @@ export class AppEffects {
     })
   );
 
-  @Effect()
-  public featureToggleConfig = this.actions$.pipe(
-    ofType(appActions.LOAD_FEATURE_TOGGLE_CONFIG),
-    map((action: appActions.LoadFeatureToggleConfig) => action.payload),
-    switchMap((featureNames: string[]) => {
-      return combineLatest(this.getObservable(featureNames)).pipe(
-        map(feature => this.getFeaturesPayload(feature, featureNames))
-      );
-    }
-   )
-  );
-
-  public getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
-    const result: AppFeatureFlag[] = features.map((isEnabled, i) => {
-      return {isEnabled, featureName: featureNames[i]};
-    });
-    return new appActions.LoadFeatureToggleConfigSuccess(result);
-  }
-
-  public getObservable(featureNames: string[]): Observable<boolean>[] {
-    let observables = new Array<Observable<boolean>>();
-    featureNames.forEach(featureName => {
-      const observable = this.featureToggleService.isEnabled(featureName);
-      observables = [...observables, observable];
-    });
-    return observables;
-  }
 }

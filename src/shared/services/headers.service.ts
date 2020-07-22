@@ -7,12 +7,12 @@ import config from '../../../api/lib/config';
   providedIn: 'root'
 })
 export class HeadersService {
-  public COOKIE_KEYS;
-  public API_BASE_URL;
-  public user;
+  COOKIE_KEYS;
+  API_BASE_URL;
+  user;
 
   constructor(
-    private readonly cookieService: CookieService
+    private cookieService: CookieService
   ) {
     this.COOKIE_KEYS = {
       TOKEN: config.cookies.token,
@@ -23,7 +23,7 @@ export class HeadersService {
   }
 
 
-  public getAuthHeaders() {
+  getAuthHeaders() {
     interface HeaderObject {
       [key: string]: string;
     }
@@ -39,26 +39,19 @@ export class HeadersService {
     return headers;
   }
 
-  public decodeJwt(jwt) {
+  decodeJwt(jwt) {
     return jwtDecode(jwt);
   }
 
-  public isAuthenticated(): boolean {
-    const jwtData = this.getJwt();
-    if (jwtData === false) {
-      return false;
-    }
-    const expired = jwtData.exp > Math.round(new Date().getTime() / 1000);
-
-    // do stuff!!
-    return expired;
-  }
-
-  public getJwt() {
+  isAuthenticated(): boolean {
     const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
     if (!jwt) {
       return false;
     }
-    return this.decodeJwt(jwt);
+    const jwtData = this.decodeJwt(jwt);
+    const expired = jwtData.exp > Math.round(new Date().getTime() / 1000);
+
+    // do stuff!!
+    return expired;
   }
 }

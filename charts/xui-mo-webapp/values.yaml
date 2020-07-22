@@ -72,7 +72,6 @@ nodejs:
         - appinsights-instrumentationkey-mo
         - google-analytics-key
         - mo-webapp-redis-connection-string
-        - launch-darkly-client-id
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

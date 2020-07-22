@@ -1,6 +1,6 @@
 <ng-container *ngIf="formDataValues">
   <h1 class="govuk-heading-xl">Check your answers before you register</h1>
-  <dl class="govuk-check-your-answers  govuk-check-your-answers--short  govuk-!-margin-bottom-6" [ngClass]="{ 'govuk-form-group--error': (errorMessageDetails | async) !== '' }">
+  <dl class="govuk-check-your-answers  govuk-check-your-answers--short  govuk-!-margin-bottom-6">
 
     <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
       <ng-container question>Organisation name</ng-container>
@@ -31,11 +31,6 @@
       <ng-container answer>
         <span *ngIf="formDataValues.PBAnumber1">{{ formDataValues.PBAnumber1 }}</span><span *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2">, </span>
         <span *ngIf="formDataValues.PBAnumber2">{{ formDataValues.PBAnumber2 }}</span>
-        <div *ngIf="(errorMessageDetailsCode | async) == '6 : PBA_NUMBER Invalid or already exists'">
-          <div class="detailed-cya-registration-message"> {{errorMessageDetails | async}} You should check that the PBA has been entered correctly.
-          You should also check if your organisation has already been registered.
-          If you're still having problems, contact HMCTS.</div>
-        </div>
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/organisation-pba'">Change <span class="govuk-visually-hidden">PBA number</span></a>
@@ -57,14 +52,6 @@
       <ng-container question>SRA Number</ng-container>
       <ng-container answer>
         {{ formDataValues.sraNumber }}
-         <div *ngIf="(errorMessageDetailsCode | async) == '6 : SRA_ID Invalid or already exists'">
-          <div class="detailed-cya-registration-message">
-            This SRA has already been used.
-            You should check that the SRA has been entered correctly.
-            You should also check if your organisation has already been registered.
-            If you're still having problems, contact HMCTS.
-          </div>
-        </div>
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/sraNumber'">Change <span class="govuk-visually-hidden">email address</span></a>
@@ -95,14 +82,6 @@
       <ng-container question>Email address</ng-container>
       <ng-container answer>
         {{ formDataValues.emailAddress }}
-          <div *ngIf="(errorMessageDetailsCode | async) == '6 : EMAIL Invalid or already exists'">
-            <div class="detailed-cya-registration-message">
-              A user with this email address already exists.
-              You should check that the email address has been entered correctly.
-              You should also check if your organisation has already been registered.
-              If you're still having problems, contact HMCTS.
-            </div>
-          </div>
       </ng-container>
       <ng-container button>
         <a [routerLink]="'/register-org/register/email-address'">Change <span class="govuk-visually-hidden">email address</span></a>

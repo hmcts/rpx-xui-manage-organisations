@@ -56,8 +56,7 @@
         "connectSrc": [
           "'self'",
           "*.gov.uk",
-          "dc.services.visualstudio.com",
-          "*.launchdarkly.com"
+          "dc.services.visualstudio.com"
         ],
         "mediaSrc": ["'self'"],
         "objectSrc": ["'self'"],

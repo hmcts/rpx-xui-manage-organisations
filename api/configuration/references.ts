@@ -13,7 +13,6 @@ export const APP_INSIGHTS_KEY = 'secrets.rpx.appinsights-instrumentationkey-mo'
 export const S2S_SECRET = 'secrets.rpx.mo-s2s-client-secret'
 export const IDAM_SECRET = 'secrets.rpx.xui-oauth2-token'
 export const GOOGLE_ANALYTICS_KEY = 'secrets.rpx.google-analytics-key'
-export const LAUNCH_DARKLY_CLIENT_ID = 'secrets.rpx.launch-darkly-client-id'
 
 export const ENVIRONMENT = 'environment'
 

@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
+import { take, filter, tap, catchError, switchMap } from 'rxjs/operators';
+import { Observable, of, observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import * as fromStore from '../../organisation/store';
 
 
 @Injectable()
 export class AccountsGuard implements CanActivate {
-    constructor(private readonly store: Store<fromStore.OrganisationState>) { }
+    constructor(private store: Store<fromStore.OrganisationState>) { }
 
-    public canActivate(): Observable<boolean> {
-        return this.checkStore().pipe(
-            switchMap(() => of(true)),
-            catchError(() => of(false))
-        );
+    canActivate(): Observable<boolean> {
+        return of(false);
+        // purposefully not allowing the user to hit Fee and Accounts tab
+        // return this.checkStore().pipe(
+        //     switchMap(() => of(true)),
+        //     catchError(() => of(false))
+        // );
     }
 
-    public checkStore(): Observable<boolean> {
+    checkStore(): Observable<boolean> {
         return this.store.pipe(select(fromStore.getOrganisationLoaded),
             tap(loaded => {
                 if (!loaded) {
@@ -29,3 +31,4 @@ export class AccountsGuard implements CanActivate {
         );
     }
 }
+

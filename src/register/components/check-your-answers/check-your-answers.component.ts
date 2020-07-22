@@ -1,10 +1,8 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TermsConditionsService } from '../../../../src/shared/services/termsConditions.service';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
-import * as fromStore from '../../store';
 
 /**
  * Stateless component responsible for
@@ -17,22 +15,16 @@ import * as fromStore from '../../store';
 })
 export class CheckYourAnswersComponent implements OnInit, AfterViewInit {
 
-  constructor(
-    private readonly store: Store<fromStore.RegistrationState>
-  ) {}
+  constructor() {}
 
   public formDataValues: FormDataValuesModel;
-  public errorMessageDetails: any;
-  public errorMessageDetailsCode: any;
 
   @Output() public submit = new EventEmitter();
   @Input() public set fromValues(values: FormDataValuesModel) {
     this.formDataValues = values;
   }
 
-  public ngOnInit(): void {
-    this.errorMessageDetails = this.store.pipe(select(fromStore.getErrorMessages));
-    this.errorMessageDetailsCode = this.store.pipe(select(fromStore.getErrorMessagesCodes));
+  public ngOnInit() {
   }
 
   // Set to focus to the title when the page started for accessibility
@@ -42,12 +34,6 @@ export class CheckYourAnswersComponent implements OnInit, AfterViewInit {
       focusElement.setAttribute('tabindex', '-1');
       focusElement.focus();
     }
-
-    setTimeout(() => {
-      this.store.dispatch(new fromStore.ResetErrorMessage({}));
-      this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
-    });
-
   }
 
   public onSubmitData() {

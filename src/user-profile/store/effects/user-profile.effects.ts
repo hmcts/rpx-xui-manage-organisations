@@ -4,7 +4,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
+import config from '../../../../api/lib/config';
 import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
+import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import * as usersActions from '../../../users/store/actions/user.actions';
 import {UserInterface} from '../../models/user.model';
@@ -64,20 +66,13 @@ export class UserProfileEffects {
     switchMap((user) => {
       return this.userService.editUserPermissions(user).pipe(
         map( response => {
-
-          if (UserRolesUtil.doesRoleAdditionExist(response)) {
-            if (response.roleAdditionResponse.idamStatusCode !== '201') {
-              return new usersActions.EditUserFailure(user.userId);
-            }
+          if (UserRolesUtil.isAddingRoleSuccessful(response) || UserRolesUtil.isDeletingRoleSuccessful(response)) {
+            this.loggerService.info('User permissions modified');
+            return new usersActions.EditUserSuccess(user.userId);
+          } else {
+            this.loggerService.error('user permissions failed');
+            return new usersActions.EditUserFailure(user.userId);
           }
-
-          if (UserRolesUtil.doesRoleDeletionExist(response)) {
-            if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
-              return new usersActions.EditUserFailure(user.userId);
-            }
-          }
-
-          return new usersActions.EditUserSuccess(user.userId);
         }),
         catchError(error => {
           this.loggerService.error(error);

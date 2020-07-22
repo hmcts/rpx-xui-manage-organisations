@@ -1,49 +1,48 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Actions, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import * as fromRoot from '../../../app/store';
-import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
+import * as fromRoot from '../../../app/store';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { UserRolesUtil } from '../utils/user-roles-util';
-import {editUserFailureSelector} from '../../store/selectors';
+import { Actions, ofType } from '@ngrx/effects';
+import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
 
 @Component({
     selector: 'app-edit-user-permission',
     templateUrl: './edit-user-permission.component.html',
   })
   export class EditUserPermissionComponent  implements OnInit, OnDestroy {
-    public editUserForm: FormGroup;
-    public errorMessages = {
+    editUserForm: FormGroup;
+    errorMessages = {
       header: 'There is a problem',
       roles: ['You must select at least one action'],
     };
-    public user$: Observable<any>;
-    public isLoading$: Observable<boolean>;
-    public user: any;
-    public isPuiCaseManager: boolean;
-    public isPuiOrganisationManager: boolean;
-    public isPuiUserManager: boolean;
-    public isPuiFinanceManager: boolean;
-    public userId: string;
+    user$: Observable<any>;
+    isLoading$: Observable<boolean>;
+    user: any;
+    isPuiCaseManager: boolean;
+    isPuiOrganisationManager: boolean;
+    isPuiUserManager: boolean;
+    isPuiFinanceManager: boolean;
+    userId: string;
 
-    public userSubscription: Subscription;
-    public dependanciesSubscription: Subscription;
-    public editPermissionSuccessSubscription: Subscription;
-    public editPermissionServerErrorSubscription: Subscription;
-    public backUrl: string;
+    userSubscription: Subscription;
+    dependanciesSubscription: Subscription;
+    editPermissionSuccessSubscription: Subscription;
+    editPermissionServerErrorSubscription: Subscription;
+    backUrl: string;
 
-    public summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
-    public permissionErrors: {isInvalid: boolean; messages: string[] };
+    summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
+    permissionErrors: {isInvalid: boolean; messages: string[] };
 
     constructor(
-      private readonly userStore: Store<fromStore.UserState>,
-      private readonly routerStore: Store<fromRoot.State>,
-      private readonly actions$: Actions
+      private userStore: Store<fromStore.UserState>,
+      private routerStore: Store<fromRoot.State>,
+      private actions$: Actions
     ) { }
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
 
       this.editPermissionSuccessSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
@@ -51,12 +50,6 @@ import {editUserFailureSelector} from '../../store/selectors';
 
       this.editPermissionServerErrorSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
-      });
-
-      this.userStore.select(editUserFailureSelector).subscribe(editUserFailure => {
-        if (editUserFailure) {
-          this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
-        }
       });
 
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
@@ -87,11 +80,11 @@ import {editUserFailureSelector} from '../../store/selectors';
 
     }
 
-  public getBackurl(userId: string) {
+  getBackurl(userId: string) {
     return `/users/user/${userId}`;
   }
 
-  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, validator: any): FormGroup {
+  getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, validator: any): FormGroup {
     return new FormGroup({
       roles: new FormGroup({
         'pui-case-manager': new FormControl(isPuiCaseManager),
@@ -102,34 +95,34 @@ import {editUserFailureSelector} from '../../store/selectors';
     });
   }
 
-  public getIsPuiCaseManager(user: any): boolean {
+  getIsPuiCaseManager(user: any): boolean {
     return user && user.manageCases === 'Yes';
   }
 
-  public getIsPuiOrganisationManager(user: any): boolean {
+  getIsPuiOrganisationManager(user: any): boolean {
     return user && user.manageOrganisations === 'Yes';
   }
 
-  public getIsPuiUserManager(user: any): boolean {
+  getIsPuiUserManager(user: any): boolean {
     return user && user.manageUsers === 'Yes';
   }
 
-  public getIsPuiFinanceManager(user: any): boolean {
+  getIsPuiFinanceManager(user: any): boolean {
     return user && user.managePayments === 'Yes';
   }
 
-  public unsubscribe(subscription: Subscription) {
+  unsubscribe(subscription: Subscription) {
     if (subscription) {
       subscription.unsubscribe();
     }
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     this.unsubscribe(this.userSubscription);
     this.unsubscribe(this.dependanciesSubscription);
   }
 
-  public onSubmit() {
+  onSubmit() {
     if (!this.editUserForm.valid) {
       this.summaryErrors = { isFromValid: false, items: [{id: 'roles',
       message: this.errorMessages.roles[0] }], header: this.errorMessages.header};

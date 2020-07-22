@@ -1,14 +1,14 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit, AfterViewInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
-import { AppConstants } from 'src/app/app.constants';
-import { EnvironmentService } from 'src/shared/services/environment.service';
-import * as fromAppStore from '../../../app/store';
-import * as fromRoot from '../../../app/store/';
-import {FormDataValuesModel} from '../../models/form-data-values.model';
 import * as fromStore from '../../store/';
+import * as fromRoot from '../../../app/store/';
+import * as fromAppStore from '../../../app/store';
+import {ActivatedRoute, Router, NavigationEnd} from '@angular/router';
+import {Observable, Subscription} from 'rxjs';
+import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { AppConstants } from 'src/app/app.constants';
+import {tap, filter} from 'rxjs/operators';
+import { EnvironmentService } from 'src/shared/services/environment.service';
 
 /**
  * Bootstraps the Register Components

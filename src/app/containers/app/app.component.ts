@@ -1,12 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FeatureToggleService, FeatureUser, GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
+import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+
+import { GoogleAnalyticsService } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
-import { EnvironmentConfig, ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
-import { HeadersService } from 'src/shared/services/headers.service';
-import { UserService } from 'src/user-profile/services/user.service';
-import { AppTitlesModel } from '../../models/app-titles.model';
-import { UserNavModel } from '../../models/user-nav.model';
+import {EnvironmentService} from '../../../shared/services/environment.service';
+import {AppTitlesModel} from '../../models/app-titles.model';
+import {UserNavModel} from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
 
 /**
@@ -28,10 +27,7 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
-    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig,
-    private readonly userService: UserService,
-    private readonly featureService: FeatureToggleService,
-    private readonly headersService: HeadersService
+    private readonly environmentService: EnvironmentService
   ) {}
 
   public ngOnInit() {
@@ -49,20 +45,10 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
 
-    if (this.headersService.isAuthenticated()) {
-      this.userService.getUserDetails().subscribe(user => {
-        const featureUser: FeatureUser = {
-          key: user.userId,
-          custom: {
-            roles: user.roles,
-            orgId: user.orgId
-          }
-        };
-        this.featureService.initialize(featureUser);
-      });
-    }
+    this.environmentService.config$.subscribe( environmentConfig => {
+      this.googleAnalyticsService.init(environmentConfig.googleAnalyticsKey);
+    });
   }
 
   public onNavigate(event): void {

@@ -1,23 +1,25 @@
-import axios, { AxiosResponse } from 'axios'
-import { NextFunction, Request, Response } from 'express'
+import axios, {AxiosResponse} from 'axios'
+import * as express from 'express'
 import * as jwtDecode from 'jwt-decode'
 import * as log4js from 'log4js'
-import { getConfigValue, getProtocol } from '../configuration'
-import { COOKIES_USERID, COOKIE_TOKEN, IDAM_CLIENT, IDAM_SECRET, INDEX_URL, LOGGING, OAUTH_CALLBACK_URL, SERVICES_IDAM_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { http } from '../lib/http'
-import { propsExist } from '../lib/objectUtilities'
-import { asyncReturnOrError, exists } from '../lib/util'
-import { getOrganisationDetails } from '../organisation'
-import { getUserDetails } from '../services/idam'
-import { serviceTokenGenerator } from './serviceToken'
-import { userHasAppAccess } from './userRoleAuth'
+import {getConfigValue, getProtocol} from '../configuration'
+import {
+  COOKIE_TOKEN, COOKIES_USERID, IDAM_CLIENT, IDAM_SECRET, INDEX_URL, LOGGING, OAUTH_CALLBACK_URL,
+  SERVICES_IDAM_API_PATH
+} from '../configuration/references'
+import {http} from '../lib/http'
+import {propsExist} from '../lib/objectUtilities'
+import {asyncReturnOrError, exists} from '../lib/util'
+import {getUserDetails} from '../services/idam'
+import {serviceTokenGenerator} from './serviceToken'
+import {userHasAppAccess} from './userRoleAuth'
 
 const idamUrl = getConfigValue(SERVICES_IDAM_API_PATH)
 const secret = getConfigValue(IDAM_SECRET)
 const logger = log4js.getLogger('auth')
 logger.level = getConfigValue(LOGGING)
 
-export async function attach(req: Request, res: Response, next: NextFunction) {
+export async function attach(req: express.Request, res: express.Response, next: express.NextFunction) {
   const accessToken = req.cookies[getConfigValue(COOKIE_TOKEN)]
 
   let expired
@@ -54,7 +56,7 @@ export async function attach(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function getTokenFromCode(req: Request): Promise<AxiosResponse> {
+export async function getTokenFromCode(req: express.Request): Promise<AxiosResponse> {
   logger.info(`IDAM STUFF ===>> ${getConfigValue(IDAM_CLIENT)}:${secret}`)
   const Authorization = `Basic ${Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${secret}`).toString('base64')}`
   const options = {
@@ -63,7 +65,7 @@ export async function getTokenFromCode(req: Request): Promise<AxiosResponse> {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   }
-  const axiosInstance = http({} as unknown as Request)
+  const axiosInstance = http({} as unknown as express.Request)
 
   logger.info('Getting Token from auth code.')
 
@@ -81,11 +83,12 @@ export async function getTokenFromCode(req: Request): Promise<AxiosResponse> {
   )
 }
 
-async function sessionChainCheck(req: Request, res: Response, accessToken: string) {
+async function sessionChainCheck(req: express.Request, res: express.Response, accessToken: string) {
   if (!req.session.auth) {
     logger.warn('Session expired. Trying to get user details again')
     console.log(getUserDetails(accessToken, idamUrl))
     const userDetails = await asyncReturnOrError(getUserDetails(accessToken, idamUrl), 'Cannot get user details', res, logger, false)
+
 
     if (!propsExist(userDetails, ['data', 'roles'])) {
       logger.warn('User does not have any access roles.')
@@ -103,17 +106,9 @@ async function sessionChainCheck(req: Request, res: Response, accessToken: strin
       logger.info('Setting session')
       const orgIdResponse = {
         data: {
-          id: '-1',
+          id: '1',
         },
       }
-      try {
-        const orgDetails = await getOrganisationDetails(accessToken, userDetails.data.roles, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
-        console.log(orgDetails)
-        orgIdResponse.data.id = orgDetails.data.organisationIdentifier
-      } catch (e) {
-        console.log(e)
-      }
-      
       req.session.auth = {
         email: userDetails.data.email,
         orgId: orgIdResponse.data.id,
@@ -133,7 +128,7 @@ async function sessionChainCheck(req: Request, res: Response, accessToken: strin
   return true
 }
 
-export async function oauth(req: Request, res: Response, next: NextFunction) {
+export async function oauth(req: express.Request, res: express.Response, next: express.NextFunction) {
   logger.info('starting oauth callback')
   const response = await getTokenFromCode(req)
   const accessToken = response.data.access_token
@@ -173,18 +168,18 @@ export async function oauth(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-export async function doLogout(req: Request, res: Response, status: number = 302) {
+export async function doLogout(req: express.Request, res: express.Response, status: number = 302) {
   const auth = `Basic ${
     Buffer.from(`${getConfigValue(IDAM_CLIENT)}:${getConfigValue(IDAM_SECRET)
     }`).toString('base64')}`
 
-  const axiosInstance = http({} as unknown as Request)
+  const axiosInstance = http({} as unknown as express.Request)
 
   if (exists(req, 'session.auth.token')) {
     await axiosInstance.delete(`${getConfigValue(SERVICES_IDAM_API_PATH)}/session/${req.session.auth.token}`, {
       headers: {
         Authorization: auth,
-      },
+      }
     }).catch( err => {
       logger.error('Unable to delete idam session:', err)
     })

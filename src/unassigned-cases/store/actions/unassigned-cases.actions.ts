@@ -16,7 +16,7 @@ export class LoadUnassignedCasesSuccess  implements Action {
 
 export class LoadUnassignedCasesFailure  implements Action {
     public readonly type = LOAD_UNASSINGED_CASES_FAILURE;
-    constructor(public payload: any[]) {}
+    constructor(public payload: any) {}
 }
 
 export type UnassignedCasesActions =

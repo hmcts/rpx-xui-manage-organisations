@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TableColumnConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../store';
@@ -10,14 +11,18 @@ import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
   })
 export class UnassignedCasesComponent implements OnInit {
 
-  private rows$: Observable<UnassignedCase []>;
-  private columnConfig: any[];
+  public rows$: Observable<UnassignedCase []>;
+  public columnConfig: any[];
 
   constructor(private readonly store: Store<fromStore.UnassignedCasesState>) {}
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadUnassignedCases());
-    // Static column names for now
-    this.columnConfig = [
+    this.columnConfig = this.getCaveatColumnConfig();
+    this.rows$ = this.store.pipe(select(fromStore.getUnassignedCases));
+  }
+
+  public getCaveatColumnConfig(): TableColumnConfig[] {
+    return [
       { header: 'Case created date', key: 'caseCreatedDate', type: 'date' },
       { header: 'Case due date', key: 'caseDueDate', type: 'date' },
       { header: 'Case reference', key: 'caseRef' },
@@ -27,6 +32,5 @@ export class UnassignedCasesComponent implements OnInit {
       { header: 'Resp. Last name', key: 'respLastName' },
       { header: 'Solicitor reference', key: 'sRef' }
     ];
-    this.rows$ = this.store.pipe(select(fromStore.getUnassignedCases));
   }
 }

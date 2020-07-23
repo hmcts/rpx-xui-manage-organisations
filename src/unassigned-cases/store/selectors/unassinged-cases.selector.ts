@@ -8,3 +8,8 @@ export const getUnassignedCasesState = createSelector(
     (state: fromFeature.UnassignedCasesState) => state.unassignedCases
   );
 
+export const getUnassignedCases = createSelector(
+    getUnassignedCasesState,
+    unassignedCasesState => unassignedCasesState.unassignedCases
+  );
+

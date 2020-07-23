@@ -8,7 +8,7 @@
         </div>
         <ccd-case-list
             [firstCellIsHeader]="false"
-            [rows]="rows"
+            [rows]="rows$ | async" 
             [columnConfig]="columnConfig">
         </ccd-case-list>
     </div>

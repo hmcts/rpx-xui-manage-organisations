@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import * as fromStore from '../../store';
+import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
 
 @Component({
     selector: 'app-unassigned-cases-component',
@@ -8,7 +10,7 @@ import * as fromStore from '../../store';
   })
 export class UnassignedCasesComponent implements OnInit {
 
-  private rows: any[];
+  private rows$: Observable<UnassignedCase []>;
   private columnConfig: any[];
 
   constructor(private readonly store: Store<fromStore.UnassignedCasesState>) {}
@@ -25,9 +27,6 @@ export class UnassignedCasesComponent implements OnInit {
       { header: 'Resp. Last name', key: 'respLastName' },
       { header: 'Solicitor reference', key: 'sRef' }
     ];
-    this.store.pipe(select(fromStore.getUnassignedCasesState)).subscribe((data) => {
-      console.log(data);
-      this.rows = data.unassignedCases;
-    });
+    this.rows$ = this.store.pipe(select(fromStore.getUnassignedCases));
   }
 }

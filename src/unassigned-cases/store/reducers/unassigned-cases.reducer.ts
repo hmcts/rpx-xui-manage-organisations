@@ -26,7 +26,7 @@ export function reducer(
             case LOAD_UNASSINGED_CASES_SUCCESS:
                 return {...initialState, unassignedCases: action.payload};
             default:
-                return initialState;
+                return state;
     }
 }
 

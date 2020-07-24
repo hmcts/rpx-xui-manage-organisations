@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import {AuthGuard} from '../../../user-profile/guards/auth.guard';
 import * as fromUserProfile from '../../../user-profile/store';
@@ -15,7 +16,6 @@ import * as appActions from '../../store/actions';
 import { SetPageTitleErrors } from '../actions/app.actions';
 import {reducers} from '../reducers';
 import * as fromAppEffects from './app.effects';
-import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 
 describe('App Effects', () => {
   let actions$;

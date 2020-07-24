@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { UnassignedCasesService } from 'src/unassigned-cases/services/unassigned-cases.service';
@@ -16,13 +16,17 @@ export class UnassignedCasesEffects {
     public loadUnassignedCases$ = this.actions$.pipe(
     ofType(LOAD_UNASSINGED_CASES),
     switchMap((payload: any) => {
-        return this.service.fetchUnassignedCases().pipe(
-          map(unassingedCases => new LoadUnassignedCasesSuccess(unassingedCases)),
-          catchError(errorResponse => {
-            this.loggerService.error(errorResponse);
-            return of(new LoadUnassignedCasesFailure(errorResponse.error));
-          })
-        );
+        return UnassignedCasesEffects.onLoadUnassignedCases(payload, this.service, this.loggerService);
       })
     );
+
+  public static onLoadUnassignedCases(payload: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
+    return service.fetchUnassignedCases().pipe(
+      map(unassingedCases => new LoadUnassignedCasesSuccess(unassingedCases)),
+      catchError(errorResponse => {
+        loggerService.error(errorResponse);
+        return of(new LoadUnassignedCasesFailure(errorResponse.error));
+      })
+    );
+  }
 }

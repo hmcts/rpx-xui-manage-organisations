@@ -14,15 +14,16 @@ describe('UnassignedCasesComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('getCaveatColumnConfig', () => {
-        const columnConfig = component.getCaveatColumnConfig();
-        expect(columnConfig.length).toEqual(8);
-        expect(columnConfig[0].header).toEqual('Case created date');
-        expect(columnConfig[0].key).toEqual('caseCreatedDate');
+    it('getCaveatTableConfig', () => {
+        const tableConfig = component.getCaveatTableConfig();
+        expect(tableConfig.idField).toEqual('caseRef');
+        expect(tableConfig.columnConfigs.length).toEqual(8);
+        expect(tableConfig.columnConfigs[0].header).toEqual('Case created date');
+        expect(tableConfig.columnConfigs[0].key).toEqual('caseCreatedDate');
     });
 
     it('ngOnInit', () => {
-        const unassingedCase: UnassignedCase = {
+        const unassignedCase: UnassignedCase = {
             caseCreatedDate: new Date(2020, 1, 1),
             caseDueDate: new Date(2020, 1, 1),
             caseRef: '1234',
@@ -32,8 +33,8 @@ describe('UnassignedCasesComponent', () => {
             respLastName: 'last1',
             sRef: 'sref'
         };
-        const spyOnColumnConfig = spyOn(component, 'getCaveatColumnConfig');
-        store.pipe.and.returnValue(of([unassingedCase]));
+        const spyOnColumnConfig = spyOn(component, 'getCaveatTableConfig');
+        store.pipe.and.returnValue(of([unassignedCase]));
         component.ngOnInit();
         expect(store.dispatch).toHaveBeenCalled();
         expect(store.pipe).toHaveBeenCalled();

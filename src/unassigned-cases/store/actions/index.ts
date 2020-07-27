@@ -7,3 +7,4 @@ export const actions: any[] = [
   ];
 
 export * from './unassigned-cases.actions';
+export * from './share-case.action';

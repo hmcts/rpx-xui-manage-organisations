@@ -12,10 +12,12 @@ import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
 import {unassignedCasesRouting} from './unassigned-cases.routing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 @NgModule({
     imports: [
         CommonModule,
+        ExuiCommonLibModule,
         HttpClientModule,
         SharedModule,
         unassignedCasesRouting,

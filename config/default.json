@@ -27,7 +27,8 @@
     "rdProfessionalApi": "http://rd-professional-api-prod.service.core-compute-prod.internal",
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
-    "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal"
+    "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
+    "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal"
   },
   "sessionSecret": "secretSauce",
   "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],

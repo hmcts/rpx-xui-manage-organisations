@@ -1,10 +1,16 @@
 <main role="main" class="govuk-main-wrapper">
-    <h1 class="govuk-heading-xl">Unassigned cases</h1>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-        <p>
-            You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be registered with your organisation and have access to Manage cases.
-        </p>
-        </div>
+  <h1 class="govuk-heading-xl">Unassigned cases</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <p>You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be
+        registered with your organisation and have access to Manage cases.
+      </p>
     </div>
+  </div>
+  <div>
+    <button id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
+            (click)="shareCaseSubmit()">
+      Share case
+    </button>
+  </div>
 </main>

@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import accountsRouter from './accounts'
 import * as auth from './auth'
+import { router as caseShareRouter } from './caseshare/routes'
 import editUserPermissions from './editUserPermissions'
 import getUserTermsAndConditions from './getUserTermsAndConditions'
 import healthCheck from './healthCheck'
@@ -33,4 +34,5 @@ router.use('/termsAndConditions', getTermsAndConditions)
 router.use('/user/:userId/suspend', suspendUser)
 router.use('/editUserPermissions/users/:userId', editUserPermissions)
 router.use('/unassignedCases', unnassignedCasesRouter)
+router.use('/caseshare', caseShareRouter)
 export default router

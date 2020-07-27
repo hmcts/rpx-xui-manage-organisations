@@ -1,7 +1,7 @@
-import { getUnassignedCases, getUnassignedCasesState } from './unassinged-cases.selector';
+import { getUnassignedCases, getUnassignedCasesState } from './unassigned-cases.selector';
 
-describe('UnAssingedcases Selectors', () => {
-    const unassingedCase = {
+describe('UnassignedCases Selectors', () => {
+    const unassignedCase = {
         caseCreatedDate: new Date(2020, 1, 1),
         caseDueDate: new Date(2020, 1, 1),
         caseRef: '1234',
@@ -14,7 +14,7 @@ describe('UnAssingedcases Selectors', () => {
     const state = {
         unassignedCases: {
             unassignedCases: {
-                unassignedCases: [unassingedCase]
+                unassignedCases: [unassignedCase]
             }
         }
     };
@@ -22,11 +22,11 @@ describe('UnAssingedcases Selectors', () => {
         const selectedState = getUnassignedCasesState(state);
         console.log('expected is ', selectedState);
         expect(selectedState).toEqual({
-            unassignedCases: [unassingedCase]
+            unassignedCases: [unassignedCase]
         });
     });
     it('getUnassignedCases', () => {
         const selectedState = getUnassignedCases(state);
-        expect(selectedState).toEqual([unassingedCase]);
+        expect(selectedState).toEqual([unassignedCase]);
     });
 });

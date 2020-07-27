@@ -1,32 +1,32 @@
 import * as fromActions from './unassigned-cases.actions';
 
-describe('Unassinged actions', () => {
-    it('Load Unassinged Actions', () => {
+describe('Unassigned actions', () => {
+    it('Load Unassigned Actions', () => {
         const action = new fromActions.LoadUnassignedCases();
         expect({ ...action }).toEqual({
-            type: fromActions.LOAD_UNASSINGED_CASES
+            type: fromActions.LOAD_UNASSIGNED_CASES
           });
     });
 });
 
-describe('Unassinged actions', () => {
-    it('Load Unassinged Actions Sucesss', () => {
+describe('Unassigned actions', () => {
+    it('Load Unassigned Actions Success', () => {
         const payload = [{}, {}];
         const action = new fromActions.LoadUnassignedCasesSuccess(payload);
         expect({ ...action }).toEqual({
             payload,
-            type: fromActions.LOAD_UNASSINGED_CASES_SUCCESS
+            type: fromActions.LOAD_UNASSIGNED_CASES_SUCCESS
           });
     });
 });
 
-describe('Unassinged actions', () => {
-    it('Load Unassinged Actions Failure', () => {
+describe('Unassigned actions', () => {
+    it('Load Unassigned Actions Failure', () => {
         const payload = {};
         const action = new fromActions.LoadUnassignedCasesFailure(payload);
         expect({ ...action }).toEqual({
             payload,
-            type: fromActions.LOAD_UNASSINGED_CASES_FAILURE
+            type: fromActions.LOAD_UNASSIGNED_CASES_FAILURE
           });
     });
 });

@@ -5,7 +5,7 @@ import { UnassignedCasesEffects } from './unassigned-cases.effects';
 describe('UnassignedCasesEffects', () => {
     const service = jasmine.createSpyObj('service', ['fetchUnassignedCases']);
     const loggerService = jasmine.createSpyObj('loggerService', ['error']);
-    const unassingedCase = {
+    const unassignedCase = {
         caseCreatedDate: new Date(2020, 1, 1),
         caseDueDate: new Date(2020, 1, 1),
         caseRef: '1234',
@@ -16,9 +16,9 @@ describe('UnassignedCasesEffects', () => {
         sRef: 'sref'
     };
     it('onLoadUnassignedCases successful', () => {
-      service.fetchUnassignedCases.and.returnValue(of([unassingedCase]));
+      service.fetchUnassignedCases.and.returnValue(of([unassignedCase]));
       const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases({}, service, loggerService);
-      unassignedCases$.subscribe(loadUnassingedCases => expect(new LoadUnassignedCasesSuccess([unassingedCase])).toEqual(loadUnassingedCases));
+      unassignedCases$.subscribe(loadUnassignedCases => expect(new LoadUnassignedCasesSuccess([unassignedCase])).toEqual(loadUnassignedCases));
     });
 
     it('onLoadUnassignedCases error', () => {

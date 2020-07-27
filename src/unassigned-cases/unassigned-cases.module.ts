@@ -12,7 +12,7 @@ import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
-import {unassignedCasesRouting} from './unassigned-cases.routing';
+import { unassignedCasesRouting } from './unassigned-cases.routing';
 
 @NgModule({
     imports: [

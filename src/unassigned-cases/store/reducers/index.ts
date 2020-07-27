@@ -10,9 +10,9 @@ export interface UnassignedCasesState {
 export const reducers: ActionReducerMap<UnassignedCasesState> = {
     unassignedCases: fromUnassingedCases.reducer,
     caseShare: fromCaseShare.shareCasesReducer
-  };
+};
 
-export const getRootUnassingedCases = createFeatureSelector<UnassignedCasesState>(
+export const getRootUnassignedCases = createFeatureSelector<UnassignedCasesState>(
     'unassignedCases'
   );
 

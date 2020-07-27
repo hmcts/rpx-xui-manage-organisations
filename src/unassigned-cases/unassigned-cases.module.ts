@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { OrganisationService } from 'src/organisation/services';
@@ -12,7 +14,6 @@ import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
 import {unassignedCasesRouting} from './unassigned-cases.routing';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
         EffectsModule.forFeature(orgEffects),
         StoreModule.forFeature('unassignedCases', reducers),
         EffectsModule.forFeature(effects),
+        CaseListModule,
       ],
       declarations: [...fromContainers.containers],
       providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard]

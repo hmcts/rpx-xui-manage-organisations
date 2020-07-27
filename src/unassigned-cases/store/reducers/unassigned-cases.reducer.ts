@@ -1,4 +1,4 @@
-import {LOAD_UNASSINGED_CASES_SUCCESS, UnassignedCasesActions} from '../actions/unassigned-cases.actions';
+import { LOAD_UNASSIGNED_CASES_SUCCESS, UnassignedCasesActions } from '../actions/unassigned-cases.actions';
 
 export interface UnassignedCase {
     caseCreatedDate: Date;
@@ -23,10 +23,10 @@ export function reducer(
     state = initialState,
     action: UnassignedCasesActions): UnassignedCasesState {
         switch (action.type) {
-            case LOAD_UNASSINGED_CASES_SUCCESS:
+            case LOAD_UNASSIGNED_CASES_SUCCESS:
                 return {...initialState, unassignedCases: action.payload};
             default:
-                return initialState;
+                return state;
     }
 }
 

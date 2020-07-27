@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import {UnassignedCasesService} from './unassigned-cases.service';
+import { UnassignedCasesService } from './unassigned-cases.service';
 
 describe('UnassignedCasesService', () => {
     it('fetchUnassignedCases', () => {

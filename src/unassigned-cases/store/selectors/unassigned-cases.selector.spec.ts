@@ -1,4 +1,4 @@
-import { getUnassignedCases, getUnassignedCasesState } from './unassigned-cases.selector';
+import { getAllUnassignedCases, getUnassignedCasesState } from './unassigned-cases.selector';
 
 describe('UnassignedCases Selectors', () => {
     const unassignedCase = {
@@ -26,7 +26,7 @@ describe('UnassignedCases Selectors', () => {
         });
     });
     it('getUnassignedCases', () => {
-        const selectedState = getUnassignedCases(state);
+        const selectedState = getAllUnassignedCases(state);
         expect(selectedState).toEqual([unassignedCase]);
     });
 });

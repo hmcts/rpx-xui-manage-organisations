@@ -1,7 +1,9 @@
 const conf = {
     reportPath: "reports/tests/a11y/",
     appName:"Manage Organisation",
-    baseUrl:'https://manage-org.aat.platform.hmcts.net/',
+    baseUrl1:'https://manage-org.aat.platform.hmcts.net/',
+    baseUrl:'http://localhost:4200/',
+
     params:{
         username:'sreekanth_su@mailinator.com',
         password:'Monday01'

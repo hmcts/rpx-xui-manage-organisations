@@ -11,14 +11,19 @@ function report(runner) {
     let passCounter = 0;
     let failCounter = 0;
     runner.on('pass', function (test) {
-        console.log('[pass]%s', test.title);
+        console.log('\n');
+        console.log('\t[ PASS ] '+ test.title);
+        console.log('\n');
         tests.push(getTestDetails(test))
         passCounter++;
 
     });
 
     runner.on('fail', function (test, err) {
-        console.log('[fail]%s(%s)', test.title, err.message);
+        console.log('\n');
+        console.log('\t[ FAIL ] '+ test.title);
+        console.log('\t\t'+ err.message);
+        console.log('\n');
         // console.log(test);
         tests.push(getTestDetails(test))
         failCounter++;
@@ -28,7 +33,7 @@ function report(runner) {
     runner.on('end', function () {
         // console.log(tests);
         generateReport(passCounter,failCounter,tests);
-        process.exit(0);
+        // process.exit(0);
     });
 }
 
@@ -62,7 +67,7 @@ function getTestDetails(test){
     return {
         name: test.title,
         status: test.state,
-        error: test.err.message,
+        error: test.err ? test.err.message : "",
         a11yResult: test.ctx.a11yResult
     };
 

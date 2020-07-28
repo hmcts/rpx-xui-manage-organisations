@@ -4,6 +4,9 @@ const pa11y = require('pa11y');
 const assert = require('assert');
 const {conf} = require('../config/config');
 
+const jwt = require('jsonwebtoken');
+const puppeteer = require('puppeteer');
+
 
 const fs = require('fs');
 
@@ -22,10 +25,37 @@ async function pa11ytest(test,actions,timeoutVal) {
 
     const startTime = Date.now();
 
+let token = jwt.sign({
+  data: 'foobar'
+}, 'secret', { expiresIn: 60 * 60 });
+
+  const cookies = [
+    {
+      name: '__auth__',
+      value: token,
+      domain: 'localhost:4200',
+      path: '/',
+      httpOnly: false,
+      secure: false,
+      session: true,
+    }
+  ];
+
     let result;
     try{
+        const browser = await puppeteer.launch({
+            ignoreHTTPSErrors: true,
+            headless:true 
+        });
+        const page = await browser.newPage();
+        await page.setCookie(...cookies);
+
+        console.log(JSON.stringify(cookies));
+
         result = await pa11y(conf.baseUrl, {
-            "chromeLaunchConfig": { "ignoreHTTPSErrors": false , headless:true } ,
+                browser: browser,
+                page: page,
+            // "chromeLaunchConfig": { "ignoreHTTPSErrors": false , headless:false } ,
             timeout: 60000,
             screenCapture: screenshotPath,
             // log: {
@@ -48,7 +78,7 @@ async function pa11ytest(test,actions,timeoutVal) {
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
     console.log("Test Execution time : "+elapsedTime);
-    assert(result.issues.length === 0, "accessibility issues reported") 
+    assert(result.issues.length === 0,"a11y issues reported") 
     return result;
 
 }

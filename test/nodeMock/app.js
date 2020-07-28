@@ -1,20 +1,14 @@
 
 
 const express = require('express');
-const {conf,featureToggles} = require('./reqResMapping');
-const app = express();
+let {conf,configurations} = require('./reqResMapping');
 const port = 3001;
 
 
 class MockApp{
 
-
-    setfeatureToggle(){
-
-    }
-
     async startServer(){
-        console.log(JSON.stringify(conf));
+        const app = express();
         for (const [key, value] of Object.entries(conf.get)) {
             app.get(key, value);
         }
@@ -41,9 +35,35 @@ class MockApp{
         await this.server.close();
     }
 
+    onGet(path, callback){
+        conf.get[path] = callback; 
+    }
+
+
+    onPost(path, callback){
+        conf.post[path] = callback; 
+    }
+
+    onPut(path, callback){
+        conf.put[path] = callback; 
+    }
+
+    onDelete(path, callback){
+        conf.delete[path] = callback; 
+    }
+
+    setConfig(configKey,value){
+       configurations[configKey] = value; 
+    }
+
 }
 
 const mockInstance = new MockApp();
+//    mockInstance.onPost('/api/inviteUser', (req,res) => {
+//             res.status(500).send({error:'server error occured'});
+//         })
+
+// mockInstance.setConfig("feature.termsAndConditionsEnabled",true);
 // mockInstance.startServer();
 
 module.exports = mockInstance;

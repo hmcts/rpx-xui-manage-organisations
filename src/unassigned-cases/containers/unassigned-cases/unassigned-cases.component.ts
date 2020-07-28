@@ -47,4 +47,8 @@ public ngOnInit(): void {
       sharedCases: converters.toShareCaseConverter(this.selectedCases)
     }));
   }
+
+  public onCaseSelection(selectedCases) {
+    this.selectedCases = selectedCases;
+  }
 }

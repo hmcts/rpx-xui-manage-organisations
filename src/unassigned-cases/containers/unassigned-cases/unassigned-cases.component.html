@@ -6,7 +6,8 @@
             [firstCellIsHeader]="false"
             [cases]="cases$ | async"
             [tableConfig]="tableConfig"
-            [selectionEnabled]="true">
+            [selectionEnabled]="true"
+            (selection)="onCaseSelection($event)">
         </ccd-case-list>
     </div>
     <div>

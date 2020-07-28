@@ -27,4 +27,10 @@ variable "common_tags" {
   type = "map"
 }
 
+variable "application_type" {
+  type        = "string"
+  default     = "Web"
+  description = "Type of Application Insights (Web/Other)"
+}
+
 

@@ -25,37 +25,35 @@ async function pa11ytest(test,actions,timeoutVal) {
 
     const startTime = Date.now();
 
-let token = jwt.sign({
-  data: 'foobar'
-}, 'secret', { expiresIn: 60 * 60 });
+    let token = jwt.sign({
+    data: 'foobar'
+    }, 'secret', { expiresIn: 60 * 60 });
 
-  const cookies = [
-    {
-      name: '__auth__',
-      value: token,
-      domain: 'localhost:4200',
-      path: '/',
-      httpOnly: false,
-      secure: false,
-      session: true,
-    }
-  ];
+    const cookies = [
+        {
+        name: '__auth__',
+        value: token,
+        domain: 'localhost:4200',
+        path: '/',
+        httpOnly: false,
+        secure: false,
+        session: true,
+        }
+    ];
+    const browser = await puppeteer.launch({
+        ignoreHTTPSErrors: true,
+        headless:true 
+    });
+    const page = await browser.newPage();
+    await page.setCookie(...cookies);
+
 
     let result;
     try{
-        const browser = await puppeteer.launch({
-            ignoreHTTPSErrors: true,
-            headless:true 
-        });
-        const page = await browser.newPage();
-        await page.setCookie(...cookies);
-
-        console.log(JSON.stringify(cookies));
 
         result = await pa11y(conf.baseUrl, {
                 browser: browser,
                 page: page,
-            // "chromeLaunchConfig": { "ignoreHTTPSErrors": false , headless:false } ,
             timeout: 60000,
             screenCapture: screenshotPath,
             // log: {
@@ -67,12 +65,14 @@ let token = jwt.sign({
         })
     }catch(err){
         const elapsedTime = Date.now() - startTime;
-        console.log("Test Execution time : " + elapsedTime);
+        // console.log("Test Execution time : " + elapsedTime);
         console.log(err);
         throw err;
 
     }
-   
+  
+    await page.close();
+    await browser.close();
     const elapsedTime = Date.now() - startTime;
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
@@ -82,5 +82,7 @@ let token = jwt.sign({
     return result;
 
 }
+
+ 
 
 module.exports = { pa11ytest}

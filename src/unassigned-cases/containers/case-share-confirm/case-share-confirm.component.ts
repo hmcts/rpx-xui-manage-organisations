@@ -6,7 +6,7 @@ import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
-  selector: 'exui-case-share-confirm',
+  selector: 'app-exui-case-share-confirm',
   templateUrl: './case-share-confirm.component.html',
   styleUrls: ['./case-share-confirm.component.scss']
 })

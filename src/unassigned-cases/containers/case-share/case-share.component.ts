@@ -9,7 +9,7 @@ import { LoadShareCase, LoadUserFromOrgForCase } from '../../store/actions';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
-  selector: 'exui-case-share',
+  selector: 'app-exui-case-share',
   templateUrl: './case-share.component.html',
   styleUrls: ['./case-share.component.scss']
 })

@@ -41,11 +41,12 @@ async function pa11ytest(test,actions,timeoutVal) {
         }
     ];
     const browser = await puppeteer.launch({
-        ignoreHTTPSErrors: true,
+        ignoreHTTPSErrors: false,
         headless:true 
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);
+    await page.goto("http://localhost:4200/");
 
 
     let result;
@@ -64,9 +65,16 @@ async function pa11ytest(test,actions,timeoutVal) {
             actions: actions
         })
     }catch(err){
+        await page.screenshot({ path: screenshotPath});
         const elapsedTime = Date.now() - startTime;
-        // console.log("Test Execution time : " + elapsedTime);
+        result = {}; 
+        result.executionTime = elapsedTime;
+        result.screenshot = screenshotReportRef;
+        test.a11yResult = result;
+        console.log("Test Execution time : " + elapsedTime);
         console.log(err);
+        await page.close();
+        await browser.close();
         throw err;
 
     }

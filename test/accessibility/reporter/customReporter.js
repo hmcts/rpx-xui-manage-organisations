@@ -102,15 +102,22 @@ function consoleReport(reportjson){
         let test =reportjson.tests[testCounter];
         if(test.status === "failed"){
             let a11yResult = test.a11yResult;
+                console.log("\t \t Test Case : " + test.name);
+
                 console.log("\t \t Page title : "+a11yResult.documentTitle);
                 console.log("\t \t Page url : "+a11yResult.pageUrl);
                 console.log("\t \t \t Issues:");
-                for(let issueCounter = 0; issueCounter < a11yResult.issues.length;issueCounter++){
-                    console.log("\t \t \t "+(issueCounter+1)+". "+a11yResult.issues[issueCounter].code);
-                    // console.log("\t \t \t \t"+a11yResult.issues[issueCounter].context); 
-                    console.log("\t \t \t \t"+a11yResult.issues[issueCounter].selector);  
-                    console.log("\t \t \t \t"+a11yResult.issues[issueCounter].message); 
+                if (a11yResult.issues){
+                    for (let issueCounter = 0; issueCounter < a11yResult.issues.length; issueCounter++) {
+                        console.log("\t \t \t " + (issueCounter + 1) + ". " + a11yResult.issues[issueCounter].code);
+                        // console.log("\t \t \t \t"+a11yResult.issues[issueCounter].context); 
+                        console.log("\t \t \t \t" + a11yResult.issues[issueCounter].selector);
+                        console.log("\t \t \t \t" + a11yResult.issues[issueCounter].message);
+                    }
+                }else{
+                    console.log("\t \t \t \t Error executing test steps" ); 
                 }
+                
 
  
         } 

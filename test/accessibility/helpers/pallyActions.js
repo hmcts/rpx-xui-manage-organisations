@@ -9,7 +9,6 @@ class Actions {
 
     navigateTourl(url) {
         return ['navigate to ' + url, 'wait for url to be ' + url];
-
     }
 
     waitForPageWithCssLocator(cssLocator) {
@@ -23,7 +22,7 @@ class Actions {
     }
 
     clickElement(cssLocator) {
-        return ['click element ' + cssLocator];
+        return ['wait for element ' + cssLocator + ' to be visible' , 'click element ' + cssLocator];
 
     }
 

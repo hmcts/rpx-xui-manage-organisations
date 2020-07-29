@@ -22,6 +22,30 @@ async function pa11ytest(test,actions,timeoutVal) {
 
     const startTime = Date.now();
 
+    let token = jwt.sign({
+    data: 'foobar'
+    }, 'secret', { expiresIn: 60 * 60 });
+
+    const cookies = [
+        {
+        name: '__auth__',
+        value: token,
+        domain: 'localhost:4200',
+        path: '/',
+        httpOnly: false,
+        secure: false,
+        session: true,
+        }
+    ];
+    const browser = await puppeteer.launch({
+        ignoreHTTPSErrors: false,
+        headless:true 
+    });
+    const page = await browser.newPage();
+    await page.setCookie(...cookies);
+    await page.goto("http://localhost:4200/");
+
+
     let result;
     try{
         result = await pa11y(conf.baseUrl, {
@@ -36,9 +60,16 @@ async function pa11ytest(test,actions,timeoutVal) {
             actions: actions
         })
     }catch(err){
+        await page.screenshot({ path: screenshotPath});
         const elapsedTime = Date.now() - startTime;
+        result = {}; 
+        result.executionTime = elapsedTime;
+        result.screenshot = screenshotReportRef;
+        test.a11yResult = result;
         console.log("Test Execution time : " + elapsedTime);
         console.log(err);
+        await page.close();
+        await browser.close();
         throw err;
 
     }

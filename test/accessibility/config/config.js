@@ -9,7 +9,9 @@ const conf = {
     authenticatedUrls: [
         'organisation',
         'users',
-        'users/invite-user'
+        'users/invite-user',
+        'unassigned-cases',
+        'unassigned-cases/case-share'
     ],
     unauthenticatedUrls: [
         'register-org/register',

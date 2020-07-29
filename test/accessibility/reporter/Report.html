@@ -172,7 +172,7 @@
             </table>
         
             <h4>Issues:</h4>
-            <div ng-repeat="issue in test.a11yResult.issues">
+            <div ng-if="test.a11yResult.issues !== null"  ng-repeat="issue in test.a11yResult.issues">
                 <table class="issuesTable">
                     <tr> <th>Issue code</th><td>{{issue.code}}</td></tr>
                      <tr> <th>Issue type</th><td>{{issue.type}}</td></tr>

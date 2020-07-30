@@ -79,7 +79,9 @@ async function pa11ytest(test,actions,timeoutVal) {
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
     console.log("Test Execution time : "+elapsedTime);
-    assert(result.issues.length === 0, "accessibility issues reported") 
+    if (conf.failTestOna11yIssues){
+        assert(result.issues.length === 0, "a11y issues reported") 
+    }
     return result;
 
 }

@@ -3,6 +3,7 @@ const conf = {
     appName:"Manage Organisation",
     baseUrl1:'https://manage-org.aat.platform.hmcts.net/',
     baseUrl:'http://localhost:4200/',
+    failTestOna11yIssues: false,
 
     params:{
         username:'sreekanth_su@mailinator.com',

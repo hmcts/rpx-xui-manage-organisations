@@ -11,31 +11,45 @@ function report(runner) {
     let passCounter = 0;
     let failCounter = 0;
     runner.on('pass', function (test) {
+        if (test.ctx.a11yResult.issues.length === 0){
+            onPass(test);
+        }else{
+            test.state = "failed";
+            onFail(test, {'message':'Accesibility issues reported'});  
+        }
+
+    });
+    function onPass(test) {
         console.log('\n');
-        console.log('\t[ PASS ] '+ test.title);
+        console.log('\t[ PASS ] ' + test.title);
         console.log('\n');
         tests.push(getTestDetails(test))
         passCounter++;
 
-    });
+    }
 
     runner.on('fail', function (test, err) {
+        onFail(test,err); 
+    });
+    function onFail(test,err) {
         console.log('\n');
-        console.log('\t[ FAIL ] '+ test.title);
-        console.log('\t\t'+ err.message);
+        console.log('\t[ FAIL ] ' + test.title);
+        console.log('\t\t' + err.message);
         console.log('\n');
         // console.log(test);
         tests.push(getTestDetails(test))
         failCounter++;
 
-    });
+    }
+
 
     runner.on('end', function () {
-        // console.log(tests);
         generateReport(passCounter,failCounter,tests);
-        // process.exit(0);
     });
+
 }
+
+
 
 function generateReport(passCount,failCount, tests){
     let reportJson = {

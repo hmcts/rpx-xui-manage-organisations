@@ -3,7 +3,6 @@
     <div>
         <p>You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be registered with your organisation and have access to Manage cases.</p>
         <ccd-case-list
-            [firstCellIsHeader]="false"
             [cases]="cases$ | async"
             [tableConfig]="tableConfig"
             [selectionEnabled]="true"

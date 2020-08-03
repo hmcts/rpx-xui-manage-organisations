@@ -28,6 +28,7 @@
     "test:coverage:node": "cd api && yarn coverage",
     "test:mutation": "NODE_CONFIG_DIR=../../config stryker run stryker.node.conf.js ",
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
+    "test:ngIntegration": "ng e2e --protractorConfig=./test/ngIntegration/config/protractor.conf.js",
     "ng": "ng",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "build:ng": "ng build",

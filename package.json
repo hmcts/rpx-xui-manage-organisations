@@ -190,5 +190,8 @@
     "tslib": "^1.7.1",
     "tslint": "~5.11.0",
     "typescript": "~3.2.2"
+  },
+  "resolutions": {
+    "dot-prop": "^5.1.1"
   }
 }

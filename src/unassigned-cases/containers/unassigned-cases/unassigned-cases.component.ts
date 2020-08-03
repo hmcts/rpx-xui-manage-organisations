@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
+import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as converters from '../../converters/case-converter';
 import * as fromStore from '../../store';
 import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
-import { TableColumnConfig, TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
-
 
 @Component({
   selector: 'app-unassigned-cases-component',

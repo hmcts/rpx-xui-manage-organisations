@@ -1,13 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { Router, RoutesRecognized } from '@angular/router';
 import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
 import { HeadersService } from 'src/shared/services/headers.service';
 import { UserService } from 'src/user-profile/services/user.service';
+import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
 import { UserNavModel } from '../../models/user-nav.model';
-import * as fromUserProfile from '../../../user-profile/store';
 import * as fromRoot from '../../store';
 
 /**
@@ -20,7 +22,6 @@ import * as fromRoot from '../../store';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  public pageTitle$: Observable<string>;
   public navItems$: Observable<any> ;
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
@@ -34,24 +35,28 @@ export class AppComponent implements OnInit {
     private readonly featureService: FeatureToggleService,
     private readonly headersService: HeadersService,
     private readonly idleService: ManageSessionServices,
+    private readonly router: Router,
+    private readonly titleService: Title
   ) {}
 
   public ngOnInit() {
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
-    this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        const d = data.state.root.firstChild.data;
+        if (d.title) {
+          this.titleService.setTitle(`${d.title} - HM Courts & Tribunals Service - GOV.UK`);
+        }
+      }
+    });
+
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
     this.modalData$ = this.store.pipe(select(fromRoot.getModalSessionData));
 
-    // no need to unsubscribe as app component is always init.
-    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
-      if (rootState) {
-        this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
-      }
-    });
     this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
 
     if (this.headersService.isAuthenticated()) {

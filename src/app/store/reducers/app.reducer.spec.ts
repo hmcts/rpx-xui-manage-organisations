@@ -12,46 +12,6 @@ describe('AppReducer', () => {
       expect(state).toBe(initialState);
     });
 
-    it('setTitle action should return correct state', () => {
-      const { initialState } = fromApp;
-      let action;
-      let state;
-
-      action = new fromAppActions.SetPageTitle('invite-user');
-      state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Invite user - Manage organisation');
-
-      action = new fromAppActions.SetPageTitle('organisation');
-      state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Organisation details - Manage organisation');
-
-      action = new fromAppActions.SetPageTitle('profile');
-      state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Profile - Manage organisation');
-
-      action = new fromAppActions.SetPageTitle('users');
-      state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Users - Manage organisation');
-
-      action = new fromAppActions.SetPageTitle('dummy');
-      state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Manage organisation');
-    });
-
-    it('setTitleError action should return correct state', () => {
-      const { initialState } = fromApp;
-
-      const action = new fromAppActions.SetPageTitleErrors();
-      const state = fromApp.reducer(initialState, action);
-
-      expect(state.pageTitle).toEqual('Error: ');
-    });
-
     it('should set correct user roles', () => {
       const { initialState } = fromApp;
       const payload = [

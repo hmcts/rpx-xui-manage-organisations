@@ -26,17 +26,26 @@ export const ROUTES: Routes = [
     canActivate: [
       AuthGuard
     ],
+    data: {
+      title: 'Account Overview'
+    },
     children: [
       {
         path: ':id',
         component: AccountSummaryComponent,
         canActivate: [
           AccountSummaryGuard
-        ]
+        ],
+        data: {
+          title: 'Account Summary'
+        }
       },
       {
         path: ':id/transactions',
-        component: AccountTransactionsComponent
+        component: AccountTransactionsComponent,
+        data: {
+          title: 'Account Transactions'
+        }
       }
     ]
   }

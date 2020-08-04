@@ -24,7 +24,6 @@ export interface GlobalError {
 
 export interface AppState {
   allNavItems: {[id: string]: object};
-  pageTitle: string;
   navItems: NavItemModel[];
   userNav: UserNavModel;
   headerTitle: {regOrg: AppTitlesModel; manageOrg: AppTitlesModel};
@@ -37,7 +36,6 @@ export interface AppState {
 
 export const initialState: AppState = {
   allNavItems: AppConstants.ROLES_BASED_NAV,
-  pageTitle: '',
   userNav: AppConstants.USER_NAV,
   navItems: [],
   headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
@@ -64,24 +62,6 @@ export function reducer(
           ...state,
           jurisdictions
         };
-
-    case fromAction.SET_PAGE_TITLE: {
-      const pageTitle = AppUtils.setPageTitle(action.payload);
-      return {
-        ...state,
-        pageTitle
-      };
-    }
-
-    case fromAction.SET_PAGE_TITLE_ERRORS: {
-      const EXISTS = -1;
-      const pageTitle = (state.pageTitle.indexOf('Error') !== EXISTS) ?
-        state.pageTitle : `Error: ${state.pageTitle}`;
-      return {
-        ...state,
-        pageTitle
-      };
-    }
 
     case fromAction.SET_USER_ROLES: {
       const roles = [...action.payload];
@@ -146,7 +126,6 @@ export function reducer(
   }
 }
 
-export const getPageTitle = (state: AppState) => state.pageTitle;
 export const getNavItems = (state: AppState) => state.navItems;
 export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;

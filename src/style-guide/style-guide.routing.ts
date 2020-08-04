@@ -1,14 +1,16 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { StyleGuideComponent } from './containers/style-guide/style-guide.component';
-import {AuthGuard} from '../user-profile/guards/auth.guard';
 
 export const ROUTES: Routes = [
     {
       path: '',
       component: StyleGuideComponent,
       // canActivate: [AuthGuard],
+      data: {
+        title: 'Style Guide'
+      }
     }
 ];
 

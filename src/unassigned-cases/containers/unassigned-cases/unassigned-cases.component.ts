@@ -3,6 +3,7 @@ import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import * as fromStore from '../../store';
 import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
@@ -17,13 +18,27 @@ public cases$: Observable<UnassignedCase []>;
 public tableConfig: TableConfig;
 public selectedCases: SearchResultViewItem[] = [];
 
-constructor(private readonly store: Store<fromStore.UnassignedCasesState>) {}
+public navItems: any [];
+
+constructor(private readonly store: Store<fromStore.UnassignedCasesState>,
+            private  readonly appRoute: Store<fromRoot.State>) {}
 
 public ngOnInit(): void {
   this.store.dispatch(new fromStore.LoadUnassignedCases());
+  this.store.dispatch(new fromStore.LoadUnassignedCaseTypes());
   this.tableConfig = this.getCaveatTableConfig();
   this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases));
+
+  this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+
+
 }
+
+  private fixCurrentTab(items: any): void {
+    this.navItems = items;
+    this.appRoute.pipe(select(fromRoot.getRouterUrl)).subscribe(url => {
+    });
+  }
 
   public getCaveatTableConfig(): any {
     return {

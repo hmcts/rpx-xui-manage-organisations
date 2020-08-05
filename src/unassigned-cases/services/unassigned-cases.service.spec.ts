@@ -7,6 +7,6 @@ describe('UnassignedCasesService', () => {
         mockHttp.get.and.returnValue(of({}));
         const service = new UnassignedCasesService(mockHttp);
         service.fetchUnassignedCases();
-        expect(mockHttp.get).toHaveBeenCalledWith(UnassignedCasesService.url);
+        expect(mockHttp.get).toHaveBeenCalledWith(UnassignedCasesService.unassignedCasesUrl);
     });
 });

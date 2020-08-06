@@ -1,20 +1,17 @@
-import {Inject, Injectable} from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
-import { catchError, map, switchMap } from 'rxjs/operators';
-import * as appActions from '../actions';
-
+import { Inject, Injectable } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
-import {ENVIRONMENT_CONFIG, EnvironmentConfig} from '../../../models/environmentConfig.model';
+import { EnvironmentConfig, ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
-import * as usersActions from '../../../users/store/actions';
-import {IDLE_USER_SIGNOUT} from '../actions/app.actions';
-import {AppFeatureFlag} from '../reducers/app.reducer';
+import * as appActions from '../actions';
+import { AppFeatureFlag } from '../reducers/app.reducer';
+
 @Injectable()
 export class AppEffects {
   constructor(
@@ -26,14 +23,6 @@ export class AppEffects {
     private readonly featureToggleService: FeatureToggleService,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) { }
-
-  @Effect()
-  public updateTitle$ = this.actions$.pipe(
-    ofType(usersActions.UPDATE_ERROR_MESSAGES),
-    map(() => {
-      return new appActions.SetPageTitleErrors();
-    })
-  );
 
   @Effect()
   public setUserRoles$ = this.actions$.pipe(

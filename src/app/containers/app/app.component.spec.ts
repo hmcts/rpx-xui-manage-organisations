@@ -1,20 +1,17 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { combineReducers, StoreModule, Store } from '@ngrx/store';
-import {Logout, reducers} from 'src/app/store';
-import { HeaderComponent } from '../header/header.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { cold } from 'jasmine-marbles';
-
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
-
-import * as fromAuth from '../../../user-profile/store';
-import { AppConstants } from '../../app.constants';
-import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
+import { FeatureToggleService, ManageSessionServices, windowToken } from '@hmcts/rpx-xui-common-lib';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
+import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
-import { CookieModule, CookieService } from 'ngx-cookie';
+import { Logout, reducers } from 'src/app/store';
+import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
+import * as fromAuth from '../../../user-profile/store';
+import { HeaderComponent } from '../header/header.component';
+import { AppComponent } from './app.component';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -82,17 +79,6 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     expect(app).toBeTruthy();
   }));
-
-  it('should have pageTitle$ Observable the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-
-    const expected = cold('a', { a: '' });
-    expect(app.pageTitle$).toBeObservable(expected);
-
-  }));
-
 
   it('should have appHeaderTitle$ Observable the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);

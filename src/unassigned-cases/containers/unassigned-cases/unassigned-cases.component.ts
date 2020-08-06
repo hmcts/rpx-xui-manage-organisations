@@ -65,4 +65,7 @@ public ngOnInit(): void {
   public onCaseSelection(selectedCases) {
     this.selectedCases = selectedCases;
   }
+  public tabChanged(event) {
+    console.log(event.tab.textLabel);
+  }
 }

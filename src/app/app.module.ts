@@ -33,6 +33,7 @@ import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
 
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
@@ -66,7 +67,8 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     }),
     LoaderModule,
     ExuiCommonLibModule.forRoot(),
-    NgIdleKeepaliveModule.forRoot()
+    NgIdleKeepaliveModule.forRoot(),
+    NoopAnimationsModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

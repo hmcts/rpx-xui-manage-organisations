@@ -62,7 +62,8 @@ nodejs:
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
     MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    
+    SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+
   keyVaults:
     rpx:
       resourceGroup: rpx

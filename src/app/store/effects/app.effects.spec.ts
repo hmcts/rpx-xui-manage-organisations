@@ -1,21 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
-import {StoreModule} from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
-import {AuthGuard} from '../../../user-profile/guards/auth.guard';
+import { AuthGuard } from '../../../user-profile/guards/auth.guard';
 import * as fromUserProfile from '../../../user-profile/store';
-import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
-import { SetPageTitleErrors } from '../actions/app.actions';
-import {reducers} from '../reducers';
+import { reducers } from '../reducers';
 import * as fromAppEffects from './app.effects';
-import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 
 describe('App Effects', () => {
   let actions$;
@@ -70,16 +68,6 @@ describe('App Effects', () => {
     effects = TestBed.get(fromAppEffects.AppEffects);
     loggerService = TestBed.get(LoggerService);
 
-  });
-
-  describe('updateTitle$', () => {
-    it('should update error headerTitle', () => {
-      const action = new usersActions.UpdateErrorMessages({});
-      const completion = new SetPageTitleErrors();
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.updateTitle$).toBeObservable(expected);
-    });
   });
 
 

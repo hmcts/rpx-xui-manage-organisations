@@ -11,6 +11,25 @@ export class UnassignedCasesService {
         return this.http.get<any>(UnassignedCasesService.unassignedCasesUrl);
     }
     public fetchUnassignedCaseTypes(): Observable<any> {
-        return this.http.get<any>(UnassignedCasesService.unassingedCaseTypesUrl);
+        const body = {
+            query: {
+               bool: {
+                  filter: [
+                     {
+                        multi_match : { query: '9QV1DT1', type: 'phrase', fields: ['data.*.Organisation.OrganisationID' ] }
+                     }
+                  ]
+               }
+            },
+            from: 0,
+            size: 6,
+            _source: false,
+            sort: {
+               created_date: {
+                  order: 'desc'
+               }
+            }
+         };
+        return this.http.post<any>(UnassignedCasesService.unassingedCaseTypesUrl, body);
     }
 }

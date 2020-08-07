@@ -1,36 +1,21 @@
 import { Request, Response, Router } from 'express'
-import * as faker from 'faker'
+import { getConfigValue } from '../configuration'
+import { SERVICES_CCD_DATA_STORE_API_PATH } from '../configuration/references'
+import { getApiPath } from './unassignedCases.util'
 
 export async function handleUnassignedCaseTypes(req: Request, res: Response) {
-    const response = createCaseTypeResponse()
-    console.log(response)
-    res.send(response)
-}
+    console.log(req.body)
+    const payload = req.body
 
-const createCaseType = () => {
-    return {
-        case_type_id: faker.commerce.department(),
-        total: faker.random.number(),
-    }
+    const rdProfessionalApiPath = getApiPath(getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH))
+    const response = await req.http.post(rdProfessionalApiPath, payload)
+    // const response = createCaseTypeResponse()
+    console.log(response.data)
+    res.send(response.data)
 }
-
-const createCaseTypeResponse = () => {
-    const cases = createCaseTypeData(5)
-    return {
-        case_types_results: cases,
-        cases: [],
-        total: faker.random.number(),
-    }
-}
-
-const createCaseTypeData = (numUsers = 4) => {
-    return new Array(numUsers)
-      .fill(undefined)
-      .map(createCaseType)
-  }
 
 export const router = Router({ mergeParams: true })
 
-router.get('', handleUnassignedCaseTypes)
+router.post('', handleUnassignedCaseTypes)
 
 export default router

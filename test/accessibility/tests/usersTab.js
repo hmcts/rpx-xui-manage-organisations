@@ -47,7 +47,7 @@ describe('Pa11y tests', function () {
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
         actions.push(...AppActions.fillAndSubmitInviteUsers('firstname', 'lastname', 'test@test.com'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('aapp-service-down'));
+        actions.push(...PallyActions.waitForPageWithCssLocator('app-service-down'));
         const result = await pa11ytest(this, actions);
     });
 

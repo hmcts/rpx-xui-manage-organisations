@@ -1,4 +1,3 @@
-const faker = require('faker');
 const requestMapping = {
    get:{
        '/api/organisation': (req,res) => {
@@ -21,15 +20,6 @@ const requestMapping = {
        },
        '/api/user/details': (req,res) => {
            res.send({ "email": "sreekanth_su1@mailinator.com", "orgId": "VRSFNPV", "roles": ["caseworker", "caseworker-divorce", "caseworker-divorce-financialremedy", "caseworker-divorce-financialremedy-solicitor", "caseworker-divorce-solicitor", "caseworker-ia", "caseworker-ia-legalrep-solicitor", "caseworker-probate", "caseworker-probate-solicitor", "caseworker-publiclaw", "caseworker-publiclaw-solicitor", "pui-caa", "pui-case-manager", "pui-finance-manager", "pui-organisation-manager", "pui-user-manager"], "sessionTimeout": { "idleModalDisplayTime": 10, "pattern": ".", "totalIdleTime": 20 }, "userId": "4510b778-6a9d-4c53-918a-c3f80bd7aadd" }); 
-       },
-       '/api/unassignedcases':(req,res) => {
-           res.send(createCaseData(5));
-       },
-       '/api/caseshare/cases': (req,res) => {
-           res.send(getShareCases());
-       },
-       '/api/caseshare/users': (req,res) => {
-           res.send(organisationUsers());
        }
     },
     post:{
@@ -68,89 +58,7 @@ function getJurisdictions(){
     return [{"id":"SSCS"},{"id":"AUTOTEST1"},{"id":"DIVORCE"},{"id":"PROBATE"},{"id":"PUBLICLAW"},{"id":"bulkscan"},{"id":"BULKSCAN"},{"id":"IA"},{"id":"EMPLOYMENT"},{"id":"CMC"}]
 }
 
-const createCase = (caseId) => {
-    return {
-        caseCreatedDate: faker.date.past(),
-        caseDueDate: faker.date.future(),
-        caseRef: caseId,
-        petFirstName: faker.name.firstName(),
-        petLastName: faker.name.lastName(),
-        respFirstName: faker.name.firstName(),
-        respLastName: faker.name.lastName(),
-        sRef: faker.random.uuid(),
-    }
-}
-
-const createCaseData = (numUsers = 5) => {
-
-    let casesArr = [];
-    casesArr.push(createCase('1573922332670942'));
-    casesArr.push(createCase('1573925439311211'));
-    casesArr.push(createCase('1574006431043307'));
-
-
-
-    return casesArr;
-}
 
 
 module.exports = { requestMapping,configurations};
-
-function getShareCases(){
-    return [
-        {
-            "caseId": "1573922332670942",
-            "caseTitle": "Paul Saddlebrook Vs Jennifer Saddlebrook",
-            "sharedWith": [
-                {
-                    "idamId": "u111111",
-                    "firstName": "Joe",
-                    "lastName": "Elliott",
-                    "email": "joe.elliott@woodford.com"
-                },
-                {
-                    "idamId": "u222222",
-                    "firstName": "Steve",
-                    "lastName": "Harrison",
-                    "email": "steve.harrison@woodford.com"
-                }
-            ]
-        },
-        {
-            "caseId": "1573925439311211",
-            "caseTitle": "Neha Venkatanarasimharaj Vs Sanjet Venkatanarasimharaj",
-            "sharedWith": []
-        },
-        {
-            "caseId": "1574006431043307",
-            "caseTitle": "Sam Green Vs Williams Lee",
-            "sharedWith": [
-                {
-                    "idamId": "u666666",
-                    "firstName": "Kate",
-                    "lastName": "Grant",
-                    "email": "kate.grant@lambbrooks.com"
-                },
-                {
-                    "idamId": "u777777",
-                    "firstName": "Nick",
-                    "lastName": "Rodrigues",
-                    "email": "nick.rodrigues@lambbrooks.com"
-                },
-                {
-                    "idamId": "u888888",
-                    "firstName": "Joel",
-                    "lastName": "Molloy",
-                    "email": "joel.molloy@lambbrooks.com"
-                }
-            ]
-        }
-    ];
-}
-
-function organisationUsers(){
-
-    return [{ "idamId": "u111111", "firstName": "Joe", "lastName": "Elliott", "email": "joe.elliott@woodford.com" }, { "idamId": "u222222", "firstName": "Steve", "lastName": "Harrison", "email": "steve.harrison@woodford.com" }, { "idamId": "u333333", "firstName": "James", "lastName": "Priest", "email": "james.priest@woodford.com" }, { "idamId": "u444444", "firstName": "Shaun", "lastName": "Coldwell", "email": "shaun.coldwell@woodford.com" }];
-}
-
 

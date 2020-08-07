@@ -24,7 +24,6 @@ describe('Unasigned cases Page', function () {
         done();
     });
 
-
     it('Unassigned cases For user with pui-caa role', async function () {
         await MockApp.startServer();
         await BrowserUtil.browserInitWithAuth();
@@ -32,8 +31,7 @@ describe('Unasigned cases Page', function () {
         let headerTabs = await headerPage.getHeaderTabs();
         expect(headerTabs.includes("Unassigned cases"), "Unassigned Cases tab should be dislayed with role pui-caa. " + JSON.stringify(headerTabs)).to.be.true;
     });
-
-  
+ 
     it('Unassigned cases For user without pui-caa role', async function () {
         const userDetails = { "email": "test@mailinator.com", "orgId": "VRSFNPV", "roles": [  "pui-case-manager", "pui-finance-manager", "pui-organisation-manager", "pui-user-manager"], "sessionTimeout": { "idleModalDisplayTime": 10, "pattern": ".", "totalIdleTime": 20 }, "userId": "4510b778-6a9d-4c53-918a-c3f80bd7aadd" };
         MockApp.onGet('/api/user/details', (req, res) => {res.send(userDetails);});
@@ -54,7 +52,7 @@ describe('Unasigned cases Page', function () {
     //     expect(await unassignedCasesPage.amOnPage(), "Not on Unassigned cases page").to.be.true;
     // });
 
-    
+
 
 });
 

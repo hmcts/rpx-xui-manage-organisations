@@ -35,5 +35,8 @@
     "cache": true,
     "all": true,
     "report-dir": "../reports/tests/coverage/node"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }

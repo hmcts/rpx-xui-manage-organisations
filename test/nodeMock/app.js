@@ -78,6 +78,7 @@ const mockInstance = new MockApp();
 //         })
 
 // mockInstance.setConfig("feature.termsAndConditionsEnabled",true);
+// mockInstance.init();
 // mockInstance.startServer();
 
 module.exports = mockInstance;

@@ -19,9 +19,12 @@ exports.config = {
   baseUrl: 'http://localhost:4200/',
   framework: 'mocha',
   mochaOpts: {
-    // reporter: 'test/accessibility/reporter/customReporter.js',
-        // reporter: 'spec',
-
+    reporter: 'mochawesome',
+     
+    reporterOptions: {
+      reportFilename: "MO_NG_Integration",
+      quiet: true
+    },
     timeout: 120000
   },
   onPrepare() {

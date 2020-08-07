@@ -4,6 +4,9 @@ const pa11y = require('pa11y');
 const assert = require('assert');
 const {conf} = require('../config/config');
 
+const jwt = require('jsonwebtoken');
+const puppeteer = require('puppeteer');
+
 
 const fs = require('fs');
 
@@ -39,17 +42,16 @@ async function pa11ytest(test,actions,timeoutVal) {
     ];
     const browser = await puppeteer.launch({
         ignoreHTTPSErrors: false,
-        headless:true 
+        headless:conf.headless 
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);
-    await page.goto("http://localhost:4200/");
-
 
     let result;
     try{
         result = await pa11y(conf.baseUrl, {
-            "chromeLaunchConfig": { "ignoreHTTPSErrors": false , headless:true } ,
+            browser: browser,
+            page: page,
             timeout: 60000,
             screenCapture: screenshotPath,
             // log: {
@@ -78,6 +80,8 @@ async function pa11ytest(test,actions,timeoutVal) {
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
+    await page.close();
+    await browser.close();
     console.log("Test Execution time : "+elapsedTime);
     if (conf.failTestOna11yIssues){
         assert(result.issues.length === 0, "a11y issues reported") 

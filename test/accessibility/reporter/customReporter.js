@@ -81,7 +81,7 @@ function getTestDetails(test){
     return {
         name: test.title,
         status: test.state,
-        error: test.err.message,
+        error: test.err ? test.err.message : "Accessibility issues reported",
         a11yResult: test.ctx.a11yResult
     };
 

@@ -144,8 +144,6 @@ export function reducer(
       return state;
     }
   }
-
-  return state;
 }
 
 export const getPageTitle = (state: AppState) => state.pageTitle;

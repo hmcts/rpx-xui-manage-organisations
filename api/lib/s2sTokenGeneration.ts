@@ -7,9 +7,9 @@ import * as log4jui from './log4jui'
 
 const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 /**
- * Generate One Time Password
+ * Generate One-Time Password
  *
- * With our S2S Secret we generate a one time password. This S2S secret is used to get our our S2S Token.
+ * With our S2S secret we generate a one-time password. This S2S secret is used to get our S2S token.
  *
  * @param s2sSecretStr
  * @returns string

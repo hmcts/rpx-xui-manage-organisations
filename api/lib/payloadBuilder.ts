@@ -1,6 +1,3 @@
-import { OrganisationPayload } from '../interfaces/organisationPayload'
-import { test } from 'mocha';
-
 /**
  * makeOrganisationPayload
  *

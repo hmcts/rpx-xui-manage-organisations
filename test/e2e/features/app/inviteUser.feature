@@ -70,7 +70,6 @@ Feature: invite user workflow
   Scenario: invited use with Manage Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
-      | Manage Organisation |
       | Manage Users        |
     # | Manage fee accounts |
     Then user should be created successfuly

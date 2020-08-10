@@ -71,7 +71,7 @@ export class CaseData {
     constructor(caseData) {
         this.applicantFMName = caseData.applicantFMName
         this.applicantLName = caseData.applicantLName
-        this.appRespondentFMName = caseData.appRespondentLName
+        this.appRespondentFMName = caseData.appRespondentFMName
         this.appRespondentLName = caseData.appRespondentLName
         this.D8PetitionerFirstName = caseData.D8PetitionerFirstName
         this.D8PetitionerLastName = caseData.D8PetitionerLastName

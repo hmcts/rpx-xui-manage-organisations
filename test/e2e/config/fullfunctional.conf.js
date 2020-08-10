@@ -56,8 +56,8 @@ const config = {
         removeExistingJsonReportFile: true,
         reportName: 'XUI Manage Organisation Functional Tests',
         // openReportInBrowser: true,
-        jsonDir: 'reports/tests/fullfunctional',
-        reportPath: 'reports/tests/fullfunctional'
+        jsonDir: 'reports/tests/functional',
+        reportPath: 'reports/tests/functional'
       }
     }
   ]

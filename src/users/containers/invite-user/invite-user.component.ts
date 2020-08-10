@@ -6,10 +6,10 @@ import * as fromStore from '../../store';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import {Observable, Subscription} from 'rxjs';
+import { GlobalError } from 'src/app/store/reducers/app.reducer';
 import {AppConstants} from '../../../app/app.constants';
 import * as fromAppStore from '../../../app/store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
-import { GlobalError } from 'src/app/store/reducers/app.reducer';
 
 /*
 * User Form entry mediator component
@@ -24,7 +24,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
   constructor(private readonly store: Store<fromStore.UserState>,
               private readonly actions$: Actions) { }
-
   public inviteUserForm: FormGroup;
   public backLink: string;
   public errors$: Observable<any>;

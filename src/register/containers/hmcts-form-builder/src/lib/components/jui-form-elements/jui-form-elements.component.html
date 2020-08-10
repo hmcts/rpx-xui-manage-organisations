@@ -73,13 +73,6 @@
                       [labelFor]="data.textarea.control"
                       [rows]="5">
       </app-textareas>
-
-      <app-extensions *ngIf="data.extension"
-                        [title]="data.extension.componentDetails.title"
-                        [text]="data.extension.componentDetails.text"
-                        [ul]="data.extension.componentDetails.ul">
-      </app-extensions>
-
     <app-buttons *ngIf="data.button"
                  [classes]="'govuk-button'"
                  [typeBtn]="data.button.type"

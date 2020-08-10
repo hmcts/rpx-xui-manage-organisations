@@ -20,7 +20,7 @@ import {ValidationErrorFormControlComponent} from './components/validation-error
 import {ValidationErrorFormGroupComponent} from './components/validation-error-formgroup/validation-error-formgroup.component';
 import {FormsService} from './services/form-builder.service';
 import {ValidationService} from './services/form-builder-validation.service';
-import {ExtensionsComponent} from './components/extensions/extensions.component';
+
 
 const COMPONENTS = [
   FormBuilderComponent,
@@ -40,8 +40,7 @@ const COMPONENTS = [
   HiddenInputComponent,
   ValidationHeaderComponent,
   ValidationErrorFormControlComponent,
-  HmctsFormBuilderComponent,
-  ExtensionsComponent
+  HmctsFormBuilderComponent
 ];
 
 const SERVICES = [

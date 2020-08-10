@@ -9,21 +9,21 @@ class BrowserWaits {
         this.pageErrors = $$(".error-summary");
     }
 
-    async waitForElement(waitelement, customWait,message) {
-        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString() + " | " + message ? message : "");
+    async waitForElement(waitelement, customWait) {
+        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString());
     }
 
-    async waitForElementNotVisible(element, customWait, message) {
-        await browser.wait(EC.not(EC.presenceOf(element), customWait ? customWait : this.waitTime, "Error : " + element.locator().toString() + " | " + message ? message : ""));
-       
+    async waitForElementNotVisible(element,customWait) {
+        await browser.wait(EC.not(EC.presenceOf(element), customWait ? customWait : this.waitTime, "Error : " + element.locator().toString()));
+
     }
 
-    async waitForPresenceOfElement(element, message) {
-        await browser.wait(EC.presenceOf(element), this.waitTime, "Error : " + element.locator().toString() + " | " + message ? message : "");
+    async waitForPresenceOfElement(element) {
+        await browser.wait(EC.presenceOf(element), this.waitTime, "Error : " + element.locator().toString());
     }
 
-    async waitForElementClickable(element, message) {
-        await browser.wait(EC.elementToBeClickable(element), this.waitTime, "Error : " + element.locator().toString() + " | " + message ? message : "");
+    async waitForElementClickable(element) {
+        await browser.wait(EC.elementToBeClickable(element), this.waitTime, "Error : " + element.locator().toString());
     }
 
     async waitForCondition(condition) {
@@ -41,13 +41,13 @@ class BrowserWaits {
         console.log("Wait for condition : " + (endtime - startTime));
     }
 
-    async waitForSelector(selector, message) {
+    async waitForSelector(selector) {
         var selectorElement = $(selector);
-        await browser.wait(EC.presenceOf($(selector)), this.waitTime, "Error find element with selector: " + selector+ " | " + message ? message : "");
+        await browser.wait(EC.presenceOf($(selector)), this.waitTime, "Error find element with selector: " + selector);
     }
 
-    async waitForstalenessOf(element,message) {
-        await browser.wait(EC.stalenessOf(element), this.waitTime, "Error : " + element.locator().toString() + " | " + message ? message : "");
+    async waitForstalenessOf(element) {
+        await browser.wait(EC.stalenessOf(element), this.waitTime);
     }
 
     async waitForPageNavigation(currentPageUrl) {
@@ -106,4 +106,4 @@ class BrowserWaits {
 
 }
 
-module.exports = new BrowserWaits(); 
+module.exports = new BrowserWaits();

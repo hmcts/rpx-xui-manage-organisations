@@ -96,6 +96,7 @@ var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenSho
 defineSupportCode(({ After }) => {
     After(function(scenario, done) {
         const world = this;
+
         console.log("After scenario : " + scenario.result.status);
         global.screenShotUtils.takeScreenshot()
         .then(stream => {
@@ -114,5 +115,6 @@ defineSupportCode(({ After }) => {
                 }
                 done();
             });
+
     });
 });

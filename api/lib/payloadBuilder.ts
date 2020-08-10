@@ -15,10 +15,8 @@ import { test } from 'mocha';
 
 export function setPropertyIfNotNull(organisationPayload, propertyName, value) {
 
-  if(value)
-  {
-    organisationPayload[propertyName] =
-    value
+  if (value) {
+    organisationPayload[propertyName] = value
   }
 }
 
@@ -29,10 +27,11 @@ export function setDXIfNotNull(organisationPayload, propertyNameArray, arrayName
     organisationPayload[arrayName] = {}
 
     for (const key in stateValuesArray) {
-      if (stateValuesArray[key] != null && stateValuesArray[key] != "")
+      if (stateValuesArray[key] != null && stateValuesArray[key] !== "") {
         organisationPayload[arrayName][propertyNameArray[key]] = stateValuesArray[key]
-      else
+      } else {
         organisationPayload[arrayName][propertyNameArray[key]] = ""
+      }
     }
     organisationPayload[arrayName] = [organisationPayload[arrayName]]
   }
@@ -43,14 +42,12 @@ export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray
   organisationPayload[arrayName] = []
 
   for (const key in stateValuesArray) {
-    if (stateValuesArray[key])
-    {
+    if (stateValuesArray[key]) {
       organisationPayload[arrayName][key] = stateValuesArray[key]
     }
   }
 
-  organisationPayload[arrayName] = organisationPayload[arrayName].filter(value => Object.keys(value).length !== 0);
-
+  organisationPayload[arrayName] = organisationPayload[arrayName].filter(value => Object.keys(value).length !== 0)
 }
 
 export function makeOrganisationPayload(stateValues): any {
@@ -61,8 +58,8 @@ export function makeOrganisationPayload(stateValues): any {
         addressLine1: stateValues.officeAddressOne,
         addressLine2: stateValues.officeAddressTwo,
         county: stateValues.county,
-        townCity: stateValues.townOrCity,
         postCode: stateValues.postcode,
+        townCity: stateValues.townOrCity,
       },
     ],
     name: stateValues.orgName,
@@ -76,14 +73,14 @@ export function makeOrganisationPayload(stateValues): any {
 
   setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
 
-  var stateValuesArray = [stateValues.PBAnumber1, stateValues.PBAnumber2]
+  let stateValuesArray = [stateValues.PBAnumber1, stateValues.PBAnumber2]
   setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray)
 
   stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange]
   const [contactInformationArray] = organisationPayload.contactInformation
-  const propretyNameArray = ['dxNumber', 'dxExchange']
-  setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
+  const propertyNameArray = ['dxNumber', 'dxExchange']
+  setDXIfNotNull(contactInformationArray, propertyNameArray, 'dxAddress',
     stateValuesArray)
 
-  return organisationPayload;
+  return organisationPayload
 }

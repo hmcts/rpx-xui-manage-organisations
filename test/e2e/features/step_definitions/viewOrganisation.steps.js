@@ -40,7 +40,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
         })
       await headerPage.clickOrganisation();
     });
-    expect(await viewOrganisationPage.amOnPage(),"Organisation page not displayed").to.be.true;
+    expect(await viewOrganisationPage.amOnPage()).to.be.true;
   });
 
   Then(/^I should see name and address details of Organisation$/, async function () {
@@ -56,7 +56,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
         })
       await headerPage.clickOrganisation();
     });
-    expect(await viewOrganisationPage.amOnPage(), "Organisation page not displayed").to.be.true;
+    expect(await viewOrganisationPage.amOnPage()).to.be.true;
   })
 
 });

@@ -1,8 +1,8 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references'
 
-async function handleAddressRoute(req: express.Request, res: express.Response) {
+async function handleAddressRoute(req: Request, res: Response) {
     let errReport: any
     if (!req.params.account) {
         errReport = {
@@ -27,7 +27,7 @@ async function handleAddressRoute(req: express.Request, res: express.Response) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('', handleAddressRoute)
 

@@ -44,3 +44,30 @@ Feature: End to End Create approve and manager org
         Then I should be on display the user details
         When I click on invite user button
         Then I should be on display invite user page
+
+
+        When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
+            | Permission          |
+            | Manage Users        |
+            | Manage Organisation |
+            | Manage Cases |
+        # | Manage fee accounts |
+        Then user should be created successfuly
+        When I activate invited user
+        When I click on user button
+        Then I should be on display the user details
+        Then I should see invited user is listed in users table
+        Then I select the sign out link
+        Then I login with latest invited user
+        Then I am on Accept Terms and Conditions page
+        When I click Confirm in Accept Terms and Conditions page
+        Then I should be redirected to manage organisation dashboard page
+        Then I should see navigation tab in header
+            | NavigationTab |
+            | Organisation  |
+            | Users         |
+
+
+
+
+

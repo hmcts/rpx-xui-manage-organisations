@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
 import { PostUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
@@ -6,7 +6,7 @@ import { application } from '../lib/config/application.config'
 import { isUserTandCPostSuccessful } from '../lib/util'
 import { postUserTermsAndConditionsUrl } from './termsAndConditionsUtil'
 
-export async function postUserTermsAndConditions(req: express.Request, res: express.Response) {
+export async function postUserTermsAndConditions(req: Request, res: Response) {
     let errReport: any
     if (!req.body.userId) {
         errReport = {
@@ -32,6 +32,6 @@ export async function postUserTermsAndConditions(req: express.Request, res: expr
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 router.post('', postUserTermsAndConditions)
 export default postUserTermsAndConditions

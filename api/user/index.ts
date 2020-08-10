@@ -1,21 +1,32 @@
-import * as express from 'express'
+import { Router } from 'express'
+import { getConfigValue } from '../configuration'
+import { SESSION_TIMEOUTS } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
-const logger = log4jui.getLogger('auth')
-export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
+import { getUserSessionTimeout } from './userTimeout'
+
+const logger = log4jui.getLogger('auth')
+export const router = Router({ mergeParams: true })
 
 router.get('/details', handleUserRoute)
 
 function handleUserRoute(req, res) {
 
+  const { email, orgId, roles, userId } = req.session.auth
+
+  const sessionTimeouts = getConfigValue(SESSION_TIMEOUTS)
+  const sessionTimeout = getUserSessionTimeout(roles, sessionTimeouts)
+
   const UserDetails: UserProfileModel = {
-    email: req.session.auth.email,
-    orgId: req.session.auth.orgId,
-    roles: req.session.auth.roles,
-    userId: req.session.auth.userId
+    email,
+    orgId,
+    roles,
+    sessionTimeout,
+    userId,
   }
+
   try {
-      const payload = JSON.stringify(UserDetails);
+      const payload = JSON.stringify(UserDetails)
       console.log(payload)
       res.send(payload)
   } catch (error) {

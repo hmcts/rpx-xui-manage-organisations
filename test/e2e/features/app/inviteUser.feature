@@ -2,17 +2,25 @@
 Feature: invite user workflow
 
   Background:
+    Given I create test read write organisation
+    Given I approve test read write  organisation
+    Given I activate test read write approved organisation super user
 
     When I navigate to manage organisation Url
-    Given I am logged into manage organisation to invite users
- 
+    Given I am logged into manage organisation with test org user
+
     Then I should be redirected to manage organisation dashboard page
-    When I navigate to invite user page
+    When I click on user button
+    Then I should be on display the user details
+    When I click on invite user button
     Then I should be on display invite user page
+
 
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
+
+
 
   Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
@@ -22,6 +30,9 @@ Feature: invite user workflow
       | Manage Cases |
     Then user should be created successfuly
     When I activate invited user
+    When I click on user button
+    Then I should be on display the user details
+    Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
@@ -42,6 +53,9 @@ Feature: invite user workflow
       # | Manage fee accounts |
     Then user should be created successfuly
     When I activate invited user
+    When I click on user button
+    Then I should be on display the user details
+    Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
@@ -61,6 +75,9 @@ Feature: invite user workflow
     # | Manage fee accounts |
     Then user should be created successfuly
     When I activate invited user
+    When I click on user button
+    Then I should be on display the user details
+    Then I should see invited user is listed in users table
     Then I select the sign out link
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
@@ -68,7 +85,6 @@ Feature: invite user workflow
     Then I should be redirected to manage organisation dashboard page
     Then I should see navigation tab in header
       | NavigationTab |
-      | Organisation |
       | Users         |
     Then I see login to MC with invited user is "failed"
 

@@ -1,15 +1,9 @@
-import * as express from 'express'
+import { Request } from 'express'
 import * as otp from 'otp'
-import {getConfigValue} from '../configuration'
-import {MICROSERVICE, S2S_SECRET,} from '../configuration/references'
-import {http} from './http'
+import { getConfigValue } from '../configuration'
+import { MICROSERVICE, S2S_SECRET } from '../configuration/references'
+import { http } from './http'
 import * as log4jui from './log4jui'
-
-const s2sSecret = getConfigValue(S2S_SECRET) // process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
-
-const microservice = getConfigValue(MICROSERVICE) // application.microservice
-
-const logger = log4jui.getLogger('s2s token generation')
 
 const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 /**
@@ -27,7 +21,7 @@ export function generateOneTimePassword(s2sSecretStr: string) {
 /**
  * Return a generated S2S Token
  *
- * Note we do not rely on Idam to generate an S2S Token. Therefore it can be outside of any Idam authentication
+ * Note we do not rely on Idam to generate an S2S token. Therefore, it can be outside of any Idam authentication
  * layer.
  *
  * @microservice xui_webapp
@@ -36,8 +30,11 @@ export function generateOneTimePassword(s2sSecretStr: string) {
  */
 export async function generateS2sToken(url) {
 
+  const s2sSecret = getConfigValue(S2S_SECRET) // process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
+  const microservice = getConfigValue(MICROSERVICE) // application.microservice
   const oneTimePassword = generateOneTimePassword(s2sSecret)
-  logger.info('Generating the S2S token from secret  :', s2sSecret, microservice, oneTimePassword)
+  const logger = log4jui.getLogger('S2S token generation')
+  logger.info('Generating the S2S token for microservice: ', microservice)
 
   try {
 
@@ -47,7 +44,6 @@ export async function generateS2sToken(url) {
     logger.error(`Error generating S2S Token`)
     logger.error(`Error generating S2S Token: Status code ${error.status}`)
     logger.error(`Error generating S2S Token: path to token generation ${url}`)
-    logger.error(`Error generating S2S Token: S2S secret ${s2sSecret}`)
     logger.error(`Error generating S2S Token: microservice ${microservice}`)
 
     // TODO: This only passes up strings, in the future it should pass up
@@ -61,13 +57,13 @@ export async function generateS2sToken(url) {
  *
  * @param url - ie. https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
  * @param microserviceName - xui_webapp
- * @param oneTimePassword - Generated with a one time password generator
+ * @param oneTimePassword - Generated with a one-time password generator
  *
  * @returns {Promise<AxiosPromise<any>>}
  */
-export async function requestS2sToken(url, microserviceName, oneTimePassword) {
+export async function requestS2sToken(url: string, microserviceName: string, oneTimePassword: string) {
 
-  const axiosInstance = http({} as unknown as express.Request)
+  const axiosInstance = http({} as unknown as Request)
 
   return axiosInstance.post(`${url}/lease`, {
     microservice: microserviceName,

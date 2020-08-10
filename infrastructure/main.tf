@@ -10,28 +10,8 @@ data "azurerm_key_vault" "key_vault" {
     resource_group_name = "${local.shared_vault_name}"
 }
 
-data "azurerm_key_vault_secret" "s2s_secret" {
-    name = "mo-s2s-client-secret"
-    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-
-data "azurerm_key_vault_secret" "oauth2_secret" {
-    name = "xui-oauth2-token"
-    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-
-data "azurerm_key_vault_secret" "google-analytics-key" {
-  name = "google-analytics-key"
-  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-
-data "azurerm_key_vault_secret" "launch-darkly-client-id" {
-  name = "launch-darkly-client-id"
-  vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-
 provider "azurerm" {
-    version = "1.44.0"
+    version = "1.22.1"
 }
 
 data "azurerm_subnet" "core_infra_redis_subnet" {
@@ -67,4 +47,4 @@ resource "azurerm_resource_group" "rg" {
   location = "${var.location}"
 
   tags = "${var.common_tags}"
-}  
+}

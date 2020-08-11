@@ -26,6 +26,12 @@
         hint: 'View organisation name and addresses.'}">
       </lib-gov-checkbox>
 
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [isChecked]="isCaseAccessAdmin"
+        [config]="{value: 'pui-caa', label: 'Case Access Administrator', name: 'roles',
+        hint: 'Admin Case Access'}">
+    </lib-gov-checkbox>
       <!-- <lib-gov-checkbox
         [group]="inviteUserForm.controls['roles']"
         [isChecked]="isPuiFinanceManager"

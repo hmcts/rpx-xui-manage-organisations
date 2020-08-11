@@ -173,7 +173,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       'pui-case-manager': this.createFormControl(''),
       'pui-user-manager': this.createFormControl(''),
       'pui-organisation-manager': this.createFormControl(''),
-      'pui-finance-manager': this.createFormControl('')
+      'pui-finance-manager': this.createFormControl(''),
+      'pui-caa': this.createFormControl('')
     }, checkBoxValidator);
   }
 

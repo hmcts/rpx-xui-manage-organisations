@@ -83,7 +83,7 @@ import {editUserFailureSelector} from '../../store/selectors';
         this.isCaseAccessAdmin = this.getIsCaseAccessAdmin(user);
 
         this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
-          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager,
+          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager, this.isCaseAccessAdmin,
           checkboxesBeCheckedValidator);
       });
 
@@ -93,14 +93,14 @@ import {editUserFailureSelector} from '../../store/selectors';
     return `/users/user/${userId}`;
   }
 
-  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, validator: any): FormGroup {
+  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): FormGroup {
     return new FormGroup({
       roles: new FormGroup({
         'pui-case-manager': new FormControl(isPuiCaseManager),
         'pui-user-manager': new FormControl(isPuiUserManager),
         'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
         'pui-finance-manager': new FormControl(isPuiFinanceManager),
-        'pui-caa': new FormControl(this.isCaseAccessAdmin)
+        'pui-caa': new FormControl(isCaseAccessAdmin)
       }, checkboxesBeCheckedValidator())
     });
   }

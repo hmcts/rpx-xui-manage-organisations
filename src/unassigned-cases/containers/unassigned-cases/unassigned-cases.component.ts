@@ -35,7 +35,7 @@ public ngOnInit(): void {
 
   private fixCurrentTab(items: any): void {
     this.navItems = items;
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === 'CaseType0'));
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === items[0].text));
   }
 
   public getCaveatTableConfig(): any {

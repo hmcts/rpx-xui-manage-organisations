@@ -6,6 +6,7 @@
         <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems.length > 0">
           <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
             <ccd-case-list
+            *ngIf="(cases$ | async).length > 0"
             [cases]="cases$ | async"
             [tableConfig]="tableConfig"
             [selectionEnabled]="true"
@@ -14,7 +15,7 @@
           </mat-tab>
         </mat-tab-group>
     </div>
-    <div *ngIf="navItems.length > 0">
+    <div *ngIf="navItems.length > 0 && (cases$ | async).length > 0">
       <button id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
               (click)="shareCaseSubmit()">
         Share case

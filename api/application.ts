@@ -11,15 +11,16 @@ import {
   FEATURE_HELMET_ENABLED,
   FEATURE_REDIS_ENABLED,
   FEATURE_SECURE_COOKIE_ENABLED,
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   HELMET,
   SERVICE_S2S_PATH,
+  SERVICES_CCD_DATA_STORE_API_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
-  SESSION_SECRET,
-  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
+  SESSION_SECRET
 } from './configuration/references'
 import {appInsights} from './lib/appInsights'
 import {errorStack} from './lib/errorStack'
@@ -106,6 +107,8 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
 }
 
 console.log('healthChecks', healthChecks)
+
+console.log('ccdData', getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH))
 
 healthcheck.addTo(app, healthChecks)
 

@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,10 +7,11 @@ import { FormGroup } from '@angular/forms';
   })
 
   export class InviteUserPermissionComponent {
-    @Input() inviteUserForm: FormGroup;
-    @Input() isPuiCaseManager: boolean = false;
-    @Input() isPuiUserManager: boolean = false;
-    @Input() isPuiOrganisationManager: boolean = false;
-    @Input() isPuiFinanceManager: boolean = false;
-    @Input() errorMessages: {isInvalid: boolean; messages: string[] };
+    @Input() public inviteUserForm: FormGroup;
+    @Input() public isPuiCaseManager: boolean = false;
+    @Input() public isPuiUserManager: boolean = false;
+    @Input() public isPuiOrganisationManager: boolean = false;
+    @Input() public isPuiFinanceManager: boolean = false;
+    @Input() public isCaseAccessAdmin: boolean = false;
+    @Input() public errorMessages: {isInvalid: boolean; messages: string[] };
   }

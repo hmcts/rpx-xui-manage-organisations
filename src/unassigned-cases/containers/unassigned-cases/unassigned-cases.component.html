@@ -2,17 +2,25 @@
     <h1 class="govuk-heading-xl">Unassigned cases</h1>
     <div>
         <p>You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be registered with your organisation and have access to Manage cases.</p>
-        <ccd-case-list
+        <!-- <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation> -->
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems.length > 0">
+          <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
+            <ccd-case-list
             [cases]="cases$ | async"
             [tableConfig]="tableConfig"
             [selectionEnabled]="true"
             (selection)="onCaseSelection($event)">
-        </ccd-case-list>
+            </ccd-case-list>
+          </mat-tab>
+        </mat-tab-group>
     </div>
-    <div>
+    <div *ngIf="navItems.length > 0">
       <button id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
               (click)="shareCaseSubmit()">
         Share case
       </button>
+    </div>
+    <div *ngIf="navItems.length === 0">
+      <p>There are no unassigned cases available to be shared.</p>
     </div>
 </main>

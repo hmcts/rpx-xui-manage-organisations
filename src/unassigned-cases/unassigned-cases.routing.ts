@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/user-profile/guards/auth.guard';
-import { CaseShareComponent, CaseShareConfirmComponent, UnassignedCasesComponent, CaseShareCompleteComponent } from './containers';
+import { CaseShareCompleteComponent, CaseShareComponent, CaseShareConfirmComponent, UnassignedCasesComponent } from './containers';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 
@@ -14,6 +14,17 @@ export const ROUTES: Routes = [
             FeatureToggleAccountGuard,
             RoleGuard
         ],
+        children: [
+          {
+            path: ':id',
+            component: UnassignedCasesComponent,
+            canActivate: [
+              AuthGuard,
+              FeatureToggleAccountGuard,
+              RoleGuard
+            ]
+          }
+        ]
     },
     {
       path: 'case-share',

@@ -13,6 +13,7 @@ import postUserTermsAndConditions from './postUserTermsAndConditions'
 import suspendUser from './suspendUser'
 import getTermsAndConditions from './termsAndConditions'
 import unnassignedCasesRouter from './unassignedCases'
+import unassignedCaseTypesRouter from './unassignedCaseTypes'
 import userDetailsRouter from './user'
 import getUserList from './userList'
 
@@ -34,5 +35,6 @@ router.use('/termsAndConditions', getTermsAndConditions)
 router.use('/user/:userId/suspend', suspendUser)
 router.use('/editUserPermissions/users/:userId', editUserPermissions)
 router.use('/unassignedCases', unnassignedCasesRouter)
+router.use('/unassignedCaseTypes', unassignedCaseTypesRouter)
 router.use('/caseshare', caseShareRouter)
 export default router

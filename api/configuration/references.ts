@@ -39,6 +39,8 @@ export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi'
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions'
 export const SERVICES_CCD_CASE_ASSIGNMENT_API_PATH = 'services.caseAssignmentApi'
 
+export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi'
+
 export const SESSION_SECRET = 'sessionSecret'
 
 export const LOGGING = 'logging'

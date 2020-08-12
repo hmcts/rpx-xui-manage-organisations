@@ -10,12 +10,13 @@ export interface UnassignedCase {
     respFirstName: string;
     respLastName: string;
     sRef: string;
+    caseType: string;
 }
 
 export interface CaseTypesResultsResponse {
     total: number;
     cases: any [];
-    case_types_results: CaseTypesResults [];
+    case_types_results?: CaseTypesResults [];
 }
 
 export interface CaseTypesResults {

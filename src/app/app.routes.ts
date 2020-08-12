@@ -16,36 +16,57 @@ export const ROUTES: Routes = [
   {
     path: 'organisation',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
-    loadChildren: '../organisation/organisation.module#OrganisationModule'
+    loadChildren: '../organisation/organisation.module#OrganisationModule',
+    data: {
+      title: 'Organisation'
+    }
   },
   {
     path: 'users',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
-    loadChildren: '../users/users.module#UsersModule'
+    loadChildren: '../users/users.module#UsersModule',
+    data: {
+      title: 'Users'
+    }
   },
   {
     path: 'fee-accounts',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
+    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule',
+    data: {
+      title: 'Accounts'
+    }
   },
   {
     path: 'unassigned-cases',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: '../unassigned-cases/unassigned-cases.module#UnassignedCasesModule'
+    loadChildren: '../unassigned-cases/unassigned-cases.module#UnassignedCasesModule',
+    data: {
+      title: 'Unassigned Cases'
+    }
   },
   {
     path: 'style-guide',
     canActivate: [AuthGuard],
-    loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
+    loadChildren: '../style-guide/style-guide.module#StyleGuideModule',
+    data: {
+      title: 'Style Guide'
+    }
   },
   {
     path: 'register-org',
-    loadChildren: '../register/register.module#RegisterModule'
+    loadChildren: '../register/register.module#RegisterModule',
+    data: {
+      title: 'Register Organisation'
+    }
   },
   {
     path: 'accept-terms-and-conditions',
     canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
-    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
+    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule',
+    data: {
+      title: 'Accept Terms and Conditions'
+    }
   },
   {
     path: 'service-down',

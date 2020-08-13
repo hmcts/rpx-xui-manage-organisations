@@ -19,7 +19,7 @@ describe('UnassignedCasesComponent', () => {
     it('getCaveatTableConfig', () => {
         const tableConfig = component.getCaveatTableConfig();
         expect(tableConfig.idField).toEqual('caseRef');
-        expect(tableConfig.columnConfigs.length).toEqual(8);
+        expect(tableConfig.columnConfigs.length).toEqual(9);
         expect(tableConfig.columnConfigs[0].header).toEqual('Case created date');
         expect(tableConfig.columnConfigs[0].key).toEqual('caseCreatedDate');
     });
@@ -33,7 +33,8 @@ describe('UnassignedCasesComponent', () => {
             petLastName: 'last',
             respFirstName: 'first1',
             respLastName: 'last1',
-            sRef: 'sref'
+            sRef: 'sref',
+            caseType: '123'
         };
         const spyOnColumnConfig = spyOn(component, 'getCaveatTableConfig');
         store.pipe.and.returnValue(of([unassignedCase]));

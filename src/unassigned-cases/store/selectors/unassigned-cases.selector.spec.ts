@@ -9,21 +9,21 @@ describe('UnassignedCases Selectors', () => {
         petLastName: 'last',
         respFirstName: 'first1',
         respLastName: 'last1',
-        sRef: 'sref'
+        sRef: 'sref',
+        caseType: '123'
     };
     const state = {
         unassignedCases: {
             unassignedCases: {
                 unassignedCases: [unassignedCase]
-            }
+            },
+            caseTypes: []
         }
     };
     it('getUnassignedCasesState', () => {
         const selectedState = getUnassignedCasesState(state);
         console.log('expected is ', selectedState);
-        expect(selectedState).toEqual({
-            unassignedCases: [unassignedCase]
-        });
+        expect(selectedState.unassignedCases).toEqual([unassignedCase]);
     });
     it('getUnassignedCases', () => {
         const selectedState = getAllUnassignedCases(state);

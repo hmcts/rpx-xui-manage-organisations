@@ -20,7 +20,8 @@ describe('Unassigned Cases', () => {
             petLastName: 'last',
             respFirstName: 'first1',
             respLastName: 'last1',
-            sRef: 'sref'
+            sRef: 'sref',
+            caseType: '123'
         };
         const action = new fromActions.LoadUnassignedCasesSuccess([unassignedCase]);
         const state = fromUnassignedCases.reducer(initialState, action);

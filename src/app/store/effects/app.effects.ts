@@ -115,7 +115,7 @@ export class AppEffects {
     return new appActions.LoadFeatureToggleConfigSuccess(result);
   }
 
-  private getObservable(featureNames: string[]): Observable<boolean>[] {
+  getObservable(featureNames: string[]): Observable<boolean>[] {
     let observables = new Array<Observable<boolean>>();
     featureNames.forEach(featureName => {
       const observable = this.featureToggleService.isEnabled(featureName);

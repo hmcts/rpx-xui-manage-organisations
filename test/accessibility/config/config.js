@@ -3,6 +3,7 @@ const conf = {
     appName:"Manage Organisation",
     baseUrl1:'https://manage-org.aat.platform.hmcts.net/',
     baseUrl:'http://localhost:4200/',
+    failTestOna11yIssues: false,
 
     params:{
         username:'sreekanth_su@mailinator.com',
@@ -11,7 +12,9 @@ const conf = {
     authenticatedUrls: [
         'organisation',
         'users',
-        'users/invite-user'
+        'users/invite-user',
+        'unassigned-cases',
+        'unassigned-cases/case-share'
     ],
     unauthenticatedUrls: [
         'register-org/register',

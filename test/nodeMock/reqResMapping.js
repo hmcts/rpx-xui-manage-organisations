@@ -1,4 +1,5 @@
-const conf = {
+const faker = require('faker');
+const requestMapping = {
    get:{
        '/api/organisation': (req,res) => {
            res.send(getOrganisation());
@@ -7,7 +8,6 @@ const conf = {
            res.send({"googleAnalyticsKey":"UA-124734893-4","idamWeb":"https://idam-web-public.aat.platform.hmcts.net","launchDarklyClientId":"5de6610b23ce5408280f2268","manageCaseLink":"https://xui-webapp-aat.service.core-compute-aat.internal/cases","manageOrgLink":"https://xui-mo-webapp-aat.service.core-compute-aat.internal","protocol":"http"});
        },
        '/external/configuration': (req,res) => {
-           req.
            res.send(""+getConfigurationValue(req.query.configurationKey));
        },
        '/api/healthCheck': (req,res) => {
@@ -20,12 +20,24 @@ const conf = {
             res.send(getJurisdictions());
        },
        '/api/user/details': (req,res) => {
-       res.send({"email":"sreekanth_su1@mailinator.com","orgId":"-1","roles":["caseworker","caseworker-divorce-financialremedy-solicitor","caseworker-ia-legalrep-solicitor","caseworker-divorce-financialremedy","pui-case-manager","caseworker-publiclaw-solicitor","caseworker-ia","caseworker-probate-solicitor","caseworker-probate","pui-organisation-manager","caseworker-divorce-solicitor","caseworker-divorce","caseworker-publiclaw","pui-user-manager","pui-finance-manager"],"userId":"4510b778-6a9d-4c53-918a-c3f80bd7aadd"}); 
+           res.send({ "email": "sreekanth_su1@mailinator.com", "orgId": "VRSFNPV", "roles": ["caseworker", "caseworker-divorce", "caseworker-divorce-financialremedy", "caseworker-divorce-financialremedy-solicitor", "caseworker-divorce-solicitor", "caseworker-ia", "caseworker-ia-legalrep-solicitor", "caseworker-probate", "caseworker-probate-solicitor", "caseworker-publiclaw", "caseworker-publiclaw-solicitor", "pui-caa", "pui-case-manager", "pui-finance-manager", "pui-organisation-manager", "pui-user-manager"], "sessionTimeout": { "idleModalDisplayTime": 10, "pattern": ".", "totalIdleTime": 20 }, "userId": "4510b778-6a9d-4c53-918a-c3f80bd7aadd" }); 
+       },
+       '/api/unassignedcases':(req,res) => {
+           res.send(createCases(5));
+       },
+       '/api/caseshare/cases': (req,res) => {
+           res.send(getShareCases());
+       },
+       '/api/caseshare/users': (req,res) => {
+           res.send(organisationUsers());
        }
     },
     post:{
         '/api/inviteUser': (req,res) => {
             res.send({"userIdentifier":"97ecc487-cdeb-42a8-b794-84840a4testc","idamStatus":null});
+        },
+        '/api/unassignedCaseTypes': (req,res) => {
+            res.send({ "case_types_results": [{ "case_type_id": "CaseType1", "total": 30775 }, { "case_type_id": "CaseType2", "total": 63103 }, { "case_type_id": "CaseType3", "total": 89850 }, { "case_type_id": "CaseType4", "total": 47670 }, { "case_type_id": "CaseType5", "total": 53493 }], "cases": [], "total": 23578 });
         }
     },
     put:{
@@ -60,6 +72,101 @@ function getJurisdictions(){
 }
 
 
-module.exports = {conf,configurations};
+
+const createCase = () => {
+    return {
+        caseCreatedDate: faker.date.past(),
+        caseDueDate: faker.date.future(),
+        caseRef: faker.random.uuid(),
+        caseType: `CaseType${caseTypeNumber}`,
+        petFirstName: faker.name.firstName(),
+        petLastName: faker.name.lastName(),
+        respFirstName: faker.name.firstName(),
+        respLastName: faker.name.lastName(),
+        sRef: faker.random.uuid(),
+    }
+}
+
+const createCaseData = (numUsers = 5) => {
+    return new Array(numUsers)
+        .fill(undefined)
+        .map(createCase)
+}
+
+let caseTypeNumber = 0;
+const createCases = (numUsers = 5)  => {
+    caseTypeNumber = 1;
+    const cases = createCaseData(5)
+    caseTypeNumber++
+    cases.push(...createCaseData(5))
+    caseTypeNumber++
+    cases.push(...createCaseData(5))
+    caseTypeNumber++
+    cases.push(...createCaseData(5))
+    return cases
+}
+
+
+module.exports = { requestMapping,configurations};
+
+
+
+
+function getShareCases(){
+    return [
+        {
+            "caseId": "1573922332670942",
+            "caseTitle": "Paul Saddlebrook Vs Jennifer Saddlebrook",
+            "sharedWith": [
+                {
+                    "idamId": "u111111",
+                    "firstName": "Joe",
+                    "lastName": "Elliott",
+                    "email": "joe.elliott@woodford.com"
+                },
+                {
+                    "idamId": "u222222",
+                    "firstName": "Steve",
+                    "lastName": "Harrison",
+                    "email": "steve.harrison@woodford.com"
+                }
+            ]
+        },
+        {
+            "caseId": "1573925439311211",
+            "caseTitle": "Neha Venkatanarasimharaj Vs Sanjet Venkatanarasimharaj",
+            "sharedWith": []
+        },
+        {
+            "caseId": "1574006431043307",
+            "caseTitle": "Sam Green Vs Williams Lee",
+            "sharedWith": [
+                {
+                    "idamId": "u666666",
+                    "firstName": "Kate",
+                    "lastName": "Grant",
+                    "email": "kate.grant@lambbrooks.com"
+                },
+                {
+                    "idamId": "u777777",
+                    "firstName": "Nick",
+                    "lastName": "Rodrigues",
+                    "email": "nick.rodrigues@lambbrooks.com"
+                },
+                {
+                    "idamId": "u888888",
+                    "firstName": "Joel",
+                    "lastName": "Molloy",
+                    "email": "joel.molloy@lambbrooks.com"
+                }
+            ]
+        }
+    ];
+}
+
+function organisationUsers(){
+
+    return [{ "idamId": "u111111", "firstName": "Joe", "lastName": "Elliott", "email": "joe.elliott@woodford.com" }, { "idamId": "u222222", "firstName": "Steve", "lastName": "Harrison", "email": "steve.harrison@woodford.com" }, { "idamId": "u333333", "firstName": "James", "lastName": "Priest", "email": "james.priest@woodford.com" }, { "idamId": "u444444", "firstName": "Shaun", "lastName": "Coldwell", "email": "shaun.coldwell@woodford.com" }];
+}
 
 

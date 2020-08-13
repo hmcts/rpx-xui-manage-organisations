@@ -23,7 +23,7 @@ const requestMapping = {
            res.send({ "email": "sreekanth_su1@mailinator.com", "orgId": "VRSFNPV", "roles": ["caseworker", "caseworker-divorce", "caseworker-divorce-financialremedy", "caseworker-divorce-financialremedy-solicitor", "caseworker-divorce-solicitor", "caseworker-ia", "caseworker-ia-legalrep-solicitor", "caseworker-probate", "caseworker-probate-solicitor", "caseworker-publiclaw", "caseworker-publiclaw-solicitor", "pui-caa", "pui-case-manager", "pui-finance-manager", "pui-organisation-manager", "pui-user-manager"], "sessionTimeout": { "idleModalDisplayTime": 10, "pattern": ".", "totalIdleTime": 20 }, "userId": "4510b778-6a9d-4c53-918a-c3f80bd7aadd" }); 
        },
        '/api/unassignedcases':(req,res) => {
-           res.send(createCaseData(5));
+           res.send(createCases(5));
        },
        '/api/caseshare/cases': (req,res) => {
            res.send(getShareCases());
@@ -35,6 +35,9 @@ const requestMapping = {
     post:{
         '/api/inviteUser': (req,res) => {
             res.send({"userIdentifier":"97ecc487-cdeb-42a8-b794-84840a4testc","idamStatus":null});
+        },
+        '/api/unassignedCaseTypes': (req,res) => {
+            res.send({ "case_types_results": [{ "case_type_id": "CaseType1", "total": 30775 }, { "case_type_id": "CaseType2", "total": 63103 }, { "case_type_id": "CaseType3", "total": 89850 }, { "case_type_id": "CaseType4", "total": 47670 }, { "case_type_id": "CaseType5", "total": 53493 }], "cases": [], "total": 23578 });
         }
     },
     put:{
@@ -75,6 +78,7 @@ const createCase = () => {
         caseCreatedDate: faker.date.past(),
         caseDueDate: faker.date.future(),
         caseRef: faker.random.uuid(),
+        caseType: `CaseType${caseTypeNumber}`,
         petFirstName: faker.name.firstName(),
         petLastName: faker.name.lastName(),
         respFirstName: faker.name.firstName(),
@@ -87,6 +91,19 @@ const createCaseData = (numUsers = 5) => {
     return new Array(numUsers)
         .fill(undefined)
         .map(createCase)
+}
+
+let caseTypeNumber = 0;
+const createCases = (numUsers = 5)  => {
+    caseTypeNumber = 1;
+    const cases = createCaseData(5)
+    caseTypeNumber++
+    cases.push(...createCaseData(5))
+    caseTypeNumber++
+    cases.push(...createCaseData(5))
+    caseTypeNumber++
+    cases.push(...createCaseData(5))
+    return cases
 }
 
 

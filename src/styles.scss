@@ -40,3 +40,39 @@ div.govuk-header__logo, div.hmcts-header__logo {
 .stay-signed-in-button {
   margin-right: 15px;
 }
+
+
+
+
+.mat-tab-label {
+  font-family: Roboto, Arial, sans-serif;
+  margin: 0;
+
+  text-decoration: underline;
+
+  display: block;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 15px;
+  text-decoration: underline;
+
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 200;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.25;
+  box-shadow: inset 0 -1px 0 #bfc1c3;
+  display: block;
+  margin-top: -1px;
+
+  font-size: 19px;
+  font-size: 1.1875rem;
+  line-height: 1.31579;
+}
+/* ink bar style */
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+  background: #005ea5;
+  height: 5px;
+} 

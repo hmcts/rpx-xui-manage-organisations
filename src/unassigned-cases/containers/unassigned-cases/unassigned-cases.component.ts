@@ -12,6 +12,7 @@ import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
 @Component({
   selector: 'app-unassigned-cases-component',
   templateUrl: './unassigned-cases.component.html',
+  styleUrls: ['./unassigned-cases.component.scss']
 })
 export class UnassignedCasesComponent implements OnInit {
 

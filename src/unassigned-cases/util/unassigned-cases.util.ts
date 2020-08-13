@@ -6,11 +6,13 @@ export  class UnassingedCasesUtil {
         const result = new Array<SubNavigation>();
         if (response.case_types_results) {
             response.case_types_results.forEach(caseType => {
-                result.push({
-                    text: caseType.case_type_id,
-                    href: caseType.case_type_id,
-                    active: false
-                });
+                if (caseType.total > 0) {
+                    result.push({
+                        text: caseType.case_type_id,
+                        href: caseType.case_type_id,
+                        active: false
+                    });
+                }
             });
         }
         return result;

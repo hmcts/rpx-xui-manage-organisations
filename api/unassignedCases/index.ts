@@ -12,7 +12,7 @@ const createCase = () => {
       caseCreatedDate: faker.date.past(),
       caseDueDate: faker.date.future(),
       caseRef: faker.random.uuid(),
-      caseType: `CaseType${caseTypeNumber}`,
+      caseType: `Casetype${caseTypeNumber}`,
       petFirstName: faker.name.firstName(),
       petLastName: faker.name.lastName(),
       respFirstName: faker.name.firstName(),

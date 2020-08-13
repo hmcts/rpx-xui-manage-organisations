@@ -13,17 +13,6 @@ export const ROUTES: Routes = [
             AuthGuard,
             FeatureToggleAccountGuard,
             RoleGuard
-        ],
-        children: [
-          {
-            path: ':id',
-            component: UnassignedCasesComponent,
-            canActivate: [
-              AuthGuard,
-              FeatureToggleAccountGuard,
-              RoleGuard
-            ]
-          }
         ]
     },
     {

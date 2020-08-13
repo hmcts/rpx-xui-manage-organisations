@@ -7,9 +7,10 @@ export function getApiPath(ccdPath: string) {
 }
 
 export const createCaseType = () => {
+    const caseTypeId = `Casetype${caseTypeNumber++}`
     return {
-        case_type_id: `CaseType${caseTypeNumber++}`,
-        total: faker.random.number(),
+        case_type_id: caseTypeId,
+        total: caseTypeNumber !== 6 ? faker.random.number() : 0,
     }
 }
 

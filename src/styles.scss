@@ -48,8 +48,6 @@ div.govuk-header__logo, div.hmcts-header__logo {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
 
-  text-decoration: underline;
-
   display: block;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -66,10 +64,16 @@ div.govuk-header__logo, div.hmcts-header__logo {
   box-shadow: inset 0 -1px 0 #bfc1c3;
   display: block;
   margin-top: -1px;
-
+  filter: contrast(100%);
   font-size: 19px;
   font-size: 1.1875rem;
   line-height: 1.31579;
+  color: #005ea5;
+}
+.mat-tab-label-active {
+  text-decoration: none;
+  color: #0b0c0c;
+  filter: contrast(100%);
 }
 /* ink bar style */
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{

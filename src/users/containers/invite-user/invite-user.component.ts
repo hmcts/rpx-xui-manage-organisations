@@ -196,7 +196,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   // convenience getter for easy access to form fields
   public get f() { return this.inviteUserForm.controls; }
 
-  public onSubmit() {
+  public async onSubmit() {
     this.showWarningMessage = false;
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {

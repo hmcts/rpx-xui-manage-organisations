@@ -209,6 +209,12 @@ export class InviteUserComponent implements OnInit, OnDestroy {
 
       const ccdRoles = this.inviteUserForm.value.roles['pui-case-manager'] ? AppConstants.CCD_ROLES : [];
 
+      if (this.jurisdictions.length == 0) {
+        this.juridictionSubscription = await this.store.pipe(select(fromAppStore.getAllJurisdictions))
+          .subscribe(value => this.jurisdictions = value,
+            (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
+      }
+
       const roles = [
         ...permissions,
         ...ccdRoles

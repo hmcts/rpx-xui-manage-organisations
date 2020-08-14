@@ -44,11 +44,12 @@ describe('Pa11y tests', function () {
 
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('exui-case-share'));
-        actions.push(...PallyActions.clickElement('.govuk-accordion__controls button'));
-        actions.push(...PallyActions.clickElement('tr td a'));
+        actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
+        actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
+
+        actions.push(...PallyActions.clickElement('#accordion-with-summary-sections xuilib-selected-case  .govuk-accordion__section-content a'));
         actions.push(...PallyActions.clickElement('#share-case-nav button'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('xuilib-share-case-confirm'));
+        actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share-confirm #summarySections'));
 
         const result = await pa11ytest(this, actions);
     });

@@ -42,7 +42,7 @@ async function pa11ytest(test,actions,timeoutVal) {
     ];
     const browser = await puppeteer.launch({
         ignoreHTTPSErrors: false,
-        headless:true 
+        headless:conf.headless 
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);
@@ -57,11 +57,11 @@ async function pa11ytest(test,actions,timeoutVal) {
                 page: page,
             timeout: 60000,
             screenCapture: screenshotPath,
-            // log: {
-            //     debug: console.log,
-            //     error: console.error,
-            //     info: console.info
-            // },
+            log: {
+                debug: console.log,
+                error: console.error,
+                info: console.info
+            },
             actions: actions
         })
     }catch(err){

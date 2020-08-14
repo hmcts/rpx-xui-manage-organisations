@@ -192,6 +192,12 @@
     "typescript": "~3.2.2"
   },
   "resolutions": {
-    "dot-prop": "^5.1.1"
+    "dot-prop": "^5.1.1",
+    "**/**/npm-registry-fetch": "^8.1.1",
+    "**/**/yargs-parser": "^18.1.2",
+    "**/**/minimist": "^1.2.3",
+    "**/**/mem": "^4.0.0",
+    "**/**/braces": "^2.3.1",
+    "**/**/marked": "^0.7.0"
   }
 }

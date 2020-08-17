@@ -32,7 +32,8 @@
     "secureCookieEnabled": true,
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
-    "redisEnabled": false
+    "redisEnabled": false,
+    "oidcEnabled": false
   },
   "helmet": {
     "contentSecurityPolicy": {

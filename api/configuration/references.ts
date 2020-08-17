@@ -50,6 +50,7 @@ export const FEATURE_PROXY_ENABLED = 'proxyEnabled'
 export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
 export const FEATURE_REDIS_ENABLED = 'redisEnabled'
+export const FEATURE_OIDC_ENABLED = 'oidcEnabled'
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink'
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'

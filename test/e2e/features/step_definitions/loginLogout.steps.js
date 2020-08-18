@@ -153,7 +153,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginWithCredentials(config.config.username, config.config.password,world);
+    await loginWithCredentials('autotest_readonly_superuser@mailinator.com', 'Monday01',world);
 
     // browser.sleep(LONG_DELAY);
   });

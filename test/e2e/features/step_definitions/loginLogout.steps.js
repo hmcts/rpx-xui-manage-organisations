@@ -26,9 +26,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     const world = this;
 
     await browser.get(config.config.baseUrl);
-    await browser.driver.manage()
-      .deleteAllCookies();
-    await browser.refresh();
     await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
       let stream = await browser.takeScreenshot();
       const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');

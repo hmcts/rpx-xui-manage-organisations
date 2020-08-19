@@ -30,13 +30,10 @@ defineSupportCode(function ({ Given, When, Then }) {
       .deleteAllCookies();
     await browser.refresh();
     await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
-      world.attach("Retrying Login page load : " + message);
-    //   browser.takeScreenshot()
-    //     .then(stream => {
-    //       const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-    //       world.attach(decodedImage, 'image/png');
-    //     });
-    // });
+      let stream = await browser.takeScreenshot();
+      const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+      world.attach(decodedImage, 'image/png')
+    });
     await browser.get(config.config.baseUrl);
     await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
     
@@ -259,11 +256,9 @@ defineSupportCode(function ({ Given, When, Then }) {
 async function loginWithCredentials(username,password,world){
   await browserWaits.retryForPageLoad(loginPage.emailAddress, async function (message) {
     world.attach("Retrying Login page load : " + message);
-    browser.takeScreenshot()
-      .then(stream => {
-        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-        world.attach(decodedImage, 'image/png');
-      });
+    let stream = await browser.takeScreenshot();
+    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+    world.attach(decodedImage, 'image/png');
     await browser.get(config.config.baseUrl);
   });
 

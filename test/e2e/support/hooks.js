@@ -98,7 +98,7 @@ defineSupportCode(({ After }) => {
         const world = this;
         console.log("After scenario : " + scenario.result.status);
         global.screenShotUtils.takeScreenshot()
-        .then(stream => {
+        .then(async (stream) => {
             const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
             world.attach(decodedImage, 'image/png');
 

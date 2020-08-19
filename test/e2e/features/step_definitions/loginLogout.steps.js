@@ -263,8 +263,22 @@ async function loginWithCredentials(username,password,world){
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);
   await browserWaits.waitForElement(loginPage.signinBtn);
-
   await loginPage.clickSignIn();
+
+  await browserWaits.retryForPageLoad($('app-header'), async function (message) {
+    world.attach("Retrying Login attempt: " + message);
+    let stream = await browser.takeScreenshot();
+    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+    world.attach(decodedImage, 'image/png');
+    await browser.get(config.config.baseUrl);
+    await browserWaits.waitForElement(loginPage.emailAddress);
+    await loginPage.emailAddress.sendKeys(username);
+    await loginPage.password.sendKeys(password);
+    await browserWaits.waitForElement(loginPage.signinBtn);
+    await loginPage.clickSignIn();
+  });
+
+
 }
 
 function logger(world, message, isScreenshot) {

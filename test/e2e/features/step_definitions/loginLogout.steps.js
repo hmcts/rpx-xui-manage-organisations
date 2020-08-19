@@ -106,12 +106,10 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
   Then(/^I select the sign out link$/, async function () {
-    browser.sleep(SHORT_DELAY);
+    await browserWaits.waitForElement(loginPage.signOutlink, LONG_DELAY, "Signout link not present in page");
     await expect(loginPage.signOutlink.isDisplayed()).to.eventually.be.true;
-    browser.sleep(SHORT_DELAY);
-    await headerPage.waitForSpinnerNotPresent();
     await loginPage.signOutlink.click();
-    browser.sleep(SHORT_DELAY);
+    await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY, "Login page is not displayed after signout");
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {

@@ -91,7 +91,7 @@ class BrowserWaits {
 
         while (retryCounter < 3) {
             try {
-                await this.waitForElement(element);
+                await this.waitForElement(element,15000);
                 retryCounter += 3;
             }
             catch (err) {

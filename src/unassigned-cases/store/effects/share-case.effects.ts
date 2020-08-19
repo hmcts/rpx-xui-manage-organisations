@@ -62,8 +62,9 @@ export class ShareCaseEffects {
 
   @Effect() public loadOrgUsers$ = this.actions$.pipe(
     ofType(shareCaseActions.LOAD_USERS_FROM_ORG_FOR_CASE),
-    switchMap(() => {
-      return this.caseShareService.getUsersFromOrg().pipe(
+    map((action: shareCaseActions.LoadUserFromOrgForCase) => action.payload),
+    switchMap(payload => {
+      return this.caseShareService.getUsersFromOrg(payload).pipe(
         map(
           (response) => new shareCaseActions.LoadUserFromOrgForCaseSuccess(response)),
         catchError(() => of(new fromRoot.Go({ path: ['/service-down']})))

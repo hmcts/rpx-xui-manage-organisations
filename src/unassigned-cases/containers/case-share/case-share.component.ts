@@ -4,6 +4,7 @@ import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.m
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
 import { Observable } from 'rxjs';
+import * as fromUserProfile from '../../../user-profile/store';
 import * as fromCasesFeature from '../../store';
 import { LoadShareCase, LoadUserFromOrgForCase } from '../../store/actions';
 import * as fromCaseList from '../../store/reducers';
@@ -33,8 +34,9 @@ export class CaseShareComponent implements OnInit {
 
     // Hard coded Org Id as this info will come later
     this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));
-    this.store.dispatch(new LoadUserFromOrgForCase('o111111'));
-
+    this.store.pipe(select(fromUserProfile.getUser)).subscribe(userProfile => {
+      this.store.dispatch(new LoadUserFromOrgForCase(userProfile.email));
+    });
     // initialize javascript for accordion component to enable open/close button
     setTimeout(() => initAll(), 1000);
   }

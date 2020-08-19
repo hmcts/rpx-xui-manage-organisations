@@ -61,22 +61,9 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When("I login with latest invited user", async function () {
     const world = this;
-
     this.attach("User email : " + global.latestInvitedUser);
-    await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
-    await loginPage.password.sendKeys(global.latestInvitedUserPassword);
-    // browser.sleep(SHORT_DELAY);
-    await loginPage.signinBtn.click();
+    await loginWithCredentials(global.latestInvitedUser, global.latestInvitedUserPassword,world);
 
-    await browserWaits.retryForPageLoad($(".hmcts-header__link"), function (message) {
-      world.attach("Retrying page load after login : " + message)
-    });
-    await waitForElement('hmcts-header__link');
-    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.dashboard_header.getText())
-      .to
-      .eventually
-      .equal('Manage organisation details for civil, family, and tribunal law cases');
   });
 
   When(/^I enter an valid email-address and password to login$/, async function () {

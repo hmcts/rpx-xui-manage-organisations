@@ -50,7 +50,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     });
     this.jurisdictions$ = this.store.pipe(select(fromAppStore.getAllJurisdictions));
     this.jurisdictions$.subscribe(jurisdictions => {
-        this.jurisdictions = jurisdictions;
+      this.jurisdictions = jurisdictions;
     });
     this.dispathAction(new fromAppStore.LoadJurisdictions(), this.store);
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400)).subscribe(() => {

@@ -99,9 +99,11 @@ defineSupportCode(({ After }) => {
         console.log("After scenario : " + scenario.result.status);
         global.screenShotUtils.takeScreenshot()
         .then(async (stream) => {
-            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-            world.attach(decodedImage, 'image/png');
-
+            if (stream){
+                const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                world.attach(decodedImage, 'image/png');
+            }
+  
             await browser.driver.manage()
                 .deleteAllCookies();
             done();

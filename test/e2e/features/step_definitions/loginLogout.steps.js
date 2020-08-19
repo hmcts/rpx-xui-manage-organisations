@@ -29,9 +29,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
       let stream = await browser.takeScreenshot();
       const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-      world.attach(decodedImage, 'image/png')
+      world.attach(decodedImage, 'image/png');
+      await browser.get(config.config.baseUrl);
+
     });
-    await browser.get(config.config.baseUrl);
     await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
     
   });

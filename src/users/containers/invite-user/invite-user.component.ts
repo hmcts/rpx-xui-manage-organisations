@@ -188,8 +188,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
             value = this.callInviteuser(permissions, ccdRoles, value, jurisdictions);
           },
           (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
-      }
-      else {
+      } else {
         this.callInviteuser(permissions, ccdRoles, value, this.jurisdictions);
       }
     }

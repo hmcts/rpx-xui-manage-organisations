@@ -21,7 +21,6 @@ Feature: invite user workflow
       | Manage Organisation |
       | Manage Cases |
     Then user should be created successfuly
-    When I activate invited user
 
   Scenario: Invite user with Manage Org permission
 

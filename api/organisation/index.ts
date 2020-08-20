@@ -40,7 +40,7 @@ export async function handleOrganisationUsersRoute(req: Request, res: Response) 
         `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users?returnRoles=false`
       )
       console.log(req.query.currentUserEmail)
-      res.send(getFilteredUsers(response.data.users, req.query.currentUserEmail))
+      res.send(getFilteredUsers(response.data.users))
   } catch (error) {
     console.log(error)
     const errReport = {
@@ -52,8 +52,8 @@ export async function handleOrganisationUsersRoute(req: Request, res: Response) 
   }
 }
 
-function getFilteredUsers(users: OrganisationUser [], currentUserEmail: any): OrganisationUser [] {
-  return users.filter(user => user.email !== currentUserEmail && user.idamStatus === 'ACTIVE')
+function getFilteredUsers(users: OrganisationUser []): OrganisationUser [] {
+  return users.filter(user => user.idamStatus === 'ACTIVE')
 }
 
 export const router = Router({ mergeParams: true })

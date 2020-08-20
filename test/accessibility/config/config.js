@@ -1,7 +1,10 @@
 const conf = {
     reportPath: "reports/tests/a11y/",
     appName:"Manage Organisation",
-    baseUrl:'https://manage-org.aat.platform.hmcts.net/',
+    baseUrl1:'https://manage-org.aat.platform.hmcts.net/',
+    baseUrl:'http://localhost:4200/',
+    failTestOna11yIssues: false,
+    headless: true,
     params:{
         username:'sreekanth_su@mailinator.com',
         password:'Monday01'
@@ -9,7 +12,9 @@ const conf = {
     authenticatedUrls: [
         'organisation',
         'users',
-        'users/invite-user'
+        'users/invite-user',
+        'unassigned-cases',
+        'unassigned-cases/case-share'
     ],
     unauthenticatedUrls: [
         'register-org/register',

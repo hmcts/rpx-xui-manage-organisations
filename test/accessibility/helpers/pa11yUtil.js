@@ -4,6 +4,9 @@ const pa11y = require('pa11y');
 const assert = require('assert');
 const {conf} = require('../config/config');
 
+const jwt = require('jsonwebtoken');
+const puppeteer = require('puppeteer');
+
 
 const fs = require('fs');
 
@@ -22,10 +25,33 @@ async function pa11ytest(test,actions,timeoutVal) {
 
     const startTime = Date.now();
 
+    let token = jwt.sign({
+    data: 'foobar'
+    }, 'secret', { expiresIn: 60 * 60 });
+
+    const cookies = [
+        {
+        name: '__auth__',
+        value: token,
+        domain: 'localhost:4200',
+        path: '/',
+        httpOnly: false,
+        secure: false,
+        session: true,
+        }
+    ];
+    const browser = await puppeteer.launch({
+        ignoreHTTPSErrors: false,
+        headless:conf.headless 
+    });
+    const page = await browser.newPage();
+    await page.setCookie(...cookies);
+
     let result;
     try{
         result = await pa11y(conf.baseUrl, {
-            "chromeLaunchConfig": { "ignoreHTTPSErrors": false , headless:true } ,
+            browser: browser,
+            page: page,
             timeout: 60000,
             screenCapture: screenshotPath,
             // log: {
@@ -36,9 +62,16 @@ async function pa11ytest(test,actions,timeoutVal) {
             actions: actions
         })
     }catch(err){
+        await page.screenshot({ path: screenshotPath});
         const elapsedTime = Date.now() - startTime;
+        result = {}; 
+        result.executionTime = elapsedTime;
+        result.screenshot = screenshotReportRef;
+        test.a11yResult = result;
         console.log("Test Execution time : " + elapsedTime);
         console.log(err);
+        await page.close();
+        await browser.close();
         throw err;
 
     }
@@ -47,8 +80,12 @@ async function pa11ytest(test,actions,timeoutVal) {
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
+    await page.close();
+    await browser.close();
     console.log("Test Execution time : "+elapsedTime);
-    assert(result.issues.length === 0, "accessibility issues reported") 
+    if (conf.failTestOna11yIssues){
+        assert(result.issues.length === 0, "a11y issues reported") 
+    }
     return result;
 
 }

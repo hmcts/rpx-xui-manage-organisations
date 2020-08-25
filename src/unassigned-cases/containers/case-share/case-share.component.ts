@@ -29,7 +29,7 @@ export class CaseShareComponent implements OnInit {
   }
 
   public ngOnInit() {
-    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.removeUserFromCase, false);
+    this.removeUserFromCaseToggleOn$ = this.featureToggleService.isEnabled(AppConstants.FEATURE_NAMES.removeUserFromCase);
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;

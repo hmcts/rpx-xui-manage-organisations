@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
 import { Observable } from 'rxjs';
+import {AppConstants} from '../../../app/app.constants';
 import * as fromUserProfile from '../../../user-profile/store';
 import * as fromCasesFeature from '../../store';
 import { LoadShareCase, LoadUserFromOrgForCase } from '../../store/actions';
@@ -19,12 +21,15 @@ export class CaseShareComponent implements OnInit {
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public orgUsers$: Observable<UserDetails[]>;
+  public removeUserFromCaseToggleOn$: Observable<boolean>;
 
-  constructor(public store: Store<fromCaseList.UnassignedCasesState>) {
+  constructor(public store: Store<fromCaseList.UnassignedCasesState>,
+              public featureToggleService: FeatureToggleService) {
 
   }
 
   public ngOnInit() {
+    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.removeUserFromCase, false);
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;

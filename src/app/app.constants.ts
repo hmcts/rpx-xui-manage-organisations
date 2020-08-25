@@ -6,7 +6,8 @@ import {UserNavModel} from './models/user-nav.model';
 const featureNames = {
   feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
-  unassignedCases: 'unassigned-cases'
+  unassignedCases: 'unassigned-cases',
+  removeUserFromCase: 'remove-user-from-case-mo'
 };
 
 const navItemsArray: NavItemModel[] = [

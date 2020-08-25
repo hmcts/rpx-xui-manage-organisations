@@ -8,6 +8,7 @@
     (unselect)="deselect($event)"
     (synchronizeStore)="synchronizeStore($event)"
     [confirmLink]="'/unassigned-cases/case-share-confirm'"
+    [removeUserFromCaseToggleOn]="removeUserFromCaseToggleOn$ | async"
   >
   </xuilib-share-case>
 

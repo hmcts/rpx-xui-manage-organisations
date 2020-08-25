@@ -30,7 +30,11 @@ const requestMapping = {
        },
        '/api/caseshare/users': (req,res) => {
            res.send(organisationUsers());
+       },
+       '/api/organisation/users': (req,res) => {
+           res.send(organisationUsers());
        }
+
     },
     post:{
         '/api/inviteUser': (req,res) => {

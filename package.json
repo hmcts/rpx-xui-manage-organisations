@@ -32,7 +32,7 @@
     "ng": "ng",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "build:ng": "ng build",
-    "test:a11y": "ng e2e --protractorConfig=./test/accessibility/config/protractor.conf.js",
+    "test:a11y": "webdriver-manager update --versions.chrome 2.40 && ng e2e --webdriver-update=false --protractorConfig=./test/accessibility/config/protractor.conf.js",
     "test:a11y1": "ng e2e --protractorConfig=./test/accessibility/config/protractor.conf.js",
     "test:ng": "ng test",
     "lint": "yarn lint:ng",

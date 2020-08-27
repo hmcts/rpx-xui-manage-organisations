@@ -20,22 +20,3 @@ Background: background setup
 Scenario: New User first time loggged in presented with Accept Terms and Consitions page
     Then I login with latest invited user
     Then I am on Accept Terms and Conditions page
-
-
-Scenario: New user cannot procced to use application without accepting T&C's
-    Then I login with latest invited user
-    Then I am on Accept Terms and Conditions page
-    Then I select the sign out link
-    Then I login with latest invited user
-    Then I am on Accept Terms and Conditions page
-
-
-Scenario: New user Accepting T&C's should not be presented with Accept T&C's page on future logins
-    Then I login with latest invited user
-    Then I am on Accept Terms and Conditions page
-    When I click Confirm in Accept Terms and Conditions page
-    Then I should be redirected to manage organisation dashboard page
-    Then I select the sign out link
-    Then I login with latest invited user
-    Then I should be redirected to manage organisation dashboard page
-

@@ -10,7 +10,7 @@ class BrowserWaits {
     }
 
     async waitForElement(waitelement, customWait,message) {
-        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString() + " | " + message ? message : "");
+        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString() + (message ? " => " + message : "_"));
     }
 
     async waitForElementNotVisible(element, customWait, message) {
@@ -91,7 +91,7 @@ class BrowserWaits {
 
         while (retryCounter < 3) {
             try {
-                await this.waitForElement(element);
+                await this.waitForElement(element,15000);
                 retryCounter += 3;
             }
             catch (err) {

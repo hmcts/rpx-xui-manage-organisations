@@ -18,6 +18,8 @@
       "__format": "json"
     },
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
+    "iss": "SERVICES_IDAM_ISS_URL",
+    "loginRoleMatcher": "LOGIN_ROLE_MATCHER",
     "protocol": "PROTOCOL",
     "services": {
         "idamApi": "IDAM_API_SERVICE",

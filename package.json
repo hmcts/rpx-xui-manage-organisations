@@ -61,6 +61,7 @@
     "@hmcts/nodejs-healthcheck": "^1.6.0",
     "@hmcts/properties-volume": "0.0.9",
     "@hmcts/rpx-xui-common-lib": "0.1.19",
+    "@hmcts/rpx-xui-node-lib": "^2.23.4",
     "@ng-idle/core": "^8.0.0-beta.4",
     "@ng-idle/keepalive": "^8.0.0-beta.4",
     "@ngrx/effects": "^7.4.0",
@@ -120,6 +121,12 @@
     "@angular/cli": "~6.0.8",
     "@angular/compiler-cli": "^7.2.13",
     "@angular/language-service": "~7.2.0",
+    "@stryker-mutator/api": "^3.0.1",
+    "@stryker-mutator/core": "^3.0.1",
+    "@stryker-mutator/html-reporter": "^3.0.1",
+    "@stryker-mutator/karma-runner": "^3.0.1",
+    "@stryker-mutator/mocha-runner": "^3.0.1",
+    "@stryker-mutator/typescript": "^3.0.1",
     "@types/applicationinsights-js": "^1.0.9",
     "@types/chai": "^4.1.7",
     "@types/connect-redis": "^0.0.13",
@@ -168,12 +175,6 @@
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2",
-    "@stryker-mutator/api": "^3.0.1",
-    "@stryker-mutator/core": "^3.0.1",
-    "@stryker-mutator/html-reporter": "^3.0.1",
-    "@stryker-mutator/karma-runner": "^3.0.1",
-    "@stryker-mutator/mocha-runner": "^3.0.1",
-    "@stryker-mutator/typescript": "^3.0.1"
+    "typescript": "~3.2.2"
   }
 }

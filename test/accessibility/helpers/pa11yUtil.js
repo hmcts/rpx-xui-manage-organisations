@@ -46,22 +46,19 @@ async function pa11ytest(test,actions,timeoutVal) {
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);
-    await page.goto("http://localhost:4200/");
-
 
     let result;
     try{
-
         result = await pa11y(conf.baseUrl, {
-                browser: browser,
-                page: page,
+            browser: browser,
+            page: page,
             timeout: 60000,
             screenCapture: screenshotPath,
-            log: {
-                debug: console.log,
-                error: console.error,
-                info: console.info
-            },
+            // log: {
+            //     debug: console.log,
+            //     error: console.error,
+            //     info: console.info
+            // },
             actions: actions
         })
     }catch(err){
@@ -78,13 +75,13 @@ async function pa11ytest(test,actions,timeoutVal) {
         throw err;
 
     }
-  
-    await page.close();
-    await browser.close();
+   
     const elapsedTime = Date.now() - startTime;
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
+    await page.close();
+    await browser.close();
     console.log("Test Execution time : "+elapsedTime);
     if (conf.failTestOna11yIssues){
         assert(result.issues.length === 0, "a11y issues reported") 
@@ -92,7 +89,5 @@ async function pa11ytest(test,actions,timeoutVal) {
     return result;
 
 }
-
- 
 
 module.exports = { pa11ytest}

@@ -37,7 +37,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   Then(/^I should be on display the user details$/, async function () {
     // browser.sleep(AMAZING_DELAY);
-    expect(await viewUserPage.amOnPage()).to.be.true;
+    expect(await viewUserPage.amOnPage(), "Users page not displayed").to.be.true;
     // browser.sleep(LONG_DELAY);
   });
 

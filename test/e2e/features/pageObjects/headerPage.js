@@ -26,18 +26,30 @@ class HeaderPage {
   }
 
  async isPrimaryNavigationTabDisplayed(){
-   return await this.hmctsPrimaryNavigation.isPresent(); 
+   await this.waitForSpinnerNotPresent();
+   return await this.hmctsPrimaryNavigation.isDisplayed(); 
   }
 
   async isHeaderTabPresent(displayText){
+    await this.waitForPrimaryNavigationToDisplay();
     return await element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + displayText+"']")).isPresent();
   }
 
+  async getHeaderTabs() {
+    await this.waitForPrimaryNavigationToDisplay();
+    let headerTabs = $$(".hmcts-primary-navigation__link");
+    let headersCount = await headerTabs.count();
+    let headerTexts = []; 
+    for(let i = 0; i< headersCount; i++){
+      headerTexts.push(await (await headerTabs.get(i)).getText());
+    } 
+    return headerTexts;
+  }
+
+
   async validateNavigationTabDisplayed(datatable){
     let navTabs = datatable.hashes();
-
-    console.log("bavigation tab databale : "+JSON.stringify(navTabs));
-
+    await this.waitForSpinnerNotPresent();
     for(let tabCounter = 0; tabCounter < navTabs.length; tabCounter++){
       let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab); 
       assert(isNavTabPresent, "Navigation Tab is not displayed/present : " + navTabs[tabCounter].NavigationTab);
@@ -84,8 +96,15 @@ class HeaderPage {
     }
 
   }
+
+  async clickHeaderTabWithtext(headerText){
+    let headerElement = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + headerText+"']"));
+    await this.clickHeaderTab(headerElement);
+  }
+
+ 
   async waitForSpinnerNotPresent(){
-    await BrowserWaits.waitForElementNotVisible(this.spinner, 60000);
+    await BrowserWaits.waitForElementNotVisible(this.spinner, 30000);
 
   }
 

@@ -2,8 +2,6 @@
 import { UserState } from '../reducers';
 import { UsersListState } from '../reducers/users.reducer';
 import {editUserFailureSelector, getGetSingleUser, getUserState} from './user.selectors';
-import {User} from '@hmcts/rpx-xui-common-lib';
-import * as fromUsers from '../reducers/users.reducer';
 
 const userList = [
     {
@@ -29,7 +27,7 @@ const mockUserListState: UsersListState = {
     loaded: true,
     loading: false,
     reinvitePendingUser: null,
-    editUserFailure: false,
+    editUserFailure: false
 };
 
 const mockUserState: UserState = {

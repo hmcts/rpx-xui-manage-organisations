@@ -7,7 +7,7 @@ const port = 3001;
 
 
 class MockApp{
-    async init(){
+    init(){
         this.conf = { 
             get: { ...requestMapping.get},
             post: { ...requestMapping.post },
@@ -39,7 +39,7 @@ class MockApp{
 
         this.server = await app.listen(port)
         console.log("mock api started");
-        return "Mock started successfully"
+        // return "Mock started successfully"
 
     }
 
@@ -78,6 +78,7 @@ const mockInstance = new MockApp();
 //         })
 
 // mockInstance.setConfig("feature.termsAndConditionsEnabled",true);
+// mockInstance.init();
 // mockInstance.startServer();
 
 module.exports = mockInstance;

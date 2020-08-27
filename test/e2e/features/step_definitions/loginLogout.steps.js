@@ -26,19 +26,14 @@ defineSupportCode(function ({ Given, When, Then }) {
     const world = this;
 
     await browser.get(config.config.baseUrl);
-    await browser.driver.manage()
-      .deleteAllCookies();
-    await browser.refresh();
     await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
-      world.attach("Retrying Login page load : " + message);
-      browser.takeScreenshot()
-        .then(stream => {
-          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-          world.attach(decodedImage, 'image/png');
-        });
+      let stream = await browser.takeScreenshot();
+      const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+      world.attach(decodedImage, 'image/png');
       await browser.get(config.config.baseUrl);
+
     });
-    await browserWaits.waitForElement(loginPage.emailAddress);
+    await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
     
   });
 
@@ -66,22 +61,9 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   When("I login with latest invited user", async function () {
     const world = this;
-
     this.attach("User email : " + global.latestInvitedUser);
-    await loginPage.emailAddress.sendKeys(global.latestInvitedUser);          //replace username and password
-    await loginPage.password.sendKeys(global.latestInvitedUserPassword);
-    // browser.sleep(SHORT_DELAY);
-    await loginPage.signinBtn.click();
+    await loginWithCredentials(global.latestInvitedUser, global.latestInvitedUserPassword,world);
 
-    await browserWaits.retryForPageLoad($(".hmcts-header__link"), function (message) {
-      world.attach("Retrying page load after login : " + message)
-    });
-    await waitForElement('hmcts-header__link');
-    await expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    await expect(loginPage.dashboard_header.getText())
-      .to
-      .eventually
-      .equal('Manage organisation details for civil, family, and tribunal law cases');
   });
 
   When(/^I enter an valid email-address and password to login$/, async function () {
@@ -111,23 +93,24 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
   Then(/^I select the sign out link$/, async function () {
-    browser.sleep(SHORT_DELAY);
+    await browserWaits.waitForElement(loginPage.signOutlink, LONG_DELAY, "Signout link not present in page");
     await expect(loginPage.signOutlink.isDisplayed()).to.eventually.be.true;
-    browser.sleep(SHORT_DELAY);
     await headerPage.waitForSpinnerNotPresent();
     await loginPage.signOutlink.click();
-    browser.sleep(SHORT_DELAY);
+    await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY, "Login page is not displayed after signout");
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY); 
-    expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-    expect(loginPage.dashboard_header.getText())
+    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY,"Dashboard Header not present");
+    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation, LONG_DELAY,"Primary navigation Tab not present"); 
+ 
+    await expect(loginPage.dashboard_header.isDisplayed(),"Dashboard header not displayed").to.eventually.be.true;
+    await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
  
-    expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true;
+    await expect(headerPage.isPrimaryNavigationTabDisplayed(),"Primary navigation tabs not displayed").to.eventually.be.true;
     browser.sleep(LONG_DELAY);
   });
 
@@ -151,7 +134,16 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginWithCredentials(config.config.username, config.config.password,world);
+    await loginWithCredentials('autotest_readonly_superuser@mailinator.com', 'Monday01',world);
+
+    // browser.sleep(LONG_DELAY);
+  });
+
+  Given(/^I am logged into manage organisation to invite users$/, async function () {
+    // browser.sleep(LONG_DELAY);
+    const world = this;
+
+    await loginWithCredentials(config.config.username_rw, config.config.password_rw, world);
 
     // browser.sleep(LONG_DELAY);
   });
@@ -248,11 +240,9 @@ defineSupportCode(function ({ Given, When, Then }) {
 async function loginWithCredentials(username,password,world){
   await browserWaits.retryForPageLoad(loginPage.emailAddress, async function (message) {
     world.attach("Retrying Login page load : " + message);
-    browser.takeScreenshot()
-      .then(stream => {
-        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-        world.attach(decodedImage, 'image/png');
-      });
+    let stream = await browser.takeScreenshot();
+    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+    world.attach(decodedImage, 'image/png');
     await browser.get(config.config.baseUrl);
   });
 
@@ -260,8 +250,22 @@ async function loginWithCredentials(username,password,world){
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);
   await browserWaits.waitForElement(loginPage.signinBtn);
-
   await loginPage.clickSignIn();
+
+  await browserWaits.retryForPageLoad($('app-header'), async function (message) {
+    world.attach("Retrying Login attempt: " + message);
+    let stream = await browser.takeScreenshot();
+    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+    world.attach(decodedImage, 'image/png');
+    await browser.get(config.config.baseUrl);
+    await browserWaits.waitForElement(loginPage.emailAddress);
+    await loginPage.emailAddress.sendKeys(username);
+    await loginPage.password.sendKeys(password);
+    await browserWaits.waitForElement(loginPage.signinBtn);
+    await loginPage.clickSignIn();
+  });
+
+
 }
 
 function logger(world, message, isScreenshot) {

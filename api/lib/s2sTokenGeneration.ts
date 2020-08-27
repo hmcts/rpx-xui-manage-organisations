@@ -1,9 +1,15 @@
-import { Request } from 'express'
+import * as express from 'express'
 import * as otp from 'otp'
-import { getConfigValue } from '../configuration'
-import { MICROSERVICE, S2S_SECRET } from '../configuration/references'
-import { http } from './http'
+import {getConfigValue} from '../configuration'
+import {MICROSERVICE, S2S_SECRET,} from '../configuration/references'
+import {http} from './http'
 import * as log4jui from './log4jui'
+
+const s2sSecret = getConfigValue(S2S_SECRET) // process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
+
+const microservice = getConfigValue(MICROSERVICE) // application.microservice
+
+const logger = log4jui.getLogger('s2s token generation')
 
 const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 /**
@@ -57,13 +63,13 @@ export async function generateS2sToken(url) {
  *
  * @param url - ie. https://rpe-service-auth-provider-aat.service.core-compute-aat.internal
  * @param microserviceName - xui_webapp
- * @param oneTimePassword - Generated with a one-time password generator
+ * @param oneTimePassword - Generated with a one time password generator
  *
  * @returns {Promise<AxiosPromise<any>>}
  */
-export async function requestS2sToken(url: string, microserviceName: string, oneTimePassword: string) {
+export async function requestS2sToken(url, microserviceName, oneTimePassword) {
 
-  const axiosInstance = http({} as unknown as Request)
+  const axiosInstance = http({} as unknown as express.Request)
 
   return axiosInstance.post(`${url}/lease`, {
     microservice: microserviceName,

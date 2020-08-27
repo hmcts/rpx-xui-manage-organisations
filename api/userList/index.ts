@@ -6,14 +6,13 @@ import { getRefdataUserUrl } from '../refdataUserUrlUtil'
 
 const logger = log4jui.getLogger('user-list')
 
-export async function handleUserListRoute(req: Request, res: Response) {
-    // Commented out orgId as it is not used
-    // const orgId = req.session.auth.orgId
+async function handleUserListRoute(req: Request, res: Response) {
+    const orgId = req.session.auth.orgId
     //for testing hardcode your org id
     //const orgId = 'B13GT1M'
     try {
-        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const response = await req.http.get(getRefdataUserUrl(rdProfessionalApiPath))
+        const url = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users`
+        const response = await req.http.get(url)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

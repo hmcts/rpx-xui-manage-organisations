@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import {
   GOOGLE_ANALYTICS_KEY,
@@ -9,7 +9,7 @@ import {
   SERVICES_IDAM_WEB
 } from '../configuration/references'
 
-export const router = Router({ mergeParams: true })
+export const router = express.Router({ mergeParams: true })
 
 router.get('/', configurationUIRoute)
 

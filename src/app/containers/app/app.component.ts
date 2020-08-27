@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     private readonly userService: UserService,
     private readonly featureService: FeatureToggleService,
     private readonly headersService: HeadersService,
-    private readonly idleService: ManageSessionServices,
+    private readonly idleService: ManageSessionServices
   ) {}
 
   public ngOnInit() {

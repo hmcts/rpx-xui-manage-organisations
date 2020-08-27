@@ -48,6 +48,11 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   public ngOnDestroy(): void {
     this.store.dispatch(new fromStore.ResetErrorMessage({}));
     this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
+    setTimeout(() => {
+      this.store.dispatch(new fromStore.ResetErrorMessage({}));
+      this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
+    });
+
   }
 
   public onSubmitData() {

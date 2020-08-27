@@ -63,7 +63,7 @@ describe('App Effects', () => {
         {
           provide: ENVIRONMENT_CONFIG,
           useValue: {}
-        },
+        }
       ]
     });
 
@@ -133,6 +133,23 @@ describe('App Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadJuridictions$).toBeObservable(expected);
       expect(loggerService.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('featureToggleConfig', () => {
+    it('getObservable', () => {
+      const observables = effects.getObservable(['feature1', 'feature2']);
+      // mockFeatureToggleService.isEnabled.and.returnValue(of(true));
+      expect(mockFeatureToggleService.isEnabled).toHaveBeenCalledWith('feature1');
+      expect(mockFeatureToggleService.isEnabled).toHaveBeenCalledWith('feature2');
+      expect(observables).toBeTruthy();
+      expect(observables.length).toEqual(2);
+    });
+
+    it('getFeaturesPayload', () => {
+      const resultAction = effects.getFeaturesPayload([false, true], ['feature1', 'feature2']);
+      const features = [{isEnabled: false, featureName: 'feature1'}, {isEnabled: true, featureName: 'feature2'}];
+      expect(resultAction).toEqual(new appActions.LoadFeatureToggleConfigSuccess(features));
     });
   });
 });

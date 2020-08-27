@@ -7,7 +7,7 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 
 Dropdown = require('../pageObjects/webdriver-components/dropdown.js');
 TextField = require('../pageObjects/webdriver-components/textField.js');
-const config = require('../../config/common.conf.js');
+const { config } = require('../../config/common.conf.js');
 const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');
@@ -34,10 +34,17 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     // browser.sleep(LONG_DELAY);
   });
 
+  When(/^I navigate to invite user page$/, async function () {
+    let inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/invite-user' : '/users/invite-user'; 
+    await browser.driver.get(config.config.baseUrl + inviteUserPath);
+    await inviteUserPage.waitForPage(); 
+  });
+
+
   Then(/^I should be on display invite user page$/, async function () {
     // browser.sleep(AMAZING_DELAY);;
     await inviteUserPage.waitForPage();
-    expect(await inviteUserPage.amOnPage()).to.be.true;
+    expect(await inviteUserPage.amOnPage(),"Invite User page is not displayed").to.be.true;
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
@@ -51,7 +58,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
     await inviteUserPage.manageUserCheckbox.click();
-    // browser.sleep(LONG_DELAY);
+    browser.sleep(LONG_DELAY);
     await inviteUserPage.clickSendInvitationButton();
     // browser.sleep(LONG_DELAY);
 
@@ -104,7 +111,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
 
   Then(/^I should be display the validation error$/, async function () {
-    await expect(inviteUserPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
+    await expect(inviteUserPage.failure_error_heading.isDisplayed(),"Invite user error message not diaplayed ").to.eventually.be.true;
     await expect(inviteUserPage.failure_error_heading.getText())
       .to
       .eventually

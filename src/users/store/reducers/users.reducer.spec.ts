@@ -139,5 +139,4 @@ describe('Users Reducer', () => {
 
       expect(state.editUserFailure).toBeFalsy();
     });
-});
-
+  });

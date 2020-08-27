@@ -87,7 +87,6 @@ export function reducer(
         errorHeader: 'Sorry, there is a problem with this account'
       };
     }
-
     case fromInviteUsers.INVITE_USER_FAIL_WITH_409: {
       return {
         ...state,

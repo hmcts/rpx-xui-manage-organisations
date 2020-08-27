@@ -6,6 +6,7 @@ import * as appActions from '../actions';
 
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineLatest, Observable, of } from 'rxjs';
+import { AppConstants } from 'src/app/app.constants';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import {ENVIRONMENT_CONFIG, EnvironmentConfig} from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -108,14 +109,14 @@ export class AppEffects {
     })
   );
 
-  private getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
+  public getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
     const result: AppFeatureFlag[] = features.map((isEnabled, i) => {
       return {isEnabled, featureName: featureNames[i]};
     });
     return new appActions.LoadFeatureToggleConfigSuccess(result);
   }
 
-  private getObservable(featureNames: string[]): Observable<boolean>[] {
+  public getObservable(featureNames: string[]): Observable<boolean>[] {
     let observables = new Array<Observable<boolean>>();
     featureNames.forEach(featureName => {
       const observable = this.featureToggleService.isEnabled(featureName);

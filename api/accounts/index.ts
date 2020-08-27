@@ -1,5 +1,5 @@
 import {AxiosPromise} from 'axios'
-import {Request, Router} from 'express'
+import * as express from 'express'
 import {getConfigValue} from '../configuration'
 import {SERVICES_FEE_AND_PAY_API_PATH} from '../configuration/references'
 import {FeeAccount} from '../interfaces/feeAccountPayload'
@@ -50,10 +50,10 @@ async function handleAddressRoute(req, res) {
     }
 }
 
-function getAccountPromise(url: string, req: Request): AxiosPromise<any> {
+function getAccountPromise(url: string, req: express.Request): AxiosPromise<any> {
   return req.http.get(url).catch(err => err)
 }
 
-export const router = Router({ mergeParams: true })
+export const router = express.Router({ mergeParams: true })
 router.get('', handleAddressRoute)
 export default router

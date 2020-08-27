@@ -4,10 +4,10 @@ import { Action } from '@ngrx/store';
 export const LOAD_USERS = '[User] Load Users';
 export const LOAD_USERS_SUCCESS = '[User] Load Users Success';
 export const LOAD_USERS_FAIL = '[User] Load Users Fail';
-export const EDIT_USER = '[User] Edit User';
 export const EDIT_USER_SUCCESS = '[User] Edit User Success';
 export const EDIT_USER_FAILURE = '[User] Edit User Failure';
 export const EDIT_USER_FAILURE_RESET = '[User] Edit User Failure Reset';
+export const EDIT_USER = '[User] Edit User';
 export const EDIT_USER_SERVER_ERROR = '[User] Edit User Server Error';
 export const SUSPEND_USER = '[User] Suspend User';
 export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
@@ -97,4 +97,5 @@ export type UserActions =
   | SuspendUserFail
   | EditUserServerError
   | ReinvitePendingUser
-  | InviteNewUser;
+  | InviteNewUser
+  | EditUserFailureReset;

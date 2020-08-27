@@ -2,39 +2,35 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AbstractControlOptions, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import {Action, select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
-import {Observable, Subscription} from 'rxjs';
-import { GlobalError } from 'src/app/store/reducers/app.reducer';
+import {Observable, of, Subscription} from 'rxjs';
 import {AppConstants} from '../../../app/app.constants';
 import * as fromAppStore from '../../../app/store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
-
+import { GlobalError } from 'src/app/store/reducers/app.reducer';
 /*
 * User Form entry mediator component
 * It holds the state
 * */
-
 @Component({
   selector: 'app-prd-invite-user-component',
   templateUrl: './invite-user.component.html',
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
-
   constructor(private readonly store: Store<fromStore.UserState>,
               private readonly actions$: Actions) { }
   public inviteUserForm: FormGroup;
   public backLink: string;
   public errors$: Observable<any>;
   public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
-
   public errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
     email: ['Enter email address', 'Email must contain at least the @ character'],
     roles: ['You must select at least one action'],
   };
+  public jurisdictions$: Observable<any[]>;
   public jurisdictions: any[];
   public juridictionSubscription: Subscription;
   public resendInvite: boolean = false;
@@ -54,12 +50,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       this.populateFormControl(pendingUser, this.inviteUserForm);
       this.backLink = this.getBackLink(pendingUser);
     });
-
-    this.juridictionSubscription = this.store.pipe(select(fromAppStore.getAllJurisdictions))
-                                   .subscribe(value => this.jurisdictions = value,
-                                   (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
+    this.jurisdictions$ = this.store.pipe(select(fromAppStore.getAllJurisdictions));
+    this.jurisdictions$.subscribe(jurisdictions => {
+      this.jurisdictions = jurisdictions;
+    });
     this.dispathAction(new fromAppStore.LoadJurisdictions(), this.store);
-
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400)).subscribe(() => {
       this.handleError(this.store, 400);
     });
@@ -79,17 +74,14 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       this.store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
     });
   }
-
   public handleError(store: Store<any>, errorNumber: number) {
     const globalError = this.getGlobalError(errorNumber);
     if (globalError) {
-        store.dispatch(new fromAppStore.AddGlobalError(globalError));
-        store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
+      store.dispatch(new fromAppStore.AddGlobalError(globalError));
+      store.dispatch(new fromAppStore.Go({ path: ['service-down'] }));
     }
   }
-
   public getGlobalError(error: number): GlobalError {
-
     const mappedError = {
       400: this.get400Error(),
       404: this.get404Error(),
@@ -97,26 +89,23 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     };
     return mappedError[error];
   }
-
   public get500Error(): GlobalError {
     const errorMessages = [{
       bodyText: 'Try again later.',
       urlText: null,
       url: null
     },
-    {
-      bodyText: null,
-      urlText: 'Go back to manage users',
-      url: '/users'
-    }];
-
+      {
+        bodyText: null,
+        urlText: 'Go back to manage users',
+        url: '/users'
+      }];
     const globalError = {
       header: 'Sorry, there is a problem with the service',
       errors: errorMessages
     };
     return globalError;
   }
-
   public get400Error(): GlobalError {
     const errorMessage = {
       bodyText: 'to check the status of the user',
@@ -129,32 +118,26 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     };
     return globalError;
   }
-
   public get404Error(): GlobalError {
-
     const errorMessages = [{
       bodyText: 'to reactivate this account',
       urlText: 'Get help',
-      url: '/get-help',
-      newTab: true
+      url: '/get-help'
     },
-    {
-      bodyText: null,
-      urlText: 'Go back to manage users',
-      url: '/users'
-    }];
-
+      {
+        bodyText: null,
+        urlText: 'Go back to manage users',
+        url: '/users'
+      }];
     const globalError = {
       header: 'Sorry, there is a problem with this account',
       errors: errorMessages
     };
     return globalError;
   }
-
   public dispathAction(action: Action, store: Store<any>) {
     store.dispatch(action);
   }
-
   public initialiseUserForm(): FormGroup {
     return new FormGroup({
       firstName: this.createFormControl('', Validators.required),
@@ -163,21 +146,17 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       roles: this.createFormGroup(checkboxesBeCheckedValidator())
     });
   }
-
   public createFormControl(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions): FormControl {
     return new FormControl(formState, validatorOrOpts);
   }
-
   public createFormGroup(checkBoxValidator: ValidatorFn): FormGroup {
     return new FormGroup({
       'pui-case-manager': this.createFormControl(''),
       'pui-user-manager': this.createFormControl(''),
       'pui-organisation-manager': this.createFormControl(''),
-      'pui-finance-manager': this.createFormControl(''),
-      'pui-caa': this.createFormControl('')
+      'pui-finance-manager': this.createFormControl('')
     }, checkBoxValidator);
   }
-
   public populateFormControl(pendingUser: User, inviteUserForm: FormGroup) {
     if (pendingUser) {
       this.resendInvite = true;
@@ -189,11 +168,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       inviteUserForm.controls.email.disable();
     }
   }
-
   public getBackLink(pendingUser?: User): string {
     return pendingUser ? `/users/user/${pendingUser.userIdentifier}` : '/users';
   }
-
   // convenience getter for easy access to form fields
   public get f() { return this.inviteUserForm.controls; }
 
@@ -207,7 +184,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
           return key;
         }
       });
-
       const ccdRoles = this.inviteUserForm.value.roles['pui-case-manager'] ? AppConstants.CCD_ROLES : [];
 
       const roles = [

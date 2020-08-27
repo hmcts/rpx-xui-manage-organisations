@@ -1,9 +1,9 @@
-const { conf } = require('../config/config');
-class Actions {
+const {conf} = require('../config/config');
+class Actions{
+   
 
-
-    waitForurl(url) {
-        return ['wait for url to be ' + url];
+    waitForurl(url){
+        return ['wait for url to be '+url];
 
     }
 
@@ -12,12 +12,12 @@ class Actions {
     }
 
     waitForPageWithCssLocator(cssLocator) {
-        return ['wait for element ' + cssLocator + ' to be visible'];
+        return ['wait for element ' + cssLocator+' to be visible'];
 
     }
 
-    inputField(cssLocator, inputText) {
-        return ['set field ' + cssLocator + ' to ' + inputText];
+    inputField(cssLocator,inputText) {
+        return ['set field ' + cssLocator+' to ' + inputText];
 
     }
 

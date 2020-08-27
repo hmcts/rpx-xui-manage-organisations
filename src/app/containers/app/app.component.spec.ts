@@ -1,35 +1,26 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { combineReducers, StoreModule, Store } from '@ngrx/store';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
 import {Logout, reducers} from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { cold } from 'jasmine-marbles';
+import { AppComponent } from './app.component';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
-
+import { FeatureToggleService, windowToken} from '@hmcts/rpx-xui-common-lib';
+import { CookieModule } from 'ngx-cookie';
+import { of } from 'rxjs';
+import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import * as fromAuth from '../../../user-profile/store';
 import { AppConstants } from '../../app.constants';
-import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
-import { of } from 'rxjs';
-import { CookieModule, CookieService } from 'ngx-cookie';
+
 
 const windowMock: Window = { gtag: () => {}} as any;
-
 const featureMock: FeatureToggleService = {
   initialize: () => {},
   isEnabled: () => of(false),
-  getValue: () => of()
-};
-
-const idleServiceMock = {
-  appStateChanges: () => of({
-    countdown: 3,
-    isVisible: true,
-    type: 'modal'
-  })
+  getValue: () => of(),
 };
 
 describe('AppComponent', () => {
@@ -63,11 +54,7 @@ describe('AppComponent', () => {
         {
           provide: FeatureToggleService,
           useValue: featureMock
-        },
-        {
-          provide: ManageSessionServices,
-          useValue: idleServiceMock
-        },
+        }
       ],
     }).compileComponents();
     store = TestBed.get(Store);

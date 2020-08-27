@@ -20,13 +20,17 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def deployToAatOnly = true // set to true if only deploy upto AAT, set to false will deploy all the way to production
+def deployToAatOnly = false // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
 
 def secrets = [
   'rpx-${env}': [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
+    secret('appinsights-instrumentationkey-mo', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
+    secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID')
+
   ],
 //  's2s-${env}'      : [
 //    secret('microservicekey-xui-webapp', 'S2S_SECRET')
@@ -45,7 +49,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
+    enableSecurityScan()
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net'
     enableAksStagingDeployment()
+    disableLegacyDeployment()
 
 // To enable PACT testing on pipeline uncomment the next 3 lines
 //    enablePactAs([
@@ -104,6 +111,15 @@ withPipeline(type, product, component) {
             reportName           : "ng coverage tests"
         ])
 
+         publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/mutation/node/",
+            reportFiles          : 'index.html',
+            reportName           : 'XUI Manage Organisation Mutation tests'
+        ])
+
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -132,9 +148,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Test'
+            reportDir            : "reports/tests/smoke/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Smoke Test'
         ])
     }
 
@@ -155,9 +171,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'API Smoke Test'
+            reportDir            : "reports/tests/smoke/",
+            reportFiles          : 'index.html',
+            reportName           : 'AAT Smoke Test'
         ])
     }
 

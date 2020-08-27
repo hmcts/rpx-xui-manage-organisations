@@ -66,8 +66,8 @@ class ViewUserPage {
   }
 
   async validateTableHasNoEmptyCells(){
-    await BrowserWaits.waitForElement(element(this.userRowsBy));
-    let userRows =  await element.all(this.userRowsBy);
+    await BrowserWaits.waitForElement($('.govuk-table tbody tr'));
+    let userRows = await element.all(by.css('.govuk-table tbody tr'));
     const rowCount = userRows.length; 
     console.log("Users coundt : " + rowCount);
     for (var ctr = 0; ctr < rowCount; ctr++){

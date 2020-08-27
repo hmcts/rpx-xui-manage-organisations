@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios'
-import { Request, Response, Router } from 'express'
+import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { OrganisationUser } from '../interfaces/organisationPayload'
 import { http } from '../lib/http'
 
-export async function handleOrganisationRoute(req: Request, res: Response) {
+async function handleOrganisationRoute(req: express.Request, res: express.Response) {
     try {
         const response = await req.http.get(
           `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
@@ -30,11 +30,10 @@ export function getOrganisationDetails(jwt: string, roles: string[], url: string
           },
         },
       } as any)
-
     return axiosInstance.get(`${url}/refdata/external/v1/organisations`)
 }
 
-export async function handleOrganisationUsersRoute(req: Request, res: Response) {
+export async function handleOrganisationUsersRoute(req: express.Request, res: express.Response) {
   try {
       const response = await req.http.get(
         `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users?returnRoles=false`
@@ -56,7 +55,7 @@ function getFilteredUsers(users: OrganisationUser []): OrganisationUser [] {
   return users.filter(user => user.idamStatus === 'ACTIVE')
 }
 
-export const router = Router({ mergeParams: true })
+export const router = express.Router({ mergeParams: true })
 
 router.get('', handleOrganisationRoute)
 

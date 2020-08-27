@@ -36,6 +36,11 @@ import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import * as tunnel from '../lib/tunnel'
 
+const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
+const url = getConfigValue(SERVICE_S2S_PATH)
+const microservice =  application.microservice
+const logger = log4jui.getLogger('service user-profile')
+
 export async function postS2SLease() {
   const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
   const url = getConfigValue(SERVICE_S2S_PATH)
@@ -45,15 +50,15 @@ export async function postS2SLease() {
   const axiosInstance = http({
     session: {
       auth: {
-        token: '',
-      },
-    },
+        token: ''
+      }
+    }
   } as unknown as Request)
   console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV)
   console.log('postS2SLease url:', url)
   if (process.env.NODE_CONFIG_ENV !== 'ldocker') {
         const oneTimePassword = otp({ secret: s2sSecret }).totp()
-        logger.info('Generating S2S token for microservice: ', microservice)
+        logger.info('generating from secret  :', s2sSecret, microservice, oneTimePassword)
         request = await axiosInstance.post(`${url}/lease`, {
           microservice,
           oneTimePassword,

@@ -18,7 +18,7 @@ export const http = (req: Request) => {
   }
 
   const axiosInstance: AxiosInstance = axios.create({
-    headers,
+    headers
   })
   axiosInstance.interceptors.request.use(requestInterceptor)
   axiosInstance.interceptors.response.use(successInterceptor, errorInterceptor)

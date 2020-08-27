@@ -9,11 +9,10 @@ const logger = log4jui.getLogger('suspend-user')
 
 router.put('/', suspendUser)
 
-export async function suspendUser(req: Request, res: Response) {
+async function suspendUser(req: Request, res: Response) {
     const payload = req.body
     try {
-        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const response = await req.http.put(`${getRefdataUserUrl(rdProfessionalApiPath)}${req.params.userId}`, payload)
+        const response = await req.http.put(`${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users/${req.params.userId}`, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

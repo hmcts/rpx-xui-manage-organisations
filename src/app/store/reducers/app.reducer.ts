@@ -10,6 +10,7 @@ export interface AppFeatureFlag {
  featureName: string;
  isEnabled: boolean;
 }
+
 export interface ErrorMessage {
   bodyText: string;
   urlText: string;
@@ -50,7 +51,7 @@ export const initialState: AppState = {
       isVisible: false,
       countdown: ''
     }
-  },
+  }
 };
 
 export function reducer(
@@ -139,7 +140,6 @@ export function reducer(
         modal: {...action.payload}
       };
     }
-
     default: {
       return state;
     }

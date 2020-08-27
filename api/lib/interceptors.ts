@@ -42,7 +42,7 @@ export function successInterceptor(response) {
 
 export function errorInterceptor(error) {
     // console.log('url: ', error.response.config.url)
-    // console.log(error)
+    console.log(error)
     error.config.metadata.endTime = new Date()
     error.duration = error.config.metadata.endTime - error.config.metadata.startTime
 

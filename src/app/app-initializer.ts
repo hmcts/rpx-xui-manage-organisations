@@ -10,6 +10,7 @@ export function initApplication(store: Store<fromApp.State>): VoidFunction {
           AppConstants.FEATURE_NAMES.feeAccount,
           AppConstants.FEATURE_NAMES.editUserPermissions,
           AppConstants.FEATURE_NAMES.unassignedCases]));
+        store.dispatch(new fromApp.LoadFeatureToggleConfig([AppConstants.FEATURE_NAMES.feeAccount, AppConstants.FEATURE_NAMES.editUserPermissions]));
         store.pipe(
             select((state: fromApp.State) => state.appState), take(2)).subscribe(appState => {
             if (appState.featureFlags) {

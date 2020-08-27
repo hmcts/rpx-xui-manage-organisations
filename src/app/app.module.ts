@@ -1,8 +1,10 @@
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { ExuiCommonLibModule, LAUNCHDARKLYKEY } from '@hmcts/rpx-xui-common-lib';
+import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
@@ -32,9 +34,6 @@ import * as fromContainers from './containers/';
 import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
-
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]

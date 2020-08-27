@@ -83,8 +83,9 @@ describe('Payload builder', () => {
     })
 
     it('Should take the postcode and set it as the postcode on the payload.', () => {
-        const orgPayload = makeOrganisationPayload(STATE_VALUES)
-        expect(orgPayload.contactInformation[0].postCode).to.equal(STATE_VALUES.postcode)
+
+        const organsiationPayload = makeOrganisationPayload(STATE_VALUES)
+        expect(organsiationPayload.contactInformation[0].postCode).to.equal(STATE_VALUES.postcode)
     })
 
     it('Should take the town or city and set it as the town/city on the payload.', () => {
@@ -104,10 +105,11 @@ describe('Payload builder', () => {
     })
 
     it('Should set dxAddress on payload if not null', () => {
-        const propertyNameArray = ['dxNumber', 'dxExchange']
+
         const stateValuesArray = ['DX 1234567890', 'dxexchange']
+        const propretyNameArray = ['dxNumber', 'dxExchange']
         const [contactInformationArray] = organisationPayload.contactInformation
-        setDXIfNotNull(contactInformationArray, propertyNameArray, 'dxAddress',
+        setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
 
         // tslint:disable:no-string-literal
@@ -131,10 +133,10 @@ describe('Payload builder', () => {
         organisationPayload.contactInformation[0]['dxAddress'][0].dxNumber = null
         organisationPayload.contactInformation[0]['dxAddress'][0].dxExchange = null
 
-        const propertyNameArray = ['dxNumber', 'dxExchange']
-        const stateValuesArray = ['DX 1234567890', '']
+        const propretyNameArray = ['dxNumber', 'dxExchange']
+        const stateValuesArray = [undefined, undefined]
         const [contactInformationArray] = organisationPayload.contactInformation
-        setDXIfNotNull(contactInformationArray, propertyNameArray, 'dxAddress',
+        setDXIfNotNull(contactInformationArray, propretyNameArray, 'dxAddress',
           stateValuesArray)
 
         expect(organisationPayload.contactInformation[0]['dxAddress'][0].dxNumber).to.equal('DX 1234567890')

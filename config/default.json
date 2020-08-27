@@ -1,6 +1,11 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
   "appInsightsInstrumentationKey": "",
+  "secrets": {
+    "rpx": {
+      "AppInsightsInstrumentationKey": "AAA"
+    }
+  },
   "cookies": {
     "token": "__auth__",
     "userId": "__userid__"
@@ -94,5 +99,12 @@
   "links": {
     "manageCaseLink": "https://manage-case.platform.hmcts.net/cases",
     "manageOrgLink": "https://manage-org.platform.hmcts.net"
-  }
+  },
+  "sessionTimeouts": [
+    {
+      "idleModalDisplayTime": 10,
+      "pattern": ".",
+      "totalIdleTime": 50
+    }
+  ]
 }

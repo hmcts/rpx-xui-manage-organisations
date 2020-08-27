@@ -62,7 +62,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: [
-            action.payload.error.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
+            action.payload.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
           ]
         }
       };
@@ -73,7 +73,6 @@ export function reducer(
         errorHeader: 'Sorry, there is a problem with the service.'
       };
     }
-
     case fromInviteUsers.INVITE_USER_FAIL_WITH_400: {
       return {
         ...state,
@@ -88,6 +87,7 @@ export function reducer(
         errorHeader: 'Sorry, there is a problem with this account'
       };
     }
+
     case fromInviteUsers.INVITE_USER_FAIL_WITH_409: {
       return {
         ...state,
@@ -115,7 +115,6 @@ export function reducer(
         errorMessages
       };
     }
-
     case fromInviteUsers.INVITE_USER_SUCCESS: {
       return {
         ...state,

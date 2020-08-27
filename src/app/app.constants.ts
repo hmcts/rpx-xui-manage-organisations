@@ -5,7 +5,8 @@ import {UserNavModel} from './models/user-nav.model';
 
 const featureNames = {
   feeAccount: 'fee-and-accounts',
-  editUserPermissions: 'edit-permissions'
+  editUserPermissions: 'edit-permissions',
+  unassignedCases: 'unassigned-cases'
 };
 
 const navItemsArray: NavItemModel[] = [
@@ -29,6 +30,15 @@ const navItemsArray: NavItemModel[] = [
     featureToggle: {
       featureName: featureNames.feeAccount
     }
+  },
+  {
+    text: 'Unassigned cases',
+    href: '/unassigned-cases',
+    orderId: 4,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.unassignedCases
+    }
   }
 ];
 
@@ -36,6 +46,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
+  'pui-caa': navItemsArray[3]
 };
 
 const userNav: UserNavModel = {
@@ -151,7 +162,8 @@ const ccdRoles = [
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
-  'caseworker-publiclaw-solicitor'
+  'caseworker-publiclaw-solicitor',
+  'pui-caa',
 ];
 
 const redirectUrl = {

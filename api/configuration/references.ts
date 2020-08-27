@@ -62,3 +62,5 @@ export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'
 export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-redis-connection-string'
 export const REDIS_TTL = 'redis.ttl'
 export const REDIS_KEY_PREFIX = 'redis.prefix'
+
+export const SESSION_TIMEOUTS = 'sessionTimeouts'

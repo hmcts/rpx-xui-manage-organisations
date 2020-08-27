@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -7,11 +7,13 @@ import * as appActions from '../actions';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineLatest, Observable, of } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
+import {ENVIRONMENT_CONFIG, EnvironmentConfig} from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
 import * as usersActions from '../../../users/store/actions';
+import {IDLE_USER_SIGNOUT} from '../actions/app.actions';
 import {AppFeatureFlag} from '../reducers/app.reducer';
 
 @Injectable()
@@ -22,7 +24,8 @@ export class AppEffects {
     private readonly authService: AuthService,
     private readonly termsService: TermsConditionsService,
     private readonly loggerService: LoggerService,
-    private readonly featureToggleService: FeatureToggleService
+    private readonly featureToggleService: FeatureToggleService,
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) { }
 
   @Effect()
@@ -87,14 +90,32 @@ export class AppEffects {
    )
   );
 
-  public getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
+  /**
+   * Note that this function is soon to be deprecated within the next two weeks, hence the lack of unit testing
+   * around this.
+   */
+  @Effect()
+  public idleSignout = this.actions$.pipe(
+    ofType(appActions.IDLE_USER_SIGNOUT),
+    map(() => {
+
+      const { hostname, port } = window.location;
+      const portNumber = port ? `:${port}` : '';
+      const baseUrl = `${this.environmentConfig.protocol}://${hostname}${portNumber}`;
+
+      const idleSignOutUrl = `${baseUrl}/idle-sign-out`;
+      window.location.href = `api/logout?redirect=${idleSignOutUrl}`;
+    })
+  );
+
+  getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
     const result: AppFeatureFlag[] = features.map((isEnabled, i) => {
       return {isEnabled, featureName: featureNames[i]};
     });
     return new appActions.LoadFeatureToggleConfigSuccess(result);
   }
 
-  public getObservable(featureNames: string[]): Observable<boolean>[] {
+  getObservable(featureNames: string[]): Observable<boolean>[] {
     let observables = new Array<Observable<boolean>>();
     featureNames.forEach(featureName => {
       const observable = this.featureToggleService.isEnabled(featureName);

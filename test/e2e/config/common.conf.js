@@ -29,13 +29,11 @@ const config = {
     config : {
         baseUrl: process.env.TEST_URL || 'http://localhost:3000/' ,
         username: process.env.TEST_EMAIL || 'autotest_readonly_superuser@mailinator.com',
-        password: process.env.TEST_PASSWORD || 'Monday01',
-        username_rw: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com',
-        password_rw: process.env.TEST_PASSWORD || 'Monday01'
+        password: process.env.TEST_PASSWORD || 'Monday01'
 
     },
     twoFactorAuthEnabled: false,
-    termsAndConditionsEnabled: true 
+    termsAndConditionsEnabled: true
 };
 
 const cucumberOpts = [

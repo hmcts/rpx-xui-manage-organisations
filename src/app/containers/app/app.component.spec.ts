@@ -8,19 +8,28 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { windowToken, FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
+
 import * as fromAuth from '../../../user-profile/store';
 import { AppConstants } from '../../app.constants';
 import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { of } from 'rxjs';
 import { CookieModule, CookieService } from 'ngx-cookie';
 
-
 const windowMock: Window = { gtag: () => {}} as any;
+
 const featureMock: FeatureToggleService = {
   initialize: () => {},
   isEnabled: () => of(false),
-  getValue: () => of(),
+  getValue: () => of()
+};
+
+const idleServiceMock = {
+  appStateChanges: () => of({
+    countdown: 3,
+    isVisible: true,
+    type: 'modal'
+  })
 };
 
 describe('AppComponent', () => {
@@ -54,7 +63,11 @@ describe('AppComponent', () => {
         {
           provide: FeatureToggleService,
           useValue: featureMock
-        }
+        },
+        {
+          provide: ManageSessionServices,
+          useValue: idleServiceMock
+        },
       ],
     }).compileComponents();
     store = TestBed.get(Store);

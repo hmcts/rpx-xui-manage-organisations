@@ -40,7 +40,7 @@ export function successInterceptor(response) {
 
 export function errorInterceptor(error) {
     // console.log('url: ', error.response.config.url)
-    console.log(error)
+    // console.log(error)
     error.config.metadata.endTime = new Date()
     error.duration = error.config.metadata.endTime - error.config.metadata.startTime
 
@@ -57,12 +57,12 @@ export function errorInterceptor(error) {
         url: error.config.url,
     })
 
-    const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
+    // const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
     let data = valueOrNull(error, 'response.data.details')
     if (!data) {
         data = valueOrNull(error, 'response.status') ? JSON.stringify(error.response.data, null, 2) : null
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
-        ${exceptionFormatter(data, exceptionOptions)}`)
+        ${data ? exceptionFormatter(data, exceptionOptions) : null}`)
     } else {
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${JSON.stringify(data)}`)

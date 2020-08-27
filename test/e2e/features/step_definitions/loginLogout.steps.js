@@ -33,8 +33,8 @@ defineSupportCode(function ({ Given, When, Then }) {
       await browser.get(config.config.baseUrl);
 
     });
-    await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
-    
+    await browserWaits.waitForElement(loginPage.emailAddress);
+
   });
 
   Then(/^I should see failure error summary$/, async function () {
@@ -101,16 +101,14 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY,"Dashboard Header not present");
-    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation, LONG_DELAY,"Primary navigation Tab not present"); 
- 
-    await expect(loginPage.dashboard_header.isDisplayed(),"Dashboard header not displayed").to.eventually.be.true;
-    await expect(loginPage.dashboard_header.getText())
+    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY);
+    expect(loginPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+    expect(loginPage.dashboard_header.getText())
       .to
       .eventually
       .equal('Manage organisation details for civil, family, and tribunal law cases');
- 
-    await expect(headerPage.isPrimaryNavigationTabDisplayed(),"Primary navigation tabs not displayed").to.eventually.be.true;
+
+    expect(headerPage.isPrimaryNavigationTabDisplayed()).to.eventually.be.true;
     browser.sleep(LONG_DELAY);
   });
 
@@ -139,15 +137,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
   });
 
-  Given(/^I am logged into manage organisation to invite users$/, async function () {
-    // browser.sleep(LONG_DELAY);
-    const world = this;
-
-    await loginWithCredentials(config.config.username_rw, config.config.password_rw, world);
-
-    // browser.sleep(LONG_DELAY);
-  });
-
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
     this.attach('Login user : ' + global.testorg_rw_superuser_email);
@@ -165,7 +154,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await acceptTermsAndConditionsPage.acceptTremsAndConditions();
         global.testorgStatus = 4;
       }
-    } 
+    }
   });
 
   Given("I am logged in to created approve organisation", async function () {
@@ -185,8 +174,8 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.css(".button[type = 'submit']")).click();
       }
     }
-    
-   
+
+
   });
 
   Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {
@@ -211,7 +200,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
     // manageCasesService.setWorld(this);
     await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword);
-    await manageCasesService.destroy(); 
+    await manageCasesService.destroy();
 
   });
 
@@ -231,7 +220,7 @@ defineSupportCode(function ({ Given, When, Then }) {
       await manageCasesService.destroy()
       throw err;
     }
-   
+
   });
 
 });

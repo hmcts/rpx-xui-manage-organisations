@@ -1,10 +1,10 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
 import { application } from '../lib/config/application.config'
 import { getTermsAndConditionsUrl } from './termsAndConditionsUtil'
 
-async function getTermsAndConditions(req: express.Request, res: express.Response) {
+async function getTermsAndConditions(req: Request, res: Response) {
     let errReport: any
     try {
         const url = getTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), application.idamClient)
@@ -24,6 +24,6 @@ async function getTermsAndConditions(req: express.Request, res: express.Response
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 router.get('', getTermsAndConditions)
 export default getTermsAndConditions

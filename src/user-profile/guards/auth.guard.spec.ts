@@ -8,7 +8,7 @@ describe('AuthGuard', () => {
   beforeEach(() => {
     mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
     mockService = jasmine.createSpyObj('mockService', ['get']);
-    guard = new AuthGuard(mockStore, mockService, mockService);
+    guard = new AuthGuard(mockService);
   });
 
   describe('canActivate', () => {

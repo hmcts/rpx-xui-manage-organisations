@@ -6,20 +6,20 @@ import * as appActions from '../actions';
 
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineLatest, Observable, of } from 'rxjs';
-import { AppConstants } from 'src/app/app.constants';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { LoggerService } from '../../../shared/services/logger.service';
-import { AuthGuard } from '../../../user-profile/guards/auth.guard';
+import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';
 import * as usersActions from '../../../users/store/actions';
 import {AppFeatureFlag} from '../reducers/app.reducer';
+
 @Injectable()
 export class AppEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly jurisdictionService: JurisdictionService,
-    private readonly autGuard: AuthGuard,
+    private readonly authService: AuthService,
     private readonly termsService: TermsConditionsService,
     private readonly loggerService: LoggerService,
     private readonly featureToggleService: FeatureToggleService
@@ -46,8 +46,7 @@ export class AppEffects {
   public logout$ = this.actions$.pipe(
     ofType(appActions.LOGOUT),
     map(() => {
-      const redirectUrlEncoded = encodeURIComponent(this.autGuard.generateLoginUrl());
-      window.location.href = `api/logout?redirect=${redirectUrlEncoded}`;
+      this.authService.signOut();
     })
   );
 

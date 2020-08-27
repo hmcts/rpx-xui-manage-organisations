@@ -50,12 +50,12 @@ class ManageCasesService {
         this.signinBtn = this.mcElement(by.css("input.button"));
 
         this.erroSummaryBannner = this.mcElement(by.css("h2.error-summary-heading"));
-        this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link')); 
+        this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link'));
 
         await this.mcBrowser.get(this.baseUrl)
         // await this.retryForPageLoad(this.emailAddressElement, async () => {
         //     await this.mcBrowser.get(this.baseUrl);
-        // }); 
+        // });
     }
 
     async destroy(){
@@ -124,7 +124,7 @@ class ManageCasesService {
             await this.attachScreenshot();
             throw new Error(error);
         }
-        
+
 
     }
 
@@ -143,8 +143,8 @@ class ManageCasesService {
     async validateLoginFailure(){
         await this.mcBrowser.wait(async () => {
             await this.waitForElement(this.emailAddressElement);
-            let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value'); 
-            return loginEmailFieldValue === ''; 
+            let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value');
+            return loginEmailFieldValue === '';
         }, this.waitTime);
         this.logger("MC Login Failed as expected");
     }
@@ -158,4 +158,4 @@ class ManageCasesService {
 
 const manageCasesService = new ManageCasesService();
 
-module.exports = manageCasesService; 
+module.exports = manageCasesService;

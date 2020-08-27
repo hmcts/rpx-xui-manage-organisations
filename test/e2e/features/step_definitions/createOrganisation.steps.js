@@ -23,7 +23,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then('I am on Register organisation start page', async function () {
-   await createOrganisationObject.waitForStartRegisterPage(); 
+   await createOrganisationObject.waitForStartRegisterPage();
     await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.start_button.getText())
       .to
@@ -119,7 +119,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await createOrganisationObject.enterEmailAddress(global.latestOrgSuperUser);
     await createOrganisationObject.continue_button.click();
 
-    
+
     // browser.sleep(MID_DELAY);
   });
 

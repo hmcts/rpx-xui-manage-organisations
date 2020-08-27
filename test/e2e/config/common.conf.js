@@ -33,7 +33,7 @@ const config = {
 
     },
     twoFactorAuthEnabled: false,
-    termsAndConditionsEnabled: true 
+    termsAndConditionsEnabled: true
 };
 
 const cucumberOpts = [

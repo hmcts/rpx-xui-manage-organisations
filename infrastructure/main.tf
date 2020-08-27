@@ -47,4 +47,4 @@ resource "azurerm_resource_group" "rg" {
   location = "${var.location}"
 
   tags = "${var.common_tags}"
-}  
+}

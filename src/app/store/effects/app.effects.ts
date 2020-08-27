@@ -108,14 +108,14 @@ export class AppEffects {
     })
   );
 
-  private getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
+  getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
     const result: AppFeatureFlag[] = features.map((isEnabled, i) => {
       return {isEnabled, featureName: featureNames[i]};
     });
     return new appActions.LoadFeatureToggleConfigSuccess(result);
   }
 
-  private getObservable(featureNames: string[]): Observable<boolean>[] {
+  getObservable(featureNames: string[]): Observable<boolean>[] {
     let observables = new Array<Observable<boolean>>();
     featureNames.forEach(featureName => {
       const observable = this.featureToggleService.isEnabled(featureName);

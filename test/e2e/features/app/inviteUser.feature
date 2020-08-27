@@ -7,8 +7,8 @@ Feature: invite user workflow
     Given I activate test read write approved organisation super user
 
     When I navigate to manage organisation Url
-    Given I am logged into manage organisation with test org user 
- 
+    Given I am logged into manage organisation with test org user
+
     Then I should be redirected to manage organisation dashboard page
     When I click on user button
     Then I should be on display the user details

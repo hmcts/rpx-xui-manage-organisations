@@ -41,13 +41,13 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
-    await inviteUserPage.waitForPage(); 
+    await inviteUserPage.waitForPage();
     await inviteUserPage.enterIntoTextFieldFirstName(TestData.firstName);
     await inviteUserPage.enterIntoTextFieldLastName(TestData.lastName);
 
       // var emailAddress =Math.random().toString(36).substring(2);
     global.latestInvitedUser = Math.random().toString(36).substring(2)+"@mailinator.com";
-    global.latestInvitedUserPassword = "Monday01"; 
+    global.latestInvitedUserPassword = "Monday01";
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
     await inviteUserPage.manageUserCheckbox.click();
@@ -88,9 +88,9 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     global.latestInvitedUserPassword = "Monday01";
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
-    let permissions = table.hashes(); 
+    let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length;permCounter++){
-      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true); 
+      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true);
     }
     await inviteUserPage.clickSendInvitationButton()
   });
@@ -99,7 +99,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
       await inviteUserPage.selectPermission(permissions[permCounter].Permission, permissions[permCounter].isSelected === "true");
-    } 
+    }
   });
 
 
@@ -140,5 +140,5 @@ function logger(world,message,isScreenshot){
     world.attach(message);
     console.log(message);
   }
-   
+
 }

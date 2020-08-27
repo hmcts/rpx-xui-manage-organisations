@@ -22,11 +22,11 @@ class HeaderPage {
   }
 
   async waitForPrimaryNavigationToDisplay(){
-    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation); 
+    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation);
   }
 
  async isPrimaryNavigationTabDisplayed(){
-   return await this.hmctsPrimaryNavigation.isPresent(); 
+   return await this.hmctsPrimaryNavigation.isPresent();
   }
 
   async isHeaderTabPresent(displayText){
@@ -39,7 +39,7 @@ class HeaderPage {
     console.log("bavigation tab databale : "+JSON.stringify(navTabs));
 
     for(let tabCounter = 0; tabCounter < navTabs.length; tabCounter++){
-      let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab); 
+      let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab);
       assert(isNavTabPresent, "Navigation Tab is not displayed/present : " + navTabs[tabCounter].NavigationTab);
     }
   }

@@ -17,7 +17,7 @@ class Actions{
     }
 
     inputField(cssLocator,inputText) {
-        return ['set field ' + cssLocator+' to ' + inputText];
+        return ['wait for element ' + cssLocator + ' to be visible' , 'set field ' + cssLocator+' to ' + inputText];
 
     }
 

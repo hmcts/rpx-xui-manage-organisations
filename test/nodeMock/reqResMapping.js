@@ -25,6 +25,9 @@ const requestMapping = {
     post:{
         '/api/inviteUser': (req,res) => {
             res.send({"userIdentifier":"97ecc487-cdeb-42a8-b794-84840a4testc","idamStatus":null});
+        },
+        '/external/register-org/register' : (req,res) => {
+            res.send({ "organisationIdentifier": "V6UF7LK" });
         }
     },
     put:{

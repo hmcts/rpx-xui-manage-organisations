@@ -21,22 +21,23 @@ export class UserProfileModel {
   userId: string
   email: string
   roles: string[]
+  sessionTimeout: object
   constructor(prop) {
-    Object.assign(this, prop);
+    Object.assign(this, prop)
   }
 }
 
-export class UserAddress{
-  id: string;
-  houseNoBuildingName: string;
-  addressLine1: string;
-  addressLine2: string;
-  townCity: string;
-  county: string;
-  country: string;
-  postcode: string;
-  userId: string;
+export class UserAddress {
+  id: string
+  houseNoBuildingName: string
+  addressLine1: string
+  addressLine2: string
+  townCity: string
+  county: string
+  country: string
+  postcode: string
+  userId: string
   constructor(prop) {
-    Object.assign(this, prop);
+    Object.assign(this, prop)
   }
 }

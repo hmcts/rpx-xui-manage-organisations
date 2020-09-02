@@ -113,7 +113,6 @@ async function sessionChainCheck(req: Request, res: Response, accessToken: strin
       } catch (e) {
         console.log(e)
       }
-      
       req.session.auth = {
         email: userDetails.data.email,
         orgId: orgIdResponse.data.id,

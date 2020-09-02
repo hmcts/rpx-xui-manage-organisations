@@ -9,6 +9,8 @@ async function handleAddressRoute(req: express.Request, res: express.Response) {
         const response = await req.http.get(
           `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
         )
+        console.log('response')
+        console.log(response.data)
         res.send(response.data)
     } catch (error) {
         const errReport = { apiError: error.data.message, apiStatusCode: error.status, message: 'Organsiation route error' }
@@ -17,15 +19,15 @@ async function handleAddressRoute(req: express.Request, res: express.Response) {
 }
 
 export function getOrganisationDetails(jwt: string, roles: string[], url: string): Promise<AxiosResponse> {
+    console.log('getOrganisationDetails');
     const axiosInstance = http({
         session: {
           auth: {
             roles,
             token: jwt,
-          }
-        }
+          },
+        },
       } as any)
-  
     return axiosInstance.get(`${url}/refdata/external/v1/organisations`)
 }
 

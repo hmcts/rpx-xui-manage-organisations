@@ -10,7 +10,7 @@ import {Organisation} from 'src/organisation/organisation.model';
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
 
-  private orgData;
+  private organisationDetails;
   private organisationSubscription: Subscription;
 
   constructor(private store: Store<fromStore.OrganisationState>) {
@@ -42,30 +42,26 @@ export class OrganisationComponent implements OnInit, OnDestroy {
     };
   }
 
-  public getOrganisationDetails(): boolean {
-    return true;
-  }
+  /**
+   * Get Organisation Details from Store.
+   *
+   * Once we have the organisation details, we display these on the page.
+   */
+  public getOrganisationDetailsFromStore(): void {
 
-  public getOrganisation(): void {
-
-    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(data => {
-      this.orgData = data;
-      console.log(data);
+    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
+      this.organisationDetails = organisationDetails;
     });
   }
 
-  public getOrganisationData() {
+  public getOrganisationDetails() {
 
-    return this.orgData;
+    return this.organisationDetails;
   }
 
-  // TODO: Needs tests
   public ngOnInit(): void {
 
-    // this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(data => {
-    //   this.orgData = data;
-    //   console.log(data);
-    // });
+    this.getOrganisationDetailsFromStore();
   }
 
   public ngOnDestroy(): void {

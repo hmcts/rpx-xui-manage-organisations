@@ -2,7 +2,7 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@ang
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {Action, combineReducers, select, Store, StoreModule} from '@ngrx/store';
-import { of } from 'rxjs';
+import {BehaviorSubject, of} from 'rxjs';
 import { OrganisationComponent } from './organisation.component';
 import * as fromStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
@@ -21,10 +21,38 @@ describe('OrganisationComponent', () => {
   let fixture: ComponentFixture<OrganisationComponent>;
   let store: Store<fromStore.UserState>;
 
+  /**
+   * Mock organisation data is representative of data returned from the Node layer.
+   */
+  const mockOrganisationDetails = {
+    name: 'Luke Solicitors',
+    organisationIdentifier: 'HAUN33E',
+    contactInformation: [
+      {
+        addressLine1: '23',
+        addressLine2: null,
+        addressLine3: null,
+        townCity: 'Aldgate East',
+        county: 'London',
+        country: null,
+        postCode: 'AT54RT',
+        dxAddress: [Array]
+      }
+    ],
+    status: 'ACTIVE',
+    sraId: 'SRA1298455554',
+    sraRegulated: false,
+    superUser: {
+      firstName: 'Luke',
+      lastName: 'Wilson',
+      email: 'lukesuperuserxui@mailnesia.com'
+    },
+    paymentAccount: []
+  };
+
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue({
-      subscribe: () => {},
-    });
+
+    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({
@@ -52,22 +80,11 @@ describe('OrganisationComponent', () => {
     fixture.detectChanges();
   });
 
-  // Organisation needs to be mocked, and then placed through
-  // int
-  it('should get the organisation details.', () => {
-    expect(component.getOrganisationDetails()).toBeTruthy();
-  });
+  it('should get the Organisation Details from the Store, and set it on orgData.', () => {
 
-  // and orgData should be populated
-  it('should make a call to select getOrganisationSel.', () => {
+    component.getOrganisationDetailsFromStore();
 
-    // const testOrganisation: Partial<Organisation> = {};
-    component.getOrganisation();
     expect(store.pipe).toHaveBeenCalled();
-    // expect(component.getOrganisationData()).toEqual({});
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component.getOrganisationDetails()).toEqual(mockOrganisationDetails);
   });
 });

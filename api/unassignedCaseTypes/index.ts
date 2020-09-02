@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_CCD_DATA_STORE_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
-import { getApiPath } from './unassignedCases.util'
+import { createCaseTypeResponse, getApiPath } from './unassignedCases.util'
 
 export async function handleUnassignedCaseTypes(req: Request, res: Response) {
     const logger = log4jui.getLogger('caseTypes')
@@ -11,8 +11,9 @@ export async function handleUnassignedCaseTypes(req: Request, res: Response) {
 
     const rdProfessionalApiPath = getApiPath(getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH))
     try {
-        const response = await req.http.post(rdProfessionalApiPath, payload)
-        res.send(response.data)
+        // const response = await req.http.post(rdProfessionalApiPath, payload)
+        res.send(createCaseTypeResponse())
+        // res.send(response.data)
     } catch (error) {
         logger.info(error)
         const errReport = JSON.stringify({

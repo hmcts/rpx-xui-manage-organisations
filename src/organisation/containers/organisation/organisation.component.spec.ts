@@ -80,6 +80,11 @@ describe('OrganisationComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should get the first Contact Information item from the Organisation Details.', () => {
+
+    expect(component.getContactInformation(mockOrganisationDetails)).toEqual(mockOrganisationDetails.contactInformation[0]);
+  });
+
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
 
     component.getOrganisationDetailsFromStore();

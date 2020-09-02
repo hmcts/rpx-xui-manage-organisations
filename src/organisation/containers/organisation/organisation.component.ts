@@ -11,35 +11,30 @@ import {Organisation} from 'src/organisation/organisation.model';
 export class OrganisationComponent implements OnInit, OnDestroy {
 
   private organisationDetails;
-  private organisationSubscription: Subscription;
+  private organisationContactInformation;
+  // private organisationSubscription: Subscription;
 
   constructor(private store: Store<fromStore.OrganisationState>) {
   }
 
   /**
-   * Take First item of Contact Information
+   * Get Contact Information
    *
-   * We take the first item of Contact Information
-   * @return {{}}
+   * Contact information comes in from PRD as an Array.
    *
-   * TODO: Test
+   * After speaking to the EXUI BA:
+   *
+   * Only the first item of contactInformation will be used. It is a (far) future requirement
+   * that multiply addresses will need to be considered. When this is a requirement the page will need
+   * to be re-UX-designed, for multiple addresses. [2nd September 2020]
+   *
+   * @see unit test
+   *
+   * TODO: Have a type for Contact information.
    */
-  public getFirstContactInformation() {
-    return {
-      addressLine1: '25',
-      addressLine2: null,
-      addressLine3: null,
-      townCity: 'Aldgate East',
-      county: 'London',
-      country: null,
-      postCode: 'AT54RT',
-      dxAddress: [
-        {
-          dxNumber: 'DX 4534234552',
-          dxExchange: 'London'
-        }
-        ]
-    };
+  public getContactInformation(organisationDetails) {
+
+    return organisationDetails.contactInformation[0];
   }
 
   /**
@@ -50,7 +45,36 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public getOrganisationDetailsFromStore(): void {
 
     this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-      this.organisationDetails = organisationDetails;
+
+      this.organisationContactInformation = this.getContactInformation(organisationDetails);
+
+      const mockOrganisationDetails = {
+        name: 'Luke Solicitors',
+        organisationIdentifier: 'HAUN33E',
+        contactInformation: [
+          {
+            addressLine1: '23',
+            addressLine2: null,
+            addressLine3: null,
+            townCity: 'Aldgate East',
+            county: 'London',
+            country: null,
+            postCode: 'AT54RT',
+            dxAddress: [Array]
+          }
+        ],
+        status: 'ACTIVE',
+        sraId: 'SRA1298455554',
+        sraRegulated: false,
+        superUser: {
+          firstName: 'Lukddde',
+          lastName: 'Wilsodddn',
+          email: 'lukesuperusessrxui@mailnesia.com'
+        },
+        paymentAccount: []
+      };
+
+      this.organisationDetails = mockOrganisationDetails;
     });
   }
 

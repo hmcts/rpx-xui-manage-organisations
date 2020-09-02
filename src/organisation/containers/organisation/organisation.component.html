@@ -21,6 +21,18 @@
         <!-- !Contact Information -->
       </td>
     </tr>
+    <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxNumber">
+      <th class="govuk-table__header" scope="row">DX number</th>
+      <td class="govuk-table__cell">
+        <div>{{organisationDxAddress.dxNumber}}</div>
+      </td>
+    </tr>
+    <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxExchange">
+      <th class="govuk-table__header" scope="row">DX exchange</th>
+      <td class="govuk-table__cell">
+        <div>{{organisationDxAddress.dxExchange}}</div>
+      </td>
+    </tr>
     <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
       <th class="govuk-table__header" scope="row">SRA ID</th>
       <td class="govuk-table__cell">

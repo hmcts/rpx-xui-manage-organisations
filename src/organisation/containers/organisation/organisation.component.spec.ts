@@ -85,6 +85,54 @@ describe('OrganisationComponent', () => {
     expect(component.getContactInformation(mockOrganisationDetails)).toEqual(mockOrganisationDetails.contactInformation[0]);
   });
 
+  describe('getDxAddress', () => {
+
+    it('should return null if there is no dxAddress.', () => {
+
+      const contactInformation = {
+        addressLine1: '23',
+        postCode: 'AT54RT',
+      };
+
+      expect(component.getDxAddress(contactInformation)).toBeNull();
+    });
+
+    it('should return null if the length of dxAddresses is 0.', () => {
+
+      const contactInformation = {
+        addressLine1: '23',
+        postCode: 'AT54RT',
+        dxAddress: []
+      };
+
+      expect(component.getDxAddress(contactInformation)).toBeNull();
+    });
+
+    it('should return dxAddress.', () => {
+
+      const dxAddress = {
+        dxNumber: 'DX 4534234552',
+        dxExchange: 'London',
+      };
+
+      const contactInformation = {
+        addressLine1: '23',
+        postCode: 'AT54RT',
+        dxAddress: [
+          {
+            dxNumber: 'DX 4534234552',
+            dxExchange: 'London',
+          }
+        ]
+      };
+
+      expect(component.getDxAddress(contactInformation)).toEqual({
+        dxNumber: 'DX 4534234552',
+        dxExchange: 'London',
+      });
+    });
+  });
+
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
 
     component.getOrganisationDetailsFromStore();

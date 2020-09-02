@@ -12,6 +12,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
   private organisationDetails;
   private organisationContactInformation;
+  private organisationDxAddress;
   // private organisationSubscription: Subscription;
 
   constructor(private store: Store<fromStore.OrganisationState>) {
@@ -38,6 +39,22 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Get DX Address
+   *
+   * @param contactInformation - see unit test
+   * @return [
+   * {
+   *  dxNumber: 'DX 4534234552',
+   *  dxExchange: 'London',
+   * }
+   * ]
+   */
+  public getDxAddress(contactInformation) {
+
+    return (!contactInformation.hasOwnProperty('dxAddress') || !contactInformation.dxAddress.length) ? null : contactInformation.dxAddress[0];
+  }
+
+  /**
    * Get Organisation Details from Store.
    *
    * Once we have the organisation details, we display these on the page.
@@ -45,8 +62,6 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public getOrganisationDetailsFromStore(): void {
 
     this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-
-      this.organisationContactInformation = this.getContactInformation(organisationDetails);
 
       const mockOrganisationDetails = {
         name: 'Luke Solicitors',
@@ -60,7 +75,12 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             county: 'London',
             country: null,
             postCode: 'AT54RT',
-            dxAddress: [Array]
+            dxAddress: [
+              {
+                dxNumber: 'DX 4534234552',
+                dxExchange: 'London',
+              }
+            ]
           }
         ],
         status: 'ACTIVE',
@@ -71,10 +91,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
           lastName: 'Wilsodddn',
           email: 'lukesuperusessrxui@mailnesia.com'
         },
-        paymentAccount: []
+        paymentAccount: [
+          'PBA3344552',
+          'PBA7843345',
+        ]
       };
 
-      this.organisationDetails = mockOrganisationDetails;
+      this.organisationContactInformation = this.getContactInformation(organisationDetails);
+      this.organisationDxAddress = this.getDxAddress(this.organisationContactInformation);
+      // this.paymentAccount = this.getPaymentAccount(this.organisationContactInformation);
+      console.log(this.organisationDxAddress);
+      console.log(organisationDetails);
+      this.organisationDetails = organisationDetails;
     });
   }
 

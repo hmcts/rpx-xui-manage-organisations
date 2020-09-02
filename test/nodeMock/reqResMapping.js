@@ -42,7 +42,11 @@ const requestMapping = {
         },
         '/api/unassignedCaseTypes': (req,res) => {
             res.send({ "case_types_results": [{ "case_type_id": "CaseType1", "total": 30775 }, { "case_type_id": "CaseType2", "total": 63103 }, { "case_type_id": "CaseType3", "total": 89850 }, { "case_type_id": "CaseType4", "total": 47670 }, { "case_type_id": "CaseType5", "total": 53493 }], "cases": [], "total": 23578 });
+        },
+        '/api/caseshare/case-assignments' : (req,res) => {
+            res.send([]);
         }
+
     },
     put:{
 

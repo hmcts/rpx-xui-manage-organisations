@@ -3,7 +3,6 @@ import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import * as fromStore from '../../store';
@@ -19,6 +18,7 @@ export class UnassignedCasesComponent implements OnInit {
 public cases$: Observable<UnassignedCase []>;
 public tableConfig: TableConfig;
 public selectedCases: SearchResultViewItem[] = [];
+public enableButton: boolean = false;
 
 public navItems: any [];
 
@@ -62,9 +62,11 @@ public ngOnInit(): void {
     }));
   }
 
-  public onCaseSelection(selectedCases) {
+  public onCaseSelection(selectedCases: SearchResultViewItem []) {
     this.selectedCases = selectedCases;
+    this.enableButton = this.selectedCases && this.selectedCases.length > 0;
   }
+
   public tabChanged(event) {
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === event.tab.textLabel));
   }

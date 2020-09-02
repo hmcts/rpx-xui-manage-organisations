@@ -1,3 +1,4 @@
+import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
 import { of } from 'rxjs';
 import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
 import { UnassignedCasesComponent } from './unassigned-cases.component';
@@ -42,5 +43,18 @@ describe('UnassignedCasesComponent', () => {
         expect(store.dispatch).toHaveBeenCalled();
         expect(store.pipe).toHaveBeenCalled();
         expect(spyOnColumnConfig).toHaveBeenCalled();
+    });
+
+    it('onCaseSelection and enableButton', () => {
+        component.onCaseSelection([]);
+        expect(component.selectedCases).toEqual([]);
+        expect(component.enableButton).toEqual(false);
+    });
+
+    it('onCaseSelection and disableButton', () => {
+        const searchResultView = {} as SearchResultViewItem;
+        component.onCaseSelection([searchResultView]);
+        expect(component.selectedCases).toEqual([searchResultView]);
+        expect(component.enableButton).toEqual(true);
     });
 });

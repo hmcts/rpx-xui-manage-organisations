@@ -2,7 +2,6 @@ import * as log4js from 'log4js'
 import { getConfigValue } from '../configuration'
 import { LOGGING } from '../configuration/references'
 import { client } from './appInsights'
-import * as errorStack from './errorStack'
 
 let logger = null
 
@@ -73,10 +72,4 @@ function error(...messages: any[]) {
         client.trackException({ exception: new Error(`[ERROR] ${category} - ${fullMessage}`) })
     }
     this._logger.error(fullMessage)
-
-    const logging = getConfigValue(LOGGING)
-
-    if (logging === 'debug' || logging === 'error') {
-        errorStack.push([category, fullMessage])
-    }
 }

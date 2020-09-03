@@ -15,7 +15,6 @@ import * as appActions from '../../store/actions';
 import { SetPageTitleErrors } from '../actions/app.actions';
 import {reducers} from '../reducers';
 import * as fromAppEffects from './app.effects';
-import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 
 describe('App Effects', () => {
   let actions$;
@@ -59,11 +58,7 @@ describe('App Effects', () => {
         {
           provide: FeatureToggleService,
           useValue: mockFeatureToggleService
-        },
-        {
-          provide: ENVIRONMENT_CONFIG,
-          useValue: {}
-        },
+        }
       ]
     });
 

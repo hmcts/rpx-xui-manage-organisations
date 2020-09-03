@@ -37,7 +37,6 @@ export const successCallback = async (req: Request, res: Response, next: NextFun
     res.cookie(getConfigValue(COOKIE_TOKEN), accessToken)
 
     if (!req.session.auth) {
-      console.log('ROLES ===>>>> ', userinfo.roles)
       const auth = {
         email: userinfo.sub,
         orgId: '-1',
@@ -46,9 +45,18 @@ export const successCallback = async (req: Request, res: Response, next: NextFun
         userId: userinfo.uid
       }
 
+      const authRequest = {
+        http: http({
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'user-roles': userinfo.roles,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+          }
+        } as unknown as Request)
+      }
+
       try {
-        const orgDetails = await getOrganisationDetails(accessToken, userinfo.roles, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
-        console.log(orgDetails)
+        const orgDetails = await getOrganisationDetails(authRequest as unknown as Request, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
         auth.orgId = orgDetails.data.organisationIdentifier
       } catch (e) {
         console.log(e)

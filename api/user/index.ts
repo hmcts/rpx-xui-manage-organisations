@@ -11,8 +11,6 @@ router.get('/details', handleUserRoute)
 
 function handleUserRoute(req, res) {
 
-  console.log('req.session.auth => ', req.session.auth)
-
   const {email, orgId, roles, userId} = req.session.auth
 
   const sessionTimeouts = getConfigValue(SESSION_TIMEOUTS)

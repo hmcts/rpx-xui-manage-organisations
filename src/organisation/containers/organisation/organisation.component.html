@@ -21,6 +21,14 @@
         <!-- !Contact Information -->
       </td>
     </tr>
+    <!-- PBA Numbers -->
+    <tr class="govuk-table__row" *ngIf="organisationPaymentAccount">
+      <th class="govuk-table__header" scope="row">PBA number</th>
+      <td class="govuk-table__cell">
+        <div *ngFor="let pbaNumber of organisationPaymentAccount">{{pbaNumber}}</div>
+      </td>
+    </tr>
+    <!-- !PBA Numbers -->
     <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxNumber">
       <th class="govuk-table__header" scope="row">DX number</th>
       <td class="govuk-table__cell">
@@ -33,19 +41,18 @@
         <div>{{organisationDxAddress.dxExchange}}</div>
       </td>
     </tr>
-    <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
-      <th class="govuk-table__header" scope="row">SRA ID</th>
-      <td class="govuk-table__cell">
-        <div>{{organisationDetails.sraId}}</div>
-      </td>
-    </tr>
     <tr class="govuk-table__row" *ngIf="organisationDetails.superUser">
       <th class="govuk-table__header" scope="row">Administrator</th>
       <td class="govuk-table__cell">
         <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
         <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
       </td>
-
+    </tr>
+    <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
+      <th class="govuk-table__header" scope="row">SRA ID</th>
+      <td class="govuk-table__cell">
+        <div>{{organisationDetails.sraId}}</div>
+      </td>
     </tr>
     </tbody>
   </table>

@@ -133,6 +133,36 @@ describe('OrganisationComponent', () => {
     });
   });
 
+  describe('getPaymentAccount', () => {
+
+    it('should return null if there is no paymentAccount.', () => {
+
+      const organisationDetails = {};
+
+      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
+    });
+
+    it('should return null if the length of paymentAccount is 0.', () => {
+
+      const organisationDetails = {
+        paymentAccount: [],
+      };
+
+      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
+    });
+
+    it('should return paymentAccount.', () => {
+
+      const paymentAccount = ['PBA3344552', 'PBA7843345'];
+
+      const organisationDetails = {
+        paymentAccount,
+      };
+
+      expect(component.getPaymentAccount(organisationDetails)).toEqual(paymentAccount);
+    });
+  });
+
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
 
     component.getOrganisationDetailsFromStore();

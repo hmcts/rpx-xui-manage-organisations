@@ -1,16 +1,17 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {Action, combineReducers, select, Store, StoreModule} from '@ngrx/store';
-import {BehaviorSubject, of} from 'rxjs';
-import { OrganisationComponent } from './organisation.component';
+import { DxAddress, OrganisationContactInformation} from '../../../models/organisation.model';
+import {of} from 'rxjs';
+import {OrganisationComponent} from './organisation.component';
 import * as fromStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
-import {Organisation} from '../../organisation.model';
 
 const storeMock = {
-  pipe: () => {},
-  dispatch: (action: Action) => {}
+  pipe: () => {
+  },
+  dispatch: (action: Action) => {
+  }
 };
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
@@ -21,6 +22,22 @@ describe('OrganisationComponent', () => {
   let fixture: ComponentFixture<OrganisationComponent>;
   let store: Store<fromStore.UserState>;
 
+  const dxAddress: DxAddress = {
+    dxNumber: 'sd',
+    dxExchange: 'sd',
+  };
+
+  const contactInformation: OrganisationContactInformation = {
+    addressLine1: '23',
+    addressLine2: '',
+    addressLine3: '',
+    townCity: 'Aldgate East',
+    county: 'London',
+    country: '',
+    postCode: 'AT54RT',
+    dxAddress: [dxAddress]
+  };
+
   /**
    * Mock organisation data is representative of data returned from the Node layer.
    */
@@ -28,16 +45,7 @@ describe('OrganisationComponent', () => {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
     contactInformation: [
-      {
-        addressLine1: '23',
-        addressLine2: null,
-        addressLine3: null,
-        townCity: 'Aldgate East',
-        county: 'London',
-        country: null,
-        postCode: 'AT54RT',
-        dxAddress: [Array]
-      }
+      contactInformation,
     ],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',
@@ -47,7 +55,7 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: []
+    paymentAccount: ['test']
   };
 
   beforeEach(() => {
@@ -62,7 +70,7 @@ describe('OrganisationComponent', () => {
           feature: combineReducers(fromStore.reducers),
         }),
       ],
-      declarations: [ OrganisationComponent ],
+      declarations: [OrganisationComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
@@ -81,7 +89,6 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the first Contact Information item from the Organisation Details.', () => {
-
     expect(component.getContactInformation(mockOrganisationDetails)).toEqual(mockOrganisationDetails.contactInformation[0]);
   });
 
@@ -89,47 +96,44 @@ describe('OrganisationComponent', () => {
 
     it('should return null if there is no dxAddress.', () => {
 
-      const contactInformation = {
+      const orgContactInformation = {
         addressLine1: '23',
+        addressLine2: null,
+        addressLine3: null,
+        townCity: 'Aldgate East',
+        county: 'London',
+        country: null,
         postCode: 'AT54RT',
       };
 
-      expect(component.getDxAddress(contactInformation)).toBeNull();
+      expect(component.getDxAddress(orgContactInformation)).toBeNull();
     });
 
     it('should return null if the length of dxAddresses is 0.', () => {
 
-      const contactInformation = {
+      const orgContactInformation = {
         addressLine1: '23',
         postCode: 'AT54RT',
         dxAddress: []
       };
 
-      expect(component.getDxAddress(contactInformation)).toBeNull();
+      expect(component.getDxAddress(orgContactInformation)).toBeNull();
     });
 
     it('should return dxAddress.', () => {
 
-      const dxAddress = {
+      const orgDxAddress = {
         dxNumber: 'DX 4534234552',
         dxExchange: 'London',
       };
 
-      const contactInformation = {
+      const orgContactInformation = {
         addressLine1: '23',
         postCode: 'AT54RT',
-        dxAddress: [
-          {
-            dxNumber: 'DX 4534234552',
-            dxExchange: 'London',
-          }
-        ]
+        dxAddress: [orgDxAddress]
       };
 
-      expect(component.getDxAddress(contactInformation)).toEqual({
-        dxNumber: 'DX 4534234552',
-        dxExchange: 'London',
-      });
+      expect(component.getDxAddress(orgContactInformation)).toEqual(orgDxAddress);
     });
   });
 

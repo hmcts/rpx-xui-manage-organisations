@@ -29,7 +29,6 @@ export class OrganisationComponent implements OnInit {
    * to be re-UX-designed, for multiple addresses. [2nd September 2020]
    *
    * @param organisationDetails - See unit test.
-   * @see unit test
    */
   public getContactInformation(organisationDetails): OrganisationContactInformation {
 
@@ -39,8 +38,9 @@ export class OrganisationComponent implements OnInit {
   /**
    * Get DX Address
    *
-   * Note that we check for the length as an empty array is returned from PRD, and if there is nothing available in that array,
-   * we should not show the 'DX number' field within the view at all.
+   * Note that we check for the length, as an empty array is returned from PRD. If nothing is available in the dxAddress array,
+   * we should not show the 'DX number' label, and an empty value within the view. Therefore we return null from this, and use
+   * this within an *ngIf to dynamically show the label.
    *
    * @param contactInformation - See unit test.
    * @return [
@@ -62,7 +62,7 @@ export class OrganisationComponent implements OnInit {
    * Get the PBA numbers for the Organisation.
    *
    * @param organisationDetails - See unit test.
-   * @return ['','']
+   * @return ['PBA3344542','PBA7843342']
    */
   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
 

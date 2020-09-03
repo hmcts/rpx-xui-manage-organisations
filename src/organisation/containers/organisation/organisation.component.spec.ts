@@ -23,8 +23,8 @@ describe('OrganisationComponent', () => {
   let store: Store<fromStore.UserState>;
 
   const dxAddress: DxAddress = {
-    dxNumber: 'sd',
-    dxExchange: 'sd',
+    dxNumber: 'DX 4534234552',
+    dxExchange: 'London',
   };
 
   const contactInformation: OrganisationContactInformation = {

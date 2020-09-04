@@ -11,9 +11,9 @@ class ManageCasesService {
         this.password = "";
         this.waitTime = 30000;
         if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")) {
-            this.baseUrl = "https://xui-webapp-aat.service.core-compute-aat.internal/";
+            this.baseUrl = "https://manage-case.aat.platform.hmcts.net/";
         } else if (process.env.TEST_URL.includes("demo")) {
-            this.baseUrl = "https://xui-webapp-demo.service.core-compute-demo.internal/";
+            this.baseUrl = "https://manage-case.demo.platform.hmcts.net/";
         }
 
     }
@@ -50,12 +50,12 @@ class ManageCasesService {
         this.signinBtn = this.mcElement(by.css("input.button"));
 
         this.erroSummaryBannner = this.mcElement(by.css("h2.error-summary-heading"));
-        this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link'));
+        this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link')); 
 
         await this.mcBrowser.get(this.baseUrl)
         // await this.retryForPageLoad(this.emailAddressElement, async () => {
         //     await this.mcBrowser.get(this.baseUrl);
-        // });
+        // }); 
     }
 
     async destroy(){

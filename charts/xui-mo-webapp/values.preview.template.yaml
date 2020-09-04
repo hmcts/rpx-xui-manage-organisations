@@ -24,5 +24,6 @@ nodejs:
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: true
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
+    DEBUG: xuiNode:*,-xuiNode:auth:s2s
 redis:
   enabled: true

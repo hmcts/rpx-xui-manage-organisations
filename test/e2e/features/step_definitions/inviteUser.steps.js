@@ -34,20 +34,27 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     // browser.sleep(LONG_DELAY);
   });
 
+  When(/^I navigate to invite user page$/, async function () {
+    let inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/invite-user' : '/users/invite-user'; 
+    await browser.driver.get(config.config.baseUrl + inviteUserPath);
+    await inviteUserPage.waitForPage(); 
+  });
+
+
   Then(/^I should be on display invite user page$/, async function () {
     // browser.sleep(AMAZING_DELAY);;
     await inviteUserPage.waitForPage();
-    expect(await inviteUserPage.amOnPage()).to.be.true;
+    expect(await inviteUserPage.amOnPage(),"Invite User page is not displayed").to.be.true;
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
-    await inviteUserPage.waitForPage();
+    await inviteUserPage.waitForPage(); 
     await inviteUserPage.enterIntoTextFieldFirstName(TestData.firstName);
     await inviteUserPage.enterIntoTextFieldLastName(TestData.lastName);
 
       // var emailAddress =Math.random().toString(36).substring(2);
     global.latestInvitedUser = Math.random().toString(36).substring(2)+"@mailinator.com";
-    global.latestInvitedUserPassword = "Monday01";
+    global.latestInvitedUserPassword = "Monday01"; 
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
     await inviteUserPage.manageUserCheckbox.click();

@@ -26,7 +26,7 @@ Feature: Login
     Then I should see failure error summary
 
 
-@smoke @crossbrowser
+  @crossbrowser
   Scenario: login and log out from manage organisation as ManageOrg user
     Given I am logged into manage organisation with ManageOrg user details
     Then I should be redirected to manage organisation dashboard page
@@ -34,7 +34,6 @@ Feature: Login
     Then I should be redirected to the Idam login page
 
 
-  @smoke
   Scenario: Verify the direct link navigate to login page
     Given I navigate to manage organisation Url direct link
     Then I should be redirected back to Login page after direct link

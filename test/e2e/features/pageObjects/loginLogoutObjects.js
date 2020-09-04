@@ -40,9 +40,9 @@ function loginLogoutObjects() {
     await this.password.sendKeys(password);
   };
 
-  this.clickSignIn = function () {
-    this.signinBtn.click();
-    browser.sleep(SHORT_DELAY);
+  this.clickSignIn = async function () {
+    await this.signinBtn.click();
+    await browser.sleep(SHORT_DELAY);
   };
 
   this.waitFor = function (selector) {

@@ -139,6 +139,15 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
   });
 
+  Given(/^I am logged into manage organisation to invite users$/, async function () {
+    // browser.sleep(LONG_DELAY);
+    const world = this;
+
+    await loginWithCredentials(config.config.username_rw, config.config.password_rw, world);
+
+    // browser.sleep(LONG_DELAY);
+  });
+
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
     this.attach('Login user : ' + global.testorg_rw_superuser_email);

@@ -7,7 +7,7 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../sup
 
 Dropdown = require('../pageObjects/webdriver-components/dropdown.js');
 TextField = require('../pageObjects/webdriver-components/textField.js');
-const config = require('../../config/common.conf.js');
+const { config } = require('../../config/common.conf.js');
 const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');

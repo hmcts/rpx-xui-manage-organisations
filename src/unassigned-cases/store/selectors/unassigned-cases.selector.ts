@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { AppUtils } from '../../../app/utils/app-utils';
 import * as fromFeature from '../reducers';
 
 export const getUnassignedCasesState = createSelector(
@@ -14,5 +15,15 @@ export const getAllUnassignedCases = createSelector(
 export const getAllUnassignedCaseTypes = createSelector(
   getUnassignedCasesState,
   unassignedCasesState => unassignedCasesState.caseTypes
+);
+
+export const getSelectedCases = createSelector(
+  getUnassignedCasesState,
+  unassignedCasesState => unassignedCasesState.selectedCases
+);
+
+export const anySelectedCases = createSelector(
+  getSelectedCases,
+  selectedCases => AppUtils.atleastOneCase(selectedCases)
 );
 

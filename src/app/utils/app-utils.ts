@@ -181,4 +181,15 @@ export class AppUtils {
     return true;
   }
 
+  public static atleastOneCase(currentSelection: any) {
+    let anyItem = false;
+    for (const key in currentSelection) {
+      if (currentSelection[key] && currentSelection[key].length > 0) {
+        anyItem = true;
+        break;
+      }
+    }
+    return anyItem;
+  }
+
 }

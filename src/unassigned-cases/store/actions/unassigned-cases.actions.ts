@@ -6,6 +6,7 @@ export const LOAD_UNASSIGNED_CASES_FAILURE = '[Unassigned Cases] Load Unassinged
 export const LOAD_UNASSIGNED_CASE_TYPES = '[Unassigned Cases] Load Unassinged Case Types';
 export const LOAD_UNASSIGNED_CASE_TYPES_SUCCESS = '[Unassigned Cases] Load Unassinged Case Types Success';
 export const LOAD_UNASSIGNED_CASE_TYPES_FAILURE = '[Unassigned Cases] Load Unassinged Case Types Failure';
+export const UPDATE_SELECTION_FOR_CASE_TYPE = '[Unassigned Cases] Update Selection For Case Types';
 
 export class LoadUnassignedCases implements Action {
     public readonly type = LOAD_UNASSIGNED_CASES;
@@ -15,6 +16,11 @@ export class LoadUnassignedCases implements Action {
 export class LoadUnassignedCasesSuccess implements Action {
     public readonly type = LOAD_UNASSIGNED_CASES_SUCCESS;
     constructor(public payload: any[]) {}
+}
+
+export class UpdateSelectionForCaseType implements Action {
+    public readonly type = UPDATE_SELECTION_FOR_CASE_TYPE;
+    constructor(public payload: {casetype: string; cases: any [] }) {}
 }
 
 export class LoadUnassignedCasesFailure implements Action {
@@ -43,4 +49,5 @@ export type UnassignedCasesActions =
   | LoadUnassignedCasesFailure
   | LoadUnassignedCaseTypes
   | LoadUnassignedCaseTypesSuccess
-  | LoadUnassignedCaseTypesFailure;
+  | LoadUnassignedCaseTypesFailure
+  | UpdateSelectionForCaseType;

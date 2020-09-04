@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
-import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { CaseListComponent, TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../../app/store';
@@ -16,9 +16,11 @@ import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
 export class UnassignedCasesComponent implements OnInit {
 
 public cases$: Observable<UnassignedCase []>;
+public selectedCases$: Observable<UnassignedCase []>;
 public tableConfig: TableConfig;
 public selectedCases: SearchResultViewItem[] = [];
-public enableButton: boolean = false;
+public enableButton$: Observable<boolean>;
+public currentCaseType: string;
 
 public navItems: any [];
 
@@ -32,11 +34,14 @@ public ngOnInit(): void {
   this.store.pipe(select(fromStore.getAllUnassignedCases));
 
   this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+  this.enableButton$ = this.store.pipe(select(fromStore.anySelectedCases));
 }
 
   private fixCurrentTab(items: any): void {
     this.navItems = items;
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === items[0].text));
+    if (items && items.length > 0) {
+      this.setTabItems(items[0].text);
+    }
   }
 
   public getCaveatTableConfig(): any {
@@ -64,10 +69,15 @@ public ngOnInit(): void {
 
   public onCaseSelection(selectedCases: SearchResultViewItem []) {
     this.selectedCases = selectedCases;
-    this.enableButton = this.selectedCases && this.selectedCases.length > 0;
+    this.store.dispatch(new fromStore.UpdateSelectionForCaseType({casetype: this.currentCaseType, cases: selectedCases}));
   }
 
   public tabChanged(event) {
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === event.tab.textLabel));
+    this.setTabItems(event.tab.textLabel);
+  }
+
+  private setTabItems(tabName: string) {
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === tabName));
+    this.currentCaseType = tabName;
   }
 }

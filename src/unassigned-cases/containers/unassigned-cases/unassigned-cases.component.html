@@ -16,7 +16,7 @@
         </mat-tab-group>
     </div>
     <div *ngIf="navItems.length > 0 && (cases$ | async).length > 0">
-      <button [disabled]="!enableButton" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
+      <button [disabled]="!(enableButton$ | async)" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
               (click)="shareCaseSubmit()">
         Share case
       </button>

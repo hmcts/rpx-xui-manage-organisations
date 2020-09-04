@@ -32,7 +32,7 @@ Feature: invite user workflow
       | Manage Organisation |
       # | Manage fee accounts |
     Then user should be created successfuly
-"
+
 
 
   Scenario: invited use with Manage Users permission

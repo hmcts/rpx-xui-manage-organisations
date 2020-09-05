@@ -35,6 +35,7 @@ public ngOnInit(): void {
 
   this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
   this.enableButton$ = this.store.pipe(select(fromStore.anySelectedCases));
+  this.selectedCases$ = this.store.pipe(select(fromStore.getSelectedCasesList)).take(1);
 }
 
   private fixCurrentTab(items: any): void {
@@ -67,9 +68,9 @@ public ngOnInit(): void {
     }));
   }
 
-  public onCaseSelection(selectedCases: SearchResultViewItem []) {
-    this.selectedCases = selectedCases;
-    this.store.dispatch(new fromStore.UpdateSelectionForCaseType({casetype: this.currentCaseType, cases: selectedCases}));
+  public onCaseSelection(selectedCases: any []) {
+    this.selectedCases = selectedCases.filter(c => c.caseType === this.currentCaseType);
+    this.store.dispatch(new fromStore.UpdateSelectionForCaseType({casetype: this.currentCaseType, cases: this.selectedCases}));
   }
 
   public tabChanged(event) {

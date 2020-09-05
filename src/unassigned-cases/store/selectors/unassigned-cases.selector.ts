@@ -27,3 +27,7 @@ export const anySelectedCases = createSelector(
   selectedCases => AppUtils.atleastOneCase(selectedCases)
 );
 
+export const getSelectedCasesList = createSelector(
+  getSelectedCases,
+  selectedCases => AppUtils.getSelectedItemsList(selectedCases)
+);

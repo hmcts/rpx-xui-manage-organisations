@@ -8,6 +8,7 @@
             <ccd-case-list
             *ngIf="(cases$ | async).length > 0"
             [cases]="cases$ | async"
+            [selectedCases]="selectedCases$ | async"
             [tableConfig]="tableConfig"
             [selectionEnabled]="true"
             (selection)="onCaseSelection($event)">

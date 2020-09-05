@@ -1,8 +1,10 @@
 import { Request, Response, Router } from 'express'
 import * as faker from 'faker'
 let caseTypeNumber
+let caseNumber
 export async function handleUnassignedCases(req: Request, res: Response) {
     caseTypeNumber = 1
+    caseNumber = 0
     const fakeUsers = createCases()
     res.send(fakeUsers)
 }
@@ -11,13 +13,13 @@ const createCase = () => {
     return {
       caseCreatedDate: faker.date.past(),
       caseDueDate: faker.date.future(),
-      caseRef: faker.random.uuid(),
+      caseRef: `caseRef${++caseNumber}`,
       caseType: `Casetype${caseTypeNumber}`,
       petFirstName: faker.name.firstName(),
       petLastName: faker.name.lastName(),
       respFirstName: faker.name.firstName(),
       respLastName: faker.name.lastName(),
-      sRef: faker.random.uuid(),
+      sRef: faker.random.uuid()
     }
 }
 

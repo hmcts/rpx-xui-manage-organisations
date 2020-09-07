@@ -9,10 +9,10 @@ import * as fromStore from '../../store';
 })
 export class OrganisationComponent implements OnInit {
 
-  private organisationDetails: Partial<OrganisationDetails>;
-  private organisationContactInformation: OrganisationContactInformation;
-  private organisationDxAddress: DxAddress;
-  private organisationPaymentAccount: string[];
+  public organisationDetails: Partial<OrganisationDetails>;
+  public organisationContactInformation: OrganisationContactInformation;
+  public organisationDxAddress: DxAddress;
+  public organisationPaymentAccount: string[];
 
   constructor(private store: Store<fromStore.OrganisationState>) {
   }

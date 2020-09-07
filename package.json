@@ -57,7 +57,7 @@
     "@angular/platform-browser": "^7.2.13",
     "@angular/platform-browser-dynamic": "^7.2.13",
     "@angular/router": "^7.2.13",
-    "@hmcts/ccd-case-ui-toolkit": "2.64.24-case-sharing-prerelease",
+    "@hmcts/ccd-case-ui-toolkit": "2.64.29-case-list-selection",
     "@hmcts/ccpay-web-component": "3.0.3",
     "@hmcts/frontend": "0.0.41-alpha",
     "@hmcts/nodejs-healthcheck": "^1.6.0",

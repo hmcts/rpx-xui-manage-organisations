@@ -3,7 +3,7 @@ export const pbaNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-pba',
-    header: 'What\'s your payment by account (PBA) number for your organisation?',
+    header: 'What\'s the Payment by Account (PBA) number for your organisation?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -47,6 +47,15 @@ export const pbaNumber = {
           },
           classes: 'govuk-!-width-two-thirds',
         },
+      },
+      {
+        extension:
+          { componentDetails: {
+            title: 'Why add a PBA number?',
+              text: 'Adding a PBA number for your organisation will allow you to view your:',
+              ul: ['account balance', 'available credit', 'transactions'],
+            }
+          }
       },
       {
         button: {

@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import {AuthService} from '../services/auth.service';
+import * as fromStore from '../store';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
+    private readonly store: Store<fromStore.AuthState>,
     public authService: AuthService
   ) {
   }
@@ -17,6 +20,7 @@ export class AuthGuard implements CanActivate {
         this.authService.loginRedirect();
         return false;
       }
+      this.store.dispatch(new fromStore.GetUserDetails());
       return true;
     });
   }

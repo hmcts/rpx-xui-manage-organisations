@@ -13,6 +13,7 @@ const manageCasesService = require('../pageObjects/manageCasesService');
 const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 
 const HeaderPage = require('../pageObjects/headerPage');
+const { browser } = require('protractor');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
@@ -198,7 +199,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected back to Login page after direct link$/, async function () {
-    browser.sleep(LONG_DELAY);
+    await waitForElement(loginPage.emailAddress);
     await expect(loginPage.signinTitle.getText())
       .to
       .eventually
@@ -252,7 +253,8 @@ async function loginWithCredentials(username,password,world){
   await browserWaits.waitForElement(loginPage.signinBtn);
   await loginPage.clickSignIn();
 
-  await browserWaits.retryForPageLoad($('app-header'), async function (message) {
+
+  await browserWaits.retryWithAction($('app-header'), async function (message) {
     world.attach("Retrying Login attempt: " + message);
     let stream = await browser.takeScreenshot();
     const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');

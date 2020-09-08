@@ -1,4 +1,4 @@
-@fullFunctional
+@fullFunctionaltest
 Feature: Accept Terms and Conditions
 
 Background: background setup

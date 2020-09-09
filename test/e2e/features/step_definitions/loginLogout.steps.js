@@ -63,7 +63,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   When("I login with latest invited user", async function () {
     const world = this;
     this.attach("User email : " + global.latestInvitedUser);
-    await loginWithCredentials(global.latestInvitedUser, global.latestInvitedUserPassword,world);
+    await loginattemptCheckAndRelogin(global.latestInvitedUser, global.latestInvitedUserPassword,world);
 
   });
 
@@ -135,7 +135,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginWithCredentials('autotest_readonly_superuser@mailinator.com', 'Monday01',world);
+    await loginattemptCheckAndRelogin('autotest_readonly_superuser@mailinator.com', 'Monday01',world);
 
     // browser.sleep(LONG_DELAY);
   });
@@ -144,7 +144,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginWithCredentials(config.config.username_rw, config.config.password_rw, world);
+    await loginattemptCheckAndRelogin(config.config.username_rw, config.config.password_rw, world);
 
     // browser.sleep(LONG_DELAY);
   });
@@ -153,7 +153,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     const world = this;
     this.attach('Login user : ' + global.testorg_rw_superuser_email);
     console.log('Login user : ' + global.testorg_rw_superuser_email);
-    await loginWithCredentials(global.testorg_rw_superuser_email, 'Monday01',world);
+    await loginattemptCheckAndRelogin(global.testorg_rw_superuser_email, 'Monday01',world);
 
     let tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled(this);
     if (tandcfeatureToggle){
@@ -171,10 +171,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given("I am logged in to created approve organisation", async function () {
     // browser.sleep(LONG_DELAY);
-    await loginPage.emailAddress.sendKeys(global.latestOrgSuperUser);
-    await loginPage.password.sendKeys("Monday01");
-    await loginPage.clickSignIn();
-
+    await loginattemptCheckAndRelogin(global.latestOrgSuperUser,'Monday01',this);
     browser.wait(async () => { return !(await loginPage.emailAddress.isPresent())},30000);
 
     if(config.config.twoFactorAuthEnabled){
@@ -239,6 +236,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
 async function loginWithCredentials(username,password,world){
+  loginAttempts++;
   await browserWaits.retryForPageLoad(loginPage.emailAddress, async function (message) {
     world.attach("Retrying Login page load : " + message);
     let stream = await browser.takeScreenshot();
@@ -254,21 +252,64 @@ async function loginWithCredentials(username,password,world){
   await loginPage.clickSignIn();
 
 
-  await browserWaits.retryWithAction($('app-header'), async function (message) {
-    world.attach("Retrying Login attempt: " + message);
-    let stream = await browser.takeScreenshot();
-    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-    world.attach(decodedImage, 'image/png');
-    await browser.get(config.config.baseUrl);
-    await browserWaits.waitForElement(loginPage.emailAddress);
-    await loginPage.emailAddress.sendKeys(username);
-    await loginPage.password.sendKeys(password);
-    await browserWaits.waitForElement(loginPage.signinBtn);
-    await loginPage.clickSignIn();
-  });
+  // await browserWaits.retryWithAction($('app-header'), async function (message) {
+  //   world.attach("Retrying Login attempt: " + message);
+  //   let stream = await browser.takeScreenshot();
+  //   const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+  //   world.attach(decodedImage, 'image/png');
+  //   await browser.get(config.config.baseUrl);
+  //   await browserWaits.waitForElement(loginPage.emailAddress);
+  //   await loginPage.emailAddress.sendKeys(username);
+  //   await loginPage.password.sendKeys(password);
+  //   await browserWaits.waitForElement(loginPage.signinBtn);
+  //   await loginPage.clickSignIn();
+  // });
 
 
 }
+
+
+async function loginattemptCheckAndRelogin(username, password, world) {
+  await loginWithCredentials(username, password, world);
+  let loginAttemptRetryCounter = 1;
+
+  while (loginAttemptRetryCounter < 5) {
+
+    try {
+      await browserWaits.waitForstalenessOf(loginPage.emailAddress, 5);
+      break;
+    } catch (err) {
+      let emailFieldValue = await loginPage.emailAddress.getText();
+      if (!emailFieldValue.includes(username)) {
+        if (loginAttemptRetryCounter === 1) {
+          firstAttemptFailedLogins++;
+        }
+        if (loginAttemptRetryCounter === 2) {
+          secondAttemptFailedLogins++;
+        }
+
+        console.log(err + " email field is still present with empty value indicating  Login page reloaded due to EUI-1856 : Login re attempt " + loginAttemptRetryCounter);
+        world.attach(err + " email field is still present with empty value indicating Login page reloaded due to EUI-1856 : Login re attempt " + loginAttemptRetryCounter);
+        await loginWithCredentials(username, password,world);
+        loginAttemptRetryCounter++;
+      }
+    }
+  }
+
+
+  console.log("ONE ATTEMPT:  EUI-1856 issue occured / total logins => " + firstAttemptFailedLogins + " / " + loginAttempts);
+  world.attach("ONE ATTEMPT:  EUI-1856 issue occured / total logins => " + firstAttemptFailedLogins + " / " + loginAttempts);
+
+  console.log("TWO ATTEMPT: EUI-1856 issue occured / total logins => " + secondAttemptFailedLogins + " / " + loginAttempts);
+  world.attach("TWO ATTEMPT: EUI-1856 issue occured / total logins => " + secondAttemptFailedLogins + " / " + loginAttempts);
+
+
+}
+
+let loginAttempts = 0;
+let firstAttemptFailedLogins = 0;
+let secondAttemptFailedLogins = 0;
+
 
 function logger(world, message, isScreenshot) {
   if (isScreenshot) {

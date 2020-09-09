@@ -189,10 +189,10 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {
     await browser.get(config.config.baseUrl + '/cases/case-filter');
-    await browser.driver.manage()
-      .deleteAllCookies();
-    await browser.refresh();
-    browser.sleep(AMAZING_DELAY);
+    // await browser.driver.manage()
+    //   .deleteAllCookies();
+    // await browser.refresh();
+    // browser.sleep(AMAZING_DELAY);
   });
 
   Then(/^I should be redirected back to Login page after direct link$/, async function () {

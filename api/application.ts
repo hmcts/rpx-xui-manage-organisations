@@ -80,17 +80,6 @@ function healthcheckConfig(msUrl) {
     deadline: 6000
   });
 }
-
-const healthChecks = {
-  checks: {
-    idamApi: healthcheckConfig(getConfigValue(SERVICES_IDAM_API_PATH)),
-    idamWeb: healthcheckConfig(getConfigValue(SERVICES_IDAM_WEB)),
-    rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)),
-    s2s: healthcheckConfig(getConfigValue(SERVICE_S2S_PATH)),
-    feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH))
-  },
-}
-
 if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
   healthChecks.checks = {...healthChecks.checks, ...{
     termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))

@@ -80,6 +80,14 @@ function healthcheckConfig(msUrl) {
     deadline: 6000
   });
 }
+
+const healthChecks = {	
+  checks: {	
+    rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)),	
+    feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH))	
+  },	
+}
+
 if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
   healthChecks.checks = {...healthChecks.checks, ...{
     termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))

@@ -199,7 +199,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   Then(/^I should be redirected back to Login page after direct link$/, async function () {
-    await waitForElement(loginPage.emailAddress);
+    await browserWaits.waitForElement(loginPage.emailAddress);
     await expect(loginPage.signinTitle.getText())
       .to
       .eventually

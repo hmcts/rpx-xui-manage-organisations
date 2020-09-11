@@ -187,7 +187,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {
+  Given(/^I navigate to manage organisation Url direct link$/, async function () {
     await browser.get(config.config.baseUrl + '/cases/case-filter');
     // await browser.driver.manage()
     //   .deleteAllCookies();
@@ -195,8 +195,13 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(AMAZING_DELAY);
   });
 
-  Then(/^I should be redirected back to Login page after direct link$/, async function () {
-    await browserWaits.waitForElement(loginPage.emailAddress);
+  Then(/^I should be redirected back to Login page after direct link$/, { timeout: 120 * 1000 } ,async function () {
+    // await browserWaits.waitForElement(loginPage.emailAddress);
+    await browserWaits.retryWithAction(loginPage.emailAddress , async () => {
+      console.log("ReTry for login page after direct link ");
+      this.attach("ReTry for login page after direct link ");
+      await browser.get(config.config.baseUrl + '/cases/case-filter');
+    });
     await expect(loginPage.signinTitle.getText())
       .to
       .eventually

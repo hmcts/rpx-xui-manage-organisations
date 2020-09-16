@@ -78,9 +78,7 @@ async function pa11ytest(test,actions,timeoutVal) {
         throw err;
 
     }
-  
-    await page.close();
-    await browser.close();
+
     const elapsedTime = Date.now() - startTime;
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;

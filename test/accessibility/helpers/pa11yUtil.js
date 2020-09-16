@@ -54,11 +54,11 @@ async function pa11ytest(test,actions,timeoutVal) {
             page: page,
             timeout: 60000,
             screenCapture: screenshotPath,
-            // log: {
-            //     debug: console.log,
-            //     error: console.error,
-            //     info: console.info
-            // },
+            log: {
+                debug: console.log,
+                error: console.error,
+                info: console.info
+            },
             actions: actions
         })
     }catch(err){
@@ -70,7 +70,7 @@ async function pa11ytest(test,actions,timeoutVal) {
         test.a11yResult = result;
         console.log("Test Execution time : " + elapsedTime);
         console.log(err);
-        await page.close();
+        // await page.close();
         await browser.close();
         throw err;
 
@@ -80,8 +80,10 @@ async function pa11ytest(test,actions,timeoutVal) {
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
-    await page.close();
+
+    // await page.close();
     await browser.close();
+
     console.log("Test Execution time : "+elapsedTime);
     if (conf.failTestOna11yIssues){
         assert(result.issues.length === 0, "a11y issues reported") 

@@ -51,7 +51,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
     await inviteUserPage.manageUserCheckbox.click();
-    // browser.sleep(LONG_DELAY);
+    browser.sleep(LONG_DELAY);
     await inviteUserPage.clickSendInvitationButton();
     // browser.sleep(LONG_DELAY);
 

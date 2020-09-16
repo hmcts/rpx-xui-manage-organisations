@@ -99,22 +99,15 @@ defineSupportCode(({ After }) => {
 
         console.log("After scenario : " + scenario.result.status);
         global.screenShotUtils.takeScreenshot()
-        .then(stream => {
-            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-            world.attach(decodedImage, 'image/png');
-        })
-        .then(async () => {
-                let errorSummaryOnPage = element(by.css(".error-summary"));
-                let isErrorMessageDisplayed = await errorSummaryOnPage.isPresent();
-                if (isErrorMessageDisplayed) {
-                    let errorSummary = await errorSummaryOnPage.getText();
-                    world.attach("Error Summary Displayed : " + errorSummary);
-
-                } else {
-                    world.attach("Error summary empty or not displayed : ");
-                }
-                done();
-            });
-
+        .then(async (stream) => {
+            if (stream){
+                const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                world.attach(decodedImage, 'image/png');
+            }
+  
+            await browser.driver.manage()
+                .deleteAllCookies();
+            done();
+        });
     });
 });

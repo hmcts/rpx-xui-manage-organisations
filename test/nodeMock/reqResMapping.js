@@ -115,10 +115,6 @@ const createCases = (numUsers = 5)  => {
 }
 
 
-module.exports = { requestMapping,configurations};
-
-
-
 
 function getShareCases(){
     return [
@@ -178,3 +174,4 @@ function organisationUsers(){
 }
 
 
+module.exports = { requestMapping,configurations};

@@ -53,8 +53,8 @@ async function pa11ytest(test,actions,timeoutVal) {
     try{
 
         result = await pa11y(conf.baseUrl, {
-                browser: browser,
-                page: page,
+            browser: browser,
+            page: page,
             timeout: 60000,
             screenCapture: screenshotPath,
             log: {
@@ -85,6 +85,8 @@ async function pa11ytest(test,actions,timeoutVal) {
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
+    await page.close();
+    await browser.close();
     console.log("Test Execution time : "+elapsedTime);
     if (conf.failTestOna11yIssues){
         assert(result.issues.length === 0, "a11y issues reported") 

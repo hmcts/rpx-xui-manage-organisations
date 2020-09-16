@@ -29,21 +29,6 @@ Feature: invite user workflow
       | Manage Organisation |
       | Manage Cases |
     Then user should be created successfuly
-    When I activate invited user
-    When I click on user button
-    Then I should be on display the user details
-    Then I should see invited user is listed in users table
-    Then I select the sign out link
-    Then I login with latest invited user
-    Then I am on Accept Terms and Conditions page
-    When I click Confirm in Accept Terms and Conditions page
-    Then I should be redirected to manage organisation dashboard page
-    Then I should see navigation tab in header
-      | NavigationTab|
-      |Organisation|
-      |Users|
-    Then I see login to MC with invited user is "success"
-
 
   Scenario: Invite user with Manage Org permission
 
@@ -52,19 +37,6 @@ Feature: invite user workflow
       | Manage Organisation |
       # | Manage fee accounts |
     Then user should be created successfuly
-    When I activate invited user
-    When I click on user button
-    Then I should be on display the user details
-    Then I should see invited user is listed in users table
-    Then I select the sign out link
-    Then I login with latest invited user
-    Then I am on Accept Terms and Conditions page
-    When I click Confirm in Accept Terms and Conditions page
-    Then I should be redirected to manage organisation dashboard page
-    Then I should see navigation tab in header
-      | NavigationTab |
-      | Organisation   |
-    Then I see login to MC with invited user is "failed"
 
 
   Scenario: invited use with Manage Users permission
@@ -73,19 +45,6 @@ Feature: invite user workflow
       | Manage Users        |
     # | Manage fee accounts |
     Then user should be created successfuly
-    When I activate invited user
-    When I click on user button
-    Then I should be on display the user details
-    Then I should see invited user is listed in users table
-    Then I select the sign out link
-    Then I login with latest invited user
-    Then I am on Accept Terms and Conditions page
-    When I click Confirm in Accept Terms and Conditions page
-    Then I should be redirected to manage organisation dashboard page
-    Then I should see navigation tab in header
-      | NavigationTab |
-      | Users         |
-    Then I see login to MC with invited user is "failed"
 
   @fullFunctional
   Scenario: invite user validation workflow

@@ -1,11 +1,12 @@
 import * as faker from 'faker'
 
 export const searchCasesString = '/searchCases?ctid=*'
-let caseTypeNumber
+
 export function getApiPath(ccdPath: string) {
     return `${ccdPath}${searchCasesString}`
 }
 
+let caseTypeNumber
 export const createCaseType = () => {
     const caseTypeId = `Casetype${caseTypeNumber++}`
     return {

@@ -3,6 +3,7 @@ import * as log4jui from '../lib/log4jui'
 const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
 import { UserProfileModel } from './user'
+import {exists} from "../lib/util";
 
 router.get('/details', handleUserRoute)
 
@@ -20,7 +21,11 @@ function handleUserRoute(req, res) {
       res.send(payload)
   } catch (error) {
       logger.info(error)
-      const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
+      const errReport = {
+        apiError: error,
+        apiStatusCode: exists(error, 'statusCode'),
+        message: ''
+      }
       res.status(500).send(errReport)
   }
 }

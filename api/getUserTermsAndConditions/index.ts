@@ -3,6 +3,7 @@ import { getConfigValue, showFeature } from '../configuration'
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 import { application } from '../lib/config/application.config'
+import {valueOrNull} from '../lib/util';
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
 
 /**
@@ -34,13 +35,13 @@ async function getUserTermsAndConditions(req: express.Request, res: express.Resp
         res.send(userTandCResponse.accepted)
       } catch (error) {
         // we get a 404 if the user has not agreed to Terms and conditions
-        if (error.status === 404) {
+        if (valueOrNull(error, 'status') === 404) {
           res.send(true)
           return
         }
         errReport = {
-          apiError: error.data.message,
-          apiStatusCode: error.status,
+          apiError: valueOrNull(error, 'data.message'),
+          apiStatusCode: valueOrNull(error, 'status'),
           message: 'User Terms and Conditions route error',
         }
         res.status(error.status).send(errReport)

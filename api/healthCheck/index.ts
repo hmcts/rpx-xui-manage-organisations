@@ -1,14 +1,15 @@
-import * as express from 'express'
-import { showFeature } from '../configuration'
-import { healthEndpoints } from '../configuration/health'
-import { FEATURE_TERMS_AND_CONDITIONS_ENABLED } from '../configuration/references'
-import * as log4jui from '../lib/log4jui'
-import { HealthCheckUtil } from './healthCheckUtil'
+import * as express from 'express';
+import { showFeature } from '../configuration';
+import { healthEndpoints } from '../configuration/health';
+import { FEATURE_TERMS_AND_CONDITIONS_ENABLED } from '../configuration/references';
+import * as log4jui from '../lib/log4jui';
+import {exists} from '../lib/util';
+import { HealthCheckUtil } from './healthCheckUtil';
 
-export const router = express.Router({ mergeParams: true })
-const logger = log4jui.getLogger('outgoing')
+export const router = express.Router({ mergeParams: true });
+const logger = log4jui.getLogger('outgoing');
 
-router.get('/', healthCheckRoute)
+router.get('/', healthCheckRoute);
 
 /*
     Any feature that requires a health check
@@ -24,7 +25,7 @@ const healthCheckEndpointDictionary = {
     '/register-org/register/check': ['rdProfessionalApi'],
     '/users': ['rdProfessionalApi'],
     '/users/invite-user': ['rdProfessionalApi'],
-}
+};
 
 /*
     Health check endpoints are retrieved from
@@ -38,41 +39,41 @@ const healthCheckEndpointDictionary = {
 */
 
 function getPromises(path, req: express.Request): any[] {
-    const isTandCEnabled = showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)
-    HealthCheckUtil.manageTAndCFeature(isTandCEnabled, healthCheckEndpointDictionary)
-    const Promises = []
+    const isTandCEnabled = showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED);
+    HealthCheckUtil.manageTAndCFeature(isTandCEnabled, healthCheckEndpointDictionary);
+    const Promises = [];
     if (healthCheckEndpointDictionary[path]) {
         healthCheckEndpointDictionary[path].forEach(endpoint => {
             // TODO: Have health config for this.
-            console.log('healthEndpoints')
-            console.log(healthEndpoints()[endpoint])
-            Promises.push(req.http.get(healthEndpoints()[endpoint]))
-        })
+            console.log('healthEndpoints');
+            console.log(healthEndpoints()[endpoint]);
+            Promises.push(req.http.get(healthEndpoints()[endpoint]));
+        });
     }
-    return Promises
+    return Promises;
 }
 
 async function healthCheckRoute(req, res) {
 
     try {
-        const path = req.query.path
-        let PromiseArr = []
-        let response = { healthState: true }
+        const path = req.query.path;
+        let PromiseArr = [];
+        let response = { healthState: true };
 
         if (path !== '') {
-            PromiseArr = getPromises(path, req)
+            PromiseArr = getPromises(path, req);
         }
 
         // comment out following block to bypass actual check
         await Promise.all(PromiseArr).then().catch(() => {
-            response = { healthState: false }
-        })
+            response = { healthState: false };
+        });
 
-        logger.info('response::', response)
-        res.send(response)
+        logger.info('response::', response);
+        res.send(response);
     } catch (error) {
-        logger.info('error', { healthState: false })
-        res.status(error.status).send({ healthState: false })
+        logger.info('error', { healthState: false });
+        res.status(exists(error, 'status') ? error.status : 500).send({ healthState: false });
     }
 }
-export default router
+export default router;

@@ -28,7 +28,6 @@ constructor(private readonly store: Store<fromStore.UnassignedCasesState>,
             private  readonly appRoute: Store<fromRoot.State>) {}
 
 public ngOnInit(): void {
-  this.store.dispatch(new fromStore.LoadUnassignedCases());
   this.store.dispatch(new fromStore.LoadUnassignedCaseTypes());
   this.tableConfig = this.getCaveatTableConfig();
   this.store.pipe(select(fromStore.getAllUnassignedCases));
@@ -78,6 +77,7 @@ public ngOnInit(): void {
   }
 
   private setTabItems(tabName: string) {
+    this.store.dispatch(new fromStore.LoadUnassignedCases(tabName));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === tabName));
     this.currentCaseType = tabName;
   }

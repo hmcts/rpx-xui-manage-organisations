@@ -1,6 +1,6 @@
 import * as faker from 'faker'
 
-export const searchCasesString = '/searchCases?ctid=*'
+export const searchCasesString = '/ccd/searchCases?ctid=*'
 
 export function getApiPath(ccdPath: string) {
     return `${ccdPath}${searchCasesString}`

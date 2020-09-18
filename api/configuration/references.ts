@@ -40,6 +40,7 @@ export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditio
 export const SERVICES_CCD_CASE_ASSIGNMENT_API_PATH = 'services.caseAssignmentApi'
 
 export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi'
+export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi'
 
 export const SESSION_SECRET = 'sessionSecret'
 

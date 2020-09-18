@@ -2,6 +2,7 @@ import * as express from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
+import {exists, valueOrNull} from '../lib/util'
 
 const logger = log4jui.getLogger('service-token')
 
@@ -16,8 +17,8 @@ async function handleUserListRoute(req: express.Request, res: express.Response) 
         res.send(response.data)
     } catch (error) {
         const errReport = {
-            apiError: error.data && error.data.message ? error.data.message : error.statusText,
-            apiStatusCode: error.statusCode,
+            apiError: exists(error, 'data.message') ? error.data.message : valueOrNull(error, 'statusText'),
+            apiStatusCode: valueOrNull(error, 'statusCode'),
             message: 'List of users route error',
         }
         res.status(500).send(errReport)

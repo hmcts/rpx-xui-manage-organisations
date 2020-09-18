@@ -1,5 +1,6 @@
 import {Request} from 'express'
 import { FeeAccount } from '../interfaces/feeAccountPayload'
+import {valueOrNull} from "../lib/util";
 
 export function getAccountUrl(baseUrl: string, accountName: string) {
     return `${baseUrl}/accounts/${accountName}`
@@ -12,7 +13,7 @@ export function getAccount(accountNumber: string, url: string, req: Request): Pr
             resolve(account)
         })
         .catch(err => {
-            err && err.status && err.status === 404 ? resolve({data: getMissingFeeAccount(accountNumber), status: 404}) : reject(err)
+            valueOrNull(err, 'status') === 404 ? resolve({data: getMissingFeeAccount(accountNumber), status: 404}) : reject(err)
         })
     })
 }

@@ -4,6 +4,7 @@ import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configur
 import {http} from '../lib/http'
 import {makeOrganisationPayload} from '../lib/payloadBuilder'
 import {generateS2sToken} from '../lib/s2sTokenGeneration'
+import {exists, valueOrNull} from "../lib/util";
 
 export const router = express.Router({mergeParams: true})
 
@@ -42,20 +43,21 @@ router.post('/register', async (req, res) => {
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */
-    if (error.message === ERROR_GENERATING_S2S_TOKEN) {
+    if (valueOrNull(error, 'message') === ERROR_GENERATING_S2S_TOKEN) {
       return res.status(500).send({
         errorMessage: ERROR_GENERATING_S2S_TOKEN,
         errorOnPath: s2sServicePath,
       })
     }
 
+    const status = exists(error, 'status') ? error.status : 500
+
     const errReport = {
-      apiError: error.data.errorMessage,
-      apiErrorDescription: error.data.errorDescription,
-      statusCode: error.status,
+      apiError: valueOrNull(error, 'data.errorMessage'),
+      apiErrorDescription: valueOrNull(error, 'data.errorDescription'),
+      statusCode: status,
     }
-    res.status(error.status)
-    res.send(errReport)
+    res.status(status).send(errReport)
   }
 });
 

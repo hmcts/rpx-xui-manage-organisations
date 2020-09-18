@@ -4,6 +4,7 @@ import {getConfigValue} from '../configuration'
 import {MICROSERVICE, S2S_SECRET,} from '../configuration/references'
 import {http} from './http'
 import * as log4jui from './log4jui'
+import {valueOrNull} from "./util";
 
 const s2sSecret = getConfigValue(S2S_SECRET) // process.env.S2S_SECRET || 'S2S SECRET NEEDS TO BE SET'
 
@@ -45,7 +46,7 @@ export async function generateS2sToken(url) {
     return s2sTokenResponse.data
   } catch (error) {
     logger.error(`Error generating S2S Token`)
-    logger.error(`Error generating S2S Token: Status code ${error.status}`)
+    logger.error(`Error generating S2S Token: Status code ${valueOrNull(error, 'status')}`)
     logger.error(`Error generating S2S Token: path to token generation ${url}`)
     logger.error(`Error generating S2S Token: S2S secret ${s2sSecret}`)
     logger.error(`Error generating S2S Token: microservice ${microservice}`)

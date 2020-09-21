@@ -31,7 +31,7 @@
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal"
   },
-  "sessionSecret": "secretSauce",
+  "sessionSecret": ["mo-topSecret1","secretSauce"],
   "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
   "feature": {
     "appInsightsEnabled": true,

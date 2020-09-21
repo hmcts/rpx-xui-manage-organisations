@@ -26,6 +26,11 @@ export const getUser = createSelector(
   fromRoot.getUserConfig
 );
 
+export const getIsUserCaaAdmin = createSelector(
+  getUser,
+  (user) => user.roles.includes('pui-caa')
+);
+
 export const getUid = createSelector(
   getUser,
   (user) => {

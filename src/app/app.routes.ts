@@ -52,6 +52,7 @@ export const ROUTES: Routes = [
     component: ServiceDownComponent
   },
   {
+    canActivate: [AuthGuard],
     path: 'home',
     component: RedirectComponent
   },

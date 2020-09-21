@@ -6,12 +6,11 @@ import { createCaseTypeResponse, getApiPath } from './unassignedCases.util'
 
 export async function handleUnassignedCaseTypes(req: Request, res: Response) {
     const logger = log4jui.getLogger('caseTypes')
-    console.log(req.body)
-    const payload = req.body
-
+    // const payload = getRequestBody(req.body.orgId)
+    console.log('sessions is', req.session.auth)
     const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH))
     try {
-        console.log('Path is ', JSON.stringify(payload))
+        // console.log('Path is ', JSON.stringify(payload))
 
         //const response = await req.http.post(path, payload)
         res.send(createCaseTypeResponse())

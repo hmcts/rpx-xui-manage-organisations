@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import 'rxjs/add/operator/map';
-import { filter, map, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {AuthService} from '../services/auth.service';
 import * as fromStore from '../store';
 
@@ -16,11 +16,9 @@ export class AuthGuard implements CanActivate {
   }
 
   public canActivate() {
-    return combineLatest([this.checkUserStore(), this.isAuthenticated()]).pipe(
-      map(([isUserLoadedInStore, isAuthenticated]) => {
-        return isUserLoadedInStore && isAuthenticated;
-      }),
-    );
+    const obsOne1$ = this.isAuthenticated();
+    const obsTwo$ = this.checkUserStore();
+    return obsOne1$.pipe(switchMap((isAuth) => isAuth ? obsTwo$ : of(false)));
   }
 
   public isAuthenticated(): Observable<boolean> {
@@ -29,6 +27,7 @@ export class AuthGuard implements CanActivate {
         this.authService.loginRedirect();
         return false;
       }
+      return true;
     }));
   }
 

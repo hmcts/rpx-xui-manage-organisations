@@ -2,6 +2,7 @@
 Feature: Accept Terms and Conditions
 
 Background: background setup
+
     When I navigate to manage organisation Url
     Given I am logged into manage organisation to invite users
 

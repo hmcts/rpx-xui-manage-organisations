@@ -10,9 +10,12 @@ Feature: invite user workflow
     When I navigate to invite user page
     Then I should be on display invite user page
 
+
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
+
+
 
   Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
@@ -31,14 +34,13 @@ Feature: invite user workflow
     Then user should be created successfuly
 
 
+
   Scenario: invited use with Manage Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
-      | Manage Organisation |
       | Manage Users        |
     # | Manage fee accounts |
     Then user should be created successfuly
-
 
   @fullFunctional
   Scenario: invite user validation workflow

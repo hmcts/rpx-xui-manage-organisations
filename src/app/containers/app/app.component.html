@@ -14,6 +14,18 @@
 
 <app-footer></app-footer>
 
+<xuilib-session-dialog positionTop="300px" *ngIf="(modalData$ | async).isVisible" (close)="onStaySignedIn()">
+  <p class="govuk-body">For your security, we will sign you out of your account in
+    <strong>{{(modalData$ | async).countdown}}</strong>
+  </p>
+  <p>Any information you have not saved will be lost</p>
+  <button type="submit" class="govuk-button stay-signed-in-button" (click)="onStaySignedIn()">
+    Stay signed in
+  </button>
+  <button type="submit" class="govuk-button govuk-button--secondary" (click)="onNavigate('sign-out')">
+    Sign out
+  </button>
+</xuilib-session-dialog>
 
 <!--this is the part of fee accounts leaving it here so we know it exist-->
 <!--<app-hmcts-identity-bar [content]="identityBar$ | async"></app-hmcts-identity-bar>-->

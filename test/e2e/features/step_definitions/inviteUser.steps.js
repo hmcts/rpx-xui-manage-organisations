@@ -95,9 +95,9 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     global.latestInvitedUserPassword = "Monday01";
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
-    let permissions = table.hashes(); 
+    let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length;permCounter++){
-      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true); 
+      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true);
     }
     await inviteUserPage.clickSendInvitationButton()
   });
@@ -106,12 +106,12 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
       await inviteUserPage.selectPermission(permissions[permCounter].Permission, permissions[permCounter].isSelected === "true");
-    } 
+    }
   });
 
 
   Then(/^I should be display the validation error$/, async function () {
-    await expect(inviteUserPage.failure_error_heading.isDisplayed(),"Invite user error message not diaplayed ").to.eventually.be.true;
+    await expect(inviteUserPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(inviteUserPage.failure_error_heading.getText())
       .to
       .eventually
@@ -147,5 +147,5 @@ function logger(world,message,isScreenshot){
     world.attach(message);
     console.log(message);
   }
-   
+
 }

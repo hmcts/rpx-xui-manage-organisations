@@ -94,19 +94,17 @@ var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenSho
 
 
 defineSupportCode(({ After }) => {
-    After(function(scenario, done) {
+    After(async function(scenario) {
         const world = this;
+
         console.log("After scenario : " + scenario.result.status);
-        global.screenShotUtils.takeScreenshot()
-        .then(async (stream) => {
-            if (stream){
-                const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-                world.attach(decodedImage, 'image/png');
-            }
-  
-            await browser.driver.manage()
-                .deleteAllCookies();
-            done();
-        });
+        let stream = await global.screenShotUtils.takeScreenshot();
+        if (stream) {
+            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+            world.attach(decodedImage, 'image/png');
+        }
+
+        await browser.driver.manage()
+            .deleteAllCookies();
     });
 });

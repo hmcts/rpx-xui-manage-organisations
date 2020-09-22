@@ -22,8 +22,8 @@ export class InviteUserEffects {
   public saveUser$ = this.actions$.pipe(
     ofType(usersActions.SEND_INVITE_USER),
     map((action: usersActions.SendInviteUser) => action.payload),
-    switchMap((inviteUserFormData: any) => {
-      const userEmail = (inviteUserFormData).email;
+    switchMap((inviteUserFormData) => {
+      const userEmail = (inviteUserFormData as any).email;
       return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
         map(userDetails => {
           const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(inviteUserFormData.resendInvite);

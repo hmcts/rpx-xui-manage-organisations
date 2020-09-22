@@ -124,7 +124,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await createOrganisationObject.enterEmailAddress(global.latestOrgSuperUser);
     await createOrganisationObject.continue_button.click();
 
-    
+
     // browser.sleep(MID_DELAY);
   });
 

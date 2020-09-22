@@ -28,7 +28,9 @@ export class UserProfileEffects {
     switchMap(() => {
       return this.userService.getUserDetails()
         .pipe(
-          map((userDetails: UserInterface) => new authActions.GetUserDetailsSuccess(userDetails)),
+          map((userDetails: UserInterface) => {
+            return new authActions.GetUserDetailsSuccess(userDetails)
+          }),
           catchError((error: HttpErrorResponse) => {
             this.loggerService.error(error.message);
             return of(new authActions.GetUserDetailsFailure(error));
@@ -51,14 +53,30 @@ export class UserProfileEffects {
         email: 'hardcoded@user.com',
         orgId: '12345',
         roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager' , 'pui-organisation-manager'],
-        userId: '1'
+        sessionTimeout: {
+          idleModalDisplayTime: 10,
+          totalIdleTime: 50
+        },
+        userId: '1',
       };
       return new authActions.GetUserDetailsSuccess(hadCodedUser);
     })
   );
 
+  /**
+   * Edit User Effect
+   *
+   * We proxy through the Node layer to edit a User's permissions. The call is proxy'ed onto the PRD 3rd party service.
+   *
+   * If PRD returns a 201 or 204 on successfully adding a User's permission we display the Edit Permissions page
+   * with the updated User's permissions.
+   *
+   * If PRD does not return a 201 or 204, then we show a permissions updated failure page. The permissions update failure
+   * page allows the logged in User to retry editing permissions by showing them a link taking them back to the
+   * Edit Permissions page.
+   */
   @Effect()
-  editUser$ = this.actions$.pipe(
+  public editUser$ = this.actions$.pipe(
     ofType(usersActions.EDIT_USER),
     map((action: usersActions.EditUser) => action.payload),
     switchMap((user) => {

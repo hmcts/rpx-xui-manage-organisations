@@ -124,7 +124,7 @@ class ManageCasesService {
             await this.attachScreenshot();
             throw new Error(error);
         }
-        
+
 
     }
 
@@ -143,8 +143,8 @@ class ManageCasesService {
     async validateLoginFailure(){
         await this.mcBrowser.wait(async () => {
             await this.waitForElement(this.emailAddressElement);
-            let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value'); 
-            return loginEmailFieldValue === ''; 
+            let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value');
+            return loginEmailFieldValue === '';
         }, this.waitTime);
         this.logger("MC Login Failed as expected");
     }
@@ -158,4 +158,4 @@ class ManageCasesService {
 
 const manageCasesService = new ManageCasesService();
 
-module.exports = manageCasesService; 
+module.exports = manageCasesService;

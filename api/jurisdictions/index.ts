@@ -1,7 +1,7 @@
-import * as express from 'express'
+import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { JURISDICTIONS } from '../configuration/references'
-import {exists} from "../lib/util";
+import {exists} from '../lib/util'
 
 /**
  * getJurisdiction
@@ -36,7 +36,7 @@ import {exists} from "../lib/util";
  */
 const formatJurisdictions = jurisdictionFromConfig => jurisdictionFromConfig.map(jurisdiction => ({ id: jurisdiction }))
 
-async function handleJurisdictions(req, res) {
+export async function handleJurisdictions(req, res) {
 
     const uiJurisdictions = formatJurisdictions(getConfigValue(JURISDICTIONS))
 
@@ -53,7 +53,7 @@ async function handleJurisdictions(req, res) {
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleJurisdictions)
 

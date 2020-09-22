@@ -162,8 +162,7 @@ const ccdRoles = [
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
-  'caseworker-publiclaw-solicitor',
-  'pui-caa',
+  'caseworker-publiclaw-solicitor'
 ];
 
 const redirectUrl = {

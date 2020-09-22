@@ -3,7 +3,7 @@ import * as faker from 'faker'
 export const caseAssignment = '/ccd/internal/searchCases'
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
-    return `${ccdPath}${caseAssignment}?ctid=<${caseTypeId}>&usecase=ORGCASES`
+    return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&use_case=ORGCASES`
 }
 
 let caseTypeNumber
@@ -51,7 +51,7 @@ export function getRequestBody(organisationID: string) {
                 {
                 multi_match: {
                     fields: ["data.*.Organisation.OrganisationID"],
-                    query: `<${organisationID}>`,
+                    query: `${organisationID}`,
                     type: "phrase",
                 },
                 },

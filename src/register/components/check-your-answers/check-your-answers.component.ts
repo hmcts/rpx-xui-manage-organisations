@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import * as fromStore from '../../store';
   selector: 'app-check-your-answers',
   templateUrl: './check-your-answers.component.html',
 })
-export class CheckYourAnswersComponent implements OnInit, AfterViewInit {
+export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private readonly store: Store<fromStore.RegistrationState>
@@ -43,11 +43,11 @@ export class CheckYourAnswersComponent implements OnInit, AfterViewInit {
       focusElement.focus();
     }
 
-    setTimeout(() => {
-      this.store.dispatch(new fromStore.ResetErrorMessage({}));
-      this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
-    });
+  }
 
+  public ngOnDestroy(): void {
+    this.store.dispatch(new fromStore.ResetErrorMessage({}));
+    this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
   }
 
   public onSubmitData() {

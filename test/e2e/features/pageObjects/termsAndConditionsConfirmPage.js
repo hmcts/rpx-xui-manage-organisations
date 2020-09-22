@@ -40,7 +40,7 @@ class TermsAndConditionsConfirmPage{
         await browser.get(url);
        
         let bodyElement = element(by.css('body pre'));
-        await BrowserWaits.waitForElement(bodyElement); 
+        await BrowserWaits.waitForElement(bodyElement);
         let feattureToggleStatus = await bodyElement.getText();
         let browserCurrentUtl = await browser.getCurrentUrl();
         if (world) {
@@ -48,9 +48,9 @@ class TermsAndConditionsConfirmPage{
         }
         await browser.driver.close();
         await browser.switchTo().window(mainWinHandle);
-        this.isFeatureEnabled = feattureToggleStatus.includes('true'); 
+        this.isFeatureEnabled = feattureToggleStatus.includes('true');
         return this.isFeatureEnabled ;
-    } 
+    }
 
 }
 

@@ -33,6 +33,8 @@ import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
 
+import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
+
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
   : [];
@@ -63,7 +65,8 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule.forRoot()
+    ExuiCommonLibModule.forRoot(),
+    NgIdleKeepaliveModule.forRoot()
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },

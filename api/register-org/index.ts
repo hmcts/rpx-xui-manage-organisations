@@ -1,17 +1,14 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import {http} from '../lib/http'
-import {makeOrganisationPayload} from '../lib/payloadBuilder'
-import {generateS2sToken} from '../lib/s2sTokenGeneration'
-import {exists, valueOrNull} from "../lib/util";
+import { http } from '../lib/http'
+import { makeOrganisationPayload } from '../lib/payloadBuilder'
+import { generateS2sToken } from '../lib/s2sTokenGeneration'
+import {exists, valueOrNull} from '../lib/util'
 
-export const router = express.Router({mergeParams: true})
+export const router = Router({mergeParams: true})
 
-router.post('/register', async (req, res) => {
-
-  console.log('in /register')
-
+export async function handleRegisterOrgRoute(req: Request, res: Response) {
   // TODO: Should be in common constants
   const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 
@@ -35,7 +32,7 @@ router.post('/register', async (req, res) => {
     const options = {
       headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
     }
-    const axiosInstance = http({} as unknown as express.Request)
+    const axiosInstance = http({} as unknown as Request)
     const response = await axiosInstance.post(url, registerPayload, options)
 
     res.send(response.data)
@@ -59,6 +56,8 @@ router.post('/register', async (req, res) => {
     }
     res.status(status).send(errReport)
   }
-});
+}
+
+router.post('/register', handleRegisterOrgRoute)
 
 export default router

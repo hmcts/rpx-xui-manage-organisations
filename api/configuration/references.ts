@@ -65,3 +65,5 @@ export const REDIS_TTL = 'redis.ttl'
 export const REDIS_KEY_PREFIX = 'redis.prefix'
 
 export const SESSION_TIMEOUTS = 'sessionTimeouts'
+
+export const CASE_TYPES = 'caseTypes'

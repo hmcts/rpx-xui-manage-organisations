@@ -2,8 +2,10 @@ import * as fromActions from './unassigned-cases.actions';
 
 describe('Unassigned actions', () => {
     it('Load Unassigned Actions', () => {
-        const action = new fromActions.LoadUnassignedCases();
+        const caseType = 'caseTypeId1';
+        const action = new fromActions.LoadUnassignedCases(caseType);
         expect({ ...action }).toEqual({
+            caseType,
             type: fromActions.LOAD_UNASSIGNED_CASES
           });
     });

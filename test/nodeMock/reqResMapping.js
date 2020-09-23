@@ -48,6 +48,9 @@ const requestMapping = {
         },
         '/api/caseshare/case-assignments' : (req,res) => {
             res.send([]);
+        },
+        '/api/unassignedcases' : (req,res) => {
+            res.send([]);
         }
 
     },

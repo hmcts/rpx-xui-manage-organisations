@@ -33,7 +33,10 @@
       "manageCaseLink": "MANAGE_CASE_LINK",
       "manageOrgLink": "MANAGE_ORG_LINK"
     },
-    "sessionSecret": "SESSION_SECRET",
+    "sessionSecret": {
+      "__name": "SESSION_SECRET",
+      "__format": "json"
+    },
     "secrets": {
       "rpx": {
         "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",

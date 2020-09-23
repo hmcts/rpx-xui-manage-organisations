@@ -22,9 +22,11 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
 
     enableFullFunctionalTest(30)
-    installCharts()
+    enableSecurityScan()
+    enableMutationTest()
+    enableCrossBrowserTest()
 
-    env.TEST_URL = 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/'
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
     after('checkout') {sh 'yarn cache clean'}
     after('build') {
         sh 'npm run build'
@@ -45,16 +47,6 @@ withNightlyPipeline(type, product, component) {
             reportName           : 'ng lint Report'
         ])
 
-        sh 'yarn test:a11y'
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
-        ])
-
     }
 
     after('fullFunctionalTest') {
@@ -62,7 +54,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "reports/tests/fullfunctional/",
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Full functional Tests'
         ])
@@ -79,4 +71,15 @@ withNightlyPipeline(type, product, component) {
             reportName           : 'XUI Manage Organisation Mutation tests'
         ])
     }
+
+    after('crossBrowserTest') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/crossbrowser/",
+            reportFiles          : 'index.html',
+            reportName           : 'XUI Manage Organisation Cross Browser Tests'
+        ])
+    }   
 }

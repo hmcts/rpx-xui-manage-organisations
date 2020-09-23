@@ -199,3 +199,4 @@ Session Timeout - An object that contains the Idle Modal Display Time, Reg Ex pa
 the correct Session Timeout for the application / and or User Groups and Total Idle Time.  
 
 END
+trigger

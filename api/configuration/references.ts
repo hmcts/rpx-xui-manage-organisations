@@ -41,6 +41,9 @@ export const SERVICES_CCD_CASE_ASSIGNMENT_API_PATH = 'services.caseAssignmentApi
 
 export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi'
 export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi'
+export const SERVICES_IDAM_ISS_URL = 'iss'
+
+export const LOGIN_ROLE_MATCHER = 'loginRoleMatcher'
 
 export const SESSION_SECRET = 'sessionSecret'
 
@@ -55,6 +58,7 @@ export const FEATURE_PROXY_ENABLED = 'proxyEnabled'
 export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
 export const FEATURE_REDIS_ENABLED = 'redisEnabled'
+export const FEATURE_OIDC_ENABLED = 'oidcEnabled'
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink'
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'

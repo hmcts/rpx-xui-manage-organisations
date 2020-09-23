@@ -2,17 +2,12 @@
 Feature: invite user workflow
 
   Background:
-    Given I create test read write organisation
-    Given I approve test read write  organisation
-    Given I activate test read write approved organisation super user
 
     When I navigate to manage organisation Url
-    Given I am logged into manage organisation with test org user
-
+    Given I am logged into manage organisation to invite users
+ 
     Then I should be redirected to manage organisation dashboard page
-    When I click on user button
-    Then I should be on display the user details
-    When I click on invite user button
+    When I navigate to invite user page
     Then I should be on display invite user page
 
 
@@ -37,6 +32,7 @@ Feature: invite user workflow
       | Manage Organisation |
       # | Manage fee accounts |
     Then user should be created successfuly
+
 
 
   Scenario: invited use with Manage Users permission

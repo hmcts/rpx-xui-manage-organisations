@@ -1,6 +1,7 @@
+import {xuiNode} from '@hmcts/rpx-xui-node-lib'
+import * as express from 'express'
 import { Router } from 'express'
 import accountsRouter from './accounts'
-import * as auth from './auth'
 import { router as caseShareRouter } from './caseshare/routes'
 import editUserPermissions from './editUserPermissions'
 import getUserTermsAndConditions from './getUserTermsAndConditions'
@@ -19,7 +20,7 @@ import getUserList from './userList'
 
 const router = Router({ mergeParams: true })
 
-router.use(auth.attach)
+router.use(xuiNode.authenticate)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
 router.use('/user', userDetailsRouter)

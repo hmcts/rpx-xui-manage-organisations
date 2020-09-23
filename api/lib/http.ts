@@ -9,12 +9,18 @@ export const http = (req: Request) => {
 
   const headers = {}
 
-  if (exists(req, 'session.auth.token')) {
-    headers['Authorization'] = `Bearer ${req.session.auth.token}`
-  }
+  if (req.headers) {
+    if (exists(req, 'headers.Authorization')) {
+      headers['Authorization'] = req.headers.Authorization
+    }
 
-  if (exists(req, 'session.auth.roles')) {
-    headers['user-roles'] = req.session.auth.roles
+    if (req.headers['user-roles'] && req.headers['user-roles'].length) {
+      headers['user-roles'] = req.headers['user-roles']
+    }
+
+    if (exists(req, 'headers.ServiceAuthorization')) {
+      headers['ServiceAuthorization'] = req.headers.ServiceAuthorization
+    }
   }
 
   const axiosInstance: AxiosInstance = axios.create({

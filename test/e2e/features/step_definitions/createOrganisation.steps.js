@@ -22,10 +22,15 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
   });
 
+  When(/^I navigate to EUI Register Organisation Url$/, async function () {
+    await browser.get(config.config.baseUrl + '/register-org/register');
+    browser.sleep(MID_DELAY);
+  })
+
   Then('I am on Register organisation start page', async function () {
-   await createOrganisationObject.waitForStartRegisterPage();
-    await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.start_button.getText())
+   await createOrganisationObject.waitForStartRegisterPage(); 
+    await expect(createOrganisationObject.start_button.isDisplayed(),"Create Organisation START button not present").to.eventually.be.true;
+    await expect(createOrganisationObject.start_button.getText(),"Start button text not mathing with expected")
       .to
       .eventually
       .equal('Start');
@@ -35,7 +40,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         // await waitForElement('govuk-heading-xl');
         browser.sleep(LONG_DELAY);
         await waitForElement('govuk-heading-xl', LONG_DELAY);
-        await expect(createOrganisationObject.start_button.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.start_button.isDisplayed(), "Create Organisation START button not present").to.eventually.be.true;
         await expect(createOrganisationObject.start_button.getText())
             .to
             .eventually
@@ -45,7 +50,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I Enter the Organization name$/, { timeout: 600 * 1000 }, async function () {
     // await waitForElement('govuk-heading-xl');
-    await expect(createOrganisationObject.org_name.isDisplayed()).to.eventually.be.true;
+    await expect(createOrganisationObject.org_name.isDisplayed(), "Input Organisation name nor present").to.eventually.be.true;
     await createOrganisationObject.enterOrgName();
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);

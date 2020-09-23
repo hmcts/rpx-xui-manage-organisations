@@ -20,6 +20,8 @@
   "microservice": "xui_webapp",
   "now": false,
   "oauthCallbackUrl": "/oauth2/callback",
+  "iss": "https://forgerock-am.service.core-compute-idam-prod.internal:8443/openam/oauth2/realms/root/realms/hmcts",
+  "loginRoleMatcher": "^pui-.*-manager$",
   "protocol": "https",
   "services": {
     "idamApi": "https://idam-api.platform.hmcts.net",
@@ -30,7 +32,7 @@
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal"
   },
-  "sessionSecret": "secretSauce",
+  "sessionSecret": ["mo-topSecret1","secretSauce"],
   "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
   "feature": {
     "appInsightsEnabled": true,
@@ -38,7 +40,8 @@
     "secureCookieEnabled": true,
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
-    "redisEnabled": false
+    "redisEnabled": false,
+    "oidcEnabled": false
   },
   "helmet": {
     "contentSecurityPolicy": {

@@ -1,8 +1,6 @@
 import * as exceptionFormatter from 'exception-formatter'
-import * as stringify from 'json-stringify-safe'
 import { getConfigValue } from '../configuration'
 import { MAX_LOG_LINE } from '../configuration/references'
-import * as errorStack from '../lib/errorStack'
 import * as log4jui from './log4jui'
 import { shorten, valueOrNull } from './util'
 
@@ -69,9 +67,6 @@ export function errorInterceptor(error) {
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${JSON.stringify(data)}`)
     }
-
-    errorStack.push(['request', JSON.parse(stringify(error.request))])
-    errorStack.push(['response', JSON.parse(stringify(error.response))])
 
     return Promise.reject(error.response)
 

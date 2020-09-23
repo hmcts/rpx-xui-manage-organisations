@@ -9,7 +9,7 @@ import { TermsConditionsService } from 'src/shared/services/termsConditions.serv
 import { JurisdictionService } from 'src/users/services/jurisdiction.service';
 import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
-import {AuthGuard} from '../../../user-profile/guards/auth.guard';
+import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
@@ -23,7 +23,7 @@ describe('App Effects', () => {
 
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
   const mockTermsService = jasmine.createSpyObj('mockTermsService', ['getTermsConditions']);
-  const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
+  const mockAuthService = jasmine.createSpyObj('mockAuthService', ['signOut']);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   const mockFeatureToggleService = jasmine.createSpyObj('mockFeatureToggleService', ['isEnabled', 'initialised']);
   let effects: fromAppEffects.AppEffects;
@@ -51,7 +51,7 @@ describe('App Effects', () => {
         { provide: CookieService, useValue: cookieService },
         { provide: JurisdictionService, useValue: mockJurisdictionService },
         { provide: TermsConditionsService, useValue: mockTermsService },
-        { provide: AuthGuard, useValue: mockAuthGuard },
+        { provide: AuthService, useValue: mockAuthService },
         {
           provide: LoggerService,
           useValue: mockedLoggerService
@@ -59,11 +59,7 @@ describe('App Effects', () => {
         {
           provide: FeatureToggleService,
           useValue: mockFeatureToggleService
-        },
-        {
-          provide: ENVIRONMENT_CONFIG,
-          useValue: {}
-        },
+        }
       ]
     });
 

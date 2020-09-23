@@ -1,84 +1,91 @@
 <div [attr.validate]="validate" [attr.data]="data" [attr.group]="group">
-      <!--JUI FORM builder component -->
-      <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
-          {{data.legend.text}}
-      </app-legend>
-      <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
-          {{data.hint.text}}
-      </app-hint>
-      <ng-container *ngIf="data.validationError && validate">
-          <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
-              {{data.validationError.value}}
-          </app-validation-error-formgroup>
-      </ng-container>
-      <app-date *ngIf="data.date"
-                [id]="data.date.formName"
-                [data]="data.date"
-                [group]="group"
-                [validate]="validate"
-                [validationError]="data.date.validationError">
-      </app-date>
-      <app-inputs *ngIf="data.input"
-                  [item]="data.input"
-                  [showValidation]="validate"
-                  [validationError]="data.input.validationError"
-                  [group]="group"
-                  [hint]="data.input.hint"
-                  [label]="data.input.label"
-                  [labelFor]="data.input.control"></app-inputs>
-    <app-hidden-input *ngIf="data.hiddenInput"
-                      [item]="data.hiddenInput"
-                      [group]="group"
-                      [value]="data.hiddenInput.value"></app-hidden-input>
-      <app-radiobutton *ngIf="data.radios" [classes]="'govuk-radios ' + data.radios.classes"
-                       [items]="data.radios.radioGroup"
-                       [group]="group"
-                       [control]="data.radios.control"
-                       [idPrefix]="data.radios.control"
-                       [validate]="validate"
-                       [showValidation]="validate"
-                       [validationError]="data.radios.validationError">
-      </app-radiobutton>
-      <div *ngIf="data.checkbox" class="govuk-checkboxes">
-          <app-checkbox [group]="group"
-                        [validate]="validate"
-                        [idPrefix]="data.checkbox.control"
-                        [items]="data.checkbox"
-                        [classes]="'govuk-checkboxes__item'"
-                        [labelClasses]="'govuk-label govuk-checkboxes__label'">
-              <div class="govuk-form-group">
-                  <div *ngIf="data.checkbox.groups && group.controls[data.checkbox.control].value" class="govuk-checkboxes__conditional"
-                       [ngStyle] = "{ 'border-left': (validate && group.invalid) ? '5px solid #b10e1e' : '' }">
-                      <ng-container  *ngFor="let subgroup of data.checkbox.groups">
-                          <app-fieldset *ngIf="subgroup.fieldset"
-                                        [validate]="validate"
-                                        [classes]="'govuk-fieldset'"
-                                        [group]="group"
-                                        [data]="subgroup.fieldset"
-                                        >
-                          </app-fieldset>
-                          <app-jui-form-elements [validate]="validate" [group]="group" [data]="subgroup"></app-jui-form-elements>
-                      </ng-container>
-                  </div>
-              </div>
-          </app-checkbox>
-      </div>
-
-      <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
-                      [showValidation]="validate"
-                      [validationError]="data.textarea.validationError"
-                      [group]="group"
-                      [control]="data.textarea.control"
-                      [label]="data.textarea.label"
-                      [labelFor]="data.textarea.control"
-                      [rows]="5">
-      </app-textareas>
-    <app-buttons *ngIf="data.button"
-                 [classes]="'govuk-button'"
-                 [typeBtn]="data.button.type"
-                 [group]="group"
-                 [control]="data.button.control"
-                 [value]="data.button.value">
-    </app-buttons>
     <!--JUI FORM builder component -->
+    <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
+        {{data.legend.text}}
+    </app-legend>
+    <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
+        {{data.hint.text}}
+    </app-hint>
+    <ng-container *ngIf="data.validationError && validate">
+        <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
+            {{data.validationError.value}}
+        </app-validation-error-formgroup>
+    </ng-container>
+    <app-date *ngIf="data.date"
+              [id]="data.date.formName"
+              [data]="data.date"
+              [group]="group"
+              [validate]="validate"
+              [validationError]="data.date.validationError">
+    </app-date>
+    <app-inputs *ngIf="data.input"
+                [item]="data.input"
+                [showValidation]="validate"
+                [validationError]="data.input.validationError"
+                [group]="group"
+                [hint]="data.input.hint"
+                [label]="data.input.label"
+                [labelFor]="data.input.control"></app-inputs>
+  <app-hidden-input *ngIf="data.hiddenInput"
+                    [item]="data.hiddenInput"
+                    [group]="group"
+                    [value]="data.hiddenInput.value"></app-hidden-input>
+    <app-radiobutton *ngIf="data.radios" [classes]="'govuk-radios ' + data.radios.classes"
+                     [items]="data.radios.radioGroup"
+                     [group]="group"
+                     [control]="data.radios.control"
+                     [idPrefix]="data.radios.control"
+                     [validate]="validate"
+                     [showValidation]="validate"
+                     [validationError]="data.radios.validationError">
+    </app-radiobutton>
+    <div *ngIf="data.checkbox" class="govuk-checkboxes">
+        <app-checkbox [group]="group"
+                      [validate]="validate"
+                      [idPrefix]="data.checkbox.control"
+                      [items]="data.checkbox"
+                      [classes]="'govuk-checkboxes__item'"
+                      [labelClasses]="'govuk-label govuk-checkboxes__label'">
+            <div class="govuk-form-group">
+                <div *ngIf="data.checkbox.groups && group.controls[data.checkbox.control].value" class="govuk-checkboxes__conditional"
+                     [ngStyle] = "{ 'border-left': (validate && group.invalid) ? '5px solid #b10e1e' : '' }">
+                    <ng-container  *ngFor="let subgroup of data.checkbox.groups">
+                        <app-fieldset *ngIf="subgroup.fieldset"
+                                      [validate]="validate"
+                                      [classes]="'govuk-fieldset'"
+                                      [group]="group"
+                                      [data]="subgroup.fieldset"
+                                      >
+                        </app-fieldset>
+                        <app-jui-form-elements [validate]="validate" [group]="group" [data]="subgroup"></app-jui-form-elements>
+                    </ng-container>
+                </div>
+            </div>
+        </app-checkbox>
+    </div>
+
+    <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
+                    [showValidation]="validate"
+                    [validationError]="data.textarea.validationError"
+                    [group]="group"
+                    [control]="data.textarea.control"
+                    [label]="data.textarea.label"
+                    [labelFor]="data.textarea.control"
+                    [rows]="5">
+    </app-textareas>
+
+    <app-extensions *ngIf="data.extension"
+                      [title]="data.extension.componentDetails.title"
+                      [text]="data.extension.componentDetails.text"
+                      [ul]="data.extension.componentDetails.ul">
+    </app-extensions>
+
+  <app-buttons *ngIf="data.button"
+               [classes]="'govuk-button'"
+               [typeBtn]="data.button.type"
+               [group]="group"
+               [control]="data.button.control"
+               [value]="data.button.value">
+  </app-buttons>
+  <!--JUI FORM builder component -->
 </div>

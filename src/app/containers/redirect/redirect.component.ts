@@ -22,7 +22,6 @@ export class RedirectComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.store.dispatch(new fromStore.GetUserDetails());
     this.$navigationSubscription = this.store.pipe(select(fromRoot.getNavItems)).subscribe(nav => {
       if (nav && nav.navItems.length && !this.redirected) {
         this.store.dispatch(new fromRoot.Go({path: [nav.navItems[0].href]}));

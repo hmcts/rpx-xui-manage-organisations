@@ -26,7 +26,7 @@ function loginLogoutObjects() {
   };
 
   this.loginWithCredentials = async function (email,password) {
-    await this.waitFor("input#username");
+    await this.waitFor(this.emailAddress);
     await this.enterUrEmail(email);
     await this.enterPassword(password);
     await this.clickSignIn();
@@ -40,9 +40,9 @@ function loginLogoutObjects() {
     await this.password.sendKeys(password);
   };
 
-  this.clickSignIn = function () {
-    this.signinBtn.click();
-    browser.sleep(SHORT_DELAY);
+  this.clickSignIn = async function () {
+    await this.signinBtn.click();
+    await browser.sleep(SHORT_DELAY);
   };
 
   this.waitFor = function (selector) {

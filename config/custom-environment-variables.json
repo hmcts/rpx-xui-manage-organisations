@@ -18,6 +18,8 @@
       "__format": "json"
     },
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
+    "iss": "SERVICES_IDAM_ISS_URL",
+    "loginRoleMatcher": "LOGIN_ROLE_MATCHER",
     "protocol": "PROTOCOL",
     "services": {
         "idamApi": "IDAM_API_SERVICE",
@@ -32,7 +34,10 @@
       "manageCaseLink": "MANAGE_CASE_LINK",
       "manageOrgLink": "MANAGE_ORG_LINK"
     },
-    "sessionSecret": "SESSION_SECRET",
+    "sessionSecret": {
+      "__name": "SESSION_SECRET",
+      "__format": "json"
+    },
     "secrets": {
       "rpx": {
         "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",
@@ -66,6 +71,10 @@
       },
       "redisEnabled": {
         "__name": "FEATURE_REDIS_ENABLED",
+        "__format": "json"
+      },
+      "oidcEnabled": {
+        "__name": "FEATURE_OIDC_ENABLED",
         "__format": "json"
       }
     },

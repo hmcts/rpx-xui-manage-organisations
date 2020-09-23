@@ -3,7 +3,6 @@ import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { OrganisationUser } from '../interfaces/organisationPayload'
-import { http } from '../lib/http'
 
 export async function handleOrganisationRoute(req: Request, res: Response) {
     try {
@@ -21,17 +20,8 @@ export async function handleOrganisationRoute(req: Request, res: Response) {
     }
 }
 
-export function getOrganisationDetails(jwt: string, roles: string[], url: string): Promise<AxiosResponse> {
-    const axiosInstance = http({
-        session: {
-          auth: {
-            roles,
-            token: jwt,
-          },
-        },
-      } as any)
-
-    return axiosInstance.get(`${url}/refdata/external/v1/organisations`)
+export function getOrganisationDetails(req: Request, url: string): Promise<AxiosResponse> {
+    return req.http.get(`${url}/refdata/external/v1/organisations`)
 }
 
 export async function handleOrganisationUsersRoute(req: Request, res: Response) {

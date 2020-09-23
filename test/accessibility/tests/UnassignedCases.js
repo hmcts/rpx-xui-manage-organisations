@@ -98,7 +98,7 @@ describe('Pa11y tests', function () {
         actions.push(...PallyActions.clickElement('#share-case-nav button'));
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share-confirm #summarySections'));
         actions.push(...PallyActions.clickElement('xuilib-share-case-confirm #share-case-nav button'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-panel--confirmation'));
+        actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share-complete'));
         const result = await pa11ytest(this, actions);
     });
 

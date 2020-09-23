@@ -19,7 +19,6 @@ nodejs:
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
     PUI_ENV: prod
-    SESSION_SECRET: secretSauce
     NODE_TLS_REJECT_UNAUTHORIZED: 1
     MO_HTTP_PROXY: http://172.16.0.7:8080
     MO_NO_PROXY: localhost

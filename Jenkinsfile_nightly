@@ -22,10 +22,6 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
 
     enableFullFunctionalTest(30)
-    enableSecurityScan()
-    enableMutationTest()
-    enableCrossBrowserTest()
-
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
     after('checkout') {sh 'yarn cache clean'}
     after('build') {
@@ -46,7 +42,6 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
-
     }
 
     after('fullFunctionalTest') {
@@ -54,7 +49,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/fullfunctional/",
+            reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Full functional Tests'
         ])
@@ -71,15 +66,4 @@ withNightlyPipeline(type, product, component) {
             reportName           : 'XUI Manage Organisation Mutation tests'
         ])
     }
-
-    after('crossBrowserTest') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/crossbrowser/",
-            reportFiles          : 'index.html',
-            reportName           : 'XUI Manage Organisation Cross Browser Tests'
-        ])
-    }   
 }

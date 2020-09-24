@@ -8,7 +8,7 @@ export function getApiPath(ccdPath: string, caseTypeId: string) {
 }
 
 export function mapCcdCases(ccdCase: CcdCase): UnAssignedCases {
-    const idField = 'CASE_REFERENCE'
+    const idField = '[CASE_REFERENCE]'
     const columnConfigs: CcdColumnConfig[]  = mapCcdColumnConfigs(ccdCase)
     const data: any[] = mapCcdData(ccdCase, columnConfigs)
     return {

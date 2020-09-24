@@ -56,7 +56,7 @@ public ngOnInit(): void {
   }
 
   public onCaseSelection(selectedCases: any []) {
-    this.selectedCases = selectedCases.filter(c => c.caseType === this.currentCaseType);
+    this.selectedCases = selectedCases.filter(c => c['[CASE_TYPE]'] === this.currentCaseType);
     this.store.dispatch(new fromStore.UpdateSelectionForCaseType({casetype: this.currentCaseType, cases: this.selectedCases}));
   }
 

@@ -6,7 +6,7 @@
         <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
           <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
             <ccd-case-list
-            *ngIf="(cases$ | async).length > 0"
+            *ngIf="(cases$ | async)?.length > 0"
             [cases]="cases$ | async"
             [selectedCases]="selectedCases$ | async"
             [tableConfig]="tableConfig"

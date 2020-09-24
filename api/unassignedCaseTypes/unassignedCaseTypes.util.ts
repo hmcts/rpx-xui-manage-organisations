@@ -2,9 +2,37 @@ import * as faker from 'faker'
 
 export const searchCasesString = '/ccd/searchCases?ctid='
 
+export function getRequestBody(organisationID: string) {
+    return {
+        _source: false,
+        from: 0,
+        query: {
+           bool: {
+              filter: [
+                 {
+                    multi_match : {
+                        fields: ['data.*.Organisation.OrganisationID' ],
+                        query: `${organisationID}`,
+                        type: 'phrase',
+                    },
+                 },
+              ],
+           },
+        },
+        size: 100,
+        sort: {
+           created_date: {
+              order: 'desc',
+           },
+        },
+     }
+}
+
 export function getApiPath(ccdPath: string, caseTypes: string) {
     return `${ccdPath}${searchCasesString}${caseTypes}`
 }
+
+ // Mock Data generation methods
 
 let caseTypeNumber
 export const createCaseType = () => {

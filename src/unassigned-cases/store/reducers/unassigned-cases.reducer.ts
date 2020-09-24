@@ -1,16 +1,20 @@
 import { SubNavigation } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/hmcts-sub-navigation/hmcts-sub-navigation.component';
-import { LOAD_UNASSIGNED_CASE_TYPES_SUCCESS, LOAD_UNASSIGNED_CASES_SUCCESS, UnassignedCasesActions, UPDATE_SELECTION_FOR_CASE_TYPE } from '../actions/unassigned-cases.actions';
+import {
+    LOAD_UNASSIGNED_CASE_TYPES_SUCCESS,
+    LOAD_UNASSIGNED_CASES_SUCCESS,
+    UnassignedCasesActions,
+    UPDATE_SELECTION_FOR_CASE_TYPE } from '../actions/unassigned-cases.actions';
 
-export interface UnassignedCase {
-    caseCreatedDate: Date;
-    caseDueDate: Date;
-    caseRef: string;
-    petFirstName: string;
-    petLastName: string;
-    respFirstName: string;
-    respLastName: string;
-    sRef: string;
-    caseType: string;
+export interface UnAssignedCases {
+    idField: string;
+    columnConfigs: UnAssignedCasesColumnConfig [];
+    data: any[];
+}
+
+export interface UnAssignedCasesColumnConfig {
+    header: string;
+    key: string;
+    type: string;
 }
 
 export interface CaseTypesResultsResponse {
@@ -25,17 +29,17 @@ export interface CaseTypesResults {
 }
 
 export interface SelectedCases {
-    [key: string]: UnassignedCase [];
+    [key: string]: string [];
 }
 
 export interface UnassignedCasesState {
-    unassignedCases: UnassignedCase [];
+    unassignedCases: UnAssignedCases;
     caseTypes: SubNavigation [];
     selectedCases: SelectedCases;
 }
 
 export const initialState: UnassignedCasesState = {
-    unassignedCases: [],
+    unassignedCases: null,
     caseTypes: [],
     selectedCases: {}
 };

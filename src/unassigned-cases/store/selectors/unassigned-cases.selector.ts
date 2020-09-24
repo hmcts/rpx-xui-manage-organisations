@@ -12,6 +12,11 @@ export const getAllUnassignedCases = createSelector(
   unassignedCasesState => unassignedCasesState.unassignedCases
 );
 
+export const getAllUnassignedCaseData = createSelector(
+  getAllUnassignedCases,
+  unassignedCasesState => unassignedCasesState ? unassignedCasesState.data : null
+);
+
 export const getAllUnassignedCaseTypes = createSelector(
   getUnassignedCasesState,
   unassignedCasesState => unassignedCasesState.caseTypes

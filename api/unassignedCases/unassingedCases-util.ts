@@ -27,7 +27,9 @@ function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[]): any[] {
 function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig[]) {
     const unassingedCase = {}
     columnConfigs.forEach(columnConfig => {
-        unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key]
+        if (!(typeof ccdCaseData.fields[columnConfig.key] === 'object')) {
+            unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key]
+        }
     })
     return unassingedCase
  }
@@ -36,11 +38,13 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
     const ccdColumnConfigs = new Array<CcdColumnConfig>()
     ccdCases.headers.forEach((caseHeader: CaseHeader) => {
         caseHeader.fields.forEach(header => {
-            ccdColumnConfigs.push({
-                header: header.label,
-                key: header.case_field_id,
-                type: header.case_field_type.type,
-            })
+            if (header.metadata) {
+                ccdColumnConfigs.push({
+                    header: header.label,
+                    key: header.case_field_id,
+                    type: header.case_field_type.type,
+                })
+            }
         })
     })
     return ccdColumnConfigs

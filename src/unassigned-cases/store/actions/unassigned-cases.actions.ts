@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { UnAssignedCases } from '../reducers';
 
 export const LOAD_UNASSIGNED_CASES = '[Unassigned Cases] Load Unassinged Cases';
 export const LOAD_UNASSIGNED_CASES_SUCCESS = '[Unassigned Cases] Load Unassinged Cases Success';
@@ -15,7 +16,7 @@ export class LoadUnassignedCases implements Action {
 
 export class LoadUnassignedCasesSuccess implements Action {
     public readonly type = LOAD_UNASSIGNED_CASES_SUCCESS;
-    constructor(public payload: any[]) {}
+    constructor(public payload: UnAssignedCases) {}
 }
 
 export class UpdateSelectionForCaseType implements Action {

@@ -5,7 +5,7 @@ import { getApiPath, getRequestBody, mapCcdCases } from './unassingedCases-util'
 
 export async function handleUnassignedCases(req: Request, res: Response) {
   const caseTypeId = req.query.caseTypeId.toString()
-  const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), 'FinancialRemedyConsentedRespondent')
+  const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
   const payload = getRequestBody(req.session.auth.orgId)
   try {
         const response = await req.http.post(path, payload)

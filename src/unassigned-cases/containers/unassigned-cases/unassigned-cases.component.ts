@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
-import { CaseListComponent, TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import * as fromStore from '../../store';
-import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
+import { UnAssignedCases } from '../../store/reducers/unassigned-cases.reducer';
 
 @Component({
   selector: 'app-unassigned-cases-component',
@@ -15,8 +15,8 @@ import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
 })
 export class UnassignedCasesComponent implements OnInit {
 
-public cases$: Observable<UnassignedCase []>;
-public selectedCases$: Observable<UnassignedCase []>;
+public cases$: Observable<any>;
+public selectedCases$: Observable<any>;
 public tableConfig: TableConfig;
 public selectedCases: SearchResultViewItem[] = [];
 public enableButton$: Observable<boolean>;
@@ -29,9 +29,14 @@ constructor(private readonly store: Store<fromStore.UnassignedCasesState>,
 
 public ngOnInit(): void {
   this.store.dispatch(new fromStore.LoadUnassignedCaseTypes());
-  this.tableConfig = this.getCaveatTableConfig();
-  this.store.pipe(select(fromStore.getAllUnassignedCases));
-
+  this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: UnAssignedCases) => {
+    if (config !== null) {
+      this.tableConfig =  {
+        idField: config.idField,
+        columnConfigs: config.columnConfigs
+      };
+    }
+  });
   this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
   this.enableButton$ = this.store.pipe(select(fromStore.anySelectedCases));
   this.selectedCases$ = this.store.pipe(select(fromStore.getSelectedCasesList)).take(1);
@@ -42,23 +47,6 @@ public ngOnInit(): void {
     if (items && items.length > 0) {
       this.setTabItems(items[0].text);
     }
-  }
-
-  public getCaveatTableConfig(): any {
-    return {
-      idField: 'caseRef',
-      columnConfigs: [
-        { header: 'Case created date', key: 'caseCreatedDate', type: 'date' },
-        { header: 'Case due date', key: 'caseDueDate', type: 'date' },
-        { header: 'Case reference', key: 'caseRef' },
-        { header: 'Pet. First name', key: 'petFirstName' },
-        { header: 'Pet. Last name', key: 'petLastName' },
-        { header: 'Resp. First name', key: 'respFirstName' },
-        { header: 'Resp. Last name', key: 'respLastName' },
-        { header: 'Solicitor reference', key: 'sRef' },
-        { header: 'Case Type', key: 'caseType' }
-      ] as any[]
-    };
   }
 
   public shareCaseSubmit() {
@@ -77,8 +65,9 @@ public ngOnInit(): void {
   }
 
   private setTabItems(tabName: string) {
+    this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.store.dispatch(new fromStore.LoadUnassignedCases(tabName));
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCases)).map(x => x.filter(y => y.caseType === tabName));
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
   }
 }

@@ -1,6 +1,3 @@
-import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
-import { of } from 'rxjs';
-import { UnassignedCase } from '../../store/reducers/unassigned-cases.reducer';
 import { UnassignedCasesComponent } from './unassigned-cases.component';
 
 describe('UnassignedCasesComponent', () => {
@@ -15,13 +12,5 @@ describe('UnassignedCasesComponent', () => {
 
     it('is truthy', () => {
         expect(component).toBeTruthy();
-    });
-
-    it('getCaveatTableConfig', () => {
-        const tableConfig = component.getCaveatTableConfig();
-        expect(tableConfig.idField).toEqual('caseRef');
-        expect(tableConfig.columnConfigs.length).toEqual(9);
-        expect(tableConfig.columnConfigs[0].header).toEqual('Case created date');
-        expect(tableConfig.columnConfigs[0].key).toEqual('caseCreatedDate');
     });
 });

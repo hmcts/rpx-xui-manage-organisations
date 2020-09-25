@@ -1,5 +1,6 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
+  "stub": false,
   "appInsightsInstrumentationKey": "",
   "secrets": {
     "rpx": {
@@ -30,6 +31,7 @@
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
+    "ccdDataApi": "http://ccd-data-store-api-demo.service.core-compute-demo.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal"
   },
   "sessionSecret": ["mo-topSecret1","secretSauce"],

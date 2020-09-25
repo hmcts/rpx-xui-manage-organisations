@@ -1,3 +1,4 @@
+import { UnAssignedCases } from '../reducers';
 import * as fromActions from './unassigned-cases.actions';
 
 describe('Unassigned actions', () => {
@@ -13,7 +14,7 @@ describe('Unassigned actions', () => {
 
 describe('Unassigned actions', () => {
     it('Load Unassigned Actions Success', () => {
-        const payload = [{}, {}];
+        const payload = {} as UnAssignedCases;
         const action = new fromActions.LoadUnassignedCasesSuccess(payload);
         expect({ ...action }).toEqual({
             payload,

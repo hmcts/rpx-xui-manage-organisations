@@ -43,6 +43,8 @@ export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi'
 export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi'
 export const SERVICES_IDAM_ISS_URL = 'iss'
 
+export const CASE_SHARE_PERMISSIONS = 'pui-case-manager'
+
 export const LOGIN_ROLE_MATCHER = 'loginRoleMatcher'
 
 export const SESSION_SECRET = 'sessionSecret'

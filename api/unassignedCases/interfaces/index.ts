@@ -14,6 +14,7 @@ export interface CaseHeader {
 }
 
 export interface CcdCaseData {
+    case_id: string
     fields: {}
 }
 

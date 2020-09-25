@@ -2,6 +2,7 @@ import * as faker from 'faker'
 import {CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig, UnAssignedCases} from './interfaces/index'
 
 export const caseAssignment = '/ccd/internal/searchCases'
+export const caseId = 'case_id'
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
     return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&use_case=ORGCASES`
@@ -31,6 +32,7 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
             unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key]
         }
     })
+    unassingedCase[caseId] = ccdCaseData.case_id
     return unassingedCase
  }
 

@@ -12,20 +12,10 @@ describe('Unassigned Cases', () => {
 
     it('LoadUnassignedCasesSuccess action should set the state', () => {
         const { initialState } = fromUnassignedCases;
-        const unassignedCase: fromUnassignedCases.UnassignedCase = {
-            caseCreatedDate: new Date(2020, 1, 1),
-            caseDueDate: new Date(2020, 1, 1),
-            caseRef: '1234',
-            petFirstName: 'first',
-            petLastName: 'last',
-            respFirstName: 'first1',
-            respLastName: 'last1',
-            sRef: 'sref',
-            caseType: '123'
-        };
-        const action = new fromActions.LoadUnassignedCasesSuccess([unassignedCase]);
+        const unassignedCase = {} as fromUnassignedCases.UnAssignedCases;
+        const action = new fromActions.LoadUnassignedCasesSuccess(unassignedCase);
         const state = fromUnassignedCases.reducer(initialState, action);
         console.log('some1', state.unassignedCases);
-        expect(state.unassignedCases[0]).toBe(unassignedCase);
-      });
+        expect(state.unassignedCases).toBe(unassignedCase);
+        });
 });

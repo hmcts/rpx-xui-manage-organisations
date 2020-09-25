@@ -28,7 +28,8 @@
         "s2s": "S2S_SERVICE",
         "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE",
-        "ccdDataApi": "SERVICES_CCD_DATA_STORE_API"
+        "ccdDataApi": "SERVICES_CCD_DATA_STORE_API",
+        "caseAssignmentApi": "SERVICES_MCA_PROXY_API"
     },
     "links": {
       "manageCaseLink": "MANAGE_CASE_LINK",

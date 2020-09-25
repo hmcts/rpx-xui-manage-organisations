@@ -36,10 +36,25 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
         loading: true
       };
     case ShareCasesActions.LOAD_SHARE_CASES_SUCCESS:
-      const cases: SharedCase[] = sortedUserInCases(action.payload);
+      const casesInStore = state.shareCases.slice();
+      const casesFromNode: SharedCase[] = sortedUserInCases(action.payload);
+      const casesWithTypes: SharedCase[] = casesFromNode.length === 0 ? casesInStore : [];
+      for (const aCase of casesFromNode) {
+        if (!aCase.hasOwnProperty('caseTypeId')) {
+          const caseExists = casesInStore.find(theCase => theCase.caseId === aCase.caseId);
+          const caseTypeId = caseExists && caseExists.caseTypeId ? caseExists.caseTypeId : null;
+          const caseTitle = caseExists && caseExists.caseTitle ? caseExists.caseTitle : null;
+          const newCase: SharedCase = {
+            ...aCase,
+            caseTypeId,
+            caseTitle
+          };
+          casesWithTypes.push(newCase);
+        }
+      }
       return {
         ...state,
-        shareCases: cases,
+        shareCases: casesWithTypes,
         loading: false
       };
     case ShareCasesActions.LOAD_SHARE_CASES_FAILURE:
@@ -95,7 +110,14 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.ASSIGN_USERS_TO_CASE_SUCCESS:
       return {
         ...state,
-        shareCases: action.payload
+        shareCases: action.payload,
+        loading: true
+      };
+    case ShareCasesActions.RESET_CASE_SELECTION:
+      return {
+        ...state,
+        shareCases: [],
+        loading: false
       };
     default:
       return state;
@@ -114,6 +136,8 @@ export function sortedUserInCases(pendingSortedCases: SharedCase[]): SharedCase[
         sharedWith: sortedUsers
       };
       cases.push(caseWithSortedUser);
+    } else {
+      cases.push(aCase);
     }
   }
   return cases;

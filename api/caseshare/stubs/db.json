@@ -83,7 +83,20 @@
     {
       "caseId": "1573925439311211",
       "caseTitle": "Neha Venkatanarasimharaj Vs Sanjet Venkatanarasimharaj",
-      "sharedWith": []
+      "sharedWith": [
+        {
+          "idamId": "u333333",
+          "firstName": "James",
+          "lastName": "Priest",
+          "email": "james.priest@woodford.com"
+        },
+        {
+          "idamId": "u444444",
+          "firstName": "Shaun",
+          "lastName": "Coldwell",
+          "email": "shaun.coldwell@woodford.com"
+        }
+      ]
     },
     {
       "caseId": "1574006431043307",

@@ -9,8 +9,8 @@ export class CaseShareService {
   constructor(private readonly http: HttpClient) {
   }
 
-  public getUsersFromOrg(currentUserEmail: string): Observable<UserDetails[]> {
-    return this.http.get<UserDetails[]>(`api/organisation/users?currentUserEmail=${currentUserEmail}`);
+  public getUsersFromOrg(): Observable<UserDetails[]> {
+    return this.http.get<UserDetails[]>(`api/caseshare/users`);
   }
 
   public getShareCases(shareCases: SharedCase[]): Observable<SharedCase[]> {

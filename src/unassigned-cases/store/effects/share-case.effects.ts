@@ -40,6 +40,7 @@ export class ShareCaseEffects {
     map((action: shareCaseActions.AddShareCaseGo) => action.payload),
     tap(({ path, query: queryParams, extras, sharedCases }) => {
       const thatSharedCases = sharedCases;
+      queryParams = { init: true };
       return this.router.navigate(path, { queryParams, ...extras }).then(() => {
         this.store.dispatch(new shareCaseActions.NavigateToShareCase(thatSharedCases));
       });
@@ -62,9 +63,8 @@ export class ShareCaseEffects {
 
   @Effect() public loadOrgUsers$ = this.actions$.pipe(
     ofType(shareCaseActions.LOAD_USERS_FROM_ORG_FOR_CASE),
-    map((action: shareCaseActions.LoadUserFromOrgForCase) => action.payload),
-    switchMap(payload => {
-      return this.caseShareService.getUsersFromOrg(payload).pipe(
+    switchMap(() => {
+      return this.caseShareService.getUsersFromOrg().pipe(
         map(
           (response) => new shareCaseActions.LoadUserFromOrgForCaseSuccess(response)),
         catchError(() => of(new fromRoot.Go({ path: ['/service-down']})))
@@ -73,7 +73,7 @@ export class ShareCaseEffects {
   );
 
   @Effect()
-  public assignUsersWithCases1$ = this.actions$.pipe(
+  public assignUsersWithCases$ = this.actions$.pipe(
     ofType(shareCaseActions.ASSIGN_USERS_TO_CASE),
     map((action: shareCaseActions.AssignUsersToCase) => action.payload),
     switchMap(payload => {

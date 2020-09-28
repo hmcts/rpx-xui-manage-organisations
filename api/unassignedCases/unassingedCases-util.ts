@@ -44,7 +44,7 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
                 ccdColumnConfigs.push({
                     header: header.label,
                     key: header.case_field_id,
-                    type: header.case_field_type.type,
+                    type: header.case_field_type.type === 'DateTime' ? 'date' : header.case_field_type.type,
                 })
             }
         })

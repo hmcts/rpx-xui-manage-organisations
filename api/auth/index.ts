@@ -38,11 +38,11 @@ export const successCallback = async (req: Request, res: Response, next: NextFun
 
     if (!req.session.auth) {
       const auth = {
-        email: userinfo.sub,
+        email: userinfo.sub || userinfo.email,
         orgId: '-1',
         roles: userinfo.roles,
         token: accessToken,
-        userId: userinfo.uid
+        userId: userinfo.uid || userinfo.id
       }
 
       const authRequest = {

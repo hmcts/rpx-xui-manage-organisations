@@ -30,6 +30,8 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
     columnConfigs.forEach(columnConfig => {
         if (!(typeof ccdCaseData.fields[columnConfig.key] === 'object')) {
             unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key]
+        } else {
+            unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key].OrgPolicyReference
         }
     })
     unassingedCase[caseId] = ccdCaseData.case_id
@@ -40,7 +42,7 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
     const ccdColumnConfigs = new Array<CcdColumnConfig>()
     ccdCases.headers.forEach((caseHeader: CaseHeader) => {
         caseHeader.fields.forEach(header => {
-            if (header.metadata) {
+            if (header) {
                 ccdColumnConfigs.push({
                     header: header.label,
                     key: header.case_field_id,

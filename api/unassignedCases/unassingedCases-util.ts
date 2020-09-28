@@ -55,52 +55,27 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
 }
 
 export function getRequestBody(organisationID: string) {
+    const rangeKey = `supplementary_data.orgs_assigned_users.${organisationID}`
     return {
         from: 0,
         query: {
             bool: {
             filter: [
                 {
-                multi_match: {
-                    fields: ["data.*.Organisation.OrganisationID"],
-                    query: `${organisationID}`,
-                    type: "phrase",
-                },
+                    multi_match: {
+                        fields: ["data.*.Organisation.OrganisationID"],
+                        query: `${organisationID}`,
+                        type: "phrase",
+                    },
                 },
                 {
-                bool: {
-                    should: [
-                    {
-                        range: {
-                        'supplementary_data.orgs_assigned_users.<organisationID>': {
-                            lte: 0,
-                        },
-                        },
-                    },
-                    {
-                        bool: {
-                        must_not: [
-                            {
-                            exists: {
-                                field: 'supplementary_data.orgs_assigned_users.<organisationID>'
-                            },
-                            },
+                    bool: {
+                        should: [
+                                { range: { rangeKey: { lte: 0 } } },
+                                { bool: { must_not: [ { exists: { field: `supplementary_data.orgs_assigned_users.${organisationID}` } }] } },
+                                { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } },
                         ],
-                        },
                     },
-                    {
-                        bool: {
-                        'must_not': [
-                            {
-                            'exists': {
-                                'field': 'supplementary_data',
-                            },
-                            },
-                        ],
-                        },
-                    },
-                    ],
-                },
                 },
             ],
             },

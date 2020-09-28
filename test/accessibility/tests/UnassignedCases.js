@@ -33,16 +33,16 @@ describe('Pa11y tests', function () {
     it('Unassigned Cases Share a case', async function () {
         await MockApp.startServer();
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
         actions.push(...PallyActions.waitForPageWithCssLocator('xuilib-share-case'));
         await pa11ytest(this, actions);
     });
 
     it('Unassigned Cases Share a case Error page', async function () {
-        MockApp.onGet('/api/organisation/users', (req,res) => { res.status(500).send({error:'test error'})});
+        MockApp.onGet('/api/caseshare/cases', (req,res) => { res.status(500).send({error:'test error'})});
         await MockApp.startServer();
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
         actions.push(...PallyActions.waitForPageWithCssLocator('app-service-down h1'));
         await pa11ytest(this, actions);
     });
@@ -51,7 +51,7 @@ describe('Pa11y tests', function () {
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 
@@ -67,7 +67,7 @@ describe('Pa11y tests', function () {
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 
@@ -88,7 +88,7 @@ describe('Pa11y tests', function () {
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 
@@ -109,7 +109,7 @@ describe('Pa11y tests', function () {
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 

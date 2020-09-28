@@ -2,7 +2,7 @@ import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import * as converts from './case-converter';
 
-describe('case converters', () => {
+xdescribe('case converters', () => {
 
   it('should convert to share case', () => {
     const selectedCases = [{

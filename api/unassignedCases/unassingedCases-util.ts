@@ -5,7 +5,7 @@ export const caseAssignment = '/ccd/internal/searchCases'
 export const caseId = 'case_id'
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
-    return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&use_case=ORGCASES`
+    return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&usecase=ORGCASES`
 }
 
 export function mapCcdCases(ccdCase: CcdCase): UnAssignedCases {

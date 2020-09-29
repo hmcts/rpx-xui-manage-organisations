@@ -26,7 +26,7 @@ xdescribe('case converters', () => {
     }];
     const expectedShareCases = [{caseId: '1', caseTitle: 'James Priest Vs Charlotte Godard', caseTypeId: 'FinancialRemedyContested'},
       {caseId: '2', caseTitle: 'Kenneth Priest Vs Kathy Godard', caseTypeId: 'FinancialRemedyContested'}];
-    const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases);
+    const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases, 'FinancialRemedyContested');
     expect(shareCases).toEqual(expectedShareCases);
   });
 
@@ -52,7 +52,7 @@ xdescribe('case converters', () => {
     }];
     const expectedShareCases = [{caseId: '1', caseTitle: 'James Priest Vs Charlotte Godard', caseTypeId: 'DIVORCE'},
       {caseId: '2', caseTitle: 'Kenneth Priest Vs Kathy Godard', caseTypeId: 'DIVORCE'}];
-    const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases);
+    const shareCases: SharedCase[] = converts.toShareCaseConverter(selectedCases, 'DIVORCE');
     expect(shareCases).toEqual(expectedShareCases);
   });
 

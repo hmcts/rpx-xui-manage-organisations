@@ -51,7 +51,7 @@ public ngOnInit(): void {
 
   public shareCaseSubmit() {
     this.store.dispatch(new fromStore.AddShareCases({
-      sharedCases: converters.toShareCaseConverter(this.selectedCases)
+      sharedCases: converters.toShareCaseConverter(this.selectedCases, this.currentCaseType)
     }));
   }
 

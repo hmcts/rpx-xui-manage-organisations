@@ -12,7 +12,7 @@ class CreateOrganisationObjects {
     this.signinBtn = element(by.css("input.button"));
     this.signOutlink = element(by.xpath("//a[contains(text(),'Signout')]"));
     this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
-    this.start_button = element(by.xpath("//*[@id='content']/div/div/a"));
+    this.start_button = element(by.css("app-check-your-answers button"));
     this.org_name = element(by.css("[id='orgName']"));
     this.continue_button = element(by.css("[id='createButtonContinue']"));
     this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));

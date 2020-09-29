@@ -7,12 +7,12 @@ const VERSUS_SPACE: string = ' Vs ';
 export function toShareCaseConverter(selectedCases: SearchResultViewItem[], theCaseTypeId: string): SharedCase[] {
   const sharedCases: SharedCase[] = [];
   for (const selectCase of selectedCases) {
-    const caseTypeId = getValueByPropertyName(selectCase, '[CASE_TYPE]');
+    const caseTypeId = getValueByPropertyName(selectCase, '[CASE_TYPE]') ? getValueByPropertyName(selectCase, '[CASE_TYPE]') : theCaseTypeId;
     const caseTitle = getValueByPropertyName(selectCase, 'case_title');
     const shareCase = {
       caseId: selectCase.case_id,
       caseTitle: caseTitle ? caseTitle : combineCaseTitleByCaseType(caseTypeId, selectCase),
-      caseTypeId: caseTypeId ? caseTypeId : theCaseTypeId
+      caseTypeId
     };
     sharedCases.push(shareCase);
   }

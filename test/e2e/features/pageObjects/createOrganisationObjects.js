@@ -12,7 +12,7 @@ class CreateOrganisationObjects {
     this.signinBtn = element(by.css("input.button"));
     this.signOutlink = element(by.xpath("//a[contains(text(),'Signout')]"));
     this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
-    this.start_button = element(by.css("app-check-your-answers button"));
+    this.start_button = element(by.css("//*[@id='content']/div/div/a"));
     this.org_name = element(by.css("[id='orgName']"));
     this.continue_button = element(by.css("[id='createButtonContinue']"));
     this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
@@ -30,7 +30,7 @@ class CreateOrganisationObjects {
     this.firstName = element(by.css("[id='firstName']"));
     this.lastName = element(by.css("[id='lastName']"));
     this.emailAddr = element(by.css("#emailAddress"));
-    this.submit_button = element(by.css("[class='govuk-button']"));
+    this.submit_button = element(by.css("app-check-your-answers button"));
     this.org_success_heading = element(by.css("[class='govuk-panel__title']"))
     this.org_failure_error_heading = element(by.css("#error-summary-title"));
     this.off_address_error_heading = element(by.css("#error-summary-title"));

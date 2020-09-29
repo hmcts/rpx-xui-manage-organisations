@@ -14,7 +14,7 @@ import { UnAssignedCases } from '../../store/reducers/unassigned-cases.reducer';
   styleUrls: ['./unassigned-cases.component.scss']
 })
 export class UnassignedCasesComponent implements OnInit {
-
+public caseTypeStr = 'caseType';
 public cases$: Observable<any>;
 public selectedCases$: Observable<any>;
 public tableConfig: TableConfig;
@@ -56,7 +56,7 @@ public ngOnInit(): void {
   }
 
   public onCaseSelection(selectedCases: any []) {
-    this.selectedCases = selectedCases.filter(c => c['[CASE_TYPE]'] === this.currentCaseType);
+    this.selectedCases = selectedCases.filter(c => c[this.caseTypeStr] === this.currentCaseType);
     this.store.dispatch(new fromStore.UpdateSelectionForCaseType({casetype: this.currentCaseType, cases: this.selectedCases}));
   }
 

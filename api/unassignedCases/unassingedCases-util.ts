@@ -3,15 +3,16 @@ import {CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig, UnAssignedCases} from
 
 export const caseAssignment = '/ccd/internal/searchCases'
 export const caseId = 'case_id'
+export const caseTypeStr = 'caseType'
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
-    return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&usecase=ORGCASES`
+    return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&use_case=ORGCASES`
 }
 
-export function mapCcdCases(ccdCase: CcdCase): UnAssignedCases {
+export function mapCcdCases(caseType: string, ccdCase: CcdCase): UnAssignedCases {
     const idField = '[CASE_REFERENCE]'
     const columnConfigs: CcdColumnConfig[]  = mapCcdColumnConfigs(ccdCase)
-    const data: any[] = mapCcdData(ccdCase, columnConfigs)
+    const data: any[] = mapCcdData(ccdCase, columnConfigs, caseType)
     return {
         columnConfigs,
         data,
@@ -19,13 +20,13 @@ export function mapCcdCases(ccdCase: CcdCase): UnAssignedCases {
     }
 }
 
-function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[]): any[] {
+function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[], caseType: string): any[] {
     const data = Array<any>()
-    ccdCase.cases.forEach(caseData => data.push(onGeneratedRow(caseData, columnConfigs)))
+    ccdCase.cases.forEach(caseData => data.push(onGeneratedRow(caseData, columnConfigs, caseType)))
     return data
 }
 
-function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig[]) {
+function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig[], caseType: string) {
     const unassingedCase = {}
     columnConfigs.forEach(columnConfig => {
         if (!(typeof ccdCaseData.fields[columnConfig.key] === 'object')) {
@@ -35,6 +36,7 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
         }
     })
     unassingedCase[caseId] = ccdCaseData.case_id
+    unassingedCase[caseTypeStr] = caseType
     return unassingedCase
  }
 

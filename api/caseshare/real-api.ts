@@ -2,7 +2,7 @@ import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.mode
 import { Request, Response } from 'express'
 import { handleGet, handlePost } from '../common/crudService'
 import { getConfigValue } from '../configuration'
-import { CASE_SHARE_PERMISSIONS, SERVICES_CCD_CASE_ASSIGNMENT_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
+import { CASE_SHARE_PERMISSIONS, SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import { JUILogger } from '../lib/models'
 import { toCaseAssigneeMappingModel } from './dtos/case-user-dto'
@@ -12,7 +12,7 @@ import { CCDRawCaseUserModel } from './models/ccd-raw-case-user.model'
 
 const logger: JUILogger = log4jui.getLogger('real-api')
 const prdUrl: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-const ccdUrl: string = getConfigValue(SERVICES_CCD_CASE_ASSIGNMENT_API_PATH)
+const ccdUrl: string = getConfigValue(SERVICES_MCA_PROXY_API_PATH)
 
 export async function getUsers(req: Request, res: Response) {
   try {

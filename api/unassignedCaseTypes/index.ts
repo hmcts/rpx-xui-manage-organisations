@@ -7,6 +7,7 @@ import { getApiPath, getRequestBody } from './unassignedCaseTypes.util'
 export async function handleUnassignedCaseTypes(req: Request, res: Response) {
     const logger = log4jui.getLogger('caseTypes')
     const payload = getRequestBody(req.session.auth.orgId)
+    logger.info('ernest', getConfigValue(SERVICES_MCA_PROXY_API_PATH))
     const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), getConfigValue(CASE_TYPES))
     try {
         const response = await req.http.post(path, payload)

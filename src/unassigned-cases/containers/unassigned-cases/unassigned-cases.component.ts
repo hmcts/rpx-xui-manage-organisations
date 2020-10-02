@@ -39,7 +39,6 @@ public ngOnInit(): void {
   });
   this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
   this.enableButton$ = this.store.pipe(select(fromStore.anySelectedCases));
-  this.selectedCases$ = this.store.pipe(select(fromStore.getSelectedCasesList)).take(1);
 }
 
   private fixCurrentTab(items: any): void {
@@ -66,6 +65,7 @@ public ngOnInit(): void {
 
   private setTabItems(tabName: string) {
     this.store.pipe(select(fromStore.getAllUnassignedCases));
+    this.selectedCases$ = this.store.pipe(select(fromStore.getSelectedCasesList));
     this.store.dispatch(new fromStore.LoadUnassignedCases(tabName));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;

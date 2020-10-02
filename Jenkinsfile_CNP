@@ -117,9 +117,9 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
+            reportDir            : "reports/smoke_tests/functional",
+            reportFiles          : 'index.html',
+            reportName           : 'Manage Org Smoke Test'
         ])
 
 

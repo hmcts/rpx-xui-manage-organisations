@@ -437,10 +437,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hmcts/ccd-case-ui-toolkit@2.64.40-unasinged-cases-date-format":
-  version "2.64.40-unasinged-cases-date-format"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-2.64.40-unasinged-cases-date-format.tgz#7896868549faa7967084c2be06f70987d9fd5af4"
-  integrity sha512-El5q6E33iMH4Wtw7rKU/wGXQMC/csUcGMh/tDq4UzSHWTd15R3hcSqjWVe7NbIt5wAXmyp7lkx89J9EYkFBdig==
+"@hmcts/ccd-case-ui-toolkit@2.64.44-retain-hidden-value-fix-for-complex-types":
+  version "2.64.44-retain-hidden-value-fix-for-complex-types"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-2.64.44-retain-hidden-value-fix-for-complex-types.tgz#03d4996433b3c62ebffcd62d24f4ce4a51e346af"
+  integrity sha512-JjKLNcpT1B6r1lTZzkQNj0YCo6oJPqFUgsT6gmo0V+aF1vR5BbSpuhmkVJ3cFzJuU48rB47Iwi27CEU/Pp7aUQ==
   dependencies:
     "@angular/cli" "^6.0.8"
     "@angular/compiler-cli" "~7.0.3"

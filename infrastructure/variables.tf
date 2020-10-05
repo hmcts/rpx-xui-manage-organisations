@@ -29,7 +29,7 @@ variable "common_tags" {
 
 variable "application_type" {
   type        = "string"
-  default     = "Web"
+  default     = "web"
   description = "Type of Application Insights (Web/Other)"
 }
 

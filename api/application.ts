@@ -8,6 +8,7 @@ import {attach, getXuiNodeMiddleware} from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
+  CASE_TYPES,
   FEATURE_HELMET_ENABLED,
   FEATURE_REDIS_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
@@ -97,6 +98,8 @@ console.log('healthChecks', healthChecks)
 console.log('ccdData', getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH))
 
 console.log('caseAssignmentApi', getConfigValue(SERVICES_MCA_PROXY_API_PATH))
+
+console.log('caseTypes', getConfigValue(CASE_TYPES))
 
 healthcheck.addTo(app, healthChecks)
 

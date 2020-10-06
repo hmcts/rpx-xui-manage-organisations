@@ -39,6 +39,7 @@
       "__name": "SESSION_SECRET",
       "__format": "json"
     },
+    "caseTypes": "CASE_TYPES",
     "secrets": {
       "rpx": {
         "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",

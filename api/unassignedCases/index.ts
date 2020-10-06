@@ -13,7 +13,10 @@ export async function handleUnassignedCases(req: Request, res: Response) {
         res.send(unassingedCases)
   } catch (error) {
       console.log(error)
-      res.status(500)
+      res.status(500).send({
+        errorMessage: error.data,
+        errorStatusText: error.statusText,
+      })
   }
 }
 

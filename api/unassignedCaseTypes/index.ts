@@ -14,12 +14,10 @@ export async function handleUnassignedCaseTypes(req: Request, res: Response) {
         res.send(response.data)
     } catch (error) {
         console.log(error)
-        const errReport = {
-            apiError: error,
-            apiStatusCode: error.statusCode ? error.statusCode : 500,
-            message: error.message ? error.message : '',
-        }
-        res.status(500).send({})
+        res.status(500).send({
+            errorMessage: error.data,
+            errorStatusText: error.statusText,
+          })
     }
 }
 

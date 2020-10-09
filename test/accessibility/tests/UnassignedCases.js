@@ -30,7 +30,7 @@ describe('Pa11y tests', function () {
     });
 
 
-    it('Unassigned Cases Share a case', async function () {
+    it.only('Unassigned Cases Share a case', async function () {
         await MockApp.startServer();
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
@@ -38,7 +38,7 @@ describe('Pa11y tests', function () {
         await pa11ytest(this, actions);
     });
 
-    it('Unassigned Cases Share a case Error page', async function () {
+    it.only('Unassigned Cases Share a case Error page', async function () {
         MockApp.onGet('/api/caseshare/cases', (req,res) => { res.status(500).send({error:'test error'})});
         await MockApp.startServer();
         const actions = [];
@@ -47,11 +47,15 @@ describe('Pa11y tests', function () {
         await pa11ytest(this, actions);
     });
 
-    it('Share Case Confirm Page', async function () {
+    it.only('Share Case Confirm Page', async function () {
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
+        actions.push(...PallyActions.clickElement('#btn-share-button'));
+
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 
@@ -63,11 +67,15 @@ describe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it('Share Case Submission Success page', async function () {
+    it.only('Share Case Submission Success page', async function () {
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
+        actions.push(...PallyActions.clickElement('#btn-share-button'));
+
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 
@@ -81,14 +89,18 @@ describe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it('Share Case Submission Partial Success page', async function () {
+    it.only('Share Case Submission Partial Success page', async function () {
         MockApp.onPost('/api/caseshare/case-assignments', (req,res) => {
             res.send(req.body);
         });
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
+        actions.push(...PallyActions.clickElement('#btn-share-button'));
+
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 
@@ -102,14 +114,18 @@ describe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it('Share Case Submission Server error page', async function () {
+    it.only('Share Case Submission Server error page', async function () {
         MockApp.onPost('/api/caseshare/case-assignments', (req, res) => {
             res.status(500).send({});
         });
         await MockApp.startServer();
 
         const actions = [];
-        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
+        actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
+        actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
+        actions.push(...PallyActions.clickElement('#btn-share-button'))
+
         actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
         actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
 

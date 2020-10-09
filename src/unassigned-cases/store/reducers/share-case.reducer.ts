@@ -38,18 +38,20 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.LOAD_SHARE_CASES_SUCCESS:
       const casesInStore = state.shareCases.slice();
       const casesFromNode: SharedCase[] = sortedUserInCases(action.payload);
-      const casesWithTypes: SharedCase[] = casesFromNode.length === 0 ? casesInStore : [];
-      for (const aCase of casesFromNode) {
-        if (!aCase.hasOwnProperty('caseTypeId')) {
-          const caseExists = casesInStore.find(theCase => theCase.caseId === aCase.caseId);
-          const caseTypeId = caseExists && caseExists.caseTypeId ? caseExists.caseTypeId : null;
-          const caseTitle = caseExists && caseExists.caseTitle ? caseExists.caseTitle : null;
+      const casesWithTypes = [];
+      for (const aCase of casesInStore) {
+        const intersectionCase = casesFromNode.find(nodeCase => nodeCase.caseId === aCase.caseId);
+        if (intersectionCase && intersectionCase.caseId) {
+          const caseTypeId = aCase.caseTypeId ? aCase.caseTypeId : null;
+          const caseTitle = aCase.caseTitle ? aCase.caseTitle : null;
           const newCase: SharedCase = {
-            ...aCase,
+            ...intersectionCase,
             caseTypeId,
             caseTitle
           };
           casesWithTypes.push(newCase);
+        } else {
+          casesWithTypes.push(aCase);
         }
       }
       return {

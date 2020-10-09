@@ -8,7 +8,7 @@
             <ccd-case-list
             *ngIf="(cases$ | async)?.length > 0"
             [cases]="cases$ | async"
-            [selectedCases]="selectedCases$ | async"
+            [selectedCases]="selectedCases"
             [tableConfig]="tableConfig"
             [selectionEnabled]="true"
             (selection)="onCaseSelection($event)">
@@ -17,7 +17,7 @@
         </mat-tab-group>
     </div>
     <div *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0">
-      <button [disabled]="!(enableButton$ | async)" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
+      <button [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
               (click)="shareCaseSubmit()">
         Share case
       </button>

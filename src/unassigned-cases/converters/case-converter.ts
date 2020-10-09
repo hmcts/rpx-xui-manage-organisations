@@ -4,10 +4,10 @@ import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.mode
 const BLANK_SPACE: string = ' ';
 const EMPTY_SPACE: string = '';
 const VERSUS_SPACE: string = ' Vs ';
-export function toShareCaseConverter(selectedCases: SearchResultViewItem[], theCaseTypeId: string): SharedCase[] {
+export function toShareCaseConverter(selectedCases: any[], theCaseTypeId: string): SharedCase[] {
   const sharedCases: SharedCase[] = [];
   for (const selectCase of selectedCases) {
-    const caseTypeId = getValueByPropertyName(selectCase, '[CASE_TYPE]') ? getValueByPropertyName(selectCase, '[CASE_TYPE]') : theCaseTypeId;
+    const caseTypeId = getValueByPropertyName(selectCase, 'caseType') ? getValueByPropertyName(selectCase, 'caseType') : theCaseTypeId;
     const caseTitle = getValueByPropertyName(selectCase, 'case_title');
     const shareCase = {
       caseId: selectCase.case_id,
@@ -19,15 +19,13 @@ export function toShareCaseConverter(selectedCases: SearchResultViewItem[], theC
   return sharedCases;
 }
 
-export function toSearchResultViewItemConverter(shareCases: SharedCase[]): SearchResultViewItem[] {
-  const searchResultViewItems: SearchResultViewItem[] = [];
+export function toSearchResultViewItemConverter(shareCases: SharedCase[]): any[] {
+  const searchResultViewItems: any[] = [];
   for (const shareCase of shareCases) {
     const searchResultViewItem = {
       case_id: shareCase.caseId,
-      case_fields: {
-        '[CASE_TYPE]': shareCase.caseTypeId,
-        case_title: shareCase.caseTitle
-      }
+      caseType: shareCase.caseTypeId,
+      case_title: shareCase.caseTitle
     };
     searchResultViewItems.push(searchResultViewItem);
   }

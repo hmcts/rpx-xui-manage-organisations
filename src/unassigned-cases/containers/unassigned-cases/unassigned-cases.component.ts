@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { SearchResultViewItem } from '@hmcts/ccd-case-ui-toolkit';
+import { Component, OnInit } from '@angular/core';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import * as fromStore from '../../store';
-import { UnAssignedCases } from '../../store/reducers/unassigned-cases.reducer';
+import { UnAssignedCases } from '../../store/reducers';
 
 @Component({
   selector: 'app-unassigned-cases-component',
@@ -14,12 +14,14 @@ import { UnAssignedCases } from '../../store/reducers/unassigned-cases.reducer';
   styleUrls: ['./unassigned-cases.component.scss']
 })
 export class UnassignedCasesComponent implements OnInit {
-public caseTypeStr = 'caseType';
+
 public cases$: Observable<any>;
-public selectedCases$: Observable<any>;
+// this shareCases$ will be passed to case share component
+public shareCases$: Observable<SharedCase[]>;
 public tableConfig: TableConfig;
-public selectedCases: SearchResultViewItem[] = [];
-public enableButton$: Observable<boolean>;
+// this selectedCases is emitted from the ccd-case-list
+// ideally the any[] should be mapped with the unassigned case payload
+public selectedCases: any[] = [];
 public currentCaseType: string;
 
 public navItems: any [];
@@ -38,7 +40,8 @@ public ngOnInit(): void {
     }
   });
   this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
-  this.enableButton$ = this.store.pipe(select(fromStore.anySelectedCases));
+  this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
+  this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
 }
 
   private fixCurrentTab(items: any): void {
@@ -54,9 +57,11 @@ public ngOnInit(): void {
     }));
   }
 
-  public onCaseSelection(selectedCases: any []) {
-    this.selectedCases = selectedCases.filter(c => c[this.caseTypeStr] === this.currentCaseType);
-    this.store.dispatch(new fromStore.UpdateSelectionForCaseType({casetype: this.currentCaseType, cases: this.selectedCases}));
+  public onCaseSelection(selectedCases: any[]) {
+    this.selectedCases = selectedCases;
+    this.store.dispatch(new fromStore.SynchronizeStateToStore(
+      converters.toShareCaseConverter(this.selectedCases, this.currentCaseType)
+    ));
   }
 
   public tabChanged(event) {
@@ -65,7 +70,7 @@ public ngOnInit(): void {
 
   private setTabItems(tabName: string) {
     this.store.pipe(select(fromStore.getAllUnassignedCases));
-    this.selectedCases$ = this.store.pipe(select(fromStore.getSelectedCasesList));
+    this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.store.dispatch(new fromStore.LoadUnassignedCases(tabName));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;

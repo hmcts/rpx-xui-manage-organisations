@@ -30,7 +30,7 @@ describe('Pa11y tests', function () {
     });
 
 
-    it.only('Unassigned Cases Share a case', async function () {
+    it('Unassigned Cases Share a case', async function () {
         await MockApp.startServer();
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
@@ -38,7 +38,7 @@ describe('Pa11y tests', function () {
         await pa11ytest(this, actions);
     });
 
-    it.only('Unassigned Cases Share a case Error page', async function () {
+    it('Unassigned Cases Share a case Error page', async function () {
         MockApp.onGet('/api/caseshare/cases', (req,res) => { res.status(500).send({error:'test error'})});
         await MockApp.startServer();
         const actions = [];
@@ -47,7 +47,7 @@ describe('Pa11y tests', function () {
         await pa11ytest(this, actions);
     });
 
-    it.only('Share Case Confirm Page', async function () {
+    it('Share Case Confirm Page', async function () {
         await MockApp.startServer();
 
         const actions = [];
@@ -67,7 +67,7 @@ describe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it.only('Share Case Submission Success page', async function () {
+    it('Share Case Submission Success page', async function () {
         await MockApp.startServer();
 
         const actions = [];
@@ -89,7 +89,7 @@ describe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it.only('Share Case Submission Partial Success page', async function () {
+    it('Share Case Submission Partial Success page', async function () {
         MockApp.onPost('/api/caseshare/case-assignments', (req,res) => {
             res.send(req.body);
         });
@@ -114,7 +114,7 @@ describe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it.only('Share Case Submission Server error page', async function () {
+    it('Share Case Submission Server error page', async function () {
         MockApp.onPost('/api/caseshare/case-assignments', (req, res) => {
             res.status(500).send({});
         });

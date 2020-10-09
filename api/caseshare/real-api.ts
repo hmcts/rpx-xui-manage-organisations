@@ -20,7 +20,7 @@ export async function getUsers(req: Request, res: Response) {
     const {status, data}: {status: number, data: any} = await handleGet(path, req)
     const permissions = CASE_SHARE_PERMISSIONS.split(',')
     const users = [...data.users]
-                  .filter(user => user.roles.some(role => permissions.includes(role)))
+                  .filter(user => user && user.roles && user.roles.some(role => permissions.includes(role)))
                   .map(user => prdToUserDetails(user))
     return res.status(status).send(users)
   } catch (error) {

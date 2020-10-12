@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import * as fromRoot from '../../../app/store/index';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UnassignedCasesService } from '../../services/unassigned-cases.service';
 import { UnassingedCasesUtil } from '../../util/unassigned-cases.util';
@@ -39,7 +40,7 @@ export class UnassignedCasesEffects {
       map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
       catchError(errorResponse => {
         loggerService.error(errorResponse);
-        return of(new LoadUnassignedCasesFailure(errorResponse.error));
+        return of(new fromRoot.Go({ path: ['/service-down']}));
       })
     );
   }

@@ -32,7 +32,9 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
         if (!(typeof ccdCaseData.fields[columnConfig.key] === 'object')) {
             unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key]
         } else {
-            unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key].OrgPolicyReference
+            if (ccdCaseData.fields[columnConfig.key]) {
+                unassingedCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key].OrgPolicyReference
+            }
         }
     })
     unassingedCase[caseId] = ccdCaseData.case_id

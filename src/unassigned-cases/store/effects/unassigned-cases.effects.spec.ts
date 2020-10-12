@@ -1,5 +1,6 @@
 import { of, throwError } from 'rxjs';
-import { LoadUnassignedCasesFailure, LoadUnassignedCasesSuccess } from '../actions';
+import * as fromRoot from '../../../app/store/index';
+import { LoadUnassignedCasesSuccess } from '../actions';
 import { UnAssignedCases } from '../reducers';
 import { UnassignedCasesEffects } from './unassigned-cases.effects';
 
@@ -18,6 +19,6 @@ describe('UnassignedCasesEffects', () => {
         return throwError(new Error('Fake error'));
       });
       const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases({}, service, loggerService);
-      unassignedCases$.subscribe(errorAction => expect(new LoadUnassignedCasesFailure(undefined)).toEqual(errorAction));
+      unassignedCases$.subscribe(errorAction => expect(new fromRoot.Go({ path: ['/service-down']})).toEqual(errorAction));
     });
   });

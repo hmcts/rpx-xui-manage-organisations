@@ -52,6 +52,11 @@ describe('configurationUI index', () => {
             manageCaseLink: '/manage-cases',
             manageOrgLink: '/manage-org',
             protocol: 'http',
+            feeAndPayApiPath: undefined,
+            rdProfessionalApiPath: undefined,
+            s2sPath: undefined,
+            servicesIdamApiPath: undefined,
+            servicesTandCPath: undefined,
         })
     })
 })

@@ -71,6 +71,17 @@ withNightlyPipeline(type, product, component) {
         ])
     }
 
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'XUI MO ZAP Security Scan Report'
+    ])
+  }
+
     after('crossBrowserTest') {
         publishHTML([
             allowMissing         : true,
@@ -80,5 +91,5 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Cross Browser Tests'
         ])
-    }   
+    }
 }

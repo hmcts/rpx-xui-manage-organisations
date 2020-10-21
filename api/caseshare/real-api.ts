@@ -1,5 +1,5 @@
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model'
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { handleGet, handlePost } from '../common/crudService'
 import { getConfigValue } from '../configuration'
 import { CASE_SHARE_PERMISSIONS, SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
@@ -14,28 +14,25 @@ const logger: JUILogger = log4jui.getLogger('real-api')
 const prdUrl: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
 const ccdUrl: string = getConfigValue(SERVICES_MCA_PROXY_API_PATH)
 
-export async function getUsers(req: Request, res: Response) {
+export async function getUsers(req: Request, res: Response, next: NextFunction) {
   try {
     const path = `${prdUrl}/refdata/external/v1/organisations/users?returnRoles=true&status=active`
-    const {status, data}: {status: number, data: any} = await handleGet(path, req)
+    const {status, data}: {status: number, data: any} = await handleGet(path, req, next)
     const permissions = CASE_SHARE_PERMISSIONS.split(',')
     const users = [...data.users]
                   .filter(user => user && user.roles && user.roles.some(role => permissions.includes(role)))
                   .map(user => prdToUserDetails(user))
     return res.status(status).send(users)
   } catch (error) {
-    return res.status(error.status).send({
-      errorMessage: error.data,
-      errorStatusText: error.statusText,
-    })
+    next(error)
   }
 }
 
-export async function getCases(req: Request, res: Response) {
+export async function getCases(req: Request, res: Response, next: NextFunction) {
   try {
     const caseIds = req.query.case_ids
     const path = `${ccdUrl}/case-assignments?case_ids=${caseIds}`
-    const {status, data}: {status: number, data: any} = await handleGet(path, req)
+    const {status, data}: {status: number, data: any} = await handleGet(path, req, next)
     const caseUsers: CCDRawCaseUserModel[] = [...data.case_assignments]
     const sharedCases: SharedCase[] = []
     for (const caseUser of caseUsers) {
@@ -48,10 +45,7 @@ export async function getCases(req: Request, res: Response) {
     }
     return res.status(status).send(sharedCases)
   } catch (error) {
-    return res.status(error.status).send({
-      errorMessage: error.data,
-      errorStatusText: error.statusText,
-    })
+    next(error)
   }
 }
 

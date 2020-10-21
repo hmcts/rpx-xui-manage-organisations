@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { Request } from 'express'
+import { NextFunction, Request } from 'express'
 import * as log4jui from '../lib/log4jui'
 import { JUILogger } from '../lib/models'
 
@@ -11,13 +11,12 @@ const logger: JUILogger = log4jui.getLogger('crud-service')
  * @param req
  * @returns {Promise<AxiosResponse>}
  */
-export async function handleGet(path: string, req: Request): Promise<AxiosResponse> {
+export async function handleGet(path: string, req: Request, next: NextFunction): Promise<AxiosResponse> {
     try {
         logger.info('handle get:', path)
         return await req.http.get(path)
     } catch (e) {
-        logger.error(e.status, e.statusText, JSON.stringify(e.data))
-        throw e
+        next(e)
     }
 }
 

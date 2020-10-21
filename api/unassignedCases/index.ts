@@ -1,9 +1,9 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
 import { getApiPath, getRequestBody, mapCcdCases } from './unassingedCases-util'
 
-export async function handleUnassignedCases(req: Request, res: Response) {
+export async function handleUnassignedCases(req: Request, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId.toString()
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
   const payload = getRequestBody(req.session.auth.orgId)
@@ -12,11 +12,7 @@ export async function handleUnassignedCases(req: Request, res: Response) {
         const unassingedCases = mapCcdCases(caseTypeId, response.data)
         res.send(unassingedCases)
   } catch (error) {
-      console.log(error)
-      res.status(500).send({
-        errorMessage: error.data,
-        errorStatusText: error.statusText,
-      })
+    next(error)
   }
 }
 

@@ -178,7 +178,7 @@ class MailinatorService{
         await this.mailinatorbrowser.get(await activationLinkEle.getAttribute('href')); 
 
         await this.mailinatorElement(by.css("#password1")).sendKeys("Monday01");
-        await this.mailinatorElement(by.css("#password2")).sendKeys("Monday011");
+        await this.mailinatorElement(by.css("#password2")).sendKeys("Monday01");
         this.logger("Submitting passwords"); 
         await this.mailinatorElement(by.css("#activate")).click();
 

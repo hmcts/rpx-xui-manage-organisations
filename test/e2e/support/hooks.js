@@ -14,6 +14,7 @@ const htmlReports = `${process.cwd()}/reports/html`;
 const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
 const { Given, When, Then } = require('cucumber');
+const CucumberReportLogger = require('./reportLogger');
 
 
 // defineSupportCode(function({After }) {
@@ -92,7 +93,13 @@ const { Given, When, Then } = require('cucumber');
 // });
 
 
-defineSupportCode(({ After }) => {
+defineSupportCode(({ Before, After }) => {
+  Before(function (scenario,done){
+    const world = this;
+    CucumberReportLogger.setScenarioWorld(world);
+    done();
+  });
+
   After(function(scenario, done) {
     const world = this;
     if (scenario.result.status === 'failed') {

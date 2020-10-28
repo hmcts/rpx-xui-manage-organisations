@@ -2,7 +2,6 @@
     <h1 class="govuk-heading-xl">Unassigned cases</h1>
     <div>
         <p>You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be registered with your organisation and have access to Manage cases.</p>
-        <!-- <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation> -->
         <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
           <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
             <ccd-case-list

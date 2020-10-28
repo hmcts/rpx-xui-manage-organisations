@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { OrganisationUser } from '../interfaces/organisationPayload'
@@ -24,7 +24,7 @@ export function getOrganisationDetails(req: Request, url: string): Promise<Axios
     return req.http.get(`${url}/refdata/external/v1/organisations`)
 }
 
-export async function handleOrganisationUsersRoute(req: Request, res: Response) {
+export async function handleOrganisationUsersRoute(req: Request, res: Response, next: NextFunction) {
   try {
       const response = await req.http.get(
         `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations/users?returnRoles=false`
@@ -32,13 +32,7 @@ export async function handleOrganisationUsersRoute(req: Request, res: Response) 
       console.log(req.query.currentUserEmail)
       res.send(getFilteredUsers(response.data.users))
   } catch (error) {
-    console.log(error)
-    const errReport = {
-        apiError: error.data.message,
-        apiStatusCode: error.status,
-        message: 'Organisation route error',
-    }
-    res.status(errReport.apiStatusCode).send(errReport)
+    next(error)
   }
 }
 

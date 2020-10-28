@@ -1,5 +1,6 @@
 import * as chai from 'chai'
 import { expect } from 'chai'
+import { NextFunction } from 'express'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
@@ -37,7 +38,8 @@ describe('crudService', () => {
     it('should make a get request', async () => {
       spy = sandbox.stub(http, 'get').resolves(res)
       const crudPath = '/crud/12345'
-      const response = await handleGet(crudPath, req)
+      const next = sinon.mock() as NextFunction
+      const response = await handleGet(crudPath, req, next)
       expect(response.data).to.equal('ok')
     })
   })

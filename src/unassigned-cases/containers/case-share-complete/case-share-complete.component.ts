@@ -57,9 +57,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   public showUserAccessBlock(aCase: SharedCase): boolean {
     if ((aCase.pendingShares && aCase.pendingShares.length > 0)
       || (aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
-      if (aCase.pendingShares.length > 0) {
         return true;
-      }
     }
     return false;
   }

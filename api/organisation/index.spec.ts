@@ -3,6 +3,7 @@ import { AxiosInstance } from 'axios'
 import { AxiosResponse } from 'axios'
 import * as chai from 'chai'
 import { expect } from 'chai'
+import { Request} from 'express'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
@@ -79,7 +80,7 @@ describe('organisation index', () => {
             },
         } as unknown as AxiosInstance
         sinon.stub(axios, 'create').returns(fakeAxiosInstance)
-        getOrganisationDetails('abc123', [], 'http://local')
+        getOrganisationDetails({} as Request, 'http://local')
         expect(fakeAxiosInstance.get).to.be.calledWith('http://local/refdata/external/v1/organisations')
     })
 })

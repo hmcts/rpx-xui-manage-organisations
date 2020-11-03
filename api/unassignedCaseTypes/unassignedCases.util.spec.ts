@@ -1,9 +1,10 @@
 import { expect } from 'chai'
-import { getApiPath, searchCasesString } from './unassignedCases.util'
+import { searchCasesString } from './unassignedCaseTypes-constants'
+import { getApiPath } from './unassignedCaseTypes.util'
 
 describe('util', () => {
     it('getApiPath', () => {
-        const fullPath = getApiPath('http://somePath')
-        expect(fullPath).to.equal(`http://somePath${searchCasesString}`)
+        const fullPath = getApiPath('http://somePath', 'case1')
+        expect(fullPath).to.equal(`http://somePath${searchCasesString}case1`)
     })
 })

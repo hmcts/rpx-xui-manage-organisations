@@ -8,7 +8,7 @@
     "start": "node ./dist/rpa-pui-manager/api/server.bundle.js",
     "build": "yarn build:prod && yarn build:node",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
-    "test": "cd api && yarn coverage && cd .. && yarn test:ng",
+    "test": "yarn test:ng",
     "build:prod": "npx ng build --prod",
     "build:node": "cd api && yarn build",
     "start:node": "cd api && yarn watch",

@@ -19,13 +19,11 @@ import {
   LoadUserFromOrgForCase,
   LoadUserFromOrgForCaseSuccess
 } from '../actions';
-import { ShareCaseEffects } from './share-case.effects';
-// tslint:disable-next-line:no-duplicate-imports
 import * as fromShareCaseEffects from './share-case.effects';
 
 describe('Share Case Effects', () => {
   let actions$;
-  let effects: ShareCaseEffects;
+  let effects: fromShareCaseEffects.ShareCaseEffects;
   let store: MockStore<State>;
   const routerMock = jasmine.createSpyObj('Router', [
     'navigate'
@@ -54,7 +52,7 @@ describe('Share Case Effects', () => {
     });
     store = TestBed.get(Store);
     spyOnDispatchToStore = spyOn(store, 'dispatch').and.callThrough();
-    effects = TestBed.get(ShareCaseEffects);
+    effects = TestBed.get(fromShareCaseEffects.ShareCaseEffects);
   });
 
   describe('addShareCases$', () => {

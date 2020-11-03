@@ -46,10 +46,8 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
 
   public checkIfIncomplete(shareCases: SharedCase[]) {
     if (this.isLoading) {
-      if (shareCases.some(aCase => aCase.pendingShares && aCase.pendingShares.length > 0)) {
-        return 'PENDING';
-      }
-      if (shareCases.some(aCase => aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
+      if (shareCases.some(aCase => aCase.pendingShares && aCase.pendingShares.length > 0)
+        || shareCases.some(aCase => aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
         return 'PENDING';
       }
       return 'COMPLETE';
@@ -57,15 +55,9 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   }
 
   public showUserAccessBlock(aCase: SharedCase): boolean {
-    if (aCase.pendingShares) {
-      if (aCase.pendingShares.length > 0) {
+    if ((aCase.pendingShares && aCase.pendingShares.length > 0)
+      || (aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
         return true;
-      }
-    }
-    if (aCase.pendingUnshares) {
-      if (aCase.pendingUnshares.length > 0) {
-        return true;
-      }
     }
     return false;
   }

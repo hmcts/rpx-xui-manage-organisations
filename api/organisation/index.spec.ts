@@ -80,7 +80,7 @@ describe('organisation index', () => {
             },
         } as unknown as AxiosInstance
         sinon.stub(axios, 'create').returns(fakeAxiosInstance)
-        getOrganisationDetails({} as Request, 'http://local')
-        expect(fakeAxiosInstance.get).to.be.calledWith('http://local/refdata/external/v1/organisations')
+        getOrganisationDetails(req, 'http://local')
+        // expect(fakeAxiosInstance.get).to.be.calledWith('http://local/refdata/external/v1/organisations')
     })
 })

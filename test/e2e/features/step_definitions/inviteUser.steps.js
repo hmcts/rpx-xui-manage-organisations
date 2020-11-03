@@ -12,9 +12,11 @@ const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 const browserWaits = require('../../support/customWaits');
-
+const CucumberReportLogger = require('../../support/reportLogger');
 
 var { defineSupportCode } = require('cucumber');
+const cucumberHtmlReporter = require('cucumber-html-reporter');
+const { Error } = require('globalthis/implementation');
 
 async function waitForElement(el) {
   await browser.wait(result => {
@@ -126,14 +128,19 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   Then("I activate invited user", { timeout: 600 * 1000 },async function () {
     await mailinatorService.init();
-    mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
-    await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
-    this.attach("Registration email received successfully.");
-    await mailinatorService.completeUserRegistrationFromEmail();
-    this.attach("Registration completed successfully.");
-    await mailinatorService.destroy();
-
-
+    try{
+      mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
+      await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
+      this.attach("Registration email received successfully.");
+      await mailinatorService.completeUserRegistrationFromEmail();
+      this.attach("Registration completed successfully.");
+      await mailinatorService.destroy();
+    }catch(err){
+      await CucumberReportLogger.AddScreenshot(mailinatorService.getScreenShotUtil());
+      await mailinatorService.destroy();
+      throw new Error("Error occured during user activation steps", err);
+    };
+   
   });
 
 

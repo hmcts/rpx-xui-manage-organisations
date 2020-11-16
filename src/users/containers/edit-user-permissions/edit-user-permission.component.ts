@@ -134,7 +134,6 @@ import {editUserFailureSelector} from '../../store/selectors';
       this.summaryErrors = { isFromValid: false, items: [{id: 'roles',
       message: this.errorMessages.roles[0] }], header: this.errorMessages.header};
       this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]]};
-      this.userStore.dispatch(new fromStore.EditUserFailure(this.errorMessages.roles[0]));
       return;
     }
 

@@ -63,7 +63,7 @@ const regOrgTitle: AppTitlesModel = {
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage organisation details for civil, family, and tribunal law cases',
+  name: 'Manage organisation',
   url: '/'
 };
 

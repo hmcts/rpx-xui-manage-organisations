@@ -109,7 +109,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage organisation details for civil, family, and tribunal law cases');
+      .equal('Manage organisation');
 
     await expect(headerPage.isPrimaryNavigationTabDisplayed(),"Primary navigation tabs not displayed").to.eventually.be.true;
     browser.sleep(LONG_DELAY);

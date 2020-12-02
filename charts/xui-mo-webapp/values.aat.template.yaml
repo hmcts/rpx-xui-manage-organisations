@@ -16,8 +16,8 @@ nodejs:
     #S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
-    MANAGE_CASE_LINK: https://xui-webapp-aat.service.core-compute-aat.internal/cases
-    MANAGE_ORG_LINK: https://xui-mo-webapp-aat.service.core-compute-aat.internal/
-    
+    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/
+    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
+
     PUI_ENV: aat
     LOGGING: debug

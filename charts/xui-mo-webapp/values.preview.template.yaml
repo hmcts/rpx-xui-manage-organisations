@@ -30,5 +30,5 @@ redis:
 idam-pr:
   enabled: true
   redirect_uris:
-    XUI:
+    XUIMO:
       - https://${SERVICE_FQDN}/oauth2/callback 

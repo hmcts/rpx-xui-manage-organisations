@@ -64,7 +64,7 @@ const regOrgTitle: AppTitlesModel = {
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage organisation details for civil, family, and tribunal law cases',
+  name: 'Manage organisation',
   url: '/'
 };
 
@@ -125,9 +125,9 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
   {
     title: 'Family Public Law and Adoption',
     badgeColour: BadgeColour.BADGE_RED,
-    email: 'fpla@justice.gov.uk',
+    email: 'contactfpl@justice.gov.uk',
     phone: '0330 808 4424',
-    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
   }
 ];
 

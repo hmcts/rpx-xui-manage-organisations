@@ -1,4 +1,4 @@
-@fullFunctional
+@unreleased @featureoff
 Feature: Accept Terms and Conditions
 
 Background: background setup

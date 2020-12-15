@@ -32,9 +32,16 @@ export async function handleRegisterOrgRoute(req, res) {
       headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
     }
     const axiosInstance = http({} as unknown as Request)
-    const response = await axiosInstance.post(url, registerPayload, options)
+    console.log( 'URL ---->' +  url)
+    console.log( 'options ---->' +  JSON.stringify(options))
+    console.log( 'registerPayload ---->' +  JSON.stringify(registerPayload))
 
-    res.send(response.data)
+    const response = await axiosInstance.post(url, registerPayload, options)
+    console.log(" ~~~~~~~~~~~~~Send Response.data  back to Caller...." + JSON.stringify(response.data));
+
+    //TODO Erroring out here .
+    // res.send(response.data)
+
   } catch (error) {
     /**
      * If there is a error generating the S2S token then we flag it to the UI.

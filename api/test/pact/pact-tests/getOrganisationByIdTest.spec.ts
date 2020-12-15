@@ -1,10 +1,19 @@
 import { Pact } from '@pact-foundation/pact'
 import { expect } from 'chai'
 import * as path from 'path'
-import { getUserDetails } from '../../../services/idam'
+import {request, Request} from 'express'
+import {getConfigValue} from '../../../configuration';
+import {SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../configuration/references';
+import {getOrganisationId} from '../../../services/rdProfessional';
+import {postOrganisation} from '../../../services/rdProfessional';
 
-describe("Idam API", () => {
-  const idamTestUrl = "http://localhost:8992"
+describe("RD Professional API", () => {
+  const testUrl = "http://localhost:8992"
+  const rdProfessionalPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+  const getOrgnByIdPath = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/search/organisations/email@email.com)`;
+
+  console.log(`value of the rdProfessionalURL is ......`+getOrgnByIdPath);
+
   const port = 8992
   const provider = new Pact({
     port: port,
@@ -12,21 +21,12 @@ describe("Idam API", () => {
     dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
     spec: 2,
     consumer: "xui_manage_org_sidam_user_details",
-    provider: "sidam_user_details",
+    provider: "referenceData_organisationalExternalPbas",// TODO Check with Ruban.
     pactfileWriteMode: "merge",
   })
 
   const EXPECTED_BODY = {
-    "id": "abc123",
-    "forename": "Boris",
-    "address":"asd",
-    "surname": "Peterson",
-    "email": "boris@hmcts.net",
-    "active": true,
-    "roles": [
-      "solicitor",
-      "caseworker"
-    ]
+    "organisationId": "123456",
   }
 
   // Setup the provider
@@ -38,17 +38,19 @@ describe("Idam API", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("get /details", () => {
+  describe("getOrganisationId", () => {
 
     const jwt = 'some-access-token'
+    const details = ''; // ATM this is not being used in the Service.
+
 
     before(done => {
       const interaction = {
-        state: "request for user details",
-        uponReceiving: "sidam_user_details will respond with:",
+        state: "Pbas organisational data exists for identifier ",
+        uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
         withRequest: {
           method: "GET",
-          path: "/details",
+          path: "/search/organisations/henry_fr_harper@yahoo.com",
           // headers: {
           //     Authorization: "Bearer some-access-token"
           // },
@@ -68,15 +70,12 @@ describe("Idam API", () => {
     })
 
     it("returns the correct response", done => {
-
-      getUserDetails(jwt, idamTestUrl).then(response => {
+      postOrganisation(details, null).then(response => {
         console.log(response.data)
         expect(response.data).to.eql(EXPECTED_BODY)
         done()
       }, done)
     })
-  })
-
-
+   })
 
 })

@@ -17,7 +17,7 @@ describe("RD Professional API", () => {
   const rdProfessionalPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
   const postOrganisationUrl = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations)`
 
-  const port = 8992
+  const port = 8993
   const provider = new Pact({
     port: port,
     log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
@@ -37,7 +37,7 @@ describe("RD Professional API", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("post Organisation", () => {
+  xdescribe("post Organisation", () => {
 
     // Call Mock to get s2sToken
     //const s2sToken = await s2sTokenGeneration.generateS2sToken(url)

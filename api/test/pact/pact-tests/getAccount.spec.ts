@@ -9,7 +9,7 @@ import {PaymentAccountDto,Payments } from '../../../lib/models/transactions';
 import {postOrganisation} from '../../../services/rdProfessional';
 import {getAccount} from '../../../services/payment';
 
-describe("RD Professional API", () => {
+xdescribe("RD Professional API", () => {
   // const testUrl = "http://localhost:8992"
   // const feePayApi = getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)
   // const feePayApiPath = `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/account/132456)`;

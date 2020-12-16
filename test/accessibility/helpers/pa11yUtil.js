@@ -49,6 +49,7 @@ async function pa11ytest(test,actions,timeoutVal) {
     await page.goto(conf.baseUrl);
     let result;
     try{
+
         result = await pa11y(conf.baseUrl, {
             browser: browser,
             page: page,
@@ -75,7 +76,7 @@ async function pa11ytest(test,actions,timeoutVal) {
         throw err;
 
     }
-   
+
     const elapsedTime = Date.now() - startTime;
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
@@ -89,5 +90,6 @@ async function pa11ytest(test,actions,timeoutVal) {
     return result;
 
 }
+
 
 module.exports = { pa11ytest}

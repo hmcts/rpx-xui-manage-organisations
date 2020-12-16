@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { ExuiCommonLibModule, LAUNCHDARKLYKEY } from '@hmcts/rpx-xui-common-lib';
@@ -33,6 +33,7 @@ import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
 
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
@@ -66,7 +67,8 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     }),
     LoaderModule,
     ExuiCommonLibModule.forRoot(),
-    NgIdleKeepaliveModule.forRoot()
+    NgIdleKeepaliveModule.forRoot(),
+    NoopAnimationsModule
   ],
   providers: [
     { provide: RouterStateSerializer, useClass: CustomSerializer },
@@ -75,6 +77,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyClientIdFactory, deps: [ENVIRONMENT_CONFIG] },
     { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store], multi: true },
     ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

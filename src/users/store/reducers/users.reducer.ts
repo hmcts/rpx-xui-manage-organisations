@@ -128,9 +128,7 @@ export function reducer(
       };
     }
 
-    /**
-     * Initialise Editing of User, resetting the state back to editing of a User.
-     */
+    // Initialise Editing of User, resetting the state back to editing of a User.
     case fromUsers.EDIT_USER: {
       return {
         ...state,
@@ -163,4 +161,3 @@ export const getUsersLoading = (state: UsersListState) => state.loading;
 export const getUsersLoaded = (state: UsersListState) => state.loaded;
 export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;
-

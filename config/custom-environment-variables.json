@@ -27,7 +27,9 @@
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
         "s2s": "S2S_SERVICE",
         "feeAndPayApi": "FEE_AND_PAY_API",
-        "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
+        "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE",
+        "ccdDataApi": "SERVICES_CCD_DATA_STORE_API",
+        "caseAssignmentApi": "SERVICES_MCA_PROXY_API"
     },
     "links": {
       "manageCaseLink": "MANAGE_CASE_LINK",
@@ -37,6 +39,7 @@
       "__name": "SESSION_SECRET",
       "__format": "json"
     },
+    "caseTypes": "CASE_TYPES",
     "secrets": {
       "rpx": {
         "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",

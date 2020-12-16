@@ -30,7 +30,7 @@ class CreateOrganisationObjects {
     this.firstName = element(by.css("[id='firstName']"));
     this.lastName = element(by.css("[id='lastName']"));
     this.emailAddr = element(by.css("#emailAddress"));
-    this.submit_button = element(by.css("[class='govuk-button']"));
+    this.submit_button = element(by.css("app-check-your-answers button"));
     this.org_success_heading = element(by.css("[class='govuk-panel__title']"))
     this.org_failure_error_heading = element(by.css("#error-summary-title"));
     this.off_address_error_heading = element(by.css("#error-summary-title"));

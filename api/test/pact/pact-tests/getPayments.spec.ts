@@ -46,7 +46,7 @@ describe("get /payments", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("getPayments", () => {
+  xdescribe("getPayments", () => {
 
     const jwt = 'some-access-token'
     const details = ''; // ATM this is not being used in the Service.

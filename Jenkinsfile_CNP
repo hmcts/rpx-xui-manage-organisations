@@ -104,15 +104,6 @@ withPipeline(type, product, component) {
             reportName           : "ng coverage tests"
         ])
 
-         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/mutation/node/",
-            reportFiles          : 'index.html',
-            reportName           : 'XUI Manage Organisation Mutation tests'
-        ])
-
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -121,6 +112,8 @@ withPipeline(type, product, component) {
             reportFiles          : 'Report.html',
             reportName           : 'Manage Org a11y Test'
         ])
+
+     
 
 
     }
@@ -145,6 +138,15 @@ withPipeline(type, product, component) {
             reportFiles          : 'mochawesome.html',
             reportName           : 'PREVIEW API Test'
         ])
+
+           publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/smoke_tests/functional",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Manage Org Smoke Test'
+        ])
     }
 
     after('functionalTest:preview') {
@@ -167,6 +169,15 @@ withPipeline(type, product, component) {
             reportDir            : "reports/tests/api_functional/",
             reportFiles          : 'mochawesome.html',
             reportName           : 'API Smoke Test'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/smoke_tests/functional",
+            reportFiles          : 'index.html',
+            reportName           : 'AAT Manage Org Smoke Test'
         ])
     }
 

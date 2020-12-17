@@ -198,4 +198,4 @@ Session Timeout Configuration - An array that contains the Applications and User
 Session Timeout - An object that contains the Idle Modal Display Time, Reg Ex pattern so that we use
 the correct Session Timeout for the application / and or User Groups and Total Idle Time.  
 
-END
+END2

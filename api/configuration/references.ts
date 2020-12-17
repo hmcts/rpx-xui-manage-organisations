@@ -17,6 +17,7 @@ export const LAUNCH_DARKLY_CLIENT_ID = 'secrets.rpx.launch-darkly-client-id'
 
 export const ENVIRONMENT = 'environment'
 
+export const STUB = 'stub'
 export const COOKIE_TOKEN = 'cookies.token'
 export const COOKIES_USERID = 'cookies.userId'
 
@@ -36,7 +37,12 @@ export const SERVICE_S2S_PATH = 'services.s2s'
 export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi'
 export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi'
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions'
+
+export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi'
+export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi'
 export const SERVICES_IDAM_ISS_URL = 'iss'
+
+export const CASE_SHARE_PERMISSIONS = 'pui-case-manager'
 
 export const LOGIN_ROLE_MATCHER = 'loginRoleMatcher'
 
@@ -64,3 +70,5 @@ export const REDIS_TTL = 'redis.ttl'
 export const REDIS_KEY_PREFIX = 'redis.prefix'
 
 export const SESSION_TIMEOUTS = 'sessionTimeouts'
+
+export const CASE_TYPES = 'caseTypes'

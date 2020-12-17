@@ -6,6 +6,7 @@ import {formatDate} from '@angular/common';
 import { AppConstants } from '../app.constants';
 import { NavItemModel, NavItemsModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
+
 export class AppUtils {
 
   public static getFeatureEnabledNavItems(navItems: NavItemModel[],
@@ -181,4 +182,24 @@ export class AppUtils {
     return true;
   }
 
+  public static atleastOneCase(currentSelection: any) {
+    let anyItem = false;
+    for (const key in currentSelection) {
+      if (currentSelection[key] && currentSelection[key].length > 0) {
+        anyItem = true;
+        break;
+      }
+    }
+    return anyItem;
+  }
+
+  public static getSelectedItemsList(currentSelection: any): any {
+    let items = new Array<any>();
+    for (const key in currentSelection) {
+      if (currentSelection[key] && currentSelection[key].length > 0) {
+        items = [...items, ...currentSelection[key]];
+      }
+    }
+    return items;
+  }
 }

@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';

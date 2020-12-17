@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import { AbstractControlOptions, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import {Action, select, Store} from '@ngrx/store';
-import * as fromStore from '../../store';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
+import {Action, select, Store} from '@ngrx/store';
 import {Observable, Subscription} from 'rxjs';
 import { GlobalError } from 'src/app/store/reducers/app.reducer';
 import {AppConstants} from '../../../app/app.constants';
 import * as fromAppStore from '../../../app/store';
 import {checkboxesBeCheckedValidator} from '../../../custom-validators/checkboxes-be-checked.validator';
+import * as fromStore from '../../store';
 
 /*
 * User Form entry mediator component
@@ -154,7 +154,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       'pui-case-manager': this.createFormControl(''),
       'pui-user-manager': this.createFormControl(''),
       'pui-organisation-manager': this.createFormControl(''),
-      'pui-finance-manager': this.createFormControl('')
+      'pui-finance-manager': this.createFormControl(''),
+      'pui-caa': this.createFormControl('')
     }, checkBoxValidator);
   }
   public populateFormControl(pendingUser: User, inviteUserForm: FormGroup) {

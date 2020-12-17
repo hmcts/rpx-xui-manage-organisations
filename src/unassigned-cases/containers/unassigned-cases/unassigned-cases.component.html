@@ -1,0 +1,27 @@
+<main role="main" class="govuk-main-wrapper">
+    <h1 class="govuk-heading-xl">Unassigned cases</h1>
+    <div>
+        <p>You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be registered with your organisation and have access to Manage cases.</p>
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
+          <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
+            <ccd-case-list
+            *ngIf="(cases$ | async)?.length > 0"
+            [cases]="cases$ | async"
+            [selectedCases]="selectedCases"
+            [tableConfig]="tableConfig"
+            [selectionEnabled]="true"
+            (selection)="onCaseSelection($event)">
+            </ccd-case-list>
+          </mat-tab>
+        </mat-tab-group>
+    </div>
+    <div *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0">
+      <button [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
+              (click)="shareCaseSubmit()">
+        Share case
+      </button>
+    </div>
+    <div *ngIf="navItems && navItems.length === 0">
+      <p>There are no unassigned cases available to be shared.</p>
+    </div>
+</main>

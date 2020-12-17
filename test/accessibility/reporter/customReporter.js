@@ -58,6 +58,7 @@ function generateReport(passCount,failCount, tests){
         failed: failCount,
         tests:tests
     };
+    consoleReport(reportJson);
 
     let sourceReport = __dirname + '/Report.html';
     let destDir = process.env.PWD + "/" + conf.reportPath;

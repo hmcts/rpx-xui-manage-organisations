@@ -1,10 +1,11 @@
+import {pbaNumber} from '../../../../src/register/constants/pbaNumber';
 import {PaymentAccountDto} from '../../../lib/models/transactions';
 
 export interface OrganisationCreationRequest{
   name: string
   status: string
   sraId: string
-  paymentAccount: string[]
+  paymentAccount: PaymentAccountDto[]
   superUser: UserCreationRequest
 }
 
@@ -21,10 +22,24 @@ const responsePaymentAccountDto: PaymentAccountDto[] = [
   }
 ]
 
-const organisationRequestBody: OrganisationCreationRequest = {
+export const organisationRequestBody: OrganisationCreationRequest = {
   name:'firstname',
   status:'status',
   sraId:'sraId',
-  paymentAccount:['pay1','pay2'],
-  superUser:null
+  paymentAccount:[],
+  superUser: {
+    firstName: 'Joe',
+    lastName: 'Bloggs'
+  }
+
 }
+
+export interface organisationCreationDto{
+  name: string
+  status: string
+  sraId: string
+  paymentAccount: string[]
+  superUser: UserCreationRequest
+
+}
+

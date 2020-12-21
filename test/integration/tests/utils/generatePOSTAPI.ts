@@ -3,8 +3,8 @@ import { getauthToken } from './getToken';
 const fetch = require('node-fetch');
 
 
-// const mainURL = process.env.TEST_URL || 'https://localhost:3000';
-const mainURL = 'http://rd-professional-api-aat.service.core-compute-aat.internal'
+const mainURL = process.env.TEST_URL || 'https://localhost:3000';
+// const mainURL = 'http://rd-professional-api-aat.service.core-compute-aat.internal'
 const LOG_REQUEST_ERROR_DETAILS = false;
 
 export async function generatePOSTAPIRequest(method, subURL, payload) {
@@ -15,15 +15,19 @@ export async function generatePOSTAPIRequest(method, subURL, payload) {
   try {
     s2sToken = await generateToken();
     authToken = await getauthToken();
-
     const options = {
+      // headers: {
+      //   Authorization: `Bearer ${authToken}`,
+      //   ServiceAuthorization: s2sToken,
+      //   'Content-Type': 'application/json'
+      // },
+
       headers: {
-        Authorization: `Bearer ${authToken}`,
-        ServiceAuthorization: s2sToken,
+        Cookie: `__auth__= ${authToken} `,
         'Content-Type': 'application/json'
       },
-      // json: true,
-     //  resolveWithFullResponse: true,
+      json: true,
+      resolveWithFullResponse: true,
       method,
       body: JSON.stringify(payload)
     };

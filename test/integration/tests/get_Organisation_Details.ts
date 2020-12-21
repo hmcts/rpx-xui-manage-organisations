@@ -3,8 +3,8 @@ const should = require('chai').should()
 
 suite('API/CASES -> Get Organisation details', function() {
   this.timeout(10000);
-  // test('GET Manage Organisation details', () => generateAPIRequest ('GET', '/refdata/external/v1/organisations', {})
-  test('GET Manage Organisation details', () => generateAPIRequest ('GET', '/refdata/external/v1/organisations')
+ // test('GET Manage Organisation details', () => generateAPIRequest ('GET', 'refdata/external/v1/organisations')
+  test('GET Manage Organisation details', () => generateAPIRequest ('GET', 'api/organisation')
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {
           response.status.should.be.eql(200);
@@ -14,8 +14,8 @@ suite('API/CASES -> Get Organisation details', function() {
           response.data.status.should.be.eql('ACTIVE');
           response.data.sraId.should.be.eql('SRA7800035677');
           response.data.sraRegulated.should.be.eql(false);
-          response.data.paymentAccount[0].should.be.eql('PBA9845644');
-          response.data.paymentAccount[1].should.be.eql('PBA8456443');
+          response.data.paymentAccount[0].should.be.eql('PBA8456441');
+          response.data.paymentAccount[1].should.be.eql('PBA9845644');
           response.data.contactInformation[0].addressLine1.should.be.eql('2');
           response.data.contactInformation[0].townCity.should.be.eql('Aldgate Street');
           response.data.contactInformation[0].county.should.be.eql('London');

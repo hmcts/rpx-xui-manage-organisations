@@ -17,10 +17,10 @@ suite('API/CASES3 -> POST Invite User', function() {
   ],
     resendInvite: false
   };
-  test('POST Invite User', () => generatePOSTAPIRequest ('POST', '/refdata/external/v1/organisations/users/', payload)
+  test('POST Invite User', () => generatePOSTAPIRequest ('POST', 'api/inviteUser', payload)
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {
-           response.status.should.be.eql(201);
+           response.status.should.be.eql(200);
            console.log(response);
         }));
 });

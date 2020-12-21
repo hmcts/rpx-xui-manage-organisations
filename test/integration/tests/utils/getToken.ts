@@ -63,3 +63,12 @@ export async function getauthToken() {
   console.log(accessToken.access_token)
   return accessToken.access_token;
 }
+
+// await fetch(url, otherParam).then(data => data.json())
+//   .then(res => {
+//     token = res.access_token
+//     //console.log(res.access_token)
+//     return res.code
+//   })
+//   .catch(error => {
+//   })

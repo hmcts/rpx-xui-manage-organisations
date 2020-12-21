@@ -23,7 +23,7 @@ withNightlyPipeline(type, product, component) {
 
     enableFullFunctionalTest(30)
     enableSecurityScan()
-    enableFullFunctionalTest(30)
+    enableMutationTest()
     enableCrossBrowserTest()
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
@@ -46,17 +46,6 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
-
-        sh 'yarn test:a11y'
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
-        ])
-
     }
 
     after('fullFunctionalTest') {
@@ -64,7 +53,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/fullfunctional/",
+            reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Full functional Tests'
         ])
@@ -82,6 +71,17 @@ withNightlyPipeline(type, product, component) {
         ])
     }
 
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'XUI MO ZAP Security Scan Report'
+    ])
+  }
+
     after('crossBrowserTest') {
         publishHTML([
             allowMissing         : true,
@@ -91,5 +91,5 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Cross Browser Tests'
         ])
-    }   
+    }
 }

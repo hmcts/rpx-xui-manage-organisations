@@ -9,13 +9,13 @@ class BrowserWaits {
         this.pageErrors = $$(".error-summary");
     }
 
-    async waitForElement(waitelement, customWait) {
-        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString());
+    async waitForElement(waitelement, customWait,message) {
+        await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString() + (message ? " => " + message : "_"));
     }
 
     async waitForElementNotVisible(element,customWait) {
         await browser.wait(EC.not(EC.presenceOf(element), customWait ? customWait : this.waitTime, "Error : " + element.locator().toString()));
-       
+
     }
 
     async waitForPresenceOfElement(element) {
@@ -46,8 +46,8 @@ class BrowserWaits {
         await browser.wait(EC.presenceOf($(selector)), this.waitTime, "Error find element with selector: " + selector);
     }
 
-    async waitForstalenessOf(element) {
-        await browser.wait(EC.stalenessOf(element), this.waitTime);
+    async waitForstalenessOf(element,timeout) {
+        await browser.wait(EC.stalenessOf(element), timeout ? timeout : this.waitTime);
     }
 
     async waitForPageNavigation(currentPageUrl) {
@@ -91,7 +91,7 @@ class BrowserWaits {
 
         while (retryCounter < 3) {
             try {
-                await this.waitForElement(element);
+                await this.waitForElement(element,15000);
                 retryCounter += 3;
             }
             catch (err) {
@@ -106,4 +106,4 @@ class BrowserWaits {
 
 }
 
-module.exports = new BrowserWaits(); 
+module.exports = new BrowserWaits();

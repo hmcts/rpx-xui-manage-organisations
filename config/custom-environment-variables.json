@@ -18,6 +18,8 @@
       "__format": "json"
     },
     "oauthCallbackUrl": "OAUTH_CALLBACK_URL",
+    "iss": "SERVICES_IDAM_ISS_URL",
+    "loginRoleMatcher": "LOGIN_ROLE_MATCHER",
     "protocol": "PROTOCOL",
     "services": {
         "idamApi": "IDAM_API_SERVICE",
@@ -25,20 +27,27 @@
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
         "s2s": "S2S_SERVICE",
         "feeAndPayApi": "FEE_AND_PAY_API",
-        "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE"
+        "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE",
+        "ccdDataApi": "SERVICES_CCD_DATA_STORE_API",
+        "caseAssignmentApi": "SERVICES_MCA_PROXY_API"
     },
     "links": {
       "manageCaseLink": "MANAGE_CASE_LINK",
       "manageOrgLink": "MANAGE_ORG_LINK"
     },
-    "sessionSecret": "SESSION_SECRET",
+    "sessionSecret": {
+      "__name": "SESSION_SECRET",
+      "__format": "json"
+    },
+    "caseTypes": "CASE_TYPES",
     "secrets": {
       "rpx": {
         "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",
         "mo-s2s-client-secret": "S2S_SECRET",
         "xui-oauth2-token": "IDAM_SECRET",
         "mo-webapp-redis-connection-string": "REDISCLOUD_URL",
-        "google-analytics-key": "GOOGLE_ANALYTICS_KEY"
+        "google-analytics-key": "GOOGLE_ANALYTICS_KEY",
+        "launch-darkly-client-id": "LAUNCH_DARKLY_CLIENT_ID"
       }
     },
     "feature": {
@@ -65,6 +74,10 @@
       "redisEnabled": {
         "__name": "FEATURE_REDIS_ENABLED",
         "__format": "json"
+      },
+      "oidcEnabled": {
+        "__name": "FEATURE_OIDC_ENABLED",
+        "__format": "json"
       }
     },
     "helmet": {
@@ -74,5 +87,9 @@
     "redis": {
       "prefix": "REDIS_KEY_PREFIX",
       "ttl": "REDIS_TTL"
+    },
+    "sessionTimeouts": {
+      "__name": "SESSION_TIMEOUTS",
+      "__format": "json"
     }
 }

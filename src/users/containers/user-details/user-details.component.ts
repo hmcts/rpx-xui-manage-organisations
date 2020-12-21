@@ -13,6 +13,7 @@ import * as fromStore from '../../store';
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
 
+  public editPermissionRouter: string;
   public user$: Observable<User>;
   public isLoading$: Observable<boolean>;
   public user: any;
@@ -38,6 +39,13 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.user$ = new Observable();
+
+    const isfeatureEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+
+    isfeatureEnabled$.subscribe(isFeatureEnabled => {
+      this.editPermissionRouter = isFeatureEnabled ? 'editpermission' : '';
+    });
+
     this.setSuspendViewFunctions();
 
     this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
@@ -46,7 +54,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       this.handleDependanciesSubscription(users, route);
     });
 
-    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user));
+
+    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isfeatureEnabled$));
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
       this.hideSuspendView();
@@ -79,20 +88,25 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.showSuspendView = () => this.suspendViewFlag = true;
   }
 
-  public handleUserSubscription(user) {
-    this.user = user;
-    if (this.user && this.user.status === 'Active') {
-
-      this.actionButtons = [
-        // {
-        //   name: 'Suspend account',
-        //   class: 'hmcts-button--secondary',
-        //   action: this.showSuspendView
-        // }
-      ];
-    } else {
-      this.actionButtons = null;
+  public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>) {
+    if (user && user.status) {
+      this.user = {...user, resendInvite: user.status === 'Pending' };
     }
+
+    isFeatureEnabled$.subscribe(isFeatureEnabled => {
+      if (isFeatureEnabled && this.user && this.user.status === 'Active') {
+
+        this.actionButtons = [
+          {
+            name: 'Suspend account',
+            class: 'hmcts-button--secondary',
+            action: this.showSuspendView
+          }
+        ];
+      } else {
+        this.actionButtons = null;
+      }
+    });
   }
 
   public handleDependanciesSubscription(users, route) {
@@ -119,9 +133,18 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  public isInactive(status, inactiveStatuses: string[] = ['Suspended', 'Pending']) {
+    return !inactiveStatuses.includes(status);
+  }
+
   public isSuspended(status) {
     return status === 'Suspended';
   }
+
+  public isPending(status) {
+    return status === 'Pending';
+  }
+
 
   public isSuspendView() {
     return this.suspendViewFlag;
@@ -129,6 +152,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public suspendUser(suspendUser: User) {
     this.userStore.dispatch(new fromStore.SuspendUser(suspendUser));
+  }
+
+  public reinviteUser(user: User) {
+    console.log('REINVITE USER');
+    console.log(user);
+    this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
 
 }

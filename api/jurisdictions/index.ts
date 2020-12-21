@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { JURISDICTIONS } from '../configuration/references'
 
@@ -35,7 +35,7 @@ import { JURISDICTIONS } from '../configuration/references'
  */
 const formatJurisdictions = jurisdictionFromConfig => jurisdictionFromConfig.map(jurisdiction => ({ id: jurisdiction }))
 
-async function handleJurisdictions(req, res) {
+export async function handleJurisdictions(req, res) {
 
     const uiJurisdictions = formatJurisdictions(getConfigValue(JURISDICTIONS))
 
@@ -47,11 +47,11 @@ async function handleJurisdictions(req, res) {
             apiStatusCode: error.statusCode,
             message: 'List of jurisdictions route error',
         })
-        res.send(errReport).status(500)
+        res.send(errReport).status(error.statusCode)
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleJurisdictions)
 

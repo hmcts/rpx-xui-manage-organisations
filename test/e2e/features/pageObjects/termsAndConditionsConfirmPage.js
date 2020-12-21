@@ -35,11 +35,12 @@ class TermsAndConditionsConfirmPage{
         await browser.executeScript('window.open()');
         let winHandles = await browser.driver.getAllWindowHandles();
         await  browser.switchTo().window(winHandles[1]);
-    
-        await browser.get(config.config.baseUrl + 'external/configuration?configurationKey=feature.termsAndConditionsEnabled');
+        let configPath = "external/configuration?configurationKey=feature.termsAndConditionsEnabled";
+        let url = config.config.baseUrl.endsWith("/") ? config.config.baseUrl + configPath : config.config.baseUrl +"/" +configPath  
+        await browser.get(url);
        
         let bodyElement = element(by.css('body pre'));
-        await BrowserWaits.waitForElement(bodyElement); 
+        await BrowserWaits.waitForElement(bodyElement);
         let feattureToggleStatus = await bodyElement.getText();
         let browserCurrentUtl = await browser.getCurrentUrl();
         if (world) {
@@ -47,9 +48,9 @@ class TermsAndConditionsConfirmPage{
         }
         await browser.driver.close();
         await browser.switchTo().window(mainWinHandle);
-        this.isFeatureEnabled = feattureToggleStatus.includes('true'); 
+        this.isFeatureEnabled = feattureToggleStatus.includes('true');
         return this.isFeatureEnabled ;
-    } 
+    }
 
 }
 

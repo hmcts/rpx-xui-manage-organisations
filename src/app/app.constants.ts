@@ -3,6 +3,13 @@ import {AppTitlesModel} from './models/app-titles.model';
 import {NavItemModel} from './models/nav-items.model';
 import {UserNavModel} from './models/user-nav.model';
 
+const featureNames = {
+  feeAccount: 'fee-and-accounts',
+  editUserPermissions: 'edit-permissions',
+  unassignedCases: 'unassigned-cases',
+  removeUserFromCase: 'remove-user-from-case-mo'
+};
+
 const navItemsArray: NavItemModel[] = [
   {
     text: 'Organisation',
@@ -16,20 +23,31 @@ const navItemsArray: NavItemModel[] = [
     active: false,
     orderId: 2
   },
-  // Hiding the Tab for the Fee And Accounts
-  // {
-  //   text: 'Fee Accounts',
-  //   href: '/fee-accounts',
-  //   active: false,
-  //   orderId: 3
-  // }
+  {
+    text: 'Fee Accounts',
+    href: '/fee-accounts',
+    active: false,
+    orderId: 3,
+    featureToggle: {
+      featureName: featureNames.feeAccount
+    }
+  },
+  {
+    text: 'Unassigned cases',
+    href: '/unassigned-cases',
+    orderId: 4,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.unassignedCases
+    }
+  }
 ];
 
 const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
-  // Hiding the role
-  // 'pui-finance-manager': navItemsArray[2],
+  'pui-finance-manager': navItemsArray[2],
+  'pui-caa': navItemsArray[3]
 };
 
 const userNav: UserNavModel = {
@@ -46,7 +64,7 @@ const regOrgTitle: AppTitlesModel = {
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage organisation details for civil, family, and tribunal law cases',
+  name: 'Manage organisation',
   url: '/'
 };
 
@@ -107,9 +125,9 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
   {
     title: 'Family Public Law and Adoption',
     badgeColour: BadgeColour.BADGE_RED,
-    email: 'fpla@justice.gov.uk',
+    email: 'contactfpl@justice.gov.uk',
     phone: '0330 808 4424',
-    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
   }
 ];
 
@@ -184,4 +202,5 @@ export class AppConstants {
   public static REDIRECT_URL = redirectUrl;
   public static ENVIRONMENT_NAMES = environmentNames;
   public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
+  public static FEATURE_NAMES = featureNames;
 }

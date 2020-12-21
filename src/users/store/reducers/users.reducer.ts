@@ -7,12 +7,16 @@ export interface UsersListState {
   userList: User[];
   loaded: boolean;
   loading: boolean;
+  reinvitePendingUser: User;
+  editUserFailure: boolean;
 }
 
 export const initialState: UsersListState = {
   userList: [] as User[],
   loaded: false,
   loading: false,
+  reinvitePendingUser: null,
+  editUserFailure: false
 };
 
 export function reducer(
@@ -110,6 +114,42 @@ export function reducer(
       };
     }
 
+    case fromUsers.INVITE_NEW_USER: {
+      return {
+        ...state,
+        reinvitePendingUser: null
+      };
+    }
+
+    case fromUsers.REINVITE_PENDING_USER: {
+      return {
+        ...state,
+        reinvitePendingUser: action.payload
+      };
+    }
+
+    // Initialise Editing of User, resetting the state back to editing of a User.
+    case fromUsers.EDIT_USER: {
+      return {
+        ...state,
+        editUserFailure: false,
+      };
+    }
+
+    case fromUsers.EDIT_USER_FAILURE: {
+      return {
+        ...state,
+        editUserFailure: true,
+      };
+    }
+
+    case fromUsers.EDIT_USER_FAILURE_RESET: {
+      return {
+        ...state,
+        editUserFailure: false,
+      };
+    }
+
     default:
       return state;
 
@@ -119,4 +159,5 @@ export function reducer(
 export const getUsers = (state: UsersListState) => state.userList;
 export const getUsersLoading = (state: UsersListState) => state.loading;
 export const getUsersLoaded = (state: UsersListState) => state.loaded;
-
+export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
+export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;

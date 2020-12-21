@@ -19,6 +19,7 @@ describe('User Details Component', () => {
     describe('ngOnInit', () => {
         it('should create subscriptions', () => {
             actionsObject.pipe.and.returnValue(of());
+            routerStoreSpyObject.pipe.and.returnValue(of());
             component.ngOnInit();
             expect(component.dependanciesSubscription).toBeDefined();
             expect(component.userSubscription).toBeDefined();
@@ -83,12 +84,12 @@ describe('User Details Component', () => {
 
     describe('handleUserSubscription', () => {
         it('should set actionButtons when user is Active', () => {
-            component.handleUserSubscription({ status: 'Active' });
+            component.handleUserSubscription({ status: 'Active' }, of(true));
             expect(component.actionButtons).toBeDefined();
         });
 
         it('should not set actionButtons when user is Suspended', () => {
-            component.handleUserSubscription({ status: 'Suspended' });
+            component.handleUserSubscription({ status: 'Suspended' }, of(true));
             expect(component.actionButtons).toBeNull();
         });
     });
@@ -138,7 +139,14 @@ describe('User Details Component', () => {
 
     describe('suspendUser', () => {
         it('should dispatch an action', () => {
-          const mockUser: User = {};
+          const mockUser: User = {
+            routerLink: '',
+            fullName: 'name',
+            email: 'someemail',
+            status: 'active',
+            resendInvite: false,
+            userIdentifier: ''
+          };
           component.suspendUser(mockUser);
           expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
         });

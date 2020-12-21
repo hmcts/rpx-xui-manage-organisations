@@ -94,5 +94,50 @@ describe('Users Reducer', () => {
         expect(state.userList).toEqual([]);
     });
 
+    it('INVITE_NEW_USER action should return correct state', () => {
+      const { initialState } = fromUsers;
+
+      const action = new fromUserActions.InviteNewUser();
+      const state = fromUsers.reducer(initialState, action);
+
+      expect(state.reinvitePendingUser).toEqual(null);
+    });
+
+    it('REINVITE_PENDING_USER action should return correct state', () => {
+      const { initialState } = fromUsers;
+
+      const action = new fromUserActions.ReinvitePendingUser(mockUserList[0]);
+      const state = fromUsers.reducer(initialState, action);
+
+      expect(state.reinvitePendingUser).toEqual(mockUserList[0]);
+    });
+
+    it('EDIT_USER_FAILURE action should set editUserFailure to true, so that the application' +
+      'knows that its in an edit user failure state.', () => {
+      const { initialState } = fromUsers;
+
+      const action = new fromUserActions.EditUserFailure('');
+      const state = fromUsers.reducer(initialState, action);
+
+      expect(state.editUserFailure).toBeTruthy();
+    });
+
+    /**
+     * The User has made our application fall into a editUserFailure state, therefore
+     * when we setup this test we want editUserFailure to be true.
+     *
+     * We then test that applying the EditUserFailureReset action onto the Store
+     * changes editUserFailure state.
+     */
+    it('EDIT_USER_FAILURE_RESET action should reset editUserFailure', () => {
+      const { initialState } = fromUsers;
+      initialState.editUserFailure = true;
+      expect(initialState.editUserFailure).toBeTruthy();
+
+      const action = new fromUserActions.EditUserFailureReset();
+      const state = fromUsers.reducer(initialState, action);
+
+      expect(state.editUserFailure).toBeFalsy();
+    });
 });
 

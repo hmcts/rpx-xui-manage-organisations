@@ -50,7 +50,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rpa-pui-manager:build"
+            "browserTarget": "rpa-pui-manager:build",
+            "proxyConfig": "./proxy.config.json"
           },
           "configurations": {
             "production": {
@@ -72,7 +73,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.scss"
+              "src/styles.css"
             ],
             "scripts": [],
             "assets": [

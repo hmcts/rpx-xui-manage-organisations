@@ -14,7 +14,7 @@ const htmlReports = `${process.cwd()}/reports/html`;
 const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
 const { Given, When, Then } = require('cucumber');
-var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
+const CucumberReportLogger = require('./reportLogger');
 
 
 // defineSupportCode(function({After }) {
@@ -93,26 +93,41 @@ var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenSho
 // });
 
 
-defineSupportCode(({ After }) => {
-    After(function(scenario, done) {
-        const world = this;
-        console.log("After scenario : " + scenario.result.status);
-        global.screenShotUtils.takeScreenshot()
-        .then(stream => {
-            const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-            world.attach(decodedImage, 'image/png');
-        })
-        .then(async () => {
-                let errorSummaryOnPage = element(by.css(".error-summary"));
-                let isErrorMessageDisplayed = await errorSummaryOnPage.isPresent();
-                if (isErrorMessageDisplayed) {
-                    let errorSummary = await errorSummaryOnPage.getText();
-                    world.attach("Error Summary Displayed : " + errorSummary);
+defineSupportCode(({ Before, After }) => {
+  Before(function (scenario,done){
+    const world = this;
+    CucumberReportLogger.setScenarioWorld(world);
+    done();
+  });
 
-                } else {
-                    world.attach("Error summary empty or not displayed : ");
-                }
-                done();
-            });
-    });
+  After(function(scenario, done) {
+    const world = this;
+    if (scenario.result.status === 'failed') {
+      screenShotUtils.takeScreenshot().then(stream => {
+        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+        world.attach(decodedImage, 'image/png');
+      })
+        .then(() => {
+          browser.manage().logs().get('browser').then(function (browserLog) {
+            // console.log('log: ' + require('util').inspect(browserLog));
+            let browserErrorLogs = []
+            for (let browserLogCounter = 0; browserLogCounter < browserLog.length; browserLogCounter++){
+              if (browserLog[browserLogCounter].level.value > 900){
+                browserErrorLogs.push(browserLog[browserLogCounter]);
+              }
+            }
+            // world.attach(JSON.stringify(browserLog, null, 2));
+
+            world.attach(JSON.stringify(browserErrorLogs, null, 2));
+            // scenario.attach(scenario);
+            done();
+          })
+
+        });
+
+
+    } else {
+      done();
+    }
+  });
 });

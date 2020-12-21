@@ -1,48 +1,50 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
-import * as fromStore from '../../store';
-import * as fromRoot from '../../../app/store';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { UserRolesUtil } from '../utils/user-roles-util';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import * as fromRoot from '../../../app/store';
 import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkboxes-be-checked.validator';
+import * as fromStore from '../../store';
+import { UserRolesUtil } from '../utils/user-roles-util';
+import {editUserFailureSelector} from '../../store/selectors';
 
 @Component({
     selector: 'app-edit-user-permission',
     templateUrl: './edit-user-permission.component.html',
   })
   export class EditUserPermissionComponent  implements OnInit, OnDestroy {
-    editUserForm: FormGroup;
-    errorMessages = {
+    public editUserForm: FormGroup;
+    public errorMessages = {
       header: 'There is a problem',
       roles: ['You must select at least one action'],
     };
-    user$: Observable<any>;
-    isLoading$: Observable<boolean>;
-    user: any;
-    isPuiCaseManager: boolean;
-    isPuiOrganisationManager: boolean;
-    isPuiUserManager: boolean;
-    isPuiFinanceManager: boolean;
-    userId: string;
+    public user$: Observable<any>;
+    public isLoading$: Observable<boolean>;
+    public user: any;
+    public isPuiCaseManager: boolean;
+    public isPuiOrganisationManager: boolean;
+    public isPuiUserManager: boolean;
+    public isPuiFinanceManager: boolean;
+    public isCaseAccessAdmin: boolean;
+    public userId: string;
 
-    userSubscription: Subscription;
-    dependanciesSubscription: Subscription;
-    editPermissionSuccessSubscription: Subscription;
-    editPermissionServerErrorSubscription: Subscription;
-    backUrl: string;
+    public userSubscription: Subscription;
+    public dependanciesSubscription: Subscription;
+    public editPermissionSuccessSubscription: Subscription;
+    public editPermissionServerErrorSubscription: Subscription;
+    public backUrl: string;
 
-    summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
-    permissionErrors: {isInvalid: boolean; messages: string[] };
+    public summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]; header: string};
+    public permissionErrors: {isInvalid: boolean; messages: string[] };
 
     constructor(
-      private userStore: Store<fromStore.UserState>,
-      private routerStore: Store<fromRoot.State>,
-      private actions$: Actions
+      private readonly userStore: Store<fromStore.UserState>,
+      private readonly routerStore: Store<fromRoot.State>,
+      private readonly actions$: Actions
     ) { }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
 
       this.editPermissionSuccessSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
@@ -50,6 +52,12 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
 
       this.editPermissionServerErrorSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
+      });
+
+      this.userStore.select(editUserFailureSelector).subscribe(editUserFailure => {
+        if (editUserFailure) {
+          this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
+        }
       });
 
       this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
@@ -72,57 +80,63 @@ import { checkboxesBeCheckedValidator } from '../../../custom-validators/checkbo
         this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
         this.isPuiUserManager = this.getIsPuiUserManager(user);
         this.isPuiFinanceManager = this.getIsPuiFinanceManager(user);
+        this.isCaseAccessAdmin = this.getIsCaseAccessAdmin(user);
 
         this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
-          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager,
+          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager, this.isCaseAccessAdmin,
           checkboxesBeCheckedValidator);
       });
 
     }
 
-  getBackurl(userId: string) {
+  public getBackurl(userId: string) {
     return `/users/user/${userId}`;
   }
 
-  getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, validator: any): FormGroup {
+  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): FormGroup {
     return new FormGroup({
       roles: new FormGroup({
         'pui-case-manager': new FormControl(isPuiCaseManager),
         'pui-user-manager': new FormControl(isPuiUserManager),
         'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
-        'pui-finance-manager': new FormControl(isPuiFinanceManager)
+        'pui-finance-manager': new FormControl(isPuiFinanceManager),
+        'pui-caa': new FormControl(isCaseAccessAdmin)
       }, checkboxesBeCheckedValidator())
     });
   }
 
-  getIsPuiCaseManager(user: any): boolean {
+  public getIsPuiCaseManager(user: any): boolean {
     return user && user.manageCases === 'Yes';
   }
 
-  getIsPuiOrganisationManager(user: any): boolean {
+  public getIsPuiOrganisationManager(user: any): boolean {
     return user && user.manageOrganisations === 'Yes';
   }
 
-  getIsPuiUserManager(user: any): boolean {
+  public getIsPuiUserManager(user: any): boolean {
     return user && user.manageUsers === 'Yes';
   }
 
-  getIsPuiFinanceManager(user: any): boolean {
+  public getIsCaseAccessAdmin(user: any): boolean {
+    return user && user.roles && user.roles.includes('pui-caa');
+  }
+
+  public getIsPuiFinanceManager(user: any): boolean {
     return user && user.managePayments === 'Yes';
   }
 
-  unsubscribe(subscription: Subscription) {
+  public unsubscribe(subscription: Subscription) {
     if (subscription) {
       subscription.unsubscribe();
     }
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.unsubscribe(this.userSubscription);
     this.unsubscribe(this.dependanciesSubscription);
   }
 
-  onSubmit() {
+  public onSubmit() {
     if (!this.editUserForm.valid) {
       this.summaryErrors = { isFromValid: false, items: [{id: 'roles',
       message: this.errorMessages.roles[0] }], header: this.errorMessages.header};

@@ -1,30 +1,32 @@
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromAppEffects from './app.effects';
-import { AppEffects } from './app.effects';
-import { SetPageTitleErrors } from '../actions/app.actions';
+import {StoreModule} from '@ngrx/store';
+import { cold, hot } from 'jasmine-marbles';
+import { CookieService } from 'ngx-cookie';
+import { of, throwError } from 'rxjs';
+import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
+import { JurisdictionService } from 'src/users/services/jurisdiction.service';
+import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
+import { LoggerService } from '../../../shared/services/logger.service';
+import {AuthService} from '../../../user-profile/services/auth.service';
+import * as fromUserProfile from '../../../user-profile/store';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
-import * as fromUserProfile from '../../../user-profile/store';
-import { CookieService } from 'ngx-cookie';
-import {AuthGuard} from '../../../user-profile/guards/auth.guard';
-import {StoreModule} from '@ngrx/store';
+import { SetPageTitleErrors } from '../actions/app.actions';
 import {reducers} from '../reducers';
-import { JurisdictionService } from 'src/users/services/jurisdiction.service';
-import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
-import { of, throwError } from 'rxjs';
-import { LoggerService } from '../../../shared/services/logger.service';
+import * as fromAppEffects from './app.effects';
 
 describe('App Effects', () => {
   let actions$;
-  let effects: AppEffects;
   let loggerService: LoggerService;
 
   const mockJurisdictionService = jasmine.createSpyObj('mockJurisdictionService', ['getJurisdictions']);
   const mockTermsService = jasmine.createSpyObj('mockTermsService', ['getTermsConditions']);
-  const mockAuthGuard = jasmine.createSpyObj('mockAuthGuard', ['generateLoginUrl']);
+  const mockAuthService = jasmine.createSpyObj('mockAuthService', ['signOut']);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+  const mockFeatureToggleService = jasmine.createSpyObj('mockFeatureToggleService', ['isEnabled', 'initialised']);
+  let effects: fromAppEffects.AppEffects;
 
   const cookieService = {
     get: key => {
@@ -49,15 +51,19 @@ describe('App Effects', () => {
         { provide: CookieService, useValue: cookieService },
         { provide: JurisdictionService, useValue: mockJurisdictionService },
         { provide: TermsConditionsService, useValue: mockTermsService },
-        { provide: AuthGuard, useValue: mockAuthGuard },
+        { provide: AuthService, useValue: mockAuthService },
         {
           provide: LoggerService,
           useValue: mockedLoggerService
+        },
+        {
+          provide: FeatureToggleService,
+          useValue: mockFeatureToggleService
         }
       ]
     });
 
-    effects = TestBed.get(AppEffects);
+    effects = TestBed.get(fromAppEffects.AppEffects);
     loggerService = TestBed.get(LoggerService);
 
   });
@@ -83,7 +89,12 @@ describe('App Effects', () => {
           'pui-user-manager',
           'pui-finance-manager',
           'pui-organisation-manager'
-        ],
+          ],
+          sessionTimeout: {
+            idleModalDisplayTime: 10,
+            pattern: '.',
+            totalIdleTime: 50
+          },
           userId: '5b9639a7-49a5-4c85-9e17-bf55186c8afa'
       };
       const userRolesPayload = [
@@ -118,6 +129,23 @@ describe('App Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadJuridictions$).toBeObservable(expected);
       expect(loggerService.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('featureToggleConfig', () => {
+    it('getObservable', () => {
+      const observables = effects.getObservable(['feature1', 'feature2']);
+      // mockFeatureToggleService.isEnabled.and.returnValue(of(true));
+      expect(mockFeatureToggleService.isEnabled).toHaveBeenCalledWith('feature1');
+      expect(mockFeatureToggleService.isEnabled).toHaveBeenCalledWith('feature2');
+      expect(observables).toBeTruthy();
+      expect(observables.length).toEqual(2);
+    });
+
+    it('getFeaturesPayload', () => {
+      const resultAction = effects.getFeaturesPayload([false, true], ['feature1', 'feature2']);
+      const features = [{isEnabled: false, featureName: 'feature1'}, {isEnabled: true, featureName: 'feature2'}];
+      expect(resultAction).toEqual(new appActions.LoadFeatureToggleConfigSuccess(features));
     });
   });
 });

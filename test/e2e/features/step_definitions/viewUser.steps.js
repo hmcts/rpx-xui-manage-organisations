@@ -30,7 +30,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
       // await headerPage.clickUser();
     });
 
-    await viewUserPage.amOnPage(); 
+    await viewUserPage.amOnPage();
 
     // browser.sleep(AMAZING_DELAY);
   });

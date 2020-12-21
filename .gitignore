@@ -25,6 +25,7 @@ api/.sessions/
 
 # environments - stop accidental commit of a local.yaml file. See Readme.
 /config/local*.*
+api/.env
 
 # IDE - VSCode
 .vscode/*
@@ -44,6 +45,7 @@ testem.log
 /typings
 /api/test/pact/logs
 /api/test/pact/pacts
+config/.env
 
 
 # System Files

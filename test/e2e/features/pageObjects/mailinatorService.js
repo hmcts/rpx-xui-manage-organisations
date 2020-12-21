@@ -1,13 +1,14 @@
 
 
 var EC = protractor.ExpectedConditions;
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 class MailinatorService{
     constructor(){
         this.currentInboxLabel = "#inbox_page_title .title_left:nth-of-type(3) .top_search";
         this.latestEmailRowCssSelector = ".x_panel .x_content tbody tr:nth-of-type(1) td:nth-of-type(3)"
         this.activationEmaillinkCSsSelector = ".content tr:nth-of-type(2) td:nth-of-type(2) a:nth-of-type(1)";
-
+//a[contains(text(),'Confirm your email address')]
         this.latestLoginVerificationEmail = "//div[@class = 'table-responsive'][1]//tbody//tr[1]//*[contains(text(),'verification code')]";
         this.waitTime = 30000;
     }
@@ -41,11 +42,18 @@ class MailinatorService{
         this.emailFieldElement = this.mailinatorElement(by.css('#inbox_field'))
 
         this.acceptCookiesLink = this.mailinatorElement(by.css('.cc-btn.cc-dismiss'));
-
+        this.screenshotUtil = new screenShotUtils({
+            browserInstance: this.mailinatorbrowser
+        });
+    
         await this.loadMailinatorService();
 
     }
 
+    getScreenShotUtil(){
+        return this.screenshotUtil; 
+
+    }
     async destroy(){
         this.mailinatorbrowser.driver.quit();
         this.BrowserStatus === "QUIT";
@@ -156,7 +164,7 @@ class MailinatorService{
         await this.mailinatorbrowser.switchTo().frame(this.mailinatorElement(by.css("#msg_body")).getWebElement());
         let activationLinkEle = this.mailinatorElement(by.css(this.activationEmaillinkCSsSelector));
         await this.mailinatorbrowser.wait(EC.presenceOf(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
-        await this.mailinatorbrowser.wait(EC.elementToBeClickable(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
+        // await this.mailinatorbrowser.wait(EC.elementToBeClickable(activationLinkEle), this.waitTime, "Error : " + activationLinkEle.locator().toString());
 
         let mainWinHandle = await this.mailinatorbrowser.driver.getWindowHandle();
         this.logger("Clicking Regsiatrtion link in email"); 
@@ -166,10 +174,8 @@ class MailinatorService{
                 const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
                 this.logger(decodedImage, true);
             });
-        await activationLinkEle.click();
-        let winHandles = await this.mailinatorbrowser.driver.getAllWindowHandles();
-        await this.mailinatorbrowser.switchTo().window(winHandles[1]);
 
+        await this.mailinatorbrowser.get(await activationLinkEle.getAttribute('href')); 
 
         await this.mailinatorElement(by.css("#password1")).sendKeys("Monday01");
         await this.mailinatorElement(by.css("#password2")).sendKeys("Monday01");
@@ -177,10 +183,9 @@ class MailinatorService{
         await this.mailinatorElement(by.css("#activate")).click();
 
         let accountCreatedMessageElement = this.mailinatorElement(by.xpath("//h1[contains(text(), 'Account created')]"));
-        await this.mailinatorbrowser.wait(EC.presenceOf(accountCreatedMessageElement), this.waitTime, "Error : " + accountCreatedMessageElement.locator().toString());
+        await this.mailinatorbrowser.wait(EC.presenceOf(accountCreatedMessageElement), 60000, "Error : " + accountCreatedMessageElement.locator().toString());
         this.logger("Registration completed successful."); 
         await this.mailinatorbrowser.driver.close();
-        await this.mailinatorbrowser.switchTo().window(mainWinHandle);
 
     }
 

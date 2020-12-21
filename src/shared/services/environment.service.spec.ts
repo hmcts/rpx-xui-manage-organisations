@@ -1,7 +1,6 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { EnvironmentService } from './environment.service';
+import { inject, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EnvironmentService } from './environment.service';
 
 describe('EnvironmentService', () => {
   beforeEach(() => {

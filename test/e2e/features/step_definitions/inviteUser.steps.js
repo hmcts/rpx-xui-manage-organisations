@@ -12,9 +12,11 @@ const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 const browserWaits = require('../../support/customWaits');
-
+const CucumberReportLogger = require('../../support/reportLogger');
 
 var { defineSupportCode } = require('cucumber');
+const cucumberHtmlReporter = require('cucumber-html-reporter');
+const { Error } = require('globalthis/implementation');
 
 async function waitForElement(el) {
   await browser.wait(result => {
@@ -44,7 +46,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
   Then(/^I should be on display invite user page$/, async function () {
     // browser.sleep(AMAZING_DELAY);;
     await inviteUserPage.waitForPage();
-    expect(await inviteUserPage.amOnPage()).to.be.true;
+    expect(await inviteUserPage.amOnPage(),"Invite User page is not displayed").to.be.true;
   });
 
   When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
@@ -58,7 +60,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
     await inviteUserPage.manageUserCheckbox.click();
-    // browser.sleep(LONG_DELAY);
+    browser.sleep(LONG_DELAY);
     await inviteUserPage.clickSendInvitationButton();
     // browser.sleep(LONG_DELAY);
 
@@ -95,9 +97,9 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     global.latestInvitedUserPassword = "Monday01";
 
     await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
-    let permissions = table.hashes(); 
+    let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length;permCounter++){
-      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true); 
+      await inviteUserPage.selectPermission(permissions[permCounter].Permission,true);
     }
     await inviteUserPage.clickSendInvitationButton()
   });
@@ -106,7 +108,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     let permissions = table.hashes();
     for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
       await inviteUserPage.selectPermission(permissions[permCounter].Permission, permissions[permCounter].isSelected === "true");
-    } 
+    }
   });
 
 
@@ -126,14 +128,19 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
 
   Then("I activate invited user", { timeout: 600 * 1000 },async function () {
     await mailinatorService.init();
-    mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
-    await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
-    this.attach("Registration email received successfully.");
-    await mailinatorService.completeUserRegistrationFromEmail();
-    this.attach("Registration completed successfully.");
-    await mailinatorService.destroy();
-
-
+    try{
+      mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
+      await mailinatorService.openRegistrationEmailForUser(global.latestInvitedUser);
+      this.attach("Registration email received successfully.");
+      await mailinatorService.completeUserRegistrationFromEmail();
+      this.attach("Registration completed successfully.");
+      await mailinatorService.destroy();
+    }catch(err){
+      await CucumberReportLogger.AddScreenshot(mailinatorService.getScreenShotUtil());
+      await mailinatorService.destroy();
+      throw new Error("Error occured during user activation steps", err);
+    };
+   
   });
 
 
@@ -147,5 +154,5 @@ function logger(world,message,isScreenshot){
     world.attach(message);
     console.log(message);
   }
-   
+
 }

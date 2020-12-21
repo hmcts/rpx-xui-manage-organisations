@@ -1,6 +1,12 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
+  "stub": false,
   "appInsightsInstrumentationKey": "",
+  "secrets": {
+    "rpx": {
+      "AppInsightsInstrumentationKey": "AAA"
+    }
+  },
   "cookies": {
     "token": "__auth__",
     "userId": "__userid__"
@@ -15,6 +21,8 @@
   "microservice": "xui_webapp",
   "now": false,
   "oauthCallbackUrl": "/oauth2/callback",
+  "iss": "https://forgerock-am.service.core-compute-idam-prod.internal:8443/openam/oauth2/realms/root/realms/hmcts",
+  "loginRoleMatcher": "^pui-.*-manager$",
   "protocol": "https",
   "services": {
     "idamApi": "https://idam-api.platform.hmcts.net",
@@ -22,17 +30,21 @@
     "rdProfessionalApi": "http://rd-professional-api-prod.service.core-compute-prod.internal",
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
-    "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal"
+    "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
+    "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",	
+    "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal"
   },
-  "sessionSecret": "secretSauce",
+  "sessionSecret": ["mo-topSecret1","secretSauce"],
   "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
+  "caseTypes": "FinancialRemedyConsentedRespondent,DIVORCE_XUI,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit",
   "feature": {
     "appInsightsEnabled": true,
     "proxyEnabled": false,
     "secureCookieEnabled": true,
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
-    "redisEnabled": false
+    "redisEnabled": false,
+    "oidcEnabled": false
   },
   "helmet": {
     "contentSecurityPolicy": {
@@ -56,7 +68,8 @@
         "connectSrc": [
           "'self'",
           "*.gov.uk",
-          "dc.services.visualstudio.com"
+          "dc.services.visualstudio.com",
+          "*.launchdarkly.com"
         ],
         "mediaSrc": ["'self'"],
         "objectSrc": ["'self'"],
@@ -90,5 +103,12 @@
   "links": {
     "manageCaseLink": "https://manage-case.platform.hmcts.net/cases",
     "manageOrgLink": "https://manage-org.platform.hmcts.net"
-  }
+  },
+  "sessionTimeouts": [
+    {
+      "idleModalDisplayTime": 10,
+      "pattern": ".",
+      "totalIdleTime": 50
+    }
+  ]
 }

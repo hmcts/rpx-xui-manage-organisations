@@ -21,6 +21,7 @@ const mocha = new Mocha({
 mocha.addFile('test/integration/tests/get_Organisation_Details.ts');
 mocha.addFile('test/integration/tests/get_Organisation_User_Details.ts');
 mocha.addFile('test/integration/tests/post_Invite_User.ts');
+// mocha.addFile('test/integration/tests/post_register_org.ts');
 mocha.run( (failures) => {
     process.exitCode = failures ? 1 : 0; // exit with non-zero status if there were failures
 });

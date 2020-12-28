@@ -2,7 +2,7 @@ import { generateAPIRequest } from './utils';
 const should = require('chai').should()
 
 suite('API/CASES -> Get Organisation details', function() {
-  this.timeout(10000);
+  this.timeout(50000);
  // test('GET Manage Organisation details', () => generateAPIRequest ('GET', 'refdata/external/v1/organisations')
   test('GET Manage Organisation details', () => generateAPIRequest ('GET', 'api/organisation')
      // console.log('response', response.headers.get('cache-control'))

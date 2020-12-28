@@ -1,5 +1,5 @@
 import { generatePOSTAPIRequest } from './utils';
-const should = require('chai').should()
+const should = require('chai').should();
 
 suite('API/CASES3 -> POST Invite User', function() {
   this.timeout(50000);

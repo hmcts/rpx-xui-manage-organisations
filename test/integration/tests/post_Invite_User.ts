@@ -8,15 +8,24 @@ suite('API/CASES3 -> POST Invite User', function() {
     lastName: 'Muniganti',
     email: `vam.mun${Math.round(Math.random() * 10000)}@mailnesia.com`,
     roles: [
-    'pui-user-manager'
+    'pui-organisation-manager'
   ],
     jurisdictions: [
-    {
-      id: 'Probate'
-    }
+      {id: 'SSCS'},
+      {id: 'AUTOTEST1'},
+      {id: 'DIVORCE'},
+      {id: 'PROBATE'},
+      {id: 'PUBLICLAW'},
+      {id: 'bulkscan'},
+      {id: 'BULKSCAN'},
+      {id: 'IA'},
+      {id: 'EMPLOYMENT'},
+      {id: 'CMC'},
   ],
     resendInvite: false
   };
+
+
   test('POST Invite User', () => generatePOSTAPIRequest ('POST', '/api/inviteUser', payload)
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {

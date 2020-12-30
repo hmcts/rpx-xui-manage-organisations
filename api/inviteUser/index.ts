@@ -7,8 +7,6 @@ import { getRefdataUserUrl } from '../refdataUserUrlUtil'
 export const router = Router({ mergeParams: true })
 const logger = log4jui.getLogger('invite-user')
 
-console.log (" IAM HERE AS VAMSHI");
-
 router.post('/', inviteUserRoute)
 
 export async function inviteUserRoute(req: Request, res: Response) {

@@ -17,7 +17,7 @@ suite('API/CASES3 -> POST Invite User', function() {
   ],
     resendInvite: false
   };
-  test('POST Invite User', () => generatePOSTAPIRequest ('POST', 'api/inviteUser', payload)
+  test('POST Invite User', () => generatePOSTAPIRequest ('POST', '/api/inviteUser', payload)
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {
            response.status.should.be.eql(200);

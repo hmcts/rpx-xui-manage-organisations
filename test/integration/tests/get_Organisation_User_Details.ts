@@ -3,7 +3,7 @@ const should = require('chai').should()
 
 suite('API/CASES2 -> Get Organisation User details', function() {
   this.timeout(50000);
-  test('GET Manage Organisation User details', () => generateAPIRequest ('GET', 'api/userDetails')
+  test('GET Manage Organisation User details', () => generateAPIRequest ('GET', '/api/userDetails')
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {
            response.status.should.be.eql(200);

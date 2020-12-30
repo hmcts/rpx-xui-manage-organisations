@@ -21,7 +21,7 @@ suite('API/CASES3 -> POST Register Organisation', function() {
           }],
       paymentAccount: ['PBA8573395', 'PBA4566666']
     };
-  test('POST Invite User', () => generateregPOSTAPIRequest ('POST', 'api/register-org', payload)
+  test('POST Invite User', () => generateregPOSTAPIRequest ('POST', '/api/register-org', payload)
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {
            response.status.should.be.eql(200);

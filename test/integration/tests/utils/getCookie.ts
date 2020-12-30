@@ -23,16 +23,23 @@ export async function  authenticateAndGetcookies(url)  {
     await browser.close();
     throw error;
   }
-  const cookies = await page.cookies();
+  const cookies: [] = await page.cookies();
+  let xsrfCookie = '';
+  let authCookie = '';
+  let webappCookie = '';
 
-
-  const authCookie =  `__auth__= ${cookies[0].value}`;
-
-  const xsrfCookie =  `XSRF-TOKEN= ${cookies[1].value}`;
-
-  const webappCookie =  `xui-mo-webapp= ${cookies[2].value}`;
-
-  const finalCookie = `${webappCookie};${authCookie};${xsrfCookie}`
+  cookies.forEach((cookie: any) => {
+    if (cookie.name === 'XSRF-TOKEN') {
+       xsrfCookie = `XSRF-TOKEN= ${cookie.value}`;
+    }
+    if (cookie.name === '__auth__') {
+      authCookie = `__auth__= ${cookie.value}`;
+    }
+    if (cookie.name === 'xui-mo-webapp') {
+      webappCookie = `xui-mo-webapp= ${cookie.value}`;
+    }
+  });
+  const finalCookie = `${webappCookie};${authCookie};${xsrfCookie}`;
 
   await browser.close();
   return finalCookie;

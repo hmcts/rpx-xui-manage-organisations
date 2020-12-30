@@ -1,14 +1,14 @@
 import { generatePOSTAPIRequest } from './utils';
 const should = require('chai').should();
 
-suite('API/CASES3 -> POST Invite User', function() {
+suite('Manage Org -> POST Invite User', function() {
   this.timeout(50000);
   const payload = {
     firstName: 'Vamshi',
     lastName: 'Muniganti',
     email: `vam.mun${Math.round(Math.random() * 10000)}@mailnesia.com`,
     roles: [
-    'pui-organisation-manager'
+    'pui-case-manager'
   ],
     jurisdictions: [
       {id: 'SSCS'},

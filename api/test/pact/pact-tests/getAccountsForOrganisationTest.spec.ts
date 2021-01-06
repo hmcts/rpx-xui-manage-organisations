@@ -106,4 +106,10 @@ xdescribe("RD Professional API", () => {
       userId:	'A123123'
     }
   ]
+
+  const respBody: Object =
+    {
+      data:	'XDDDDDoDDDD'
+    }
+
 })

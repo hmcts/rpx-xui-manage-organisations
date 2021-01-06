@@ -22,7 +22,7 @@ const responsePaymentAccountDto: PaymentAccountDto[] = [
   }
 ]
 
-export const organisationRequestBody: OrganisationCreationRequest = {
+export const organisationRequestBody: Object = {
   name:'firstname',
   status:'status',
   sraId:'sraId',
@@ -31,7 +31,6 @@ export const organisationRequestBody: OrganisationCreationRequest = {
     firstName: 'Joe',
     lastName: 'Bloggs'
   }
-
 }
 
 export interface organisationCreationDto{
@@ -41,5 +40,49 @@ export interface organisationCreationDto{
   paymentAccount: string[]
   superUser: UserCreationRequest
 
+}
+
+export interface contactInformation{
+  companyNumber: string
+  companyUrl: string
+  name: string
+  organisationIdentifier: string
+}
+
+export interface newUser {
+  firstName: string,
+  status: string,
+  sraId: string;
+  lastName: string,
+  email: string,
+  roles: [
+    string
+  ],
+  jurisdictions: [
+  {
+      id: string
+  }
+  ],
+  resendInvite: boolean
+}
+
+
+
+
+export interface superUser {
+  firstName: string,
+  lastName: string
+}
+
+export interface organisation {
+  companyNumber: string,
+  companyUrl: string,
+  name: string,
+  organisationIdentifier: string,
+  sraId: string,
+  sraRegulated: boolean,
+  status: string,
+  contactInformation: contactInformation
+  superUser: superUser
 }
 

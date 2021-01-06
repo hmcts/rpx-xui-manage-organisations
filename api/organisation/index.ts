@@ -4,7 +4,7 @@ import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { OrganisationUser } from '../interfaces/organisationPayload'
 
-export async function handleOrganisationRoute(req, res:Response) {
+export async function handleOrganisationRoute(req: Request, res: Response) {
     try {
         const response = await req.http.get(
           `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
@@ -20,8 +20,7 @@ export async function handleOrganisationRoute(req, res:Response) {
     }
 }
 
-export function getOrganisationDetails(req, url: string): Promise<AxiosResponse> {
-    console.log(' ~~~~~~~~~inside the getOrganisationDetails ', `${url}/refdata/external/v1/organisations`)
+export function getOrganisationDetails(req: Request, url: string): Promise<AxiosResponse> {
     return req.http.get(`${url}/refdata/external/v1/organisations`)
 }
 

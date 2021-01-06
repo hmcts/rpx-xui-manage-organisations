@@ -6,7 +6,7 @@ var BrowserWaits = require('../../support/customWaits')
 class HeaderPage {
 
   constructor() {
-    this.moPage = element(by.xpath("//a[contains(text(),'Manage organisation details for civil, family, and tribunal law cases')]"));
+    this.moPage = element(by.xpath("//a[contains(text(),'Manage organisation')]"));
     this.hmctsPrimaryNavigation = element(by.css(".hmcts-primary-navigation"));
 
     this.organisation = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Organisation']"));
@@ -22,12 +22,12 @@ class HeaderPage {
   }
 
   async waitForPrimaryNavigationToDisplay(){
-    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation); 
+    await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation);
   }
 
  async isPrimaryNavigationTabDisplayed(){
    await this.waitForSpinnerNotPresent();
-   return await this.hmctsPrimaryNavigation.isDisplayed(); 
+   return await this.hmctsPrimaryNavigation.isDisplayed();
   }
 
   async isHeaderTabPresent(displayText){
@@ -39,10 +39,10 @@ class HeaderPage {
     await this.waitForPrimaryNavigationToDisplay();
     let headerTabs = $$(".hmcts-primary-navigation__link");
     let headersCount = await headerTabs.count();
-    let headerTexts = []; 
+    let headerTexts = [];
     for(let i = 0; i< headersCount; i++){
       headerTexts.push(await (await headerTabs.get(i)).getText());
-    } 
+    }
     return headerTexts;
   }
 
@@ -51,7 +51,7 @@ class HeaderPage {
     let navTabs = datatable.hashes();
     await this.waitForSpinnerNotPresent();
     for(let tabCounter = 0; tabCounter < navTabs.length; tabCounter++){
-      let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab); 
+      let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab);
       assert(isNavTabPresent, "Navigation Tab is not displayed/present : " + navTabs[tabCounter].NavigationTab);
     }
   }
@@ -102,7 +102,7 @@ class HeaderPage {
     await this.clickHeaderTab(headerElement);
   }
 
- 
+
   async waitForSpinnerNotPresent(){
     await BrowserWaits.waitForElementNotVisible(this.spinner, 30000);
 

@@ -26,6 +26,7 @@ import {editUserFailureSelector} from '../../store/selectors';
     public isPuiOrganisationManager: boolean;
     public isPuiUserManager: boolean;
     public isPuiFinanceManager: boolean;
+    public isCaseAccessAdmin: boolean;
     public userId: string;
 
     public userSubscription: Subscription;
@@ -79,9 +80,10 @@ import {editUserFailureSelector} from '../../store/selectors';
         this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
         this.isPuiUserManager = this.getIsPuiUserManager(user);
         this.isPuiFinanceManager = this.getIsPuiFinanceManager(user);
+        this.isCaseAccessAdmin = this.getIsCaseAccessAdmin(user);
 
         this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
-          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager,
+          this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager, this.isCaseAccessAdmin,
           checkboxesBeCheckedValidator);
       });
 
@@ -91,13 +93,14 @@ import {editUserFailureSelector} from '../../store/selectors';
     return `/users/user/${userId}`;
   }
 
-  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, validator: any): FormGroup {
+  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): FormGroup {
     return new FormGroup({
       roles: new FormGroup({
         'pui-case-manager': new FormControl(isPuiCaseManager),
         'pui-user-manager': new FormControl(isPuiUserManager),
         'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
-        'pui-finance-manager': new FormControl(isPuiFinanceManager)
+        'pui-finance-manager': new FormControl(isPuiFinanceManager),
+        'pui-caa': new FormControl(isCaseAccessAdmin)
       }, checkboxesBeCheckedValidator())
     });
   }
@@ -112,6 +115,10 @@ import {editUserFailureSelector} from '../../store/selectors';
 
   public getIsPuiUserManager(user: any): boolean {
     return user && user.manageUsers === 'Yes';
+  }
+
+  public getIsCaseAccessAdmin(user: any): boolean {
+    return user && user.roles && user.roles.includes('pui-caa');
   }
 
   public getIsPuiFinanceManager(user: any): boolean {

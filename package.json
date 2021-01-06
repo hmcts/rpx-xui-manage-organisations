@@ -41,7 +41,7 @@
     "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "rest-assured": "rest-assured",
-    "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=error mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/getOrganisationDetailsTest.spec.ts",
+    "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/new-approach/inviteUsersTest.spec.ts",
     "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha 'api/test/pact/publish/*.js' --timeout 15000 --reporter spec",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact"
   },

@@ -30,7 +30,7 @@ class CreateOrganisationObjects {
     this.firstName = element(by.css("[id='firstName']"));
     this.lastName = element(by.css("[id='lastName']"));
     this.emailAddr = element(by.css("#emailAddress"));
-    this.submit_button = element(by.css("[class='govuk-button']"));
+    this.submit_button = element(by.css("app-check-your-answers button"));
     this.org_success_heading = element(by.css("[class='govuk-panel__title']"))
     this.org_failure_error_heading = element(by.css("#error-summary-title"));
     this.off_address_error_heading = element(by.css("#error-summary-title"));
@@ -50,7 +50,7 @@ class CreateOrganisationObjects {
     this.mcWindowHandle = "";
   }
   async clickDXreferenceCheck(){
-    BrowserWaits.waitForElement(this.DXContinuee); 
+    BrowserWaits.waitForElement(this.DXContinuee);
         // browser.sleep(AMAZING_DELAY);
 
       await this.DXreference.click();
@@ -59,7 +59,7 @@ class CreateOrganisationObjects {
   }
 
   async clickSRAreferenceCheck(){
-    BrowserWaits.waitForElement(this.SRAContinuee); 
+    BrowserWaits.waitForElement(this.SRAContinuee);
     // browser.sleep(AMAZING_DELAY);
     await this.SRACheckBox.click();
     // browser.sleep(AMAZING_DELAY);
@@ -98,7 +98,7 @@ class CreateOrganisationObjects {
   }
   async enterSRANumber() {
     BrowserWaits.waitForElement(this.SRANumber);
- 
+
     var ramdomSRA = Math.floor(Math.random() * 9000000000) + 1000000000;
     await this.SRANumber.sendKeys("SRA" + ramdomSRA);
 
@@ -133,7 +133,7 @@ class CreateOrganisationObjects {
         await BrowserWaits.waitForElement(this.PBAnumber1);
       break;
       case "Do you have a DX reference for your main office?":
-     
+
         await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a DX reference for your main office')]")));
       break;
       case "What's the DX reference for your main office?":
@@ -159,7 +159,7 @@ class CreateOrganisationObjects {
 
   async waitForSubmission(){
     await BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
- 
+
   }
 
 async enterAddressDetails(){
@@ -277,6 +277,6 @@ async enterUserFirtandLastName(){
     expect(url.includes("xui-webapp-"));
 
   }
-  
+
 }
 module.exports = CreateOrganisationObjects;

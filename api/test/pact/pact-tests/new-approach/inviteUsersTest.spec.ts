@@ -126,6 +126,7 @@ describe("RD Professional API get User URL ", () => {
       // httpClient.
       const userService: InviteUserService = TestBed.get(InviteUserService);
       userService.create(newUserCreationObject).subscribe(response => {
+        console.log('.......ASSSERTS beginn ........')
         expect(response).to.deep.equal(200);
         done();
       }, error => {

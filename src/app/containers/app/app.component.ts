@@ -1,13 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
 import { HeadersService } from 'src/shared/services/headers.service';
 import { UserService } from 'src/user-profile/services/user.service';
+import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
 import { UserNavModel } from '../../models/user-nav.model';
-import * as fromUserProfile from '../../../user-profile/store';
 import * as fromRoot from '../../store';
 
 /**
@@ -17,7 +17,9 @@ import * as fromRoot from '../../store';
  */
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit {
   public pageTitle$: Observable<string>;

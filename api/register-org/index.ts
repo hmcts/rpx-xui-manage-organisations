@@ -32,14 +32,8 @@ export async function handleRegisterOrgRoute(req, res) {
       headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
     }
     const axiosInstance = http({} as unknown as Request)
-    console.log( 'URL ---->' +  url)
-    console.log( 'options ---->' +  JSON.stringify(options))
-    console.log( 'registerPayload ---->' +  JSON.stringify(registerPayload))
-
     const response = await axiosInstance.post(url, registerPayload, options)
-    console.log(" ~~~~~~~~~~~~~Send Response.data  back to Caller...." + JSON.stringify(response.data));
 
-    //TODO PACT Erroring out here when sending the Response.
     res.send(response.data)
   } catch (error) {
     /**

@@ -15,7 +15,7 @@ function report(runner) {
             onPass(test);
         }else{
             test.state = "failed";
-            onFail(test, {'message':'Accesibility issues reported'});  
+            onFail(test, {'message':'Accesibility issues reported'});
         }
 
     });
@@ -29,7 +29,7 @@ function report(runner) {
     }
 
     runner.on('fail', function (test, err) {
-        onFail(test,err); 
+        onFail(test,err);
     });
     function onFail(test,err) {
         console.log('\n');
@@ -58,12 +58,13 @@ function generateReport(passCount,failCount, tests){
         failed: failCount,
         tests:tests
     };
+    consoleReport(reportJson);
 
     let sourceReport = __dirname + '/Report.html';
     let destDir = process.env.PWD + "/" + conf.reportPath;
     if (!fs.existsSync(destDir)) {
         fs.mkdirSync(destDir);
-    } 
+    }
     let destReport = destDir+"Report.html"
     let destJson = destDir + "report_output.js"
 
@@ -89,21 +90,21 @@ function getTestDetails(test){
 
 
 function copyResources(){
-    let resourceDir = process.env.PWD + "/" + conf.reportPath + 'resources/'; 
+    let resourceDir = process.env.PWD + "/" + conf.reportPath + 'resources/';
     let cssDir = resourceDir+ 'css/';
     if (!fs.existsSync(cssDir)) {
         fs.mkdirSync(cssDir, { recursive: true });
-    } 
-    
+    }
+
     let webfontsDir = resourceDir+'webfonts/';
     if (!fs.existsSync(webfontsDir)) {
         fs.mkdirSync(webfontsDir, { recursive: true });
-    }  
+    }
 
-    fs.copyFileSync(__dirname + '/resources/angular.min.js', resourceDir+'angular.min.js'); 
+    fs.copyFileSync(__dirname + '/resources/angular.min.js', resourceDir+'angular.min.js');
     fs.copyFileSync(__dirname + '/resources/css/all.css', cssDir + 'all.css');
-    fs.copyFileSync(__dirname + '/resources/webfonts/fa-solid-900.woff2', webfontsDir + 'fa-solid-900.woff2'); 
- 
+    fs.copyFileSync(__dirname + '/resources/webfonts/fa-solid-900.woff2', webfontsDir + 'fa-solid-900.woff2');
+
 
 }
 
@@ -123,17 +124,17 @@ function consoleReport(reportjson){
                 if (a11yResult.issues){
                     for (let issueCounter = 0; issueCounter < a11yResult.issues.length; issueCounter++) {
                         console.log("\t \t \t " + (issueCounter + 1) + ". " + a11yResult.issues[issueCounter].code);
-                        // console.log("\t \t \t \t"+a11yResult.issues[issueCounter].context); 
+                        // console.log("\t \t \t \t"+a11yResult.issues[issueCounter].context);
                         console.log("\t \t \t \t" + a11yResult.issues[issueCounter].selector);
                         console.log("\t \t \t \t" + a11yResult.issues[issueCounter].message);
                     }
                 }else{
-                    console.log("\t \t \t \t Error executing test steps" ); 
+                    console.log("\t \t \t \t Error executing test steps" );
                 }
-                
 
- 
-        } 
+
+
+        }
         console.log("\t");
     }
 

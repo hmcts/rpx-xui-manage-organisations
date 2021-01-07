@@ -8,7 +8,7 @@ Feature: Register Organization
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
 
- @all @crossbrowser
+ @all
   Scenario:register organization
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -103,7 +103,7 @@ Feature: Register Organization
   @fullFunctional @all
   Scenario: Register Organisation first page Content/info for already registered org user
     When I am on page "What's the name of your organisation?" in registration step
-    When I click back link in register org workflow 
+    When I click back link in register org workflow
     Then I am on Register organisation start page
     Then I see content header already registered account
     Then I see manage cases link under already registered account header

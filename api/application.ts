@@ -8,11 +8,15 @@ import {attach, getXuiNodeMiddleware} from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from './configuration'
 import {ERROR_NODE_CONFIG_ENV} from './configuration/constants'
 import {
+  CASE_TYPES,
   FEATURE_HELMET_ENABLED,
   FEATURE_REDIS_ENABLED,
   FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   HELMET,
+  SERVICE_S2S_PATH,
+  SERVICES_CCD_DATA_STORE_API_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
+  SERVICES_MCA_PROXY_API_PATH,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH, SESSION_SECRET,
 } from './configuration/references'
@@ -89,8 +93,13 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
   })
 }
 
-
 console.log('healthChecks', healthChecks)
+
+console.log('ccdData', getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH))
+
+console.log('caseAssignmentApi', getConfigValue(SERVICES_MCA_PROXY_API_PATH))
+
+console.log('caseTypes', getConfigValue(CASE_TYPES))
 
 healthcheck.addTo(app, healthChecks)
 

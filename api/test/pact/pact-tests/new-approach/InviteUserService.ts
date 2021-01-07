@@ -14,20 +14,17 @@ export class InviteUserService {
 
   //private BASE_URL = '/user-service/users'
 
-  private BASE_URL  = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-
+  private BASE_URL  = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
 
   constructor(private httpClient: HttpClient) {
   }
 
-  create(resource: newUser): Observable<Object> {
+  create(resource: newUser)  {
 
     console.log( '   ~~~~~~~~~~~ inside of the create()')
     console.log ( '.... printing out the newUser' +  JSON.stringify(resource))
-    return this.httpClient
-    //  .post(this.BASE_URL, resource).map(data => 200);
-
-       .post(this.BASE_URL, resource).pipe(map(response => response))
+    return this.httpClient.post(this.BASE_URL, resource).pipe(map(response => response))
+//  .post(this.BASE_URL, resource).map(data => 200);
 
 
   }

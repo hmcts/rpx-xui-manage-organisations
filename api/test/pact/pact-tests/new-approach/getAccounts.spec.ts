@@ -78,6 +78,10 @@ describe("RD Professional API", () => {
    })
 })
 
+
+
+
+
 function assertResponse(dto:PaymentAccountDto[]){
   for(var element of dto ) {
     expect(element.organisationId).to.equal("B123456");

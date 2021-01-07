@@ -9,18 +9,13 @@ const logger = log4jui.getLogger('invite-user')
 
 router.post('/', inviteUserRoute)
 
-export async function inviteUserRoute(req, res:Response)  {
+export async function inviteUserRoute(req: Request, res: Response) {
     const payload = req.body
-
     try {
-      const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-      return await req.http.post(getRefdataUserUrl(rdProfessionalApiPath), payload)
-
-      const response = await req.http.post(getRefdataUserUrl(rdProfessionalApiPath), payload)
-      logger.info('response Stringify :', JSON.stringify(response.data));
-
-      res.send(response.data)
-
+        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+        const response = await req.http.post(getRefdataUserUrl(rdProfessionalApiPath), payload)
+        logger.info('response::', response.data)
+        res.send(response.data)
     } catch (error) {
         logger.error('error', error)
         const errReport = {
@@ -30,6 +25,5 @@ export async function inviteUserRoute(req, res:Response)  {
         }
         res.status(error.status).send(errReport)
     }
-
 }
 export default router

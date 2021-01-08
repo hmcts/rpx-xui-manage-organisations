@@ -21,7 +21,8 @@ const windowMock: Window = { gtag: () => {}} as any;
 const featureMock: FeatureToggleService = {
   initialize: () => {},
   isEnabled: () => of(false),
-  getValue: () => of()
+  getValue: () => of(),
+  getValueOnce: () => of()
 };
 
 const idleServiceMock = {

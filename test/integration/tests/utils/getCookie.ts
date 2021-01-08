@@ -1,7 +1,7 @@
 import * as puppeteer from 'puppeteer';
 
-const username = 'xuiapitestuser@mailnesia.com';
-const password = 'Monday01';
+const username = process.env.TEST_API_EMAIL;
+const password = process.env.TEST_API_PASSWORD;
 let xsrfCookie = '';
 let xxsrfCookie = '';
 

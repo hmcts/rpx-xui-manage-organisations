@@ -8,17 +8,17 @@ suite('Manage Org -> Get Organisation details', function() {
         .then(response => {
           response.status.should.be.eql(200);
           console.log(response.data.organisationIdentifier);
-          response.data.organisationIdentifier.should.be.eql('2GIHJH9');
-          response.data.name.should.be.eql('XUI-API-Test-Organisation');
+          response.data.organisationIdentifier.should.be.eql('CIOWLIC');
+          response.data.name.should.be.eql('xuiapiorganisation');
           response.data.status.should.be.eql('ACTIVE');
-          response.data.sraId.should.be.eql('SRA7800035677');
+          response.data.sraId.should.be.eql('SRA34367744334');
           response.data.sraRegulated.should.be.eql(false);
-          response.data.paymentAccount[0].should.be.eql('PBA8456446');
-          response.data.paymentAccount[1].should.be.eql('PBA9845641');
+          response.data.paymentAccount[0].should.be.eql('PBA4677332');
+          response.data.paymentAccount[1].should.be.eql('PBA7853435');
           response.data.contactInformation[0].addressLine1.should.be.eql('2');
-          response.data.contactInformation[0].townCity.should.be.eql('Aldgate Street');
-          response.data.contactInformation[0].county.should.be.eql('London');
-          response.data.contactInformation[0].dxAddress[0].dxNumber.should.be.eql('DX8990022334');
+          response.data.contactInformation[0].addressLine2.should.be.eql('Leman Street');
+          response.data.contactInformation[0].townCity.should.be.eql('Aldgate');
+          response.data.contactInformation[0].dxAddress[0].dxNumber.should.be.eql('DX8235563323');
           response.data.contactInformation[0].dxAddress[0].dxExchange.should.be.eql('DX London');
         }));
 });

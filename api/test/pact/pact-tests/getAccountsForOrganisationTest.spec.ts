@@ -5,10 +5,7 @@ import {getConfigValue} from '../../../configuration'
 import {SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../configuration/references'
 import {getOrganisationId} from '../../../services/rdProfessional'
 //import {getOrganisationIdAxios} from '../../../services/rdProfessional';
-import { PaymentAccountDto } from '../../../lib/models/transactions'
-import {request, Request} from 'express'
-import { http } from '../../../lib/http'
-
+import { PaymentAccountDto } from '../../../lib/models/transactions';
 
 xdescribe("RD Professional API", () => {
   //const testUrl = "http://localhost:8992"

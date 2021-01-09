@@ -41,7 +41,7 @@
     "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "rest-assured": "rest-assured",
-    "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/code-examples/user.service.pact.spec.ts",
+    "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/new-approach/inviteUserPost.spec.ts",
     "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha 'api/test/pact/publish/*.js' --timeout 15000 --reporter spec",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact"
   },
@@ -73,7 +73,7 @@
     "@ngrx/store-devtools": "^7.4.0",
     "@nguniversal/express-engine": "^7.1.0",
     "@nicky-lenaers/ngx-scroll-to": "^1.1.1",
-    "@pact-foundation/pact": "^9.2.0",
+    "@pact-foundation/pact": "^9.11.1",
     "@pact-foundation/pact-node": "^10.9.7",
     "@types/crypto-js": "^3.1.43",
     "@types/faker": "^4.1.12",

@@ -68,3 +68,4 @@ export interface PaymentAccountDto {
   userId?:	string
   organisationId:	string
 }
+

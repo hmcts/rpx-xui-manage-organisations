@@ -10,7 +10,7 @@ import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {getOrganisationId} from '../../../../services/rdProfessional';
 import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
 import {postOrganisation} from '../../../../services/rdProfessional';
-import {getAccountFeeAndPayApi} from '../../pact-tests/new-approach/pactUtil';
+import {getAccountsForOrganisationById} from '../../pact-tests/new-approach/pactUtil';
 
 
 describe("RD Professional API", () => {
@@ -21,11 +21,9 @@ describe("RD Professional API", () => {
     dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
     spec: 2,
     consumer: "getAccounts",
-    provider: "rdProfessionalApi",// TODO Check with Ruban.
+    provider: "fee_And_Payments_API",// TODO Check with Ruban.
     pactfileWriteMode: "merge",
   })
-
-  const accountId = '123456'
 
   // Setup the provider
   before(() => provider.setup())
@@ -36,18 +34,17 @@ describe("RD Professional API", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Get Organsaion", () => {
-
-    const jwt = 'some-access-token'
-    const details = ''; // ATM this is not being used in the Service.
+  describe("Get Organisaiton By Email", () => {
+    const orgId = '123456';
+    const requestPath = "/organisations/"+orgId+"/pbas";
 
     before(done => {
       const interaction = {
-        state: "Pbas organisational data exists for identifier ",
+        state: "Details exists for the Organisation by identifier",
         uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
         withRequest: {
           method: "GET",
-          path:"/accounts/"+accountId,
+          path:requestPath,
           headers: {
             "Content-Type": "application/json",
           }
@@ -67,24 +64,19 @@ describe("RD Professional API", () => {
     })
 
     it("returns the correct response", done => {
-      // call the pactUtil's method which Calls The Downstream FeeAndPay API directly without going through the Service Class.
-     const resp =  getAccountFeeAndPayApi(accountId);
+      // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
+
+      const organisatonId = '123456';
+
+      const resp =  getAccountsForOrganisationById(organisatonId);
+
       resp.then((response) => {
-         console.log(' back in the TEST ....  assertion call.....');
-         const responseDto:PaymentAccountDto[]   = <PaymentAccountDto[]> response.data
-         assertResponse(responseDto);
+        const responseDto:PaymentAccountDto[]   = <PaymentAccountDto[]> response.data
+        assertResponse(responseDto);
       }).then(done,done)
     })
-   })
+  })
 })
-
-function assertResponse(dto:PaymentAccountDto[]){
-  for(var element of dto ) {
-    expect(element.organisationId).to.equal("B123456");
-    expect(element.pbaNumber).to.equal("XDDDDDoDDDD");
-    expect(element.userId).to.equal("A123123");
-  }
-}
 
 const responsePaymentAccountDto: PaymentAccountDto[] = [
   {
@@ -93,3 +85,11 @@ const responsePaymentAccountDto: PaymentAccountDto[] = [
     userId:	'A123123'
   }
 ]
+
+function assertResponse(dto:PaymentAccountDto[]){
+  for(var element of dto ) {
+    expect(element.pbaNumber).to.equal("XDDDDDoDDDD");
+    expect(element.organisationId).to.equal("B123456");
+    expect(element.userId).to.equal("A123123");
+  }
+}

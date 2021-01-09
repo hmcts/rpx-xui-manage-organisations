@@ -22,6 +22,18 @@ const responsePaymentAccountDto: PaymentAccountDto[] = [
   }
 ]
 
+export interface UserProfileModel {
+  orgId: string
+  userId: string
+  email: string
+  rolesAdd: Roles[]
+  rolesDelete: Roles[]
+
+}
+export interface Roles{
+     name:string;
+}
+
 export const organisationRequestBody: Object = {
   name:'firstname',
   status:'status',
@@ -84,5 +96,55 @@ export interface organisation {
   status: string,
   contactInformation: contactInformation
   superUser: superUser
+}
+
+
+
+export interface SuspendUserReponseDto{
+  roleAdditionResponse?: {
+    idamMessage: string,
+    idamStatusCode: string
+  },
+  roleDeletionResponse?: [
+    {
+      idamMessage: string,
+      idamStatusCode: string,
+      roleName: string
+    }
+  ],
+  statusUpdateResponse?: {
+    idamMessage: string,
+    idamStatusCode: string
+  }
+}
+
+
+export interface EditUserPermissionsDto{
+  roleAdditionResponse?: {
+    idamMessage: string,
+    idamStatusCode: string
+  },
+  roleDeletionResponse?: [
+    {
+      idamMessage: string,
+      idamStatusCode: string,
+      roleName: string
+    }
+  ],
+  statusUpdateResponse?: {
+    idamMessage: string,
+    idamStatusCode: string
+  }
+}
+
+export interface NewUserCreationResponse{
+  idamStatus?: string,
+  userIdentifier?: string
+}
+
+
+export interface InviteUserResponse{
+  idamStatus?: string,
+  userIdentifier?: string
 }
 

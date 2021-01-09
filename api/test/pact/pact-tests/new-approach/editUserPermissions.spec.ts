@@ -10,7 +10,8 @@ import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {getOrganisationId} from '../../../../services/rdProfessional';
 import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
 import {postOrganisation} from '../../../../services/rdProfessional';
-import {getAccountFeeAndPayApi} from '../../pact-tests/new-approach/pactUtil';
+import {UserProfileModel,EditUserPermissionsDto} from '../../pact-tests/pactFixtures.spec'
+import {editUserPermissions} from '../../pact-tests/new-approach/pactUtil';
 
 
 describe("RD Professional API", () => {
@@ -21,11 +22,9 @@ describe("RD Professional API", () => {
     dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
     spec: 2,
     consumer: "getAccounts",
-    provider: "rdProfessionalApi",// TODO Check with Ruban.
+    provider: "fee_And_Payments_API",// TODO Check with Ruban.
     pactfileWriteMode: "merge",
   })
-
-  const accountId = '123456'
 
   // Setup the provider
   before(() => provider.setup())
@@ -36,28 +35,51 @@ describe("RD Professional API", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Get Organsaion", () => {
+  describe("Edit UserPermssions given userId", () => {
 
-    const jwt = 'some-access-token'
-    const details = ''; // ATM this is not being used in the Service.
+    const userId = '123456';
+
+    const mockRequest = {
+      "email": "Joe.bloggs@mailnesia.com",
+      "firstName": "Joe",
+      "lastName": "Bloggs",
+      "idamStatus": "active",
+      "rolesAdd": [
+        {
+          "name": "superuser"
+        }
+      ]
+    }
+
+    const mockResponse = {
+      "roleAdditionResponse": {
+        "idamMessage": "Permissions successfully Updated",
+        "idamStatusCode": "201"
+      }
+    }
+
+    const requestPath = "/refdata/external/v1/organisations/users/123456";
 
     before(done => {
       const interaction = {
-        state: "Pbas organisational data exists for identifier ",
+        state: "Details exists for the User",
         uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
         withRequest: {
-          method: "GET",
-          path:"/accounts/"+accountId,
+          method: "PUT",
           headers: {
-            "Content-Type": "application/json",
-          }
+            "Content-Type":  "application/json;charset=utf-8",
+            "Authorization":  "Bearer some-access-token",
+            "ServiceAuthorization": "serviceAuthToken"
+          },
+          path: requestPath,
+          body: mockRequest,
         },
         willRespondWith: {
-          status: 200,
           headers: {
             "Content-Type": "application/json",
           },
-          body: responsePaymentAccountDto,
+          status: 201,
+          body:mockResponse
         },
       }
       // @ts-ignore
@@ -67,29 +89,19 @@ describe("RD Professional API", () => {
     })
 
     it("returns the correct response", done => {
-      // call the pactUtil's method which Calls The Downstream FeeAndPay API directly without going through the Service Class.
-     const resp =  getAccountFeeAndPayApi(accountId);
+      // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
+      const userId = '123456';
+      const resp =  editUserPermissions(userId,mockRequest as any);
+
       resp.then((response) => {
-         console.log(' back in the TEST ....  assertion call.....');
-         const responseDto:PaymentAccountDto[]   = <PaymentAccountDto[]> response.data
-         assertResponse(responseDto);
+        const responseDto: EditUserPermissionsDto  = <EditUserPermissionsDto> response.data
+        assertResponse(responseDto);
       }).then(done,done)
     })
-   })
+  })
 })
 
-function assertResponse(dto:PaymentAccountDto[]){
-  for(var element of dto ) {
-    expect(element.organisationId).to.equal("B123456");
-    expect(element.pbaNumber).to.equal("XDDDDDoDDDD");
-    expect(element.userId).to.equal("A123123");
-  }
+function assertResponse(dto:EditUserPermissionsDto):void{
+  expect(dto.roleAdditionResponse.idamMessage).equals("Permissions successfully Updated");
+  expect(dto.roleAdditionResponse.idamStatusCode).equals("201");
 }
-
-const responsePaymentAccountDto: PaymentAccountDto[] = [
-  {
-    pbaNumber:	'XDDDDDoDDDD',
-    organisationId:	'B123456',
-    userId:	'A123123'
-  }
-]

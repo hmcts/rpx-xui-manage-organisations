@@ -2,33 +2,38 @@ import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
 import axios from 'axios';
 import { expect } from 'chai'
+import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
-import {getOrganisationId} from '../../../../services/rdProfessional';
-import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
-import {postOrganisation} from '../../../../services/rdProfessional';
-import {getAccountFeeAndPayApi} from '../../pact-tests/new-approach/pactUtil';
+import {getConfigValue} from '../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
+import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
+import {PaymentAccountDto,Payments } from '../../../lib/models/transactions';
+import {postOrganisation} from '../../../services/rdProfessional';
+import {getAccountFeeAndPayApi} from './pactUtil';
 
 
 describe("RD Professional API", () => {
-  const port = 8993
-  const provider = new Pact({
-    port: port,
-    log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-    dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-    spec: 2,
-    consumer: "getAccounts",
-    provider: "rdProfessionalApi",// TODO Check with Ruban.
-    pactfileWriteMode: "merge",
-  })
+  let mockServerPort: number
+  let provider: Pact
 
   const accountId = '123456'
 
   // Setup the provider
-  before(() => provider.setup())
+  before(async() => {
+    mockServerPort = await getPort()
+    provider = new Pact({
+      consumer: "XUIManageOrg",
+      provider: "RdProfessionalApi",
+      log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
+      dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
+      logLevel: 'info',
+      port: mockServerPort,
+      spec: 2,
+      pactfileWriteMode: "merge"
+    })
+    return provider.setup()
+  })
 
   // Write Pact when all tests done
   after(() => provider.finalize())
@@ -68,7 +73,11 @@ describe("RD Professional API", () => {
 
     it("returns the correct response", done => {
       // call the pactUtil's method which Calls The Downstream FeeAndPay API directly without going through the Service Class.
-     const resp =  getAccountFeeAndPayApi(accountId);
+
+      const taskUrl: string = `${provider.mockService.baseUrl}/accounts/`+accountId;
+      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
+
+      const resp =  getAccountFeeAndPayApi(taskUrl);
       resp.then((response) => {
          console.log(' back in the TEST ....  assertion call.....');
          const responseDto:PaymentAccountDto[]   = <PaymentAccountDto[]> response.data

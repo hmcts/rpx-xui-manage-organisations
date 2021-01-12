@@ -4,30 +4,37 @@ import axios from 'axios';
 import { expect } from 'chai'
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
-import {getOrganisationId} from '../../../../services/rdProfessional';
-import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
-import {postOrganisation} from '../../../../services/rdProfessional';
-import {UserProfileModel,SuspendUserReponseDto} from '../../pact-tests/pactFixtures.spec'
-import {suspendUser} from '../../pact-tests/new-approach/pactUtil';
+import {getConfigValue} from '../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
+import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
+import {getOrganisationId} from '../../../services/rdProfessional';
+import {PaymentAccountDto,Payments } from '../../../lib/models/transactions';
+import {postOrganisation} from '../../../services/rdProfessional';
+import {UserProfileModel,SuspendUserReponseDto} from './pactFixtures.spec'
+import {suspendUser} from './pactUtil';
+import * as getPort from 'get-port'
+
 
 
 describe("RD Professional API", () => {
-  const port = 8993
-  const provider = new Pact({
-    port: port,
-    log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-    dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-    spec: 2,
-    consumer: "getAccounts",
-    provider: "fee_And_Payments_API",// TODO Check with Ruban.
-    pactfileWriteMode: "merge",
-  })
+  let mockServerPort: number
+  let provider: Pact
 
   // Setup the provider
-  before(() => provider.setup())
+  before(async() => {
+    mockServerPort = await getPort()
+    provider = new Pact({
+      consumer: "XUIManageOrg",
+      provider: "RdProfessionalApi",
+      log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
+      dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
+      logLevel: 'info',
+      port: mockServerPort,
+      spec: 2,
+      pactfileWriteMode: "merge"
+    })
+    return provider.setup()
+  })
 
   // Write Pact when all tests done
   after(() => provider.finalize())
@@ -62,8 +69,8 @@ describe("RD Professional API", () => {
 
     before(done => {
       const interaction = {
-        state: "Details exists for the User",
-        uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
+        state: "Suspend An existing user in the system",
+        uponReceiving: "ReferenceDataAPI  will respond with:",
         withRequest: {
           method: "PUT",
           headers: {
@@ -91,10 +98,12 @@ describe("RD Professional API", () => {
     it("returns the correct response", done => {
       // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
       const userId = '123456';
-      const resp =  suspendUser(userId,mockRequest as any);
+      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`+userId;
+
+      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
+      const resp =  suspendUser(taskUrl,mockRequest as any);
 
       resp.then((response) => {
-        console.log('.... inside the ASSERT  of the TEST ' + JSON.stringify(resp));
         const responseDto: SuspendUserReponseDto  = <SuspendUserReponseDto> response.data
         assertResponse(responseDto);
       }).then(done,done)

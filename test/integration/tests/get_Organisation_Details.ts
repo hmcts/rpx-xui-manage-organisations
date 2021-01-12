@@ -3,7 +3,7 @@ const should = require('chai').should()
 
 suite('API/CASES -> Get Organisation details', function() {
   this.timeout(10000);
-  // test('GET Manage Organisation details', () => generat  eAPIRequest ('GET', '/refdata/external/v1/organisations', {})
+  // test('GET Manage Organisation details', () => generateAPIRequest ('GET', '/refdata/external/v1/organisations', {})
   test('GET Manage Organisation details', () => generateAPIRequest ('GET', '/refdata/external/v1/organisations')
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {

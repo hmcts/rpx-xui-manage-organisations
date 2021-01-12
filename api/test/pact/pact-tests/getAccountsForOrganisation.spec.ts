@@ -2,39 +2,42 @@ import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
 import axios from 'axios';
 import { expect } from 'chai'
+import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
-import {getOrganisationId} from '../../../../services/rdProfessional';
-import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
-import {postOrganisation} from '../../../../services/rdProfessional';
-import {getAccountsForOrganisationById} from '../../pact-tests/new-approach/pactUtil';
+import {getConfigValue} from '../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
+import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
+import {getAccountsForOrganisationById} from './pactUtil';
+import {PaymentAccountDto} from '../../../lib/models/transactions';
 
 
 describe("RD Professional API", () => {
-  const port = 8993
-  const provider = new Pact({
-    port: port,
-    log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-    dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-    spec: 2,
-    consumer: "getAccounts",
-    provider: "fee_And_Payments_API",// TODO Check with Ruban.
-    pactfileWriteMode: "merge",
-  })
+  let mockServerPort: number
+  let provider: Pact
 
   // Setup the provider
-  before(() => provider.setup())
-
+  before(async() => {
+    mockServerPort = await getPort()
+    provider = new Pact({
+      consumer: "XUIManageOrg",
+      provider: "FeesAndPaymentsApi",
+      log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
+      dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
+      logLevel: 'info',
+      port: mockServerPort,
+      spec: 2,
+      pactfileWriteMode: "merge"
+    })
+    return provider.setup()
+  })
   // Write Pact when all tests done
   after(() => provider.finalize())
 
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Get Organisaiton By Email", () => {
+  describe("Get Accounts for Organisation", () => {
     const orgId = '123456';
     const requestPath = "/organisations/"+orgId+"/pbas";
 
@@ -47,6 +50,8 @@ describe("RD Professional API", () => {
           path:requestPath,
           headers: {
             "Content-Type": "application/json",
+            "ServiceAuthorization": "ServiceAuthToken",
+            "Authorization":  "Bearer some-access-token"
           }
         },
         willRespondWith: {
@@ -66,9 +71,13 @@ describe("RD Professional API", () => {
     it("returns the correct response", done => {
       // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
 
-      const organisatonId = '123456';
+      const organisation = '123456';
+      // /organisations/"+organisationId+"/pbas
+      const taskUrl: string = `${provider.mockService.baseUrl}/organisations/`+organisation+`/pbas`;
+      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
 
-      const resp =  getAccountsForOrganisationById(organisatonId);
+
+      const resp =  getAccountsForOrganisationById(taskUrl);
 
       resp.then((response) => {
         const responseDto:PaymentAccountDto[]   = <PaymentAccountDto[]> response.data

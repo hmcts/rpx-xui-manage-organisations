@@ -1,6 +1,17 @@
 import {pbaNumber} from '../../../../src/register/constants/pbaNumber';
 import {PaymentAccountDto} from '../../../lib/models/transactions';
 
+
+/**
+ *
+ * A Utility Class that holds all Request and Responses that get used in the pact-tests .
+ * Request usually represent the body.Request and Responses are those that are returned from the downstream call.
+ * @see
+ * http://rd-professional-api-aat.service.core-compute-aat.internal/swagger-ui.html#
+ * for Swagger docs [VPN + FOXY PROXY 'On']
+ *
+ */
+
 export interface OrganisationCreationRequest{
   name: string
   status: string
@@ -146,5 +157,9 @@ export interface NewUserCreationResponse{
 export interface InviteUserResponse{
   idamStatus?: string,
   userIdentifier?: string
+}
+
+export interface OrganisationCreatedResponse{
+  organisationIdentifier: string
 }
 

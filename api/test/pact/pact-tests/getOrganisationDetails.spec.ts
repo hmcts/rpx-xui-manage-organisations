@@ -3,29 +3,34 @@ import Axios, { AxiosResponse } from 'axios'
 import { AxiosInstance } from 'axios'
 import { expect } from 'chai'
 import {request, Request, Response,response} from 'express';
+import * as getPort from 'get-port';
 import * as path from 'path'
-import {getConfigValue} from '../../../../configuration'
-import {MICROSERVICE, S2S_SECRET, SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../../configuration/references';
-import {PaymentAccountDto} from '../../../../lib/models/transactions';
-import {getAccountFeeAndPayApi,getOrganisation} from './pactUtil';
-import {organisation} from '../../../pact/pact-tests/pactFixtures.spec';
+import {getConfigValue} from '../../../configuration'
+import {MICROSERVICE, S2S_SECRET, SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../configuration/references';
+import {PaymentAccountDto} from '../../../lib/models/transactions';
+import {getAccountFeeAndPayApi,getOrganisationDetails} from './pactUtil';
+import {organisation} from './pactFixtures.spec';
 
-describe("RD Professional API ", () => {
-  const rdProfessionalPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
-  const port = 8992
-  const provider = new Pact({
-    port: port,
-    log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-    dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-    spec: 2,
-    consumer: "xui_manage_org_organisation_details",
-    provider: "referenceData_organisationalDetails",// TODO Check with Ruban.
-    pactfileWriteMode: "merge",
-  })
+  let mockServerPort: number
+  let provider: Pact
 
   // Setup the provider
-  before(() => provider.setup())
+  before(async() => {
+    mockServerPort = await getPort()
+    provider = new Pact({
+      consumer: "XUIManageOrg",
+      provider: "RdProfessionalApi",
+      log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
+      dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
+      logLevel: 'info',
+      port: mockServerPort,
+      spec: 2,
+      pactfileWriteMode: "merge"
+    })
+    return provider.setup()
+  })
 
   // Write Pact when all tests done
   after(() => provider.finalize())
@@ -33,18 +38,40 @@ describe("RD Professional API ", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
+
+  const mockRequest = {
+    "email": "Joe.bloggs@mailnesia.com",
+    "firstName": "Joe",
+    "lastName": "Bloggs",
+    "idamStatus": "active",
+    "rolesAdd": [
+      {
+        "name": "superuser"
+      }
+    ]
+  }
+
+  const mockResponse = {
+    "roleAdditionResponse": {
+      "idamMessage": "Role successfully Updated",
+      "idamStatusCode": "201"
+    }
+  }
+
+
   describe("Get Organisation", () => {
 
-    before(done => {
+      before(done => {
       const interaction = {
         state: "registerOrganisations",
-        uponReceiving: "referenceData_organisationalDetails will respond with Organisation details",
+        uponReceiving: "ReferenceDataAPI will respond with Organisation details",
         withRequest: {
           method: "GET",
-          path: "/refdata/external/v1/organisations",
-          query:"",
+            path: "/refdata/external/v1/organisations",
           headers: {
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+            "Authorization":  "Bearer some-access-token",
+            "ServiceAuthorization": "serviceAuthToken"
           },
         },
         willRespondWith: {
@@ -65,7 +92,10 @@ describe("RD Professional API ", () => {
 
     it("returns the correct response", done => {
 
-      const resp =  getOrganisation();
+      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations`;
+      console.log(`~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
+
+      const resp =  getOrganisationDetails(taskUrl);
 
       resp.then((response) => {
         const responseDto:organisation[] = <organisation[]> response.data
@@ -75,7 +105,6 @@ describe("RD Professional API ", () => {
     })
 
     function assertResponse(dto:organisation[]): void{
-      console.log( '..... wiinththin the assert statements .... ')
       expect(dto).to.be.not.null;
       for(var element of dto ) {
         expect(element.contactInformation.companyNumber).to.equal("A1000");

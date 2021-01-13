@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import * as path from 'path'
 import { getUserDetails } from '../../../services/idam'
 
-xdescribe("Reference Data API", () => {
+describe("Idam API user details", () => {
   const idamTestUrl = "http://localhost:8992"
   const port = 8992
   const provider = new Pact({
@@ -11,8 +11,8 @@ xdescribe("Reference Data API", () => {
     log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
     dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
     spec: 2,
-    consumer: "xui_manage_org_sidam_user_details",
-    provider: "sidam_user_details",
+    consumer: "xui_manageOrg_user_details",
+    provider: "Idam_api",
     pactfileWriteMode: "merge",
   })
 
@@ -42,14 +42,14 @@ xdescribe("Reference Data API", () => {
     const jwt = 'some-access-token'
     before(done => {
       const interaction = {
-        state: "request for user details",
+        state: "a user exists",
         uponReceiving: "sidam_user_details will respond with:",
         withRequest: {
           method: "GET",
           path: "/details",
-          headers: {
-              Authorization: "Bearer some-access-token"
-          },
+          // headers: {
+          //     Authorization: "Bearer some-access-token"
+          // },
         },
         willRespondWith: {
           status: 200,

@@ -1,15 +1,12 @@
 import { Pact } from '@pact-foundation/pact'
-import Axios, { AxiosResponse } from 'axios'
-import { AxiosInstance } from 'axios'
 import { expect } from 'chai'
-import {request, Request, Response,response} from 'express';
 import * as getPort from 'get-port';
 import * as path from 'path'
-import {getConfigValue} from '../../../../configuration'
-import {MICROSERVICE, S2S_SECRET, SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../../configuration/references';
-import {PaymentAccountDto} from '../../../../lib/models/transactions';
-import {getAccountFeeAndPayApi,getOrganisationDetails} from '../pactUtil';
+import {getOrganisationDetails} from '../pactUtil';
 import {organisation} from '../pactFixtures.spec';
+import {some} from "../../../../lib/util";
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
@@ -53,8 +50,8 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
   const mockResponse = {
     "roleAdditionResponse": {
-      "idamMessage": "Role successfully Updated",
-      "idamStatusCode": "201"
+      "idamMessage": somethingLike("Role successfully Updated"),
+      "idamStatusCode": somethingLike("201")
     }
   }
 
@@ -116,22 +113,22 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
     const organisationResponse: organisation[] = [
       {
-        companyNumber:'Address Line 2',
-        companyUrl: 'google.com',
-        name: 'TheOrganisation',
-        organisationIdentifier: 'K100',
-        sraId: 'sraId',
-        sraRegulated: true,
-        status: 'success',
-        contactInformation:{
-          companyNumber:'A1000',
-          companyUrl:'www.kcompany.com',
-          name:'The Kompany',
-          organisationIdentifier:'K565'
+        companyNumber:somethingLike('Address Line 2'),
+        companyUrl: somethingLike('google.com'),
+        name: somethingLike('TheOrganisation'),
+        organisationIdentifier: somethingLike('K100'),
+        sraId: somethingLike('sraId'),
+        sraRegulated: somethingLike(true),
+        status: somethingLike('success'),
+        contactInformation: {
+          companyNumber:somethingLike('A1000'),
+          companyUrl:somethingLike('www.kcompany.com'),
+          name:somethingLike('The Kompany'),
+          organisationIdentifier:somethingLike('K565')
         },
         superUser: {
-          firstName:"Joe",
-          lastName:"Bloggs"
+          firstName:somethingLike("Joe"),
+          lastName:somethingLike("Bloggs")
         }
       }
     ]

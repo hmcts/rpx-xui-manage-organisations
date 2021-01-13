@@ -1,17 +1,12 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
 import axios from 'axios';
 import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
-import {postOrganisation} from '../../../../services/rdProfessional';
 import {getAccountFeeAndPayApi} from '../pactUtil';
-
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 describe("RD Professional API", () => {
   let mockServerPort: number
@@ -88,16 +83,16 @@ describe("RD Professional API", () => {
 
 function assertResponse(dto:PaymentAccountDto[]){
   for(var element of dto ) {
-    expect(element.organisationId).to.be.a('string');
-    expect(element.pbaNumber).to.be.a('string');
-    expect(element.userId).to.be.a('string')
+    expect(element.organisationId).to.equal('B123456');
+    expect(element.pbaNumber).to.be.equal('XDDDDDoDDDD');
+    expect(element.userId).to.be.equal('A123123')
   }
 }
 
 const responsePaymentAccountDto: PaymentAccountDto[] = [
   {
-    pbaNumber:	'XDDDDDoDDDD',
-    organisationId:	'B123456',
-    userId:	'A123123'
+    pbaNumber:	somethingLike('XDDDDDoDDDD'),
+    organisationId:	somethingLike('B123456'),
+    userId:somethingLike('A123123')
   }
 ]

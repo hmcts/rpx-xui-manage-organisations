@@ -6,10 +6,7 @@ import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
 import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {getOrganisationId} from '../../../../services/rdProfessional';
-import {postOrganisation} from '../../../../services/rdProfessional';
 import {getOrganisationByEmail} from '../pactUtil';
 
 xdescribe("RD Professional API", () => {
@@ -22,7 +19,7 @@ xdescribe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "FeesAndPaymentsApi",
+      provider: "payment_", //TODO
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',

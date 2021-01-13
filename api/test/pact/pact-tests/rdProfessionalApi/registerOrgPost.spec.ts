@@ -1,14 +1,11 @@
 import { Pact } from '@pact-foundation/pact'
-import axios from 'axios';
 import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {OrganisationCreatedResponse} from '../pactFixtures.spec'
 import {inviteUser, registerOrganisation} from '../pactUtil';
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 describe("Register Organisation", () => {
 
@@ -67,7 +64,7 @@ describe("Register Organisation", () => {
     }
 
     const mockResponse = {
-      organisationIdentifier: "A1000200"
+      organisationIdentifier: somethingLike("A1000200")
     }
 
     const requestPath = "/refdata/external/v1/organisations/users/";
@@ -114,5 +111,5 @@ describe("Register Organisation", () => {
 })
 
 function assertResponse(response:OrganisationCreatedResponse):void{
-  expect(response.organisationIdentifier).to.be.a('string');
+  expect(response.organisationIdentifier).to.equal('A1000200');
 }

@@ -10,6 +10,8 @@ import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/referenc
 import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {getAccountsForOrganisationById} from '../pactUtil';
 import {PaymentAccountDto} from '../../../../lib/models/transactions';
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 
 describe("RD Professional API", () => {
@@ -21,7 +23,7 @@ describe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "FeesAndPaymentsApi",
+      provider: "referenceData_organisationalExternalPbas",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -83,16 +85,16 @@ describe("RD Professional API", () => {
 
 const responsePaymentAccountDto: PaymentAccountDto[] = [
   {
-    pbaNumber:	'XDDDDDoDDDD',
-    organisationId:	'B123456',
-    userId:	'A123123'
+    pbaNumber:	somethingLike('XDDDDDoDDDD'),
+    organisationId: somethingLike('B123456'),
+    userId:	somethingLike('A123123')
   }
 ]
 
 function assertResponse(dto:PaymentAccountDto[]){
   for(var element of dto ) {
-    expect(element.pbaNumber).to.be.a('string');
-    expect(element.organisationId).to.be.a('string');
-    expect(element.userId).to.be.a('string');
+    expect(element.pbaNumber).to.be.equal('XDDDDDoDDDD');
+    expect(element.organisationId).to.be.equal('B123456');
+    expect(element.userId).to.be.equal('A123123');
   }
 }

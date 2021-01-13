@@ -1,16 +1,11 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
-import axios from 'axios';
 import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {InviteUserResponse} from '../pactFixtures.spec'
 import {inviteUser} from '../pactUtil';
-
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 describe("RD Professional API", () => {
   let mockServerPort: number
@@ -50,8 +45,8 @@ describe("RD Professional API", () => {
     }
 
     const mockResponse = {
-      idamStatus: "Created",
-      userIdentifier: null
+      idamStatus: somethingLike("Created"),
+      userIdentifier:somethingLike('urlIdentifier')
     }
 
     const requestPath = "/refdata/external/v1/organisations/users/";
@@ -96,6 +91,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:InviteUserResponse):void{
-  expect(dto.idamStatus).to.be.a('string');
-  expect(dto.userIdentifier).to.be.a('null');
+  expect(dto.idamStatus).to.be.equal('Created');
+  expect(dto.userIdentifier).to.be.equal('urlIdentifier');
 }

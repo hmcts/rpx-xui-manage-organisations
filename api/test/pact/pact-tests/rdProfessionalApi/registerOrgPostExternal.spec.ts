@@ -1,14 +1,11 @@
 import { Pact } from '@pact-foundation/pact'
-import axios from 'axios';
 import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
 import {OrganisationCreatedResponse} from '../pactFixtures.spec'
 import {registerOrganisationExternalV1} from '../pactUtil';
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 describe("Register External Organisation", () => {
   let mockServerPort: number
@@ -73,7 +70,7 @@ describe("Register External Organisation", () => {
   }
 
     const mockResponse = {
-      organisationIdentifier: "A1000200"
+      organisationIdentifier: somethingLike("A1000200")
     }
 
     const requestPath = "/refdata/external/v1/organisations";
@@ -111,6 +108,7 @@ describe("Register External Organisation", () => {
       const resp =  registerOrganisationExternalV1(taskUrl,mockRequest as any);
 
       resp.then((response) => {
+        expect(response.status).to.equal(201);
         const responseDto: OrganisationCreatedResponse  = <OrganisationCreatedResponse> response.data
         assertResponse(responseDto);
       }).then(done,done)

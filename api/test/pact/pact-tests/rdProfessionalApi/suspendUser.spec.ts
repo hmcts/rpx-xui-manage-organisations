@@ -1,20 +1,11 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
-import axios from 'axios';
 import { expect } from 'chai'
 import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
-import {getOrganisationId} from '../../../../services/rdProfessional';
-import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
-import {postOrganisation} from '../../../../services/rdProfessional';
-import {UserProfileModel,SuspendUserReponseDto} from '../pactFixtures.spec'
+import {SuspendUserReponseDto} from '../pactFixtures.spec'
 import {suspendUser} from '../pactUtil';
 import * as getPort from 'get-port'
-
-
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 describe("RD Professional API", () => {
   let mockServerPort: number
@@ -60,8 +51,8 @@ describe("RD Professional API", () => {
 
     const mockResponse = {
         "roleAdditionResponse": {
-         "idamMessage": "Role successfully Updated",
-         "idamStatusCode": "201"
+         "idamMessage": somethingLike("Role successfully Updated"),
+         "idamStatusCode": somethingLike(201)
         }
     }
 
@@ -111,6 +102,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:SuspendUserReponseDto):void{
-  expect(dto.roleAdditionResponse.idamMessage).to.be.a('string');
-  expect(dto.roleAdditionResponse.idamStatusCode).to.be.a('string');
+  expect(dto.roleAdditionResponse.idamMessage).to.equal('Role successfully Updated');
+  expect(dto.roleAdditionResponse.idamStatusCode).to.equal(201);
 }

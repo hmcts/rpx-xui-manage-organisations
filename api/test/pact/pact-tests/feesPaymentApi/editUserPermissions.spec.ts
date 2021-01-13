@@ -13,7 +13,8 @@ import {postOrganisation} from '../../../../services/rdProfessional';
 import {UserProfileModel,EditUserPermissionsDto} from '../pactFixtures.spec'
 import {editUserPermissions} from '../pactUtil';
 import * as getPort from 'get-port'
-
+const {Matchers} = require('@pact-foundation/pact');
+const {somethingLike, like, eachLike} = Matchers;
 
 
 describe("RD Professional API", () => {
@@ -25,7 +26,7 @@ describe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "FeesAndPaymentsApi",
+      provider: "payment_",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -61,8 +62,8 @@ describe("RD Professional API", () => {
 
     const mockResponse = {
       "roleAdditionResponse": {
-        "idamMessage": "Permissions successfully Updated",
-        "idamStatusCode": "201"
+        idamMessage: somethingLike("Permissions successfully Updated"),
+        idamStatusCode: somethingLike("201")
       }
     }
 
@@ -111,6 +112,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:EditUserPermissionsDto):void{
-  expect(dto.roleAdditionResponse.idamMessage).to.be.a('string');
-  expect(dto.roleAdditionResponse.idamStatusCode).equals("201");
+  expect(dto.roleAdditionResponse.idamMessage).to.be.equal('Permissions successfully Updated');
+  expect(dto.roleAdditionResponse.idamStatusCode).to.be.equal("201");
 }

@@ -114,5 +114,5 @@ describe("Register Organisation", () => {
 })
 
 function assertResponse(response:OrganisationCreatedResponse):void{
-  expect(response.organisationIdentifier).equals("A1000200");
+  expect(response.organisationIdentifier).to.be.a('string');
 }

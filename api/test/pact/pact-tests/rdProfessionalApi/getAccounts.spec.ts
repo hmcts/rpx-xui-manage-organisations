@@ -88,9 +88,9 @@ describe("RD Professional API", () => {
 
 function assertResponse(dto:PaymentAccountDto[]){
   for(var element of dto ) {
-    expect(element.organisationId).to.equal("B123456");
-    expect(element.pbaNumber).to.equal("XDDDDDoDDDD");
-    expect(element.userId).to.equal("A123123");
+    expect(element.organisationId).to.be.a('string');
+    expect(element.pbaNumber).to.be.a('string');
+    expect(element.userId).to.be.a('string')
   }
 }
 

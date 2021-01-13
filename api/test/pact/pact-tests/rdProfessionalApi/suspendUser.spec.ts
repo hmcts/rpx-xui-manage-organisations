@@ -111,6 +111,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:SuspendUserReponseDto):void{
-  expect(dto.roleAdditionResponse.idamMessage).equals("Role successfully Updated");
-  expect(dto.roleAdditionResponse.idamStatusCode).equals("201");
+  expect(dto.roleAdditionResponse.idamMessage).to.be.a('string');
+  expect(dto.roleAdditionResponse.idamStatusCode).to.be.a('string');
 }

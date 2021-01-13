@@ -96,6 +96,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:InviteUserResponse):void{
-  expect(dto.idamStatus).equals("Created");
-  expect(dto.userIdentifier).to.be.equal(null)
+  expect(dto.idamStatus).to.be.a('string');
+  expect(dto.userIdentifier).to.be.a('null');
 }

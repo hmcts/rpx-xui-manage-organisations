@@ -111,6 +111,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:EditUserPermissionsDto):void{
-  expect(dto.roleAdditionResponse.idamMessage).equals("Permissions successfully Updated");
+  expect(dto.roleAdditionResponse.idamMessage).to.be.a('string');
   expect(dto.roleAdditionResponse.idamStatusCode).equals("201");
 }

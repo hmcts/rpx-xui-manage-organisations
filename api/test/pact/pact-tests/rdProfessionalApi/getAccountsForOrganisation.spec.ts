@@ -91,8 +91,8 @@ const responsePaymentAccountDto: PaymentAccountDto[] = [
 
 function assertResponse(dto:PaymentAccountDto[]){
   for(var element of dto ) {
-    expect(element.pbaNumber).to.equal("XDDDDDoDDDD");
-    expect(element.organisationId).to.equal("B123456");
-    expect(element.userId).to.equal("A123123");
+    expect(element.pbaNumber).to.be.a('string');
+    expect(element.organisationId).to.be.a('string');
+    expect(element.userId).to.be.a('string');
   }
 }

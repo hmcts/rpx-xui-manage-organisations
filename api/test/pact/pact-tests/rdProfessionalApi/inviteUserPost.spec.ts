@@ -1,17 +1,18 @@
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
 import axios from 'axios';
 import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
-import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
-import {OrganisationCreatedResponse} from './pactFixtures.spec'
-import {inviteUser, registerOrganisation} from './pactUtil';
+import {getConfigValue} from '../../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
+import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
+import {InviteUserResponse} from '../pactFixtures.spec'
+import {inviteUser} from '../pactUtil';
 
-describe("Register Organisation", () => {
 
+describe("RD Professional API", () => {
   let mockServerPort: number
   let provider: Pact
 
@@ -40,47 +41,31 @@ describe("Register Organisation", () => {
   describe("Invite User", () => {
 
     const mockRequest = {
-      "name": "Joe Blogg",
-      "status": "ACTIVE",
-      "sraId": "SRA100",
-      "sraRegulated": "REGULATEDstring",
-      "paymentAccount": [
-        "PBAPAYMENTS"
-      ],
-      "contactInformation": [
-        {
-          "addressLine1": "27 Heigham Street",
-          "addressLine2": "Norwich",
-          "addressLine3": "Norfolk",
-          "townCity": "Norwich",
-          "county": "Norfolk",
-          "country": "UK",
-          "postCode": "NR245E",
-          "dxAddress": [
-            {
-              "dxNumber": "DX1008",
-              "dxExchange": "EXCHANGE"
-            }
-          ]
-        }
-      ]
+      "email": "Joe.bloggs@mailnesia.com",
+      "firstName": "Joe",
+      "lastName": "Bloggs",
+      // "jurisdictions" // TODO Can't see in swagger but present in request from UI - TBC ?
+      "roles": ["admin"],
+      "resendInvite":true
     }
 
     const mockResponse = {
-      organisationIdentifier: "A1000200"
+      idamStatus: "Created",
+      userIdentifier: null
     }
 
     const requestPath = "/refdata/external/v1/organisations/users/";
 
     before(done => {
       const interaction = {
-        state: "Register Organisation",
-        uponReceiving: "A Request to Register Organisation the system will respond:",
+        state: "Invite a User",
+        uponReceiving: "The ReferenceDataApi will respond if the User has been added succesfully",
         withRequest: {
           method: "POST",
           headers: {
             "Content-Type":  "application/json;charset=utf-8",
-            "ServiceAuthorization": "ServiceAuthToken"
+            "Authorization":  "Bearer some-access-token",
+            "ServiceAuthorization": "serviceAuthToken"
           },
           path: requestPath,
           body: mockRequest,
@@ -100,22 +85,17 @@ describe("Register Organisation", () => {
     })
 
     it("returns the correct response", done => {
-
-      // /refdata/external/v1/organisations/users/
-      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`
-      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
-
-
-      const resp =  registerOrganisation(taskUrl , mockRequest as any);
-
+      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
+      const resp =  inviteUser(taskUrl, mockRequest as any);
       resp.then((response) => {
-        const responseDto: OrganisationCreatedResponse  = <OrganisationCreatedResponse> response.data
+        const responseDto: InviteUserResponse  = <InviteUserResponse> response.data
         assertResponse(responseDto);
       }).then(done,done)
     })
   })
 })
 
-function assertResponse(response:OrganisationCreatedResponse):void{
-  expect(response.organisationIdentifier).equals("A1000200");
+function assertResponse(dto:InviteUserResponse):void{
+  expect(dto.idamStatus).equals("Created");
+  expect(dto.userIdentifier).to.be.equal(null)
 }

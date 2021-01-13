@@ -4,14 +4,14 @@ import axios from 'axios';
 import { expect } from 'chai'
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
-import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
-import {getOrganisationId} from '../../../services/rdProfessional';
-import {PaymentAccountDto,Payments } from '../../../lib/models/transactions';
-import {postOrganisation} from '../../../services/rdProfessional';
-import {UserProfileModel,SuspendUserReponseDto} from './pactFixtures.spec'
-import {suspendUser} from './pactUtil';
+import {getConfigValue} from '../../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
+import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
+import {getOrganisationId} from '../../../../services/rdProfessional';
+import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
+import {postOrganisation} from '../../../../services/rdProfessional';
+import {UserProfileModel,SuspendUserReponseDto} from '../pactFixtures.spec'
+import {suspendUser} from '../pactUtil';
 import * as getPort from 'get-port'
 
 
@@ -42,7 +42,7 @@ describe("RD Professional API", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Suspen User by its ID", () => {
+  describe("Suspend A User", () => {
 
     const userId = '123456';
 
@@ -70,7 +70,7 @@ describe("RD Professional API", () => {
     before(done => {
       const interaction = {
         state: "Suspend An existing user in the system",
-        uponReceiving: "ReferenceDataAPI  will respond with:",
+        uponReceiving: "ReferenceDataAPI  will respond if action was successfull or not",
         withRequest: {
           method: "PUT",
           headers: {
@@ -100,7 +100,6 @@ describe("RD Professional API", () => {
       const userId = '123456';
       const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`+userId;
 
-      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
       const resp =  suspendUser(taskUrl,mockRequest as any);
 
       resp.then((response) => {

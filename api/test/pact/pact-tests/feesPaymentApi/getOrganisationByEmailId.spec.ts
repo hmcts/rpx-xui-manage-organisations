@@ -5,26 +5,24 @@ import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
-import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
-import {PaymentAccountDto,Payments } from '../../../lib/models/transactions';
-import {postOrganisation} from '../../../services/rdProfessional';
-import {getAccountFeeAndPayApi} from './pactUtil';
+import {getConfigValue} from '../../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
+import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
+import {getOrganisationId} from '../../../../services/rdProfessional';
+import {postOrganisation} from '../../../../services/rdProfessional';
+import {getOrganisationByEmail} from '../pactUtil';
 
+xdescribe("RD Professional API", () => {
 
-describe("RD Professional API", () => {
   let mockServerPort: number
   let provider: Pact
-
-  const accountId = '123456'
 
   // Setup the provider
   before(async() => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "RdProfessionalApi",
+      provider: "FeesAndPaymentsApi",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -41,10 +39,9 @@ describe("RD Professional API", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Get Organsaion", () => {
+  describe("Get Organisaiton By Email", () => {
 
     const jwt = 'some-access-token'
-    const details = ''; // ATM this is not being used in the Service.
 
     before(done => {
       const interaction = {
@@ -52,7 +49,7 @@ describe("RD Professional API", () => {
         uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
         withRequest: {
           method: "GET",
-          path:"/accounts/"+accountId,
+          path:"/search/organisations/henry_fr_harper@yahoo.com",
           headers: {
             "Content-Type": "application/json",
           }
@@ -62,7 +59,7 @@ describe("RD Professional API", () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: responsePaymentAccountDto,
+         body: "Success"
         },
       }
       // @ts-ignore
@@ -72,33 +69,14 @@ describe("RD Professional API", () => {
     })
 
     it("returns the correct response", done => {
-      // call the pactUtil's method which Calls The Downstream FeeAndPay API directly without going through the Service Class.
+      const emailAddress='henry_fr_harper@yahoo.com';
+      const taskUrl: string = `${provider.mockService.baseUrl}/search/organisations/`+emailAddress;
 
-      const taskUrl: string = `${provider.mockService.baseUrl}/accounts/`+accountId;
-      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
-
-      const resp =  getAccountFeeAndPayApi(taskUrl);
+      const resp =  getOrganisationByEmail(taskUrl);
       resp.then((response) => {
-         console.log(' back in the TEST ....  assertion call.....');
-         const responseDto:PaymentAccountDto[]   = <PaymentAccountDto[]> response.data
-         assertResponse(responseDto);
+         const resp1    = response.data
+         expect(resp1).to.equal("Success");
       }).then(done,done)
     })
    })
 })
-
-function assertResponse(dto:PaymentAccountDto[]){
-  for(var element of dto ) {
-    expect(element.organisationId).to.equal("B123456");
-    expect(element.pbaNumber).to.equal("XDDDDDoDDDD");
-    expect(element.userId).to.equal("A123123");
-  }
-}
-
-const responsePaymentAccountDto: PaymentAccountDto[] = [
-  {
-    pbaNumber:	'XDDDDDoDDDD',
-    organisationId:	'B123456',
-    userId:	'A123123'
-  }
-]

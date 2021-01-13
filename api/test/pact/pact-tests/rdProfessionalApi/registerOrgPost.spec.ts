@@ -4,13 +4,14 @@ import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
-import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
-import {OrganisationCreatedResponse} from './pactFixtures.spec'
-import {registerOrganisationExternalV1} from './pactUtil';
+import {getConfigValue} from '../../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
+import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
+import {OrganisationCreatedResponse} from '../pactFixtures.spec'
+import {inviteUser, registerOrganisation} from '../pactUtil';
 
-describe("Register External Organisation", () => {
+describe("Register Organisation", () => {
+
   let mockServerPort: number
   let provider: Pact
 
@@ -36,20 +37,13 @@ describe("Register External Organisation", () => {
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Invite User", () => {
+  describe("Register Organisation", () => {
 
     const mockRequest = {
       "name": "Joe Blogg",
       "status": "ACTIVE",
       "sraId": "SRA100",
-      "sraRegulated": "REGULATED",
-      "companyNumber": "465555",
-      "companyUrl": "www.theKCompany.com",
-      "superUser": {
-        "firstName": "super",
-        "lastName": "user",
-        "email": "super.user@mailnesia.coms"
-      },
+      "sraRegulated": "REGULATEDstring",
       "paymentAccount": [
         "PBAPAYMENTS"
       ],
@@ -61,7 +55,7 @@ describe("Register External Organisation", () => {
           "townCity": "Norwich",
           "county": "Norfolk",
           "country": "UK",
-          "postCode": "NR24TE",
+          "postCode": "NR245E",
           "dxAddress": [
             {
               "dxNumber": "DX1008",
@@ -70,18 +64,18 @@ describe("Register External Organisation", () => {
           ]
         }
       ]
-  }
+    }
 
     const mockResponse = {
       organisationIdentifier: "A1000200"
     }
 
-    const requestPath = "/refdata/external/v1/organisations";
+    const requestPath = "/refdata/external/v1/organisations/users/";
 
     before(done => {
       const interaction = {
         state: "Register Organisation",
-        uponReceiving: "A Request to Register Organisation with the system",
+        uponReceiving: "A Request to register the Organisation ",
         withRequest: {
           method: "POST",
           headers: {
@@ -105,12 +99,11 @@ describe("Register External Organisation", () => {
       })
     })
 
-    it("Returns the correct response", done => {
+    it("returns the correct response", done => {
 
-      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations`;
-      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
-
-      const resp =  registerOrganisationExternalV1(taskUrl,mockRequest as any);
+      // /refdata/external/v1/organisations/users/
+      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`
+      const resp =  registerOrganisation(taskUrl , mockRequest as any);
 
       resp.then((response) => {
         const responseDto: OrganisationCreatedResponse  = <OrganisationCreatedResponse> response.data

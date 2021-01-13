@@ -5,11 +5,11 @@ import { expect } from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
-import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
-import {getAccountsForOrganisationById} from './pactUtil';
-import {PaymentAccountDto} from '../../../lib/models/transactions';
+import {getConfigValue} from '../../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
+import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
+import {getAccountsForOrganisationById} from '../pactUtil';
+import {PaymentAccountDto} from '../../../../lib/models/transactions';
 
 
 describe("RD Professional API", () => {
@@ -69,14 +69,8 @@ describe("RD Professional API", () => {
     })
 
     it("returns the correct response", done => {
-      // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
-
       const organisation = '123456';
-      // /organisations/"+organisationId+"/pbas
       const taskUrl: string = `${provider.mockService.baseUrl}/organisations/`+organisation+`/pbas`;
-      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
-
-
       const resp =  getAccountsForOrganisationById(taskUrl);
 
       resp.then((response) => {

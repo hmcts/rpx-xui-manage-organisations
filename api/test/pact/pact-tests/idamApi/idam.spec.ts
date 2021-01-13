@@ -1,7 +1,7 @@
 import { Pact } from '@pact-foundation/pact'
 import { expect } from 'chai'
 import * as path from 'path'
-import { getUserDetails } from '../../../services/idam'
+import { getUserDetails } from '../../../../services/idam'
 
 describe("Idam API user details", () => {
   const idamTestUrl = "http://localhost:8992"

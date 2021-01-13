@@ -2,14 +2,18 @@ import {el} from '@angular/platform-browser/testing/src/browser_util';
 import { Pact } from '@pact-foundation/pact'
 import axios from 'axios';
 import { expect } from 'chai'
-import * as getPort from 'get-port';
 import * as path from 'path'
 import {request, Request} from 'express'
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references'
-import {getRefdataUserUrl} from '../../../refdataUserUrlUtil';
-import {InviteUserResponse} from './pactFixtures.spec'
-import {inviteUser} from './pactUtil';
+import {getConfigValue} from '../../../../configuration';
+import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
+import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
+import {getOrganisationId} from '../../../../services/rdProfessional';
+import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
+import {postOrganisation} from '../../../../services/rdProfessional';
+import {UserProfileModel,EditUserPermissionsDto} from '../pactFixtures.spec'
+import {editUserPermissions} from '../pactUtil';
+import * as getPort from 'get-port'
+
 
 
 describe("RD Professional API", () => {
@@ -21,7 +25,7 @@ describe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "RdProfessionalApi",
+      provider: "FeesAndPaymentsApi",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -32,36 +36,44 @@ describe("RD Professional API", () => {
     return provider.setup()
   })
 
+
   // Write Pact when all tests done
   after(() => provider.finalize())
 
   // verify with Pact, and reset expectations
   afterEach(() => provider.verify())
 
-  describe("Invite User", () => {
+  describe("Edit UserPermssions given userId", () => {
+
+    const userId = '123456';
 
     const mockRequest = {
       "email": "Joe.bloggs@mailnesia.com",
       "firstName": "Joe",
       "lastName": "Bloggs",
-      // "jurisdictions" // TODO Can't see in swagger but present in request from UI - TBC ?
-      "roles": ["admin"],
-      "resendInvite":true
+      "idamStatus": "active",
+      "rolesAdd": [
+        {
+          "name": "superuser"
+        }
+      ]
     }
 
     const mockResponse = {
-      idamStatus: "Created",
-      userIdentifier: null
+      "roleAdditionResponse": {
+        "idamMessage": "Permissions successfully Updated",
+        "idamStatusCode": "201"
+      }
     }
 
-    const requestPath = "/refdata/external/v1/organisations/users/";
+    const requestPath = "/refdata/external/v1/organisations/users/"+userId;
 
     before(done => {
       const interaction = {
-        state: "Invite a User",
-        uponReceiving: "The ReferenceDataApi will respond if the User has been added succesfully",
+        state: "Edit permission for an existing User",
+        uponReceiving: "The ReferenceDataApi will respond with",
         withRequest: {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type":  "application/json;charset=utf-8",
             "Authorization":  "Bearer some-access-token",
@@ -84,21 +96,21 @@ describe("RD Professional API", () => {
       })
     })
 
-    it("returns the correct response", done => {
-      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
-      console.log(` ~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
+    it("Returns the correct response", done => {
+      // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
 
-      const resp =  inviteUser(taskUrl, mockRequest as any);
+      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`+userId;
+      const resp =  editUserPermissions(taskUrl,mockRequest as any);
 
       resp.then((response) => {
-        const responseDto: InviteUserResponse  = <InviteUserResponse> response.data
+        const responseDto: EditUserPermissionsDto  = <EditUserPermissionsDto> response.data
         assertResponse(responseDto);
       }).then(done,done)
     })
   })
 })
 
-function assertResponse(dto:InviteUserResponse):void{
-  expect(dto.idamStatus).equals("Created");
-  expect(dto.userIdentifier).to.be.equal(null)
+function assertResponse(dto:EditUserPermissionsDto):void{
+  expect(dto.roleAdditionResponse.idamMessage).equals("Permissions successfully Updated");
+  expect(dto.roleAdditionResponse.idamStatusCode).equals("201");
 }

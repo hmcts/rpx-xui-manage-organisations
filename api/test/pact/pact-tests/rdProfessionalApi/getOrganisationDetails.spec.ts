@@ -5,11 +5,11 @@ import { expect } from 'chai'
 import {request, Request, Response,response} from 'express';
 import * as getPort from 'get-port';
 import * as path from 'path'
-import {getConfigValue} from '../../../configuration'
-import {MICROSERVICE, S2S_SECRET, SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../configuration/references';
-import {PaymentAccountDto} from '../../../lib/models/transactions';
-import {getAccountFeeAndPayApi,getOrganisationDetails} from './pactUtil';
-import {organisation} from './pactFixtures.spec';
+import {getConfigValue} from '../../../../configuration'
+import {MICROSERVICE, S2S_SECRET, SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../../configuration/references';
+import {PaymentAccountDto} from '../../../../lib/models/transactions';
+import {getAccountFeeAndPayApi,getOrganisationDetails} from '../pactUtil';
+import {organisation} from '../pactFixtures.spec';
 
 describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
@@ -59,11 +59,11 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
   }
 
 
-  describe("Get Organisation", () => {
+  describe("Get Organisation Details", () => {
 
       before(done => {
       const interaction = {
-        state: "registerOrganisations",
+        state: "getOrganisationDetails",
         uponReceiving: "ReferenceDataAPI will respond with Organisation details",
         withRequest: {
           method: "GET",
@@ -93,7 +93,6 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
     it("returns the correct response", done => {
 
       const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations`;
-      console.log(`~~~~~~~~~~~~~  Task URL is ` +  taskUrl );
 
       const resp =  getOrganisationDetails(taskUrl);
 

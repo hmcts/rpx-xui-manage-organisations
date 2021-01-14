@@ -47,8 +47,8 @@ xdescribe("RD Professional API", () => {
 
     before(done => {
       const interaction = {
-        state: "Pbas organisational data exists for identifier ",
-        uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
+        state: "Org data exists for identifier ",
+        uponReceiving: "Reference Data API  will respond with:",
         withRequest: {
           method: "GET",
           path:"/search/organisations/henry_fr_harper@yahoo.com",

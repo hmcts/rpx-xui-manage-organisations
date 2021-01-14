@@ -17,7 +17,7 @@ describe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "referenceData_organisationalExternalPbas",
+      provider: "RdProfessionalApi__", //TODO
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -39,8 +39,8 @@ describe("RD Professional API", () => {
 
     before(done => {
       const interaction = {
-        state: "Pbas organisational data exists for identifier ",
-        uponReceiving: "referenceData_organisationalExternalPbas will respond with:",
+        state: "Organisational data exists for identifier ",
+        uponReceiving: "ReferenceDataApi  will respond with the Accounts for the Organisation",
         withRequest: {
           method: "GET",
           path:requestPath,

@@ -26,7 +26,7 @@ describe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "payment_",
+      provider: "RdProfessionalApi",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',

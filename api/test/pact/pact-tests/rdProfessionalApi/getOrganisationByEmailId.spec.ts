@@ -9,6 +9,11 @@ import {getConfigValue} from '../../../../configuration';
 import {getOrganisationId} from '../../../../services/rdProfessional';
 import {getOrganisationByEmail} from '../pactUtil';
 
+/*
+  This test is commented out for now as the Service code hardcodes the email address in the GET call to the downstream API
+  @see getOrganisationId in rdProfessional.ts. This can be enabled once the production code removes the hardcoding of the
+  email address.
+ */
 xdescribe("RD Professional API", () => {
 
   let mockServerPort: number
@@ -19,7 +24,7 @@ xdescribe("RD Professional API", () => {
     mockServerPort = await getPort()
     provider = new Pact({
       consumer: "XUIManageOrg",
-      provider: "payment_", //TODO
+      provider: "RdProfessionalApi__", //TODO
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',

@@ -97,8 +97,6 @@ describe("Register Organisation", () => {
     })
 
     it("returns the correct response", done => {
-
-      // /refdata/external/v1/organisations/users/
       const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`
       const resp =  registerOrganisation(taskUrl , mockRequest as any);
 

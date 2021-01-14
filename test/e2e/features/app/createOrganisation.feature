@@ -8,7 +8,6 @@ Feature: Register Organization
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
 
- @all
   Scenario:register organization
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name

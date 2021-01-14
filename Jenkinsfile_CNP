@@ -27,6 +27,8 @@ def secrets = [
   'rpx-${env}': [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
+    secret('test-api-email', 'TEST_API_EMAIL'),
+    secret('test-api-password', 'TEST_API_PASSWORD'),
   ],
 //  's2s-${env}'      : [
 //    secret('microservicekey-xui-webapp', 'S2S_SECRET')
@@ -113,7 +115,7 @@ withPipeline(type, product, component) {
             reportName           : 'Manage Org a11y Test'
         ])
 
-     
+
 
 
     }
@@ -150,6 +152,16 @@ withPipeline(type, product, component) {
     }
 
     after('functionalTest:preview') {
+
+      publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "reports/tests/api_functional/",
+        reportFiles          : 'mochawesome.html',
+        reportName           : 'PREVIEW API Functional Test'
+      ])
+
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -182,6 +194,16 @@ withPipeline(type, product, component) {
     }
 
     after('functionalTest:aat') {
+
+      publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "reports/tests/api_functional/",
+        reportFiles          : 'mochawesome.html',
+        reportName           : 'PREVIEW API Functional Test'
+      ])
+
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,

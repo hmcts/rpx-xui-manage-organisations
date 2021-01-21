@@ -9,9 +9,10 @@ module.exports = function (config) {
         "!api/organisation/*.ts",
         "!api/suspendUser/*.ts",
         "!api/userList/*.ts",
+        "!api/common/*.ts"
             
     ],
-        mutate: ["api/**/*.ts", "!api/**/*.spec.ts", "!api/test/**/*.ts"],
+        mutate: ["api/**/*.ts", "!api/**/*.spec.ts", "!api/test/**/*.ts", "!api/common/*.spec.ts"],
         mutator: 'typescript',
         // transpilers: [
         //     'typescript'

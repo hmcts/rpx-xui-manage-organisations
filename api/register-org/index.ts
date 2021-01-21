@@ -1,13 +1,14 @@
-import { Request, Router } from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
 import { makeOrganisationPayload } from '../lib/payloadBuilder'
 import { generateS2sToken } from '../lib/s2sTokenGeneration'
+import {exists, valueOrNull} from '../lib/util'
 
 export const router = Router({mergeParams: true})
 
-export async function handleRegisterOrgRoute(req, res) {
+export async function handleRegisterOrgRoute(req: Request, res: Response) {
   // TODO: Should be in common constants
   const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 
@@ -39,20 +40,21 @@ export async function handleRegisterOrgRoute(req, res) {
     /**
      * If there is a error generating the S2S token then we flag it to the UI.
      */
-    if (error.message === ERROR_GENERATING_S2S_TOKEN) {
+    if (valueOrNull(error, 'message') === ERROR_GENERATING_S2S_TOKEN) {
       return res.status(500).send({
         errorMessage: ERROR_GENERATING_S2S_TOKEN,
         errorOnPath: s2sServicePath,
       })
-    } else {
-      const errReport = {
-        apiError: error.data.errorMessage,
-        apiErrorDescription: error.data.errorDescription,
-        statusCode: error.status,
-      }
-      res.status(error.status)
-      res.send(errReport)
     }
+
+    const status = exists(error, 'status') ? error.status : 500
+
+    const errReport = {
+      apiError: valueOrNull(error, 'data.errorMessage'),
+      apiErrorDescription: valueOrNull(error, 'data.errorDescription'),
+      statusCode: status,
+    }
+    res.status(status).send(errReport)
   }
 }
 

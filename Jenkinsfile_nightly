@@ -15,8 +15,26 @@ properties([
 
 def type      = "nodejs"
 def product   = "xui"
-def component = "webapp"
+def component = "mo-webapp"
 def channel   = '#xui-pipeline'
+
+def secrets = [
+  'rpx-${env}': [
+    secret('test-email', 'TEST_EMAIL'),
+    secret('test-password', 'TEST_PASSWORD'),
+    secret('test-api-email', 'TEST_API_EMAIL'),
+    secret('test-api-password', 'TEST_API_PASSWORD'),
+  ],
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
 
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
@@ -49,6 +67,16 @@ withNightlyPipeline(type, product, component) {
     }
 
     after('fullFunctionalTest') {
+
+      publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "reports/tests/api_functional/",
+        reportFiles          : 'mochawesome.html',
+        reportName           : 'API Functional Test'
+      ])
+
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,

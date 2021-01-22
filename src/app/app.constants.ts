@@ -149,7 +149,8 @@ const jurisdictions = [
     {id: 'BULKSCAN'},
     {id: 'IA'},
     {id: 'EMPLOYMENT'},
-    {id: 'CMC'}
+    {id: 'CMC'},
+    {id: 'CIVIL'}
   ];
 
 const ccdRoles = [
@@ -163,7 +164,9 @@ const ccdRoles = [
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
-  'caseworker-publiclaw-solicitor'
+  'caseworker-publiclaw-solicitor',
+  'caseworker-civil',
+  'caseworker-civil-solicitor'
 ];
 
 const redirectUrl = {

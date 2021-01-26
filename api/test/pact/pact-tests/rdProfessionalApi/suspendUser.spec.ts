@@ -1,9 +1,9 @@
-import { Pact } from '@pact-foundation/pact'
-import { expect } from 'chai'
-import * as path from 'path'
-import {SuspendUserReponseDto} from '../pactFixtures.spec'
-import {suspendUser} from '../pactUtil';
-import * as getPort from 'get-port'
+import { Pact } from '@pact-foundation/pact';
+import { expect } from 'chai';
+import * as getPort from 'get-port';
+import * as path from 'path';
+import { SuspendUserReponseDto } from '../pactFixtures';
+import { suspendUser } from '../pactUtil';
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike, like, eachLike} = Matchers;
 

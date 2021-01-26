@@ -1,11 +1,6 @@
-import * as express from 'express';
-import {Request} from 'express';
-import {getConfigValue} from '../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH} from '../../../configuration/references';
-import {SERVICES_RD_PROFESSIONAL_API_PATH} from '../../../configuration/references';
-import {PaymentAccountDto} from '../../../lib/models/transactions';
 import axios from 'axios';
-import { http } from '../../../lib/http'
+import { getConfigValue } from '../../../configuration';
+import { SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references';
 
 export async function inviteUser(taskUrl:string, payload: any) :Promise<any> {
   let axiosConfig = {
@@ -112,5 +107,15 @@ export async function suspendUser(taskUrl:string , payload: any) :Promise<any> {
     }
   };
   return await  axios.put(taskUrl,payload,axiosConfig);
+}
+
+export async function getDetails(idamUrl: string, token: string = null) {
+  let axiosConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    }
+  }
+  const response = await axios.get(`${idamUrl}/details`, axiosConfig)
+  return response.data
 }
 

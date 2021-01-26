@@ -1,9 +1,9 @@
-import { Pact } from '@pact-foundation/pact'
-import { expect } from 'chai'
+import { Pact } from '@pact-foundation/pact';
+import { expect } from 'chai';
 import * as getPort from 'get-port';
-import * as path from 'path'
-import {OrganisationCreatedResponse} from '../pactFixtures.spec'
-import {registerOrganisationExternalV1} from '../pactUtil';
+import * as path from 'path';
+import { OrganisationCreatedResponse } from '../pactFixtures';
+import { registerOrganisationExternalV1 } from '../pactUtil';
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike, like, eachLike} = Matchers;
 

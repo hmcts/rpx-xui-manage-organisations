@@ -15,8 +15,8 @@ describe("Register External Organisation", () => {
   before(async() => {
     mockServerPort = await getPort()
     provider = new Pact({
-      consumer: "XUIManageOrg",
-      provider: "RdProfessionalApi__",// TODO
+      consumer: "xui_manageOrg",
+      provider: "referenceData_organisationalExternalUsers",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -48,7 +48,7 @@ describe("Register External Organisation", () => {
         "email": "super.user@mailnesia.coms"
       },
       "paymentAccount": [
-        "PBAPAYMENTS"
+        "PBA1234567"
       ],
       "contactInformation": [
         {
@@ -77,7 +77,7 @@ describe("Register External Organisation", () => {
 
     before(done => {
       const interaction = {
-        state: "Register Organisation",
+        state: "a request to register an organisation",
         uponReceiving: "A Request to Register External Organisation with the system",
         withRequest: {
           method: "POST",

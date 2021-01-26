@@ -9,10 +9,10 @@ const opts = {
       "../pacts/"
     ),
   ],
-  pactBroker: "https://pact-broker.platform.hmcts.net",
+  pactBroker: "http://localhost:80",
   pactBrokerUsername: "",
   pactBrokerPassword: "",
-  tags: ["test", "dev"],
+  tags: ["test", "Dev"],
   publishVerificationResult: true,
   consumerVersion:
     "1.0." +

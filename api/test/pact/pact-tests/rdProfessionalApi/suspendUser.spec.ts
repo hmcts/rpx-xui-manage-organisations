@@ -15,8 +15,8 @@ describe("RD Professional API", () => {
   before(async() => {
     mockServerPort = await getPort()
     provider = new Pact({
-      consumer: "XUIManageOrg",
-      provider: "RdProfessionalApi__",//TODO
+      consumer: "xui_manageOrg",
+      provider: "referenceData_professionalExternalUsers",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -52,7 +52,7 @@ describe("RD Professional API", () => {
     const mockResponse = {
         "roleAdditionResponse": {
          "idamMessage": somethingLike("Role successfully Updated"),
-         "idamStatusCode": somethingLike(201)
+         "idamStatusCode": somethingLike("200")
         }
     }
 
@@ -60,8 +60,8 @@ describe("RD Professional API", () => {
 
     before(done => {
       const interaction = {
-        state: "Suspend An existing user in the system",
-        uponReceiving: "ReferenceDataAPI  will respond if action was successfull or not",
+        state: "Professional User exists for modification with identifier 123456" ,
+        uponReceiving: "a request to update the roles of that user",
         withRequest: {
           method: "PUT",
           headers: {
@@ -76,7 +76,7 @@ describe("RD Professional API", () => {
           headers: {
             "Content-Type": "application/json",
           },
-          status: 201,
+          status: 200,
           body:mockResponse
         },
       }
@@ -103,5 +103,5 @@ describe("RD Professional API", () => {
 
 function assertResponse(dto:SuspendUserReponseDto):void{
   expect(dto.roleAdditionResponse.idamMessage).to.equal('Role successfully Updated');
-  expect(dto.roleAdditionResponse.idamStatusCode).to.equal(201);
+  expect(dto.roleAdditionResponse.idamStatusCode).to.equal("200");
 }

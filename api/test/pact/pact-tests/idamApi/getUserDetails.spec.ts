@@ -1,45 +1,44 @@
 import {Pact} from '@pact-foundation/pact'
 import {expect} from 'chai'
+import * as getPort from "get-port";
 import * as path from 'path'
-import {getUserDetails} from '../../../../services/idam'
-
+import { getDetails } from '../pactUtil';
+import {IdamGetDetailsResponseDto} from "./getUserDetails.spec";
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike} = Matchers;
 
-describe("Idam API user details", () => {
-    const idamTestUrl = "http://localhost:8992"
-    const port = 8992
-    const provider = new Pact({
-        port: port,
-        log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-        dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-        spec: 2,
-        consumer: "xui_manageOrg",
-        provider: "idamApi_users",
-        pactfileWriteMode: "merge",
-    })
+let mockServerPort: number;
+let provider: Pact;
 
-    const EXPECTED_BODY = {
-        "id": somethingLike("abc123"),
-        "forename": somethingLike("Joe"),
-        "surname": somethingLike("Bloggs"),
-        "email": somethingLike("joe.bloggs@hmcts.net"),
-        "active": somethingLike(true),
-        "roles": somethingLike([
-            somethingLike("solicitor"), somethingLike("caseworker")
-        ])
-    }
+describe("Idam API user details", async() => {
+    mockServerPort = await getPort()
+    provider = new Pact({
+    port: mockServerPort,
+    log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
+    dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
+    spec: 2,
+    consumer: "xui_manageOrg",
+    provider: "idamApi_users",
+    pactfileWriteMode: "merge",
+  })
 
-    // Setup the provider
-    before(() => provider.setup())
-
-    // Write Pact when all tests done
-    after(() => provider.finalize())
-
-    // verify with Pact, and reset expectations
-    afterEach(() => provider.verify())
-
-    describe("get /details", () => {
+  const RESPONSE_BODY = {
+    "id": somethingLike("abc123"),
+    "forename": somethingLike("Joe"),
+    "surname": somethingLike("Bloggs"),
+    "email": somethingLike("joe.bloggs@hmcts.net"),
+    "active": somethingLike(true),
+    "roles":somethingLike([
+      somethingLike("solicitor"),somethingLike("caseworker")
+    ])
+  }
+  // Setup the provider
+  before(() => provider.setup())
+  // Write Pact when all tests done
+  after(() => provider.finalize())
+  // verify with Pact, and reset expectations
+  afterEach(() => provider.verify())
+  describe("get /details", () => {
 
         const jwt = 'some-access-token'
         before(done => {
@@ -58,7 +57,7 @@ describe("Idam API user details", () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: EXPECTED_BODY,
+                    body: RESPONSE_BODY,
                 },
             }
             // @ts-ignore
@@ -67,12 +66,32 @@ describe("Idam API user details", () => {
             })
         })
         it("returns the correct response", (done) => {
-            const response: Promise<any> = getUserDetails(jwt, idamTestUrl);
+            const taskUrl = `${provider.mockService.baseUrl}`;
+
+            const response:Promise<any>  = getDetails(taskUrl,jwt);
+
             response.then((axiosResponse) => {
-                console.log(axiosResponse.data)
-                //expect(axiosResponse.data).to.eql(EXPECTED_BODY)
-            }
-            ).then(done, done)
+                const dto:IdamGetDetailsResponseDto = <IdamGetDetailsResponseDto> axiosResponse;
+                assertResponses(dto);
+            }).then(done,done)
         })
     })
 })
+
+function assertResponses(dto:IdamGetDetailsResponseDto){
+  expect(dto.active).to.be.equal(true);
+  expect(dto.email).to.be.equal('joe.bloggs@hmcts.net');
+  expect(dto.forename).to.be.equal('Joe');
+  expect(dto.surname).to.be.equal('Bloggs');
+  expect(dto.roles[0]).to.be.equal('solicitor');
+  expect(dto.roles[1]).to.be.equal('caseworker');
+}
+
+export interface IdamGetDetailsResponseDto{
+  id:string,
+  forename:string,
+  surname:string,
+  email:string,
+  active:boolean
+  roles:string[]
+}

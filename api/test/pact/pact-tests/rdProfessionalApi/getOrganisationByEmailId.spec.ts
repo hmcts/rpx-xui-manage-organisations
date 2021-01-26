@@ -1,13 +1,8 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import { Pact } from '@pact-foundation/pact'
-import axios from 'axios';
-import { expect } from 'chai'
+import { Pact } from '@pact-foundation/pact';
+import { expect } from 'chai';
 import * as getPort from 'get-port';
-import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {getOrganisationId} from '../../../../services/rdProfessional';
-import {getOrganisationByEmail} from '../pactUtil';
+import * as path from 'path';
+import { getOrganisationByEmail } from '../pactUtil';
 
 /*
   This test is commented out for now as the Service code hardcodes the email address in the GET call to the downstream API

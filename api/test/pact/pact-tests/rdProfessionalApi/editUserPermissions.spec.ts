@@ -1,18 +1,9 @@
-import {el} from '@angular/platform-browser/testing/src/browser_util';
-import { Pact } from '@pact-foundation/pact'
-import axios from 'axios';
-import { expect } from 'chai'
-import * as path from 'path'
-import {request, Request} from 'express'
-import {getConfigValue} from '../../../../configuration';
-import {SERVICES_FEE_AND_PAY_API_PATH } from '../../../../configuration/references'
-import {getRefdataUserUrl} from '../../../../refdataUserUrlUtil';
-import {getOrganisationId} from '../../../../services/rdProfessional';
-import {PaymentAccountDto,Payments } from '../../../../lib/models/transactions';
-import {postOrganisation} from '../../../../services/rdProfessional';
-import {UserProfileModel,EditUserPermissionsDto} from '../pactFixtures.spec'
-import {editUserPermissions} from '../pactUtil';
-import * as getPort from 'get-port'
+import { Pact } from '@pact-foundation/pact';
+import { expect } from 'chai';
+import * as getPort from 'get-port';
+import * as path from 'path';
+import { EditUserPermissionsDto } from '../pactFixtures';
+import { editUserPermissions } from '../pactUtil';
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike, like, eachLike} = Matchers;
 

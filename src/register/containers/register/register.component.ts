@@ -1,13 +1,12 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { AppConstants } from 'src/app/app.constants';
 import { EnvironmentService } from 'src/shared/services/environment.service';
-import * as fromAppStore from '../../../app/store';
 import * as fromRoot from '../../../app/store/';
-import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { FormDataValuesModel } from '../../models/form-data-values.model';
 import * as fromStore from '../../store/';
 
 /**
@@ -40,8 +39,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public errorMessage: any;
   public jurisdictions: any[];
 
-  public manageCaseLink: string;
-  public manageOrgLink: string;
+  public manageCaseLink$: Observable<string>;
+  public manageOrgLink$: Observable<string>;
 
   /**
    * ngOnInit
@@ -71,8 +70,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
     this.jurisdictions = AppConstants.JURISDICTIONS;
 
-    this.manageCaseLink = this.enviromentService.get('manageCaseLink');
-    this.manageOrgLink = this.enviromentService.get('manageOrgLink');
+    this.manageCaseLink$ = this.enviromentService.config$.pipe(map(config => config.manageCaseLink));
+    this.manageOrgLink$ = this.enviromentService.config$.pipe(map(config => config.manageOrgLink));
   }
 
   public ngAfterViewInit() {

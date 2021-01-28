@@ -93,7 +93,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
 
-  Then(/^I select the sign out link$/, async function () {
+  Then(/^I select the sign out link$/, { timeout: 120 * 1000 } ,async function () {
     await browserWaits.waitForElement(loginPage.signOutlink, LONG_DELAY, "Signout link not present in page");
     await expect(loginPage.signOutlink.isDisplayed()).to.eventually.be.true;
     await headerPage.waitForSpinnerNotPresent();

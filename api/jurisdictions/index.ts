@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { JURISDICTIONS } from '../configuration/references'
+import {exists} from '../lib/util'
 
 /**
  * getJurisdiction
@@ -42,12 +43,13 @@ export async function handleJurisdictions(req, res) {
     try {
         res.send(uiJurisdictions)
     } catch (error) {
+        const status = exists(error, 'statusCode') ? error.statusCode : 500
         const errReport = JSON.stringify({
             apiError: error,
-            apiStatusCode: error.statusCode,
+            apiStatusCode: status,
             message: 'List of jurisdictions route error',
         })
-        res.send(errReport).status(error.statusCode)
+        res.status(status).send(errReport)
     }
 }
 

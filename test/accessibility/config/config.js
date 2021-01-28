@@ -22,7 +22,9 @@ const conf = {
         'register-org/register/organisation-address',
         'register-org/register/organisation-pba',
         'register-org/register/organisation-have-dx',
+        'register/organisation-dx',
         'register-org/register/haveSra',
+        'register-org/register/sraNumber',
         'register-org/register/name',
         'register-org/register/email-address',
         'register-org/register/check'

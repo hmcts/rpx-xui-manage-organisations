@@ -15,8 +15,8 @@ describe("RD Professional API", () => {
   before(async() => {
     mockServerPort = await getPort()
     provider = new Pact({
-      consumer: "XUIManageOrg",
-      provider: "RdProfessionalApi__",//TODO
+      consumer: "xui_manageOrg",
+      provider: "referenceData_organisationalExternalUsers",
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
       dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
       logLevel: 'info',
@@ -39,13 +39,11 @@ describe("RD Professional API", () => {
       "email": "Joe.bloggs@mailnesia.com",
       "firstName": "Joe",
       "lastName": "Bloggs",
-      // "jurisdictions" // TODO Can't see in swagger but present in request from UI - TBC ?
       "roles": ["admin"],
       "resendInvite":true
     }
 
     const mockResponse = {
-      idamStatus: somethingLike("Created"),
       userIdentifier:somethingLike('urlIdentifier')
     }
 
@@ -53,8 +51,8 @@ describe("RD Professional API", () => {
 
     before(done => {
       const interaction = {
-        state: "Invite a User",
-        uponReceiving: "The ReferenceDataApi will respond if the User has been added succesfully",
+        state: "Organisation exists that can invite new users",
+        uponReceiving: "A request to invite a new user",
         withRequest: {
           method: "POST",
           headers: {
@@ -91,6 +89,5 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto:InviteUserResponse):void{
-  expect(dto.idamStatus).to.be.equal('Created');
   expect(dto.userIdentifier).to.be.equal('urlIdentifier');
 }

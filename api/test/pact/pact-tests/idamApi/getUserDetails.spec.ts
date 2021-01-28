@@ -1,9 +1,9 @@
-import { Pact } from '@pact-foundation/pact';
-import { expect } from 'chai';
+import {Pact} from '@pact-foundation/pact'
+import {expect} from 'chai'
 import * as getPort from "get-port";
-import * as path from 'path';
+import * as path from 'path'
 import { getDetails } from '../pactUtil';
-import arrayContaining = jasmine.arrayContaining;
+import {IdamGetDetailsResponseDto} from "./getUserDetails.spec";
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike} = Matchers;
 
@@ -17,8 +17,8 @@ describe("Idam API user details", async() => {
     log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
     dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
     spec: 2,
-    consumer: "xui_manageOrg_user_details",
-    provider: "Idam_api",
+    consumer: "xui_manageOrg",
+    provider: "idamApi_users",
     pactfileWriteMode: "merge",
   })
 
@@ -40,43 +40,42 @@ describe("Idam API user details", async() => {
   afterEach(() => provider.verify())
   describe("get /details", () => {
 
-    const jwt = 'some-access-token';
+        const jwt = 'some-access-token'
+        before(done => {
+            const interaction = {
+                state: "a valid user exists",
+                uponReceiving: "a request for that user:",
+                withRequest: {
+                    method: "GET",
+                    path: "/details",
+                    headers: {
+                        Authorization: "Bearer some-access-token"
+                    },
+                },
+                willRespondWith: {
+                    status: 200,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: RESPONSE_BODY,
+                },
+            }
+            // @ts-ignore
+            provider.addInteraction(interaction).then(() => {
+                done()
+            })
+        })
+        it("returns the correct response", (done) => {
+            const taskUrl = `${provider.mockService.baseUrl}`;
 
-    before(done => {
-      const interaction = {
-        state: "a user exists",
-        uponReceiving: "sidam_user_details will respond with:",
-        withRequest: {
-          method: "GET",
-          path: "/details",
-          headers: {
-               Authorization: "Bearer some-access-token"
-          },
-        },
-        willRespondWith: {
-          status: 200,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: RESPONSE_BODY,
-        },
-      }
-      // @ts-ignore
-      provider.addInteraction(interaction).then(() => {
-        done()
-      })
+            const response:Promise<any>  = getDetails(taskUrl,jwt);
+
+            response.then((axiosResponse) => {
+                const dto:IdamGetDetailsResponseDto = <IdamGetDetailsResponseDto> axiosResponse;
+                assertResponses(dto);
+            }).then(done,done)
+        })
     })
-    it("returns the correct response", (done) => {
-      const taskUrl = `${provider.mockService.baseUrl}`;
-
-      const response:Promise<any>  = getDetails(taskUrl,jwt);
-
-      response.then((axiosResponse) => {
-        const dto:IdamGetDetailsResponseDto = <IdamGetDetailsResponseDto> axiosResponse;
-        assertResponses(dto);
-      }).then(done,done)
-    })
-  })
 })
 
 function assertResponses(dto:IdamGetDetailsResponseDto){

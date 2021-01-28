@@ -5,11 +5,10 @@ import * as path from 'path';
 import { getOrganisationByEmail } from '../pactUtil';
 
 /*
-  This test is commented out for now as the Service code hardcodes the email address in the GET call to the downstream API
-  @see getOrganisationId in rdProfessional.ts. This can be enabled once the production code removes the hardcoding of the
-  email address.
+  Note : The emailAddress path Variable in the GET call to the downstream API is hardcoded for now ,as it is done
+  in the actual Service Class . Once hardcoding is removed in service class , it can be removed from here as well .
  */
-xdescribe("RD Professional API", () => {
+describe("RD Professional API", () => {
 
   let mockServerPort: number
   let provider: Pact

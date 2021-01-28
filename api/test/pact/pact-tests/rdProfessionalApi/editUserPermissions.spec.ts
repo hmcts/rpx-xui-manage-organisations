@@ -1,7 +1,7 @@
 import {Pact} from '@pact-foundation/pact'
 import {expect} from 'chai'
 import * as path from 'path'
-import {EditUserPermissionsDto} from '../pactFixtures.spec'
+import {EditUserPermissionsDto} from '../pactFixtures'
 import {editUserPermissions} from '../pactUtil';
 import * as getPort from 'get-port'
 

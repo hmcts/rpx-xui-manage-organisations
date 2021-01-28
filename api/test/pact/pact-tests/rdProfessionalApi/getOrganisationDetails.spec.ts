@@ -3,7 +3,7 @@ import {expect} from 'chai'
 import * as getPort from 'get-port';
 import * as path from 'path'
 import {getOrganisationDetails} from '../pactUtil';
-import {organisation} from '../pactFixtures.spec';
+import {organisation} from '../pactFixtures';
 
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike, like, eachLike} = Matchers;

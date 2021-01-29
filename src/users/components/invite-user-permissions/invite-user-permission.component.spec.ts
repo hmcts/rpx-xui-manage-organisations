@@ -34,4 +34,17 @@ describe('Invite User Permission Component', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should not see the Case Access Administrator if feature is toggled off', () => {
+    component.grantCaseAccessAdmin$ = of(false);
+    fixture.detectChanges();
+    const grantCaseAccessAdmin = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-case-access-admin');
+    expect(grantCaseAccessAdmin).toBeFalsy();
+  });
+
+  it('should see the Case Access Administrator if feature is toggled on', () => {
+    component.grantCaseAccessAdmin$ = of(true);
+    fixture.detectChanges();
+    const grantCaseAccessAdmin = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-case-access-admin');
+    expect(grantCaseAccessAdmin).toBeTruthy();
+  });
 });

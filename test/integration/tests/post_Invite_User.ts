@@ -10,18 +10,6 @@ suite('Manage Org -> POST Invite User', function() {
     roles: [
     'pui-case-manager'
   ],
-    jurisdictions: [
-      {id: 'SSCS'},
-      {id: 'AUTOTEST1'},
-      {id: 'DIVORCE'},
-      {id: 'PROBATE'},
-      {id: 'PUBLICLAW'},
-      {id: 'bulkscan'},
-      {id: 'BULKSCAN'},
-      {id: 'IA'},
-      {id: 'EMPLOYMENT'},
-      {id: 'CMC'},
-  ],
     resendInvite: false
   };
 

@@ -31,8 +31,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     email: ['Enter email address', 'Email must contain at least the @ character'],
     roles: ['You must select at least one action'],
   };
-  public jurisdictions$: Observable<any[]>;
-  public jurisdictions: any[];
   public juridictionSubscription: Subscription;
   public resendInvite: boolean = false;
   public pendingUserSubscription: Subscription;
@@ -48,10 +46,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.pendingUserSubscription = this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
       this.populateFormControl(pendingUser, this.inviteUserForm);
       this.backLink = this.getBackLink(pendingUser);
-    });
-    this.jurisdictions$ = this.store.pipe(select(fromAppStore.getAllJurisdictions));
-    this.jurisdictions$.subscribe(jurisdictions => {
-      this.jurisdictions = jurisdictions;
     });
     this.dispathAction(new fromAppStore.LoadJurisdictions(), this.store);
     this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400)).subscribe(() => {
@@ -185,19 +179,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         }
       });
       const ccdRoles = this.inviteUserForm.value.roles['pui-case-manager'] ? AppConstants.CCD_ROLES : [];
-
-      if (this.jurisdictions.length == 0) {
-        this.jurisdictions$.subscribe(jurisdictions => {
-            value = this.callInviteuser(permissions, ccdRoles, value, jurisdictions);
-          },
-          (error) => this.store.dispatch(new fromAppStore.LoadJurisdictionsFail(error)));
-      } else {
-        this.callInviteuser(permissions, ccdRoles, value, this.jurisdictions);
-      }
+      this.callInviteuser(permissions, ccdRoles, value);
     }
   }
 
-  private callInviteuser(permissions: string[], ccdRoles: string[], value, jurisdictions: any[]) {
+  private callInviteuser(permissions: string[], ccdRoles: string[], value) {
     const roles = [
       ...permissions,
       ...ccdRoles
@@ -205,7 +191,6 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     value = {
       ...value,
       roles,
-      jurisdictions,
       resendInvite: this.resendInvite
     };
     this.store.dispatch(new fromStore.SendInviteUser(value));

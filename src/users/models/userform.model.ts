@@ -4,6 +4,5 @@ export interface UserListApiModel {
     lastName: string;
     email: string;
     permissions: string[];
-    jurisdictions: any[];
     resendInvite: boolean;
 }

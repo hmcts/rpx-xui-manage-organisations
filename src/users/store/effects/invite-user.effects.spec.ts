@@ -48,7 +48,6 @@ describe('Invite User Effects', () => {
                 lastName: 'Caveman',
                 email: 'thecap@cave.com',
                 permissions: ['god'],
-                jurisdictions: [],
                 resendInvite: false
             };
             const action = new fromUsersActions.SendInviteUser(requestPayload);
@@ -147,7 +146,6 @@ describe('Invite User Effects', () => {
                 lastName: 'Caveman',
                 email: 'thecap@cave.com',
                 permissions: ['god'],
-                jurisdictions: [],
                 resendInvite: false
             };
             const action = new fromUsersActions.SendInviteUser(requestPayload);

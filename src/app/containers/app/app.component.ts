@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
             roles: user.roles,
             orgId: user.orgId
           }
-        };       
+        };
         this.userRoles = featureUser.custom.roles;
         this.featureService.initialize(featureUser);
       });

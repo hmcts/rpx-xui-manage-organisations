@@ -1,5 +1,7 @@
 const pact = require("@pact-foundation/pact-node")
 const path = require("path")
+const certPath = path.resolve(__dirname, "../cer/ca-bundle.crt")
+process.env.SSL_CERT_FILE = certPath
 const opts = {
   pactFilesOrDirs: [
     path.resolve(
@@ -7,10 +9,11 @@ const opts = {
       "../pacts/"
     ),
   ],
-  pactBroker: "https://pact-broker.platform.hmcts.net",
+  pactBroker: "http://localhost:80",
   pactBrokerUsername: "",
   pactBrokerPassword: "",
-  tags: ["test", "test"],
+  tags: ["test", "Dev"],
+  publishVerificationResult: true,
   consumerVersion:
     "1.0." +
     (process.env.TRAVIS_BUILD_NUMBER

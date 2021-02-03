@@ -172,7 +172,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.showWarningMessage = false;
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
-      let value = this.inviteUserForm.getRawValue();
+      const value = this.inviteUserForm.getRawValue();
       const permissions = Object.keys(value.roles).filter(key => {
         if (value.roles[key]) {
           return key;

@@ -1,0 +1,40 @@
+{
+  "environment": "DEFAULT ENVIRONMENT",
+  "appInsightsInstrumentationKey": "AAA",
+  "secrets": {
+    "rpx": {
+      "AppInsightsInstrumentationKey": "AAA",
+      "appinsights-instrumentationkey-mo": "***REMOVED***",
+      "mo-s2s-client-secret": "FHYQN3ZQ3BF66XWR"
+    }
+  },
+  "indexUrl": "/",
+  "logging": "trace",
+  "maxLogLine": 80,
+  "idamClient": "xuimowebapp",
+  "microservice": "xui_webapp",
+  "now": false,
+  "oauthCallbackUrl": "/oauth2/callback",
+  "iss": "https://forgerock-am.service.core-compute-idam-prod.internal:8443/openam/oauth2/realms/root/realms/hmcts",
+  "loginRoleMatcher": "^pui-.*-manager$",
+  "protocol": "https",
+  "services": {
+    "idamApi": "https://idam-api.platform.hmcts.net",
+    "idamWeb": "https://hmcts-access.service.gov.uk",
+    "rdProfessionalApi": "http://localhost:8992",
+    "feeAndPayApi": "http://localhost:8993",
+    "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
+    "termsAndConditions": "http://localhost:8995"
+  },
+  "sessionSecret": ["mo-topSecret1","secretSauce"],
+  "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
+  "feature": {
+    "appInsightsEnabled": true,
+    "proxyEnabled": false,
+    "secureCookieEnabled": true,
+    "termsAndConditionsEnabled": false,
+    "helmetEnabled": true,
+    "redisEnabled": false,
+    "oidcEnabled": false
+  }
+}

@@ -26,7 +26,7 @@
           hint: 'View the organisation name and addresses.'}">
         </lib-gov-checkbox>
 
-        <lib-gov-checkbox
+        <lib-gov-checkbox id="checkbox-grant-case-access-admin" *ngIf="grantCaseAccessAdmin$ | async"
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isCaseAccessAdmin"
           [config]="{value: 'pui-caa', label: 'Case access administrator', name: 'roles',

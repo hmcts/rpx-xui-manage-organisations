@@ -36,19 +36,3 @@
 
     </lib-gov-uk-form-group-wrapper>
   </ng-container>
-      <lib-gov-checkbox id="checkbox-grant-case-access-admin" *ngIf="grantCaseAccessAdmin$ | async"
-        [group]="inviteUserForm.controls['roles']"
-        [isChecked]="isCaseAccessAdmin"
-        [config]="{value: 'pui-caa', label: 'Case Access Administrator', name: 'roles',
-        hint: 'Admin Case Access'}">
-    </lib-gov-checkbox>
-      <!-- <lib-gov-checkbox
-        [group]="inviteUserForm.controls['roles']"
-        [isChecked]="isPuiFinanceManager"
-        [config]="{value: 'pui-finance-manager', label: 'Manage Payments', name: 'roles',
-        hint: 'View account balances, available credit and transactions.'}">
-      </lib-gov-checkbox> -->
-    </div>
-
-  </lib-gov-uk-form-group-wrapper>
-</ng-container>

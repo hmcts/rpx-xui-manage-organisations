@@ -501,9 +501,9 @@
     path "^0.12.7"
 
 "@hmcts/rpx-xui-common-lib@0.2.1":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.2.0.tgz#26740453757e81361947d09973811464666594ea"
-  integrity sha512-5hpw6zKCIT0szxu6MafJVD2FFS0NKwD6RaXu9fiDXJWFnIix6F35r582wLh36X7XwvYzlmDUMIhn2ycRyj9rEw==
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-0.2.1.tgz#bf18657b7f0d525118848089a9250fce6603f58d"
+  integrity sha512-tIVHU1UkW66aatuzNnaDANxWK9aItrgxG3HrrGXvQDWtcTQrUTTZg3kTsru/5GsRTever887SVcoJss+rigCFg==
   dependencies:
     tslib "^1.9.0"
 

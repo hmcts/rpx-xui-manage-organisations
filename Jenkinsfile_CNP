@@ -13,8 +13,8 @@ properties([
 
 @Library("Infrastructure")
 
-// To enable PACT testing on pipeline uncomment the next line
-// import uk.gov.hmcts.contino.AppPipelineDsl
+//To enable PACT testing on pipeline uncomment the next line
+import uk.gov.hmcts.contino.AppPipelineDsl
 
 def type      = "nodejs"
 def product   = "xui"
@@ -49,10 +49,9 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
 
-// To enable PACT testing on pipeline uncomment the next 3 lines
-//    enablePactAs([
-//      AppPipelineDsl.PactRoles.CONSUMER
-//    ])
+   enablePactAs([
+     AppPipelineDsl.PactRoles.CONSUMER
+   ])
 
     after('checkout') {sh 'yarn cache clean'}
 

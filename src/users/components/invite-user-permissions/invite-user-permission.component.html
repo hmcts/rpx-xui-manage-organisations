@@ -23,7 +23,7 @@
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiOrganisationManager"
           [config]="{value: 'pui-organisation-manager', label: 'Manage organisation', name: 'roles',
-          hint: 'View the organisation name and addresses.'}">
+          hint: 'View the organisation name and address.'}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox id="checkbox-grant-case-access-admin" *ngIf="grantCaseAccessAdmin$ | async"

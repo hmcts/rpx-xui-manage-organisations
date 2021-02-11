@@ -31,7 +31,7 @@
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
-    "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",	
+    "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal"
   },
   "sessionSecret": ["mo-topSecret1","secretSauce"],
@@ -110,5 +110,12 @@
       "pattern": ".",
       "totalIdleTime": 50
     }
-  ]
+  ],
+  "pact": {
+    "branchName": "Dev",
+    "brokerUrl": "https://pact-broker.platform.hmcts.net",
+    "consumerVersion": "",
+    "brokerUsername": "",
+    "brokerPassword": ""
+  }
 }

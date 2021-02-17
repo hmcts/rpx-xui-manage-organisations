@@ -38,7 +38,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
       this.completeScreenMode = this.checkIfIncomplete(shareCases);
       this.newShareCases = shareCases;
     });
-    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case', false);
+    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
   }
 
   public ngOnDestroy() {

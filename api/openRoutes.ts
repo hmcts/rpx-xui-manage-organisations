@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import generateTokenRouter from './tokenGenerator'
 import getConfigurationUIRouter from './configurationUI'
 import getConfigValue from './configValueRouter'
 
@@ -22,6 +23,7 @@ const router = Router({ mergeParams: true })
  */
 router.use('/register-org', prdRouter)
 router.use('/monitoring-tools', getappInsightsInstrumentationKey)
+router.use('/generateToken', generateTokenRouter)
 
 // TODO: Discuss which method we use across all projects to send the
 // Node configuration to the UI.

@@ -6,12 +6,14 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 import { of } from 'rxjs';
 import { State } from '../../../app/store/reducers';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 
 describe('CaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 
   let store: MockStore<State>;
+  const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,11 +22,16 @@ describe('CaseShareCompleteComponent', () => {
       imports: [ RouterTestingModule ],
       providers: [
         provideMockStore(),
+        {
+          provide: FeatureToggleService,
+          useValue: mockFeatureToggleService
+        }
       ]
     }).compileComponents();
     store = TestBed.get(Store);
     fixture = TestBed.createComponent(CaseShareCompleteComponent);
     component = fixture.componentInstance;
+    mockFeatureToggleService.getValue.and.returnValue(of(true));
     component.shareCases$ = of([{
       caseId: '9417373995765133',
       caseTitle: 'Sam Green Vs Williams Lee',
@@ -127,6 +134,34 @@ describe('CaseShareCompleteComponent', () => {
     component.completeScreenMode = 'COMPLETE';
     component.ngOnDestroy();
     expect(component.shareCases.length).toEqual(0);
+  });
+
+  it('should see add user info only from case if remove user feature is toggled off', () => {
+    component.completeScreenMode = 'PENDING';
+    component.removeUserFromCaseToggleOn$ = of(false);
+    fixture.detectChanges();
+    const removeUserError = fixture.debugElement.nativeElement.querySelector('#add-user-error');
+    expect(removeUserError).toBeTruthy();
+    const addAndRemoveUserError = fixture.debugElement.nativeElement.querySelector('#add-and-remove-user-error');
+    expect(addAndRemoveUserError).toBeFalsy();
+    const removeUserInfo = fixture.debugElement.nativeElement.querySelector('#add-user-info');
+    expect(removeUserInfo).toBeTruthy();
+    const addAndRemoveUserInfo = fixture.debugElement.nativeElement.querySelector('#add-and-remove-user-info');
+    expect(addAndRemoveUserInfo).toBeFalsy();
+  });
+
+  it('should see add and remove user info from case if remove user feature is toggled on', () => {
+    component.completeScreenMode = 'PENDING';
+    component.removeUserFromCaseToggleOn$ = of(true);
+    fixture.detectChanges();
+    const removeUserError = fixture.debugElement.nativeElement.querySelector('#add-user-error');
+    expect(removeUserError).toBeFalsy();
+    const addAndRemoveUserError = fixture.debugElement.nativeElement.querySelector('#add-and-remove-user-error');
+    expect(addAndRemoveUserError).toBeTruthy();
+    const removeUserInfo = fixture.debugElement.nativeElement.querySelector('#add-user-info');
+    expect(removeUserInfo).toBeFalsy();
+    const addAndRemoveUserInfo = fixture.debugElement.nativeElement.querySelector('#add-and-remove-user-info');
+    expect(addAndRemoveUserInfo).toBeTruthy();
   });
 
   afterEach(() => {

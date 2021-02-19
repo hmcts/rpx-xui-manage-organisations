@@ -42,5 +42,8 @@
     "cache": true,
     "all": true,
     "report-dir": "../reports/tests/coverage/node"
+  },
+  "dependencies": {
+    "git-rev-sync": "^3.0.1"
   }
 }

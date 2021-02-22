@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Node Proxy Server  
 Run `npm run start:node`
 
-## Issues and Solutions
+## Issues and Solutions 
 
 Property 'cookies' does not exist on type 'EnhancedRequest' - you will need to make
 sure @types/express-session is added ie.
@@ -46,7 +46,7 @@ For publishing the pacts to broker execute `yarn publish-pact`
 
 To get more help on the Angular CLI use `ng help` or go and check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Logger errors and warnings
+## Logger errors and warnings 
 
 Extended version of script below:
 

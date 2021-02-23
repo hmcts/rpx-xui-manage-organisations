@@ -110,5 +110,12 @@
       "pattern": ".",
       "totalIdleTime": 50
     }
-  ]
+  ],
+  "pact": {
+    "branchName": "Dev",
+    "brokerUrl": "https://pact-broker.platform.hmcts.net",
+    "consumerVersion": "",
+    "brokerUsername": "",
+    "brokerPassword": ""
+  }
 }

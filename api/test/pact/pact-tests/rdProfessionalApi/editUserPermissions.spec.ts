@@ -1,42 +1,17 @@
-import {Pact} from '@pact-foundation/pact'
-import {expect} from 'chai'
-import * as path from 'path'
-import {EditUserPermissionsDto} from '../pactFixtures'
-import {editUserPermissions} from '../pactUtil';
-import * as getPort from 'get-port'
+import { expect } from 'chai';
+import { EditUserPermissionsDto } from '../pactFixtures';
+import { editUserPermissions } from '../pactUtil';
+import { PactTestSetup } from '../settings/provider.mock';
 
 const {Matchers} = require('@pact-foundation/pact');
 const {somethingLike, like, eachLike} = Matchers;
+const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
+
 
 
 describe("RD Professional API", () => {
-    let mockServerPort: number
-    let provider: Pact
 
-    // Setup the provider
-    before(async () => {
-        mockServerPort = await getPort()
-        provider = new Pact({
-            consumer: "xui_manageOrg",
-            provider: "referenceData_professionalExternalUsers",
-            log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-            dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-            logLevel: 'info',
-            port: mockServerPort,
-            spec: 2,
-            pactfileWriteMode: "merge"
-        })
-        return provider.setup()
-    })
-
-
-    // Write Pact when all tests done
-    after(() => provider.finalize())
-
-    // verify with Pact, and reset expectations
-    afterEach(() => provider.verify())
-
-    describe("Edit UserPermssions given userId", () => {
+    describe("Edit UserPermssions given userId", async () => {
 
         const userId = '123456';
 
@@ -61,7 +36,8 @@ describe("RD Professional API", () => {
 
         const requestPath = "/refdata/external/v1/organisations/users/" + userId;
 
-        before(done => {
+        before(async () => {
+          await pactSetUp.provider.setup()
             const interaction = {
                 state: "Professional User exists for identifier " + userId,
                 uponReceiving: "A request to update that user",
@@ -84,21 +60,22 @@ describe("RD Professional API", () => {
                 },
             }
             // @ts-ignore
-            provider.addInteraction(interaction).then(() => {
-                done()
-            })
-        })
+            pactSetUp.provider.addInteraction(interaction)
+          })
 
-        it("Returns the correct response", done => {
+        it("Returns the correct response", async () => {
             // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
 
-            const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
+            const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
             const resp = editUserPermissions(taskUrl, mockRequest as any);
 
             resp.then((response) => {
                 const responseDto: EditUserPermissionsDto = <EditUserPermissionsDto>response.data
                 assertResponse(responseDto);
-            }).then(done, done)
+            }).then(() => {
+              pactSetUp.provider.verify()
+              pactSetUp.provider.finalize()
+            })
         })
     })
 })

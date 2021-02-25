@@ -49,9 +49,11 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
 
-   enablePactAs([
-     AppPipelineDsl.PactRoles.CONSUMER
-   ])
+    onMaster() {
+        enablePactAs([
+                AppPipelineDsl.PactRoles.CONSUMER
+        ])
+    }
 
     after('checkout') {sh 'yarn cache clean'}
 

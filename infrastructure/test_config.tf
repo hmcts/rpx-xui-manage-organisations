@@ -6,13 +6,13 @@ data "azurerm_key_vault" "s2s_vault" {
 
 data "azurerm_key_vault_secret" "source_s2s-secret-for-tests" {
   name         = "microservicekey-xui-webapp"
-  key_vault_id = "${data.azurerm_key_vault.s2s_vault.id}"
+  key_vault_id = data.azurerm_key_vault.s2s_vault.id
 }
 
 resource "azurerm_key_vault_secret" "mo-s2s-client-secret" {
   name         = "mo-s2s-client-secret"
-  value        = "${data.azurerm_key_vault_secret.source_s2s-secret-for-tests.value}"
-  key_vault_id = "${data.azurerm_key_vault.key_vault.id}"
+  value        = data.azurerm_key_vault_secret.source_s2s-secret-for-tests.value
+  key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 #endregion

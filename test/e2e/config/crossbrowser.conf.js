@@ -81,16 +81,16 @@ const config = {
     //
     // },
 
-    {
-      browserName: 'MicrosoftEdge',
-      version: '18.17763',
-      platform: 'Windows 10',
-      name: 'chromium-tests',
-      tunnelIdentifier: 'reformtunnel',
-      extendedDebugging: true,
-      sharedTestFiles: false,
-      maxInstances: 1
-    }
+    // {
+    //   browserName: 'MicrosoftEdge',
+    //   version: '18.17763',
+    //   platform: 'Windows 10',
+    //   name: 'chromium-tests',
+    //   tunnelIdentifier: 'reformtunnel',
+    //   extendedDebugging: true,
+    //   sharedTestFiles: false,
+    //   maxInstances: 1
+    // }
   ],
 
 

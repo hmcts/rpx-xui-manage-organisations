@@ -34,23 +34,9 @@
     "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal"
   },
-  "sessionSecret": [
-    "mo-topSecret1",
-    "secretSauce"
-  ],
-  "jurisdictions": [
-    "SSCS",
-    "AUTOTEST1",
-    "DIVORCE",
-    "PROBATE",
-    "PUBLICLAW",
-    "bulkscan",
-    "BULKSCAN",
-    "IA",
-    "EMPLOYMENT",
-    "CMC"
-  ],
-  "caseTypes": "FinancialRemedyConsentedRespondent,DIVORCE_XUI,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit",
+  "sessionSecret": ["mo-topSecret1","secretSauce"],
+  "jurisdictions": [ "SSCS", "AUTOTEST1", "DIVORCE", "PROBATE", "PUBLICLAW", "bulkscan", "BULKSCAN","IA", "EMPLOYMENT", "CMC" ],
+  "caseTypes": "MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit",
   "feature": {
     "appInsightsEnabled": true,
     "proxyEnabled": false,
@@ -63,14 +49,8 @@
   "helmet": {
     "contentSecurityPolicy": {
       "directives": {
-        "defaultSrc": [
-          "'self'"
-        ],
-        "fontSrc": [
-          "'self'",
-          "https://fonts.gstatic.com",
-          "data:"
-        ],
+        "defaultSrc": ["'self'"],
+        "fontSrc": ["'self'", "https://fonts.gstatic.com", "data:"],
         "styleSrc": [
           "'self'",
           "'unsafe-inline'",
@@ -91,15 +71,9 @@
           "dc.services.visualstudio.com",
           "*.launchdarkly.com"
         ],
-        "mediaSrc": [
-          "'self'"
-        ],
-        "objectSrc": [
-          "'self'"
-        ],
-        "frameAncestors": [
-          "'none'"
-        ],
+        "mediaSrc": ["'self'"],
+        "objectSrc": ["'self'"],
+        "frameAncestors": ["'none'"],
         "imgSrc": [
           "'self'",
           "data:",

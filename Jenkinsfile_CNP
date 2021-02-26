@@ -1,8 +1,5 @@
 #!groovy
 @Library("Infrastructure")
-import uk.gov.hmcts.contino.AppPipelineDsl
-@Library("Infrastructure")
-
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl
 

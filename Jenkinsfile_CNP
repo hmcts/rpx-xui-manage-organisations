@@ -1,46 +1,47 @@
 #!groovy
-
-properties([
-    [
-        $class       : 'GithubProjectProperty',
-        displayName  : 'Expert UI Manage Organisations',
-        projectUrlStr: 'https://github.com/hmcts/rpx-xui-manage-organisations'
-    ],
-    pipelineTriggers([
-        [$class: 'GitHubPushTrigger']
-    ])
-])
-
+@Library("Infrastructure")
+import uk.gov.hmcts.contino.AppPipelineDsl
 @Library("Infrastructure")
 
 //To enable PACT testing on pipeline uncomment the next line
 import uk.gov.hmcts.contino.AppPipelineDsl
 
-def type      = "nodejs"
-def product   = "xui"
+properties([
+        [
+                $class       : 'GithubProjectProperty',
+                displayName  : 'Expert UI Manage Organisations',
+                projectUrlStr: 'https://github.com/hmcts/rpx-xui-manage-organisations'
+        ],
+        pipelineTriggers([
+                [$class: 'GitHubPushTrigger']
+        ])
+])
+
+def type = "nodejs"
+def product = "xui"
 def component = "mo-webapp"
-def channel   = '#xui-pipeline'
+def channel = '#xui-pipeline'
 def deployToAatOnly = false // set to true if only deploy upto AAT, set to false will deploy all the way to production
 
 
 def secrets = [
-  'rpx-${env}': [
-    secret('test-email', 'TEST_EMAIL'),
-    secret('test-password', 'TEST_PASSWORD'),
-    secret('test-api-email', 'TEST_API_EMAIL'),
-    secret('test-api-password', 'TEST_API_PASSWORD'),
-  ],
+        'rpx-${env}': [
+                secret('test-email', 'TEST_EMAIL'),
+                secret('test-password', 'TEST_PASSWORD'),
+                secret('test-api-email', 'TEST_API_EMAIL'),
+                secret('test-api-password', 'TEST_API_PASSWORD'),
+        ],
 //  's2s-${env}'      : [
 //    secret('microservicekey-xui-webapp', 'S2S_SECRET')
 //  ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
-    [ $class: 'AzureKeyVaultSecret',
-      secretType: 'Secret',
-      name: secretName,
-      version: '',
-      envVariable: envVar
+    [$class     : 'AzureKeyVaultSecret',
+     secretType : 'Secret',
+     name       : secretName,
+     version    : '',
+     envVariable: envVar
     ]
 }
 
@@ -49,13 +50,11 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
 
-    onMaster() {
-        enablePactAs([
-                AppPipelineDsl.PactRoles.CONSUMER
-        ])
-    }
+    enablePactAs([
+            AppPipelineDsl.PactRoles.CONSUMER
+    ])
 
-    after('checkout') {sh 'yarn cache clean'}
+    after('checkout') { sh 'yarn cache clean' }
 
     if (deployToAatOnly) {
         before('buildinfra:prod') {
@@ -69,56 +68,59 @@ withPipeline(type, product, component) {
         sh 'yarn  build'
 
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/lint/node/",
-            reportFiles          : 'index.html',
-            reportName           : 'node lint Report'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/lint/node/",
+                reportFiles          : 'index.html',
+                reportName           : 'node lint Report'
         ])
 
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/lint/ng/",
-            reportFiles          : 'index.html',
-            reportName           : 'ng lint Report'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/lint/ng/",
+                reportFiles          : 'index.html',
+                reportName           : 'ng lint Report'
         ])
     }
 
     after('test') {
 
-        publishHTML ( [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/coverage/node",
-            reportFiles          : "index.html",
-            reportName           : "node coverage tests"
-        ])
-
-        publishHTML ( [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/coverage/ng",
-            reportFiles          : "index.html",
-            reportName           : "ng coverage tests"
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/coverage/node",
+                reportFiles          : "index.html",
+                reportName           : "node coverage tests"
         ])
 
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/coverage/ng",
+                reportFiles          : "index.html",
+                reportName           : "ng coverage tests"
         ])
 
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/a11y/",
+                reportFiles          : 'Report.html',
+                reportName           : 'Manage Org a11y Test'
+        ])
 
-
-
+        env.PACT_PARTICIPANT_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
+        sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.88.37/pact-1.88.37-linux-x86.tar.gz'
+        sh 'tar xzf pact-1.88.37-linux-x86.tar.gz'
+        dir('pact/bin') {
+            sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a xui_manageOrg -b ${PACT_BROKER_URL} -e ${PACT_PARTICIPANT_VERSION}'
+        }
     }
 
 //    after('smoketest:demo') {
@@ -134,84 +136,84 @@ withPipeline(type, product, component) {
 
     after('smoketest:preview') {
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Test'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/api_functional/",
+                reportFiles          : 'mochawesome.html',
+                reportName           : 'PREVIEW API Test'
         ])
 
-           publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Manage Org Smoke Test'
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/smoke_tests/functional",
+                reportFiles          : 'index.html',
+                reportName           : 'PREVIEW Manage Org Smoke Test'
         ])
     }
 
     after('functionalTest:preview') {
 
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'PREVIEW API Functional Test'
-      ])
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/api_functional/",
+                reportFiles          : 'mochawesome.html',
+                reportName           : 'PREVIEW API Functional Test'
+        ])
 
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Functional Test'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/functional/",
+                reportFiles          : 'index.html',
+                reportName           : 'PREVIEW Functional Test'
         ])
     }
 
 
     after('smoketest:aat') {
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'API Smoke Test'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/api_functional/",
+                reportFiles          : 'mochawesome.html',
+                reportName           : 'API Smoke Test'
         ])
 
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Manage Org Smoke Test'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/smoke_tests/functional",
+                reportFiles          : 'index.html',
+                reportName           : 'AAT Manage Org Smoke Test'
         ])
     }
 
     after('functionalTest:aat') {
 
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'API Functional Test'
-      ])
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/api_functional/",
+                reportFiles          : 'mochawesome.html',
+                reportName           : 'API Functional Test'
+        ])
 
         publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Functional Test'
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/tests/functional/",
+                reportFiles          : 'index.html',
+                reportName           : 'AAT Functional Test'
         ])
     }
 

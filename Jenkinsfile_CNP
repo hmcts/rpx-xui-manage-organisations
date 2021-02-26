@@ -119,6 +119,8 @@ withPipeline(type, product, component) {
         sh 'curl -LO https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.88.37/pact-1.88.37-linux-x86.tar.gz'
         sh 'tar xzf pact-1.88.37-linux-x86.tar.gz'
         dir('pact/bin') {
+            sh './pact-mock-service --help start'
+            sh './pact-provider-verifier --help verify'
             sh './pact-broker can-i-deploy --retry-while-unknown=12 --retry-interval=10 -a xui_manageOrg -b ${PACT_BROKER_URL} -e ${PACT_PARTICIPANT_VERSION}'
         }
     }

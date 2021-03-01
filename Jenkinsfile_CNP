@@ -111,9 +111,6 @@ withPipeline(type, product, component) {
                 reportFiles          : 'Report.html',
                 reportName           : 'Manage Org a11y Test'
         ])
-        env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
-        env.PACT_PARTICIPANT_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
-        sh 'docker run --rm pactfoundation/pact-cli:latest broker can-i-deploy -b ${PACT_BROKER_FULL_URL} -a xui_manageOrg -e ${PACT_PARTICIPANT_VERSION}'
     }
 
 //    after('smoketest:demo') {

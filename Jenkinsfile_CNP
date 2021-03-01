@@ -111,6 +111,8 @@ withPipeline(type, product, component) {
                 reportFiles          : 'Report.html',
                 reportName           : 'Manage Org a11y Test'
         ])
+        env.PACT_PARTICIPANT_VERSION = sh(returnStdout: true, script: 'git rev-parse --verify --short HEAD')
+        sh 'docker run --rm -b ${PACT_BROKER_URL} pactfoundation/pact-cli:latest broker -a xui_manageOrg -e ${PACT_PARTICIPANT_VERSION}'
     }
 
 //    after('smoketest:demo') {

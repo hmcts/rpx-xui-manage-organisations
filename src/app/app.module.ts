@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -33,8 +33,8 @@ import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
 
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -53,6 +53,10 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
   imports: [
     BrowserModule,
     HttpClientModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN'
+    }),
     CookieModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     StoreModule.forRoot(reducers, { metaReducers }),
@@ -76,7 +80,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
     { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyClientIdFactory, deps: [ENVIRONMENT_CONFIG] },
     { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store], multi: true },
-    ],
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

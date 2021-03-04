@@ -42,5 +42,9 @@
     "cache": true,
     "all": true,
     "report-dir": "../reports/tests/coverage/node"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.2",
+    "@types/csurf": "^1.11.0"
   }
 }

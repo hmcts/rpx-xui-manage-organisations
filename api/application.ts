@@ -2,7 +2,9 @@ import * as healthcheck from '@hmcts/nodejs-healthcheck'
 import {SESSION, xuiNode} from '@hmcts/rpx-xui-node-lib'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
+import * as csrf from 'csurf'
 import * as express from 'express'
+import * as session from 'express-session'
 import * as helmet from 'helmet'
 import {attach, getXuiNodeMiddleware} from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from './configuration'
@@ -46,13 +48,83 @@ logger.info(environmentCheckText())
 if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled')
   app.use(helmet(getConfigValue(HELMET)))
+  app.use(helmet.noSniff())
+  app.use(helmet.frameguard({ action: 'deny' }))
+  app.use(helmet.referrerPolicy({ policy: ['origin'] }))
+  app.use(helmet.hidePoweredBy())
+  app.use(helmet.hsts({ maxAge: 28800000 }))
+  app.use(helmet.xssFilter())
+  app.use((req, res, next) => {
+    res.setHeader('X-Robots-Tag', 'noindex')
+    res.setHeader('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate')
+    next()
+  })
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain')
+    res.send('User-agent: *\nDisallow: /')
+  })
+  app.get('/sitemap.xml', (req, res) => {
+    res.type('text/xml')
+    res.send('User-agent: *\nDisallow: /')
+  })
+  app.disable('x-powered-by')
+  app.disable('X-Powered-By')
+  app.use(session({  
+    secret: getConfigValue(SESSION_SECRET),
+    cookie: {
+      httpOnly: true,
+      maxAge: 28800000,
+      sameSite: 'strict',
+      secure: true,
+    }
+  }))
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      connectSrc: [
+        '\'self\'',
+        '*.gov.uk',
+        'dc.services.visualstudio.com',
+        '*.launchdarkly.com',
+        'www.google-analytics.com',
+      ],
+      defaultSrc: [`'self'`],
+      fontSrc: ['\'self\'', 'https://fonts.gstatic.com', 'data:'],
+      formAction: [`'none'`],
+      frameAncestors: [`'self'`],
+      frameSrc: [`'self'`],
+      imgSrc: [
+        '\'self\'',
+        'data:',
+        'https://www.google-analytics.com',
+        'https://www.googletagmanager.com',
+        'https://raw.githubusercontent.com/hmcts/',
+        'http://stats.g.doubleclick.net/',
+        'http://ssl.gstatic.com/',
+        'http://www.gstatic.com/',
+        'https://fonts.gstatic.com',
+      ],
+      mediaSrc: ['\'self\''],
+      scriptSrc: [
+        '\'self\'',
+        'www.google-analytics.com',
+        'www.googletagmanager.com',
+        'az416426.vo.msecnd.net',
+      ],
+      styleSrc: [
+        '\'self\'',
+        'https://fonts.googleapis.com',
+        'https://fonts.gstatic.com',
+        'http://tagmanager.google.com/',
+      ],
+    },
+  }))
 }
 
 app.use(appInsights)
 app.use(bodyParser.json({limit: '5mb'}))
 app.use(bodyParser.urlencoded({limit: '5mb', extended: true}))
 app.use(cookieParser(getConfigValue(SESSION_SECRET)))
-
+app.use(csrf({ cookie: { key: 'XSRF-TOKEN', httpOnly: true, secure: true, sameSite: 'strict' } }))
 app.use(getXuiNodeMiddleware())
 tunnel.init()
 

@@ -107,6 +107,7 @@ export const getXuiNodeMiddleware = () => {
         cookie: {
             httpOnly: true,
             maxAge: 1800000,
+            sameSite: 'strict',
             secure: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
         },
         name: 'xui-mo-webapp',

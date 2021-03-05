@@ -183,6 +183,9 @@ const environmentNames = {
   prod: 'prod'
 };
 
+const serviceMessagesFeatureToggleKey: string = 'mo-service-messages';
+const serviceMessageCookie: string = 'mo_service_messages';
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -203,4 +206,6 @@ export class AppConstants {
   public static ENVIRONMENT_NAMES = environmentNames;
   public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
   public static FEATURE_NAMES = featureNames;
+  public static SERVICE_MESSAGES_FEATURE_TOGGLE_KEY = serviceMessagesFeatureToggleKey;
+  public static SERVICE_MESSAGE_COOKIE = serviceMessageCookie;
 }

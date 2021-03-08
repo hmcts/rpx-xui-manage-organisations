@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { AppConstants } from 'src/app/app.constants';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
 import { HeadersService } from 'src/shared/services/headers.service';
 import { UserService } from 'src/user-profile/services/user.service';
@@ -28,6 +29,10 @@ export class AppComponent implements OnInit {
   public userNav$: Observable<UserNavModel>;
   public modalData$: Observable<{isVisible?: boolean; countdown?: string}>;
 
+  public featureToggleKey: string;
+  public serviceMessageCookie: string;
+  public userRoles: string[];
+
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
@@ -48,6 +53,9 @@ export class AppComponent implements OnInit {
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
     this.modalData$ = this.store.pipe(select(fromRoot.getModalSessionData));
 
+    this.featureToggleKey = AppConstants.SERVICE_MESSAGES_FEATURE_TOGGLE_KEY;
+    this.serviceMessageCookie = AppConstants.SERVICE_MESSAGE_COOKIE;
+
     // no need to unsubscribe as app component is always init.
     this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
       if (rootState) {
@@ -65,6 +73,7 @@ export class AppComponent implements OnInit {
             orgId: user.orgId
           }
         };
+        this.userRoles = featureUser.custom.roles;
         this.featureService.initialize(featureUser);
       });
     }

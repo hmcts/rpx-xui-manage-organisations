@@ -106,12 +106,15 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
       mediaSrc: ['\'self\''],
       scriptSrc: [
         '\'self\'',
+        '\'unsafe-inline\'',
+        '\'unsafe-eval\'',
         'www.google-analytics.com',
         'www.googletagmanager.com',
         'az416426.vo.msecnd.net',
       ],
       styleSrc: [
         '\'self\'',
+        '\'unsafe-inline\'',
         'https://fonts.googleapis.com',
         'https://fonts.gstatic.com',
         'http://tagmanager.google.com/',

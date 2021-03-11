@@ -43,7 +43,7 @@
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "rest-assured": "rest-assured",
     "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
-    "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha 'api/test/pact/publish/*.js' --timeout 15000 --reporter spec",
+    "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha -r ts-node/register api/test/pact/publish/*.ts --timeout 15000 --reporter spec",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact"
   },
   "private": true,
@@ -101,7 +101,9 @@
     "global-agent": "^2.1.8",
     "govuk-frontend": "3.1.0",
     "govuk_frontend_toolkit": "^8.2.0",
+    "git-rev-sync": "^2.0.0",
     "helmet": "^3.21.3",
+    "isomorphic-fetch": "^3.0.0",
     "json-stringify-safe": "^5.0.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
@@ -209,6 +211,10 @@
     "@stryker-mutator/karma-runner": "^3.0.1",
     "@stryker-mutator/mocha-runner": "^3.0.1",
     "@stryker-mutator/typescript": "^3.0.1",
-    "**/**/ini": "^1.3.6"
+    "**/**/ini": "^1.3.6",
+    "**/**/prismjs": "^1.23.0",
+    "**/**/serialize-javascript": "^3.1.0",
+    "**/**/elliptic": "^6.5.4",
+    "**/**/socket.io": "^2.4.0"
   }
 }

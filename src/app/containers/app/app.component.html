@@ -7,6 +7,7 @@
   [userNav]="userNav$ | async"
   (navigate)="onNavigate($event)">
 </app-header>
+<xuilib-service-messages [userRoles]="userRoles" [featureToggleKey]="featureToggleKey" [serviceMessageCookie]="serviceMessageCookie"></xuilib-service-messages>
 
 <div class="hmcts-width-container">
     <router-outlet></router-outlet>

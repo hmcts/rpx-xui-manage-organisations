@@ -49,7 +49,7 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled')
   app.use(helmet(getConfigValue(HELMET)))
   app.use(helmet.noSniff())
-  app.use(helmet.frameguard({ action: 'deny' }))
+  // app.use(helmet.frameguard({ action: 'deny' }))
   app.use(helmet.referrerPolicy({ policy: ['origin'] }))
   app.use(helmet.hidePoweredBy())
   app.use(helmet.hsts({ maxAge: 28800000 }))

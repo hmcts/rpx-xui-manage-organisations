@@ -1,37 +1,14 @@
-import { Pact } from '@pact-foundation/pact';
 import { expect } from 'chai';
-import * as getPort from 'get-port';
-import * as path from 'path';
 import { InviteUserResponse } from '../pactFixtures';
 import { inviteUser } from '../pactUtil';
-const {Matchers} = require('@pact-foundation/pact');
-const {somethingLike, like, eachLike} = Matchers;
+import { PactTestSetup } from '../settings/provider.mock';
+
+const { Matchers } = require('@pact-foundation/pact');
+const { somethingLike, like, eachLike } = Matchers;
+const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 });
+
 
 describe("RD Professional API", () => {
-  let mockServerPort: number
-  let provider: Pact
-
-  // Setup the provider
-  before(async() => {
-    mockServerPort = await getPort()
-    provider = new Pact({
-      consumer: "xui_manageOrg",
-      provider: "referenceData_organisationalExternalUsers",
-      log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
-      dir: path.resolve(process.cwd(), "api/test/pact/pacts"),
-      logLevel: 'info',
-      port: mockServerPort,
-      spec: 2,
-      pactfileWriteMode: "merge"
-    })
-    return provider.setup()
-  })
-
-  // Write Pact when all tests done
-  after(() => provider.finalize())
-
-  // verify with Pact, and reset expectations
-  afterEach(() => provider.verify())
 
   describe("Invite User", () => {
 
@@ -40,24 +17,25 @@ describe("RD Professional API", () => {
       "firstName": "Joe",
       "lastName": "Bloggs",
       "roles": ["admin"],
-      "resendInvite":true
+      "resendInvite": true
     }
 
     const mockResponse = {
-      userIdentifier:somethingLike('urlIdentifier')
+      userIdentifier: somethingLike('urlIdentifier')
     }
 
     const requestPath = "/refdata/external/v1/organisations/users/";
 
-    before(done => {
+    before(async () => {
+      await pactSetUp.provider.setup()
       const interaction = {
         state: "Organisation exists that can invite new users",
         uponReceiving: "A request to invite a new user",
         withRequest: {
           method: "POST",
           headers: {
-            "Content-Type":  "application/json;charset=utf-8",
-            "Authorization":  "Bearer some-access-token",
+            "Content-Type": "application/json;charset=utf-8",
+            "Authorization": "Bearer some-access-token",
             "ServiceAuthorization": "serviceAuthToken"
           },
           path: requestPath,
@@ -68,26 +46,27 @@ describe("RD Professional API", () => {
             "Content-Type": "application/json",
           },
           status: 201,
-          body:mockResponse
+          body: mockResponse
         },
       }
       // @ts-ignore
-      provider.addInteraction(interaction).then(() => {
-        done()
-      })
+      pactSetUp.provider.addInteraction(interaction)
     })
 
-    it("returns the correct response", done => {
-      const taskUrl: string = `${provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
-      const resp =  inviteUser(taskUrl, mockRequest as any);
+    it("returns the correct response", async () => {
+      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
+      const resp = inviteUser(taskUrl, mockRequest as any);
       resp.then((response) => {
-        const responseDto: InviteUserResponse  = <InviteUserResponse> response.data
+        const responseDto: InviteUserResponse = <InviteUserResponse>response.data
         assertResponse(responseDto);
-      }).then(done,done)
+      }).then(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
+      })
     })
   })
 })
 
-function assertResponse(dto:InviteUserResponse):void{
+function assertResponse(dto: InviteUserResponse): void {
   expect(dto.userIdentifier).to.be.equal('urlIdentifier');
 }

@@ -126,9 +126,23 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showFormValidation(true);
     } else {
       this.showFormValidation(false);
-      const { value } = formDraft;
+      let { value } = formDraft;
+      const pbaNumbers = [];
+      if (this.pageId === 'organisation-pba') {
+        for (const key in value) {
+          if (value.hasOwnProperty(key) && key.startsWith('PBAnumber')) {
+            pbaNumbers.push(value[key]);
+          }
+        }
+        value = pbaNumbers;
+      }
       this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
+    }
+  }
 
+  public onEvent(event): void {
+    if (event && event === 'addAnotherPBANumber') {
+      this.store.dispatch(new fromStore.AddPBANumber(this.pageId));
     }
   }
 

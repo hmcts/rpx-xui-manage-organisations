@@ -11,17 +11,12 @@ export const pbaNumber = {
         controlId: 'PBAnumber1',
         text: 'Enter a valid PBA number',
       },
-      {
-        validationLevel: 'formControl',
-        controlId: 'PBAnumber2',
-        text: 'Enter a valid PBA number',
-      },
     ],
     groups: [
       {
         input: {
           label: {
-            text: 'PBA number 1 (optional)',
+            text: 'PBA number(optional)',
             classes: 'govuk-label--m',
           },
           control: 'PBAnumber1',
@@ -34,18 +29,12 @@ export const pbaNumber = {
         },
       },
       {
-        input: {
-          label: {
-            text: 'PBA number 2 (optional)',
-            classes: 'govuk-label--m',
-          },
-          control: 'PBAnumber2',
-          validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
-          validationError: {
-            value: 'Enter a valid PBA number',
-            controlId: 'PBAnumber2',
-          },
-          classes: 'govuk-!-width-two-thirds',
+        button: {
+          control: 'addAnotherPBANumber',
+          value: 'Add another PBA number',
+          type: 'button',
+          classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
+          onEvent: 'addAnotherPBANumber',
         },
       },
       {

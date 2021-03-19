@@ -31,6 +31,7 @@
         [pageItems]="pageItems"
         [pageValues]="pageValues"
         [isPageValid]="isPageValid"
+        (btnClick)="onEvent($event)"
         (submitPage)="onPageContinue($event)" >
       </app-form-builder>
 

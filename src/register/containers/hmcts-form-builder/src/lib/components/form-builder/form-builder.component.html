@@ -16,7 +16,7 @@
                     [data]="group.fieldset"
                     [validate]="isPageValid">
       </app-fieldset>
-      <app-jui-form-elements [group]="formDraft" [validate]="isPageValid" [data]="group"></app-jui-form-elements>
+      <app-jui-form-elements [group]="formDraft" [validate]="isPageValid" [data]="group" (btnClick)="onBtnClick($event)"></app-jui-form-elements>
     </div>
   </div>
 </form>

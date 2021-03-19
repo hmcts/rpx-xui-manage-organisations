@@ -1,8 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TermsConditionsService } from '../../../../src/shared/services/termsConditions.service';
 import {FormDataValuesModel} from '../../models/form-data-values.model';
 import * as fromStore from '../../store';
 

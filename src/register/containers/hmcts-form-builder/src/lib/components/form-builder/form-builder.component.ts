@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {FormsService} from '../../services/form-builder.service';
 import {ValidationService} from '../../services/form-builder-validation.service';
+import {FormsService} from '../../services/form-builder.service';
 
 /**
  * Form Builder Wrapper
@@ -20,32 +20,37 @@ export class FormBuilderComponent implements OnChanges {
     private formsService: FormsService,
     private validationService: ValidationService) {}
 
-  @Input() pageItems: any;
-  @Input() pageValues: any;
-  @Input() isPageValid: boolean;
-  @Output() submitPage = new EventEmitter<FormGroup>();
+  @Input() public pageItems: any;
+  @Input() public pageValues: any;
+  @Input() public isPageValid: boolean;
+  @Output() public submitPage = new EventEmitter<FormGroup>();
+  @Output() public btnClick = new EventEmitter<FormGroup>();
 
-  formDraft: FormGroup;
+  public formDraft: FormGroup;
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.pageItems && changes.pageItems.currentValue) {
       this.createForm();
     }
   }
 
-  createForm() {
+  public createForm() {
     this.formDraft = new FormGroup(this.formsService.defineformControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
 
-  setValidators(): void {
+  public setValidators(): void {
     if (this.pageItems) {
       const formGroupValidators = this.validationService.createFormGroupValidators(this.formDraft, this.pageItems.formGroupValidators);
       this.formDraft.setValidators(formGroupValidators);
     }
   }
 
-  onFormSubmit() {
+  public onFormSubmit() {
     this.submitPage.emit(this.formDraft);
+  }
+
+  public onBtnClick(event) {
+    this.btnClick.emit(event);
   }
 }

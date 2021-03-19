@@ -1,5 +1,6 @@
+import { AppUtils } from '../../../app/utils/app-utils';
+import { apiErrors, errorMessageMappings } from '../../mappings/apiErrorMappings';
 import * as fromRegistration from '../actions/registration.actions';
-import { errorMessageMappings, apiErrors } from '../../mappings/apiErrorMappings';
 
 export const navigation = {
   'organisation-name': 'organisation-address',
@@ -17,6 +18,24 @@ export const navigation = {
   sraNumber: 'name',
   name: 'email-address',
   'email-address': 'check'
+};
+
+export const newPBAElement = (newPBAIndex) => {
+  return {
+    input: {
+      label: {
+        text: 'PBA number(optional)',
+        classes: 'govuk-label--m',
+      },
+      control: `PBAnumber${newPBAIndex}`,
+      validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
+      validationError: {
+        value: 'Enter a valid PBA number',
+        controlId: `PBAnumber${newPBAIndex}`,
+      },
+      classes: 'govuk-!-width-two-thirds',
+    }
+  };
 };
 
 export interface PageItems {
@@ -85,11 +104,44 @@ export function reducer(
       };
     }
 
-    case fromRegistration.SAVE_FORM_DATA: {
-      const pagesValues = {
-        ...state.pagesValues,
-        ...action.payload.value
+    case fromRegistration.ADD_PBA_NUMBER: {
+      const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
+      const predicate = (element: {}) => element.hasOwnProperty('input');
+      const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
+
+      // @ts-ignore
+      pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(lastInputIndex + 2));
+      const pages = {
+        ...state.pages,
+        'organisation-pba': {
+          ...state.pages['organisation-pba'],
+          meta: {
+            ...state.pages['organisation-pba'].meta,
+            groups: pageGroups
+          }
+        }
       };
+      return {
+        ...state,
+        pages,
+        loading: false,
+        loaded: true,
+      };
+    }
+
+    case fromRegistration.SAVE_FORM_DATA: {
+      let pagesValues = {};
+      if (action.payload.pageId === 'organisation-pba') {
+        pagesValues = {
+          ...state.pagesValues,
+          PBANumbers: action.payload.value
+        };
+      } else {
+        pagesValues = {
+          ...state.pagesValues,
+          ...action.payload.value
+        };
+      }
 
       const partialMatchHaveKey = Object.keys(action.payload.value).find(key => key.indexOf('have') > -1);
 
@@ -190,9 +242,10 @@ export function reducer(
         errorMessageCode: ''
       };
     }
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 export const getRegistrationFormPages = (state: RegistrationFormState) => state.pages;
@@ -200,7 +253,6 @@ export const getRegistrationFormPagesValues = (state: RegistrationFormState) => 
 export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) => state.submitted;
 export const getRegistrationNextUrl = (state: RegistrationFormState) => state.nextUrl;
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
-export const getRegistrationPagesLoaded = (state: RegistrationFormState) => state.loaded;
 export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
 export const getRegistrationErrorMessagesCodes = (state: RegistrationFormState) => state.errorMessageCode;
 

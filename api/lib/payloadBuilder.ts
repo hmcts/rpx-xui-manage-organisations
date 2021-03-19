@@ -70,7 +70,7 @@ export function makeOrganisationPayload(stateValues): any {
 
   setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
 
-  let stateValuesArray = [stateValues.PBAnumber1, stateValues.PBAnumber2]
+  let stateValuesArray = stateValues.PBANumbers
   setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray)
 
   stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange]

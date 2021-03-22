@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as csrf from 'csurf'
 import * as express from 'express'
-import * as session from 'express-session'
+// import * as session from 'express-session'
 import * as helmet from 'helmet'
 import {attach, getXuiNodeMiddleware} from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from './configuration'
@@ -49,8 +49,8 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled')
   app.use(helmet(getConfigValue(HELMET)))
   app.use(helmet.noSniff())
-  // app.use(helmet.frameguard({ action: 'deny' }))
-  // app.use(helmet.referrerPolicy({ policy: ['origin'] }))
+  app.use(helmet.frameguard({ action: 'deny' }))
+  app.use(helmet.referrerPolicy({ policy: ['origin'] }))
   app.use(helmet.hidePoweredBy())
   app.use(helmet.hsts({ maxAge: 28800000 }))
   app.use(helmet.xssFilter())
@@ -69,15 +69,15 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   })
   app.disable('x-powered-by')
   app.disable('X-Powered-By')
-  app.use(session({  
-    secret: getConfigValue(SESSION_SECRET),
-    cookie: {
-      httpOnly: true,
-      maxAge: 28800000,
-      sameSite: 'strict',
-      secure: true,
-    }
-  }))
+  // app.use(session({  
+  //   secret: getConfigValue(SESSION_SECRET),
+  //   cookie: {
+  //     httpOnly: true,
+  //     maxAge: 28800000,
+  //     sameSite: 'strict',
+  //     secure: true,
+  //   }
+  // }))
   app.use(helmet.contentSecurityPolicy({
     directives: {
       connectSrc: [

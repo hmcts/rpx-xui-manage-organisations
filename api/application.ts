@@ -4,7 +4,6 @@ import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as csrf from 'csurf'
 import * as express from 'express'
-// import * as session from 'express-session'
 import * as helmet from 'helmet'
 import {attach, getXuiNodeMiddleware} from './auth'
 import {environmentCheckText, getConfigValue, getEnvironment, showFeature} from './configuration'
@@ -54,30 +53,6 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   app.use(helmet.hidePoweredBy())
   app.use(helmet.hsts({ maxAge: 28800000 }))
   app.use(helmet.xssFilter())
-  app.use((req, res, next) => {
-    res.setHeader('X-Robots-Tag', 'noindex')
-    res.setHeader('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate')
-    next()
-  })
-  app.get('/robots.txt', (req, res) => {
-    res.type('text/plain')
-    res.send('User-agent: *\nDisallow: /')
-  })
-  app.get('/sitemap.xml', (req, res) => {
-    res.type('text/xml')
-    res.send('User-agent: *\nDisallow: /')
-  })
-  app.disable('x-powered-by')
-  app.disable('X-Powered-By')
-  // app.use(session({  
-  //   secret: getConfigValue(SESSION_SECRET),
-  //   cookie: {
-  //     httpOnly: true,
-  //     maxAge: 28800000,
-  //     sameSite: 'strict',
-  //     secure: true,
-  //   }
-  // }))
   app.use(helmet.contentSecurityPolicy({
     directives: {
       connectSrc: [
@@ -121,13 +96,28 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
       ],
     },
   }))
+  app.use((req, res, next) => {
+    res.setHeader('X-Robots-Tag', 'noindex')
+    res.setHeader('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate, proxy-revalidate')
+    next()
+  })
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain')
+    res.send('User-agent: *\nDisallow: /')
+  })
+  app.get('/sitemap.xml', (req, res) => {
+    res.type('text/xml')
+    res.send('User-agent: *\nDisallow: /')
+  })
+  app.disable('x-powered-by')
+  app.disable('X-Powered-By')
 }
 
 app.use(appInsights)
 app.use(bodyParser.json({limit: '5mb'}))
 app.use(bodyParser.urlencoded({limit: '5mb', extended: true}))
 app.use(cookieParser(getConfigValue(SESSION_SECRET)))
-app.use(csrf({ cookie: { key: 'XSRF-TOKEN', httpOnly: true, secure: true, sameSite: 'strict' } }))
+app.use(csrf({ cookie: { key: 'XSRF-TOKEN', httpOnly: false, secure: true } }))
 app.use(getXuiNodeMiddleware())
 tunnel.init()
 

@@ -22,18 +22,19 @@ export const navigation = {
 
 export const newPBAElement = (newPBAIndex) => {
   return {
-    input: {
+    inputButton: {
       label: {
-        text: 'PBA number(optional)',
+        text: 'PBA number (optional)',
         classes: 'govuk-label--m',
       },
-      control: `PBAnumber${newPBAIndex}`,
+      control: `PBANumber${newPBAIndex}`,
+      type: 'inputButton',
       validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
       validationError: {
         value: 'Enter a valid PBA number',
-        controlId: `PBAnumber${newPBAIndex}`,
+        controlId: `PBANumber${newPBAIndex}`,
       },
-      classes: 'govuk-!-width-two-thirds',
+      classes: 'govuk-width-input-button'
     }
   };
 };
@@ -43,6 +44,7 @@ export interface PageItems {
   meta: any;
   loading: boolean;
   loaded: boolean;
+  init: boolean;
 }
 
 export interface RegistrationFormState {
@@ -88,7 +90,8 @@ export function reducer(
       const pageItems = {
         ...payload,
         loaded: true,
-        loading: false
+        loading: false,
+        init: true
       };
 
       const pages = {
@@ -106,11 +109,47 @@ export function reducer(
 
     case fromRegistration.ADD_PBA_NUMBER: {
       const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
-      const predicate = (element: {}) => element.hasOwnProperty('input');
+      const predicate = (element: {}) => element.hasOwnProperty('inputButton');
       const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
+      if (lastInputIndex === -1) {
+        // @ts-ignore
+        pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(1));
+      } else {
+        // @ts-ignore
+        const maxInputControl = pageGroups[lastInputIndex].inputButton.control;
+        const maxIndex = maxInputControl.replace( /^\D+/g, '');
+        // @ts-ignore
+        pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(parseInt(maxIndex, 10) + 1));
+      }
+      const pages = {
+        ...state.pages,
+        'organisation-pba': {
+          ...state.pages['organisation-pba'],
+          meta: {
+            ...state.pages['organisation-pba'].meta,
+            groups: pageGroups
+          },
+          init: false
+        }
+      };
+      const pagesValues = {
+        ...state.pagesValues,
+        ...action.payload
+      };
+      return {
+        ...state,
+        pages,
+        pagesValues,
+        loading: false,
+        loaded: true,
+      };
+    }
 
-      // @ts-ignore
-      pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(lastInputIndex + 2));
+    case fromRegistration.REMOVE_PBA_NUMBER: {
+      const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
+      const predicate = (element: {}) => element.hasOwnProperty('inputButton') && action.payload.includes(element['inputButton'].control);
+      const matchIndex = pageGroups.findIndex(predicate);
+      pageGroups.splice(matchIndex, 1);
       const pages = {
         ...state.pages,
         'organisation-pba': {
@@ -121,27 +160,33 @@ export function reducer(
           }
         }
       };
+      const removeItem = action.payload.replace('remove', '');
+      const pagesValues = {...state.pagesValues};
+      delete pagesValues[removeItem];
       return {
         ...state,
         pages,
+        pagesValues,
         loading: false,
         loaded: true,
       };
     }
 
     case fromRegistration.SAVE_FORM_DATA: {
-      let pagesValues = {};
+      let pages = {...state.pages};
       if (action.payload.pageId === 'organisation-pba') {
-        pagesValues = {
-          ...state.pagesValues,
-          PBANumbers: action.payload.value
-        };
-      } else {
-        pagesValues = {
-          ...state.pagesValues,
-          ...action.payload.value
+        pages = {
+          ...state.pages,
+          'organisation-pba': {
+            ...state.pages['organisation-pba'],
+            init: false
+          }
         };
       }
+      const pagesValues = {
+        ...state.pagesValues,
+        ...action.payload.value
+      };
 
       const partialMatchHaveKey = Object.keys(action.payload.value).find(key => key.indexOf('have') > -1);
 
@@ -151,6 +196,7 @@ export function reducer(
 
       return {
         ...state,
+        pages,
         pagesValues,
         nextUrl
       };

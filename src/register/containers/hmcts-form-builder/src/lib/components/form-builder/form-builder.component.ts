@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {ValidationService} from '../../services/form-builder-validation.service';
 import {FormsService} from '../../services/form-builder.service';
@@ -24,7 +24,7 @@ export class FormBuilderComponent implements OnChanges {
   @Input() public pageValues: any;
   @Input() public isPageValid: boolean;
   @Output() public submitPage = new EventEmitter<FormGroup>();
-  @Output() public btnClick = new EventEmitter<FormGroup>();
+  @Output() public btnClick = new EventEmitter<any>();
 
   public formDraft: FormGroup;
 
@@ -35,7 +35,7 @@ export class FormBuilderComponent implements OnChanges {
   }
 
   public createForm() {
-    this.formDraft = new FormGroup(this.formsService.defineformControls(this.pageItems, this.pageValues));
+    this.formDraft = new FormGroup(this.formsService.defineFormControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
 
@@ -50,7 +50,7 @@ export class FormBuilderComponent implements OnChanges {
     this.submitPage.emit(this.formDraft);
   }
 
-  public onBtnClick(event) {
-    this.btnClick.emit(event);
+  public onBtnClick(eventId) {
+    this.btnClick.emit({eventId, data: this.formDraft});
   }
 }

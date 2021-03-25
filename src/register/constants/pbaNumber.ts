@@ -8,24 +8,25 @@ export const pbaNumber = {
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
-        controlId: 'PBAnumber1',
+        controlId: 'PBANumber1',
         text: 'Enter a valid PBA number',
       },
     ],
     groups: [
       {
-        input: {
+        inputButton: {
           label: {
-            text: 'PBA number(optional)',
+            text: 'PBA number (optional)',
             classes: 'govuk-label--m',
           },
-          control: 'PBAnumber1',
+          control: 'PBANumber1',
+          type: 'inputButton',
           validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
           validationError: {
             value: 'Enter a valid PBA number',
-            controlId: 'PBAnumber1',
+            controlId: 'PBANumber1',
           },
-          classes: 'govuk-!-width-two-thirds',
+          classes: 'govuk-width-input-button',
         },
       },
       {

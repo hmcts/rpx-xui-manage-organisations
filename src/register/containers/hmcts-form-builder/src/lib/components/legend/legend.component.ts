@@ -5,5 +5,5 @@ import {Component, Input} from '@angular/core';
   templateUrl: './legend.component.html'
 })
 export class LegendComponent {
-    @Input() classes:  string;
+    @Input() public classes: string;
 }

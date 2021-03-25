@@ -159,6 +159,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       jurisdictions: this.jurisdictions
     };
     this.store.dispatch( new fromStore.SubmitFormData(pageValues));
+
   }
 
   public onGoBack(event) {

@@ -16,7 +16,7 @@ describe('Pa11y tests', function () {
         MockApp.init()
     });
       afterEach(async function (done) {
-        await MockApp.stopServer(); 
+        await MockApp.stopServer();
         done();
      });
 
@@ -81,8 +81,8 @@ describe('Pa11y tests', function () {
         actions.push(...PallyActions.inputField('#postcode', 'PA1 1YY'));
         actions.push(...PallyActions.clickElement('#createButtonContinue'));
 
-        actions.push(...PallyActions.inputField('#PBAnumber1', 'PBA1234567'));
-        actions.push(...PallyActions.inputField('#PBAnumber2', 'PBA7654321'));
+        actions.push(...PallyActions.inputField('#PBANumber1', 'PBA1234567'));
+        actions.push(...PallyActions.inputField('#PBANumber2', 'PBA7654321'));
         actions.push(...PallyActions.clickElement('#createButtonContinue'));
 
         actions.push(...PallyActions.clickElement('#haveDxyes'));
@@ -106,7 +106,7 @@ describe('Pa11y tests', function () {
         actions.push(...PallyActions.clickElement('#createButtonContinue'));
 
         actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-check-your-answers'));
-        return actions; 
+        return actions;
     }
 
 

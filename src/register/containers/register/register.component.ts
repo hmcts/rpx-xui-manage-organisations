@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public isFromSubmitted$: Observable<boolean>;
   public isFormDataLoaded$: Observable<boolean>;
 
+  public init = {};
   public nextUrl: string;
   public pageId: string;
   public isPageValid = false;
@@ -91,7 +92,13 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.$routeSubscription = this.store.pipe(select(fromStore.getCurrentPage)).subscribe((routeParams) => {
       if (routeParams.pageId && routeParams.pageId !== this.pageId) { // TODO see why double call.
         this.pageId = routeParams.pageId;
-        this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
+        if (this.pageId === 'organisation-pba') {
+          if (this.init['organisation-pba'] === undefined || this.init['organisation-pba'] === true) {
+            this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
+          }
+        } else {
+          this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
+        }
       }
     });
 
@@ -106,6 +113,9 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
         if (this.pageId && formData.pageItems && formData.pageValues) {
           this.pageValues  = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
+          if (formData && formData.pageItems && formData.pageItems.meta) {
+            this.init[formData.pageItems.meta.name] = formData.pageItems.init;
+          }
           this.nextUrl = formData.nextUrl;
           this.store.dispatch(new fromStore.ResetNextUrl());
         }
@@ -126,23 +136,25 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showFormValidation(true);
     } else {
       this.showFormValidation(false);
-      let { value } = formDraft;
-      const pbaNumbers = [];
-      if (this.pageId === 'organisation-pba') {
-        for (const key in value) {
-          if (value.hasOwnProperty(key) && key.startsWith('PBAnumber')) {
-            pbaNumbers.push(value[key]);
-          }
-        }
-        value = pbaNumbers;
-      }
+      const { value } = formDraft;
       this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
     }
   }
 
-  public onEvent(event): void {
-    if (event && event === 'addAnotherPBANumber') {
-      this.store.dispatch(new fromStore.AddPBANumber(this.pageId));
+  public onEvent(event: any): void {
+    if (event) {
+      if (event.eventId === 'addAnotherPBANumber') {
+        if (event.data.invalid ) {
+          this.showFormValidation(true);
+        } else {
+          this.showFormValidation(false);
+          const { value } = event.data;
+          this.store.dispatch(new fromStore.AddPBANumber(value));
+        }
+      }
+      if (event.eventId.includes('removePBANumber')) {
+        this.store.dispatch(new fromStore.RemovePBANumber(event.eventId));
+      }
     }
   }
 

@@ -1,0 +1,19 @@
+.main_div{
+  display: table;
+  width: 100%;
+}
+.input-cell {
+  display: table-cell;
+  width: 85%;
+}
+.button-cell {
+  display: table-cell;
+  vertical-align: middle;
+  width: 15%;
+}
+.govuk-button {
+  margin-bottom: 0;
+}
+.govuk-width-input-button {
+  width: 80%;
+}

@@ -30,7 +30,7 @@ describe('FormsService', () => {
         const someData = {};
 
         service.create(someJson, someData);
-        expect(service.FormControls.hasOwnProperty('radio')).toBeTruthy();
+        expect(service.formControls.hasOwnProperty('radio')).toBeTruthy();
       }));
 
       it('should create radio buttons where data does not match', inject([FormsService], (service: FormsService) => {
@@ -65,7 +65,7 @@ describe('FormsService', () => {
         };
 
         service.create(someJson, someData);
-        expect(service.FormControls.hasOwnProperty('radio')).toBeTruthy();
+        expect(service.formControls.hasOwnProperty('radio')).toBeTruthy();
       }));
 
     });
@@ -98,7 +98,7 @@ describe('FormsService', () => {
         };
 
         service.create(someJson, someData);
-        expect(service.FormControls.hasOwnProperty('text')).toBeTruthy();
+        expect(service.formControls.hasOwnProperty('text')).toBeTruthy();
       }));
     });
 

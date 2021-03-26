@@ -24,14 +24,15 @@ import * as fromRoot from '../../store';
 })
 export class AppComponent implements OnInit {
   public pageTitle$: Observable<string>;
-  public navItems$: Observable<any> ;
+  public navItems$: Observable<any>;
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
-  public modalData$: Observable<{isVisible?: boolean; countdown?: string}>;
+  public modalData$: Observable<{ isVisible?: boolean; countdown?: string }>;
 
   public featureToggleKey: string;
   public serviceMessageCookie: string;
   public userRoles: string[];
+  public mainContentId = "content";
 
   constructor(
     private readonly store: Store<fromRoot.State>,
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
     private readonly featureService: FeatureToggleService,
     private readonly headersService: HeadersService,
     private readonly idleService: ManageSessionServices,
-  ) {}
+  ) { }
 
   public ngOnInit() {
     // TODO when we run FeeAccounts story, this will get uncommented
@@ -208,7 +209,7 @@ export class AppComponent implements OnInit {
 
   public onStaySignedIn() {
     const payload = {
-      session : {
+      session: {
         isVisible: false
       }
     };
@@ -218,6 +219,15 @@ export class AppComponent implements OnInit {
   public onNavigate(event): void {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromRoot.Logout());
+    }
+  }
+
+  // the fragment attribute in Angular is good however it only scrolls to the anchor tag
+  // focussing is not currently supported by the Angular RouterModule and fragment hence this workaround
+  public onFocusMainContent() {
+    const element = document.getElementById(this.mainContentId);
+    if (element) {
+      element.focus();
     }
   }
 }

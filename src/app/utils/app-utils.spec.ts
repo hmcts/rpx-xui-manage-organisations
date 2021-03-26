@@ -247,5 +247,136 @@ describe('AppUtils', () => {
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
     })
+
+    const HtmlComponentArray = [
+      {
+        input: {
+          label: {
+            text: 'PBA number(optional)',
+            classes: 'govuk-label--m'
+          },
+          control: 'PBAnumber1',
+          validators: [
+            'pbaNumberPattern',
+            'pbaNumberMaxLength',
+            'pbaNumberMinLength'
+          ],
+          validationError: {
+            value: 'Enter a valid PBA number',
+            controlId: 'PBAnumber1'
+          },
+          classes: 'govuk-!-width-two-thirds'
+        }
+      },
+      {
+        input: {
+          label: {
+            text: 'PBA number(optional)',
+            classes: 'govuk-label--m'
+          },
+          control: 'PBAnumber2',
+          validators: [
+            'pbaNumberPattern',
+            'pbaNumberMaxLength',
+            'pbaNumberMinLength'
+          ],
+          validationError: {
+            value: 'Enter a valid PBA number',
+            controlId: 'PBAnumber2'
+          },
+          classes: 'govuk-!-width-two-thirds'
+        }
+      },
+      {
+        button: {
+          control: 'addAnotherPBANumber',
+          value: 'Add another PBA number',
+          type: 'button',
+          classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
+          onEvent: 'addAnotherPBANumber'
+        }
+      },
+      {
+        extension: {
+          componentDetails: {
+            title: 'Why add a PBA number?',
+            text: 'Adding a PBA number for your organisation will allow you to view your:',
+            ul: [
+              'account balance',
+              'available credit',
+              'transactions'
+            ]
+          }
+        }
+      },
+      {
+        button: {
+          control: 'createButton',
+          value: 'Continue',
+          type: 'submit',
+          classes: '',
+          onEvent: 'continue'
+        }
+      }
+    ];
+
+    const HtmlComponentArray2 = [
+      {
+          control: 'PBAnumber1',
+          validators: [
+            'pbaNumberPattern',
+            'pbaNumberMaxLength',
+            'pbaNumberMinLength'
+          ],
+          validationError: {
+            value: 'Enter a valid PBA number',
+            controlId: 'PBAnumber1'
+          },
+          classes: 'govuk-!-width-two-thirds'
+      },
+      {
+        button: {
+          control: 'addAnotherPBANumber',
+          value: 'Add another PBA number',
+          type: 'button',
+          classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
+          onEvent: 'addAnotherPBANumber'
+        }
+      },
+      {
+        extension: {
+          componentDetails: {
+            title: 'Why add a PBA number?',
+            text: 'Adding a PBA number for your organisation will allow you to view your:',
+            ul: [
+              'account balance',
+              'available credit',
+              'transactions'
+            ]
+          }
+        }
+      },
+      {
+        button: {
+          control: 'createButton',
+          value: 'Continue',
+          type: 'submit',
+          classes: '',
+          onEvent: 'continue'
+        }
+      }
+    ];
+
+    it('should return index of the last element in the array where predicate is true',()=> {
+        const predicate = (element: {}) => element.hasOwnProperty('input');
+        const result = AppUtils.findLastIndex(HtmlComponentArray, predicate)
+        expect(result).toEqual(1);
+    });
+
+    it('should return -1 if index of last element in the array where predicate is true', ()=> {
+      const predicate = (element: {}) => element.hasOwnProperty('input');
+      const result = AppUtils.findLastIndex(HtmlComponentArray2, predicate)
+      expect(result).toEqual(-1);
+    });
   })
 });

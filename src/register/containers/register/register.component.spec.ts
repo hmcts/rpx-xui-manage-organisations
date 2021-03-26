@@ -1,14 +1,14 @@
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {ComponentFixture, fakeAsync, TestBed} from '@angular/core/testing';
-import {Action, combineReducers, Store, StoreModule} from '@ngrx/store';
-import * as fromStore from '../../../users/store';
-import * as fromRoot from '../../../app/store';
-import { RegisterComponent } from './register.component';
-import { AddPBANumber } from 'src/register/store/actions/registration.actions';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { AddPBANumber } from 'src/register/store/actions/registration.actions';
+import * as fromRoot from '../../../app/store';
+import * as fromStore from '../../../users/store';
+import { RegisterComponent } from './register.component';
 
 const storeMock = {
   pipe: () => {
@@ -26,8 +26,7 @@ describe('RegisterComponent', () => {
   let mockActions: any;
   let routermMockStore: any;
   let pipeSpy: jasmine.Spy;
-let dispatchSpy: jasmine.Spy;
-
+  let dispatchSpy: jasmine.Spy;
 
   beforeEach(() => {
     mockStore = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
@@ -64,27 +63,24 @@ let dispatchSpy: jasmine.Spy;
     fixture.detectChanges();
   });
 
-        it('should submit page if show form validation is true',() =>{
-          spyOn(component, 'onEvent').and.callFake(function() {
-          component.pageId = 'organisation-pba';
-          component.ngOnInit();
-          component.onPageContinue(mockStore);
-          //expect(component.onEvent).toHaveBeenCalled();
-          expect(mockStore.dispatch).toHaveBeenCalled();
-          });
-      });
+  it('should submit page if show form validation is true', () => {
+    spyOn(component, 'onEvent').and.callFake(() => {
+      component.pageId = 'organisation-pba';
+      component.ngOnInit();
+      component.onPageContinue(mockStore);
+      expect(mockStore.dispatch).toHaveBeenCalled();
+    });
+  });
 
-        it('should set addAnotherPBANumber to on addAnotherPBANumber event', fakeAsync(() => {
-           spyOn(component, 'onEvent').and.callFake(function() {
-           component.pageId === 'addAnotherPBANumber';
-           component.ngOnInit();
-           component.onEvent(AddPBANumber);
-           const element = fixture.debugElement.query(By.css('.button'));
-           click(element);
-           //expect(component.onEvent).toHaveBeenCalled();
-           expect(mockStore.dispatch).toHaveBeenCalled();
-           });
-        }));
+  it('should set addAnotherPBANumber to on addAnotherPBANumber event', fakeAsync(() => {
+    spyOn(component, 'onEvent').and.callFake(( ) => {
+      component.ngOnInit();
+      component.onEvent(AddPBANumber);
+      const element = fixture.debugElement.query(By.css('.button'));
+      click(element);
+      expect(mockStore.dispatch).toHaveBeenCalled();
+    });
+  }));
 
 });
 

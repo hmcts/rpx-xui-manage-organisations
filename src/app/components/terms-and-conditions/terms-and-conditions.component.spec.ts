@@ -79,7 +79,7 @@ describe('TermsAndConditionsComponent', () => {
       spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(false));
       component.ngOnInit();
       fixture.detectChanges();
-      const legacy = fixture.debugElement.query(By.css('#main-content'));
+      const legacy = fixture.debugElement.query(By.css('#content'));
       expect(legacy).toBeTruthy();
     });
 

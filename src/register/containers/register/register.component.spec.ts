@@ -1,11 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AddPBANumber } from 'src/register/store/actions/registration.actions';
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../../users/store';
 import { RegisterComponent } from './register.component';
@@ -71,15 +69,5 @@ describe('RegisterComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalled();
     });
   });
-
-  it('should set addAnotherPBANumber to on addAnotherPBANumber event', fakeAsync(() => {
-    spyOn(component, 'onEvent').and.callFake(( ) => {
-      component.ngOnInit();
-      component.onEvent(AddPBANumber);
-      const element = fixture.debugElement.query(By.css('.button'));
-      click(element);
-      expect(mockStore.dispatch).toHaveBeenCalled();
-    });
-  }));
 
 });

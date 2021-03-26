@@ -4,11 +4,11 @@ import {Action, combineReducers, Store, StoreModule} from '@ngrx/store';
 import * as fromStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
 import { RegisterComponent } from './register.component';
-import { AddPBANumber } from 'src/register/store/actions/registration.actions';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 const storeMock = {
   pipe: () => {
@@ -26,7 +26,7 @@ describe('RegisterComponent', () => {
   let mockActions: any;
   let routermMockStore: any;
   let pipeSpy: jasmine.Spy;
-let dispatchSpy: jasmine.Spy;
+  let dispatchSpy: jasmine.Spy;
 
 
   beforeEach(() => {
@@ -40,13 +40,14 @@ let dispatchSpy: jasmine.Spy;
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
+        FormsModule,
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           feature: combineReducers(fromStore.reducers),
         }),
       ],
-      declarations: [RegisterComponent],
+      declarations: [RegisterComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
@@ -67,9 +68,8 @@ let dispatchSpy: jasmine.Spy;
         it('should submit page if show form validation is true',() =>{
           spyOn(component, 'onEvent').and.callFake(function() {
           component.pageId = 'organisation-pba';
-          component.ngOnInit();
           component.onPageContinue(mockStore);
-          //expect(component.onEvent).toHaveBeenCalled();
+          expect(component.onEvent).toBe(true);
           expect(mockStore.dispatch).toHaveBeenCalled();
           });
       });
@@ -78,17 +78,12 @@ let dispatchSpy: jasmine.Spy;
            spyOn(component, 'onEvent').and.callFake(function() {
            component.pageId === 'addAnotherPBANumber';
            component.ngOnInit();
-           component.onEvent(AddPBANumber);
-           const element = fixture.debugElement.query(By.css('.button'));
-           click(element);
-           //expect(component.onEvent).toHaveBeenCalled();
+           component.onEvent;
+           const element = fixture.debugElement.nativeElement.query(By.css('.classes'));
+           element.btnClick();
+           expect(component.onEvent).toBe(true);
            expect(mockStore.dispatch).toHaveBeenCalled();
            });
         }));
 
 });
-
-function click(element: any) {
-}
-
-

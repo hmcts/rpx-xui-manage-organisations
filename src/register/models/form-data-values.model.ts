@@ -5,7 +5,7 @@ export interface FormDataValuesModel {
   townOrCity?: string;
   county?: string;
   postCode?: string;
-  PBANumbers?: [];
+  PBANumbers?: string[];
   DXnumber?: number;
   DXexchange?: number;
   firstName?: number;

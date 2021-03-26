@@ -25,6 +25,13 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   @Output() public submit = new EventEmitter();
   @Input() public set fromValues(values: FormDataValuesModel) {
     this.formDataValues = values;
+    const pbaNumbers = [];
+    for (const key of Object.keys(values)) {
+      if (key.includes('PBANumber') && !key.includes('addAnotherPBANumber') && values[key]) {
+        pbaNumbers.push(values[key]);
+      }
+    }
+    this.formDataValues = {...this.formDataValues, PBANumbers: pbaNumbers};
   }
 
   public ngOnInit(): void {

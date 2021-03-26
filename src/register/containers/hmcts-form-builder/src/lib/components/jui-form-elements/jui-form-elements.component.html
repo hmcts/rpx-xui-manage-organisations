@@ -25,7 +25,18 @@
               [group]="group"
               [hint]="data.input.hint"
               [label]="data.input.label"
-              [labelFor]="data.input.control"></app-inputs>
+              [labelFor]="data.input.control">
+  </app-inputs>
+  <app-input-button *ngIf="data.inputButton"
+              [item]="data.inputButton"
+              [showValidation]="validate"
+              [validationError]="data.inputButton.validationError"
+              [group]="group"
+              [hint]="data.inputButton.hint"
+              [label]="data.inputButton.label"
+              [labelFor]="data.inputButton.control"
+              (btnClick)="onBtnClick($event)">
+  </app-input-button>
   <app-hidden-input *ngIf="data.hiddenInput"
                     [item]="data.hiddenInput"
                     [group]="group"
@@ -87,8 +98,7 @@
                [group]="group"
                [control]="data.button.control"
                [value]="data.button.value"
-               (btnClick)="onBtnClick($event)"
-  >
+               (btnClick)="onBtnClick($event)">
   </app-buttons>
   <!--JUI FORM builder component -->
 </div>

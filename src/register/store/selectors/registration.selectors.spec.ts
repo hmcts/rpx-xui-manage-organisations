@@ -50,10 +50,11 @@ describe('Registration selectors', () => {
       expect(result).toEqual({
         pageNameMock: {
           dummy: 'something',
+          init: true,
           loaded: true,
           loading: false
         }
-    });
+      });
     });
   });
 

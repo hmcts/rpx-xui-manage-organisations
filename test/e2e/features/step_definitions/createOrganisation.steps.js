@@ -74,9 +74,9 @@ defineSupportCode(function ({ Given, When, Then }) {
   Then(/^I Enter the PBA1 and PBA2 details$/, async function () {
     // await waitForElement('govuk-heading-xl');
     browser.sleep(MID_DELAY);
-    await createOrganisationObject.PBAnumber1.isDisplayed();
+    await createOrganisationObject.PBANumber1.isDisplayed();
     await createOrganisationObject.enterPBANumber();
-    await createOrganisationObject.PBAnumber2.isDisplayed();
+    await createOrganisationObject.PBANumber2.isDisplayed();
     await createOrganisationObject.enterPBA2Number();
     await createOrganisationObject.continue_button.click();
     browser.sleep(MID_DELAY);
@@ -221,9 +221,9 @@ defineSupportCode(function ({ Given, When, Then }) {
   });
 
   When(/^I Enter the invalid PBA1 and PBA2 details$/,  async function () {
-    await expect(createOrganisationObject.PBAnumber1.isDisplayed()).to.eventually.be.true;
-    await createOrganisationObject.PBAnumber1.sendKeys(1234455558);
-    await createOrganisationObject.PBAnumber2.sendKeys(1233334988);
+    await expect(createOrganisationObject.PBANumber1.isDisplayed()).to.eventually.be.true;
+    await createOrganisationObject.PBANumber1.sendKeys(1234455558);
+    await createOrganisationObject.PBANumber2.sendKeys(1233334988);
     await createOrganisationObject.continue_button.click();
     // browser.sleep(LONG_DELAY);
   });

@@ -83,8 +83,3 @@ describe('RegisterComponent', () => {
   }));
 
 });
-
-function click(element: any) {
-}
-
-

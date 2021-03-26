@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   public featureToggleKey: string;
   public serviceMessageCookie: string;
   public userRoles: string[];
-  public mainContentId = "content";
+  public mainContentId = 'content';
 
   constructor(
     private readonly store: Store<fromRoot.State>,

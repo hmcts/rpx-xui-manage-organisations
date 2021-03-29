@@ -4,7 +4,21 @@ export const pbaNumber = {
     idPrefix: 'tbc',
     name: 'organisation-pba',
     header: 'What\'s the Payment by Account (PBA) number for your organisation?',
-    formGroupValidators: [],
+    formGroupValidators: [
+      {
+        validatorFunc: 'duplicatedPBACheck',
+        validationErrorId: 'duplicatedPBAError',
+        validationLevel: 'formGroup',
+        controls: 'PBANumber',
+        text: 'You have entered this PBA number more than once',
+      },
+      {
+        validatorFunc: 'invalidPBANumberCheck',
+        validationErrorId: 'invalidPBANumberError',
+        validationLevel: 'formGroup',
+        controls: 'PBANumber',
+        text: 'Enter a valid PBA number',
+      }],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
@@ -22,10 +36,20 @@ export const pbaNumber = {
           control: 'PBANumber1',
           type: 'inputButton',
           validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
-          validationError: {
-            value: 'Enter a valid PBA number',
-            controlId: 'PBANumber1',
-          },
+          validationErrors: [
+            {
+              validationErrorId: 'duplicatedPBAError',
+              validationLevel: 'formControl',
+              controls: 'PBANumber',
+              text: 'You have entered this PBA number more than once',
+            },
+            {
+              validationErrorId: 'invalidPBANumberError',
+              validationLevel: 'formControl',
+              controls: 'PBANumber',
+              text: 'Enter a valid PBA number',
+            }
+          ],
           classes: 'govuk-width-input-button',
         },
       },
@@ -40,8 +64,9 @@ export const pbaNumber = {
       },
       {
         extension:
-          { componentDetails: {
-            title: 'Why add a PBA number?',
+          {
+            componentDetails: {
+              title: 'Why add a PBA number?',
               text: 'Adding a PBA number for your organisation will allow you to view your:',
               ul: ['account balance', 'available credit', 'transactions'],
             }

@@ -70,7 +70,12 @@ export function makeOrganisationPayload(stateValues): any {
 
   setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
 
-  let stateValuesArray = stateValues.PBANumbers
+  let stateValuesArray = []
+  for (const key of Object.keys(stateValues)) {
+    if (key.includes('PBANumber') && !key.includes('addAnotherPBANumber')) {
+      stateValuesArray.push(stateValues[key])
+    }
+  }
   setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray)
 
   stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange]

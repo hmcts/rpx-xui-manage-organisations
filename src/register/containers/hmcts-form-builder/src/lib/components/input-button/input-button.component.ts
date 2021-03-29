@@ -17,6 +17,7 @@ export class InputButtonComponent implements OnInit {
   @Input() public hint;
   @Input() public labelFor;
   @Input() public showValidation = true;
+  @Input() public validationErrors: any[];
   @Input() public validationError;
   @Output() public btnClick = new EventEmitter();
 
@@ -46,12 +47,25 @@ export class InputButtonComponent implements OnInit {
   }
 
   public isControlInvalid(formGroup: FormGroup, control: string) {
-
     return !this.isFormControlValid(formGroup, control);
   }
 
   public isFormControlValid(formGroup: FormGroup, control: string): boolean {
     return this.validationService.isFormControlValid(formGroup, control);
+  }
+
+  public hasValidationError(formGroup: FormGroup, control: string): boolean {
+    if (formGroup.controls[control] && formGroup.controls[control].errors) {
+      for (const key of Object.keys(formGroup.controls[control].errors)) {
+        if (key === 'duplicatedPBAError') {
+          this.validationError = this.validationErrors[0].text;
+        } else {
+          this.validationError = this.validationErrors[1].text;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 
   public removeItem(event) {

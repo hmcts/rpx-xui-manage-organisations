@@ -204,7 +204,7 @@ export class ValidationService {
   // Common function for validator
   // Returninng the validationIdentifier true if invalid and null if valid
 
-  isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+  isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier) {
     if (controls !== null && fields !== null) {
       for (const field of fields) {
         if (!controls.get(field).value) {
@@ -242,7 +242,7 @@ export class ValidationService {
    */
 
 
-  isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+  isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier) {
 
     if (controls !== null && fields !== null) {
       const dateValueArray = [];
@@ -270,9 +270,9 @@ export class ValidationService {
 
           // Check if array is ready and convert to string
 
-          if (dateValueArray.length === 3){
+          if (dateValueArray.length === 3) {
 
-            //Return error if not numbers
+            // Return error if not numbers
             for (const element of dateValueArray) {
               if (element != Number(element)) {
                 return {
@@ -301,15 +301,15 @@ export class ValidationService {
             // Here value might me invalid
 
             // Adding zeros in front if less than 10
-            if (dateValueArray[1] < 10) { dateValueArray[1] = ("0" + (dateValueArray[1]).toString().slice(-2)); }
-            if (dateValueArray[2] < 10) { dateValueArray[2] = ("0" + (dateValueArray[2]).toString().slice(-2)); }
+            if (dateValueArray[1] < 10) { dateValueArray[1] = ('0' + (dateValueArray[1]).toString().slice(-2)); }
+            if (dateValueArray[2] < 10) { dateValueArray[2] = ('0' + (dateValueArray[2]).toString().slice(-2)); }
 
             // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
 
             const dateStr = dateValueArray.toString();
 
             const dateObj = new Date(dateStr);
-            const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ",").replace("T", " ");
+            const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ',').replace('T', ' ');
 
             // Return null if valid date
             if (checkDateStr === dateStr) {
@@ -377,7 +377,7 @@ export class ValidationService {
    * // @return {any}
    */
 
-  isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string){
+  isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string) {
 
     const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
 
@@ -433,7 +433,6 @@ export class ValidationService {
     return formGroupValidators.map(formGroupValidator => {
 
       const groupValidator: FormGroupValidator = formGroupValidator;
-
       return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.controls,
         groupValidator.validationErrorId);
     });
@@ -457,4 +456,72 @@ export class ValidationService {
 
     return this[validatorFunc](formGroup, controls, validationErrorId);
   }
+
+  invalidPBANumberCheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
+    const invalidPBANumberValidatorFn: ValidatorFn = (fg: FormGroup): ValidationErrors | null => {
+      if (fg.controls) {
+        for (const key of Object.keys(fg.controls)) {
+          if (key.startsWith(controlName) && key.includes(controlName)
+            && fg.controls[key].errors && !fg.controls[key].errors.hasOwnProperty('duplicatedPBAError')) {
+            return {
+              invalidPBANumberError: true
+            };
+          }
+        };
+      }
+      return null;
+    };
+    return invalidPBANumberValidatorFn;
+  }
+
+  duplicatedPBACheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
+    const duplicatedPBAValidatorFn: ValidatorFn = (fg: FormGroup): ValidationErrors | null => {
+      return this.duplicatedPBAValidatorFn(fg, controlName, validationErrorId);
+    };
+
+    return duplicatedPBAValidatorFn;
+  }
+
+  duplicatedPBAValidatorFn(formGroup: FormGroup, controlName: string, validationIdentifier: string) {
+    const originalControls = {};
+    const duplicatedControls = {};
+    if (formGroup && controlName) {
+      for (const key of Object.keys(formGroup.controls)) {
+        if (key.startsWith(controlName) && key.includes(controlName) && formGroup.controls[key].value) {
+            originalControls[key] = formGroup.controls[key].value;
+        }
+      };
+      const controlsToCompare = {...originalControls};
+      for (const key of Object.keys(originalControls)) {
+        for (const keyToCompare of Object.keys(controlsToCompare)) {
+          if (key !== keyToCompare && originalControls[key] === controlsToCompare[keyToCompare]) {
+            duplicatedControls[key] = originalControls[key];
+            duplicatedControls[keyToCompare] = controlsToCompare[keyToCompare];
+          }
+        }
+      }
+      if (Object.keys(duplicatedControls).length > 0) {
+        // return Object.keys(duplicatedControls);
+        for (const key of Object.keys(duplicatedControls)) {
+          if (formGroup.controls.hasOwnProperty(key)) {
+            formGroup.controls[key].setErrors({
+              [validationIdentifier]: true
+            });
+          }
+        }
+        return {
+          [validationIdentifier]: true
+        };
+      } else {
+        for (const key of Object.keys(formGroup.controls)) {
+          if (key.includes(controlName) && formGroup.controls[key]
+            && formGroup.controls[key].errors && formGroup.controls[key].errors.hasOwnProperty('duplicatedPBAError')) {
+            formGroup.controls[key].setErrors(null);
+          }
+        }
+      }
+    }
+    return null;
+  }
+
 }

@@ -30,10 +30,20 @@ export const newPBAElement = (newPBAIndex) => {
       control: `PBANumber${newPBAIndex}`,
       type: 'inputButton',
       validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
-      validationError: {
-        value: 'Enter a valid PBA number',
-        controlId: `PBANumber${newPBAIndex}`,
-      },
+      validationErrors: [
+        {
+          validationErrorId: 'duplicatedPBAError',
+          validationLevel: 'formControl',
+          controls: 'PBANumber',
+          text: 'You have entered this PBA number more than once',
+        },
+        {
+          validationErrorId: 'invalidPBANumberError',
+          validationLevel: 'formControl',
+          controls: 'PBANumber',
+          text: 'Enter a valid PBA number',
+        }
+      ],
       classes: 'govuk-width-input-button'
     }
   };

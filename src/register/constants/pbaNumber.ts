@@ -3,7 +3,7 @@ export const pbaNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-pba',
-    header: 'What\'s the Payment by Account (PBA) number for your organisation?',
+    header: 'What payment by account (PBA) numbers does your organisation have?',
     formGroupValidators: [
       {
         validatorFunc: 'duplicatedPBACheck',

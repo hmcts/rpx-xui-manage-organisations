@@ -75,7 +75,7 @@ export class InputButtonComponent implements OnInit {
   public onBlur(event) {
     if (event.target.value && !event.target.value.toUpperCase().startsWith('PBA')) {
       this.group.controls[event.target.id].setValue(`PBA${event.target.value}`);
-    } else if (event.target.value && event.target.value.toUpperCase().startsWith('PBA')) {
+    } else if (event.target.value && event.target.value.toLowerCase().startsWith('pba')) {
       this.group.controls[event.target.id].setValue(event.target.value.replace(/pba/gi, 'PBA'));
     }
   }

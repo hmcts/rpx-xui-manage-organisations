@@ -141,7 +141,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public onEvent(event: any): void {
+  public onClick(event: any): void {
     if (event) {
       if (event.eventId === 'addAnotherPBANumber') {
         if (event.data.invalid ) {
@@ -154,6 +154,16 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       if (event.eventId.includes('removePBANumber')) {
         this.store.dispatch(new fromStore.RemovePBANumber(event.eventId));
+      }
+    }
+  }
+
+  public onBlur(event: any): void {
+    if (event) {
+      if (event.invalid) {
+        this.showFormValidation(true);
+      } else {
+        this.showFormValidation(false);
       }
     }
   }

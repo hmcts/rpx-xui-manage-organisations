@@ -62,7 +62,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should submit page if show form validation is true', () => {
-    spyOn(component, 'onEvent').and.callFake(() => {
+    spyOn(component, 'onClick').and.callFake(() => {
       component.pageId = 'organisation-pba';
       component.ngOnInit();
       component.onPageContinue(mockStore);

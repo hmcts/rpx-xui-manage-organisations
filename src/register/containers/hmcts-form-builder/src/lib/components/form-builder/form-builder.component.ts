@@ -25,6 +25,7 @@ export class FormBuilderComponent implements OnChanges {
   @Input() public isPageValid: boolean;
   @Output() public submitPage = new EventEmitter<FormGroup>();
   @Output() public btnClick = new EventEmitter<any>();
+  @Output() public blurCast = new EventEmitter<any>();
 
   public formDraft: FormGroup;
 
@@ -52,5 +53,9 @@ export class FormBuilderComponent implements OnChanges {
 
   public onBtnClick(eventId) {
     this.btnClick.emit({eventId, data: this.formDraft});
+  }
+
+  public onBlur(eventId) {
+    this.blurCast.emit(eventId);
   }
 }

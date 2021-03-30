@@ -35,7 +35,8 @@
               [hint]="data.inputButton.hint"
               [label]="data.inputButton.label"
               [labelFor]="data.inputButton.control"
-              (btnClick)="onBtnClick($event)">
+              (btnClick)="onBtnClick($event)"
+              (blurCast)="onBlur($event)">
   </app-input-button>
   <app-hidden-input *ngIf="data.hiddenInput"
                     [item]="data.hiddenInput"

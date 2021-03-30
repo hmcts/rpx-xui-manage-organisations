@@ -20,6 +20,7 @@ export class InputButtonComponent implements OnInit {
   @Input() public validationErrors: any[];
   @Input() public validationError;
   @Output() public btnClick = new EventEmitter();
+  @Output() public blurCast = new EventEmitter();
 
   public pages$: Observable<any>;
   public showRemoveButton: boolean = false;
@@ -78,5 +79,6 @@ export class InputButtonComponent implements OnInit {
     } else if (event.target.value && event.target.value.toLowerCase().startsWith('pba')) {
       this.group.controls[event.target.id].setValue(event.target.value.replace(/pba/gi, 'PBA'));
     }
+    this.blurCast.emit(this.group);
   }
 }

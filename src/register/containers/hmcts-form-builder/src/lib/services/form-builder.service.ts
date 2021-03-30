@@ -73,7 +73,7 @@ export class FormsService {
    * @param controlName - 'informationNeeded'
    * @param initialValue - ie. text if it's a textarea.
    * @param validators - all the validators for the form control
-   * @param updateOn? - validator updateOn options, can be chang/submit/blur
+   * @param updateOn? - validator updateOn options, can be change/submit/blur
    */
   public createFormControl(initialValue: any, controlName: string, validators: string[], updateOn?: boolean) {
     if (this.validationService.controlHasValidation(validators)) {

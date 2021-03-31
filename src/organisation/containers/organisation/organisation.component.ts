@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';
+import * as fromAuthStore from '../../../user-profile/store/index';
 
 @Component({
   selector: 'app-prd-organisation-component',
@@ -14,7 +15,11 @@ export class OrganisationComponent implements OnInit {
   public organisationDxAddress: DxAddress;
   public organisationPaymentAccount: string[];
 
-  constructor(private store: Store<fromStore.OrganisationState>) {
+  public showChangePbaNumberLink: boolean;
+
+  constructor(
+    private readonly orgStore: Store<fromStore.OrganisationState>,
+    private readonly authStore: Store<fromAuthStore.AuthState>) {
   }
 
   /**
@@ -77,19 +82,26 @@ export class OrganisationComponent implements OnInit {
    */
   public getOrganisationDetailsFromStore(): void {
 
-    this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-
+    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = this.getContactInformation(organisationDetails);
       this.organisationPaymentAccount = this.getPaymentAccount(organisationDetails);
       this.organisationDxAddress = this.getDxAddress(this.organisationContactInformation);
 
       this.organisationDetails = organisationDetails;
+      this.canShowChangePbaNumbersLink();
     });
   }
 
   public getOrganisationDetails() {
 
     return this.organisationDetails;
+  }
+
+  public canShowChangePbaNumbersLink(): void {
+    this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
+      const hasPbaAccounts = this.organisationPaymentAccount.length > 0;
+      this.showChangePbaNumberLink = hasPbaAccounts && userIsPuiFinanceManager;
+    });
   }
 
   public ngOnInit(): void {

@@ -4,8 +4,9 @@ import {Action, combineReducers, select, Store, StoreModule} from '@ngrx/store';
 import { DxAddress, OrganisationContactInformation} from '../../../models/organisation.model';
 import {of} from 'rxjs';
 import {OrganisationComponent} from './organisation.component';
-import * as fromStore from '../../../users/store';
+import * as fromOrgStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
+import { By } from '@angular/platform-browser';
 
 const storeMock = {
   pipe: () => {
@@ -13,14 +14,24 @@ const storeMock = {
   dispatch: (action: Action) => {
   }
 };
+
+const authStoreMock = {
+  pipe: () => {
+  },
+  dispatch: (action: Action) => {
+  }
+};
+
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
+
+let userIsPuiFinanceManager: boolean;
 
 describe('OrganisationComponent', () => {
 
   let component: OrganisationComponent;
   let fixture: ComponentFixture<OrganisationComponent>;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromOrgStore.UserState>;
 
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
@@ -59,15 +70,15 @@ describe('OrganisationComponent', () => {
   };
 
   beforeEach(() => {
-
     pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
+
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          feature: combineReducers(fromStore.reducers),
+          feature: combineReducers(fromOrgStore.reducers),
         }),
       ],
       declarations: [OrganisationComponent],
@@ -75,7 +86,11 @@ describe('OrganisationComponent', () => {
       providers: [
         {
           provide: Store,
-          useValue: storeMock,
+          useValue: authStoreMock
+        },
+        {
+          provide: Store,
+          useValue: storeMock
         },
         OrganisationComponent
       ]
@@ -173,5 +188,62 @@ describe('OrganisationComponent', () => {
 
     expect(store.pipe).toHaveBeenCalled();
     expect(component.getOrganisationDetails()).toEqual(mockOrganisationDetails);
+  });
+
+  it('should get the User Details from the Store, and set it on orgData.', () => {
+
+    component.getOrganisationDetailsFromStore();
+
+    expect(store.pipe).toHaveBeenCalled();
+    expect(component.getOrganisationDetails()).toEqual(mockOrganisationDetails);
+  });
+
+  describe('showChangePbaNumberLink property', () => {
+    const CHANGE_LINK = By.css('#change-pba-account-numbers__link');
+
+    it('should show the \'Change\' link when false', () => {
+      component.showChangePbaNumberLink = true;
+      fixture.detectChanges();
+
+      const changeLink = fixture.debugElement.query(CHANGE_LINK);
+
+      expect(changeLink).toBeTruthy();
+    });
+
+    it('should not show the \'Change\' link when false', () => {
+      component.showChangePbaNumberLink = false;
+      fixture.detectChanges();
+
+      const changeLink = fixture.debugElement.query(CHANGE_LINK);
+
+      expect(changeLink).toBeNull();
+    });
+  });
+
+  describe('canShowChangePbaNumbersLink()', () => {
+
+    it('should set to true when the user has pui-finance-manager and there are PBA accounts', () => {
+      userIsPuiFinanceManager = true;
+      component.organisationPaymentAccount = [
+        'PBA00000'
+      ];
+
+      component.canShowChangePbaNumbersLink();
+
+      fixture.detectChanges();
+
+      expect(component.showChangePbaNumberLink).toBeTruthy();
+    });
+
+    it('should set to false when the user has pui-finance-manager and there are zero PBA accounts', () => {
+      userIsPuiFinanceManager = true;
+      component.organisationPaymentAccount = [];
+
+      component.canShowChangePbaNumbersLink();
+
+      fixture.detectChanges();
+
+      expect(component.showChangePbaNumberLink).toBeFalsy();
+    });
   });
 });

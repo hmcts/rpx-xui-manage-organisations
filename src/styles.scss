@@ -23,6 +23,10 @@ td.govuk-table__cell {
   white-space: pre-wrap;
 }
 
+td.govuk-table__cell a.govuk-link {
+  float: right;
+}
+
 .detailed-cya-registration-message {
   color: #d4351c;
   font-weight: 700;

@@ -25,6 +25,7 @@
     <tr class="govuk-table__row" *ngIf="organisationPaymentAccount">
       <th class="govuk-table__header" scope="row">PBA number</th>
       <td class="govuk-table__cell">
+        <a class="govuk-link" href="#" *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
         <div *ngFor="let pbaNumber of organisationPaymentAccount">{{pbaNumber}}</div>
       </td>
     </tr>

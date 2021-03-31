@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
-import * as fromStore from '../../store';
 import * as fromAuthStore from '../../../user-profile/store/index';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-organisation-component',

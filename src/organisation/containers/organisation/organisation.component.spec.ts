@@ -201,7 +201,7 @@ describe('OrganisationComponent', () => {
   describe('showChangePbaNumberLink property', () => {
     const CHANGE_LINK = By.css('#change-pba-account-numbers__link');
 
-    it('should show the \'Change\' link when false', () => {
+    it(`should show the 'Change' link when false`, () => {
       component.showChangePbaNumberLink = true;
       fixture.detectChanges();
 
@@ -210,7 +210,7 @@ describe('OrganisationComponent', () => {
       expect(changeLink).toBeTruthy();
     });
 
-    it('should not show the \'Change\' link when false', () => {
+    it(`should not show the 'Change' link when false`, () => {
       component.showChangePbaNumberLink = false;
       fixture.detectChanges();
 
@@ -230,8 +230,6 @@ describe('OrganisationComponent', () => {
 
       component.canShowChangePbaNumbersLink();
 
-      fixture.detectChanges();
-
       expect(component.showChangePbaNumberLink).toBeTruthy();
     });
 
@@ -240,8 +238,6 @@ describe('OrganisationComponent', () => {
       component.organisationPaymentAccount = [];
 
       component.canShowChangePbaNumbersLink();
-
-      fixture.detectChanges();
 
       expect(component.showChangePbaNumberLink).toBeFalsy();
     });

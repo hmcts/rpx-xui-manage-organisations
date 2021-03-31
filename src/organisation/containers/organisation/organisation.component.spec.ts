@@ -1,12 +1,12 @@
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {Action, combineReducers, select, Store, StoreModule} from '@ngrx/store';
-import { DxAddress, OrganisationContactInformation} from '../../../models/organisation.model';
-import {of} from 'rxjs';
-import {OrganisationComponent} from './organisation.component';
+import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
+import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
+import { of } from 'rxjs';
+import { OrganisationComponent } from './organisation.component';
 import * as fromOrgStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
-import { By } from '@angular/platform-browser';
 
 const storeMock = {
   pipe: () => {

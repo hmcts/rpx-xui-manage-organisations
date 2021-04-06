@@ -13,7 +13,7 @@ export class UserRoleGuard implements CanActivate {
 
     constructor(private readonly store: Store<fromAuthStore.AuthState>) {}
 
-    canActivate(route: ActivatedRouteSnapshot) {
+    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
         const role = route.data.role as string;
 
         return this.checkRole(role).pipe(
@@ -34,12 +34,14 @@ export class UserRoleGuard implements CanActivate {
     checkRole(role: string): Observable<boolean> {
         return this.store.pipe(select(fromAuthStore.getUser)).pipe(
             map((user: UserModel) => {
-                return user.roles.indexOf(role) !== -1;
+                const result = user.roles.indexOf(role) !== -1;
+
+                return result;
             })
         );
     }
 
-    redirectToRoot() {
+    redirectToRoot(): void {
         this.store.dispatch(new fromRoot.Go({ path: ['/'] }));
     }
 }

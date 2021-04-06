@@ -1,29 +1,38 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HealthCheckGuard } from './health-check.guard';
-import { StoreModule } from '@ngrx/store';
-import { HttpClient } from '@angular/common/http';
 import { UserRoleGuard } from './user-role.guard';
+import { Store } from '@ngrx/store';
+import * as fromAuthStore from '../../user-profile/store/index';
+import { UserModel } from 'src/user-profile/models/user.model';
+import { ActivatedRouteSnapshot, Data } from '@angular/router';
+import { of } from 'rxjs';
 
-class HttpClientMock {
-    get() {
-        return 'response';
-    }
-}
+const mockUser = {
+  id: 't',
+  roles: []
+} as UserModel;
 
 describe('UserRoleGuard', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                StoreModule.forRoot({})
-            ],
-            providers: [
-                UserRoleGuard,
-                { provide: HttpClient, useClass: HttpClientMock }
-            ]
-        });
-    });
+  let guard: UserRoleGuard;
+  let mockStore: any;
 
-    it('should exist', inject([UserRoleGuard], (guard: UserRoleGuard) => {
-        expect(guard).toBeTruthy();
-    }));
+  beforeEach(() => {
+    mockStore = jasmine.createSpyObj<Store<fromAuthStore.AuthState>>('store', ['pipe', 'dispatch']);
+    guard = new UserRoleGuard(mockStore);
+  });
+
+  it('should activate when the role matches', () => {
+    mockUser.roles = ['pui-finance-manager'];
+    mockStore.pipe.and.returnValue(of(mockUser));
+
+    const data = {
+      role: 'pui-finance-manager'
+    } as Data;
+
+    const dummyRoute = {
+      data
+    } as ActivatedRouteSnapshot;
+    
+    const result = guard.canActivate(dummyRoute);
+    expect(result).toBeTruthy();
+    expect(mockStore.dispatch).not.toHaveBeenCalled();
+  });
 });

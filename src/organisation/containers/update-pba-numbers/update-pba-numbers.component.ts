@@ -20,27 +20,25 @@ export class UpdatePbaNumbersComponent implements OnInit {
   }
 
   /**
-* Get Payment Account
-*
-* Get the PBA numbers for the Organisation.
-*
-* @param organisationDetails - See unit test.
-* @return ['PBA3344542','PBA7843342']
-*/
+  * Get Payment Account
+  *
+  * Get the PBA numbers for the Organisation.
+  *
+  * @param organisationDetails - See unit test.
+  * @return ['PBA3344542','PBA7843342']
+  */
   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
       null : organisationDetails.paymentAccount;
   }
 
- /**
- * Get Organisation Details from Store.
- *
- * Once we have the Organisation Details, we display them on the page.
- */
-  public getOrganisationDetailsFromStore(): void {
+  /**
+  * Get Organisation Details from Store.
+  *
+  * Once we have the Organisation Details, we display them on the page.
+  */
+  private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-      console.log(organisationDetails);
-
       this.organisationPaymentAccount = this.getPaymentAccount(organisationDetails);
     });
   }

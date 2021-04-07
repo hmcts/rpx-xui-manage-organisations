@@ -11,9 +11,10 @@ export class HmctsGlobalHeaderComponent {
     @Input() set userLoggedIn(value) {
         this.userValue = value;
     }
-    @Input() headerTitle: { name: string; url: string };
+    @Input() headerTitle: { name: string; url: string ; hideBranding: boolean};
     @Input() navigation;
     @Input() isBrandedHeader: boolean;
+    @Input() hideBranding: boolean;
     @Output() navigate = new EventEmitter<string>();
     @Input() showHeaderItems: boolean;
 

@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit {
 
 
   public isBrandedHeader = true;
+  public hideBranding = true;
   isUserLoggedIn$: Observable<boolean>;
   showHeaderItems$: Observable<boolean>;
 

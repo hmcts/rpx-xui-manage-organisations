@@ -67,7 +67,6 @@ const regOrgTitle: AppTitlesModel = {
 const manageOrgTitle: AppTitlesModel = {
   name: 'Manage organisation',
   url: '/',
-  hideBranding: false
 };
 
 const footerData =  {

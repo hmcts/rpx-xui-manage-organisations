@@ -15,7 +15,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
 
   constructor(private orgStore: Store<fromStore.OrganisationState>) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.getOrganisationDetailsFromStore();
   }
 

@@ -11,7 +11,7 @@ export class HmctsGlobalHeaderComponent {
     @Input() set userLoggedIn(value) {
         this.userValue = value;
     }
-    @Input() headerTitle: { name: string; url: string ; hideBranding: boolean};
+    @Input() headerTitle: { name: string; url: string; hideBranding: boolean};
     @Input() navigation;
     @Input() isBrandedHeader: boolean;
     @Input() hideBranding: boolean;

@@ -28,7 +28,8 @@ describe('HmctsGlobalHeaderComponent', () => {
     component = fixture.componentInstance;
     component.headerTitle = {
       name: 'Service name',
-      url: '#'
+      url: '#',
+      hideBranding: true
     };
     component.navigation = {
       label: 'Account navigation',

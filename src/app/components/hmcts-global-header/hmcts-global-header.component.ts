@@ -14,7 +14,7 @@ export class HmctsGlobalHeaderComponent {
     @Input() headerTitle: { name: string; url: string; hideBranding: boolean};
     @Input() navigation;
     @Input() isBrandedHeader: boolean;
-    // @Input() hideBranding: boolean;
+    @Input() hideBranding: boolean;
     @Output() navigate = new EventEmitter<string>();
     @Input() showHeaderItems: boolean;
 

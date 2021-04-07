@@ -30,7 +30,7 @@ describe('UserRoleGuard', () => {
     const dummyRoute = {
       data
     } as ActivatedRouteSnapshot;
-    
+
     const result = guard.canActivate(dummyRoute);
     expect(result).toBeTruthy();
     expect(mockStore.dispatch).not.toHaveBeenCalled();

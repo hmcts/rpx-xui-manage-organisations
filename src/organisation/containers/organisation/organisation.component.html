@@ -22,11 +22,18 @@
       </td>
     </tr>
     <!-- PBA Numbers -->
-    <tr class="govuk-table__row" *ngIf="organisationPaymentAccount">
+    <tr class="govuk-table__row">
       <th class="govuk-table__header" scope="row">PBA number</th>
       <td class="govuk-table__cell">
         <a class="govuk-link" href="#" *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
-        <div *ngFor="let pbaNumber of organisationPaymentAccount">{{pbaNumber}}</div>
+
+        <div *ngIf="organisationPaymentAccount">
+          <div *ngFor="let pbaNumber of organisationPaymentAccount">{{pbaNumber}}</div>
+        </div>
+         
+        <div *ngIf="!organisationPaymentAccount">
+          <div>No PBA accounts registered</div>
+        </div>
       </td>
     </tr>
     <!-- !PBA Numbers -->

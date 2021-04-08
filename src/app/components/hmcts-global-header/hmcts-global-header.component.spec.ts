@@ -55,4 +55,22 @@ describe('HmctsGlobalHeaderComponent', () => {
     component.onEmitEvent(1);
     expect(component.navigate.emit).toHaveBeenCalledWith('emit2');
   });
+
+  it('should show MyHMCTS text if hide Branding false', () => {
+    component.headerTitle = { ...component.headerTitle, hideBranding: true };
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
+    expect(headerTitle).toBeDefined();
+    expect(headerTitle.textContent).toBe('MyHMCTS');
+    expect(headerTitle.hideBranding).not.toEqual(true);
+    expect(component.headerTitle.hideBranding).toBeFalsy();
+  });
+
+  it('should not show MyHMCTS text in register org if hide Branding true', () => {
+    component.headerTitle.hideBranding = true;
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
+    expect(headerTitle).toBeDefined();
+    expect(component.headerTitle.hideBranding).toBeTruthy();
+  });
 });

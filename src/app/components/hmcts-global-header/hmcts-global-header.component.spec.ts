@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HmctsGlobalHeaderComponent } from './hmcts-global-header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { reducers } from 'src/app/store';
-import { metaReducers } from 'src/app/app.module';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
+
+import { metaReducers } from '../../../app/app.module';
+import { reducers } from '../../../app/store';
+import { HmctsGlobalHeaderComponent } from './hmcts-global-header.component';
 
 describe('HmctsGlobalHeaderComponent', () => {
   let component: HmctsGlobalHeaderComponent;
@@ -28,8 +28,7 @@ describe('HmctsGlobalHeaderComponent', () => {
     component = fixture.componentInstance;
     component.headerTitle = {
       name: 'Service name',
-      url: '#',
-      hideBranding: true
+      url: '#'
     };
     component.navigation = {
       label: 'Account navigation',
@@ -56,21 +55,34 @@ describe('HmctsGlobalHeaderComponent', () => {
     expect(component.navigate.emit).toHaveBeenCalledWith('emit2');
   });
 
-  it('should show MyHMCTS text if hide Branding false', () => {
-    component.headerTitle = { ...component.headerTitle, hideBranding: true };
+  // ISHITA: Added this test for the isBrandedHeader property, which is what we were missing.
+  it('should NOT show MyHMCTS text in register org if isBrandedHeader is false', () => {
+    component.isBrandedHeader = false;
+    component.headerTitle = { ...component.headerTitle, hideBranding: false };
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
+    expect(headerTitle).toBeNull();
+  });
+
+  it('should show MyHMCTS text if hideBranding false', () => {
+    // ISHITA: This wasn't being set, which is the first part of that *ngIf in the template.
+    component.isBrandedHeader = true;
+    // ISHITA: Sorry, wasn't quite clear enough - this one should have been hideBranding: false.
+    component.headerTitle = { ...component.headerTitle, hideBranding: false };
     fixture.detectChanges();
     const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
     expect(headerTitle).toBeDefined();
-    expect(headerTitle.textContent).toBe('MyHMCTS');
-    expect(headerTitle.hideBranding).not.toEqual(true);
+    expect(headerTitle).not.toBeNull();
+    expect(headerTitle.textContent).toContain('MyHMCTS'); // ISHITA: Made this toContain because of the template structure.
     expect(component.headerTitle.hideBranding).toBeFalsy();
   });
 
-  it('should not show MyHMCTS text in register org if hide Branding true', () => {
-    component.headerTitle.hideBranding = true;
+  it('should NOT show MyHMCTS text in register org if hideBranding true', () => {
+    component.isBrandedHeader = true;
+    // ISHITA: This one needed to do the same thing for setting the headerTitle.
+    component.headerTitle = { ...component.headerTitle, hideBranding: true };
     fixture.detectChanges();
     const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
-    expect(headerTitle).toBeDefined();
-    expect(component.headerTitle.hideBranding).toBeTruthy();
+    expect(headerTitle).toBeNull();
   });
 });

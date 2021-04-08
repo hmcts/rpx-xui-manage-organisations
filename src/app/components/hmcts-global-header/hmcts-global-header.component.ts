@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import * as fromRoot from '../../store';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppTitlesModel } from 'src/app/models/app-titles.model';
+
+import { AppTitlesModel } from '../../../app/models/app-titles.model';
+import * as fromRoot from '../../store';
 
 @Component({
     selector: 'app-hmcts-global-header',

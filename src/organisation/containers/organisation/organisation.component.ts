@@ -99,8 +99,7 @@ export class OrganisationComponent implements OnInit {
 
   public canShowChangePbaNumbersLink(): void {
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
-      const hasPbaAccounts = this.organisationPaymentAccount.length > 0;
-      this.showChangePbaNumberLink = hasPbaAccounts && userIsPuiFinanceManager;
+      this.showChangePbaNumberLink = userIsPuiFinanceManager;
     });
   }
 

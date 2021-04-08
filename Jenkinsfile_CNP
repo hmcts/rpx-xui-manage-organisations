@@ -51,7 +51,8 @@ withPipeline(type, product, component) {
 
    enablePactAs([
      AppPipelineDsl.PactRoles.CONSUMER
-   ])
+     AppPipelineDsl.PactRoles.CONSUMER_DEPLOY_CHECK
+])
 
     after('checkout') {sh 'yarn cache clean'}
 

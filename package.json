@@ -44,7 +44,8 @@
     "rest-assured": "rest-assured",
     "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha -r ts-node/register api/test/pact/publish/*.ts --timeout 15000 --reporter spec",
-    "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact"
+    "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
+    "test:can-i-deploy:consumer": "export VERSION=$(git rev-parse --short HEAD) && SSL_CERT_FILE=test/pact/cer/ca-bundle.crt pact-broker can-i-deploy --pacticipant 'xui_manageOrg' --version ${VERSION} --broker-base-url https://pact-broker.platform.hmcts.net"
   },
   "private": true,
   "dependencies": {

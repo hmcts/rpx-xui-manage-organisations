@@ -22,6 +22,10 @@ export const sraNumber = {
       },
       {
         input: {
+          label: {
+            text: 'sraNumber',
+            classes: 'govuk-label--m govuk-visually-hidden'
+          },
           validators: ['required'],
           validationError: {
             value: 'Enter your organisation SRA ID',

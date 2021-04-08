@@ -17,8 +17,8 @@ export const organisationName = {
       {
         input: {
           label: {
-            text: '',
-            classes: 'govuk-label--m'
+            text: 'orgName',
+            classes: 'govuk-label--m govuk-visually-hidden'
           },
           validators: ['required'],
           validationError: {

@@ -20,6 +20,10 @@ export const emailAddress = {
             text: 'You should use your business email address wherever possible.',
             classes: 'govuk-hint'
           },
+          label: {
+            text: 'emailAddress',
+            classes: 'govuk-label--m govuk-visually-hidden'
+          },
           validators: ['required', 'email'],
           validationError: {
             value: 'Enter email address',

@@ -232,14 +232,5 @@ describe('OrganisationComponent', () => {
 
       expect(component.showChangePbaNumberLink).toBeTruthy();
     });
-
-    it('should set to false when the user has pui-finance-manager and there are zero PBA accounts', () => {
-      userIsPuiFinanceManager = true;
-      component.organisationPaymentAccount = [];
-
-      component.canShowChangePbaNumbersLink();
-
-      expect(component.showChangePbaNumberLink).toBeFalsy();
-    });
   });
 });

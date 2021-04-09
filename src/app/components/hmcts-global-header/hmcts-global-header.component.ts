@@ -9,7 +9,6 @@ import * as fromRoot from '../../store';
     templateUrl: './hmcts-global-header.component.html'
 })
 export class HmctsGlobalHeaderComponent {
-    component: { name: string; url: string; };
 
     @Input() set userLoggedIn(value) {
         this.userValue = value;

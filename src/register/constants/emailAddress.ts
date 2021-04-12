@@ -21,7 +21,7 @@ export const emailAddress = {
             classes: 'govuk-hint'
           },
           label: {
-            text: 'emailAddress',
+            text: 'What is your email address',
             classes: 'govuk-label--m govuk-visually-hidden'
           },
           validators: ['required', 'email'],

@@ -22,13 +22,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private readonly router: Router,
     private readonly store: Store<fromStore.RegistrationState>,
-    private readonly enviromentService: EnvironmentService) {}
+    private readonly environmentService: EnvironmentService) {}
 
   public pageItems: any; // todo add the type
   public pageValues: FormDataValuesModel;
   public $routeSubscription: Subscription;
   public $pageItemsSubscription: Subscription;
   public $nextUrlSubscription: Subscription;
+  public $formSubmitSubscription: Subscription;
   public data$: Observable<FormDataValuesModel>;
   public isFromSubmitted$: Observable<boolean>;
   public isFormDataLoaded$: Observable<boolean>;
@@ -55,12 +56,18 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.data$ = this.store.pipe(select(fromStore.getRegistrationPagesValues));
     this.isFormDataLoaded$ = this.store.pipe(select(fromStore.getRegistrationLoading));
     this.isFromSubmitted$ = this.store.pipe(select(fromStore.getIsRegistrationSubmitted));
-    this.isFromSubmitted$.subscribe((submitted: boolean) => {
-      if (submitted) {
-        this.router.navigateByUrl('/register-org/confirmation');
-      }
-    });
 
+    this.subscribeFormSubmission();
+    this.subscribeNextUrl();
+
+    this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+    this.jurisdictions = AppConstants.JURISDICTIONS;
+
+    this.manageCaseLink$ = this.environmentService.config$.pipe(map(config => config.manageCaseLink));
+    this.manageOrgLink$ = this.environmentService.config$.pipe(map(config => config.manageOrgLink));
+  }
+
+  public subscribeNextUrl(): void {
     this.$nextUrlSubscription = this.store.pipe(select(fromStore.getRegNextUrl)).subscribe((nextUrl) => {
       if (nextUrl) {
         this.store.dispatch(new fromRoot.Go({
@@ -68,11 +75,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
       }
     });
-    this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
-    this.jurisdictions = AppConstants.JURISDICTIONS;
+  }
 
-    this.manageCaseLink$ = this.enviromentService.config$.pipe(map(config => config.manageCaseLink));
-    this.manageOrgLink$ = this.enviromentService.config$.pipe(map(config => config.manageOrgLink));
+  public subscribeFormSubmission(): void {
+    this.$formSubmitSubscription = this.isFromSubmitted$.subscribe((submitted: boolean) => {
+      if (submitted) {
+        this.router.navigateByUrl('/register-org/confirmation');
+      }
+    });
   }
 
   public ngAfterViewInit() {
@@ -92,19 +102,21 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.$routeSubscription = this.store.pipe(select(fromStore.getCurrentPage)).subscribe((routeParams) => {
       if (routeParams.pageId && routeParams.pageId !== this.pageId) { // TODO see why double call.
         this.pageId = routeParams.pageId;
-        if (this.pageId === 'organisation-pba') {
-          if (this.init['organisation-pba'] === undefined || this.init['organisation-pba'] === true) {
-            this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
-          }
-        } else {
-          this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
-        }
+        this.instantiatePageItems();
       }
     });
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
       this.resetFocus();
     });
+  }
+
+  public instantiatePageItems(): void {
+    if ((this.pageId === 'organisation-pba' &&
+      (this.init['organisation-pba'] === undefined || this.init['organisation-pba'] === true))
+      || this.pageId !== 'organisation-pba') {
+      this.store.dispatch(new fromStore.LoadPageItems(this.pageId));
+    }
   }
 
   public subscribeToPageItems(): void {
@@ -132,7 +144,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onPageContinue(formDraft): void {
-    if (formDraft.invalid ) {
+    if (formDraft.invalid) {
       this.showFormValidation(true);
     } else {
       this.showFormValidation(false);
@@ -144,7 +156,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public onClick(event: any): void {
     if (event) {
       if (event.eventId === 'addAnotherPBANumber') {
-        if (event.data.invalid ) {
+        if (event.data.invalid) {
           this.showFormValidation(true);
         } else {
           this.showFormValidation(false);
@@ -172,6 +184,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.$pageItemsSubscription.unsubscribe();
     this.$routeSubscription.unsubscribe();
     this.$nextUrlSubscription.unsubscribe();
+    this.$formSubmitSubscription.unsubscribe();
     this.store.dispatch(new fromStore.ResetErrorMessage({}));
   }
 

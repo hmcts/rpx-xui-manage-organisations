@@ -1,73 +1,167 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import * as fromRoot from '../../../app/store';
-import * as fromStore from '../../../users/store';
+import { State } from '../../../app/store/reducers';
 import { RegisterComponent } from './register.component';
 
-const storeMock = {
-  pipe: () => {
-  },
-  dispatch: (action: Action) => {
-  }
-};
-
 describe('RegisterComponent', () => {
-
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
-  let store: Store<fromStore.UserState>;
-  let mockStore: any;
-  let mockActions: any;
-  let routermMockStore: any;
-  let pipeSpy: jasmine.Spy;
+  let mockStore: MockStore<State>;
   let dispatchSpy: jasmine.Spy;
+  let pipeSpy: jasmine.Spy;
+  let router: Router;
 
-  beforeEach(() => {
-    mockStore = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-    routermMockStore = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-    mockActions = jasmine.createSpyObj('Actions', ['pipe']);
-    component = new RegisterComponent(mockStore, routermMockStore, mockActions);
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of());
-    dispatchSpy = spyOn(storeMock, 'dispatch');
-
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          feature: combineReducers(fromStore.reducers),
-        }),
-      ],
       declarations: [RegisterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        {
-          provide: Store,
-          useValue: storeMock,
-        },
-        RegisterComponent
-      ]
-    }).compileComponents();
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        HttpClientTestingModule],
+      providers: [provideMockStore()]
+    })
+      .compileComponents();
+    mockStore = TestBed.get(Store);
+    router = TestBed.get(Router);
+    dispatchSpy = spyOn(mockStore, 'dispatch');
+    pipeSpy = spyOn(mockStore, 'pipe');
+    pipeSpy.and.callThrough();
+  }));
 
-    store = TestBed.get(Store);
-
+  beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should submit page if show form validation is true', () => {
-    spyOn(component, 'onClick').and.callFake(() => {
-      component.pageId = 'organisation-pba';
-      component.ngOnInit();
-      component.onPageContinue(mockStore);
-      expect(mockStore.dispatch).toHaveBeenCalled();
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should instantiate page from template if init flag is true', () => {
+    component.pageId = 'organisation-pba';
+    component.init = {'organisation-pba': true};
+    component.instantiatePageItems();
+    expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('should not instantiate page from template if init flag is false', () => {
+    component.pageId = 'organisation-pba';
+    component.init = {'organisation-pba': false};
+    component.instantiatePageItems();
+    expect(mockStore.dispatch).not.toHaveBeenCalled();
+  });
+
+  it('should instantiate page from template if init flag is undefined', () => {
+    component.pageId = 'organisation-pba';
+    component.init = {'organisation-pba': undefined};
+    component.instantiatePageItems();
+    expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('should instantiate page from template if init flag is undefined', () => {
+    component.pageId = 'organisation-name';
+    component.instantiatePageItems();
+    expect(mockStore.dispatch).toHaveBeenCalled();
+  });
+
+  it('should navigate to confirmation page if form is submitted', () => {
+    const navigateSpy = spyOn(router, 'navigateByUrl');
+    component.isFromSubmitted$ = of(true);
+    component.subscribeFormSubmission();
+    component.isFromSubmitted$.toPromise().then(() => {
+      expect(navigateSpy).toHaveBeenCalledWith('/register-org/confirmation');
     });
   });
 
+  it('should navigate to next page if next url is available', () => {
+    pipeSpy.and.returnValue(of('next'));
+    component.subscribeNextUrl();
+    fixture.detectChanges();
+    expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should instantiate page items', () => {
+    const routeParams = {pageId: 'page1'};
+    component.pageId = 'page2';
+    pipeSpy.and.returnValue(of(routeParams));
+    component.subscribeToRoute();
+    fixture.detectChanges();
+    expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should set init status for page item', () => {
+    component.pageId = 'organisation-address';
+    const formData = {
+      pageItems: {
+        meta: {
+          name: 'organisation-pba'
+        },
+        init: true
+      },
+      pageValues: {
+        PBANumber1: 'PBA1111111',
+      },
+      nextUrl: 'organisation-have-dx'
+    };
+    pipeSpy.and.returnValue(of(formData));
+    component.subscribeToPageItems();
+    fixture.detectChanges();
+    expect(component.init['organisation-pba']).toBeTruthy();
+  });
+
+  it('should show form validation when form is invalid', () => {
+    const formDraft = {invalid: true};
+    component.onPageContinue(formDraft);
+    expect(component.isPageValid).toBeTruthy();
+  });
+
+  it('should not show form validation when form is valid', () => {
+    const formDraft = {invalid: false};
+    component.onPageContinue(formDraft);
+    expect(component.isPageValid).toBeFalsy();
+    expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should show validation error when PBA number is invalid', () => {
+    const event = {eventId: 'addAnotherPBANumber', data: {invalid: true}};
+    component.onClick(event);
+    expect(component.isPageValid).toBeTruthy();
+  });
+
+  it('should add pba number when form is valid', () => {
+    const event = {eventId: 'addAnotherPBANumber', data: {invalid: false}};
+    component.onClick(event);
+    expect(component.isPageValid).toBeFalsy();
+    expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should remove pba number', () => {
+    const event = {eventId: 'removePBANumber'};
+    component.onClick(event);
+    expect(dispatchSpy).toHaveBeenCalled();
+  });
+
+  it('should show form validation when form is invalid and onblur', () => {
+    const event = {invalid: true};
+    component.onBlur(event);
+    expect(component.isPageValid).toBeTruthy();
+  });
+
+  it('should not show form validation when form is valid and onblur', () => {
+    const event = {invalid: false};
+    component.onBlur(event);
+    expect(component.isPageValid).toBeFalsy();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+  });
 });

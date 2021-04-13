@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {AbstractControl, Form, FormGroup} from '@angular/forms';
-import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {DatePipe} from '@angular/common';
-import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './form-group-validation.typescript';
+import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator } from './form-group-validation.typescript';
 import { CustomValidatorsService } from './form-builder-custom-validators.service';
 
 @Injectable({
@@ -101,10 +101,10 @@ export class ValidationService {
    * Checks if validators have been set on the control, an example of a validator being set on a control is:
    *
    * {
-     *  control: 'informationNeeded',
-     *  value: 'Information text',
-     *  validators: ['required']
-     * }
+   *  control: 'informationNeeded',
+   *  value: 'Information text',
+   *  validators: ['required']
+   * }
    *
    * TODO: Unit test.
    *
@@ -148,11 +148,11 @@ export class ValidationService {
    * TODO : Unit Test
    *
    * @see ValidationService
-   * // @param {FormGroup} formGroup
-   * // @param {string} validationErrorId - ie. 'reasonsConstentOrderNotApproved' - This is the validation identifier
+   * @param formGroup - the formGroup to be evaluated.
+   * @param validationErrorId - ie. 'reasonsConstentOrderNotApproved' - This is the validation identifier
    * we assign to a group of form controls, we assign this when we currently setValidators(), note that we will
    * need to pass this in once the Universal Form Builder is merged with Validation.
-   * // @return{boolean}
+   * @return boolean - Whether the formGroup is invalid or not.
    */
   isFormGroupInvalid(formGroup: any, validationErrorId: string): boolean {
     if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
@@ -389,14 +389,14 @@ export class ValidationService {
           // Add word "ValidationFn" to the name of validator when you extend child validation functions
 
           if (option.childValidator.validatorFunc) {
-            return  this[option.childValidator.validatorFunc + "ValidationFn"](null, null, option.childValidator.validationErrorId);
+            return  this[option.childValidator.validatorFunc + 'ValidationFn'](null, null, option.childValidator.validationErrorId);
           }
 
           return null;
 
         } else {
-          if (option.childValidator.validatorFunc){
-            return this[option.childValidator.validatorFunc + "ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
+          if (option.childValidator.validatorFunc) {
+            return this[option.childValidator.validatorFunc + 'ValidationFn'](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
           }
         }
       }
@@ -419,20 +419,21 @@ export class ValidationService {
    *
    * @see @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
    *
-   * // @param {FormGroup} formGroup - Angular FormGroup
-   * // @param formGroupValidators - [{
-     *    validatorFunc: 'isAnyCheckboxChecked',
-     *    validationErrorId: 'reasonsConstentOrderNotApproved',
-     *    checkboxes: [
-     *        'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
-     *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
-     *    ]}]
+   * @param formGroup - Angular FormGroup
+   * @param formGroupValidators - [{
+   *    validatorFunc: 'isAnyCheckboxChecked',
+   *    validationErrorId: 'reasonsConstentOrderNotApproved',
+   *    checkboxes: [
+   *        'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+   *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
+   *    ]}]
    */
   createFormGroupValidators(formGroup: FormGroup, formGroupValidators) {
 
     return formGroupValidators.map(formGroupValidator => {
 
       const groupValidator: FormGroupValidator = formGroupValidator;
+
       return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.controls,
         groupValidator.validationErrorId);
     });
@@ -445,36 +446,40 @@ export class ValidationService {
    *
    * @see state_meta.js
    *
-   * // @param formGroup
-   * // @param {String} validatorFunc - 'isAnyCheckboxChecked'
-   * // @param {Array or Object} controls - ['partiesNeedAttend', 'NotEnoughInformation'] or { checkbox: 'controlName', textarea: 'controlName' }
-   * // @param {String} validationErrorId - 'reasonsConstentOrderNotApproved'
+   * @param formGroup the Augular formGroup
+   * @param validatorFunc - i.e. 'isAnyCheckboxChecked'
+   * @param controls - ['partiesNeedAttend', 'NotEnoughInformation'] or { checkbox: 'controlName', textarea: 'controlName' }
+   * @param validationErrorId - i.e. 'reasonsConstentOrderNotApproved'
    *
-   * // @return {ValidatorFn}
+   * @return ValidatorFn - the validation function defined in the generic pattern
    */
   createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
 
     return this[validatorFunc](formGroup, controls, validationErrorId);
   }
 
-  invalidPBANumberCheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
+  public invalidPBANumberCheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
     const invalidPBANumberValidatorFn: ValidatorFn = (fg: FormGroup): ValidationErrors | null => {
-      if (fg.controls) {
-        for (const key of Object.keys(fg.controls)) {
-          if (key.startsWith(controlName) && key.includes(controlName)
-            && fg.controls[key].errors && !fg.controls[key].errors.hasOwnProperty('duplicatedPBAError')) {
-            return {
-              invalidPBANumberError: true
-            };
-          }
-        };
-      }
-      return null;
+      return this.invalidPBANumberValidatorFn(fg, controlName);
     };
     return invalidPBANumberValidatorFn;
   }
 
-  duplicatedPBACheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
+  public invalidPBANumberValidatorFn(fg: FormGroup, controlName: string) {
+    if (fg.controls) {
+      for (const key of Object.keys(fg.controls)) {
+        if (key.startsWith(controlName) && key.includes(controlName)
+          && fg.controls[key].errors && !fg.controls[key].errors.hasOwnProperty('duplicatedPBAError')) {
+          return {
+            invalidPBANumberError: true
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  public duplicatedPBACheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
     const duplicatedPBAValidatorFn: ValidatorFn = (fg: FormGroup): ValidationErrors | null => {
       return this.duplicatedPBAValidatorFn(fg, controlName, validationErrorId);
     };
@@ -482,7 +487,7 @@ export class ValidationService {
     return duplicatedPBAValidatorFn;
   }
 
-  duplicatedPBAValidatorFn(formGroup: FormGroup, controlName: string, validationIdentifier: string) {
+  public duplicatedPBAValidatorFn(formGroup: FormGroup, controlName: string, validationIdentifier: string) {
     const originalControls = {};
     const duplicatedControls = {};
     if (formGroup && controlName) {
@@ -490,7 +495,7 @@ export class ValidationService {
         if (key.startsWith(controlName) && key.includes(controlName) && formGroup.controls[key].value) {
             originalControls[key] = formGroup.controls[key].value;
         }
-      };
+      }
       const controlsToCompare = {...originalControls};
       for (const key of Object.keys(originalControls)) {
         for (const keyToCompare of Object.keys(controlsToCompare)) {

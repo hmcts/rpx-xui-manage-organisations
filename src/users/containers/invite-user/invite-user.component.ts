@@ -219,10 +219,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       isInvalid: {
         firstName: [(this.f.firstName.errors && this.f.firstName.errors.required)],
         lastName: [(this.f.lastName.errors && this.f.lastName.errors.required)],
-        email: [
-          (this.f.email.errors && this.f.email.errors.required) ||
-          (this.f.email.errors && this.f.email.errors.email)
-        ],
+        email: [(this.f.email.errors && (this.f.email.errors.required || this.f.email.errors.email))],
         roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
       },
       errorMessages: this.errorMessages,

@@ -124,6 +124,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public onPageContinue(formDraft): void {
     if (formDraft.invalid ) {
       this.showFormValidation(true);
+      window.scrollTo(0, 0);
     } else {
       this.showFormValidation(false);
       const { value } = formDraft;

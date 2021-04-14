@@ -16,15 +16,32 @@
             </tr>
           </tbody>
         </table>
+
+        <form [formGroup]="pbaFormGroup">
+          <div formArrayName="pbaNumbers">
+            <div *ngFor="let pbaNumber of pbaNumbers.controls; let i=index">
+              <div [formGroupName]="i">
+                <!-- <xuilib-gov-uk-input [config]="{label: 'PBA Number', name: 'pbaNumber', id: 'pba-number-input' + i, type: 'text'}" [group]="pbaFormGroup">
+                </xuilib-gov-uk-input> -->
+
+                <input type="text" formControlName="pbaNumber">
+  
+                <button type="button" class="govuk-button hmcts-button--secondary fright" (click)="onRemoveNewPbaNumberClicked(i)">
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 
     <div>
-      <button type="submit" class="govuk-button hmcts-button--secondary">
+      <button type="submit" class="govuk-button hmcts-button--secondary" (click)="onAddNewBtnClicked()">
         Add another PBA number
       </button>
     </div>
-    
+
     <button type="submit" class="govuk-button">
       Continue
     </button>

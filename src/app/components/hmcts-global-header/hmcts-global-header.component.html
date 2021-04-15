@@ -13,7 +13,7 @@
         <a class="hmcts-header__link my_hmcts_application_name" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
       </ng-container>
       <ng-template #noBrandedHeader>
-          <div class="hmcts-header__logo">
+          <div class="hmcts-header__logo remove-wrapping">
               <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
           </div>
       </ng-template>

@@ -6,7 +6,8 @@ import * as fromRoot from '../../store';
 
 @Component({
     selector: 'app-hmcts-global-header',
-    templateUrl: './hmcts-global-header.component.html'
+    templateUrl: './hmcts-global-header.component.html',
+    styleUrls: ['./hmcts-global-header.component.scss']
 })
 export class HmctsGlobalHeaderComponent {
 

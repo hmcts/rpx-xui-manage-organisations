@@ -26,10 +26,23 @@ export class FormBuilderComponent implements OnChanges {
   @Output() submitPage = new EventEmitter<FormGroup>();
 
   formDraft: FormGroup;
+  isLegendAvailable: boolean;
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.isLegendAvailable = false;
     if (changes.pageItems && changes.pageItems.currentValue) {
       this.createForm();
+    }
+    if (this.pageItems && this.pageItems.groups) {
+      for (const group of this.pageItems.groups) {
+        if (group.fieldset) {
+          for(const item of group.fieldset)
+          if (item.legend) {
+            this.isLegendAvailable = true;
+            break;
+          }
+        }
+      }
     }
   }
 

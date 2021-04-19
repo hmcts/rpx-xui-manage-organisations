@@ -82,6 +82,7 @@
     "applicationinsights": "^1.5.0",
     "applicationinsights-js": "^1.0.20",
     "axios": ">=0.21.1",
+    "axios-mock-adapter": "^1.18.2",
     "base-64": "^0.1.0",
     "body-parser": "^1.19.0",
     "class-transformer": "^0.2.3",

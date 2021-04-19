@@ -52,7 +52,7 @@ export const organisationAddress = {
           {
             input: {
               validationError: {
-                value: 'Enter the length of hearing in minutes, for example "20"',
+                value: 'Enter Building and street line 2 of 2',
                 controlId: 'officeAddressTwo',
               },
               control: 'officeAddressTwo',
@@ -93,8 +93,8 @@ export const organisationAddress = {
               control: 'postcode',
               validators: ['required'],
               validationError: {
-                value: 'Enter enter postcode',
-                controlId: 'Poscode',
+                value: 'Enter postcode',
+                controlId: 'Postcode',
               },
               classes: 'govuk-input--width-10',
             },

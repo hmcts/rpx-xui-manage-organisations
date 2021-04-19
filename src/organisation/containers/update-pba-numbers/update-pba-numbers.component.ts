@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
+import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';
 
@@ -10,23 +10,12 @@ import * as fromStore from '../../store';
 })
 export class UpdatePbaNumbersComponent implements OnInit {
 
-  public readonly title = 'Add or remove PBA accounts';
+  public updatePbaNumbers: UpdatePbaNumbers;
 
-  public organisationPaymentAccount: string[];
-
-  public pbaFormGroup: FormGroup;
-
-  constructor(
-    private readonly orgStore: Store<fromStore.OrganisationState>,
-    private readonly fb: FormBuilder) { }
+  constructor(private readonly orgStore: Store<fromStore.OrganisationState>) { }
 
   public ngOnInit() {
     this.getOrganisationDetailsFromStore();
-    this.initialiseForm();
-  }
-
-  get pbaNumbers() : FormArray {
-    return this.pbaFormGroup.get('pbaNumbers') as FormArray
   }
 
   /**
@@ -49,31 +38,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    */
   private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-      this.organisationPaymentAccount = this.getPaymentAccount(organisationDetails);
+      this.updatePbaNumbers = new UpdatePbaNumbers(this.getPaymentAccount(organisationDetails));
     });
-  }
-
-  private initialiseForm(): void {
-    this.pbaFormGroup = new FormGroup({
-      'pbaNumbers': this.fb.array([])
-    });
-  }
-
-  private newPbaNumber(): FormGroup {
-    return this.fb.group({
-      pbaNumber: '',
-    })
-  }
-
-  public onAddNewBtnClicked(): void {
-    this.pbaNumbers.push(this.newPbaNumber())
-  }
-
-  public onRemoveNewPbaNumberClicked(i: number): void {
-    this.pbaNumbers.removeAt(i);
-  }
-  
-  public onSubmit(): void {
-
   }
 }

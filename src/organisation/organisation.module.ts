@@ -7,6 +7,9 @@ import { SharedModule } from '../shared/shared.module';
 // containers
 import * as fromContainers from './containers';
 
+// components
+import * as fromComponent from './components';
+
 // services
 import * as fromServices from './services';
 import { StoreModule } from '@ngrx/store';
@@ -23,6 +26,7 @@ import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 @NgModule({
   imports: [
@@ -36,10 +40,11 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
     }),
-    ExuiCommonLibModule.forChild()
+    ExuiCommonLibModule.forChild(),
+    RxReactiveFormsModule
   ],
-  exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers],
+  exports: [...fromContainers.containers, ...fromComponent.components],
+  declarations: [...fromContainers.containers, ...fromComponent.components],
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
   CryptoWrapper, JwtDecodeWrapper, MonitoringService, LoggerService,

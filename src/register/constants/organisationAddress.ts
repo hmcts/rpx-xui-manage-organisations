@@ -94,7 +94,7 @@ export const organisationAddress = {
               validators: ['required'],
               validationError: {
                 value: 'Enter postcode',
-                controlId: 'Postcode',
+                controlId: 'postcode',
               },
               classes: 'govuk-input--width-10',
             },

@@ -3,7 +3,7 @@ export const pbaNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-pba',
-    header: 'What are the Payment by Account (PBA) number for your organisation?',
+    header: 'What are the Payment by Account (PBA) numbers for your organisation?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -22,7 +22,7 @@ export const pbaNumber = {
         fieldset: [
           {
             legend: {
-              text: 'What are the Payment by Account (PBA) number for your organisation?',
+              text: 'What are the Payment by Account (PBA) numbers for your organisation?',
               classes: 'govuk-fieldset__legend--xl'
             }
           },

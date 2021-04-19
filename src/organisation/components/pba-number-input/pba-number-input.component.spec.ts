@@ -69,4 +69,29 @@ describe('PbaNumberInputComponent', () => {
             });
         });
     });
+
+    describe('generateErrorMessage()', () => {
+        const testCases = [
+            { input: '562', expected: PbaNumberInputComponent.PBA_GENERIC_ERROR_MESSAGE },
+            { input: '5pba62', expected: PbaNumberInputComponent.PBA_GENERIC_ERROR_MESSAGE },
+            { input: 'PBA0000000', expected: PbaNumberInputComponent.PBA_EXISTING_ERROR_MESSAGE },
+            { input: 'PBA1111111', expected: PbaNumberInputComponent.PBA_EXISTING_ERROR_MESSAGE },
+            { input: 'PBA1111117', expected: [] },
+            { input: '1111117', expected: [] },
+        ];
+
+        testCases.forEach(testCase => {
+            it(`should show "${testCase.expected}" error, when input "${testCase.input}"`, () => {
+                const inputElement = fixture.nativeElement.querySelector('input');
+                inputElement.value = testCase.input;
+                inputElement.dispatchEvent(new Event('input'));
+        
+                fixture.detectChanges();
+        
+                fixture.whenStable().then(() => {
+                    expect(component.errorMessages.messages).toEqual(testCase.expected);
+                });
+            });
+        });
+    });
 });

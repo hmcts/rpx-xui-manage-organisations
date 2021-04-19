@@ -3,17 +3,17 @@ export const pbaNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-pba',
-    header: 'What\'s the Payment by Account (PBA) number for your organisation?',
+    header: 'What are the Payment by Account (PBA) number for your organisation?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
-        controlId: 'PBAnumber1',
+        controlId: 'PBANumber1',
         text: 'Enter a valid PBA number',
       },
       {
         validationLevel: 'formControl',
-        controlId: 'PBAnumber2',
+        controlId: 'PBANumber2',
         text: 'Enter a valid PBA number',
       },
     ],
@@ -22,7 +22,7 @@ export const pbaNumber = {
         fieldset: [
           {
             legend: {
-              text: 'What\'s the Payment by Account (PBA) number for your organisation?',
+              text: 'What are the Payment by Account (PBA) number for your organisation?',
               classes: 'govuk-fieldset__legend--xl'
             }
           },
@@ -32,11 +32,11 @@ export const pbaNumber = {
                 text: 'PBA number 1 (optional)',
                 classes: 'govuk-label--m',
               },
-              control: 'PBAnumber1',
+              control: 'PBANumber1',
               validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
               validationError: {
                 value: 'Enter a valid PBA number',
-                controlId: 'PBAnumber1',
+                controlId: 'PBANumber1',
               },
               classes: 'govuk-!-width-two-thirds',
             },
@@ -47,11 +47,11 @@ export const pbaNumber = {
                 text: 'PBA number 2 (optional)',
                 classes: 'govuk-label--m',
               },
-              control: 'PBAnumber2',
+              control: 'PBANumber2',
               validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
               validationError: {
                 value: 'Enter a valid PBA number',
-                controlId: 'PBAnumber2',
+                controlId: 'PBANumber2',
               },
               classes: 'govuk-!-width-two-thirds',
             },

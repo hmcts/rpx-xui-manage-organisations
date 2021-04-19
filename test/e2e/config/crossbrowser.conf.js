@@ -47,6 +47,7 @@ const config = {
 
     {
       browserName: 'firefox',
+      marionette: false,
       version: 'latest',
       platform: 'Windows 10',
       name: 'firefox-tests',

@@ -94,11 +94,6 @@ export class PbaNumbersFormComponent implements OnInit {
     }
   }
 
-  private test(): string[] {
-    console.log('called test()')
-    return ['PBA3567144']
-  }
-
   private clearSummaryErrorMessage(): void {
     this.summaryErrors = null;
   }

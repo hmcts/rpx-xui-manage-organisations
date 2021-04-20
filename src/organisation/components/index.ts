@@ -2,8 +2,8 @@ import { PbaNumberInputComponent } from './pba-number-input/pba-number-input.com
 import { PbaNumbersFormComponent } from './pba-numbers-form/pba-numbers-form.component';
 
 export const components: any[] = [
-    PbaNumberInputComponent,
-    PbaNumbersFormComponent
+  PbaNumberInputComponent,
+  PbaNumbersFormComponent
 ];
 
 export * from './pba-number-input/pba-number-input.component';

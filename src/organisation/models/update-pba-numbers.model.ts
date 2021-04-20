@@ -12,6 +12,8 @@ export class UpdatePbaNumbers {
   }
 
   get displayPbaNumbers(): string[] {
+    if (!this.existingPbaNumbers) return [];
+
     return this.existingPbaNumbers.filter(pba => this.pendingRemovePbaNumbers.indexOf(pba) === -1);
   }
 
@@ -27,15 +29,13 @@ export class UpdatePbaNumbers {
   }
 
   public addPbaNumberToPendingRemove(pba: string): void {
-    const alreadyInPendingRemove = this.pendingRemovePbaNumbers.indexOf(pba) != -1;
-    if (alreadyInPendingRemove) return;
+    if (this.pendingRemovePbaNumbers.indexOf(pba) !== -1) return;
 
     this.pendingRemovePbaNumbers.push(pba);
   }
 
   public addPbaNumberToPendingAdd(pba: string): void {
-    const alreadyInPendingAdd = this.pendingAddPbaNumbers.indexOf(pba) != -1;
-    if (alreadyInPendingAdd) return;
+    if (this.pendingAddPbaNumbers.indexOf(pba) !== -1) return;
 
     this.pendingAddPbaNumbers.push(pba);
   }

@@ -23,11 +23,18 @@ export class PbaNumberInputComponent implements OnInit {
     };
 
     ngOnInit() {
+        if (!this.group) return;
+
         this.group.valueChanges.subscribe(() => this.onPbaNumberValueChange());
     }
 
     private onPbaNumberValueChange(): void {
-        const control = this.group.get('pbaNumber');
+        const control: AbstractControl = this.group.get('pbaNumber');
+
+        if (!control) {
+            return;
+        }
+
         control.patchValue(this.formatPbaNumber(control), { emitEvent: false });
 
         this.errorMessages.isInvalid = control.invalid;

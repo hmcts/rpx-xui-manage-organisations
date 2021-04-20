@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
+import { UpdatePbaNumbers } from '../../../organisation/models/update-pba-numbers.model';
 
 @Component({
   selector: 'app-prd-pba-numbers-form-component',
@@ -9,10 +9,10 @@ import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.mod
 })
 export class PbaNumbersFormComponent implements OnInit {
 
-  public readonly title = 'Add or remove PBA accounts';
+  public static title = 'Add or remove PBA accounts';
 
   public pbaFormGroup: FormGroup;
-  public summaryErrors: any;
+  public summaryErrors: object;
 
   @Input()
   public updatePbaNumbers: UpdatePbaNumbers;
@@ -106,11 +106,12 @@ export class PbaNumbersFormComponent implements OnInit {
         if (control.valid) return;
         const controlErrors = control.get('pbaNumber').errors;
 
-        let message: string;
+        if (!controlErrors) return;
+
+        let message: string = genericErrorMessage;
 
         if (controlErrors.unique) message = uniqueErrorMessage;
         else if (controlErrors.noneOf) message = existingPbaNumber;
-        else message = genericErrorMessage;
 
         return {
           id: `pba-number-input${index}`,
@@ -128,6 +129,6 @@ export class PbaNumbersFormComponent implements OnInit {
       isFromValid: false,
       header: 'There is a problem',
       items
-    }
+    };
   }
 }

@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
-import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
+import { UpdatePbaNumbers } from '../../../organisation/models/update-pba-numbers.model';
 import { PbaNumbersFormComponent } from '..';
 
 const mockUpdatePbaNumbers = new UpdatePbaNumbers(['PBA7777777']);

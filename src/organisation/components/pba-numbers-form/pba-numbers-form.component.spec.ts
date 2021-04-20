@@ -10,7 +10,7 @@ import { PbaNumbersFormComponent } from '..';
 
 const mockUpdatePbaNumbers = new UpdatePbaNumbers(['PBA7777777']);
 
-fdescribe('PbaNumbersFormComponent', () => {
+describe('PbaNumbersFormComponent', () => {
 
     let component: PbaNumbersFormComponent;
     let fixture: ComponentFixture<PbaNumbersFormComponent>;

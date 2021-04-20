@@ -13,6 +13,7 @@ export class UpdatePbaNumbers {
 
   get displayPbaNumbers(): string[] {
     if (!this.existingPbaNumbers) return [];
+    if (!this.pendingRemovePbaNumbers) this.pendingRemovePbaNumbers = [];
 
     return this.existingPbaNumbers.filter(pba => this.pendingRemovePbaNumbers.indexOf(pba) === -1);
   }

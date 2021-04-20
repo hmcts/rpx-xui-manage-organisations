@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { boolean } from '@pact-foundation/pact/dsl/matchers';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { UpdatePbaNumbers } from '../../../organisation/models/update-pba-numbers.model';
 
@@ -12,7 +13,14 @@ export class PbaNumbersFormComponent implements OnInit {
   public static title = 'Add or remove PBA accounts';
 
   public pbaFormGroup: FormGroup;
-  public summaryErrors: object;
+  public summaryErrors: {
+    header: string;
+    isFromValid: boolean;
+    items: {
+      id: string;
+      message: any;
+    }[]
+  };
 
   @Input()
   public updatePbaNumbers: UpdatePbaNumbers;

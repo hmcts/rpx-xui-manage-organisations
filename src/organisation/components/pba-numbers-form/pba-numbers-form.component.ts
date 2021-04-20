@@ -9,7 +9,7 @@ import { UpdatePbaNumbers } from '../../../organisation/models/update-pba-number
 })
 export class PbaNumbersFormComponent implements OnInit {
 
-  public static title = 'Add or remove PBA accounts';
+  public readonly title = 'Add or remove PBA accounts';
 
   public pbaFormGroup: FormGroup;
   public summaryErrors: {
@@ -76,10 +76,10 @@ export class PbaNumbersFormComponent implements OnInit {
 
       if (this.pbaFormGroup.invalid) this.generateSummaryErrorMessage();
       else {
-        if (!control.pbaNumber) return;
-
-        this.updatePbaNumbers.addPbaNumberToPendingAdd(control.pbaNumber);
         this.clearSummaryErrorMessage();
+
+        if (!control.pbaNumber) return;
+        this.updatePbaNumbers.addPbaNumberToPendingAdd(control.pbaNumber);
       };
     });
   }

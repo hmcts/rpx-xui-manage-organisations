@@ -50,12 +50,10 @@ export class PbaNumberInputComponent implements OnInit {
 
   private formatPbaNumber(control: AbstractControl): string {
     const value = control.value as string;
-    const inputWithoutAlphaCharacters = value.replace(/\D/g, '');
+    let cleanedValue = value.trim().toUpperCase();
 
-    if (!inputWithoutAlphaCharacters) {
-      return null
-    };
+    if (!cleanedValue.startsWith('PBA')) cleanedValue = `PBA${cleanedValue}`;
 
-    return `PBA${inputWithoutAlphaCharacters}`;
+    return cleanedValue;
   }
 }

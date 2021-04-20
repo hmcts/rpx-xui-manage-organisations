@@ -53,9 +53,9 @@ describe('PbaNumberInputComponent', () => {
         const testCases = [
             { input: '562', expected: 'PBA562' },
             { input: 'pba562', expected: 'PBA562' },
-            { input: 'pbapba562', expected: 'PBA562' },
-            { input: '562pba', expected: 'PBA562' },
-            { input: '5pba62', expected: 'PBA562' },
+            { input: 'pbapba562', expected: 'PBAPBA562' },
+            { input: '562pba', expected: 'PBA562PBA' },
+            { input: '5pba62', expected: 'PBA5PBA62' },
             { input: 'PBA1234567', expected: 'PBA1234567' },
         ];
 

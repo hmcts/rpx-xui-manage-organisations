@@ -70,18 +70,4 @@ describe('PbaNumbersFormComponent', () => {
             expect(component.updatePbaNumbers.pendingRemovePbaNumbers).toEqual(['PBA1234567']);
         });
     });
-
-    describe('generateSummaryErrorMessage()', () => {
-
-        it('should display the existing organisation error when user tries to add an existing PBA', () => {
-            component.updatePbaNumbers.existingPbaNumbers = ['PBA1234567'];
-
-            component.onAddNewBtnClicked();
-            component.pbaNumbers.controls[0].setValue({pbaNumber: 'PBA1234567'});
-
-            expect(component.summaryErrors.isFromValid).toBeFalsy();
-            expect(component.summaryErrors.header).toEqual('There is a problem');
-            expect(component.summaryErrors.items[0].message).toEqual('This PBA number is already associated to your organisation');
-        });
-    });
 });

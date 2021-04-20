@@ -98,7 +98,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
   private generateSummaryErrorMessage(): void {
     const genericErrorMessage = 'Enter a valid PBA number';
-    const existingPbaNumber = 'This PBA number is already associated to your organisation'
+    const existingPbaNumber = 'This PBA number is already associated to your organisation';
     const uniqueErrorMessage = 'You have entered this PBA number more than once';
 
     const items = this.pbaNumbers.controls

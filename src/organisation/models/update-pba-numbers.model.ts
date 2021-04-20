@@ -23,8 +23,6 @@ export class UpdatePbaNumbers {
       .concat(this.pendingAddPbaNumbers)
       .filter(pba => this.pendingRemovePbaNumbers.indexOf(pba) === -1);
 
-    console.log(currentPbas);
-
     return currentPbas;
   }
 

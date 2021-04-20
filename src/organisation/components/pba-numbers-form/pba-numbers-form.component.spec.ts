@@ -1,12 +1,12 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { ExuiCommonLibModule } from "@hmcts/rpx-xui-common-lib";
-import { RxReactiveFormsModule } from "@rxweb/reactive-form-validators";
-import { UpdatePbaNumbers } from "src/organisation/models/update-pba-numbers.model";
-import { PbaNumbersFormComponent } from "..";
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
+import { PbaNumbersFormComponent } from '..';
 
 const mockUpdatePbaNumbers = new UpdatePbaNumbers(['PBA7777777']);
 
@@ -84,5 +84,4 @@ fdescribe('PbaNumbersFormComponent', () => {
             expect(component.summaryErrors.items[0].message).toEqual('This PBA number is already associated to your organisation');
         });
     });
-    
 });

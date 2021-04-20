@@ -1,9 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { ExuiCommonLibModule } from "@hmcts/rpx-xui-common-lib";
-import { RxReactiveFormsModule, RxwebValidators } from "@rxweb/reactive-form-validators";
-import { PbaNumberInputComponent } from "./pba-number-input.component";
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RxReactiveFormsModule, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { PbaNumberInputComponent } from './pba-number-input.component';
 
 const id: string = 'pba-number-input0';
 
@@ -15,7 +15,7 @@ describe('PbaNumberInputComponent', () => {
 
     beforeEach(() => {
         group = new FormGroup({
-            'pbaNumber': new FormControl('', [
+            pbaNumber: new FormControl('', [
                 Validators.pattern(/(PBA\w*)/i),
                 Validators.minLength(10),
                 Validators.maxLength(10),
@@ -64,9 +64,9 @@ describe('PbaNumberInputComponent', () => {
                 const inputElement = fixture.nativeElement.querySelector('input');
                 inputElement.value = testCase.input;
                 inputElement.dispatchEvent(new Event('input'));
-        
+
                 fixture.detectChanges();
-        
+
                 fixture.whenStable().then(() => {
                     expect(inputElement.value).toBe(testCase.expected);
                 });
@@ -89,9 +89,9 @@ describe('PbaNumberInputComponent', () => {
                 const inputElement = fixture.nativeElement.querySelector('input');
                 inputElement.value = testCase.input;
                 inputElement.dispatchEvent(new Event('input'));
-        
+
                 fixture.detectChanges();
-        
+
                 fixture.whenStable().then(() => {
                     expect(component.errorMessages.messages).toEqual(testCase.expected);
                 });

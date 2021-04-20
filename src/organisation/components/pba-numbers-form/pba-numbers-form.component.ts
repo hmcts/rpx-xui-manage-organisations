@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from "@angular/forms";
-import { RxwebValidators } from "@rxweb/reactive-form-validators";
-import { UpdatePbaNumbers } from "src/organisation/models/update-pba-numbers.model";
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { RxwebValidators } from '@rxweb/reactive-form-validators';
+import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
 
 @Component({
   selector: 'app-prd-pba-numbers-form-component',
@@ -61,7 +61,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
   private initialiseForm(): void {
     this.pbaFormGroup = new FormGroup({
-      'pbaNumbers': this.fb.array([])
+      pbaNumbers: this.fb.array([])
     });
 
     this.pbaFormGroup.valueChanges.subscribe((control) => {

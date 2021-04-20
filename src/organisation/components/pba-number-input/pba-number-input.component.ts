@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
-import { ErrorMessagesModel } from "@hmcts/rpx-xui-common-lib/lib/gov-ui/models";
+import { Component, Input, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/models';
 
 @Component({
     selector: 'app-prd-pba-number-input-component',
@@ -43,9 +43,11 @@ export class PbaNumberInputComponent implements OnInit {
 
     private formatPbaNumber(control: AbstractControl): string {
         const value = control.value as string;
-        const inputWithoutAlphaCharacters = value.replace(/\D/g,'');
+        const inputWithoutAlphaCharacters = value.replace(/\D/g, '');
 
-        if (!inputWithoutAlphaCharacters) return null;
+        if (!inputWithoutAlphaCharacters) {
+            return null
+        };
 
         return `PBA${inputWithoutAlphaCharacters}`;
     }

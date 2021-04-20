@@ -17,8 +17,6 @@ export class PbaNumbersFormComponent implements OnInit {
   @Input()
   public updatePbaNumbers: UpdatePbaNumbers;
 
-  public pbaValidators: ValidatorFn[];
-
   constructor(private readonly fb: FormBuilder) { }
 
   ngOnInit() {

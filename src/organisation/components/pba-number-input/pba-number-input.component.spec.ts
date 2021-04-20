@@ -45,6 +45,10 @@ describe('PbaNumberInputComponent', () => {
         fixture.detectChanges();
     });
 
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
     describe('formatPbaNumber()', () => {
         const testCases = [
             { input: '562', expected: 'PBA562' },

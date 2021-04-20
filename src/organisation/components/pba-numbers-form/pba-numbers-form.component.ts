@@ -32,11 +32,11 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   get pbaNumbers(): FormArray {
-    return this.pbaFormGroup.get('pbaNumbers') as FormArray
+    return this.pbaFormGroup.get('pbaNumbers') as FormArray;
   }
 
   public onAddNewBtnClicked(): void {
-    this.pbaNumbers.push(this.newPbaNumber())
+    this.pbaNumbers.push(this.newPbaNumber());
   }
 
   public onRemoveNewPbaNumberClicked(i: number): void {
@@ -80,7 +80,7 @@ export class PbaNumbersFormComponent implements OnInit {
         if (!control.pbaNumber) return;
 
         this.updatePbaNumbers.addPbaNumberToPendingAdd(control.pbaNumber);
-        this.clearSummaryErrorMessage()
+        this.clearSummaryErrorMessage();
       };
     });
   }

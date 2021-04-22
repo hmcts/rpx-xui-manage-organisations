@@ -36,10 +36,11 @@ export function reducer(
     }
 
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_ADD: {
-      const pendingAddPbaNumbers = action.payload as string[];
-
       const organisationDetails = new Organisation(state.organisationDetails);
-      organisationDetails.pendingAddPaymentAccount = pendingAddPbaNumbers;
+      const pendingAddPbaNumbers = action.payload as string[];
+      const uniquePendingPba =  pendingAddPbaNumbers.filter((i, p, s) => s.indexOf(i) == p);
+
+      organisationDetails.pendingAddPaymentAccount = uniquePendingPba;
 
       return {
         ...state,
@@ -48,10 +49,11 @@ export function reducer(
     }
 
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_REMOVE: {
-      const pendingRemovePbaNumbers = action.payload as string[];
-
       const organisationDetails = new Organisation(state.organisationDetails);
-      organisationDetails.pendingRemovePaymentAccount = pendingRemovePbaNumbers;
+      const pendingRemovePbaNumbers = action.payload as string[];
+      const uniquePendingPba = pendingRemovePbaNumbers.filter((i, p, s) => s.indexOf(i) == p);  
+      
+      organisationDetails.pendingRemovePaymentAccount = uniquePendingPba;
 
       return {
         ...state,
@@ -66,4 +68,3 @@ export function reducer(
 export const getOrganisation = (state: OrganisationState) => state.organisationDetails;
 export const getOrganisationLoading = (state: OrganisationState) => state.loading;
 export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
-

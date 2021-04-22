@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { UpdateOrganisationPbaNumbers, UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
 import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';

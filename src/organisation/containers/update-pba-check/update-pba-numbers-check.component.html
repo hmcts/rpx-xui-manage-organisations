@@ -6,9 +6,9 @@
       <tr class="govuk-table__row" *ngIf="organisation.pendingAddPaymentAccount.length">
         <th class="govuk-table__header">Accounts to be added</th>
         <td class="govuk-table__cell">
-          <div>PBA1234567</div>
-          <div>PBA6767676</div>
-          <div>PBA1234567</div>
+          <div *ngFor="let pba of organisation.pendingAddPaymentAccount">
+            {{pba}}
+          </div>
         </td>
         <td class="govuk-table__cell">
           <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"

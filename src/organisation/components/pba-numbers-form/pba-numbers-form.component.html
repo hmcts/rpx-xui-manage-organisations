@@ -5,7 +5,7 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
-        <table class="govuk-table" *ngIf="organisation.paymentAccount.length; else noPbaNumbersMessage">
+        <table class="govuk-table" *ngIf="getCurrentPaymentAccounts().length; else noPbaNumbersMessage">
           <tbody class="govuk-table__body">
             <tr class="govuk-table__row" *ngFor="let pba of getCurrentPaymentAccounts()">
               <th class="govuk-table__header" scope="row">{{pba}}</th>
@@ -22,7 +22,7 @@
           <p>No PBA accounts added.</p>
         </ng-template>
 
-        <form [formGroup]="pbaFormGroup">
+        <form [formGroup]="pbaFormGroup" id="new-pba-form">
           <div formArrayName="pbaNumbers">
             <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i=index">
               <div [formGroupName]="i">
@@ -46,7 +46,7 @@
       </button>
     </div>
 
-    <button type="submit" class="govuk-button" [disabled]="pbaFormGroup.invalid" (click)="onClickContinue()" routerLink="/organisation/update-pba-numbers-check">
+    <button type="submit" class="govuk-button" [disabled]="pbaFormGroup.invalid" (click)="onClickContinue()">
       Continue
     </button>
   </div>

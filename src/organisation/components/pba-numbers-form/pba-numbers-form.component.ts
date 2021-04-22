@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { Organisation } from 'src/organisation/organisation.model';
@@ -27,6 +28,7 @@ export class PbaNumbersFormComponent implements OnInit {
   public organisation: Organisation;
 
   constructor(
+    private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly fb: FormBuilder) { }
 
@@ -39,19 +41,25 @@ export class PbaNumbersFormComponent implements OnInit {
     return this.pbaFormGroup.get('pbaNumbers') as FormArray;
   }
 
+  get hasPendingChanges(): boolean {
+    return this.organisation.pendingAddPaymentAccount.length > 0 || this.organisation.pendingRemovePaymentAccount.length > 0;
+  }
+
   public onAddNewBtnClicked(): void {
     this.pbaNumbers.push(this.newPbaNumber());
   }
 
   public onRemoveNewPbaNumberClicked(i: number): void {
-    // remove from store here
+    const pbaValue = this.pbaNumbers.at(i).value.pbaNumber;
+    const pendingAddPaymentAccount = this.organisation.pendingAddPaymentAccount.filter(i => i !== pbaValue);
 
+    this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPbas(pendingAddPaymentAccount));
     this.pbaNumbers.removeAt(i);
   }
 
   public onRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: string): void {
-    //this.updatePbaNumbers.addPbaNumberToPendingRemove(paymentByAccountNumber);
-    this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePbas([paymentByAccountNumber]))
+    const pendingRemovePbaAccounts = this.organisation.pendingRemovePaymentAccount.concat(paymentByAccountNumber);
+    this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePbas(pendingRemovePbaAccounts));
 
     this.pbaNumbers.controls.forEach((c: AbstractControl) => {
       const pbaControl = c.get('pbaNumber');
@@ -68,7 +76,7 @@ export class PbaNumbersFormComponent implements OnInit {
       Validators.minLength(10),
       Validators.maxLength(10),
       RxwebValidators.noneOf({
-        matchValues: this.organisation.paymentAccount
+        matchValues: this.getCurrentPaymentAccounts()
       }),
       RxwebValidators.unique()
     ]
@@ -90,19 +98,25 @@ export class PbaNumbersFormComponent implements OnInit {
 
         control.pbaNumbers.forEach(item => {
           if (item.pbaNumber) {
-            console.log(item.pbaNumber);
-            // Add addition code here
-
-            //this.updatePbaNumbers.addPbaNumberToPendingAdd(item.pbaNumber);
+            const pendingAddPbaAccounts = this.organisation.pendingAddPaymentAccount.concat(item.pbaNumber);
+            this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPbas(pendingAddPbaAccounts));
           }
         });
       };
     });
+
+    this.hydratePbaFormFromExistingPendingAddPbas();
   }
 
-  private newPbaNumber(): FormGroup {
+  private hydratePbaFormFromExistingPendingAddPbas(): void {
+    this.organisation.pendingAddPaymentAccount.forEach((pendingPbaAddition: string) => {
+      this.pbaNumbers.push(this.newPbaNumber(pendingPbaAddition));
+    });
+  }
+
+  private newPbaNumber(value: string = ''): FormGroup {
     return this.fb.group({
-      pbaNumber: new FormControl('', {
+      pbaNumber: new FormControl(value, {
         validators: this.getPbaNumberValidators(),
         updateOn: 'blur'
       }),
@@ -110,7 +124,20 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   public onClickContinue(): void {
-    this.onSubmit();
+    if (this.hasPendingChanges) {
+      return this.onSubmit();
+    }
+
+    this.summaryErrors = {
+      isFromValid: false,
+      header: 'There is a problem',
+      items: [
+        {
+          id: 'new-pba-form',
+          message: 'Add or remove a PBA account'
+        }
+      ]
+    };
   }
 
   private onSubmit(): void {
@@ -118,9 +145,7 @@ export class PbaNumbersFormComponent implements OnInit {
       return;
     }
 
-    //console.log(this.updatePbaNumbers);
-
-    //this.orgStore.dispatch(new fromStore.SaveOrganisationPbaChangeData(this.updatePbaNumbers));
+    this.router.navigate(['/organisation/update-pba-numbers-check']);
   }
 
   private clearSummaryErrorMessage(): void {

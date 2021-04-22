@@ -18,8 +18,8 @@ class CreateOrganisationObjects {
     this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
     this.townName = element(by.xpath("//input[@id='townOrCity']"));
     this.postcode = element(by.css("[id='postcode']"));
-    this.PBAnumber1 = element(by.css("#PBAnumber1"));
-    this.PBAnumber2 = element(by.css("#PBAnumber2"));
+    this.PBAnumber1 = element(by.css("#PBANumber1"));
+    this.PBAnumber2 = element(by.css("#PBANumber2"));
     this.DXreference = element(by.css("input[id='haveDxyes']"));
     this.DXNumber = element(by.css("[id='DXnumber']"));
     this.DXContinuee = element(by.xpath("//input[@id='createButtonContinue']"));

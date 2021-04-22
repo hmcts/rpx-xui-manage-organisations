@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { select, Store } from '@ngrx/store';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { UpdatePbaNumbers } from '../../../organisation/models/update-pba-numbers.model';
+import { Organisation } from 'src/organisation/organisation.model';
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-pba-numbers-form-component',
@@ -22,11 +24,14 @@ export class PbaNumbersFormComponent implements OnInit {
   };
 
   @Input()
-  public updatePbaNumbers: UpdatePbaNumbers;
+  public organisation: Organisation;
 
-  constructor(private readonly fb: FormBuilder) { }
+  constructor(
+    private readonly orgStore: Store<fromStore.OrganisationState>,
+    private readonly fb: FormBuilder) { }
 
   ngOnInit() {
+    this.getOrganisationDetailsFromStore();
     this.initialiseForm();
   }
 
@@ -39,11 +44,14 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   public onRemoveNewPbaNumberClicked(i: number): void {
+    // remove from store here
+
     this.pbaNumbers.removeAt(i);
   }
 
   public onRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: string): void {
-    this.updatePbaNumbers.addPbaNumberToPendingRemove(paymentByAccountNumber);
+    //this.updatePbaNumbers.addPbaNumberToPendingRemove(paymentByAccountNumber);
+    this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePbas([paymentByAccountNumber]))
 
     this.pbaNumbers.controls.forEach((c: AbstractControl) => {
       const pbaControl = c.get('pbaNumber');
@@ -60,7 +68,7 @@ export class PbaNumbersFormComponent implements OnInit {
       Validators.minLength(10),
       Validators.maxLength(10),
       RxwebValidators.noneOf({
-        matchValues: this.updatePbaNumbers.currentPbaNumbers
+        matchValues: this.organisation.paymentAccount
       }),
       RxwebValidators.unique()
     ]
@@ -78,8 +86,16 @@ export class PbaNumbersFormComponent implements OnInit {
       else {
         this.clearSummaryErrorMessage();
 
-        if (!control.pbaNumber) return;
-        this.updatePbaNumbers.addPbaNumberToPendingAdd(control.pbaNumber);
+        if (!control.pbaNumbers) return;
+
+        control.pbaNumbers.forEach(item => {
+          if (item.pbaNumber) {
+            console.log(item.pbaNumber);
+            // Add addition code here
+
+            //this.updatePbaNumbers.addPbaNumberToPendingAdd(item.pbaNumber);
+          }
+        });
       };
     });
   }
@@ -93,10 +109,18 @@ export class PbaNumbersFormComponent implements OnInit {
     });
   }
 
-  public onSubmit(): void {
+  public onClickContinue(): void {
+    this.onSubmit();
+  }
+
+  private onSubmit(): void {
     if (!this.pbaFormGroup.valid) {
       return;
     }
+
+    //console.log(this.updatePbaNumbers);
+
+    //this.orgStore.dispatch(new fromStore.SaveOrganisationPbaChangeData(this.updatePbaNumbers));
   }
 
   private clearSummaryErrorMessage(): void {
@@ -137,5 +161,26 @@ export class PbaNumbersFormComponent implements OnInit {
       header: 'There is a problem',
       items
     };
+  }
+
+  /**
+   * Current PBA Numbers contain existing and pending additions, minus pending removals
+   */
+  public getCurrentPaymentAccounts(): string[] {
+    const currentPbas = this.organisation.paymentAccount
+        .filter(pba => this.organisation.pendingRemovePaymentAccount.indexOf(pba) === -1);
+
+    return currentPbas;
+  }
+
+  /**
+   * Get Organisation Details from Store.
+   *
+   * Once we have the Organisation Details, we display them on the page.
+   */
+  private getOrganisationDetailsFromStore(): void {
+    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
+      this.organisation = organisationDetails;
+    });
   }
 }

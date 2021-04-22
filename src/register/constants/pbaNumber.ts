@@ -63,16 +63,6 @@ export const pbaNumber = {
         },
       },
       {
-        extension:
-          {
-            componentDetails: {
-              title: 'Why add a PBA number?',
-              text: 'Adding a PBA number for your organisation will allow you to view your:',
-              ul: ['account balance', 'available credit', 'transactions'],
-            }
-          }
-      },
-      {
         button: {
           control: 'createButton',
           value: 'Continue',

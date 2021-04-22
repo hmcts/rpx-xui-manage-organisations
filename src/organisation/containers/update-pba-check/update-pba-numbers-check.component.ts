@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { UpdateOrganisationPbaNumbers, UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
+import { UpdatePbaNumbers } from 'src/organisation/models/update-pba-numbers.model';
 import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'app-prd-update-pba-numbers-component',
-  templateUrl: './update-pba-numbers.component.html',
+  selector: 'app-prd-update-pba-numbers-check-component',
+  templateUrl: './update-pba-numbers-check.component.html',
 })
-export class UpdatePbaNumbersComponent implements OnInit {
+export class UpdatePbaNumbersCheckComponent implements OnInit {
+
+  public readonly title: string = 'Check your PBA accounts';
+
+  public updatePbaNumbers: UpdatePbaNumbers;
 
   public organisation: Organisation;
 
@@ -29,7 +33,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    */
   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
-      [] : organisationDetails.paymentAccount;
+      null : organisationDetails.paymentAccount;
   }
 
   /**
@@ -40,6 +44,14 @@ export class UpdatePbaNumbersComponent implements OnInit {
   private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisation = organisationDetails;
+
+      this.updatePbaNumbers = new UpdatePbaNumbers(this.getPaymentAccount(organisationDetails));
+      this.updatePbaNumbers.pendingAddPbaNumbers = organisationDetails.pendingAddPaymentAccount || [];
+      this.updatePbaNumbers.pendingRemovePbaNumbers = organisationDetails.pendingRemovePaymentAccount || [];
     });
+  }
+
+  public onSubmitClicked(): void {
+
   }
 }

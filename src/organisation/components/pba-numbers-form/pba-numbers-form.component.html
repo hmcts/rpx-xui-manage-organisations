@@ -5,9 +5,9 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
-        <table class="govuk-table" *ngIf="updatePbaNumbers.hasDisplayPbaNumbers; else noPbaNumbersMessage">
+        <table class="govuk-table" *ngIf="organisation.paymentAccount.length; else noPbaNumbersMessage">
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row" *ngFor="let pba of updatePbaNumbers.displayPbaNumbers">
+            <tr class="govuk-table__row" *ngFor="let pba of getCurrentPaymentAccounts()">
               <th class="govuk-table__header" scope="row">{{pba}}</th>
               <td class="govuk-table__cell">
                 <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
@@ -46,7 +46,7 @@
       </button>
     </div>
 
-    <button type="submit" class="govuk-button" [disabled]="pbaFormGroup.invalid">
+    <button type="submit" class="govuk-button" [disabled]="pbaFormGroup.invalid" (click)="onClickContinue()" routerLink="/organisation/update-pba-numbers-check">
       Continue
     </button>
   </div>

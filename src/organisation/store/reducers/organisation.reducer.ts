@@ -1,7 +1,5 @@
 import * as fromOrganisation from '../actions/organisation.actions';
 import { Organisation } from 'src/organisation/organisation.model';
-
-
 export interface OrganisationState {
   organisationDetails: Organisation;
   loaded: boolean;
@@ -37,6 +35,29 @@ export function reducer(
 
     }
 
+    case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_ADD: {
+      const pendingAddPbaNumbers = action.payload as string[];
+
+      const organisationDetails = new Organisation(state.organisationDetails);
+      organisationDetails.pendingAddPaymentAccount = pendingAddPbaNumbers;
+
+      return {
+        ...state,
+        organisationDetails
+      }
+    }
+
+    case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_REMOVE: {
+      const pendingRemovePbaNumbers = action.payload as string[];
+
+      const organisationDetails = new Organisation(state.organisationDetails);
+      organisationDetails.pendingRemovePaymentAccount = pendingRemovePbaNumbers;
+
+      return {
+        ...state,
+        organisationDetails
+      }
+    }
   }
 
   return state;

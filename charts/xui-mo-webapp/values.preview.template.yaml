@@ -25,6 +25,8 @@ nodejs:
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
+  autoscaling:
+    enabled: false
 redis:
   enabled: true
 idam-pr:

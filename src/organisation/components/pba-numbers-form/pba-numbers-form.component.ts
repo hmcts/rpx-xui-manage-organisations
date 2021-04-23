@@ -192,9 +192,9 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   /**
-  * Refresh the validation updates the validation matches for unique PBAs
-  * and matches with existing Organisation PBAs
-  */
+   * Refresh the validation updates the validation matches for unique PBAs
+   * and matches with existing Organisation PBAs
+   */
   private refreshValidation(): void {
     this.pbaNumbers.controls.forEach((c: AbstractControl) => {
       const pbaControl = c.get('pbaNumber');

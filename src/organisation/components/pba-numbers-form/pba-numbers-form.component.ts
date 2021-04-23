@@ -51,7 +51,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
   public onRemoveNewPbaNumberClicked(i: number): void {
     const pbaValue = this.pbaNumbers.at(i).value.pbaNumber;
-    const pendingAddPaymentAccount = this.organisation.pendingAddPaymentAccount.filter(i => i !== pbaValue);
+    const pendingAddPaymentAccount = this.organisation.pendingAddPaymentAccount.filter((pba: string) => pba !== pbaValue);
 
     this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPbas(pendingAddPaymentAccount));
     this.pbaNumbers.removeAt(i);

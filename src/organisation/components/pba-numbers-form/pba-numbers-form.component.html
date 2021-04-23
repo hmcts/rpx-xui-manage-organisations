@@ -19,7 +19,7 @@
         </table>
 
         <ng-template #noPbaNumbersMessage>
-          <p>No PBA accounts added.</p>
+          <p *ngIf="organisation.pendingAddPaymentAccount.length === 0">No PBA accounts added.</p>
         </ng-template>
 
         <form [formGroup]="pbaFormGroup" id="new-pba-form">

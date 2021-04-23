@@ -24,7 +24,9 @@ describe('LoadOrganisationSuccess', () => {
       addressLine2: '',
       country: 'UK',
       contactInformation: [],
-      paymentAccount: []
+      paymentAccount: [],
+      pendingAddPaymentAccount: [],
+      pendingRemovePaymentAccount: []
     };
     const action = new LoadOrganisationSuccess(payload);
     expect({ ...action }).toEqual({

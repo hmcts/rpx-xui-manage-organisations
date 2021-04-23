@@ -55,31 +55,38 @@ export class PbaNumbersFormComponent implements OnInit {
 
     this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPbas(pendingAddPaymentAccount));
     this.pbaNumbers.removeAt(i);
+    this.refreshValidation();
+  }
+
+  public onClickContinue(): void {
+    if (this.hasPendingChanges) {
+      return this.onSubmit();
+    }
+
+    this.summaryErrors = {
+      isFromValid: false,
+      header: 'There is a problem',
+      items: [
+        {
+          id: 'new-pba-form',
+          message: 'Add or remove a PBA account'
+        }
+      ]
+    };
   }
 
   public onRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: string): void {
     const pendingRemovePbaAccounts = this.organisation.pendingRemovePaymentAccount.concat(paymentByAccountNumber);
     this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePbas(pendingRemovePbaAccounts));
-
-    this.pbaNumbers.controls.forEach((c: AbstractControl) => {
-      const pbaControl = c.get('pbaNumber');
-      pbaControl.setValidators(this.getPbaNumberValidators());
-      pbaControl.updateValueAndValidity();
-    });
-
-    this.generateSummaryErrorMessage();
+    this.refreshValidation();
   }
 
-  private getPbaNumberValidators(): ValidatorFn[] {
-    return [
-      Validators.pattern(/(PBA\w*)/i),
-      Validators.minLength(10),
-      Validators.maxLength(10),
-      RxwebValidators.noneOf({
-        matchValues: this.getCurrentPaymentAccounts()
-      }),
-      RxwebValidators.unique()
-    ]
+  private onSubmit(): void {
+    if (!this.pbaFormGroup.valid) {
+      return;
+    }
+
+    this.router.navigate(['/organisation/update-pba-numbers-check']);
   }
 
   private initialiseForm(): void {
@@ -121,31 +128,6 @@ export class PbaNumbersFormComponent implements OnInit {
         updateOn: 'blur'
       }),
     });
-  }
-
-  public onClickContinue(): void {
-    if (this.hasPendingChanges) {
-      return this.onSubmit();
-    }
-
-    this.summaryErrors = {
-      isFromValid: false,
-      header: 'There is a problem',
-      items: [
-        {
-          id: 'new-pba-form',
-          message: 'Add or remove a PBA account'
-        }
-      ]
-    };
-  }
-
-  private onSubmit(): void {
-    if (!this.pbaFormGroup.valid) {
-      return;
-    }
-
-    this.router.navigate(['/organisation/update-pba-numbers-check']);
   }
 
   private clearSummaryErrorMessage(): void {
@@ -193,7 +175,7 @@ export class PbaNumbersFormComponent implements OnInit {
    */
   public getCurrentPaymentAccounts(): string[] {
     const currentPbas = this.organisation.paymentAccount
-        .filter(pba => this.organisation.pendingRemovePaymentAccount.indexOf(pba) === -1);
+      .filter(pba => this.organisation.pendingRemovePaymentAccount.indexOf(pba) === -1);
 
     return currentPbas;
   }
@@ -207,5 +189,31 @@ export class PbaNumbersFormComponent implements OnInit {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisation = organisationDetails;
     });
+  }
+
+  /**
+  * Refresh the validation updates the validation matches for unique PBAs
+  * and matches with existing Organisation PBAs
+  */
+  private refreshValidation(): void {
+    this.pbaNumbers.controls.forEach((c: AbstractControl) => {
+      const pbaControl = c.get('pbaNumber');
+      pbaControl.setValidators(this.getPbaNumberValidators());
+      pbaControl.updateValueAndValidity();
+    });
+
+    this.generateSummaryErrorMessage();
+  }
+
+  private getPbaNumberValidators(): ValidatorFn[] {
+    return [
+      Validators.pattern(/(PBA\w*)/i),
+      Validators.minLength(10),
+      Validators.maxLength(10),
+      RxwebValidators.noneOf({
+        matchValues: this.getCurrentPaymentAccounts()
+      }),
+      RxwebValidators.unique()
+    ]
   }
 }

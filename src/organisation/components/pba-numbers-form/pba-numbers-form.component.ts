@@ -32,7 +32,7 @@ export class PbaNumbersFormComponent implements OnInit {
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly fb: FormBuilder) { }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
     this.initialiseForm();
   }

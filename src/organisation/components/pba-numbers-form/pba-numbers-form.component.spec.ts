@@ -31,7 +31,7 @@ const mockOrganisation: Organisation = {
   paymentAccount: ['PBA000000'],
   pendingAddPaymentAccount: [],
   pendingRemovePaymentAccount: [],
-}
+};
 
 describe('PbaNumbersFormComponent', () => {
   let component: PbaNumbersFormComponent;

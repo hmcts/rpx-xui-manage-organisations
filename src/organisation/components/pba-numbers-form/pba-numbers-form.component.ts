@@ -45,6 +45,20 @@ export class PbaNumbersFormComponent implements OnInit {
     return this.organisation.pendingAddPaymentAccount.length > 0 || this.organisation.pendingRemovePaymentAccount.length > 0;
   }
 
+  /**
+   * Current PBA Numbers contain existing and pending additions, minus pending removals
+   */
+  get currentPaymentAccounts(): string[] {
+    const currentPbas = this.organisation.paymentAccount
+      .filter(pba => this.organisation.pendingRemovePaymentAccount.indexOf(pba) === -1);
+
+    return currentPbas;
+  }
+
+  get noAccountsAdded(): boolean {
+    return this.organisation.pendingAddPaymentAccount.length === 0 && this.currentPaymentAccounts.length === 0;
+  }
+
   public onAddNewBtnClicked(): void {
     this.pbaNumbers.push(this.newPbaNumber());
   }
@@ -95,13 +109,17 @@ export class PbaNumbersFormComponent implements OnInit {
     });
 
     this.pbaFormGroup.valueChanges.subscribe((control) => {
-      if (!control) return;
+      if (!control) {
+        return;
+      };
 
       if (this.pbaFormGroup.invalid) this.generateSummaryErrorMessage();
       else {
         this.clearSummaryErrorMessage();
 
-        if (!control.pbaNumbers) return;
+        if (!control.pbaNumbers) {
+          return;
+        };
 
         control.pbaNumbers.forEach(item => {
           if (item.pbaNumber) {
@@ -171,16 +189,6 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   /**
-   * Current PBA Numbers contain existing and pending additions, minus pending removals
-   */
-  public getCurrentPaymentAccounts(): string[] {
-    const currentPbas = this.organisation.paymentAccount
-      .filter(pba => this.organisation.pendingRemovePaymentAccount.indexOf(pba) === -1);
-
-    return currentPbas;
-  }
-
-  /**
    * Get Organisation Details from Store.
    *
    * Once we have the Organisation Details, we display them on the page.
@@ -211,7 +219,7 @@ export class PbaNumbersFormComponent implements OnInit {
       Validators.minLength(10),
       Validators.maxLength(10),
       RxwebValidators.noneOf({
-        matchValues: this.getCurrentPaymentAccounts()
+        matchValues: this.currentPaymentAccounts
       }),
       RxwebValidators.unique()
     ]

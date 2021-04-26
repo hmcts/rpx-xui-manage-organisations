@@ -38,7 +38,8 @@ export function reducer(
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_ADD: {
       const organisationDetails = new Organisation(state.organisationDetails);
       const pendingAddPbaNumbers = action.payload as string[];
-      const uniquePendingPba = pendingAddPbaNumbers.filter((i, p, s) => s.indexOf(i) == p);
+      const uniquePendingPba = pendingAddPbaNumbers
+        .filter((pba, index, array) => array.indexOf(pba) == index);
 
       organisationDetails.pendingAddPaymentAccount = uniquePendingPba;
 
@@ -51,7 +52,8 @@ export function reducer(
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_REMOVE: {
       const organisationDetails = new Organisation(state.organisationDetails);
       const pendingRemovePbaNumbers = action.payload as string[];
-      const uniquePendingPba = pendingRemovePbaNumbers.filter((i, p, s) => s.indexOf(i) == p);
+      const uniquePendingPba = pendingRemovePbaNumbers
+        .filter((pba, index, array) => array.indexOf(pba) == index);
 
       organisationDetails.pendingRemovePaymentAccount = uniquePendingPba;
 

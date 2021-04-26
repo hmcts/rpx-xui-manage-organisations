@@ -3,7 +3,7 @@ export const organisationHaveSra = {
   meta: {
     idPrefix: 'tbc',
     name: 'sra',
-    header: 'Do you have an organisation SRA ID?',
+    header: 'Do you have an organisation Solicitors Regulation Authority (SRA) ID?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -18,7 +18,7 @@ export const organisationHaveSra = {
         fieldset: [
           {
             legend: {
-              text: 'Do you have an organisation SRA ID?',
+              text: 'Do you have an organisation Solicitors Regulation Authority (SRA) ID?',
               classes: 'govuk-fieldset__legend--xl'
             }
           },

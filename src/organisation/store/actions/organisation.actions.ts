@@ -6,7 +6,7 @@ export const LOAD_ORGANISATION_SUCCESS = '[Organisation] Load Organisation Succe
 export const LOAD_ORGANISATION_FAIL = '[Organisation] Load Organisation Fail';
 
 export const UPDATE_ORGANISATION_PBA_PENDING_ADD = '[Organisation] Update Pending PBA addition to organisation';
-export const UPDATE_ORGANISATION_PBA_PENDING_REMOVE = '[Organisation] Update Pending PBA removal to organisation';
+export const UPDATE_ORGANISATION_PBA_PENDING_REMOVE = '[Organisation] Update Pending PBA removal from organisation';
 
 export class LoadOrganisation {
   readonly type = LOAD_ORGANISATION;

@@ -114,9 +114,8 @@ export class PbaNumbersFormComponent implements OnInit {
       };
 
       if (this.pbaFormGroup.invalid) {
-        this.generateSummaryErrorMessage()
-      }
-      else {
+        this.generateSummaryErrorMessage();
+      } else {
         this.clearSummaryErrorMessage();
 
         if (!control.pbaNumbers) {
@@ -175,9 +174,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
         if (controlErrors.unique) {
           message = uniqueErrorMessage
-        }
-
-        else if (controlErrors.noneOf) {
+        } else if (controlErrors.noneOf) {
           message = existingPbaNumber
         };
 

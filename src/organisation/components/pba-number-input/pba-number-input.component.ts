@@ -47,7 +47,7 @@ export class PbaNumberInputComponent implements OnInit {
     if (control.errors.unique) {
       return PbaNumberInputComponent.PBA_UNIQUE_ERROR_MESSAGE;
     }
-    
+
     if (control.errors.noneOf) {
       return PbaNumberInputComponent.PBA_EXISTING_ERROR_MESSAGE;
     }

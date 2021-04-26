@@ -3,7 +3,7 @@
     <tbody class="govuk-table__body">
 
       <!-- Accounts to be added -->
-      <tr class="govuk-table__row" *ngIf="organisation.pendingAddPaymentAccount.length">
+      <tr class="govuk-table__row" *ngIf="organisation.pendingAddPaymentAccount.length > 0">
         <th class="govuk-table__header">Accounts to be added</th>
         <td class="govuk-table__cell">
           <div *ngFor="let pba of organisation.pendingAddPaymentAccount">

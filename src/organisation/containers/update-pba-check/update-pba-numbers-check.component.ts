@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';
 
 @Component({
-  selector: 'app-prd-update-pba-numbers-component',
-  templateUrl: './update-pba-numbers.component.html',
+  selector: 'app-prd-update-pba-numbers-check-component',
+  templateUrl: './update-pba-numbers-check.component.html',
 })
-export class UpdatePbaNumbersComponent implements OnInit {
+export class UpdatePbaNumbersCheckComponent implements OnInit {
 
+  public readonly title: string = 'Check your PBA accounts';
   public organisation: Organisation;
 
-  constructor(private readonly orgStore: Store<fromStore.OrganisationState>) { }
+  constructor(
+    private readonly router: Router,
+    private readonly orgStore: Store<fromStore.OrganisationState>) { }
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
@@ -28,7 +32,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    */
   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
-      [] : organisationDetails.paymentAccount;
+      null : organisationDetails.paymentAccount;
   }
 
   /**
@@ -39,6 +43,14 @@ export class UpdatePbaNumbersComponent implements OnInit {
   private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisation = organisationDetails;
+
+      const noPendingChangesToCommit = (!this.organisation.pendingAddPaymentAccount.length && !this.organisation.pendingRemovePaymentAccount.length);
+
+      if (noPendingChangesToCommit) {
+        this.router.navigate(['/organisation/update-pba-numbers']);
+      }
     });
   }
+
+  public onSubmitClicked(): void {}
 }

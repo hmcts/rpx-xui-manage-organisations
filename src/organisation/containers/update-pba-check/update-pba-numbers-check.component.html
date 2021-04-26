@@ -17,7 +17,7 @@
       </tr>
 
       <!-- Accounts to be remove -->
-      <tr class="govuk-table__row" *ngIf="organisation.pendingRemovePaymentAccount.length">
+      <tr class="govuk-table__row" *ngIf="organisation.pendingRemovePaymentAccount.length > 0">
         <th class="govuk-table__header" scope="row">Accounts to be removed</th>
         <td class="govuk-table__cell">
           <div *ngFor="let pba of organisation.pendingRemovePaymentAccount">
@@ -32,7 +32,7 @@
     </tbody>
   </table>
 
-  <div class="govuk-warning-text" *ngIf="organisation.pendingRemovePaymentAccount.length">
+  <div class="govuk-warning-text" *ngIf="organisation.pendingRemovePaymentAccount.length > 0">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">
       <span class="govuk-warning-text__assistive">Warning</span>

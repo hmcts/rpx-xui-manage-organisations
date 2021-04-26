@@ -59,7 +59,9 @@ export class PbaNumberInputComponent implements OnInit {
     const value = control.value as string;
     let cleanedValue = value.trim().toUpperCase();
 
-    if (!cleanedValue.startsWith('PBA')) cleanedValue = `PBA${cleanedValue}`;
+    if (!cleanedValue.startsWith('PBA') && cleanedValue.length !== 0) {
+      cleanedValue = `PBA${cleanedValue}`;
+    };
 
     return cleanedValue;
   }

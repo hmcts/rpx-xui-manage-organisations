@@ -3,7 +3,7 @@ export const haveDx = {
   meta: {
     idPrefix: 'tbc',
     name: 'name',
-    header: 'Do you have a DX reference for your main office?',
+    header: 'Do you have a Document Exchange (DX) reference for your main office?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -18,7 +18,7 @@ export const haveDx = {
         fieldset: [
           {
             legend: {
-              text: 'Do you have a DX reference for your main office?',
+              text: 'Do you have a Document Exchange (DX) reference for your main office?',
               classes: 'govuk-fieldset__legend--xl'
             }
           },

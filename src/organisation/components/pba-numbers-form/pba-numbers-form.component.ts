@@ -37,25 +37,25 @@ export class PbaNumbersFormComponent implements OnInit {
     this.initialiseForm();
   }
 
-  get pbaNumbers(): FormArray {
+  public get pbaNumbers(): FormArray {
     return this.pbaFormGroup.get('pbaNumbers') as FormArray;
   }
 
-  get hasPendingChanges(): boolean {
+  public get hasPendingChanges(): boolean {
     return this.organisation.pendingAddPaymentAccount.length > 0 || this.organisation.pendingRemovePaymentAccount.length > 0;
   }
 
   /**
    * Current PBA Numbers contain existing and pending additions, minus pending removals
    */
-  get currentPaymentAccounts(): string[] {
+  public get currentPaymentAccounts(): string[] {
     const currentPbas = this.organisation.paymentAccount
       .filter(pba => this.organisation.pendingRemovePaymentAccount.indexOf(pba) === -1);
 
     return currentPbas;
   }
 
-  get noAccountsAdded(): boolean {
+  public get noAccountsAdded(): boolean {
     return this.organisation.pendingAddPaymentAccount.length === 0 && this.currentPaymentAccounts.length === 0;
   }
 
@@ -113,7 +113,9 @@ export class PbaNumbersFormComponent implements OnInit {
         return;
       };
 
-      if (this.pbaFormGroup.invalid) this.generateSummaryErrorMessage();
+      if (this.pbaFormGroup.invalid) {
+        this.generateSummaryErrorMessage()
+      }
       else {
         this.clearSummaryErrorMessage();
 
@@ -159,15 +161,25 @@ export class PbaNumbersFormComponent implements OnInit {
 
     const items = this.pbaNumbers.controls
       .map((control: AbstractControl, index: number) => {
-        if (control.valid) return;
+        if (control.valid) {
+          return;
+        };
+
         const controlErrors = control.get('pbaNumber').errors;
 
-        if (!controlErrors) return;
+        if (!controlErrors) {
+          return;
+        };
 
         let message: string = genericErrorMessage;
 
-        if (controlErrors.unique) message = uniqueErrorMessage;
-        else if (controlErrors.noneOf) message = existingPbaNumber;
+        if (controlErrors.unique) {
+          message = uniqueErrorMessage
+        }
+
+        else if (controlErrors.noneOf) {
+          message = existingPbaNumber
+        };
 
         return {
           id: `pba-number-input${index}`,

@@ -18,7 +18,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>) { }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
   }
 

@@ -9,28 +9,28 @@
         <lib-gov-checkbox
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiCaseManager"
-          [config]="{value: 'pui-case-manager',  label: 'Manage cases', name: 'roles', hint: 'View, create and progress cases.', focusOn: 'roles', span: 'Permit users to '}">
+          [config]="{value: 'pui-case-manager',  label: 'Manage cases', name: 'roles', hint: 'View, create and progress cases.', focusOn: 'roles', spanText: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiUserManager"
           [config]="{value: 'pui-user-manager', label: 'Manage users', name: 'roles',
-          hint: 'Invite users.', span: 'Permit users to '}">
+          hint: 'Invite users.', spanText: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiOrganisationManager"
           [config]="{value: 'pui-organisation-manager', label: 'Manage organisation', name: 'roles',
-          hint: 'View the organisation name and address.', span: 'Permit users to '}">
+          hint: 'View the organisation name and address.', spanText: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox id="checkbox-grant-case-access-admin" *ngIf="grantCaseAccessAdmin$ | async"
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isCaseAccessAdmin"
           [config]="{value: 'pui-caa', label: 'Case access administrator', name: 'roles',
-          hint: 'Manage case access for all users within your organisation. You can assign this role to any user in your organisation. However, your service might not currently support this role. You will receive further guidance once it becomes available.', span: 'Permit users to '}">
+          hint: 'Manage case access for all users within your organisation. You can assign this role to any user in your organisation. However, your service might not currently support this role. You will receive further guidance once it becomes available.', spanText: 'Permit users to '}">
       </lib-gov-checkbox>
       </div>
 

@@ -24,6 +24,13 @@ import {Component, Input} from '@angular/core';
 })
 export class GovUkLabelComponent {
   constructor () { }
-  @Input() config: { label: string, name: string; id: string, isPageHeading, classes: string, hiddenLabelContext: string };
+  @Input() config: { 
+    label: string;
+    name: string;
+    id: string;
+    isPageHeading;
+    classes: string;
+    hiddenLabelContext: string 
+  };
 
 }

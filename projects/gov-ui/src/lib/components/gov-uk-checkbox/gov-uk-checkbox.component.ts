@@ -21,8 +21,16 @@ import {FormGroup} from '@angular/forms';
 export class GovUkCheckboxComponent implements OnInit {
   constructor() { }
   @Input() group: FormGroup;
-  @Input() config: {value: string, label: string, hint: string; name: string; 
-                    focusOn: string; id: string; classes: string; hiddenLabelContext: string};
+  @Input() config: {
+    value: string;
+    label: string;
+    hint: string;
+    name: string;
+    focusOn: string;
+    id: string;
+    classes: string;
+    hiddenLabelContext: string
+  };
   @Input() isChecked: boolean = false;
 
   id: string;

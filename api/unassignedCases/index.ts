@@ -9,8 +9,8 @@ export async function handleUnassignedCases(req: Request, res: Response, next: N
   const payload = getRequestBody(req.session.auth.orgId)
   try {
         const response = await req.http.post(path, payload)
-        const unassingedCases = mapCcdCases(caseTypeId, response.data)
-        res.send(unassingedCases)
+        const unassignedCases = mapCcdCases(caseTypeId, response.data)
+        res.send(unassignedCases)
   } catch (error) {
     next(error)
   }

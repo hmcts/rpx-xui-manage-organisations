@@ -1,10 +1,5 @@
 <div [attr.validate]="validate" [attr.data]="data" [attr.group]="group">
     <!--JUI FORM builder component -->
-    <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
-        <h1 class="govuk-heading-xl">
-            {{data.legend.text}}
-        </h1>
-    </app-legend>
     <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
         {{data.hint.text}}
     </app-hint>

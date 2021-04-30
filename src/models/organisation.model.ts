@@ -26,5 +26,8 @@ export interface OrganisationDetails {
     lastName: string;
     email: string;
   },
-  paymentAccount: string[];
+  paymentAccount: any[];
+  pendingAddPaymentAccount: any[];
+  pendingRemovePaymentAccount: any[];
+  response?: any;
 }

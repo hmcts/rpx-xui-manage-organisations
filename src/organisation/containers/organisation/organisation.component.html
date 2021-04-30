@@ -1,4 +1,10 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
+  <div *ngIf="organisationDetails.response && organisationDetails.response.code === 200" class="hmcts-banner hmcts-banner--success">
+    <div class="hmcts-banner__message">
+      <span class="hmcts-banner__assistive">Success</span>
+      PBA accounts submitted. We'll email you once they're verified.
+    </div>
+  </div>
   <table class="govuk-table">
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
@@ -30,7 +36,7 @@
         <div *ngIf="organisationPaymentAccount">
           <div *ngFor="let pbaNumber of organisationPaymentAccount">{{pbaNumber}}</div>
         </div>
-         
+
         <div *ngIf="!organisationPaymentAccount">
           <div>No PBA accounts registered</div>
         </div>

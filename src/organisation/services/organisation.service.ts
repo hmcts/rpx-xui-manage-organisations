@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 export const ENVIRONMENT = {
   orgUri: '/api/organisation'

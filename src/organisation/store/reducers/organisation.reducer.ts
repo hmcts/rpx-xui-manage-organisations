@@ -27,6 +27,7 @@ export function reducer(
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const organisationDetails = new Organisation(action.payload);
+      organisationDetails.response = null;
       return {
         ...state,
         organisationDetails,
@@ -38,30 +39,50 @@ export function reducer(
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_ADD: {
       const organisationDetails = new Organisation(state.organisationDetails);
       const pendingAddPbaNumbers = action.payload as string[];
-      const uniquePendingPba = pendingAddPbaNumbers
-        .filter((pba, index, array) => array.indexOf(pba) == index);
 
-      organisationDetails.pendingAddPaymentAccount = uniquePendingPba;
-
+      organisationDetails.pendingAddPaymentAccount = pendingAddPbaNumbers
+        .filter((pba, index, array) => array.indexOf(pba) === index);
+      organisationDetails.response = null;
       return {
         ...state,
         organisationDetails
-      }
+      };
     }
 
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_REMOVE: {
       const organisationDetails = new Organisation(state.organisationDetails);
       const pendingRemovePbaNumbers = action.payload as string[];
-      const uniquePendingPba = pendingRemovePbaNumbers
-        .filter((pba, index, array) => array.indexOf(pba) == index);
 
-      organisationDetails.pendingRemovePaymentAccount = uniquePendingPba;
-
+      organisationDetails.pendingRemovePaymentAccount = pendingRemovePbaNumbers
+        .filter((pba, index, array) => array.indexOf(pba) === index);
+      organisationDetails.response = null;
       return {
         ...state,
         organisationDetails
-      }
+      };
     }
+
+    case fromOrganisation.ORGANISATION_UPDATE_PBA_RESPONSE:
+      let organisationDetailWithResponse = {...state.organisationDetails};
+      if (action.payload && action.payload.code === 200) {
+        let exitingPaymentAccount = state.organisationDetails.paymentAccount.slice();
+        const exitingPendingAddPaymentAccount = state.organisationDetails.pendingAddPaymentAccount.slice();
+        const exitingPendingRemovePaymentAccount = state.organisationDetails.pendingRemovePaymentAccount.slice();
+        exitingPaymentAccount = [...exitingPaymentAccount, ...exitingPendingAddPaymentAccount];
+        const updatePaymentAccount = exitingPaymentAccount.filter(paymentAccounts => !exitingPendingRemovePaymentAccount.includes(paymentAccounts));
+        organisationDetailWithResponse = {
+          ...state.organisationDetails,
+          response: action.payload,
+          paymentAccount: updatePaymentAccount,
+          pendingAddPaymentAccount: [],
+          pendingRemovePaymentAccount: [],
+        };
+      }
+
+      return {
+        ...state,
+        organisationDetails: organisationDetailWithResponse
+      };
   }
 
   return state;

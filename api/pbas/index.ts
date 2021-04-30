@@ -3,11 +3,64 @@ import { handleDelete, handleGet, handlePost, handlePut } from '../common/mockSe
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { EnhancedRequest } from '../lib/models'
+import { PendingPaymentAccount } from './models/pendingPaymentAccount.model'
 import * as mock from './pbaService.mock'
 
 mock.init()
 
 const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+
+export async function addDeletePBA(req: EnhancedRequest, res: Response, next: NextFunction) {
+  const markupPath: string = url + req.originalUrl
+  const pendingPaymentAccount: PendingPaymentAccount = req.body
+  try {
+    const allPromises = []
+    // do add PBAs
+    const addPBAPath: string = `${url}/api/pba/addPBA`
+    const pendingAddPBAs = pendingPaymentAccount.pendingAddPaymentAccount
+    const addPBAPromise = handlePost(addPBAPath, pendingAddPBAs, req)
+    allPromises.push(addPBAPromise)
+    // do delete PBAs
+    const deletePBAPath: string = `${url}/api/pba/deletePBA`
+    const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount
+    const deletePBAPromise = handleDelete(deletePBAPath, pendingAddPBAs, req)
+    allPromises.push(deletePBAPromise)
+
+    // @ts-ignore
+    const allResults = await Promise.allSettled(allPromises)
+    const { allErrorMessages,
+      rejectedPayloads,
+      rejectedReason,
+      rejectedCount } = handleRejectedResponse(allResults)
+    if (rejectedCount > 0) {
+      res.status(500).send(allErrorMessages)
+    } else {
+      res.status(200).send({code: 200, message: 'update successfully'})
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+function handleRejectedResponse(allResults: any): { allErrorMessages: string[],
+  rejectedPayloads: any[], rejectedReason: any[], rejectedCount: number} {
+  const allErrorMessages: string[] = []
+  const rejectedPayloads: any[] = []
+  const rejectedReason: any[] = []
+  let rejectedCount: number = 0
+
+  allResults.forEach(result => {
+    const {status, reason}: {status: string, reason: any} = result
+    if (status === 'rejected') {
+      const rejectedPayload = JSON.stringify(reason.data)
+      rejectedPayloads.push(rejectedPayload)
+      rejectedReason.push(reason)
+      allErrorMessages.push(`{request: ${rejectedPayload}, response: {${reason.status} ${reason.data.errorMessage}}}`)
+      rejectedCount ++
+    }
+  })
+  return { allErrorMessages, rejectedPayloads, rejectedReason, rejectedCount }
+}
 
 export async function addPBA(req: EnhancedRequest, res: Response, next: NextFunction) {
   const markupPath: string = url + req.originalUrl

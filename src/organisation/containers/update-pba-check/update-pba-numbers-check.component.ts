@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
+import { PendingPaymentAccount } from '../../../models/pendingPaymentAccount.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -52,5 +53,11 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
     });
   }
 
-  public onSubmitClicked(): void {}
+  public onSubmitClicked(): void {
+    const pendingPaymentAccount: PendingPaymentAccount = {
+      pendingAddPaymentAccount: this.organisation.pendingAddPaymentAccount,
+      pendingRemovePaymentAccount: this.organisation.pendingRemovePaymentAccount
+    };
+    this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAs(pendingPaymentAccount));
+  }
 }

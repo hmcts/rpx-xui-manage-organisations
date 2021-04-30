@@ -112,8 +112,7 @@ export const init = () => {
         },
       })*/
     .onDelete(deletePBAUrl).reply(204, {})
-    /*
-    .onDelete(deletePBAUrl).reply(404, {
+/*    .onDelete(deletePBAUrl).reply(404, {
         errorDescription: "PBA1111111, PBA2222222 are/is not associated with organisation",
         errorMessage: "PBA is not associated with users organisation",
         timestamp: "12-12-2020 12122020",

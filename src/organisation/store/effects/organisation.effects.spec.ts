@@ -1,13 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
-import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { LoggerService } from '../../../shared/services/logger.service';
+import { cold, hot } from 'jasmine-marbles';
+import { of, throwError } from 'rxjs';
 import { OrganisationEffects } from '.';
-import { OrganisationService } from '../../../organisation/services';
+import { OrganisationDetails } from '../../../models/organisation.model';
+import { LoggerService } from '../../../shared/services/logger.service';
+import { OrganisationService } from '../../services';
+import { LoadOrganisation, LoadOrganisationFail, LoadOrganisationSuccess } from '../actions';
 import * as fromOrganisationEffects from './organisation.effects';
-import { LoadOrganisation, LoadOrganisationSuccess, LoadOrganisationFail } from '../actions';
 
 describe('Organisation Effects', () => {
   let actions$;
@@ -44,13 +45,33 @@ describe('Organisation Effects', () => {
   describe('loadOrganisation$', () => {
     it('should return a collection from loadOrganisation$ - LoadOrganisationSuccess', () => {
       // const payload = [{payload: 'something'}];
-      const payload = {
-        account_number: 'someNumber',
-        account_name: 'someName',
-        credit_limit: 0,
-        available_balance: 0,
-        status: 'someStatus',
-        effective_date: 'someDate'
+      const payload: OrganisationDetails = {
+        name: 'a@b.com',
+        organisationIdentifier: 'A111111',
+        contactInformation: [{
+        addressLine1: '10  oxford street',
+        addressLine2: 'A Town',
+        addressLine3: null,
+        townCity: 'London',
+        county: null,
+        country: 'UK',
+        postCode: 'W1',
+        dxAddress: [{
+          dxNumber: 'dx11111',
+          dxExchange: 'dxExchange'
+        }]
+      }],
+        status: '',
+        sraId: '',
+        sraRegulated: true,
+        superUser: {
+        firstName: 'James',
+          lastName: 'Chris',
+          email: 'James.Chris@test.com'
+      },
+        paymentAccount: [{pbaNumber: 'PBA000000'}],
+          pendingAddPaymentAccount: [],
+        pendingRemovePaymentAccount: []
       };
       organisationServiceMock.fetchOrganisation.and.returnValue(of(payload));
       const action = new LoadOrganisation();

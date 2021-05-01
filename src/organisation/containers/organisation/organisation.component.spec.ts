@@ -1,12 +1,12 @@
-import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
-import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
 import { of } from 'rxjs';
-import { OrganisationComponent } from './organisation.component';
-import * as fromOrgStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
+import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
+import * as fromOrgStore from '../../../users/store';
+import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
   pipe: () => {
@@ -66,7 +66,7 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: ['test']
+    paymentAccount: [{pbaNumber: 'test'}]
   };
 
   beforeEach(() => {
@@ -172,7 +172,7 @@ describe('OrganisationComponent', () => {
 
     it('should return paymentAccount.', () => {
 
-      const paymentAccount = ['PBA3344552', 'PBA7843345'];
+      const paymentAccount = [{pbaNumber: 'PBA3344552'}, {pbaNumber: 'PBA7843345'}];
 
       const organisationDetails = {
         paymentAccount,

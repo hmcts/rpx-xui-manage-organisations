@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
+import { PBANumberModel } from '../../../models/pbaNumber.model';
 import * as fromAuthStore from '../../../user-profile/store/index';
 import * as fromStore from '../../store';
 
@@ -13,7 +14,7 @@ export class OrganisationComponent implements OnInit {
   public organisationDetails: Partial<OrganisationDetails>;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
-  public organisationPaymentAccount: string[];
+  public organisationPaymentAccount: PBANumberModel[];
 
   public showChangePbaNumberLink: boolean;
 
@@ -69,7 +70,7 @@ export class OrganisationComponent implements OnInit {
    * @param organisationDetails - See unit test.
    * @return ['PBA3344542','PBA7843342']
    */
-  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
+  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] {
 
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
       null : organisationDetails.paymentAccount;
@@ -101,6 +102,13 @@ export class OrganisationComponent implements OnInit {
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
       this.showChangePbaNumberLink = userIsPuiFinanceManager;
     });
+  }
+
+  public pbaNumberWithStatus(pba: PBANumberModel): string {
+    if (pba.status) {
+      return `${pba.pbaNumber}(${pba.status})`;
+    }
+    return pba.pbaNumber;
   }
 
   public ngOnInit(): void {

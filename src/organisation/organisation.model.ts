@@ -7,10 +7,6 @@ export class Organisation {
     country: string;
     contactInformation: any[];
     paymentAccount: any[];
-    pendingAddPaymentAccount: any[] = [];
-    pendingRemovePaymentAccount: any[] = [];
-    response?: any;
-
     constructor(prop) {
         Object.assign(this, prop);
     }

@@ -2,12 +2,12 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store, select, Action } from '@ngrx/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import {Observable, Subscription, combineLatest, of} from 'rxjs';
+import {Observable, Subscription, of} from 'rxjs';
 import {FeeAccount} from '../../models/pba-accounts';
 import * as fromOrgStore from '../../../organisation/store/index';
-import { Organisation } from 'src/organisation/organisation.model';
 import { Actions, ofType } from '@ngrx/effects';
 import * as fromRoot from '../../../app/store';
+import { OrganisationDetails } from '../../../models/organisation.model';
 @Component({
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './account-overview.component.html',
@@ -18,8 +18,8 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   tableRows: {}[];
   accounts$: Observable<Array<FeeAccount>>;
   loading$: Observable<boolean>;
-  orgData: Organisation;
-  org$: Observable<Organisation>;
+  orgData: OrganisationDetails;
+  org$: Observable<OrganisationDetails>;
   isOrgAccountAvailable$: Observable<boolean>;
   organisationSubscription: Subscription;
   dependanciesSubscription: Subscription;
@@ -59,9 +59,9 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
       this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
     });
   }
-  dispatchLoadFeeAccount(organisation: Organisation): boolean {
+  dispatchLoadFeeAccount(organisation: OrganisationDetails): boolean {
     const anyAccountForOrg = organisation.paymentAccount.length > 0;
-    anyAccountForOrg ? this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(organisation.paymentAccount)) :
+    anyAccountForOrg ? this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(organisation.paymentAccount.map(pba => pba.pbaNumber))) :
       this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountsSuccess([]));
     return anyAccountForOrg;
   }

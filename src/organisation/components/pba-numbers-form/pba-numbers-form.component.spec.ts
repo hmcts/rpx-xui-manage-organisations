@@ -7,8 +7,8 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Action, Store } from '@ngrx/store';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { of } from 'rxjs';
-import { Organisation } from 'src/organisation/organisation.model';
 import { PbaNumbersFormComponent } from '..';
+import { OrganisationDetails } from '../../../models/organisation.model';
 
 const storeMock = {
   pipe: () => {
@@ -20,17 +20,33 @@ const storeMock = {
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
 
-const mockOrganisation: Organisation = {
+const mockOrganisationDetails: OrganisationDetails = {
   name: 'A Firm',
-  addressLine1: '123 Street',
-  addressLine2: 'A Town',
-  postcode: 'A123 AAA',
-  townCity: 'City',
-  country: 'England',
-  contactInformation: [],
-  paymentAccount: ['PBA000000'],
+  organisationIdentifier: 'A111111',
+  contactInformation: [{
+    addressLine1: '123 Street',
+    addressLine2: 'A Town',
+    addressLine3: null,
+    townCity: 'City',
+    county: null,
+    country: 'England',
+    postCode: 'A123 AAA',
+    dxAddress: [{
+      dxNumber: 'dx11111',
+      dxExchange: 'dxExchange'
+    }]
+  }],
+  status: '',
+  sraId: '',
+  sraRegulated: true,
+  superUser: {
+    firstName: 'James',
+    lastName: 'Chris',
+    email: 'James.Chris@test.com'
+  },
+  paymentAccount: [{pbaNumber: 'PBA000000'}],
   pendingAddPaymentAccount: [],
-  pendingRemovePaymentAccount: [],
+  pendingRemovePaymentAccount: []
 };
 
 describe('PbaNumbersFormComponent', () => {
@@ -38,7 +54,7 @@ describe('PbaNumbersFormComponent', () => {
   let fixture: ComponentFixture<PbaNumbersFormComponent>;
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisation));
+    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({
@@ -61,7 +77,7 @@ describe('PbaNumbersFormComponent', () => {
 
     fixture = TestBed.createComponent(PbaNumbersFormComponent);
     component = fixture.componentInstance;
-    component.organisation = mockOrganisation;
+    component.organisationDetails = mockOrganisationDetails;
     fixture.detectChanges();
   });
 

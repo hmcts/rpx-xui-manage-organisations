@@ -12,7 +12,7 @@ const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
 
 export async function addDeletePBA(req: EnhancedRequest, res: Response, next: NextFunction) {
   const markupPath: string = url + req.originalUrl
-  const pendingPaymentAccount: PendingPaymentAccount = req.body
+  const pendingPaymentAccount: PendingPaymentAccount = req.body.pendingPaymentAccount
   try {
     const allPromises = []
     // do add PBAs
@@ -23,7 +23,7 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
     // do delete PBAs
     const deletePBAPath: string = `${url}/api/pba/deletePBA`
     const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount
-    const deletePBAPromise = handleDelete(deletePBAPath, pendingAddPBAs, req)
+    const deletePBAPromise = handleDelete(deletePBAPath, pendingRemovePBAs, req)
     allPromises.push(deletePBAPromise)
 
     // @ts-ignore
@@ -35,7 +35,12 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
     if (rejectedCount > 0) {
       res.status(500).send(allErrorMessages)
     } else {
-      res.status(200).send({code: 200, message: 'update successfully'})
+      // no pendingAddPBAs that is delete only
+      if (!pendingAddPBAs || pendingAddPBAs.length === 0) {
+        res.status(202).send({code: 202, message: 'delete successfully'})
+      } else {
+        res.status(200).send({code: 200, message: 'update successfully'})
+      }
     }
   } catch (error) {
     next(error)

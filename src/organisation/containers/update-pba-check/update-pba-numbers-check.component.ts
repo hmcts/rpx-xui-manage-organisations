@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
+import { PBANumberModel } from '../../../models/pbaNumber.model';
 import { PendingPaymentAccount } from '../../../models/pendingPaymentAccount.model';
 import * as fromStore from '../../store';
 
@@ -13,7 +13,7 @@ import * as fromStore from '../../store';
 export class UpdatePbaNumbersCheckComponent implements OnInit {
 
   public readonly title: string = 'Check your PBA accounts';
-  public organisation: Organisation;
+  public organisationDetails: OrganisationDetails;
 
   constructor(
     private readonly router: Router,
@@ -31,7 +31,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
    * @param organisationDetails - See unit test.
    * @return ['PBA3344542','PBA7843342']
    */
-  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
+  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] {
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
       null : organisationDetails.paymentAccount;
   }
@@ -43,20 +43,20 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
    */
   private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-      this.organisation = organisationDetails;
+      this.organisationDetails = organisationDetails;
 
-      const noPendingChangesToCommit = (!this.organisation.pendingAddPaymentAccount.length && !this.organisation.pendingRemovePaymentAccount.length);
+      const noPendingChangesToCommit = (!this.organisationDetails.pendingAddPaymentAccount.length && !this.organisationDetails.pendingRemovePaymentAccount.length);
 
       if (noPendingChangesToCommit) {
-        this.router.navigate(['/organisation/update-pba-numbers']);
+        this.router.navigate(['/organisation/update-pba-numbers']).then(() => {});
       }
     });
   }
 
   public onSubmitClicked(): void {
     const pendingPaymentAccount: PendingPaymentAccount = {
-      pendingAddPaymentAccount: this.organisation.pendingAddPaymentAccount,
-      pendingRemovePaymentAccount: this.organisation.pendingRemovePaymentAccount
+      pendingAddPaymentAccount: this.organisationDetails.pendingAddPaymentAccount.map(pba => pba.pbaNumber),
+      pendingRemovePaymentAccount: this.organisationDetails.pendingRemovePaymentAccount.map(pba => pba.pbaNumber),
     };
     this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAs(pendingPaymentAccount));
   }

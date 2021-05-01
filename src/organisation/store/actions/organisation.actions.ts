@@ -1,5 +1,7 @@
 // load organisation
 import { Action } from '@ngrx/store';
+import { OrganisationDetails } from '../../../models/organisation.model';
+import { PBANumberModel } from '../../../models/pbaNumber.model';
 import { PendingPaymentAccount } from '../../../models/pendingPaymentAccount.model';
 
 export const LOAD_ORGANISATION = '[Organisation] Load Organisation';
@@ -19,7 +21,7 @@ export class LoadOrganisation {
 
 export class LoadOrganisationSuccess implements Action {
   public readonly type = LOAD_ORGANISATION_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: OrganisationDetails) {
   }
 }
 
@@ -28,14 +30,14 @@ export class LoadOrganisationFail implements Action {
   constructor(public payload: any) { }
 }
 
-export class UpdateOrganisationPendingAddPbas implements Action {
+export class UpdateOrganisationPendingAddPBAs implements Action {
   public readonly type = UPDATE_ORGANISATION_PBA_PENDING_ADD;
-  constructor(public payload: any) { }
+  constructor(public payload: PBANumberModel[]) { }
 }
 
-export class UpdateOrganisationPendingRemovePbas implements Action {
+export class UpdateOrganisationPendingRemovePBAs implements Action {
   public readonly type = UPDATE_ORGANISATION_PBA_PENDING_REMOVE;
-  constructor(public payload: any) { }
+  constructor(public payload: PBANumberModel[]) { }
 }
 
 export class OrganisationUpdatePBAs implements Action {
@@ -52,8 +54,8 @@ export type organisationActions =
   | LoadOrganisation
   | LoadOrganisationSuccess
   | LoadOrganisationFail
-  | UpdateOrganisationPendingAddPbas
-  | UpdateOrganisationPendingRemovePbas
+  | UpdateOrganisationPendingAddPBAs
+  | UpdateOrganisationPendingRemovePBAs
   | OrganisationUpdatePBAs
   | OrganisationUpdatePBAResponse;
 

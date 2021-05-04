@@ -34,7 +34,6 @@ const config = {
         password_rw: process.env.TEST_PASSWORD || 'Monday01',
         townleyUser: 'townley.winchester@mailnesia.com',
         townleyPassword: 'Monday01'
-
     },
     twoFactorAuthEnabled: false,
     termsAndConditionsEnabled: true

@@ -21,7 +21,7 @@ class InviteUserPage{
     this.spinner = element(by.css(".spinner-wrapper"));
 
     this.activeUser = element(by.xpath("//a[contains(text(),'Townley MCUser')]"));
-    this.changeLink = element(by.linkText("Change"));
+    this.changeLink = element(by.xpath("//a[contains(text(),'Change ')]"));
     this.suspendButton = element(by.css(".hmcts-button--secondary"));
     this.editUserText = element(by.css(".govuk-heading-xl"));
     this.suspendUserText = element(by.css(".govuk-heading-xl"));

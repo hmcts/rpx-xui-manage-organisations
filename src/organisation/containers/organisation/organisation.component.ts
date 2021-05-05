@@ -106,7 +106,7 @@ export class OrganisationComponent implements OnInit {
 
   public pbaNumberWithStatus(pba: PBANumberModel): string {
     if (pba.status) {
-      return `${pba.pbaNumber}(${pba.status})`;
+      return `${pba.pbaNumber} (${pba.status})`;
     }
     return pba.pbaNumber;
   }

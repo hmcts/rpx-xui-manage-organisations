@@ -437,10 +437,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hmcts/ccd-case-ui-toolkit@2.67.0-performance-tabs":
-  version "2.67.0-performance-tabs"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-2.67.0-performance-tabs.tgz#9569efcab3a7bc101da1a13d943b3e9327ced842"
-  integrity sha512-uckBihXAIuhtw8vLMkgRbMAeDunXQTOk8zjr+qB1pBdcR1xShBGfbNStzdeabYZ6p5QJZ/u9DCmWdYZJSS+T4A==
+"@hmcts/ccd-case-ui-toolkit@3.0.1-Spinner-issue-in-demo-MO-unassigned-cases-page":
+  version "3.0.1-Spinner-issue-in-demo-MO-unassigned-cases-page"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-3.0.1-Spinner-issue-in-demo-MO-unassigned-cases-page.tgz#c027de6b8aa289fb3dbeb3b21b401a820a3fb54d"
+  integrity sha512-zX6x8CVsiurRTVihELVPtFIMy+40hRoOAUqptgyu995x6SDQ+F6pdwtB4MYhJ4K9osq3LEBMgB1QGbl2aQ7VDQ==
   dependencies:
     "@angular/cli" "^6.0.8"
     "@angular/compiler-cli" "~7.0.3"

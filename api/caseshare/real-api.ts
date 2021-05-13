@@ -81,7 +81,7 @@ export async function assignCases(req: Request, res: Response): Promise<Response
 }
 
 function doShareCase(req: Request, shareCases: SharedCase[]): any[] {
-  const path = `${ccdUrl}/case-assignments`
+  const path = `${ccdUrl}/case-assignments?use_user_token=false`
   const promises = []
   // @ts-ignore
   shareCases.flatMap(sharedCase => {

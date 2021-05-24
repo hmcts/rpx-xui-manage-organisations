@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ import * as fromRoot from '../../store';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public pageTitle$: Observable<string>;
   public navItems$: Observable<any> ;
   public appHeaderTitle$: Observable<AppTitlesModel>;
@@ -34,6 +34,12 @@ export class AppComponent implements OnInit {
   public serviceMessageCookie: string;
   public userRoles: string[];
 
+  private userId: string = null;
+  public cookieName;
+  public isCookieBannerVisible: boolean = false;
+  private cookieBannerEnabledSubscription: Subscription
+
+  private cookieBannerEnabled: boolean = false;
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
@@ -74,6 +80,7 @@ export class AppComponent implements OnInit {
             orgId: user.orgId
           }
         };
+        this.setUserAndCheckCookie(user.userId);
         this.userRoles = featureUser.custom.roles;
         this.featureService.initialize(featureUser);
       });
@@ -81,6 +88,28 @@ export class AppComponent implements OnInit {
 
     this.addIdleServiceListener();
     this.addUserProfileListener();
+
+    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mo-cookie-banner-enabled')
+                                            .subscribe(value => this.handleCookieBannerFeatureToggle(value));
+  }
+
+  public ngOnDestroy() {
+    if (this.cookieBannerEnabledSubscription) {
+      this.cookieBannerEnabledSubscription.unsubscribe();
+    }
+  }
+
+  public handleCookieBannerFeatureToggle(flag: boolean): void {
+    this.cookieBannerEnabled = flag;
+    this.setCookieBannerVisibility();
+  }
+
+  public setUserAndCheckCookie(userId) {
+    this.userId = userId;
+    if (this.userId) { // check if cookie selection has been made *after* user id is available
+      this.cookieName = `hmcts-exui-cookies-${this.userId}-mo-accepted`;
+      this.setCookieBannerVisibility();
+    }
   }
 
   /**
@@ -220,5 +249,9 @@ export class AppComponent implements OnInit {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromRoot.Logout());
     }
+  }
+
+  public setCookieBannerVisibility(): void {
+    this.isCookieBannerVisible = this.cookieBannerEnabled && !!this.userId;
   }
 }

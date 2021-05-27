@@ -1,34 +1,21 @@
-import { Component } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookiePolicyComponent } from './cookie-policy.component';
 
 describe('CookiePolicyComponentTest', () => {
 
-  @Component({selector: 'app-header', template: ''})
-  class HeaderStubComponent {
-  }
-
-  @Component({selector: 'app-footer', template: ''})
-  class FooterStubComponent {
-  }
-
-  @Component({
-    selector: `app-host-dummy-component`,
-    template: `<app-cookie-policy/>`
-  })
-  class TestDummyHostComponent {
-    public cookiePolicy: CookiePolicyComponent;
-  }
-  const testHostComponent = TestDummyHostComponent;
   let component: CookiePolicyComponent;
   let fixture: ComponentFixture<CookiePolicyComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderStubComponent, FooterStubComponent, CookiePolicyComponent ],
+      declarations: [ CookiePolicyComponent ],
       imports: [
         RouterTestingModule
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
       ]
     })
       .compileComponents();

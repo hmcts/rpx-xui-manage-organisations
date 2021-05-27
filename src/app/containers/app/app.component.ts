@@ -89,8 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.addIdleServiceListener();
     this.addUserProfileListener();
 
-    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mo-cookie-banner-enabled')
-                                            .subscribe(value => this.handleCookieBannerFeatureToggle(value));
+    this.handleCookieBannerFeatureToggle();
   }
 
   public ngOnDestroy() {
@@ -99,9 +98,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  public handleCookieBannerFeatureToggle(flag: boolean): void {
-    this.cookieBannerEnabled = flag;
-    this.setCookieBannerVisibility();
+  public handleCookieBannerFeatureToggle(): void {
+    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mc-cookie-banner-enabled')
+                                            .subscribe(flag => {
+                                              this.cookieBannerEnabled = flag;
+                                              this.setCookieBannerVisibility();
+                                            });
   }
 
   public setUserAndCheckCookie(userId) {

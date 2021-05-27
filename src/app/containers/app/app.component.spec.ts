@@ -20,7 +20,7 @@ const windowMock: Window = { gtag: () => {}} as any;
 
 const featureMock: FeatureToggleService = {
   initialize: () => {},
-  isEnabled: () => of(false),
+  isEnabled: () => of(true),
   getValue: () => of(),
   getValueOnce: () => of()
 };
@@ -35,6 +35,8 @@ const idleServiceMock = {
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
+  let fixture;
+  let app;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -74,21 +76,13 @@ describe('AppComponent', () => {
     store = TestBed.get(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
-  }));
 
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-
-    const app = fixture.debugElement.componentInstance;
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.componentInstance;
     fixture.detectChanges();
-    expect(app).toBeTruthy();
   }));
 
   it('should have pageTitle$ Observable the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
 
@@ -96,20 +90,12 @@ describe('AppComponent', () => {
 
 
   it('should have appHeaderTitle$ Observable the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
 
   }));
 
   it('should have userNav$ Observable the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
-
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
@@ -117,9 +103,6 @@ describe('AppComponent', () => {
 
 
   it('should have navItems$ Observable the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    fixture.detectChanges();
     const navItems = [
       {
         text: 'Organisation',
@@ -137,13 +120,50 @@ describe('AppComponent', () => {
   }));
 
   it('should dispatch a logout action', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
 
   }));
+
+
+  describe('cookie actions', () => {
+
+    describe('setCookieBannerVisibility()', () => {
+        it('should set isCookieBannerVisible true when there is no cookie and there is a user and cookie banner is feature toggled on', () => {
+        
+          app.handleCookieBannerFeatureToggle();
+          app.setUserAndCheckCookie('dummy');
+          expect(app.isCookieBannerVisible).toBeTruthy();
+        });
+
+        it('should set isCookieBannerVisible false when there is no cookie and there is no user and cookie banner is feature toggled on', () => {
+            app.handleCookieBannerFeatureToggle();
+            expect(app.isCookieBannerVisible).toBeFalsy();
+        });
+    });
+
+    describe('setUserAndCheckCookie()', () => {
+
+        it('should call setCookieBannerVisibility', () => {
+            const spy = spyOn(app, 'setCookieBannerVisibility');
+            app.setUserAndCheckCookie('dummy');
+            expect(spy).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('handleCookieBannerFeatureToggle()', () => {
+
+        it('should make a call to setCookieBannerVisibility', () => {
+            const spy = spyOn(app, 'setCookieBannerVisibility');
+            app.handleCookieBannerFeatureToggle();
+            expect(spy).toHaveBeenCalled();
+        });
+
+    });
+
+});
 
 });

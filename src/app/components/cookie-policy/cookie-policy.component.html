@@ -21,7 +21,7 @@
         <h2 class="govuk-heading-l" id="how-cookies-are-used-in-this-service">How cookies are used in this service</h2>
         <ng-container *ngIf="countCookies(GOOGLE)">
           <h3 class="govuk-heading-m" id="1-to-measure-website-usage">To measure website usage</h3>
-          <p class="govuk-body">We use Google Analytics software to collect information about how you use this service.
+          <!-- <p class="govuk-body">We use Google Analytics software to collect information about how you use this service.
             We do this to help make sure the service is meeting the needs of its users and to help us make improvements,
             for example improving site search.</p>
           <p class="govuk-body">Google Analytics stores information about:</p>
@@ -55,10 +55,10 @@
               <td class="govuk-table__cell">{{cookie.cat}}</td>
             </tr>
             </tbody>
-          </table>
+          </table> -->
         </ng-container>
         <ng-container *ngIf="countCookies(USAGE)">
-          <p class="govuk-body">We also use other third party services to perform visitor analytics</p>
+          <p class="govuk-body">We use third party services to perform visitor analytics</p>
 
           <table class="govuk-table">
             <thead class="govuk-table__head">

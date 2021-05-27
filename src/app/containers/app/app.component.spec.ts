@@ -132,7 +132,7 @@ describe('AppComponent', () => {
 
     describe('setCookieBannerVisibility()', () => {
         it('should set isCookieBannerVisible true when there is no cookie and there is a user and cookie banner is feature toggled on', () => {
-        
+
           app.handleCookieBannerFeatureToggle();
           app.setUserAndCheckCookie('dummy');
           expect(app.isCookieBannerVisible).toBeTruthy();

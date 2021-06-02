@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
+// TODO: The below is an odd way to import.
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
+
 import * as fromStore from '../../store';
 
 @Component({
@@ -18,10 +20,9 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromStore.UserState>
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
-
     this.store.dispatch(new fromStore.LoadUsers());
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));

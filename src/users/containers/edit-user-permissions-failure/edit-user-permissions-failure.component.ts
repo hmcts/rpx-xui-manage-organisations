@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Store} from '@ngrx/store';
-import {UserState} from '../../store/reducers';
-import {EditUserFailureReset} from '../../store/actions';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { EditUserFailureReset } from '../../store/actions';
+import { UserState } from '../../store/reducers';
 
 @Component({
   selector: 'app-edit-user-permissions-failure',
@@ -12,9 +13,10 @@ export class EditUserPermissionsFailureComponent implements OnInit {
 
   public userId: string;
 
-  constructor(private readonly userStore: Store<UserState>,
-              private route: ActivatedRoute) {
-  }
+  constructor(
+    private readonly userStore: Store<UserState>,
+    private readonly route: ActivatedRoute
+  ) {}
 
   /**
    * ngOnInit

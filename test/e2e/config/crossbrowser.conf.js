@@ -38,7 +38,7 @@ const config = {
       browserName: 'chrome',
       version: 'latest',
       platform: 'Windows 10',
-      name: 'chrome-tests',
+      name: 'chrome-win-tests',
       tunnelIdentifier: 'reformtunnel',
       extendedDebugging: true,
       sharedTestFiles: false,
@@ -49,48 +49,67 @@ const config = {
       browserName: 'firefox',
       version: 'latest',
       platform: 'Windows 10',
-      name: 'firefox-tests',
+      name: 'firefox-win-tests',
       tunnelIdentifier: 'reformtunnel',
       extendedDebugging: true,
       sharedTestFiles: false,
       maxInstances: 1
     },
 
-    //
-    // {
-    //   browserName: 'internet explorer',
-    //   platform: 'Windows 10',
-    //   version: 'latest',
-    //   name: 'IE-TEST',
-    //   tunnelIdentifier: 'reformtunnel',
-    //   extendedDebugging: true,
-    //   sharedTestFiles: false,
-    //   maxInstances: 1
-    //
-    // },
+    {
+      browserName: 'internet explorer',
+      platform: 'Windows 10',
+      version: 'latest',
+      name: 'IE-TEST',
+      tunnelIdentifier: 'reformtunnel',
+      extendedDebugging: true,
+      sharedTestFiles: false,
+      maxInstances: 1
+    },
 
-    // {
-    //   browserName: 'safari',
-    //   platform: 'macOS 10.13',
-    //   version: '11',
-    //   name: 'Safari-TEST',
-    //   tunnelIdentifier: 'reformtunnel',
-    //   extendedDebugging: true,
-    //   sharedTestFiles: false,
-    //   maxInstances: 1
-    //
-    // },
+    {
+      browserName: 'safari',
+      platform: 'macOS 10.15',
+      version: '13.1',
+      name: 'Safari-TEST',
+      tunnelIdentifier: 'reformtunnel',
+      extendedDebugging: true,
+      sharedTestFiles: false,
+      maxInstances: 1
+    },
 
-    // {
-    //   browserName: 'MicrosoftEdge',
-    //   version: '18.17763',
-    //   platform: 'Windows 10',
-    //   name: 'chromium-tests',
-    //   tunnelIdentifier: 'reformtunnel',
-    //   extendedDebugging: true,
-    //   sharedTestFiles: false,
-    //   maxInstances: 1
-    // }
+    {
+      browserName: 'MicrosoftEdge',
+      platform: 'Windows 10',
+      version: 'latest',
+      name: 'chromium-win-tests',
+      tunnelIdentifier: 'reformtunnel',
+      extendedDebugging: true,
+      sharedTestFiles: false,
+      maxInstances: 1
+    },
+
+    {
+      browserName: 'chrome',
+      version: 'latest',
+      platform: 'macOS 10.15',
+      name: 'chrome-mac-tests',
+      tunnelIdentifier: 'reformtunnel',
+      extendedDebugging: true,
+      sharedTestFiles: false,
+      maxInstances: 1
+    },
+
+    {
+      browserName: 'firefox',
+      version: 'latest',
+      platform: 'macOS 10.15',
+      name: 'ff-mac-tests',
+      tunnelIdentifier: 'reformtunnel',
+      extendedDebugging: true,
+      sharedTestFiles: false,
+      maxInstances: 1
+    },
   ],
 
 

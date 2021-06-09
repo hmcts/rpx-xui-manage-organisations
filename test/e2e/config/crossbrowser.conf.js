@@ -26,7 +26,7 @@ const config = {
   },
 
 
-  sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
+ // sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
   sauceUser: process.env.SAUCE_USERNAME,
   sauceKey: process.env.SAUCE_ACCESS_KEY,
   SAUCE_REST_ENDPOINT: 'https://eu-central-1.saucelabs.com/rest/v1/',

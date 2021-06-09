@@ -21,7 +21,7 @@
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js --local",
     "test:fullfunctional": "yarn test:api && webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js",
     "test:fullfunctional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js --local",
-    "test:crossbrowser": "webdriver-manager update && protractor ./test/e2e/config/crossbrowser.conf.js",
+    "test:crossbrowser": "protractor ./test/e2e/config/crossbrowser.conf.js",
     "test:coverage": "echo 'not implemented'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:api": "ts-node ./test/integration/tests/test.ts",
@@ -33,7 +33,7 @@
     "ng": "ng",
     "start:ng": "ng serve --port 3000 --host 0.0.0.0 --proxy-config proxy.config.json",
     "build:ng": "ng build",
-    "test:a11y": "webdriver-manager update --versions.chrome 2.40 && ng e2e --webdriver-update=false --protractorConfig=./test/accessibility/config/protractor.conf.js",
+    "test:a11y": "webdriver-manager update --gecko=false --versions.chrome 2.40 && ng e2e --webdriver-update=false --protractorConfig=./test/accessibility/config/protractor.conf.js",
     "test:a11y1": "ng e2e --protractorConfig=./test/accessibility/config/protractor.conf.js",
     "test:ng": "ng test",
     "lint": "yarn lint:ng",
@@ -44,7 +44,8 @@
     "rest-assured": "rest-assured",
     "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "publish-pact": "NODE_PATH=. LOG_LEVEL=error mocha -r ts-node/register api/test/pact/publish/*.ts --timeout 15000 --reporter spec",
-    "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact"
+    "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
+    "test:can-i-deploy:consumer": "export VERSION=$(git rev-parse --short HEAD) && SSL_CERT_FILE=api/test/pact/cer/ca-bundle.crt pact-broker can-i-deploy --pacticipant 'xui_manageOrg' --version ${VERSION} --broker-base-url https://pact-broker.platform.hmcts.net"
   },
   "private": true,
   "dependencies": {
@@ -216,6 +217,8 @@
     "**/**/serialize-javascript": "^3.1.0",
     "**/**/elliptic": "^6.5.4",
     "**/**/socket.io": "^2.4.0",
-    "**/**/y18n": "^3.2.2"
+    "**/**/y18n": "^3.2.2",
+    "**/**/ssri": "8.0.1",
+    "**/**/jose": "1.28.1"
   }
 }

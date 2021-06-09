@@ -6,6 +6,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
 import { Observable } from 'rxjs';
+
 import { getRouterState, RouterStateUrl } from '../../../app/store/reducers';
 import * as fromCasesFeature from '../../store';
 import { LoadShareCase, LoadUserFromOrgForCase } from '../../store/actions';
@@ -25,12 +26,12 @@ export class CaseShareComponent implements OnInit {
   public orgUsers$: Observable<UserDetails[]>;
   public removeUserFromCaseToggleOn$: Observable<boolean>;
 
-  constructor(public store: Store<fromCaseList.UnassignedCasesState>,
-              public featureToggleService: FeatureToggleService) {
+  constructor(
+    public store: Store<fromCaseList.UnassignedCasesState>,
+    public featureToggleService: FeatureToggleService
+  ) {}
 
-  }
-
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
     this.routerState$.subscribe(router => this.init = router.state.queryParams.init);
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
@@ -50,11 +51,11 @@ export class CaseShareComponent implements OnInit {
     setTimeout(() => initAll(), 1000);
   }
 
-  public deselect($event) {
+  public deselect($event): void {
     this.store.dispatch(new fromCasesFeature.DeleteAShareCase($event));
   }
 
-  public synchronizeStore($event) {
+  public synchronizeStore($event): void {
     this.store.dispatch(new fromCasesFeature.SynchronizeStateToStore($event));
   }
 

@@ -21,7 +21,7 @@
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js --local",
     "test:fullfunctional": "yarn test:api && webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js",
     "test:fullfunctional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/fullfunctional.conf.js --local",
-    "test:crossbrowser": "webdriver-manager update && protractor ./test/e2e/config/crossbrowser.conf.js",
+    "test:crossbrowser": "protractor ./test/e2e/config/crossbrowser.conf.js",
     "test:coverage": "echo 'not implemented'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:api": "ts-node ./test/integration/tests/test.ts",
@@ -218,6 +218,7 @@
     "**/**/elliptic": "^6.5.4",
     "**/**/socket.io": "^2.4.0",
     "**/**/y18n": "^3.2.2",
-    "**/**/ssri": "8.0.1"
+    "**/**/ssri": "8.0.1",
+    "**/**/jose": "1.28.1"
   }
 }

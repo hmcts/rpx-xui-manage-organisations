@@ -1,35 +1,35 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, OnDestroy } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable, of, Subscription } from 'rxjs';
+
 import * as fromRoot from '../../app/store';
-import { Store, select } from '@ngrx/store';
 
 @Injectable()
 export class HealthCheckService implements OnDestroy {
 
-    routeSubscription: Subscription;
+  public routeSubscription: Subscription;
 
-    constructor(
-        private http: HttpClient,
-        private store: Store<fromRoot.State>,
-    ) { }
+  constructor(
+    private readonly http: HttpClient,
+    private readonly store: Store<fromRoot.State>,
+  ) {}
 
-    doHealthCheck(): Observable<any> {
-        const healthState: boolean = true;
-        const result: { healthState } = { healthState };
-        let path = '';
+  public doHealthCheck(): Observable<any> {
+    const healthState: boolean = true;
+    const result: { healthState } = { healthState };
+    let path = '';
 
-        this.routeSubscription = this.store.pipe(select(fromRoot.getRouterUrl)).subscribe(value => {
-            path = value;
-        });
+    this.routeSubscription = this.store.pipe(select(fromRoot.getRouterUrl)).subscribe(value => {
+      path = value;
+    });
 
-        return path ? this.http.get('/api/healthCheck?path=' + encodeURIComponent(path)) : of(result);
+    return path ? this.http.get('/api/healthCheck?path=' + encodeURIComponent(path)) : of(result);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
     }
-
-    ngOnDestroy() {
-        if (this.routeSubscription) {
-            this.routeSubscription.unsubscribe();
-        }
-    }
-
+  }
 }

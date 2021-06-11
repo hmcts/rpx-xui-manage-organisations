@@ -1,9 +1,7 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TermsConditionsService } from '../../../../src/shared/services/termsConditions.service';
-import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { FormDataValuesModel } from '../../models/form-data-values.model';
 import * as fromStore from '../../store';
 
 /**
@@ -36,13 +34,12 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   // Set to focus to the title when the page started for accessibility
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     const focusElement = document.getElementsByTagName('h1')[0];
     if (focusElement) {
       focusElement.setAttribute('tabindex', '-1');
       focusElement.focus();
     }
-
   }
 
   public ngOnDestroy(): void {
@@ -50,8 +47,7 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
     this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
   }
 
-  public onSubmitData() {
+  public onSubmitData(): void {
     this.submit.emit();
   }
-
 }

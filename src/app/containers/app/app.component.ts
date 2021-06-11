@@ -2,10 +2,11 @@ import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { AppConstants } from 'src/app/app.constants';
-import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
-import { HeadersService } from 'src/shared/services/headers.service';
-import { UserService } from 'src/user-profile/services/user.service';
+
+import { AppConstants } from '../../../app/app.constants';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { HeadersService } from '../../../shared/services/headers.service';
+import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
 import { UserNavModel } from '../../models/user-nav.model';
@@ -43,7 +44,7 @@ export class AppComponent implements OnInit {
     private readonly idleService: ManageSessionServices,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 

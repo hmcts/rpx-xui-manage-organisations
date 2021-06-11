@@ -19,10 +19,9 @@ export class InviteUserPermissionComponent  implements OnInit {
 
   public grantCaseAccessAdmin$: Observable<boolean>;
 
-  constructor(public readonly featureToggleService: FeatureToggleService) {
-  }
+  constructor(public readonly featureToggleService: FeatureToggleService) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.grantCaseAccessAdmin$ = this.featureToggleService.getValue('mo-grant-case-access-admin', false);
   }
 

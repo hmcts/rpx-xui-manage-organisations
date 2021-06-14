@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {select, Store} from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';
 
@@ -14,7 +15,11 @@ export class OrganisationComponent implements OnInit {
   public organisationDxAddress: DxAddress;
   public organisationPaymentAccount: string[];
 
-  constructor(private store: Store<fromStore.OrganisationState>) {
+  constructor(private readonly store: Store<fromStore.OrganisationState>) {
+  }
+
+  public ngOnInit(): void {
+    this.getOrganisationDetailsFromStore();
   }
 
   /**
@@ -31,7 +36,6 @@ export class OrganisationComponent implements OnInit {
    * @param organisationDetails - See unit test.
    */
   public getContactInformation(organisationDetails): OrganisationContactInformation {
-
     return organisationDetails.contactInformation[0];
   }
 
@@ -51,7 +55,6 @@ export class OrganisationComponent implements OnInit {
    * ]
    */
   public getDxAddress(contactInformation: Partial<OrganisationContactInformation>): DxAddress {
-
     return (!contactInformation.hasOwnProperty('dxAddress') || !contactInformation.dxAddress.length) ?
       null : contactInformation.dxAddress[0];
   }
@@ -65,7 +68,6 @@ export class OrganisationComponent implements OnInit {
    * @return ['PBA3344542','PBA7843342']
    */
   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
-
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
       null : organisationDetails.paymentAccount;
   }
@@ -76,7 +78,6 @@ export class OrganisationComponent implements OnInit {
    * Once we have the Organisation Details, we display them on the page.
    */
   public getOrganisationDetailsFromStore(): void {
-
     this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
 
       this.organisationContactInformation = this.getContactInformation(organisationDetails);
@@ -87,13 +88,7 @@ export class OrganisationComponent implements OnInit {
     });
   }
 
-  public getOrganisationDetails() {
-
+  public getOrganisationDetails(): Partial<OrganisationDetails> {
     return this.organisationDetails;
-  }
-
-  public ngOnInit(): void {
-
-    this.getOrganisationDetailsFromStore();
   }
 }

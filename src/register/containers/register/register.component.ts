@@ -3,9 +3,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AppConstants } from 'src/app/app.constants';
-import { EnvironmentService } from 'src/shared/services/environment.service';
+
+import { AppConstants } from '../../../app/app.constants';
 import * as fromRoot from '../../../app/store/';
+import { EnvironmentService } from '../../../shared/services/environment.service';
 import { FormDataValuesModel } from '../../models/form-data-values.model';
 import * as fromStore from '../../store/';
 
@@ -22,7 +23,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private readonly router: Router,
     private readonly store: Store<fromStore.RegistrationState>,
-    private readonly enviromentService: EnvironmentService) {}
+    private readonly enviromentService: EnvironmentService
+  ) {}
 
   public pageItems: any; // todo add the type
   public pageValues: FormDataValuesModel;
@@ -74,7 +76,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.manageOrgLink$ = this.enviromentService.config$.pipe(map(config => config.manageOrgLink));
   }
 
-  public ngAfterViewInit() {
+  public ngOnDestroy(): void {
+    this.$pageItemsSubscription.unsubscribe();
+    this.$routeSubscription.unsubscribe();
+    this.$nextUrlSubscription.unsubscribe();
+    this.store.dispatch(new fromStore.ResetErrorMessage({}));
+  }
+
+  public ngAfterViewInit(): void {
     this.resetFocus();
   }
 
@@ -117,12 +126,12 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
    *
    * Inform the Form Builder component to turn on or off the in-line form validation.
    */
-  public showFormValidation(isValid: boolean) {
+  public showFormValidation(isValid: boolean): void {
     this.isPageValid = isValid;
   }
 
-  public onPageContinue(formDraft): void {
-    if (formDraft.invalid ) {
+  public onPageContinue(formDraft: any): void {
+    if (formDraft.invalid) {
       this.showFormValidation(true);
     } else {
       this.showFormValidation(false);
@@ -130,13 +139,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
 
     }
-  }
-
-  public ngOnDestroy(): void {
-    this.$pageItemsSubscription.unsubscribe();
-    this.$routeSubscription.unsubscribe();
-    this.$nextUrlSubscription.unsubscribe();
-    this.store.dispatch(new fromStore.ResetErrorMessage({}));
   }
 
   public onSubmitData(): void {
@@ -147,7 +149,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }
 
-  public onGoBack(event) {
+  public onGoBack(event: any): void {
     this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }

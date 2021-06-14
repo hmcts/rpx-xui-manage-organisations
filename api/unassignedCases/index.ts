@@ -8,15 +8,15 @@ export async function handleUnassignedCases(req: Request, res: Response, next: N
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
   const payload = getRequestBody(req.session.auth.orgId)
   try {
-        const response = await req.http.post(path, payload)
-        const unassingedCases = mapCcdCases(caseTypeId, response.data)
-        res.send(unassingedCases)
+    const response = await req.http.post(path, payload)
+    const unassignedCases = mapCcdCases(caseTypeId, response.data)
+    res.send(unassignedCases)
   } catch (error) {
     next(error)
   }
 }
 
-export const router = Router({ mergeParams: true })
+export const router = Router({mergeParams: true})
 
 router.post('', handleUnassignedCases)
 

@@ -1,13 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import * as fromfeatureStore from '../../store';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subscription, of} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {map} from 'rxjs/internal/operators';
-import * as fromStore from '../../../organisation/store/index';
-import { Organisation } from 'src/organisation/organisation.model';
-import { FeeAccount } from 'src/fee-accounts/models/pba-accounts';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable, of, Subscription } from 'rxjs';
+
+import { FeeAccount } from '../../../fee-accounts/models/pba-accounts';
 import * as fromFeeAccountsStore from '../../../fee-accounts/store';
+import * as fromfeatureStore from '../../store';
 
 @Component({
   selector: 'app-account-summary',
@@ -15,10 +13,10 @@ import * as fromFeeAccountsStore from '../../../fee-accounts/store';
   styleUrls: ['./account-summary.component.scss']
 })
 export class AccountSummaryComponent implements OnInit, OnDestroy {
-  accounts$: Observable<Array<FeeAccount>>;
-  accountName$: Observable<string>;
-  subscription: Subscription;
-  navItems = [
+  public accounts$: Observable<Array<FeeAccount>>;
+  public accountName$: Observable<string>;
+  public subscription: Subscription;
+  public navItems = [
     {
       text: 'Summary',
       href: `./`,
@@ -30,12 +28,14 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
       active: false
     }
   ];
-  loading$: Observable<boolean>;
-  constructor(
-    private activeRoute: ActivatedRoute,
-    private store: Store<fromfeatureStore.FeeAccountsState>) { }
+  public loading$: Observable<boolean>;
 
-  ngOnInit() {
+  constructor(
+    private readonly activeRoute: ActivatedRoute,
+    private readonly store: Store<fromfeatureStore.FeeAccountsState>
+  ) {}
+
+  public ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts([this.activeRoute.snapshot.params.id]));
     this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.feeAccounts));
     this.subscription = this.accounts$.subscribe(acc => {
@@ -44,7 +44,8 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnDestroy() {
+
+  public ngOnDestroy(): void {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
     if (this.subscription) {
       this.subscription.unsubscribe();

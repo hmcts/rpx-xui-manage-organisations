@@ -18,8 +18,8 @@ class CreateOrganisationObjects {
     this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
     this.townName = element(by.xpath("//input[@id='townOrCity']"));
     this.postcode = element(by.css("[id='postcode']"));
-    this.PBAnumber1 = element(by.css("#PBAnumber1"));
-    this.PBAnumber2 = element(by.css("#PBAnumber2"));
+    this.PBAnumber1 = element(by.css("#PBANumber1"));
+    this.PBAnumber2 = element(by.css("#PBANumber2"));
     this.DXreference = element(by.css("input[id='haveDxyes']"));
     this.DXNumber = element(by.css("[id='DXnumber']"));
     this.DXContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
@@ -134,13 +134,13 @@ class CreateOrganisationObjects {
       break;
       case "Do you have a DX reference for your main office?":
 
-        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a DX reference for your main office')]")));
+        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a Document Exchange (DX) reference for your main office')]")));
       break;
       case "What's the DX reference for your main office?":
         await BrowserWaits.waitForElement(this.DXNumber);
       break;
       case "Do you have an organisation SRA ID?":
-        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have an organisation SRA ID')]")));
+        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have an organisation Solicitors Regulation Authority (SRA) ID')]")));
         break;
       case "Enter your organisation SRA ID":
         await BrowserWaits.waitForElement(this.SRANumber);

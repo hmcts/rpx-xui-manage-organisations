@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { OrganisationDetails } from '../../../models/organisation.model';
-import { PBANumberModel } from '../../../models/pbaNumber.model';
-import { PendingPaymentAccount } from '../../../models/pendingPaymentAccount.model';
+
+import { OrganisationDetails, PendingPaymentAccount } from '../../../models';
 import * as fromStore from '../../store';
 
 @Component({
@@ -21,19 +20,6 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
-  }
-
-  /**
-   * Get Payment Account
-   *
-   * Get the PBA numbers for the Organisation.
-   *
-   * @param organisationDetails - See unit test.
-   * @return ['PBA3344542','PBA7843342']
-   */
-  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] {
-    return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
-      null : organisationDetails.paymentAccount;
   }
 
   /**

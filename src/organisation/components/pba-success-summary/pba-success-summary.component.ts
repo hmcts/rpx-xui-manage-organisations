@@ -2,8 +2,29 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-prd-pba-success',
-  templateUrl: './pba-success-summary.component.html',
+  templateUrl: './pba-success-summary.component.html'
 })
 export class PbaSuccessSummaryComponent {
-  @Input() response: { code: number };
+  public static readonly SUCCESS_MESSAGES = {
+    200: `PBA accounts submitted. We'll email you once they're verified.`,
+    202: 'PBA numbers removed.'
+  };
+
+  private pResponse: { code: number };
+  @Input() set response(value: { code: number }) {
+    if (value !== this.pResponse) {
+      this.pResponse = value;
+      this.setupMessage();
+    }
+  };
+
+  public message: string;
+
+  private setupMessage(): void {
+    if (this.pResponse) {
+      this.message = PbaSuccessSummaryComponent.SUCCESS_MESSAGES[this.pResponse.code];
+    } else {
+      this.message = undefined;
+    }
+  }
 }

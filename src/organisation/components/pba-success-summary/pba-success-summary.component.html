@@ -1,11 +1,7 @@
-<div *ngIf="response" class="hmcts-banner hmcts-banner--success">
+<div *ngIf="message" class="hmcts-banner hmcts-banner--success">
   <app-hmcts-success-icon></app-hmcts-success-icon>
-  <div *ngIf="response.code === 200" class="hmcts-banner__message">
+  <div class="hmcts-banner__message">
     <span class="hmcts-banner__assistive">Success</span>
-    PBA accounts submitted. We'll email you once they're verified.
-  </div>
-  <div *ngIf="response.code === 202" class="hmcts-banner__message">
-    <span class="hmcts-banner__assistive">Success</span>
-    PBA numbers removed.
+    {{message}}
   </div>
 </div>

@@ -1,24 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+
 import { OrganisationDetails } from '../../../models/organisation.model';
-import * as fromStore from '../../../organisation/store/index';
+import * as fromStore from '../../../organisation/store';
 
 @Component({
   selector: 'app-account-overview',
   templateUrl: './account-overview.component.html',
   styleUrls: ['./account-overview.component.scss']
 })
-export class AccountOverviewComponent implements OnInit {
+export class AccountOverviewComponent implements OnInit, OnDestroy {
   public orgData: OrganisationDetails;
   public organisationSubscription: Subscription;
 
-  constructor(private store: Store<fromStore.OrganisationState>) { }
+  constructor(private readonly store: Store<fromStore.OrganisationState>) {}
 
   public ngOnInit(): void {
-    this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(( data) => {
-      this.orgData = data;
-    });
+    this.organisationSubscription = this.store
+      .pipe(select(fromStore.getOrganisationSel))
+      .subscribe((data: OrganisationDetails) => {
+        this.orgData = data;
+      }
+    );
+  }
+
+  public ngOnDestroy(): void {
+    if (this.organisationSubscription) {
+      this.organisationSubscription.unsubscribe();
+    }
   }
 
 }

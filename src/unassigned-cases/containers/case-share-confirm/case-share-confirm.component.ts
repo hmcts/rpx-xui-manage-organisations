@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
@@ -15,11 +16,9 @@ export class CaseShareConfirmComponent implements OnInit {
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
 
-  constructor(public store: Store<fromCaseList.UnassignedCasesState>) {
+  constructor(public store: Store<fromCaseList.UnassignedCasesState>) {}
 
-  }
-
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;

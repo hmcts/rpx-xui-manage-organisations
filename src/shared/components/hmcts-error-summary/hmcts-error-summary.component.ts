@@ -1,5 +1,6 @@
-import {DOCUMENT} from '@angular/common';
-import {AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 /*
   Error Summary component
   State Less component
@@ -33,7 +34,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public scrollTo(selector) {
+  public scrollTo(selector: string): void {
     if (this.document.querySelector(`#${selector}`)) {
       const el = this.document.querySelector(`#${selector}`);
 
@@ -41,7 +42,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public hasElement(selector) {
+  public hasElement(selector: string): boolean {
     return this.document.querySelector(`#${selector}`);
   }
 

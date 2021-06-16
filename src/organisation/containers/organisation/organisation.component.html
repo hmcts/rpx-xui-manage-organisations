@@ -1,14 +1,7 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
-  <div *ngIf="organisationDetails.response" class="hmcts-banner hmcts-banner--success">
-    <div *ngIf="organisationDetails.response.code === 200" class="hmcts-banner__message">
-      <span class="hmcts-banner__assistive">Success</span>
-      PBA accounts submitted. We'll email you once they're verified.
-    </div>
-    <div *ngIf="organisationDetails.response.code === 202" class="hmcts-banner__message">
-      <span class="hmcts-banner__assistive">Success</span>
-      PBA numbers removed.
-    </div>
-  </div>
+
+  <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
+
   <table class="govuk-table">
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">

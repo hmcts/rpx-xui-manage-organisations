@@ -88,34 +88,4 @@ describe('UpdatePbaNumbersComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  describe('getPaymentAccount', () => {
-
-    it('should return empty if there is no paymentAccount.', () => {
-
-      const organisationDetails = {};
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual([]);
-    });
-
-    it('should return empty if the length of paymentAccount is 0.', () => {
-
-      const organisationDetails = {
-        paymentAccount: [],
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual([]);
-    });
-
-    it('should return paymentAccount.', () => {
-
-      const paymentAccount = [{pbaNumber: 'PBA3344552'}, {pbaNumber: 'PBA7843345'}];
-
-      const organisationDetails = {
-        paymentAccount,
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual(paymentAccount);
-    });
-  });
 });

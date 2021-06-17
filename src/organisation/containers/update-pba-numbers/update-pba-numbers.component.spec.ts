@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../app/store';
-import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
 import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
@@ -42,7 +42,7 @@ describe('UpdatePbaNumbersComponent', () => {
   /**
    * Mock organisation data is representative of data returned from the Node layer.
    */
-  const mockOrganisationDetails = {
+  const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
     contactInformation: [
@@ -56,7 +56,9 @@ describe('UpdatePbaNumbersComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: ['test']
+    paymentAccount: [{ pbaNumber: 'test' }],
+    pendingAddPaymentAccount: [],
+    pendingRemovePaymentAccount: []
   };
 
   beforeEach(() => {
@@ -87,5 +89,11 @@ describe('UpdatePbaNumbersComponent', () => {
     fixture = TestBed.createComponent(UpdatePbaNumbersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+
+  it('should have retrieved the Organisation Details from the Store on component initialisation', () => {
+    expect(store.pipe).toHaveBeenCalled();
+    expect(component.organisationDetails).toEqual(mockOrganisationDetails);
   });
 });

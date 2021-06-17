@@ -1,17 +1,19 @@
-import { Router } from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { APP_INSIGHTS_KEY } from '../configuration/references'
+import {exists} from '../lib/util'
 
-export async function handleInstrumentationKeyRoute(req, res) {
+export async function handleInstrumentationKeyRoute(req: Request, res: Response) {
     try {
         res.send({key: getConfigValue(APP_INSIGHTS_KEY)})
     } catch (error) {
-        const errReport = JSON.stringify({
+        const status = exists(error, 'statusCode') ? error.statusCode : 500
+        const errReport = {
             apiError: error,
-            apiStatusCode: error.statusCode,
+            apiStatusCode: status,
             message: 'Instrumentation key route error',
-        })
-        res.send(errReport).status(error.statusCode)
+        }
+        res.status(status).send(errReport)
     }
 }
 

@@ -1,7 +1,19 @@
 <main role="main" class="govuk-main-wrapper">
     <h1 class="govuk-heading-xl">Unassigned cases</h1>
-    <div>
-        <p>You can share a case from your unassigned case list with yourself or a colleague. Your colleague must be registered with your organisation and have access to Manage cases.</p>
+   <div>
+      <details _ngcontent-dti-c13 class="govuk-details" data-module="govuk-details" id="add-user-help" close>
+            <summary _ngcontent-wbr-c13 class="govuk-details__summary">
+              <span _ngcontent-wbr-c13 class="govuk-details__summary-text" id="content-why-can-not-find-case"> Can't find a case?
+              </span>
+            </summary>
+            <div _ngcontent-kpx-c13 class="govuk-details__text" id="content-reason-can-not-find-case">
+               You might not see any cases listed if either of the following apply:
+                <ul>
+                  <li>your service currently doesn’t allow you to search for and select a respondent solicitor</li>
+                  <li>your firm isn't named as a respondent on any new digital cases</li>
+                </ul>
+            </div>
+      </details>
         <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
           <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
             <ccd-case-list

@@ -3,6 +3,7 @@ import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import { getRefdataUserUrl } from '../refdataUserUrlUtil'
+import {exists, valueOrNull} from '../lib/util'
 
 const logger = log4jui.getLogger('user-list')
 
@@ -18,12 +19,13 @@ export async function handleUserListRoute(req: Request, res: Response) {
         res.send(response.data)
     } catch (error) {
         logger.error('error', error)
+        const status = exists(error, 'statusCode') ? error.statusCode : 500
         const errReport = {
-            apiError: error.data && error.data.message ? error.data.message : error.statusText,
-            apiStatusCode: error.statusCode,
+            apiError: exists(error, 'data.message') ? error.data.message : valueOrNull(error, 'statusText'),
+            apiStatusCode: status,
             message: 'List of users route error',
         }
-        res.status(errReport.apiStatusCode).send(errReport)
+        res.status(status).send(errReport)
     }
 }
 

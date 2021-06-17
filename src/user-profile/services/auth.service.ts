@@ -1,13 +1,14 @@
-
 import { Injectable } from '@angular/core';
-
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { AppConstants } from 'src/app/app.constants';
+import { SessionStorageService } from 'src/shared/services/session-storage.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly httpService: HttpClient
+    private readonly httpService: HttpClient,
+    private readonly sessionStorageService: SessionStorageService
   ) {
   }
 
@@ -22,15 +23,17 @@ export class AuthService {
 
   public signOut() {
     const href = '/auth/logout';
+    this.sessionStorageService.removeItem(AppConstants.SERVICE_MESSAGE_COOKIE);
     this.setWindowLocationHref(href);
   }
 
   public logOut(): Observable<any> {
+    this.sessionStorageService.removeItem(AppConstants.SERVICE_MESSAGE_COOKIE);
     return this.httpService.get('/auth/logout?noredirect=true');
   }
 
   public logOutAndRedirect() {
-    this.logOut().subscribe( () => {
+    this.logOut().subscribe(() => {
       this.setWindowLocationHref('/idle-sign-out');
     });
   }

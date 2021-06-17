@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Node Proxy Server  
 Run `npm run start:node`
 
-## Issues and Solutions
+## Issues and Solutions 
 
 Property 'cookies' does not exist on type 'EnhancedRequest' - you will need to make
 sure @types/express-session is added ie.
@@ -37,11 +37,16 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 https://tools.hmcts.net/confluence/display/EUI/EXUI+Low+Level+Design
 
+## Running Consumer Driven Contract tests (pact)
+
+Run `yarn test-pact` to execute the Pact tests 
+For publishing the pacts to broker execute `yarn publish-pact`
+
 ## Further help 1
 
 To get more help on the Angular CLI use `ng help` or go and check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Logger errors and warnings
+## Logger errors and warnings 
 
 Extended version of script below:
 

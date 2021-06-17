@@ -60,12 +60,14 @@ const userNav: UserNavModel = {
 
 const regOrgTitle: AppTitlesModel = {
   name: 'Register to manage civil, family, and tribunal law cases',
-  url: '/register-org/register/'
+  url: '/register-org/register/',
+  hideBranding: true
 };
 
 const manageOrgTitle: AppTitlesModel = {
   name: 'Manage organisation',
-  url: '/'
+  url: '/',
+  hideBranding: false
 };
 
 const footerData =  {
@@ -163,7 +165,9 @@ const ccdRoles = [
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
-  'caseworker-publiclaw-solicitor'
+  'caseworker-publiclaw-solicitor',
+  'caseworker-civil',
+  'caseworker-civil-solicitor'
 ];
 
 const redirectUrl = {
@@ -182,6 +186,9 @@ const environmentNames = {
   perfTest: 'perf-test',
   prod: 'prod'
 };
+
+const serviceMessagesFeatureToggleKey: string = 'mo-service-messages';
+const serviceMessageCookie: string = 'mo_service_messages';
 
 /**
  * Place to keep app constants.
@@ -203,4 +210,6 @@ export class AppConstants {
   public static ENVIRONMENT_NAMES = environmentNames;
   public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
   public static FEATURE_NAMES = featureNames;
+  public static SERVICE_MESSAGES_FEATURE_TOGGLE_KEY = serviceMessagesFeatureToggleKey;
+  public static SERVICE_MESSAGE_COOKIE = serviceMessageCookie;
 }

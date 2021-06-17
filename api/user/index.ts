@@ -6,6 +6,7 @@ import { getUserSessionTimeout } from '@hmcts/rpx-xui-node-lib'
 import { getConfigValue } from '../configuration'
 import { SESSION_TIMEOUTS } from '../configuration/references'
 import { UserProfileModel } from './user'
+import {exists} from "../lib/util";
 
 router.get('/details', handleUserRoute)
 
@@ -29,7 +30,11 @@ function handleUserRoute(req, res) {
       res.send(userDetails)
   } catch (error) {
       logger.info(error)
-      const errReport = JSON.stringify({ apiError: error, apiStatusCode: error.statusCode, message: '' })
+      const errReport = {
+        apiError: error,
+        apiStatusCode: exists(error, 'statusCode'),
+        message: ''
+      }
       res.status(500).send(errReport)
   }
 }

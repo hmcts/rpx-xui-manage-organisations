@@ -14,8 +14,8 @@ nodejs:
     #SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
     #S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
-    MANAGE_CASE_LINK: https://xui-webapp-aat.service.core-compute-aat.internal/cases
-    MANAGE_ORG_LINK: https://xui-mo-webapp-aat.service.core-compute-aat.internal/
+    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
+    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
 
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     PUI_ENV: preview
@@ -25,5 +25,12 @@ nodejs:
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
+  autoscaling:
+    enabled: false
 redis:
   enabled: true
+idam-pr:
+  enabled: true
+  redirect_uris:
+    XUIMO:
+      - https://${SERVICE_FQDN}/oauth2/callback 

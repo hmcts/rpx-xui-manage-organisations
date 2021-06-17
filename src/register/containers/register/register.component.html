@@ -6,7 +6,7 @@
           <h1 class="govuk-heading-xl">Register to manage civil, family, and tribunal law cases</h1>
           <p class="govuk-body">At the same time as you register your organisation, you'll give us details to create your user account.</p>
           <p class="govuk-body">We’ll approve the registration within 3 working days and send you an email asking you to finish creating your account.</p>
-          <a href="#"[routerLink]="'/register-org/register/organisation-name'" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button">
+          <a href="#"[routerLink]="'/register-org/register/organisation-name'" role="button" draggable="false" class="govuk-button govuk-!-margin-top-2 govuk-!-margin-bottom-8 govuk-button--start" data-module="govuk-button" aria-label="Start registering organisation">
             Start
             <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" role="presentation" focusable="false">
               <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
@@ -16,8 +16,8 @@
           <h3 class="govuk-heading-m">Already registered for a MyHMCTS account?</h3>
           <p>You can:</p>
           <ul class="govuk-list govuk-list--bullet">
-            <li><a [href]="manageCaseLink" target="_blank">manage your cases,</a> for example track a case's progress</li>
-            <li><a [href]="manageOrgLink" target="_blank">manage your organisation,</a> for example invite new users</li>
+            <li><a [href]="manageCaseLink$ | async" target="_blank">manage your cases,</a> for example track a case's progress</li>
+            <li><a [href]="manageOrgLink$ | async" target="_blank">manage your organisation,</a> for example invite new users</li>
           </ul>
        </ng-container>
 

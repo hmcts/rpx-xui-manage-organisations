@@ -2,8 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+
 import * as fromRoot from '../../../app/store';
-import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
@@ -36,7 +37,7 @@ describe('UpdatePbaNumbersComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [dxAddress]
+    dxAddress: [ dxAddress ]
   };
 
   /**
@@ -45,9 +46,7 @@ describe('UpdatePbaNumbersComponent', () => {
   const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
-    contactInformation: [
-      contactInformation,
-    ],
+    contactInformation: [ contactInformation ],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',
     sraRegulated: false,

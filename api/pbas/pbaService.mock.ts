@@ -1,11 +1,12 @@
-import MockAdapter from 'axios-mock-adapter'
-import * as faker from 'faker/locale/en_GB'
-import { httpMock } from '../common/httpMock'
-import { OrganisationModel } from './models/organisation.model'
+import MockAdapter from 'axios-mock-adapter';
+import * as faker from 'faker/locale/en_GB';
+
+import { httpMock } from '../common/httpMock';
+import { OrganisationModel } from './models';
 
 // random generator
 export const generator = (schema, min = 1, max) => {
-  max = max || min
+  max = max || min;
   return Array.from({
     length: faker.random.number({
       min,
@@ -15,23 +16,23 @@ export const generator = (schema, min = 1, max) => {
   }).map(() => {
     const innerGen = anySchema => Object.keys(anySchema).reduce((entity, key) => {
       if (anySchema[key] instanceof Array || anySchema[key] === null) {
-        entity[key] = anySchema[key]
-        return entity
+        entity[key] = anySchema[key];
+        return entity;
       }
       if (Object.prototype.toString.call(anySchema[key]) === '[object Object]') {
-        entity[key] = innerGen(anySchema[key])
-        return entity
+        entity[key] = innerGen(anySchema[key]);
+        return entity;
       }
-      entity[key] = faker.fake(anySchema[key])
-      return entity
-    }, {})
+      entity[key] = faker.fake(anySchema[key]);
+      return entity;
+    }, {});
 
-    return innerGen(schema)
-  })
-}
+    return innerGen(schema);
+  });
+};
 
 export const init = () => {
-  const mock = new MockAdapter(httpMock)
+  const mock = new MockAdapter(httpMock);
 
   // schema
   // tslint:disable:object-literal-sort-keys
@@ -77,14 +78,14 @@ export const init = () => {
         },
       ],
     },
-  ]
+  ];
   // tslint:enable:object-literal-sort-keys
   // tslint:enable:max-line-length
 
-  const getPBAUrl = /\/api\/pba\/getPBA/
-  const addPBAUrl = /\/api\/pba\/addPBA/
-  const deletePBAUrl = /\/api\/pba\/deletePBA/
-  const updatePBAUrl = /\/api\/pba\/updatePBA/
+  const getPBAUrl = /\/api\/pba\/getPBA/;
+  const addPBAUrl = /\/api\/pba\/addPBA/;
+  const deletePBAUrl = /\/api\/pba\/deletePBA/;
+  const updatePBAUrl = /\/api\/pba\/updatePBA/;
 
   // simulate some error if needed
   // mock.onGet(url).networkErrorOnce()
@@ -94,7 +95,7 @@ export const init = () => {
     return [
       200,
       organisations,
-    ]
+    ];
   })
     .onPost(addPBAUrl).reply(200, {})
     /*
@@ -135,7 +136,7 @@ export const init = () => {
         errorMessage: "Organisation is not active",
         timestamp: "12-12-2020 12122020",
       })*/
-    .onPut(updatePBAUrl).reply(200, {})
+    .onPut(updatePBAUrl).reply(200, {});
   /*
   .onPut(updatePBAUrl).reply(200, {
       message: "Some of the PBAs updated successfully",
@@ -170,4 +171,4 @@ export const init = () => {
         errorMessage: 'Organisation does not exists',
         timestamp: '12-12-2020 12122020',
   })*/
-}
+};

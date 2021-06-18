@@ -4,7 +4,7 @@ import { handleDelete, handleGet, handlePost, handlePut } from '../common/mockSe
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { EnhancedRequest } from '../lib/models';
-import { PendingPaymentAccount } from './models/pendingPaymentAccount.model';
+import { PendingPaymentAccount } from './models';
 import * as mock from './pbaService.mock';
 
 mock.init();

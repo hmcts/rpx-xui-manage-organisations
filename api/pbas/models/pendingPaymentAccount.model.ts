@@ -1,4 +1,4 @@
 export interface PendingPaymentAccount {
-  pendingAddPaymentAccount: string[]
-  pendingRemovePaymentAccount: string[]
+  pendingAddPaymentAccount: string[];
+  pendingRemovePaymentAccount: string[];
 }

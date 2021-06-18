@@ -19,8 +19,28 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
     private readonly orgStore: Store<fromStore.OrganisationState>
   ) {}
 
+  public get hasPendingChanges(): boolean {
+    if (this.organisationDetails) {
+      const adding = this.organisationDetails.pendingAddPaymentAccount || [];
+      const removing = this.organisationDetails.pendingRemovePaymentAccount || [];
+      return adding.length + removing.length > 0;
+    }
+    return false;
+  }
+
+  public get pendingChanges(): PendingPaymentAccount {
+    return {
+      pendingAddPaymentAccount: this.organisationDetails.pendingAddPaymentAccount.map(pba => pba.pbaNumber),
+      pendingRemovePaymentAccount: this.organisationDetails.pendingRemovePaymentAccount.map(pba => pba.pbaNumber)
+    };
+  }
+
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
+  }
+
+  public onSubmitClicked(): void {
+    this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAs(this.pendingChanges));
   }
 
   /**
@@ -32,19 +52,9 @@ export class UpdatePbaNumbersCheckComponent implements OnInit {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationDetails = organisationDetails;
 
-      const noPendingChangesToCommit = (!this.organisationDetails.pendingAddPaymentAccount.length && !this.organisationDetails.pendingRemovePaymentAccount.length);
-
-      if (noPendingChangesToCommit) {
+      if (!this.hasPendingChanges) {
         this.router.navigate(['/organisation/update-pba-numbers']).then(() => {});
       }
     });
-  }
-
-  public onSubmitClicked(): void {
-    const pendingPaymentAccount: PendingPaymentAccount = {
-      pendingAddPaymentAccount: this.organisationDetails.pendingAddPaymentAccount.map(pba => pba.pbaNumber),
-      pendingRemovePaymentAccount: this.organisationDetails.pendingRemovePaymentAccount.map(pba => pba.pbaNumber)
-    };
-    this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAs(pendingPaymentAccount));
   }
 }

@@ -1,7 +1,7 @@
-import { PBANumberModel } from './pbaNumber.model'
+import { PBANumberModel } from './pbaNumber.model';
 
 export interface OrganisationModel {
-  organisationIdentifier: string,
-  status: string,
-  pbaNumbers?: PBANumberModel[]
+  organisationIdentifier: string;
+  status: string;
+  pbaNumbers?: PBANumberModel[];
 }

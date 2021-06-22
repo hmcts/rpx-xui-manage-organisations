@@ -172,6 +172,7 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
     await inviteUserPage.manageUserCheckbox.click();
     await inviteUserPage.clickSendInvitationButton();
     browser.sleep(MID_DELAY);
+    await viewUserPage.waitForUserDetailsPage();
     await expect(inviteUserPage.suspendButton.isDisplayed()).to.eventually.be.true;
   });
 

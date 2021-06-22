@@ -16,10 +16,16 @@ class ViewUserPage {
     this.userRowsBy = by.css('.govuk-table tbody tr');
     this.userRowsHeader = element.all(by.css('.govuk-table thead tr th'));
 
+    this.selectedUserDetailsContainer = $('app-prd-user-details-component xuilib-user-details ');
+
   }
 
   async getPageHeader() {
     return await $(this.header).getText();
+  }
+
+  async waitForUserDetailsPage(){
+    await BrowserWaits.waitForElement(this.selectedUserDetailsContainer);
   }
 
   async amOnPage() {

@@ -1,4 +1,4 @@
-<app-hmcts-main-wrapper [backLink]="'/organisation'" [title]="title" [summaryErrors]="summaryErrors">
+<app-hmcts-main-wrapper [backAction]="resetChanges()" [title]="title" [summaryErrors]="summaryErrors">
   <div>
     <p>We will need to verify any new PBA numbers before they can be used to pay for a case.</p>
 
@@ -15,6 +15,24 @@
                 <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
                   aria-label="Remove PBA account number"
                   (click)="onRemoveExistingPaymentByAccountNumberClicked(pba)">Remove</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table class="govuk-table" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th class="govuk-table__header" colspan="2">To be removed</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row" *ngFor="let pba of organisationDetails.pendingRemovePaymentAccount">
+              <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
+              <td class="govuk-table__cell">
+                <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
+                  aria-label="Remove PBA account number"
+                  (click)="onCancelRemoveExistingPaymentByAccountNumberClicked(pba)">Cancel</a>
               </td>
             </tr>
           </tbody>

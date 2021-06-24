@@ -3,13 +3,13 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
-import { OrganisationDetails } from '../../../models/organisation.model';
-import { PBANumberModel } from '../../../models/pbaNumber.model';
+
+import { OrganisationDetails, PBANumberModel } from '../../../models';
 import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-pba-numbers-form-component',
-  templateUrl: './pba-numbers-form.component.html',
+  templateUrl: './pba-numbers-form.component.html'
 })
 export class PbaNumbersFormComponent implements OnInit {
 
@@ -31,11 +31,21 @@ export class PbaNumbersFormComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>,
-    private readonly fb: FormBuilder) { }
+    private readonly fb: FormBuilder
+  ) {}
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
     this.initialiseForm();
+  }
+
+  public resetChanges() {
+    return () => {
+      console.log('resetChanges');
+      this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs([]));
+      this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePBAs([]));
+      this.router.navigate(['/organisation']);
+    };
   }
 
   public get pbaNumbers(): FormArray {
@@ -87,6 +97,13 @@ export class PbaNumbersFormComponent implements OnInit {
     };
   }
 
+  public onCancelRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: PBANumberModel): void {
+    const current = this.organisationDetails.pendingRemovePaymentAccount;
+    const pendingRemovePbaAccounts = current.filter(account => account.pbaNumber !== paymentByAccountNumber.pbaNumber);
+    this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePBAs(pendingRemovePbaAccounts));
+    this.refreshValidation();
+  }
+
   public onRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: PBANumberModel): void {
     const pendingRemovePbaAccounts = this.organisationDetails.pendingRemovePaymentAccount.concat(paymentByAccountNumber);
     this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePBAs(pendingRemovePbaAccounts));
@@ -106,8 +123,8 @@ export class PbaNumbersFormComponent implements OnInit {
       pbaNumbers: this.fb.array([])
     });
 
-    this.pbaFormGroup.valueChanges.subscribe((control) => {
-      if (!control) {
+    this.pbaFormGroup.valueChanges.subscribe(value => {
+      if (!value) {
         return;
       }
 
@@ -116,23 +133,14 @@ export class PbaNumbersFormComponent implements OnInit {
       } else {
         this.clearSummaryErrorMessage();
 
-        if (!control.pbaNumbers) {
+        if (!value.pbaNumbers) {
           return;
         }
 
-        control.pbaNumbers.forEach(item => {
-          if (item.pbaNumber) {
-            const pbaNumberModel: PBANumberModel = {
-              pbaNumber: item.pbaNumber,
-              status: 'Pending approval'
-            };
-            const pendingPBAs: PBANumberModel[] = this.organisationDetails.pendingAddPaymentAccount.slice();
-            if (!pendingPBAs.some(pendingPBA => pendingPBA.pbaNumber === item.pbaNumber)) {
-              pendingPBAs.push(pbaNumberModel);
-            }
-            this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs(pendingPBAs));
-          }
-        });
+        const pendingPBAs: PBANumberModel[] = value.pbaNumbers.map((item: { pbaNumber: string }) => {
+          return item.pbaNumber ? { pbaNumber: item.pbaNumber, status: 'Pending approval' } : null;
+        }).filter(item => !!item);
+        this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs(pendingPBAs));
       }
     });
 

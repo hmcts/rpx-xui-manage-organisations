@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 })
 export class PbaSuccessSummaryComponent {
   public static readonly SUCCESS_MESSAGES = {
-    200: `PBA accounts submitted. We'll email you once they're verified.`,
+    200: `PBA numbers submitted. We'll email you once they're approved.`,
     202: 'PBA numbers removed.'
   };
 

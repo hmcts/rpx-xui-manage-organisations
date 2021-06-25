@@ -139,13 +139,16 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     it('should dispatch an appropriate action when submitting', () => {
       component.onSubmitClicked();
       expect(dispatchSpy).toHaveBeenCalled();
-      expect(storeMock.actionsDispatched.length).toEqual(1);
-      const action: fromStore.OrganisationUpdatePBAs = storeMock.actionsDispatched[0];
-      expect(action).toBeDefined();
-      expect(action.payload).toBeDefined();
-      expect(action.payload.pendingAddPaymentAccount.length).toEqual(1);
-      expect(action.payload.pendingAddPaymentAccount[0]).toEqual(ADD_NUMBER);
-      expect(action.payload.pendingRemovePaymentAccount.length).toEqual(0);
+      expect(storeMock.actionsDispatched.length).toEqual(2);
+      const errorAction: fromStore.OrganisationUpdatePBAError = storeMock.actionsDispatched[0];
+      expect(errorAction).toBeDefined();
+      expect(errorAction.payload).toBeNull();
+      const updateAction: fromStore.OrganisationUpdatePBAs = storeMock.actionsDispatched[1];
+      expect(updateAction).toBeDefined();
+      expect(updateAction.payload).toBeDefined();
+      expect(updateAction.payload.pendingAddPaymentAccount.length).toEqual(1);
+      expect(updateAction.payload.pendingAddPaymentAccount[0]).toEqual(ADD_NUMBER);
+      expect(updateAction.payload.pendingRemovePaymentAccount.length).toEqual(0);
     });
   });
 
@@ -164,13 +167,16 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     it('should dispatch an appropriate action when submitting', () => {
       component.onSubmitClicked();
       expect(dispatchSpy).toHaveBeenCalled();
-      expect(storeMock.actionsDispatched.length).toEqual(1);
-      const action: fromStore.OrganisationUpdatePBAs = storeMock.actionsDispatched[0];
-      expect(action).toBeDefined();
-      expect(action.payload).toBeDefined();
-      expect(action.payload.pendingAddPaymentAccount.length).toEqual(0);
-      expect(action.payload.pendingRemovePaymentAccount.length).toEqual(1);
-      expect(action.payload.pendingRemovePaymentAccount[0]).toEqual(REMOVE_NUMBER);
+      expect(storeMock.actionsDispatched.length).toEqual(2);
+      const errorAction: fromStore.OrganisationUpdatePBAError = storeMock.actionsDispatched[0];
+      expect(errorAction).toBeDefined();
+      expect(errorAction.payload).toBeNull();
+      const updateAction: fromStore.OrganisationUpdatePBAs = storeMock.actionsDispatched[1];
+      expect(updateAction).toBeDefined();
+      expect(updateAction.payload).toBeDefined();
+      expect(updateAction.payload.pendingAddPaymentAccount.length).toEqual(0);
+      expect(updateAction.payload.pendingRemovePaymentAccount.length).toEqual(1);
+      expect(updateAction.payload.pendingRemovePaymentAccount[0]).toEqual(REMOVE_NUMBER);
     });
   });
 });

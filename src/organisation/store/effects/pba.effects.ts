@@ -28,7 +28,6 @@ export class PBAEffects {
       return this.pbaService.updatePBAs(payload).pipe(
         map((response) => new organisationActions.OrganisationUpdatePBAResponse(response)),
         catchError(error => {
-          console.log('error', error);
           const data = JSON.parse(error.error);
           if (data && data.request) {
             this.loggerService.error(data.request.errorMessage);

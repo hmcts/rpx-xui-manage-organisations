@@ -32,7 +32,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     expect(wrapper).toBeDefined();
     const message = fixture.nativeElement.querySelector('.hmcts-banner__message');
     expect(message).toBeDefined();
-    expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[200])
+    expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[200]);
   });
   it('should show an appropriate message for a 202 response status', () => {
     const RESPONSE = { code: 202 };
@@ -44,7 +44,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     expect(wrapper).toBeDefined();
     const message = fixture.nativeElement.querySelector('.hmcts-banner__message');
     expect(message).toBeDefined();
-    expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202])
+    expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
   });
   it('should show no message for a response code other than 200 or 202', () => {
     const RESPONSE = { code: 400 };

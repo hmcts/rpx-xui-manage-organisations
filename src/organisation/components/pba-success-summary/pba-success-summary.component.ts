@@ -11,12 +11,12 @@ export class PbaSuccessSummaryComponent {
   };
 
   private pResponse: { code: number };
-  @Input() set response(value: { code: number }) {
+  @Input() public set response(value: { code: number }) {
     if (value !== this.pResponse) {
       this.pResponse = value;
       this.setupMessage();
     }
-  };
+  }
 
   public message: string;
 

@@ -4,10 +4,13 @@
 
       <!-- Accounts to be added -->
       <tr class="govuk-table__row" *ngIf="organisationDetails.pendingAddPaymentAccount.length > 0">
-        <th class="govuk-table__header">Accounts to be added</th>
+        <th class="govuk-table__header nowrap">Accounts to be added</th>
         <td class="govuk-table__cell">
-          <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">
-            {{pba.pbaNumber}}
+          <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">{{pba.pbaNumber}}</div>
+          <div class="already-used-pba" *ngIf="alreadyUsedError">{{alreadyUsedError}}
+            <br />You should check that the PBA has been entered correctly.
+            You should also check if your organisation has already been registered.
+            If you're still having problems, contact HMCTS.
           </div>
         </td>
         <td class="govuk-table__cell">

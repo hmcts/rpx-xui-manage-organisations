@@ -9,6 +9,7 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-prd-update-pba-numbers-check-component',
   templateUrl: './update-pba-numbers-check.component.html',
+  styleUrls: ['./update-pba-numbers-check.component.scss']
 })
 export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   public readonly title: string = 'Check your PBA accounts';
@@ -21,6 +22,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
       message: any;
     }[]
   };
+  public alreadyUsedError: string;
 
   private detailsSubscription: Subscription;
   private errorSubscription: Subscription;
@@ -95,7 +97,11 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
               message: error.message
             }]
           };
+          this.alreadyUsedError = error.status === 409 ? error.message : null;
         }
+      } else {
+        this.summaryErrors = null;
+        this.alreadyUsedError = null;
       }
     });
   }

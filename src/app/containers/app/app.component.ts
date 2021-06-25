@@ -1,7 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { LoggerService } from '../../../shared/services/logger.service';
 
 import { AppConstants } from '../../../app/app.constants';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
@@ -48,6 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly featureService: FeatureToggleService,
     private readonly headersService: HeadersService,
     private readonly idleService: ManageSessionServices,
+    private readonly loggerService: LoggerService,
+    private readonly cookieService: CookieService,
   ) {}
 
   public ngOnInit(): void {
@@ -112,6 +115,15 @@ export class AppComponent implements OnInit, OnDestroy {
       this.cookieName = `hmcts-exui-cookies-${this.userId}-mo-accepted`;
       this.setCookieBannerVisibility();
     }
+  }
+
+  public notifyAcceptance() {
+    this.loggerService.enableCookies();
+  }
+
+  public notifyRejection() {
+    // AppInsights
+    this.cookieService.deleteCookieByPartialMatch('ai_');
   }
 
   /**

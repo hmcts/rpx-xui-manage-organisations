@@ -9,7 +9,6 @@
           <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">{{pba.pbaNumber}}</div>
           <div class="already-used-pba" *ngIf="alreadyUsedError">{{alreadyUsedError}}
             <br />You should check that the PBA has been entered correctly.
-            You should also check if your organisation has already been registered.
             If you're still having problems, contact HMCTS.
           </div>
         </td>

@@ -141,7 +141,7 @@ export function reducer(
         if (apiError.includes('PBA_NUMBER Invalid or already exists')) {
           const errorDescription = action.payload.error.apiErrorDescription;
           const pbaErrorNumber = errorDescription.substring(errorDescription.indexOf(')=(') + 3, errorDescription.indexOf(') already exists'));
-          apiMessageMapped = `This PBA number ${pbaErrorNumber} has already been used.`;
+          apiMessageMapped = `ThePBA number ${pbaErrorNumber} has already been used.`;
         }
         if (apiError.includes(apiErrors[key])) {
           apiMessageMapped = errorMessageMappings[key];

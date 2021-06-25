@@ -8,13 +8,14 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 
 import * as fromAuth from '../../../user-profile/store';
 import { AppConstants } from '../../app.constants';
 import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { of } from 'rxjs';
-import { CookieModule, CookieService } from 'ngx-cookie';
+import { CookieModule } from 'ngx-cookie';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -37,7 +38,11 @@ describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
   let fixture;
   let app;
+  let loggerService: any;
+  let cookieService: any;
   beforeEach(async(() => {
+    cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
+    loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -71,6 +76,14 @@ describe('AppComponent', () => {
           provide: ManageSessionServices,
           useValue: idleServiceMock
         },
+        {
+          provide: CookieService,
+          useValue: cookieService
+        },
+        {
+          provide: LoggerService,
+          useValue: loggerService
+        }
       ],
     }).compileComponents();
     store = TestBed.get(Store);
@@ -160,6 +173,24 @@ describe('AppComponent', () => {
             const spy = spyOn(app, 'setCookieBannerVisibility');
             app.handleCookieBannerFeatureToggle();
             expect(spy).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('notifyAcceptance()', () => {
+
+        it('should make a call to loggerService', () => {
+            app.notifyAcceptance();
+            expect(loggerService.enableCookies).toHaveBeenCalled();
+        });
+
+    });
+
+    describe('notifyRejection()', () => {
+
+        it('should make a call to cookieService', () => {
+            app.notifyRejection();
+            expect(cookieService.deleteCookieByPartialMatch).toHaveBeenCalled();
         });
 
     });

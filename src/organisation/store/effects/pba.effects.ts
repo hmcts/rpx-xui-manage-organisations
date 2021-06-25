@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import * as fromRoot from '../../../app/store/index';
+
+import * as fromRoot from '../../../app/store';
+import { LoggerService } from '../../../shared/services/logger.service';
 import { PBAService } from '../../services/pba.service';
 import * as organisationActions from '../actions';
 
@@ -11,9 +13,10 @@ import * as organisationActions from '../actions';
 export class PBAEffects {
   public payload: any;
   constructor(
-    private actions$: Actions,
-    private pbaService: PBAService,
-    private router: Router,
+    private readonly actions$: Actions,
+    private readonly pbaService: PBAService,
+    private readonly router: Router,
+    private readonly loggerService: LoggerService
   ) { }
 
   @Effect()
@@ -23,9 +26,19 @@ export class PBAEffects {
     switchMap(payload => {
       this.payload = payload;
       return this.pbaService.updatePBAs(payload).pipe(
-        map(
-          (response) => new organisationActions.OrganisationUpdatePBAResponse(response)),
-        catchError(() => of(new fromRoot.Go({ path: ['/service-down']})))
+        map((response) => new organisationActions.OrganisationUpdatePBAResponse(response)),
+        catchError(error => {
+          console.log('error', error);
+          const data = JSON.parse(error.error);
+          if (data && data.request) {
+            this.loggerService.error(data.request.errorMessage);
+            return of(new organisationActions.OrganisationUpdatePBAError({
+              status: error.status,
+              message: data.request.errorMessage
+            }));
+          }
+          return of(new fromRoot.Go({ path: ['/service-down']}));
+        })
       );
     })
   );

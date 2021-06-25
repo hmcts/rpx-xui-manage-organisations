@@ -28,9 +28,17 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
 
     // @ts-ignore
     const allResults = await Promise.allSettled(allPromises);
-    const { allErrorMessages, rejectedCount } = handleRejectedResponse(allResults);
+    const {
+      allErrorMessages,
+      rejectedCount,
+      rejectedReason
+    } = handleRejectedResponse(allResults);
     if (rejectedCount > 0) {
-      res.status(500).send(allErrorMessages);
+      if (onlyReasonIsAlreadyInUse(rejectedReason)) {
+        res.status(409).send(allErrorMessages);
+      } else {
+        res.status(500).send(allErrorMessages);
+      }
     } else {
       // no pendingAddPBAs that is delete only
       if (!pendingAddPBAs || pendingAddPBAs.length === 0) {
@@ -42,6 +50,20 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
   } catch (error) {
     next(error);
   }
+}
+
+function onlyReasonIsAlreadyInUse(reasons: any[]): boolean {
+  let alreadyInUse = false;
+  let errorOtherThanAlreadyInUse = false;
+  reasons.forEach(reason => {
+    if (reason.status === 409) {
+      alreadyInUse = true;
+    } else if (reason.status >= 400) {
+      errorOtherThanAlreadyInUse = true;
+    }
+  });
+  console.log('onlyReasonIsAlreadyInUse', alreadyInUse, errorOtherThanAlreadyInUse, reasons);
+  return alreadyInUse && !errorOtherThanAlreadyInUse;
 }
 
 function handleRejectedResponse(allResults: any): { allErrorMessages: string[],
@@ -57,7 +79,7 @@ function handleRejectedResponse(allResults: any): { allErrorMessages: string[],
       const rejectedPayload = JSON.stringify(reason.data);
       rejectedPayloads.push(rejectedPayload);
       rejectedReason.push(reason);
-      allErrorMessages.push(`{request: ${rejectedPayload}, response: {${reason.status} ${reason.data.errorMessage}}}`);
+      allErrorMessages.push(`{ "request": ${rejectedPayload}, "response": { "status": ${reason.status}, "message": "${reason.data.errorMessage}"}}`);
       rejectedCount ++;
     }
   });

@@ -30,8 +30,9 @@ function toPBA(pbaNumber: string): PBANumberModel {
 }
 
 const PBA_ERRORS = {
-  'PBA0000403': { code: 403, message: 'You are not authorised to do that' },
-  'PBA0000500': { code: 500, message: 'Something went wrong' }
+  'PBA0000403': { code: 403, message: 'You are not authorised to do that.' },
+  'PBA0000409': { code: 409, message: 'This PBA number PBA0000409 has already been used.' },
+  'PBA0000500': { code: 500, message: 'Something went wrong.' }
 };
 function checkForErrors(pbas: string[]): object[] {
   if (Array.isArray(pbas) && pbas.length > 0) {

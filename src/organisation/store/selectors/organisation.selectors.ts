@@ -18,6 +18,11 @@ export const getOrganisationLoaded = createSelector(
   fromOrganisation.getOrganisationLoaded
 );
 
+export const getOrganisationError = createSelector(
+  getOrganisationState,
+  fromOrganisation.getOrganisationError
+);
+
 
 
 

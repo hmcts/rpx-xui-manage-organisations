@@ -27,7 +27,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   public errorMessages = {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
-    email: ['Enter email address', 'Email must contain at least the @ character'],
+    email: ['Enter a valid email address'],
     roles: ['You must select at least one action'],
   };
   public juridictionSubscription: Subscription;
@@ -153,7 +153,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     return new FormGroup({
       firstName: this.createFormControl('', Validators.required),
       lastName: this.createFormControl('', Validators.required),
-      email: this.createFormControl('', [Validators.email, Validators.required]),
+      email: this.createFormControl('', [Validators.required, Validators.email]),
       roles: this.createFormGroup(checkboxesBeCheckedValidator())
     });
   }
@@ -225,10 +225,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       isInvalid: {
         firstName: [(this.f.firstName.errors && this.f.firstName.errors.required)],
         lastName: [(this.f.lastName.errors && this.f.lastName.errors.required)],
-        email: [
-          (this.f.email.errors && this.f.email.errors.required),
-          (this.f.email.errors && this.f.email.errors.email),
-        ],
+        email: [(this.f.email.errors && (this.f.email.errors.required || this.f.email.errors.email))],
         roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
       },
       errorMessages: this.errorMessages,

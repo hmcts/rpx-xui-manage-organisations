@@ -17,7 +17,7 @@ sure @types/express-session is added ie.
 Run `npm run start:ng` for a dev server in separate terminal. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 
-## Code scaffolding
+## Code scaffolding 
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 

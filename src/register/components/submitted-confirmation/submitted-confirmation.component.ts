@@ -7,7 +7,7 @@ import {Component} from '@angular/core';
 @Component({
   selector: 'app-submitted-confirmation',
   template: `
-  <main class="govuk-main-wrapper">
+  <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
         <div class="govuk-panel govuk-panel--confirmation">

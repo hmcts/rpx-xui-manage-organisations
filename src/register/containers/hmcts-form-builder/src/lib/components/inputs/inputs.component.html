@@ -8,7 +8,7 @@
         {{hint.text}}
     </app-hint>
     <ng-container *ngIf="validationError">
-        <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="item.control" id="{{item.control}}">{{validationError.value}}</app-validation-error-formcontrol>
+        <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="item.control" id="{{item.control}}-error">{{validationError.value}}</app-validation-error-formcontrol>
     </ng-container>
     <input
            [class]="item.classes"

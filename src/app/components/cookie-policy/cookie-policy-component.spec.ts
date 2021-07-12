@@ -27,12 +27,6 @@ describe('CookiePolicyComponentTest', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-  it('should be created by angular', () => {
-    expect(fixture).not.toBeNull();
-  });
   it('should include 4 security cookies', () => {
     expect(component.countCookies(component.SECURITY)).toBe(3);
   });

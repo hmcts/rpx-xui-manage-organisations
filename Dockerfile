@@ -6,6 +6,8 @@ COPY --chown=hmcts:hmcts package.json yarn.lock ./
 
 FROM base as build
 
+RUN apk --no-cache add curl
+
 RUN yarn
 
 COPY --chown=hmcts:hmcts . .

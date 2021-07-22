@@ -1,11 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices, GoogleTagManagerService } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 
 import { AppConstants } from '../../../app/app.constants';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { environment as config } from '../../../environments/environment';
 import { HeadersService } from '../../../shared/services/headers.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
+    private readonly googleTagManagerService: GoogleTagManagerService,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig,
     private readonly userService: UserService,
     private readonly featureService: FeatureToggleService,
@@ -119,13 +121,31 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public notifyAcceptance() {
+    console.log("notify acceptance");
     this.loggerService.enableCookies();
+    this.googleTagManagerService.init(config.googleTagManagerKey);
+
   }
 
   public notifyRejection() {
     // AppInsights
     this.cookieService.deleteCookieByPartialMatch('ai_');
+    // Google Analytics
+    console.log("cotify rejection");
+    this.cookieService.deleteCookieByPartialMatch('_ga');
+    this.cookieService.deleteCookieByPartialMatch('_gid');
+    const domainElements = window.location.hostname.split('.');
+    for (let i = 0; i < domainElements.length; i++) {
+      const domainName = domainElements.slice(i).join('.');
+      this.cookieService.deleteCookieByPartialMatch('_ga', '/', domainName);
+      this.cookieService.deleteCookieByPartialMatch('_gid', '/', domainName);
+      this.cookieService.deleteCookieByPartialMatch('_ga', '/', `.${domainName}`);
+      this.cookieService.deleteCookieByPartialMatch('_gid', '/', `.${domainName}`);
+    }
+    // DynaTrace
+    this.cookieService.deleteCookieByPartialMatch('rxVisitor');
   }
+
 
   /**
    * Add Idle Service Listener

@@ -36,6 +36,7 @@ const idleServiceMock = {
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
+  let appComponent: AppComponent;
   let fixture;
   let app;
   let loggerService: any;
@@ -183,6 +184,12 @@ describe('AppComponent', () => {
             app.notifyAcceptance();
             expect(loggerService.enableCookies).toHaveBeenCalled();
         });
+
+        it('should make a call to loggerService', () => {
+          appComponent.notifyAcceptance();
+          expect(loggerService.enableCookies).toHaveBeenCalled();
+      });
+
 
     });
 

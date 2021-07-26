@@ -186,7 +186,7 @@ describe('AppComponent', () => {
         expect(googleTagManagerService.init).toHaveBeenCalled();
     });
 
-    it('should make a call to loggerService', () => {
+      it('should make a call to loggerService', () => {
         app.notifyAcceptance();
         expect(loggerService.enableCookies).toHaveBeenCalled();
     });

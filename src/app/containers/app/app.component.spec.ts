@@ -36,13 +36,14 @@ const idleServiceMock = {
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
-  let appComponent: AppComponent;
   let fixture;
-  let app;
+  const app: AppComponent;
+  let googleTagManagerService: any;
   let loggerService: any;
   let cookieService: any;
   beforeEach(async(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
+    googleTagManagerService = jasmine.createSpyObj('GoogleTagManagerService', ['init']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     TestBed.configureTestingModule({
       declarations: [
@@ -180,16 +181,15 @@ describe('AppComponent', () => {
 
     describe('notifyAcceptance()', () => {
 
-        it('should make a call to loggerService', () => {
-            app.notifyAcceptance();
-            expect(loggerService.enableCookies).toHaveBeenCalled();
-        });
+      it('should make a call to googleTagManagerService', () => {
+        app.notifyAcceptance();
+        expect(googleTagManagerService.init).toHaveBeenCalled();
+    });
 
-        it('should make a call to loggerService', () => {
-          appComponent.notifyAcceptance();
-          expect(loggerService.enableCookies).toHaveBeenCalled();
-      });
-
+    it('should make a call to loggerService', () => {
+        app.notifyAcceptance();
+        expect(loggerService.enableCookies).toHaveBeenCalled();
+    });
 
     });
 

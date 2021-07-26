@@ -8,7 +8,7 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService, FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, GoogleTagManagerService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 
 import * as fromAuth from '../../../user-profile/store';
 import { AppConstants } from '../../app.constants';
@@ -16,6 +16,7 @@ import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { of } from 'rxjs';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerService } from 'src/shared/services/logger.service';
+import { RoutesRecognized } from '@angular/router';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -36,15 +37,16 @@ const idleServiceMock = {
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
-  let fixture;
-  let app: AppComponent;
   let googleTagManagerService: any;
+  let fixture;
+  let app;
   let loggerService: any;
   let cookieService: any;
   beforeEach(async(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
-    googleTagManagerService = jasmine.createSpyObj('GoogleTagManagerService', ['init']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
+    googleTagManagerService = jasmine.createSpyObj('GoogleTagManagerService', ['init']);
+    cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -85,11 +87,14 @@ describe('AppComponent', () => {
         {
           provide: LoggerService,
           useValue: loggerService
+        },
+        {
+          provide: GoogleTagManagerService,
+          useValue: googleTagManagerService
         }
       ],
     }).compileComponents();
     store = TestBed.get(Store);
-
     spyOn(store, 'dispatch').and.callThrough();
 
     fixture = TestBed.createComponent(AppComponent);
@@ -182,16 +187,16 @@ describe('AppComponent', () => {
     describe('notifyAcceptance()', () => {
 
       it('should make a call to googleTagManagerService', () => {
-        app.notifyAcceptance();
-        expect(googleTagManagerService.init).toHaveBeenCalled();
-    });
+          app.notifyAcceptance();
+          expect(googleTagManagerService.init).toHaveBeenCalled();
+      });
 
       it('should make a call to loggerService', () => {
-        app.notifyAcceptance();
-        expect(loggerService.enableCookies).toHaveBeenCalled();
-    });
+          app.notifyAcceptance();
+          expect(loggerService.enableCookies).toHaveBeenCalled();
+      });
 
-    });
+  });
 
     describe('notifyRejection()', () => {
 

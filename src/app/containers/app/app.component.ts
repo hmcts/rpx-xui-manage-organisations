@@ -121,7 +121,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public notifyAcceptance() {
-    console.log('notify acceptance');
     this.loggerService.enableCookies();
     this.googleTagManagerService.init(config.googleTagManagerKey);
   }
@@ -130,7 +129,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // AppInsights
     this.cookieService.deleteCookieByPartialMatch('ai_');
     // Google Analytics
-    console.log('cotify rejection');
     this.cookieService.deleteCookieByPartialMatch('_ga');
     this.cookieService.deleteCookieByPartialMatch('_gid');
     const domainElements = window.location.hostname.split('.');

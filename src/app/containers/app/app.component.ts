@@ -190,6 +190,7 @@ export class AppComponent implements OnInit, OnDestroy {
    *
    * @param value - { 'isVisible': false, 'countdown': ''}
    */
+  
   public idleServiceEventHandler(value) {
 
     const IDLE_EVENT_MODAL = 'modal';

@@ -37,7 +37,7 @@ const idleServiceMock = {
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
   let fixture;
-  const app: AppComponent;
+  let app: AppComponent;
   let googleTagManagerService: any;
   let loggerService: any;
   let cookieService: any;

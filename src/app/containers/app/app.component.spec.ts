@@ -8,15 +8,13 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService, FeatureToggleService, GoogleTagManagerService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 
 import * as fromAuth from '../../../user-profile/store';
-import { AppConstants } from '../../app.constants';
 import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { of } from 'rxjs';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerService } from 'src/shared/services/logger.service';
-import { RoutesRecognized } from '@angular/router';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -37,7 +35,7 @@ const idleServiceMock = {
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
-  let googleTagManagerService: any;
+  let googleAnalyticsService: any;
   let fixture;
   let app;
   let loggerService: any;
@@ -45,7 +43,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
-    googleTagManagerService = jasmine.createSpyObj('GoogleTagManagerService', ['init']);
+    googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     TestBed.configureTestingModule({
       declarations: [
@@ -89,8 +87,8 @@ describe('AppComponent', () => {
           useValue: loggerService
         },
         {
-          provide: GoogleTagManagerService,
-          useValue: googleTagManagerService
+          provide: GoogleAnalyticsService,
+          useValue: googleAnalyticsService
         }
       ],
     }).compileComponents();
@@ -186,9 +184,9 @@ describe('AppComponent', () => {
 
     describe('notifyAcceptance()', () => {
 
-      it('should make a call to googleTagManagerService', () => {
+      it('should make a call to googleAnalyticsService', () => {
           app.notifyAcceptance();
-          expect(googleTagManagerService.init).toHaveBeenCalled();
+          expect(googleAnalyticsService.init).toHaveBeenCalled();
       });
 
       it('should make a call to loggerService', () => {

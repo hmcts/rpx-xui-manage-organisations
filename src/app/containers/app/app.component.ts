@@ -6,7 +6,6 @@ import { LoggerService } from '../../../shared/services/logger.service';
 
 import { AppConstants } from '../../../app/app.constants';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
-import { environment as config } from '../../../environments/environment';
 import { HeadersService } from '../../../shared/services/headers.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
@@ -46,7 +45,6 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
-    private readonly googleTagManagerService: GoogleTagManagerService,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig,
     private readonly userService: UserService,
     private readonly featureService: FeatureToggleService,
@@ -122,7 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public notifyAcceptance() {
     this.loggerService.enableCookies();
-    this.googleTagManagerService.init(config.googleTagManagerKey);
+    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
   }
 
   public notifyRejection() {

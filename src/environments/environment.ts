@@ -6,7 +6,6 @@
 export const environment = {
     production: false,
     googleAnalyticsKey: 'UA-124734893-4',
-    googleTagManagerKey: 'GTM-TQ7PKDF',
     serviceDeskEmail: 'DCD-ITServiceDesk@hmcts.net',
     serviceDeskTel: '0300 3030686',
   cookies: {

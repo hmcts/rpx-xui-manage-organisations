@@ -20,17 +20,5 @@ export function initApplication(store: Store<fromApp.State>): VoidFunction {
           resolve(true);
         }
       });
-
-  //   //setTimeout(() => {
-  //   store.pipe(
-  //     select((state: fromApp.State) => state.appState),
-  //     take(2)
-  //   ).subscribe(appState => {
-  //     if (appState.featureFlags) {
-  //       store.dispatch(new fromApp.FinishAppInitilizer());
-  //       resolve(true);
-  //     }
-  //   });
-  // }, 1000);
   });
 }

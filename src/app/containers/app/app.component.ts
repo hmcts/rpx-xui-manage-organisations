@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices, GoogleTagManagerService } from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';

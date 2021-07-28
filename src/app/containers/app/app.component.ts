@@ -73,8 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
-
     if (this.headersService.isAuthenticated()) {
       this.userService.getUserDetails().subscribe(user => {
         const featureUser: FeatureUser = {

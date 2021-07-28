@@ -141,7 +141,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.cookieService.deleteCookieByPartialMatch('rxVisitor');
   }
 
-
   /**
    * Add Idle Service Listener
    *

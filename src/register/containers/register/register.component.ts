@@ -39,7 +39,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageId: string;
   public isPageValid = false;
   public errorMessage: any;
-  public jurisdictions: any[];
 
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
@@ -70,7 +69,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
-    this.jurisdictions = AppConstants.JURISDICTIONS;
 
     this.manageCaseLink$ = this.enviromentService.config$.pipe(map(config => config.manageCaseLink));
     this.manageOrgLink$ = this.enviromentService.config$.pipe(map(config => config.manageOrgLink));
@@ -133,6 +131,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public onPageContinue(formDraft: any): void {
     if (formDraft.invalid) {
       this.showFormValidation(true);
+      window.scrollTo(0, 0);
     } else {
       this.showFormValidation(false);
       const { value } = formDraft;
@@ -143,8 +142,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onSubmitData(): void {
     const pageValues = {
-      ...this.pageValues,
-      jurisdictions: this.jurisdictions
+      ...this.pageValues
     };
     this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }

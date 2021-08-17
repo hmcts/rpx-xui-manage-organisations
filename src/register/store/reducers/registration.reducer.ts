@@ -132,7 +132,7 @@ export function reducer(
     }
 
     case fromRegistration.SUBMIT_FORM_DATA_FAIL: {
-
+      window.scrollTo(0, 0);
       const apiError = action.payload.error.apiError;
 
       let apiMessageMapped;

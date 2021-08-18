@@ -101,7 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public handleCookieBannerFeatureToggle(): void {
-    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mc-cookie-banner-enabled')
+    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mo-cookie-banner-enabled')
                                             .subscribe(flag => {
                                               this.cookieBannerEnabled = flag;
                                               this.setCookieBannerVisibility();

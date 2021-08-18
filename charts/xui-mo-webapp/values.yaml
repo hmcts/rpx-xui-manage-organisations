@@ -11,15 +11,21 @@ redis:
 nodejs:
   aadIdentityName: xui
   applicationPort: 3000
-  memoryLimits: 1024Mi
-  cpuLimits: 1000m
+  cpuRequests: 250m
+  cpuLimits: 2000m
+  memoryRequests: 512Mi
+  memoryLimits: 2048Mi
+  autoscaling:        # Default is false
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 8    # Required setting
+    targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
   environment:
     REFORM_TEAM: rpx
     REFORM_SERVICE_NAME: xui-mo-webapp
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
     PUI_ENV: prod
-    SESSION_SECRET: secretSauce
     NODE_TLS_REJECT_UNAUTHORIZED: 1
     MO_HTTP_PROXY: http://172.16.0.7:8080
     MO_NO_PROXY: localhost
@@ -46,6 +52,7 @@ nodejs:
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_HELMET_ENABLED: true
     FEATURE_REDIS_ENABLED: true
+    FEATURE_OIDC_ENABLED: false
 
     # Redis
     REDIS_KEY_PREFIX: 'activity:'
@@ -60,9 +67,12 @@ nodejs:
     S2S_SERVICE: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     FEE_AND_PAY_API: http://payment-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    MANAGE_CASE_LINK: https://xui-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal/cases
-    MANAGE_ORG_LINK: https://xui-mo-webapp-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
-    
+    MANAGE_CASE_LINK: https://manage-case.{{ .Values.global.environment }}.platform.hmcts.net/cases
+    MANAGE_ORG_LINK: https://manage-org.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_MCA_PROXY_API: http://aac-manage-case-assignment-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    SERVICES_IDAM_ISS_URL: https://forgerock-am.service.core-compute-idam-{{ .Values.global.environment }}2.internal:8443/openam/oauth2/realms/root/realms/hmcts
+
   keyVaults:
     rpx:
       resourceGroup: rpx
@@ -76,3 +86,6 @@ nodejs:
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+
+idam-pr:
+  enabled: false

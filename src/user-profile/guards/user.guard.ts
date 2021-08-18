@@ -10,8 +10,8 @@ import {
   tap
 } from 'rxjs/operators';
 import * as fromAuth from '../store';
-import { userLoaded} from '../store/selectors';
 import {GetUserDetails} from '../store/actions';
+import { userLoaded} from '../store/selectors';
 
 @Injectable()
 export class UserGuard implements CanActivate {

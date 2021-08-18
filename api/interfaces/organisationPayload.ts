@@ -27,3 +27,8 @@ export interface OrganisationPayload {
         ],
     }]
 }
+
+export interface OrganisationUser {
+  email: string
+  idamStatus: string
+}

@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Node Proxy Server  
 Run `npm run start:node`
 
-## Issues and Solutions
+## Issues and Solutions  
 
 Property 'cookies' does not exist on type 'EnhancedRequest' - you will need to make
 sure @types/express-session is added ie.
@@ -17,7 +17,7 @@ sure @types/express-session is added ie.
 Run `npm run start:ng` for a dev server in separate terminal. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 
-## Code scaffolding
+## Code scaffolding 
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
@@ -37,11 +37,16 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 https://tools.hmcts.net/confluence/display/EUI/EXUI+Low+Level+Design
 
+## Running Consumer Driven Contract tests (pact)
+
+Run `yarn test-pact` to execute the Pact tests 
+For publishing the pacts to broker execute `yarn publish-pact`
+
 ## Further help 1
 
 To get more help on the Angular CLI use `ng help` or go and check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Logger errors and warnings
+## Logger errors and warnings 
 
 Extended version of script below:
 
@@ -167,5 +172,35 @@ Note about secrets ie.
 are set within the values.yaml and there should be NO REFERENCE to them within any /config/*.json file.
 
 The application pulls out the secrets directly using `propertiesVolume.addTo()`
+
+# Session Timeout
+
+The applications Session Timeouts are set via configuration and can be overridden, please @see default.json
+and @see .env.defaults.
+
+Example configuration:
+```javascript
+SESSION_TIMEOUTS=[{"idleModalDisplayTime": 6, "pattern":"pui-", "totalIdleTime": 55},{"idleModalDisplayTime": 3, "pattern":"caseworker-", "totalIdleTime": 30}, {"idleModalDisplayTime": 6, "pattern":".", "totalIdleTime": 60}]
+ ```
+ 
+Note that the wildcard Reg Ex '.' pattern seen in the following sets the applications default.
+```javascript
+{"idleModalDisplayTime": 6, "pattern":".", "totalIdleTime": 60
+```
+
+Each Session Timeout object accepts a Reg Ex pattern, which sets the Session Timeout for that User group.
+
+Jargon used:
+
+Session Timeout Modal - The modal popup that appears BEFORE the users Total Idle Time is over.
+
+Total Idle Time - The Users total idle time, this includes time in which we show the Session Timeout Modal to the User.
+
+Idle Modal Display Time - The time we display the Session Timeout Modal for.
+
+Session Timeout Configuration - An array that contains the Applications and User Groups session timeout times.
+
+Session Timeout - An object that contains the Idle Modal Display Time, Reg Ex pattern so that we use
+the correct Session Timeout for the application / and or User Groups and Total Idle Time.  
 
 END2

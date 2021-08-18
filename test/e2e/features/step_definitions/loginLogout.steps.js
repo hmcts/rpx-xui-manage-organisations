@@ -25,7 +25,7 @@ async function waitForElement(el) {
 defineSupportCode(function ({ Given, When, Then }) {
   When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
     const world = this;
-
+    await browser.driver.manage().deleteAllCookies();
     await browser.get(config.config.baseUrl);
     await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
       let stream = await browser.takeScreenshot();
@@ -35,7 +35,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
     });
     await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY,"IDAM login page Email Address input not present");
-    
+
   });
 
   Then(/^I should see failure error summary$/, async function () {
@@ -63,7 +63,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   When("I login with latest invited user", async function () {
     const world = this;
     this.attach("User email : " + global.latestInvitedUser);
-    await loginWithCredentials(global.latestInvitedUser, global.latestInvitedUserPassword,world);
+    await loginattemptCheckAndRelogin(global.latestInvitedUser, global.latestInvitedUserPassword,world);
 
   });
 
@@ -103,14 +103,14 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
     await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY,"Dashboard Header not present");
-    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation, LONG_DELAY,"Primary navigation Tab not present"); 
- 
+    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation, LONG_DELAY,"Primary navigation Tab not present");
+
     await expect(loginPage.dashboard_header.isDisplayed(),"Dashboard header not displayed").to.eventually.be.true;
     await expect(loginPage.dashboard_header.getText())
       .to
       .eventually
-      .equal('Manage organisation details for civil, family, and tribunal law cases');
- 
+      .equal('Manage organisation');
+
     await expect(headerPage.isPrimaryNavigationTabDisplayed(),"Primary navigation tabs not displayed").to.eventually.be.true;
     browser.sleep(LONG_DELAY);
   });
@@ -135,7 +135,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginWithCredentials('autotest_readonly_superuser@mailinator.com', 'Monday01',world);
+    await loginattemptCheckAndRelogin('autotest_readonly_superuser@mailinator.com', 'Monday01',world);
 
     // browser.sleep(LONG_DELAY);
   });
@@ -144,16 +144,25 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginWithCredentials(config.config.username_rw, config.config.password_rw, world);
+    await loginattemptCheckAndRelogin(config.config.username_rw, config.config.password_rw, world);
 
     // browser.sleep(LONG_DELAY);
+  });
+
+  Given(/^I am logged into Townley Services Org$/, async function () {
+    await loginPage.emailAddress.sendKeys(config.config.townleyUser);          //replace username and password
+    await loginPage.password.sendKeys(config.config.townleyPassword);
+    // browser.sleep(SHORT_DELAY);
+    await loginPage.signinBtn.click();
+    browser.sleep(SHORT_DELAY);
+
   });
 
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
     this.attach('Login user : ' + global.testorg_rw_superuser_email);
     console.log('Login user : ' + global.testorg_rw_superuser_email);
-    await loginWithCredentials(global.testorg_rw_superuser_email, 'Monday01',world);
+    await loginattemptCheckAndRelogin(global.testorg_rw_superuser_email, 'Monday01',world);
 
     let tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled(this);
     if (tandcfeatureToggle){
@@ -166,15 +175,12 @@ defineSupportCode(function ({ Given, When, Then }) {
         await acceptTermsAndConditionsPage.acceptTremsAndConditions();
         global.testorgStatus = 4;
       }
-    } 
+    }
   });
 
   Given("I am logged in to created approve organisation", async function () {
     // browser.sleep(LONG_DELAY);
-    await loginPage.emailAddress.sendKeys(global.latestOrgSuperUser);
-    await loginPage.password.sendKeys("Monday01");
-    await loginPage.clickSignIn();
-
+    await loginattemptCheckAndRelogin(global.latestOrgSuperUser,'Monday01',this);
     browser.wait(async () => { return !(await loginPage.emailAddress.isPresent())},30000);
 
     if(config.config.twoFactorAuthEnabled){
@@ -186,20 +192,25 @@ defineSupportCode(function ({ Given, When, Then }) {
         await element(by.css(".button[type = 'submit']")).click();
       }
     }
-    
-   
+
+
   });
 
-  Given(/^I navigate to manage organisation Url direct link$/, { timeout: 600 * 1000 }, async function () {
+  Given(/^I navigate to manage organisation Url direct link$/, async function () {
     await browser.get(config.config.baseUrl + '/cases/case-filter');
-    await browser.driver.manage()
-      .deleteAllCookies();
-    await browser.refresh();
-    browser.sleep(AMAZING_DELAY);
+    // await browser.driver.manage()
+    //   .deleteAllCookies();
+    // await browser.refresh();
+    // browser.sleep(AMAZING_DELAY);
   });
 
-  Then(/^I should be redirected back to Login page after direct link$/, async function () {
-    await browserWaits.waitForElement(loginPage.emailAddress);
+  Then(/^I should be redirected back to Login page after direct link$/, { timeout: 120 * 1000 } ,async function () {
+    // await browserWaits.waitForElement(loginPage.emailAddress);
+    await browserWaits.retryWithAction(loginPage.emailAddress , async () => {
+      console.log("ReTry for login page after direct link ");
+      this.attach("ReTry for login page after direct link ");
+      await browser.get(config.config.baseUrl + '/cases/case-filter');
+    });
     await expect(loginPage.signinTitle.getText())
       .to
       .eventually
@@ -212,7 +223,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     manageCasesService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
     // manageCasesService.setWorld(this);
     await manageCasesService.login(global.latestInvitedUser, global.latestInvitedUserPassword);
-    await manageCasesService.destroy(); 
+    await manageCasesService.destroy();
 
   });
 
@@ -232,7 +243,7 @@ defineSupportCode(function ({ Given, When, Then }) {
       await manageCasesService.destroy()
       throw err;
     }
-   
+
   });
 
 });
@@ -253,22 +264,63 @@ async function loginWithCredentials(username,password,world){
   await browserWaits.waitForElement(loginPage.signinBtn);
   await loginPage.clickSignIn();
 
+  // await browserWaits.retryWithAction($('app-header'), async function (message) {
+  //   world.attach("Retrying Login attempt: " + message);
+  //   let stream = await browser.takeScreenshot();
+  //   const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+  //   world.attach(decodedImage, 'image/png');
+  //   await browser.get(config.config.baseUrl);
+  //   await browserWaits.waitForElement(loginPage.emailAddress);
+  //   await loginPage.emailAddress.sendKeys(username);
+  //   await loginPage.password.sendKeys(password);
+  //   await browserWaits.waitForElement(loginPage.signinBtn);
+  //   await loginPage.clickSignIn();
+  // });
 
-  await browserWaits.retryWithAction($('app-header'), async function (message) {
-    world.attach("Retrying Login attempt: " + message);
-    let stream = await browser.takeScreenshot();
-    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-    world.attach(decodedImage, 'image/png');
-    await browser.get(config.config.baseUrl);
-    await browserWaits.waitForElement(loginPage.emailAddress);
-    await loginPage.emailAddress.sendKeys(username);
-    await loginPage.password.sendKeys(password);
-    await browserWaits.waitForElement(loginPage.signinBtn);
-    await loginPage.clickSignIn();
-  });
+}
+
+
+async function loginattemptCheckAndRelogin(username, password, world) {
+  await loginWithCredentials(username, password, world);
+  let loginAttemptRetryCounter = 1;
+
+  while (loginAttemptRetryCounter < 5) {
+
+    try {
+      await browserWaits.waitForstalenessOf(loginPage.emailAddress, 5);
+      break;
+    } catch (err) {
+      let emailFieldValue = await loginPage.emailAddress.getText();
+      if (!emailFieldValue.includes(username)) {
+        if (loginAttemptRetryCounter === 1) {
+          firstAttemptFailedLogins++;
+        }
+        if (loginAttemptRetryCounter === 2) {
+          secondAttemptFailedLogins++;
+        }
+
+        console.log(err + " email field is still present with empty value indicating  Login page reloaded due to EUI-1856 : Login re attempt " + loginAttemptRetryCounter);
+        world.attach(err + " email field is still present with empty value indicating Login page reloaded due to EUI-1856 : Login re attempt " + loginAttemptRetryCounter);
+        await loginWithCredentials(username, password,world);
+        loginAttemptRetryCounter++;
+      }
+    }
+  }
+
+
+  console.log("ONE ATTEMPT:  EUI-1856 issue occured / total logins => " + firstAttemptFailedLogins + " / " + loginAttempts);
+  world.attach("ONE ATTEMPT:  EUI-1856 issue occured / total logins => " + firstAttemptFailedLogins + " / " + loginAttempts);
+
+  console.log("TWO ATTEMPT: EUI-1856 issue occured / total logins => " + secondAttemptFailedLogins + " / " + loginAttempts);
+  world.attach("TWO ATTEMPT: EUI-1856 issue occured / total logins => " + secondAttemptFailedLogins + " / " + loginAttempts);
 
 
 }
+
+let loginAttempts = 0;
+let firstAttemptFailedLogins = 0;
+let secondAttemptFailedLogins = 0;
+
 
 function logger(world, message, isScreenshot) {
   if (isScreenshot) {

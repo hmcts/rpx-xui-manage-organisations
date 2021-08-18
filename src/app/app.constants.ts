@@ -5,7 +5,9 @@ import {UserNavModel} from './models/user-nav.model';
 
 const featureNames = {
   feeAccount: 'fee-and-accounts',
-  editUserPermissions: 'edit-permissions'
+  editUserPermissions: 'edit-permissions',
+  unassignedCases: 'unassigned-cases',
+  removeUserFromCase: 'remove-user-from-case-mo'
 };
 
 const navItemsArray: NavItemModel[] = [
@@ -29,6 +31,15 @@ const navItemsArray: NavItemModel[] = [
     featureToggle: {
       featureName: featureNames.feeAccount
     }
+  },
+  {
+    text: 'Unassigned cases',
+    href: '/unassigned-cases',
+    orderId: 4,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.unassignedCases
+    }
   }
 ];
 
@@ -36,6 +47,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
+  'pui-caa': navItemsArray[3]
 };
 
 const userNav: UserNavModel = {
@@ -48,12 +60,14 @@ const userNav: UserNavModel = {
 
 const regOrgTitle: AppTitlesModel = {
   name: 'Register to manage civil, family, and tribunal law cases',
-  url: '/register-org/register/'
+  url: '/register-org/register/',
+  hideBranding: true
 };
 
 const manageOrgTitle: AppTitlesModel = {
-  name: 'Manage organisation details for civil, family, and tribunal law cases',
-  url: '/'
+  name: 'Manage organisation',
+  url: '/',
+  hideBranding: false
 };
 
 const footerData =  {
@@ -113,9 +127,9 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
   {
     title: 'Family Public Law and Adoption',
     badgeColour: BadgeColour.BADGE_RED,
-    email: 'fpla@justice.gov.uk',
+    email: 'contactfpl@justice.gov.uk',
     phone: '0330 808 4424',
-    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
   }
 ];
 
@@ -151,7 +165,9 @@ const ccdRoles = [
   'caseworker-probate-solicitor',
   'caseworker-publiclaw',
   'caseworker-ia-legalrep-solicitor',
-  'caseworker-publiclaw-solicitor'
+  'caseworker-publiclaw-solicitor',
+  'caseworker-civil',
+  'caseworker-civil-solicitor'
 ];
 
 const redirectUrl = {
@@ -170,6 +186,9 @@ const environmentNames = {
   perfTest: 'perf-test',
   prod: 'prod'
 };
+
+const serviceMessagesFeatureToggleKey: string = 'mo-service-messages';
+const serviceMessageCookie: string = 'mo_service_messages';
 
 /**
  * Place to keep app constants.
@@ -191,4 +210,6 @@ export class AppConstants {
   public static ENVIRONMENT_NAMES = environmentNames;
   public static GET_HELP_DETAILS_DATA = getHelpDetailsData;
   public static FEATURE_NAMES = featureNames;
+  public static SERVICE_MESSAGES_FEATURE_TOGGLE_KEY = serviceMessagesFeatureToggleKey;
+  public static SERVICE_MESSAGE_COOKIE = serviceMessageCookie;
 }

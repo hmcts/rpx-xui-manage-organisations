@@ -1,6 +1,7 @@
 
 
 var EC = protractor.ExpectedConditions;
+var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 class MailinatorService{
     constructor(){
@@ -41,11 +42,18 @@ class MailinatorService{
         this.emailFieldElement = this.mailinatorElement(by.css('#inbox_field'))
 
         this.acceptCookiesLink = this.mailinatorElement(by.css('.cc-btn.cc-dismiss'));
-
+        this.screenshotUtil = new screenShotUtils({
+            browserInstance: this.mailinatorbrowser
+        });
+    
         await this.loadMailinatorService();
 
     }
 
+    getScreenShotUtil(){
+        return this.screenshotUtil; 
+
+    }
     async destroy(){
         this.mailinatorbrowser.driver.quit();
         this.BrowserStatus === "QUIT";
@@ -175,7 +183,7 @@ class MailinatorService{
         await this.mailinatorElement(by.css("#activate")).click();
 
         let accountCreatedMessageElement = this.mailinatorElement(by.xpath("//h1[contains(text(), 'Account created')]"));
-        await this.mailinatorbrowser.wait(EC.presenceOf(accountCreatedMessageElement), this.waitTime, "Error : " + accountCreatedMessageElement.locator().toString());
+        await this.mailinatorbrowser.wait(EC.presenceOf(accountCreatedMessageElement), 60000, "Error : " + accountCreatedMessageElement.locator().toString());
         this.logger("Registration completed successful."); 
         await this.mailinatorbrowser.driver.close();
 

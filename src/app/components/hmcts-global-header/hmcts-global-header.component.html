@@ -1,6 +1,6 @@
-<div class="hmcts-header" role="heading" aria-level="1">
+<div class="hmcts-header">
     <div class="hmcts-header__container">
-      <ng-container  *ngIf="isBrandedHeader ;else noBrandedHeader">
+      <ng-container  *ngIf="isBrandedHeader && !headerTitle.hideBranding; else noBrandedHeader">
         <div class="govuk-header__logo">
           <a href="#" class="govuk-header__link govuk-header__link--homepage">
             <span class="govuk-header__logotype">
@@ -13,7 +13,7 @@
         <a class="hmcts-header__link my_hmcts_application_name" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
       </ng-container>
       <ng-template #noBrandedHeader>
-          <div class="hmcts-header__logo">
+          <div class="hmcts-header__logo remove-wrapping">
               <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
           </div>
       </ng-template>

@@ -1,24 +1,23 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { APP_INSIGHTS_KEY } from '../configuration/references'
-import * as log4jui from '../lib/log4jui'
+import {exists} from '../lib/util'
 
-const logger = log4jui.getLogger('service-token')
-
-async function handleInstrumentationKeyRoute(req, res) {
+export async function handleInstrumentationKeyRoute(req: Request, res: Response) {
     try {
         res.send({key: getConfigValue(APP_INSIGHTS_KEY)})
     } catch (error) {
-        const errReport = JSON.stringify({
+        const status = exists(error, 'statusCode') ? error.statusCode : 500
+        const errReport = {
             apiError: error,
-            apiStatusCode: error.statusCode,
-            message: 'List of users route error',
-        })
-        res.send(errReport).status(500)
+            apiStatusCode: status,
+            message: 'Instrumentation key route error',
+        }
+        res.status(status).send(errReport)
     }
 }
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 
 router.get('/', handleInstrumentationKeyRoute)
 

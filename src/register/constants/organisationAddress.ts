@@ -27,69 +27,83 @@ export const organisationAddress = {
     ],
     groups: [
       {
-        input: {
-          label: {
-            text: 'Building and street',
-            classes: 'govuk-label--m',
+        fieldset: [
+          {
+            legend: {
+              text: 'What\'s the address of your main office?',
+              classes: 'govuk-fieldset__legend--xl'
+            }
           },
-          validators: ['required'],
-          validationError: {
-            value: 'Enter Building and street',
-            controlId: 'officeAddressOne',
+          {
+            input: {
+              label: {
+                text: 'Building and street',
+                classes: 'govuk-label--m',
+              },
+              validators: ['required'],
+              validationError: {
+                value: 'Enter Building and street',
+                controlId: 'officeAddressOne',
+              },
+              control: 'officeAddressOne',
+              classes: '',
+            },
           },
-          control: 'officeAddressOne',
-          classes: '',
-        },
-      },
-      {
-        input: {
-          validationError: {
-            value: 'Enter the length of hearing in minutes, for example "20"',
-            controlId: 'officeAddressTwo',
+          {
+            input: {
+              label: {
+                text: 'Building and street line 2 of 2',
+                classes: 'govuk-label--m govuk-visually-hidden'
+              },
+              validationError: {
+                value: 'Enter Building and street line 2 of 2',
+                controlId: 'officeAddressTwo',
+              },
+              control: 'officeAddressTwo',
+              classes: '',
+            },
           },
-          control: 'officeAddressTwo',
-          classes: '',
-        },
-      },
-      {
-        input: {
-          label: {
-            text: 'Town or city',
-            classes: 'govuk-label--m',
+          {
+            input: {
+              label: {
+                text: 'Town or city',
+                classes: 'govuk-label--m',
+              },
+              control: 'townOrCity',
+              validators: ['required'],
+              validationError: {
+                value: 'Enter town or city',
+                controlId: 'townOrCity',
+              },
+              classes: 'govuk-!-width-two-thirds',
+            },
           },
-          control: 'townOrCity',
-          validators: ['required'],
-          validationError: {
-            value: 'Enter town or city',
-            controlId: 'townOrCity',
+          {
+            input: {
+              label: {
+                text: 'County',
+                classes: 'govuk-label--m',
+              },
+              control: 'county',
+              classes: 'govuk-!-width-two-thirds',
+            },
           },
-          classes: 'govuk-!-width-two-thirds',
-        },
-      },
-      {
-        input: {
-          label: {
-            text: 'County',
-            classes: 'govuk-label--m',
-          },
-          control: 'county',
-          classes: 'govuk-!-width-two-thirds',
-        },
-      },
-      {
-        input: {
-          label: {
-            text: 'Postcode',
-            classes: 'govuk-label--m',
-          },
-          control: 'postcode',
-          validators: ['required'],
-          validationError: {
-            value: 'Enter enter postcode',
-            controlId: 'Poscode',
-          },
-          classes: 'govuk-input--width-10',
-        },
+          {
+            input: {
+              label: {
+                text: 'Postcode',
+                classes: 'govuk-label--m',
+              },
+              control: 'postcode',
+              validators: ['required'],
+              validationError: {
+                value: 'Enter postcode',
+                controlId: 'postcode',
+              },
+              classes: 'govuk-input--width-10',
+            },
+          }
+        ]
       },
       {
         button: {

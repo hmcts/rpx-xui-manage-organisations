@@ -30,14 +30,14 @@ defineSupportCode(function ({And, But, Given, Then, When}) {
       // await headerPage.clickUser();
     });
 
-    await viewUserPage.amOnPage(); 
+    await viewUserPage.amOnPage();
 
     // browser.sleep(AMAZING_DELAY);
   });
 
   Then(/^I should be on display the user details$/, async function () {
     // browser.sleep(AMAZING_DELAY);
-    expect(await viewUserPage.amOnPage(), "Users page not displayed").to.be.true;
+    expect(await viewUserPage.amOnPage()).to.be.true;
     // browser.sleep(LONG_DELAY);
   });
 

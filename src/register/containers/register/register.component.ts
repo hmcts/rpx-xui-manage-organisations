@@ -1,13 +1,13 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {select, Store} from '@ngrx/store';
-import {Observable, Subscription} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
-import { AppConstants } from 'src/app/app.constants';
-import { EnvironmentService } from 'src/shared/services/environment.service';
-import * as fromAppStore from '../../../app/store';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
+import { AppConstants } from '../../../app/app.constants';
 import * as fromRoot from '../../../app/store/';
-import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { EnvironmentService } from '../../../shared/services/environment.service';
+import { FormDataValuesModel } from '../../models/form-data-values.model';
 import * as fromStore from '../../store/';
 
 /**
@@ -23,7 +23,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private readonly router: Router,
     private readonly store: Store<fromStore.RegistrationState>,
-    private readonly enviromentService: EnvironmentService) {}
+    private readonly enviromentService: EnvironmentService
+  ) {}
 
   public pageItems: any; // todo add the type
   public pageValues: FormDataValuesModel;
@@ -38,10 +39,9 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageId: string;
   public isPageValid = false;
   public errorMessage: any;
-  public jurisdictions: any[];
 
-  public manageCaseLink: string;
-  public manageOrgLink: string;
+  public manageCaseLink$: Observable<string>;
+  public manageOrgLink$: Observable<string>;
 
   /**
    * ngOnInit
@@ -69,13 +69,19 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
-    this.jurisdictions = AppConstants.JURISDICTIONS;
 
-    this.manageCaseLink = this.enviromentService.get('manageCaseLink');
-    this.manageOrgLink = this.enviromentService.get('manageOrgLink');
+    this.manageCaseLink$ = this.enviromentService.config$.pipe(map(config => config.manageCaseLink));
+    this.manageOrgLink$ = this.enviromentService.config$.pipe(map(config => config.manageOrgLink));
   }
 
-  public ngAfterViewInit() {
+  public ngOnDestroy(): void {
+    this.$pageItemsSubscription.unsubscribe();
+    this.$routeSubscription.unsubscribe();
+    this.$nextUrlSubscription.unsubscribe();
+    this.store.dispatch(new fromStore.ResetErrorMessage({}));
+  }
+
+  public ngAfterViewInit(): void {
     this.resetFocus();
   }
 
@@ -118,13 +124,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
    *
    * Inform the Form Builder component to turn on or off the in-line form validation.
    */
-  public showFormValidation(isValid: boolean) {
+  public showFormValidation(isValid: boolean): void {
     this.isPageValid = isValid;
   }
 
-  public onPageContinue(formDraft): void {
-    if (formDraft.invalid ) {
+  public onPageContinue(formDraft: any): void {
+    if (formDraft.invalid) {
       this.showFormValidation(true);
+      window.scrollTo(0, 0);
     } else {
       this.showFormValidation(false);
       const { value } = formDraft;
@@ -133,22 +140,14 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public ngOnDestroy(): void {
-    this.$pageItemsSubscription.unsubscribe();
-    this.$routeSubscription.unsubscribe();
-    this.$nextUrlSubscription.unsubscribe();
-    this.store.dispatch(new fromStore.ResetErrorMessage({}));
-  }
-
   public onSubmitData(): void {
     const pageValues = {
-      ...this.pageValues,
-      jurisdictions: this.jurisdictions
+      ...this.pageValues
     };
     this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }
 
-  public onGoBack(event) {
+  public onGoBack(event: any): void {
     this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }

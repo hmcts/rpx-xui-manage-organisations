@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
 import { AppConstants } from 'src/app/app.constants';
 
+import {AppUtils} from '../../utils/app-utils';
 import * as fromRoot from '../reducers';
 import * as fromAppFeature from '../reducers/app.reducer';
-import {AppUtils} from '../../utils/app-utils';
 
 
 export const getAppState = createSelector(
@@ -46,6 +46,16 @@ export const getFeeAndPayFeature = createSelector(
 
 export const getFeeAndPayFeatureIsEnabled = createSelector(
   getFeeAndPayFeature,
+  featureFlag => featureFlag && featureFlag.isEnabled
+);
+
+export const getUnassignedCasesFeature = createSelector(
+  getFeatureFlag,
+  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.unassignedCases)
+);
+
+export const getUnassignedCasesFeatureIsEnabled = createSelector(
+  getUnassignedCasesFeature,
   featureFlag => featureFlag && featureFlag.isEnabled
 );
 
@@ -101,4 +111,9 @@ export const getUserNav = createSelector(
 export const getTermsAndConditions = createSelector(
   getAppState,
   state => state.termsAndConditions
+);
+
+export const getModalSessionData = createSelector(
+  getAppState,
+  (state) => state.modal.session
 );

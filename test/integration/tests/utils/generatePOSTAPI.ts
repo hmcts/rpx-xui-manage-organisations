@@ -1,29 +1,28 @@
 import { generateToken } from '../../../../api/auth/serviceToken';
 import { getauthToken } from './getToken';
 const fetch = require('node-fetch');
+import { authenticateAndGetcookies } from './getCookie';
+import { xxsrftoken } from './getCookie';
 
-
-// const mainURL = process.env.TEST_URL || 'https://localhost:3000';
-const mainURL = 'http://rd-professional-api-aat.service.core-compute-aat.internal'
+const mainURL = process.env.TEST_URL || 'https://localhost:3000';
 const LOG_REQUEST_ERROR_DETAILS = false;
 
 export async function generatePOSTAPIRequest(method, subURL, payload) {
 
-  let s2sToken;
-  let authToken;
-
   try {
-    s2sToken = await generateToken();
-    authToken = await getauthToken();
+    const cookie = await authenticateAndGetcookies(mainURL);
+    const xxsrfcookie = await xxsrftoken();
 
+    // console.log(cookie)
     const options = {
       headers: {
-        Authorization: `Bearer ${authToken}`,
-        ServiceAuthorization: s2sToken,
+        Cookie: `${cookie}`,
+        Accept: ['application/json', 'text/plain', '*/*'],
+        'X-XSRF-TOKEN': `${xxsrfcookie}`,
         'Content-Type': 'application/json'
       },
-      // json: true,
-     //  resolveWithFullResponse: true,
+      json: true,
+      resolveWithFullResponse: true,
       method,
       body: JSON.stringify(payload)
     };

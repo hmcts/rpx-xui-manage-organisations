@@ -15,16 +15,33 @@ properties([
 
 def type      = "nodejs"
 def product   = "xui"
-def component = "webapp"
+def component = "mo-webapp"
 def channel   = '#xui-pipeline'
+
+def secrets = [
+  'rpx-${env}': [
+    secret('test-email', 'TEST_EMAIL'),
+    secret('test-password', 'TEST_PASSWORD'),
+    secret('test-api-email', 'TEST_API_EMAIL'),
+    secret('test-api-password', 'TEST_API_PASSWORD'),
+  ],
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
 
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
-
+    loadVaultSecrets(secrets)
     enableFullFunctionalTest(30)
-    enableSecurityScan()
+    // enableSecurityScan()
     enableMutationTest()
-    enableFullFunctionalTest(30)
     enableCrossBrowserTest()
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
@@ -47,25 +64,24 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
-
-        sh 'yarn test:a11y'
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
-        ])
-
     }
 
     after('fullFunctionalTest') {
+
+      publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "reports/tests/api_functional/",
+        reportFiles          : 'mochawesome.html',
+        reportName           : 'API Functional Test'
+      ])
+
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/fullfunctional/",
+            reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Full functional Tests'
         ])
@@ -83,6 +99,17 @@ withNightlyPipeline(type, product, component) {
         ])
     }
 
+  after('securityScan') {
+    publishHTML([
+      allowMissing         : true,
+      alwaysLinkToLastBuild: true,
+      keepAll              : true,
+      reportDir            : "reports/tests/",
+      reportFiles          : 'activescan.html',
+      reportName           : 'XUI MO ZAP Security Scan Report'
+    ])
+  }
+
     after('crossBrowserTest') {
         publishHTML([
             allowMissing         : true,
@@ -92,5 +119,5 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Cross Browser Tests'
         ])
-    }   
+    }
 }

@@ -18,13 +18,11 @@ const mocha = new Mocha({
     }
 });
 
- mocha.addFile('test/integration/tests/get_Organisation_Details.ts');
-// mocha.addFile('test/integration/tests/get_Organisation_User_Details.ts');
- mocha.addFile('test/integration/tests/post_Invite_User.ts');
-// mocha.addFile('test/integration/tests/get_jui_cases.js');
-// mocha.addFile('test/integration/tests/get_jui_case_details.js');
-// mocha.addFile('test/integration/tests/get_jui_case_fields.js');
-// mocha.addFile('test/integration/tests/get_jui_case_summary.js');
+mocha.addFile('test/integration/tests/get_Organisation_Details.ts');
+mocha.addFile('test/integration/tests/get_Organisation_User_Details.ts');
+mocha.addFile('test/integration/tests/post_Invite_User.ts');
+mocha.addFile('test/integration/tests/post_register_org.ts');
+mocha.addFile('test/integration/tests/post_ReInvite_User.ts');
 mocha.run( (failures) => {
-  process.exitCode = failures ? 1 : 0; // exit with non-zero status if there were failures
+    process.exitCode = failures ? 1 : 0; // exit with non-zero status if there were failures
 });

@@ -1,6 +1,8 @@
+import {xuiNode} from '@hmcts/rpx-xui-node-lib'
 import * as express from 'express'
+import { Router } from 'express'
 import accountsRouter from './accounts'
-import * as auth from './auth'
+import { router as caseShareRouter } from './caseshare/routes'
 import editUserPermissions from './editUserPermissions'
 import getUserTermsAndConditions from './getUserTermsAndConditions'
 import healthCheck from './healthCheck'
@@ -11,12 +13,14 @@ import payments from './payments'
 import postUserTermsAndConditions from './postUserTermsAndConditions'
 import suspendUser from './suspendUser'
 import getTermsAndConditions from './termsAndConditions'
+import unnassignedCasesRouter from './unassignedCases'
+import unassignedCaseTypesRouter from './unassignedCaseTypes'
 import userDetailsRouter from './user'
 import getUserList from './userList'
 
-const router = express.Router({ mergeParams: true })
+const router = Router({ mergeParams: true })
 
-router.use(auth.attach)
+router.use(xuiNode.authenticate)
 router.use('/organisation', organisationRouter)
 router.use('/accounts', accountsRouter)
 router.use('/user', userDetailsRouter)
@@ -31,4 +35,7 @@ router.use('/userTermsAndConditions', postUserTermsAndConditions)
 router.use('/termsAndConditions', getTermsAndConditions)
 router.use('/user/:userId/suspend', suspendUser)
 router.use('/editUserPermissions/users/:userId', editUserPermissions)
+router.use('/unassignedCases', unnassignedCasesRouter)
+router.use('/unassignedCaseTypes', unassignedCaseTypesRouter)
+router.use('/caseshare', caseShareRouter)
 export default router

@@ -4,6 +4,7 @@ import * as ejs from 'ejs'
 import * as express from 'express'
 import * as path from 'path'
 import {app, logger} from './application'
+import errorHandler from './lib/error.handler'
 
 
 console.log('WE ARE USING server.ts on the box.')
@@ -33,4 +34,5 @@ app.use('/*', (req, res) => {
 
 const port = process.env.PORT || 3000
 
+app.use(errorHandler)
 app.listen(port, () => logger.info(`Local server up at ${port}`))

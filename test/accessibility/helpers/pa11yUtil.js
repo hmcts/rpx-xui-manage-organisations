@@ -19,7 +19,7 @@ async function pa11ytest(test,actions,timeoutVal) {
     if (!fs.existsSync(screenshotPath)) {
         fs.mkdirSync(screenshotPath, { recursive: true });
     }
-    screenshotName = Date.now() + '.png'; 
+    screenshotName = Date.now() + '.png';
     screenshotPath = screenshotPath + Date.now()+'.png';
     screenshotReportRef = 'assets/' + screenshotName;
 
@@ -42,7 +42,7 @@ async function pa11ytest(test,actions,timeoutVal) {
     ];
     const browser = await puppeteer.launch({
         ignoreHTTPSErrors: false,
-        headless:conf.headless 
+        headless:conf.headless
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);
@@ -50,6 +50,7 @@ async function pa11ytest(test,actions,timeoutVal) {
 
     let result;
     try{
+
         result = await pa11y(conf.baseUrl, {
             browser: browser,
             page: page,
@@ -65,7 +66,7 @@ async function pa11ytest(test,actions,timeoutVal) {
     }catch(err){
         await page.screenshot({ path: screenshotPath});
         const elapsedTime = Date.now() - startTime;
-        result = {}; 
+        result = {};
         result.executionTime = elapsedTime;
         result.screenshot = screenshotReportRef;
         test.a11yResult = result;
@@ -76,7 +77,7 @@ async function pa11ytest(test,actions,timeoutVal) {
         throw err;
 
     }
-   
+
     const elapsedTime = Date.now() - startTime;
     result.executionTime = elapsedTime;
     result.screenshot = screenshotReportRef;
@@ -85,10 +86,11 @@ async function pa11ytest(test,actions,timeoutVal) {
     await browser.close();
     console.log("Test Execution time : "+elapsedTime);
     if (conf.failTestOna11yIssues){
-        assert(result.issues.length === 0, "a11y issues reported") 
+        assert(result.issues.length === 0, "a11y issues reported")
     }
     return result;
 
 }
+
 
 module.exports = { pa11ytest}

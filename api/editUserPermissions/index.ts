@@ -1,16 +1,15 @@
-import * as express from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { ErrorReport } from '../interfaces/errorReport'
-import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 
-export const router = express.Router({ mergeParams: true })
+export const router = Router({ mergeParams: true })
 const logger = log4jui.getLogger('outgoing')
 
 router.put('', inviteUserRoute)
 
-async function inviteUserRoute(req: express.Request, res: express.Response) {
+async function inviteUserRoute(req: Request, res: Response) {
     let errReport: ErrorReport
     if (!req.params.userId) {
         errReport = getErrorReport('UserId is missing', '400', 'User Permissions route error')
@@ -25,15 +24,16 @@ async function inviteUserRoute(req: express.Request, res: express.Response) {
       res.send(response.data)
     } catch (error) {
         logger.info('error', error)
-        errReport = getErrorReport(getErrorMessage(error), error.status, getErrorMessage(error))
-        res.status(error.status).send(errReport)
+        const status = error.status ? error.status : 500
+        errReport = getErrorReport(getErrorMessage(error), status, getErrorMessage(error))
+        res.status(status).send(errReport)
     }
 }
 
 function getErrorMessage(error: any): string {
     return error && error.data ? error.data.message : ''
 }
-function getErrorReport(apiError: string, apiStatusCode: string, message: string): ErrorReport {
+function getErrorReport(apiError: string, apiStatusCode: string = '500', message: string = ''): ErrorReport {
     return {
         apiError,
         apiStatusCode,

@@ -3,7 +3,7 @@ export const sraNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'sraNumber',
-    header: 'Enter your organisation SRA ID',
+    header: 'Enter your organisation Solicitors Regulation Authority (SRA) ID',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
@@ -22,6 +22,10 @@ export const sraNumber = {
       },
       {
         input: {
+          label: {
+            text: 'Enter your organisation SRA ID',
+            classes: 'govuk-label--m govuk-visually-hidden'
+          },
           validators: ['required'],
           validationError: {
             value: 'Enter your organisation SRA ID',

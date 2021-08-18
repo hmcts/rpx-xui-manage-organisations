@@ -18,7 +18,11 @@ describe('User Profile Reducer', () => {
             orgId: 'id',
             email: 'email',
             roles: [],
-            userId: ''
+            sessionTimeout: {
+              idleModalDisplayTime: 10,
+              totalIdleTime: 50
+            },
+            userId: '',
         });
         const state = fromAuth.reducer(initialState, action);
 
@@ -26,6 +30,10 @@ describe('User Profile Reducer', () => {
             orgId: 'id',
             email: 'email',
             roles: [],
+            sessionTimeout: {
+              idleModalDisplayTime: 10,
+              totalIdleTime: 50
+            },
             userId: ''
         });
 

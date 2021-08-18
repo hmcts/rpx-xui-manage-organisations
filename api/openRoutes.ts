@@ -1,4 +1,4 @@
-import * as express from 'express'
+import { Router } from 'express'
 import getConfigurationUIRouter from './configurationUI'
 import getConfigValue from './configValueRouter'
 
@@ -9,7 +9,7 @@ import prdRouter from './register-org'
 // TODO: Not sure if this is needed
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-const router = express.Router({ mergeParams: true })
+const router = Router({ mergeParams: true })
 
 // So these routes may need the S2S token
 // The S2S token is used for hitting an endpoint

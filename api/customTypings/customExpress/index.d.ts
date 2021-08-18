@@ -4,7 +4,7 @@ import {AxiosInstance} from 'axios'
 declare global {
   namespace Express {
     interface Request {
-      http?: AxiosInstance;
+      http: AxiosInstance;
     }
   }
 }

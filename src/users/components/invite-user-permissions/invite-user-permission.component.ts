@@ -1,16 +1,28 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { Observable } from 'rxjs';
 
 @Component({
-    selector: 'app-invite-permission-form',
-    templateUrl: './invite-user-permission.component.html',
-  })
+  selector: 'app-invite-permission-form',
+  templateUrl: './invite-user-permission.component.html',
+})
 
-  export class InviteUserPermissionComponent {
-    @Input() inviteUserForm: FormGroup;
-    @Input() isPuiCaseManager: boolean = false;
-    @Input() isPuiUserManager: boolean = false;
-    @Input() isPuiOrganisationManager: boolean = false;
-    @Input() isPuiFinanceManager: boolean = false;
-    @Input() errorMessages: {isInvalid: boolean; messages: string[] };
+export class InviteUserPermissionComponent  implements OnInit {
+  @Input() public inviteUserForm: FormGroup;
+  @Input() public isPuiCaseManager: boolean = false;
+  @Input() public isPuiUserManager: boolean = false;
+  @Input() public isPuiOrganisationManager: boolean = false;
+  @Input() public isPuiFinanceManager: boolean = false;
+  @Input() public isCaseAccessAdmin: boolean = false;
+  @Input() public errorMessages: { isInvalid: boolean; messages: string[] };
+
+  public grantCaseAccessAdmin$: Observable<boolean>;
+
+  constructor(public readonly featureToggleService: FeatureToggleService) {}
+
+  public ngOnInit(): void {
+    this.grantCaseAccessAdmin$ = this.featureToggleService.getValue('mo-grant-case-access-admin', false);
   }
+
+}

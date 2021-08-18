@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
-import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, TermsAndConditionsComponent } from './components';
+import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import {TermsConditionGuard} from './guards/termsCondition.guard';
 
@@ -29,6 +29,11 @@ export const ROUTES: Routes = [
     loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },
   {
+    path: 'unassigned-cases',
+    canActivate: [AuthGuard, HealthCheckGuard],
+    loadChildren: '../unassigned-cases/unassigned-cases.module#UnassignedCasesModule'
+  },
+  {
     path: 'style-guide',
     canActivate: [AuthGuard],
     loadChildren: '../style-guide/style-guide.module#StyleGuideModule'
@@ -47,6 +52,7 @@ export const ROUTES: Routes = [
     component: ServiceDownComponent
   },
   {
+    canActivate: [AuthGuard],
     path: 'home',
     component: RedirectComponent
   },
@@ -69,6 +75,10 @@ export const ROUTES: Routes = [
   {
     path: 'get-help',
     component: GetHelpComponent
+  },
+  {
+    path: 'idle-sign-out',
+    component: SignedOutComponent
   },
   {
     path: '**',

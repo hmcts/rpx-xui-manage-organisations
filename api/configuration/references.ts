@@ -17,6 +17,7 @@ export const LAUNCH_DARKLY_CLIENT_ID = 'secrets.rpx.launch-darkly-client-id'
 
 export const ENVIRONMENT = 'environment'
 
+export const STUB = 'stub'
 export const COOKIE_TOKEN = 'cookies.token'
 export const COOKIES_USERID = 'cookies.userId'
 
@@ -37,6 +38,14 @@ export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi'
 export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi'
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions'
 
+export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi'
+export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi'
+export const SERVICES_IDAM_ISS_URL = 'iss'
+
+export const CASE_SHARE_PERMISSIONS = 'pui-case-manager'
+
+export const LOGIN_ROLE_MATCHER = 'loginRoleMatcher'
+
 export const SESSION_SECRET = 'sessionSecret'
 
 export const LOGGING = 'logging'
@@ -50,6 +59,7 @@ export const FEATURE_PROXY_ENABLED = 'proxyEnabled'
 export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled'
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled'
 export const FEATURE_REDIS_ENABLED = 'redisEnabled'
+export const FEATURE_OIDC_ENABLED = 'oidcEnabled'
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink'
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'
@@ -58,3 +68,14 @@ export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink'
 export const REDISCLOUD_URL = 'secrets.rpx.mo-webapp-redis-connection-string'
 export const REDIS_TTL = 'redis.ttl'
 export const REDIS_KEY_PREFIX = 'redis.prefix'
+
+export const SESSION_TIMEOUTS = 'sessionTimeouts'
+
+export const CASE_TYPES = 'caseTypes'
+
+// PACT
+export const PACT_BROKER_URL = 'pact.brokerUrl'
+export const PACT_CONSUMER_VERSION = 'pact.consumerVersion'
+export const PACT_BRANCH_NAME = 'pact.branchName'
+export const PACT_BROKER_USERNAME = 'pact.brokerUsername'
+export const PACT_BROKER_PASSWORD = 'pact.brokerPassword'

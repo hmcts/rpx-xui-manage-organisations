@@ -43,9 +43,8 @@ const config = {
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports/tests/functional/results.json'],
     tags: ['@all or @smoke or @fullFunctional or @end2end'],
-    // tags: ['@test'],
+    //  tags: ['@edit'],
     require: cucumberOpts
-
   },
 
   plugins: [
@@ -56,8 +55,8 @@ const config = {
         removeExistingJsonReportFile: true,
         reportName: 'XUI Manage Organisation Functional Tests',
         // openReportInBrowser: true,
-        jsonDir: 'reports/tests/fullfunctional',
-        reportPath: 'reports/tests/fullfunctional'
+        jsonDir: 'reports/tests/functional',
+        reportPath: 'reports/tests/functional'
       }
     }
   ]

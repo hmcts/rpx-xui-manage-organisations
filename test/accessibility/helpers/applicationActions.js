@@ -40,6 +40,12 @@ class ManageOrgPallyActions {
         ]
     }
 
+    waitServerError(){
+        return [
+            ...PallyActions.waitForPageWithCssLocator('.govuk-heading-xl')
+        ]
+    }
+
 }
 
 module.exports = new ManageOrgPallyActions();

@@ -1,3 +1,5 @@
+import * as log4js from 'log4js'
+
 export interface JurisdictionObject {
     caseType: string
     filter: string
@@ -47,7 +49,6 @@ export class Case {
         this.securityClassification = caseData.security_classification
         this.caseData = CaseData.create(caseData.case_data)
         this.dataClassification = caseData.data_classification
-        this.securityClassification = caseData.security_classification
         this.state = caseData.state
     }
 }
@@ -71,7 +72,7 @@ export class CaseData {
     constructor(caseData) {
         this.applicantFMName = caseData.applicantFMName
         this.applicantLName = caseData.applicantLName
-        this.appRespondentFMName = caseData.appRespondentLName
+        this.appRespondentFMName = caseData.appRespondentFMName
         this.appRespondentLName = caseData.appRespondentLName
         this.D8PetitionerFirstName = caseData.D8PetitionerFirstName
         this.D8PetitionerLastName = caseData.D8PetitionerLastName
@@ -80,4 +81,22 @@ export class CaseData {
         this.appeal = caseData.appeal
         this.defendants = caseData.defendants
     }
+}
+
+export interface JUILogger {
+    _logger: log4js.Logger
+    debug: (...message: any[]) => void
+    error: (...message: any[]) => void
+    info: (...message: any[]) => void
+    trackRequest: any,
+    warn: (...message: any[]) => void
+}
+
+export function isJUILogger(object: any): object is JUILogger {
+    return '_logger' in object &&
+        'debug' in object &&
+        'error' in object &&
+        'info' in object &&
+        'warn' in object &&
+        'trackRequest' in object
 }

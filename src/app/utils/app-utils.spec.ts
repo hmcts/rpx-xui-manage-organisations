@@ -17,21 +17,21 @@ describe('AppUtils', () => {
       active: false,
       orderId: 1
     },
-      {
-        text: 'Users',
-        href: '/users',
-        active: false,
-        orderId: 2
-      },
-      {
-        text: 'Fee Accounts',
-        href: '/fee-accounts',
-        active: false,
-        orderId: 3,
-        featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.feeAccount
-        }
-      }];
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    },
+    {
+      text: 'Fee Accounts',
+      href: '/fee-accounts',
+      active: false,
+      orderId: 3,
+      featureToggle: {
+        featureName: AppConstants.FEATURE_NAMES.feeAccount
+      }
+    }];
 
     const featureFlag: AppFeatureFlag = {
       isEnabled: true,

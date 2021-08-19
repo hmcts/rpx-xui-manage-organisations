@@ -1,6 +1,6 @@
-import { SharedCase } from 'api/caseshare/models/case-share.model';
 import { of } from 'rxjs';
 import { CaseShareService } from '.';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 
 describe('CaseShareService', () => {
     describe('getUsersFromOrg()', () => {
@@ -15,10 +15,10 @@ describe('CaseShareService', () => {
 
     describe('getShareCases()', () => {
         it('should get share cases with correct params', () => {
-            const cases = [
-                { caseId: '1' },
-                { caseId: '2' }
-            ] as SharedCase[];
+            const cases: SharedCase[] = [
+                { caseId: '1', caseTitle: '1' },
+                { caseId: '2', caseTitle: '2' }
+            ];
 
             const mockHttp = jasmine.createSpyObj('http', ['get']);
             mockHttp.get.and.returnValue(of({}));

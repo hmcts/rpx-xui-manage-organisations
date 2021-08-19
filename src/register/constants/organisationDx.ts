@@ -3,7 +3,7 @@ export const organisationDx = {
   meta: {
     idPrefix: 'tbc',
     name: 'organisation-dx',
-    header: 'What\'s the DX reference for your main office?',
+    header: 'What\'s the Document Exchange (DX) reference for your main office?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {

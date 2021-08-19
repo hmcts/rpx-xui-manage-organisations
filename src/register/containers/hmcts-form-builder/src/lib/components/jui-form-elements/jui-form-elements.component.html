@@ -28,15 +28,15 @@
               [labelFor]="data.input.control">
   </app-inputs>
   <app-input-button *ngIf="data.inputButton"
-              [item]="data.inputButton"
-              [showValidation]="validate"
-              [validationErrors]="data.inputButton.validationErrors"
-              [group]="group"
-              [hint]="data.inputButton.hint"
-              [label]="data.inputButton.label"
-              [labelFor]="data.inputButton.control"
-              (btnClick)="onBtnClick($event)"
-              (blurCast)="onBlur($event)">
+                    [item]="data.inputButton"
+                    [showValidation]="validate"
+                    [validationErrors]="data.inputButton.validationErrors"
+                    [group]="group"
+                    [hint]="data.inputButton.hint"
+                    [label]="data.inputButton.label"
+                    [labelFor]="data.inputButton.control"
+                    (btnClick)="onBtnClick($event)"
+                    (blurCast)="onBlur($event)">
   </app-input-button>
   <app-hidden-input *ngIf="data.hiddenInput"
                     [item]="data.hiddenInput"

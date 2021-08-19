@@ -63,7 +63,6 @@ export function makeOrganisationPayload(stateValues): any {
     superUser: {
       email: stateValues.emailAddress,
       firstName: stateValues.firstName,
-      jurisdictions: stateValues.jurisdictions,
       lastName: stateValues.lastName,
     },
   }

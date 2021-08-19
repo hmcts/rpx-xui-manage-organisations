@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 
 @Component({
   selector: 'app-exui-case-share-complete',
@@ -22,9 +23,12 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   public completeScreenMode: string;
   public removeUserFromCaseToggleOn$: Observable<boolean>;
 
-  constructor(public store: Store<fromCaseList.UnassignedCasesState>, public featureToggleService: FeatureToggleService) {}
+  constructor(
+    public store: Store<fromCaseList.UnassignedCasesState>,
+    public featureToggleService: FeatureToggleService
+  ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;
@@ -41,13 +45,13 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
     this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.completeScreenMode === 'COMPLETE') {
       this.store.dispatch(new fromCasesFeature.ResetCaseSelection());
     }
   }
 
-  public checkIfIncomplete(shareCases: SharedCase[]) {
+  public checkIfIncomplete(shareCases: SharedCase[]): string {
     if (this.isLoading) {
       if (shareCases.some(aCase => aCase.pendingShares && aCase.pendingShares.length > 0)
         || shareCases.some(aCase => aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {

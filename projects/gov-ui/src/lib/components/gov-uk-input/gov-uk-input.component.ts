@@ -1,6 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
+
 /*
 * Gov UK Input component
 * Responsible for displaying input, hint and error messages
@@ -28,21 +30,16 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
     </div>
   `
 })
-export class GovUkInputComponent implements OnInit, OnChanges {
-  constructor () { }
-  @Input() errorMessage: {isInvalid: boolean; mesages: string[] };
-  @Input() group: FormGroup;
-  @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
+export class GovUkInputComponent implements OnInit {
+  @Input() public errorMessage: {isInvalid: boolean; mesages: string[] };
+  @Input() public group: FormGroup;
+  @Input() public config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.config.classes = 'govuk-label--m';
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    // debugger
-  }
-
-  setDescribedBy(): string {
+  public setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
 }

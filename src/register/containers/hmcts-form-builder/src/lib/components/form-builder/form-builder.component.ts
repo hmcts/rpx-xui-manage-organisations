@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/form-builder-validation.service';
-import {FormsService} from '../../services/form-builder.service';
+import { FormGroup } from '@angular/forms';
+
+import { ValidationService } from '../../services/form-builder-validation.service';
+import { FormsService } from '../../services/form-builder.service';
 
 /**
  * Form Builder Wrapper
@@ -17,8 +18,9 @@ import {FormsService} from '../../services/form-builder.service';
 export class FormBuilderComponent implements OnChanges {
 
   constructor(
-    private formsService: FormsService,
-    private validationService: ValidationService) {}
+    private readonly formsService: FormsService,
+    private readonly validationService: ValidationService
+  ) {}
 
   @Input() public pageItems: any;
   @Input() public pageValues: any;
@@ -28,14 +30,28 @@ export class FormBuilderComponent implements OnChanges {
   @Output() public blurCast = new EventEmitter<any>();
 
   public formDraft: FormGroup;
+  public isLegendAvailable: boolean;
 
   public ngOnChanges(changes: SimpleChanges): void {
+    this.isLegendAvailable = false;
     if (changes.pageItems && changes.pageItems.currentValue) {
       this.createForm();
     }
+    if (this.pageItems && this.pageItems.groups) {
+      for (const group of this.pageItems.groups) {
+        if (group.fieldset) {
+          for (const item of group.fieldset) {
+            if (item.legend) {
+              this.isLegendAvailable = true;
+              break;
+            }
+          }
+        }
+      }
+    }
   }
 
-  public createForm() {
+  public createForm(): void {
     this.formDraft = new FormGroup(this.formsService.defineFormControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
@@ -47,7 +63,7 @@ export class FormBuilderComponent implements OnChanges {
     }
   }
 
-  public onFormSubmit() {
+  public onFormSubmit(): void {
     this.submitPage.emit(this.formDraft);
   }
 

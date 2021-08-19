@@ -51,6 +51,10 @@ export const organisationAddress = {
           },
           {
             input: {
+              label: {
+                text: 'Building and street line 2 of 2',
+                classes: 'govuk-label--m govuk-visually-hidden'
+              },
               validationError: {
                 value: 'Enter Building and street line 2 of 2',
                 controlId: 'officeAddressTwo',

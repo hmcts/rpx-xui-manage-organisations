@@ -264,7 +264,6 @@ async function loginWithCredentials(username,password,world){
   await browserWaits.waitForElement(loginPage.signinBtn);
   await loginPage.clickSignIn();
 
-
   // await browserWaits.retryWithAction($('app-header'), async function (message) {
   //   world.attach("Retrying Login attempt: " + message);
   //   let stream = await browser.takeScreenshot();
@@ -277,7 +276,6 @@ async function loginWithCredentials(username,password,world){
   //   await browserWaits.waitForElement(loginPage.signinBtn);
   //   await loginPage.clickSignIn();
   // });
-
 
 }
 

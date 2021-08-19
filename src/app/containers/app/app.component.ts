@@ -73,8 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
-
     if (this.headersService.isAuthenticated()) {
       this.userService.getUserDetails().subscribe(user => {
         const featureUser: FeatureUser = {
@@ -103,7 +101,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public handleCookieBannerFeatureToggle(): void {
-    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mc-cookie-banner-enabled')
+    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mo-cookie-banner-enabled')
                                             .subscribe(flag => {
                                               this.cookieBannerEnabled = flag;
                                               this.setCookieBannerVisibility();
@@ -120,11 +118,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public notifyAcceptance() {
     this.loggerService.enableCookies();
+    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
   }
 
   public notifyRejection() {
     // AppInsights
     this.cookieService.deleteCookieByPartialMatch('ai_');
+    // Google Analytics
+    this.cookieService.deleteCookieByPartialMatch('_ga');
+    this.cookieService.deleteCookieByPartialMatch('_gid');
+    const domainElements = window.location.hostname.split('.');
+    for (let i = 0; i < domainElements.length; i++) {
+      const domainName = domainElements.slice(i).join('.');
+      this.cookieService.deleteCookieByPartialMatch('_ga', '/', domainName);
+      this.cookieService.deleteCookieByPartialMatch('_gid', '/', domainName);
+      this.cookieService.deleteCookieByPartialMatch('_ga', '/', `.${domainName}`);
+      this.cookieService.deleteCookieByPartialMatch('_gid', '/', `.${domainName}`);
+    }
+    // DynaTrace
+    this.cookieService.deleteCookieByPartialMatch('rxVisitor');
   }
 
   /**

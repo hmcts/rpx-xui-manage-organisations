@@ -83,6 +83,7 @@ describe('Pa11y tests', function () {
 
         actions.push(...PallyActions.inputField('#PBANumber1', 'PBA1234567'));
         actions.push(...PallyActions.inputField('#PBANumber2', 'PBA7654321'));
+
         actions.push(...PallyActions.clickElement('#createButtonContinue'));
 
         actions.push(...PallyActions.clickElement('#haveDxyes'));

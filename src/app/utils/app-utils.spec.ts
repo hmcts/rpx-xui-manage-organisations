@@ -49,12 +49,12 @@ describe('AppUtils', () => {
       active: false,
       orderId: 1
     },
-      {
-        text: 'Users',
-        href: '/users',
-        active: false,
-        orderId: 2
-      }]);
+    {
+      text: 'Users',
+      href: '/users',
+      active: false,
+      orderId: 2
+    }]);
   });
 
   it('should set active links values', () => {

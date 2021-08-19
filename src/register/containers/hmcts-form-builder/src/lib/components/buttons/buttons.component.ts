@@ -15,10 +15,11 @@ export class ButtonsComponent implements OnInit {
     @Input() public value;
     @Output() public btnClick =  new EventEmitter();
 
+    public isValid: boolean;
+
     constructor() {
     }
 
-    public isValid: boolean;
     public ngOnInit(): void {
 
       this.isValid = this.group.status === 'INVALID';

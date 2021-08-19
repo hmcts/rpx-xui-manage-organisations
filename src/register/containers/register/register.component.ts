@@ -3,9 +3,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AppConstants } from 'src/app/app.constants';
-import { EnvironmentService } from 'src/shared/services/environment.service';
 import * as fromRoot from '../../../app/store/';
+import { EnvironmentService } from '../../../shared/services/environment.service';
 import { FormDataValuesModel } from '../../models/form-data-values.model';
 import * as fromStore from '../../store/';
 
@@ -39,7 +38,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageId: string;
   public isPageValid = false;
   public errorMessage: any;
-  public jurisdictions: any[];
 
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
@@ -61,7 +59,6 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscribeNextUrl();
 
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
-    this.jurisdictions = AppConstants.JURISDICTIONS;
 
     this.manageCaseLink$ = this.environmentService.config$.pipe(map(config => config.manageCaseLink));
     this.manageOrgLink$ = this.environmentService.config$.pipe(map(config => config.manageOrgLink));
@@ -85,7 +82,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.resetFocus();
   }
 
@@ -139,11 +136,11 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
    *
    * Inform the Form Builder component to turn on or off the in-line form validation.
    */
-  public showFormValidation(isValid: boolean) {
+  public showFormValidation(isValid: boolean): void {
     this.isPageValid = isValid;
   }
 
-  public onPageContinue(formDraft): void {
+  public onPageContinue(formDraft: any): void {
     if (formDraft.invalid) {
       this.showFormValidation(true);
     } else {
@@ -190,13 +187,12 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onSubmitData(): void {
     const pageValues = {
-      ...this.pageValues,
-      jurisdictions: this.jurisdictions
+      ...this.pageValues
     };
     this.store.dispatch( new fromStore.SubmitFormData(pageValues));
   }
 
-  public onGoBack(event) {
+  public onGoBack(event: any): void {
     this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }

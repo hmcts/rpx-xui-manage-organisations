@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
 /*
 * Gov Uk Checkbox Dumb Component responsible for
 * displaying checkbox input and hint
@@ -20,17 +21,26 @@ import {FormGroup} from '@angular/forms';
 })
 export class GovUkCheckboxComponent implements OnInit {
   constructor() { }
-  @Input() group: FormGroup;
-  @Input() config: {value: string, label: string, hint: string; name: string; focusOn: string; id: string; classes: string};
-  @Input() isChecked: boolean = false;
+  @Input() public group: FormGroup;
+  @Input() public config: {
+    value: string;
+    label: string;
+    hint: string;
+    name: string;
+    focusOn: string;
+    id: string;
+    classes: string;
+    hiddenLabelContext: string;
+  };
+  @Input() public isChecked: boolean = false;
 
-  id: string;
-/**
-* ngOnInIt
- * needed to manage the focus id if passed on in config
- * si it can focus on element when user clicks on error message in the header.
-* */
-  ngOnInit(): void {
+  public id: string;
+
+  /**
+   * needed to manage the focus id if passed on in config
+   * si it can focus on element when user clicks on error message in the header.
+   */
+  public ngOnInit(): void {
     const id =  this.config.focusOn ? this.config.focusOn : this.config.value;
     this.config.id = id;
     this.config.classes = this.config.classes ?

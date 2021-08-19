@@ -134,13 +134,13 @@ class CreateOrganisationObjects {
       break;
       case "Do you have a DX reference for your main office?":
 
-        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a DX reference for your main office')]")));
+        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a Document Exchange (DX) reference for your main office')]")));
       break;
       case "What's the DX reference for your main office?":
         await BrowserWaits.waitForElement(this.DXNumber);
       break;
       case "Do you have an organisation SRA ID?":
-        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have an organisation SRA ID')]")));
+        await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have an organisation Solicitors Regulation Authority (SRA) ID')]")));
         break;
       case "Enter your organisation SRA ID":
         await BrowserWaits.waitForElement(this.SRANumber);

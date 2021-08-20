@@ -141,6 +141,15 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onPageContinue(formDraft: any): void {
+    if (formDraft && formDraft['controls']) {
+      if (Object.keys(formDraft.controls).filter(value => value.startsWith('PBANumber')).length > 1) {
+        Object.keys(formDraft.controls).filter(value => value.startsWith('PBANumber')).forEach(key => {
+          if (formDraft['controls'][key].value === null) {
+            this.store.dispatch(new fromStore.RemovePBANumber('remove' + key));
+          }
+        });
+      }
+    }
     if (formDraft.invalid) {
       this.showFormValidation(true);
       window.scrollTo(0, 0);

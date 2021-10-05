@@ -88,6 +88,43 @@ export function reducer(
   switch (action.type) {
 
     case fromRegistration.LOAD_PAGE_ITEMS: {
+      if (state.pages['organisation-pba']) {
+        let copypbaPage = Object.assign({}, state.pages['organisation-pba']);
+        let pbaList = [];
+        let allControls = [];
+
+        state.pages['organisation-pba'].meta.groups.forEach(element => {
+          if (element.inputButton && element.inputButton.control && element.inputButton.control.startsWith('PBANumber')) {
+            if (state.pagesValues.hasOwnProperty(element.inputButton.control) && state.pagesValues[element.inputButton.control] === null) {
+              pbaList.push(element.inputButton.control);
+            }
+          }
+        });
+
+        state.pages["organisation-pba"].meta.groups.forEach(element => {
+          if (element.inputButton && pbaList.includes(element.inputButton.control)) {
+            // do nothing
+          } else {
+            allControls.push(element);
+          }
+        });
+
+        const allDataList = Object.entries(state.pagesValues).filter((key, value) => {
+          if (pbaList.includes(key[0])) {
+            return false;
+          }
+          return true;
+        }).reduce((obj, k) => {
+          obj[k[0]] = k[1];
+          return obj;
+         }, {});
+
+        copypbaPage.meta = {...copypbaPage.meta, groups: allControls };
+        const pbaPage = {...state.pages, 'organisation-pba': copypbaPage};
+        state = {...state, pages: pbaPage};
+        state = {...state, pagesValues: allDataList};
+      }
+
       return {
         ...state,
         loading: true,

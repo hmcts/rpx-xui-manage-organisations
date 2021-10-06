@@ -89,28 +89,37 @@ export function reducer(
 
     case fromRegistration.LOAD_PAGE_ITEMS: {
       if (state.pages['organisation-pba']) {
-        let copypbaPage = Object.assign({}, state.pages['organisation-pba']);
-        let pbaList = [];
-        let allControls = [];
+        const copypbaPage = Object.assign({}, state.pages['organisation-pba']);
+        const allControls = [];
+        const allpbaList = [];
+        const filledpbaList = [];
+        const emptypbaList = [];
 
-        state.pages['organisation-pba'].meta.groups.forEach(element => {
-          if (element.inputButton && element.inputButton.control && element.inputButton.control.startsWith('PBANumber')) {
-            if (state.pagesValues.hasOwnProperty(element.inputButton.control) && state.pagesValues[element.inputButton.control] === null) {
-              pbaList.push(element.inputButton.control);
+        Object.keys(state.pagesValues).map(key => {
+          if (key.startsWith('PBANumber')) {
+            allpbaList.push(key);
+            if (state.pagesValues[key]) {
+              filledpbaList.push(key);
+            } else {
+              emptypbaList.push(key);
             }
           }
         });
 
-        state.pages["organisation-pba"].meta.groups.forEach(element => {
-          if (element.inputButton && pbaList.includes(element.inputButton.control)) {
-            // do nothing
+        state.pages['organisation-pba'].meta.groups.forEach((element, index) => {
+          if (element.inputButton && emptypbaList.includes(element.inputButton.control)
+              && allpbaList.length > 1) {
+            if (emptypbaList.length > 1 && filledpbaList.length === 0 && index === 0) {
+              allControls.push(element);
+              emptypbaList.splice(index, 1);
+            }
           } else {
             allControls.push(element);
           }
         });
 
         const allDataList = Object.entries(state.pagesValues).filter((key, value) => {
-          if (pbaList.includes(key[0])) {
+          if (emptypbaList.includes(key[0]) && allpbaList.length > 1) {
             return false;
           }
           return true;

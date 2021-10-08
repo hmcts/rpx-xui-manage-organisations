@@ -76,8 +76,6 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
     await createOrganisationObject.PBANumber1.isDisplayed();
     await createOrganisationObject.enterPBANumber();
-    // await createOrganisationObject.PBANumber2.isDisplayed();
-    // await createOrganisationObject.enterPBA2Number();
     await createOrganisationObject.continue_button.click();
     browser.sleep(MID_DELAY);
   });

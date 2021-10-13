@@ -76,8 +76,8 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
     await createOrganisationObject.PBANumber1.isDisplayed();
     await createOrganisationObject.enterPBANumber();
-    await createOrganisationObject.PBANumber2.isDisplayed();
-    await createOrganisationObject.enterPBA2Number();
+    //await createOrganisationObject.PBANumber2.isDisplayed();
+    //await createOrganisationObject.enterPBA2Number();
     await createOrganisationObject.continue_button.click();
     browser.sleep(MID_DELAY);
   });
@@ -223,7 +223,7 @@ defineSupportCode(function ({ Given, When, Then }) {
   When(/^I Enter the invalid PBA1 and PBA2 details$/,  async function () {
     await expect(createOrganisationObject.PBANumber1.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.PBANumber1.sendKeys(1234455558);
-    await createOrganisationObject.PBANumber2.sendKeys(1233334988);
+    //await createOrganisationObject.PBANumber2.sendKeys(1233334988);
     await createOrganisationObject.continue_button.click();
     // browser.sleep(LONG_DELAY);
   });

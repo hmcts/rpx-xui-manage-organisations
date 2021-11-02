@@ -42,10 +42,10 @@ describe('Edit User Permission Component Component', () => {
     const initialState = {
         users : {
             invitedUsers: {
-                userList: userList,
+                userList,
                 loaded: false,
                 loading: false,
-                reinvitePendingUser: null,  
+                reinvitePendingUser: null,
                 editUserFailure: false,
             },
             inviteUser: {
@@ -59,12 +59,13 @@ describe('Edit User Permission Component Component', () => {
         }
     };
 
-    beforeEach(async() => {
-         userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-        let actions$ = of (
+    beforeEach(async () => {
+        userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
+        const actions$ = of (
         [
             fromStore.EDIT_USER_SUCCESS, fromStore.EDIT_USER_SERVER_ERROR
         ]);
+
         TestBed.configureTestingModule({
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             imports: [
@@ -86,8 +87,7 @@ describe('Edit User Permission Component Component', () => {
                         }
                     }
             }]
-        })
-        .compileComponents();
+        }).compileComponents();
         fixture = TestBed.createComponent(EditUserPermissionComponent);
         component = fixture.componentInstance;
         component.user$ = of(userList[0]);

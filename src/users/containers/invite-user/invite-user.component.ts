@@ -184,6 +184,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     }
   }
 
+  // tested
   public getBackLink(pendingUser?: User): string {
     return pendingUser ? `/users/user/${pendingUser.userIdentifier}` : '/users';
   }

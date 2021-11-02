@@ -24,13 +24,10 @@ export class UnassignedCasesComponent implements OnInit {
   // ideally the any[] should be mapped with the unassigned case payload
   public selectedCases: any[] = [];
   public currentCaseType: string;
-
   public navItems: any [];
 
   constructor(
-    private readonly store: Store<fromStore.UnassignedCasesState>,
-    private readonly appRoute: Store<fromRoot.State>
-  ) {}
+    private readonly store: Store<fromStore.UnassignedCasesState>  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadUnassignedCaseTypes());

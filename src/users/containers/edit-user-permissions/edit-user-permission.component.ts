@@ -75,17 +75,17 @@ export class EditUserPermissionComponent  implements OnInit, OnDestroy {
     });
 
     this.userSubscription = this.user$.subscribe((user) => {
-      this.user = user;
-      this.isPuiCaseManager = this.getIsPuiCaseManager(user);
-      this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
-      this.isPuiUserManager = this.getIsPuiUserManager(user);
-      this.isPuiFinanceManager = this.getIsPuiFinanceManager(user);
-      this.isCaseAccessAdmin = this.getIsCaseAccessAdmin(user);
+     // this.user = user;
+      // this.isPuiCaseManager = this.getIsPuiCaseManager(user);
+      // this.isPuiOrganisationManager = this.getIsPuiOrganisationManager(user);
+      // this.isPuiUserManager = this.getIsPuiUserManager(user);
+      // this.isPuiFinanceManager = this.getIsPuiFinanceManager(user);
+      // this.isCaseAccessAdmin = this.getIsCaseAccessAdmin(user);
 
-      this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
-        this.isPuiUserManager, this.isPuiOrganisationManager, this.isPuiFinanceManager, this.isCaseAccessAdmin,
-        checkboxesBeCheckedValidator);
-    });
+      // this.editUserForm = this.getFormGroup(this.isPuiCaseManager,
+      //   this.isPuiUserManager, true, true, true,
+      //   checkboxesBeCheckedValidator);
+   });
   }
 
   public ngOnDestroy(): void {

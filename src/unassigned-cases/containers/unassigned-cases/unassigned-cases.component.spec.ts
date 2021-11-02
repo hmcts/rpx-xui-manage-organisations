@@ -13,7 +13,7 @@ import { By } from '@angular/platform-browser';
 describe('UnassignedCasesComponent', () => {
   let component: UnassignedCasesComponent;
   let mockStore: any;
-  let fixture: ComponentFixture<UnassignedCasesComponent>; 
+  let fixture: ComponentFixture<UnassignedCasesComponent>;
 
   const initialState = {
     unassignedCases: {
@@ -60,8 +60,8 @@ describe('UnassignedCasesComponent', () => {
   }
 
   beforeEach(() => {
-      mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);      
-      let actions$ = of (
+      mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);
+      const actions$ = of (
         [
           UnassignedCasesActions.LoadUnassignedCaseTypes, UnassignedShareCasesActions.AddShareCases,
           UnassignedShareCasesActions.SynchronizeStateToStore, UnassignedCasesActions.LoadUnassignedCases

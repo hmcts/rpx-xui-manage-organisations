@@ -100,10 +100,10 @@ describe('User Details Component', () => {
       expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
     });
 
-      it('should not load users when they exist', () => {
-        component.handleDependanciesSubscription(true, { state: { params: { userId: 'user' } } });
-        expect(userStoreSpyObject.dispatch).not.toHaveBeenCalled();
-      });
+    it('should not load users when they exist', () => {
+    component.handleDependanciesSubscription(true, { state: { params: { userId: 'user' } } });
+    expect(userStoreSpyObject.dispatch).not.toHaveBeenCalled();
+    });
   });
 
   describe('ngOnDestroy', () => {

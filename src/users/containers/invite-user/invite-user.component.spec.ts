@@ -15,7 +15,8 @@ describe('User Details Component', () => {
     let component: InviteUserComponent;
     let userStoreSpyObject;
     let mockStore: any;
-    let fixture: ComponentFixture<InviteUserComponent>;let superNgOnDestroy: jasmine.Spy
+    let fixture: ComponentFixture<InviteUserComponent>;
+    let superNgOnDestroy: jasmine.Spy
 
     const initialState = {
         users : {
@@ -109,7 +110,7 @@ describe('User Details Component', () => {
 
     it('dispathAction', () => {
         const mockAction = jasmine.createSpyObj('action', ['payload']);
-        const mockStore = jasmine.createSpyObj('store', ['dispatch']);
+        mockStore = jasmine.createSpyObj('store', ['dispatch']);
         component.dispathAction(mockAction, mockStore);
         expect(mockStore.dispatch).toHaveBeenCalledWith(mockAction);
     });

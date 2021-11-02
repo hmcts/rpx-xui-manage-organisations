@@ -6,9 +6,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 import { Organisation } from 'src/organisation/organisation.model';
+import * as OrgActions from 'src/organisation/store/actions/organisation.actions';
 import * as fromAccountStore from '../../../fee-accounts/store';
 import { OrganisationAccountsComponent } from './account-overview.component';
-import * as OrgActions from 'src/organisation/store/actions/organisation.actions';
 
 describe('OrganisationAccountsComponent', () => {
     let component: OrganisationAccountsComponent;
@@ -28,7 +28,7 @@ describe('OrganisationAccountsComponent', () => {
       },
       feeAccounts: {
         feeAccounts:  {
-            feeAccounts: [  { 
+            feeAccounts: [  {
             account_number: '12345',
             account_name: 'account',
             credit_limit: 'limit',
@@ -133,7 +133,7 @@ describe('OrganisationAccountsComponent', () => {
       component.ngOnDestroy();
       fixture.whenStable().then(() => {
         expect(superNgOnDestroy).toHaveBeenCalled();
-        done();      
-     });     
+        done();
+     });
     });
 });

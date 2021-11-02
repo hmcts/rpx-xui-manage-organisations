@@ -11,9 +11,7 @@ import * as fromAppStore from '../../../app/store';
 import * as fromStore from '../../store';
 
 describe('User Details Component', () => {
-
     let component: InviteUserComponent;
-    let userStoreSpyObject;
     let mockStore: any;
     let fixture: ComponentFixture<InviteUserComponent>;
     let superNgOnDestroy: jasmine.Spy
@@ -39,10 +37,6 @@ describe('User Details Component', () => {
     };
 
     beforeEach(() => {
-        // userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-        // const actionSpy = jasmine.createSpyObj('actionSpy', ['pipe']);
-        // component = new InviteUserComponent(userStoreSpyObject, actionSpy);
-
         mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);
         let actions$ = of (
           [
@@ -76,7 +70,7 @@ describe('User Details Component', () => {
         fixture = TestBed.createComponent(InviteUserComponent);
         component = fixture.componentInstance;
         superNgOnDestroy = spyOn(InviteUserComponent.prototype, 'ngOnDestroy');
-        
+
         spyOn(component, 'initialiseUserForm').and.callThrough();
         spyOn(component, 'dispathAction').and.callThrough();
         fixture.detectChanges();

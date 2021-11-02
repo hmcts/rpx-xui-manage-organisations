@@ -38,11 +38,11 @@ describe('User Details Component', () => {
 
     beforeEach(() => {
         mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);
-        let actions$ = of (
+        const actions$ = of (
           [
             fromStore.INVITE_USER_FAIL_WITH_400, fromStore.INVITE_USER_FAIL_WITH_404,
-            fromStore.INVITE_USER_FAIL_WITH_500, fromStore.INVITE_USER_FAIL_WITH_429, 
-            fromStore.INVITE_USER_FAIL_WITH_409, fromStore.INVITE_USER_FAIL, 
+            fromStore.INVITE_USER_FAIL_WITH_500, fromStore.INVITE_USER_FAIL_WITH_429,
+            fromStore.INVITE_USER_FAIL_WITH_409, fromStore.INVITE_USER_FAIL,
             fromAppStore.LOAD_JURISDICTIONS_GLOBAL
           ]);
         TestBed.configureTestingModule({
@@ -64,7 +64,7 @@ describe('User Details Component', () => {
                 }
               }
             }
-          ]  
+          ]
         })
         .compileComponents();
         fixture = TestBed.createComponent(InviteUserComponent);

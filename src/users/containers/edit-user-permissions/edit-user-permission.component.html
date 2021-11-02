@@ -3,7 +3,7 @@
                          [title]="'Edit user'">
 
   <h1 class="govuk-heading-l">{{user ? user.firstName : ''}}, {{user ? user.lastName : ''}}</h1>
-  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" >
+  <!-- <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()" >
     <app-invite-permission-form [inviteUserForm]="editUserForm" [errorMessages]="permissionErrors"
     [isPuiCaseManager]="isPuiCaseManager"
     [isPuiUserManager]="isPuiUserManager"
@@ -14,5 +14,5 @@
     <button type="submit" class="govuk-button">
       Submit
     </button>
-  </form>
+  </form> -->
 </app-hmcts-main-wrapper>

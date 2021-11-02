@@ -1,6 +1,6 @@
 <ng-container *ngIf="isAccountAvailableForOrg; else newDeb">
-    <div [ngClass]="{'govuk-form-group govuk-form-group--error' : oneOrMoreAccountInfoMissing}">
-        <span *ngIf="oneOrMoreAccountInfoMissing" id="fee-error" class="govuk-error-message">
+    <div [ngClass]="{'govuk-form-group govuk-form-group--error' : singleOrMoreAccountMissing}">
+        <span *ngIf="singleOrMoreAccountMissing" id="fee-error" class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> PBA number not found
         </span>
         <table class="{{'govuk-table ' + classes}}" role="presentation">
@@ -21,7 +21,7 @@
                     </th>
                     <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">
                         <ng-container *ngIf="col.type === 'date'">{{formatDate(r[col.key])}}</ng-container>
-                        <ng-container *ngIf="(oneOrMoreAccountInfoMissing && r.isAccountInfoMissing) else showAsLink;">
+                        <ng-container *ngIf="(singleOrMoreAccountMissing && r.isAccountInfoMissing) else showAsLink;">
                             <font color="#b10e1e" class="govuk-!-font-weight-bold">{{r[col.key]}}</font>
                         </ng-container>
                         <ng-template #showAsLink>

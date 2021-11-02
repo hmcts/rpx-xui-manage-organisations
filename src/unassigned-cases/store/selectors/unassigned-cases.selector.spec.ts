@@ -16,6 +16,7 @@ describe('UnassignedCases Selectors', () => {
         console.log('expected is ', selectedState);
         expect(selectedState.unassignedCases).toEqual(unassignedCase);
     });
+    
     it('getUnassignedCases', () => {
         const selectedState = getAllUnassignedCases(state);
         expect(selectedState).toEqual(unassignedCase);

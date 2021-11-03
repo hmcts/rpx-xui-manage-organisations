@@ -84,7 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
         };
         this.setUserAndCheckCookie(user.userId);
         this.userRoles = featureUser.custom.roles;
-        this.featureService.initialize(featureUser);
+        this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
       });
     }
 

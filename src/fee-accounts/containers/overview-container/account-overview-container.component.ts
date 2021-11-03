@@ -1,4 +1,6 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 
 @Component({
   selector: 'app-account-overview-container',
@@ -14,5 +16,7 @@ export class OrganisationAccountsOverviewContainerComponent {
   @Input() isAccountAvailableForOrg = true;
   @Input() singleOrMoreAccountMissing = false;
 
-  public formatDate = (expression: string): string => { return expression }
+  public formatDate(date: Date): string {
+      return formatDate(date, 'dd/MM/yyyy', 'en-UK');
+  }
 }

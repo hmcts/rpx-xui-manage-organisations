@@ -53,7 +53,7 @@ describe('UnassignedCasesComponent', () => {
 
   const matTabGroupElement = () => {
     return fixture.debugElement.queryAll(By.css('mat-tab-group'));
-  }
+  };
 
   const ccsListElement = () => {
     return fixture.debugElement.queryAll(By.css('ccd-case-list'));

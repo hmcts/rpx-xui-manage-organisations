@@ -39,4 +39,8 @@ describe('Invite User Success Component', () => {
     it('should have a component', () => {
         expect(component).toBeTruthy();
     });
+
+    afterEach(() => {
+      fixture.destroy();
+    });
 });

@@ -10,7 +10,7 @@ import { InviteUserComponent } from './invite-user.component';
 import * as fromAppStore from '../../../app/store';
 import * as fromStore from '../../store';
 
-describe('User Details Component', () => {
+describe('Invite User Component', () => {
     let component: InviteUserComponent;
     let mockStore: any;
     let fixture: ComponentFixture<InviteUserComponent>;
@@ -135,5 +135,9 @@ describe('User Details Component', () => {
 
     it('should call dispathAction', () => {
         expect(component.dispathAction).toHaveBeenCalled();
+    });
+
+    afterEach(() => {
+      fixture.destroy();
     });
 });

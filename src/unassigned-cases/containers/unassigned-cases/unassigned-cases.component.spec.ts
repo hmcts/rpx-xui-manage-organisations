@@ -10,7 +10,7 @@ import * as UnassignedShareCasesActions from 'src/unassigned-cases/store/actions
 import { UnassignedCasesComponent } from './unassigned-cases.component';
 import { By } from '@angular/platform-browser';
 
-describe('UnassignedCasesComponent', () => {
+fdescribe('UnassignedCasesComponent', () => {
   let component: UnassignedCasesComponent;
   let mockStore: any;
   let fixture: ComponentFixture<UnassignedCasesComponent>;
@@ -24,9 +24,9 @@ describe('UnassignedCasesComponent', () => {
               header: 'header test',
               key: 'key test',
               type: 'type1'
-          }],
-            data: ['test data']
-        },
+            }],
+              data: ['test data']
+          },
           caseTypes: [ {
             text: 'test case',
             href: 'test href',
@@ -100,7 +100,7 @@ describe('UnassignedCasesComponent', () => {
       expect(component).toBeTruthy();
   });
 
-  it('should create component', () => {
+  it('should have more than one nav item', () => {
     expect(component.navItems).toBeDefined();
     expect(component.navItems.length).toBeGreaterThan(0);
   });
@@ -108,11 +108,9 @@ describe('UnassignedCasesComponent', () => {
   it('should create case data', () => {
     expect(matTabGroupElement().length).toBeGreaterThan(0);
     const matGroup = matTabGroupElement()[0];
-    matGroup.triggerEventHandler('selectedTabChange', []);
+    matGroup.triggerEventHandler('selectedTabChange',  { tab: { textLabel: 'test case' }});
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.tabChanged).toHaveBeenCalled();
-    });
+    expect(component.tabChanged).toHaveBeenCalled();
   });
 
   it('should create case data', () => {
@@ -120,8 +118,6 @@ describe('UnassignedCasesComponent', () => {
     const ccList = ccsListElement()[0];
     ccList.triggerEventHandler('selection',  { tab: { textLabel: 'string' }});
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(component.onCaseSelection).toHaveBeenCalled();
-    });
+    expect(component.onCaseSelection).toHaveBeenCalled();
   });
 });

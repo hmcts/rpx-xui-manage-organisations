@@ -14,7 +14,8 @@ describe('OrganisationAccountsComponent', () => {
     let component: OrganisationAccountsComponent;
     let mockStore: any;
 
-    let fixture: ComponentFixture<OrganisationAccountsComponent>;let superNgOnDestroy: jasmine.Spy
+    let fixture: ComponentFixture<OrganisationAccountsComponent>;
+    let superNgOnDestroy: jasmine.Spy;
 
     const initialState = {
       org: {
@@ -65,7 +66,8 @@ describe('OrganisationAccountsComponent', () => {
             fromAccountStore.FeeAccountsEffects, fromAccountStore.LOAD_FEE_ACCOUNTS, fromAccountStore.LOAD_FEE_ACCOUNTS_FAIL,
             fromAccountStore.LOAD_FEE_ACCOUNTS_SUCCESS, fromAccountStore.LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL, fromAccountStore.LOAD_FEE_RESET_STATE,
 
-          ])
+          ]);
+
         TestBed.configureTestingModule({
           schemas: [CUSTOM_ELEMENTS_SCHEMA],
           imports: [

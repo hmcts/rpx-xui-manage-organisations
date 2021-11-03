@@ -57,15 +57,16 @@ describe('UnassignedCasesComponent', () => {
 
   const ccsListElement = () => {
     return fixture.debugElement.queryAll(By.css('ccd-case-list'));
-  }
+  };
 
   beforeEach(() => {
       mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);
       const actions$ = of (
-        [
-          UnassignedCasesActions.LoadUnassignedCaseTypes, UnassignedShareCasesActions.AddShareCases,
-          UnassignedShareCasesActions.SynchronizeStateToStore, UnassignedCasesActions.LoadUnassignedCases
-        ])
+      [
+        UnassignedCasesActions.LoadUnassignedCaseTypes, UnassignedShareCasesActions.AddShareCases,
+        UnassignedShareCasesActions.SynchronizeStateToStore, UnassignedCasesActions.LoadUnassignedCases
+      ]);
+
       TestBed.configureTestingModule({
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         imports: [

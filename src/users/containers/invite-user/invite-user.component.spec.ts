@@ -14,7 +14,7 @@ describe('User Details Component', () => {
     let component: InviteUserComponent;
     let mockStore: any;
     let fixture: ComponentFixture<InviteUserComponent>;
-    let superNgOnDestroy: jasmine.Spy
+    let superNgOnDestroy: jasmine.Spy;
 
     const initialState = {
         users : {

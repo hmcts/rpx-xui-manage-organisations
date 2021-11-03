@@ -69,7 +69,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule.forRoot(),
+    ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
     NoopAnimationsModule
   ],

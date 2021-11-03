@@ -33,7 +33,7 @@ const ROUTES = [
     StoreModule.forFeature('acceptTc', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule.forChild()
+    ExuiCommonLibModule
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers],

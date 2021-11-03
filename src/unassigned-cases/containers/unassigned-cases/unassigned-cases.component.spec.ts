@@ -10,7 +10,7 @@ import * as UnassignedShareCasesActions from 'src/unassigned-cases/store/actions
 import { UnassignedCasesComponent } from './unassigned-cases.component';
 import { By } from '@angular/platform-browser';
 
-fdescribe('UnassignedCasesComponent', () => {
+describe('UnassignedCasesComponent', () => {
   let component: UnassignedCasesComponent;
   let mockStore: any;
   let fixture: ComponentFixture<UnassignedCasesComponent>;

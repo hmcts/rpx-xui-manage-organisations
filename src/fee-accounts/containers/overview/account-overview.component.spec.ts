@@ -21,7 +21,7 @@ describe('OrganisationAccountsComponent', () => {
       org: {
         organisation: {
           organisationDetails: new Organisation({
-            paymentAccount: [1,2]
+            paymentAccount: [1, 2]
           }),
           loaded: false,
           loading: false,
@@ -58,50 +58,49 @@ describe('OrganisationAccountsComponent', () => {
     };
 
     beforeEach(async(() => {
-       
-        mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);
-        let actions$ = of (
-          [
-            OrgActions.LOAD_ORGANISATION, OrgActions.LOAD_ORGANISATION_SUCCESS,
-            fromAccountStore.FeeAccountsEffects, fromAccountStore.LOAD_FEE_ACCOUNTS, fromAccountStore.LOAD_FEE_ACCOUNTS_FAIL,
-            fromAccountStore.LOAD_FEE_ACCOUNTS_SUCCESS, fromAccountStore.LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL, fromAccountStore.LOAD_FEE_RESET_STATE,
+      mockStore = jasmine.createSpyObj('Store', ['pipe', 'dispatch']);
+      const actions$ = of (
+      [
+        OrgActions.LOAD_ORGANISATION, OrgActions.LOAD_ORGANISATION_SUCCESS,
+        fromAccountStore.FeeAccountsEffects, fromAccountStore.LOAD_FEE_ACCOUNTS, fromAccountStore.LOAD_FEE_ACCOUNTS_FAIL,
+        fromAccountStore.LOAD_FEE_ACCOUNTS_SUCCESS, fromAccountStore.LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL, fromAccountStore.LOAD_FEE_RESET_STATE,
 
-          ]);
+      ]);
 
-        TestBed.configureTestingModule({
-          schemas: [CUSTOM_ELEMENTS_SCHEMA],
-          imports: [
-            RouterTestingModule,
-          ],
-          declarations: [OrganisationAccountsComponent],
-          providers: [
-            provideMockStore({initialState}),
-            provideMockActions(() => actions$),
-            {
-              provide: ActivatedRoute,
-              useValue: {
-                snapshot: {
-                    params: {
-                        cid: '1234'
-                    },
-                }
+      TestBed.configureTestingModule({
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        imports: [
+          RouterTestingModule,
+        ],
+        declarations: [OrganisationAccountsComponent],
+        providers: [
+          provideMockStore({initialState}),
+          provideMockActions(() => actions$),
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              snapshot: {
+                  params: {
+                      cid: '1234'
+                  },
               }
             }
-          ]  
-        })
-        .compileComponents();
-        fixture = TestBed.createComponent(OrganisationAccountsComponent);
-        component = fixture.componentInstance;
-        superNgOnDestroy = spyOn(OrganisationAccountsComponent.prototype, 'ngOnDestroy');
-        spyOn(component, 'dispatchAction');
-        spyOn(component, 'dispatchLoadFeeAccount').and.callThrough();
-        fixture.detectChanges();
-      }));
+          }
+        ]
+      })
+      .compileComponents();
+      fixture = TestBed.createComponent(OrganisationAccountsComponent);
+      component = fixture.componentInstance;
+      superNgOnDestroy = spyOn(OrganisationAccountsComponent.prototype, 'ngOnDestroy');
+      spyOn(component, 'dispatchAction');
+      spyOn(component, 'dispatchLoadFeeAccount').and.callThrough();
+      fixture.detectChanges();
+    }));
 
     it('should create', () => {
       expect(component).toBeTruthy();
     });
-    
+
     it('organisation subscribes with data', (done) => {
       component.org$.subscribe(org => {
         console.log('org', org);

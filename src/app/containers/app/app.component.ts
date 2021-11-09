@@ -12,6 +12,8 @@ import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
 import { UserNavModel } from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
+import { Router, RoutesRecognized } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 /**
  * Root Component that bootstrap all application.
@@ -25,7 +27,6 @@ import * as fromRoot from '../../store';
   encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public pageTitle$: Observable<string>;
   public navItems$: Observable<any>;
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
@@ -52,13 +53,28 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly idleService: ManageSessionServices,
     private readonly loggerService: LoggerService,
     private readonly cookieService: CookieService,
-  ) {}
+    private readonly router: Router,
+    private readonly titleService: Title
+  ) {
+
+    this.router.events.subscribe((data) => {
+      if (data instanceof RoutesRecognized) {
+        let child = data.state.root;
+        do {
+          child = child.firstChild;
+        } while (child.firstChild);
+        const d = child.data;
+        if (d.title) {
+          this.titleService.setTitle(`${d.title} - HM Courts & Tribunals Service - GOV.UK`);
+        }
+      }
+    });
+  }
 
   public ngOnInit(): void {
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
-    this.pageTitle$ = this.store.pipe(select(fromRoot.getPageTitle));
     this.navItems$ = this.store.pipe(select(fromRoot.getNavItems));
     this.appHeaderTitle$ = this.store.pipe(select(fromRoot.getHeaderTitle));
     this.userNav$ = this.store.pipe(select(fromRoot.getUserNav));
@@ -67,12 +83,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.featureToggleKey = AppConstants.SERVICE_MESSAGES_FEATURE_TOGGLE_KEY;
     this.serviceMessageCookie = AppConstants.SERVICE_MESSAGE_COOKIE;
 
-    // no need to unsubscribe as app component is always init.
-    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
-      if (rootState) {
-        this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
-      }
-    });
     if (this.headersService.isAuthenticated()) {
       this.userService.getUserDetails().subscribe(user => {
         const featureUser: FeatureUser = {

@@ -7,13 +7,10 @@ import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
 import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
 import { JurisdictionService } from 'src/users/services/jurisdiction.service';
-import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
-import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
-import { SetPageTitleErrors } from '../actions/app.actions';
 import {reducers} from '../reducers';
 import * as fromAppEffects from './app.effects';
 
@@ -67,17 +64,6 @@ describe('App Effects', () => {
     loggerService = TestBed.get(LoggerService);
 
   });
-
-  describe('updateTitle$', () => {
-    it('should update error headerTitle', () => {
-      const action = new usersActions.UpdateErrorMessages({});
-      const completion = new SetPageTitleErrors();
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.updateTitle$).toBeObservable(expected);
-    });
-  });
-
 
   describe('setUserRoles$', () => {
     it('should set user roles', () => {

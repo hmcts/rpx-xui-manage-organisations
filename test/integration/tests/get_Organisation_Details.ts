@@ -13,8 +13,8 @@ suite('Manage Org -> Get Organisation details', function() {
           response.data.status.should.be.eql('ACTIVE');
           response.data.sraId.should.be.eql('SRA34367744334');
           response.data.sraRegulated.should.be.eql(false);
-          response.data.paymentAccount[0].should.be.eql('PBA4677332');
-          response.data.paymentAccount[1].should.be.eql('PBA7853435');
+          response.data.paymentAccount[0].should.be.eql('PBA7853435');
+          response.data.paymentAccount[1].should.be.eql('PBA4677332');
           response.data.contactInformation[0].addressLine1.should.be.eql('2');
           response.data.contactInformation[0].addressLine2.should.be.eql('Leman Street');
           response.data.contactInformation[0].townCity.should.be.eql('Aldgate');

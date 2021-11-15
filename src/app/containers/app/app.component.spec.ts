@@ -8,10 +8,9 @@ import { cold } from 'jasmine-marbles';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService, FeatureToggleService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
+import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 
 import * as fromAuth from '../../../user-profile/store';
-import { AppConstants } from '../../app.constants';
 import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { of } from 'rxjs';
 import { CookieModule } from 'ngx-cookie';
@@ -36,6 +35,7 @@ const idleServiceMock = {
 
 describe('AppComponent', () => {
   let store: Store<fromAuth.AuthState>;
+  let googleAnalyticsService: any;
   let fixture;
   let app;
   let loggerService: any;
@@ -43,6 +43,8 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
+    googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
+    cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
@@ -83,11 +85,14 @@ describe('AppComponent', () => {
         {
           provide: LoggerService,
           useValue: loggerService
+        },
+        {
+          provide: GoogleAnalyticsService,
+          useValue: googleAnalyticsService
         }
       ],
     }).compileComponents();
     store = TestBed.get(Store);
-
     spyOn(store, 'dispatch').and.callThrough();
 
     fixture = TestBed.createComponent(AppComponent);
@@ -179,12 +184,17 @@ describe('AppComponent', () => {
 
     describe('notifyAcceptance()', () => {
 
-        it('should make a call to loggerService', () => {
-            app.notifyAcceptance();
-            expect(loggerService.enableCookies).toHaveBeenCalled();
-        });
+      it('should make a call to googleAnalyticsService', () => {
+          app.notifyAcceptance();
+          expect(googleAnalyticsService.init).toHaveBeenCalled();
+      });
 
-    });
+      it('should make a call to loggerService', () => {
+          app.notifyAcceptance();
+          expect(loggerService.enableCookies).toHaveBeenCalled();
+      });
+
+  });
 
     describe('notifyRejection()', () => {
 

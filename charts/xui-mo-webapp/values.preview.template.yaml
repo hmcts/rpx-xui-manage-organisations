@@ -16,7 +16,6 @@ nodejs:
     #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-    PRD: https://rd-professional-api-pr-1099.service.core-compute-preview.internal/
 
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     PUI_ENV: preview

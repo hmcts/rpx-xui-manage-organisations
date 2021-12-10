@@ -54,7 +54,9 @@ defineSupportCode(function ({ Given, When, Then }) {
             .to
             .eventually
             .equal('Start');
+      await BrowserWaits.retryWithActionCallback(async () => {
         await createOrganisationObject.start_button.click();
+      });
     });
 
   Then(/^I Enter the Organization name$/, { timeout: 600 * 1000 }, async function () {

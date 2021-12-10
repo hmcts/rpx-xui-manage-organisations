@@ -7,6 +7,7 @@ class BrowserWaits {
     constructor() {
         this.waitTime = 30000;
         this.pageErrors = $$(".error-summary");
+        this.retriesCount = 3;
     }
 
     async waitForElement(waitelement, customWait,message) {
@@ -107,7 +108,7 @@ class BrowserWaits {
     async waitForSeconds(waitInSec) {
         await browser.sleep(waitInSec * 1000);
     }
-    
+
     async retryWithActionCallback(callback, actionMessage, retryTryAttempts) {
         let retryCounter = 0;
         let isSuccess = false;
@@ -128,7 +129,7 @@ class BrowserWaits {
             }
         }
         if (!isSuccess) {
-            throw new Error(`Action failed to meet success condition after ${this.retriesCount} retry attempts.`, error.stack);
+            throw new Error(`Action failed to meet success condition after ${this.retriesCount} retry attempts.`, error);
         }
     }
 

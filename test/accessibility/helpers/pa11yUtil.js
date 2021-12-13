@@ -10,8 +10,24 @@ const puppeteer = require('puppeteer');
 
 const fs = require('fs');
 
+async function pa11ytest(test, actions, timeoutVal) {
+    let isTestSuccess = false;
+    let retryCounter = 0;
 
-async function pa11ytest(test,actions,timeoutVal) {
+    while (!isTestSuccess && retryCounter < 3) {
+
+        try {
+            await pa11ytestRunner(test, actions, timeoutVal);
+            isTestSuccess = true;
+        } catch (err) {
+            retryCounter++;
+            console.log("Error running pallt test " + err);
+            console.log("Retrying test again for " + retryCounter);
+        }
+    }
+}
+
+async function pa11ytestRunner(test,actions,timeoutVal) {
     console.log("pally test with actions : " + test.test.title);
     console.log(actions);
 

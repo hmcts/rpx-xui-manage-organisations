@@ -1,5 +1,5 @@
 var EC = protractor.ExpectedConditions;
-
+const CucumberReporter = require('./reportLogger')
 class BrowserWaits {
 
 

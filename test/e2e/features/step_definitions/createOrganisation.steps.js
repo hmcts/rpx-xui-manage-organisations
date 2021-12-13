@@ -55,6 +55,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             .eventually
             .equal('Start');
       await BrowserWaits.retryWithActionCallback(async () => {
+        browser.sleep(LONG_DELAY);
         await createOrganisationObject.start_button.click();
       });
     });

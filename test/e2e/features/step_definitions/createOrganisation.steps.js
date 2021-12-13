@@ -42,21 +42,27 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
         // await waitForElement('govuk-heading-xl');
+      
+      await BrowserWaits.retryWithActionCallback(async () => {
         browser.sleep(LONG_DELAY);
+        try{
+          browser.sleep(LONG_DELAY);
 
-        await BrowserWaits.retryWithActionCallback(async () => {
-          await BrowserWaits.waitForElement($('.govuk-heading-xl'));
-        });
+          await BrowserWaits.retryWithActionCallback(async () => {
+            await BrowserWaits.waitForElement($('.govuk-heading-xl'));
+          });
 
-        await waitForElement('govuk-heading-xl', LONG_DELAY);
-        await expect(createOrganisationObject.start_button.isDisplayed(), "Create Organisation START button not present").to.eventually.be.true;
-        await expect(createOrganisationObject.start_button.getText())
+          await waitForElement('govuk-heading-xl', LONG_DELAY);
+          await expect(createOrganisationObject.start_button.isDisplayed(), "Create Organisation START button not present").to.eventually.be.true;
+          await expect(createOrganisationObject.start_button.getText())
             .to
             .eventually
             .equal('Start');
-      await BrowserWaits.retryWithActionCallback(async () => {
-        browser.sleep(LONG_DELAY);
-        await createOrganisationObject.start_button.click();
+          await createOrganisationObject.start_button.click();
+        }catch(err){
+          await browser.get(config.config.baseUrl + '/register-org/register');
+          throw new Error(err);
+        }
       });
     });
 

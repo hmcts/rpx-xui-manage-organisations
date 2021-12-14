@@ -26,14 +26,6 @@ export class AppEffects {
   ) { }
 
   @Effect()
-  public updateTitle$ = this.actions$.pipe(
-    ofType(usersActions.UPDATE_ERROR_MESSAGES),
-    map(() => {
-      return new appActions.SetPageTitleErrors();
-    })
-  );
-
-  @Effect()
   public setUserRoles$ = this.actions$.pipe(
     ofType(fromUserProfile.AuthActionTypes.GET_USER_DETAILS_SUCCESS),
     map((actions: fromUserProfile.GetUserDetailsSuccess) => actions.payload.roles),

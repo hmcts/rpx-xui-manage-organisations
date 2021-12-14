@@ -25,21 +25,6 @@ describe('App Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getPageTitle', () => {
-    it('should return page title', () => {
-      let result;
-
-      store.pipe(select(fromSelectors.getPageTitle))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual('');
-
-      store.dispatch(new fromActions.SetPageTitle('/organisation'));
-
-      expect(result).toEqual('Organisation details - Manage organisation');
-    });
-  });
-
   describe('getHeaderTitles', () => {
     it('should return heading titles', () => {
       let result;

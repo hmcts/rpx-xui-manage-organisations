@@ -65,24 +65,6 @@ export function reducer(
           jurisdictions
         };
 
-    case fromAction.SET_PAGE_TITLE: {
-      const pageTitle = AppUtils.setPageTitle(action.payload);
-      return {
-        ...state,
-        pageTitle
-      };
-    }
-
-    case fromAction.SET_PAGE_TITLE_ERRORS: {
-      const EXISTS = -1;
-      const pageTitle = (state.pageTitle.indexOf('Error') !== EXISTS) ?
-        state.pageTitle : `Error: ${state.pageTitle}`;
-      return {
-        ...state,
-        pageTitle
-      };
-    }
-
     case fromAction.SET_USER_ROLES: {
       const roles = [...action.payload];
       let navItems = [];
@@ -146,7 +128,6 @@ export function reducer(
   }
 }
 
-export const getPageTitle = (state: AppState) => state.pageTitle;
 export const getNavItems = (state: AppState) => state.navItems;
 export const getUserNavigation = (state: AppState) => state.userNav;
 export const getHeaderTitles = (state: AppState) => state.headerTitle;

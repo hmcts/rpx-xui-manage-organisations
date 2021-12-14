@@ -8,6 +8,9 @@ export const ROUTES: Routes = [
     {
       path: '',
       component: StyleGuideComponent,
+      data: {
+        title: 'Style guide'
+      }
       // canActivate: [AuthGuard],
     }
 ];

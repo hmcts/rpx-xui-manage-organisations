@@ -100,13 +100,6 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
-    const expected = cold('a', { a: '' });
-    expect(app.pageTitle$).toBeObservable(expected);
-
-  }));
-
-
   it('should have appHeaderTitle$ Observable the app', async(() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);

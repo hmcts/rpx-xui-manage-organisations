@@ -13,47 +13,29 @@ export const ROUTES: Routes = [
       path: '',
       component: UsersComponent,
       canActivate: [HealthCheckGuard],
-      data: {
-        title: 'Users'
-      }
     },
     {
       path: 'user/:userId',
-      component: UserDetailsComponent,
-      data: {
-        title: 'User details'
-      }
+      component: UserDetailsComponent
     },
     {
       path: 'invite-user',
       component: InviteUserComponent,
       canActivate: [HealthCheckGuard],
-      data: {
-        title: 'Invite user'
-      }
     },
     {
       path: 'invite-user-success',
       component: InviteUserSuccessComponent,
       canActivate: [InviteUserSuccessGuard],
-      data: {
-        title: 'You\'ve invited'
-      }
     },
     {
       path: 'user/:userId/editpermission-failure',
       component: EditUserPermissionsFailureComponent,
-      data: {
-        title: 'Sorry, there is a problem with the service'
-      }
     },
     {
       path: 'user/:userId/editpermission',
       component: EditUserPermissionComponent,
-      canActivate: [FeatureToggleEditUserGuard],
-      data: {
-        title: 'Edit user'
-      }
+      canActivate: [FeatureToggleEditUserGuard]
     }
 ];
 

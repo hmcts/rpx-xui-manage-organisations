@@ -8,7 +8,7 @@
 
 <a [routerLink]="" fragment="{{mainContentId}}" class="govuk-skip-link" (click)="onFocusMainContent()">Skip to main content</a>
 <app-loader></app-loader>
-<title>HMCTS Manage organisations</title>
+<title>{{pageTitle$ | async}}</title>
 
 <app-header
   [navItems]="navItems$ | async"

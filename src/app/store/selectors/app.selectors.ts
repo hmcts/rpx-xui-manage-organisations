@@ -11,6 +11,11 @@ export const getAppState = createSelector(
   (state: fromAppFeature.AppState) => state
 );
 
+export const getPageTitle = createSelector(
+  getAppState,
+  fromAppFeature.getPageTitle
+);
+
 export const getHeaderTitles = createSelector(
   getAppState,
   fromAppFeature.getHeaderTitles

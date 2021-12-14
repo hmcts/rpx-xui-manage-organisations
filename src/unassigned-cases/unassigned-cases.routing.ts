@@ -13,10 +13,7 @@ export const ROUTES: Routes = [
             AuthGuard,
             FeatureToggleAccountGuard,
             RoleGuard
-        ],
-        data: {
-          title: 'Unassigned cases'
-        }
+        ]
     },
     {
       path: 'case-share',
@@ -25,10 +22,7 @@ export const ROUTES: Routes = [
         AuthGuard,
         FeatureToggleAccountGuard,
         RoleGuard
-      ],
-      data: {
-        title: 'Share a case'
-      }
+      ]
     },
     {
       path: 'case-share-confirm',
@@ -37,10 +31,7 @@ export const ROUTES: Routes = [
         AuthGuard,
         FeatureToggleAccountGuard,
         RoleGuard
-      ],
-      data: {
-        title: 'Share a case'
-      }
+      ]
     },
     {
       path: 'case-share-complete',
@@ -49,10 +40,7 @@ export const ROUTES: Routes = [
         AuthGuard,
         FeatureToggleAccountGuard,
         RoleGuard
-      ],
-      data: {
-        title: 'Share a case'
-      }
+      ]
     }
 ];
 

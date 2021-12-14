@@ -16,26 +16,17 @@ export const ROUTES: Routes = [
   {
     path: 'organisation',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
-    loadChildren: '../organisation/organisation.module#OrganisationModule',
-    data: {
-      title: 'Organisation details'
-    }
+    loadChildren: '../organisation/organisation.module#OrganisationModule'
   },
   {
     path: 'users',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
-    loadChildren: '../users/users.module#UsersModule',
-    data: {
-      title: 'Users'
-    }
+    loadChildren: '../users/users.module#UsersModule'
   },
   {
     path: 'fee-accounts',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule',
-    data: {
-      title: 'Fee accounts'
-    }
+    loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },
   {
     path: 'unassigned-cases',
@@ -49,25 +40,16 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
-    loadChildren: '../register/register.module#RegisterModule',
-    data: {
-      title: 'Register organisation'
-    }
+    loadChildren: '../register/register.module#RegisterModule'
   },
   {
     path: 'accept-terms-and-conditions',
     canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
-    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule',
-    data: {
-      title: 'Terms and conditions'
-    }
+    loadChildren: '../accept-tc/accept-tc.module#AcceptTcModule'
   },
   {
     path: 'service-down',
-    component: ServiceDownComponent,
-    data: {
-      title: 'Service down'
-    }
+    component: ServiceDownComponent
   },
   {
     canActivate: [AuthGuard],
@@ -76,38 +58,23 @@ export const ROUTES: Routes = [
   },
   {
     path: 'cookies',
-    component: CookiePolicyComponent,
-    data: {
-      title: 'Cookies'
-    }
+    component: CookiePolicyComponent
   },
   {
     path: 'privacy-policy',
-    component: PrivacyPolicyComponent,
-    data: {
-      title: 'Privacy policy'
-    }
+    component: PrivacyPolicyComponent
   },
   {
     path: 'terms-and-conditions',
-    component: TermsAndConditionsComponent,
-    data: {
-      title: 'Terms and conditions'
-    }
+    component: TermsAndConditionsComponent
   },
   {
     path: 'accessibility',
-    component: AccessibilityComponent,
-    data: {
-      title: 'Accessibility statement for Expert UI'
-    }
+    component: AccessibilityComponent
   },
   {
     path: 'get-help',
-    component: GetHelpComponent,
-    data: {
-      title: 'Get help'
-    }
+    component: GetHelpComponent
   },
   {
     path: 'idle-sign-out',

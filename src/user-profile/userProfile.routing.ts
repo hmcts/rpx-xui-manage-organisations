@@ -16,6 +16,9 @@ export const ROUTES: Routes = [
     // canActivate: [false]
     redirectTo: 'organisation',
     pathMatch: 'full',
+    data: {
+      title: 'Profile'
+    }
   }
 ];
 

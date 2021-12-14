@@ -1,5 +1,5 @@
 var EC = protractor.ExpectedConditions;
-
+const CucumberReporter = require('./reportLogger')
 class BrowserWaits {
 
 
@@ -7,6 +7,7 @@ class BrowserWaits {
     constructor() {
         this.waitTime = 30000;
         this.pageErrors = $$(".error-summary");
+        this.retriesCount = 3;
     }
 
     async waitForElement(waitelement, customWait,message) {
@@ -101,6 +102,34 @@ class BrowserWaits {
                 }
                 console.log(element.locator().toString() + " .    Retry attempt with user action(s) : " + retryCounter);
             }
+        }
+    }
+
+    async waitForSeconds(waitInSec) {
+        await browser.sleep(waitInSec * 1000);
+    }
+
+    async retryWithActionCallback(callback, actionMessage, retryTryAttempts) {
+        let retryCounter = 0;
+        let isSuccess = false;
+        let error = null;
+        while (retryCounter <= this.retriesCount) {
+
+            await this.waitForSeconds(retryCounter);
+            try {
+                const retVal = await callback();
+                isSuccess = true;
+                return retVal;
+            }
+            catch (err) {
+                error = err
+                retryCounter += 1;
+                CucumberReporter.AddMessage(`Actions success Condition ${actionMessage ? actionMessage : ''} failed ${err.message} ${err.stack}. `);
+                CucumberReporter.AddMessage(`Retrying attempt ${retryCounter}. `);
+            }
+        }
+        if (!isSuccess) {
+            throw new Error(`Action failed to meet success condition after ${this.retriesCount} retry attempts.`, error);
         }
     }
 

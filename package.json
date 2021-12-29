@@ -63,7 +63,7 @@
     "@hmcts/ccd-case-ui-toolkit": "2.67.0-performance-tabs",
     "@hmcts/ccpay-web-component": "3.0.3",
     "@hmcts/frontend": "0.0.41-alpha",
-    "@hmcts/nodejs-healthcheck": "^1.6.0",
+    "@hmcts/nodejs-healthcheck": "^1.7.0",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "1.4.0",
     "@hmcts/rpx-xui-node-lib": "^2.24.3",

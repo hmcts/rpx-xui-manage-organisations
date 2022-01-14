@@ -3,6 +3,7 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
+
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 
@@ -35,7 +36,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private readonly userStore: Store<fromStore.UserState>,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly actions$: Actions,
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.user$ = new Observable();
@@ -66,6 +67,24 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public ngOnDestroy(): void {
+    if (this.dependanciesSubscription) {
+      this.dependanciesSubscription.unsubscribe();
+    }
+
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+
+    if (this.suspendSuccessSubscription) {
+      this.suspendSuccessSubscription.unsubscribe();
+    }
+
+    if (this.suspendUserServerErrorSubscription) {
+      this.suspendUserServerErrorSubscription.unsubscribe();
+    }
+  }
+
   public getDependancyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
     return combineLatest([
       routerStore.pipe(select(fromRoot.getRouterState)),
@@ -73,22 +92,22 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public dispatchGetUsers(users, userStore) {
+  public dispatchGetUsers(users, userStore): void {
     if (!users) {
       userStore.dispatch(new fromStore.LoadUsers());
     }
   }
 
-  public getUserObservable(userId, userStore) {
+  public getUserObservable(userId, userStore): any {
     return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
   }
 
-  public setSuspendViewFunctions() {
+  public setSuspendViewFunctions(): void {
     this.hideSuspendView = () => this.suspendViewFlag = false;
     this.showSuspendView = () => this.suspendViewFlag = true;
   }
 
-  public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>) {
+  public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>): void {
     if (user && user.status) {
       this.user = {...user, resendInvite: user.status === 'Pending' };
     }
@@ -109,39 +128,20 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public handleDependanciesSubscription(users, route) {
+  public handleDependanciesSubscription(users, route): void {
     this.dispatchGetUsers(users, this.userStore);
     this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
   }
 
-  public ngOnDestroy() {
-
-    if (this.dependanciesSubscription) {
-      this.dependanciesSubscription.unsubscribe();
-    }
-
-    if (this.userSubscription) {
-      this.userSubscription.unsubscribe();
-    }
-
-    if (this.suspendSuccessSubscription) {
-      this.suspendSuccessSubscription.unsubscribe();
-    }
-
-    if (this.suspendUserServerErrorSubscription) {
-      this.suspendUserServerErrorSubscription.unsubscribe();
-    }
-  }
-
-  public isInactive(status, inactiveStatuses: string[] = ['Suspended', 'Pending']) {
+  public isInactive(status: string, inactiveStatuses: string[] = ['Suspended', 'Pending']): boolean {
     return !inactiveStatuses.includes(status);
   }
 
-  public isSuspended(status) {
+  public isSuspended(status: string): boolean {
     return status === 'Suspended';
   }
 
-  public isPending(status) {
+  public isPending(status: string): boolean {
     return status === 'Pending';
   }
 

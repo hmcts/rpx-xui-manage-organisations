@@ -1,27 +1,16 @@
 <div [attr.validate]="validate" [attr.data]="data" [attr.group]="group">
-  <!--JUI FORM builder component -->
-  <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
-    {{data.legend.text}}
-  </app-legend>
-  <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
-    {{data.hint.text}}
-  </app-hint>
-  <ng-container *ngIf="data.validationError && validate">
-    <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
-      {{data.validationError.value}}
-    </app-validation-error-formgroup>
-  </ng-container>
-  <app-date *ngIf="data.date"
-            [id]="data.date.formName"
-            [data]="data.date"
-            [group]="group"
-            [validate]="validate"
-            [validationError]="data.date.validationError">
-  </app-date>
-  <app-inputs *ngIf="data.input"
-              [item]="data.input"
-              [showValidation]="validate"
-              [validationError]="data.input.validationError"
+    <!--JUI FORM builder component -->
+    <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
+        {{data.hint.text}}
+    </app-hint>
+    <ng-container *ngIf="data.validationError && validate">
+        <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
+            {{data.validationError.value}}
+        </app-validation-error-formgroup>
+    </ng-container>
+    <app-date *ngIf="data.date"
+              [id]="data.date.formName"
+              [data]="data.date"
               [group]="group"
               [hint]="data.input.hint"
               [label]="data.input.label"

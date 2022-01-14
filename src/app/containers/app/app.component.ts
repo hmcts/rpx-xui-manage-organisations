@@ -1,11 +1,13 @@
-import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { AppConstants } from 'src/app/app.constants';
-import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
-import { HeadersService } from 'src/shared/services/headers.service';
-import { UserService } from 'src/user-profile/services/user.service';
+import { Observable, Subscription } from 'rxjs';
+import { LoggerService } from '../../../shared/services/logger.service';
+
+import { AppConstants } from '../../../app/app.constants';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { HeadersService } from '../../../shared/services/headers.service';
+import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
 import { UserNavModel } from '../../models/user-nav.model';
@@ -22,17 +24,24 @@ import * as fromRoot from '../../store';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public pageTitle$: Observable<string>;
-  public navItems$: Observable<any> ;
+  public navItems$: Observable<any>;
   public appHeaderTitle$: Observable<AppTitlesModel>;
   public userNav$: Observable<UserNavModel>;
-  public modalData$: Observable<{isVisible?: boolean; countdown?: string}>;
+  public modalData$: Observable<{ isVisible?: boolean; countdown?: string }>;
 
   public featureToggleKey: string;
   public serviceMessageCookie: string;
   public userRoles: string[];
+  public mainContentId = 'content';
 
+  private userId: string = null;
+  public cookieName;
+  public isCookieBannerVisible: boolean = false;
+  private cookieBannerEnabledSubscription: Subscription;
+
+  private cookieBannerEnabled: boolean = false;
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly googleAnalyticsService: GoogleAnalyticsService,
@@ -41,9 +50,11 @@ export class AppComponent implements OnInit {
     private readonly featureService: FeatureToggleService,
     private readonly headersService: HeadersService,
     private readonly idleService: ManageSessionServices,
+    private readonly loggerService: LoggerService,
+    private readonly cookieService: CookieService,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     // TODO when we run FeeAccounts story, this will get uncommented
     // this.identityBar$ = this.store.pipe(select(fromSingleFeeAccountStore.getSingleFeeAccountData));
 
@@ -62,8 +73,6 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
-    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
-
     if (this.headersService.isAuthenticated()) {
       this.userService.getUserDetails().subscribe(user => {
         const featureUser: FeatureUser = {
@@ -73,13 +82,61 @@ export class AppComponent implements OnInit {
             orgId: user.orgId
           }
         };
+        this.setUserAndCheckCookie(user.userId);
         this.userRoles = featureUser.custom.roles;
-        this.featureService.initialize(featureUser);
+        this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
       });
     }
 
     this.addIdleServiceListener();
     this.addUserProfileListener();
+
+    this.handleCookieBannerFeatureToggle();
+  }
+
+  public ngOnDestroy() {
+    if (this.cookieBannerEnabledSubscription) {
+      this.cookieBannerEnabledSubscription.unsubscribe();
+    }
+  }
+
+  public handleCookieBannerFeatureToggle(): void {
+    this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mo-cookie-banner-enabled')
+                                            .subscribe(flag => {
+                                              this.cookieBannerEnabled = flag;
+                                              this.setCookieBannerVisibility();
+                                            });
+  }
+
+  public setUserAndCheckCookie(userId) {
+    this.userId = userId;
+    if (this.userId) { // check if cookie selection has been made *after* user id is available
+      this.cookieName = `hmcts-exui-cookies-${this.userId}-mo-accepted`;
+      this.setCookieBannerVisibility();
+    }
+  }
+
+  public notifyAcceptance() {
+    this.loggerService.enableCookies();
+    this.googleAnalyticsService.init(this.environmentConfig.googleAnalyticsKey);
+  }
+
+  public notifyRejection() {
+    // AppInsights
+    this.cookieService.deleteCookieByPartialMatch('ai_');
+    // Google Analytics
+    this.cookieService.deleteCookieByPartialMatch('_ga');
+    this.cookieService.deleteCookieByPartialMatch('_gid');
+    const domainElements = window.location.hostname.split('.');
+    for (let i = 0; i < domainElements.length; i++) {
+      const domainName = domainElements.slice(i).join('.');
+      this.cookieService.deleteCookieByPartialMatch('_ga', '/', domainName);
+      this.cookieService.deleteCookieByPartialMatch('_gid', '/', domainName);
+      this.cookieService.deleteCookieByPartialMatch('_ga', '/', `.${domainName}`);
+      this.cookieService.deleteCookieByPartialMatch('_gid', '/', `.${domainName}`);
+    }
+    // DynaTrace
+    this.cookieService.deleteCookieByPartialMatch('rxVisitor');
   }
 
   /**
@@ -208,7 +265,7 @@ export class AppComponent implements OnInit {
 
   public onStaySignedIn() {
     const payload = {
-      session : {
+      session: {
         isVisible: false
       }
     };
@@ -219,5 +276,18 @@ export class AppComponent implements OnInit {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromRoot.Logout());
     }
+  }
+
+  // the fragment attribute in Angular is good however it only scrolls to the anchor tag
+  // focussing is not currently supported by the Angular RouterModule and fragment hence this workaround
+  public onFocusMainContent() {
+    const element = document.getElementById(this.mainContentId);
+    if (element) {
+      element.focus();
+    }
+  }
+
+  public setCookieBannerVisibility(): void {
+    this.isCookieBannerVisible = this.cookieBannerEnabled && !!this.userId;
   }
 }

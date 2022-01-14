@@ -1,6 +1,8 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
+
 /*
 * Gov UK Input component
 * Responsible for displaying input, hint and error messages
@@ -33,18 +35,17 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper'
   `
 })
 export class GovUkFileUploadComponent implements OnInit {
-  constructor () { }
-  @Input() errorMessage;
-  @Input() group: FormGroup;
-  @Input() config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
+  @Input() public errorMessage;
+  @Input() public group: FormGroup;
+  @Input() public config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
-  reloadInput = true;
+  public reloadInput = true;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.config.classes = 'govuk-label--m';
   }
 
-  setDescribedBy(): string {
+  public setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);
   }
 }

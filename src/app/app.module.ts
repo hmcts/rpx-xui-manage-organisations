@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ExuiCommonLibModule, LAUNCHDARKLYKEY } from '@hmcts/rpx-xui-common-lib';
+import { ExuiCommonLibModule, FeatureToggleService, LaunchDarklyService } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
@@ -35,6 +35,7 @@ import { effects } from './store/effects';
 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
+import { EnvironmentService } from '../shared/services/environment.service';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -54,7 +55,9 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     BrowserModule,
     HttpClientModule,
     CookieModule.forRoot(),
-    RouterModule.forRoot(ROUTES),
+    RouterModule.forRoot(ROUTES, {
+      anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
+    }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     SharedModule,
@@ -66,7 +69,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
       disableConsoleLogging: false
     }),
     LoaderModule,
-    ExuiCommonLibModule.forRoot(),
+    ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
     NoopAnimationsModule
   ],
@@ -74,8 +77,8 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
-    { provide: LAUNCHDARKLYKEY, useFactory: launchDarklyClientIdFactory, deps: [ENVIRONMENT_CONFIG] },
-    { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store], multi: true },
+    { provide: FeatureToggleService, useClass: LaunchDarklyService },
+    { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true },
     ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

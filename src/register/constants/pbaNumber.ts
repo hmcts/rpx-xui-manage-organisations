@@ -71,6 +71,7 @@ export const pbaNumber = {
               ul: ['account balance', 'available credit', 'transactions'],
             }
           }
+        ]
       },
       {
         button: {

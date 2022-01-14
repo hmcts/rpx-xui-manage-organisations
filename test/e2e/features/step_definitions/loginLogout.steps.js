@@ -149,6 +149,15 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
   });
 
+  Given(/^I am logged into Townley Services Org$/, async function () {
+    await loginPage.emailAddress.sendKeys(config.config.townleyUser);          //replace username and password
+    await loginPage.password.sendKeys(config.config.townleyPassword);
+    // browser.sleep(SHORT_DELAY);
+    await loginPage.signinBtn.click();
+    browser.sleep(SHORT_DELAY);
+
+  });
+
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
     this.attach('Login user : ' + global.testorg_rw_superuser_email);
@@ -255,7 +264,6 @@ async function loginWithCredentials(username,password,world){
   await browserWaits.waitForElement(loginPage.signinBtn);
   await loginPage.clickSignIn();
 
-
   // await browserWaits.retryWithAction($('app-header'), async function (message) {
   //   world.attach("Retrying Login attempt: " + message);
   //   let stream = await browser.takeScreenshot();
@@ -268,7 +276,6 @@ async function loginWithCredentials(username,password,world){
   //   await browserWaits.waitForElement(loginPage.signinBtn);
   //   await loginPage.clickSignIn();
   // });
-
 
 }
 

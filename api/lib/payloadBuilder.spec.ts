@@ -9,8 +9,7 @@ describe('Payload builder', () => {
     const STATE_VALUES = {
         DXexchange: '12345 dx exchange field',
         DXnumber: '12345 dx number field ',
-        PBAnumber1: 'PBA number field 1',
-        PBAnumber2: 'PBA number field 2',
+        PBANumbers: ['PBA1111111', 'PBA2222222', 'PBA3333333'],
         county: 'county field',
         createButton: 'Continue',
         dontHaveDX: 'name',

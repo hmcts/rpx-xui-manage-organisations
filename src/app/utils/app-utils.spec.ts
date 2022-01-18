@@ -300,19 +300,6 @@ describe('AppUtils', () => {
         }
       },
       {
-        extension: {
-          componentDetails: {
-            title: 'Why add a PBA number?',
-            text: 'Adding a PBA number for your organisation will allow you to view your:',
-            ul: [
-              'account balance',
-              'available credit',
-              'transactions'
-            ]
-          }
-        }
-      },
-      {
         button: {
           control: 'createButton',
           value: 'Continue',
@@ -350,19 +337,6 @@ describe('AppUtils', () => {
           type: 'button',
           classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
           onEvent: 'addAnotherPBANumber'
-        }
-      },
-      {
-        extension: {
-          componentDetails: {
-            title: 'Why add a PBA number?',
-            text: 'Adding a PBA number for your organisation will allow you to view your:',
-            ul: [
-              'account balance',
-              'available credit',
-              'transactions'
-            ]
-          }
         }
       },
       {

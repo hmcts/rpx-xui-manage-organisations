@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   public pageId: string;
   public isPageValid = false;
   public errorMessage: any;
-
+  public jurisdictions: any;
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
 
@@ -64,8 +64,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
     this.jurisdictions = AppConstants.JURISDICTIONS;
 
-    this.manageCaseLink$ = this.environmentService.config$.pipe(map(config => config.manageCaseLink));
-    this.manageOrgLink$ = this.environmentService.config$.pipe(map(config => config.manageOrgLink));
+    this.manageCaseLink$ = this.enviromentService.config$.pipe(map(config => config.manageCaseLink));
+    this.manageOrgLink$ = this.enviromentService.config$.pipe(map(config => config.manageOrgLink));
   }
 
   public subscribeNextUrl(): void {

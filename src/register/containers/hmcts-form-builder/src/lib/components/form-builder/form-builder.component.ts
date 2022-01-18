@@ -26,6 +26,8 @@ export class FormBuilderComponent implements OnChanges {
   @Input() public pageValues: any;
   @Input() public isPageValid: boolean;
   @Output() public submitPage = new EventEmitter<FormGroup>();
+  @Output() public btnClick = new EventEmitter();
+  @Output() public blurCast = new EventEmitter();
 
   public formDraft: FormGroup;
   public isLegendAvailable: boolean;
@@ -49,7 +51,7 @@ export class FormBuilderComponent implements OnChanges {
   }
 
   public createForm(): void {
-    this.formDraft = new FormGroup(this.formsService.defineformControls(this.pageItems, this.pageValues));
+    this.formDraft = new FormGroup(this.formsService.defineFormControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
 

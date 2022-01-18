@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -13,6 +13,7 @@ export class ButtonsComponent implements OnInit {
     @Input() public typeBtn; // TODO: Add type.
     @Input() public control; // TODO: Add type.
     @Input() public value; // TODO: Add type.
+    @Output() public btnClick = new EventEmitter();
 
     public isValid: boolean;
 

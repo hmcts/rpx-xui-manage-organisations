@@ -1,5 +1,6 @@
+import { AppUtils } from '../../../app/utils/app-utils';
+import { apiErrors, errorMessageMappings } from '../../mappings/apiErrorMappings';
 import * as fromRegistration from '../actions/registration.actions';
-import { errorMessageMappings, apiErrors } from '../../mappings/apiErrorMappings';
 
 export const navigation = {
   'organisation-name': 'organisation-address',
@@ -19,11 +20,41 @@ export const navigation = {
   'email-address': 'check'
 };
 
+export const newPBAElement = (newPBAIndex) => {
+  return {
+    inputButton: {
+      label: {
+        text: 'PBA number (optional)',
+        classes: 'govuk-label--m',
+      },
+      control: `PBANumber${newPBAIndex}`,
+      type: 'inputButton',
+      validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
+      validationErrors: [
+        {
+          validationErrorId: 'duplicatedPBAError',
+          validationLevel: 'formControl',
+          controls: 'PBANumber',
+          text: 'You have entered this PBA number more than once',
+        },
+        {
+          validationErrorId: 'invalidPBANumberError',
+          validationLevel: 'formControl',
+          controls: 'PBANumber',
+          text: 'Enter a valid PBA number',
+        }
+      ],
+      classes: 'govuk-width-input-button'
+    }
+  };
+};
+
 export interface PageItems {
   formValues: any;
   meta: any;
   loading: boolean;
   loaded: boolean;
+  init: boolean;
 }
 
 export interface RegistrationFormState {
@@ -69,7 +100,8 @@ export function reducer(
       const pageItems = {
         ...payload,
         loaded: true,
-        loading: false
+        loading: false,
+        init: true
       };
 
       const pages = {
@@ -85,7 +117,83 @@ export function reducer(
       };
     }
 
+case fromRegistration.ADD_PBA_NUMBER: {
+      const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
+      const predicate = (element: {}) => element.hasOwnProperty('inputButton');
+      const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
+      if (lastInputIndex === -1) {
+        // @ts-ignore
+        pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(1));
+      } else {
+        // @ts-ignore
+        const maxInputControl = pageGroups[lastInputIndex].inputButton.control;
+        const maxIndex = maxInputControl.replace( /^\D+/g, '');
+        // @ts-ignore
+        pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(parseInt(maxIndex, 10) + 1));
+      }
+      const pages = {
+        ...state.pages,
+        'organisation-pba': {
+          ...state.pages['organisation-pba'],
+          meta: {
+            ...state.pages['organisation-pba'].meta,
+            groups: pageGroups
+          },
+          init: false
+        }
+      };
+      const pagesValues = {
+        ...state.pagesValues,
+        ...action.payload
+      };
+      return {
+        ...state,
+        pages,
+        pagesValues,
+        loading: false,
+        loaded: true,
+      };
+    }
+
+    case fromRegistration.REMOVE_PBA_NUMBER: {
+      const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
+      const predicate = (element: {}) => element.hasOwnProperty('inputButton') && action.payload.includes(element['inputButton'].control);
+      const matchIndex = pageGroups.findIndex(predicate);
+      pageGroups.splice(matchIndex, 1);
+      const pages = {
+        ...state.pages,
+        'organisation-pba': {
+          ...state.pages['organisation-pba'],
+          meta: {
+            ...state.pages['organisation-pba'].meta,
+            groups: pageGroups
+          }
+        }
+      };
+      const removeItem = action.payload.replace('remove', '');
+      const pagesValues = {...state.pagesValues};
+      delete pagesValues[removeItem];
+      return {
+        ...state,
+        pages,
+        pagesValues,
+        loading: false,
+        loaded: true,
+      };
+    }
+
     case fromRegistration.SAVE_FORM_DATA: {
+      let pages = {...state.pages};
+      if (action.payload.pageId === 'organisation-pba') {
+        pages = {
+          ...state.pages,
+          'organisation-pba': {
+            ...state.pages['organisation-pba'],
+            init: false
+          }
+        };
+      }
+
       const pagesValues = {
         ...state.pagesValues,
         ...action.payload.value
@@ -99,6 +207,7 @@ export function reducer(
 
       return {
         ...state,
+        pages,
         pagesValues,
         nextUrl
       };
@@ -138,13 +247,15 @@ export function reducer(
       let apiMessageMapped;
       // tslint:disable-next-line:forin
       for (const key in apiErrors) {
-        if (apiError.includes('PBA_NUMBER Invalid or already exists')) {
-          const errorDescription = action.payload.error.apiErrorDescription;
-          const pbaErrorNumber = errorDescription.substring(errorDescription.indexOf(')=(') + 3, errorDescription.indexOf(') already exists'));
-          apiMessageMapped = `This PBA number ${pbaErrorNumber} has already been used.`;
-        }
-        if (apiError.includes(apiErrors[key])) {
-          apiMessageMapped = errorMessageMappings[key];
+        if (apiError) {
+          if (apiError.includes('PBA_NUMBER Invalid or already exists')) {
+            const errorDescription = action.payload.error.apiErrorDescription;
+            const pbaErrorNumber = errorDescription.substring(errorDescription.indexOf(')=(') + 3, errorDescription.indexOf(') already exists'));
+            apiMessageMapped = `This PBA number ${pbaErrorNumber} has already been used.`;
+          }
+          if (apiError.includes(apiErrors[key])) {
+            apiMessageMapped = errorMessageMappings[key];
+          }
         }
       }
 
@@ -190,9 +301,10 @@ export function reducer(
         errorMessageCode: ''
       };
     }
-  }
 
-  return state;
+   default:
+      return state;
+  }
 }
 
 export const getRegistrationFormPages = (state: RegistrationFormState) => state.pages;
@@ -200,7 +312,6 @@ export const getRegistrationFormPagesValues = (state: RegistrationFormState) => 
 export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) => state.submitted;
 export const getRegistrationNextUrl = (state: RegistrationFormState) => state.nextUrl;
 export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
-export const getRegistrationPagesLoaded = (state: RegistrationFormState) => state.loaded;
 export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
 export const getRegistrationErrorMessagesCodes = (state: RegistrationFormState) => state.errorMessageCode;
 

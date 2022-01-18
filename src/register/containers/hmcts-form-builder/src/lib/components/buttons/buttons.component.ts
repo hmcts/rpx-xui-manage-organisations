@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -9,12 +9,16 @@ export class ButtonsComponent implements OnInit {
     @Input() public idPrefix = 'btn';
     @Input() public name = 'btn';
     @Input() public group: FormGroup;
-    @Input() public classes; // TODO: Add type.
-    @Input() public typeBtn; // TODO: Add type.
-    @Input() public control; // TODO: Add type.
-    @Input() public value; // TODO: Add type.
+    @Input() public classes;
+    @Input() public typeBtn;
+    @Input() public control;
+    @Input() public value;
+    @Output() public btnClick =  new EventEmitter();
 
     public isValid: boolean;
+
+    constructor() {
+    }
 
     public ngOnInit(): void {
 
@@ -23,5 +27,9 @@ export class ButtonsComponent implements OnInit {
         this.isValid = this.group.status === 'INVALID';
       });
 
+    }
+
+    public onClick(event) {
+      this.btnClick.emit(event.target.id);
     }
 }

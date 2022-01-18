@@ -77,6 +77,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
+  }
 
   public subscribeFormSubmission(): void {
     this.$formSubmitSubscription = this.isFromSubmitted$.subscribe((submitted: boolean) => {

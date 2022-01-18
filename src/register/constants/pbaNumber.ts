@@ -18,7 +18,8 @@ export const pbaNumber = {
         validationLevel: 'formGroup',
         controls: 'PBANumber',
         text: 'Enter a valid PBA number',
-      }],
+      }
+    ],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
@@ -71,7 +72,6 @@ export const pbaNumber = {
               ul: ['account balance', 'available credit', 'transactions'],
             }
           }
-        ]
       },
       {
         button: {

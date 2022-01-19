@@ -4,6 +4,7 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { OrganisationComponent } from './containers';
 import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/update-pba-numbers.component';
+import { UpdatePbaNumbersCheckComponent } from './containers/update-pba-check/update-pba-numbers-check.component';
 
 import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
@@ -21,6 +22,15 @@ export const ROUTES: Routes = [
   {
     path: 'update-pba-numbers',
     component: UpdatePbaNumbersComponent,
+    data: { role: 'pui-finance-manager' },
+    canActivate: [
+      OrganisationGuard,
+      UserRoleGuard
+    ]
+  },
+  {
+    path: 'update-pba-numbers-check',
+    component: UpdatePbaNumbersCheckComponent,
     data: { role: 'pui-finance-manager' },
     canActivate: [
       OrganisationGuard,

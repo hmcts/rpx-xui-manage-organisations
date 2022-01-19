@@ -13,6 +13,7 @@ import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
 import { HealthCheckGuard } from './guards/health-check.guard';
+import { UserRoleGuard } from './guards/user-role.guard';
 import { LoaderModule } from './modules/loader/loader.module';
 import { AuthIntercepterServer } from './services/auth-interceptor.service';
 import { HeadersService } from './services/headers.service';
@@ -55,6 +56,7 @@ import { MonitoringService } from './services/monitoring.service';
     HeadersService,
     { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
     MonitoringService,
+    UserRoleGuard,
     HealthCheckGuard,
     HealthCheckService,
     TermsConditionGuard,

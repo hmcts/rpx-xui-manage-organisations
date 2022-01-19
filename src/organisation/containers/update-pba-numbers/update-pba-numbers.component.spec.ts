@@ -91,20 +91,20 @@ describe('UpdatePbaNumbersComponent', () => {
 
   describe('getPaymentAccount', () => {
 
-    it('should return null if there is no paymentAccount.', () => {
+    it('should return empty if there is no paymentAccount.', () => {
 
       const organisationDetails = {};
 
-      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
+      expect(component.getPaymentAccount(organisationDetails)).toEqual([]);
     });
 
-    it('should return null if the length of paymentAccount is 0.', () => {
+    it('should return empty if the length of paymentAccount is 0.', () => {
 
       const organisationDetails = {
         paymentAccount: [],
       };
 
-      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
+      expect(component.getPaymentAccount(organisationDetails)).toEqual([]);
     });
 
     it('should return paymentAccount.', () => {

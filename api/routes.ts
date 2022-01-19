@@ -10,6 +10,7 @@ import inviteUser from './inviteUser'
 import getJurisdictions from './jurisdictions'
 import organisationRouter from './organisation'
 import payments from './payments'
+import { router as pbaRouter } from './pbas/routes'
 import postUserTermsAndConditions from './postUserTermsAndConditions'
 import suspendUser from './suspendUser'
 import getTermsAndConditions from './termsAndConditions'
@@ -38,4 +39,5 @@ router.use('/editUserPermissions/users/:userId', editUserPermissions)
 router.use('/unassignedCases', unnassignedCasesRouter)
 router.use('/unassignedCaseTypes', unassignedCaseTypesRouter)
 router.use('/caseshare', caseShareRouter)
+router.use('/pba', pbaRouter)
 export default router

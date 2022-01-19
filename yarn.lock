@@ -716,11 +716,11 @@
   integrity sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw==
 
 "@rxweb/reactive-form-validators@^2.1.2":
-  version "2.1.6"
-  resolved "https://registry.yarnpkg.com/@rxweb/reactive-form-validators/-/reactive-form-validators-2.1.6.tgz#6662ec540a0e39b17f74dfa48774c35a7926edd4"
-  integrity sha512-16NSt644vKppUGDiTgO9ij7b/oW1BTNjTfCPWnx9Qa6VbKOrggGMLZNMewSmoXFBoErBYSCQLEwY4wrLfix25A==
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@rxweb/reactive-form-validators/-/reactive-form-validators-2.1.2.tgz#3eeab7ce1b0c005abb6ddd92be0a9260f2a0c0c0"
+  integrity sha512-8TYYZnloCegoZrxgj2Ko57R/tTJO7UjBqOpRQfEYLYLJit7fepMS2okmfCq0tqNZQiUmdqs7eF1p9NrOIVqPQg==
   dependencies:
-    tslib "2.2.0"
+    tslib "^1.9.0"
 
 "@schematics/angular@0.6.8":
   version "0.6.8"
@@ -12596,11 +12596,6 @@ tsickle@>=0.25.5:
   version "0.39.1"
   resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.39.1.tgz#7ccf672cde5b430f5dd0b281ee49e170ef390ff9"
   integrity sha512-CCc9cZhZbKoNizVM+K3Uqgit/go8GacjpqTv1cpwG/n2P0gB9GMoWZbxrUULDE9Wz26Lh86CGf6QyIPUVV1lnQ==
-
-tslib@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
-  integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
 
 tslib@^1.10.0, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.13.0"

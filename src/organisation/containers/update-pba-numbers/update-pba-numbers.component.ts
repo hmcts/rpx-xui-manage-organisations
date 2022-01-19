@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromStore from '../../store';
 
@@ -9,13 +10,11 @@ import * as fromStore from '../../store';
 })
 export class UpdatePbaNumbersComponent implements OnInit {
 
-  public readonly title = 'Add or remove PBA accounts';
+  public organisation: Organisation;
 
-  public organisationPaymentAccount: string[];
+  constructor(private readonly orgStore: Store<fromStore.OrganisationState>) { }
 
-  constructor(private orgStore: Store<fromStore.OrganisationState>) { }
-
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
   }
 
@@ -29,7 +28,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    */
   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
-      null : organisationDetails.paymentAccount;
+      [] : organisationDetails.paymentAccount;
   }
 
   /**
@@ -39,7 +38,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    */
   private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-      this.organisationPaymentAccount = this.getPaymentAccount(organisationDetails);
+      this.organisation = organisationDetails;
     });
   }
 }

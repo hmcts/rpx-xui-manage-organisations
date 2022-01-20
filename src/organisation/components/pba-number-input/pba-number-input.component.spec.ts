@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule, RxwebValidators } from '@rxweb/reactive-form-validators';
+
 import { PbaNumberInputComponent } from './pba-number-input.component';
 
 const id: string = 'pba-number-input0';

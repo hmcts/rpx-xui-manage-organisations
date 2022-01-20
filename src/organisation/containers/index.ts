@@ -4,9 +4,9 @@ import { UpdatePbaNumbersComponent } from './update-pba-numbers/update-pba-numbe
 import { UpdatePbaNumbersCheckComponent } from './update-pba-check/update-pba-numbers-check.component';
 
 export const containers: any[] = [
-    OrganisationComponent,
-    UpdatePbaNumbersComponent,
-    UpdatePbaNumbersCheckComponent
+  OrganisationComponent,
+  UpdatePbaNumbersComponent,
+  UpdatePbaNumbersCheckComponent
 ];
 
 export * from './organisation/organisation.component';

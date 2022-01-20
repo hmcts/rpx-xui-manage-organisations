@@ -2,8 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+
 import * as fromRoot from '../../../app/store';
-import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
@@ -36,18 +37,16 @@ describe('UpdatePbaNumbersComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [dxAddress]
+    dxAddress: [ dxAddress ]
   };
 
   /**
    * Mock organisation data is representative of data returned from the Node layer.
    */
-  const mockOrganisationDetails = {
+  const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
-    contactInformation: [
-      contactInformation,
-    ],
+    contactInformation: [ contactInformation ],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',
     sraRegulated: false,
@@ -56,7 +55,9 @@ describe('UpdatePbaNumbersComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: ['test']
+    paymentAccount: [{ pbaNumber: 'test' }],
+    pendingAddPaymentAccount: [],
+    pendingRemovePaymentAccount: []
   };
 
   beforeEach(() => {
@@ -89,33 +90,9 @@ describe('UpdatePbaNumbersComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('getPaymentAccount', () => {
 
-    it('should return empty if there is no paymentAccount.', () => {
-
-      const organisationDetails = {};
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual([]);
-    });
-
-    it('should return empty if the length of paymentAccount is 0.', () => {
-
-      const organisationDetails = {
-        paymentAccount: [],
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual([]);
-    });
-
-    it('should return paymentAccount.', () => {
-
-      const paymentAccount = [{pbaNumber: 'PBA3344552'}, {pbaNumber: 'PBA7843345'}];
-
-      const organisationDetails = {
-        paymentAccount,
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual(paymentAccount);
-    });
+  it('should have retrieved the Organisation Details from the Store on component initialisation', () => {
+    expect(store.pipe).toHaveBeenCalled();
+    expect(component.organisationDetails).toEqual(mockOrganisationDetails);
   });
 });

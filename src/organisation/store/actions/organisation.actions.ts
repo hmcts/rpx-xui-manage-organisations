@@ -13,6 +13,7 @@ export const UPDATE_ORGANISATION_PBA_PENDING_REMOVE = '[Organisation] Update Pen
 
 export const ORGANISATION_UPDATE_PBAS = '[Organisation] Organisation Update PBAs';
 export const ORGANISATION_UPDATE_PBA_RESPONSE = '[Organisation] Organisation Update PBAs Response';
+export const ORGANISATION_UPDATE_PBA_ERROR = '[Organisation] Organisation Update PBAs Error';
 
 export class LoadOrganisation {
   public readonly type = LOAD_ORGANISATION;
@@ -50,6 +51,11 @@ export class OrganisationUpdatePBAResponse implements Action {
   constructor(public payload: any) { }
 }
 
+export class OrganisationUpdatePBAError implements Action {
+  public readonly type = ORGANISATION_UPDATE_PBA_ERROR;
+  constructor(public payload: any) { }
+}
+
 export type organisationActions =
   | LoadOrganisation
   | LoadOrganisationSuccess
@@ -57,4 +63,5 @@ export type organisationActions =
   | UpdateOrganisationPendingAddPBAs
   | UpdateOrganisationPendingRemovePBAs
   | OrganisationUpdatePBAs
-  | OrganisationUpdatePBAResponse;
+  | OrganisationUpdatePBAResponse
+  | OrganisationUpdatePBAError;

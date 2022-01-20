@@ -3,37 +3,20 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import { mockReq, mockRes } from 'sinon-express-mock'
+import { mockReq } from 'sinon-express-mock'
 
 chai.use(sinonChai)
 
-import {http} from './http'
 import * as proxy from './proxy'
 
 describe('proxy', () => {
 
-  let next
   let sandbox
   let req
-  let res
-  let result
-  let spy: any
-  let spyPost: any
-  let spyPut: any
 
   beforeEach(() => {
     sandbox = sinon.createSandbox()
 
-    result = {
-      data: 'okay',
-    }
-
-    spy = sandbox.stub(http, 'get').resolves(result)
-    spyPost = sandbox.stub(http, 'post').resolves(result)
-    spyPut = sandbox.stub(http, 'put').resolves(result)
-
-    next = sandbox.spy()
-    res = mockRes()
     req = mockReq({
       baseUrl: '/api/documents/',
       cookies: [],

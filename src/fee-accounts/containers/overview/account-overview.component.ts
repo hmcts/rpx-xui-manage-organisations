@@ -1,42 +1,36 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Actions, ofType } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
-// TODO: Below is a bad way to import!
-import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import { Observable, of, Subscription } from 'rxjs';
-
-import * as fromRoot from '../../../app/store';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Store, select, Action } from '@ngrx/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
-import { Organisation } from '../../../organisation/organisation.model';
-import * as fromOrgStore from '../../../organisation/store';
-import { FeeAccount } from '../../models/pba-accounts';
-
+import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
+import {Observable, Subscription, of} from 'rxjs';
+import {FeeAccount} from '../../models/pba-accounts';
+import * as fromOrgStore from '../../../organisation/store/index';
+import { Actions, ofType } from '@ngrx/effects';
+import * as fromRoot from '../../../app/store';
+import { OrganisationDetails } from '../../../models/organisation.model';
 @Component({
   selector: 'app-prd-fee-accounts-component',
   templateUrl: './account-overview.component.html',
 })
 
 export class OrganisationAccountsComponent implements OnInit, OnDestroy {
-  public columnConfig: GovukTableColumnConfig[];
-  public tableRows: {}[];
-  public accounts$: Observable<Array<FeeAccount>>;
-  public loading$: Observable<boolean>;
-  public orgData: Organisation;
-  public org$: Observable<Organisation>;
-  public isOrgAccountAvailable$: Observable<boolean>;
-  public organisationSubscription: Subscription;
-  public dependanciesSubscription: Subscription;
-  public oneOrMoreAccountMissing$: Observable<boolean>;
-  public errorMessages$: Observable<Array<string>>;
+  columnConfig: GovukTableColumnConfig[];
+  tableRows: {}[];
+  accounts$: Observable<Array<FeeAccount>>;
+  loading$: Observable<boolean>;
+  orgData: OrganisationDetails;
+  org$: Observable<OrganisationDetails>;
+  isOrgAccountAvailable$: Observable<boolean>;
+  organisationSubscription: Subscription;
+  dependanciesSubscription: Subscription;
+  oneOrMoreAccountMissing$: Observable<boolean>;
+  errorMessages$: Observable<Array<string>>;
+  constructor(private feeStore: Store<fromAccountStore.FeeAccountsState>,
+              private organisationStore: Store<fromOrgStore.OrganisationState>,
+              private actions$: Actions,
+              private routerStore: Store<fromRoot.State>) {}
 
-  constructor(
-    private readonly feeStore: Store<fromAccountStore.FeeAccountsState>,
-    private readonly organisationStore: Store<fromOrgStore.OrganisationState>,
-    private readonly actions$: Actions,
-    private readonly routerStore: Store<fromRoot.State>
-  ) {}
-
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.errorMessages$ = this.feeStore.pipe(select(fromAccountStore.getErrorMessages));
     const isOrgLoaded$ = this.organisationStore.pipe(select(fromOrgStore.getOrganisationLoaded));
     if (isOrgLoaded$) {
@@ -65,8 +59,18 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
       this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
     });
   }
+  dispatchLoadFeeAccount(organisation: OrganisationDetails): boolean {
+    const anyAccountForOrg = organisation.paymentAccount.length > 0;
+    anyAccountForOrg ? this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(organisation.paymentAccount.map(pba => pba.pbaNumber))) :
+      this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountsSuccess([]));
+    return anyAccountForOrg;
+  }
 
-  public ngOnDestroy(): void {
+  dispatchAction(feeStore: Store<fromAccountStore.FeeAccountsState>, action: Action) {
+    feeStore.dispatch(action);
+  }
+
+  ngOnDestroy(): void {
     if (this.organisationSubscription) {
       this.organisationSubscription.unsubscribe();
     }
@@ -74,16 +78,5 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
       this.dependanciesSubscription.unsubscribe();
     }
     this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountResetState());
-  }
-
-  public dispatchLoadFeeAccount(organisation: Organisation): boolean {
-    const anyAccountForOrg = organisation.paymentAccount.length > 0;
-    anyAccountForOrg ? this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(organisation.paymentAccount)) :
-      this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountsSuccess([]));
-    return anyAccountForOrg;
-  }
-
-  public dispatchAction(feeStore: Store<fromAccountStore.FeeAccountsState>, action: Action): void {
-    feeStore.dispatch(action);
   }
 }

@@ -1,10 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
-import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
 import { of } from 'rxjs';
-import * as fromOrgStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
+import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
+import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
 const storeMock = {
@@ -109,7 +109,7 @@ describe('UpdatePbaNumbersComponent', () => {
 
     it('should return paymentAccount.', () => {
 
-      const paymentAccount = ['PBA3344552', 'PBA7843345'];
+      const paymentAccount = [{pbaNumber: 'PBA3344552'}, {pbaNumber: 'PBA7843345'}];
 
       const organisationDetails = {
         paymentAccount,

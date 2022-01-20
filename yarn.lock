@@ -715,7 +715,7 @@
   resolved "https://registry.yarnpkg.com/@panva/asn1.js/-/asn1.js-1.0.0.tgz#dd55ae7b8129e02049f009408b97c61ccf9032f6"
   integrity sha512-UdkG3mLEqXgnlKsWanWcgb6dOjUzJ+XC5f+aWw30qrtjxeNUSfKX1cd5FBzOaXQumoe9nIqeZUvrRJS03HCCtw==
 
-"@rxweb/reactive-form-validators@^2.1.2":
+"@rxweb/reactive-form-validators@2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@rxweb/reactive-form-validators/-/reactive-form-validators-2.1.2.tgz#3eeab7ce1b0c005abb6ddd92be0a9260f2a0c0c0"
   integrity sha512-8TYYZnloCegoZrxgj2Ko57R/tTJO7UjBqOpRQfEYLYLJit7fepMS2okmfCq0tqNZQiUmdqs7eF1p9NrOIVqPQg==

@@ -39,7 +39,7 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
-     }),
+    }),
     ExuiCommonLibModule,
     RxReactiveFormsModule
   ],

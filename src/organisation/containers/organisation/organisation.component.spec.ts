@@ -3,8 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+
 import * as fromRoot from '../../../app/store';
-import { DxAddress, OrganisationContactInformation } from '../../../models/organisation.model';
+import { DxAddress, OrganisationContactInformation } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
@@ -103,100 +104,20 @@ describe('OrganisationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should get the first Contact Information item from the Organisation Details.', () => {
-    expect(component.getContactInformation(mockOrganisationDetails)).toEqual(mockOrganisationDetails.contactInformation[0]);
-  });
-
-  describe('getDxAddress', () => {
-
-    it('should return null if there is no dxAddress.', () => {
-
-      const orgContactInformation = {
-        addressLine1: '23',
-        addressLine2: null,
-        addressLine3: null,
-        townCity: 'Aldgate East',
-        county: 'London',
-        country: null,
-        postCode: 'AT54RT',
-      };
-
-      expect(component.getDxAddress(orgContactInformation)).toBeNull();
-    });
-
-    it('should return null if the length of dxAddresses is 0.', () => {
-
-      const orgContactInformation = {
-        addressLine1: '23',
-        postCode: 'AT54RT',
-        dxAddress: []
-      };
-
-      expect(component.getDxAddress(orgContactInformation)).toBeNull();
-    });
-
-    it('should return dxAddress.', () => {
-
-      const orgDxAddress = {
-        dxNumber: 'DX 4534234552',
-        dxExchange: 'London',
-      };
-
-      const orgContactInformation = {
-        addressLine1: '23',
-        postCode: 'AT54RT',
-        dxAddress: [orgDxAddress]
-      };
-
-      expect(component.getDxAddress(orgContactInformation)).toEqual(orgDxAddress);
-    });
-  });
-
-  describe('getPaymentAccount', () => {
-
-    it('should return null if there is no paymentAccount.', () => {
-
-      const organisationDetails = {};
-
-      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
-    });
-
-    it('should return null if the length of paymentAccount is 0.', () => {
-
-      const organisationDetails = {
-        paymentAccount: [],
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
-    });
-
-    it('should return paymentAccount.', () => {
-
-      const paymentAccount = [{pbaNumber: 'PBA3344552'}, {pbaNumber: 'PBA7843345'}];
-
-      const organisationDetails = {
-        paymentAccount,
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual(paymentAccount);
-    });
-  });
-
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
 
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
-    expect(component.getOrganisationDetails()).toEqual(mockOrganisationDetails);
+    expect(component.organisationDetails).toEqual(mockOrganisationDetails);
   });
-
 
   it('should get the User Details from the Store, and set it on orgData.', () => {
 
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
-    expect(component.getOrganisationDetails()).toEqual(mockOrganisationDetails);
+    expect(component.organisationDetails).toEqual(mockOrganisationDetails);
   });
 
   describe('showChangePbaNumberLink property', () => {

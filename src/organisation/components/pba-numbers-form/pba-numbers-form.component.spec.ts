@@ -7,8 +7,9 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Action, Store } from '@ngrx/store';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { of } from 'rxjs';
-import { PbaNumbersFormComponent } from '..';
+
 import { OrganisationDetails } from '../../../models/organisation.model';
+import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 
 const storeMock = {
   pipe: () => {

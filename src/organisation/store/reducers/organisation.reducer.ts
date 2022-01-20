@@ -6,12 +6,13 @@ export interface OrganisationState {
   organisationDetails: OrganisationDetails;
   loaded: boolean;
   loading: boolean;
+  error?: any;
 }
 
 export const initialState: OrganisationState = {
   organisationDetails: null,
   loaded: false,
-  loading: false,
+  loading: false
 };
 
 export function reducer(
@@ -98,10 +99,17 @@ export function reducer(
         organisationDetails: organisationDetailWithResponse
       };
 
-      default:
-        return state;
-    }
+    case fromOrganisation.ORGANISATION_UPDATE_PBA_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    default:
+      return state;
+  }
 }
 
 export const getOrganisation = (state: OrganisationState) => state.organisationDetails;
 export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
+export const getOrganisationError = (state: OrganisationState) => state.error;

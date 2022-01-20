@@ -17,12 +17,12 @@ import { ENVIRONMENT, PROTOCOL } from './references';
 export const initialiseSecrets = () => {
   propertiesVolume.addTo(config);
   // propertiesVolume.addTo(config, { mountPoint: '/Volumes/mnt/secrets/'})
-}
+};
 
 /**
  * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
  */
- initialiseSecrets();
+initialiseSecrets();
 
 /**
  * Get Environment
@@ -33,7 +33,7 @@ export const initialiseSecrets = () => {
  * @see Readme
  * @returns {string} ie. - development / preview / aat / ithc, prod
  */
- export const getEnvironment = () => process.env.NODE_CONFIG_ENV;
+export const getEnvironment = () => process.env.NODE_CONFIG_ENV;
 
 /**
  * Get Configuration Value
@@ -45,9 +45,9 @@ export const initialiseSecrets = () => {
  * @see references.ts
  * @param reference - ie. 'services.ccdDefApi'
  */
- export const getConfigValue = reference => config.get(reference);
+export const getConfigValue = reference => config.get(reference);
 
- export const hasConfigValue = reference => config.has(reference);
+export const hasConfigValue = reference => config.has(reference);
 
 /**
  * Show Feature
@@ -57,7 +57,7 @@ export const initialiseSecrets = () => {
  * @param feature
  * @return boolean
  */
- export const showFeature = feature => config.get(`feature.${feature}`);
+export const showFeature = feature => config.get(`feature.${feature}`);
 
 /**
  * Generate Environment Check Text
@@ -65,8 +65,8 @@ export const initialiseSecrets = () => {
  * We generate text to be used for debugging purposes, so as the person attempting to initialise the application knows
  * what the NODE_CONFIG_ENV is set as and what config file is being used.
  */
- export const environmentCheckText = () =>
- `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get(ENVIRONMENT)} config.`;
+export const environmentCheckText = () =>
+  `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get(ENVIRONMENT)} config.`;
 
 /**
  * Get Protocol

@@ -25,7 +25,7 @@ export class PbaNumberInputComponent implements OnInit {
   public ngOnInit(): void {
     if (!this.group) {
       return;
-    };
+    }
 
     this.group.valueChanges.subscribe(() => this.onPbaNumberValueChange());
   }
@@ -61,7 +61,7 @@ export class PbaNumberInputComponent implements OnInit {
 
     if (!cleanedValue.startsWith('PBA') && cleanedValue.length !== 0) {
       cleanedValue = `PBA${cleanedValue}`;
-    };
+    }
 
     return cleanedValue;
   }

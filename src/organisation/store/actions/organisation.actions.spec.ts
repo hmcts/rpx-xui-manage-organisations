@@ -1,10 +1,12 @@
-
-import { LoadOrganisation, LOAD_ORGANISATION } from './organisation.actions';
-import { LoadOrganisationSuccess, LOAD_ORGANISATION_SUCCESS } from './organisation.actions';
-import { LoadOrganisationFail, LOAD_ORGANISATION_FAIL } from './organisation.actions';
-import { Organisation } from 'src/organisation/organisation.model';
-import { OrganisationDetails } from '../../../models/organisation.model';
-
+import { OrganisationDetails } from '../../../models';
+import {
+  LOAD_ORGANISATION,
+  LOAD_ORGANISATION_FAIL,
+  LOAD_ORGANISATION_SUCCESS,
+  LoadOrganisation,
+  LoadOrganisationFail,
+  LoadOrganisationSuccess,
+} from './organisation.actions';
 
 describe('Load Organisation', () => {
   it('should create an action', () => {
@@ -12,8 +14,6 @@ describe('Load Organisation', () => {
     expect({ ...action }).toEqual({ type: LOAD_ORGANISATION });
   });
 });
-
-
 
 describe('LoadOrganisationSuccess', () => {
   it('should create an action', () => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
+import { PBANumberModel } from '../../../models/pbaNumber.model';
 import * as fromAuthStore from '../../../user-profile/store/index';
 import * as fromStore from '../../store';
 
@@ -9,23 +9,18 @@ import * as fromStore from '../../store';
   selector: 'app-prd-organisation-component',
   templateUrl: './organisation.component.html',
 })
-
 export class OrganisationComponent implements OnInit {
 
   public organisationDetails: Partial<OrganisationDetails>;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
-  public organisationPaymentAccount: string[];
+  public organisationPaymentAccount: PBANumberModel[];
 
   public showChangePbaNumberLink: boolean;
 
   constructor(
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly authStore: Store<fromAuthStore.AuthState>) {
-  }
-
-  public ngOnInit(): void {
-    this.getOrganisationDetailsFromStore();
   }
 
   /**
@@ -42,6 +37,7 @@ export class OrganisationComponent implements OnInit {
    * @param organisationDetails - See unit test.
    */
   public getContactInformation(organisationDetails): OrganisationContactInformation {
+
     return organisationDetails.contactInformation[0];
   }
 
@@ -61,6 +57,7 @@ export class OrganisationComponent implements OnInit {
    * ]
    */
   public getDxAddress(contactInformation: Partial<OrganisationContactInformation>): DxAddress {
+
     return (!contactInformation.hasOwnProperty('dxAddress') || !contactInformation.dxAddress.length) ?
       null : contactInformation.dxAddress[0];
   }
@@ -73,7 +70,8 @@ export class OrganisationComponent implements OnInit {
    * @param organisationDetails - See unit test.
    * @return ['PBA3344542','PBA7843342']
    */
-  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
+  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] {
+
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
       null : organisationDetails.paymentAccount;
   }
@@ -84,8 +82,8 @@ export class OrganisationComponent implements OnInit {
    * Once we have the Organisation Details, we display them on the page.
    */
   public getOrganisationDetailsFromStore(): void {
-    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
 
+    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = this.getContactInformation(organisationDetails);
       this.organisationPaymentAccount = this.getPaymentAccount(organisationDetails);
       this.organisationDxAddress = this.getDxAddress(this.organisationContactInformation);
@@ -95,13 +93,26 @@ export class OrganisationComponent implements OnInit {
     });
   }
 
+  public getOrganisationDetails() {
+
+    return this.organisationDetails;
+  }
+
   public canShowChangePbaNumbersLink(): void {
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
       this.showChangePbaNumberLink = userIsPuiFinanceManager;
     });
   }
 
-  public getOrganisationDetails(): Partial<OrganisationDetails> {
-    return this.organisationDetails;
+  public pbaNumberWithStatus(pba: PBANumberModel): string {
+    if (pba.status) {
+      return `${pba.pbaNumber} (${pba.status})`;
+    }
+    return pba.pbaNumber;
+  }
+
+  public ngOnInit(): void {
+
+    this.getOrganisationDetailsFromStore();
   }
 }

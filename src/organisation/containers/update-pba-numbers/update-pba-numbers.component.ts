@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Organisation } from 'src/organisation/organisation.model';
 import { OrganisationDetails } from '../../../models/organisation.model';
+import { PBANumberModel } from '../../../models/pbaNumber.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -10,7 +10,7 @@ import * as fromStore from '../../store';
 })
 export class UpdatePbaNumbersComponent implements OnInit {
 
-  public organisation: Organisation;
+  public organisationDetails: OrganisationDetails;
 
   constructor(private readonly orgStore: Store<fromStore.OrganisationState>) { }
 
@@ -26,7 +26,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    * @param organisationDetails - See unit test.
    * @return ['PBA3344542','PBA7843342']
    */
-  public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): string[] {
+   public getPaymentAccount(organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] {
     return (!organisationDetails.hasOwnProperty('paymentAccount') || !organisationDetails.paymentAccount.length) ?
       [] : organisationDetails.paymentAccount;
   }
@@ -38,7 +38,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    */
   private getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
-      this.organisation = organisationDetails;
+      this.organisationDetails = organisationDetails;
     });
   }
 }

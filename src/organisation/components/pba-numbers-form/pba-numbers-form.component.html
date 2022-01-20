@@ -10,7 +10,7 @@
         <table class="govuk-table">
           <tbody class="govuk-table__body">
             <tr class="govuk-table__row" *ngFor="let pba of currentPaymentAccounts">
-              <th class="govuk-table__header" scope="row">{{pba}}</th>
+              <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
               <td class="govuk-table__cell">
                 <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
                   aria-label="Remove PBA account number"

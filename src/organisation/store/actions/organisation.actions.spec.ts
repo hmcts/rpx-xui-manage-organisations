@@ -3,6 +3,7 @@ import { LoadOrganisation, LOAD_ORGANISATION } from './organisation.actions';
 import { LoadOrganisationSuccess, LOAD_ORGANISATION_SUCCESS } from './organisation.actions';
 import { LoadOrganisationFail, LOAD_ORGANISATION_FAIL } from './organisation.actions';
 import { Organisation } from 'src/organisation/organisation.model';
+import { OrganisationDetails } from '../../../models/organisation.model';
 
 
 describe('Load Organisation', () => {
@@ -16,15 +17,31 @@ describe('Load Organisation', () => {
 
 describe('LoadOrganisationSuccess', () => {
   it('should create an action', () => {
-    const payload: Organisation = {
+    const payload: OrganisationDetails = {
       name: 'a@b.com',
+      organisationIdentifier: 'A111111',
+      contactInformation: [{
       addressLine1: '10  oxford street',
+      addressLine2: 'A Town',
+      addressLine3: null,
       townCity: 'London',
-      postcode: 'W1',
-      addressLine2: '',
+      county: null,
       country: 'UK',
-      contactInformation: [],
-      paymentAccount: [],
+      postCode: 'W1',
+      dxAddress: [{
+        dxNumber: 'dx11111',
+        dxExchange: 'dxExchange'
+      }]
+    }],
+      status: '',
+      sraId: '',
+      sraRegulated: true,
+      superUser: {
+      firstName: 'James',
+        lastName: 'Chris',
+        email: 'James.Chris@test.com'
+    },
+      paymentAccount: [{pbaNumber: 'PBA000000'}],
       pendingAddPaymentAccount: [],
       pendingRemovePaymentAccount: []
     };
@@ -36,8 +53,6 @@ describe('LoadOrganisationSuccess', () => {
   });
 });
 
-
-
 describe('LoadOrganisationFail', () => {
   it('should create an action', () => {
     const payload: any = 'fail';
@@ -48,4 +63,3 @@ describe('LoadOrganisationFail', () => {
     });
   });
 });
-

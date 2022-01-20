@@ -3,25 +3,25 @@
     <tbody class="govuk-table__body">
 
       <!-- Accounts to be added -->
-      <tr class="govuk-table__row" *ngIf="organisation.pendingAddPaymentAccount.length > 0">
+      <tr class="govuk-table__row" *ngIf="organisationDetails.pendingAddPaymentAccount.length > 0">
         <th class="govuk-table__header">Accounts to be added</th>
         <td class="govuk-table__cell">
-          <div *ngFor="let pba of organisation.pendingAddPaymentAccount">
-            {{pba}}
+          <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">
+            {{pba.pbaNumber}}
           </div>
         </td>
         <td class="govuk-table__cell">
           <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
-            id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
+            id="change-pending-add-pba-numbers__link" aria-label="Change PBA account numbers">Change</a>
         </td>
       </tr>
 
       <!-- Accounts to be remove -->
-      <tr class="govuk-table__row" *ngIf="organisation.pendingRemovePaymentAccount.length > 0">
+      <tr class="govuk-table__row" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
         <th class="govuk-table__header" scope="row">Accounts to be removed</th>
         <td class="govuk-table__cell">
-          <div *ngFor="let pba of organisation.pendingRemovePaymentAccount">
-            {{pba}}
+          <div *ngFor="let pba of organisationDetails.pendingRemovePaymentAccount">
+            {{pba.pbaNumber}}
           </div>
         </td>
         <td class="govuk-table__cell">
@@ -32,7 +32,7 @@
     </tbody>
   </table>
 
-  <div class="govuk-warning-text" *ngIf="organisation.pendingRemovePaymentAccount.length > 0">
+  <div class="govuk-warning-text" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">
       <span class="govuk-warning-text__assistive">Warning</span>

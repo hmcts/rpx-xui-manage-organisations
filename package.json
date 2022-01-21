@@ -109,7 +109,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "launchdarkly-js-client-sdk": "^2.15.2",
-    "log4js": "^3.0.6",
+    "log4js": "^6.4.0",
     "ngx-cookie": "4.0.2",
     "ngx-cookie-service": "^2.1.0",
     "ngx-logger": "^4.0.3",

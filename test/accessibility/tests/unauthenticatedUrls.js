@@ -33,7 +33,7 @@ describe('Pa11y tests', function () {
 
     });
 
-    xit('Registration Check your Answers Page ', async function () {
+    it('Registration Check your Answers Page ', async function () {
 
         await MockApp.startServer();
         // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));

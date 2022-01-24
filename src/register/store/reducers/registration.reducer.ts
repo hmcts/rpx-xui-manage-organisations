@@ -88,6 +88,52 @@ export function reducer(
   switch (action.type) {
 
     case fromRegistration.LOAD_PAGE_ITEMS: {
+      if (state.pages['organisation-pba']) {
+        const copypbaPage = Object.assign({}, state.pages['organisation-pba']);
+        const allControls = [];
+        const allpbaList = [];
+        const filledpbaList = [];
+        const emptypbaList = [];
+
+        Object.keys(state.pagesValues).map(key => {
+          if (key.startsWith('PBANumber')) {
+            allpbaList.push(key);
+            if (state.pagesValues[key]) {
+              filledpbaList.push(key);
+            } else {
+              emptypbaList.push(key);
+            }
+          }
+        });
+
+        state.pages['organisation-pba'].meta.groups.forEach((element, index) => {
+          if (element.inputButton && emptypbaList.includes(element.inputButton.control)
+            && allpbaList.length > 1) {
+            if (emptypbaList.length > 1 && filledpbaList.length === 0 && index === 0) {
+              allControls.push(element);
+              emptypbaList.splice(index, 1);
+            }
+          } else {
+            allControls.push(element);
+          }
+        });
+
+        const allDataList = Object.entries(state.pagesValues).filter((key, value) => {
+          if (emptypbaList.includes(key[0]) && allpbaList.length > 1) {
+            return false;
+          }
+          return true;
+        }).reduce((obj, k) => {
+          obj[k[0]] = k[1];
+          return obj;
+        }, {});
+
+        copypbaPage.meta = { ...copypbaPage.meta, groups: allControls };
+        const pbaPage = { ...state.pages, 'organisation-pba': copypbaPage };
+        state = { ...state, pages: pbaPage };
+        state = { ...state, pagesValues: allDataList };
+      }
+
       return {
         ...state,
         loading: true,
@@ -117,7 +163,7 @@ export function reducer(
       };
     }
 
-case fromRegistration.ADD_PBA_NUMBER: {
+    case fromRegistration.ADD_PBA_NUMBER: {
       const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
       const predicate = (element: {}) => element.hasOwnProperty('inputButton');
       const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
@@ -127,7 +173,7 @@ case fromRegistration.ADD_PBA_NUMBER: {
       } else {
         // @ts-ignore
         const maxInputControl = pageGroups[lastInputIndex].inputButton.control;
-        const maxIndex = maxInputControl.replace( /^\D+/g, '');
+        const maxIndex = maxInputControl.replace(/^\D+/g, '');
         // @ts-ignore
         pageGroups.splice(lastInputIndex + 1, 0, newPBAElement(parseInt(maxIndex, 10) + 1));
       }
@@ -171,7 +217,7 @@ case fromRegistration.ADD_PBA_NUMBER: {
         }
       };
       const removeItem = action.payload.replace('remove', '');
-      const pagesValues = {...state.pagesValues};
+      const pagesValues = { ...state.pagesValues };
       delete pagesValues[removeItem];
       return {
         ...state,
@@ -183,7 +229,7 @@ case fromRegistration.ADD_PBA_NUMBER: {
     }
 
     case fromRegistration.SAVE_FORM_DATA: {
-      let pages = {...state.pages};
+      let pages = { ...state.pages };
       if (action.payload.pageId === 'organisation-pba') {
         pages = {
           ...state.pages,
@@ -266,7 +312,7 @@ case fromRegistration.ADD_PBA_NUMBER: {
           errorMessage: apiMessageMapped,
           errorMessageCode: apiError
         };
-      } else if ( action.payload.error.statusCode === 400) {
+      } else if (action.payload.error.statusCode === 400) {
         return {
           ...state,
           submitted: false,
@@ -302,7 +348,7 @@ case fromRegistration.ADD_PBA_NUMBER: {
       };
     }
 
-   default:
+    default:
       return state;
   }
 }

@@ -1,4 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import { HeaderComponent } from './header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
@@ -10,6 +12,7 @@ describe('HeaderComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                RouterTestingModule,
                 StoreModule.forRoot({}),
                 StoreModule.forFeature('app', reducers),
             ],
@@ -30,6 +33,11 @@ describe('HeaderComponent', () => {
         spyOn(app.navigate, 'emit');
         app.onNavigate('dummy');
         expect(app.navigate.emit).toHaveBeenCalledWith('dummy');
+    });
+
+    it('should render the skip to content link', () => {
+      const element = fixture.debugElement.query(By.css('.govuk-skip-link')).nativeElement;
+      expect(element.innerHTML).toEqual('Skip to main content');
     });
 
 });

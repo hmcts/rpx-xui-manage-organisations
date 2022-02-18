@@ -1,4 +1,7 @@
 <header>
+
+    <a [routerLink]="" fragment="{{mainContentId}}" class="govuk-skip-link">Skip to main content</a>
+
     <app-hmcts-global-header
       [userLoggedIn]="isUserLoggedIn$ | async"
       [showHeaderItems]="showHeaderItems$ | async"

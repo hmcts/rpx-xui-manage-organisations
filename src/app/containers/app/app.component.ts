@@ -34,7 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public featureToggleKey: string;
   public serviceMessageCookie: string;
   public userRoles: string[];
-  public mainContentId = 'content';
 
   private userId: string = null;
   public cookieName;
@@ -275,15 +274,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public onNavigate(event): void {
     if (event === 'sign-out') {
       return this.store.dispatch(new fromRoot.Logout());
-    }
-  }
-
-  // the fragment attribute in Angular is good however it only scrolls to the anchor tag
-  // focussing is not currently supported by the Angular RouterModule and fragment hence this workaround
-  public onFocusMainContent() {
-    const element = document.getElementById(this.mainContentId);
-    if (element) {
-      element.focus();
     }
   }
 

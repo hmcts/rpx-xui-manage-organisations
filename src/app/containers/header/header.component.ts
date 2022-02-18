@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
   public isBrandedHeader = true;
   public isUserLoggedIn$: Observable<boolean>;
+  public mainContentId = 'content';
   public showHeaderItems$: Observable<boolean>;
 
   constructor(public store: Store<fromRoot.State>) {}

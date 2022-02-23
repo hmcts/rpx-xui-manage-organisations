@@ -88,6 +88,7 @@ export class ValidationHeaderComponent {
     scrollToElement(id): boolean {
         const el = document.getElementById(id);
         el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+        el.focus();
         return false;
     }
 }

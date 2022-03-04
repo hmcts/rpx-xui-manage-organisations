@@ -1,9 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
@@ -12,21 +11,19 @@ import { OrganisationComponent } from './organisation.component';
 const storeMock = {
   pipe: () => {
   },
-  dispatch: (action: Action) => {
+  dispatch: () => {
   }
 };
 
 const authStoreMock = {
   pipe: () => {
   },
-  dispatch: (action: Action) => {
+  dispatch: () => {
   }
 };
 
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
-
-let userIsPuiFinanceManager: boolean;
 
 describe('OrganisationComponent', () => {
 
@@ -67,7 +64,7 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: [{pbaNumber: 'test'}]
+    paymentAccount: [{ pbaNumber: 'test' }]
   };
 
   beforeEach(() => {
@@ -145,7 +142,6 @@ describe('OrganisationComponent', () => {
   describe('canShowChangePbaNumbersLink()', () => {
 
     it('should set to true when the user has pui-finance-manager', () => {
-      userIsPuiFinanceManager = true;
 
       component.canShowChangePbaNumbersLink();
 

@@ -1,7 +1,6 @@
 <app-hmcts-main-wrapper [backLink]="'/organisation/update-pba-numbers'" [title]="title" [summaryErrors]="summaryErrors">
   <table class="govuk-table">
     <tbody class="govuk-table__body">
-
       <!-- Accounts to be added -->
       <tr class="govuk-table__row" *ngIf="organisationDetails.pendingAddPaymentAccount.length > 0">
         <th class="govuk-table__header nowrap">Accounts to be added</th>
@@ -17,7 +16,6 @@
             id="change-pending-add-pba-numbers__link" aria-label="Change PBA account numbers">Change</a>
         </td>
       </tr>
-
       <!-- Accounts to be remove -->
       <tr class="govuk-table__row" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
         <th class="govuk-table__header" scope="row">Accounts to be removed</th>
@@ -31,7 +29,6 @@
       </tr>
     </tbody>
   </table>
-
   <div class="govuk-warning-text" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
     <strong class="govuk-warning-text__text">

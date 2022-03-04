@@ -12,12 +12,12 @@ import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.compo
 @Component({
   template: `<div>Nothing to see here. Move along, please.</div>`
 })
-class MockComponent {}
+class MockComponent { }
 
 describe('UpdatePbaNumbersCheckComponent', () => {
   const storeMock = {
     actionsDispatched: [],
-    pipe: () => {},
+    pipe: () => { },
     dispatch: (action: fromStore.OrganisationUpdatePBAs) => {
       storeMock.actionsDispatched.push(action);
     }
@@ -49,14 +49,14 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [ MOCK_DX_ADDRESS ]
+    dxAddress: [MOCK_DX_ADDRESS]
   };
 
   const getMockOrganisation = (add: PBANumberModel[], remove: PBANumberModel[]): OrganisationDetails => {
     return {
       name: 'Luke Solicitors',
       organisationIdentifier: 'HAUN33E',
-      contactInformation: [ MOCK_CONTACT_INFORMATION ],
+      contactInformation: [MOCK_CONTACT_INFORMATION],
       status: 'ACTIVE',
       sraId: 'SRA1298455554',
       sraRegulated: false,
@@ -66,6 +66,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
         email: 'lukesuperuserxui@mailnesia.com'
       },
       paymentAccount: [{ pbaNumber: 'test' }],
+      pendingPaymentAccount: [{ pbaNumber: 'testPBA' }],
       pendingAddPaymentAccount: add,
       pendingRemovePaymentAccount: remove
     };

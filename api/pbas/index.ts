@@ -1,64 +1,67 @@
-import { NextFunction, Response } from 'express'
+import { NextFunction, Response } from 'express';
+import { handleDelete, handleGet, handlePost, handlePut } from '../common/mockService';
+import { getConfigValue } from '../configuration';
+import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
+import { EnhancedRequest } from '../lib/models';
+import { PendingPaymentAccount } from './models';
+import { PaymentAccountRequest } from './models/paymentAccountRequest.model';
+import * as mock from './pbaService.mock';
 
-import { handleDelete, handleGet, handlePost, handlePut } from '../common/mockService'
-import { getConfigValue } from '../configuration'
-import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import { EnhancedRequest } from '../lib/models'
-import { PendingPaymentAccount } from './models'
-import * as mock from './pbaService.mock'
+mock.init();
 
-mock.init()
-
-const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
 
 export async function addDeletePBA(req: EnhancedRequest, res: Response, next: NextFunction): Promise<void> {
-    const pendingPaymentAccount: PendingPaymentAccount = req.body.pendingPaymentAccount
+    const pendingPaymentAccount: PendingPaymentAccount = req.body.pendingPaymentAccount;
+    const paymentAccountRequest = {
+        paymentAccounts: pendingPaymentAccount.pendingAddPaymentAccount,
+    } as PaymentAccountRequest;
     try {
-        const allPromises = []
+        const allPromises = [];
         // do add PBAs
-        const addPBAPath: string = `${url}/api/pba/addPBA`
-        const pendingAddPBAs = pendingPaymentAccount.pendingAddPaymentAccount
-        const addPBAPromise = handlePost(addPBAPath, pendingAddPBAs, req)
-        allPromises.push(addPBAPromise)
+        const addPBAPath: string = `${url}/refdata/external/v1/organisations/pba`;
+        const pendingAddPBAs = paymentAccountRequest;
+        const addPBAPromise = req.http.post(addPBAPath, pendingAddPBAs);
+        allPromises.push(addPBAPromise);
         // do delete PBAs
-        const deletePBAPath: string = `${url}/api/pba/deletePBA`
-        const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount
-        const deletePBAPromise = handleDelete(deletePBAPath, pendingRemovePBAs, req)
-        allPromises.push(deletePBAPromise)
+        // const deletePBAPath: string = `${url}/api/pba/deletePBA`
+        // const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount
+        // const deletePBAPromise = handleDelete(deletePBAPath, pendingRemovePBAs, req)
+        // allPromises.push(deletePBAPromise)
 
         // @ts-ignore
-        const allResults = await Promise.allSettled(allPromises)
-        const { allErrorMessages, rejectedCount, rejectedReason } = handleRejectedResponse(allResults)
+        const allResults = await Promise.allSettled(allPromises);
+        const { allErrorMessages, rejectedCount, rejectedReason } = handleRejectedResponse(allResults);
         if (rejectedCount > 0) {
             if (onlyReasonIsAlreadyInUse(rejectedReason)) {
-                res.status(409).send(allErrorMessages)
+                res.status(409).send(allErrorMessages);
             } else {
-                res.status(500).send(allErrorMessages)
+                res.status(500).send(allErrorMessages);
             }
         } else {
             // no pendingAddPBAs that is delete only
-            if (!pendingAddPBAs || pendingAddPBAs.length === 0) {
-                res.status(202).send({ code: 202, message: 'delete successfully' })
+            if (!pendingAddPBAs || pendingAddPBAs.paymentAccounts.length === 0) {
+                res.status(202).send({ code: 202, message: 'delete successfully' });
             } else {
-                res.status(200).send({ code: 200, message: 'update successfully' })
+                res.status(200).send({ code: 200, message: 'update successfully' });
             }
         }
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
 function onlyReasonIsAlreadyInUse(reasons: any[]): boolean {
-    let alreadyInUse = false
-    let errorOtherThanAlreadyInUse = false
-    reasons.forEach( reason => {
+    let alreadyInUse = false;
+    let errorOtherThanAlreadyInUse = false;
+    reasons.forEach(reason => {
         if (reason.status === 409) {
-            alreadyInUse = true
+            alreadyInUse = true;
         } else if (reason.status >= 400) {
-            errorOtherThanAlreadyInUse = true
+            errorOtherThanAlreadyInUse = true;
         }
-    })
-    return alreadyInUse && !errorOtherThanAlreadyInUse
+    });
+    return alreadyInUse && !errorOtherThanAlreadyInUse;
 }
 
 function handleRejectedResponse(allResults: any): {
@@ -67,69 +70,69 @@ function handleRejectedResponse(allResults: any): {
     rejectedReason: any[]
     rejectedCount: number
 } {
-    const allErrorMessages: string[] = []
-    const rejectedPayloads: any[] = []
-    const rejectedReason: any[] = []
-    let rejectedCount: number = 0
+    const allErrorMessages: string[] = [];
+    const rejectedPayloads: any[] = [];
+    const rejectedReason: any[] = [];
+    let rejectedCount: number = 0;
 
-    allResults.forEach( result => {
+    allResults.forEach(result => {
         const { status, reason }: { status: string; reason: any } = result;
         if (status === 'rejected') {
-            const rejectedPayload = JSON.stringify(reason.data)
-            rejectedPayloads.push(rejectedPayload)
-            rejectedReason.push(reason)
+            const rejectedPayload = JSON.stringify(reason.data);
+            rejectedPayloads.push(rejectedPayload);
+            rejectedReason.push(reason);
             allErrorMessages.push(
                 `{ "request": ${rejectedPayload}, "response": { "status": ${reason.status}, "message": "${reason.data.errorMessage}"}}`
-            )
-            rejectedCount++
+            );
+            rejectedCount++;
         }
-    })
-    return { allErrorMessages, rejectedPayloads, rejectedReason, rejectedCount }
+    });
+    return { allErrorMessages, rejectedPayloads, rejectedReason, rejectedCount };
 }
 
 export async function addPBA(req: EnhancedRequest, res: Response, next: NextFunction): Promise<void> {
-    const markupPath: string = url + req.originalUrl
-    const body: any = req.body
+    const markupPath: string = url + req.originalUrl;
+    const body: any = req.body;
 
     try {
-        const { status, data }: { status: number; data: any } = await handlePost(markupPath, body, req)
-        res.status(status).send(data)
+        const { status, data }: { status: number; data: any } = await handlePost(markupPath, body, req);
+        res.status(status).send(data);
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
 export async function deletePBA(req: EnhancedRequest, res: Response, next: NextFunction): Promise<void> {
-    const markupPath: string = url + req.originalUrl
-    const body: any = req.body
+    const markupPath: string = url + req.originalUrl;
+    const body: any = req.body;
 
     try {
-        const { status, data }: { status: number; data: any } = await handleDelete(markupPath, body, req)
-        res.status(status).send(data)
+        const { status, data }: { status: number; data: any } = await handleDelete(markupPath, body, req);
+        res.status(status).send(data);
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
 export async function getPBA(req: EnhancedRequest, res: Response, next: NextFunction): Promise<void> {
-    const markupPath: string = url + req.originalUrl
+    const markupPath: string = url + req.originalUrl;
 
     try {
-        const { status, data }: { status: number; data: any } = await handleGet(markupPath, req)
-        res.status(status).send(data)
+        const { status, data }: { status: number; data: any } = await handleGet(markupPath, req);
+        res.status(status).send(data);
     } catch (error) {
-        next(error)
+        next(error);
     }
 }
 
 export async function updatePBA(req: EnhancedRequest, res: Response, next: NextFunction): Promise<void> {
-    const markupPath: string = url + req.originalUrl
-    const body: any = req.body
+    const markupPath: string = url + req.originalUrl;
+    const body: any = req.body;
 
     try {
-        const { status, data }: { status: number; data: any } = await handlePut(markupPath, body, req)
-        res.status(status).send(data)
+        const { status, data }: { status: number; data: any } = await handlePut(markupPath, body, req);
+        res.status(status).send(data);
     } catch (error) {
-        next(error)
+        next(error);
     }
 }

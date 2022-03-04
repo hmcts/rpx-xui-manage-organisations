@@ -30,7 +30,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   constructor(
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>
-  ) {}
+  ) { }
 
   public get hasPendingChanges(): boolean {
     if (this.organisationDetails) {
@@ -78,7 +78,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
       this.organisationDetails = organisationDetails;
 
       if (!this.hasPendingChanges) {
-        this.router.navigate(['/organisation/update-pba-numbers']).then(() => {});
+        this.router.navigate(['/organisation/update-pba-numbers']).then(() => { });
       }
     });
   }

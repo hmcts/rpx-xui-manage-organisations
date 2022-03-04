@@ -16,7 +16,7 @@ export class OrganisationComponent implements OnInit {
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
   public organisationPaymentAccount: PBANumberModel[];
-
+  public organisationPendingPaymentAccount: PBANumberModel[];
   public showChangePbaNumberLink: boolean;
 
   constructor(
@@ -37,6 +37,7 @@ export class OrganisationComponent implements OnInit {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = utils.getContactInformation(organisationDetails);
       this.organisationPaymentAccount = utils.getPaymentAccount(organisationDetails);
+      this.organisationPendingPaymentAccount = utils.getPendingPaymentAccount(organisationDetails);
       this.organisationDxAddress = utils.getDxAddress(this.organisationContactInformation);
       this.organisationDetails = organisationDetails;
       this.canShowChangePbaNumbersLink();

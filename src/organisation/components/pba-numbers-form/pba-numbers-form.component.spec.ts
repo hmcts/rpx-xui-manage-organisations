@@ -6,20 +6,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Action, Store } from '@ngrx/store';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
-import { of } from 'rxjs';
-
 import { OrganisationDetails } from '../../../models/organisation.model';
 import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 
 const storeMock = {
   pipe: () => {
   },
-  dispatch: (action: Action) => {
+  dispatch: () => {
   }
 };
 
-let pipeSpy: jasmine.Spy;
-let dispatchSpy: jasmine.Spy;
 
 const mockOrganisationDetails: OrganisationDetails = {
   name: 'A Firm',
@@ -45,8 +41,9 @@ const mockOrganisationDetails: OrganisationDetails = {
     lastName: 'Chris',
     email: 'James.Chris@test.com'
   },
-  paymentAccount: [{pbaNumber: 'PBA000000'}],
+  paymentAccount: [{ pbaNumber: 'PBA000000' }],
   pendingAddPaymentAccount: [],
+  pendingPaymentAccount: [],
   pendingRemovePaymentAccount: []
 };
 
@@ -55,8 +52,6 @@ describe('PbaNumbersFormComponent', () => {
   let fixture: ComponentFixture<PbaNumbersFormComponent>;
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
-    dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({
       imports: [

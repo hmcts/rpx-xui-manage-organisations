@@ -37,7 +37,7 @@ describe('UpdatePbaNumbersComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [ dxAddress ]
+    dxAddress: [dxAddress]
   };
 
   /**
@@ -46,7 +46,7 @@ describe('UpdatePbaNumbersComponent', () => {
   const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
-    contactInformation: [ contactInformation ],
+    contactInformation: [contactInformation],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',
     sraRegulated: false,
@@ -57,7 +57,8 @@ describe('UpdatePbaNumbersComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingAddPaymentAccount: [],
-    pendingRemovePaymentAccount: []
+    pendingRemovePaymentAccount: [],
+    pendingPaymentAccount: []
   };
 
   beforeEach(() => {

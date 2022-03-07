@@ -49,11 +49,4 @@ export class OrganisationComponent implements OnInit {
       this.showChangePbaNumberLink = userIsPuiFinanceManager;
     });
   }
-
-  public pbaNumberWithStatus(pba: PBANumberModel): string {
-    if (pba.status) {
-      return `${pba.pbaNumber} (${pba.status})`;
-    }
-    return pba.pbaNumber;
-  }
 }

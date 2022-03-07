@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Action, Store } from '@ngrx/store';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+import { of } from 'rxjs/internal/observable/of';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 
@@ -47,7 +48,7 @@ const mockOrganisationDetails: OrganisationDetails = {
   pendingRemovePaymentAccount: []
 };
 
-describe('PbaNumbersFormComponent', () => {
+fdescribe('PbaNumbersFormComponent', () => {
   let component: PbaNumbersFormComponent;
   let fixture: ComponentFixture<PbaNumbersFormComponent>;
 
@@ -73,6 +74,7 @@ describe('PbaNumbersFormComponent', () => {
 
     fixture = TestBed.createComponent(PbaNumbersFormComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'getOrganisationDetailsFromStore').and.returnValue(of(mockOrganisationDetails));
     component.organisationDetails = mockOrganisationDetails;
     fixture.detectChanges();
   });

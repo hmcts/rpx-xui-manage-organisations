@@ -32,7 +32,7 @@ export class PbaNumbersFormComponent implements OnInit {
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly fb: FormBuilder
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
@@ -115,7 +115,7 @@ export class PbaNumbersFormComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => {});
+    this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => { });
   }
 
   private initialiseForm(): void {
@@ -215,7 +215,7 @@ export class PbaNumbersFormComponent implements OnInit {
    *
    * Once we have the Organisation Details, we display them on the page.
    */
-  private getOrganisationDetailsFromStore(): void {
+  public getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationDetails = organisationDetails;
     });

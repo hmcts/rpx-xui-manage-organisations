@@ -48,7 +48,7 @@ const mockOrganisationDetails: OrganisationDetails = {
   pendingRemovePaymentAccount: []
 };
 
-fdescribe('PbaNumbersFormComponent', () => {
+describe('PbaNumbersFormComponent', () => {
   let component: PbaNumbersFormComponent;
   let fixture: ComponentFixture<PbaNumbersFormComponent>;
 

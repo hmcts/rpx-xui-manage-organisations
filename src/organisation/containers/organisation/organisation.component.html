@@ -28,7 +28,7 @@
       <td class="govuk-table__cell">
         <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers" *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
           <div *ngIf="organisationPaymentAccount">
-            <div *ngFor="let pba of organisationPaymentAccount">{{pba}} (Accepted)</div>
+            <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}} (Accepted)</div>
           </div>
           <div *ngIf="!organisationPaymentAccount">
             <div>No PBA accounts registered</div>

@@ -30,7 +30,7 @@ describe('Pa11y tests', function () {
     });
 
 
-    it('Unassigned Cases Share a case', async function () {
+    xit('Unassigned Cases Share a case', async function () {
         await MockApp.startServer();
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases/case-share?init=true'));
@@ -38,7 +38,7 @@ describe('Pa11y tests', function () {
         await pa11ytest(this, actions);
     });
 
-    it('Unassigned Cases Share a case Error page', async function () {
+    xit('Unassigned Cases Share a case Error page', async function () {
         MockApp.onGet('/api/caseshare/cases', (req,res) => { res.status(500).send({error:'test error'})});
         await MockApp.startServer();
         const actions = [];

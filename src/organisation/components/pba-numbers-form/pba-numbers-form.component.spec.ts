@@ -4,9 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { OrganisationDetails } from '../../../models/organisation.model';
 import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 

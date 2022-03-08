@@ -27,16 +27,10 @@
       <th class="govuk-table__header" scope="row">PBA numbers</th>
       <td class="govuk-table__cell">
         <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers" *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
-          <div *ngIf="organisationPaymentAccount">
-            <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}} (Accepted)</div>
-          </div>
-          <div *ngIf="!organisationPaymentAccount">
-            <div>No PBA accounts registered</div>
-          </div>
+          <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}} (Accepted)</div>
+            <div *ngIf="!organisationPaymentAccount">No PBA accounts registered</div>
           <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending)</div>
-          <div *ngIf="!organisationPendingPaymentAccount">
-          <div>No Pending PBA accounts registered</div>
-        </div>
+          <div *ngIf="!organisationPendingPaymentAccount">No Pending PBA accounts registered</div>
       </td>
     </tr>
     <!-- !PBA Numbers -->

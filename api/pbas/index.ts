@@ -23,11 +23,6 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
         const pendingAddPBAs = paymentAccountRequest;
         const addPBAPromise = req.http.post(addPBAPath, pendingAddPBAs);
         allPromises.push(addPBAPromise);
-        // do delete PBAs
-        // const deletePBAPath: string = `${url}/api/pba/deletePBA`
-        // const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount
-        // const deletePBAPromise = handleDelete(deletePBAPath, pendingRemovePBAs, req)
-        // allPromises.push(deletePBAPromise)
 
         // @ts-ignore
         const allResults = await Promise.allSettled(allPromises);

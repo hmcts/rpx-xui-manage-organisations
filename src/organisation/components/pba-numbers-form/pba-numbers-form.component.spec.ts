@@ -45,7 +45,8 @@ const mockOrganisationDetails: OrganisationDetails = {
     lastName: 'Chris',
     email: 'James.Chris@test.com'
   },
-  paymentAccount: [{pbaNumber: 'PBA000000'}],
+  paymentAccount: [{ pbaNumber: 'PBA000000' }],
+  pendingPaymentAccount: [],
   pendingAddPaymentAccount: [],
   pendingRemovePaymentAccount: []
 };

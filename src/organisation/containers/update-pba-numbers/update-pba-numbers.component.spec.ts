@@ -57,6 +57,7 @@ describe('UpdatePbaNumbersComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingAddPaymentAccount: [],
+    pendingPaymentAccount: [],
     pendingRemovePaymentAccount: []
   };
 

@@ -66,6 +66,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
         email: 'lukesuperuserxui@mailnesia.com'
       },
       paymentAccount: [{ pbaNumber: 'test' }],
+      pendingPaymentAccount: [],
       pendingAddPaymentAccount: add,
       pendingRemovePaymentAccount: remove
     };

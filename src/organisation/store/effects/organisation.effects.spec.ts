@@ -68,7 +68,8 @@ describe('Organisation Effects', () => {
         firstName: 'James',
           lastName: 'Chris',
           email: 'James.Chris@test.com'
-      },
+        },
+        pendingPaymentAccount: [],
         paymentAccount: [{pbaNumber: 'PBA000000'}],
           pendingAddPaymentAccount: [],
         pendingRemovePaymentAccount: []

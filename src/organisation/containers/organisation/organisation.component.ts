@@ -16,7 +16,7 @@ export class OrganisationComponent implements OnInit {
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
   public organisationPaymentAccount: PBANumberModel[];
-
+  public organisationPendingPaymentAccount: PBANumberModel[];
   public showChangePbaNumberLink: boolean;
 
   constructor(
@@ -34,10 +34,10 @@ export class OrganisationComponent implements OnInit {
    * Once we have the Organisation Details, we display them on the page.
    */
   public getOrganisationDetailsFromStore(): void {
-    const test = 1;
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = utils.getContactInformation(organisationDetails);
       this.organisationPaymentAccount = utils.getPaymentAccount(organisationDetails);
+      this.organisationPendingPaymentAccount = utils.getPendingPaymentAccount(organisationDetails);
       this.organisationDxAddress = utils.getDxAddress(this.organisationContactInformation);
       this.organisationDetails = organisationDetails;
       this.canShowChangePbaNumbersLink();
@@ -48,12 +48,5 @@ export class OrganisationComponent implements OnInit {
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
       this.showChangePbaNumberLink = userIsPuiFinanceManager;
     });
-  }
-
-  public pbaNumberWithStatus(pba: PBANumberModel): string {
-    if (pba.status) {
-      return `${pba.pbaNumber} (${pba.status})`;
-    }
-    return pba.pbaNumber;
   }
 }

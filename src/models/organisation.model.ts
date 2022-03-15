@@ -29,7 +29,7 @@ export interface OrganisationDetails {
     email: string;
   };
   paymentAccount: PBANumberModel[];
-  pendingPaymentAccount: PBANumberModel[];
+  pendingPaymentAccount?: PBANumberModel[];
   pendingAddPaymentAccount: PBANumberModel[];
   pendingRemovePaymentAccount: PBANumberModel[];
   response?: any;

@@ -57,7 +57,8 @@ describe('UpdatePbaNumbersComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingAddPaymentAccount: [],
-    pendingRemovePaymentAccount: []
+    pendingRemovePaymentAccount: [],
+    pendingPaymentAccount: undefined,
   };
 
   beforeEach(() => {

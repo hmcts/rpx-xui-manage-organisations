@@ -56,7 +56,8 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     return {
       name: 'Luke Solicitors',
       organisationIdentifier: 'HAUN33E',
-      contactInformation: [ MOCK_CONTACT_INFORMATION ],
+      contactInformation: [MOCK_CONTACT_INFORMATION],
+      pendingPaymentAccount: [],
       status: 'ACTIVE',
       sraId: 'SRA1298455554',
       sraRegulated: false,
@@ -67,7 +68,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       },
       paymentAccount: [{ pbaNumber: 'test' }],
       pendingAddPaymentAccount: add,
-      pendingRemovePaymentAccount: remove
+      pendingRemovePaymentAccount: remove,
     };
   };
 

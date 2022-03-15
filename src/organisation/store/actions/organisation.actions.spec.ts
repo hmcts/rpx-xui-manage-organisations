@@ -43,7 +43,8 @@ describe('LoadOrganisationSuccess', () => {
     },
       paymentAccount: [{pbaNumber: 'PBA000000'}],
       pendingAddPaymentAccount: [],
-      pendingRemovePaymentAccount: []
+      pendingRemovePaymentAccount: [],
+      pendingPaymentAccount: undefined,
     };
     const action = new LoadOrganisationSuccess(payload);
     expect({ ...action }).toEqual({

@@ -67,7 +67,9 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: [{ pbaNumber: 'test' }]
+    paymentAccount: [{ pbaNumber: 'test' }],
+    pendingPaymentAccount: undefined,
+    pendingAddPaymentAccount: undefined
   };
 
   beforeEach(() => {

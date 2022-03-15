@@ -1,10 +1,10 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
 import { OrganisationComponent } from './containers';
-import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/update-pba-numbers.component';
 import { UpdatePbaNumbersCheckComponent } from './containers/update-pba-check/update-pba-numbers-check.component';
+import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/update-pba-numbers.component';
 
 import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';

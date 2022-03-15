@@ -34,6 +34,7 @@ export class OrganisationComponent implements OnInit {
    * Once we have the Organisation Details, we display them on the page.
    */
   public getOrganisationDetailsFromStore(): void {
+    const test = 1;
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = utils.getContactInformation(organisationDetails);
       this.organisationPaymentAccount = utils.getPaymentAccount(organisationDetails);

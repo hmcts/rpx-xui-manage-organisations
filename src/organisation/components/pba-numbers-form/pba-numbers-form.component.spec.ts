@@ -47,6 +47,7 @@ const mockOrganisationDetails: OrganisationDetails = {
   },
   paymentAccount: [{pbaNumber: 'PBA000000'}],
   pendingAddPaymentAccount: [],
+  pendingPaymentAccount: [],
   pendingRemovePaymentAccount: []
 };
 

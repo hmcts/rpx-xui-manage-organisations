@@ -14,7 +14,7 @@ properties([
 @Library("Infrastructure")
 
 def type      = "nodejs"
-def product   = "xui"
+def product   = "rpx"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 
@@ -39,6 +39,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
+    enableFortifyScan()
     enableFullFunctionalTest(30)
     // enableSecurityScan()
     enableMutationTest()
@@ -64,6 +65,10 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
+    }
+
+    after('fortify-scan') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 
     after('fullFunctionalTest') {

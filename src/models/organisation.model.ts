@@ -5,6 +5,11 @@ export interface DxAddress {
   dxExchange: string;
 }
 
+// TEST DEPLOYMENT BUILD
+export interface TestDeployment {
+  result: boolean;
+}
+
 export interface OrganisationContactInformation {
   addressLine1: string;
   addressLine2: string;

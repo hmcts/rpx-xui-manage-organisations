@@ -17,4 +17,3 @@ dependencies:
     version: ~2.2.6
     repository: '@hmctspublic'
     condition: idam-pr.enabled
-

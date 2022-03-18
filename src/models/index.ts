@@ -1,4 +1,3 @@
-
 export interface DxAddress {
   dxNumber: string;
   dxExchange: string;
@@ -42,3 +41,9 @@ export interface OrganisationDetails {
   pendingRemovePaymentAccount: PBANumberModel[];
   response?: any;
 }
+
+export * from './environmentConfig.model';
+export * from './organisation.model';
+export * from './pbaNumber.model';
+export * from './pendingPaymentAccount.model';
+

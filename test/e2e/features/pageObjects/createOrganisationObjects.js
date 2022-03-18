@@ -14,18 +14,18 @@ class CreateOrganisationObjects {
     this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
     this.start_button = element(by.xpath("//*[@id='content']/div/div/a"));
     this.org_name = element(by.css("[id='orgName']"));
-    this.continue_button = element(by.css("[id='createButtonContinue']"));
+    this.continue_button = element(by.css("[id='createButton']"));
     this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
     this.townName = element(by.xpath("//input[@id='townOrCity']"));
     this.postcode = element(by.css("[id='postcode']"));
-    this.PBAnumber1 = element(by.css("#PBANumber1"));
-    this.PBAnumber2 = element(by.css("#PBANumber2"));
+    this.PBANumber1 = element(by.css("#PBANumber1"));
+    this.PBANumber2 = element(by.css("#PBANumber2"));
     this.DXreference = element(by.css("input[id='haveDxyes']"));
     this.DXNumber = element(by.css("[id='DXnumber']"));
-    this.DXContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
+    this.DXContinuee = element(by.xpath("//input[@id='createButton']"));
     this.DXexchange = element(by.css("[id='DXexchange']"));
     this.SRACheckBox = element(by.css("[id='haveSrayes']"));
-    this.SRAContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
+    this.SRAContinuee = element(by.xpath("//input[@id='createButton']"));
     this.SRANumber = element(by.css("[id='sraNumber']"));
     this.firstName = element(by.css("[id='firstName']"));
     this.lastName = element(by.css("[id='lastName']"));
@@ -67,17 +67,17 @@ class CreateOrganisationObjects {
   }
 
   async enterPBANumber() {
-    BrowserWaits.waitForElement(this.PBAnumber1);
+    BrowserWaits.waitForElement(this.PBANumber1);
 
     var ramdomPBA = Math.floor(Math.random() * 9000000) + 1000000;
-    await this.PBAnumber1.sendKeys("PBA" + ramdomPBA);
+    await this.PBANumber1.sendKeys("PBA" + ramdomPBA);
 
   }
   async enterPBA2Number() {
-    BrowserWaits.waitForElement(this.PBAnumber2);
+    BrowserWaits.waitForElement(this.PBANumber2);
 
     var ramdomPBA2 = Math.floor(Math.random() * 9000000) + 1000000;
-    await this.PBAnumber2.sendKeys("PBA" + ramdomPBA2);
+    await this.PBANumber2.sendKeys("PBA" + ramdomPBA2);
 
   }
 
@@ -130,7 +130,7 @@ class CreateOrganisationObjects {
         await BrowserWaits.waitForElement(this.officeAddressOne);
       break;
       case "What's your payment by account (PBA) number for your organisation?":
-        await BrowserWaits.waitForElement(this.PBAnumber1);
+         await BrowserWaits.waitForElement(this.PBANumber1);
       break;
       case "Do you have a DX reference for your main office?":
 
@@ -189,7 +189,7 @@ async enterUserFirtandLastName(){
     await this.enterAddressDetails();
     await this.continue_button.click();
 
-    await BrowserWaits.waitForElement(this.PBAnumber1);
+    await BrowserWaits.waitForElement(this.PBANumber1);
     await this.enterPBANumber();
     await this.enterPBA2Number();
     await this.continue_button.click();

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from 'src/models';
-import { utils } from 'src/organisation/utils';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
+import { utils } from '../../utils';
+
 @Component({
   selector: 'app-prd-organisation-component',
   templateUrl: './organisation.component.html',
@@ -43,8 +44,22 @@ export class OrganisationComponent implements OnInit {
   }
 
   public canShowChangePbaNumbersLink(): void {
-    // this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
-    //   this.showChangePbaNumberLink = userIsPuiFinanceManager;
-    // });
+      this.organisationDxAddress = utils.getDxAddress(this.organisationContactInformation);
+      this.organisationDetails = organisationDetails;
+      this.canShowChangePbaNumbersLink();
+    });
+  }
+
+  public canShowChangePbaNumbersLink(): void {
+    this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
+      this.showChangePbaNumberLink = userIsPuiFinanceManager;
+    });
+  }
+
+  public pbaNumberWithStatus(pba: PBANumberModel): string {
+    if (pba.status) {
+      return `${pba.pbaNumber} (${pba.status})`;
+    }
+    return pba.pbaNumber;
   }
 }

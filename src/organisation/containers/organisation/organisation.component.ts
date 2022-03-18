@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
@@ -44,22 +45,8 @@ export class OrganisationComponent implements OnInit {
   }
 
   public canShowChangePbaNumbersLink(): void {
-      this.organisationDxAddress = utils.getDxAddress(this.organisationContactInformation);
-      this.organisationDetails = organisationDetails;
-      this.canShowChangePbaNumbersLink();
-    });
-  }
-
-  public canShowChangePbaNumbersLink(): void {
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
       this.showChangePbaNumberLink = userIsPuiFinanceManager;
     });
-  }
-
-  public pbaNumberWithStatus(pba: PBANumberModel): string {
-    if (pba.status) {
-      return `${pba.pbaNumber} (${pba.status})`;
-    }
-    return pba.pbaNumber;
   }
 }

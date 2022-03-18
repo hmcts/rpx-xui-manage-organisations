@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
@@ -11,7 +12,7 @@ import { OrganisationComponent } from './organisation.component';
 const storeMock = {
   pipe: () => {
   },
-  dispatch: () => {
+  dispatch: (action: Action) => {
   }
 };
 
@@ -66,7 +67,6 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingPaymentAccount: undefined,
     pendingAddPaymentAccount: undefined
@@ -107,6 +107,7 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
+
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
@@ -114,6 +115,7 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the User Details from the Store, and set it on orgData.', () => {
+
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
@@ -141,7 +143,6 @@ describe('OrganisationComponent', () => {
       expect(changeLink).toBeNull();
     });
   });
-
 
   describe('canShowChangePbaNumbersLink()', () => {
 

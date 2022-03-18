@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-
-import { DxAddress, OrganisationContactInformation } from 'src/models';
 import * as fromRoot from '../../../app/store';
+import { DxAddress, OrganisationContactInformation } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
@@ -19,12 +18,14 @@ const storeMock = {
 const authStoreMock = {
   pipe: () => {
   },
-  dispatch: () => {
+  dispatch: (action: Action) => {
   }
 };
 
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
+
+let userIsPuiFinanceManager: boolean;
 
 describe('OrganisationComponent', () => {
 
@@ -65,6 +66,7 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
+
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingPaymentAccount: undefined,
     pendingAddPaymentAccount: undefined
@@ -105,7 +107,6 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
-
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
@@ -113,7 +114,6 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the User Details from the Store, and set it on orgData.', () => {
-
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
@@ -142,14 +142,15 @@ describe('OrganisationComponent', () => {
     });
   });
 
-  // describe('canShowChangePbaNumbersLink()', () => {
 
-  //   it('should set to true when the user has pui-finance-manager', () => {
-  //     userIsPuiFinanceManager = true;
+  describe('canShowChangePbaNumbersLink()', () => {
 
-  //     component.canShowChangePbaNumbersLink();
+    it('should set to true when the user has pui-finance-manager', () => {
+      userIsPuiFinanceManager = true;
 
-  //     expect(component.showChangePbaNumberLink).toBeTruthy();
-  //   });
-  // });
+      component.canShowChangePbaNumbersLink();
+
+      expect(component.showChangePbaNumberLink).toBeTruthy();
+    });
+  });
 });

@@ -1,17 +1,18 @@
+import { OrganisationDetails } from '../../../models/organisation.model';
+import { PBANumberModel } from '../../../models/pbaNumber.model';
 import * as fromOrganisation from '../actions/organisation.actions';
-import { Organisation } from 'src/organisation/organisation.model';
-
 
 export interface OrganisationState {
-  organisationDetails: Organisation;
+  organisationDetails: OrganisationDetails;
   loaded: boolean;
   loading: boolean;
+  error?: any;
 }
 
 export const initialState: OrganisationState = {
-  organisationDetails: new Organisation({}),
+  organisationDetails: null,
   loaded: false,
-  loading: false,
+  loading: false
 };
 
 export function reducer(
@@ -28,21 +29,87 @@ export function reducer(
       };
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
-      const organisationDetails = new Organisation(action.payload);
+      const paymentAccount: PBANumberModel[] = [];
+      action.payload.paymentAccount.forEach(pba => {
+        let pbaNumberModel: PBANumberModel;
+        if (typeof pba === 'string') {
+          pbaNumberModel = {
+            pbaNumber: pba,
+          };
+        }
+        paymentAccount.push(pbaNumberModel);
+      });
+      const loadedOrgDetails = {
+        ...action.payload,
+        paymentAccount,
+        pendingAddPaymentAccount: [],
+        pendingRemovePaymentAccount: []
+      };
       return {
         ...state,
-        organisationDetails,
+        organisationDetails: loadedOrgDetails,
         loaded: true
       };
 
     }
 
-  }
+    case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_ADD: {
+      const organisationDetails = state.organisationDetails;
+      const orgDetails = {
+        ...state.organisationDetails,
+        pendingAddPaymentAccount: action.payload
+      };
+      return {
+        ...state,
+        organisationDetails: orgDetails
+      };
+    }
 
-  return state;
+    case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_REMOVE: {
+      const organisationDetails = state.organisationDetails;
+      const orgDetails = {
+        ...state.organisationDetails,
+        pendingRemovePaymentAccount: action.payload
+      };
+      return {
+        ...state,
+        organisationDetails: orgDetails
+      };
+    }
+
+    case fromOrganisation.ORGANISATION_UPDATE_PBA_RESPONSE:
+      let organisationDetailWithResponse = {...state.organisationDetails};
+      if (action.payload) {
+        let exitingPaymentAccount = state.organisationDetails.paymentAccount.slice();
+        const exitingPendingAddPaymentAccount = state.organisationDetails.pendingAddPaymentAccount.slice();
+        const exitingPendingRemovePaymentAccount = state.organisationDetails.pendingRemovePaymentAccount.slice();
+        exitingPaymentAccount = [...exitingPaymentAccount, ...exitingPendingAddPaymentAccount];
+        const updatePaymentAccount = exitingPaymentAccount.filter(paymentAccounts => !exitingPendingRemovePaymentAccount.includes(paymentAccounts));
+        organisationDetailWithResponse = {
+          ...state.organisationDetails,
+          response: action.payload,
+          paymentAccount: updatePaymentAccount,
+          pendingAddPaymentAccount: [],
+          pendingRemovePaymentAccount: [],
+        };
+      }
+
+      return {
+        ...state,
+        organisationDetails: organisationDetailWithResponse
+      };
+
+    case fromOrganisation.ORGANISATION_UPDATE_PBA_ERROR:
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    default:
+      return state;
+  }
 }
 
 export const getOrganisation = (state: OrganisationState) => state.organisationDetails;
-export const getOrganisationLoading = (state: OrganisationState) => state.loading;
 export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
-
+export const getOrganisationError = (state: OrganisationState) => state.error;

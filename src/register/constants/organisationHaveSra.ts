@@ -17,12 +17,6 @@ export const organisationHaveSra = {
       {
         fieldset: [
           {
-            legend: {
-              text: 'Do you have an organisation Solicitors Regulation Authority (SRA) ID?',
-              classes: 'govuk-fieldset__legend--xl'
-            }
-          },
-          {
             radios: {
               control: 'haveSra',
               classes: 'govuk-radios--inline',

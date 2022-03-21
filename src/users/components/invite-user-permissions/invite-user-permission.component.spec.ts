@@ -47,4 +47,18 @@ describe('Invite User Permission Component', () => {
     const grantCaseAccessAdmin = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-case-access-admin');
     expect(grantCaseAccessAdmin).toBeTruthy();
   });
+
+  it('should not see the manage fee accounts if feature is toggled off', () => {
+    component.grantFinanceManager$ = of(false);
+    fixture.detectChanges();
+    const grantFinanceManager = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-finance-manager');
+    expect(grantFinanceManager).toBeFalsy();
+  });
+
+  it('should see the manage fee accounts if feature is toggled on', () => {
+    component.grantFinanceManager$ = of(true);
+    fixture.detectChanges();
+    const grantFinanceManager = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-finance-manager');
+    expect(grantFinanceManager).toBeTruthy();
+  });
 });

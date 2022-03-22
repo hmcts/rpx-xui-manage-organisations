@@ -1,5 +1,7 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
+
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
+
   <table class="govuk-table">
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
@@ -24,13 +26,17 @@
     </tr>
     <!-- PBA Numbers -->
     <tr class="govuk-table__row">
-      <th class="govuk-table__header" scope="row">PBA numbers</th>
+      <th class="govuk-table__header" scope="row">PBA number</th>
       <td class="govuk-table__cell">
         <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers" *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
-          <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}} (Accepted)</div>
-            <div *ngIf="!organisationPaymentAccount">No PBA accounts registered</div>
-          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending)</div>
-          <div *ngIf="!organisationPendingPaymentAccount">No Pending PBA accounts registered</div>
+
+        <div *ngIf="organisationPaymentAccount">
+          <div *ngFor="let pba of organisationPaymentAccount">{{pbaNumberWithStatus(pba)}}</div>
+        </div>
+
+        <div *ngIf="!organisationPaymentAccount">
+          <div>No PBA accounts registered</div>
+        </div>
       </td>
     </tr>
     <!-- !PBA Numbers -->

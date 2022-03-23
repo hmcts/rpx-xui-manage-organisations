@@ -22,6 +22,12 @@ const utils = {
       return organisationDetails.paymentAccount;
     }
     return null;
+  },
+  getPendingPaymentAccount: (organisationDetails: Partial<OrganisationDetails>): PBANumberModel[] => {
+    if (containsItems(organisationDetails, 'pendingPaymentAccount')) {
+      return organisationDetails.pendingPaymentAccount;
+    }
+    return null;
   }
 };
 

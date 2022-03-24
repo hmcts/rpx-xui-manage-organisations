@@ -28,11 +28,6 @@ export class OrganisationComponent implements OnInit {
     this.getOrganisationDetailsFromStore();
   }
 
-  /**
-   * Get Organisation Details from Store.
-   *
-   * Once we have the Organisation Details, we display them on the page.
-   */
   public getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = utils.getContactInformation(organisationDetails);

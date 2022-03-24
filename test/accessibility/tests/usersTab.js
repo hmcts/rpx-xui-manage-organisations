@@ -67,7 +67,7 @@ describe('Pa11y tests', function () {
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
         actions.push(...AppActions.fillAndSubmitInviteUsers('firstname', 'lastname', 'test@test.com'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-panel--confirmation'));
+       // actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-panel--confirmation'));
         const result = await pa11ytest(this, actions);
     });
 

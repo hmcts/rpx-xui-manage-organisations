@@ -7,7 +7,7 @@ import { Observable, of, Subscription } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromAccountStore from '../../../fee-accounts/store';
-import { Organisation } from '../../../organisation/organisation.model';
+import { OrganisationDetails } from '../../../models/organisation.model';
 import * as fromOrgStore from '../../../organisation/store';
 import { FeeAccount } from '../../models/pba-accounts';
 
@@ -21,8 +21,8 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   public tableRows: {}[];
   public accounts$: Observable<Array<FeeAccount>>;
   public loading$: Observable<boolean>;
-  public orgData: Organisation;
-  public org$: Observable<Organisation>;
+  public orgData: OrganisationDetails;
+  public org$: Observable<OrganisationDetails>;
   public isOrgAccountAvailable$: Observable<boolean>;
   public organisationSubscription: Subscription;
   public dependanciesSubscription: Subscription;
@@ -76,10 +76,14 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
     this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountResetState());
   }
 
-  public dispatchLoadFeeAccount(organisation: Organisation): boolean {
+  public dispatchLoadFeeAccount(organisation: OrganisationDetails): boolean {
     const anyAccountForOrg = organisation.paymentAccount.length > 0;
-    anyAccountForOrg ? this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(organisation.paymentAccount)) :
+    if (anyAccountForOrg) {
+      const paymentAccount: string[] = organisation.paymentAccount.map(pa => pa.pbaNumber);
+      this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(paymentAccount));
+    } else {
       this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountsSuccess([]));
+    }
     return anyAccountForOrg;
   }
 

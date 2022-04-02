@@ -1,10 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { select, Store, StoreModule } from '@ngrx/store';
-import { OrganisationState } from '../reducers/organisation.reducer';
-import { getOrganisationSel, getOrganisationState } from './organisation.selectors';
-import { reducers } from '../index';
-import { LoadOrganisationSuccess } from '../actions';
-import { Organisation } from 'src/organisation/organisation.model';
+import { Store, StoreModule } from '@ngrx/store';
+import { OrganisationState, reducers } from '../reducers';
 
 
 

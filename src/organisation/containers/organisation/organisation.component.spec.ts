@@ -4,27 +4,29 @@ import { By } from '@angular/platform-browser';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import { DxAddress, OrganisationContactInformation } from 'src/models';
 import * as fromRoot from '../../../app/store';
+import { DxAddress, OrganisationContactInformation } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
   pipe: () => {
   },
-  dispatch: () => {
+  dispatch: (action: Action) => {
   }
 };
 
 const authStoreMock = {
   pipe: () => {
   },
-  dispatch: () => {
+  dispatch: (action: Action) => {
   }
 };
 
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
+
+let userIsPuiFinanceManager: boolean;
 
 describe('OrganisationComponent', () => {
 
@@ -142,14 +144,14 @@ describe('OrganisationComponent', () => {
     });
   });
 
-  // describe('canShowChangePbaNumbersLink()', () => {
+  describe('canShowChangePbaNumbersLink()', () => {
 
-  //   it('should set to true when the user has pui-finance-manager', () => {
-  //     userIsPuiFinanceManager = true;
+    it('should set to true when the user has pui-finance-manager', () => {
+      userIsPuiFinanceManager = true;
 
-  //     component.canShowChangePbaNumbersLink();
+      component.canShowChangePbaNumbersLink();
 
-  //     expect(component.showChangePbaNumberLink).toBeTruthy();
-  //   });
-  // });
+      expect(component.showChangePbaNumberLink).toBeTruthy();
+    });
+  });
 });

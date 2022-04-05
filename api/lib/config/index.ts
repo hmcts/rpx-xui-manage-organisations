@@ -33,7 +33,7 @@ export const config = { ...application, ...configs[configEnv].default }
 export default { ...config }
 
 if (process) {
-    config.appInsightsInstrumentationKey = 'AAAAAAAAAAAAAAAA'
+    config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || 'AAAAAAAAAAAAAAAA'
 }
 
 if (configEnv === 'local') {

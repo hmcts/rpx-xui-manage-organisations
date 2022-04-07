@@ -1,17 +1,9 @@
+import { PBANumberModel } from './pbaNumber.model';
 
 export interface DxAddress {
   dxNumber: string;
   dxExchange: string;
 }
-
-export interface PBANumberModel {
-  pbaNumber: string;
-  status?: string;
-  statusMessage?: string;
-  dateCreated?: string;
-  dateAccepted?: string;
-}
-
 
 export interface OrganisationContactInformation {
   addressLine1: string;

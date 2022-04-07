@@ -11,7 +11,7 @@ const { conf } = require('../config/config');
 
 const MockApp = require('../../nodeMock/app');
 
-xdescribe('Pa11y tests', function () {
+describe('Pa11y tests', function () {
     beforeEach(function () {
         MockApp.init()
     });

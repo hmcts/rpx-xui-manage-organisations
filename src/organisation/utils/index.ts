@@ -1,4 +1,5 @@
-import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../models';
+import { PBANumberModel } from 'src/models/pbaNumber.model';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../models';
 
 const containsItems = (obj: object, arrayProperty: string): boolean => {
   return obj && (obj[arrayProperty] || []).length > 0;

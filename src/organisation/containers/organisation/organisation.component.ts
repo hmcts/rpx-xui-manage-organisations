@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PBANumberModel } from 'src/models/pbaNumber.model';
 
-import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
 import { utils } from '../../utils';

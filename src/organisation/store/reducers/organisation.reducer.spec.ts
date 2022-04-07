@@ -1,7 +1,5 @@
-import * as fromOrganisation from './organisation.reducer';
 import * as fromActions from '../actions/organisation.actions';
-import { Organisation } from 'src/organisation/organisation.model';
-
+import * as fromOrganisation from './organisation.reducer';
 
 describe('OrganisationReducer', () => {
   describe('undefined action', () => {
@@ -13,10 +11,6 @@ describe('OrganisationReducer', () => {
       expect(state).toBe(initialState);
     });
   });
-
-
-
-
 
   describe('LOAD_ORGANISATION action', () => {
     it('should set loading to true', () => {
@@ -30,8 +24,6 @@ describe('OrganisationReducer', () => {
       // expect(state.organisation).toEqual([]);
     });
   });
-
-
 
   // fail
   describe('LOAD_ORGANISATION action', () => {

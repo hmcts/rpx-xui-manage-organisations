@@ -5,9 +5,6 @@ import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { EnhancedRequest } from '../lib/models';
 import { PendingPaymentAccount } from './models';
-// import * as mock from './pbaService.mock'
-
-// mock.init()
 
 const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
 
@@ -16,12 +13,12 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
     try {
         const allPromises = [];
         // do add PBAs
-        const addPBAPath: string = `${url}/api/pba/addPBA`;
+        const addPBAPath: string = `${url}/api/pba`;
         const pendingAddPBAs = pendingPaymentAccount.pendingAddPaymentAccount;
         const addPBAPromise = handlePost(addPBAPath, pendingAddPBAs, req);
         allPromises.push(addPBAPromise);
         // do delete PBAs
-        const deletePBAPath: string = `${url}/api/pba/deletePBA`;
+        const deletePBAPath: string = `${url}/api/pba`;
         const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount;
         const deletePBAPromise = handleDelete(deletePBAPath, pendingRemovePBAs, req);
         allPromises.push(deletePBAPromise);
@@ -48,7 +45,7 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
     }
 }
 
-function onlyReasonIsAlreadyInUse(reasons: any[]): boolean {
+export function onlyReasonIsAlreadyInUse(reasons: any[]): boolean {
     let alreadyInUse = false;
     let errorOtherThanAlreadyInUse = false;
     reasons.forEach( reason => {
@@ -61,7 +58,7 @@ function onlyReasonIsAlreadyInUse(reasons: any[]): boolean {
     return alreadyInUse && !errorOtherThanAlreadyInUse;
 }
 
-function handleRejectedResponse(allResults: any): {
+export function handleRejectedResponse(allResults: any): {
     allErrorMessages: string[]
     rejectedPayloads: any[]
     rejectedReason: any[]
@@ -115,7 +112,7 @@ export async function getPBA(req: EnhancedRequest, res: Response, next: NextFunc
     const markupPath: string = url + req.originalUrl;
 
     try {
-        const { status, data }: { status: number; data: any } = await handleGet(markupPath, req);
+        const { status, data }: { status: number; data: any } = await handleGet(markupPath, req, null);
         res.status(status).send(data);
     } catch (error) {
         next(error);

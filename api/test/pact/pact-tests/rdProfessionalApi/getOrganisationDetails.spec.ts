@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { organisation } from '../pactFixtures';
+import { Organisation } from '../pactFixtures';
 import { getOrganisationDetails } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
@@ -48,7 +48,7 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
       const resp = getOrganisationDetails(taskUrl);
 
       resp.then((response) => {
-        const responseDto: organisation = <organisation>response.data
+        const responseDto: Organisation = <Organisation>response.data
         assertResponse(responseDto);
       }).then(() => {
         pactSetUp.provider.verify()
@@ -57,7 +57,7 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
     })
 
-    function assertResponse(dto: organisation): void {
+    function assertResponse(dto: Organisation): void {
       expect(dto).to.be.not.null;
       for (var element of dto.contactInformation) {
         expect(element.addressLine1).to.equal("addressLine1");

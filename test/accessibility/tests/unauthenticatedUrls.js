@@ -1,5 +1,3 @@
-;
-
 const AppActions = require('../helpers/applicationActions');
 const PallyActions = require('../helpers/pallyActions');
 
@@ -16,7 +14,7 @@ describe('Pa11y tests', function () {
         MockApp.init()
     });
       afterEach(async function (done) {
-        await MockApp.stopServer();
+        await MockApp.stopServer(); 
         done();
      });
 
@@ -66,51 +64,49 @@ describe('Pa11y tests', function () {
 
 
     function regitrationActions(){
+        const createButtonLocator = '#createButton'; 
         const actions = [];
-        const continueButtonLocator = "#createButton";
         actions.push(...PallyActions.waitForPageWithCssLocator('#content'));
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'register-org/register/organisation-name'));
         actions.push(...PallyActions.waitForPageWithCssLocator('#content'));
 
         actions.push(...PallyActions.inputField('#orgName', 'Test Organisation'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.inputField('#officeAddressOne', 'test street officeAddressOne'));
         actions.push(...PallyActions.inputField('#officeAddressTwo', 'test street officeAddressTwo'));
         actions.push(...PallyActions.inputField('#townOrCity', 'test town'));
         actions.push(...PallyActions.inputField('#county', 'test county'));
         actions.push(...PallyActions.inputField('#postcode', 'PA1 1YY'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.inputField('#PBANumber1', 'PBA1234567'));
 
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.clickElement('#haveDxyes'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.inputField('#DXnumber', 'DX123456789'));
         actions.push(...PallyActions.inputField('#DXexchange', 'A11Y City'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.clickElement('#haveSrayes'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.inputField('#sraNumber', 'SRA12345678'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.inputField('#firstName', 'testfname'));
         actions.push(...PallyActions.inputField('#lastName', 'testlname'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.inputField('#emailAddress', 'test@test.com'));
-        actions.push(...PallyActions.clickElement(continueButtonLocator));
+        actions.push(...PallyActions.clickElement(createButtonLocator));
 
         actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-check-your-answers'));
-        return actions;
+        return actions; 
     }
 
 
 });
-
-

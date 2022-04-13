@@ -37,41 +37,6 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     };
     const axiosInstance = http({} as unknown as Request);
     const response = await axiosInstance.post(url, registerPayload, options);
-
-    // req.body = {
-    //   pendingPaymentAccount: {
-    //     pendingAddPaymentAccount: [req.body.stateValues.PBANumber1]
-    //   }
-    // };
-    const allPromises = [];
-    // do add PBAs
-
-
-    const urlPBA: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-    const addPBAPath: string = `${urlPBA}/api/pba`;
-
-    const pendingAddPBAs = registerPayload.paymentAccount;
-    const addPBAPromise = handlePost(addPBAPath, pendingAddPBAs, req);
-    allPromises.push(addPBAPromise);
-
-
-    // @ts-ignore
-    const allResults = await Promise.allSettled(allPromises);
-    const { allErrorMessages, rejectedCount, rejectedReason } = handleRejectedResponse(allResults);
-    if (rejectedCount > 0) {
-      if (onlyReasonIsAlreadyInUse(rejectedReason)) {
-        res.status(409).send(allErrorMessages);
-      } else {
-        res.status(500).send(allErrorMessages);
-      }
-    } else {
-      // no pendingAddPBAs that is delete only
-      if (!pendingAddPBAs || pendingAddPBAs.length === 0) {
-        res.status(202).send({ code: 202, message: 'delete successfully' });
-      } else {
-        res.status(200).send({ code: 200, message: 'update successfully' });
-      }
-    }
     res.send(response.data);
   } catch (error) {
     /**

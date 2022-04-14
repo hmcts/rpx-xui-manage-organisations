@@ -28,10 +28,8 @@
       <td class="govuk-table__cell">
         <div style = "float:left">
           <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}}</div>
-            <div *ngIf="!organisationPaymentAccount">No PBA accounts registered</div>
             <br>
           <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending approval)</div>
-          <div *ngIf="!organisationPendingPaymentAccount">No Pending PBA accounts registered</div>
         </div>
         <a class="govuk-link fright"
            style = "float:right"

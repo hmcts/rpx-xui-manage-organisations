@@ -1,6 +1,6 @@
 <div class="hmcts-header">
     <div class="hmcts-header__container">
-      <ng-container  *ngIf="isBrandedHeader && !headerTitle.hideBranding; else noBrandedHeader">
+      <ng-container  *ngIf="isBrandedHeader && (!headerTitle || !headerTitle.hideBranding); else noBrandedHeader">
         <div class="govuk-header__logo">
           <a href="#" class="govuk-header__link govuk-header__link--homepage">
             <span class="govuk-header__logotype">

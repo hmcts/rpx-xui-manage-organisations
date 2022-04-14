@@ -37,7 +37,6 @@
             </tr>
           </tbody>
         </table>
-
         <form [formGroup]="pbaFormGroup" id="new-pba-form">
           <div formArrayName="pbaNumbers">
             <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i=index">
@@ -46,7 +45,6 @@
                   (click)="onRemoveNewPbaNumberClicked(i)">
                   Remove
                 </button>
-
                 <app-prd-pba-number-input-component [id]="'pba-number-input' + i" [group]="pbaNumberCtrl">
                 </app-prd-pba-number-input-component>
               </div>

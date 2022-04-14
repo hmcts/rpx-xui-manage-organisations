@@ -2,10 +2,15 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { PBAService } from 'src/organisation/services/pba.service';
 
 import { OrganisationDetails, PendingPaymentAccount } from '../../../models';
 import * as fromStore from '../../store';
 
+export class ErrorMessage {
+  pbaNumber: string;
+  error: string;
+}
 @Component({
   selector: 'app-prd-update-pba-numbers-check-component',
   templateUrl: './update-pba-numbers-check.component.html',
@@ -14,6 +19,7 @@ import * as fromStore from '../../store';
 export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   public readonly title: string = 'Check your PBA accounts';
   public organisationDetails: OrganisationDetails;
+  public errors: string[] = [];
   public summaryErrors: {
     header: string;
     isFromValid: boolean;
@@ -22,6 +28,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
       message: any;
     }[]
   };
+
   public alreadyUsedError: string;
 
   private detailsSubscription: Subscription;
@@ -29,6 +36,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
+    private readonly pbaService: PBAService,
     private readonly orgStore: Store<fromStore.OrganisationState>
   ) {}
 
@@ -62,10 +70,15 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getError(pba: string) {
+
+  }
+
   public onSubmitClicked(): void {
-    this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAError(null));
-    this.watchForErrors();
-    this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAs(this.pendingChanges));
+    // this.orgStore.dispatch(new fromStore.OrganisationUpdatePBAError(null));
+    // this.watchForErrors();
+    this.pbaService.updatePBAs(this.pendingChanges).subscribe(x => console.log(x),
+     e => console.log(e));
   }
 
   /**

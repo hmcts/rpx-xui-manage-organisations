@@ -1,12 +1,26 @@
-<app-hmcts-main-wrapper [backLink]="'/organisation/update-pba-numbers'" [title]="title" [summaryErrors]="summaryErrors">
+<app-hmcts-main-wrapper [backLink]="'/organisation/update-pba-numbers'" [title]="title">
+  <div *ngIf="errors.length" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+    data-module="govuk-error-summary">
+    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+    <div class="govuk-error-summary__body">
+      <ul class="govuk-list govuk-error-summary__list">
+        <li *ngFor="let error of errors">
+          <a routerLink="." [fragment]="'heading'"> {{error.headerError}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
   <table class="govuk-table">
     <tbody class="govuk-table__body">
-
       <!-- Accounts to be added -->
       <tr class="govuk-table__row" *ngIf="organisationDetails.pendingAddPaymentAccount.length > 0">
         <th class="govuk-table__header nowrap">Accounts to be added</th>
         <td class="govuk-table__cell">
-          <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">{{pba.pbaNumber}}</div>
+          <div *ngFor="let pba of organisationDetails.pendingAddPaymentAccount">{{pba.pbaNumber}}
+            <div *ngIf="getError(pba)" style="color:red">
+                {{ getError(pba) }}
+            </div>
+          </div>
           <div class="already-used-pba" *ngIf="alreadyUsedError">{{alreadyUsedError}}
             <br />You should check that the PBA has been entered correctly.
             If you're still having problems, contact HMCTS.

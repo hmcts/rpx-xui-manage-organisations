@@ -1,0 +1,1 @@
+export const ERROR_MESSAGE_DUPLICATE_PAYMENT_ACCOUNTS: string = ';';

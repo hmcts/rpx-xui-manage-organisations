@@ -7,21 +7,26 @@ import { EnhancedRequest } from '../lib/models';
 import { PendingPaymentAccount } from './models';
 
 const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-
+const ORGANISATION_REFDATA_PATH: string = 'refdata/external/v1/organisations';
 export async function addDeletePBA(req: EnhancedRequest, res: Response, next: NextFunction): Promise<void> {
     const pendingPaymentAccount: PendingPaymentAccount = req.body.pendingPaymentAccount;
     try {
         const allPromises = [];
         // do add PBAs
-        const addPBAPath: string = `${url}/api/pba`;
-        const pendingAddPBAs = pendingPaymentAccount.pendingAddPaymentAccount;
-        const addPBAPromise = handlePost(addPBAPath, pendingAddPBAs, req);
+        const fullPath: string = `${url}/${ORGANISATION_REFDATA_PATH}/pba`;
+        const pendingAddPBAs = {
+            paymentAccounts: pendingPaymentAccount.pendingAddPaymentAccount
+        };
+        const addPBAPromise = handlePost(fullPath, pendingAddPBAs, req);
         allPromises.push(addPBAPromise);
         // do delete PBAs
-        const deletePBAPath: string = `${url}/api/pba`;
-        const pendingRemovePBAs = pendingPaymentAccount.pendingRemovePaymentAccount;
-        const deletePBAPromise = handleDelete(deletePBAPath, pendingRemovePBAs, req);
-        allPromises.push(deletePBAPromise);
+        if (pendingPaymentAccount.pendingRemovePaymentAccount && pendingPaymentAccount.pendingRemovePaymentAccount.length) {
+            const pendingRemovePBAs = {
+                paymentAccounts: pendingPaymentAccount.pendingRemovePaymentAccount
+            };
+            const deletePBAPromise = handleDelete(fullPath, pendingRemovePBAs, req);
+            allPromises.push(deletePBAPromise);
+        }
 
         // @ts-ignore
         const allResults = await Promise.allSettled(allPromises);
@@ -34,7 +39,7 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
             }
         } else {
             // no pendingAddPBAs that is delete only
-            if (!pendingAddPBAs || pendingAddPBAs.length === 0) {
+            if (!pendingAddPBAs || pendingAddPBAs.paymentAccounts.length === 0) {
                 res.status(202).send({ code: 202, message: 'delete successfully' });
             } else {
                 res.status(200).send({ code: 200, message: 'update successfully' });

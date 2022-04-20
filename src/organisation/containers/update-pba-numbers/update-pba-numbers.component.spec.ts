@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -23,7 +24,7 @@ describe('UpdatePbaNumbersComponent', () => {
   let component: UpdatePbaNumbersComponent;
   let fixture: ComponentFixture<UpdatePbaNumbersComponent>;
   let store: Store<fromOrgStore.UserState>;
-
+  let activatedRoute: any;
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
     dxExchange: 'London',
@@ -62,6 +63,11 @@ describe('UpdatePbaNumbersComponent', () => {
   };
 
   beforeEach(() => {
+    activatedRoute = {
+      snapshot: {
+        params: of({})
+      }
+    };
     pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
@@ -80,6 +86,7 @@ describe('UpdatePbaNumbersComponent', () => {
           provide: Store,
           useValue: storeMock
         },
+        { provide: ActivatedRoute, useValue: activatedRoute },
         UpdatePbaNumbersComponent
       ]
     }).compileComponents();

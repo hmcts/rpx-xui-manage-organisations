@@ -65,7 +65,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
 
   public onSubmitClicked(): void {
     this.errors = [];
-    this.pbaService.updatePBAs(this.pendingChanges).subscribe(x => console.log(x),
+    this.pbaService.updatePBAs(this.pendingChanges).subscribe(x => this.router.navigate(['/organisation']),
       e => {
         if (e.error && e.error.length && (e.error[0])) {
           const error = JSON.parse(e.error[0]);

@@ -81,20 +81,7 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   public onClickContinue(): void {
-    if (this.hasPendingChanges) {
       return this.onSubmit();
-    }
-
-    this.summaryErrors = {
-      isFromValid: false,
-      header: 'There is a problem',
-      items: [
-        {
-          id: 'new-pba-form',
-          message: 'Add or remove a PBA account'
-        }
-      ]
-    };
   }
 
   public onCancelRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: PBANumberModel): void {

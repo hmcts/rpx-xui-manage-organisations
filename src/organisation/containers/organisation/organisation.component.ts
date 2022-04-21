@@ -22,17 +22,9 @@ export class OrganisationComponent implements OnInit {
   constructor(
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly authStore: Store<fromAuthStore.AuthState>) {
-  }
-
-  public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
   }
 
-  /**
-   * Get Organisation Details from Store.
-   *
-   * Once we have the Organisation Details, we display them on the page.
-   */
   public getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
       this.organisationContactInformation = utils.getContactInformation(organisationDetails);
@@ -42,6 +34,10 @@ export class OrganisationComponent implements OnInit {
       this.organisationDetails = organisationDetails;
       this.canShowChangePbaNumbersLink();
     });
+  }
+
+  public ngOnInit(): void {
+    this.orgStore.dispatch(new fromStore.LoadOrganisation());
   }
 
   public canShowChangePbaNumbersLink(): void {

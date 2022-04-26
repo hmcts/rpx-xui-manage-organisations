@@ -12,13 +12,19 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
     const pendingPaymentAccount: PendingPaymentAccount = req.body.pendingPaymentAccount;
     try {
         const allPromises = [];
+        const pendingAddPBAs = {
+            paymentAccounts: []
+        };
         // do add PBAs
         const fullPath: string = `${url}/${ORGANISATION_REFDATA_PATH}/pba`;
-        const pendingAddPBAs = {
-            paymentAccounts: pendingPaymentAccount.pendingAddPaymentAccount
-        };
-        const addPBAPromise = handlePost(fullPath, pendingAddPBAs, req);
-        allPromises.push(addPBAPromise);
+        if (pendingPaymentAccount.pendingAddPaymentAccount &&  pendingPaymentAccount.pendingAddPaymentAccount.length) {
+            const pendingAddPBAs = {
+                paymentAccounts: pendingPaymentAccount.pendingAddPaymentAccount
+            };
+    
+            const addPBAPromise = handlePost(fullPath, pendingAddPBAs, req);
+            allPromises.push(addPBAPromise);
+        }
         // do delete PBAs
         if (pendingPaymentAccount.pendingRemovePaymentAccount && pendingPaymentAccount.pendingRemovePaymentAccount.length) {
             const pendingRemovePBAs = {

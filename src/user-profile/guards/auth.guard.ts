@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import 'rxjs/add/operator/map';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {AuthService} from '../services/auth.service';
 import * as fromStore from '../store';

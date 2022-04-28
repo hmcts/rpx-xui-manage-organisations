@@ -6,8 +6,8 @@ import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 describe('CheckboxComponent', () => {
     @Component({
         selector: `app-host-dummy-component`,
-        template: `<app-checkbox 
-            [group]="group" 
+        template: `<app-checkbox
+            [group]="group"
             [idPrefix]="idPrefix"
             [name]="name"
             [items]="items"
@@ -24,7 +24,7 @@ describe('CheckboxComponent', () => {
         classes;
         labelClasses;
         validate;
-        @ViewChild(CheckboxComponent)
+        @ViewChild(CheckboxComponent, {static: false})
         public checkboxComponent: CheckboxComponent;
     }
 

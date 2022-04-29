@@ -33,5 +33,8 @@
         "dist/gov-ui/*"
       ]
     }
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
   }
 }

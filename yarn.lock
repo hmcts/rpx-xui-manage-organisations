@@ -145,7 +145,7 @@
     "@angular-devkit/core" "0.8.9"
     rxjs "6.2.2"
 
-"@angular-devkit/schematics@8.3.29":
+"@angular-devkit/schematics@8.3.29", "@angular-devkit/schematics@^8.3.29":
   version "8.3.29"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-8.3.29.tgz#b3ba658b90fb3226a80ff12977be7dd583e99c49"
   integrity sha512-AFJ9EK0XbcNlO5Dm9vr0OlBo1Nw6AaFXPR+DmHGBdcDDHxqEmYYLWfT+JU/8U2YFIdgrtlwvdtf6UQ3V2jdz1g==

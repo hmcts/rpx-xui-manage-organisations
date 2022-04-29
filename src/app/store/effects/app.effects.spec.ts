@@ -63,8 +63,8 @@ describe('App Effects', () => {
       ]
     });
 
-    effects = TestBed.get(fromAppEffects.AppEffects);
-    loggerService = TestBed.get(LoggerService);
+    effects = TestBed.inject(fromAppEffects.AppEffects);
+    loggerService = TestBed.inject(LoggerService);
 
   });
 

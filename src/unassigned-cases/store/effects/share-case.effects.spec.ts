@@ -50,9 +50,9 @@ describe('Share Case Effects', () => {
         provideMockActions(() => actions$)
       ]
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOnDispatchToStore = spyOn(store, 'dispatch').and.callThrough();
-    effects = TestBed.get(fromShareCaseEffects.ShareCaseEffects);
+    effects = TestBed.inject(fromShareCaseEffects.ShareCaseEffects);
   });
 
   describe('addShareCases$', () => {

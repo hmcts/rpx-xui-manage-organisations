@@ -39,8 +39,8 @@ describe('Registration Effects', () => {
       ]
     });
 
-    effects = TestBed.get(RegistrationEffects);
-    loggerService = TestBed.get(LoggerService);
+    effects = TestBed.inject(RegistrationEffects);
+    loggerService = TestBed.inject(LoggerService);
 
   });
   describe('loadRegistrationForm$', () => {

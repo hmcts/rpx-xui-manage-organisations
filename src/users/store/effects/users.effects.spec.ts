@@ -35,8 +35,8 @@ describe('Users Effects', () => {
             ]
         });
 
-        effects = TestBed.get(fromUsersEffects.UsersEffects);
-        loggerService = TestBed.get(LoggerService);
+        effects = TestBed.inject(fromUsersEffects.UsersEffects);
+        loggerService = TestBed.inject(LoggerService);
 
     });
 

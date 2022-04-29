@@ -53,8 +53,8 @@ describe('Fee accounts Effects', () => {
           ]
       });
 
-      effects = TestBed.get(fromUserEffects.UserProfileEffects);
-      loggerService = TestBed.get(LoggerService);
+      effects = TestBed.inject(fromUserEffects.UserProfileEffects);
+      loggerService = TestBed.inject(LoggerService);
 
   });
 

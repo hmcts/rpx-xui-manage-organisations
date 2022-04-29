@@ -29,7 +29,7 @@ describe('App Effects', () => {
             ]
         });
 
-        effects = TestBed.get(RouterEffects);
+        effects = TestBed.inject(RouterEffects);
 
     });
 

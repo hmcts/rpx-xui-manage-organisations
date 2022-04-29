@@ -81,7 +81,7 @@ describe('OrganisationComponent', () => {
       ]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(OrganisationComponent);
     component = fixture.componentInstance;

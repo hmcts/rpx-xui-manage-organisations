@@ -28,7 +28,7 @@ describe('CaseShareCompleteComponent', () => {
         }
       ]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CaseShareCompleteComponent);
     component = fixture.componentInstance;
     mockFeatureToggleService.getValue.and.returnValue(of(true));

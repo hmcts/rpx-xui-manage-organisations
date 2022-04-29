@@ -29,7 +29,7 @@ describe('Invite User Success Component', () => {
             ]
         }).compileComponents();
 
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store);
 
         fixture = TestBed.createComponent(InviteUserSuccessComponent);
         component = fixture.componentInstance;

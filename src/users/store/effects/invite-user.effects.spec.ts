@@ -35,8 +35,8 @@ describe('Invite User Effects', () => {
             ]
         });
 
-        effects = TestBed.get(fromUsersEffects.InviteUserEffects);
-        loggerService = TestBed.get(LoggerService);
+        effects = TestBed.inject(fromUsersEffects.InviteUserEffects);
+        loggerService = TestBed.inject(LoggerService);
     });
 
     describe('saveUser$', () => {

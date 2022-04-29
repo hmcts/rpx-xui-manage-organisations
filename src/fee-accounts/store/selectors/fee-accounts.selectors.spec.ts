@@ -14,7 +14,7 @@ describe('Fee accounts selectors', () => {
         StoreModule.forFeature('feeAccounts', reducers),
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

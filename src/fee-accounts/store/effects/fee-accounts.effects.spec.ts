@@ -36,8 +36,8 @@ describe('Fee accounts Effects', () => {
       ]
     });
 
-    effects = TestBed.get(FeeAccountsEffects);
-    loggerService = TestBed.get(LoggerService);
+    effects = TestBed.inject(FeeAccountsEffects);
+    loggerService = TestBed.inject(LoggerService);
 
   });
   describe('loadFeeAccounts$', () => {

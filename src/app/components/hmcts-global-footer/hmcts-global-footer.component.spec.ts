@@ -17,7 +17,7 @@ describe('HmctsGlobalFooterComponent', () => {
     class TestDummyHostComponent {
         @Input() help: Helper;
         @Input() navigation: Navigation;
-        @ViewChild(HmctsGlobalFooterComponent, {static: false})
+        @ViewChild(HmctsGlobalFooterComponent)
         public hmctsGlobalFooterComponent: HmctsGlobalFooterComponent;
     }
 

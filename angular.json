@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/rpa-pui-manager",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,6 +30,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -147,7 +154,8 @@
           "configurations": {
             "production": {
               "project": "projects/gov-ui/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/gov-ui/tsconfig.lib.prod.json"
+}
           }
         },
         "testx": {
@@ -176,7 +184,7 @@
   "defaultProject": "rpa-pui-manager",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }

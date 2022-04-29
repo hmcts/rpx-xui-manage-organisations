@@ -20,7 +20,7 @@ describe('FieldsetComponent', () => {
         data: Array<any>;
 
 
-        @ViewChild(FieldsetComponent, {static: false})
+        @ViewChild(FieldsetComponent)
         public fieldsetComponent: FieldsetComponent;
     }
 

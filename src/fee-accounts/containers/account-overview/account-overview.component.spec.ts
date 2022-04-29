@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccountOverviewComponent } from './account-overview.component';
 import { RouterModule } from '@angular/router';
@@ -10,10 +10,10 @@ describe('AccountOverviewComponent', () => {
   let component: AccountOverviewComponent;
   let fixture: ComponentFixture<AccountOverviewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterModule.forRoot([]),
+        RouterModule.forRoot([], { relativeLinkResolution: 'legacy' }),
           StoreModule.forRoot({}),
           StoreModule.forFeature('org', reducers),
       ],

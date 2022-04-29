@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AccountTransactionsComponent } from './account-transactions.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -16,7 +16,7 @@ describe('AccountTransactionsComponent', () => {
 
   let activatedRoute: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     activatedRoute = {
         snapshot: {
           params: of({})

@@ -7,12 +7,9 @@ import { RedirectComponent } from './containers/redirect/redirect.component';
 import {TermsConditionGuard} from './guards/termsCondition.guard';
 
 export const ROUTES: Routes = [
-  {
-    path: '',
+  { path: '',
     redirectTo: 'home',
-    canActivate: [AuthGuard, HealthCheckGuard],
-    pathMatch: 'full',
-  },
+    pathMatch: 'full' },
   {
     path: 'organisation',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],

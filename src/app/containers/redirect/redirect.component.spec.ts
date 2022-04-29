@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
 import { reducers} from 'src/app/store';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -8,7 +8,7 @@ import {RedirectComponent} from './redirect.component';
 
 describe('AppRedirectComponent', () => {
   let store: Store<fromAuth.AuthState>;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         RedirectComponent,
@@ -27,7 +27,7 @@ describe('AppRedirectComponent', () => {
     spyOn(store, 'dispatch').and.callThrough();
   }));
 
-  it('should create the component', async(() => {
+  it('should create the component', waitForAsync(() => {
     const fixture = TestBed.createComponent(RedirectComponent);
 
     const app = fixture.debugElement.componentInstance;
@@ -35,7 +35,7 @@ describe('AppRedirectComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it('should have redirect property ', async(() => {
+  it('should have redirect property ', waitForAsync(() => {
     const fixture = TestBed.createComponent(RedirectComponent);
 
     const app = fixture.debugElement.componentInstance;

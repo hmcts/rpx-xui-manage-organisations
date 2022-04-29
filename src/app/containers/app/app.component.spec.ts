@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { combineReducers, StoreModule, Store } from '@ngrx/store';
 import {Logout, reducers} from 'src/app/store';
@@ -40,7 +40,7 @@ describe('AppComponent', () => {
   let app;
   let loggerService: any;
   let cookieService: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
@@ -100,27 +100,27 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
+  it('should have pageTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
 
   }));
 
 
-  it('should have appHeaderTitle$ Observable the app', async(() => {
+  it('should have appHeaderTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
 
   }));
 
-  it('should have userNav$ Observable the app', async(() => {
+  it('should have userNav$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
   }));
 
 
-  it('should have navItems$ Observable the app', async(() => {
+  it('should have navItems$ Observable the app', waitForAsync(() => {
     const navItems = [
       {
         text: 'Organisation',
@@ -137,7 +137,7 @@ describe('AppComponent', () => {
 
   }));
 
-  it('should dispatch a logout action', async(() => {
+  it('should dispatch a logout action', waitForAsync(() => {
     app.onNavigate('sign-out');
     fixture.detectChanges();
 

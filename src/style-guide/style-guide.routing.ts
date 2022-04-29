@@ -13,4 +13,4 @@ export const ROUTES: Routes = [
 ];
 
 
-export const styleGuideRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const styleGuideRouting: ModuleWithProviders<any> = RouterModule.forChild(ROUTES);

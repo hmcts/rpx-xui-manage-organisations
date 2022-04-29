@@ -6,6 +6,7 @@
     "importHelpers": true,
     "module": "es2020",
     "outDir": "./dist/out-tsc",
+    "skipLibCheck": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",

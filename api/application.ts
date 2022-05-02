@@ -1,4 +1,4 @@
-import * as healthcheck from '@hmcts/nodejs-healthcheck'
+// import * as healthcheck from '@hmcts/nodejs-healthcheck'
 import {SESSION, xuiNode} from '@hmcts/rpx-xui-node-lib'
 import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
@@ -57,10 +57,10 @@ app.use(getXuiNodeMiddleware())
 tunnel.init()
 
 function healthcheckConfig(msUrl) {
-  return healthcheck.web(`${msUrl}/health`, {
-    timeout: 6000,
-    deadline: 6000
-  });
+  // return healthcheck.web(`${msUrl}/health`, {
+  //   timeout: 6000,
+  //   deadline: 6000
+  // });
 }
 
 const healthChecks = {
@@ -80,13 +80,13 @@ if (showFeature(FEATURE_REDIS_ENABLED)) {
   xuiNode.on(SESSION.EVENT.REDIS_CLIENT_READY, (redisClient: any) => {
     console.log('REDIS EVENT FIRED!!')
     app.locals.redisClient = redisClient
-    healthChecks.checks = {
-      ...healthChecks.checks, ...{
-        redis: healthcheck.raw(() => {
-          return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down()
-        }),
-      },
-    }
+    // healthChecks.checks = {
+    //   ...healthChecks.checks, ...{
+    //     redis: healthcheck.raw(() => {
+    //       return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down()
+    //     }),
+    //   },
+    // }
   })
   xuiNode.on(SESSION.EVENT.REDIS_CLIENT_ERROR, (error: any) => {
     logger.error('redis Client error is', error)
@@ -101,7 +101,7 @@ console.log('caseAssignmentApi', getConfigValue(SERVICES_MCA_PROXY_API_PATH))
 
 console.log('caseTypes', getConfigValue(CASE_TYPES))
 
-healthcheck.addTo(app, healthChecks)
+// healthcheck.addTo(app, healthChecks)
 
 app.use(attach)
 

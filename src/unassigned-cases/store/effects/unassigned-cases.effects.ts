@@ -40,7 +40,11 @@ export class UnassignedCasesEffects {
       map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
       catchError(errorResponse => {
         loggerService.error(errorResponse);
-        return of(new fromRoot.Go({ path: ['/service-down']}));
+        if (errorResponse.error.status === 400) {
+          return of(new LoadUnassignedCasesFailure(errorResponse.error));
+        } else {
+          return of(new fromRoot.Go({ path: ['/service-down']}));
+        }
       })
     );
   }

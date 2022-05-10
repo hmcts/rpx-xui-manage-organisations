@@ -25,15 +25,4 @@ describe('UnassignedCasesEffects', () => {
         done();
       });
     });
-
-    xit('onLoadUnassignedCases bad request error', (done) => {
-      service.fetchUnassignedCases.and.callFake(() => {
-        return throwError(new HttpErrorResponse({error: '400 - Bad Request', status: 400}));
-      });
-      const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases({}, service, loggerService);
-      unassignedCases$.subscribe(errorAction => {
-        expect(errorAction).toEqual(400);
-        done();
-      });
-    });
   });

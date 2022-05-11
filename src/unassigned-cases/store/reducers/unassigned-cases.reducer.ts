@@ -3,7 +3,8 @@ import {
     LOAD_UNASSIGNED_CASE_TYPES_SUCCESS,
     LOAD_UNASSIGNED_CASES_SUCCESS,
     UnassignedCasesActions,
-    UPDATE_SELECTION_FOR_CASE_TYPE } from '../actions/unassigned-cases.actions';
+    UPDATE_SELECTION_FOR_CASE_TYPE,
+    LOAD_UNASSIGNED_CASES_FAILURE } from '../actions/unassigned-cases.actions';
 
 export interface UnAssignedCases {
     idField: string;
@@ -56,6 +57,8 @@ export function reducer(
                 const selectedCases: SelectedCases = { ... state.selectedCases };
                 selectedCases[action.payload.casetype] = action.payload.cases;
                 return { ...state,  selectedCases };
+            case LOAD_UNASSIGNED_CASES_FAILURE:
+                return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }}
             default:
                 return state;
     }

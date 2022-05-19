@@ -14,6 +14,11 @@ export class UsersService {
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 
+  getUserDetailsWithPermission(pageNumber: number): Observable<any> {
+    // return this.http.get<any>(`api/userDetails?returnRoles=true&size=1&page=${pageNumber}`).pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get<any>(`api/userDetails`).pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   suspendUser(param): Observable<any> {
     let user = param.payload;
     user = {

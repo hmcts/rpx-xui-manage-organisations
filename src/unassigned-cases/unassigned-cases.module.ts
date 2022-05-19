@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material';
 import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
@@ -31,7 +31,8 @@ import {unassignedCasesRouting} from './unassigned-cases.routing';
         MatTabsModule
       ],
       declarations: [...fromContainers.containers],
-      providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard]
+      providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
 
 export class UnassignedCasesModule {

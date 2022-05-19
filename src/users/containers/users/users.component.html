@@ -14,8 +14,9 @@
       <xuilib-user-list *ngIf="!(isLoading$ | async) else isLoading" [users]="tableUsersData$ | async"></xuilib-user-list>
      </div>
      <ng-template #isLoading>
-      <div>Loading...</div>
-    </ng-template>
+        <div>Loading...</div>
+     </ng-template>
+     <ccd-pagination (pageChange)="paginationEvent.emit($event)"></ccd-pagination>
   </main>
 </div>
 

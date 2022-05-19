@@ -9,6 +9,8 @@ export const EDIT_USER_SUCCESS = '[User] Edit User Success';
 export const EDIT_USER_FAILURE = '[User] Edit User Failure';
 export const EDIT_USER_FAILURE_RESET = '[User] Edit User Failure Reset';
 export const EDIT_USER_SERVER_ERROR = '[User] Edit User Server Error';
+export const LOAD_USER_DETAILS = '[UserDetails] Load User Details';
+export const LOAD_USER_DETAILS_SUCCESS = '[UserDetails] Load User Details Success';
 export const SUSPEND_USER = '[User] Suspend User';
 export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
 export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
@@ -48,7 +50,6 @@ export class EditUserFailure implements Action {
   constructor(public payload: any) {
   }
 }
-
 export class EditUserFailureReset implements Action {
   public readonly type = EDIT_USER_FAILURE_RESET;
   constructor() {
@@ -59,6 +60,16 @@ export class LoadUsersFail implements Action {
   public readonly type = LOAD_USERS_FAIL;
   constructor(public payload: any) { }
 }
+
+// export class LoadUserDetails {
+//   public readonly type = LOAD_USER_DETAILS;
+//   constructor() { }
+// }
+
+// export class LoadUserDetailsSuccess implements Action {
+//   public readonly type = LOAD_USER_DETAILS_SUCCESS;
+//   constructor(public payload: any) { }  // TODO add type list of users
+// }
 
 export class SuspendUser {
   public readonly type = SUSPEND_USER;
@@ -92,6 +103,8 @@ export type UserActions =
   | EditUser
   | EditUserFailure
   | EditUserFailureReset
+  // | LoadUserDetails
+  // | LoadUserDetailsSuccess
   | SuspendUser
   | SuspendUserSuccess
   | SuspendUserFail

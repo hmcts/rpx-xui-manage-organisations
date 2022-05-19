@@ -3,10 +3,11 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
+import { UsersService } from '../../../users/services';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
-
+import * as UserSelectors from '../../store/selectors/user.selectors';
 @Component({
   selector: 'app-prd-user-details-component',
   templateUrl: './user-details.component.html',
@@ -36,6 +37,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private readonly userStore: Store<fromStore.UserState>,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly actions$: Actions,
+    private usersService: UsersService
   ) {}
 
   public ngOnInit(): void {
@@ -53,6 +55,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
       this.handleDependanciesSubscription(users, route);
+      // this.getUserDetailswithPermission(route)
     });
 
 
@@ -65,6 +68,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.suspendUserServerErrorSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_FAIL)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
     });
+
+
   }
 
   public ngOnDestroy(): void {
@@ -132,6 +137,21 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.dispatchGetUsers(users, this.userStore);
     this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
   }
+
+  // public getUserDetailswithPermission(route): void {
+  //   let userListIndex = this.userStore.select(UserSelectors.getGetSingleUserIndex, { userIdentifier: route.state.params.userId });
+  //   console.log(userListIndex);
+  //   userListIndex.subscribe((index => {
+  //     console.log("index");
+  //     console.log(index);
+  //     this.usersService.getUserDetailsWithPermission(index).subscribe(res => {
+  //       console.log("getUserdetailswithPermission");
+
+  //       console.log(res);
+
+  //     })
+  //   }))
+  // }
 
   public isInactive(status: string, inactiveStatuses: string[] = ['Suspended', 'Pending']): boolean {
     return !inactiveStatuses.includes(status);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 // TODO: The below is an odd way to import.
@@ -13,7 +13,7 @@ import * as fromStore from '../../store';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-
+  @Output() public paginationEvent = new EventEmitter<number>();
   public columnConfig: GovukTableColumnConfig[];
   public tableUsersData$: Observable<User[]>;
   public isLoading$: Observable<boolean>;

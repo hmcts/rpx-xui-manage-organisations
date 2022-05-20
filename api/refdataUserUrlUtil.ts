@@ -1,3 +1,3 @@
-export function getRefdataUserUrl(rdProfessionalApiPath: string): string {
-    return `${rdProfessionalApiPath}/refdata/external/v1/organisations/users?size=5&page=0`
+export function getRefdataUserUrl(rdProfessionalApiPath: string, pageNumber: string): string {
+    return `${rdProfessionalApiPath}/refdata/external/v1/organisations/users?size=100&page=${pageNumber}`
 }

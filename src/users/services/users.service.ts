@@ -8,9 +8,9 @@ import {catchError} from 'rxjs/operators';
 export class UsersService {
   constructor(private http: HttpClient) { }
 
-  getListOfUsers(): Observable<any> {
+  getListOfUsers(pageNumber): Observable<any> {
     return this.http
-       .get<any>(`/api/userList`)
+       .get<any>(`/api/userList?pageNumber=${pageNumber}`)
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 

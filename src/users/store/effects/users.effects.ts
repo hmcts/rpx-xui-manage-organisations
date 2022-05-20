@@ -19,8 +19,8 @@ export class UsersEffects {
   @Effect()
   public loadUsers$ = this.actions$.pipe(
     ofType(usersActions.LOAD_USERS),
-    switchMap(() => {
-      return this.usersService.getListOfUsers().pipe(
+    switchMap((action: any) => {
+      return this.usersService.getListOfUsers(action.payload).pipe(
         map(userDetails => {
           const amendedUsers = [];
           userDetails.users.forEach(element => {

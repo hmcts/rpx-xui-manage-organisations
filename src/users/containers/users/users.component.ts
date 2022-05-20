@@ -17,19 +17,29 @@ export class UsersComponent implements OnInit {
   public columnConfig: GovukTableColumnConfig[];
   public tableUsersData$: Observable<User[]>;
   public isLoading$: Observable<boolean>;
+  public pageNumber: number = 0;
 
   constructor(
     private readonly store: Store<fromStore.UserState>
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadUsers());
-    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
-    this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
+    this.loadUsers(this.pageNumber);
   }
 
   public inviteNewUser(): void {
     this.store.dispatch(new fromStore.InviteNewUser());
+  }
+
+  public loadUsers(pageNumber: number) {
+    this.store.dispatch(new fromStore.LoadUsers(pageNumber));
+    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
+    this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
+  }
+
+  public pageNext($event) {
+    this.loadUsers(++this.pageNumber);
+    this.paginationEvent.emit($event);
   }
 
 }

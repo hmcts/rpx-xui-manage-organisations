@@ -19,7 +19,7 @@ export const REINVITE_PENDING_USER = '[User]Reinvite Pending User';
 
 export class LoadUsers {
   public readonly type = LOAD_USERS;
-  constructor() { }
+  constructor(public payload?: any) { }
 }
 
 export class LoadUsersSuccess implements Action {

@@ -14,7 +14,12 @@ export async function handleUserListRoute(req: Request, res: Response) {
     //const orgId = 'B13GT1M'
     try {
         const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const response = await req.http.get(getRefdataUserUrl(rdProfessionalApiPath))
+
+        logger.info(JSON.stringify(req.query))
+        logger.info("USER LIST INFO")
+        logger.info(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
+        const response = await req.http.get(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string))
+
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

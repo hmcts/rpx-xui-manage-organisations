@@ -531,10 +531,10 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.4.0.tgz#7de3caa3a2836ffe41f9c426dccf5860c426a519"
-  integrity sha512-GFw/DuF8SNRItKHdKv6IFqsp0qgkzRPkWNttuUWv+E19I90n+2Nhq6uragOm0a0Rra3ajuk3zYpd1xFYjBaN0A==
+"@hmcts/rpx-xui-common-lib@1.7.3-user-list-performance-pagination":
+  version "1.7.3-user-list-performance-pagination"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.3-user-list-performance-pagination.tgz#ba80a0a7fffd54f5c5f5471d4dd20352075e8d3c"
+  integrity sha512-pGvkQ5ZQ8FSXMunBT3bQYSaJoOEU2nskZHVuiodKUfExVIBfoZesdZfWu0AATSbLZwTJvYBF5elVOtHjIQ7tCA==
   dependencies:
     tslib "^1.9.0"
 

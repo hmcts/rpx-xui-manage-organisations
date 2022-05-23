@@ -7,9 +7,16 @@ describe('Users service', () => {
     it('should call getListOfUsers', () => {
         const service = new UsersService(mockedHttpClient);
         mockedHttpClient.get.and.returnValue(of());
-        service.getListOfUsers();
-        expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/userList');
+        service.getListOfUsers(1);
+        expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/userList?pageNumber=1');
     });
+
+    it('should call getAllUsersList', () => {
+      const service = new UsersService(mockedHttpClient);
+      mockedHttpClient.get.and.returnValue(of());
+      service.getAllUsersList();
+      expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/allUserList');
+  });
 
     it('should suspend account', () => {
         const service = new UsersService(mockedHttpClient);

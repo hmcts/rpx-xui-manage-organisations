@@ -11,12 +11,13 @@
         </div>
      </div>
      <div class="table-right_margin">
-      <xuilib-user-list *ngIf="!(isLoading$ | async) else isLoading" [users]="tableUsersData$ | async"></xuilib-user-list>
+      <xuilib-user-list *ngIf="(!(isLoading$ | async) && pageTotalSize) else isLoading" [users]="tableUsersData$ | async"
+      (pageChange)="pageChange($event)" [currentPageNumber]="currentPageNumber" [pageTotalSize]="pageTotalSize">
+      </xuilib-user-list>
      </div>
      <ng-template #isLoading>
         <div>Loading...</div>
      </ng-template>
-     <ccd-pagination (pageChange)="pageNext($event)"></ccd-pagination>
   </main>
 </div>
 

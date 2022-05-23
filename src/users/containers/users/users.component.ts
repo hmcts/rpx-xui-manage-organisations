@@ -4,6 +4,7 @@ import { select, Store } from '@ngrx/store';
 // TODO: The below is an odd way to import.
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import { Observable } from 'rxjs';
+import { UsersService } from 'src/users/services';
 
 import * as fromStore from '../../store';
 
@@ -16,15 +17,19 @@ export class UsersComponent implements OnInit {
   @Output() public paginationEvent = new EventEmitter<number>();
   public columnConfig: GovukTableColumnConfig[];
   public tableUsersData$: Observable<User[]>;
+  public allUsersData$: Observable<any>;
   public isLoading$: Observable<boolean>;
-  public pageNumber: number = 0;
+  public currentPageNumber: number = 1;
+  public pageTotalSize: number;
 
   constructor(
-    private readonly store: Store<fromStore.UserState>
+    private readonly store: Store<fromStore.UserState>,
+    private usersService: UsersService
   ) {}
 
   public ngOnInit(): void {
-    this.loadUsers(this.pageNumber);
+    this.getAllUsers();
+    this.loadUsers(this.currentPageNumber - 1 );
   }
 
   public inviteNewUser(): void {
@@ -37,9 +42,14 @@ export class UsersComponent implements OnInit {
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 
-  public pageNext($event) {
-    this.loadUsers(++this.pageNumber);
-    this.paginationEvent.emit($event);
+  public getAllUsers() {
+    return this.usersService.getAllUsersList().subscribe((allUserList => {
+      this.pageTotalSize = allUserList.users.length;
+    }));
   }
 
+  public pageChange(pageNumber: number) {
+    this.currentPageNumber = pageNumber;
+    this.loadUsers(pageNumber - 1);
+  }
 }

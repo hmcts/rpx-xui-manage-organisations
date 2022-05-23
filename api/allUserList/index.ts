@@ -3,14 +3,14 @@ import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import {exists, valueOrNull} from '../lib/util'
-import { getRefdataUserDetailsUrl } from '../refdataUserDetailsUrlUtil'
+import { getRefdataAllUserListUrl } from '../refdataAllUserListUrlUtil'
 
 const logger = log4jui.getLogger('user-list')
 
-export async function handleUserDetailsRoute(req: Request, res: Response) {
+export async function handleAllUserListRoute(req: Request, res: Response) {
     try {
         const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const response = await req.http.get(getRefdataUserDetailsUrl(rdProfessionalApiPath))
+        const response = await req.http.get(getRefdataAllUserListUrl(rdProfessionalApiPath))
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {
@@ -19,7 +19,7 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
         const errReport = {
             apiError: exists(error, 'data.message') ? error.data.message : valueOrNull(error, 'statusText'),
             apiStatusCode: status,
-            message: 'List of users route error',
+            message: 'All List of users route error',
         }
         res.status(status).send(errReport)
     }
@@ -27,6 +27,6 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
 
 export const router = Router({ mergeParams: true })
 
-router.get('/', handleUserDetailsRoute)
+router.get('/', handleAllUserListRoute)
 
 export default router

@@ -7,19 +7,19 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 import * as configuration from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
-import * as refdataUserUrlUtil from '../refdataUserUrlUtil'
-import { handleUserListRoute } from './index'
+import * as refdataAllUserListUrlUtil from '../refdataAllUserListUrlUtil'
+import { handleAllUserListRoute } from './index'
 
 chai.use(sinonChai)
 
-describe('userList index', () => {
+describe('allUserList index', () => {
     const req = mockReq()
     req.http = http(req)
     const res = mockRes()
 
     beforeEach(() => {
         sinon.stub(configuration, 'getConfigValue').returns('apiPath')
-        sinon.stub(refdataUserUrlUtil, 'getRefdataUserUrl').returns('refdata/users/')
+        sinon.stub(refdataAllUserListUrlUtil, 'getRefdataAllUserListUrl').returns('refdata/users/')
     })
 
     afterEach(() => {
@@ -34,9 +34,9 @@ describe('userList index', () => {
         sinon.stub(req.http, 'get').resolves(mockAxiosResponse as AxiosResponse)
 
         // Test the function and check expectations
-        await handleUserListRoute(req, res)
+        await handleAllUserListRoute(req, res)
         expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH)
-        expect(refdataUserUrlUtil.getRefdataUserUrl).to.be.calledWith('apiPath')
+        expect(refdataAllUserListUrlUtil.getRefdataAllUserListUrl).to.be.calledWith('apiPath')
         expect(req.http.get).to.be.calledWith('refdata/users/')
         expect(res.send).to.be.calledWith('test')
     })
@@ -60,7 +60,7 @@ describe('userList index', () => {
         }
 
         // Test the function and check expectations
-        await handleUserListRoute(req, res)
+        await handleAllUserListRoute(req, res)
         expect(res.status).to.be.calledWith(errorCode)
         expect(res.send).to.be.calledWith(errorReport)
     })
@@ -82,7 +82,7 @@ describe('userList index', () => {
         }
 
         // Test the function and check expectations
-        await handleUserListRoute(req, res)
+        await handleAllUserListRoute(req, res)
         expect(res.status).to.be.calledWith(errorCode)
         expect(res.send).to.be.calledWith(errorReport)
     })

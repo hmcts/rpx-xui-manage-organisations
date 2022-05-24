@@ -20,7 +20,6 @@ import * as fromComponents from './components';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
-import { CaseUIToolkitModule } from '@hmcts/ccd-case-ui-toolkit';
 
 @NgModule({
   imports: [
@@ -32,7 +31,6 @@ import { CaseUIToolkitModule } from '@hmcts/ccd-case-ui-toolkit';
     EffectsModule.forFeature(effects),
     FormsModule,
     ExuiCommonLibModule,
-    CaseUIToolkitModule
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers,  ...fromComponents.components],

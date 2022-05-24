@@ -28,12 +28,6 @@ export const getGetSingleUser = createSelector(
   (state: fromFeature.UserState, prop) => state.invitedUsers.userList.find(item => item['userIdentifier'] === prop.userIdentifier)
 );
 
-
-export const getGetSingleUserIndex = createSelector(
-  fromFeature.getRootUserState,
-  (state: fromFeature.UserState, prop) => state.invitedUsers.userList.findIndex(item => item['userIdentifier'] === prop.userIdentifier)
-);
-
 export const getGetReinvitePendingUser = createSelector(
   getUserState,
   fromUsers.getReinvitePendingUser

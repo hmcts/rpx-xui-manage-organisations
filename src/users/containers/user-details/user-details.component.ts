@@ -7,7 +7,7 @@ import { UsersService } from '../../../users/services';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
-import * as UserSelectors from '../../store/selectors/user.selectors';
+
 @Component({
   selector: 'app-prd-user-details-component',
   templateUrl: './user-details.component.html',
@@ -54,7 +54,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
       this.handleDependanciesSubscription(users, route);
-      // this.getUserDetailswithPermission(route)
     });
 
 

@@ -39,4 +39,6 @@
     <div *ngIf="navItems && navItems.length === 0">
       <p>There are no unassigned cases available to be shared.</p>
     </div>
+    <!-- <xuilib-hmcts-pagination *ngIf="unassignedCasesLoaded && (cases$ | async)?.length >= pagination.page_size"
+      (pageChange)="onPaginationHandler($event)" [pageSize]="pagination.page_size"></xuilib-hmcts-pagination> -->
 </main>

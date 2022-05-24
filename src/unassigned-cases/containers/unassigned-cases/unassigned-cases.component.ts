@@ -3,6 +3,7 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/c
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { PaginationParameter } from 'src/models/pagination.model';
 
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
@@ -26,6 +27,8 @@ export class UnassignedCasesComponent implements OnInit {
   public currentCaseType: string;
 
   public navItems: any [];
+  public pagination: PaginationParameter;
+  public unassignedCasesLoaded: boolean;
 
   constructor(
     private readonly store: Store<fromStore.UnassignedCasesState>,
@@ -74,8 +77,27 @@ export class UnassignedCasesComponent implements OnInit {
   private setTabItems(tabName: string): void {
     this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.store.dispatch(new fromStore.LoadUnassignedCases(tabName));
+    this.store.dispatch(new fromStore.LoadAllUnassignedCases(tabName));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
+    this.resetPaginationParameters();
+    this.unassignedCasesLoaded = true;
+  }
+
+  public onPaginationHandler(pageNo: number): void {
+    this.pagination.page_number = pageNo;
+    this.pagination.page_size = 10;
+    //this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.pagination.page_number, pageSize: this.pagination.page_size}));
+    this.store.dispatch(new fromStore.LoadAllUnassignedCases(this.currentCaseType));
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+    this.unassignedCasesLoaded = true;
+    //this.cases$.subscribe(data => console.log('case value', data));
+  }
+
+  public resetPaginationParameters(): void {
+    this.pagination = {
+      page_number: 1,
+      page_size: 10
+    };
   }
 }

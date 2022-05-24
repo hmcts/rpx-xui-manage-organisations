@@ -84,3 +84,34 @@ export function getRequestBody(organisationID: string) {
     },
   }
 }
+
+export function getRequestBodyWithPageLimit(organisationID: string, pageNo: number, pageSize: number) {
+  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
+  return {
+    from: pageNo,
+    query: {
+      bool: {
+        filter: [
+          {
+            multi_match: {
+              fields: ['data.*.Organisation.OrganisationID'],
+              query: `${organisationID}`,
+              type: 'phrase',
+            },
+          },
+          {
+            bool: {
+              must_not: [
+                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
+              ],
+            },
+          },
+        ],
+      },
+    },
+    size: pageSize,
+    sort: {
+      created_date: { order: 'desc'},
+    },
+  }
+}

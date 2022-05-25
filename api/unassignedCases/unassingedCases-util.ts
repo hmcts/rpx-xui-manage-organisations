@@ -54,38 +54,7 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
   return ccdColumnConfigs
 }
 
-export function getRequestBody(organisationID: string) {
-  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
-  return {
-    from: 0,
-    query: {
-      bool: {
-        filter: [
-          {
-            multi_match: {
-              fields: ['data.*.Organisation.OrganisationID'],
-              query: `${organisationID}`,
-              type: 'phrase',
-            },
-          },
-          {
-            bool: {
-              must_not: [
-                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-              ],
-            },
-          },
-        ],
-      },
-    },
-    size: 100,
-    sort: {
-      created_date: { order: 'desc'},
-    },
-  }
-}
-
-export function getRequestBodyWithPageLimit(organisationID: string, pageNo: number, pageSize: number) {
+export function getRequestBody(organisationID: string, pageNo: number, pageSize: number) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
   return {
     from: pageNo,
@@ -110,8 +79,9 @@ export function getRequestBodyWithPageLimit(organisationID: string, pageNo: numb
       },
     },
     size: pageSize,
-    sort: {
-      created_date: { order: 'desc'},
-    },
+    sort: [
+      {
+        created_date: 'desc'
+      },]
   }
 }

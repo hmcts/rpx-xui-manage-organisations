@@ -8,7 +8,6 @@ import { UnassignedCasesService } from '../../services/unassigned-cases.service'
 import { UnassingedCasesUtil } from '../../util/unassigned-cases.util';
 import { LOAD_UNASSIGNED_CASE_TYPES,
   LOAD_UNASSIGNED_CASES,
-  LOAD_ALL_UNASSIGNED_CASES,
   LoadUnassignedCasesFailure,
   LoadUnassignedCasesSuccess,
   LoadUnassignedCaseTypesFailure,
@@ -29,14 +28,6 @@ export class UnassignedCasesEffects {
     );
 
     @Effect()
-    public loadAllUnassignedCases$ = this.actions$.pipe(
-    ofType(LOAD_ALL_UNASSIGNED_CASES),
-    switchMap((payload: any) => {
-        return UnassignedCasesEffects.onLoadAllUnassignedCases(payload, this.service, this.loggerService);
-      })
-    );
-
-    @Effect()
     public loadUnassignedCaseTypes$ = this.actions$.pipe(
     ofType(LOAD_UNASSIGNED_CASE_TYPES),
     switchMap((payload: any) => {
@@ -46,20 +37,6 @@ export class UnassignedCasesEffects {
 
   public static onLoadUnassignedCases(action: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
     return service.fetchUnassignedCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
-      map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
-      catchError(errorResponse => {
-        loggerService.error(errorResponse);
-        if (errorResponse.error.status === 400) {
-          return of(new LoadUnassignedCasesFailure(errorResponse.error));
-        } else {
-          return of(new fromRoot.Go({ path: ['/service-down']}));
-        }
-      })
-    );
-  }
-
-  public static onLoadAllUnassignedCases(payload: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
-    return service.fetchAllUnassignedCases(payload.caseType).pipe(
       map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
       catchError(errorResponse => {
         loggerService.error(errorResponse);

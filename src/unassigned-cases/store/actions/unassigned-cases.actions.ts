@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { UnAssignedCases } from '../reducers';
 
 export const LOAD_UNASSIGNED_CASES = '[Unassigned Cases] Load Unassinged Cases';
-export const LOAD_ALL_UNASSIGNED_CASES = '[Unassigned All Cases] Load All Unassinged Cases';
 export const LOAD_UNASSIGNED_CASES_SUCCESS = '[Unassigned Cases] Load Unassinged Cases Success';
 export const LOAD_UNASSIGNED_CASES_FAILURE = '[Unassigned Cases] Load Unassinged Cases Failure';
 export const LOAD_UNASSIGNED_CASE_TYPES = '[Unassigned Cases] Load Unassinged Case Types';
@@ -12,12 +11,7 @@ export const UPDATE_SELECTION_FOR_CASE_TYPE = '[Unassigned Cases] Update Selecti
 
 export class LoadUnassignedCases implements Action {
     public readonly type = LOAD_UNASSIGNED_CASES;
-    constructor(public payload: {caseType: string, pageNo?: number, pageSize?: number}) {}
-}
-
-export class LoadAllUnassignedCases implements Action {
-    public readonly type = LOAD_ALL_UNASSIGNED_CASES;
-    constructor(public caseType: string) {}
+    constructor(public payload: {caseType: string, pageNo: number, pageSize: number}) {}
 }
 
 export class LoadUnassignedCasesSuccess implements Action {
@@ -52,7 +46,6 @@ export class LoadUnassignedCaseTypesFailure implements Action {
 
 export type UnassignedCasesActions =
     LoadUnassignedCases
-  | LoadAllUnassignedCases
   | LoadUnassignedCasesSuccess
   | LoadUnassignedCasesFailure
   | LoadUnassignedCaseTypes

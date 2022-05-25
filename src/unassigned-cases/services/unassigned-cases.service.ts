@@ -12,11 +12,6 @@ export class UnassignedCasesService {
          return this.http.post<any>(url, null);
     }
 
-    public fetchAllUnassignedCases(caseTypeId: string): Observable<any> {
-        const url = `${UnassignedCasesService.unassignedCasesUrl}?caseTypeId=${caseTypeId}`;
-        return this.http.post<any>(url, null);
-   }
-
     public fetchUnassignedCaseTypes(): Observable<any> {
         return this.http.post<any>(UnassignedCasesService.unassingedCaseTypesUrl, null);
     }

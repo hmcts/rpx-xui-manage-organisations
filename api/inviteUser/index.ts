@@ -3,7 +3,7 @@ import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import {exists, valueOrNull} from '../lib/util'
-import { getRefdataUserUrl } from '../refdataUserUrlUtil'
+import { getRefdataUserCommonUrlUtil } from '../refdataUserCommonUrlUtil'
 
 export const router = Router({ mergeParams: true })
 const logger = log4jui.getLogger('invite-user')
@@ -14,7 +14,10 @@ export async function inviteUserRoute(req: Request, res: Response) {
     const payload = req.body
     try {
         const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const response = await req.http.post(getRefdataUserUrl(rdProfessionalApiPath), payload)
+        const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
+        logger.info('INVITE USER: request URL:: ', reqUrl)
+        logger.info('INVITE USER: payload:: ', payload)
+        const response = await req.http.post(reqUrl, payload)
         logger.info('response::', response.data)
         res.send(response.data)
     } catch (error) {

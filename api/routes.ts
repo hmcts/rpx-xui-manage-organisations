@@ -17,6 +17,8 @@ import unnassignedCasesRouter from './unassignedCases'
 import unassignedCaseTypesRouter from './unassignedCaseTypes'
 import userDetailsRouter from './user'
 import getUserList from './userList'
+import getAllUserList from './allUserList'
+import getAllUserListWithoutRoles from './allUserListWithoutRoles'
 
 const router = Router({ mergeParams: true })
 
@@ -26,8 +28,9 @@ router.use('/accounts', accountsRouter)
 router.use('/user', userDetailsRouter)
 router.use('/healthCheck', healthCheck)
 router.use('/inviteUser', inviteUser)
+router.use('/allUserList', getAllUserList)
+router.use('/allUserListWithoutRoles', getAllUserListWithoutRoles)
 router.use('/userList', getUserList)
-router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 router.use('/userTermsAndConditions/:userId', getUserTermsAndConditions)

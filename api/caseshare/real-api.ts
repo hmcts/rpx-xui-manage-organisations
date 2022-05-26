@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { handleDelete, handleGet, handlePost } from '../common/crudService'
 import { getConfigValue } from '../configuration'
-import { CASE_SHARE_PERMISSIONS, SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
+import { SERVICES_MCA_PROXY_API_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { ccdToUserDetails, prdToUserDetails } from './dtos/user-dto'
 import { CaseAssigneeMappingModel } from './models/case-assignee-mapping.model'
 import { SharedCase } from './models/case-share.model'
@@ -14,11 +14,9 @@ const ccdUrl: string = getConfigValue(SERVICES_MCA_PROXY_API_PATH)
 
 export async function getUsers(req: Request, res: Response, next: NextFunction): Promise<Response> {
   try {
-    const path = `${prdUrl}/refdata/external/v1/organisations/users?returnRoles=true&status=active`
+    const path = `${prdUrl}/refdata/external/v1/organisations/users?returnRoles=false&status=active`
     const {status, data}: {status: number, data: any} = await handleGet(path, req, next)
-    const permissions = CASE_SHARE_PERMISSIONS.split(',')
     const users = [...data.users]
-                  .filter(user => user && user.roles && user.roles.some(role => permissions.includes(role)))
                   .map(user => prdToUserDetails(user))
     return res.status(status).send(users)
   } catch (error) {

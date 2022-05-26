@@ -2,10 +2,8 @@ import { NextFunction, Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
 import { getApiPath, getRequestBody, mapCcdCases } from './unassingedCases-util'
-import * as log4jui from '../lib/log4jui'
 
 export async function handleUnassignedCases(req: Request, res: Response, next: NextFunction) {
-  const logger = log4jui.getLogger('Unassigned cases by Ritesh')
   const caseTypeId = req.query.caseTypeId as string
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
   const page: number = (+req.query.pageNo || 1) - 1;

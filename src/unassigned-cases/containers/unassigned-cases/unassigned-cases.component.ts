@@ -3,7 +3,6 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/c
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { PaginationParameter } from 'src/models/pagination.model';
 
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
@@ -27,7 +26,6 @@ export class UnassignedCasesComponent implements OnInit {
   public currentCaseType: string;
 
   public navItems: any [];
-  public pagination: PaginationParameter;
   public currentPageNo: number;
   public paginationPageSize: number = 25;
   public totalCases: number = 0;

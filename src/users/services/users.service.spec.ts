@@ -11,11 +11,18 @@ describe('Users service', () => {
         expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/userList?pageNumber=1');
     });
 
-    it('should call getAllUsersList', () => {
+    it('should call getAllUsersList with roles', () => {
+      const service = new UsersService(mockedHttpClient);
+      mockedHttpClient.get.and.returnValue(of());
+      service.getAllUsersListwithReturnRoles();
+      expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/allUserList');
+  });
+
+    it('should call getAllUsersList without roles', () => {
       const service = new UsersService(mockedHttpClient);
       mockedHttpClient.get.and.returnValue(of());
       service.getAllUsersList();
-      expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/allUserList');
+      expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/allUserListWithoutRoles');
   });
 
     it('should suspend account', () => {

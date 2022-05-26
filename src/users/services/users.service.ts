@@ -8,6 +8,13 @@ import {catchError} from 'rxjs/operators';
 export class UsersService {
   constructor(private http: HttpClient) { }
 
+  // returnRoles true
+  getAllUsersListwithReturnRoles(): Observable<any> {
+    return this.http
+       .get<any>(`/api/allUserList`)
+       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   // returnRoles true with pageNumber
   getListOfUsers(pageNumber: number): Observable<any> {
     return this.http
@@ -18,7 +25,7 @@ export class UsersService {
   // get all users with returnRoles false
   getAllUsersList(): Observable<any> {
     return this.http
-       .get<any>(`/api/allUserList`)
+       .get<any>(`/api/allUserListWithoutRoles`)
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 

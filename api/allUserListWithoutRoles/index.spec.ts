@@ -7,19 +7,19 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 import * as configuration from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
-import * as refdataUserCommonUrlUtil from '../refdataUserCommonUrlUtil'
+import * as refdataAllUserListUrlUtil from '../refdataAllUserListUrlUtil'
 import { handleAllUserListRoute } from './index'
 
 chai.use(sinonChai)
 
-describe('allUserList index', () => {
+describe('allUserList without roles: index', () => {
     const req = mockReq()
     req.http = http(req)
     const res = mockRes()
 
     beforeEach(() => {
         sinon.stub(configuration, 'getConfigValue').returns('apiPath')
-        sinon.stub(refdataUserCommonUrlUtil, 'getRefdataUserCommonUrlUtil').returns('refdata/users/')
+        sinon.stub(refdataAllUserListUrlUtil, 'getRefdataAllUserListUrl').returns('refdata/users/')
     })
 
     afterEach(() => {
@@ -36,7 +36,7 @@ describe('allUserList index', () => {
         // Test the function and check expectations
         await handleAllUserListRoute(req, res)
         expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH)
-        expect(refdataUserCommonUrlUtil.getRefdataUserCommonUrlUtil).to.be.calledWith('apiPath')
+        expect(refdataAllUserListUrlUtil.getRefdataAllUserListUrl).to.be.calledWith('apiPath')
         expect(req.http.get).to.be.calledWith('refdata/users/')
         expect(res.send).to.be.calledWith('test')
     })

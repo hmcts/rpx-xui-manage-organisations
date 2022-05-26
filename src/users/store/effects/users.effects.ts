@@ -42,6 +42,22 @@ export class UsersEffects {
     })
   );
 
+  @Effect()
+  public loadAllUsers$ = this.actions$.pipe(
+    ofType(usersActions.LOAD_ALL_USERS),
+    switchMap((action: any) => {
+      return this.usersService.getAllUsersListwithReturnRoles().pipe(
+        map(userDetails => {
+          return new usersActions.LoadAllUsersSuccess();
+        }),
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.LoadAllUsersFail(error));
+        })
+      );
+    })
+  );
+
   // @Effect()
   // public loadUserDetails$ = this.actions$.pipe(
   //   ofType(usersActions.LOAD_USER_DETAILS),

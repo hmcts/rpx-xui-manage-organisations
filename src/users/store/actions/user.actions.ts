@@ -4,6 +4,9 @@ import { Action } from '@ngrx/store';
 export const LOAD_USERS = '[User] Load Users';
 export const LOAD_USERS_SUCCESS = '[User] Load Users Success';
 export const LOAD_USERS_FAIL = '[User] Load Users Fail';
+export const LOAD_ALL_USERS = '[User] Load All Users';
+export const LOAD_ALL_USERS_SUCCESS = '[User] Load All Users Success';
+export const LOAD_ALL_USERS_FAIL = '[User] Load All Users Fail';
 export const EDIT_USER = '[User] Edit User';
 export const EDIT_USER_SUCCESS = '[User] Edit User Success';
 export const EDIT_USER_FAILURE = '[User] Edit User Failure';
@@ -25,6 +28,26 @@ export class LoadUsers {
 export class LoadUsersSuccess implements Action {
   public readonly type = LOAD_USERS_SUCCESS;
   constructor(public payload: any) { }  // TODO add type list of users
+}
+
+export class LoadUsersFail implements Action {
+  public readonly type = LOAD_USERS_FAIL;
+  constructor(public payload: any) { }
+}
+
+export class LoadAllUsers {
+  public readonly type = LOAD_ALL_USERS;
+  constructor() { }
+}
+
+export class LoadAllUsersSuccess implements Action {
+  public readonly type = LOAD_ALL_USERS_SUCCESS;
+  constructor() {}
+}
+
+export class LoadAllUsersFail implements Action {
+  public readonly type = LOAD_ALL_USERS_FAIL;
+  constructor(public payload: any) { }
 }
 
 export class EditUser implements Action {
@@ -54,11 +77,6 @@ export class EditUserFailureReset implements Action {
   public readonly type = EDIT_USER_FAILURE_RESET;
   constructor() {
   }
-}
-
-export class LoadUsersFail implements Action {
-  public readonly type = LOAD_USERS_FAIL;
-  constructor(public payload: any) { }
 }
 
 // export class LoadUserDetails {
@@ -100,6 +118,9 @@ export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
   | LoadUsersFail
+  | LoadAllUsers
+  | LoadAllUsersSuccess
+  | LoadAllUsersFail
   | EditUser
   | EditUserFailure
   | EditUserFailureReset

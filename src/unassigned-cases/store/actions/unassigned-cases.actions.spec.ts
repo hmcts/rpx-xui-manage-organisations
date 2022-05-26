@@ -6,7 +6,7 @@ describe('Unassigned actions', () => {
         const caseType = 'caseTypeId1';
         const pageNo = 1;
         const pageSize = 10;
-        const payload = {caseType: caseType, pageNo: pageNo, pageSize: pageSize}
+        const payload = { caseType, pageNo, pageSize }
         const action = new fromActions.LoadUnassignedCases(payload);
         expect({ ...action }).toEqual({
             payload,

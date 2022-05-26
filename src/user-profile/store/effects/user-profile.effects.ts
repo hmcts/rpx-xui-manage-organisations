@@ -137,7 +137,7 @@ export class UserProfileEffects {
       return user.payload; // this is the userId
     }),
     switchMap(userId => [
-      new usersActions.LoadUsers()
+      new usersActions.LoadAllUsers()
   ])
   );
 

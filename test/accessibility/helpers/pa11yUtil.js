@@ -57,8 +57,9 @@ async function pa11ytestRunner(test,actions,timeoutVal) {
         }
     ];
     const browser = await puppeteer.launch({
-        ignoreHTTPSErrors: false,
-        headless:conf.headless
+        ignoreHTTPSErrors: true,
+        headless:conf.headless,
+        args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications']
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);

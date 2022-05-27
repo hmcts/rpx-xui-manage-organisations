@@ -94,4 +94,21 @@ export class UnassignedCasesComponent implements OnInit {
   public resetPaginationParameters(): void {
     this.currentPageNo = 1;
   }
+
+  public hasResults(): any {
+    return this.totalCases;
+  }
+
+  public getFirstResult(): number {
+    return ((this.currentPageNo - 1) * this.paginationPageSize) + 1;
+  }
+
+  public getLastResult(): number {
+    const count = ((this.currentPageNo) * this.paginationPageSize);
+    return count >= this.totalCases ? this.totalCases : count < this.totalCases ? count : 1;
+  }
+
+  public getTotalResults(): number {
+    return this.totalCases;
+  }
 }

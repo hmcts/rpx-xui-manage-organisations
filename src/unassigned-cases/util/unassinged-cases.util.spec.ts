@@ -30,5 +30,6 @@ describe('UnassingedCasesUtil', () => {
         expect(results[1].text).toEqual('FT_ComplexCollectionComplex');
         expect(results[2].text).toEqual('FT_Conditionals');
         expect(results[3].text).toEqual('FT_ComplexOrganisation');
+        expect(results[3].total).toEqual(4);
     });
 });

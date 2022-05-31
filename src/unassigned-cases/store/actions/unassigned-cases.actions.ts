@@ -11,7 +11,7 @@ export const UPDATE_SELECTION_FOR_CASE_TYPE = '[Unassigned Cases] Update Selecti
 
 export class LoadUnassignedCases implements Action {
     public readonly type = LOAD_UNASSIGNED_CASES;
-    constructor(public caseType: string) {}
+    constructor(public payload: {caseType: string, pageNo: number, pageSize: number}) {}
 }
 
 export class LoadUnassignedCasesSuccess implements Action {

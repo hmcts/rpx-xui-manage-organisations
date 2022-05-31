@@ -464,10 +464,11 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hmcts/ccd-case-ui-toolkit@4.14.1":
-  version "4.14.1"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-4.14.1.tgz#738965afe43886faa03f116df25645be3df6c5ca"
-  integrity sha512-0qrWpIFPc4aRwyWDUf7KfJZ/mU/Taxggz9aDScaobT2ab/4/zBKC4SkDoE+F7JXh6kNwyl4sdAz59a7PIssFDg==
+"@hmcts/ccd-case-ui-toolkit@4.17.6":
+  version "4.17.6"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-4.17.6.tgz#db5975c50a846217cd02f9dfb8e4d98e491cc0ef"
+  integrity sha512-gXBZkVxWf5eD3iRF1//1Grx9jiRyAu3QDf38J4uIk79r12aGfeloChicRXyEHLKYJl5ofWSZJ/jS/mqPde9xAQ==
+
   dependencies:
     "@angular-material-components/datetime-picker" "^2.0.4"
     "@angular-material-components/moment-adapter" "^5.0.0"
@@ -531,10 +532,10 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.7.3-user-list-performance-pagination":
-  version "1.7.3-user-list-performance-pagination"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.3-user-list-performance-pagination.tgz#ba80a0a7fffd54f5c5f5471d4dd20352075e8d3c"
-  integrity sha512-pGvkQ5ZQ8FSXMunBT3bQYSaJoOEU2nskZHVuiodKUfExVIBfoZesdZfWu0AATSbLZwTJvYBF5elVOtHjIQ7tCA==
+"@hmcts/rpx-xui-common-lib@1.7.6":
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.6.tgz#1094532a750a262eb3ba01316c05ab77cd0e7496"
+  integrity sha512-ikAdINAWKJ5mD1awlqfeg4f5eGs+8PoFJ3wU/SrUUoUXIJbCvPHLi/jo7q14MKfJyyf3PvDKp5ykrOs5YFtDfg==
   dependencies:
     tslib "^1.9.0"
 

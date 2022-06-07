@@ -67,6 +67,26 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
         data: 'foobar'
     }, 'secret', { expiresIn: 60 * 60 });
 
+    const cookies = [
+        {
+        name: '__auth__',
+        value: token,
+        domain: 'localhost:4200',
+        path: '/',
+        httpOnly: false,
+        secure: false,
+        session: true,
+        }
+    ];
+    const browser = await puppeteer.launch({
+        ignoreHTTPSErrors: true,
+        headless:conf.headless,
+        args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications']
+    });
+    const page = await browser.newPage();
+    await page.setCookie(...cookies);
+    await page.goto(conf.baseUrl);
+
     let result;
 
 

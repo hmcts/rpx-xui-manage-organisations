@@ -65,7 +65,7 @@
     "@hmcts/ccd-case-ui-toolkit": "4.17.6",
     "@hmcts/ccpay-web-component": "5.0.4",
     "@hmcts/frontend": "0.0.41-alpha",
-    "@hmcts/nodejs-healthcheck": "^1.6.0",
+    "@hmcts/nodejs-healthcheck": "^1.7.0",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "1.7.6",
     "@hmcts/rpx-xui-node-lib": "^2.24.3",
@@ -105,7 +105,7 @@
     "form-data": "^2.5.1",
     "git-rev-sync": "^2.0.0",
     "global-agent": "^2.1.8",
-    "govuk-frontend": "3.1.0",
+    "govuk-frontend": "^3.1.0",
     "govuk_frontend_toolkit": "^8.2.0",
     "helmet": "^3.21.3",
     "isomorphic-fetch": "^3.0.0",
@@ -223,6 +223,7 @@
     "**/**/socket.io": "^2.4.0",
     "**/**/y18n": "^3.2.2",
     "**/**/ssri": "8.0.1",
-    "**/**/jose": "1.28.1"
+    "**/**/jose": "1.28.1",
+    "**/**/node-gyp": "^8.4.1"
   }
 }

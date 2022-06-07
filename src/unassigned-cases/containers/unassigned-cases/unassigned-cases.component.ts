@@ -26,6 +26,9 @@ export class UnassignedCasesComponent implements OnInit {
   public currentCaseType: string;
 
   public navItems: any [];
+  public currentPageNo: number;
+  public paginationPageSize: number = 25;
+  public totalCases: number = 0;
 
   constructor(
     private readonly store: Store<fromStore.UnassignedCasesState>,
@@ -50,6 +53,7 @@ export class UnassignedCasesComponent implements OnInit {
   private fixCurrentTab(items: any): void {
     this.navItems = items;
     if (items && items.length > 0) {
+      this.totalCases = items[0].total ? items[0].total : 0;
       this.setTabItems(items[0].text);
     }
   }
@@ -68,14 +72,43 @@ export class UnassignedCasesComponent implements OnInit {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
+    this.totalCases = this.navItems.find(data => data.text === event.tab.textLabel) ? this.navItems.find(data => data.text === event.tab.textLabel).total : 0;
     this.setTabItems(event.tab.textLabel);
   }
 
   private setTabItems(tabName: string): void {
+    this.resetPaginationParameters();
     this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.store.dispatch(new fromStore.LoadUnassignedCases(tabName));
+    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
+  }
+
+  public onPaginationHandler(pageNo: number): void {
+    this.currentPageNo = pageNo;
+    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+  }
+
+  public resetPaginationParameters(): void {
+    this.currentPageNo = 1;
+  }
+
+  public hasResults(): any {
+    return this.totalCases;
+  }
+
+  public getFirstResult(): number {
+    return ((this.currentPageNo - 1) * this.paginationPageSize) + 1;
+  }
+
+  public getLastResult(): number {
+    const count = ((this.currentPageNo) * this.paginationPageSize);
+    return count >= this.totalCases ? this.totalCases : count < this.totalCases ? count : 1;
+  }
+
+  public getTotalResults(): number {
+    return this.totalCases;
   }
 }

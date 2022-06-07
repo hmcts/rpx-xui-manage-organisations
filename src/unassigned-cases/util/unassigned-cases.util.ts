@@ -10,7 +10,8 @@ export  class UnassingedCasesUtil {
                     result.push({
                         text: caseType.case_type_id,
                         href: caseType.case_type_id,
-                        active: false
+                        active: false,
+                        total: caseType.total
                     });
                 }
             });

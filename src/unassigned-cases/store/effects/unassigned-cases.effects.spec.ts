@@ -11,7 +11,13 @@ describe('UnassignedCasesEffects', () => {
     const unassignedCase = {} as UnAssignedCases;
     it('onLoadUnassignedCases successful', () => {
       service.fetchUnassignedCases.and.returnValue(of(unassignedCase));
-      const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases({}, service, loggerService);
+      const caseType = '';
+      const pageNo = 1;
+      const pageSize = 10;
+      const action = {
+        payload: { caseType, pageNo, pageSize }
+      };
+      const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases(action, service, loggerService);
       unassignedCases$.subscribe(loadUnassignedCases => expect(new LoadUnassignedCasesSuccess(unassignedCase)).toEqual(loadUnassignedCases));
     });
 
@@ -19,7 +25,13 @@ describe('UnassignedCasesEffects', () => {
       service.fetchUnassignedCases.and.callFake(() => {
         return throwError(new HttpErrorResponse({error: '404 - Not Found', status: 404}));
       });
-      const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases({}, service, loggerService);
+      const caseType = '';
+      const pageNo = 1;
+      const pageSize = 10;
+      const action = {
+        payload: { caseType, pageNo, pageSize }
+      };
+      const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases(action, service, loggerService);
       unassignedCases$.subscribe(errorAction => {
         expect(new fromRoot.Go({ path: ['/service-down']})).toEqual(errorAction);
         done();

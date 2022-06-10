@@ -22,10 +22,10 @@ class CreateOrganisationObjects {
     this.PBAnumber2 = element(by.css("#PBANumber2"));
     this.DXreference = element(by.css("input[id='haveDxyes']"));
     this.DXNumber = element(by.css("[id='DXnumber']"));
-    this.DXContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
+    this.DXContinuee = element(by.xpath("//input[@id='createButton']"));
     this.DXexchange = element(by.css("[id='DXexchange']"));
     this.SRACheckBox = element(by.css("[id='haveSrayes']"));
-    this.SRAContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
+    this.SRAContinuee = element(by.xpath("//input[@id='createButton']"));
     this.SRANumber = element(by.css("[id='sraNumber']"));
     this.firstName = element(by.css("[id='firstName']"));
     this.lastName = element(by.css("[id='lastName']"));

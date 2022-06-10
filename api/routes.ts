@@ -19,25 +19,8 @@ import userDetailsRouter from './user'
 import getUserList from './userList'
 import getAllUserList from './allUserList'
 import getAllUserListWithoutRoles from './allUserListWithoutRoles'
-
-import accountsRouter from './accounts';
-import { router as caseShareRouter } from './caseshare/routes';
-import editUserPermissions from './editUserPermissions';
-import getUserTermsAndConditions from './getUserTermsAndConditions';
-import healthCheck from './healthCheck';
-import inviteUser from './inviteUser';
-import getJurisdictions from './jurisdictions';
-import organisationRouter from './organisation';
-import payments from './payments';
 import { router as pbaRouter } from './pbas/routes';
-import postUserTermsAndConditions from './postUserTermsAndConditions';
 import { router as registerRouter } from './register-org';
-import suspendUser from './suspendUser';
-import getTermsAndConditions from './termsAndConditions';
-import unnassignedCasesRouter from './unassignedCases';
-import unassignedCaseTypesRouter from './unassignedCaseTypes';
-import userDetailsRouter from './user';
-import getUserList from './userList';
 
 const router = Router({ mergeParams: true });
 

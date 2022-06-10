@@ -3,6 +3,7 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
+import { UsersService } from '../../../users/services';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
@@ -65,6 +66,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.suspendUserServerErrorSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_FAIL)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
     });
+
+
   }
 
   public ngOnDestroy(): void {

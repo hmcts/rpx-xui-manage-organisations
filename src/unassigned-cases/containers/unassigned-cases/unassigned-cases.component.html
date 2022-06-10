@@ -14,21 +14,34 @@
                 </ul>
             </div>
       </details>
-        <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
-          <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
-            <ccd-case-list
-            *ngIf="(cases$ | async)?.length > 0 else noData"
-            [cases]="cases$ | async"
-            [selectedCases]="selectedCases"
-            [tableConfig]="tableConfig"
-            [selectionEnabled]="true"
-            (selection)="onCaseSelection($event)">
-            </ccd-case-list>
-            <ng-template #noData>
-              <div>{{navItem.text}} doesn't support shared case type.</div>
-            </ng-template>
-          </mat-tab>
-        </mat-tab-group>
+      <div *ngIf="hasResults()" class="pagination-top"
+        attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
+        <span class="text-16" id="summary__text">Showing 
+          <span class="govuk-!-font-weight-bold">{{ getFirstResult() }}</span>
+          to
+          <span class="govuk-!-font-weight-bold">{{ getLastResult() }}</span>
+          of
+          <span class="govuk-!-font-weight-bold">{{ getTotalResults() }}</span> results</span>
+      </div>
+      <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
+        <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
+          <ccd-case-list
+          *ngIf="(cases$ | async)?.length > 0 else noData"
+          [cases]="cases$ | async"
+          [selectedCases]="selectedCases"
+          [tableConfig]="tableConfig"
+          [selectionEnabled]="true"
+          (selection)="onCaseSelection($event)"
+          (pageChange)="onPaginationHandler($event)"
+          [currentPageNo]="currentPageNo"
+          [totalResultsCount]="totalCases"
+          [pageSize]="paginationPageSize">
+          </ccd-case-list>
+          <ng-template #noData>
+            <div>{{navItem.text}} doesn't support shared case type.</div>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
     </div>
     <div *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0">
       <button [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"

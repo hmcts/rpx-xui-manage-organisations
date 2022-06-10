@@ -35,8 +35,8 @@ export class UnassignedCasesEffects {
       })
     );
 
-  public static onLoadUnassignedCases(payload: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
-    return service.fetchUnassignedCases(payload.caseType).pipe(
+  public static onLoadUnassignedCases(action: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
+    return service.fetchUnassignedCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
       map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
       catchError(errorResponse => {
         loggerService.error(errorResponse);

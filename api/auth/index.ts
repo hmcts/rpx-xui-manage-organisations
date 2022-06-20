@@ -14,7 +14,7 @@ import {
   OAUTH_CALLBACK_URL,
   REDIS_KEY_PREFIX,
   REDIS_TTL,
-  REDISCLOUD_URL,
+  REDIS_CLOUD_URL,
   S2S_SECRET,
   SERVICE_S2S_PATH,
   SERVICES_IDAM_API_PATH,
@@ -119,7 +119,7 @@ export const getXuiNodeMiddleware = () => {
         redisStore: {
             ...baseStoreOptions, ...{
                 redisStoreOptions: {
-                    redisCloudUrl: getConfigValue(REDISCLOUD_URL),
+                    redisCloudUrl: getConfigValue(REDIS_CLOUD_URL),
                     redisKeyPrefix: getConfigValue(REDIS_KEY_PREFIX),
                     redisTtl: getConfigValue(REDIS_TTL),
                 },

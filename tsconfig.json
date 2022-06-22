@@ -10,7 +10,6 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "target": "es5",
-    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -31,6 +30,12 @@
       "gov-ui/*": [
         "dist/gov-ui/*"
       ]
+    },
+  },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs"
     }
-  }
+  },
 }

@@ -54,7 +54,7 @@
     "@angular/cdk": "7.3.7",
     "@angular/common": "^7.2.13",
     "@angular/compiler": "^7.2.13",
-    "@angular/core": "^7.2.13",
+    "@angular/core": "^8.2.14",
     "@angular/forms": "^7.2.13",
     "@angular/http": "^7.2.13",
     "@angular/material": "^7.3.7",
@@ -63,7 +63,6 @@
     "@angular/router": "^7.2.13",
     "@edium/fsm": "^2.1.2",
     "@hmcts/ccd-case-ui-toolkit": "4.17.6",
-    "@hmcts/ccpay-web-component": "5.0.4",
     "@hmcts/frontend": "0.0.41-alpha",
     "@hmcts/nodejs-healthcheck": "^1.7.0",
     "@hmcts/properties-volume": "0.0.13",
@@ -123,7 +122,6 @@
     "p-iteration": "^1.1.7",
     "redis": "^3.0.2",
     "rxjs": "^6.0.0",
-    "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
     "terser-webpack-plugin": "^2.3.5",
@@ -132,12 +130,12 @@
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2",
     "xlsx": "^0.15.4",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
     "@angular-devkit/build-ng-packagr": "~0.6.8",
-    "@angular/cli": "~6.0.8",
+    "@angular/cli": "~8.3.29",
     "@angular/compiler-cli": "^7.2.13",
     "@angular/language-service": "~7.2.0",
     "@stryker-mutator/api": "^3.0.1",
@@ -198,7 +196,7 @@
     "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
     "tslint": "~5.11.0",
-    "typescript": "~3.2.2"
+    "typescript": "~3.5.0"
   },
   "resolutions": {
     "**/**/dot-prop": "^5.1.1",

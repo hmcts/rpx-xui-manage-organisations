@@ -18,7 +18,7 @@ export function getRequestBody(organisationID: string) {
                 {
                     bool: {
                         should: [
-                                { range: { rangeKey: { lte: 0 } } },
+                                { range: { [rangeKey]: { lte: 0 } } },
                                 { bool: { must_not: [ { exists: { field: `supplementary_data.orgs_assigned_users.${organisationID}` } }] } },
                                 { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } },
                         ],

@@ -9,7 +9,7 @@ import {
   NOW,
   REDIS_KEY_PREFIX,
   REDIS_TTL,
-  REDIS_CLOUD_URL
+  REDISCLOUD_URL
 } from '../configuration/references'
 import * as log4jui from './log4jui'
 
@@ -28,7 +28,7 @@ export const getRedisStore = (): connectRedis.RedisStore => {
   }
 
   app.locals.redisClient = redis.createClient(
-    getConfigValue(REDIS_CLOUD_URL),
+    getConfigValue(REDISCLOUD_URL),
     tlsOptions
   )
 

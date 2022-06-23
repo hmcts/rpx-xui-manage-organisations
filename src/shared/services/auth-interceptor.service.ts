@@ -7,7 +7,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HeadersService } from './headers.service';
 import { PLATFORM_ID, Inject, Injector } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';

@@ -7,7 +7,7 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HeadersService } from './headers.service';
 import { PLATFORM_ID, Inject } from '@angular/core';
 import 'rxjs/add/operator/do';

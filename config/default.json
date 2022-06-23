@@ -43,7 +43,7 @@
     "secureCookieEnabled": true,
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
-    "redisEnabled": false,
+    "redisEnabled": true,
     "oidcEnabled": false
   },
   "helmet": {

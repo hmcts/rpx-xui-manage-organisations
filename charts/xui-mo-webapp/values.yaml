@@ -78,9 +78,8 @@ nodejs:
       resourceGroup: rpx
       secrets:
         - mo-s2s-client-secret
-        - xui-oauth2-token
+        - ao-idam-client-secret
         - appinsights-instrumentationkey-mo
-        - google-analytics-key
         - mo-webapp-redis-connection-string
         - launch-darkly-client-id
   # Don't modify below here

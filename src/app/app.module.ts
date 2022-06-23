@@ -10,7 +10,7 @@ import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { LoggerModule, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from 'src/models/environmentConfig.model';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
@@ -74,6 +74,9 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     NoopAnimationsModule
   ],
   providers: [
+    NGXLogger,
+    NGXLoggerHttpService,
+    NGXMapperService,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,

@@ -25,6 +25,7 @@ def secrets = [
   'rpx-${env}': [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
+    secret('mo-webapp-redis-connection-string', 'REDISCLOUD_URL'),
     secret('test-api-email', 'TEST_API_EMAIL'),
     secret('test-api-password', 'TEST_API_PASSWORD'),
   ],

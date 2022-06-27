@@ -1,3 +1,4 @@
+import * as express from 'express'
 import * as log4js from 'log4js'
 
 export interface JurisdictionObject {
@@ -99,4 +100,18 @@ export function isJUILogger(object: any): object is JUILogger {
         'info' in object &&
         'warn' in object &&
         'trackRequest' in object
+}
+
+export interface EnhancedRequest extends express.Request {
+    auth?: {
+        roles: string[]
+        token: string
+        userId: string
+        expires: number
+        data?: any
+    }
+    body,
+    headers,
+    session,
+    url: string
 }

@@ -1,5 +1,5 @@
-import {Error} from 'tslint/lib/error';
 import { generatePOSTAPIRequest } from './utils';
+
 const should = require('chai').should();
 
 suite('Manage Org -> POST Re Invite User', function() {

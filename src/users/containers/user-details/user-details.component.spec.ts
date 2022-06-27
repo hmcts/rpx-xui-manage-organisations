@@ -16,7 +16,7 @@ describe('User Details Component', () => {
         component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject);
     });
 
-    fdescribe('ngOnInit', () => {
+    describe('ngOnInit', () => {
         it('should create subscriptions', () => {
             actionsObject.pipe.and.callFake(() => of ({}));
             routerStoreSpyObject.pipe.and.returnValue(of({}));

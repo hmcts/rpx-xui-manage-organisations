@@ -137,13 +137,12 @@ describe('AppComponent', () => {
 
   }));
 
-  it('should dispatch a logout action', async(() => {
+  it('should dispatch a logout action', () => {
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
-
-  }));
+  });
 
 
   describe('cookie actions', () => {

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
-// TODO: The below is an odd way to import.
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
+// TODO: The below is an odd way to import.
 import { Observable } from 'rxjs';
 import { UsersService } from 'src/users/services';
 

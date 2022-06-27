@@ -7,20 +7,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 
 describe('HmctsGlobalFooterComponent', () => {
-    @Component({
-        selector: `app-host-dummy-component`,
-        template: `<app-hmcts-global-footer
-                    [reference]="iconFallbackText"
-                    [title]="type"
-                    [items]="text"></app-hmcts-global-footer>`
-    })
-    class TestDummyHostComponent {
-        @Input() help: Helper;
-        @Input() navigation: Navigation;
-        @ViewChild(HmctsGlobalFooterComponent)
-        public hmctsGlobalFooterComponent: HmctsGlobalFooterComponent;
-    }
-
     let component: HmctsGlobalFooterComponent;
     let fixture: ComponentFixture<HmctsGlobalFooterComponent>;
 

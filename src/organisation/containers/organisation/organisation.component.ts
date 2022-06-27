@@ -79,6 +79,7 @@ export class OrganisationComponent implements OnInit {
    */
   public getOrganisationDetailsFromStore(): void {
     this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
+      console.log(organisationDetails);
 
       this.organisationContactInformation = this.getContactInformation(organisationDetails);
       this.organisationPaymentAccount = this.getPaymentAccount(organisationDetails);

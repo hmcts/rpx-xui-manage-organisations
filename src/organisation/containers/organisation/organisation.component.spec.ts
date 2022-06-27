@@ -5,6 +5,7 @@ import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '
 import { OrganisationComponent } from './organisation.component';
 import * as fromStore from '../../../users/store';
 import * as fromRoot from '../../../app/store';
+import { Observable } from 'rxjs';
 
 const storeMock = {
   pipe: () => {
@@ -59,8 +60,8 @@ describe('OrganisationComponent', () => {
 
   beforeEach(() => {
 
-    // const pipeRequest = new Observable<OrganisationDetails>(obs => obs.next(mockOrganisationDetails));
-    // pipeSpy = spyOn(storeMock, 'pipe').and.stub(() => pipeRequest);
+    const pipeRequest = new Observable<OrganisationDetails>(obs => obs.next(mockOrganisationDetails));
+    pipeSpy = spyOn(storeMock, 'pipe').and.callFake(() => pipeRequest);
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 

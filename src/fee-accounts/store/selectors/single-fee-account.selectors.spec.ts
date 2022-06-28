@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { SingleFeeAccountState } from '../reducers/single-fee-account.reducer';
-import { getSingleFeeAccountState, getSingleAccounOverview } from './single-fee-account.selectors';
-import { reducers } from '../index';
 import { LoadSingleFeeAccountSuccess } from '../actions';
+import { reducers } from '../index';
+import { SingleFeeAccountState } from '../reducers/single-fee-account.reducer';
+import { getSingleAccounOverview, getSingleFeeAccountState } from './single-fee-account.selectors';
 
 describe('Single fee account selectors', () => {
   let store: Store<SingleFeeAccountState>;

@@ -1,12 +1,12 @@
 export class UserModel {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  status: string;
-  organisationId: string;
-  roles: string[];
-  sessionTimeout: SessionTimeout;
+  public id: string;
+  public email: string;
+  public firstName: string;
+  public lastName: string;
+  public status: string;
+  public organisationId: string;
+  public roles: string[];
+  public sessionTimeout: SessionTimeout;
   constructor(prop) {
     Object.assign(this, prop);
   }

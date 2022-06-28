@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import {StoreModule, Store, combineReducers, select} from '@ngrx/store';
+import {combineReducers, select, Store, StoreModule} from '@ngrx/store';
 
 import * as fromRoot from '../../../app/store/';
-import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
+import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/app.selectors';
 
 describe('App Selectors', () => {

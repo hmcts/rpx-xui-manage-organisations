@@ -1,11 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
-import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
-import { OrganisationComponent } from './organisation.component';
-import * as fromStore from '../../../users/store';
-import * as fromRoot from '../../../app/store';
 import { Observable } from 'rxjs';
+import * as fromRoot from '../../../app/store';
+import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
+import * as fromStore from '../../../users/store';
+import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
   pipe: () => {

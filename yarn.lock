@@ -1260,10 +1260,10 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.7.0":
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.0.tgz#2fbc8cb65933039ef551b9005526f9235817e9ac"
-  integrity sha512-cg+LUrZsDUJjqI+bOSmGRNaJXKmg0cyMQMIqLp7fUv0bw00N6xR211wA2QFOeS2hMq2JIG6+bKnwW43W/L6Ljg==
+"@hmcts/rpx-xui-common-lib@1.7.6":
+  version "1.7.6"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.6.tgz#1094532a750a262eb3ba01316c05ab77cd0e7496"
+  integrity sha512-ikAdINAWKJ5mD1awlqfeg4f5eGs+8PoFJ3wU/SrUUoUXIJbCvPHLi/jo7q14MKfJyyf3PvDKp5ykrOs5YFtDfg==
   dependencies:
     tslib "^1.9.0"
 
@@ -2213,10 +2213,10 @@
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-4.0.3.tgz#097ce710d70eb7f3662e96c1f75824dd22c27d5c"
   integrity sha512-Opp1LvvEuZdk8fSSvchK2mZwhVrsNT0JgJE9Di6MjnaIpmEXM8TLCPPrVtNTYh8+5MPdY8j9bAHMu2SSfwpZJg==
 
-"@types/jasmine@~3.4.8":
-  version "3.3.8"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.8.tgz#fc6abd92f7121431685ec986f0ec8f77b4390a3e"
-  integrity sha512-BaOFpaddRVV8qykJoWHrHtamml880oh0+DIZWbtJgx0pu+KhDF1gER5hSfCIfzyMrbjMuYFnLUfyo1l0JUVU3Q==
+"@types/jasmine@~3.3.8":
+  version "3.3.16"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.16.tgz#7c84074f5d7f84da9a14f816ccfb9aeb4da13f27"
+  integrity sha512-Nveep4zKGby8uIvG2AEUyYOwZS8uVeHK9TgbuWYSawUDDdIgfhCKz28QzamTo//Jk7Ztt9PO3f+vzlB6a4GV1Q==
 
 "@types/jasminewd2@~2.0.3":
   version "2.0.10"

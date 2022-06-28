@@ -15,37 +15,38 @@ describe('Fee accounts Effects', () => {
   let effects: FeeAccountsEffects;
   let loggerService: LoggerService;
 
-  const FeeAccountsServiceMock = jasmine.createSpyObj('FeeAccountsService', [
+  const feeAccountsServiceMock = jasmine.createSpyObj('FeeAccountsService', [
     'fetchFeeAccounts',
   ]);
+
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-          {
-            provide: FeeAccountsService,
-            useValue: FeeAccountsServiceMock,
-          },
-          {
-            provide: LoggerService,
-            useValue: mockedLoggerService
-          },
-          fromFeeAccountsEffects.FeeAccountsEffects,
-          provideMockActions(() => actions$)
+        {
+          provide: FeeAccountsService,
+          useValue: feeAccountsServiceMock,
+        },
+        {
+          provide: LoggerService,
+          useValue: mockedLoggerService
+        },
+        fromFeeAccountsEffects.FeeAccountsEffects,
+        provideMockActions(() => actions$)
       ]
     });
 
     effects = TestBed.get(FeeAccountsEffects);
     loggerService = TestBed.get(LoggerService);
-
   });
+
   describe('loadFeeAccounts$', () => {
     it('should return a collection from loadFeeAccounts$ - LoadFeeAccountsSuccess', () => {
-      const payload = [{payload: 'something'}];
-      FeeAccountsServiceMock.fetchFeeAccounts.and.returnValue(of(payload));
+      const payload = [{ payload: 'something' }];
+      feeAccountsServiceMock.fetchFeeAccounts.and.returnValue(of(payload));
       const action = new LoadFeeAccounts(['account1', 'account2']);
-      const completion = new LoadFeeAccountsSuccess([{payload: 'something'}]);
+      const completion = new LoadFeeAccountsSuccess([{ payload: 'something' }]);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadFeeAccounts$).toBeObservable(expected);
@@ -54,7 +55,7 @@ describe('Fee accounts Effects', () => {
 
   describe('loadFeeAccounts$ error', () => {
     it('should return LoadFeeAccountsFail', () => {
-      FeeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(new Error()));
+      feeAccountsServiceMock.fetchFeeAccounts.and.returnValue(throwError(new Error()));
       const action = new LoadFeeAccounts(['account1', 'account2']);
       const completion = new LoadFeeAccountsFail(new Error());
       actions$ = hot('-a', { a: action });

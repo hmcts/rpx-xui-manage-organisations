@@ -16,10 +16,10 @@ import { pbaAccountSummaryLoaded } from '../store/selectors/single-fee-account.s
 @Injectable()
 export class AccountSummaryGuard implements CanActivate {
 
-  constructor(private store: Store<fromFeature.FeeAccountsState>) {
+  constructor(private readonly store: Store<fromFeature.FeeAccountsState>) {
   }
 
-  canActivate(): Observable<boolean> {
+  public canActivate(): Observable<boolean> {
     return this.checkStore()
       .pipe(
         switchMap(() => of(true)),
@@ -27,7 +27,7 @@ export class AccountSummaryGuard implements CanActivate {
       );
   }
 
-  checkStore(): Observable<boolean> {
+  public checkStore(): Observable<boolean> {
     return this.store.pipe(
       select(pbaAccountSummaryLoaded),
       tap(loaded => {

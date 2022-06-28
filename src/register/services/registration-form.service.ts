@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import {Observable, of} from 'rxjs';
 import {RegistrationConstants} from '../constants/registration.constants';
@@ -15,13 +15,13 @@ export const ENVIRONMENT = {
 
 @Injectable()
 export class RegistrationFormService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-  getRegistrationForm(pageId): Observable<any> { // TODO create type/model
+  public getRegistrationForm(pageId): Observable<any> { // TODO create type/model
     return of(RegistrationConstants.FORM_BUILDER_TEMPLATES[pageId]);
   }
 
-  submitRegistrationForm(data: any): Observable<any> {
+  public submitRegistrationForm(data: any): Observable<any> {
     const  postData = {
       fromValues: {...data},
       event: 'continue'

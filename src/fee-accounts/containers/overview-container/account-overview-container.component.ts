@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-account-overview-container',
@@ -7,16 +7,16 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class OrganisationAccountsOverviewContainerComponent {
 
-    @Input() classes = '';
+    @Input() public classes = '';
 
-    @Input() caption = 'Dates and amounts';
-    @Input() firstCellIsHeader = true;
+    @Input() public caption = 'Dates and amounts';
+    @Input() public firstCellIsHeader = true;
 
-    @Input() rows;
+    @Input() public rows;
 
-    @Input() columnConfig: any;
-    @Input() isAccountAvailableForOrg = true;
-    @Input() oneOrMoreAccountInfoMissing = false;
+    @Input() public columnConfig: any;
+    @Input() public isAccountAvailableForOrg = true;
+    @Input() public oneOrMoreAccountInfoMissing = false;
 
     constructor() {
     }

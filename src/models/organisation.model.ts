@@ -25,6 +25,6 @@ export interface OrganisationDetails {
     firstName: string;
     lastName: string;
     email: string;
-  },
+  };
   paymentAccount: string[];
 }

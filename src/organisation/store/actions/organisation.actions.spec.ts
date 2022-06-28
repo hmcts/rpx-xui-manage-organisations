@@ -1,8 +1,8 @@
 
-import { LoadOrganisation, LOAD_ORGANISATION } from './organisation.actions';
-import { LoadOrganisationSuccess, LOAD_ORGANISATION_SUCCESS } from './organisation.actions';
-import { LoadOrganisationFail, LOAD_ORGANISATION_FAIL } from './organisation.actions';
 import { Organisation } from 'src/organisation/organisation.model';
+import { LOAD_ORGANISATION, LoadOrganisation } from './organisation.actions';
+import { LOAD_ORGANISATION_SUCCESS, LoadOrganisationSuccess } from './organisation.actions';
+import { LOAD_ORGANISATION_FAIL, LoadOrganisationFail } from './organisation.actions';
 
 
 describe('Load Organisation', () => {

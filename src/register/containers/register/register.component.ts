@@ -4,7 +4,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { AppConstants } from '../../../app/app.constants';
 import * as fromRoot from '../../../app/store/';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { FormDataValuesModel } from '../../models/form-data-values.model';

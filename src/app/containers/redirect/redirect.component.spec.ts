@@ -1,7 +1,7 @@
-import { TestBed, async } from '@angular/core/testing';
-import { combineReducers, StoreModule, Store } from '@ngrx/store';
-import { reducers} from 'src/app/store';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { reducers} from 'src/app/store';
 import * as fromAuth from '../../../user-profile/store';
 import {RedirectComponent} from './redirect.component';
 

@@ -5,7 +5,7 @@ import * as fromApp from './store';
 
 describe('App initializer', () => {
     let store: any;
-    
+
     beforeEach(() => {
         store = jasmine.createSpyObj<Store<fromApp.State>>('store', ['dispatch', 'pipe']);
         store.pipe.and.callFake(() => of());

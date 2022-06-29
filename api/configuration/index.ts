@@ -44,19 +44,19 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV
  * @see references.ts
  * @param reference - ie. 'services.ccdDefApi'
  */
-export const getConfigValue = reference => config.get(reference)
+export const getConfigValue = <T = any>(reference: string): T => config.get<T>(reference)
 
 export const hasConfigValue = reference => config.has(reference)
 
-/**
- * Show Feature
- *
- * Helper method for config feature toggling
- *
- * @param feature
- * @return boolean
- */
-export const showFeature = feature => config.get(`feature.${feature}`)
+ /**
+  * Show Feature
+  *
+  * Helper method for config feature toggling
+  *
+  * @param feature
+  * @return boolean
+  */
+export const showFeature = (feature: string): boolean => config.get<boolean>(`feature.${feature}`)
 
 /**
  * Generate Environment Check Text
@@ -64,7 +64,8 @@ export const showFeature = feature => config.get(`feature.${feature}`)
  * We generate text to be used for debugging purposes, so as the person attempting to initialise the application knows
  * what the NODE_CONFIG_ENV is set as and what config file is being used.
  */
-export const environmentCheckText = () => `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get(ENVIRONMENT)} config.`
+export const environmentCheckText = () => `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get<string>(ENVIRONMENT)} config.`
+
 
 /**
  * Get Protocol

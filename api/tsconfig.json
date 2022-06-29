@@ -1,7 +1,6 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "paths": { "*": ["customTypings/*"] },
         "outDir": "../dist/rpa-pui-manager/api",
         "module": "commonjs",
         "target": "es5",
@@ -9,10 +8,6 @@
             "node",
             "mocha",
             "rxjs"
-        ],
-        "typeRoots": [
-          "./customTypings",
-          "node_modules/@types"
         ],
         "baseUrl": ".",
         "lib": [

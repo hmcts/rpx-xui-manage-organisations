@@ -1,12 +1,11 @@
 redis:
   enabled: false
-  cluster:
-    enabled: false
-    slaveCount: 0
-  password: fake-password
+  architecture: standalone
   master:
     persistence:
       enabled: false
+  auth:
+    enabled: false
 
 nodejs:
   aadIdentityName: xui

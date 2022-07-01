@@ -216,11 +216,6 @@ describe('ValidationService', () => {
       'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
     ]
 
-    it('should check if return invalid state for empty fields', inject([ValidationService], (service: ValidationService) => {
-      const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);
-      expect(isValidDateValidationFn[validationIdentifier]).toBe(true);
-    }));
-
     it('should check if return invalid state for the case if at least one field is not a number value', inject([ValidationService], (service: ValidationService) => {
       formGroup.get('dayTestFiled').setValue('1');
       formGroup.get('monthTestFiled').setValue('02');

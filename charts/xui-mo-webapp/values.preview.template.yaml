@@ -32,4 +32,4 @@ idam-pr:
   enabled: true
   redirect_uris:
     XUIMO:
-      - https://${SERVICE_FQDN}/oauth2/callback 
+      - https://${SERVICE_FQDN}/oauth2/callback

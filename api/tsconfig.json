@@ -2,7 +2,6 @@
     "compileOnSave": false,
     "compilerOptions": {
         "outDir": "../dist/rpa-pui-manager/api",
-        "module": "commonjs",
         "target": "es5",
         "types": [
             "node",

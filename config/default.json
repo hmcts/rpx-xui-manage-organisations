@@ -98,7 +98,9 @@
   },
   "redis": {
     "prefix": "activity:",
-    "ttl": 86400
+    "ttl": 86400,
+    "port": 6380,
+    "tls": true
   },
   "links": {
     "manageCaseLink": "https://manage-case.platform.hmcts.net/cases",

@@ -1,7 +1,6 @@
 import * as connectRedis from 'connect-redis'
 import * as session from 'express-session'
 import * as redis from 'redis'
-import { ClientOpts } from 'redis'
 import * as sessionFileStore from 'session-file-store'
 import { app } from '../application'
 import {getConfigValue, showFeature} from '../configuration'
@@ -24,7 +23,7 @@ let store: session.Store = null
 export const getRedisStore = (): connectRedis.RedisStore => {
   logger.info('using RedisStore')
 
-  const tlsOptions: ClientOpts = {
+  const tlsOptions = {
     prefix: getConfigValue(REDIS_KEY_PREFIX),
   }
 

@@ -3,25 +3,10 @@
     "compilerOptions": {
         "outDir": "../dist/rpa-pui-manager/api",
         "target": "es5",
-        "types": [
-            "node",
-            "mocha",
-            "rxjs"
-        ],
+        "types": ["node", "mocha", "rxjs"],
         "baseUrl": ".",
-        "lib": [
-            "es2017",
-            "dom"
-        ]
+        "lib": ["es2017", "dom"]
     },
-    "include": [
-        "**/*.ts",
-        "../*.ts"
-    ],
-    "exclude": [
-        "**/*.spec.ts"
-    ],
-    "files": [
-        "./customTypings/customExpress/index.d.ts"
-    ]
+    "include": ["**/*.ts", "../*.ts"],
+    "exclude": ["**/*.spec.ts"]
 }

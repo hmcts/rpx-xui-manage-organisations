@@ -20,6 +20,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'rpx-${env}': [

@@ -1,6 +1,5 @@
 import {AUTH, AuthOptions, xuiNode} from '@hmcts/rpx-xui-node-lib'
 import {NextFunction, Request, Response} from 'express'
-import {EnhancedRequest} from '../lib/models';
 import {getConfigValue, showFeature} from '../configuration'
 import {
   COOKIE_TOKEN,
@@ -29,7 +28,7 @@ import {getOrganisationDetails} from '../organisation'
 
 const logger = log4jui.getLogger('auth')
 
-export const successCallback = async (req: EnhancedRequest, res: Response, next: NextFunction) => {
+export const successCallback = async (req: Request, res: Response, next: NextFunction) => {
     const {accessToken} = req.session.passport.user.tokenset
     const {userinfo} = req.session.passport.user
 
@@ -53,11 +52,11 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
             'user-roles': userinfo.roles,
             ServiceAuthorization: req.headers.ServiceAuthorization
           }
-        } as unknown as EnhancedRequest)
+        } as unknown as Request)
       }
 
       try {
-        const orgDetails = await getOrganisationDetails(authRequest as unknown as EnhancedRequest, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
+        const orgDetails = await getOrganisationDetails(authRequest as unknown as Request, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
         auth.orgId = orgDetails.data.organisationIdentifier
       } catch (e) {
         console.log(e)

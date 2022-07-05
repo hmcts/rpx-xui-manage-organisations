@@ -28,7 +28,7 @@ export const getRedisStore = (): connectRedis.RedisStore => {
   }
 
   app.locals.redisClient = redis.createClient(
-    getConfigValue(REDISCLOUD_URL) as string,
+    getConfigValue(REDISCLOUD_URL),
     tlsOptions
   )
 

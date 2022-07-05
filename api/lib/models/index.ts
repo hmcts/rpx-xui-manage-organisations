@@ -101,17 +101,3 @@ export function isJUILogger(object: any): object is JUILogger {
         'warn' in object &&
         'trackRequest' in object
 }
-
-export interface EnhancedRequest extends express.Request {
-    auth?: {
-        roles: string[]
-        token: string
-        userId: string
-        expires: number
-        data?: any
-    }
-    body,
-    headers,
-    session,
-    url: string
-}

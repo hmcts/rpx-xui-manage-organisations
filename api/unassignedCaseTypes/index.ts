@@ -1,11 +1,10 @@
-import { Response, Router } from 'express'
+import { Response, Request, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import { getApiPath, getRequestBody } from './unassignedCaseTypes.util'
-import { EnhancedRequest } from '../lib/models';
 
-export async function handleUnassignedCaseTypes(req: EnhancedRequest, res: Response) {
+export async function handleUnassignedCaseTypes(req: Request, res: Response) {
     const logger = log4jui.getLogger('caseTypes')
     const payload = getRequestBody(req.session.auth.orgId)
     logger.info('ernest', getConfigValue(SERVICES_MCA_PROXY_API_PATH))

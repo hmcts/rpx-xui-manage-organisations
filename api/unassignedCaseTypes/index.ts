@@ -1,4 +1,4 @@
-import { Response, Request, Router } from 'express'
+import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'

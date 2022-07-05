@@ -20,7 +20,7 @@ export async function handleUnassignedCases(req: Request, res: Response, next: N
   }
 }
 
-export const router = Router({ mergeParams: true })
+export const router = Router({mergeParams: true})
 
 router.post('', handleUnassignedCases)
 

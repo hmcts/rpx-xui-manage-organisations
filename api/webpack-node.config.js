@@ -9,12 +9,12 @@ const {
 
 module.exports = {
     optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                sourceMap: true
-            }),
-        ],
+      minimize: true,
+      minimizer: [
+        new TerserPlugin({
+          sourceMap: true,
+        }),
+      ],
     },
     entry: './server.ts',
     mode: NODE_ENV,

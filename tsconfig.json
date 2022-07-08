@@ -10,6 +10,7 @@
     "experimentalDecorators": true,
     "skipLibCheck": true,
     "target": "es2015",
+    "module": "esnext",
     "typeRoots": [
       "node_modules/@types"
     ],

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -26,6 +26,7 @@ export class PBAEffects {
     switchMap(payload => {
       this.payload = payload;
       return this.pbaService.updatePBAs(payload).pipe(
+        take(1),
         map((response) => new organisationActions.OrganisationUpdatePBAResponse(response)),
         catchError(error => {
           const data = JSON.parse(error.error);

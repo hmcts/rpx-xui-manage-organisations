@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OrganisationDetails, PBANumberModel, PendingPaymentAccount } from '../../../models';
 import { OrgManagerConstants } from '../../organisation-constants';
 import { PBAService } from '../../services/pba.service';
@@ -65,7 +66,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
 
   public onSubmitClicked(): void {
     this.errors = [];
-    this.pbaService.updatePBAs(this.pendingChanges).subscribe(x => this.router.navigate(['/organisation']),
+    this.pbaService.updatePBAs(this.pendingChanges).pipe(take(1)).subscribe(x => this.router.navigate(['/organisation']),
       e => {
         if (e.error && e.error.length && (e.error[0])) {
           const error = JSON.parse(e.error[0]);

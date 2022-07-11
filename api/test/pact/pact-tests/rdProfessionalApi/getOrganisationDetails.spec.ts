@@ -53,8 +53,10 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
+      }).finally(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
       })
-
     })
 
     function assertResponse(dto: Organisation): void {

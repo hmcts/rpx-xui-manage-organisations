@@ -468,7 +468,6 @@
   version "4.17.6"
   resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-4.17.6.tgz#db5975c50a846217cd02f9dfb8e4d98e491cc0ef"
   integrity sha512-gXBZkVxWf5eD3iRF1//1Grx9jiRyAu3QDf38J4uIk79r12aGfeloChicRXyEHLKYJl5ofWSZJ/jS/mqPde9xAQ==
-
   dependencies:
     "@angular-material-components/datetime-picker" "^2.0.4"
     "@angular-material-components/moment-adapter" "^5.0.0"
@@ -532,12 +531,12 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.7.6":
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.6.tgz#1094532a750a262eb3ba01316c05ab77cd0e7496"
-  integrity sha512-ikAdINAWKJ5mD1awlqfeg4f5eGs+8PoFJ3wU/SrUUoUXIJbCvPHLi/jo7q14MKfJyyf3PvDKp5ykrOs5YFtDfg==
+"@hmcts/rpx-xui-common-lib@2.1.0-angular-upgrade-11":
+  version "2.1.0-angular-upgrade-11"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-2.1.0-angular-upgrade-11.tgz#f671bfd1e7ee1ccae78f2205641bca99eb0e9f3f"
+  integrity sha512-j8JaBrTrZXTKPg22FpoDfGm17p10DXCv5lRtcSFk8Wke6tjw373gosmSVsiMbl9EXqTMTiy95qCBgb0AFlDKrA==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.0.0"
 
 "@hmcts/rpx-xui-node-lib@^2.24.3":
   version "2.24.3"

@@ -29,9 +29,14 @@ export const ROUTES: Routes = [
     loadChildren: '../fee-accounts/fee-accounts.module#FeeAccountsModule'
   },
   {
+    path: 'assigned-cases',
+    canActivate: [AuthGuard, HealthCheckGuard],
+    loadChildren: '../caa-cases/caa-cases.module#CaaCasesModule'
+  },
+  {
     path: 'unassigned-cases',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: '../unassigned-cases/unassigned-cases.module#CaaCasesModule'
+    loadChildren: '../caa-cases/caa-cases.module#CaaCasesModule'
   },
   {
     path: 'style-guide',

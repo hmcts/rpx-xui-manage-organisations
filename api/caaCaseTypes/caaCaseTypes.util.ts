@@ -1,4 +1,4 @@
-import { searchCasesString } from "./unassignedCaseTypes-constants"
+import { searchCasesString } from "./caaCaseTypes.constants"
 
 export function getRequestBody(organisationID: string) {
     const rangeKey = `supplementary_data.orgs_assigned_users.${organisationID}`

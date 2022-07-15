@@ -1,6 +1,6 @@
 import { expect } from 'chai'
-import { searchCasesString } from './unassignedCaseTypes-constants'
-import { getApiPath } from './unassignedCaseTypes.util'
+import { searchCasesString } from './caaCaseTypes.constants'
+import { getApiPath } from './caaCaseTypes.util'
 
 describe('util', () => {
     it('getApiPath', () => {

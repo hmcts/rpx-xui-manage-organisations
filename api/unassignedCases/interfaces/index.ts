@@ -30,7 +30,7 @@ export interface CcdColumnConfig {
     type: string
 }
 
-export interface UnAssignedCases {
+export interface CaaCases {
     idField: string
     columnConfigs: CcdColumnConfig []
     data: any[]

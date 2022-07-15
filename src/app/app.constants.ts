@@ -6,7 +6,7 @@ import {UserNavModel} from './models/user-nav.model';
 const featureNames = {
   feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
-  unassignedCases: 'unassigned-cases',
+  caaCases: 'caa-cases',
   removeUserFromCase: 'remove-user-from-case-mo'
 };
 
@@ -38,7 +38,7 @@ const navItemsArray: NavItemModel[] = [
     orderId: 4,
     active: false,
     featureToggle: {
-      featureName: featureNames.unassignedCases
+      featureName: featureNames.caaCases
     }
   }
 ];

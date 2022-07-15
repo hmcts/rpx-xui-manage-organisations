@@ -9,6 +9,7 @@ export async function handleUnassignedCaseTypes(req: Request, res: Response) {
     const payload = getRequestBody(req.session.auth.orgId)
     logger.info('ernest', getConfigValue(SERVICES_MCA_PROXY_API_PATH))
     const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), getConfigValue(CASE_TYPES))
+		console.log('PATH', path);
     try {
         const response = await req.http.post(path, payload)
         res.send(response.data)

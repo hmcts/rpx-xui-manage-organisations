@@ -51,7 +51,7 @@ export const getFeeAndPayFeatureIsEnabled = createSelector(
 
 export const getUnassignedCasesFeature = createSelector(
   getFeatureFlag,
-  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.unassignedCases)
+  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.caaCases)
 );
 
 export const getUnassignedCasesFeatureIsEnabled = createSelector(

@@ -1,11 +1,11 @@
-import { CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig, UnAssignedCases } from './interfaces'
+import { CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig, CaaCases } from './interfaces'
 import { caseAssignment, caseId, caseTypeStr } from './unassingedCases-constants'
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
   return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&use_case=ORGCASES`
 }
 
-export function mapCcdCases(caseType: string, ccdCase: CcdCase): UnAssignedCases {
+export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
   const idField = '[CASE_REFERENCE]'
   const columnConfigs: CcdColumnConfig[] = mapCcdColumnConfigs(ccdCase)
   const data: any[] = mapCcdData(ccdCase, columnConfigs, caseType)

@@ -3,7 +3,7 @@ import { getConfigValue } from '../configuration'
 import { SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
 import { getApiPath, getRequestBody, mapCcdCases } from './unassingedCases-util'
 
-export async function handleUnassignedCases(req: Request, res: Response, next: NextFunction) {
+export async function handleCaaCases(req: Request, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
   const page: number = (+req.query.pageNo || 1) - 1;
@@ -13,8 +13,8 @@ export async function handleUnassignedCases(req: Request, res: Response, next: N
 
   try {
     const response = await req.http.post(path, payload)
-    const unassignedCases = mapCcdCases(caseTypeId, response.data)
-    res.send(unassignedCases)
+    const caaCases = mapCcdCases(caseTypeId, response.data)
+    res.send(caaCases)
   } catch (error) {
     next(error)
   }
@@ -22,6 +22,6 @@ export async function handleUnassignedCases(req: Request, res: Response, next: N
 
 export const router = Router({mergeParams: true})
 
-router.post('', handleUnassignedCases)
+router.post('', handleCaaCases)
 
 export default router

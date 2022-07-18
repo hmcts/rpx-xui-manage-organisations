@@ -4,22 +4,22 @@ import {
   LOAD_UNASSIGNED_CASE_TYPES_SUCCESS,
   LOAD_UNASSIGNED_CASES_SUCCESS,
   UPDATE_SELECTION_FOR_CASE_TYPE,
-  LOAD_UNASSIGNED_CASES_FAILURE, 
+  LOAD_UNASSIGNED_CASES_FAILURE,
   CaaCasesActions,
   LOAD_ASSIGNED_CASES_SUCCESS,
   LOAD_ASSIGNED_CASE_TYPES_SUCCESS
 } from '../actions/caa-cases.actions';
 
 export interface CaaCasesState {
-    assignedCases: CaaCases;
-    unassignedCases: CaaCases;
-    assignedCaseTypes: SubNavigation[];
-    unassignedCaseTypes: SubNavigation[];
-    selectedCases: SelectedCases;
+  assignedCases: CaaCases;
+  unassignedCases: CaaCases;
+  assignedCaseTypes: SubNavigation[];
+  unassignedCaseTypes: SubNavigation[];
+  selectedCases: SelectedCases;
 }
 
 export const initialState: CaaCasesState = {
-  assignedCases: null,  
+  assignedCases: null,
   unassignedCases: null,
   assignedCaseTypes: [],
   unassignedCaseTypes: [],
@@ -27,23 +27,23 @@ export const initialState: CaaCasesState = {
 };
 
 export function caaCasesReducer(state = initialState, action: CaaCasesActions): CaaCasesState {
-    switch (action.type) {
-      case LOAD_ASSIGNED_CASES_SUCCESS:
-        return {...state, assignedCases: action.payload};
-      case LOAD_ASSIGNED_CASE_TYPES_SUCCESS:
-        return {...state, assignedCaseTypes: action.payload };
-      case LOAD_UNASSIGNED_CASES_SUCCESS:
-        return {...state, unassignedCases: action.payload};
-      case LOAD_UNASSIGNED_CASE_TYPES_SUCCESS:
-        return {...state, unassignedCaseTypes: action.payload };
-      case UPDATE_SELECTION_FOR_CASE_TYPE:
-        const selectedCases: SelectedCases = { ... state.selectedCases };
-        selectedCases[action.payload.casetype] = action.payload.cases;
-        return { ...state,  selectedCases };
-      case LOAD_UNASSIGNED_CASES_FAILURE:
-        return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }}
-      default:
-        return state;
+  switch (action.type) {
+    case LOAD_ASSIGNED_CASES_SUCCESS:
+      return {...state, assignedCases: action.payload};
+    case LOAD_ASSIGNED_CASE_TYPES_SUCCESS:
+      return {...state, assignedCaseTypes: action.payload };
+    case LOAD_UNASSIGNED_CASES_SUCCESS:
+      return {...state, unassignedCases: action.payload};
+    case LOAD_UNASSIGNED_CASE_TYPES_SUCCESS:
+      return {...state, unassignedCaseTypes: action.payload };
+    case UPDATE_SELECTION_FOR_CASE_TYPE:
+      const selectedCases: SelectedCases = { ... state.selectedCases };
+      selectedCases[action.payload.casetype] = action.payload.cases;
+      return { ...state,  selectedCases };
+    case LOAD_UNASSIGNED_CASES_FAILURE:
+      return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }}
+    default:
+      return state;
   }
 }
 

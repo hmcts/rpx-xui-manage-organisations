@@ -2,7 +2,7 @@ import { SubNavigation } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/h
 import { CaseTypesResultsResponse } from '../models/caa-cases.model';
 
 export  class CaaCasesUtil {
-  public static getNavUnassignedNavItems(response: CaseTypesResultsResponse): SubNavigation[] {
+  public static getCaaNavItems(response: CaseTypesResultsResponse): SubNavigation[] {
     const result = new Array<SubNavigation>();
     if (response.case_types_results) {
       response.case_types_results.forEach(caseType => {

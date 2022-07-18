@@ -57,7 +57,7 @@ export class CaaCasesEffects {
     switchMap((payload: any) => {
       return this.caaCasesService.getCaaCaseTypes().pipe(
         map(caaCaseTypes => {
-          const navItems = CaaCasesUtil.getNavUnassignedNavItems(caaCaseTypes);
+          const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
           return new LoadAssignedCaseTypesSuccess(navItems);
         }),
         catchError(errorResponse => {
@@ -74,7 +74,7 @@ export class CaaCasesEffects {
     switchMap((payload: any) => {
       return this.caaCasesService.getCaaCaseTypes().pipe(
         map(caaCaseTypes => {
-          const navItems = CaaCasesUtil.getNavUnassignedNavItems(caaCaseTypes);
+          const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
           return new LoadUnassignedCaseTypesSuccess(navItems);
         }),
         catchError(errorResponse => {

@@ -1,7 +1,7 @@
 import { CaaCasesUtil } from './caa-cases.util';
 
 describe('CaaCasesUtil', () => {
-  it('getNavUnassignedNavItems', () => {
+  it('getCaaNavItems', () => {
     const response = {
         total: 11,
         cases: [],
@@ -24,7 +24,7 @@ describe('CaaCasesUtil', () => {
           }
         ]
       };
-    const results = CaaCasesUtil.getNavUnassignedNavItems(response);
+    const results = CaaCasesUtil.getCaaNavItems(response);
     expect(results.length).toEqual(4);
     expect(results[0].text).toEqual('FT_MasterCaseType');
     expect(results[1].text).toEqual('FT_ComplexCollectionComplex');

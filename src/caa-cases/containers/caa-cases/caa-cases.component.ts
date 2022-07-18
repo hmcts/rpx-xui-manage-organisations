@@ -3,11 +3,10 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/c
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
+import { CaaCases } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
-import { CaaCases } from '../../store/reducers';
 
 @Component({
   selector: 'app-caa-cases-component',
@@ -36,8 +35,8 @@ export class CaaCasesComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadUnassignedCaseTypes());
-    this.store.pipe(select(fromStore.getAllCaaCases)).subscribe((config: CaaCases) => {
+    this.store.dispatch(new fromStore.LoadAssignedCaseTypes());
+    this.store.pipe(select(fromStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
       if (config !== null) {
         this.tableConfig =  {
           idField: config.idField,
@@ -45,7 +44,7 @@ export class CaaCasesComponent implements OnInit {
         };
       }
     });
-    this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+    this.store.pipe(select(fromStore.getAllAssignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
   }
@@ -78,17 +77,17 @@ export class CaaCasesComponent implements OnInit {
 
   private setTabItems(tabName: string): void {
     this.resetPaginationParameters();
-    this.store.pipe(select(fromStore.getAllUnassignedCases));
+    this.store.pipe(select(fromStore.getAllAssignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+    this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
     this.currentCaseType = tabName;
   }
 
   public onPaginationHandler(pageNo: number): void {
     this.currentPageNo = pageNo;
     this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+    this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
   }
 
   public resetPaginationParameters(): void {

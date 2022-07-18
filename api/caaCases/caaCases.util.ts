@@ -16,6 +16,70 @@ export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
   };
 }
 
+export function getRequestBodyForAssignedCases(organisationID: string, pageNo: number, pageSize: number) {
+  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
+  return {
+    from: pageNo,
+    query: {
+      bool: {
+        filter: [
+          {
+            multi_match: {
+              fields: ['data.*.Organisation.OrganisationID'],
+              query: `${organisationID}`,
+              type: 'phrase',
+            },
+          },
+          {
+            bool: {
+              must: [
+                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
+              ],
+            },
+          },
+        ],
+      },
+    },
+    size: pageSize,
+    sort: [
+      {
+        created_date: 'desc'
+      },]
+  }
+}
+
+export function getRequestBodyForUnassignedCases(organisationID: string, pageNo: number, pageSize: number) {
+  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
+  return {
+    from: pageNo,
+    query: {
+      bool: {
+        filter: [
+          {
+            multi_match: {
+              fields: ['data.*.Organisation.OrganisationID'],
+              query: `${organisationID}`,
+              type: 'phrase',
+            },
+          },
+          {
+            bool: {
+              must_not: [
+                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
+              ],
+            },
+          },
+        ],
+      },
+    },
+    size: pageSize,
+    sort: [
+      {
+        created_date: 'desc'
+      },]
+  }
+}
+
 function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[], caseType: string): any[] {
   const data = Array<any>();
   ccdCase.cases.forEach(caseData => data.push(onGeneratedRow(caseData, columnConfigs, caseType)));
@@ -52,69 +116,4 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
     })
   });
   return ccdColumnConfigs;
-}
-
-export function getRequestBodyForAssignedCases(organisationID: string, pageNo: number, pageSize: number) {
-  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
-  return {
-    from: pageNo,
-    query: {
-      bool: {
-        filter: [
-          {
-            multi_match: {
-              fields: ['data.*.Organisation.OrganisationID'],
-              query: `${organisationID}`,
-              type: 'phrase',
-            },
-          },
-          {
-            bool: {
-              must: [
-                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-              ],
-            },
-          },
-        ],
-      },
-    },
-    size: pageSize,
-    sort: [
-      {
-        created_date: 'desc'
-      },]
-  }
-}
-
-
-export function getRequestBodyForUnassignedCases(organisationID: string, pageNo: number, pageSize: number) {
-  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
-  return {
-    from: pageNo,
-    query: {
-      bool: {
-        filter: [
-          {
-            multi_match: {
-              fields: ['data.*.Organisation.OrganisationID'],
-              query: `${organisationID}`,
-              type: 'phrase',
-            },
-          },
-          {
-            bool: {
-              must_not: [
-                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-              ],
-            },
-          },
-        ],
-      },
-    },
-    size: pageSize,
-    sort: [
-      {
-        created_date: 'desc'
-      },]
-  }
 }

@@ -8,7 +8,7 @@ import * as fromRoot from '../../app/store';
 export class FeatureToggleAccountGuard implements CanActivate {
 constructor(private readonly appStore: Store<fromRoot.State>) {}
 
-    public canActivate(): Observable<boolean> {
-        return this.appStore.pipe(select(fromRoot.getUnassignedCasesFeatureIsEnabled));
-    }
+  public canActivate(): Observable<boolean> {
+    return this.appStore.pipe(select(fromRoot.getUnassignedCasesFeatureIsEnabled));
+  }
 }

@@ -33,9 +33,18 @@ const navItemsArray: NavItemModel[] = [
     }
   },
   {
+    text: 'Assigned cases',
+    href: '/assigned-cases',
+    orderId: 4,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.caaCases
+    }
+  },
+  {
     text: 'Unassigned cases',
     href: '/unassigned-cases',
-    orderId: 4,
+    orderId: 5,
     active: false,
     featureToggle: {
       featureName: featureNames.caaCases

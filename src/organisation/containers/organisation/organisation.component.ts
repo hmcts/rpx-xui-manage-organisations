@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
@@ -10,7 +10,7 @@ import { utils } from '../../utils';
   selector: 'app-prd-organisation-component',
   templateUrl: './organisation.component.html',
 })
-export class OrganisationComponent implements OnInit {
+export class OrganisationComponent {
 
   public organisationDetails: Partial<OrganisationDetails>;
   public organisationContactInformation: OrganisationContactInformation;
@@ -34,10 +34,6 @@ export class OrganisationComponent implements OnInit {
       this.organisationDetails = organisationDetails;
       this.canShowChangePbaNumbersLink();
     });
-  }
-
-  public ngOnInit(): void {
-    this.orgStore.dispatch(new fromStore.LoadOrganisation());
   }
 
   public canShowChangePbaNumbersLink(): void {

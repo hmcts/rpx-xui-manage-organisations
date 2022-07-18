@@ -36,10 +36,6 @@ export class OrganisationComponent implements OnInit {
     });
   }
 
-  public ngOnInit(): void {
-    this.orgStore.dispatch(new fromStore.LoadOrganisation());
-  }
-
   public canShowChangePbaNumbersLink(): void {
     this.authStore.pipe(select(fromAuthStore.getIsUserPuiFinanceManager)).subscribe((userIsPuiFinanceManager: boolean) => {
       this.showChangePbaNumberLink = userIsPuiFinanceManager;

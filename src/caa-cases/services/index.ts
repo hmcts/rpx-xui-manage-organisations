@@ -1,8 +1,8 @@
-import { UnassignedCasesService } from './caa-cases.service';
+import { CaaCasesService } from './caa-cases.service';
 import { CaseShareService } from './share-case.service';
 
 export const services: any[] = [
-  UnassignedCasesService,
+  CaaCasesService,
   CaseShareService
 ];
 

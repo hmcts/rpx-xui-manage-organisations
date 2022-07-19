@@ -17,11 +17,6 @@ export const getAllAssignedCaseData = createSelector(
   caaCases => caaCases ? caaCases.data : null
 );
 
-export const getAllAssignedCaseTypes = createSelector(
-  getCaaCasesState,
-  caaCases => caaCases.assignedCaseTypes
-);
-
 export const getAllUnassignedCases = createSelector(
   getCaaCasesState,
   caaCases => caaCases.unassignedCases
@@ -32,9 +27,9 @@ export const getAllUnassignedCaseData = createSelector(
   caaCases => caaCases ? caaCases.data : null
 );
 
-export const getAllUnassignedCaseTypes = createSelector(
+export const getAllCaseTypes = createSelector(
   getCaaCasesState,
-  caaCases => caaCases.unassignedCaseTypes
+  caaCases => caaCases.caseTypes
 );
 
 export const getSelectedCases = createSelector(

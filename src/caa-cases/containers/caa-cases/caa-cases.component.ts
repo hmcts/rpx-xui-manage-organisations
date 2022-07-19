@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
@@ -28,14 +29,18 @@ export class CaaCasesComponent implements OnInit {
   public currentPageNo: number;
   public paginationPageSize: number = 25;
   public totalCases: number = 0;
+  public caaCasesFilterType: string;
 
   constructor(
     private readonly store: Store<fromStore.CaaCasesState>,
-    private readonly appRoute: Store<fromRoot.State>
-  ) {}
+    private readonly appRoute: Store<fromRoot.State>,
+    private readonly route: ActivatedRoute
+  ) {
+  }
 
   public ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadAssignedCaseTypes());
+    console.log('Route details', this.route.url, this.route.params, this.route.snapshot.url, this.route.snapshot.url);
+    this.store.dispatch(new fromStore.LoadCaseTypes());
     this.store.pipe(select(fromStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
       if (config !== null) {
         this.tableConfig =  {
@@ -44,7 +49,7 @@ export class CaaCasesComponent implements OnInit {
         };
       }
     });
-    this.store.pipe(select(fromStore.getAllAssignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+    this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items => this.fixCurrentTab(items));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
   }

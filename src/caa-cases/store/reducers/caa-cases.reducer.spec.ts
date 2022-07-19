@@ -1,21 +1,26 @@
+import { CaaCases } from '../../models/caa-cases.model';
 import * as fromActions from '../actions/caa-cases.actions';
-import * as fromUnassignedCases from './caa-cases.reducer';
+import * as fromCaaCasesReducer from './caa-cases.reducer';
 
-describe('Unassigned Cases', () => {
-    it('undefined action should return the default state', () => {
-      const { initialState } = fromUnassignedCases;
-      const action = {} as any;
-      const state = fromUnassignedCases.reducer(undefined, action);
+describe('Caa Cases', () => {
+  it('undefined action should return the default state', () => {
+    const initialState = fromCaaCasesReducer.initialState;
+    const action = {} as any;
+    const state = fromCaaCasesReducer.caaCasesReducer(undefined, action);
+    expect(state).toBe(initialState);
+  });
 
-      expect(state).toBe(initialState);
-    });
+  xit('should loadUnassignedCasesSuccess action set the state', () => {
+    const initialState = fromCaaCasesReducer.initialState;
+    const assignedCases: CaaCases = {
+      idField: 'id1',
+      columnConfigs: null,
+      data: null
+    }
 
-    it('LoadUnassignedCasesSuccess action should set the state', () => {
-        const { initialState } = fromUnassignedCases;
-        const unassignedCase = {} as fromUnassignedCases.UnAssignedCases;
-        const action = new fromActions.LoadUnassignedCasesSuccess(unassignedCase);
-        const state = fromUnassignedCases.reducer(initialState, action);
-        console.log('some1', state.unassignedCases);
-        expect(state.unassignedCases).toBe(unassignedCase);
-        });
+    const action = new fromActions.LoadUnassignedCasesSuccess(assignedCases);
+    const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
+    console.log('some1', state.assignedCases);
+    expect(state.assignedCases).toBe(assignedCases);
+  });
 });

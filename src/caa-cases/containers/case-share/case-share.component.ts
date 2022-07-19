@@ -27,7 +27,7 @@ export class CaseShareComponent implements OnInit {
   public removeUserFromCaseToggleOn$: Observable<boolean>;
 
   constructor(
-    public store: Store<fromCaseList.UnassignedCasesState>,
+    public store: Store<fromCaseList.CaaCasesState>,
     public featureToggleService: FeatureToggleService
   ) {}
 

@@ -27,7 +27,8 @@ export const initialState: CaaCasesState = {
 };
 
 export function caaCasesReducer(state = initialState, action: CaaCasesActions): CaaCasesState {
-  switch (action.type) {
+  console.log('ACTION TYPE', action.type);
+	switch (action.type) {
     case LOAD_ASSIGNED_CASES_SUCCESS:
       return {...state, assignedCases: action.payload};
     case LOAD_ASSIGNED_CASE_TYPES_SUCCESS:

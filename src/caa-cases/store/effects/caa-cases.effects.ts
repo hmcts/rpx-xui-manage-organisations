@@ -7,9 +7,10 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { CaaCasesService } from '../../services/caa-cases.service';
 import { CaaCasesUtil } from '../../util/caa-cases.util';
 import {
-  LoadAssignedCasesFailure, LoadAssignedCasesSuccess, LoadAssignedCaseTypesFailure, LoadAssignedCaseTypesSuccess,
-  LoadUnassignedCasesFailure, LoadUnassignedCasesSuccess, LoadUnassignedCaseTypesFailure, LoadUnassignedCaseTypesSuccess,
-  LOAD_ASSIGNED_CASES, LOAD_ASSIGNED_CASE_TYPES, LOAD_UNASSIGNED_CASES, LOAD_UNASSIGNED_CASE_TYPES
+  LoadAssignedCasesFailure, LoadAssignedCasesSuccess,
+  LoadCaseTypesFailure, LoadCaseTypesSuccess,
+  LoadUnassignedCasesFailure, LoadUnassignedCasesSuccess,
+  LOAD_ASSIGNED_CASES, LOAD_CASE_TYPES, LOAD_UNASSIGNED_CASES
 } from '../actions/caa-cases.actions';
 
 @Injectable()
@@ -52,34 +53,17 @@ export class CaaCasesEffects {
   );
 
   @Effect()
-  public loadAssignedCaseTypes$ = this.actions$.pipe(
-    ofType(LOAD_ASSIGNED_CASE_TYPES),
+  public loadCaseTypes$ = this.actions$.pipe(
+    ofType(LOAD_CASE_TYPES),
     switchMap((payload: any) => {
       return this.caaCasesService.getCaaCaseTypes().pipe(
         map(caaCaseTypes => {
           const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
-          return new LoadAssignedCaseTypesSuccess(navItems);
+          return new LoadCaseTypesSuccess(navItems);
         }),
         catchError(errorResponse => {
           this.loggerService.error(errorResponse);
-          return of(new LoadAssignedCaseTypesFailure(errorResponse.error));
-        })
-      );
-    })
-  );
-
-  @Effect()
-  public loadUnassignedCaseTypes$ = this.actions$.pipe(
-    ofType(LOAD_UNASSIGNED_CASE_TYPES),
-    switchMap((payload: any) => {
-      return this.caaCasesService.getCaaCaseTypes().pipe(
-        map(caaCaseTypes => {
-          const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
-          return new LoadUnassignedCaseTypesSuccess(navItems);
-        }),
-        catchError(errorResponse => {
-          this.loggerService.error(errorResponse);
-          return of(new LoadUnassignedCaseTypesFailure(errorResponse.error));
+          return of(new LoadCaseTypesFailure(errorResponse.error));
         })
       );
     })

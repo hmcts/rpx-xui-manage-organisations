@@ -6,8 +6,9 @@ import {UserNavModel} from './models/user-nav.model';
 const featureNames = {
   feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
-  caaCases: 'caa-cases',
-  removeUserFromCase: 'remove-user-from-case-mo'
+  unassignedCases: 'unassigned-cases',
+  removeUserFromCase: 'remove-user-from-case-mo',
+  caaMenuItems: 'mo-caa-menu-items'
 };
 
 const navItemsArray: NavItemModel[] = [
@@ -38,16 +39,16 @@ const navItemsArray: NavItemModel[] = [
     orderId: 4,
     active: false,
     featureToggle: {
-      featureName: featureNames.caaCases
+      featureName: featureNames.caaMenuItems
     }
   },
   {
-    text: 'Unassigned cases',
-    href: '/unassigned-cases',
+    text: 'Assigned cases',
+    href: '/assigned-cases',
     orderId: 5,
     active: false,
     featureToggle: {
-      featureName: featureNames.caaCases
+      featureName: featureNames.caaMenuItems
     }
   }
 ];
@@ -56,7 +57,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
-  'pui-caa': navItemsArray[3]
+  'pui-caa': [navItemsArray[3], navItemsArray[4]]
 };
 
 const userNav: UserNavModel = {

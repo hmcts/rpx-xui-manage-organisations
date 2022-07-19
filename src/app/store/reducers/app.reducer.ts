@@ -90,7 +90,8 @@ export function reducer(
         if (state.allNavItems.hasOwnProperty(role)) {
           navItems = [
             ...navItems,
-            state.allNavItems[role]
+            // Allow for multiple nav items per role
+            ...state.allNavItems[role] as [],
           ];
         }
       });

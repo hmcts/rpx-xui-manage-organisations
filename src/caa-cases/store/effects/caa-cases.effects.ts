@@ -1,9 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
+import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store/index';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { CaaCasesFilterType } from '../../models/caa-cases.enum';
 import { CaaCasesService } from '../../services/caa-cases.service';
 import { CaaCasesUtil } from '../../util/caa-cases.util';
 import * as fromCaaActions from '../actions/caa-cases.actions';
@@ -21,12 +24,7 @@ export class CaaCasesEffects {
     switchMap((action: fromCaaActions.LoadAssignedCases) => {
       return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
         map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
-        catchError(errorResponse => {
-          this.loggerService.error(errorResponse);
-          return errorResponse.error.status === 400
-            ? of(new fromCaaActions.LoadAssignedCasesFailure(errorResponse.error))
-            : of(new fromRoot.Go({ path: ['/service-down']}));
-        })
+        catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesFilterType.assigned))
       );
     })
   );
@@ -37,12 +35,7 @@ export class CaaCasesEffects {
     switchMap((action: fromCaaActions.LoadUnassignedCases) => {
       return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
         map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
-        catchError(errorResponse => {
-          this.loggerService.error(errorResponse);
-          return errorResponse.error.status === 400
-            ? of(new fromCaaActions.LoadUnassignedCasesFailure(errorResponse.error))
-            : of(new fromRoot.Go({ path: ['/service-down']}));
-        })
+        catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesFilterType.unassigned))
       );
     })
   );
@@ -56,11 +49,20 @@ export class CaaCasesEffects {
           const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
           return new fromCaaActions.LoadCaseTypesSuccess(navItems);
         }),
-        catchError(errorResponse => {
-          this.loggerService.error(errorResponse);
-          return of(new fromCaaActions.LoadCaseTypesFailure(errorResponse.error));
+        catchError(error => {
+          this.loggerService.error(error);
+          return of(new fromCaaActions.LoadCaseTypesFailure(error));
         })
       );
     })
   );
+
+  public static handleError(error: HttpErrorResponse, loggerService: LoggerService, caaCasesFilterType: string): Observable<Action> {
+    loggerService.error(error);
+    return error.status === 400
+      ? caaCasesFilterType === CaaCasesFilterType.assigned
+        ? of(new fromCaaActions.LoadAssignedCasesFailure(error))
+        : of(new fromCaaActions.LoadUnassignedCasesFailure(error))
+      : of(new fromRoot.Go({ path: ['/service-down']}));
+  }
 }

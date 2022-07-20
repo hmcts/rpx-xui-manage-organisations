@@ -49,16 +49,6 @@ export const getFeeAndPayFeatureIsEnabled = createSelector(
   featureFlag => featureFlag && featureFlag.isEnabled
 );
 
-export const getUnassignedCasesFeature = createSelector(
-  getFeatureFlag,
-  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.unassignedCases)
-);
-
-export const getUnassignedCasesFeatureIsEnabled = createSelector(
-  getUnassignedCasesFeature,
-  featureFlag => featureFlag && featureFlag.isEnabled
-);
-
 export const getCaaMenuItemsFeature = createSelector(
   getFeatureFlag,
   featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.caaMenuItems)

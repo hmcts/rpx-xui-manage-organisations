@@ -20,7 +20,6 @@ describe('Caa Cases', () => {
 
     const action = new fromActions.LoadUnassignedCasesSuccess(assignedCases);
     const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
-    console.log('some1', state.assignedCases);
     expect(state.assignedCases).toBe(assignedCases);
   });
 });

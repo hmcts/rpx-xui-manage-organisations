@@ -26,7 +26,7 @@ export class CaaCasesComponent implements OnInit {
 
   public navItems: any [];
   public currentPageNo: number;
-  public paginationPageSize: number = 25;
+  public paginationPageSize: number = 10;
   public totalCases: number = 0;
   public caaCasesFilterType: string;
 
@@ -39,7 +39,6 @@ export class CaaCasesComponent implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadCaseTypes());
     this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
-      console.log('CONFIG ON INIT', config);
       if (config !== null) {
         this.tableConfig =  {
           idField: config.idField,
@@ -54,7 +53,6 @@ export class CaaCasesComponent implements OnInit {
 
   private fixCurrentTab(items: any): void {
     this.navItems = items;
-    console.log('NAV ITEMS', this.navItems);
     if (items && items.length > 0) {
       this.totalCases = items[0].total ? items[0].total : 0;
       this.setTabItems(items[0].text);

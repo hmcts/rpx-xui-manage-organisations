@@ -6,12 +6,7 @@ import * as fromRoot from '../../../app/store/index';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { CaaCasesService } from '../../services/caa-cases.service';
 import { CaaCasesUtil } from '../../util/caa-cases.util';
-import {
-  LoadAssignedCasesFailure, LoadAssignedCasesSuccess,
-  LoadCaseTypesFailure, LoadCaseTypesSuccess,
-  LoadUnassignedCasesFailure, LoadUnassignedCasesSuccess,
-  LOAD_ASSIGNED_CASES, LOAD_CASE_TYPES, LOAD_UNASSIGNED_CASES
-} from '../actions/caa-cases.actions';
+import * as fromCaaActions from '../actions/caa-cases.actions';
 
 @Injectable()
 export class CaaCasesEffects {
@@ -22,14 +17,14 @@ export class CaaCasesEffects {
 
   @Effect()
   public loadAssignedCases$ = this.actions$.pipe(
-    ofType(LOAD_ASSIGNED_CASES),
-    switchMap((payload: any) => {
-      return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize).pipe(
-        map(caaCases => new LoadAssignedCasesSuccess(caaCases)),
+    ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
+    switchMap((action: fromCaaActions.LoadAssignedCases) => {
+      return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
+        map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
         catchError(errorResponse => {
           this.loggerService.error(errorResponse);
           return errorResponse.error.status === 400
-            ? of(new LoadAssignedCasesFailure(errorResponse.error))
+            ? of(new fromCaaActions.LoadAssignedCasesFailure(errorResponse.error))
             : of(new fromRoot.Go({ path: ['/service-down']}));
         })
       );
@@ -38,14 +33,14 @@ export class CaaCasesEffects {
 
   @Effect()
   public loadUnassignedCases$ = this.actions$.pipe(
-    ofType(LOAD_UNASSIGNED_CASES),
-    switchMap((payload: any) => {
-      return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize).pipe(
-        map(caaCases => new LoadUnassignedCasesSuccess(caaCases)),
+    ofType(fromCaaActions.LOAD_UNASSIGNED_CASES),
+    switchMap((action: fromCaaActions.LoadUnassignedCases) => {
+      return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
+        map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
         catchError(errorResponse => {
           this.loggerService.error(errorResponse);
           return errorResponse.error.status === 400
-            ? of(new LoadUnassignedCasesFailure(errorResponse.error))
+            ? of(new fromCaaActions.LoadUnassignedCasesFailure(errorResponse.error))
             : of(new fromRoot.Go({ path: ['/service-down']}));
         })
       );
@@ -54,16 +49,16 @@ export class CaaCasesEffects {
 
   @Effect()
   public loadCaseTypes$ = this.actions$.pipe(
-    ofType(LOAD_CASE_TYPES),
-    switchMap((payload: any) => {
+    ofType(fromCaaActions.LOAD_CASE_TYPES),
+    switchMap((action: fromCaaActions.LoadCaseTypes) => {
       return this.caaCasesService.getCaaCaseTypes().pipe(
         map(caaCaseTypes => {
           const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
-          return new LoadCaseTypesSuccess(navItems);
+          return new fromCaaActions.LoadCaseTypesSuccess(navItems);
         }),
         catchError(errorResponse => {
           this.loggerService.error(errorResponse);
-          return of(new LoadCaseTypesFailure(errorResponse.error));
+          return of(new fromCaaActions.LoadCaseTypesFailure(errorResponse.error));
         })
       );
     })

@@ -19,7 +19,6 @@ export class AccountOverviewComponent implements OnInit {
   public ngOnInit(): void {
     this.organisationSubscription = this.store.pipe(select(fromStore.getOrganisationSel)).subscribe(( data) => {
       this.orgData = data;
-      console.log(this.orgData);
     });
   }
 

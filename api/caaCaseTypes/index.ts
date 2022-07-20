@@ -10,7 +10,6 @@ export async function handleCaaCaseTypes(req: Request, res: Response) {
     const response = await req.http.post(path, payload);
     res.send(response.data);
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       errorMessage: error.data,
       errorStatusText: error.statusText,

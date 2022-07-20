@@ -1,25 +1,44 @@
-import { CaaCases } from '../../models/caa-cases.model';
 import * as fromActions from '../actions/caa-cases.actions';
 import * as fromCaaCasesReducer from './caa-cases.reducer';
 
-describe('Caa Cases', () => {
-  it('undefined action should return the default state', () => {
-    const initialState = fromCaaCasesReducer.initialState;
-    const action = {} as any;
-    const state = fromCaaCasesReducer.caaCasesReducer(undefined, action);
-    expect(state).toBe(initialState);
-  });
-
-  xit('should loadUnassignedCasesSuccess action set the state', () => {
-    const initialState = fromCaaCasesReducer.initialState;
-    const assignedCases: CaaCases = {
+describe('CaaCases Reducer', () => {
+  const initialState: fromCaaCasesReducer.CaaCasesState = {
+    assignedCases: {
       idField: 'id1',
       columnConfigs: null,
       data: null
-    }
+    },
+    unassignedCases: {
+      idField: 'id2',
+      columnConfigs: null,
+      data: null
+    },
+    caseTypes: [],
+    selectedCases: {}
+  };
 
-    const action = new fromActions.LoadUnassignedCasesSuccess(assignedCases);
+  it('should undefined action return default state', () => {
+    const caaCasesState = fromCaaCasesReducer.initialState;
+    const action = {} as any;
+    const state = fromCaaCasesReducer.caaCasesReducer(undefined, action);
+    expect(state).toBe(caaCasesState);
+  });
+
+  it('should loadAssignedCasesSuccess action set correct state', () => {
+    const action = new fromActions.LoadAssignedCasesSuccess(initialState.assignedCases);
     const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
-    expect(state.assignedCases).toBe(assignedCases);
+    expect(state.assignedCases).toBe(initialState.assignedCases);
+  });
+
+  it('should loadUnassignedCasesSuccess action set correct state', () => {
+    const action = new fromActions.LoadUnassignedCasesSuccess(initialState.unassignedCases);
+    const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
+    expect(state.unassignedCases).toBe(initialState.unassignedCases);
+  });
+
+  it('should loadCaseTypesSuccess action set correct state', () => {
+    const action = new fromActions.LoadCaseTypesSuccess(initialState.caseTypes);
+    const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
+    expect(state.caseTypes).toBe(initialState.caseTypes);
   });
 });

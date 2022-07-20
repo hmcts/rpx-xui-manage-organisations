@@ -12,7 +12,8 @@ export class CaaCasesService {
   }
 
   public getCaaCases(caseTypeId: string, pageNo: number, pageSize: number): Observable<any> {
-    const url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    // const url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const url = `${CaaCasesService.caaCasesUrl}?caseTypeId=FinancialRemedyContested&pageNo=1&pageSize=10`;
     return this.http.post<any>(url, null);
   }
 

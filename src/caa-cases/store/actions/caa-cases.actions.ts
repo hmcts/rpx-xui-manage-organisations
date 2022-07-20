@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 import { CaaCases } from '../../models/caa-cases.model';
 
-export const LOAD_ASSIGNED_CASES = '[CAA CASES] Load Assinged Cases';
-export const LOAD_ASSIGNED_CASES_SUCCESS = '[CAA CASES] Load Assinged Cases Success';
-export const LOAD_ASSIGNED_CASES_FAILURE = '[CAA CASES] Load Assinged Cases Failure';
-export const LOAD_UNASSIGNED_CASES = '[CAA CASES] Load Unassinged Cases';
-export const LOAD_UNASSIGNED_CASES_SUCCESS = '[CAA CASES] Load Unassinged Cases Success';
-export const LOAD_UNASSIGNED_CASES_FAILURE = '[CAA CASES] Load Unassinged Cases Failure';
+export const LOAD_ASSIGNED_CASES = '[CAA CASES] Load Assigned Cases';
+export const LOAD_ASSIGNED_CASES_SUCCESS = '[CAA CASES] Load Assigned Cases Success';
+export const LOAD_ASSIGNED_CASES_FAILURE = '[CAA CASES] Load Assigned Cases Failure';
+export const LOAD_UNASSIGNED_CASES = '[CAA CASES] Load Unassigned Cases';
+export const LOAD_UNASSIGNED_CASES_SUCCESS = '[CAA CASES] Load Unassigned Cases Success';
+export const LOAD_UNASSIGNED_CASES_FAILURE = '[CAA CASES] Load Unassigned Cases Failure';
 export const LOAD_CASE_TYPES = '[CAA CASES] Load Case Types';
 export const LOAD_CASE_TYPES_SUCCESS = '[CAA CASES] Load Case Types Success';
 export const LOAD_CASE_TYPES_FAILURE = '[CAA CASES] Load Case Types Failure';

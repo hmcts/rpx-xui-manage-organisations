@@ -59,16 +59,6 @@ export const getCaaMenuItemsFeatureIsEnabled = createSelector(
   featureFlag => featureFlag && featureFlag.isEnabled
 );
 
-export const getCaaMenuItemsFeature = createSelector(
-  getFeatureFlag,
-  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.caaMenuItems)
-);
-
-export const getCaaMenuItemsFeatureIsEnabled = createSelector(
-  getCaaMenuItemsFeature,
-  featureFlag => featureFlag && featureFlag.isEnabled
-);
-
 export const getEditUserFeature = createSelector(
   getFeatureFlag,
   featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions)

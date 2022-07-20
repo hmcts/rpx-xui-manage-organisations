@@ -39,6 +39,7 @@ export class CaaCasesComponent implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadCaseTypes());
     this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
+      console.log('CONFIG ON INIT', config);
       if (config !== null) {
         this.tableConfig =  {
           idField: config.idField,
@@ -53,6 +54,7 @@ export class CaaCasesComponent implements OnInit {
 
   private fixCurrentTab(items: any): void {
     this.navItems = items;
+    console.log('NAV ITEMS', this.navItems);
     if (items && items.length > 0) {
       this.totalCases = items[0].total ? items[0].total : 0;
       this.setTabItems(items[0].text);
@@ -79,17 +81,17 @@ export class CaaCasesComponent implements OnInit {
 
   private setTabItems(tabName: string): void {
     this.resetPaginationParameters();
-    this.store.pipe(select(fromStore.getAllAssignedCases));
+    this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
-    this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
   }
 
   public onPaginationHandler(pageNo: number): void {
     this.currentPageNo = pageNo;
     this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
-    this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
+    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
   }
 
   public resetPaginationParameters(): void {

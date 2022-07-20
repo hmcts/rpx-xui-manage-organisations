@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
@@ -33,15 +32,13 @@ export class CaaCasesComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromStore.CaaCasesState>,
-    private readonly appRoute: Store<fromRoot.State>,
-    private readonly route: ActivatedRoute
+    private readonly appRoute: Store<fromRoot.State>
   ) {
   }
 
   public ngOnInit(): void {
-    console.log('Route details', this.route.url, this.route.params, this.route.snapshot.url, this.route.snapshot.url);
     this.store.dispatch(new fromStore.LoadCaseTypes());
-    this.store.pipe(select(fromStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
+    this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
       if (config !== null) {
         this.tableConfig =  {
           idField: config.idField,

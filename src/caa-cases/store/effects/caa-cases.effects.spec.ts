@@ -1,0 +1,151 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
+import { of, throwError } from 'rxjs';
+import { NavItemModel } from 'src/app/models/nav-items.model';
+import { CaaCasesService } from 'src/caa-cases/services';
+import { LoggerService } from 'src/shared/services/logger.service';
+import { CaaCases } from '../../models/caa-cases.model';
+import * as caaCasesActions from '../actions/caa-cases.actions';
+import { CaaCasesEffects } from './caa-cases.effects';
+
+describe('CaaCasesEffects', () => {
+  let actions$;
+  let effects: CaaCasesEffects;
+  const caaCasesServiceMock = jasmine.createSpyObj('CaaCasesService', ['getCaaCases', 'getCaaCaseTypes']);
+  const loggerServiceMock = jasmine.createSpyObj('LoggerService', ['error']);
+  const assignedCases = {} as CaaCases;
+  const unassignedCases = {} as CaaCases;
+  const navItems = [] as NavItemModel[];
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [
+        { provide: CaaCasesService, useValue: caaCasesServiceMock },
+        { provide: LoggerService, useValue: loggerServiceMock },
+        CaaCasesEffects,
+        provideMockActions(() => actions$)
+      ]
+    });
+    effects = TestBed.get(CaaCasesEffects);
+  });
+
+  describe('loadAssignedCases$', () => {
+    it('loadAssignedCases successful', () => {
+      caaCasesServiceMock.getCaaCases.and.returnValue(of(assignedCases));
+      const caseType = '';
+      const pageNo = 1;
+      const pageSize = 10;
+      const payload = {
+        caseType, pageNo, pageSize
+      };
+      const action = new caaCasesActions.LoadAssignedCases(payload);
+      const completion = new caaCasesActions.LoadAssignedCasesSuccess(assignedCases);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadAssignedCases$).toBeObservable(expected);
+    });
+
+    it('loadAssignedCases error', () => {
+      const error: HttpErrorResponse = {
+        error: 'Error',
+        status: 400,
+        message: 'Error',
+        headers: null,
+        statusText: null,
+        name: null,
+        ok: false,
+        type: null,
+        url: null
+      };
+      caaCasesServiceMock.getCaaCases.and.returnValue(throwError(error));
+      const caseType = '';
+      const pageNo = 1;
+      const pageSize = 10;
+      const payload = {
+        caseType, pageNo, pageSize
+      };
+      const action = new caaCasesActions.LoadAssignedCases(payload);
+      const completion = new caaCasesActions.LoadAssignedCasesFailure(error);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadAssignedCases$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadUnassignedCases$', () => {
+    it('loadUnassignedCases successful', () => {
+      caaCasesServiceMock.getCaaCases.and.returnValue(of(unassignedCases));
+      const caseType = '';
+      const pageNo = 1;
+      const pageSize = 10;
+      const payload = {
+        caseType, pageNo, pageSize
+      };
+      const action = new caaCasesActions.LoadUnassignedCases(payload);
+      const completion = new caaCasesActions.LoadUnassignedCasesSuccess(unassignedCases);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadUnassignedCases$).toBeObservable(expected);
+    });
+
+    it('loadUnassignedCases error', () => {
+      const error: HttpErrorResponse = {
+        error: 'Error',
+        status: 400,
+        message: 'Error',
+        headers: null,
+        statusText: null,
+        name: null,
+        ok: false,
+        type: null,
+        url: null
+      };
+      caaCasesServiceMock.getCaaCases.and.returnValue(throwError(error));
+      const caseType = '';
+      const pageNo = 1;
+      const pageSize = 10;
+      const payload = {
+        caseType, pageNo, pageSize
+      };
+      const action = new caaCasesActions.LoadUnassignedCases(payload);
+      const completion = new caaCasesActions.LoadUnassignedCasesFailure(error);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadUnassignedCases$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadCaseTypes$', () => {
+    it('loadCaseTypes successful', () => {
+      caaCasesServiceMock.getCaaCaseTypes.and.returnValue(of(navItems));
+      const action = new caaCasesActions.LoadCaseTypes();
+      const completion = new caaCasesActions.LoadCaseTypesSuccess(navItems);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadCaseTypes$).toBeObservable(expected);
+    });
+
+    it('loadCaseTypes error', () => {
+      const error: HttpErrorResponse = {
+        error: 'Error',
+        status: 400,
+        message: 'Error',
+        headers: null,
+        statusText: null,
+        name: null,
+        ok: false,
+        type: null,
+        url: null
+      };
+      caaCasesServiceMock.getCaaCaseTypes.and.returnValue(throwError(error));
+      const action = new caaCasesActions.LoadCaseTypes();
+      const completion = new caaCasesActions.LoadCaseTypesFailure(error);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadCaseTypes$).toBeObservable(expected);
+    });
+  });
+});

@@ -31,7 +31,12 @@ export const ROUTES: Routes = [
   {
     path: 'unassigned-cases',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: '../unassigned-cases/unassigned-cases.module#UnassignedCasesModule'
+    loadChildren: '../caa-cases/caa-cases.module#CaaCasesModule'
+  },
+  {
+    path: 'assigned-cases',
+    canActivate: [AuthGuard, HealthCheckGuard],
+    loadChildren: '../caa-cases/caa-cases.module#CaaCasesModule'
   },
   {
     path: 'style-guide',

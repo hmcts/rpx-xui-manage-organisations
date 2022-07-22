@@ -4,24 +4,20 @@ import * as bodyParser from 'body-parser'
 import * as cookieParser from 'cookie-parser'
 import * as express from 'express'
 import * as helmet from 'helmet'
-
 import { attach, getXuiNodeMiddleware } from './auth'
 import { environmentCheckText, getConfigValue, getEnvironment, showFeature } from './configuration'
 import { ERROR_NODE_CONFIG_ENV } from './configuration/constants'
 import {
-    CASE_TYPES,
-    FEATURE_HELMET_ENABLED,
-    FEATURE_REDIS_ENABLED,
-    FEATURE_TERMS_AND_CONDITIONS_ENABLED,
-    HELMET,
-    SERVICES_CCD_DATA_STORE_API_PATH,
-    SERVICES_FEE_AND_PAY_API_PATH,
-    SERVICES_MCA_PROXY_API_PATH,
-    SERVICES_RD_PROFESSIONAL_API_PATH,
-    SERVICES_TERMS_AND_CONDITIONS_API_PATH,
-    SESSION_SECRET,
+  CASE_TYPES,
+  FEATURE_HELMET_ENABLED,
+  FEATURE_REDIS_ENABLED,
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
+  HELMET, SERVICES_CCD_DATA_STORE_API_PATH,
+  SERVICES_FEE_AND_PAY_API_PATH,
+  SERVICES_MCA_PROXY_API_PATH,
+  SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_TERMS_AND_CONDITIONS_API_PATH, SESSION_SECRET
 } from './configuration/references'
-import { appInsights } from './lib/appInsights'
 import * as log4jui from './lib/log4jui'
 import * as tunnel from './lib/tunnel'
 import openRoutes from './openRoutes'
@@ -49,9 +45,8 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
     app.use(helmet(getConfigValue(HELMET)))
 }
 
-app.use(appInsights)
-app.use(bodyParser.json({ limit: '5mb' }))
-app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }))
+app.use(bodyParser.json({limit: '5mb'}))
+app.use(bodyParser.urlencoded({limit: '5mb', extended: true}))
 app.use(cookieParser(getConfigValue(SESSION_SECRET)))
 
 app.use(getXuiNodeMiddleware())

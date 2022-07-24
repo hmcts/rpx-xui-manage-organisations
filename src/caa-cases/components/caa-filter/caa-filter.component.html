@@ -1,0 +1,73 @@
+<!-- <xuilib-generic-filter [config]="fieldsConfig" [settings]="fieldsSettings"></xuilib-generic-filter> -->
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <button type="submit" class="govuk-button govuk-button--secondary">
+      Hide assigned cases filter
+    </button>
+    <div id="filterContainer">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half">
+          <h2 class="govuk-heading-m">Filter assigned cases</h2>
+          <p class="govuk-body">Filter your organisation's assigned cases by either;</p>
+          <div class="govuk-form-group govuk-!-margin-bottom-0">
+            <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+              <div class="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="search-all" name="search" type="radio" value="all" data-aria-controls="conditional-search-all" checked="checked">
+                  <label class="govuk-label govuk-radios__label" for="search-all">
+                    All assignees
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" id="search-sol" name="search" type="radio" value="Solicitor name" data-aria-controls="conditional-search-sol">
+                  <label class="govuk-label govuk-radios__label" for="search-sol">
+                    Assignee name
+                  </label>
+                </div>
+                <div class="govuk-radios__conditional" id="conditional-search-sol">
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="showSols">
+                      Type the name and select an available match option
+                    </label>
+                    <div id="solicitorNamesAutocomplete">
+                      <div class="autocomplete__wrapper" role="combobox" aria-expanded="false">
+                        <div aria-atomic="true" aria-live="polite" role="status">
+                          No search results.
+                          <span>,,</span>
+                        </div>
+                        <input aria-owns="sol-autocomplete__listbox" autocomplete="off" class="autocomplete__input autocomplete__input--default" id="sol-autocomplete" name="name-of-solicitor" placeholder="e.g. John Smith" type="text" role="textbox">
+                        <ul class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden" id="sol-autocomplete__listbox" role="listbox">
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="search-ccd" name="search" type="radio" value="CCD reference" data-aria-controls="conditional-search-ccd">
+                <label class="govuk-label govuk-radios__label" for="search-ccd">
+                  Case reference number
+                </label>
+              </div>
+              <div class="govuk-radios__conditional" id="conditional-search-ccd">
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="searchRef">
+                    Enter the 16 digit case reference number
+                  </label>
+                  <input class="govuk-input govuk-!-width-two-thirds" id="searchRef" name="search-ref" type="search" spellcheck="false">
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-half  govuk-body govuk-!-margin-bottom-6">
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <button type="submit" class="govuk-button govuk-!-margin-right-3">
+          Apply filter
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

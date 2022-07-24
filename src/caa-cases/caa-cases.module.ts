@@ -9,12 +9,13 @@ import { StoreModule } from '@ngrx/store';
 import { OrganisationService } from 'src/organisation/services';
 import { SharedModule } from 'src/shared/shared.module';
 import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
+import { caaCasesRouting } from './caa-cases.routing';
+import * as fromComponents from './components';
 import * as fromContainers from './containers';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
-import {caaCasesRouting} from './caa-cases.routing';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import {caaCasesRouting} from './caa-cases.routing';
         CaseListModule,
         MatTabsModule
       ],
-      declarations: [...fromContainers.containers],
+      exports: [...fromContainers.containers, ...fromComponents.components],
+      declarations: [...fromContainers.containers, ...fromComponents.components],
       providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

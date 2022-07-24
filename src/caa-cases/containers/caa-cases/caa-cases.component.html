@@ -1,6 +1,6 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
     <h1 class="govuk-heading-xl">Unassigned cases</h1>
-   <div>
+    <div>
       <details _ngcontent-dti-c13 class="govuk-details" data-module="govuk-details" id="add-user-help" close>
             <summary _ngcontent-wbr-c13 class="govuk-details__summary">
               <span _ngcontent-wbr-c13 class="govuk-details__summary-text" id="content-why-can-not-find-case"> Can't find a case?
@@ -14,6 +14,7 @@
                 </ul>
             </div>
       </details>
+      <app-caa-filter-component></app-caa-filter-component>
       <div *ngIf="hasResults()" class="pagination-top"
         attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
         <span class="text-16" id="summary__text">Showing 

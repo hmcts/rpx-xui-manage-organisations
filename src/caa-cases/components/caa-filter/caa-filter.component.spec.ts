@@ -35,14 +35,9 @@ describe('CaaFilterComponent', () => {
   });
 
   it('should set selected filter type', () => {
-    const emitter = jasmine.createSpyObj('emitter', ['emit']);
-    const event: any = {
-      target: {
-        value: 'assignee-name'
-      }
-    }
-    component.selectFilterOption(event);
+    spyOn(component.emitSelectedFilterType, 'emit');
+    component.selectFilterOption('assignee-name');
     expect(component.selectedFilterType).toEqual('assignee-name');
-    expect(emitter.emit).toHaveBeenCalled();
+    expect(component.emitSelectedFilterType.emit).toHaveBeenCalled();
   });
 });

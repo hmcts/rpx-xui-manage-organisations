@@ -7,7 +7,7 @@ describe('CaaCasesComponent', () => {
   beforeEach(() => {
     store = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
     appStore = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
-    component = new CaaCasesComponent(store, appStore);
+    component = new CaaCasesComponent(store);
   });
 
   it('is truthy', () => {

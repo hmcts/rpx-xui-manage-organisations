@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as converters from '../../converters/case-converter';
-import { CAAShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesFilterType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
@@ -16,7 +15,6 @@ import * as fromStore from '../../store';
 })
 export class CaaCasesComponent implements OnInit {
 
-  public caaFormGroup: FormGroup;
   public cases$: Observable<any>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;
@@ -31,21 +29,14 @@ export class CaaCasesComponent implements OnInit {
   public paginationPageSize: number = 10;
   public totalCases: number = 0;
   public caaCasesPageType: string;
-  public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
-  public assignedCasesFilterButtonText = CAAShowHideFilterButtonText.hide;
-  public selectedFilterType: string;
+  public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
+  public assignedCasesFilterButtonText = CaaShowHideFilterButtonText.hide;
+  public selectedFilterType: string = CaaCasesFilterType.allAssignees;
 
-  constructor(private readonly formBuilder: FormBuilder,
-              private readonly store: Store<fromStore.CaaCasesState>
-  ) {
+  constructor(private readonly store: Store<fromStore.CaaCasesState>) {
   }
 
   public ngOnInit(): void {
-    this.caaFormGroup = this.formBuilder.group({
-      'caa-filter': new FormControl(''),
-      'assignee-person': new FormControl(''),
-      'case-reference-number': new FormControl('')
-    });
     this.store.dispatch(new fromStore.LoadCaseTypes());
     this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
       if (config !== null) {
@@ -123,9 +114,9 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public toggleFilterSection(): void {
-    this.assignedCasesFilterButtonText = this.assignedCasesFilterButtonText === CAAShowHideFilterButtonText.show
-      ? CAAShowHideFilterButtonText.hide
-      : CAAShowHideFilterButtonText.show;
+    this.assignedCasesFilterButtonText = this.assignedCasesFilterButtonText === CaaShowHideFilterButtonText.show
+      ? CaaShowHideFilterButtonText.hide
+      : CaaShowHideFilterButtonText.show;
   }
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {

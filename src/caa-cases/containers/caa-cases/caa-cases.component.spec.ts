@@ -5,9 +5,9 @@ describe('CaaCasesComponent', () => {
   let store: any;
   let appStore: any;
   beforeEach(() => {
-      store = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
-      appStore = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
-      component = new CaaCasesComponent(store, appStore);
+    store = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
+    appStore = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
+    component = new CaaCasesComponent(store, appStore);
   });
 
   it('is truthy', () => {

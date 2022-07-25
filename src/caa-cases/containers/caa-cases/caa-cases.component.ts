@@ -3,7 +3,7 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/c
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CAAShowHideFilterButtonText } from 'src/caa-cases/models/caa-cases.enum';
+import { CAAShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import { CaaCases } from '../../models/caa-cases.model';

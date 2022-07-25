@@ -11,6 +11,6 @@ describe('CaaCasesComponent', () => {
   });
 
   it('is truthy', () => {
-      expect(component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

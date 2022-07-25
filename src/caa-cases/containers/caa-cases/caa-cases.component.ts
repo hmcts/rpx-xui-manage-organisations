@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CAAShowHideFilterButtonText } from '../../models/caa-cases.enum';
-import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
+import { CAAShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
@@ -16,6 +16,7 @@ import * as fromStore from '../../store';
 })
 export class CaaCasesComponent implements OnInit {
 
+  public caaFormGroup: FormGroup;
   public cases$: Observable<any>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;
@@ -32,14 +33,19 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageType: string;
   public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
   public assignedCasesFilterButtonText = CAAShowHideFilterButtonText.hide;
+  public selectedFilterType: string;
 
-  constructor(
-    private readonly store: Store<fromStore.CaaCasesState>,
-    private readonly appRoute: Store<fromRoot.State>
+  constructor(private readonly formBuilder: FormBuilder,
+              private readonly store: Store<fromStore.CaaCasesState>
   ) {
   }
 
   public ngOnInit(): void {
+    this.caaFormGroup = this.formBuilder.group({
+      'caa-filter': new FormControl(''),
+      'assignee-person': new FormControl(''),
+      'case-reference-number': new FormControl('')
+    });
     this.store.dispatch(new fromStore.LoadCaseTypes());
     this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
       if (config !== null) {
@@ -120,5 +126,9 @@ export class CaaCasesComponent implements OnInit {
     this.assignedCasesFilterButtonText = this.assignedCasesFilterButtonText === CAAShowHideFilterButtonText.show
       ? CAAShowHideFilterButtonText.hide
       : CAAShowHideFilterButtonText.show;
+  }
+
+  public onSelectedFilterTypeChanged(selectedFilterType: string): void {
+    this.selectedFilterType = selectedFilterType;
   }
 }

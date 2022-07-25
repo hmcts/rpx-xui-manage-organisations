@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { FormBuilder } from '@angular/forms';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { CaaCasesComponent } from '../../containers';
 import { getShareCaseListState, reducers, CaaCasesState } from '../index';
@@ -20,7 +19,7 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CaaCasesComponent(new FormBuilder(), store);
+      const caseListComponent = new CaaCasesComponent(store);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

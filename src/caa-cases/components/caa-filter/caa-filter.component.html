@@ -5,7 +5,7 @@
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">Filter assigned cases</h2>
           <p class="govuk-body">Filter your organisation's assigned cases by either;</p>
-          <form [formGroup]="caaFormGroup">
+          <form class="form" [formGroup]="caaFormGroup">
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset" aria-describedby="filter-assigned-cases">
                 <div class="govuk-radios" data-module="govuk-radios">
@@ -15,7 +15,7 @@
                       value="{{caaCasesFilterType.allAssignees}}"
                       formControlName="caa-filter"
                       data-aria-controls="caa-filter-all-assignees"
-                      (click)="selectFilterOption($event)">
+                      (click)="selectFilterOption(caaCasesFilterType.allAssignees)">
                     <label class="govuk-label govuk-radios__label" for="caa-filter-all-assignees">
                       All assignees
                     </label>
@@ -26,7 +26,7 @@
                       value="{{caaCasesFilterType.assigneeName}}"
                       formControlName="caa-filter"
                       data-aria-controls="caa-filter-assignee-name"
-                      (click)="selectFilterOption($event)">
+                      (click)="selectFilterOption(caaCasesFilterType.assigneeName)">
                     <label class="govuk-label govuk-radios__label" for="caa-filter-assignee-name">
                       Assignee name
                     </label>
@@ -45,7 +45,7 @@
                       value="{{caaCasesFilterType.caseReferenceNumber}}"
                       formControlName="caa-filter"
                       data-aria-controls="caa-filter-case-reference-number"
-                      (click)="selectFilterOption($event)">
+                      (click)="selectFilterOption(caaCasesFilterType.caseReferenceNumber)">
                     <label class="govuk-label govuk-radios__label" for="caa-filter-case-reference-number">
                       Case reference number
                     </label>

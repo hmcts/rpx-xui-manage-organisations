@@ -18,7 +18,6 @@
         {{assignedCasesFilterButtonText}}
       </button>
       <app-caa-filter-component *ngIf="assignedCasesFilterButtonText === caaShowHideFilterButtonText.hide"
-        [caaFormGroup]="caaFormGroup"
         [selectedFilterType]="selectedFilterType"
         (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
       ></app-caa-filter-component>

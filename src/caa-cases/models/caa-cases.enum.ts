@@ -3,7 +3,7 @@ export enum CaaCasesPageType {
   unassigned = 'unassigned'
 }
 
-export enum CAAShowHideFilterButtonText {
+export enum CaaShowHideFilterButtonText {
   show = 'Show assigned cases filter',
   hide = 'Hide assigned cases filter'
 }

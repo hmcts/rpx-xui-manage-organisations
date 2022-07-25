@@ -11,7 +11,7 @@ const { conf } = require('../config/config');
 
 const MockApp = require('../../nodeMock/app');
 // TODO: The tests for unassigned cases needs to be updated
-xdescribe('Pa11y tests', function () {
+describe('Pa11y tests', function () {
     beforeEach(function () {
         MockApp.init()
     });
@@ -38,7 +38,7 @@ xdescribe('Pa11y tests', function () {
         await pa11ytest(this, actions);
     });
 
-    it('Unassigned Cases Share a case Error page', async function () {
+    xit('Unassigned Cases Share a case Error page', async function () {
         MockApp.onGet('/api/caseshare/cases', (req,res) => { res.status(500).send({error:'test error'})});
         await MockApp.startServer();
         const actions = [];
@@ -67,7 +67,7 @@ xdescribe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it('Share Case Submission Success page', async function () {
+    xit('Share Case Submission Success page', async function () {
         await MockApp.startServer();
 
         const actions = [];
@@ -89,7 +89,7 @@ xdescribe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it('Share Case Submission Partial Success page', async function () {
+    xit('Share Case Submission Partial Success page', async function () {
         MockApp.onPost('/api/caseshare/case-assignments', (req,res) => {
             res.send(req.body);
         });
@@ -114,7 +114,7 @@ xdescribe('Pa11y tests', function () {
         const result = await pa11ytest(this, actions);
     });
 
-    it('Share Case Submission Server error page', async function () {
+    xit('Share Case Submission Server error page', async function () {
         MockApp.onPost('/api/caseshare/case-assignments', (req, res) => {
             res.status(500).send({});
         });

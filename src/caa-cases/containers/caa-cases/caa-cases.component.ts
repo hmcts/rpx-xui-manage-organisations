@@ -3,6 +3,7 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/c
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { CAAShowHideFilterButtonText } from 'src/caa-cases/models/caa-cases.enum';
 import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import { CaaCases } from '../../models/caa-cases.model';
@@ -28,7 +29,9 @@ export class CaaCasesComponent implements OnInit {
   public currentPageNo: number;
   public paginationPageSize: number = 10;
   public totalCases: number = 0;
-  public caaCasesFilterType: string;
+  public caaCasesPageType: string;
+	public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
+	public assignedCasesFilterButtonText = CAAShowHideFilterButtonText.hide;
 
   constructor(
     private readonly store: Store<fromStore.CaaCasesState>,
@@ -111,5 +114,11 @@ export class CaaCasesComponent implements OnInit {
 
   public getTotalResults(): number {
     return this.totalCases;
+  }
+
+	public toggleFilterSection(): void {
+    this.assignedCasesFilterButtonText = this.assignedCasesFilterButtonText === CAAShowHideFilterButtonText.show
+      ? CAAShowHideFilterButtonText.hide
+      : CAAShowHideFilterButtonText.show;
   }
 }

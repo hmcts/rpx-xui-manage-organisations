@@ -14,7 +14,10 @@
                 </ul>
             </div>
       </details>
-      <app-caa-filter-component></app-caa-filter-component>
+			<button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
+				{{assignedCasesFilterButtonText}}
+			</button>
+      <app-caa-filter-component [assignedCasesFilterButtonText]="assignedCasesFilterButtonText"></app-caa-filter-component>
       <div *ngIf="hasResults()" class="pagination-top"
         attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
         <span class="text-16" id="summary__text">Showing 

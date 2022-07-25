@@ -15,7 +15,7 @@ export class CaaFilterComponent implements OnInit {
   public caaCasesFilterType = CaaCasesFilterType;
   public selectedFilterType: string;
   public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
-  
+
   constructor() {
   }
 

@@ -30,8 +30,8 @@ export class CaaCasesComponent implements OnInit {
   public paginationPageSize: number = 10;
   public totalCases: number = 0;
   public caaCasesPageType: string;
-	public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
-	public assignedCasesFilterButtonText = CAAShowHideFilterButtonText.hide;
+  public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
+  public assignedCasesFilterButtonText = CAAShowHideFilterButtonText.hide;
 
   constructor(
     private readonly store: Store<fromStore.CaaCasesState>,
@@ -116,7 +116,7 @@ export class CaaCasesComponent implements OnInit {
     return this.totalCases;
   }
 
-	public toggleFilterSection(): void {
+  public toggleFilterSection(): void {
     this.assignedCasesFilterButtonText = this.assignedCasesFilterButtonText === CAAShowHideFilterButtonText.show
       ? CAAShowHideFilterButtonText.hide
       : CAAShowHideFilterButtonText.show;

@@ -18,7 +18,7 @@ export class CaaFilterComponent implements OnInit {
   public caaCasesFilterType = CaaCasesFilterType;
   public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private readonly formBuilder: FormBuilder) {
   }
 
   public ngOnInit(): void {

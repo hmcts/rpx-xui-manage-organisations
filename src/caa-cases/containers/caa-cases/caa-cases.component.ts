@@ -3,6 +3,8 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/c
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { Organisation } from '../../../organisation/organisation.model';
+import * as fromOrganisationStore from '../../../organisation/store';
 import * as converters from '../../converters/case-converter';
 import { CaaCasesFilterType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases } from '../../models/caa-cases.model';
@@ -16,6 +18,7 @@ import * as fromStore from '../../store';
 export class CaaCasesComponent implements OnInit {
 
   public cases$: Observable<any>;
+  public selectedOrganisation$: Observable<Organisation>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;
   public tableConfig: TableConfig;
@@ -33,7 +36,8 @@ export class CaaCasesComponent implements OnInit {
   public assignedCasesFilterButtonText = CaaShowHideFilterButtonText.hide;
   public selectedFilterType: string = CaaCasesFilterType.allAssignees;
 
-  constructor(private readonly store: Store<fromStore.CaaCasesState>) {
+  constructor(private readonly store: Store<fromStore.CaaCasesState>,
+              private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>) {
   }
 
   public ngOnInit(): void {
@@ -49,6 +53,7 @@ export class CaaCasesComponent implements OnInit {
     this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items => this.fixCurrentTab(items));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
+    this.selectedOrganisation$ = this.organisationStore.pipe(select(fromOrganisationStore.getOrganisationSel));
   }
 
   private fixCurrentTab(items: any): void {

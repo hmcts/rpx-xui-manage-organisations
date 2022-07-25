@@ -24,7 +24,7 @@ class AppError extends Error {
     }
 }
 
-xdescribe('monitoring-tools index', () => {
+describe('monitoring-tools index', () => {
     const req = mockReq()
     let res: any
 

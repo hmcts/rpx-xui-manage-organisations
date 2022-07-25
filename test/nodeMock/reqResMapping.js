@@ -43,7 +43,7 @@ const requestMapping = {
         '/api/inviteUser': (req,res) => {
             res.send({"userIdentifier":"97ecc487-cdeb-42a8-b794-84840a4testc","idamStatus":null});
         },
-        '/api/caaCaseTypes': (req,res) => {
+        '/api/unassignedCaseTypes': (req,res) => {
             res.send({ "total": 18, "cases": [], "case_types_results": [{ "total": 11, "case_type_id": "FinancialRemedyConsentedRespondent" }, { "total": 6, "case_type_id": "DIVORCE_XUI" }, { "total": 1, "case_type_id": "DIVORCE" }] });
         },
         '/api/caseshare/case-assignments' : (req,res) => {

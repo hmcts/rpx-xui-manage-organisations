@@ -11,7 +11,7 @@ const { conf } = require('../config/config');
 
 const MockApp = require('../../nodeMock/app');
 // TODO: The tests for unassigned cases needs to be updated
-describe('Pa11y tests', function () {
+xdescribe('Pa11y tests', function () {
     beforeEach(function () {
         MockApp.init()
     });

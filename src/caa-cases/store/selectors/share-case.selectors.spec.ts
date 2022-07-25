@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
+import { OrganisationState } from '../../../organisation/store';
 import { CaaCasesComponent } from '../../containers';
 import { getShareCaseListState, reducers, CaaCasesState } from '../index';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
+  let organisationStore: Store<OrganisationState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,12 +16,13 @@ describe('Share case selectors', () => {
       ],
     });
     store = TestBed.get(Store);
+    organisationStore = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CaaCasesComponent(store, null);
+      const caseListComponent = new CaaCasesComponent(store, organisationStore);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

@@ -1,4 +1,4 @@
-export enum CaaCasesFilterType {
+export enum CaaCasesPageType {
   assigned = 'assigned',
   unassigned = 'unassigned'
 }

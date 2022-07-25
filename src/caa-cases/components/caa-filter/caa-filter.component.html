@@ -1,63 +1,71 @@
-<div class="govuk-grid-row" *ngIf="assignedCasesFilterButtonText === caaShowHideFilterButtonText.show">
+<div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <div id="filterContainer">
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">Filter assigned cases</h2>
           <p class="govuk-body">Filter your organisation's assigned cases by either;</p>
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset" aria-describedby="filter-assigned-cases">
-              <div class="govuk-radios" data-module="govuk-radios">
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="caa-filter-all-assignees" name="caa-filter" type="radio" checked="checked"
-                    value="{{caaCasesFilterType.allAssignees}}"
-                    data-aria-controls="caa-filter-all-assignees"
-                    (click)="selectFilterOption($event)">
-                  <label class="govuk-label govuk-radios__label" for="caa-filter-all-assignees">
-                    All assignees
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="caa-filter-assignee-name" name="caa-filter" type="radio"
-                    value="{{caaCasesFilterType.assigneeName}}"
-                    data-aria-controls="caa-filter-assignee-name"
-                    (click)="selectFilterOption($event)">
-                  <label class="govuk-label govuk-radios__label" for="caa-filter-assignee-name">
-                    Assignee name
-                  </label>
-                </div>
-                <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.assigneeName}">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label" for="assignee-person">
-                      Type the name and select an available match option
+          <form [formGroup]="caaFormGroup">
+            <div class="govuk-form-group">
+              <fieldset class="govuk-fieldset" aria-describedby="filter-assigned-cases">
+                <div class="govuk-radios" data-module="govuk-radios">
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="caa-filter-all-assignees" name="caa-filter" type="radio"
+                      [checked]="selectedFilterType === caaCasesFilterType.allAssignees"
+                      value="{{caaCasesFilterType.allAssignees}}"
+                      formControlName="caa-filter"
+                      data-aria-controls="caa-filter-all-assignees"
+                      (click)="selectFilterOption($event)">
+                    <label class="govuk-label govuk-radios__label" for="caa-filter-all-assignees">
+                      All assignees
                     </label>
-                    <input class="govuk-input" id="assignee-person" name="assignee-person" type="text">
+                  </div>
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="caa-filter-assignee-name" name="caa-filter" type="radio"
+                      [checked]="selectedFilterType === caaCasesFilterType.assigneeName"
+                      value="{{caaCasesFilterType.assigneeName}}"
+                      formControlName="caa-filter"
+                      data-aria-controls="caa-filter-assignee-name"
+                      (click)="selectFilterOption($event)">
+                    <label class="govuk-label govuk-radios__label" for="caa-filter-assignee-name">
+                      Assignee name
+                    </label>
+                  </div>
+                  <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.assigneeName}">
+                    <div class="govuk-form-group">
+                      <label class="govuk-label" for="assignee-person">
+                        Type the name and select an available match option
+                      </label>
+                      <input class="govuk-input" formControlName="assignee-person" id="assignee-person" name="assignee-person" type="text">
+                    </div>
+                  </div>
+                  <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="caa-filter-case-reference-number" name="caa-filter" type="radio"
+                      [checked]="selectedFilterType === caaCasesFilterType.caseReferenceNumber"
+                      value="{{caaCasesFilterType.caseReferenceNumber}}"
+                      formControlName="caa-filter"
+                      data-aria-controls="caa-filter-case-reference-number"
+                      (click)="selectFilterOption($event)">
+                    <label class="govuk-label govuk-radios__label" for="caa-filter-case-reference-number">
+                      Case reference number
+                    </label>
+                  </div>
+                  <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.caseReferenceNumber}">
+                    <div class="govuk-form-group">
+                      <label class="govuk-label" for="case-reference-number">
+                        Enter the 16 digit case reference number
+                      </label>
+                      <input class="govuk-input" formControlName="case-reference-number" id="case-reference-number" name="case-reference-number" type="text">
+                    </div>
                   </div>
                 </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" id="caa-filter-case-reference-number" name="caa-filter" type="radio"
-                    value="{{caaCasesFilterType.caseReferenceNumber}}"
-                    data-aria-controls="caa-filter-case-reference-number"
-                    (click)="selectFilterOption($event)">
-                  <label class="govuk-label govuk-radios__label" for="caa-filter-case-reference-number">
-                    Case reference number
-                  </label>
-                </div>
-                <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.caseReferenceNumber}">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label" for="case-reference-number">
-                      Enter the 16 digit case reference number
-                    </label>
-                    <input class="govuk-input" id="case-reference-number" name="case-reference-number" type="text">
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-          <button type="submit" class="govuk-button govuk-!-margin-right-3">
-            Apply filter
-          </button>
+              </fieldset>
+            </div>
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+            <button type="submit" class="govuk-button govuk-!-margin-right-3">
+              Apply filter
+            </button>
+          </form>
         </div>
       </div>
     </div>

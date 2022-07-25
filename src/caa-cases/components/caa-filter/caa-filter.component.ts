@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { CaaCasesFilterType, CaaCasesPageType, CAAShowHideFilterButtonText } from '../../models/caa-cases.enum';
 
 @Component({
@@ -6,23 +7,22 @@ import { CaaCasesFilterType, CaaCasesPageType, CAAShowHideFilterButtonText } fro
   templateUrl: './caa-filter.component.html',
   styleUrls: ['./caa-filter.component.scss']
 })
-export class CaaFilterComponent implements OnInit {
+export class CaaFilterComponent {
 
-  @Input()
-  assignedCasesFilterButtonText: string;
+  @Input() public caaFormGroup: FormGroup;
+  @Input() public selectedFilterType: string;
+
+  @Output() public emitSelectedFilterType = new EventEmitter<string>();
 
   public caaCasesPageType = CaaCasesPageType;
   public caaCasesFilterType = CaaCasesFilterType;
-  public selectedFilterType: string;
   public caaShowHideFilterButtonText = CAAShowHideFilterButtonText;
 
   constructor() {
   }
 
-  public ngOnInit(): void {
-  }
-
   public selectFilterOption(event: any): void {
     this.selectedFilterType = event.target.value;
+    this.emitSelectedFilterType.emit(this.selectedFilterType);
   }
 }

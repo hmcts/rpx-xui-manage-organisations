@@ -1,4 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CaaFilterComponent } from './caa-filter.component';
 
 describe('CaaFilterComponent', () => {
@@ -8,8 +10,12 @@ describe('CaaFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
-      declarations: [CaaFilterComponent]
+      imports: [ReactiveFormsModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [CaaFilterComponent],
+      providers: [
+        FormBuilder
+      ]
     })
     .compileComponents();
   }));
@@ -29,6 +35,7 @@ describe('CaaFilterComponent', () => {
   });
 
   it('should set selected filter type', () => {
+    const emitter = jasmine.createSpyObj('emitter', ['emit']);
     const event: any = {
       target: {
         value: 'assignee-name'
@@ -36,5 +43,6 @@ describe('CaaFilterComponent', () => {
     }
     component.selectFilterOption(event);
     expect(component.selectedFilterType).toEqual('assignee-name');
+    expect(emitter.emit).toHaveBeenCalled();
   });
 });

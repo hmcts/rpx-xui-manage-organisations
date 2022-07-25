@@ -1257,7 +1257,7 @@
     on-finished "^2.3.0"
     winston "^2.4.5"
 
-"@hmcts/properties-volume@^0.0.13":
+"@hmcts/properties-volume@0.0.13":
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/@hmcts/properties-volume/-/properties-volume-0.0.13.tgz#d1baeab407d519505aeb2614fb91632a1a328366"
   integrity sha512-WTz5KTQG3IXQnNZCb63fR44muNn++GxGWZad0k12iIYsNfgws+dMOw7QwhbuKOMhQ2sSWxNK882ZxchVihZN9w==
@@ -1266,12 +1266,12 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.7.6":
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.6.tgz#1094532a750a262eb3ba01316c05ab77cd0e7496"
-  integrity sha512-ikAdINAWKJ5mD1awlqfeg4f5eGs+8PoFJ3wU/SrUUoUXIJbCvPHLi/jo7q14MKfJyyf3PvDKp5ykrOs5YFtDfg==
+"@hmcts/rpx-xui-common-lib@2.1.0-angular-upgrade-11":
+  version "2.1.0-angular-upgrade-11"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-2.1.0-angular-upgrade-11.tgz#f671bfd1e7ee1ccae78f2205641bca99eb0e9f3f"
+  integrity sha512-j8JaBrTrZXTKPg22FpoDfGm17p10DXCv5lRtcSFk8Wke6tjw373gosmSVsiMbl9EXqTMTiy95qCBgb0AFlDKrA==
   dependencies:
-    tslib "^1.9.0"
+    tslib "^2.0.0"
 
 "@hmcts/rpx-xui-node-lib@^2.24.3":
   version "2.24.3"

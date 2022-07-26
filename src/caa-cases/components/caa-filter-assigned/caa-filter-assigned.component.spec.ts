@@ -1,18 +1,18 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { CaaFilterComponent } from './caa-filter.component';
+import { CaaFilterAssignedComponent } from './caa-filter-assigned.component';
 
-describe('CaaFilterComponent', () => {
-  let component: CaaFilterComponent;
-  let fixture: ComponentFixture<CaaFilterComponent>;
+describe('CaaFilterAssignedComponent', () => {
+  let component: CaaFilterAssignedComponent;
+  let fixture: ComponentFixture<CaaFilterAssignedComponent>;
   let nativeElement: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [CaaFilterComponent],
+      declarations: [CaaFilterAssignedComponent],
       providers: [
         FormBuilder
       ]
@@ -21,7 +21,7 @@ describe('CaaFilterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CaaFilterComponent);
+    fixture = TestBed.createComponent(CaaFilterAssignedComponent);
     component = fixture.componentInstance;
     nativeElement = fixture.debugElement.nativeElement;
     fixture.detectChanges();

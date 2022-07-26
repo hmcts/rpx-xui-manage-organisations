@@ -18,10 +18,16 @@
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
       {{ assignedCasesFilterButtonText }}
     </button>
-    <app-caa-filter-component *ngIf="assignedCasesFilterButtonText === caaShowHideFilterButtonText.hide"
-      [selectedFilterType]="selectedFilterType"
-      (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
-    ></app-caa-filter-component>
+		<div>
+			<app-caa-filter-assigned-component
+				*ngIf="caaCasesPageType === caaCasesPageTypeLookup.assigned"
+				[selectedFilterType]="selectedFilterType"
+				(emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
+			></app-caa-filter-assigned-component>
+			<app-caa-filter-unassigned-component
+				*ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassigned"
+			></app-caa-filter-unassigned-component>
+		</div>
     <div *ngIf="hasResults()" class="pagination-top"
       attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
       <span class="text-16" id="summary__text">Showing 

@@ -3,11 +3,11 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CaaCasesFilterType, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 
 @Component({
-  selector: 'app-caa-filter-component',
-  templateUrl: './caa-filter.component.html',
-  styleUrls: ['./caa-filter.component.scss']
+  selector: 'app-caa-filter-assigned-component',
+  templateUrl: './caa-filter-assigned.component.html',
+  styleUrls: ['./caa-filter-assigned.component.scss']
 })
-export class CaaFilterComponent implements OnInit {
+export class CaaFilterAssignedComponent implements OnInit {
 
   @Input() public selectedFilterType: string;
 

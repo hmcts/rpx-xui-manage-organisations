@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
@@ -6,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCasesFilterType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesFilterType, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
@@ -32,12 +33,19 @@ export class CaaCasesComponent implements OnInit {
   public paginationPageSize: number = 10;
   public totalCases: number = 0;
   public caaCasesPageType: string;
+	public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
   public assignedCasesFilterButtonText = CaaShowHideFilterButtonText.hide;
   public selectedFilterType: string = CaaCasesFilterType.allAssignees;
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
-              private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>) {
+              private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
+							private readonly router: Router) {
+		this.caaCasesPageType = this.router && this.router.url && this.router.url.includes('unassigned-cases')
+			? CaaCasesPageType.unassignedCases
+			: CaaCasesPageType.assignedCases;
+
+		console.log('CAA CASES PAGE TYPE', this.caaCasesPageType);
   }
 
   public ngOnInit(): void {

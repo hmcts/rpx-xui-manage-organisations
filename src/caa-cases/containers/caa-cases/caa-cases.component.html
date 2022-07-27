@@ -1,33 +1,40 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <span class="govuk-caption-xl">{{ (selectedOrganisation$ | async)?.name }}</span>
-  <h1 class="govuk-heading-xl">Unassigned cases</h1>
+  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
   <div>
-    <details _ngcontent-dti-c13 class="govuk-details" data-module="govuk-details" id="add-user-help" close>
-      <summary _ngcontent-wbr-c13 class="govuk-details__summary">
-        <span _ngcontent-wbr-c13 class="govuk-details__summary-text" id="content-why-can-not-find-case"> Can't find a case?
+    <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
+      {{ caaShowHideFilterButtonText }}
+    </button>
+    <div *ngIf="caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.assignedCasesHide || caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.unassignedCasesHide">
+      <app-caa-filter-assigned-component
+        *ngIf="caaCasesPageType === caaCasesPageTypeLookup.assignedCases"
+        [selectedFilterType]="selectedFilterType"
+        (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
+      ></app-caa-filter-assigned-component>
+      <app-caa-filter-unassigned-component
+        *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases"
+        (emitCaseReferenceNumber)="onCaseReferenceNumberChanged($event)"
+      ></app-caa-filter-unassigned-component>
+    </div>
+    <details *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases"
+      class="govuk-details" data-module="govuk-details" id="add-user-help" close>
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text" id="content-why-can-not-find-case"> Can't find a case?
         </span>
       </summary>
-      <div _ngcontent-kpx-c13 class="govuk-details__text" id="content-reason-can-not-find-case">
-          You might not see any cases listed if either of the following apply:
-          <ul>
-            <li>your service currently doesn't allow you to search for and select a respondent solicitor</li>
-            <li>your firm isn't named as a respondent on any new digital cases</li>
-          </ul>
+      <div class="govuk-details__text" id="content-reason-can-not-find-case">
+        You might not see any cases listed if either of the following apply:
+        <ul>
+          <li>your service currently doesn't allow you to search for and select a respondent solicitor</li>
+          <li>your firm isn't named as a respondent on any new digital cases</li>
+        </ul>
       </div>
     </details>
-    <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
-      {{ assignedCasesFilterButtonText }}
-    </button>
-		<div>
-			<app-caa-filter-assigned-component
-				*ngIf="caaCasesPageType === caaCasesPageTypeLookup.assigned"
-				[selectedFilterType]="selectedFilterType"
-				(emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
-			></app-caa-filter-assigned-component>
-			<app-caa-filter-unassigned-component
-				*ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassigned"
-			></app-caa-filter-unassigned-component>
-		</div>
+    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases">
+      You can share a case from your unassigned case list with yourself or a colleague. Your colleague
+      <br>
+      must be registered with your organisation and have access to Manage cases.
+    </p>
     <div *ngIf="hasResults()" class="pagination-top"
       attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
       <span class="text-16" id="summary__text">Showing 
@@ -39,6 +46,11 @@
     </div>
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
       <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
+        <button *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0"
+          [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button"
+          data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareCaseSubmit()">
+          Share case
+        </button>
         <ccd-case-list
         *ngIf="(cases$ | async)?.length > 0 else noData"
         [cases]="cases$ | async"
@@ -56,12 +68,6 @@
         </ng-template>
       </mat-tab>
     </mat-tab-group>
-  </div>
-  <div *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0">
-    <button [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button" data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
-            (click)="shareCaseSubmit()">
-      Share case
-    </button>
   </div>
   <div *ngIf="navItems && navItems.length === 0">
     <p>There are no unassigned cases available to be shared.</p>

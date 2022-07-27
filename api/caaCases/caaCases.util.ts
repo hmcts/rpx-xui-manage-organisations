@@ -50,10 +50,14 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
 
 export function getRequestBodyForUnassignedCases(organisationID: string, pageNo: number, pageSize: number) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
+	const reference = 'reference.keyword';
   return {
     from: pageNo,
     query: {
       bool: {
+				must: [
+					{ match: { [reference]: '1607510102698951' }},
+				],
         filter: [
           {
             multi_match: {
@@ -76,7 +80,8 @@ export function getRequestBodyForUnassignedCases(organisationID: string, pageNo:
     sort: [
       {
         created_date: 'desc'
-      },]
+      },
+    ]
   }
 }
 

@@ -4,12 +4,19 @@ export enum CaaCasesPageType {
 }
 
 export enum CaaShowHideFilterButtonText {
-  show = 'Show assigned cases filter',
-  hide = 'Hide assigned cases filter'
+  assignedCasesShow = 'Show assigned cases filter',
+  assignedCasesHide = 'Hide assigned cases filter',
+  unassignedCasesShow = 'Show unassigned cases filter',
+  unassignedCasesHide = 'Hide unassigned cases filter'
 }
 
 export enum CaaCasesFilterType {
   allAssignees = 'all-assignees',
   assigneeName = 'assignee-name',
   caseReferenceNumber = 'case-reference-number'
+}
+
+export enum CaaCasesPageTitle {
+  assignedCases = 'Assigned Cases',
+  unassignedCases = 'Unassigned Cases'
 }

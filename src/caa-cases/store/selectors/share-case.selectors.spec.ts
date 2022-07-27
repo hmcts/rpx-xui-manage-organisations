@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { OrganisationState } from '../../../organisation/store';
 import { CaaCasesComponent } from '../../containers';
@@ -7,13 +8,15 @@ import { getShareCaseListState, reducers, CaaCasesState } from '../index';
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
   let organisationStore: Store<OrganisationState>;
+  let router: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature('cases', reducers),
-      ],
+        RouterTestingModule
+      ]
     });
     store = TestBed.get(Store);
     organisationStore = TestBed.get(Store);
@@ -22,7 +25,7 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CaaCasesComponent(store, organisationStore);
+      const caseListComponent = new CaaCasesComponent(store, organisationStore, router);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

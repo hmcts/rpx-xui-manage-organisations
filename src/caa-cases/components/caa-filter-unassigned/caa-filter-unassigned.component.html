@@ -4,23 +4,20 @@
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-half">
           <h2 class="govuk-heading-m">Filter unassigned cases</h2>
-          <p class="govuk-body">Filter your organisation's assigned cases by either;</p>
           <form class="form" [formGroup]="caaFormGroup">
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset" aria-describedby="filter-unassigned-cases">
-                <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.caseReferenceNumber}">
-                  <div class="govuk-form-group">
-                    <label class="govuk-label" for="case-reference-number">
-                      Enter the 16 digit case reference number
-                    </label>
-                    <input class="govuk-input" formControlName="case-reference-number" id="case-reference-number" name="case-reference-number" type="text">
-                  </div>
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="case-reference-number">
+                    Enter the 16 digit case reference number
+                  </label>
+                  <input class="govuk-input" formControlName="case-reference-number" id="case-reference-number" name="case-reference-number" type="text">
                 </div>
               </fieldset>
             </div>
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-            <button type="submit" class="govuk-button govuk-!-margin-right-3">
-              Apply filter
+            <button class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="search()">
+              Search
             </button>
           </form>
         </div>

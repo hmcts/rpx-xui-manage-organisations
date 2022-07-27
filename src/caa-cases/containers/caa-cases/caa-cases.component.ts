@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCasesFilterType, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesFilterType, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
@@ -32,24 +32,33 @@ export class CaaCasesComponent implements OnInit {
   public currentPageNo: number;
   public paginationPageSize: number = 10;
   public totalCases: number = 0;
+  public pageTitle: string;
   public caaCasesPageType: string;
-	public caaCasesPageTypeLookup = CaaCasesPageType;
-  public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
-  public assignedCasesFilterButtonText = CaaShowHideFilterButtonText.hide;
+  public caaCasesPageTypeLookup = CaaCasesPageType;
+  public caaShowHideFilterButtonText: string;
+  public caaShowHideFilterButtonTextLookup = CaaShowHideFilterButtonText;
   public selectedFilterType: string = CaaCasesFilterType.allAssignees;
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
-							private readonly router: Router) {
-		this.caaCasesPageType = this.router && this.router.url && this.router.url.includes('unassigned-cases')
-			? CaaCasesPageType.unassignedCases
-			: CaaCasesPageType.assignedCases;
-
-		console.log('CAA CASES PAGE TYPE', this.caaCasesPageType);
+              private readonly router: Router) {
+    // Identify whether user selected to view assigned cases or unassigned cases
+    this.caaCasesPageType = this.router && this.router.url && this.router.url.includes('unassigned-cases')
+      ? CaaCasesPageType.unassignedCases
+      : CaaCasesPageType.assignedCases;
+    // Set page title
+    this.pageTitle = this.caaCasesPageType === CaaCasesPageType.unassignedCases
+      ? CaaCasesPageTitle.unassignedCases
+      : CaaCasesPageTitle.assignedCases;
+    // Set show hide filter button text
+    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.unassignedCases
+      ? CaaShowHideFilterButtonText.unassignedCasesHide
+      : CaaShowHideFilterButtonText.assignedCasesHide;
   }
 
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadCaseTypes());
+    this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
     this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
       if (config !== null) {
         this.tableConfig =  {
@@ -127,12 +136,20 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public toggleFilterSection(): void {
-    this.assignedCasesFilterButtonText = this.assignedCasesFilterButtonText === CaaShowHideFilterButtonText.show
-      ? CaaShowHideFilterButtonText.hide
-      : CaaShowHideFilterButtonText.show;
+    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.unassignedCases
+      ? this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.unassignedCasesShow
+        ? CaaShowHideFilterButtonText.unassignedCasesHide
+        : CaaShowHideFilterButtonText.unassignedCasesShow
+      : this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.assignedCasesShow
+        ? CaaShowHideFilterButtonText.assignedCasesHide
+        : CaaShowHideFilterButtonText.assignedCasesShow;
   }
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
     this.selectedFilterType = selectedFilterType;
+  }
+
+  public onCaseReferenceNumberChanged(caseReferenceNumber: string): void {
+    console.log('CASE REFERENCE NUMBER RECEIVED', caseReferenceNumber);
   }
 }

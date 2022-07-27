@@ -1,4 +1,4 @@
 export enum CaaCasesPageType {
-  assigned = 'assigned',
-  unassigned = 'unassigned'
+  assignedCases = 'assigned-cases',
+  unassignedCases = 'unassigned-cases'
 }

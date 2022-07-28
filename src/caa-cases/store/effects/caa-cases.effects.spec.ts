@@ -9,6 +9,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { CaaCases } from '../../models/caa-cases.model';
 import * as caaCasesActions from '../actions/caa-cases.actions';
 import { CaaCasesEffects } from './caa-cases.effects';
+import { CaaCasesFilterType } from 'src/caa-cases/models/caa-cases.enum';
 
 describe('CaaCasesEffects', () => {
   let actions$;
@@ -38,9 +39,9 @@ describe('CaaCasesEffects', () => {
       const caseType = '';
       const pageNo = 1;
       const pageSize = 10;
-      const payload = {
-        caseType, pageNo, pageSize
-      };
+      const caaCasesFilterType = CaaCasesFilterType.none;
+      const caaCasesFilterValue = null;
+      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadAssignedCases(payload);
       const completion = new caaCasesActions.LoadAssignedCasesSuccess(assignedCases);
       actions$ = hot('-a', { a: action });
@@ -64,9 +65,9 @@ describe('CaaCasesEffects', () => {
       const caseType = '';
       const pageNo = 1;
       const pageSize = 10;
-      const payload = {
-        caseType, pageNo, pageSize
-      };
+      const caaCasesFilterType = CaaCasesFilterType.none;
+      const caaCasesFilterValue = null;
+      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadAssignedCases(payload);
       const completion = new caaCasesActions.LoadAssignedCasesFailure(error);
       actions$ = hot('-a', { a: action });
@@ -81,9 +82,9 @@ describe('CaaCasesEffects', () => {
       const caseType = '';
       const pageNo = 1;
       const pageSize = 10;
-      const payload = {
-        caseType, pageNo, pageSize
-      };
+      const caaCasesFilterType = CaaCasesFilterType.none;
+      const caaCasesFilterValue = null;
+      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadUnassignedCases(payload);
       const completion = new caaCasesActions.LoadUnassignedCasesSuccess(unassignedCases);
       actions$ = hot('-a', { a: action });
@@ -107,9 +108,9 @@ describe('CaaCasesEffects', () => {
       const caseType = '';
       const pageNo = 1;
       const pageSize = 10;
-      const payload = {
-        caseType, pageNo, pageSize
-      };
+      const caaCasesFilterType = CaaCasesFilterType.none;
+      const caaCasesFilterValue = null;
+      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadUnassignedCases(payload);
       const completion = new caaCasesActions.LoadUnassignedCasesFailure(error);
       actions$ = hot('-a', { a: action });

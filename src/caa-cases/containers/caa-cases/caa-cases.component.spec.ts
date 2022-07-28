@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -17,9 +18,8 @@ describe('CaaCasesComponent', () => {
         StoreModule.forRoot({}),
         RouterTestingModule
       ],
-      declarations: [
-        CaaCasesComponent
-      ]
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      declarations: [ CaaCasesComponent ]
     })
     .compileComponents();
     store = TestBed.get(Store);

@@ -32,10 +32,10 @@ describe('CaaFilterUnassignedComponent', () => {
     expect(nativeElement.querySelector('#case-reference-number')).toBeDefined();
   });
 
-  it('should emit searched case reference number', () => {
-    spyOn(component.emitCaseReferenceNumber, 'emit');
+  it('should emit selected filter value', () => {
+    spyOn(component.emitSelectedFilterValue, 'emit');
     component.caaFormGroup.controls['case-reference-number'].setValue('1111-2222-3333-4444');
     component.search();
-    expect(component.emitCaseReferenceNumber.emit).toHaveBeenCalled();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalled();
   });
 });

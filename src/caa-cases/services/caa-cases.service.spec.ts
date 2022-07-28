@@ -9,7 +9,7 @@ describe('CaaCasesService', () => {
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
     service.getCaaCases('caseTypeId1', 1, 10, CaaCasesFilterType.none, null, CaaCasesPageType.assignedCases);
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases`, null);
+    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases&caaCasesFilterType=none&caaCasesFilterValue=null`, null);
   });
 
   it('getCaaUnassignedCases', () => {
@@ -17,7 +17,7 @@ describe('CaaCasesService', () => {
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
     service.getCaaCases('caseTypeId1', 1, 10, CaaCasesFilterType.none, null, CaaCasesPageType.unassignedCases);
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases`, null);
+    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases&caaCasesFilterType=none&caaCasesFilterValue=null`, null);
   });
 
   it('getCaaCaseTypes', () => {

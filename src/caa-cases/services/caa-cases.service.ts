@@ -11,8 +11,9 @@ export class CaaCasesService {
   constructor(private readonly http: HttpClient) {
   }
 
-  public getCaaCases(caseTypeId: string, pageNo: number, pageSize: number): Observable<any> {
-    const url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}`;
+  public getCaaCases(
+    caseTypeId: string, pageNo: number, pageSize: number, caaCasesFilterType: string, caaCasesFilterValue: string, caaCasesPageType: string): Observable<any> {
+    const url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}&caaCasesPageType=${caaCasesPageType}&caaCasesFilterType=${caaCasesFilterType}&caaCasesFilterValue=${caaCasesFilterValue}`;
     return this.http.post<any>(url, null);
   }
 

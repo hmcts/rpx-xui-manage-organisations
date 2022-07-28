@@ -6,18 +6,16 @@ import { CaaCasesPageType } from './enums';
 
 export async function handleCaaCases(req: Request, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string;
-	const caaCasesPageType = CaaCasesPageType.unassignedCases; // req.query.CaaCasesPageType as string;
+  const caaCasesPageType = req.query.caaCasesPageType as string;
+  const caaCasesFilterType = req.query.caaCasesFilterType as string;
+  const caaCasesFilterValue = req.query.caaCasesFilterValue as string;
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId);
   const page: number = (+req.query.pageNo || 1) - 1;
   const size: number = (+req.query.pageSize);
   const fromNo: number = page * size;
   const payload = caaCasesPageType === CaaCasesPageType.unassignedCases
-		? getRequestBodyForUnassignedCases(req.session.auth.orgId, fromNo, size)
-		: getRequestBodyForAssignedCases(req.session.auth.orgId, fromNo, size);
-
-	console.log('CAA CASES PAGE TYPE', caaCasesPageType);
-	console.log('PATH', path);
-	console.log('PAYLOAD', payload);
+    ? getRequestBodyForUnassignedCases(req.session.auth.orgId, fromNo, size, caaCasesFilterType, caaCasesFilterValue)
+    : getRequestBodyForAssignedCases(req.session.auth.orgId, fromNo, size, caaCasesFilterType, caaCasesFilterValue);
 
   try {
     const response = await req.http.post(path, payload);

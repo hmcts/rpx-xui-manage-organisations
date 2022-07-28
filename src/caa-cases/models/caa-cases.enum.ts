@@ -13,7 +13,8 @@ export enum CaaShowHideFilterButtonText {
 export enum CaaCasesFilterType {
   allAssignees = 'all-assignees',
   assigneeName = 'assignee-name',
-  caseReferenceNumber = 'case-reference-number'
+  caseReferenceNumber = 'case-reference-number',
+  none = 'none'
 }
 
 export enum CaaCasesPageTitle {

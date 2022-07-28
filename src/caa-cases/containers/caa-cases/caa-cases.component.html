@@ -10,10 +10,11 @@
         *ngIf="caaCasesPageType === caaCasesPageTypeLookup.assignedCases"
         [selectedFilterType]="selectedFilterType"
         (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
+        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
       ></app-caa-filter-assigned-component>
       <app-caa-filter-unassigned-component
         *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases"
-        (emitCaseReferenceNumber)="onCaseReferenceNumberChanged($event)"
+        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
       ></app-caa-filter-unassigned-component>
     </div>
     <details *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases"

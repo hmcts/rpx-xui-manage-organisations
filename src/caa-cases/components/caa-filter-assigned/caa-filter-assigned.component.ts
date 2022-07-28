@@ -12,6 +12,7 @@ export class CaaFilterAssignedComponent implements OnInit {
   @Input() public selectedFilterType: string;
 
   @Output() public emitSelectedFilterType = new EventEmitter<string>();
+  @Output() public emitSelectedFilterValue = new EventEmitter<string>();
 
   public caaFormGroup: FormGroup;
   public caaCasesPageType = CaaCasesPageType;
@@ -32,5 +33,21 @@ export class CaaFilterAssignedComponent implements OnInit {
   public selectFilterOption(caaCasesFilterType: string): void {
     this.selectedFilterType = caaCasesFilterType;
     this.emitSelectedFilterType.emit(this.selectedFilterType);
+  }
+
+  public search(): void {
+    let selectedFilterValue: string;
+    switch (this.selectedFilterType) {
+      case CaaCasesFilterType.assigneeName:
+        selectedFilterValue = this.caaFormGroup.get('assignee-person').value;
+        break;
+      case CaaCasesFilterType.caseReferenceNumber:
+        selectedFilterValue = this.caaFormGroup.get('case-reference-number').value;
+        break;
+      default:
+        selectedFilterValue = null;
+        break;
+    }
+    this.emitSelectedFilterValue.emit(selectedFilterValue);
   }
 }

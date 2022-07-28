@@ -37,7 +37,8 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText: string;
   public caaShowHideFilterButtonTextLookup = CaaShowHideFilterButtonText;
-  public selectedFilterType: string = CaaCasesFilterType.allAssignees;
+  public selectedFilterType: string;
+  public selectedFilterValue: string;
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
@@ -54,6 +55,8 @@ export class CaaCasesComponent implements OnInit {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.unassignedCases
       ? CaaShowHideFilterButtonText.unassignedCasesHide
       : CaaShowHideFilterButtonText.assignedCasesHide;
+    // Set filter type to all assignees for assigned cases and none for unassigned cases
+    this.setSelectedFilterTypeAndValue();
   }
 
   public ngOnInit(): void {
@@ -71,6 +74,13 @@ export class CaaCasesComponent implements OnInit {
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
     this.selectedOrganisation$ = this.organisationStore.pipe(select(fromOrganisationStore.getOrganisationSel));
+  }
+
+  public setSelectedFilterTypeAndValue(): void {
+    this.selectedFilterType = this.caaCasesPageType === CaaCasesPageType.unassignedCases
+      ? CaaCasesFilterType.none
+      : CaaCasesFilterType.allAssignees;
+    this.selectedFilterValue = null;
   }
 
   private fixCurrentTab(items: any): void {
@@ -103,15 +113,23 @@ export class CaaCasesComponent implements OnInit {
     this.resetPaginationParameters();
     this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: CaaCasesFilterType.none, caaCasesFilterValue: null}));
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
+    this.loadDataFromStore();
   }
 
   public onPaginationHandler(pageNo: number): void {
     this.currentPageNo = pageNo;
-    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: CaaCasesFilterType.none, caaCasesFilterValue: null}));
-    this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+    this.loadDataFromStore();
+  }
+
+  public loadDataFromStore(): void {
+    if (this.caaCasesPageType === CaaCasesPageType.unassignedCases) {
+      this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: this.selectedFilterType, caaCasesFilterValue: this.selectedFilterValue}));
+      this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+    } else {
+      this.store.dispatch(new fromStore.LoadAssignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: this.selectedFilterType, caaCasesFilterValue: this.selectedFilterValue}));
+      this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
+    }
   }
 
   public resetPaginationParameters(): void {
@@ -149,7 +167,13 @@ export class CaaCasesComponent implements OnInit {
     this.selectedFilterType = selectedFilterType;
   }
 
-  public onCaseReferenceNumberChanged(caseReferenceNumber: string): void {
-    console.log('CASE REFERENCE NUMBER RECEIVED', caseReferenceNumber);
+  public onSelectedFilterValueChanged(selectedFilterValue: string): void {
+    this.selectedFilterValue = selectedFilterValue;
+    if (this.caaCasesPageType === CaaCasesPageType.unassignedCases) {
+      this.selectedFilterType = this.selectedFilterValue.length > 0
+        ? CaaCasesFilterType.caseReferenceNumber
+        : CaaCasesFilterType.none;
+    }
+    this.loadDataFromStore();
   }
 }

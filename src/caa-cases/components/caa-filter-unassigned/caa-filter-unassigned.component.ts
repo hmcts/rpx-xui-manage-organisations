@@ -10,7 +10,7 @@ import { CaaCasesFilterType, CaaCasesPageType, CaaShowHideFilterButtonText } fro
 })
 export class CaaFilterUnassignedComponent implements OnInit {
 
-  @Output() public emitCaseReferenceNumber = new EventEmitter<string>();
+  @Output() public emitSelectedFilterValue = new EventEmitter<string>();
 
   public caaFormGroup: FormGroup;
   public caaCasesPageType = CaaCasesPageType;
@@ -27,6 +27,6 @@ export class CaaFilterUnassignedComponent implements OnInit {
   }
 
   public search(): void {
-    this.emitCaseReferenceNumber.emit(this.caaFormGroup.get('case-reference-number').value);
+    this.emitSelectedFilterValue.emit(this.caaFormGroup.get('case-reference-number').value);
   }
 }

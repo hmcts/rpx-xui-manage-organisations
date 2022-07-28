@@ -40,4 +40,11 @@ describe('CaaFilterAssignedComponent', () => {
     expect(component.selectedFilterType).toEqual('assignee-name');
     expect(component.emitSelectedFilterType.emit).toHaveBeenCalled();
   });
+
+  it('should emit selected filter value', () => {
+    spyOn(component.emitSelectedFilterValue, 'emit');
+    component.caaFormGroup.controls['case-reference-number'].setValue('1111-2222-3333-4444');
+    component.search();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalled();
+  });
 });

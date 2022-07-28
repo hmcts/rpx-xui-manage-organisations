@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { CaaCasesComponent } from './caa-cases.component';
 
+// TODO: More tests will be added when progressing through the CAA epic
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
   let fixture: ComponentFixture<CaaCasesComponent>;
@@ -26,12 +27,14 @@ describe('CaaCasesComponent', () => {
     organisationStore = TestBed.get(Store);
     spyOn(store, 'pipe').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
-    // spyOn(organisationStore, 'pipe').and.callThrough();
-    // spyOn(organisationStore, 'dispatch').and.callThrough();
     fixture = TestBed.createComponent(CaaCasesComponent);
     component = fixture.componentInstance;
     router = TestBed.get(Router);
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    TestBed.resetTestingModule();
   });
 
   it('is truthy', () => {

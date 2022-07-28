@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { OrganisationState } from '../../../organisation/store';
@@ -8,7 +9,7 @@ import { getShareCaseListState, reducers, CaaCasesState } from '../index';
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
   let organisationStore: Store<OrganisationState>;
-  let router: any;
+  const router: any = {};
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,6 +17,9 @@ describe('Share case selectors', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('cases', reducers),
         RouterTestingModule
+      ],
+      providers: [
+        { provide: Router, useValue: router }
       ]
     });
     store = TestBed.get(Store);

@@ -103,14 +103,14 @@ export class CaaCasesComponent implements OnInit {
     this.resetPaginationParameters();
     this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
+    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: CaaCasesFilterType.none, caaCasesFilterValue: null}));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
   }
 
   public onPaginationHandler(pageNo: number): void {
     this.currentPageNo = pageNo;
-    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
+    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: CaaCasesFilterType.none, caaCasesFilterValue: null}));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
   }
 

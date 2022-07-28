@@ -25,7 +25,7 @@ describe('Pa11y tests', function () {
         await MockApp.startServer();
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('app-unassigned-cases-component'));
+        actions.push(...PallyActions.waitForPageWithCssLocator('app-caa-cases-component'));
         await pa11ytest(this, actions);
     });
 

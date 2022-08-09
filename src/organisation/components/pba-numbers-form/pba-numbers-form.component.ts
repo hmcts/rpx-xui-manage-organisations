@@ -41,7 +41,6 @@ export class PbaNumbersFormComponent implements OnInit {
 
   public resetChanges() {
     return () => {
-      console.log('resetChanges');
       this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs([]));
       this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePBAs([]));
       this.router.navigate(['/organisation']);

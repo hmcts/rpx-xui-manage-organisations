@@ -79,16 +79,35 @@ export function reducer(
 
     case fromOrganisation.ORGANISATION_UPDATE_PBA_RESPONSE:
       let organisationDetailWithResponse = {...state.organisationDetails};
+      console.log('action', action);
       if (action.payload) {
-        let exitingPaymentAccount = state.organisationDetails.paymentAccount.slice();
-        const exitingPendingAddPaymentAccount = state.organisationDetails.pendingAddPaymentAccount.slice();
-        const exitingPendingRemovePaymentAccount = state.organisationDetails.pendingRemovePaymentAccount.slice();
-        exitingPaymentAccount = [...exitingPaymentAccount, ...exitingPendingAddPaymentAccount];
-        const updatePaymentAccount = exitingPaymentAccount.filter(paymentAccounts => !exitingPendingRemovePaymentAccount.includes(paymentAccounts));
+        
+        let existingPaymentAccount = state.organisationDetails.paymentAccount.slice();
+        let existingPendingPaymentAccount = state.organisationDetails.pendingPaymentAccount.slice();
+        const existingPendingAddPaymentAccount = state.organisationDetails.pendingAddPaymentAccount.slice();
+        const existingPendingRemovePaymentAccount = state.organisationDetails.pendingRemovePaymentAccount.slice();
+        existingPaymentAccount = [...existingPaymentAccount, ...existingPendingAddPaymentAccount];
+        const updatePaymentAccount = 
+          existingPaymentAccount
+            .filter(paymentAccounts => !existingPendingRemovePaymentAccount.includes(paymentAccounts))
+            .filter(filtered => !filtered.status);
+
+        const updatedPendingPaymentAccount = existingPendingAddPaymentAccount
+          .map(addPaymentAccount => addPaymentAccount.pbaNumber);
+        
+        console.log('exitingPendingAddPaymentAccount', existingPendingAddPaymentAccount);
+        console.log('exitingPendingRemovePaymentAccount', existingPendingRemovePaymentAccount);
+        console.log('existingPendingPaymentAccount', existingPendingPaymentAccount)
+        console.log('updatePaymentAccount', updatePaymentAccount);
+        console.log('updatedPendingPaymentAccount', updatedPendingPaymentAccount);
+
+        console.log([...updatedPendingPaymentAccount, ...existingPendingPaymentAccount] );
+
         organisationDetailWithResponse = {
           ...state.organisationDetails,
           response: action.payload,
           paymentAccount: updatePaymentAccount,
+          pendingPaymentAccount: [...updatedPendingPaymentAccount, ...existingPendingPaymentAccount],
           pendingAddPaymentAccount: [],
           pendingRemovePaymentAccount: [],
         };

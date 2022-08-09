@@ -22,6 +22,7 @@ export class PbaSuccessSummaryComponent {
 
   private setupMessage(): void {
     if (this.pResponse) {
+      console.log(this.pResponse);
       this.message = PbaSuccessSummaryComponent.SUCCESS_MESSAGES[this.pResponse.code];
     } else {
       this.message = undefined;

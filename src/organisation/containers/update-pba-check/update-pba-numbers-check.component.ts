@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { OrganisationDetails, PBANumberModel, PendingPaymentAccount } from '../../../models';
 import { OrgManagerConstants } from '../../organisation-constants';
 import { PBAService } from '../../services/pba.service';
 import * as fromStore from '../../store';
+import * as organisationActions from '../../store/actions';
 
 export class ErrorMessage {
   public pbaNumber: string;
@@ -66,30 +66,8 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
 
   public onSubmitClicked(): void {
     this.errors = [];
-    this.pbaService.updatePBAs(this.pendingChanges).pipe(take(1)).subscribe(x => this.router.navigate(['/organisation']),
-      e => {
-        if (e.error && e.error.length && (e.error[0])) {
-          const error = JSON.parse(e.error[0]);
-          if (error.request && error.request.reason && error.request.reason.duplicatePaymentAccounts.length) {
-            const errorInstance = {
-              pbaNumber: error.request.reason.duplicatePaymentAccounts[0],
-              error: this.getErrorDuplicateMessage(error.request.reason.duplicatePaymentAccounts[0]),
-              headerError: this.getErrorDuplicateHeaderMessage(error.request.reason.duplicatePaymentAccounts[0])
-            } as ErrorMessage;
-            this.errors.push(errorInstance);
-          } else {
-            const errorInstance = {
-              headerError: OrgManagerConstants.PBA_SERVER_ERROR_MESSAGE,
-            } as ErrorMessage;
-            this.errors.push(errorInstance);
-          }
-        } else {
-          const errorInstance = {
-            headerError: OrgManagerConstants.PBA_SERVER_ERROR_MESSAGE,
-          } as ErrorMessage;
-          this.errors.push(errorInstance);
-        }
-      });
+
+    this.orgStore.dispatch(new organisationActions.OrganisationUpdatePBAs(this.pendingChanges));
   }
 
   public getErrorDuplicateHeaderMessage(pbaNumber: string) {

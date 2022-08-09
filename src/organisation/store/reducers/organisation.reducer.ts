@@ -81,20 +81,19 @@ export function reducer(
       let organisationDetailWithResponse = {...state.organisationDetails};
       console.log('action', action);
       if (action.payload) {
-        
         let existingPaymentAccount = state.organisationDetails.paymentAccount.slice();
-        let existingPendingPaymentAccount = state.organisationDetails.pendingPaymentAccount.slice();
+        const existingPendingPaymentAccount = state.organisationDetails.pendingPaymentAccount.slice();
         const existingPendingAddPaymentAccount = state.organisationDetails.pendingAddPaymentAccount.slice();
         const existingPendingRemovePaymentAccount = state.organisationDetails.pendingRemovePaymentAccount.slice();
         existingPaymentAccount = [...existingPaymentAccount, ...existingPendingAddPaymentAccount];
-        const updatePaymentAccount = 
+        const updatePaymentAccount =
           existingPaymentAccount
             .filter(paymentAccounts => !existingPendingRemovePaymentAccount.includes(paymentAccounts))
             .filter(filtered => !filtered.status);
 
         const updatedPendingPaymentAccount = existingPendingAddPaymentAccount
           .map(addPaymentAccount => addPaymentAccount.pbaNumber);
-        
+
         console.log('exitingPendingAddPaymentAccount', existingPendingAddPaymentAccount);
         console.log('exitingPendingRemovePaymentAccount', existingPendingRemovePaymentAccount);
         console.log('existingPendingPaymentAccount', existingPendingPaymentAccount)

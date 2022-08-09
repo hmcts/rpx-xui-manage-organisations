@@ -28,7 +28,7 @@ export interface OrganisationDetails {
     lastName: string;
     email: string;
   };
-  paymentAccount:  PBANumberModel[];
+  paymentAccount: PBANumberModel[];
   pendingPaymentAccount?: string[];
   pendingAddPaymentAccount: PBANumberModel[];
   pendingRemovePaymentAccount: PBANumberModel[];

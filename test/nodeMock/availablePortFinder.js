@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 var portfinder = require('portfinder');
 
-portfinder.basePort = 3001;    // default: 8000
+portfinder.basePort = 3002;    // default: 8000
 portfinder.highestPort = 3200; // default: 65535
 
 

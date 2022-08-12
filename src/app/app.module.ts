@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ExuiCommonLibModule, FeatureToggleService, LaunchDarklyService } from '@hmcts/rpx-xui-common-lib';
+import { CookieService, ExuiCommonLibModule, FeatureToggleService, GoogleAnalyticsService, LaunchDarklyService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
@@ -77,6 +77,9 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     NGXLogger,
     NGXLoggerHttpService,
     NGXMapperService,
+    CookieService,
+    GoogleAnalyticsService,
+    ManageSessionServices,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,

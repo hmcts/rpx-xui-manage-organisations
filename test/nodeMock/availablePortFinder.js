@@ -8,7 +8,7 @@ portfinder.highestPort = 3200; // default: 65535
 
 function getAvailablePort() {
     const portData = fs.readFileSync(`${__dirname}/NODEMOCK_PORT.txt`, "utf8");
-    console.log(`${portData}`);
+    console.log(`Available port : ${portData}`);
     return portData;
 }
 

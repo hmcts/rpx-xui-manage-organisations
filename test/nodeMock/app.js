@@ -6,7 +6,7 @@ const { browser } = require('protractor');
 const port = 3001;
 
 
-const nodeMockAvailablePort = require('../../nodeMock/availablePortFinder').getAvailablePort();
+const nodeMockAvailablePort = require('./availablePortFinder').getAvailablePort();
 
 class MockApp{
     init(){

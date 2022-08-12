@@ -5,19 +5,15 @@
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
       {{ caaShowHideFilterButtonText }}
     </button>
-    <div *ngIf="caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.assignedCasesHide || caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.unassignedCasesHide">
-      <app-caa-filter-assigned-component
-        *ngIf="caaCasesPageType === caaCasesPageTypeLookup.assignedCases"
+    <div *ngIf="caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.AssignedCasesHide || caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.UnassignedCasesHide">
+      <app-caa-filter
+        [caaCasesPageType]="caaCasesPageType"
         [selectedFilterType]="selectedFilterType"
         (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
-        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
-      ></app-caa-filter-assigned-component>
-      <app-caa-filter-unassigned-component
-        *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases"
-        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
-      ></app-caa-filter-unassigned-component>
+        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)">
+      </app-caa-filter>
     </div>
-    <details *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases"
+    <details *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
       class="govuk-details" data-module="govuk-details" id="add-user-help" close>
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text" id="content-why-can-not-find-case"> Can't find a case?
@@ -31,14 +27,14 @@
         </ul>
       </div>
     </details>
-    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.unassignedCases">
+    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">
       You can share a case from your unassigned case list with yourself or a colleague. Your colleague
       <br>
       must be registered with your organisation and have access to Manage cases.
     </p>
     <div *ngIf="hasResults()" class="pagination-top"
       attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
-      <span class="text-16" id="summary__text">Showing 
+      <span class="text-16" id="summary__text">Showing
         <span class="govuk-!-font-weight-bold">{{ getFirstResult() }}</span>
         to
         <span class="govuk-!-font-weight-bold">{{ getLastResult() }}</span>

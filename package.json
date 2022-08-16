@@ -73,7 +73,6 @@
     "@ngrx/router-store": "^9.1.13",
     "@ngrx/store": "^9.1.13",
     "@ngrx/store-devtools": "^9.1.13",
-    "@nguniversal/express-engine": "^11.2.1",
     "@nicky-lenaers/ngx-scroll-to": "^9.0.0",
     "@pact-foundation/pact": "^9.2.0",
     "@pact-foundation/pact-node": "^10.9.7",

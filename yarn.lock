@@ -1408,10 +1408,10 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
-"@hmcts/ccd-case-ui-toolkit@5.0.1-angular11-upgrade":
-  version "5.0.1-angular11-upgrade"
-  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-5.0.1-angular11-upgrade.tgz#f83d32a08646cbccfc6142a66b315ec9525b91b9"
-  integrity sha512-ngbaQRGgL89rzPvGEtVPjHN7iZ5T1BpNruiEjhTbQI4KmyrcX7H5cO1SNdjfgUpoIafCdOKGK1doh7Uw43us6Q==
+"@hmcts/ccd-case-ui-toolkit@5.0.3-angular11-upgrade":
+  version "5.0.3-angular11-upgrade"
+  resolved "https://registry.yarnpkg.com/@hmcts/ccd-case-ui-toolkit/-/ccd-case-ui-toolkit-5.0.3-angular11-upgrade.tgz#83d95c36d376fe02dce25cfd99f58ff4691e0d72"
+  integrity sha512-/8gcVfEM9v8Ss2N/VFr+5tm2xN0j6IQNWTltdevbm95nEJ5O+7lCMxIu7zyPxGGduiwEGwe1foy2ASI/h63dIA==
   dependencies:
     "@angular/animations" "~11.2.14"
     "@angular/cdk" "^11.2.13"

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
-import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
+import { PaletteModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -27,7 +27,7 @@ import {unassignedCasesRouting} from './unassigned-cases.routing';
         EffectsModule.forFeature(orgEffects),
         StoreModule.forFeature('unassignedCases', reducers),
         EffectsModule.forFeature(effects),
-        CaseListModule,
+        PaletteModule,
         MatTabsModule
       ],
       declarations: [...fromContainers.containers],

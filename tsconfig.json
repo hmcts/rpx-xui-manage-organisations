@@ -9,8 +9,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "target": "es2015",
-    "module": "esnext",
+    "target": "es5",
+    "module": "es2020",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -36,8 +36,7 @@
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "commonjs",
-      "target": "es2015"
+      "module": "commonjs"
     }
   },
 }

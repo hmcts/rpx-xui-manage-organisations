@@ -1,5 +1,7 @@
 import { AES, enc, SHA256, WordArray } from 'crypto-js';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class CryptoWrapper {
     public encrypt(message: string, secret: string = 'secret'): WordArray {
         const userIdEncrypted = AES.encrypt(message, secret, SHA256);

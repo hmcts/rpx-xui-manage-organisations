@@ -1,4 +1,5 @@
 import { AppInsights } from 'applicationinsights-js';
+import { Injectable } from "@angular/core";
 
 export abstract class AbstractAppInsights implements Microsoft.ApplicationInsights.IAppInsights {
   public config: Microsoft.ApplicationInsights.IConfig; public context: Microsoft.ApplicationInsights.ITelemetryContext;
@@ -30,6 +31,7 @@ export abstract class AbstractAppInsights implements Microsoft.ApplicationInsigh
 
 }
 
+@Injectable()
 export class AppInsightsWrapper implements AbstractAppInsights {
   public config: Microsoft.ApplicationInsights.IConfig; public context: Microsoft.ApplicationInsights.ITelemetryContext;
   public queue: (() => void)[];

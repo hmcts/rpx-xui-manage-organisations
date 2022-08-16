@@ -193,7 +193,6 @@
     "sinon-express-mock": "^2.1.0",
     "sonar-scanner": "^3.1.0",
     "ts-node": "~7.0.0",
-    "tsickle": ">=0.25.5",
     "tslib": "^1.7.1",
     "tslint": "~5.11.0",
     "typescript": "~3.5.0"

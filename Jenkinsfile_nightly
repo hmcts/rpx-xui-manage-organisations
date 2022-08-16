@@ -43,7 +43,7 @@ withNightlyPipeline(type, product, component) {
     enableFullFunctionalTest(30)
     // enableSecurityScan()
     enableMutationTest()
-    // enableCrossBrowserTest() // Temporarily commented xBrowser till EUI-6578 is resolved.
+    //enableCrossBrowserTest() //Temporarily commented xBrowser till EUI-6578 is resolved.
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
     after('checkout') {sh 'yarn cache clean'}

@@ -43,4 +43,4 @@ export const ROUTES: Routes = [
 ];
 
 
-export const feeAccountsRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const feeAccountsRouting: ModuleWithProviders<RouterModule> = RouterModule.forChild(ROUTES);

@@ -44,4 +44,4 @@ export const ROUTES: Routes = [
     }
 ];
 
-export const unassignedCasesRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const unassignedCasesRouting: ModuleWithProviders<RouterModule> = RouterModule.forChild(ROUTES);

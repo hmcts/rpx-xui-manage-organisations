@@ -23,7 +23,7 @@ describe('AppRedirectComponent', () => {
           })
       ]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
 

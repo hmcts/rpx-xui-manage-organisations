@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
@@ -7,7 +7,7 @@ import * as RouterActions from '../actions/router.action';
 import * as fromRouterEffects from './router.effect';
 import { RouterEffects } from './router.effect';
 
-describe('App Effects', () => {
+describe('Router Effects', () => {
     let actions$;
     let effects: RouterEffects;
 
@@ -29,41 +29,40 @@ describe('App Effects', () => {
             ]
         });
 
-        effects = TestBed.get(RouterEffects);
+        effects = TestBed.inject(RouterEffects);
 
     });
 
     describe('navigate$', () => {
-        it('should navigate', () => {
+        it('should navigate', waitForAsync(() => {
             const action = new RouterActions.Go({ path: [] });
 
             actions$ = hot('-a', { a: action });
             effects.navigate$.subscribe(() => {
                 expect(RouterMock.navigate).toHaveBeenCalled();
             });
-        });
+        }));
     });
 
     describe('navigateBack$', () => {
-        it('should navigate back', () => {
+        it('should navigate back', waitForAsync(() => {
             const action = new RouterActions.Back();
 
             actions$ = hot('-a', { a: action });
             effects.navigateBack$.subscribe(() => {
                 expect(LocationMock.back).toHaveBeenCalled();
             });
-        });
+        }));
     });
 
     describe('navigateForward$', () => {
-        it('should navigate forward', () => {
+        it('should navigate forward', waitForAsync(() => {
             const action = new RouterActions.Forward();
 
             actions$ = hot('-a', { a: action });
             effects.navigateForward$.subscribe(() => {
                 expect(LocationMock.forward).toHaveBeenCalled();
             });
-        });
+        }));
     });
-
 });

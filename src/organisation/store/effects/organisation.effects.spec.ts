@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { OrganisationEffects } from '.';
 import { OrganisationService } from '../../../organisation/services';
@@ -19,7 +19,7 @@ describe('Organisation Effects', () => {
   ]);
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -36,13 +36,15 @@ describe('Organisation Effects', () => {
       ]
     });
 
-    effects = TestBed.get(OrganisationEffects);
-    loggerService = TestBed.get(LoggerService);
+    effects = TestBed.inject(OrganisationEffects);
+    loggerService = TestBed.inject(LoggerService);
 
-  });
+    initTestScheduler();
+    addMatchers();
+  }));
 
   describe('loadOrganisation$', () => {
-    it('should return a collection from loadOrganisation$ - LoadOrganisationSuccess', () => {
+    it('should return a collection from loadOrganisation$ - LoadOrganisationSuccess', waitForAsync(() => {
       // const payload = [{payload: 'something'}];
       const payload = {
         account_number: 'someNumber',
@@ -58,11 +60,11 @@ describe('Organisation Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadOrganisation$).toBeObservable(expected);
-    });
+    }));
   });
 
   describe('loadOrganisation$ error', () => {
-    it('should return LoadOrganisationFail', () => {
+    it('should return LoadOrganisationFail', waitForAsync(() => {
       organisationServiceMock.fetchOrganisation.and.returnValue(throwError(new Error()));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationFail(new Error());
@@ -70,7 +72,7 @@ describe('Organisation Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadOrganisation$).toBeObservable(expected);
       expect(loggerService.error).toHaveBeenCalled();
-    });
+    }));
   });
 
 });

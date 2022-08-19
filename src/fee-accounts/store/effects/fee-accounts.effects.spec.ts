@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { FeeAccountsService } from 'src/fee-accounts/services';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -20,7 +20,7 @@ describe('Fee accounts Effects', () => {
   ]);
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
@@ -37,9 +37,12 @@ describe('Fee accounts Effects', () => {
       ]
     });
 
-    effects = TestBed.get(FeeAccountsEffects);
-    loggerService = TestBed.get(LoggerService);
-  });
+    effects = TestBed.inject(FeeAccountsEffects);
+    loggerService = TestBed.inject(LoggerService);
+
+    initTestScheduler();
+    addMatchers();
+  }));
 
   describe('loadFeeAccounts$', () => {
     it('should return a collection from loadFeeAccounts$ - LoadFeeAccountsSuccess', () => {

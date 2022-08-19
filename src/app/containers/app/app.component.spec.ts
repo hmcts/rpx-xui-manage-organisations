@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { async, TestBed, waitForAsync } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
+import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
 import {Logout, reducers} from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
@@ -40,7 +40,7 @@ describe('AppComponent', () => {
   let app;
   let loggerService: any;
   let cookieService: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
@@ -92,8 +92,11 @@ describe('AppComponent', () => {
         }
       ],
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
+
+    initTestScheduler();
+    addMatchers();
 
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;

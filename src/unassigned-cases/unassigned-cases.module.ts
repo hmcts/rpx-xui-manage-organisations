@@ -14,27 +14,24 @@ import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
-import {unassignedCasesRouting} from './unassigned-cases.routing';
+import { unassignedCasesRouting } from './unassigned-cases.routing';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ExuiCommonLibModule,
-        HttpClientModule,
-        SharedModule,
-        unassignedCasesRouting,
-        StoreModule.forFeature('org', orgReducers),
-        EffectsModule.forFeature(orgEffects),
-        StoreModule.forFeature('unassignedCases', reducers),
-        EffectsModule.forFeature(effects),
-        PaletteModule,
-        MatTabsModule
-      ],
-      declarations: [...fromContainers.containers],
-      providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-
-export class UnassignedCasesModule {
-
-}
+  imports: [
+      CommonModule,
+      ExuiCommonLibModule,
+      HttpClientModule,
+      SharedModule,
+      unassignedCasesRouting,
+      StoreModule.forFeature('org', orgReducers),
+      EffectsModule.forFeature(orgEffects),
+      StoreModule.forFeature('unassignedCases', reducers),
+      EffectsModule.forFeature(effects),
+      PaletteModule,
+      MatTabsModule
+    ],
+    declarations: [...fromContainers.containers],
+    providers: [...fromServices.services, OrganisationService, FeatureToggleAccountGuard, RoleGuard],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  })
+export class UnassignedCasesModule {}

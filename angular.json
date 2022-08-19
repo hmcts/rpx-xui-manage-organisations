@@ -13,11 +13,21 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "class-transformer",
+              "rx-polling",
+              "util",
+              "@edium/fsm",
+              "applicationinsights-js",
+              "crypto-js",
+              "jwt-decode"
+            ],
             "aot": true,
             "outputPath": "dist/rpa-pui-manager",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
+            "preserveSymlinks": true,
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -45,7 +55,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -184,7 +193,8 @@
   "defaultProject": "rpa-pui-manager",
   "schematics": {
     "@schematics/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "styleext": "scss"
     }
   },
   "cli": {

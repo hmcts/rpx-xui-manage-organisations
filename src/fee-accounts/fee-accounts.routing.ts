@@ -6,6 +6,7 @@ import {AccountOverviewComponent} from './containers/account-overview/account-ov
 import {AccountSummaryComponent} from './containers/account-summary/account-summary.component';
 import {AccountTransactionsComponent} from './containers/account-transactions/account-transactions.component';
 import {OrganisationAccountsComponent} from './containers/overview/account-overview.component';
+import { FeeAccountsModule } from './fee-accounts.module';
 import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
 import { AccountsGuard } from './guards/accounts.guard';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle-account.guard';
@@ -43,4 +44,4 @@ export const ROUTES: Routes = [
 ];
 
 
-export const feeAccountsRouting: ModuleWithProviders<RouterModule> = RouterModule.forChild(ROUTES);
+export const feeAccountsRouting: ModuleWithProviders<FeeAccountsModule> = RouterModule.forChild(ROUTES);

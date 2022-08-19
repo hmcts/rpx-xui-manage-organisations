@@ -7,7 +7,6 @@ import { asyncReturnOrError } from '../lib/util'
 import { postS2SLease } from '../services/serviceAuth'
 
 const logger = log4jui.getLogger('service-token')
-const that = this
 const _cache = {}
 const microservice = getConfigValue(MICROSERVICE)
 
@@ -39,12 +38,12 @@ export async function generateToken() {
 }
 
 export async function serviceTokenGenerator() {
-    if (that.validateCache()) {
+    if (validateCache()) {
         logger.info('Getting cached s2s token')
         const tokenData = getToken()
         return tokenData.token
     } else {
-        return await that.generateToken()
+        return await generateToken()
     }
 }
 

@@ -7,6 +7,7 @@ import { InviteUserSuccessComponent } from './containers/invite-user-success/inv
 import { InviteUserComponent } from './containers/invite-user/invite-user.component';
 import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.guard';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
+import { UsersModule } from './users.module';
 
 export const ROUTES: Routes = [
     {
@@ -39,5 +40,4 @@ export const ROUTES: Routes = [
     }
 ];
 
-
-export const usersRouting: ModuleWithProviders<RouterModule> = RouterModule.forChild(ROUTES);
+export const usersRouting: ModuleWithProviders<UsersModule> = RouterModule.forChild(ROUTES);

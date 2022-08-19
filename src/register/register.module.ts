@@ -41,6 +41,4 @@ import { effects, reducers } from './store';
  * Entry point to RegisterModule
  */
 
-export class RegisterModule {
-
-}
+export class RegisterModule {}

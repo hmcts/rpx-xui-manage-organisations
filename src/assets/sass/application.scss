@@ -9,6 +9,18 @@ $govuk-global-styles: true;
 // Width of main container
 $hmcts-page-width: 1220px;
 
+// Path to assets for use with the file-url function
+// in the govuk frontend toolkit"s url-helpers partial
+$path: "/public/images/";
+
+// global styles for <a> and <p> tags
+$govuk-global-styles: true;
+
+
+// Width of main container
+$hmcts-page-width: 1220px;
+
+
 // Import GOV.UK Frontend
 @import "~govuk-frontend/govuk/all";
 @import "~@hmcts/frontend/all";

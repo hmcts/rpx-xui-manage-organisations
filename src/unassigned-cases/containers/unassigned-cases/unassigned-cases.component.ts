@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';

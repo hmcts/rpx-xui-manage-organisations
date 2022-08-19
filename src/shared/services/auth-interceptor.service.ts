@@ -9,10 +9,6 @@ import {Injectable} from '@angular/core';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import {Router} from '@angular/router';
 import { Observable } from 'rxjs';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/mergeMap';
 import { HeadersService } from './headers.service';
 
 

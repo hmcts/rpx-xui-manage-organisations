@@ -37,7 +37,7 @@ describe('Users Effects', () => {
 
         effects = TestBed.inject(fromUsersEffects.UsersEffects);
         loggerService = TestBed.inject(LoggerService);
-        
+
         initTestScheduler();
         addMatchers();
     }));

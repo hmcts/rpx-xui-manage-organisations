@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
-import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+import { TermsConditionGuard } from '../app/guards/termsCondition.guard';
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';

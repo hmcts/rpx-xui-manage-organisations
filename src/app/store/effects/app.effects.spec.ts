@@ -1,13 +1,12 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
-import {StoreModule} from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
-import { TermsConditionsService } from 'src/shared/services/termsConditions.service';
-import { JurisdictionService } from 'src/users/services/jurisdiction.service';
-import {ENVIRONMENT_CONFIG} from '../../../models/environmentConfig.model';
+import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
+import { JurisdictionService } from '../../../users/services/jurisdiction.service';
 import { LoggerService } from '../../../shared/services/logger.service';
 import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';

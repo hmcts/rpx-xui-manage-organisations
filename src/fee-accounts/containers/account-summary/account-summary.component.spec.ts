@@ -5,7 +5,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { reducers } from 'src/fee-accounts/store/reducers';
+import { reducers } from '../../../fee-accounts/store/reducers';
 import { AccountSummaryComponent } from './account-summary.component';
 
 describe('AccountSummaryComponent', () => {

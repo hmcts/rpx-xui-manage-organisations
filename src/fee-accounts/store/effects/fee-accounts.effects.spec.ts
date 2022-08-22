@@ -3,7 +3,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
-import { FeeAccountsService } from 'src/fee-accounts/services';
+import { FeeAccountsService } from '../../../fee-accounts/services';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';

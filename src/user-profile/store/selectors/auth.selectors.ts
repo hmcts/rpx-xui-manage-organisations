@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import { AppUtils } from 'src/app/utils/app-utils';
+import { AppUtils } from '../../../app/utils/app-utils';
 import * as fromApp from '../../../../src/app/store/index';
 import * as fromRoot from '../reducers/';
 

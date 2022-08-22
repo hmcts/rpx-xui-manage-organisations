@@ -36,6 +36,7 @@ import { effects } from './store/effects';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 import { EnvironmentService } from '../shared/services/environment.service';
+import { MonitoringService } from '../shared/services/monitoring.service';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -60,7 +61,6 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     }),
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
-    SharedModule,
     UserProfileModule,
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
@@ -80,6 +80,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     CookieService,
     GoogleAnalyticsService,
     ManageSessionServices,
+    MonitoringService,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,

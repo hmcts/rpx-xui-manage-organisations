@@ -10,7 +10,6 @@ export const ROUTES: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    canActivate: [AuthGuard, HealthCheckGuard],
     pathMatch: 'full',
   },
   {
@@ -52,7 +51,7 @@ export const ROUTES: Routes = [
     component: ServiceDownComponent
   },
   {
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, HealthCheckGuard],
     path: 'home',
     component: RedirectComponent
   },

@@ -1,5 +1,5 @@
 import { AES, enc, SHA256, WordArray } from 'crypto-js';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CryptoWrapper {

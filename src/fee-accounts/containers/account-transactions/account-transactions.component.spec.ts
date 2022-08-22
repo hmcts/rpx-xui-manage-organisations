@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { reducers } from 'src/fee-accounts/store/reducers';
-import { DateFormatAtTimePipe } from 'src/shared/components/custom-pipe/date-pipe-with-to';
+import { reducers } from '../../../fee-accounts/store/reducers';
+import { DateFormatAtTimePipe } from '../../../shared/components/custom-pipe/date-pipe-with-to';
 import { AccountTransactionsComponent } from './account-transactions.component';
 
 describe('AccountTransactionsComponent', () => {

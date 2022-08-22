@@ -17,7 +17,7 @@ import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler'
 import { CryptoWrapper } from '../shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
-import { JurisdictionService } from 'src/users/services';
+import { JurisdictionService } from '../users/services';
 import config from '../../api/lib/config';
 import { SharedModule } from '../shared/shared.module';
 import { UserService } from '../user-profile/services/user.service';

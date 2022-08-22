@@ -37,6 +37,11 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
 import { EnvironmentService } from '../shared/services/environment.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
+import { HealthCheckGuard } from '../shared/guards/health-check.guard';
+import { HealthCheckService } from '../shared/services/health-check.service';
+import { TermsConditionGuard } from './guards/termsCondition.guard';
+import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
+import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -62,7 +67,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     UserProfileModule,
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
@@ -79,8 +84,13 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     NGXMapperService,
     CookieService,
     GoogleAnalyticsService,
+    HealthCheckGuard,
+    HealthCheckService,
     ManageSessionServices,
     MonitoringService,
+    TermsConditionGuard,
+    AcceptTermsAndConditionGuard,
+    FeatureToggleEditUserGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,

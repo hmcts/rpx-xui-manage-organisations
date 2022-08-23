@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import * as RouterActions from '../actions/router.action';
 import * as fromRouterEffects from './router.effect';
 import { RouterEffects } from './router.effect';
@@ -31,6 +31,8 @@ describe('Router Effects', () => {
 
         effects = TestBed.inject(RouterEffects);
 
+        initTestScheduler();
+        addMatchers();
     });
 
     describe('navigate$', () => {

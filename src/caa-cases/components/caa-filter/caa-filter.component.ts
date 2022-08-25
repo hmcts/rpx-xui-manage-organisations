@@ -1,33 +1,44 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { CaaCasesFilterType, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import {
+  CaaCasesFilterHeading,
+  CaaCasesFilterType,
+  CaaCasesPageType,
+  CaaShowHideFilterButtonText
+} from '../../models/caa-cases.enum';
 
 @Component({
-  selector: 'app-caa-filter-assigned-component',
-  templateUrl: './caa-filter-assigned.component.html',
-  styleUrls: ['./caa-filter-assigned.component.scss']
+  selector: 'app-caa-filter',
+  templateUrl: './caa-filter.component.html',
+  styleUrls: ['./caa-filter.component.scss']
 })
-export class CaaFilterAssignedComponent implements OnInit {
+export class CaaFilterComponent implements OnInit {
 
   @Input() public selectedFilterType: string;
+  @Input() public caaCasesPageType: string;
 
   @Output() public emitSelectedFilterType = new EventEmitter<string>();
   @Output() public emitSelectedFilterValue = new EventEmitter<string>();
 
   public caaFormGroup: FormGroup;
-  public caaCasesPageType = CaaCasesPageType;
+  public caaFilterHeading: string;
+  public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaCasesFilterType = CaaCasesFilterType;
   public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
 
-  constructor(private readonly formBuilder: FormBuilder) {
-  }
+  constructor(private readonly formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
     this.caaFormGroup = this.formBuilder.group({
-      'caa-filter': new FormControl(''),
-      'assignee-person': new FormControl(''),
       'case-reference-number': new FormControl('')
     });
+    if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+      this.caaFormGroup.addControl('caa-filter', new FormControl(''));
+      this.caaFormGroup.addControl('assignee-person', new FormControl(''));
+    }
+    this.caaFilterHeading = this.caaCasesPageType === CaaCasesPageType.AssignedCases
+      ? CaaCasesFilterHeading.AssignedCases
+      : CaaCasesFilterHeading.UnassignedCases;
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
@@ -38,10 +49,10 @@ export class CaaFilterAssignedComponent implements OnInit {
   public search(): void {
     let selectedFilterValue: string;
     switch (this.selectedFilterType) {
-      case CaaCasesFilterType.assigneeName:
+      case CaaCasesFilterType.AssigneeName:
         selectedFilterValue = this.caaFormGroup.get('assignee-person').value;
         break;
-      case CaaCasesFilterType.caseReferenceNumber:
+      case CaaCasesFilterType.CaseReferenceNumber:
         selectedFilterValue = this.caaFormGroup.get('case-reference-number').value;
         break;
       default:

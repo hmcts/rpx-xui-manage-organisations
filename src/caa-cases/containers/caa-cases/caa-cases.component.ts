@@ -45,16 +45,16 @@ export class CaaCasesComponent implements OnInit {
               private readonly router: Router) {
     // Identify whether user selected to view assigned cases or unassigned cases
     this.caaCasesPageType = this.router && this.router.url && this.router.url.includes('unassigned-cases')
-      ? CaaCasesPageType.unassignedCases
-      : CaaCasesPageType.assignedCases;
+      ? CaaCasesPageType.UnassignedCases
+      : CaaCasesPageType.AssignedCases;
     // Set page title
-    this.pageTitle = this.caaCasesPageType === CaaCasesPageType.unassignedCases
-      ? CaaCasesPageTitle.unassignedCases
-      : CaaCasesPageTitle.assignedCases;
+    this.pageTitle = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaCasesPageTitle.UnassignedCases
+      : CaaCasesPageTitle.AssignedCases;
     // Set show hide filter button text
-    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.unassignedCases
-      ? CaaShowHideFilterButtonText.unassignedCasesHide
-      : CaaShowHideFilterButtonText.assignedCasesHide;
+    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaShowHideFilterButtonText.UnassignedCasesHide
+      : CaaShowHideFilterButtonText.AssignedCasesHide;
     // Set filter type to all assignees for assigned cases and none for unassigned cases
     this.setSelectedFilterTypeAndValue();
   }
@@ -77,9 +77,9 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public setSelectedFilterTypeAndValue(): void {
-    this.selectedFilterType = this.caaCasesPageType === CaaCasesPageType.unassignedCases
-      ? CaaCasesFilterType.none
-      : CaaCasesFilterType.allAssignees;
+    this.selectedFilterType = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaCasesFilterType.None
+      : CaaCasesFilterType.AllAssignees;
     this.selectedFilterValue = null;
   }
 
@@ -123,7 +123,7 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public loadDataFromStore(): void {
-    if (this.caaCasesPageType === CaaCasesPageType.unassignedCases) {
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
       this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterType: this.selectedFilterType, caaCasesFilterValue: this.selectedFilterValue}));
       this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     } else {
@@ -154,13 +154,13 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public toggleFilterSection(): void {
-    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.unassignedCases
-      ? this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.unassignedCasesShow
-        ? CaaShowHideFilterButtonText.unassignedCasesHide
-        : CaaShowHideFilterButtonText.unassignedCasesShow
-      : this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.assignedCasesShow
-        ? CaaShowHideFilterButtonText.assignedCasesHide
-        : CaaShowHideFilterButtonText.assignedCasesShow;
+    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.UnassignedCasesShow
+        ? CaaShowHideFilterButtonText.UnassignedCasesHide
+        : CaaShowHideFilterButtonText.UnassignedCasesShow
+      : this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.AssignedCasesShow
+        ? CaaShowHideFilterButtonText.AssignedCasesHide
+        : CaaShowHideFilterButtonText.AssignedCasesShow;
   }
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
@@ -169,10 +169,10 @@ export class CaaCasesComponent implements OnInit {
 
   public onSelectedFilterValueChanged(selectedFilterValue: string): void {
     this.selectedFilterValue = selectedFilterValue;
-    if (this.caaCasesPageType === CaaCasesPageType.unassignedCases) {
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
       this.selectedFilterType = this.selectedFilterValue.length > 0
-        ? CaaCasesFilterType.caseReferenceNumber
-        : CaaCasesFilterType.none;
+        ? CaaCasesFilterType.CaseReferenceNumber
+        : CaaCasesFilterType.None;
     }
     this.loadDataFromStore();
   }

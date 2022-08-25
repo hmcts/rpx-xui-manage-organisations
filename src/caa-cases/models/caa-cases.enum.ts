@@ -1,23 +1,28 @@
 export enum CaaCasesPageType {
-  assignedCases = 'assigned-cases',
-  unassignedCases = 'unassigned-cases'
+  AssignedCases = 'assigned-cases',
+  UnassignedCases = 'unassigned-cases'
 }
 
 export enum CaaShowHideFilterButtonText {
-  assignedCasesShow = 'Show assigned cases filter',
-  assignedCasesHide = 'Hide assigned cases filter',
-  unassignedCasesShow = 'Show unassigned cases filter',
-  unassignedCasesHide = 'Hide unassigned cases filter'
+  AssignedCasesShow = 'Show assigned cases filter',
+  AssignedCasesHide = 'Hide assigned cases filter',
+  UnassignedCasesShow = 'Show unassigned cases filter',
+  UnassignedCasesHide = 'Hide unassigned cases filter'
 }
 
 export enum CaaCasesFilterType {
-  allAssignees = 'all-assignees',
-  assigneeName = 'assignee-name',
-  caseReferenceNumber = 'case-reference-number',
-  none = 'none'
+  AllAssignees = 'all-assignees',
+  AssigneeName = 'assignee-name',
+  CaseReferenceNumber = 'case-reference-number',
+  None = 'none'
 }
 
 export enum CaaCasesPageTitle {
-  assignedCases = 'Assigned Cases',
-  unassignedCases = 'Unassigned Cases'
+  AssignedCases = 'Assigned Cases',
+  UnassignedCases = 'Unassigned Cases'
+}
+
+export enum CaaCasesFilterHeading {
+  AssignedCases = 'Filter assigned cases',
+  UnassignedCases = 'Search for an unassigned case'
 }

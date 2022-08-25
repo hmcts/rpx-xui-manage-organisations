@@ -1,10 +1,7 @@
-import { CaaFilterAssignedComponent } from './caa-filter-assigned/caa-filter-assigned.component';
-import { CaaFilterUnassignedComponent } from './caa-filter-unassigned/caa-filter-unassigned.component';
+import { CaaFilterComponent } from './caa-filter/caa-filter.component';
 
 export const components: any[] = [
-  CaaFilterAssignedComponent,
-  CaaFilterUnassignedComponent
+  CaaFilterComponent,
 ];
 
-export * from './caa-filter-assigned/caa-filter-assigned.component';
-export * from './caa-filter-unassigned/caa-filter-unassigned.component';
+export * from './caa-filter/caa-filter.component';

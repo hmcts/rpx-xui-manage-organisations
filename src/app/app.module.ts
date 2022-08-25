@@ -19,7 +19,6 @@ import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { JurisdictionService } from '../users/services';
 import config from '../../api/lib/config';
-import { SharedModule } from '../shared/shared.module';
 import { UserService } from '../user-profile/services/user.service';
 import { UserProfileModule } from '../user-profile/user-profile.module';
 import { LoaderModule } from './../shared/modules/loader/loader.module';
@@ -42,6 +41,7 @@ import { HealthCheckService } from '../shared/services/health-check.service';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
+import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -74,6 +74,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
       disableConsoleLogging: false
     }),
     LoaderModule,
+    GovUiModule,
     ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
     NoopAnimationsModule

@@ -1,7 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/user-profile/guards/auth.guard';
-import { CaseShareCompleteComponent, CaseShareComponent, CaseShareConfirmComponent, CaaCasesComponent } from './containers';
+import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { CaaCasesComponent, CaseShareCompleteComponent, CaseShareComponent, CaseShareConfirmComponent } from './containers';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 

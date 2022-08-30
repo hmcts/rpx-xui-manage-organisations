@@ -3,7 +3,6 @@ import * as chai from 'chai'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import { mockReq, mockRes } from 'sinon-express-mock'
 import * as configuration from '../configuration'
 import { APP_INSIGHTS_KEY } from '../configuration/references'
 import * as appInsights from './appInsights'
@@ -70,36 +69,6 @@ describe('appInsights', () => {
       expect(applicationinsights.TelemetryClient.prototype.trackTrace).not.to.be.called
       // tslint:enable:no-unused-expression
       expect(consoleSpy).to.be.calledWith(`App Insights not activated: Key "${APP_INSIGHTS_KEY}" is not defined!`)
-    })
-
-    it('should call trackNodeHttpRequest in the Express middleware if the AppInsights client is initialised', () => {
-        const req = mockReq()
-        const res = mockRes()
-        const next = sinon.stub()
-
-        appInsights.initialiseAppInsights()
-        appInsights.appInsights(req, res, next)
-
-        expect(applicationinsights.TelemetryClient.prototype.trackNodeHttpRequest).to.be.calledWith(
-            { request: req, response: res })
-        // tslint:disable-next-line:no-unused-expression
-        expect(next).to.be.called
-    })
-
-    it('should not call trackNodeHttpRequest in the Express middleware if the AppInsights client is not initialised', () => {
-        const req = mockReq()
-        const res = mockRes()
-        const next = sinon.stub()
-
-        // Ensure the appInsights client has been reset
-        appInsights.resetAppInsights()
-
-        appInsights.appInsights(req, res, next)
-
-        // tslint:disable:no-unused-expression
-        expect(applicationinsights.TelemetryClient.prototype.trackNodeHttpRequest).not.to.be.called
-        expect(next).to.be.called
-        // tslint:enable:no-unused-expression
     })
 
     it('should reset the AppInsights client if it has been initialised', () => {

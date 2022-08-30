@@ -26,3 +26,7 @@ export enum CaaCasesFilterHeading {
   AssignedCases = 'Filter assigned cases',
   UnassignedCases = 'Search for an unassigned case'
 }
+
+export enum CaaCasesFilterErrorMessage {
+  InvalidCaseReference = 'Enter a valid HMCTS case reference number'
+}

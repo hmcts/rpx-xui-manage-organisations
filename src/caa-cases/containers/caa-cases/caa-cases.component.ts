@@ -8,7 +8,7 @@ import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as converters from '../../converters/case-converter';
 import { CaaCasesFilterType, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
-import { CaaCases } from '../../models/caa-cases.model';
+import { CaaCases, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -28,7 +28,7 @@ export class CaaCasesComponent implements OnInit {
   public selectedCases: any[] = [];
   public currentCaseType: string;
 
-  public navItems: any [];
+  public navItems: any[];
   public currentPageNo: number;
   public paginationPageSize: number = 10;
   public totalCases: number = 0;
@@ -39,6 +39,7 @@ export class CaaCasesComponent implements OnInit {
   public caaShowHideFilterButtonTextLookup = CaaShowHideFilterButtonText;
   public selectedFilterType: string;
   public selectedFilterValue: string;
+  public errorMessages: ErrorMessage[];
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
@@ -55,21 +56,32 @@ export class CaaCasesComponent implements OnInit {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
       ? CaaShowHideFilterButtonText.UnassignedCasesHide
       : CaaShowHideFilterButtonText.AssignedCasesHide;
-    // Set filter type to all assignees for assigned cases and none for unassigned cases
+    // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
     this.setSelectedFilterTypeAndValue();
   }
 
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadCaseTypes());
     this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
-    this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
-      if (config !== null) {
-        this.tableConfig =  {
-          idField: config.idField,
-          columnConfigs: config.columnConfigs
-        };
-      }
-    });
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
+        if (config !== null) {
+          this.tableConfig =  {
+            idField: config.idField,
+            columnConfigs: config.columnConfigs
+          };
+        }
+      });
+    } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+      this.store.pipe(select(fromStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
+        if (config !== null) {
+          this.tableConfig =  {
+            idField: config.idField,
+            columnConfigs: config.columnConfigs
+          };
+        }
+      });
+    }
     this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items => this.fixCurrentTab(items));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
@@ -175,5 +187,16 @@ export class CaaCasesComponent implements OnInit {
         : CaaCasesFilterType.None;
     }
     this.loadDataFromStore();
+  }
+
+  public onErrorMessages(errorMessages: ErrorMessage[]): void {
+    this.errorMessages = errorMessages;
+  }
+
+  /**
+   * Function to check if any error exists
+   */
+  public isAnyError(): boolean {
+    return Array.isArray(this.errorMessages) && this.errorMessages.length > 0;
   }
 }

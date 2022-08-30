@@ -1,6 +1,13 @@
+import { FormControl } from '@angular/forms';
 import { CaaCasesUtil } from './caa-cases.util';
 
 describe('CaaCasesUtil', () => {
+  let control: FormControl;
+
+  beforeEach(() => {
+    control = new FormControl({});
+  });
+
   it('getCaaNavItems', () => {
     const response = {
         total: 11,
@@ -31,5 +38,47 @@ describe('CaaCasesUtil', () => {
     expect(results[2].text).toEqual('FT_Conditionals');
     expect(results[3].text).toEqual('FT_ComplexOrganisation');
     expect(results[3].total).toEqual(4);
+  });
+
+  it('should fail caseReference validation if input is less than 16 digits after removing separators', () => {
+    control.setValue('1234 12-- -34-1234  123-');
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+  });
+
+  it('should fail caseReference validation if input is more than 16 digits after removing separators', () => {
+    control.setValue('1234 12-- -34-1234  12345');
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+  });
+
+  it('should pass caseReference validation if input is exactly 16 digits after removing separators', () => {
+    control.setValue('1234 12-- -34-1234  1234-');
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toBeNull();
+  });
+
+  it('should fail caseReference validation if input is null', () => {
+    control.setValue(null);
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+  });
+
+  it('should fail caseReference validation if input is the empty string', () => {
+    control.setValue('');
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+  });
+
+  it('should fail caseReference validation if input contains one or more letters', () => {
+    control.setValue('1234-1234 1234123A');
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+  });
+
+  it('should fail caseReference validation if input contains one or more symbols (except for "-")', () => {
+    control.setValue('1234-1234 1234_1234');
+    const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
+    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
   });
 });

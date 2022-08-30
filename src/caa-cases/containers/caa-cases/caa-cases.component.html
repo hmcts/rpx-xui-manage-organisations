@@ -83,6 +83,7 @@
     </mat-tab-group>
   </div>
   <div *ngIf="navItems && navItems.length === 0">
-    <p>There are no unassigned cases available to be shared.</p>
+    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">There are no unassigned cases available to be shared.</p>
+    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.AssignedCases">There are no assigned cases available to be shared.</p>
   </div>
 </main>

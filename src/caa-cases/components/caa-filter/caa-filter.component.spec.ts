@@ -1,7 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { CaaCasesFilterHeading, CaaCasesPageType } from '../../../caa-cases/models/caa-cases.enum';
+import {
+  CaaCasesFilterErrorMessage,
+  CaaCasesFilterHeading,
+  CaaCasesFilterType,
+  CaaCasesPageType
+} from '../../../caa-cases/models/caa-cases.enum';
 import { CaaFilterComponent } from './caa-filter.component';
 
 describe('CaaFilterComponent', () => {
@@ -57,17 +62,169 @@ describe('CaaFilterComponent', () => {
 
   it('should set selected filter type', () => {
     spyOn(component.emitSelectedFilterType, 'emit');
-    component.selectFilterOption('assignee-name');
-    expect(component.selectedFilterType).toEqual('assignee-name');
-    expect(component.emitSelectedFilterType.emit).toHaveBeenCalled();
+    component.selectFilterOption(CaaCasesFilterType.AssigneeName);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
+    expect(component.emitSelectedFilterType.emit).toHaveBeenCalledWith(component.selectedFilterType);
   });
 
-  it('should emit selected filter value', () => {
+  it('should emit selected filter value when searching from the Assigned Cases page', () => {
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     fixture.detectChanges();
+    // Values need to be set using the form elements themselves, rather than directly on the FormControls, in order to
+    // trigger the validation and set form validity
+    let radioButton = nativeElement.querySelector('#caa-filter-assignee-name');
+    radioButton.click();
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
+    let textInput = nativeElement.querySelector('#assignee-person');
+    textInput.value = 'Test';
+    textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
-    component.caaFormGroup.get('case-reference-number').setValue('1111-2222-3333-4444');
     component.search();
-    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalled();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('Test');
+    radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
+    radioButton.click();
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CaseReferenceNumber);
+    textInput = nativeElement.querySelector('#case-reference-number');
+    textInput.value = '1111-2222-3333-4444';
+    textInput.dispatchEvent(new Event('input'));
+    component.search();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
+    radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
+    radioButton.click();
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
+    component.search();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
+  });
+
+  it('should emit selected filter value when searching from the Unassigned Cases page', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    fixture.detectChanges();
+    // Values need to be set using the form elements themselves, rather than directly on the FormControls, in order to
+    // trigger the validation and set form validity
+    const textInput = nativeElement.querySelector('#case-reference-number');
+    textInput.value = '1111-2222-3333-4444';
+    textInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitSelectedFilterValue, 'emit');
+    component.search();
+    expect(component.selectedFilterType).toBeUndefined();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
+  });
+
+  it('should show a validation error for the Case Reference Number input field on the Unassigned Cases filter', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    fixture.detectChanges();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    caseReferenceInput.value = '1111-2222-3333-444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    searchButton.click();
+    fixture.detectChanges();
+    const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.caseReferenceNumberErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidCaseReference);
+    expect(errorMessageElement.textContent).toContain(component.caseReferenceNumberErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+  });
+
+  it('should clear the validation error for the Case Reference Number input field on the Unassigned Cases filter', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    fixture.detectChanges();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    caseReferenceInput.value = '1111-2222-3333-444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    searchButton.click();
+    fixture.detectChanges();
+    let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.caseReferenceNumberErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidCaseReference);
+    expect(errorMessageElement.textContent).toContain(component.caseReferenceNumberErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+    caseReferenceInput.value = '1111-2222-3333-4444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    searchButton.click();
+    fixture.detectChanges();
+    errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(0);
+    expect(component.caseReferenceNumberErrorMessage).toEqual('');
+    expect(errorMessageElement).toBeNull();
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should show a validation error for the Case Reference Number input field on the Assigned Cases filter', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    const caseRefOptionRadioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
+    caseRefOptionRadioButton.click();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    caseReferenceInput.value = '1111-2222-3333-444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    searchButton.click();
+    fixture.detectChanges();
+    const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.caseReferenceNumberErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidCaseReference);
+    expect(errorMessageElement.textContent).toContain(component.caseReferenceNumberErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+  });
+
+  it('should clear the validation error for the Case Reference Number input field on the Assigned Cases filter', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    const caseRefOptionRadioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
+    caseRefOptionRadioButton.click();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    caseReferenceInput.value = '1111-2222-3333-444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    searchButton.click();
+    fixture.detectChanges();
+    let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.caseReferenceNumberErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidCaseReference);
+    expect(errorMessageElement.textContent).toContain(component.caseReferenceNumberErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+    caseReferenceInput.value = '1111-2222-3333-4444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    searchButton.click();
+    fixture.detectChanges();
+    errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(0);
+    expect(component.caseReferenceNumberErrorMessage).toEqual('');
+    expect(errorMessageElement).toBeNull();
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(1);
+  });
+
+  it('should clear the validation error for the Case Reference Number input field when a different option is chosen', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    let radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
+    radioButton.click();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    caseReferenceInput.value = '1111-2222-3333-444';
+    caseReferenceInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    searchButton.click();
+    fixture.detectChanges();
+    let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.caseReferenceNumberErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidCaseReference);
+    expect(errorMessageElement.textContent).toContain(component.caseReferenceNumberErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+    radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
+    radioButton.click();
+    searchButton.click();
+    fixture.detectChanges();
+    errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(0);
+    expect(component.caseReferenceNumberErrorMessage).toEqual('');
+    expect(errorMessageElement).toBeNull();
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(1);
   });
 });

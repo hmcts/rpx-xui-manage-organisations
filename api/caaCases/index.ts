@@ -13,7 +13,7 @@ export async function handleCaaCases(req: Request, res: Response, next: NextFunc
   const page: number = (+req.query.pageNo || 1) - 1;
   const size: number = (+req.query.pageSize);
   const fromNo: number = page * size;
-  const payload = caaCasesPageType === CaaCasesPageType.unassignedCases
+  const payload = caaCasesPageType === CaaCasesPageType.UnassignedCases
     ? getRequestBodyForUnassignedCases(req.session.auth.orgId, fromNo, size, caaCasesFilterType, caaCasesFilterValue)
     : getRequestBodyForAssignedCases(req.session.auth.orgId, fromNo, size, caaCasesFilterType, caaCasesFilterValue);
 

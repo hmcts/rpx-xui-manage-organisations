@@ -22,7 +22,7 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
   const reference = 'reference.keyword';
 
   switch(caaCasesFilterType) {
-    case CaaCasesFilterType.allAssignees:
+    case CaaCasesFilterType.AllAssignees:
       return {
         from: pageNo,
         query: {
@@ -52,7 +52,7 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
           },
         ]
       }
-    case CaaCasesFilterType.assigneeName:
+    case CaaCasesFilterType.AssigneeName:
       // TODO: To be implemented/modified
       return {
         from: pageNo,
@@ -83,7 +83,7 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
           },
         ]
       }
-    case CaaCasesFilterType.caseReferenceNumber:
+    case CaaCasesFilterType.CaseReferenceNumber:
       return {
         from: pageNo,
         query: {
@@ -152,8 +152,8 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
 export function getRequestBodyForUnassignedCases(organisationID: string, pageNo: number, pageSize: number, caaCasesFilterType: string, caaCasesFilterValue: string) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
   const reference = 'reference.keyword';
-  
-  if (caaCasesFilterType === CaaCasesFilterType.caseReferenceNumber) {
+
+  if (caaCasesFilterType === CaaCasesFilterType.CaseReferenceNumber) {
     return {
       from: pageNo,
       query: {

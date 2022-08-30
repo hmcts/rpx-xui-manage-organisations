@@ -1,31 +1,30 @@
 <div class="hmcts-header">
-    <div class="hmcts-header__container">
-      <ng-container  *ngIf="isBrandedHeader && !headerTitle.hideBranding; else noBrandedHeader">
-        <div class="govuk-header__logo">
-          <a href="#" class="govuk-header__link govuk-header__link--homepage">
-            <span class="govuk-header__logotype">
-              <span class="govuk-header__logotype-text">
-                MyHMCTS
-              </span>
+  <div class="hmcts-header__container">
+    <ng-container *ngIf="isBrandedHeader && headerTitle && !headerTitle.hideBranding; else noBrandedHeader">
+      <div class="govuk-header__logo">
+        <a href="#" class="govuk-header__link govuk-header__link--homepage">
+          <span class="govuk-header__logotype">
+            <span class="govuk-header__logotype-text">
+              MyHMCTS
             </span>
-          </a>
-        </div>
-        <a class="hmcts-header__link my_hmcts_application_name" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
-      </ng-container>
-      <ng-template #noBrandedHeader>
-          <div class="hmcts-header__logo remove-wrapping">
-              <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
-          </div>
-      </ng-template>
-      <div class="hmcts-header__content">
-          <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">
-              <ul class="hmcts-header__navigation-list" >
-                  <li *ngFor="let item of navigation.items; let i = index" class="hmcts-header__navigation-item">
-                      <a class="hmcts-header__navigation-link" (click)="onEmitEvent(i)" *ngIf="userValue" [routerLink]="[item.href]">{{item.text}}</a>
-                  </li>
-              </ul>
-          </nav>
+          </span>
+        </a>
       </div>
+      <a class="hmcts-header__link my_hmcts_application_name" [routerLink]="headerTitle?.url" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+    </ng-container>
+    <ng-template #noBrandedHeader>
+      <div class="hmcts-header__logo remove-wrapping">
+        <a class="hmcts-header__link" [routerLink]="'/'" [attr.aria-label]="headerTitle?.name" >{{headerTitle?.name}}</a>
+      </div>
+    </ng-template>
+    <div class="hmcts-header__content">
+      <nav class="hmcts-header__navigation" attr.aria-label="{{navigation.label}}">
+        <ul class="hmcts-header__navigation-list" >
+          <li *ngFor="let item of navigation.items; let i = index" class="hmcts-header__navigation-item">
+            <a class="hmcts-header__navigation-link" (click)="onEmitEvent(i)" *ngIf="userValue" [routerLink]="[item.href]">{{item.text}}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </div>
 </div>
-

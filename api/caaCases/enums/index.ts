@@ -1,4 +1,11 @@
+export enum CaaCasesPageType {
+  AssignedCases = 'assigned-cases',
+  UnassignedCases = 'unassigned-cases'
+}
+
 export enum CaaCasesFilterType {
-  assigned = 'assigned',
-  unassigned = 'unassigned'
+  AllAssignees = 'all-assignees',
+  AssigneeName = 'assignee-name',
+  CaseReferenceNumber = 'case-reference-number',
+  None = 'none'
 }

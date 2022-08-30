@@ -14,7 +14,7 @@ export const UPDATE_SELECTION_FOR_CASE_TYPE = '[CAA CASES] Update Selection For 
 
 export class LoadAssignedCases implements Action {
   public readonly type = LOAD_ASSIGNED_CASES;
-  constructor(public payload: {caseType: string, pageNo: number, pageSize: number}) {}
+  constructor(public payload: {caseType: string, pageNo: number, pageSize: number, caaCasesFilterType: string, caaCasesFilterValue: string}) {}
 }
 
 export class LoadAssignedCasesSuccess implements Action {
@@ -29,7 +29,7 @@ export class LoadAssignedCasesFailure implements Action {
 
 export class LoadUnassignedCases implements Action {
     public readonly type = LOAD_UNASSIGNED_CASES;
-    constructor(public payload: {caseType: string, pageNo: number, pageSize: number}) {}
+    constructor(public payload: {caseType: string, pageNo: number, pageSize: number, caaCasesFilterType: string, caaCasesFilterValue: string}) {}
 }
 
 export class LoadUnassignedCasesSuccess implements Action {

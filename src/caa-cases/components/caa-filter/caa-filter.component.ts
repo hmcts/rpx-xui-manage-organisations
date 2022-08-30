@@ -110,6 +110,9 @@ export class CaaFilterComponent implements OnInit {
       return false;
     }
 
+    // Emit empty error messages array (to clear any existing errors)
+    this.emitErrorMessages.emit(this.errorMessages);
+
     // Validation succeeded, return true
     return true;
   }

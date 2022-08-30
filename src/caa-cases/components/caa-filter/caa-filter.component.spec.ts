@@ -150,7 +150,7 @@ describe('CaaFilterComponent', () => {
     expect(component.errorMessages.length).toBe(0);
     expect(component.caseReferenceNumberErrorMessage).toEqual('');
     expect(errorMessageElement).toBeNull();
-    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(1);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
   });
 
   it('should show a validation error for the Case Reference Number input field on the Assigned Cases filter', () => {
@@ -197,7 +197,7 @@ describe('CaaFilterComponent', () => {
     expect(component.errorMessages.length).toBe(0);
     expect(component.caseReferenceNumberErrorMessage).toEqual('');
     expect(errorMessageElement).toBeNull();
-    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(1);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
   });
 
   it('should clear the validation error for the Case Reference Number input field when a different option is chosen', () => {
@@ -225,6 +225,6 @@ describe('CaaFilterComponent', () => {
     expect(component.errorMessages.length).toBe(0);
     expect(component.caseReferenceNumberErrorMessage).toEqual('');
     expect(errorMessageElement).toBeNull();
-    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(1);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
   });
 });

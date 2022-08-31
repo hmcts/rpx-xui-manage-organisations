@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 
 import { OrganisationDetails } from '../../../models';
 import * as fromStore from '../../store';
+import * as organisationActions from '../../store/actions';
 
 @Component({
   selector: 'app-prd-update-pba-numbers-component',
@@ -16,6 +17,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
+    this.orgStore.dispatch(new organisationActions.OrganisationUpdatePBAErrorReset(''));
   }
 
   /**

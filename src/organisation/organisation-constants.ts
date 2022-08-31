@@ -54,4 +54,10 @@ export class OrgManagerConstants {
   public static PBA_ERROR_ENTERED_MORE_THAN_ONCE_HEADER_MESSAGE = pbaErroEnteredMoreThanOnceHeaderMessages;
 }
 
+export class ErrorMessage {
+  public pbaNumber: string;
+  public error: string;
+  public headerError: string;
+}
+
 

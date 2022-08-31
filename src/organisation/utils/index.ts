@@ -1,5 +1,6 @@
 import { PBANumberModel } from 'src/models/pbaNumber.model';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../models';
+import { OrgManagerConstants } from '../organisation-constants';
 
 const containsItems = (obj: object, arrayProperty: string): boolean => {
   return obj && (obj[arrayProperty] || []).length > 0;
@@ -29,6 +30,12 @@ const utils = {
       return organisationDetails.pendingPaymentAccount;
     }
     return null;
+  },
+  getErrorDuplicateHeaderMessage(pbaNumber: string) {
+    return OrgManagerConstants.PBA_ERROR_ALREADY_USED_HEADER_MESSAGES[0].replace(OrgManagerConstants.PBA_MESSAGE_PLACEHOLDER, pbaNumber);
+  },
+  getErrorDuplicateMessage(pbaNumber: string) {
+    return OrgManagerConstants.PBA_ERROR_ALREADY_USED_MESSAGES[0].replace(OrgManagerConstants.PBA_MESSAGE_PLACEHOLDER, pbaNumber);
   }
 };
 

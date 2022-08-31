@@ -123,6 +123,12 @@ export function reducer(
         error: action.payload
       };
 
+    case fromOrganisation.ORGANISATION_UPDATE_PBA_ERROR_RESET:
+      if (state.error) {
+        state = {...state, error: {}};
+      }
+      return state;
+
     default:
       return state;
   }

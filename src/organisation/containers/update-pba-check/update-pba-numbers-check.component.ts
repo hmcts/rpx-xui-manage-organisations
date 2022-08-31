@@ -1,18 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OrganisationDetails, PBANumberModel, PendingPaymentAccount } from '../../../models';
-import { OrgManagerConstants } from '../../organisation-constants';
+import { ErrorMessage } from '../../organisation-constants';
 import { PBAService } from '../../services/pba.service';
 import * as fromStore from '../../store';
 import * as organisationActions from '../../store/actions';
 
-export class ErrorMessage {
-  public pbaNumber: string;
-  public error: string;
-  public headerError: string;
-}
 @Component({
   selector: 'app-prd-update-pba-numbers-check-component',
   templateUrl: './update-pba-numbers-check.component.html',
@@ -22,7 +17,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   public readonly title: string = 'Check your PBA accounts';
   public organisationDetails: OrganisationDetails;
   public errors: ErrorMessage[] = [];
-
+  public err$: Observable<any>;
 
   public alreadyUsedError: string;
   private detailsSubscription: Subscription;
@@ -66,16 +61,13 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
 
   public onSubmitClicked(): void {
     this.errors = [];
-
     this.orgStore.dispatch(new organisationActions.OrganisationUpdatePBAs(this.pendingChanges));
-  }
-
-  public getErrorDuplicateHeaderMessage(pbaNumber: string) {
-    return OrgManagerConstants.PBA_ERROR_ALREADY_USED_HEADER_MESSAGES[0].replace(OrgManagerConstants.PBA_MESSAGE_PLACEHOLDER, pbaNumber);
-  }
-
-  public getErrorDuplicateMessage(pbaNumber: string) {
-    return OrgManagerConstants.PBA_ERROR_ALREADY_USED_MESSAGES[0].replace(OrgManagerConstants.PBA_MESSAGE_PLACEHOLDER, pbaNumber);
+    this.err$ = this.orgStore.pipe(select(fromStore.getOrganisationError));
+    this.err$.subscribe(err => {
+      if (err) {
+        this.errors.push(err);
+      }
+    });
   }
 
   private getOrganisationDetailsFromStore(): void {

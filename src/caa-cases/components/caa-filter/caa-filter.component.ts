@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserFromModel } from '../../../users/models/userFrom.model';
 import { CaaCasesUtil } from '../../../caa-cases/util/caa-cases.util';
 import {
   CaaCasesFilterErrorMessage,
@@ -9,6 +10,11 @@ import {
   CaaShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
 import { ErrorMessage } from '../../models/caa-cases.model';
+import { Observable, Subscription } from 'rxjs';
+import { catchError, debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
+import { User } from '@hmcts/rpx-xui-common-lib';
+import { select, Store } from '@ngrx/store';
+import * as fromUserStore from '../../../users/store';
 
 @Component({
   selector: 'app-caa-filter',
@@ -19,6 +25,7 @@ export class CaaFilterComponent implements OnInit {
 
   @Input() public selectedFilterType: string;
   @Input() public caaCasesPageType: string;
+  @Input() public selectedOrganisationUsers$: Observable<User[]>;
 
   @Output() public emitSelectedFilterType = new EventEmitter<string>();
   @Output() public emitSelectedFilterValue = new EventEmitter<string>();
@@ -31,11 +38,19 @@ export class CaaFilterComponent implements OnInit {
   public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
   public caseReferenceNumberErrorMessage = '';
   public errorMessages: ErrorMessage[];
+  public personName: string;
+  public assignedUser: string;
+  public users: User[];
+  public filteredUsers: User[];
   public readonly caseRefFormControl = 'case-reference-number';
   public readonly caaFilterFormControl = 'caa-filter';
-  public readonly assigneePersonFormControl = 'assignee-person';
+  public readonly assigneePersonFormControlName = 'assignee-person';
+  public assigneePersonFormControl: FormControl;
+  public showAutocomplete: boolean = false;
+  public sub: Subscription;
 
-  constructor(private readonly formBuilder: FormBuilder) { }
+  constructor(private readonly userStore: Store<fromUserStore.UserState>,
+    private readonly formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
     this.caaFormGroup = this.formBuilder.group({
@@ -43,7 +58,20 @@ export class CaaFilterComponent implements OnInit {
     });
     if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
       this.caaFormGroup.addControl(this.caaFilterFormControl, new FormControl('', Validators.required));
-      this.caaFormGroup.addControl(this.assigneePersonFormControl, new FormControl(''));
+      this.assigneePersonFormControl = new FormControl(this.assigneePersonFormControlName);
+      this.caaFormGroup.addControl(this.assigneePersonFormControlName, this.assigneePersonFormControl);
+
+      this.sub = this.assigneePersonFormControl.valueChanges.pipe(
+        tap(() => this.showAutocomplete = false),
+        tap(() => this.filteredUsers = []),
+        debounceTime(300),
+        switchMap((searchTerm: string) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
+          tap(() => this.showAutocomplete = true),
+          catchError(() => this.filteredUsers = [])
+        ))
+      ).subscribe((users: User[]) => {
+        this.filteredUsers = users;
+      });
     }
     this.caaFilterHeading = this.caaCasesPageType === CaaCasesPageType.AssignedCases
       ? CaaCasesFilterHeading.AssignedCases
@@ -65,6 +93,20 @@ export class CaaFilterComponent implements OnInit {
     }
   }
 
+  public filterSelectedOrganisationUsers(searchTerm: string): Observable<User[]> {
+    if (!searchTerm) {
+      return this.selectedOrganisationUsers$;  
+    }
+    return this.selectedOrganisationUsers$.pipe(map(users => {
+      console.log('USERS', users);
+
+      const filteredUsers = users.filter(x => x.fullName.includes(searchTerm));
+      console.log('FILTERED USERS', filteredUsers);
+
+      return users.filter(x => x.fullName.includes(searchTerm));
+    }));
+  }
+
   public selectFilterOption(caaCasesFilterType: string): void {
     this.selectedFilterType = caaCasesFilterType;
     this.emitSelectedFilterType.emit(this.selectedFilterType);
@@ -79,7 +121,7 @@ export class CaaFilterComponent implements OnInit {
       } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         switch (this.selectedFilterType) {
           case CaaCasesFilterType.AssigneeName:
-            selectedFilterValue = this.caaFormGroup.get(this.assigneePersonFormControl).value;
+            selectedFilterValue = this.caaFormGroup.get(this.assigneePersonFormControlName).value;
             break;
           case CaaCasesFilterType.CaseReferenceNumber:
             selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;
@@ -91,6 +133,14 @@ export class CaaFilterComponent implements OnInit {
       }
       this.emitSelectedFilterValue.emit(selectedFilterValue);
     }
+  }
+
+  public getDisplayName(selectedUser: User): string {
+    return `${selectedUser.fullName} - ${selectedUser.email}`;
+  }
+
+  public onSelectionChange(selectedUser: User): void {
+    this.assigneePersonFormControl.setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });
   }
 
   private validateForm(): boolean {

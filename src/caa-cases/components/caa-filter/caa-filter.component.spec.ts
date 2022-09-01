@@ -231,4 +231,12 @@ describe('CaaFilterComponent', () => {
     expect(errorMessageElement).toBeNull();
     expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
   });
+
+  it('should displayName return correct format', () => {
+    const selectedUser = {
+      fullName: 'User Test',
+      email: 'user@test.com'
+    };
+    expect(component.getDisplayName(selectedUser)).toEqual('User Test - user@test.com');
+  });
 });

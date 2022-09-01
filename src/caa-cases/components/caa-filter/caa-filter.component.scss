@@ -12,32 +12,27 @@
   #case-reference-number {
     width: 356px;
   }
+  
+  .hide-autocomplete {
+    display: none;
+  }
 }
 
-.mat-option{
-  &:hover{
-    background: #2596be;
+.mat-optgroup {
+  .mat-group-header {
+    font-size: 16px !important;
+    font-weight: bold !important;
   }
-  &.select-option{
-    &:hover{
-      background: #1d70b8;
-      color: #ffffff;
+
+  .mat-option {
+    &:hover {
+      background: #2596be;
     }
-  }
-}
-
-.hide-autocomplete {
-  display: none;
-}
-
-.mat-optgroup-label {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-mat-optgroup {
-  label {
-    font-size: 16px;
-    font-weight: bold;
+    &.select-option {
+      &:hover {
+        background: #1d70b8;
+        color: #ffffff;
+      }
+    }
   }
 }

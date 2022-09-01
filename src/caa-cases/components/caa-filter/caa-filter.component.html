@@ -44,11 +44,13 @@
                         Type the name and select an available match option
                       </label>
                       <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person"
-                        [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto">
+                        [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith">
                       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
-                        <mat-optgroup class="mat-optgroup-label" *ngFor="let filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue" [label]="filteredAndGroupedUser.key">
+                        <mat-optgroup *ngFor="let filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue">
+                          <span class="mat-group-header">{{ filteredAndGroupedUser.key }}</span>
                           <mat-option *ngFor="let user of filteredAndGroupedUser.value"
-                                      [value]="user">
+                                      [value]="user"
+                                      [ngClass]="{'hide-autocomplete': !showAutocomplete}">
                             {{ user.fullName + ' - ' + user.email }}
                           </mat-option>
                           <mat-option *ngIf="!filteredAndGroupedUser.value.length && showAutocomplete">No matched user(s) found</mat-option>

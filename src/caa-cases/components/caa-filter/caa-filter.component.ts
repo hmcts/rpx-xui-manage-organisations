@@ -48,8 +48,7 @@ export class CaaFilterComponent implements OnInit {
   public showAutocomplete: boolean = false;
   public sub: Subscription;
 
-  constructor(private readonly userStore: Store<fromUserStore.UserState>,
-    private readonly formBuilder: FormBuilder) { }
+  constructor(private readonly formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
     this.caaFormGroup = this.formBuilder.group({});

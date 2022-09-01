@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserFromModel } from '../../../users/models/userFrom.model';
+import { User } from '@hmcts/rpx-xui-common-lib';
+import { Store } from '@ngrx/store';
+import { Observable, of, Subscription } from 'rxjs';
+import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
 import { CaaCasesUtil } from '../../../caa-cases/util/caa-cases.util';
+import * as fromUserStore from '../../../users/store';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
@@ -10,11 +14,6 @@ import {
   CaaShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
 import { ErrorMessage } from '../../models/caa-cases.model';
-import { Observable, of, Subscription } from 'rxjs';
-import { catchError, debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
-import { User } from '@hmcts/rpx-xui-common-lib';
-import { select, Store } from '@ngrx/store';
-import * as fromUserStore from '../../../users/store';
 
 @Component({
   selector: 'app-caa-filter',
@@ -45,8 +44,7 @@ export class CaaFilterComponent implements OnInit {
   public groupedUsers = new Map<string, User[]>();
   public readonly caseRefFormControl = 'case-reference-number';
   public readonly caaFilterFormControl = 'caa-filter';
-  public readonly assigneePersonFormControlName = 'assignee-person';
-  public assigneePersonFormControl: FormControl;
+  public readonly assigneePersonFormControl = 'assignee-person';
   public showAutocomplete: boolean = false;
   public sub: Subscription;
 
@@ -54,15 +52,28 @@ export class CaaFilterComponent implements OnInit {
     private readonly formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
-    this.caaFormGroup = this.formBuilder.group({
-      [this.caseRefFormControl]: new FormControl('')
-    });
-    if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+    this.caaFormGroup = this.formBuilder.group({});
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.caaFormGroup.addControl(this.caseRefFormControl, new FormControl('', CaaCasesUtil.caseReferenceValidator()));
+      this.caaFilterHeading = CaaCasesFilterHeading.UnassignedCases;
+    } else {
       this.caaFormGroup.addControl(this.caaFilterFormControl, new FormControl('', Validators.required));
-      this.assigneePersonFormControl = new FormControl(this.assigneePersonFormControlName);
-      this.caaFormGroup.addControl(this.assigneePersonFormControlName, this.assigneePersonFormControl);
+      this.caaFormGroup.addControl(this.caseRefFormControl, new FormControl(''));
+      this.caaFormGroup.addControl(this.assigneePersonFormControl, new FormControl(''));
 
-      this.sub = this.assigneePersonFormControl.valueChanges.pipe(
+      this.caaFilterHeading = CaaCasesFilterHeading.AssignedCases;
+
+      // Subscribe to changes of the selected radio button value and set the validator accordingly
+      this.caaFormGroup.get(this.caaFilterFormControl).valueChanges.subscribe(value => {
+        if (value === this.caaCasesFilterType.CaseReferenceNumber) {
+          this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
+        } else {
+          this.caaFormGroup.get(this.caseRefFormControl).clearValidators();
+        }
+        this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
+      });
+
+      this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
         tap(() => this.showAutocomplete = false),
         tap(() => this.filteredAndGroupedUsers = null),
         debounceTime(300),
@@ -75,34 +86,11 @@ export class CaaFilterComponent implements OnInit {
         console.log('FILTERED AND GROUPED USERS', this.filteredAndGroupedUsers);
       });
     }
-    this.caaFilterHeading = this.caaCasesPageType === CaaCasesPageType.AssignedCases
-      ? CaaCasesFilterHeading.AssignedCases
-      : CaaCasesFilterHeading.UnassignedCases;
-    // Set validator on case reference number field depending on whether this option has been chosen if the page type
-    // is AssignedCases, or always if the page type is UnassignedCases
-    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
-    } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
-      // Subscribe to changes of the selected radio button value and set the validator accordingly
-      this.caaFormGroup.get(this.caaFilterFormControl).valueChanges.subscribe(value => {
-        if (value === this.caaCasesFilterType.CaseReferenceNumber) {
-          this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
-        } else {
-          this.caaFormGroup.get(this.caseRefFormControl).clearValidators();
-        }
-        this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
-      });
-    }
   }
 
   public filterSelectedOrganisationUsers(searchTerm: string): Observable<Map<string, User[]>> {
 
     let filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.includes(searchTerm));
-    
-    
-    // if (!searchTerm) {
-    //   return of(this.selectedOrganisationUsers);
-    // }
 
     const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === 'active');
     const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== 'active');
@@ -115,22 +103,6 @@ export class CaaFilterComponent implements OnInit {
     console.log('GROUPED USERS', this.groupedUsers.get('Inactive users:'));
 
     return of(this.groupedUsers);
-
-    // this.selectedOrganisationUsers$.subscribe(result => {
-    // 	console.log('PRINT', result);
-    // 	debugger;
-    // });
-
-    // return this.selectedOrganisationUsers$.pipe(map(users => {
-    //   console.log('USERS', users);
-
-    //   const filteredUsers = users.filter(x => x.fullName.includes(searchTerm));
-    //   console.log('FILTERED USERS', filteredUsers);
-
-    //   return users.filter(x => x.fullName.includes(searchTerm));
-    // }));
-
-    // return of(this.selectedOrganisationUsers);
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
@@ -147,7 +119,7 @@ export class CaaFilterComponent implements OnInit {
       } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         switch (this.selectedFilterType) {
           case CaaCasesFilterType.AssigneeName:
-            selectedFilterValue = this.caaFormGroup.get(this.assigneePersonFormControlName).value;
+            selectedFilterValue = this.caaFormGroup.get(this.assigneePersonFormControl).value;
             break;
           case CaaCasesFilterType.CaseReferenceNumber:
             selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;
@@ -167,7 +139,7 @@ export class CaaFilterComponent implements OnInit {
   }
 
   public onSelectionChange(selectedUser: User): void {
-    this.assigneePersonFormControl.setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });
+    this.caaFormGroup.get(this.assigneePersonFormControl).setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });
   }
 
   private validateForm(): boolean {

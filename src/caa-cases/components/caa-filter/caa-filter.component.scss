@@ -13,3 +13,31 @@
     width: 356px;
   }
 }
+
+.mat-option{
+  &:hover{
+    background: #2596be;
+  }
+  &.select-option{
+    &:hover{
+      background: #1d70b8;
+      color: #ffffff;
+    }
+  }
+}
+
+.hide-autocomplete {
+  display: none;
+}
+
+.mat-optgroup-label {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+mat-optgroup {
+  label {
+    font-size: 16px;
+    font-weight: bold;
+  }
+}

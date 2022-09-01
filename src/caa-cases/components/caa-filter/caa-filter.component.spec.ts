@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
@@ -16,7 +17,10 @@ describe('CaaFilterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule ],
+      imports: [
+        ReactiveFormsModule,
+        MatAutocompleteModule
+      ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ CaaFilterComponent ],
       providers: [ FormBuilder ]

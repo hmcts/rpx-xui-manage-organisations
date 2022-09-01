@@ -89,7 +89,7 @@ export class CaaFilterComponent implements OnInit {
 
   public filterSelectedOrganisationUsers(searchTerm: string): Observable<Map<string, User[]>> {
 
-    let filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.includes(searchTerm));
+    const filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.includes(searchTerm));
 
     const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === 'active');
     const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== 'active');

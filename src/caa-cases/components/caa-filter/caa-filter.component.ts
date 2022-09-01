@@ -10,7 +10,7 @@ import {
   CaaShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
 import { ErrorMessage } from '../../models/caa-cases.model';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
@@ -25,7 +25,7 @@ export class CaaFilterComponent implements OnInit {
 
   @Input() public selectedFilterType: string;
   @Input() public caaCasesPageType: string;
-  @Input() public selectedOrganisationUsers$: Observable<User[]>;
+  @Input() public selectedOrganisationUsers: User[];
 
   @Output() public emitSelectedFilterType = new EventEmitter<string>();
   @Output() public emitSelectedFilterValue = new EventEmitter<string>();
@@ -41,7 +41,8 @@ export class CaaFilterComponent implements OnInit {
   public personName: string;
   public assignedUser: string;
   public users: User[];
-  public filteredUsers: User[];
+  public filteredAndGroupedUsers = new Map<string, User[]>();
+  public groupedUsers = new Map<string, User[]>();
   public readonly caseRefFormControl = 'case-reference-number';
   public readonly caaFilterFormControl = 'caa-filter';
   public readonly assigneePersonFormControlName = 'assignee-person';
@@ -63,14 +64,15 @@ export class CaaFilterComponent implements OnInit {
 
       this.sub = this.assigneePersonFormControl.valueChanges.pipe(
         tap(() => this.showAutocomplete = false),
-        tap(() => this.filteredUsers = []),
+        tap(() => this.filteredAndGroupedUsers = null),
         debounceTime(300),
         switchMap((searchTerm: string) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
           tap(() => this.showAutocomplete = true),
-          catchError(() => this.filteredUsers = [])
+          catchError(() => this.filteredAndGroupedUsers = null)
         ))
-      ).subscribe((users: User[]) => {
-        this.filteredUsers = users;
+      ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
+        this.filteredAndGroupedUsers = filteredAndGroupedUsers;
+        console.log('FILTERED AND GROUPED USERS', this.filteredAndGroupedUsers);
       });
     }
     this.caaFilterHeading = this.caaCasesPageType === CaaCasesPageType.AssignedCases
@@ -93,18 +95,42 @@ export class CaaFilterComponent implements OnInit {
     }
   }
 
-  public filterSelectedOrganisationUsers(searchTerm: string): Observable<User[]> {
-    if (!searchTerm) {
-      return this.selectedOrganisationUsers$;  
-    }
-    return this.selectedOrganisationUsers$.pipe(map(users => {
-      console.log('USERS', users);
+  public filterSelectedOrganisationUsers(searchTerm: string): Observable<Map<string, User[]>> {
 
-      const filteredUsers = users.filter(x => x.fullName.includes(searchTerm));
-      console.log('FILTERED USERS', filteredUsers);
+    let filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.includes(searchTerm));
+    
+    
+    // if (!searchTerm) {
+    //   return of(this.selectedOrganisationUsers);
+    // }
 
-      return users.filter(x => x.fullName.includes(searchTerm));
-    }));
+    const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === 'active');
+    const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== 'active');
+
+    this.groupedUsers.set('Active users:', activeUsers);
+    this.groupedUsers.set('Inactive users:', inactiveUsers);
+
+    console.log('GROUPED USERS', this.groupedUsers);
+    console.log('GROUPED USERS', this.groupedUsers.get('Active users:'));
+    console.log('GROUPED USERS', this.groupedUsers.get('Inactive users:'));
+
+    return of(this.groupedUsers);
+
+    // this.selectedOrganisationUsers$.subscribe(result => {
+    // 	console.log('PRINT', result);
+    // 	debugger;
+    // });
+
+    // return this.selectedOrganisationUsers$.pipe(map(users => {
+    //   console.log('USERS', users);
+
+    //   const filteredUsers = users.filter(x => x.fullName.includes(searchTerm));
+    //   console.log('FILTERED USERS', filteredUsers);
+
+    //   return users.filter(x => x.fullName.includes(searchTerm));
+    // }));
+
+    // return of(this.selectedOrganisationUsers);
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
@@ -136,6 +162,7 @@ export class CaaFilterComponent implements OnInit {
   }
 
   public getDisplayName(selectedUser: User): string {
+    console.log('SELECTED USER', selectedUser);
     return `${selectedUser.fullName} - ${selectedUser.email}`;
   }
 

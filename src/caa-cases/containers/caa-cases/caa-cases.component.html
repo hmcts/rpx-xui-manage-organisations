@@ -24,7 +24,7 @@
       <app-caa-filter
         [caaCasesPageType]="caaCasesPageType"
         [selectedFilterType]="selectedFilterType"
-        [selectedOrganisationUsers$]="selectedOrganisationUsers$"
+        [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
         (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
         (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
         (emitErrorMessages)="onErrorMessages($event)">

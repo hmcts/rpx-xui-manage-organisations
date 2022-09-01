@@ -46,8 +46,8 @@
                       <input class="govuk-input" [formControlName]="assigneePersonFormControlName" id="assignee-person"
                         [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto">
                       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
-                        <mat-optgroup *ngFor="let user of filteredUsers" [label]="user.status">
-                          <mat-option *ngFor="let user of filteredUsers"
+                        <mat-optgroup *ngFor="let filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue" [label]="filteredAndGroupedUser.key">
+                          <mat-option *ngFor="let user of filteredAndGroupedUser.value"
                                       [value]="user"
                                       [ngClass]="{'hide-autocomplete': !showAutocomplete, 'select-option': showUpdatedColor}">
                             {{ getDisplayName(user) }}

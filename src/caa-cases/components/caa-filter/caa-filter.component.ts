@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
-import { Store } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
 import { CaaCasesUtil } from '../../../caa-cases/util/caa-cases.util';
-import * as fromUserStore from '../../../users/store';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
@@ -41,7 +39,6 @@ export class CaaFilterComponent implements OnInit {
   public assignedUser: string;
   public users: User[];
   public filteredAndGroupedUsers = new Map<string, User[]>();
-  public groupedUsers = new Map<string, User[]>();
   public readonly caseRefFormControl = 'case-reference-number';
   public readonly caaFilterFormControl = 'caa-filter';
   public readonly assigneePersonFormControl = 'assignee-person';
@@ -71,7 +68,7 @@ export class CaaFilterComponent implements OnInit {
         }
         this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
       });
-
+      // Subscribe to assignee person form control to filter and display users based on user input
       this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
         tap(() => this.showAutocomplete = false),
         tap(() => this.filteredAndGroupedUsers = null),
@@ -82,26 +79,18 @@ export class CaaFilterComponent implements OnInit {
         ))
       ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
         this.filteredAndGroupedUsers = filteredAndGroupedUsers;
-        console.log('FILTERED AND GROUPED USERS', this.filteredAndGroupedUsers);
       });
     }
   }
 
   public filterSelectedOrganisationUsers(searchTerm: string): Observable<Map<string, User[]>> {
-
     const filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.includes(searchTerm));
-
     const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === 'active');
     const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== 'active');
-
-    this.groupedUsers.set('Active users:', activeUsers);
-    this.groupedUsers.set('Inactive users:', inactiveUsers);
-
-    console.log('GROUPED USERS', this.groupedUsers);
-    console.log('GROUPED USERS', this.groupedUsers.get('Active users:'));
-    console.log('GROUPED USERS', this.groupedUsers.get('Inactive users:'));
-
-    return of(this.groupedUsers);
+    const groupedUsers = new Map<string, User[]>();
+    groupedUsers.set('Active users:', activeUsers);
+    groupedUsers.set('Inactive users:', inactiveUsers);
+    return of(groupedUsers);
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
@@ -133,7 +122,6 @@ export class CaaFilterComponent implements OnInit {
   }
 
   public getDisplayName(selectedUser: User): string {
-    console.log('SELECTED USER', selectedUser);
     return `${selectedUser.fullName} - ${selectedUser.email}`;
   }
 

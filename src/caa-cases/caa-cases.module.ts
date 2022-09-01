@@ -20,27 +20,27 @@ import * as fromServices from './services';
 import { effects, reducers } from './store';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        ExuiCommonLibModule,
-        HttpClientModule,
-        SharedModule,
-        caaCasesRouting,
-        StoreModule.forFeature('org', orgReducers),
-        EffectsModule.forFeature(orgEffects),
-        StoreModule.forFeature('user', userReducers),
-        EffectsModule.forFeature(userEffects),
-        StoreModule.forFeature('caaCases', reducers),
-        EffectsModule.forFeature(effects),
-        CaseListModule,
-        MatTabsModule,
-        MatAutocompleteModule
-      ],
-      exports: [...fromContainers.containers, ...fromComponents.components],
-      declarations: [...fromContainers.containers, ...fromComponents.components],
-      providers: [...fromServices.services, OrganisationService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
+  imports: [
+    CommonModule,
+    ExuiCommonLibModule,
+    HttpClientModule,
+    SharedModule,
+    caaCasesRouting,
+    StoreModule.forFeature('org', orgReducers),
+    EffectsModule.forFeature(orgEffects),
+    StoreModule.forFeature('users', userReducers),
+    EffectsModule.forFeature(userEffects),
+    StoreModule.forFeature('caaCases', reducers),
+    EffectsModule.forFeature(effects),
+    CaseListModule,
+    MatTabsModule,
+    MatAutocompleteModule
+  ],
+  exports: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
+  providers: [...fromServices.services, OrganisationService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
 
 export class CaaCasesModule {
 }

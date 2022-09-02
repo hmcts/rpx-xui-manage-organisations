@@ -21,7 +21,7 @@ suite('Register Org -> POST Register Organisation', function() {
       haveSra: 'no',
       firstName: 'Vam',
       lastName: 'Mun',
-      emailAddress: `apitestorg${Math.round(Math.random() * 10000)}@mailnesia.com`
+      emailAddress: `apitestorg${Date.now()}@mailnesia.com`
     },
       event: 'continue' };
 

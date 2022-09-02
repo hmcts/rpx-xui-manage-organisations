@@ -6,7 +6,7 @@ suite('Manage Org -> POST Invite User', function() {
   const payload = {
     firstName: 'Vamshi',
     lastName: 'Muniganti',
-    email: `vam.mun${Math.round(Math.random() * 10000)}@mailnesia.com`,
+    email: `vam.mun${Date.now()}@mailnesia.com`,
     roles: [
     'pui-case-manager'
   ],

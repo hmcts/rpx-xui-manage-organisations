@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of, Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ import { ErrorMessage } from '../../models/caa-cases.model';
   templateUrl: './caa-filter.component.html',
   styleUrls: ['./caa-filter.component.scss']
 })
-export class CaaFilterComponent implements OnInit {
+export class CaaFilterComponent implements OnInit, OnDestroy {
 
   @Input() public selectedFilterType: string;
   @Input() public caaCasesPageType: string;
@@ -28,6 +28,10 @@ export class CaaFilterComponent implements OnInit {
   @Output() public emitSelectedFilterValue = new EventEmitter<string>();
   @Output() public emitErrorMessages = new EventEmitter<ErrorMessage[]>();
 
+  public readonly ACTIVE_USER_GROUP_HEADING = 'Active users:';
+  public readonly INACTIVE_USER_GROUP_HEADING = 'Inactive users:';
+  public readonly ACTIVE_USER_STATUS = 'active';
+
   public caaFormGroup: FormGroup;
   public caaFilterHeading: string;
   public caaCasesPageTypeLookup = CaaCasesPageType;
@@ -35,15 +39,13 @@ export class CaaFilterComponent implements OnInit {
   public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
   public caseReferenceNumberErrorMessage = '';
   public errorMessages: ErrorMessage[];
-  public personName: string;
-  public assignedUser: string;
-  public users: User[];
   public filteredAndGroupedUsers = new Map<string, User[]>();
   public readonly caseRefFormControl = 'case-reference-number';
   public readonly caaFilterFormControl = 'caa-filter';
   public readonly assigneePersonFormControl = 'assignee-person';
   public showAutocomplete: boolean = false;
-  public sub: Subscription;
+  public caaFilterFormControlSubscription: Subscription;
+  public assigneePersonFormControlSubscription: Subscription;
 
   constructor(private readonly formBuilder: FormBuilder) { }
 
@@ -60,7 +62,7 @@ export class CaaFilterComponent implements OnInit {
       this.caaFilterHeading = CaaCasesFilterHeading.AssignedCases;
 
       // Subscribe to changes of the selected radio button value and set the validator accordingly
-      this.caaFormGroup.get(this.caaFilterFormControl).valueChanges.subscribe(value => {
+      this.caaFilterFormControlSubscription = this.caaFormGroup.get(this.caaFilterFormControl).valueChanges.subscribe(value => {
         if (value === this.caaCasesFilterType.CaseReferenceNumber) {
           this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
         } else {
@@ -69,7 +71,7 @@ export class CaaFilterComponent implements OnInit {
         this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
       });
       // Subscribe to assignee person form control to filter and display users based on user input
-      this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
+      this.assigneePersonFormControlSubscription = this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
         tap(() => this.showAutocomplete = false),
         tap(() => this.filteredAndGroupedUsers = null),
         debounceTime(300),
@@ -84,12 +86,12 @@ export class CaaFilterComponent implements OnInit {
   }
 
   public filterSelectedOrganisationUsers(searchTerm: string): Observable<Map<string, User[]>> {
-    const filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.includes(searchTerm));
-    const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === 'active');
-    const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== 'active');
+    const filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.toLowerCase().includes(searchTerm.toLowerCase()));
+    const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
+    const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);
     const groupedUsers = new Map<string, User[]>();
-    groupedUsers.set('Active users:', activeUsers);
-    groupedUsers.set('Inactive users:', inactiveUsers);
+    groupedUsers.set(this.ACTIVE_USER_GROUP_HEADING, activeUsers);
+    groupedUsers.set(this.INACTIVE_USER_GROUP_HEADING, inactiveUsers);
     return of(groupedUsers);
   }
 
@@ -127,6 +129,15 @@ export class CaaFilterComponent implements OnInit {
 
   public onSelectionChange(selectedUser: User): void {
     this.caaFormGroup.get(this.assigneePersonFormControl).setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });
+  }
+
+  public ngOnDestroy(): void {
+    if (this.assigneePersonFormControlSubscription) {
+      this.assigneePersonFormControlSubscription.unsubscribe();
+    }
+    if (this.caaFilterFormControlSubscription) {
+      this.caaFilterFormControlSubscription.unsubscribe();
+    }
   }
 
   private validateForm(): boolean {

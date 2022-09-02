@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material';
+import { Observable } from 'rxjs';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
@@ -238,5 +239,36 @@ describe('CaaFilterComponent', () => {
       email: 'user@test.com'
     };
     expect(component.getDisplayName(selectedUser)).toEqual('User Test - user@test.com');
+  });
+
+  it('should filter users based on search term', () => {
+    component.selectedOrganisationUsers = [
+      { fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
+      { fullName: 'John Test', email: 'john@test.com', status: 'inactive' },
+      { fullName: 'Lindsey Johnson', email: 'user@test.com', status: 'pending' }
+    ];
+    let groupedUsers = component.filterSelectedOrganisationUsers('test');
+    groupedUsers.subscribe(users => {
+      expect(users.get('Active users:').length).toEqual(1);
+      expect(users.get('Inactive users:').length).toEqual(1);
+      expect(users.get('Active users:')[0].fullName).toEqual('Andy Test');
+      expect(users.get('Inactive users:')[0].fullName).toEqual('John Test');
+    });
+    groupedUsers = component.filterSelectedOrganisationUsers('Lindsey');
+    groupedUsers.subscribe(users => {
+      expect(users.get('Active users:').length).toEqual(0);
+      expect(users.get('Inactive users:').length).toEqual(1);
+      expect(users.get('Inactive users:')[0].fullName).toEqual('Lindsey Johnson');
+    })
+  });
+
+  it('should unsubscribe', () => {
+    component.assigneePersonFormControlSubscription = new Observable().subscribe();
+    spyOn(component.assigneePersonFormControlSubscription, 'unsubscribe').and.callThrough();
+    component.caaFilterFormControlSubscription = new Observable().subscribe();
+    spyOn(component.caaFilterFormControlSubscription, 'unsubscribe').and.callThrough();
+    component.ngOnDestroy();
+    expect(component.assigneePersonFormControlSubscription.unsubscribe).toHaveBeenCalled();
+    expect(component.caaFilterFormControlSubscription.unsubscribe).toHaveBeenCalled();
   });
 });

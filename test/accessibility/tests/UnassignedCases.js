@@ -10,8 +10,7 @@ const html = require('pa11y-reporter-html');
 const { conf } = require('../config/config');
 
 const MockApp = require('../../nodeMock/app');
-// TODO: The tests for unassigned cases needs to be updated
-xdescribe('Pa11y tests', function () {
+describe('Pa11y tests', function () {
     beforeEach(function () {
         MockApp.init()
     });
@@ -25,7 +24,7 @@ xdescribe('Pa11y tests', function () {
         await MockApp.startServer();
         const actions = [];
         actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
-        actions.push(...PallyActions.waitForPageWithCssLocator('app-unassigned-cases-component'));
+        actions.push(...PallyActions.waitForPageWithCssLocator('app-caa-cases-component'));
         await pa11ytest(this, actions);
     });
 

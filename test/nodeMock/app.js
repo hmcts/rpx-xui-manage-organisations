@@ -6,6 +6,8 @@ const { browser } = require('protractor');
 const port = 3001;
 
 
+const nodeMockAvailablePort = require('./availablePortFinder').getAvailablePort();
+
 class MockApp{
     init(){
         this.conf = { 
@@ -37,7 +39,7 @@ class MockApp{
             app.delete(key, value);
         }
 
-        this.server = await app.listen(port)
+        this.server = await app.listen(nodeMockAvailablePort)
         console.log("mock api started");
         // return "Mock started successfully"
 

@@ -53,7 +53,7 @@
                                       [ngClass]="{'hide-autocomplete': !showAutocomplete}">
                             {{ user.fullName + ' - ' + user.email }}
                           </mat-option>
-                          <mat-option *ngIf="!filteredAndGroupedUser.value.length && showAutocomplete">No matched user(s) found</mat-option>
+                          <mat-option *ngIf="!filteredAndGroupedUser.value.length && showAutocomplete">No matches</mat-option>
                         </mat-optgroup>
                       </mat-autocomplete>
                     </div>

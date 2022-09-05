@@ -53,7 +53,6 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
         ]
       }
     case CaaCasesFilterType.AssigneeName:
-      // TODO: To be implemented/modified
       return {
         from: pageNo,
         query: {
@@ -69,10 +68,22 @@ export function getRequestBodyForAssignedCases(organisationID: string, pageNo: n
               {
                 bool: {
                   must: [
-                    { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-                  ],
+                    { range: { [organisationAssignedUsersKey]: { gt: 0}}}
+                  ]
                 },
               },
+              {
+                bool: {
+                  should: [
+                    { 
+                      match: { [reference]: "1611050324797723" }
+                    },
+                    {
+                      term: { [reference]: "1610546656851997" }
+                    }
+                  ],
+                }
+              }
             ],
           },
         },

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of, Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ import { ErrorMessage } from '../../models/caa-cases.model';
   templateUrl: './caa-filter.component.html',
   styleUrls: ['./caa-filter.component.scss']
 })
-export class CaaFilterComponent implements OnInit, OnDestroy {
+export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public selectedFilterType: string;
   @Input() public caaCasesPageType: string;
@@ -85,8 +85,18 @@ export class CaaFilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  public filterSelectedOrganisationUsers(searchTerm: string): Observable<Map<string, User[]>> {
-    const filteredUsers = this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.toLowerCase().includes(searchTerm.toLowerCase()));
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedOrganisationUsers && changes.selectedOrganisationUsers.currentValue) {
+      this.filterSelectedOrganisationUsers().subscribe(filteredAndGroupedUsers => {
+        this.filteredAndGroupedUsers = filteredAndGroupedUsers;
+      });
+    }
+  }
+
+  public filterSelectedOrganisationUsers(searchTerm?: string): Observable<Map<string, User[]>> {
+    const filteredUsers = searchTerm
+      ? this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+      : this.selectedOrganisationUsers;
     const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
     const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);
     const groupedUsers = new Map<string, User[]>();

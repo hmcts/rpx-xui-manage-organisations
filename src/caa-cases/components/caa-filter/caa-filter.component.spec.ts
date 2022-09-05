@@ -250,7 +250,7 @@ describe('CaaFilterComponent', () => {
     let groupedUsers = component.filterSelectedOrganisationUsers('test');
     groupedUsers.subscribe(users => {
       expect(users.get('Active users:').length).toEqual(1);
-      expect(users.get('Inactive users:').length).toEqual(1);
+      expect(users.get('Inactive users:').length).toEqual(2);
       expect(users.get('Active users:')[0].fullName).toEqual('Andy Test');
       expect(users.get('Inactive users:')[0].fullName).toEqual('John Test');
     });

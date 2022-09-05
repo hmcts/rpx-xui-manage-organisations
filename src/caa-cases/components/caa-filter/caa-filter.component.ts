@@ -75,7 +75,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
         tap(() => this.showAutocomplete = false),
         tap(() => this.filteredAndGroupedUsers = null),
         debounceTime(300),
-        switchMap((searchTerm: string) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
+        switchMap((searchTerm: any) => this.filterSelectedOrganisationUsers(searchTerm).pipe(
           tap(() => this.showAutocomplete = true),
           catchError(() => this.filteredAndGroupedUsers = null)
         ))
@@ -93,9 +93,11 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  public filterSelectedOrganisationUsers(searchTerm?: string): Observable<Map<string, User[]>> {
-    const filteredUsers = searchTerm
-      ? this.selectedOrganisationUsers.filter(user => user.fullName && user.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+  public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
+    const filteredUsers = searchTerm && searchTerm.length > 0
+      ? typeof(searchTerm) === 'string'
+        ? this.selectedOrganisationUsers.filter(user => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))
+        :	this.selectedOrganisationUsers.filter(user => this.getDisplayName(user).toLowerCase().includes(this.getDisplayName(searchTerm).toLowerCase()))
       : this.selectedOrganisationUsers;
     const activeUsers = filteredUsers.filter(user => user.status.toLowerCase() === this.ACTIVE_USER_STATUS);
     const inactiveUsers = filteredUsers.filter(user => user.status.toLowerCase() !== this.ACTIVE_USER_STATUS);

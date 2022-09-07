@@ -22,7 +22,7 @@ export class CaaCasesEffects {
   public loadAssignedCases$ = this.actions$.pipe(
     ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
     switchMap((action: fromCaaActions.LoadAssignedCases) => {
-      return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize, action.payload.caaCasesFilterType, action.payload.caaCasesFilterValue, CaaCasesPageType.AssignedCases).pipe(
+      return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize, CaaCasesPageType.AssignedCases, action.payload.caaCasesFilterValue).pipe(
         map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
         catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
       );
@@ -33,7 +33,7 @@ export class CaaCasesEffects {
   public loadUnassignedCases$ = this.actions$.pipe(
     ofType(fromCaaActions.LOAD_UNASSIGNED_CASES),
     switchMap((action: fromCaaActions.LoadUnassignedCases) => {
-      return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize, action.payload.caaCasesFilterType, action.payload.caaCasesFilterValue, CaaCasesPageType.UnassignedCases).pipe(
+      return this.caaCasesService.getCaaCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize, CaaCasesPageType.UnassignedCases, action.payload.caaCasesFilterValue).pipe(
         map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
         catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))
       );
@@ -43,7 +43,7 @@ export class CaaCasesEffects {
   @Effect()
   public loadCaseTypes$ = this.actions$.pipe(
     ofType(fromCaaActions.LOAD_CASE_TYPES),
-    switchMap((action: fromCaaActions.LoadCaseTypes) => {
+    switchMap(() => {
       return this.caaCasesService.getCaaCaseTypes().pipe(
         map(caaCaseTypes => {
           const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);

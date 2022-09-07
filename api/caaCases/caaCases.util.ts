@@ -1,6 +1,6 @@
-import { CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig, CaaCases } from './interfaces'
-import { caseAssignment, caseId, caseTypeStr } from './caaCases.constants'
-import { CaaCasesFilterType } from './enums';
+import { caseAssignment, caseId, caseTypeStr } from './caaCases.constants';
+import { CaaCasesPageType } from './enums';
+import { CaaCases, CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig } from './interfaces';
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
   return `${ccdPath}${caseAssignment}?ctid=${caseTypeId}&use_case=ORGCASES`;
@@ -17,192 +17,19 @@ export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
   };
 }
 
-export function getRequestBodyForAssignedCases(organisationID: string, pageNo: number, pageSize: number, caaCasesFilterType: string, caaCasesFilterValue: string) {
+export function getRequestBody(organisationID: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterValue?: string) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
   const reference = 'reference.keyword';
-
-  switch(caaCasesFilterType) {
-    case CaaCasesFilterType.AllAssignees:
-      return {
-        from: pageNo,
-        query: {
-          bool: {
-            filter: [
-              {
-                multi_match: {
-                  fields: ['data.*.Organisation.OrganisationID'],
-                  query: `${organisationID}`,
-                  type: 'phrase',
-                },
-              },
-              {
-                bool: {
-                  must: [
-                    { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-                  ],
-                },
-              },
-            ],
-          },
-        },
-        size: pageSize,
-        sort: [
-          {
-            created_date: 'desc'
-          },
-        ]
-      }
-    case CaaCasesFilterType.AssigneeName:
-      return {
-        from: pageNo,
-        query: {
-          bool: {
-            filter: [
-              {
-                multi_match: {
-                  fields: ['data.*.Organisation.OrganisationID'],
-                  query: `${organisationID}`,
-                  type: 'phrase',
-                },
-              },
-              {
-                bool: {
-                  must: [
-                    { range: { [organisationAssignedUsersKey]: { gt: 0}}}
-                  ]
-                },
-              },
-              {
-                bool: {
-                  should: [
-                    { 
-                      match: { [reference]: "1611050324797723" }
-                    },
-                    {
-                      term: { [reference]: "1610546656851997" }
-                    }
-                  ],
-                }
-              }
-            ],
-          },
-        },
-        size: pageSize,
-        sort: [
-          {
-            created_date: 'desc'
-          },
-        ]
-      }
-    case CaaCasesFilterType.CaseReferenceNumber:
-      return {
-        from: pageNo,
-        query: {
-          bool: {
-            must: [
-              { match: { [reference]: caaCasesFilterValue }},
-            ],
-            filter: [
-              {
-                multi_match: {
-                  fields: ['data.*.Organisation.OrganisationID'],
-                  query: `${organisationID}`,
-                  type: 'phrase',
-                },
-              },
-              {
-                bool: {
-                  must: [
-                    { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-                  ],
-                },
-              },
-            ],
-          },
-        },
-        size: pageSize,
-        sort: [
-          {
-            created_date: 'desc'
-          },
-        ]
-      }
-    default:
-      return {
-        from: pageNo,
-        query: {
-          bool: {
-            filter: [
-              {
-                multi_match: {
-                  fields: ['data.*.Organisation.OrganisationID'],
-                  query: `${organisationID}`,
-                  type: 'phrase',
-                },
-              },
-              {
-                bool: {
-                  must: [
-                    { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-                  ],
-                },
-              },
-            ],
-          },
-        },
-        size: pageSize,
-        sort: [
-          {
-            created_date: 'desc'
-          },
-        ]
-      }
-  }
-}
-
-export function getRequestBodyForUnassignedCases(organisationID: string, pageNo: number, pageSize: number, caaCasesFilterType: string, caaCasesFilterValue: string) {
-  const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
-  const reference = 'reference.keyword';
-
-  if (caaCasesFilterType === CaaCasesFilterType.CaseReferenceNumber) {
-    return {
-      from: pageNo,
-      query: {
-        bool: {
-          must: [
-            { match: { [reference]: caaCasesFilterValue }},
-          ],
-          filter: [
-            {
-              multi_match: {
-                fields: ['data.*.Organisation.OrganisationID'],
-                query: `${organisationID}`,
-                type: 'phrase',
-              },
-            },
-            {
-              bool: {
-                must_not: [
-                  { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-                ],
-              },
-            },
-          ],
-        },
-      },
-      size: pageSize,
-      sort: [
-        {
-          created_date: 'desc'
-        },
-      ]
-    };
-  }
 
   return {
     from: pageNo,
     query: {
       bool: {
+        ...(caaCasesFilterValue && {
+          must: [
+            { match: { [reference]: caaCasesFilterValue } },
+          ],
+        }),
         filter: [
           {
             multi_match: {
@@ -213,9 +40,16 @@ export function getRequestBodyForUnassignedCases(organisationID: string, pageNo:
           },
           {
             bool: {
-              must_not: [
-                { range: { [organisationAssignedUsersKey]: { gt: 0}}},
-              ],
+              ...(caaCasesPageType === CaaCasesPageType.AssignedCases && {
+                must: [
+                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
+                ],
+              }),
+              ...(caaCasesPageType === CaaCasesPageType.UnassignedCases && {
+                must_not: [
+                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
+                ],
+              }),
             },
           },
         ],

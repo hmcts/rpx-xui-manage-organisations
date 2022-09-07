@@ -1,5 +1,5 @@
 export interface CaseHeader {
-    metadata: { jurisdiction: string, case_type_id: string }
+    metadata: { jurisdiction: string, case_type_id: string };
     fields: [
                 {
                     label: string,
@@ -9,29 +9,29 @@ export interface CaseHeader {
                     case_field_type: {type: string},
                     display_context_parameter: string
                 }
-        ],
-    cases: string []
+        ];
+    cases: string [];
 }
 
 export interface CcdCaseData {
-    case_id: string
-    fields: {}
+    case_id: string;
+    fields: {};
 }
 
 export interface CcdCase {
-    headers: CaseHeader[],
-    cases: CcdCaseData [],
-    total: 6
+    headers: CaseHeader[];
+    cases: CcdCaseData [];
+    total: 6;
 }
 
 export interface CcdColumnConfig {
-    header: string,
-    key: string,
-    type: string
+    header: string;
+    key: string;
+    type: string;
 }
 
 export interface CaaCases {
-    idField: string
-    columnConfigs: CcdColumnConfig []
-    data: any[]
+    idField: string;
+    columnConfigs: CcdColumnConfig [];
+    data: any[];
 }

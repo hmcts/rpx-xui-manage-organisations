@@ -4,9 +4,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { NavItemModel } from '../../../app/models/nav-items.model';
-import { CaaCasesService } from '../../services';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { CaaCases } from '../../models/caa-cases.model';
+import { CaaCasesService } from '../../services';
 import * as caaCasesActions from '../actions/caa-cases.actions';
 import { CaaCasesEffects } from './caa-cases.effects';
 

@@ -12,4 +12,27 @@
   #case-reference-number {
     width: 356px;
   }
+  
+  .hide-autocomplete {
+    display: none;
+  }
+}
+
+.mat-optgroup {
+  .mat-group-header {
+    font-size: 16px !important;
+    font-weight: bold !important;
+  }
+
+  .mat-option {
+    &:hover {
+      background: #2596be;
+    }
+    &.select-option {
+      &:hover {
+        background: #1d70b8;
+        color: #ffffff;
+      }
+    }
+  }
 }

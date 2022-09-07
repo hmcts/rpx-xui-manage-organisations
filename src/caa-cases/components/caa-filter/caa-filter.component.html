@@ -43,7 +43,19 @@
                       <label class="govuk-label" for="assignee-person">
                         Type the name and select an available match option
                       </label>
-                      <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person" [name]="assigneePersonFormControl" type="text">
+                      <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person"
+                        [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith">
+                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
+                        <mat-optgroup *ngFor="let filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue">
+                          <span class="mat-group-header">{{ filteredAndGroupedUser.key }}</span>
+                          <mat-option *ngFor="let user of filteredAndGroupedUser.value"
+                                      [value]="user"
+                                      [ngClass]="{'hide-autocomplete': !showAutocomplete}">
+                            {{ user.fullName + ' - ' + user.email }}
+                          </mat-option>
+                          <mat-option *ngIf="!filteredAndGroupedUser.value.length && showAutocomplete">No matches</mat-option>
+                        </mat-optgroup>
+                      </mat-autocomplete>
                     </div>
                   </div>
                   <div class="govuk-radios__item">

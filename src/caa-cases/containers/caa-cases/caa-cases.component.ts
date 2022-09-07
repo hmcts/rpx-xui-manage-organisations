@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
+import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
 import { CaaCasesFilterType, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases, ErrorMessage } from '../../models/caa-cases.model';
@@ -20,6 +22,7 @@ export class CaaCasesComponent implements OnInit {
 
   public cases$: Observable<any>;
   public selectedOrganisation$: Observable<Organisation>;
+  public selectedOrganisationUsers$: Observable<User[]>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;
   public tableConfig: TableConfig;
@@ -43,6 +46,7 @@ export class CaaCasesComponent implements OnInit {
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
+              private readonly userStore: Store<fromUserStore.UserState>,
               private readonly router: Router) {
     // Identify whether user selected to view assigned cases or unassigned cases
     this.caaCasesPageType = this.router && this.router.url && this.router.url.includes('unassigned-cases')
@@ -54,8 +58,8 @@ export class CaaCasesComponent implements OnInit {
       : CaaCasesPageTitle.AssignedCases;
     // Set show hide filter button text
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaShowHideFilterButtonText.UnassignedCasesHide
-      : CaaShowHideFilterButtonText.AssignedCasesHide;
+      ? CaaShowHideFilterButtonText.UnassignedCasesShow
+      : CaaShowHideFilterButtonText.AssignedCasesShow;
     // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
     this.setSelectedFilterTypeAndValue();
   }
@@ -63,6 +67,7 @@ export class CaaCasesComponent implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(new fromStore.LoadCaseTypes());
     this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
+    this.userStore.dispatch(new fromUserStore.LoadUsers(0));
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
       this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
         if (config !== null) {
@@ -86,6 +91,7 @@ export class CaaCasesComponent implements OnInit {
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
     this.selectedOrganisation$ = this.organisationStore.pipe(select(fromOrganisationStore.getOrganisationSel));
+    this.selectedOrganisationUsers$ = this.userStore.pipe(select(fromUserStore.getGetUserList));
   }
 
   public setSelectedFilterTypeAndValue(): void {

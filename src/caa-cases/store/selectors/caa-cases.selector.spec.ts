@@ -16,7 +16,7 @@ describe('CaaCases selectors', () => {
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
-  })
+  });
 
   it('should return all assigned cases', () => {
     let result;

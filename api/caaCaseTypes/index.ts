@@ -1,7 +1,7 @@
-import { Request, Response, Router } from 'express'
-import { getConfigValue } from '../configuration'
-import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
-import { getApiPath, getRequestBody } from './caaCaseTypes.util'
+import { Request, Response, Router } from 'express';
+import { getConfigValue } from '../configuration';
+import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references';
+import { getApiPath, getRequestBody } from './caaCaseTypes.util';
 
 export async function handleCaaCaseTypes(req: Request, res: Response) {
   const payload = getRequestBody(req.session.auth.orgId);

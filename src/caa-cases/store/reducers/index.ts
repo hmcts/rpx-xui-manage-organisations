@@ -1,6 +1,6 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
-import * as fromCaseShare from './share-case.reducer';
 import * as fromCaaCases from './caa-cases.reducer';
+import * as fromCaseShare from './share-case.reducer';
 
 export interface CaaCasesState {
   caaCases: fromCaaCases.CaaCasesState;
@@ -18,3 +18,4 @@ export const getRootCaaCases = createFeatureSelector<CaaCasesState>(
 
 export * from './caa-cases.reducer';
 export * from './share-case.reducer';
+

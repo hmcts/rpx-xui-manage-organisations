@@ -68,7 +68,7 @@ describe('Caa actions', () => {
     const action = new fromActions.LoadCaseTypes();
     expect({ ...action }).toEqual({
       type: fromActions.LOAD_CASE_TYPES
-    })
+    });
   });
 
   it('load case types success action', () => {
@@ -77,7 +77,7 @@ describe('Caa actions', () => {
     expect({ ...action }).toEqual({
       payload,
        type: fromActions.LOAD_CASE_TYPES_SUCCESS
-    })
+    });
   });
 
   it('load case types failure action', () => {
@@ -86,6 +86,6 @@ describe('Caa actions', () => {
     expect({ ...action }).toEqual({
       payload,
        type: fromActions.LOAD_CASE_TYPES_FAILURE
-    })
+    });
   });
 });

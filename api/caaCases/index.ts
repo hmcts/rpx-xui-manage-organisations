@@ -2,27 +2,32 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_MCA_PROXY_API_PATH, SERVICES_ROLE_ASSIGNMENT_API_PATH } from '../configuration/references';
 import { getApiPath, getRequestBody, mapCcdCases } from './caaCases.util';
+import { CaaCasesFilterType } from './enums';
 import { RoleAssignmentResponse } from './models/roleAssignmentResponse';
 
 export async function handleCaaCases(req: Request, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string;
   const caaCasesPageType = req.query.caaCasesPageType as string;
-  const caaCasesFilterValue = req.query.caaCasesFilterValue as string;
+  const caaCasesFilterType = req.query.caaCasesFilterType as string;
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId);
   const page: number = (+req.query.pageNo || 1) - 1;
   const size: number = (+req.query.pageSize);
   const fromNo: number = page * size;
-  
+
+  let caaCasesFilterValue: string | string[] = req.query.caaCasesFilterValue as string;
 
   try {
 
-    const roleAssignments = await handleRoleAssignments(req);
-    const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
-    const caseIds = roleAssignmentResponse.map(x => x.attributes.caseId)
+    if (caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
+      const roleAssignments = await handleRoleAssignments(req);
+      const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
+      caaCasesFilterValue = roleAssignmentResponse.map(x => x.attributes.caseId);
+    }
 
-    console.log('CASE IDs', caseIds);
-
+    console.log('CAA CASES FILTER VALUE', caaCasesFilterValue);
     const payload = getRequestBody(req.session.auth.orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
+
+    console.log('PAYLOAD PAYLOAD PAYLOAD', payload);
 
     const response = await req.http.post(path, payload);
     const caaCases = mapCcdCases(caseTypeId, response.data);

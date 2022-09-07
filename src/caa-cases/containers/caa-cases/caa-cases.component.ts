@@ -142,10 +142,22 @@ export class CaaCasesComponent implements OnInit {
 
   public loadDataFromStore(): void {
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterValue: this.selectedFilterValue}));
+      this.store.dispatch(new fromStore.LoadUnassignedCases({
+        caseType: this.currentCaseType,
+        pageNo: this.currentPageNo,
+        pageSize: this.paginationPageSize,
+        caaCasesFilterType: this.selectedFilterType,
+        caaCasesFilterValue: this.selectedFilterValue
+      }));
       this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     } else {
-      this.store.dispatch(new fromStore.LoadAssignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize, caaCasesFilterValue: this.selectedFilterValue}));
+      this.store.dispatch(new fromStore.LoadAssignedCases({
+        caseType: this.currentCaseType,
+        pageNo: this.currentPageNo,
+        pageSize: this.paginationPageSize,
+        caaCasesFilterType: this.selectedFilterType,
+        caaCasesFilterValue: this.selectedFilterValue
+      }));
       this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
     }
   }
@@ -183,6 +195,7 @@ export class CaaCasesComponent implements OnInit {
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
     this.selectedFilterType = selectedFilterType;
+    console.log('SELECTED FILTER TYPE', this.selectedFilterType);
   }
 
   public onSelectedFilterValueChanged(selectedFilterValue: string): void {

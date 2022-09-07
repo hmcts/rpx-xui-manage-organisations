@@ -17,20 +17,37 @@ export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
   };
 }
 
-export function getRequestBody(organisationID: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterValue?: string) {
+export function getRequestBody(organisationID: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
   const reference = 'reference.keyword';
+	let q = '';
 
-  return {
+	if (Array.isArray(caaCasesFilterValue)) {
+		caaCasesFilterValue.forEach(caseReference => {
+			q += `{ match: { ${[reference]}: ${caseReference} } },`;
+		});
+	}
+
+
+  const abc = {
     from: pageNo,
     query: {
       bool: {
-        ...(caaCasesFilterValue && {
+        ...(caaCasesFilterValue && !Array.isArray(caaCasesFilterValue) && {
           must: [
             { match: { [reference]: caaCasesFilterValue } },
           ],
         }),
         filter: [
+					{
+						...(caaCasesFilterValue && Array.isArray(caaCasesFilterValue) && {
+							bool: {
+								should: [
+									[q]
+								],
+							}
+						})
+					},
           {
             multi_match: {
               fields: ['data.*.Organisation.OrganisationID'],
@@ -62,6 +79,10 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
       },
     ]
   };
+
+	console.log('ABC ABC ABC', abc);
+
+	return abc;
 }
 
 function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[], caseType: string): any[] {

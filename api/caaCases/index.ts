@@ -17,17 +17,13 @@ export async function handleCaaCases(req: Request, res: Response, next: NextFunc
   let caaCasesFilterValue: string | string[] = req.query.caaCasesFilterValue as string;
 
   try {
-
     if (caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req);
       const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
       caaCasesFilterValue = roleAssignmentResponse.map(x => x.attributes.caseId);
     }
 
-    console.log('CAA CASES FILTER VALUE', caaCasesFilterValue);
     const payload = getRequestBody(req.session.auth.orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
-
-    console.log('PAYLOAD PAYLOAD PAYLOAD', payload);
 
     const response = await req.http.post(path, payload);
     const caaCases = mapCcdCases(caseTypeId, response.data);
@@ -40,7 +36,7 @@ export async function handleCaaCases(req: Request, res: Response, next: NextFunc
 export async function handleRoleAssignments(req: Request): Promise<any> {
   const path = `${getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH)}/am/role-assignments/query`;
   const payload = {
-    actorId: ['db17f6f7-1abf-4223-8b5e-1eece04ee5d8'],
+    actorId: [req.query.caaCasesFilterValue],
     roleType: ['CASE']
   };
 

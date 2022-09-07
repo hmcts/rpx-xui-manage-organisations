@@ -26,8 +26,6 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
     caaCasesFilterValue.forEach(caseReference => {
       caseReferenceFilter.push({ match: { [reference]: caseReference } })
     });
-    caseReferenceFilter.push({ match: { [reference]: '1610546656851997' } });
-    caseReferenceFilter.push({ match: { [reference]: '1603725792528680' } });
   } else {
     caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
   }

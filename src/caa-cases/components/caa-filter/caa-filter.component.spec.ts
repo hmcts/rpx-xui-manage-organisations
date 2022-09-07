@@ -73,6 +73,11 @@ describe('CaaFilterComponent', () => {
   });
 
   it('should emit selected filter value when searching from the Assigned Cases page', () => {
+    component.selectedOrganisationUsers = [
+      { userIdentifier: 'user1', fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
+      { userIdentifier: 'user2', fullName: 'Smith Test', email: 'smith@test.com', status: 'inactive' },
+      { userIdentifier: 'user3', fullName: 'Lindsey Johnson', email: 'user@test.com', status: 'pending' }
+    ];
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     fixture.detectChanges();
     // Values need to be set using the form elements themselves, rather than directly on the FormControls, in order to
@@ -81,11 +86,11 @@ describe('CaaFilterComponent', () => {
     radioButton.click();
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
     let textInput = nativeElement.querySelector('#assignee-person');
-    textInput.value = 'Test';
+    textInput.value = 'Andy Test - andy@test.com';
     textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
     component.search();
-    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('Test');
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('user1');
     radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     radioButton.click();
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CaseReferenceNumber);
@@ -235,6 +240,7 @@ describe('CaaFilterComponent', () => {
 
   it('should displayName return correct format', () => {
     const selectedUser = {
+      userIdentifier: 'user1',
       fullName: 'User Test',
       email: 'user@test.com'
     };
@@ -243,9 +249,9 @@ describe('CaaFilterComponent', () => {
 
   it('should filter users based on search term', () => {
     component.selectedOrganisationUsers = [
-      { fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
-      { fullName: 'John Test', email: 'john@test.com', status: 'inactive' },
-      { fullName: 'Lindsey Johnson', email: 'user@test.com', status: 'pending' }
+      { userIdentifier: 'user1', fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
+      { userIdentifier: 'user2', fullName: 'John Test', email: 'john@test.com', status: 'inactive' },
+      { userIdentifier: 'user3', fullName: 'Lindsey Johnson', email: 'user@test.com', status: 'pending' }
     ];
     let groupedUsers = component.filterSelectedOrganisationUsers('test');
     groupedUsers.subscribe(users => {

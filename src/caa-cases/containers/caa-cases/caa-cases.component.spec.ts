@@ -52,13 +52,13 @@ describe('CaaCasesComponent', () => {
     component = fixture.componentInstance;
     expect(component.caaCasesPageType).toBe(CaaCasesPageType.UnassignedCases);
     expect(component.pageTitle).toEqual(CaaCasesPageTitle.UnassignedCases);
-    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.UnassignedCasesHide);
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.UnassignedCasesShow);
     routerUrlPropertySpy.and.returnValue('/assigned-cases');
     fixture = TestBed.createComponent(CaaCasesComponent);
     component = fixture.componentInstance;
     expect(component.caaCasesPageType).toBe(CaaCasesPageType.AssignedCases);
     expect(component.pageTitle).toEqual(CaaCasesPageTitle.AssignedCases);
-    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesHide);
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesShow);
   });
 
   // TODO: Need to revisit this test, as it doesn't seem possible to spy on the ngrx select operator directly

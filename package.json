@@ -40,6 +40,7 @@
     "test:ng": "ng test",
     "lint": "yarn lint:ng",
     "lint:ng": "ng lint",
+    "lint:node": "cd api && yarn lint",
     "e2e": "ng e2e",
     "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",

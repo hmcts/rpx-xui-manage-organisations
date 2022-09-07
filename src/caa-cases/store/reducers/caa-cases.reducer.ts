@@ -21,11 +21,11 @@ export function caaCasesReducer(state = initialState, action: fromCaaActions.Caa
     case fromCaaActions.LOAD_ASSIGNED_CASES_SUCCESS:
       return {...state, assignedCases: action.payload};
     case fromCaaActions.LOAD_ASSIGNED_CASES_FAILURE:
-      return {...state, assignedCases: {idField: '', columnConfigs: [], data: [] }}
+      return {...state, assignedCases: {idField: '', columnConfigs: [], data: [] }};
     case fromCaaActions.LOAD_UNASSIGNED_CASES_SUCCESS:
       return {...state, unassignedCases: action.payload};
     case fromCaaActions.LOAD_UNASSIGNED_CASES_FAILURE:
-      return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }}
+      return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }};
     case fromCaaActions.LOAD_CASE_TYPES_SUCCESS:
       return {...state, caseTypes: action.payload };
     case fromCaaActions.UPDATE_SELECTION_FOR_CASE_TYPE:

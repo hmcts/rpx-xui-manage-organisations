@@ -22,7 +22,7 @@ export class CaaCasesEffects {
   public loadAssignedCases$ = this.actions$.pipe(
     ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
     switchMap((action: fromCaaActions.LoadAssignedCases) => {
-			const payload = action.payload;
+      const payload = action.payload;
       return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.AssignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
         map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
         catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
@@ -34,7 +34,7 @@ export class CaaCasesEffects {
   public loadUnassignedCases$ = this.actions$.pipe(
     ofType(fromCaaActions.LOAD_UNASSIGNED_CASES),
     switchMap((action: fromCaaActions.LoadUnassignedCases) => {
-			const payload = action.payload;
+      const payload = action.payload;
       return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.UnassignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
         map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
         catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))

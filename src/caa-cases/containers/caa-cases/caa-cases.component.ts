@@ -58,8 +58,8 @@ export class CaaCasesComponent implements OnInit {
       : CaaCasesPageTitle.AssignedCases;
     // Set show hide filter button text
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaShowHideFilterButtonText.UnassignedCasesHide
-      : CaaShowHideFilterButtonText.AssignedCasesHide;
+      ? CaaShowHideFilterButtonText.UnassignedCasesShow
+      : CaaShowHideFilterButtonText.AssignedCasesShow;
     // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
     this.setSelectedFilterTypeAndValue();
   }

@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { OrganisationState } from '../../../organisation/store';
 import { CaaCasesComponent } from '../../containers';
-import { getShareCaseListState, reducers, CaaCasesState } from '../index';
+import { CaaCasesState, getShareCaseListState, reducers } from '../index';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;

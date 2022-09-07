@@ -58,9 +58,9 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
     size: pageSize,
     sort: [
       {
-        created_date: 'desc'
+        created_date: 'desc',
       },
-    ]
+    ],
   };
 }
 
@@ -74,10 +74,10 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
   const caaCase = {};
   columnConfigs.forEach(columnConfig => {
     if (!(typeof ccdCaseData.fields[columnConfig.key] === 'object')) {
-      caaCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key]
+      caaCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key];
     } else {
       if (ccdCaseData.fields[columnConfig.key]) {
-        caaCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key].OrgPolicyReference
+        caaCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key].OrgPolicyReference;
       }
     }
   });
@@ -97,7 +97,7 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
           type: header.case_field_type.type === 'DateTime' ? 'date' : header.case_field_type.type,
         });
       }
-    })
+    });
   });
   return ccdColumnConfigs;
 }

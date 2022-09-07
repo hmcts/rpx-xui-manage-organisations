@@ -195,7 +195,6 @@ export class CaaCasesComponent implements OnInit {
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
     this.selectedFilterType = selectedFilterType;
-    console.log('SELECTED FILTER TYPE', this.selectedFilterType);
   }
 
   public onSelectedFilterValueChanged(selectedFilterValue: string): void {

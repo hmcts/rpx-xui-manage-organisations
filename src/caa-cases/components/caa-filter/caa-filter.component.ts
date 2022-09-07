@@ -121,7 +121,10 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
       } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         switch (this.selectedFilterType) {
           case CaaCasesFilterType.AssigneeName:
-            selectedFilterValue = this.caaFormGroup.get(this.assigneePersonFormControl).value;
+            const selectedUser = this.caaFormGroup.get(this.assigneePersonFormControl).value;
+            const fullName = selectedUser.split(' - ')[0];
+            const email = selectedUser.split(' - ')[1];
+            selectedFilterValue = this.selectedOrganisationUsers.find(user => user.fullName === fullName && user.email === email).userIdentifier;
             break;
           case CaaCasesFilterType.CaseReferenceNumber:
             selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;

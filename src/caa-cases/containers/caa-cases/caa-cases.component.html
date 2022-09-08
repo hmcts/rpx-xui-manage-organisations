@@ -56,7 +56,7 @@
           </div>
           <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
           <button *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0"
-            [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button"
+            [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button govuk-button--secondary"
             data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareCaseSubmit()">
             Manage case sharing
           </button>

@@ -89,7 +89,7 @@ describe('util', () => {
     });
   });
 
-  it('should generate the request body for retrieving specific assigned cases', () => {
+  it('should generate the request body for retrieving a specific assigned case', () => {
     const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, '1111222233334444');
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
@@ -187,7 +187,7 @@ describe('util', () => {
     });
   });
 
-  it('should generate the request body for retrieving a specific assigned case', () => {
+  it('should generate the request body for retrieving specific assigned cases', () => {
     const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases, ['1111222233334444', '4444333322221111']);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({

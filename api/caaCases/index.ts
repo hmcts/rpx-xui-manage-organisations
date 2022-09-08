@@ -51,6 +51,5 @@ export async function handleRoleAssignments(req: Request): Promise<any> {
 
 export const router = Router({mergeParams: true});
 router.post('', handleCaaCases);
-// router.get('', handleRoleAssignments);
 
 export default router;

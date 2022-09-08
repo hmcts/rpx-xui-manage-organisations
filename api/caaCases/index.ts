@@ -45,7 +45,7 @@ export async function handleRoleAssignments(req: Request): Promise<any> {
     return response;
 
   } catch (error) {
-    console.log('Error: ', error);
+    console.error('Error: ', error);
   }
 }
 

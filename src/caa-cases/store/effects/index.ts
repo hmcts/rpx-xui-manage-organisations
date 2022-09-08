@@ -1,5 +1,5 @@
-import { ShareCaseEffects } from './share-case.effects';
 import { CaaCasesEffects } from './caa-cases.effects';
+import { ShareCaseEffects } from './share-case.effects';
 
 export const effects: any[] = [
   CaaCasesEffects,
@@ -8,3 +8,4 @@ export const effects: any[] = [
 
 export * from './caa-cases.effects';
 export * from './share-case.effects';
+

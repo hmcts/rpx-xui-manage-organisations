@@ -23,7 +23,8 @@ export class CaaCasesService {
     return this.http.post<any>(url, null);
   }
 
-  public getCaaCaseTypes(): Observable<any> {
-    return this.http.post<any>(CaaCasesService.caaCaseTypesUrl, null);
+  public getCaaCaseTypes(caaCasesPageType: string): Observable<any> {
+    let url = `${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=${caaCasesPageType}`;
+    return this.http.post<any>(url, null);
   }
 }

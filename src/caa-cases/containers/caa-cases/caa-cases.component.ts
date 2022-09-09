@@ -33,7 +33,7 @@ export class CaaCasesComponent implements OnInit {
 
   public navItems: any[];
   public currentPageNo: number;
-  public paginationPageSize: number = 10;
+  public paginationPageSize: number = 25;
   public totalCases: number = 0;
   public pageTitle: string;
   public caaCasesPageType: string;

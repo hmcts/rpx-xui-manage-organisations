@@ -65,7 +65,7 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadCaseTypes());
+    this.store.dispatch(new fromStore.LoadCaseTypes({caaCasesPageType: this.caaCasesPageType}));
     this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
     this.userStore.dispatch(new fromUserStore.LoadUsers(0));
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {

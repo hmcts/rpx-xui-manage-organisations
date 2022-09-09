@@ -34,11 +34,6 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
     from: pageNo,
     query: {
       bool: {
-        ...(caaCasesFilterValue && {
-          must: [
-            { match: { [reference]: caaCasesFilterValue } },
-          ],
-        }),
         filter: [
           {
             multi_match: {

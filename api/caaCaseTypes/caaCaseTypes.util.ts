@@ -4,9 +4,6 @@ import { searchCasesString } from './caaCaseTypes.constants';
 export function getRequestBody(organisationID: string, caaCasesPageType: string) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
 
-  console.log('organisationID', organisationID);
-  console.log('caaCasesPageType', caaCasesPageType);
-
   return {
     _source: false,
     from: 0,

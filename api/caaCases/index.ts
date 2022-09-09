@@ -45,12 +45,11 @@ export async function handleRoleAssignments(req: Request): Promise<any> {
     return response;
 
   } catch (error) {
-    console.log('Error: ', error);
+    console.error('Error: ', error);
   }
 }
 
 export const router = Router({mergeParams: true});
 router.post('', handleCaaCases);
-// router.get('', handleRoleAssignments);
 
 export default router;

@@ -4,7 +4,8 @@ import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/refere
 import { getApiPath, getRequestBody } from './caaCaseTypes.util';
 
 export async function handleCaaCaseTypes(req: Request, res: Response) {
-  const payload = getRequestBody(req.session.auth.orgId);
+  const caaCasesPageType = req.query.caaCasesPageType as string;
+  const payload = getRequestBody(req.session.auth.orgId, caaCasesPageType);
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), getConfigValue(CASE_TYPES));
   try {
     const response = await req.http.post(path, payload);

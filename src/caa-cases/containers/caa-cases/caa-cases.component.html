@@ -48,22 +48,19 @@
       <br>
       Your colleague must be registered with your organisation and have access to Manage Cases.
     </p>
-    <div *ngIf="hasResults()" class="pagination-top"
-      attr.aria-label="{{ getTotalResults() }} results have been found" role="status">
-      <span class="text-16" id="summary__text">Showing
-        <span class="govuk-!-font-weight-bold">{{ getFirstResult() }}</span>
-        to
-        <span class="govuk-!-font-weight-bold">{{ getLastResult() }}</span>
-        of
-        <span class="govuk-!-font-weight-bold">{{ getTotalResults() }}</span> results</span>
-    </div>
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
       <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
-        <button *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0"
-          [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button"
-          data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareCaseSubmit()">
-          Share case
-        </button>
+        <div class="pagination-info" *ngIf="hasResults()">
+          <div>
+            <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }} cases</strong></p>
+          </div>
+          <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
+          <button *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0"
+            [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button govuk-button--secondary"
+            data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareCaseSubmit()">
+            Manage case sharing
+          </button>
+        </div>
         <ccd-case-list
         *ngIf="(cases$ | async)?.length > 0 else noData"
         [cases]="cases$ | async"

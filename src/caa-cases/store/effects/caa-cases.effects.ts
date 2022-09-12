@@ -45,8 +45,8 @@ export class CaaCasesEffects {
   @Effect()
   public loadCaseTypes$ = this.actions$.pipe(
     ofType(fromCaaActions.LOAD_CASE_TYPES),
-    switchMap(() => {
-      return this.caaCasesService.getCaaCaseTypes().pipe(
+    switchMap((action: fromCaaActions.LoadCaseTypes) => {
+      return this.caaCasesService.getCaaCaseTypes(action.payload.caaCasesPageType).pipe(
         map(caaCaseTypes => {
           const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
           return new fromCaaActions.LoadCaseTypesSuccess(navItems);

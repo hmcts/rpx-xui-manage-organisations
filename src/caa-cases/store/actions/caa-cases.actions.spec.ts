@@ -6,8 +6,9 @@ describe('Caa actions', () => {
     const caseType = 'caseTypeId1';
     const pageNo = 1;
     const pageSize = 10;
+    const caaCasesFilterType = null;
     const caaCasesFilterValue = null;
-    const payload = { caseType, pageNo, pageSize, caaCasesFilterValue };
+    const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
     const action = new fromActions.LoadAssignedCases(payload);
     expect({ ...action }).toEqual({
       payload,
@@ -37,8 +38,9 @@ describe('Caa actions', () => {
     const caseType = 'caseTypeId1';
     const pageNo = 1;
     const pageSize = 10;
+    const caaCasesFilterType = null;
     const caaCasesFilterValue = null;
-    const payload = { caseType, pageNo, pageSize, caaCasesFilterValue };
+    const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
     const action = new fromActions.LoadUnassignedCases(payload);
     expect({ ...action }).toEqual({
       payload,

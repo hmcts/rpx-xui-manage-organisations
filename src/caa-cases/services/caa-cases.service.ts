@@ -12,8 +12,11 @@ export class CaaCasesService {
   }
 
   public getCaaCases(
-    caseTypeId: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterValue: string | null): Observable<any> {
+    caseTypeId: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null): Observable<any> {
     let url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}&caaCasesPageType=${caaCasesPageType}`;
+    if (caaCasesFilterType) {
+      url += `&caaCasesFilterType=${caaCasesFilterType}`;
+    }
     if (caaCasesFilterValue) {
       url += `&caaCasesFilterValue=${caaCasesFilterValue}`;
     }

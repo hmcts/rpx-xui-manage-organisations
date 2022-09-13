@@ -1,14 +1,16 @@
 <exui-page-wrapper
-  [backLink]="'/unassigned-cases'"
-  [fnTitle]="'Share a case'"
-  [title]="'Add recipient'">
+  [backLink]="backLink"
+  [fnTitle]="fnTitle"
+  [title]="title">
   <xuilib-share-case
     [shareCases$] = "shareCases$"
     [users]="orgUsers$ | async"
     [removeUserFromCaseToggleOn]="removeUserFromCaseToggleOn$ | async"
     (unselect)="deselect($event)"
     (synchronizeStore)="synchronizeStore($event)"
-    [confirmLink]="'/unassigned-cases/case-share-confirm'"
+    [confirmLink]="confirmLink"
+    [addUserLabel]="addUserLabel"
+    [showRemoveUsers]="showRemoveUsers"
   >
   </xuilib-share-case>
 

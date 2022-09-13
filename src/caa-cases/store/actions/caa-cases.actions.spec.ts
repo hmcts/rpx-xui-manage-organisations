@@ -1,4 +1,5 @@
-import { CaaCases } from 'api/caaCases/interfaces';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
+import { CaaCases } from '../../models/caa-cases.model';
 import * as fromActions from './caa-cases.actions';
 
 describe('Caa actions', () => {
@@ -67,8 +68,10 @@ describe('Caa actions', () => {
   });
 
   it('load case types action', () => {
-    const action = new fromActions.LoadCaseTypes();
+    const payload = {caaCasesPageType: CaaCasesPageType.AssignedCases}
+    const action = new fromActions.LoadCaseTypes(payload);
     expect({ ...action }).toEqual({
+      payload,
       type: fromActions.LOAD_CASE_TYPES
     });
   });

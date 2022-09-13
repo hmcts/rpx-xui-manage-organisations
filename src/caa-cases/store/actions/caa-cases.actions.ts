@@ -44,7 +44,7 @@ export class LoadUnassignedCasesFailure implements Action {
 
 export class LoadCaseTypes implements Action {
     public readonly type = LOAD_CASE_TYPES;
-    constructor() {}
+    constructor(public payload: {caaCasesPageType: string}) {}
 }
 
 export class LoadCaseTypesSuccess implements Action {

@@ -33,7 +33,7 @@ export class CaaCasesComponent implements OnInit {
 
   public navItems: any[];
   public currentPageNo: number;
-  public paginationPageSize: number = 10;
+  public paginationPageSize: number = 25;
   public totalCases: number = 0;
   public pageTitle: string;
   public caaCasesPageType: string;
@@ -65,7 +65,7 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.store.dispatch(new fromStore.LoadCaseTypes());
+    this.store.dispatch(new fromStore.LoadCaseTypes({caaCasesPageType: this.caaCasesPageType}));
     this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
     this.userStore.dispatch(new fromUserStore.LoadUsers(0));
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {

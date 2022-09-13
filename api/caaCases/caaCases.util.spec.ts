@@ -3,8 +3,8 @@ import { caseAssignment } from './caaCases.constants';
 import { getApiPath, getRequestBody } from './caaCases.util';
 import { CaaCasesPageType } from './enums';
 
-describe('util', () => {
-  it('getApiPath', () => {
+describe('caaCases Util', () => {
+  it('should getApiPath', () => {
     const fullPath = getApiPath('http://somePath', 'caseTypeId1');
     expect(fullPath).to.equal(`http://somePath${caseAssignment}?ctid=caseTypeId1&use_case=ORGCASES`);
   });

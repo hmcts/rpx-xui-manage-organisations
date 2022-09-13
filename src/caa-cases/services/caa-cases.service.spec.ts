@@ -3,7 +3,7 @@ import { CaaCasesFilterType, CaaCasesPageType } from '../models/caa-cases.enum';
 import { CaaCasesService } from './caa-cases.service';
 
 describe('CaaCasesService', () => {
-  it('getCaaAssignedCases', () => {
+  it('should getCaaAssignedCases', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
@@ -11,7 +11,7 @@ describe('CaaCasesService', () => {
     expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases`, null);
   });
 
-  it('getCaaAssignedCases with filter value', () => {
+  it('should getCaaAssignedCases with filter value', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
@@ -19,7 +19,7 @@ describe('CaaCasesService', () => {
     expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=assigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
   });
 
-  it('getCaaUnassignedCases', () => {
+  it('should getCaaUnassignedCases', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
@@ -27,7 +27,7 @@ describe('CaaCasesService', () => {
     expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases`, null);
   });
 
-  it('getCaaUnassignedCases with filter value', () => {
+  it('should getCaaUnassignedCases with filter value', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
@@ -35,11 +35,19 @@ describe('CaaCasesService', () => {
     expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCasesUrl}?caseTypeId=caseTypeId1&pageNo=1&pageSize=10&caaCasesPageType=unassigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
   });
 
-  it('getCaaCaseTypes', () => {
+  it('should getCaaCaseTypes for assigned cases', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
-    service.getCaaCaseTypes();
-    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}`, null);
+    service.getCaaCaseTypes(CaaCasesPageType.AssignedCases);
+    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=assigned-cases`, null);
+  });
+
+  it('should getCaaCaseTypes for unassigned cases', () => {
+    const mockHttp = jasmine.createSpyObj('http', ['post']);
+    mockHttp.post.and.returnValue(of({}));
+    const service = new CaaCasesService(mockHttp);
+    service.getCaaCaseTypes(CaaCasesPageType.UnassignedCases);
+    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=unassigned-cases`, null);
   });
 });

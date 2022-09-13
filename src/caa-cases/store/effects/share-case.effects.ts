@@ -28,7 +28,7 @@ export class ShareCaseEffects {
     map((action: shareCaseActions.AddShareCases) => action.payload),
     map(newCases => {
       return new shareCaseActions.AddShareCaseGo({
-        path: [`/unassigned-cases/case-share`],
+        path: [`${this.router.url}/case-share`],
         sharedCases: newCases.sharedCases
       });
     })

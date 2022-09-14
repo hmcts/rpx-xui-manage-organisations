@@ -28,6 +28,7 @@ describe('Share Case Effects', () => {
   const routerMock = jasmine.createSpyObj('Router', [
     'navigate'
   ]);
+  routerMock.url = '/unassigned-cases';
   let spyOnDispatchToStore = jasmine.createSpy();
   const caseShareServiceMock = jasmine.createSpyObj('CaseShareService', ['getShareCases', 'getUsersFromOrg', 'assignUsersWithCases']);
 

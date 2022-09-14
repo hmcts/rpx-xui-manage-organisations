@@ -28,5 +28,6 @@ export enum CaaCasesFilterHeading {
 }
 
 export enum CaaCasesFilterErrorMessage {
-  InvalidCaseReference = 'Enter a valid HMCTS case reference number'
+  InvalidCaseReference = 'Enter a valid HMCTS case reference number',
+  InvalidAssigneeName = 'Enter a valid assignee name' 
 }

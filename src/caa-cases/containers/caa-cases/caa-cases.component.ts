@@ -43,6 +43,7 @@ export class CaaCasesComponent implements OnInit {
   public selectedFilterType: string;
   public selectedFilterValue: string;
   public errorMessages: ErrorMessage[];
+  public noCasesFoundMessage: string;
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,

@@ -25,6 +25,12 @@ export class CaseShareComponent implements OnInit {
   public shareCases: SharedCase[];
   public orgUsers$: Observable<UserDetails[]>;
   public removeUserFromCaseToggleOn$: Observable<boolean>;
+  public backLink: string;
+  public fnTitle: string;
+  public title: string;
+  public confirmLink: string;
+  public addUserLabel: string;
+  public showRemoveUsers: boolean = false;
 
   constructor(
     public store: Store<fromCaseList.CaaCasesState>,
@@ -33,7 +39,28 @@ export class CaseShareComponent implements OnInit {
 
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
-    this.routerState$.subscribe(router => this.init = router.state.queryParams.init);
+    this.routerState$.subscribe(router => {
+      // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation
+      // is via the Unassigned Cases or Assigned Cases page
+      const url = router.state.url.substring(0, router.state.url.indexOf('/', 1));
+      // Set backLink and confirmLink only if the URL is either "/unassigned-cases" or "/assigned-cases"
+      if (url === '/unassigned-cases' || url === '/assigned-cases') {
+        this.backLink = `${url}`;
+        this.confirmLink = `${url}/case-share-confirm`;
+      }
+      if (url === '/unassigned-cases') {
+        this.fnTitle = 'Share a case';
+        this.title = 'Add recipient';
+        this.addUserLabel = 'Enter email address';
+        this.showRemoveUsers = false;
+      } else if (url === '/assigned-cases') {
+        this.fnTitle = 'Manage case sharing';
+        this.title = 'Manage shared access to a case';
+        this.addUserLabel = 'Add people to share access to the selected cases';
+        this.showRemoveUsers = true;
+      }
+      this.init = router.state.queryParams.init;
+    });
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;

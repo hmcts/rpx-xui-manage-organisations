@@ -39,12 +39,16 @@
                   </div>
                   <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.AssigneeName}"
                     id="conditional-assignee-person">
-                    <div class="govuk-form-group">
+                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': assigneeNameErrorMessage.length > 0}">
                       <label class="govuk-label" for="assignee-person">
                         Type the name and select an available match option
                       </label>
+                      <p id="case-reference-number-error-message" class="govuk-error-message" *ngIf="assigneeNameErrorMessage.length > 0">
+                        <span class="govuk-visually-hidden">Error:</span>{{assigneeNameErrorMessage}}
+                      </p>
                       <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person"
-                        [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith">
+                        [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith"
+                        [ngClass]="{'govuk-input--error': assigneeNameErrorMessage.length > 0}">
                       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
                         <mat-optgroup *ngFor="let filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue">
                           <span class="mat-group-header">{{ filteredAndGroupedUser.key }}</span>
@@ -101,8 +105,8 @@
               </ng-container>
             </div>
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-            <button class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="search()">
-              Search
+            <button class="govuk-button govuk-!-margin-right-3" (click)="search()">
+              Apply filter
             </button>
           </form>
         </div>

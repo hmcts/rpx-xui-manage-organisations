@@ -38,6 +38,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   public caaCasesFilterType = CaaCasesFilterType;
   public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
   public caseReferenceNumberErrorMessage = '';
+  public assigneeNameErrorMessage = '';
   public errorMessages: ErrorMessage[];
   public filteredAndGroupedUsers = new Map<string, User[]>();
   public readonly caseRefFormControl = 'case-reference-number';
@@ -63,12 +64,15 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
 
       // Subscribe to changes of the selected radio button value and set the validator accordingly
       this.caaFilterFormControlSubscription = this.caaFormGroup.get(this.caaFilterFormControl).valueChanges.subscribe(value => {
+        this.caaFormGroup.get(this.caseRefFormControl).clearValidators();
         if (value === this.caaCasesFilterType.CaseReferenceNumber) {
-          this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
-        } else {
-          this.caaFormGroup.get(this.caseRefFormControl).clearValidators();
+          this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());         
+        }
+        if (value === this.caaCasesFilterType.AssigneeName) {
+          this.caaFormGroup.get(this.assigneePersonFormControl).setValidators(CaaCasesUtil.assigneeNameValidator());
         }
         this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
+        this.caaFormGroup.get(this.assigneePersonFormControl).updateValueAndValidity();
       });
       // Subscribe to assignee person form control to filter and display users based on user input
       this.assigneePersonFormControlSubscription = this.caaFormGroup.get(this.assigneePersonFormControl).valueChanges.pipe(
@@ -157,12 +161,17 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   private validateForm(): boolean {
     this.caseReferenceNumberErrorMessage = '';
+    this.assigneeNameErrorMessage = '';
     this.errorMessages = [];
 
     if (this.caaFormGroup.invalid) {
       if (this.caaFormGroup.get(this.caseRefFormControl).invalid) {
         this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidCaseReference, fieldId: this.caseRefFormControl });
         this.caseReferenceNumberErrorMessage = CaaCasesFilterErrorMessage.InvalidCaseReference;
+      }
+      if (this.caaFormGroup.get(this.assigneePersonFormControl).invalid) {
+        this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: this.assigneePersonFormControl });
+        this.assigneeNameErrorMessage = CaaCasesFilterErrorMessage.InvalidAssigneeName;
       }
 
       // Emit error messages for display by a parent component

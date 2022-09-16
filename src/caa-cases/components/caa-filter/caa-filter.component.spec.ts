@@ -127,7 +127,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -144,7 +144,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -172,7 +172,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -191,7 +191,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -219,7 +219,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     let errorMessageElement = nativeElement.querySelector('.govuk-error-message');

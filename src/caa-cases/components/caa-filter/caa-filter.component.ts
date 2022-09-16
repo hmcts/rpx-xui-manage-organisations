@@ -65,8 +65,9 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
       // Subscribe to changes of the selected radio button value and set the validator accordingly
       this.caaFilterFormControlSubscription = this.caaFormGroup.get(this.caaFilterFormControl).valueChanges.subscribe(value => {
         this.caaFormGroup.get(this.caseRefFormControl).clearValidators();
+        this.caaFormGroup.get(this.assigneePersonFormControl).clearValidators();
         if (value === this.caaCasesFilterType.CaseReferenceNumber) {
-          this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());         
+          this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
         }
         if (value === this.caaCasesFilterType.AssigneeName) {
           this.caaFormGroup.get(this.assigneePersonFormControl).setValidators(CaaCasesUtil.assigneeNameValidator());
@@ -169,7 +170,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
         this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidCaseReference, fieldId: this.caseRefFormControl });
         this.caseReferenceNumberErrorMessage = CaaCasesFilterErrorMessage.InvalidCaseReference;
       }
-      if (this.caaFormGroup.get(this.assigneePersonFormControl).invalid) {
+      if (this.caaCasesPageType === CaaCasesPageType.AssignedCases && this.caaFormGroup.get(this.assigneePersonFormControl).invalid) {
         this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: this.assigneePersonFormControl });
         this.assigneeNameErrorMessage = CaaCasesFilterErrorMessage.InvalidAssigneeName;
       }

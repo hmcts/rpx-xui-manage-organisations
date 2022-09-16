@@ -30,7 +30,7 @@
       </app-caa-filter>
     </div>
     <details *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
-      class="govuk-details" data-module="govuk-details" id="add-user-help" close>
+      class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" id="add-user-help" close>
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text" id="content-why-can-not-find-case">Can't find a case?
         </span>
@@ -50,37 +50,33 @@
     </p>
     <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
       <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
-        <div class="pagination-info" *ngIf="hasResults()">
+        <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2" *ngIf="(cases$ | async)?.length > 0">
           <div>
             <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases</p>
           </div>
           <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
-          <button *ngIf="navItems && navItems.length > 0 && (cases$ | async)?.length > 0"
-            [disabled]="(shareCases$ | async)?.length === 0" id="btn-share-button" class="govuk-button govuk-button--secondary"
+          <button [disabled]="(shareCases$ | async)?.length === 0"
+            id="btn-share-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
             data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareCaseSubmit()">
             Manage case sharing
           </button>
         </div>
         <ccd-case-list
-        *ngIf="(cases$ | async)?.length > 0 else noData"
-        [cases]="cases$ | async"
-        [selectedCases]="selectedCases"
-        [tableConfig]="tableConfig"
-        [selectionEnabled]="true"
-        (selection)="onCaseSelection($event)"
-        (pageChange)="onPaginationHandler($event)"
-        [currentPageNo]="currentPageNo"
-        [totalResultsCount]="totalCases"
-        [pageSize]="paginationPageSize">
+          *ngIf="(cases$ | async)?.length > 0"
+          [cases]="cases$ | async"
+          [selectedCases]="selectedCases"
+          [tableConfig]="tableConfig"
+          [selectionEnabled]="true"
+          (selection)="onCaseSelection($event)"
+          (pageChange)="onPaginationHandler($event)"
+          [currentPageNo]="currentPageNo"
+          [totalResultsCount]="totalCases"
+          [pageSize]="paginationPageSize">
         </ccd-case-list>
-        <ng-template #noData>
-          <div>{{navItem.text}} doesn't support shared case type.</div>
-        </ng-template>
       </mat-tab>
     </mat-tab-group>
-  </div>
-  <div *ngIf="navItems && navItems.length === 0">
-    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">There are no unassigned cases available to be shared.</p>
-    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.AssignedCases">There are no assigned cases available to be shared.</p>
+    <div class="govuk-body govuk-!-margin-top-4">
+      {{ noCasesFoundMessage }}
+    </div>
   </div>
 </main>

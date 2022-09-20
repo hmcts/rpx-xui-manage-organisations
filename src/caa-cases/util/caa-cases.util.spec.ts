@@ -81,4 +81,16 @@ describe('CaaCasesUtil', () => {
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
     expect(caseReferenceValidator(control)).toEqual({caseReference: true});
   });
+
+  it('should pass assigneeName validation if input contains one or more characters', () => {
+    control.setValue('Lindsey - lindsey@test.com');
+    const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
+    expect(assigneeNameValidator(control)).toBeNull();
+  });
+
+  it('should fail assigneeName validation if input is empty', () => {
+    control.setValue('');
+    const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
+    expect(assigneeNameValidator(control)).toEqual({assigneeName: true});
+  });
 });

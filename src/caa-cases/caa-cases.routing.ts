@@ -7,13 +7,13 @@ import { RoleGuard } from './guards/user-role.guard';
 
 export const ROUTES: Routes = [
     {
-        path: '',
-        component: CaaCasesComponent,
-        canActivate: [
-            AuthGuard,
-            FeatureToggleAccountGuard,
-            RoleGuard
-        ]
+      path: '',
+      component: CaaCasesComponent,
+      canActivate: [
+        AuthGuard,
+        FeatureToggleAccountGuard,
+        RoleGuard
+      ]
     },
     {
       path: 'case-share',

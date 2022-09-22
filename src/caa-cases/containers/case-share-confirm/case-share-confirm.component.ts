@@ -23,7 +23,7 @@ export class CaseShareConfirmComponent implements OnInit {
 
   constructor(private readonly store: Store<fromCaseList.CaaCasesState>,
               private readonly router: Router) {
-    this.url = this.router && this.router.url && this.router.url;
+    this.url = this.router && this.router.url;
   }
 
   public ngOnInit(): void {

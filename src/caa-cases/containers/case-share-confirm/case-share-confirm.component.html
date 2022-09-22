@@ -1,10 +1,10 @@
 <exui-page-wrapper
-  [backLink]="'/unassigned-cases/case-share'"
-  [fnTitle]="'Share a case'"
+  [backLink]="backLink"
+  [fnTitle]="fnTitle"
   [title]="'Check and confirm your selection'">
   <xuilib-share-case-confirm
     [shareCases$]="shareCases$"
-    [changeLink]="'/unassigned-cases/case-share'"
-    [completeLink]="'/unassigned-cases/case-share-complete'">
+    [changeLink]="changeLink"
+    [completeLink]="completeLink">
   </xuilib-share-case-confirm>
 </exui-page-wrapper>

@@ -220,14 +220,15 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public getNoCasesFoundMessage(cases: any): string {
+    if (this.totalCases === 0) {
+      return this.caaCasesPageType === CaaCasesPageType.AssignedCases
+        ? CaaCasesNoDataMessage.NoAssignedCases
+        : CaaCasesNoDataMessage.NoUnassignedCases;
+    }
     if (cases && cases.length === 0) {
-      return this.totalCases === 0
-        ? this.caaCasesPageType === CaaCasesPageType.AssignedCases
-          ? CaaCasesNoDataMessage.NoAssignedCases
-          : CaaCasesNoDataMessage.NoUnassignedCases
-        : this.caaCasesPageType === CaaCasesPageType.AssignedCases
-          ? CaaCasesNoDataMessage.AssignedCasesFilterMessage
-          : CaaCasesNoDataMessage.UnassignedCasesFilterMessage;
+      return this.caaCasesPageType === CaaCasesPageType.AssignedCases
+        ? CaaCasesNoDataMessage.AssignedCasesFilterMessage
+        : CaaCasesNoDataMessage.UnassignedCasesFilterMessage;
     }
     return '';
   }

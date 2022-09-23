@@ -232,4 +232,11 @@ export class CaaCasesComponent implements OnInit {
     }
     return '';
   }
+
+  /**
+   * Function to check if any error exists
+   */
+  public isAnyError(): boolean {
+    return Array.isArray(this.errorMessages) && this.errorMessages.length > 0;
+  }
 }

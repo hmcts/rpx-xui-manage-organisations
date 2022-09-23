@@ -52,11 +52,11 @@ describe('monitoring-tools index', () => {
         const error = new AppError('Dummy error', errorCode)
         res.send.onFirstCall().throws(error)
 
-        const errorReport = JSON.stringify({
-            apiError: error,
+        const errorReport = {
+            apiError: {...error},
             apiStatusCode: errorCode,
             message: 'Instrumentation key route error',
-        })
+        }
 
         // Test the function and check expectations
         await handleInstrumentationKeyRoute(req, res)

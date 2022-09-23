@@ -24,19 +24,21 @@ describe('crudService', () => {
   const res = mockRes({
     data: 'ok',
   })
+  req.http = http(req)
 
   beforeEach(() => {
     sandbox = sinon.createSandbox()
   })
 
   afterEach(() => {
+    sinon.restore()
     sandbox.restore()
   })
 
   describe('handleGet', () => {
 
     it('should make a get request', async () => {
-      spy = sandbox.stub(http, 'get').resolves(res)
+      sandbox.stub(req.http, 'get').resolves(res)
       const crudPath = '/crud/12345'
       const next = sinon.mock() as NextFunction
       const response = await handleGet(crudPath, req, next)
@@ -46,7 +48,7 @@ describe('crudService', () => {
 
   describe('handlePost', () => {
     it('should make a post request', async () => {
-      spy = sandbox.stub(http, 'post').resolves(res)
+      spy = sandbox.stub(req.http, 'post').resolves(res)
       const crudPath = '/crud/12345'
       const response = await handlePost(crudPath, dummyData, req)
       expect(response.data).to.equal('ok')
@@ -55,7 +57,7 @@ describe('crudService', () => {
 
   describe('handlePut', () => {
     it('should make a put request', async () => {
-      spy = sandbox.stub(http, 'put').resolves(res)
+      spy = sandbox.stub(req.http, 'put').resolves(res)
       const crudPath = '/crud/12345'
       const response = await handlePut(crudPath, dummyData, req)
       expect(response.data).to.equal('ok')
@@ -64,9 +66,9 @@ describe('crudService', () => {
 
   describe('handleDelete', () => {
     it('should make a delete request', async () => {
-      spy = sandbox.stub(http, 'delete').resolves(res)
+      spy = sandbox.stub(req.http, 'delete').resolves(res)
       const crudPath = '/crud/12345'
-      const response = await handleDelete(crudPath, req)
+      const response = await handleDelete(crudPath, dummyData, req)
       expect(response.data).to.equal('ok')
     })
   })

@@ -7,7 +7,7 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 import * as configuration from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
-import * as refdataUserUrlUtil from '../refdataUserUrlUtil'
+import * as refdataUserCommonUrlUtil from '../refdataUserCommonUrlUtil'
 import { suspendUser } from './index'
 
 chai.use(sinonChai)
@@ -19,7 +19,7 @@ describe('suspendUser index', () => {
 
     beforeEach(() => {
         sinon.stub(configuration, 'getConfigValue').returns('apiPath')
-        sinon.stub(refdataUserUrlUtil, 'getRefdataUserUrl').returns('refdata/users/')
+        sinon.stub(refdataUserCommonUrlUtil, 'getRefdataUserCommonUrlUtil').returns('refdata/users/')
 
         // Create a dummy request with userId param and a body
         req.params = {
@@ -44,7 +44,7 @@ describe('suspendUser index', () => {
         // Test the function and check expectations
         await suspendUser(req, res)
         expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH)
-        expect(refdataUserUrlUtil.getRefdataUserUrl).to.be.calledWith('apiPath')
+        expect(refdataUserCommonUrlUtil.getRefdataUserCommonUrlUtil).to.be.calledWith('apiPath')
         expect(req.http.put).to.be.calledWith('refdata/users/123456', req.body)
         expect(res.send).to.be.calledWith('test')
     })

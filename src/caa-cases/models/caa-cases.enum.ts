@@ -28,5 +28,13 @@ export enum CaaCasesFilterHeading {
 }
 
 export enum CaaCasesFilterErrorMessage {
-  InvalidCaseReference = 'Enter a valid HMCTS case reference number'
+  InvalidCaseReference = 'Enter a valid HMCTS case reference number',
+  InvalidAssigneeName = 'Enter a valid assignee name'
+}
+
+export enum CaaCasesNoDataMessage {
+  NoAssignedCases = 'There are no assigned cases available to be shared.',
+  NoUnassignedCases = 'There are no unassigned cases available to be shared.',
+  AssignedCasesFilterMessage = 'Try again using a different case reference or assignee.',
+  UnassignedCasesFilterMessage = 'Try again using a different case reference.'
 }

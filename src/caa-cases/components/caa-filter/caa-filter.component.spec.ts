@@ -127,7 +127,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -144,7 +144,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -172,7 +172,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -191,7 +191,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -219,7 +219,7 @@ describe('CaaFilterComponent', () => {
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
-    const searchButton = nativeElement.querySelector('.govuk-button--secondary');
+    const searchButton = nativeElement.querySelector('.govuk-button');
     searchButton.click();
     fixture.detectChanges();
     let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
@@ -234,6 +234,81 @@ describe('CaaFilterComponent', () => {
     errorMessageElement = nativeElement.querySelector('.govuk-error-message');
     expect(component.errorMessages.length).toBe(0);
     expect(component.caseReferenceNumberErrorMessage).toEqual('');
+    expect(errorMessageElement).toBeNull();
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
+  });
+
+  it('should show a validation error for the Assignee Name input field on the Assigned Cases filter', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    const assigneeNameOptionRadioButton = nativeElement.querySelector('#caa-filter-assignee-name');
+    assigneeNameOptionRadioButton.click();
+    const assigneeNameInput = nativeElement.querySelector('#assignee-person');
+    assigneeNameInput.value = '';
+    assigneeNameInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button');
+    searchButton.click();
+    fixture.detectChanges();
+    const errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.assigneeNameErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidAssigneeName);
+    expect(errorMessageElement.textContent).toContain(component.assigneeNameErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+  });
+
+  it('should clear the validation error for the Assignee Name input field on the Assigned Cases filter', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    const assigneeNameOptionRadioButton = nativeElement.querySelector('#caa-filter-assignee-name');
+    assigneeNameOptionRadioButton.click();
+    const assigneeNameInput = nativeElement.querySelector('#assignee-person');
+    assigneeNameInput.value = '';
+    assigneeNameInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button');
+    searchButton.click();
+    fixture.detectChanges();
+    let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.assigneeNameErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidAssigneeName);
+    expect(errorMessageElement.textContent).toContain(component.assigneeNameErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+    assigneeNameInput.value = 'lindsey - lindsey@test.com';
+    assigneeNameInput.dispatchEvent(new Event('input'));
+    searchButton.click();
+    fixture.detectChanges();
+    errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(0);
+    expect(component.assigneeNameErrorMessage).toEqual('');
+    expect(errorMessageElement).toBeNull();
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
+  });
+
+  it('should clear the validation error for the Assignee Name input field when a different option is chosen', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    let radioButton = nativeElement.querySelector('#caa-filter-assignee-name');
+    radioButton.click();
+    const assigneeNameInput = nativeElement.querySelector('#assignee-person');
+    assigneeNameInput.value = '';
+    assigneeNameInput.dispatchEvent(new Event('input'));
+    spyOn(component.emitErrorMessages, 'emit');
+    const searchButton = nativeElement.querySelector('.govuk-button');
+    searchButton.click();
+    fixture.detectChanges();
+    let errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(1);
+    expect(component.assigneeNameErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidAssigneeName);
+    expect(errorMessageElement.textContent).toContain(component.assigneeNameErrorMessage);
+    expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
+    radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
+    radioButton.click();
+    searchButton.click();
+    fixture.detectChanges();
+    errorMessageElement = nativeElement.querySelector('.govuk-error-message');
+    expect(component.errorMessages.length).toBe(0);
+    expect(component.assigneeNameErrorMessage).toEqual('');
     expect(errorMessageElement).toBeNull();
     expect(component.emitErrorMessages.emit).toHaveBeenCalledTimes(2);
   });

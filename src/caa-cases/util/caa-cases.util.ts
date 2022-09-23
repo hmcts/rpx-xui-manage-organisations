@@ -35,4 +35,13 @@ export class CaaCasesUtil {
       return null;
     };
   }
+
+  public static assigneeNameValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value || control.value.length === 0) {
+        return {assigneeName: true};
+      }
+      return null;
+    };
+  }
 }

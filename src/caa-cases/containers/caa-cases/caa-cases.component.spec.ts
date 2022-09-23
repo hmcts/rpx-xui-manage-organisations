@@ -62,9 +62,7 @@ describe('CaaCasesComponent', () => {
   });
 
   it('should return correct no cases found message', () => {
-    let cases = null;
-    expect(component.getNoCasesFoundMessage(cases)).toEqual('');
-    cases = [];
+    let cases = [];
     component.totalCases = 0;
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.NoAssignedCases);
@@ -75,6 +73,8 @@ describe('CaaCasesComponent', () => {
     expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
+    cases = null;
+    expect(component.getNoCasesFoundMessage(cases)).toEqual('');
   });
 
   // TODO: Need to revisit this test, as it doesn't seem possible to spy on the ngrx select operator directly

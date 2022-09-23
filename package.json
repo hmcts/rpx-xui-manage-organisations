@@ -69,7 +69,7 @@
     "@hmcts/frontend": "0.0.41-alpha",
     "@hmcts/nodejs-healthcheck": "^1.7.0",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "1.7.18-caa-case-share-ui-changes-2",
+    "@hmcts/rpx-xui-common-lib": "1.7.18-caa-case-share-ui-changes-5",
     "@hmcts/rpx-xui-node-lib": "2.25.12",
     "@ng-idle/core": "^8.0.0-beta.4",
     "@ng-idle/keepalive": "^8.0.0-beta.4",

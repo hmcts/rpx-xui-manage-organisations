@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
@@ -15,14 +15,34 @@ export class CaseShareConfirmComponent implements OnInit {
 
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
+  public url: string;
+  public fnTitle: string;
+  public backLink: string;
+  public changeLink: string;
+  public completeLink: string;
 
-  constructor(public store: Store<fromCaseList.CaaCasesState>) {}
+  constructor(private readonly store: Store<fromCaseList.CaaCasesState>,
+              private readonly router: Router) {
+    this.url = this.router && this.router.url;
+  }
 
   public ngOnInit(): void {
+    // Set fnTitle, backLink, changeLink and confirmLink depending on whether navigation
+    // is via the Unassigned Cases or Assigned Cases page
+    if (this.url.startsWith('/unassigned-cases')) {
+      this.fnTitle = 'Share a case';
+      this.backLink = '/unassigned-cases';
+      this.changeLink = '/unassigned-cases/case-share';
+      this.completeLink = '/unassigned-cases/case-share-complete';
+    } else {
+      this.fnTitle = 'Manage case sharing';
+      this.backLink = '/assigned-cases';
+      this.changeLink = '/assigned-cases/case-share';
+      this.completeLink = '/assigned-cases/case-share-complete';
+    }
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;
     });
   }
-
 }

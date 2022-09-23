@@ -1,17 +1,14 @@
-<exui-page-wrapper
-  [backLink]="backLink"
+<a *ngIf="backLink" [routerLink]="backLink" class="govuk-back-link">Back</a>
+<xuilib-share-case
+  [shareCases$] = "shareCases$"
+  [users]="orgUsers$ | async"
+  [removeUserFromCaseToggleOn]="removeUserFromCaseToggleOn$ | async"
+  (unselect)="deselect($event)"
+  (synchronizeStore)="synchronizeStore($event)"
+  [confirmLink]="confirmLink"
+  [addUserLabel]="addUserLabel"
+  [showRemoveUsers]="showRemoveUsers"
   [fnTitle]="fnTitle"
-  [title]="title">
-  <xuilib-share-case
-    [shareCases$] = "shareCases$"
-    [users]="orgUsers$ | async"
-    [removeUserFromCaseToggleOn]="removeUserFromCaseToggleOn$ | async"
-    (unselect)="deselect($event)"
-    (synchronizeStore)="synchronizeStore($event)"
-    [confirmLink]="confirmLink"
-    [addUserLabel]="addUserLabel"
-    [showRemoveUsers]="showRemoveUsers"
-  >
-  </xuilib-share-case>
-
-</exui-page-wrapper>
+  [title]="title"
+>
+</xuilib-share-case>

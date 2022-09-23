@@ -9,14 +9,13 @@ import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCasesFilterType, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-caa-cases-component',
-  templateUrl: './caa-cases.component.html',
-  styleUrls: ['./caa-cases.component.scss']
+  templateUrl: './caa-cases.component.html'
 })
 export class CaaCasesComponent implements OnInit {
 
@@ -43,6 +42,7 @@ export class CaaCasesComponent implements OnInit {
   public selectedFilterType: string;
   public selectedFilterValue: string;
   public errorMessages: ErrorMessage[];
+  public noCasesFoundMessage = '';
 
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
@@ -129,7 +129,11 @@ export class CaaCasesComponent implements OnInit {
 
   private setTabItems(tabName: string): void {
     this.resetPaginationParameters();
-    this.store.pipe(select(fromStore.getAllUnassignedCases));
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.store.pipe(select(fromStore.getAllUnassignedCases));
+    } else {
+      this.store.pipe(select(fromStore.getAllAssignedCases));
+    }
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.currentCaseType = tabName;
     this.loadDataFromStore();
@@ -160,6 +164,10 @@ export class CaaCasesComponent implements OnInit {
       }));
       this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
     }
+    // Set relevant no data message if no cases returned
+    this.cases$.subscribe(cases => {
+      this.noCasesFoundMessage = this.getNoCasesFoundMessage(cases);
+    });
   }
 
   public resetPaginationParameters(): void {
@@ -204,11 +212,24 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
-    this.loadDataFromStore();
+    this.setTabItems(this.currentCaseType);
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {
     this.errorMessages = errorMessages;
+  }
+
+  public getNoCasesFoundMessage(cases: any): string {
+    if (cases && cases.length === 0) {
+      return this.totalCases === 0
+        ? this.caaCasesPageType === CaaCasesPageType.AssignedCases
+          ? CaaCasesNoDataMessage.NoAssignedCases
+          : CaaCasesNoDataMessage.NoUnassignedCases
+        : this.caaCasesPageType === CaaCasesPageType.AssignedCases
+          ? CaaCasesNoDataMessage.AssignedCasesFilterMessage
+          : CaaCasesNoDataMessage.UnassignedCasesFilterMessage;
+    }
+    return '';
   }
 
   /**

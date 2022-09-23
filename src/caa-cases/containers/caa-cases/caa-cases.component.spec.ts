@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromOrganisationStore from '../../../organisation/store';
-import { CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
 
@@ -59,6 +59,22 @@ describe('CaaCasesComponent', () => {
     expect(component.caaCasesPageType).toBe(CaaCasesPageType.AssignedCases);
     expect(component.pageTitle).toEqual(CaaCasesPageTitle.AssignedCases);
     expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesShow);
+  });
+
+  it('should return correct no cases found message', () => {
+    let cases = null;
+    expect(component.getNoCasesFoundMessage(cases)).toEqual('');
+    cases = [];
+    component.totalCases = 0;
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.NoAssignedCases);
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.NoUnassignedCases);
+    component.totalCases = 1;
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
   });
 
   // TODO: Need to revisit this test, as it doesn't seem possible to spy on the ngrx select operator directly

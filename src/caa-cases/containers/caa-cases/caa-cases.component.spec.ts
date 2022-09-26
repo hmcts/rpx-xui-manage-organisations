@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromOrganisationStore from '../../../organisation/store';
-import { CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
 
@@ -75,6 +75,53 @@ describe('CaaCasesComponent', () => {
     expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
     cases = null;
     expect(component.getNoCasesFoundMessage(cases)).toEqual('');
+  });
+
+  it('should set current page type', () => {
+    let routerUrlPropertySpy = spyOnProperty(router, 'url', 'get').and.returnValue('/unassigned-cases');
+    component.setCurrentPageType();
+    expect(component.caaCasesPageType).toEqual(CaaCasesPageType.UnassignedCases);
+    routerUrlPropertySpy.and.returnValue('/assigned-cases');
+    component.setCurrentPageType();
+    expect(component.caaCasesPageType).toEqual(CaaCasesPageType.AssignedCases);
+  });
+
+  it('should set current page title', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.setCurrentPageTitle();
+    expect(component.pageTitle).toEqual(CaaCasesPageTitle.UnassignedCases);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.setCurrentPageTitle();
+    expect(component.pageTitle).toEqual(CaaCasesPageTitle.AssignedCases);
+  });
+
+  it('should set show hide filter button text', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.setShowHideFilterButtonText();
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.UnassignedCasesShow);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.setShowHideFilterButtonText();
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesShow);
+  });
+
+  it('should set selected filter type and value', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.setSelectedFilterTypeAndValue();
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.None);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.setSelectedFilterTypeAndValue();
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
+    expect(component.selectedFilterValue).toBeNull();
+  });
+
+  it('should load cases and set table config', () => {
+    spyOn(component, 'setTableConfig');
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.loadCasesAndSetTableConfig();
+    store.pipe
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.loadCasesAndSetTableConfig();
+    expect(component.setTableConfig).toHaveBeenCalledTimes(2);
   });
 
   // TODO: Need to revisit this test, as it doesn't seem possible to spy on the ngrx select operator directly

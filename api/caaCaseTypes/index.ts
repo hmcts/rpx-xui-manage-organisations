@@ -9,6 +9,11 @@ export async function handleCaaCaseTypes(req: Request, res: Response) {
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), getConfigValue(CASE_TYPES));
   try {
     const response = await req.http.post(path, payload);
+		
+		if (caaCasesPageType === 'unassigned-cases') {
+			response.data = { 'total': 0, 'cases': [], 'case_types_results': [] };
+		}
+		
     res.send(response.data);
   } catch (error) {
     res.status(500).send({

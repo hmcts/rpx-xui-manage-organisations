@@ -48,50 +48,89 @@ export class CaaCasesComponent implements OnInit {
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
               private readonly userStore: Store<fromUserStore.UserState>,
               private readonly router: Router) {
-    // Identify whether user selected to view assigned cases or unassigned cases
-    this.caaCasesPageType = this.router && this.router.url && this.router.url.includes('unassigned-cases')
-      ? CaaCasesPageType.UnassignedCases
-      : CaaCasesPageType.AssignedCases;
-    // Set page title
-    this.pageTitle = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaCasesPageTitle.UnassignedCases
-      : CaaCasesPageTitle.AssignedCases;
-    // Set show hide filter button text
-    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaShowHideFilterButtonText.UnassignedCasesShow
-      : CaaShowHideFilterButtonText.AssignedCasesShow;
-    // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
-    this.setSelectedFilterTypeAndValue();
   }
 
   public ngOnInit(): void {
+    // Set current page type
+    this.setCurrentPageType();
+    // Set page title
+    this.setCurrentPageTitle();
+    // Set show hide filter button text
+    this.setShowHideFilterButtonText();
+    // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
+    this.setSelectedFilterTypeAndValue();
+
+    // Load case types from store based on current page type
     this.store.dispatch(new fromStore.LoadCaseTypes({caaCasesPageType: this.caaCasesPageType}));
-    this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
-    this.userStore.dispatch(new fromUserStore.LoadUsers(0));
-    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
-        if (config !== null) {
-          this.tableConfig =  {
-            idField: config.idField,
-            columnConfigs: config.columnConfigs
-          };
-        }
-      });
-    } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
-      this.store.pipe(select(fromStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
-        if (config !== null) {
-          this.tableConfig =  {
-            idField: config.idField,
-            columnConfigs: config.columnConfigs
-          };
-        }
-      });
-    }
     this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+
+    // Get selected cases to share from store
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
+    
+    // Load selected organisation details from store
+    this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
     this.selectedOrganisation$ = this.organisationStore.pipe(select(fromOrganisationStore.getOrganisationSel));
+
+    // Load users of selected organisation from store
+    this.userStore.dispatch(new fromUserStore.LoadUsers(0));
     this.selectedOrganisationUsers$ = this.userStore.pipe(select(fromUserStore.getGetUserList));
+
+    // Load cases based on page type and set table configuration
+    this.loadCasesAndSetTableConfig();
+  }
+
+  public setCurrentPageType(): void {
+    // Identify whether user selected to view assigned cases or unassigned cases
+    if (this.router && this.router.url && this.router.url.includes('unassigned-cases')) {
+      this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    } else if (this.router && this.router.url && this.router.url.includes('assigned-cases')) {
+      this.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    } else {
+      // Invalid request, redirect to error page
+      this.router.navigateByUrl('/service-down');
+    }
+  }
+
+  public setCurrentPageTitle(): void {
+    this.pageTitle = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaCasesPageTitle.UnassignedCases
+      : CaaCasesPageTitle.AssignedCases;
+  }
+
+  public setShowHideFilterButtonText(): void {
+    this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaShowHideFilterButtonText.UnassignedCasesShow
+      : CaaShowHideFilterButtonText.AssignedCasesShow;
+  }
+
+  public loadCasesAndSetTableConfig(): void {
+    switch(this.caaCasesPageType) {
+      case CaaCasesPageType.UnassignedCases:
+        this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
+          this.setTableConfig(config);
+        });
+        break;
+
+      case CaaCasesPageType.AssignedCases:
+        this.store.pipe(select(fromStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
+          this.setTableConfig(config);
+        });
+        break;
+
+      default:
+        this.router.navigateByUrl('/service-down');
+        break;
+    }
+  }
+
+  public setTableConfig(config: TableConfig): void {
+    if (config !== null) {
+      this.tableConfig =  {
+        idField: config.idField,
+        columnConfigs: config.columnConfigs
+      };
+    }
   }
 
   public setSelectedFilterTypeAndValue(): void {
@@ -99,14 +138,6 @@ export class CaaCasesComponent implements OnInit {
       ? CaaCasesFilterType.None
       : CaaCasesFilterType.AllAssignees;
     this.selectedFilterValue = null;
-  }
-
-  private fixCurrentTab(items: any): void {
-    this.navItems = items;
-    if (items && items.length > 0) {
-      this.totalCases = items[0].total ? items[0].total : 0;
-      this.setTabItems(items[0].text);
-    }
   }
 
   public shareCaseSubmit(): void {
@@ -127,47 +158,37 @@ export class CaaCasesComponent implements OnInit {
     this.setTabItems(event.tab.textLabel);
   }
 
-  private setTabItems(tabName: string): void {
-    this.resetPaginationParameters();
-    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.store.pipe(select(fromStore.getAllUnassignedCases));
-    } else {
-      this.store.pipe(select(fromStore.getAllAssignedCases));
-    }
-    this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.currentCaseType = tabName;
-    this.loadDataFromStore();
-  }
-
   public onPaginationHandler(pageNo: number): void {
     this.currentPageNo = pageNo;
     this.loadDataFromStore();
   }
 
   public loadDataFromStore(): void {
-    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.store.dispatch(new fromStore.LoadUnassignedCases({
-        caseType: this.currentCaseType,
-        pageNo: this.currentPageNo,
-        pageSize: this.paginationPageSize,
-        caaCasesFilterType: this.selectedFilterType,
-        caaCasesFilterValue: this.selectedFilterValue
-      }));
-      this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
-    } else {
-      this.store.dispatch(new fromStore.LoadAssignedCases({
-        caseType: this.currentCaseType,
-        pageNo: this.currentPageNo,
-        pageSize: this.paginationPageSize,
-        caaCasesFilterType: this.selectedFilterType,
-        caaCasesFilterValue: this.selectedFilterValue
-      }));
-      this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
+    if (this.currentCaseType) {
+      if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+        this.store.dispatch(new fromStore.LoadUnassignedCases({
+          caseType: this.currentCaseType,
+          pageNo: this.currentPageNo,
+          pageSize: this.paginationPageSize,
+          caaCasesFilterType: this.selectedFilterType,
+          caaCasesFilterValue: this.selectedFilterValue
+        }));
+        this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+      } else {
+        this.store.dispatch(new fromStore.LoadAssignedCases({
+          caseType: this.currentCaseType,
+          pageNo: this.currentPageNo,
+          pageSize: this.paginationPageSize,
+          caaCasesFilterType: this.selectedFilterType,
+          caaCasesFilterValue: this.selectedFilterValue
+        }));
+        this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
+      }
+      // Set relevant no data message if no cases returned
+      this.cases$.subscribe(cases => {
+        this.noCasesFoundMessage = this.getNoCasesFoundMessage(cases);
+      });
     }
-    // Set relevant no data message if no cases returned
-    this.cases$.subscribe(cases => {
-      this.noCasesFoundMessage = this.getNoCasesFoundMessage(cases);
-    });
   }
 
   public resetPaginationParameters(): void {
@@ -212,7 +233,9 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
-    this.setTabItems(this.currentCaseType);
+    // if (this.totalCases > 0) {
+      this.setTabItems(this.currentCaseType);
+    // }
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {
@@ -238,5 +261,27 @@ export class CaaCasesComponent implements OnInit {
    */
   public isAnyError(): boolean {
     return Array.isArray(this.errorMessages) && this.errorMessages.length > 0;
+  }
+
+  private fixCurrentTab(items: any): void {
+    this.navItems = items;
+    if (items && items.length > 0) {
+      this.totalCases = items[0].total ? items[0].total : 0;
+      this.setTabItems(items[0].text);
+    } else {
+      this.noCasesFoundMessage = this.getNoCasesFoundMessage(null);
+    }
+  }
+
+  private setTabItems(tabName: string): void {
+    this.resetPaginationParameters();
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.store.pipe(select(fromStore.getAllUnassignedCases));
+    } else {
+      this.store.pipe(select(fromStore.getAllAssignedCases));
+    }
+    this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
+    this.currentCaseType = tabName;
+    this.loadDataFromStore();
   }
 }

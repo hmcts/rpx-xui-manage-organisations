@@ -1,5 +1,5 @@
+import { Observable, of } from 'rxjs';
 import { TermsConditionGuard } from './termsCondition.guard';
-import { of } from 'rxjs';
 
 describe('Accept Tc Component', () => {
   let guard: TermsConditionGuard;

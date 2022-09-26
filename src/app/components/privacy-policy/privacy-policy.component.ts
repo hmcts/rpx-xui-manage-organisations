@@ -10,7 +10,7 @@ export class PrivacyPolicyComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute) { }
 
-  private subscription: Subscription;
+  public subscription: Subscription;
 
   public ngOnInit(): void {
     this.subscription = this.route.fragment.subscribe(fragment => {

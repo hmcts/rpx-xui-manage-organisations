@@ -22,25 +22,25 @@ export class AcceptTermsAndConditionGuard implements CanActivate {
     // );
   }
 
-  checkStore() {
-    return this.store.pipe(select(fromUserProfile.getHasUserSelectedTC),
-      tap(tcConfirmed => {
-        if (!tcConfirmed.loaded) {
-          this.store.pipe(select(fromUserProfile.getUid), take(2)).subscribe(uid => {
-            if (uid) {
-              this.store.dispatch(new fromUserProfile.LoadHasAcceptedTC(uid));
-            }
-          });
-        }
-        if (tcConfirmed.hasUserAccepted === 'true') {
-          this.store.dispatch(new fromRoot.Go({path: ['/home']}));
-        }
+  // checkStore() {
+  //   return this.store.pipe(select(fromUserProfile.getHasUserSelectedTC),
+  //     tap(tcConfirmed => {
+  //       if (!tcConfirmed.loaded) {
+  //         this.store.pipe(select(fromUserProfile.getUid), take(2)).subscribe(uid => {
+  //           if (uid) {
+  //             this.store.dispatch(new fromUserProfile.LoadHasAcceptedTC(uid));
+  //           }
+  //         });
+  //       }
+  //       if (tcConfirmed.hasUserAccepted === 'true') {
+  //         this.store.dispatch(new fromRoot.Go({path: ['/home']}));
+  //       }
 
-      }),
-      filter(tcConfirmed => tcConfirmed.loaded),
-      take(1)
-    );
-  }
+  //     }),
+  //     filter(tcConfirmed => tcConfirmed.loaded),
+  //     take(1)
+  //   );
+  // }
 
 
 }

@@ -1,4 +1,6 @@
+import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AcceptTcWrapperComponent } from './accept-tc-wrapper.component';
 
 describe('Accept Tc Wrapper Component', () => {
@@ -11,7 +13,7 @@ describe('Accept Tc Wrapper Component', () => {
     }
 
     beforeEach(() => {
-        mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch']);
+        mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
         mockActions = jasmine.createSpyObj('mockActions', ['pipe']);
         component = new AcceptTcWrapperComponent(mockStore, mockActions);
     });
@@ -21,9 +23,13 @@ describe('Accept Tc Wrapper Component', () => {
     });
 
     it('should unsubscribe', () => {
-        const subscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
-        component.unsubscribe(subscription);
-        expect(subscription.unsubscribe).toHaveBeenCalled();
+        component.subscription = new Observable().subscribe();
+        component.uidSubscription = new Observable().subscribe();
+        spyOn(component.subscription, 'unsubscribe').and.callThrough();
+        spyOn(component.uidSubscription, 'unsubscribe').and.callThrough();
+        component.ngOnDestroy();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+        expect(component.uidSubscription.unsubscribe).toHaveBeenCalled();
     });
 
     it('should dispatchAction', () => {

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrivacyPolicyComponent } from '..';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 describe('PrivacyPolicyComponent', () => {
@@ -40,4 +40,12 @@ describe('PrivacyPolicyComponent', () => {
     await fixture.whenStable();
     expect(documenentQuery).toHaveBeenCalledWith('#overview');
   });
+
+  it('should trigger the hostlistner event', () => {
+    component.subscription = new Observable().subscribe();
+    const event = new Event('click', { bubbles: true });
+    const documentClickSpy = spyOn(component, 'clickout').and.callThrough();
+    component.clickout(event);
+    expect(documentClickSpy).toHaveBeenCalled();
+  })
 });

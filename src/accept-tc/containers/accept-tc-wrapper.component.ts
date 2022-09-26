@@ -17,8 +17,8 @@ import * as fromUserProfile from '../../user-profile/store';
   styleUrls: ['./accept-tc-wrapper.component.scss']
 })
 export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
-  private subscription: Subscription;
-  private uidSubscription: Subscription;
+  public subscription: Subscription;
+  public uidSubscription: Subscription;
   private uid: string;
   constructor(
     private readonly store: Store<fromStore.AuthState>,

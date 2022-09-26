@@ -23,13 +23,9 @@ describe('Accept Tc Wrapper Component', () => {
     });
 
     it('should unsubscribe', () => {
-        component.subscription = new Observable().subscribe();
-        component.uidSubscription = new Observable().subscribe();
-        spyOn(component.subscription, 'unsubscribe').and.callThrough();
-        spyOn(component.uidSubscription, 'unsubscribe').and.callThrough();
-        component.ngOnDestroy();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-        expect(component.uidSubscription.unsubscribe).toHaveBeenCalled();
+        const subscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
+        component.unsubscribe(subscription);
+        expect(subscription.unsubscribe).toHaveBeenCalled();
     });
 
     it('should dispatchAction', () => {

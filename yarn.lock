@@ -505,10 +505,10 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.7.18-caa-case-share-ui-changes-5":
-  version "1.7.18-caa-case-share-ui-changes-5"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.18-caa-case-share-ui-changes-5.tgz#9cfccf11211cdfef034786bc145faa092cbb752b"
-  integrity sha512-ZV/hG5AdzMWAbQ4+VjSo2UanPxVmuTCo2BXqtCUWsp0cCApJaGEEMHRdPxMD9k27EajXLccDsTpTZtlH7oGXZg==
+"@hmcts/rpx-xui-common-lib@1.7.18-caa-case-share-ui-changes-6":
+  version "1.7.18-caa-case-share-ui-changes-6"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.18-caa-case-share-ui-changes-6.tgz#af37e8163bbd10294e717ae34ef03b7423d10c5e"
+  integrity sha512-xnKLr27Gsngc+m4uJ/4O1mJSHgWymJE0rq+/sKzKx366hFT92NmNGZBu1ssZoxrIn6CUtVZmsqt7XtDYxG62ug==
   dependencies:
     tslib "^1.9.0"
 

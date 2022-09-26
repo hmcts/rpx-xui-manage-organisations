@@ -67,7 +67,7 @@ export class CaaCasesComponent implements OnInit {
     // Get selected cases to share from store
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
-    
+
     // Load selected organisation details from store
     this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
     this.selectedOrganisation$ = this.organisationStore.pipe(select(fromOrganisationStore.getOrganisationSel));
@@ -105,7 +105,7 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public loadCasesAndSetTableConfig(): void {
-    switch(this.caaCasesPageType) {
+    switch (this.caaCasesPageType) {
       case CaaCasesPageType.UnassignedCases:
         this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: CaaCases) => {
           this.setTableConfig(config);
@@ -233,9 +233,7 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
-    // if (this.totalCases > 0) {
-      this.setTabItems(this.currentCaseType);
-    // }
+    this.setTabItems(this.currentCaseType);
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {

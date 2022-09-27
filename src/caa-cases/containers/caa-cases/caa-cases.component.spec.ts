@@ -10,7 +10,6 @@ import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesP
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
 
-// TODO: More tests will be added when progressing through the CAA epic
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
   let fixture: ComponentFixture<CaaCasesComponent>;
@@ -120,18 +119,5 @@ describe('CaaCasesComponent', () => {
     expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
     cases = null;
     expect(component.getNoCasesFoundMessage(cases)).toEqual('');
-  });
-
-  // TODO: Need to revisit this test, as it doesn't seem possible to spy on the ngrx select operator directly
-  xit('should load the correct data from the store', () => {
-    // The fake url needs to be set before the component constructor is called
-    const routerUrlPropertySpy = spyOnProperty(router, 'url', 'get').and.returnValue('/unassigned-cases');
-    fixture = TestBed.createComponent(CaaCasesComponent);
-    component = fixture.componentInstance;
-    // expect(ngrxStore.select).toHaveBeenCalledWith(fromStore.getAllUnassignedCases);
-    routerUrlPropertySpy.and.returnValue('/assigned-cases');
-    fixture = TestBed.createComponent(CaaCasesComponent);
-    component = fixture.componentInstance;
-    // expect(ngrxStore.select).toHaveBeenCalledWith(fromStore.getAllAssignedCases);
   });
 });

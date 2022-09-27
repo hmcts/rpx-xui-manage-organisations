@@ -241,7 +241,7 @@ export class CaaCasesComponent implements OnInit {
   public onSelectedFilterValueChanged(selectedFilterValue: string): void {
     this.selectedFilterValue = selectedFilterValue;
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.selectedFilterType = this.selectedFilterValue.length > 0
+      this.selectedFilterType = selectedFilterValue && selectedFilterValue.length > 0
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }

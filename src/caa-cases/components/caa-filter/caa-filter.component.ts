@@ -117,7 +117,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
     this.emitSelectedFilterType.emit(this.selectedFilterType);
   }
 
-  public search(): void {
+  public onSearch(): void {
     // Validate form
     if (this.validateForm()) {
       let selectedFilterValue: string;
@@ -140,6 +140,13 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
       this.emitSelectedFilterValue.emit(selectedFilterValue);
+    }
+  }
+
+  public onReset(): void {
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.caaFormGroup.get(this.caseRefFormControl).reset();
+      this.emitSelectedFilterValue.emit(null);
     }
   }
 

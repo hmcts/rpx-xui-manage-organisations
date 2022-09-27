@@ -29,10 +29,6 @@ describe('caaCaseTypes Util', () => {
               bool: {
                 must: [
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ],
-                should: [
-                  { bool: { must_not: [ { exists: { field: 'supplementary_data.orgs_assigned_users.GCXGCY1' } }] } },
-                  { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
                 ]
               }
             }
@@ -68,10 +64,6 @@ describe('caaCaseTypes Util', () => {
               bool: {
                 must_not: [
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ],
-                should: [
-                  { bool: { must_not: [ { exists: { field: 'supplementary_data.orgs_assigned_users.GCXGCY1' } }] } },
-                  { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
                 ]
               }
             }
@@ -107,10 +99,6 @@ describe('caaCaseTypes Util', () => {
               bool: {
                 must: [
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ],
-                should: [
-                  { bool: { must_not: [ { exists: { field: 'supplementary_data.orgs_assigned_users.GCXGCY1' } }] } },
-                  { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
                 ]
               }
             },
@@ -155,10 +143,6 @@ describe('caaCaseTypes Util', () => {
               bool: {
                 must_not: [
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ],
-                should: [
-                  { bool: { must_not: [ { exists: { field: 'supplementary_data.orgs_assigned_users.GCXGCY1' } }] } },
-                  { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
                 ]
               }
             },
@@ -203,10 +187,6 @@ describe('caaCaseTypes Util', () => {
               bool: {
                 must: [
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
-                ],
-                should: [
-                  { bool: { must_not: [ { exists: { field: 'supplementary_data.orgs_assigned_users.GCXGCY1' } }] } },
-                  { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
                 ]
               }
             },

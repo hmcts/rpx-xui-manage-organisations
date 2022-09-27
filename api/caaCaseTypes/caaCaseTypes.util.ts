@@ -6,12 +6,14 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
   const reference = 'reference.keyword';
   let caseReferenceFilter: any[] = [];
 
-  if (Array.isArray(caaCasesFilterValue)) {
-    caaCasesFilterValue.forEach(caseReference => {
-      caseReferenceFilter.push({ match: { [reference]: caseReference } })
-    });
-  } else {
-    caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+  if (caaCasesFilterValue) {
+    if (Array.isArray(caaCasesFilterValue)) {
+      caaCasesFilterValue.forEach(caseReference => {
+        caseReferenceFilter.push({ match: { [reference]: caseReference } })
+      });
+    } else {
+      caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+    }
   }
   
   return {
@@ -38,11 +40,7 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
                 must_not: [
                   { range: { [organisationAssignedUsersKey]: { gt: 0 } } }
                 ]
-              }),
-              should: [
-                { bool: { must_not: [ { exists: { field: organisationAssignedUsersKey } }] } },
-                { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
-              ]
+              })
             }
           },
           {
@@ -52,7 +50,7 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
               }),
               ...(caaCasesFilterValue && Array.isArray(caaCasesFilterValue) && {
                 should: caseReferenceFilter
-              }),
+              })
             }
           }
         ]

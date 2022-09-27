@@ -39,15 +39,31 @@ describe('CaaCasesService', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
-    service.getCaaCaseTypes(CaaCasesPageType.AssignedCases);
+    service.getCaaCaseTypes(CaaCasesPageType.AssignedCases, null, null);
     expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=assigned-cases`, null);
+  });
+
+  it('should getCaaCaseTypes for assigned cases with filter value', () => {
+    const mockHttp = jasmine.createSpyObj('http', ['post']);
+    mockHttp.post.and.returnValue(of({}));
+    const service = new CaaCasesService(mockHttp);
+    service.getCaaCaseTypes(CaaCasesPageType.AssignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
+    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=assigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
   });
 
   it('should getCaaCaseTypes for unassigned cases', () => {
     const mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     const service = new CaaCasesService(mockHttp);
-    service.getCaaCaseTypes(CaaCasesPageType.UnassignedCases);
+    service.getCaaCaseTypes(CaaCasesPageType.UnassignedCases, null, null);
     expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=unassigned-cases`, null);
+  });
+
+  it('should getCaaCaseTypes for unassigned cases with filter value', () => {
+    const mockHttp = jasmine.createSpyObj('http', ['post']);
+    mockHttp.post.and.returnValue(of({}));
+    const service = new CaaCasesService(mockHttp);
+    service.getCaaCaseTypes(CaaCasesPageType.UnassignedCases, CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
+    expect(mockHttp.post).toHaveBeenCalledWith(`${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=unassigned-cases&caaCasesFilterType=case-reference-number&caaCasesFilterValue=1111222233334444`, null);
   });
 });

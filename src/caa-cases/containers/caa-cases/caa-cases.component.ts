@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTabGroup } from '@angular/material';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
 import { User } from '@hmcts/rpx-xui-common-lib';
@@ -44,6 +45,8 @@ export class CaaCasesComponent implements OnInit {
   public errorMessages: ErrorMessage[];
   public noCasesFoundMessage = '';
 
+  @ViewChild('tabGroup') public tabGroup: MatTabGroup;
+
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
               private readonly userStore: Store<fromUserStore.UserState>,
@@ -61,8 +64,7 @@ export class CaaCasesComponent implements OnInit {
     this.setSelectedFilterTypeAndValue();
 
     // Load case types from store based on current page type
-    this.store.dispatch(new fromStore.LoadCaseTypes({caaCasesPageType: this.caaCasesPageType}));
-    this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+    this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
 
     // Get selected cases to share from store
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
@@ -78,6 +80,14 @@ export class CaaCasesComponent implements OnInit {
 
     // Load cases based on page type and set table configuration
     this.loadCasesAndSetTableConfig();
+  }
+
+  public loadCaseTypes(selectedFilterType: string, selectedFilterValue: string): void {
+    // Load case types based on current page type according to filtered value
+    this.store.dispatch(new fromStore.LoadCaseTypes({caaCasesPageType: this.caaCasesPageType, caaCasesFilterType: selectedFilterType, caaCasesFilterValue: selectedFilterValue}));
+    this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items =>
+      this.fixCurrentTab(items)
+    );
   }
 
   public setCurrentPageType(): void {
@@ -154,8 +164,10 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
-    this.totalCases = this.navItems.find(data => data.text === event.tab.textLabel) ? this.navItems.find(data => data.text === event.tab.textLabel).total : 0;
-    this.setTabItems(event.tab.textLabel);
+    this.totalCases = this.navItems.find(data => data.text === event.tab.textLabel)
+      ? this.navItems.find(data => data.text === event.tab.textLabel).total
+      : 0;
+    this.setTabItems(event.tab.textLabel, true);
   }
 
   public onPaginationHandler(pageNo: number): void {
@@ -233,7 +245,7 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
-    this.setTabItems(this.currentCaseType);
+    this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {
@@ -271,7 +283,7 @@ export class CaaCasesComponent implements OnInit {
     }
   }
 
-  private setTabItems(tabName: string): void {
+  private setTabItems(tabName: string, fromTabChangedEvent?: boolean): void {
     this.resetPaginationParameters();
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
       this.store.pipe(select(fromStore.getAllUnassignedCases));
@@ -280,6 +292,9 @@ export class CaaCasesComponent implements OnInit {
     }
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.currentCaseType = tabName;
+    if (!fromTabChangedEvent && this.tabGroup) {
+        this.tabGroup.selectedIndex = 0;
+    }
     this.loadDataFromStore();
   }
 }

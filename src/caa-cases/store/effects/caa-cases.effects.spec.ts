@@ -122,7 +122,9 @@ describe('CaaCasesEffects', () => {
   describe('loadCaseTypes$', () => {
     it('loadCaseTypes successful', () => {
       caaCasesServiceMock.getCaaCaseTypes.and.returnValue(of(navItems));
-      const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases };
+      const caaCasesFilterType = null;
+      const caaCasesFilterValue = null;
+      const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadCaseTypes(payload);
       const completion = new caaCasesActions.LoadCaseTypesSuccess(navItems);
       actions$ = hot('-a', { a: action });
@@ -143,7 +145,9 @@ describe('CaaCasesEffects', () => {
         url: null
       };
       caaCasesServiceMock.getCaaCaseTypes.and.returnValue(throwError(error));
-      const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases };
+      const caaCasesFilterType = null;
+      const caaCasesFilterValue = null;
+      const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadCaseTypes(payload);
       const completion = new caaCasesActions.LoadCaseTypesFailure(error);
       actions$ = hot('-a', { a: action });

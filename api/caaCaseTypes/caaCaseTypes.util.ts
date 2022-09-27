@@ -1,9 +1,19 @@
 import { CaaCasesPageType } from '../caaCases/enums';
 import { searchCasesString } from './caaCaseTypes.constants';
 
-export function getRequestBody(organisationID: string, caaCasesPageType: string) {
+export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
+  const reference = 'reference.keyword';
+  let caseReferenceFilter: any[] = [];
 
+  if (Array.isArray(caaCasesFilterValue)) {
+    caaCasesFilterValue.forEach(caseReference => {
+      caseReferenceFilter.push({ match: { [reference]: caseReference } })
+    });
+  } else {
+    caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+  }
+  
   return {
     _source: false,
     from: 0,
@@ -33,6 +43,16 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string)
                 { bool: { must_not: [ { exists: { field: organisationAssignedUsersKey } }] } },
                 { bool: { must_not: [ { exists: { field: "supplementary_data" } }] } }
               ]
+            }
+          },
+          {
+            bool: {
+              ...(caaCasesFilterValue && !Array.isArray(caaCasesFilterValue) && {
+                must: caseReferenceFilter
+              }),
+              ...(caaCasesFilterValue && Array.isArray(caaCasesFilterValue) && {
+                should: caseReferenceFilter
+              }),
             }
           }
         ]

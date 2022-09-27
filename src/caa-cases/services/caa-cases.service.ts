@@ -14,17 +14,29 @@ export class CaaCasesService {
   public getCaaCases(
     caseTypeId: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null): Observable<any> {
     let url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}&caaCasesPageType=${caaCasesPageType}`;
-    if (caaCasesFilterType) {
-      url += `&caaCasesFilterType=${caaCasesFilterType}`;
-    }
-    if (caaCasesFilterValue) {
-      url += `&caaCasesFilterValue=${caaCasesFilterValue}`;
-    }
+    url += this.getFilterType(caaCasesFilterType);
+    url += this.getFilterValue(caaCasesFilterValue);
     return this.http.post<any>(url, null);
   }
 
-  public getCaaCaseTypes(caaCasesPageType: string): Observable<any> {
-    const url = `${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=${caaCasesPageType}`;
+  public getCaaCaseTypes(caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null): Observable<any> {
+    let url = `${CaaCasesService.caaCaseTypesUrl}?caaCasesPageType=${caaCasesPageType}`;
+    url += this.getFilterType(caaCasesFilterType);
+    url += this.getFilterValue(caaCasesFilterValue);
     return this.http.post<any>(url, null);
+  }
+
+  private getFilterType(caaCasesFilterType: string | null): string {
+    if (caaCasesFilterType) {
+      return `&caaCasesFilterType=${caaCasesFilterType}`;
+    }
+    return '';
+  }
+
+  private getFilterValue(caaCasesFilterValue: string | null): string {
+    if (caaCasesFilterValue) {
+      return `&caaCasesFilterValue=${caaCasesFilterValue}`;
+    }
+    return '';
   }
 }

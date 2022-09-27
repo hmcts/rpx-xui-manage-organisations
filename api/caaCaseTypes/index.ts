@@ -1,4 +1,4 @@
-import { CaaCasesFilterType } from '../caaCases/enums';
+import { CaaCasesFilterType, CaaCasesPageType } from '../caaCases/enums';
 import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references';
@@ -14,7 +14,7 @@ export async function handleCaaCaseTypes(req: Request, res: Response) {
 	let caaCasesFilterValue: string | string[] = req.query.caaCasesFilterValue as string;
 
   try {
-		if (caaCasesFilterType && caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
+		if (caaCasesPageType === CaaCasesPageType.AssignedCases && caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req);
       const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
       caaCasesFilterValue = roleAssignmentResponse.map(x => x.attributes.caseId);

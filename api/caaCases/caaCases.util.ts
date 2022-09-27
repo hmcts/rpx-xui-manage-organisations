@@ -22,12 +22,14 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
   const reference = 'reference.keyword';
   let caseReferenceFilter: any[] = [];
 
-  if (Array.isArray(caaCasesFilterValue)) {
-    caaCasesFilterValue.forEach(caseReference => {
-      caseReferenceFilter.push({ match: { [reference]: caseReference } })
-    });
-  } else {
-    caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+  if (caaCasesFilterValue) {
+    if (Array.isArray(caaCasesFilterValue)) {
+      caaCasesFilterValue.forEach(caseReference => {
+        caseReferenceFilter.push({ match: { [reference]: caseReference } })
+      });
+    } else {
+      caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+    }
   }
 
   return {

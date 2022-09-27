@@ -106,18 +106,21 @@ describe('CaaCasesComponent', () => {
   });
 
   it('should return correct no cases found message', () => {
-    let cases = [];
     component.totalCases = 0;
-    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
-    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.NoAssignedCases);
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
-    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.NoUnassignedCases);
+    component.selectedFilterType = CaaCasesFilterType.None;
+    expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.NoUnassignedCases);
+    component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
+    expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.selectedFilterType = CaaCasesFilterType.AllAssignees;
+    expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.NoAssignedCases);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
+    expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
+    component.selectedFilterType = CaaCasesFilterType.AssigneeName;
+    expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
     component.totalCases = 1;
-    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
-    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
-    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
-    expect(component.getNoCasesFoundMessage(cases)).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
-    cases = null;
-    expect(component.getNoCasesFoundMessage(cases)).toEqual('');
+    expect(component.getNoCasesFoundMessage()).toEqual('');
   });
 });

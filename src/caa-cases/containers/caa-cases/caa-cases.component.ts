@@ -198,7 +198,7 @@ export class CaaCasesComponent implements OnInit {
       }
       // Set relevant no data message if no cases returned
       this.cases$.subscribe(cases => {
-        this.noCasesFoundMessage = this.getNoCasesFoundMessage(cases);
+        this.noCasesFoundMessage = this.getNoCasesFoundMessage();
       });
     }
   }
@@ -252,16 +252,22 @@ export class CaaCasesComponent implements OnInit {
     this.errorMessages = errorMessages;
   }
 
-  public getNoCasesFoundMessage(cases: any): string {
+  public getNoCasesFoundMessage(): string {
     if (this.totalCases === 0) {
-      return this.caaCasesPageType === CaaCasesPageType.AssignedCases
-        ? CaaCasesNoDataMessage.NoAssignedCases
-        : CaaCasesNoDataMessage.NoUnassignedCases;
-    }
-    if (cases && cases.length === 0) {
-      return this.caaCasesPageType === CaaCasesPageType.AssignedCases
-        ? CaaCasesNoDataMessage.AssignedCasesFilterMessage
-        : CaaCasesNoDataMessage.UnassignedCasesFilterMessage;
+      // Return no cases found messages related to unassigned cases
+      if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+        if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
+          return CaaCasesNoDataMessage.UnassignedCasesFilterMessage;
+        }
+        return CaaCasesNoDataMessage.NoUnassignedCases;
+      }
+      // Return no cases found messages related to assigned cases
+      if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+        if (this.selectedFilterType === CaaCasesFilterType.AssigneeName || this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
+          return CaaCasesNoDataMessage.AssignedCasesFilterMessage;
+        }
+        return CaaCasesNoDataMessage.NoAssignedCases;
+      }
     }
     return '';
   }
@@ -279,7 +285,8 @@ export class CaaCasesComponent implements OnInit {
       this.totalCases = items[0].total ? items[0].total : 0;
       this.setTabItems(items[0].text);
     } else {
-      this.noCasesFoundMessage = this.getNoCasesFoundMessage(null);
+      this.totalCases = 0;
+      this.noCasesFoundMessage = this.getNoCasesFoundMessage();
     }
   }
 

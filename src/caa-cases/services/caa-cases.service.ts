@@ -26,6 +26,14 @@ export class CaaCasesService {
     return this.http.post<any>(url, null);
   }
 
+  public storeState(key: string, value: any): void {
+    window.sessionStorage.setItem(key, JSON.stringify(value));
+  }
+
+  public retrieveState(key: string): any {
+    return window.sessionStorage.getItem(key) ? JSON.parse(window.sessionStorage.getItem(key)) : null;
+  }
+
   private getFilterType(caaCasesFilterType: string | null): string {
     if (caaCasesFilterType) {
       return `&caaCasesFilterType=${caaCasesFilterType}`;

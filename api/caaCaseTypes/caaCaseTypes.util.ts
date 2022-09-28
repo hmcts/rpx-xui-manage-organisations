@@ -4,7 +4,7 @@ import { searchCasesString } from './caaCaseTypes.constants';
 export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
   const reference = 'reference.keyword';
-  let caseReferenceFilter: any[] = [];
+  const caseReferenceFilter: any[] = [];
 
   if (caaCasesFilterValue) {
     if (Array.isArray(caaCasesFilterValue)) {

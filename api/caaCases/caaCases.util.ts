@@ -20,14 +20,16 @@ export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
 export function getRequestBody(organisationID: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
   const reference = 'reference.keyword';
-  let caseReferenceFilter: any[] = [];
+  const caseReferenceFilter: any[] = [];
 
-  if (Array.isArray(caaCasesFilterValue)) {
-    caaCasesFilterValue.forEach(caseReference => {
-      caseReferenceFilter.push({ match: { [reference]: caseReference } })
-    });
-  } else {
-    caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+  if (caaCasesFilterValue) {
+    if (Array.isArray(caaCasesFilterValue)) {
+      caaCasesFilterValue.forEach(caseReference => {
+        caseReferenceFilter.push({ match: { [reference]: caseReference } })
+      });
+    } else {
+      caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
+    }
   }
 
   return {

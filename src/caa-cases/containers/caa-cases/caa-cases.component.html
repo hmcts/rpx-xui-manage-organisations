@@ -29,7 +29,7 @@
         (emitErrorMessages)="onErrorMessages($event)">
       </app-caa-filter>
     </div>
-    <details *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
+    <details *ngIf="noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
       class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" id="add-user-help" close>
       <summary class="govuk-details__summary">
         <span class="govuk-details__summary-text" id="content-why-can-not-find-case">Can't find a case?
@@ -43,13 +43,13 @@
         </ul>
       </div>
     </details>
-    <p *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">
+    <p *ngIf="noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">
       You can share a case from your unassigned case list with yourself or a colleague.
       <br>
       Your colleague must be registered with your organisation and have access to Manage Cases.
     </p>
-    <mat-tab-group animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
-      <mat-tab *ngFor="let navItem of navItems; let last = last;" [label]="navItem.text">
+    <mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
+      <mat-tab *ngFor="let navItem of navItems; let last = last;" [id]="navItem.id" [label]="navItem.text">
         <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2" *ngIf="(cases$ | async)?.length > 0">
           <div>
             <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases</p>
@@ -75,7 +75,7 @@
         </ccd-case-list>
       </mat-tab>
     </mat-tab-group>
-    <div class="govuk-body govuk-!-margin-top-4">
+    <div class="govuk-body govuk-!-margin-top-4" *ngIf="noCasesFoundMessage.length > 0">
       {{ noCasesFoundMessage }}
     </div>
   </div>

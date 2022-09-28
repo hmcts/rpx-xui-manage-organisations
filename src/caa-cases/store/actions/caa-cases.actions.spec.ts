@@ -68,7 +68,9 @@ describe('Caa actions', () => {
   });
 
   it('load case types action', () => {
-    const payload = {caaCasesPageType: CaaCasesPageType.AssignedCases}
+    const caaCasesFilterType = null;
+    const caaCasesFilterValue = null;
+    const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases, caaCasesFilterType, caaCasesFilterValue };
     const action = new fromActions.LoadCaseTypes(payload);
     expect({ ...action }).toEqual({
       payload,

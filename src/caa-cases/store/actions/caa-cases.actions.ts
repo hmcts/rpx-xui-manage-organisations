@@ -28,33 +28,33 @@ export class LoadAssignedCasesFailure implements Action {
 }
 
 export class LoadUnassignedCases implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASES;
-    constructor(public payload: {caseType: string, pageNo: number, pageSize: number, caaCasesFilterType: string | null, caaCasesFilterValue: string | null}) {}
+  public readonly type = LOAD_UNASSIGNED_CASES;
+  constructor(public payload: {caseType: string, pageNo: number, pageSize: number, caaCasesFilterType: string | null, caaCasesFilterValue: string | null}) {}
 }
 
 export class LoadUnassignedCasesSuccess implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASES_SUCCESS;
-    constructor(public payload: CaaCases) {}
+  public readonly type = LOAD_UNASSIGNED_CASES_SUCCESS;
+  constructor(public payload: CaaCases) {}
 }
 
 export class LoadUnassignedCasesFailure implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASES_FAILURE;
-    constructor(public payload: any) {}
+  public readonly type = LOAD_UNASSIGNED_CASES_FAILURE;
+  constructor(public payload: any) {}
 }
 
 export class LoadCaseTypes implements Action {
-    public readonly type = LOAD_CASE_TYPES;
-    constructor(public payload: {caaCasesPageType: string}) {}
+  public readonly type = LOAD_CASE_TYPES;
+  constructor(public payload: {caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null}) {}
 }
 
 export class LoadCaseTypesSuccess implements Action {
-    public readonly type = LOAD_CASE_TYPES_SUCCESS;
-    constructor(public payload: any[]) {}
+  public readonly type = LOAD_CASE_TYPES_SUCCESS;
+  constructor(public payload: any[]) {}
 }
 
 export class LoadCaseTypesFailure implements Action {
-    public readonly type = LOAD_CASE_TYPES_FAILURE;
-    constructor(public payload: any) {}
+  public readonly type = LOAD_CASE_TYPES_FAILURE;
+  constructor(public payload: any) {}
 }
 
 export class UpdateSelectionForCaseType implements Action {

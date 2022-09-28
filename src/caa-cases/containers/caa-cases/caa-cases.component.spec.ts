@@ -83,6 +83,19 @@ describe('CaaCasesComponent', () => {
     expect(component.selectedFilterValue).toBeNull();
   });
 
+  it('should load case types', () => {
+    const storeDispatchMock = spyOn(store, 'dispatch');
+    const storePipeMock = spyOn(store, 'pipe');
+    const storeSelectMock = spyOn(store, 'select');
+    storeDispatchMock.and.returnValue(of({}));
+    storePipeMock.and.returnValue(of({}));
+    storeSelectMock.and.returnValue(of({}));
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.loadCaseTypes(CaaCasesFilterType.CaseReferenceNumber, '1111222233334444');
+    expect(store.dispatch).toHaveBeenCalled();
+    expect(store.pipe).toHaveBeenCalled();
+  });
+
   it('should load cases and set table config', () => {
     spyOn(component, 'setTableConfig');
     const storePipeMock = spyOn(store, 'pipe');
@@ -94,6 +107,29 @@ describe('CaaCasesComponent', () => {
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.loadCasesAndSetTableConfig();
     expect(component.setTableConfig).toHaveBeenCalledTimes(2);
+  });
+
+  it('should load case data only when case type is set', () => {
+    const storeDispatchMock = spyOn(store, 'dispatch');
+    const storePipeMock = spyOn(store, 'pipe');
+    storeDispatchMock.and.returnValue(of({}));
+    storePipeMock.and.returnValue(of({}));
+    component.currentCaseType = 'FinancialRemedyConsented';
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.loadDataFromStore();
+    expect(store.dispatch).toHaveBeenCalled();
+    expect(store.pipe).toHaveBeenCalled();
+  });
+
+  it('should not load case data only when case type is not set', () => {
+    const storeDispatchMock = spyOn(store, 'dispatch');
+    const storePipeMock = spyOn(store, 'pipe');
+    storeDispatchMock.and.returnValue(of({}));
+    storePipeMock.and.returnValue(of({}));
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.loadDataFromStore();
+    expect(store.dispatch).not.toHaveBeenCalled();
+    expect(store.pipe).not.toHaveBeenCalled();
   });
 
   it('should set table config', () => {
@@ -122,5 +158,22 @@ describe('CaaCasesComponent', () => {
     expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
     component.totalCases = 1;
     expect(component.getNoCasesFoundMessage()).toEqual('');
+  });
+
+  it('should onSelectedFilterTypeChanged set selected filter type', () => {
+    component.onSelectedFilterTypeChanged(CaaCasesFilterType.CaseReferenceNumber);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CaseReferenceNumber);
+  });
+
+  it('should onSelectedFilterValueChanged set selected filter value, selected filter type and call loadCaseTypes', () => {
+    spyOn(component, 'loadCaseTypes');
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.onSelectedFilterValueChanged('1111222233334444');
+    expect(component.selectedFilterValue).toEqual('1111222233334444');
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CaseReferenceNumber);
+    component.onSelectedFilterValueChanged(null);
+    expect(component.selectedFilterValue).toEqual(null);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.None);
+    expect(component.loadCaseTypes).toHaveBeenCalled();
   });
 });

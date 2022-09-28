@@ -89,7 +89,7 @@ describe('CaaFilterComponent', () => {
     textInput.value = 'Andy Test - andy@test.com';
     textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
-    component.search();
+    component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('user1');
     radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     radioButton.click();
@@ -97,12 +97,12 @@ describe('CaaFilterComponent', () => {
     textInput = nativeElement.querySelector('#case-reference-number');
     textInput.value = '1111-2222-3333-4444';
     textInput.dispatchEvent(new Event('input'));
-    component.search();
+    component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
     radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
     radioButton.click();
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
-    component.search();
+    component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });
 
@@ -115,7 +115,7 @@ describe('CaaFilterComponent', () => {
     textInput.value = '1111-2222-3333-4444';
     textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
-    component.search();
+    component.onSearch();
     expect(component.selectedFilterType).toBeUndefined();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
   });

@@ -6,7 +6,7 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromOrganisationStore from '../../../organisation/store';
-import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaCasesShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
 
@@ -67,10 +67,10 @@ describe('CaaCasesComponent', () => {
   it('should set show hide filter button text', () => {
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.setShowHideFilterButtonText();
-    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.UnassignedCasesShow);
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.UnassignedCasesShow);
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.setShowHideFilterButtonText();
-    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesShow);
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.AssignedCasesShow);
   });
 
   it('should set selected filter type and value', () => {

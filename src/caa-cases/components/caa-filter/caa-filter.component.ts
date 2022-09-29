@@ -8,10 +8,9 @@ import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
   CaaCasesFilterType,
-  CaaCasesPageType,
-  CaaShowHideFilterButtonText
+  CaaCasesPageType
 } from '../../models/caa-cases.enum';
-import { ErrorMessage } from '../../models/caa-cases.model';
+import { CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
 
 @Component({
   selector: 'app-caa-filter',
@@ -21,6 +20,7 @@ import { ErrorMessage } from '../../models/caa-cases.model';
 export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public selectedFilterType: string;
+  @Input() public sessionStateValue: CaaCasesSessionStateValue;
   @Input() public caaCasesPageType: string;
   @Input() public selectedOrganisationUsers: User[];
 
@@ -36,7 +36,6 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   public caaFilterHeading: string;
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaCasesFilterType = CaaCasesFilterType;
-  public caaShowHideFilterButtonText = CaaShowHideFilterButtonText;
   public caseReferenceNumberErrorMessage = '';
   public assigneeNameErrorMessage = '';
   public errorMessages: ErrorMessage[];
@@ -91,10 +90,31 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.selectedOrganisationUsers && changes.selectedOrganisationUsers.currentValue) {
+    if (changes.selectedOrganisationUsers &&
+        changes.selectedOrganisationUsers.currentValue &&
+        changes.selectedOrganisationUsers.currentValue.length > 0) {
       this.filterSelectedOrganisationUsers().subscribe(filteredAndGroupedUsers => {
         this.filteredAndGroupedUsers = filteredAndGroupedUsers;
       });
+      this.initialiseFilterValuesFromSessionState();
+    }
+  }
+
+  public initialiseFilterValuesFromSessionState(): void {
+    if (this.sessionStateValue) {
+      // Set the case reference number input box value if present in session state
+      const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;
+      this.caaFormGroup.get(this.caseRefFormControl).setValue(caseReferenceNumber);
+
+      // Set the assignee name input box value if present in session state
+      if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+        const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;
+        const selectedOrganisationUser = this.selectedOrganisationUsers && this.selectedOrganisationUsers.find(user => user.userIdentifier === assigneeName);
+        if (selectedOrganisationUser) {
+          const formattedOrganisationUser = this.getDisplayName(selectedOrganisationUser);
+          this.caaFormGroup.get(this.assigneePersonFormControl).setValue(formattedOrganisationUser);
+        }
+      }
     }
   }
 

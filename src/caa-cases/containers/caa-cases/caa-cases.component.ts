@@ -11,8 +11,8 @@ import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
-import { CaaCases, CaaSessionState, ErrorMessage } from '../../models/caa-cases.model';
+import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaCasesShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -40,9 +40,10 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageType: string;
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText: string;
-  public caaShowHideFilterButtonTextLookup = CaaShowHideFilterButtonText;
+  public caaShowHideFilterButtonTextLookup = CaaCasesShowHideFilterButtonText;
   public selectedFilterType: string;
   public selectedFilterValue: string;
+  public sessionStateValue: CaaCasesSessionStateValue;
   public errorMessages: ErrorMessage[];
   public noCasesFoundMessage = '';
 
@@ -64,7 +65,8 @@ export class CaaCasesComponent implements OnInit {
     this.setShowHideFilterButtonText();
     // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
     this.setSelectedFilterTypeAndValue();
-
+    // Retrieve session state to check and pre-populate the previous state if any
+    this.retrieveSessionState();
     // Load case types from store based on current page type
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
 
@@ -112,8 +114,8 @@ export class CaaCasesComponent implements OnInit {
 
   public setShowHideFilterButtonText(): void {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaShowHideFilterButtonText.UnassignedCasesShow
-      : CaaShowHideFilterButtonText.AssignedCasesShow;
+      ? CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+      : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
   }
 
   public loadCasesAndSetTableConfig(): void {
@@ -228,12 +230,12 @@ export class CaaCasesComponent implements OnInit {
 
   public toggleFilterSection(): void {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.UnassignedCasesShow
-        ? CaaShowHideFilterButtonText.UnassignedCasesHide
-        : CaaShowHideFilterButtonText.UnassignedCasesShow
-      : this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.AssignedCasesShow
-        ? CaaShowHideFilterButtonText.AssignedCasesHide
-        : CaaShowHideFilterButtonText.AssignedCasesShow;
+      ? this.caaShowHideFilterButtonText === CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+        ? CaaCasesShowHideFilterButtonText.UnassignedCasesHide
+        : CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+      : this.caaShowHideFilterButtonText === CaaCasesShowHideFilterButtonText.AssignedCasesShow
+        ? CaaCasesShowHideFilterButtonText.AssignedCasesHide
+        : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
   }
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
@@ -253,16 +255,32 @@ export class CaaCasesComponent implements OnInit {
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
   }
 
+  public retrieveSessionState(): void {
+    this.sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
+    if (this.sessionStateValue) {
+      this.selectedFilterType = this.sessionStateValue.filterType ? this.sessionStateValue.filterType : null;
+      if (this.selectedFilterType) {  
+        const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;	
+        const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;
+        if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases && caseReferenceNumber) {
+          this.selectedFilterValue = caseReferenceNumber;
+        } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+          if (this.selectedFilterType === CaaCasesFilterType.AssigneeName && assigneeName) {
+            this.selectedFilterValue = assigneeName;
+          } else if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber && caseReferenceNumber) {
+            this.selectedFilterValue = caseReferenceNumber;
+          }
+        }
+        this.toggleFilterSection();
+      }
+    }
+  }
+
   public storeSessionState(): void {
-    console.log('SELECTED FILTER TYPE', this.selectedFilterType);
-    console.log('SELECTED FILTER VALUE', this.selectedFilterValue);
     const sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
-    console.log('SESSION STATE VALUE', sessionStateValue);
     const caseReferenceNumber = sessionStateValue && sessionStateValue.caseReferenceNumber && sessionStateValue.caseReferenceNumber;
     const assigneeName = sessionStateValue && sessionStateValue.assigneeName && sessionStateValue.assigneeName;
-    console.log('CASE REFERENCE NUMBER', caseReferenceNumber);
-    console.log('ASSIGNEE NAME', assigneeName);
-    const sessionStateToUpdate: CaaSessionState = {
+    const sessionStateToUpdate: CaaCasesSessionState = {
       key: this.caaCasesPageType,
       value: {
         filterType: this.selectedFilterType,
@@ -270,7 +288,6 @@ export class CaaCasesComponent implements OnInit {
         assigneeName: this.selectedFilterType === CaaCasesFilterType.AssigneeName ? this.selectedFilterValue : assigneeName
       }
     }
-    console.log('SESSION TO UPDATE', sessionStateToUpdate);
     this.service.storeSessionState(sessionStateToUpdate);
   }
 

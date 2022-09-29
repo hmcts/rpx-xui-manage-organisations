@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CaaSessionState, CaaSessionStateValue } from '../models/caa-cases.model';
 
 @Injectable()
 export class CaaCasesService {
@@ -26,11 +27,11 @@ export class CaaCasesService {
     return this.http.post<any>(url, null);
   }
 
-  public storeState(key: string, value: any): void {
-    window.sessionStorage.setItem(key, JSON.stringify(value));
+  public storeSessionState(sessionState: CaaSessionState): void {
+    window.sessionStorage.setItem(sessionState.key, JSON.stringify(sessionState.value));
   }
 
-  public retrieveState(key: string): any {
+  public retrieveSessionState(key: string): CaaSessionStateValue {
     return window.sessionStorage.getItem(key) ? JSON.parse(window.sessionStorage.getItem(key)) : null;
   }
 

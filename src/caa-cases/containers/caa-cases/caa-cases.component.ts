@@ -6,12 +6,13 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { CaaCasesService } from 'src/caa-cases/services';
 import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
 import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
-import { CaaCases, ErrorMessage } from '../../models/caa-cases.model';
+import { CaaCases, CaaSessionState, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -50,7 +51,8 @@ export class CaaCasesComponent implements OnInit {
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
               private readonly userStore: Store<fromUserStore.UserState>,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly service: CaaCasesService) {
   }
 
   public ngOnInit(): void {
@@ -245,7 +247,31 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
+    // Store filter values to session
+    this.storeSessionState();
+    // Load case types based on current page type, selected filter type and selected filter value
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
+  }
+
+  public storeSessionState(): void {
+    console.log('SELECTED FILTER TYPE', this.selectedFilterType);
+    console.log('SELECTED FILTER VALUE', this.selectedFilterValue);
+    const sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
+    console.log('SESSION STATE VALUE', sessionStateValue);
+    const caseReferenceNumber = sessionStateValue && sessionStateValue.caseReferenceNumber && sessionStateValue.caseReferenceNumber;
+    const assigneeName = sessionStateValue && sessionStateValue.assigneeName && sessionStateValue.assigneeName;
+    console.log('CASE REFERENCE NUMBER', caseReferenceNumber);
+    console.log('ASSIGNEE NAME', assigneeName);
+    const sessionStateToUpdate: CaaSessionState = {
+      key: this.caaCasesPageType,
+      value: {
+        filterType: this.selectedFilterType,
+        caseReferenceNumber: this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber ? this.selectedFilterValue : caseReferenceNumber,
+        assigneeName: this.selectedFilterType === CaaCasesFilterType.AssigneeName ? this.selectedFilterValue : assigneeName
+      }
+    }
+    console.log('SESSION TO UPDATE', sessionStateToUpdate);
+    this.service.storeSessionState(sessionStateToUpdate);
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {

@@ -25,15 +25,15 @@ export interface SelectedCases {
   [key: string]: string [];
 }
 
-export interface CaaSessionStateValue {
+export interface CaaCasesSessionStateValue {
   filterType: string;
   caseReferenceNumber?: string;
   assigneeName?: string;
 }
 
-export interface CaaSessionState {
+export interface CaaCasesSessionState {
   key: string;
-  value: CaaSessionStateValue;
+  value: CaaCasesSessionStateValue;
 }
 
 /**

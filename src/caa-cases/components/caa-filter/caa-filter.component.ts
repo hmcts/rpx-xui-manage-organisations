@@ -105,7 +105,6 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
       // Set the case reference number input box value if present in session state
       const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;
       this.caaFormGroup.get(this.caseRefFormControl).setValue(caseReferenceNumber);
-
       // Set the assignee name input box value if present in session state
       if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../models/caa-cases.model';
+import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../models/caa-cases.model';
 
 @Injectable()
 export class CaaCasesService {
@@ -13,11 +13,11 @@ export class CaaCasesService {
   }
 
   public getCaaCases(
-    caseTypeId: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null): Observable<any> {
+    caseTypeId: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null): Observable<CaaCases> {
     let url = `${CaaCasesService.caaCasesUrl}?caseTypeId=${caseTypeId}&pageNo=${pageNo}&pageSize=${pageSize}&caaCasesPageType=${caaCasesPageType}`;
     url += this.getFilterType(caaCasesFilterType);
     url += this.getFilterValue(caaCasesFilterValue);
-    return this.http.post<any>(url, null);
+    return this.http.post<CaaCases>(url, null);
   }
 
   public getCaaCaseTypes(caaCasesPageType: string, caaCasesFilterType: string | null, caaCasesFilterValue: string | null): Observable<any> {
@@ -33,6 +33,10 @@ export class CaaCasesService {
 
   public retrieveSessionState(key: string): CaaCasesSessionStateValue {
     return window.sessionStorage.getItem(key) ? JSON.parse(window.sessionStorage.getItem(key)) : null;
+  }
+
+  public removeSessionState(key: string): void {
+    window.sessionStorage.removeItem(key);
   }
 
   private getFilterType(caaCasesFilterType: string | null): string {

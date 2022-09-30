@@ -6,11 +6,13 @@ import { UserState } from '../../../users/store';
 import { OrganisationState } from '../../../organisation/store';
 import { CaaCasesComponent } from '../../containers';
 import { CaaCasesState, getShareCaseListState, reducers } from '../index';
+import { CaaCasesService } from '../../services';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
   let organisationStore: Store<OrganisationState>;
-  let userStore: Store<UserState>
+  let userStore: Store<UserState>;
+  let caaCasesService: CaaCasesService
   const router: any = {};
 
   beforeEach(() => {
@@ -21,18 +23,20 @@ describe('Share case selectors', () => {
         RouterTestingModule
       ],
       providers: [
-        { provide: Router, useValue: router }
+        { provide: Router, useValue: router },
+        CaaCasesService
       ]
     });
     store = TestBed.get(Store);
     organisationStore = TestBed.get(Store);
     userStore = TestBed.get(Store);
+    caaCasesService = TestBed.get(CaaCasesService);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CaaCasesComponent(store, organisationStore, userStore, router);
+      const caseListComponent = new CaaCasesComponent(store, organisationStore, userStore, router, caaCasesService);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

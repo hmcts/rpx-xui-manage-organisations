@@ -6,7 +6,7 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { CaaCasesService } from 'src/caa-cases/services';
+import { CaaCasesService } from '../../../caa-cases/services';
 import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
@@ -249,18 +249,27 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
-    // Store filter values to session
-    this.storeSessionState();
+    if (this.selectedFilterType === CaaCasesFilterType.None) {
+      // Remove unassigned cases related filter from session
+      this.removeSessionState(this.caaCasesPageType);
+    } else {
+      // Store filter values to session
+      this.storeSessionState();
+    }
     // Load case types based on current page type, selected filter type and selected filter value
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
+  }
+
+  public removeSessionState(key: string): void {
+    this.service.removeSessionState(key);
   }
 
   public retrieveSessionState(): void {
     this.sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
     if (this.sessionStateValue) {
       this.selectedFilterType = this.sessionStateValue.filterType ? this.sessionStateValue.filterType : null;
-      if (this.selectedFilterType) {  
-        const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;	
+      if (this.selectedFilterType) {
+        const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;
         const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;
         if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases && caseReferenceNumber) {
           this.selectedFilterValue = caseReferenceNumber;

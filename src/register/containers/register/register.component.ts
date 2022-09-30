@@ -135,7 +135,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
           const debugElement = document.getElementsByTagName('app-validation-header')[0];
           if (!!debugElement) {
             debugElement.setAttribute('tabindex', '0');
-            (<HTMLElement>debugElement).focus();
+            (debugElement as HTMLElement).focus();
           }
         }, 200);
       }

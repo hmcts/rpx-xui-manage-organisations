@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { CaaCasesUtil } from './caa-cases.util';
 
 describe('CaaCasesUtil', () => {
@@ -83,7 +84,13 @@ describe('CaaCasesUtil', () => {
   });
 
   it('should pass assigneeName validation if input contains one or more characters', () => {
-    control.setValue('Lindsey - lindsey@test.com');
+    const user: User = {
+      userIdentifier: 'user123',
+      fullName: 'Lindsey Johnson',
+      email: 'user@test.com',
+      status: 'pending'
+    }
+    control.setValue(user);
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
     expect(assigneeNameValidator(control)).toBeNull();
   });

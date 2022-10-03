@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -5,15 +6,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import {
   CaaCasesFilterType,
   CaaCasesNoDataMessage,
   CaaCasesPageTitle,
   CaaCasesPageType,
-  CaaCasesShareButtonText,
-  CaaShowHideFilterButtonText
+  CaaCasesShowHideFilterButtonText,
+  CaaCasesShareButtonText
 } from '../../models/caa-cases.enum';
+import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
 
@@ -23,15 +26,39 @@ describe('CaaCasesComponent', () => {
   let store: Store<fromStore.CaaCasesState>;
   let organisationStore: Store<fromOrganisationStore.OrganisationState>;
   let router: Router;
+  let caaCasesService: jasmine.SpyObj<CaaCasesService>;
+  const sessionStateValue: CaaCasesSessionStateValue = {
+    filterType: CaaCasesFilterType.AssigneeName,
+    caseReferenceNumber: null,
+    assigneeName: 'assignee123'
+  };
+  const sessionState: CaaCasesSessionState = {
+    key: 'assigned-cases',
+    value: sessionStateValue
+  };
 
   beforeEach(async(() => {
+    caaCasesService = jasmine.createSpyObj<CaaCasesService>(
+      'caaCasesService',
+      [
+        'getCaaCases',
+        'getCaaCaseTypes',
+        'storeSessionState',
+        'retrieveSessionState',
+        'removeSessionState'
+      ]
+    );
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        RouterTestingModule
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ CaaCasesComponent ]
+      declarations: [ CaaCasesComponent ],
+      providers: [
+        { provide: CaaCasesService, useValue: caaCasesService }
+      ]
     })
     .compileComponents();
   }));
@@ -74,10 +101,10 @@ describe('CaaCasesComponent', () => {
   it('should set show hide filter button text', () => {
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.setShowHideFilterButtonText();
-    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.UnassignedCasesShow);
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.UnassignedCasesShow);
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.setShowHideFilterButtonText();
-    expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesShow);
+    expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.AssignedCasesShow);
   });
 
   it('should set share button text', () => {
@@ -183,13 +210,40 @@ describe('CaaCasesComponent', () => {
 
   it('should onSelectedFilterValueChanged set selected filter value, selected filter type and call loadCaseTypes', () => {
     spyOn(component, 'loadCaseTypes');
+    spyOn(component, 'storeSessionState');
+    spyOn(component, 'removeSessionState');
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.onSelectedFilterValueChanged('1111222233334444');
     expect(component.selectedFilterValue).toEqual('1111222233334444');
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CaseReferenceNumber);
+    expect(component.loadCaseTypes).toHaveBeenCalled();
+    expect(component.storeSessionState).toHaveBeenCalled();
     component.onSelectedFilterValueChanged(null);
     expect(component.selectedFilterValue).toEqual(null);
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.None);
     expect(component.loadCaseTypes).toHaveBeenCalled();
+    expect(component.removeSessionState).toHaveBeenCalled();
+  });
+
+  it('should remove session state', () => {
+    component.removeSessionState(CaaCasesFilterType.AssigneeName);
+    expect(caaCasesService.removeSessionState).toHaveBeenCalledWith(CaaCasesFilterType.AssigneeName);
+  });
+
+  it('should retrieve session state', () => {
+    spyOn(component, 'toggleFilterSection');
+    caaCasesService.retrieveSessionState.and.returnValue(sessionState.value);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.retrieveSessionState();
+    expect(component.sessionStateValue).toEqual(sessionStateValue);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
+    expect(component.selectedFilterValue).toEqual('assignee123');
+    expect(component.toggleFilterSection).toHaveBeenCalled();
+  });
+
+  it('should store session state', () => {
+    caaCasesService.retrieveSessionState.and.returnValue(sessionState.value);
+    component.storeSessionState();
+    expect(caaCasesService.storeSessionState).toHaveBeenCalled();
   });
 });

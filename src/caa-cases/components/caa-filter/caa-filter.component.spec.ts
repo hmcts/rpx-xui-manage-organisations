@@ -1,8 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material';
 import { Observable } from 'rxjs';
+import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
@@ -89,7 +90,7 @@ describe('CaaFilterComponent', () => {
     textInput.value = 'Andy Test - andy@test.com';
     textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
-    component.search();
+    component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('user1');
     radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     radioButton.click();
@@ -97,12 +98,12 @@ describe('CaaFilterComponent', () => {
     textInput = nativeElement.querySelector('#case-reference-number');
     textInput.value = '1111-2222-3333-4444';
     textInput.dispatchEvent(new Event('input'));
-    component.search();
+    component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
     radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
     radioButton.click();
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
-    component.search();
+    component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });
 
@@ -115,7 +116,7 @@ describe('CaaFilterComponent', () => {
     textInput.value = '1111-2222-3333-4444';
     textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
-    component.search();
+    component.onSearch();
     expect(component.selectedFilterType).toBeUndefined();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
   });
@@ -361,6 +362,36 @@ describe('CaaFilterComponent', () => {
       expect(users.get('Inactive users:').length).toEqual(1);
       expect(users.get('Inactive users:')[0].fullName).toEqual('Lindsey Johnson');
     })
+  });
+
+  it('should initialise filter values from session state', () => {
+    const sessionStateValue: CaaCasesSessionStateValue = {
+      filterType: CaaCasesFilterType.CaseReferenceNumber,
+      caseReferenceNumber: '1111222233334444',
+      assigneeName: 'user3'
+    };
+    component.selectedOrganisationUsers = [
+      { userIdentifier: 'user1', fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
+      { userIdentifier: 'user2', fullName: 'Smith Test', email: 'smith@test.com', status: 'inactive' },
+      { userIdentifier: 'user3', fullName: 'Lindsey Johnson', email: 'user@test.com', status: 'pending' }
+    ];
+    component.sessionStateValue = sessionStateValue;
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
+    const caseRefOptionRadioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
+    caseRefOptionRadioButton.click();
+    component.initialiseFilterValuesFromSessionState();
+    fixture.detectChanges();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    expect(caseReferenceInput.value).toEqual('1111222233334444');
+  });
+
+  it('should reset unassigned cases filter', () => {
+    spyOn(component.emitSelectedFilterValue, 'emit');
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    fixture.detectChanges();
+    component.onReset();
+    expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });
 
   it('should unsubscribe', () => {

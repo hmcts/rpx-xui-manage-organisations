@@ -11,8 +11,15 @@ import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaCasesShowHideFilterButtonText } from '../../models/caa-cases.enum';
 import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
+import {
+  CaaCasesFilterType,
+  CaaCasesNoDataMessage,
+  CaaCasesPageTitle,
+  CaaCasesPageType,
+  CaaCasesShareButtonText,
+  CaaCasesShowHideFilterButtonText
+} from '../../models/caa-cases.enum';
 import * as fromStore from '../../store';
 
 @Component({
@@ -41,6 +48,7 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText: string;
   public caaShowHideFilterButtonTextLookup = CaaCasesShowHideFilterButtonText;
+  public caaCasesShareButtonText: string;
   public selectedFilterType: string;
   public selectedFilterValue: string;
   public sessionStateValue: CaaCasesSessionStateValue;
@@ -67,6 +75,9 @@ export class CaaCasesComponent implements OnInit {
     this.setSelectedFilterTypeAndValue();
     // Retrieve session state to check and pre-populate the previous state if any
     this.retrieveSessionState();
+    // Set share button text
+    this.setShareButtonText();
+
     // Load case types from store based on current page type
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
 
@@ -116,6 +127,12 @@ export class CaaCasesComponent implements OnInit {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
       ? CaaCasesShowHideFilterButtonText.UnassignedCasesShow
       : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
+  }
+
+  public setShareButtonText(): void {
+    this.caaCasesShareButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaCasesShareButtonText.UnassignedCases
+      : CaaCasesShareButtonText.AssignedCases;
   }
 
   public loadCasesAndSetTableConfig(): void {

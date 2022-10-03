@@ -38,3 +38,8 @@ export enum CaaCasesNoDataMessage {
   AssignedCasesFilterMessage = 'Try again using a different case reference or assignee.',
   UnassignedCasesFilterMessage = 'Try again using a different case reference.'
 }
+
+export enum CaaCasesShareButtonText {
+  AssignedCases = 'Manage case sharing',
+  UnassignedCases = 'Share case'
+}

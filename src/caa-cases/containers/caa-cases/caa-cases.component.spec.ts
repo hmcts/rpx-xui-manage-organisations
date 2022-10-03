@@ -13,7 +13,8 @@ import {
   CaaCasesNoDataMessage,
   CaaCasesPageTitle,
   CaaCasesPageType,
-  CaaCasesShowHideFilterButtonText
+  CaaCasesShowHideFilterButtonText,
+  CaaCasesShareButtonText
 } from '../../models/caa-cases.enum';
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
@@ -104,6 +105,15 @@ describe('CaaCasesComponent', () => {
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.setShowHideFilterButtonText();
     expect(component.caaShowHideFilterButtonText).toEqual(CaaCasesShowHideFilterButtonText.AssignedCasesShow);
+  });
+
+  it('should set share button text', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.setShareButtonText();
+    expect(component.caaCasesShareButtonText).toEqual(CaaCasesShareButtonText.UnassignedCases);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.setShareButtonText();
+    expect(component.caaCasesShareButtonText).toEqual(CaaCasesShareButtonText.AssignedCases);
   });
 
   it('should set selected filter type and value', () => {

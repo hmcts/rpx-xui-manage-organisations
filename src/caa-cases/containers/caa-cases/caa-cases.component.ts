@@ -6,19 +6,20 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { CaaCasesService } from '../../../caa-cases/services';
 import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
+import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
 import {
   CaaCasesFilterType,
   CaaCasesNoDataMessage,
   CaaCasesPageTitle,
   CaaCasesPageType,
   CaaCasesShareButtonText,
-  CaaShowHideFilterButtonText
+  CaaCasesShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
-import { CaaCases, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -46,10 +47,11 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageType: string;
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText: string;
-  public caaShowHideFilterButtonTextLookup = CaaShowHideFilterButtonText;
+  public caaShowHideFilterButtonTextLookup = CaaCasesShowHideFilterButtonText;
   public caaCasesShareButtonText: string;
   public selectedFilterType: string;
   public selectedFilterValue: string;
+  public sessionStateValue: CaaCasesSessionStateValue;
   public errorMessages: ErrorMessage[];
   public noCasesFoundMessage = '';
 
@@ -58,7 +60,8 @@ export class CaaCasesComponent implements OnInit {
   constructor(private readonly store: Store<fromStore.CaaCasesState>,
               private readonly organisationStore: Store<fromOrganisationStore.OrganisationState>,
               private readonly userStore: Store<fromUserStore.UserState>,
-              private readonly router: Router) {
+              private readonly router: Router,
+              private readonly service: CaaCasesService) {
   }
 
   public ngOnInit(): void {
@@ -70,6 +73,8 @@ export class CaaCasesComponent implements OnInit {
     this.setShowHideFilterButtonText();
     // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
     this.setSelectedFilterTypeAndValue();
+    // Retrieve session state to check and pre-populate the previous state if any
+    this.retrieveSessionState();
     // Set share button text
     this.setShareButtonText();
 
@@ -120,8 +125,8 @@ export class CaaCasesComponent implements OnInit {
 
   public setShowHideFilterButtonText(): void {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaShowHideFilterButtonText.UnassignedCasesShow
-      : CaaShowHideFilterButtonText.AssignedCasesShow;
+      ? CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+      : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
   }
 
   public setShareButtonText(): void {
@@ -242,12 +247,12 @@ export class CaaCasesComponent implements OnInit {
 
   public toggleFilterSection(): void {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.UnassignedCasesShow
-        ? CaaShowHideFilterButtonText.UnassignedCasesHide
-        : CaaShowHideFilterButtonText.UnassignedCasesShow
-      : this.caaShowHideFilterButtonText === CaaShowHideFilterButtonText.AssignedCasesShow
-        ? CaaShowHideFilterButtonText.AssignedCasesHide
-        : CaaShowHideFilterButtonText.AssignedCasesShow;
+      ? this.caaShowHideFilterButtonText === CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+        ? CaaCasesShowHideFilterButtonText.UnassignedCasesHide
+        : CaaCasesShowHideFilterButtonText.UnassignedCasesShow
+      : this.caaShowHideFilterButtonText === CaaCasesShowHideFilterButtonText.AssignedCasesShow
+        ? CaaCasesShowHideFilterButtonText.AssignedCasesHide
+        : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
   }
 
   public onSelectedFilterTypeChanged(selectedFilterType: string): void {
@@ -261,7 +266,55 @@ export class CaaCasesComponent implements OnInit {
         ? CaaCasesFilterType.CaseReferenceNumber
         : CaaCasesFilterType.None;
     }
+    if (this.selectedFilterType === CaaCasesFilterType.None) {
+      // Remove unassigned cases related filter from session
+      this.removeSessionState(this.caaCasesPageType);
+    } else {
+      // Store filter values to session
+      this.storeSessionState();
+    }
+    // Load case types based on current page type, selected filter type and selected filter value
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
+  }
+
+  public removeSessionState(key: string): void {
+    this.service.removeSessionState(key);
+  }
+
+  public retrieveSessionState(): void {
+    this.sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
+    if (this.sessionStateValue) {
+      this.selectedFilterType = this.sessionStateValue.filterType ? this.sessionStateValue.filterType : null;
+      if (this.selectedFilterType) {
+        const caseReferenceNumber = this.sessionStateValue.caseReferenceNumber && this.sessionStateValue.caseReferenceNumber;
+        const assigneeName = this.sessionStateValue.assigneeName && this.sessionStateValue.assigneeName;
+        if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases && caseReferenceNumber) {
+          this.selectedFilterValue = caseReferenceNumber;
+        } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+          if (this.selectedFilterType === CaaCasesFilterType.AssigneeName && assigneeName) {
+            this.selectedFilterValue = assigneeName;
+          } else if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber && caseReferenceNumber) {
+            this.selectedFilterValue = caseReferenceNumber;
+          }
+        }
+        this.toggleFilterSection();
+      }
+    }
+  }
+
+  public storeSessionState(): void {
+    const sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
+    const caseReferenceNumber = sessionStateValue && sessionStateValue.caseReferenceNumber && sessionStateValue.caseReferenceNumber;
+    const assigneeName = sessionStateValue && sessionStateValue.assigneeName && sessionStateValue.assigneeName;
+    const sessionStateToUpdate: CaaCasesSessionState = {
+      key: this.caaCasesPageType,
+      value: {
+        filterType: this.selectedFilterType,
+        caseReferenceNumber: this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber ? this.selectedFilterValue : caseReferenceNumber,
+        assigneeName: this.selectedFilterType === CaaCasesFilterType.AssigneeName ? this.selectedFilterValue : assigneeName
+      }
+    }
+    this.service.storeSessionState(sessionStateToUpdate);
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {

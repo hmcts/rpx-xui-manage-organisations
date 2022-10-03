@@ -23,6 +23,7 @@
       <app-caa-filter
         [caaCasesPageType]="caaCasesPageType"
         [selectedFilterType]="selectedFilterType"
+        [sessionStateValue]="sessionStateValue"
         [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
         (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
         (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"

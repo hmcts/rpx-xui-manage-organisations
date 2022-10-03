@@ -279,7 +279,7 @@ describe('CaaFilterComponent', () => {
       expect(users.get('Active users:').length).toEqual(0);
       expect(users.get('Inactive users:').length).toEqual(1);
       expect(users.get('Inactive users:')[0].fullName).toEqual('Lindsey Johnson');
-    })
+    });
   });
 
   it('should initialise filter values from session state', () => {
@@ -322,7 +322,7 @@ describe('CaaFilterComponent', () => {
     expect(component.caaFilterFormControlSubscription.unsubscribe).toHaveBeenCalled();
   });
 
-  /** 
+  /**
    * This test needs to be revisited later as user typed in values that are not in the user list
    * are not allowed anymore and the validation always fail as we send in the text as input.
    */
@@ -360,7 +360,7 @@ describe('CaaFilterComponent', () => {
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });
 
-  /** 
+  /**
    * This test needs to be revisited later as user typed in values that are not in the user list
    * are not allowed anymore and the validation always fail as we send in the text as input.
    */

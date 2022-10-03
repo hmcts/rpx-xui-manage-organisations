@@ -505,10 +505,10 @@
     lodash "^4.17.11"
     path "^0.12.7"
 
-"@hmcts/rpx-xui-common-lib@1.7.22-share-case-web-component-bulk-removal-of-users":
-  version "1.7.22-share-case-web-component-bulk-removal-of-users"
-  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.22-share-case-web-component-bulk-removal-of-users.tgz#bd8e47dcb81876e0304773a1170482598411c988"
-  integrity sha512-WZfxgFtG5N+cIkusolJM1ZGEkKUxx9BIcuEl279zk56OtZiwvt/d0lobB+lvkKY7EtlMh9HEDOSnZEq8sVHN0A==
+"@hmcts/rpx-xui-common-lib@1.7.22-selected-cases-status-column-header":
+  version "1.7.22-selected-cases-status-column-header"
+  resolved "https://registry.yarnpkg.com/@hmcts/rpx-xui-common-lib/-/rpx-xui-common-lib-1.7.22-selected-cases-status-column-header.tgz#aaa8dc086d20313265e3326e3bbc8e23e9af9c4f"
+  integrity sha512-O3CjBJBzNeoQGqtqjPvnvd1B12UpnbaXpZD13tQz5HTDX2DC5aYv7xPOTt83+HTzS/dKZjcxc37jw+tx3ndBGQ==
   dependencies:
     tslib "^1.9.0"
 

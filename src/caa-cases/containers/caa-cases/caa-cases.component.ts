@@ -10,7 +10,14 @@ import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import {
+  CaaCasesFilterType,
+  CaaCasesNoDataMessage,
+  CaaCasesPageTitle,
+  CaaCasesPageType,
+  CaaCasesShareButtonText,
+  CaaShowHideFilterButtonText
+} from '../../models/caa-cases.enum';
 import { CaaCases, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
@@ -40,6 +47,7 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText: string;
   public caaShowHideFilterButtonTextLookup = CaaShowHideFilterButtonText;
+  public caaCasesShareButtonText: string;
   public selectedFilterType: string;
   public selectedFilterValue: string;
   public errorMessages: ErrorMessage[];
@@ -62,6 +70,8 @@ export class CaaCasesComponent implements OnInit {
     this.setShowHideFilterButtonText();
     // Set filter type to "all-assignees" for assigned cases and "none" for unassigned cases
     this.setSelectedFilterTypeAndValue();
+    // Set share button text
+    this.setShareButtonText();
 
     // Load case types from store based on current page type
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
@@ -112,6 +122,12 @@ export class CaaCasesComponent implements OnInit {
     this.caaShowHideFilterButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
       ? CaaShowHideFilterButtonText.UnassignedCasesShow
       : CaaShowHideFilterButtonText.AssignedCasesShow;
+  }
+
+  public setShareButtonText(): void {
+    this.caaCasesShareButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
+      ? CaaCasesShareButtonText.UnassignedCases
+      : CaaCasesShareButtonText.AssignedCases;
   }
 
   public loadCasesAndSetTableConfig(): void {

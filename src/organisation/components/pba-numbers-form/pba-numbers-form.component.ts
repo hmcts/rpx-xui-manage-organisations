@@ -226,10 +226,20 @@ export class PbaNumbersFormComponent implements OnInit {
       Validators.pattern(/(PBA\w*)/i),
       Validators.minLength(10),
       Validators.maxLength(10),
+      this.getPBANumbersCustomValidator(),
       RxwebValidators.noneOf({
         matchValues: this.currentPaymentAccounts.map(pba => pba.pbaNumber)
       }),
       RxwebValidators.unique()
     ];
+  }
+
+  private getPBANumbersCustomValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (isNaN(Number(control.value.substring(3)))) {
+        return {'error': 'Enter a valid PBA number'};
+      }
+      return null;
+    };
   }
 }

@@ -25,6 +25,17 @@ export interface SelectedCases {
   [key: string]: string [];
 }
 
+export interface CaaCasesSessionStateValue {
+  filterType: string;
+  caseReferenceNumber?: string;
+  assigneeName?: string;
+}
+
+export interface CaaCasesSessionState {
+  key: string;
+  value: CaaCasesSessionStateValue;
+}
+
 /**
  * Cloned from rpx-xui-webapp src/app/models/error-message.model.ts
  */

@@ -93,4 +93,10 @@ describe('CaaCasesUtil', () => {
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
     expect(assigneeNameValidator(control)).toEqual({assigneeName: true});
   });
+
+  it('should fail assigneeName validation if input is string', () => {
+    control.setValue('test string');
+    const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
+    expect(assigneeNameValidator(control)).toEqual({assigneeName: true});
+  });
 });

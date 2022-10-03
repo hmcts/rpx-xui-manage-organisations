@@ -257,7 +257,13 @@ describe('CaaFilterComponent', () => {
     expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
   });
 
-  it('should clear the validation error for the Assignee Name input field on the Assigned Cases filter', () => {
+  fit('should clear the validation error for the Assignee Name input field on the Assigned Cases filter', () => {
+    const users = [
+      { userIdentifier: 'user1', fullName: 'Andy Test', email: 'andy@test.com', status: 'active' },
+      { userIdentifier: 'user2', fullName: 'Smith Test', email: 'smith@test.com', status: 'inactive' },
+      { userIdentifier: 'user3', fullName: 'Lindsey Johnson', email: 'lindsey@test.com', status: 'pending' }
+    ];
+    component.filteredAndGroupedUsers.set('Active users:', users);
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     fixture.detectChanges();
     const assigneeNameOptionRadioButton = nativeElement.querySelector('#caa-filter-assignee-name');
@@ -274,8 +280,22 @@ describe('CaaFilterComponent', () => {
     expect(component.assigneeNameErrorMessage).toEqual(CaaCasesFilterErrorMessage.InvalidAssigneeName);
     expect(errorMessageElement.textContent).toContain(component.assigneeNameErrorMessage);
     expect(component.emitErrorMessages.emit).toHaveBeenCalledWith(component.errorMessages);
-    assigneeNameInput.value = 'lindsey - lindsey@test.com';
+    // assigneeNameInput.value = 'lindsey - lindsey@test.com';
+    assigneeNameInput.dispatchEvent(new Event('focusin'));
+    assigneeNameInput.value = 'Lindsey Johnson - lindsey@test.com';
     assigneeNameInput.dispatchEvent(new Event('input'));
+    // assigneeNameInput.click();
+    console.log('ASSIGNEE NAME INPUT VALUE 1', assigneeNameInput.value)
+    fixture.detectChanges();
+    console.log('ASSIGNEE NAME INPUT VALUE 2', assigneeNameInput.value)
+    const matOptions = nativeElement.querySelectorAll('mat-option');
+    console.log('MAT OPTIONS', matOptions as HTMLElement);
+    const userToSelect = matOptions[0] as HTMLElement;
+    console.log('MAT OPTIONS 0', userToSelect);
+    // const matOptGroupDropdown = nativeElement.querySelector('mat-optgroup');
+    // console.log('MAT OPT GROUP DROP DOWN', matOptGroupDropdown.textContent);
+    // nativeElement.querySelector('.mat-option-text').click();
+    // fixture.detectChanges();
     searchButton.click();
     fixture.detectChanges();
     errorMessageElement = nativeElement.querySelector('.govuk-error-message');

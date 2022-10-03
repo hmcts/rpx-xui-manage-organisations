@@ -6,7 +6,14 @@ import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromOrganisationStore from '../../../organisation/store';
-import { CaaCasesFilterType, CaaCasesNoDataMessage, CaaCasesPageTitle, CaaCasesPageType, CaaShowHideFilterButtonText } from '../../models/caa-cases.enum';
+import {
+  CaaCasesFilterType,
+  CaaCasesNoDataMessage,
+  CaaCasesPageTitle,
+  CaaCasesPageType,
+  CaaCasesShareButtonText,
+  CaaShowHideFilterButtonText
+} from '../../models/caa-cases.enum';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
 
@@ -71,6 +78,15 @@ describe('CaaCasesComponent', () => {
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.setShowHideFilterButtonText();
     expect(component.caaShowHideFilterButtonText).toEqual(CaaShowHideFilterButtonText.AssignedCasesShow);
+  });
+
+  it('should set share button text', () => {
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.setShareButtonText();
+    expect(component.caaCasesShareButtonText).toEqual(CaaCasesShareButtonText.UnassignedCases);
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    component.setShareButtonText();
+    expect(component.caaCasesShareButtonText).toEqual(CaaCasesShareButtonText.AssignedCases);
   });
 
   it('should set selected filter type and value', () => {

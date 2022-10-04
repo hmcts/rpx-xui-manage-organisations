@@ -29,7 +29,7 @@ export const pbaNumber = {
           {
             input: {
               label: {
-                text: 'PBA number 1 (optional)',
+                text: 'PBA number 1 (Optional)',
                 classes: 'govuk-label--m',
               },
               control: 'PBANumber1',
@@ -44,7 +44,7 @@ export const pbaNumber = {
           {
             input: {
               label: {
-                text: 'PBA number 2 (optional)',
+                text: 'PBA number 2 (Optional)',
                 classes: 'govuk-label--m',
               },
               control: 'PBANumber2',

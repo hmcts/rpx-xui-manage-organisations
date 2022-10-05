@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
@@ -22,10 +23,12 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   public isLoading: boolean;
   public completeScreenMode: string;
   public removeUserFromCaseToggleOn$: Observable<boolean>;
+  public isFromAssignedCasesRoute: boolean = false;
 
   constructor(
-    public store: Store<fromCaseList.CaaCasesState>,
-    public featureToggleService: FeatureToggleService
+    private readonly store: Store<fromCaseList.CaaCasesState>,
+    private readonly featureToggleService: FeatureToggleService,
+    private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
@@ -43,6 +46,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
       this.newShareCases = shareCases;
     });
     this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
+    this.isFromAssignedCasesRoute = this.router.url.startsWith('/assigned-cases');
   }
 
   public ngOnDestroy(): void {

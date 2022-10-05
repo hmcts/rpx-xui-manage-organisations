@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
@@ -14,6 +15,7 @@ describe('CaseShareCompleteComponent', () => {
 
   let store: MockStore<State>;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,6 +31,7 @@ describe('CaseShareCompleteComponent', () => {
       ]
     }).compileComponents();
     store = TestBed.get(Store);
+    router = TestBed.get(Router);
     fixture = TestBed.createComponent(CaseShareCompleteComponent);
     component = fixture.componentInstance;
     mockFeatureToggleService.getValue.and.returnValue(of(true));
@@ -162,6 +165,41 @@ describe('CaseShareCompleteComponent', () => {
     expect(removeUserInfo).toBeFalsy();
     const addAndRemoveUserInfo = fixture.debugElement.nativeElement.querySelector('#add-and-remove-user-info');
     expect(addAndRemoveUserInfo).toBeTruthy();
+  });
+
+  it('should display the correct success text for Assigned Cases', () => {
+    spyOn(store, 'dispatch').and.returnValue(of({}));
+    spyOn(store, 'pipe').and.returnValue(of({}));
+    spyOnProperty(router, 'url', 'get').and.returnValue('/assigned-cases/case-share-complete');
+    component.ngOnInit();
+    component.completeScreenMode = 'COMPLETE';
+    fixture.detectChanges();
+    expect(component.isFromAssignedCasesRoute).toBe(true);
+    const successTextAssignedCases1 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-added');
+    expect(successTextAssignedCases1).toBeTruthy();
+    expect(successTextAssignedCases1.textContent).toContain('The people you added');
+    const successTextAssignedCases2 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-removed');
+    expect(successTextAssignedCases2).toBeTruthy();
+    expect(successTextAssignedCases2.textContent).toContain('If you removed someone');
+    const successTextUnassignedCases = fixture.debugElement.nativeElement.querySelector('#what-happens-next-shared');
+    expect(successTextUnassignedCases).toBeNull();
+  });
+
+  it('should display the correct success text for Unassigned Cases', () => {
+    spyOn(store, 'dispatch').and.returnValue(of({}));
+    spyOn(store, 'pipe').and.returnValue(of({}));
+    spyOnProperty(router, 'url', 'get').and.returnValue('/unassigned-cases/case-share-complete');
+    component.ngOnInit();
+    component.completeScreenMode = 'COMPLETE';
+    fixture.detectChanges();
+    expect(component.isFromAssignedCasesRoute).toBe(false);
+    const successTextAssignedCases1 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-added');
+    expect(successTextAssignedCases1).toBeNull();
+    const successTextAssignedCases2 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-removed');
+    expect(successTextAssignedCases2).toBeNull();
+    const successTextUnassignedCases = fixture.debugElement.nativeElement.querySelector('#what-happens-next-shared');
+    expect(successTextUnassignedCases).toBeTruthy();
+    expect(successTextUnassignedCases.textContent).toContain('If you\'ve shared');
   });
 
   afterEach(() => {

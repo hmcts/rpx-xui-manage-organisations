@@ -29,7 +29,7 @@ export const newPBAElement = (newPBAIndex) => {
       },
       control: `PBANumber${newPBAIndex}`,
       type: 'inputButton',
-      validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
+      validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength', 'pbaNumberFormat'],
       validationErrors: [
         {
           validationErrorId: 'duplicatedPBAError',

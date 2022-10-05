@@ -35,7 +35,7 @@ export const pbaNumber = {
           },
           control: 'PBANumber1',
           type: 'inputButton',
-          validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength'],
+          validators: ['pbaNumberPattern', 'pbaNumberMaxLength', 'pbaNumberMinLength', 'pbaNumberFormat'],
           validationErrors: [
             {
               validationErrorId: 'duplicatedPBAError',

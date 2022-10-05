@@ -236,7 +236,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
   private getPBANumbersCustomValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
-      if (isNaN(Number(control.value.substring(3)))) {
+      if (control.value && isNaN(Number(control.value.substring(3)))) {
         return { error: 'Enter a valid PBA number' };
       }
       return null;

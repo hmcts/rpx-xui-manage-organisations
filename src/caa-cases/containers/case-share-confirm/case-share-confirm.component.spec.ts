@@ -35,7 +35,7 @@ describe('CaseShareConfirmComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.get(Store);
     fixture.detectChanges();
-  })
+  });
 
   afterEach(() => {
     fixture.destroy();

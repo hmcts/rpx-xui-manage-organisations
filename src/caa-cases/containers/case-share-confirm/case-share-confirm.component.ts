@@ -27,16 +27,16 @@ export class CaseShareConfirmComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // Set fnTitle, backLink, changeLink and confirmLink depending on whether navigation
-    // is via the Unassigned Cases or Assigned Cases page
+    // Set fnTitle, backLink, changeLink (these two links are the same as each other) and confirmLink depending on
+    // whether navigation is via the Unassigned Cases or Assigned Cases page
     if (this.url.startsWith('/unassigned-cases')) {
       this.fnTitle = 'Share a case';
-      this.backLink = '/unassigned-cases';
+      this.backLink = '/unassigned-cases/case-share';
       this.changeLink = '/unassigned-cases/case-share';
       this.completeLink = '/unassigned-cases/case-share-complete';
     } else {
       this.fnTitle = 'Manage case sharing';
-      this.backLink = '/assigned-cases';
+      this.backLink = '/assigned-cases/case-share';
       this.changeLink = '/assigned-cases/case-share';
       this.completeLink = '/assigned-cases/case-share-complete';
     }

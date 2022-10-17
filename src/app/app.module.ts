@@ -11,16 +11,16 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService } from 'ngx-logger';
+import config from '../../api/lib/config';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
 import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
 import { CryptoWrapper } from '../shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
-import { JurisdictionService } from '../users/services';
-import config from '../../api/lib/config';
 import { UserService } from '../user-profile/services/user.service';
 import { UserProfileModule } from '../user-profile/user-profile.module';
+import { JurisdictionService } from '../users/services';
 import { LoaderModule } from './../shared/modules/loader/loader.module';
 import { initApplication } from './app-initializer';
 import { ROUTES } from './app.routes';
@@ -34,14 +34,15 @@ import { effects } from './store/effects';
 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
-import { EnvironmentService } from '../shared/services/environment.service';
-import { MonitoringService } from '../shared/services/monitoring.service';
-import { HealthCheckGuard } from '../shared/guards/health-check.guard';
-import { HealthCheckService } from '../shared/services/health-check.service';
-import { TermsConditionGuard } from './guards/termsCondition.guard';
-import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
-import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
+import { PhaseBannerComponent } from 'src/shared/components/phase-banner/phase-banner.component';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
+import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
+import { HealthCheckGuard } from '../shared/guards/health-check.guard';
+import { EnvironmentService } from '../shared/services/environment.service';
+import { HealthCheckService } from '../shared/services/health-check.service';
+import { MonitoringService } from '../shared/services/monitoring.service';
+import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
+import { TermsConditionGuard } from './guards/termsCondition.guard';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -56,6 +57,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     AppComponent,
     ...fromComponents.components,
     ...fromContainers.containers,
+    PhaseBannerComponent
   ],
   imports: [
     BrowserModule,

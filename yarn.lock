@@ -7240,15 +7240,15 @@ got@^9.6.0:
     to-readable-stream "^1.0.0"
     url-parse-lax "^3.0.0"
 
-govuk-frontend@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-4.3.1.tgz#d9c581aca3d23bbfe9bd27c25fee65322b276393"
-  integrity sha512-uD0KVFds7drOwLEvfp4zRBOXuHCxkWLYDQcYvlbG+2baZ9po2TGZz8WjfzhfueYjo9+Uwk+bM0NQT6g4cg/Q+A==
+govuk-frontend@^3.1.0:
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-3.14.0.tgz#d3a9c54437c08f5188f87b1f4480ba60e95c8eb6"
+  integrity sha512-y7FTuihCSA8Hty+e9h0uPhCoNanCAN+CLioNFlPmlbeHXpbi09VMyxTcH+XfnMPY4Cp++7096v0rLwwdapTXnA==
 
-govuk_frontend_toolkit@^9.0.0:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/govuk_frontend_toolkit/-/govuk_frontend_toolkit-9.0.1.tgz#ddc5736d4a00aea35aa004e6dc1f7b19c96374b3"
-  integrity sha512-ItW0GZ4j2bgXrWg0m4Yj31gmb3HtDLWQvFMPt3ZV8YCNKviFsDvRnoerzz8PBwfK74lOPpHL+2FtYDG8XVrYpg==
+govuk_frontend_toolkit@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/govuk_frontend_toolkit/-/govuk_frontend_toolkit-8.2.0.tgz#6f23bd9bbce02b22c82f4ebba6cd4b07a2141fd7"
+  integrity sha512-USdHnptTl7HPHb9XZbyEK63lL66bzPl/pQLNMURFIXhhZCbW2gJglwMzTMHxdkgkWfKERiDocjsiukClHZ+opw==
 
 graceful-fs@4.1.15:
   version "4.1.15"

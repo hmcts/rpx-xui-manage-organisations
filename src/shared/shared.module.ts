@@ -24,8 +24,7 @@ import { MonitoringService } from './services/monitoring.service';
   declarations: [
     HmctsMainWrapperComponent,
     HmctsErrorSummaryComponent,
-    SuccessNotificationComponent,
-    PhaseBannerComponent
+    SuccessNotificationComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -38,8 +37,7 @@ import { MonitoringService } from './services/monitoring.service';
     ReactiveFormsModule,
     GovUiModule,
     HmctsMainWrapperComponent,
-    SuccessNotificationComponent,
-    PhaseBannerComponent
+    SuccessNotificationComponent
   ],
   providers: [
     {

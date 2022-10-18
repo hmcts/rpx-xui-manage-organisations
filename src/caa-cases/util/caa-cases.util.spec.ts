@@ -101,7 +101,13 @@ describe('CaaCasesUtil', () => {
     expect(assigneeNameValidator(control)).toEqual({assigneeName: true});
   });
 
-  it('should fail assigneeName validation if input is string', () => {
+  it('should pass assigneeName validation if input string is in correct format', () => {
+    control.setValue('Lindsey Johnson - user@test.com');
+    const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
+    expect(assigneeNameValidator(control)).toBeNull();
+  });
+
+  it('should fail assigneeName validation if input is not in expected format string', () => {
     control.setValue('test string');
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
     expect(assigneeNameValidator(control)).toEqual({assigneeName: true});

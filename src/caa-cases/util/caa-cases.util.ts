@@ -38,7 +38,10 @@ export class CaaCasesUtil {
 
   public static assigneeNameValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value || typeof control.value === 'string') {
+      if (!control.value) {
+        return {assigneeName: true};
+      }
+      if (typeof control.value === 'string' && (!control.value.includes('@') || !control.value.includes('-'))) {
         return {assigneeName: true};
       }
       return null;

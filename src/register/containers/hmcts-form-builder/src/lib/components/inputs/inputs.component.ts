@@ -7,15 +7,15 @@ import {ValidationService} from '../../services/form-builder-validation.service'
   templateUrl: './inputs.component.html'
 })
 export class InputsComponent {
-    @Input() group: FormGroup;
-    @Input() item;
-    @Input() label;
-    @Input() hint;
-    @Input() labelFor;
-    @Input() showValidation;
-    @Input() validationError;
-    name;
-    id;
+    @Input() public group: FormGroup;
+    @Input() public item;
+    @Input() public label;
+    @Input() public hint;
+    @Input() public labelFor;
+    @Input() public showValidation;
+    @Input() public validationError;
+    public name;
+    public id;
 
     constructor(private validationService: ValidationService) {
     }
@@ -30,7 +30,7 @@ export class InputsComponent {
      * // @param control
      * // @return {boolean}
      */
-    isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
+    public isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
 
         return !this.isFormControlValid(formGroup, control) && showValidation;
     }
@@ -40,7 +40,7 @@ export class InputsComponent {
      *
      * // @see ValidationService
      */
-    isFormControlValid(formGroup: FormGroup, control: string): boolean {
+    public isFormControlValid(formGroup: FormGroup, control: string): boolean {
         return this.validationService.isFormControlValid(formGroup, control);
     }
 }

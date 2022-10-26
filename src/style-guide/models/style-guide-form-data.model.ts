@@ -7,5 +7,5 @@ export interface StyleGuideFormDataModel {
   contactPreference: FormGroup | string[];
   sortBy: FormGroup | string[];
   moreDetails: FormGroup | string[];
-  fileUpload: FormGroup | string[]
+  fileUpload: FormGroup | string[];
 }

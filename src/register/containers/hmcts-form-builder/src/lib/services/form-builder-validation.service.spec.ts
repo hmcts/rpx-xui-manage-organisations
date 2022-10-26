@@ -1,7 +1,7 @@
-import {TestBed, inject} from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
+import {inject, TestBed} from '@angular/core/testing';
+import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {ValidationService} from './form-builder-validation.service';
-import {FormGroup, FormControl, ValidatorFn, Validators} from '@angular/forms';
 
 describe('ValidationService', () => {
   beforeEach(() => {
@@ -57,11 +57,11 @@ describe('ValidationService', () => {
     expect(service.isFormControlValid(formGroup, 'test')).toBe(true);
   }));
   it('form group should be not valid', inject([ValidationService], (service: ValidationService) => {
-    let formGroup = {
+    const formGroup = {
       errors: {
-        'testErrorId' : true
+        testErrorId : true
       }
-    }
+    };
     const validationErrorId = 'testErrorId';
     const isFormGroupInvalidFunc = service.isFormGroupInvalid(formGroup, validationErrorId);
     expect(isFormGroupInvalidFunc).toBe(true);
@@ -82,7 +82,7 @@ describe('ValidationService', () => {
     const validationIdentifier = 'isAnyCheckboxChecked';
     const checkboxes = [
       'checkboxTest1', 'checkboxTest2'
-    ]
+    ];
     const isAnyCheckboxChecked = service.isAnyCheckboxChecked(formGroup, checkboxes, validationIdentifier);
     formGroup.get('checkboxTest1').setValue(true);
     formGroup.get('checkboxTest2').setValue(false);
@@ -99,7 +99,7 @@ describe('ValidationService', () => {
     const validationIdentifier = 'isAllFieldsRequiredValidationFn';
     const fields = [
       'test1Filed', 'test2Filed'
-    ]
+    ];
     let isAllFieldsRequiredValidationFn = service.isAllFieldsRequiredValidationFn(formGroup, fields, validationIdentifier);
     expect(isAllFieldsRequiredValidationFn[validationIdentifier]).toBe(true);
     formGroup.get('test1Filed').setValue('test value 1');
@@ -115,7 +115,7 @@ describe('ValidationService', () => {
     const validationIdentifier = 'isAllFieldsRequiredValidationFn';
     const fields = [
       'test1Filed', 'test2Filed'
-    ]
+    ];
     const isAllFieldsRequired = service.isAllFieldsRequired(formGroup, fields, validationIdentifier);
     expect(isAllFieldsRequired).toEqual(jasmine.any(Function));
     expect(isAllFieldsRequired(formGroup)[validationIdentifier]).toBe(true);
@@ -129,7 +129,7 @@ describe('ValidationService', () => {
     const controls = {
       checkboxControl: 'testCheckbox',
       textareaControl: 'testTextarea'
-    }
+    };
     let isTextAreaValidWhenCheckboxChecked = service.isTextAreaValidWhenCheckboxChecked(formGroup, controls, validationIdentifier);
     expect(isTextAreaValidWhenCheckboxChecked).toEqual(jasmine.any(Function));
     formGroup.get('testCheckbox').setValue(true);
@@ -161,8 +161,8 @@ describe('ValidationService', () => {
           }
         }
       ]
-    }
-    let isRadioValidWhenSomeOptionSelected = service.isRadioValidWhenSomeOptionSelected(formGroup, controls, validationIdentifier);
+    };
+    const isRadioValidWhenSomeOptionSelected = service.isRadioValidWhenSomeOptionSelected(formGroup, controls, validationIdentifier);
     expect(isRadioValidWhenSomeOptionSelected).toEqual(jasmine.any(Function));
     formGroup.get('testRadioControl').setValue(true);
     expect(isRadioValidWhenSomeOptionSelected(formGroup)).toBe(null);
@@ -200,7 +200,7 @@ describe('ValidationService', () => {
     const validationIdentifier = 'isValidDate';
     const fields = [
       'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
-    ]
+    ];
     const isValidDate = service.isValidDate(formGroup, fields, validationIdentifier);
     expect(isValidDate).toEqual(jasmine.any(Function));
     expect(isValidDate(formGroup)[validationIdentifier]).toBe(true);
@@ -214,7 +214,7 @@ describe('ValidationService', () => {
     const validationIdentifier = 'isValidDateValidationFn';
     const fields = [
       'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
-    ]
+    ];
 
     it('should check if return invalid state for empty fields', inject([ValidationService], (service: ValidationService) => {
       const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);

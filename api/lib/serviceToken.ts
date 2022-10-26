@@ -1,10 +1,10 @@
 import axios from 'axios'
 import * as jwtDecode from 'jwt-decode'
-import * as log4jui from './log4jui'
 import { getConfigValue } from '../configuration'
 import { MICROSERVICE } from '../configuration/references'
 import { asyncReturnOrError } from '../lib/util'
 import { postS2SLease } from '../services/serviceAuth'
+import * as log4jui from './log4jui'
 
 const logger = log4jui.getLogger('service-token')
 const that = this

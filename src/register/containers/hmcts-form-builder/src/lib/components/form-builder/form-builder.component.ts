@@ -38,10 +38,11 @@ export class FormBuilderComponent implements OnChanges {
     if (this.pageItems && this.pageItems.groups) {
       for (const group of this.pageItems.groups) {
         if (group.fieldset) {
-          for(const item of group.fieldset)
+          for (const item of group.fieldset) {
           if (item.legend) {
             this.isLegendAvailable = true;
             break;
+          }
           }
         }
       }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import * as organisationActions from '../actions';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { OrganisationService } from '../../services/organisation.service';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { OrganisationService } from '../../services/organisation.service';
+import * as organisationActions from '../actions';
 
 @Injectable()
 export class OrganisationEffects {
@@ -16,7 +16,7 @@ export class OrganisationEffects {
   ) { }
 
   @Effect()
-  loadOrganisation$ = this.actions$.pipe(
+  public loadOrganisation$ = this.actions$.pipe(
     ofType(organisationActions.LOAD_ORGANISATION),
     switchMap(() => {
       return this.organisationService.fetchOrganisation().pipe(

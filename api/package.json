@@ -8,7 +8,8 @@
     "coverage": "cross-env TS_NODE_FILES=true npx nyc mocha -r dotenv-extended/config",
     "watch": "nodemon --watch '**/*.ts' --exec ts-node -r dotenv-extended/config --files local.ts",
     "test": "cross-env TS_NODE_FILES=true mocha -r dotenv-extended/config",
-    "test:watch": "cross-env TS_NODE_FILES=true mocha -r dotenv-extended/config --watch --recursive --watch-extensions ts"
+    "test:watch": "cross-env TS_NODE_FILES=true mocha -r dotenv-extended/config --watch --recursive --watch-extensions ts",
+    "lint": "npx tslint --project ."
   },
   "private": true,
   "nyc": {

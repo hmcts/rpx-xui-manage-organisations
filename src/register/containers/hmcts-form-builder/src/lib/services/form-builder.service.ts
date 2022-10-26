@@ -6,7 +6,7 @@ import {ValidationService} from './form-builder-validation.service';
   providedIn: 'root'
 })
 export class FormsService {
-  FormControls = [];
+  public FormControls = [];
 
   constructor(private validationService: ValidationService) {
   }
@@ -26,7 +26,7 @@ export class FormsService {
    * @param someJson
    * @param someData
    */
-  create(someJson, someData) {
+  public create(someJson, someData) {
     if (typeof someJson === 'object') {
       for (const prop in someJson) {
 
@@ -71,7 +71,7 @@ export class FormsService {
    * @param controlName - 'informationNeeded'
    * @param initialValue - ie. text if it's a textarea.
    */
-  createFormControl(initialValue: any, controlName: string, validators: Array<string>) {
+  public createFormControl(initialValue: any, controlName: string, validators: string[]) {
 
     if (this.validationService.controlHasValidation(validators)) {
       this.FormControls[controlName] = new FormControl(initialValue, this.validationService.getNgValidators(validators));
@@ -81,7 +81,7 @@ export class FormsService {
     this.FormControls[controlName] = new FormControl(initialValue);
   }
 
-  defineformControls(someJson: any, someData: any): any {
+  public defineformControls(someJson: any, someData: any): any {
     this.FormControls = [];
     this.create(someJson, someData);
     return this.FormControls;

@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 
@@ -8,15 +8,15 @@ import {FormGroup} from '@angular/forms';
 })
 export class InviteUserFormComponent {
 
-  @Output() submitForm = new EventEmitter();
-  @Input() inviteUserForm: FormGroup;
-  @Input() set errorMessages(value) {
+  @Output() public submitForm = new EventEmitter();
+  @Input() public inviteUserForm: FormGroup;
+  @Input() public set errorMessages(value) {
     this.isInvalid = value || {} ;
   }
 
-  isInvalid;
+  public isInvalid;
 
-  onSubmit() {
+  public onSubmit() {
     this.submitForm.emit();
   }
 }

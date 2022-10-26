@@ -1,6 +1,6 @@
-import {initialState, reducer} from './registration.reducer';
-import {LoadPageItems, SubmitFormDataFail, ResetErrorMessage} from '../actions/registration.actions';
 import {LoadPageItemsSuccess} from '../actions';
+import {LoadPageItems, ResetErrorMessage, SubmitFormDataFail} from '../actions/registration.actions';
+import {initialState, reducer} from './registration.reducer';
 
 describe('RegistrationReducer', () => {
   describe('undefined action', () => {

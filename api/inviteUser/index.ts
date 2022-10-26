@@ -14,7 +14,7 @@ export async function inviteUserRoute(req: Request, res: Response) {
     const payload = req.body
     try {
         const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
+        const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath)
         logger.info('INVITE USER: request URL:: ', reqUrl)
         logger.info('INVITE USER: payload:: ', payload)
         const response = await req.http.post(reqUrl, payload)

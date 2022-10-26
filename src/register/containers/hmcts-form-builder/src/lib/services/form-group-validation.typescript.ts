@@ -20,16 +20,16 @@ export interface FormGroupValidator {
    * checkboxes - Validation function specific param, the checkboxes required for the isAnyCheckboxChecked
    * validation func.
    */
-  controls: Array<string>;
+  controls: string[];
 }
 
 export interface controlsisTextAreaValidWhenCheckboxChecked {
-  checkboxControl: string,
-  textareaControl: string
+  checkboxControl: string;
+  textareaControl: string;
 }
 
 export interface controlsRadioConditionalModel {
-  radioControl: string,
+  radioControl: string;
   selectedOptions: [
     {
       selectedOption: string,
@@ -39,5 +39,5 @@ export interface controlsRadioConditionalModel {
         controls?: [string]
       }
     }
-    ]
+    ];
 }

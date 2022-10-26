@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express'
-import { getRefdataUserCommonUrlUtil } from '../refdataUserCommonUrlUtil'
 import { getConfigValue } from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import * as log4jui from '../lib/log4jui'
 import {exists, valueOrNull} from '../lib/util'
+import { getRefdataUserCommonUrlUtil } from '../refdataUserCommonUrlUtil'
 
 const logger = log4jui.getLogger('user-list')
 

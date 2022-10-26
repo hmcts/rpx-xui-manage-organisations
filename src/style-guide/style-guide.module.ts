@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
+import { SharedModule } from '../shared/shared.module';
 import { reducers } from './store';
 import { styleGuideRouting } from './style-guide.routing';
-import { HttpClientModule } from '@angular/common/http';
 
 // containers
 import * as fromContainers from './containers';

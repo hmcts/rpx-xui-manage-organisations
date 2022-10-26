@@ -11,7 +11,7 @@ export const http = (req: Request) => {
 
   if (req.headers) {
     if (exists(req, 'headers.Authorization')) {
-      headers['Authorization'] = req.headers.Authorization
+      headers.Authorization = req.headers.Authorization
     }
 
     if (req.headers['user-roles'] && req.headers['user-roles'].length) {
@@ -19,7 +19,7 @@ export const http = (req: Request) => {
     }
 
     if (exists(req, 'headers.ServiceAuthorization')) {
-      headers['ServiceAuthorization'] = req.headers.ServiceAuthorization
+      headers.ServiceAuthorization = req.headers.ServiceAuthorization
     }
   }
 

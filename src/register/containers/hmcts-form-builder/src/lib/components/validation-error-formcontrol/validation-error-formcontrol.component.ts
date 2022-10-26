@@ -13,8 +13,8 @@ import {ValidationService} from '../../services/form-builder-validation.service'
  * We show an error message if the FormControl that this component links to via controlId is invalid.
  */
 export class ValidationErrorFormControlComponent {
-    @Input() group: FormGroup;
-    @Input() controlId;
+    @Input() public group: FormGroup;
+    @Input() public controlId;
 
     constructor(private validationService: ValidationService) {
     }
@@ -29,7 +29,7 @@ export class ValidationErrorFormControlComponent {
      * // @param {string} controlId - ie. 'informationNeeded'
      * // @return {boolean}
      */
-    isFormControlValid(formGroup: FormGroup, controlId: string): boolean {
+    public isFormControlValid(formGroup: FormGroup, controlId: string): boolean {
         return this.validationService.isFormControlValid(formGroup, controlId);
     }
 }

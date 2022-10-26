@@ -4,7 +4,7 @@ import { getConfigValue } from '../configuration'
 import { MICROSERVICE, S2S_SECRET } from '../configuration/references'
 import { http } from './http'
 import * as log4jui from './log4jui'
-import {valueOrNull} from "./util";
+import {valueOrNull} from "./util"
 
 const ERROR_GENERATING_S2S_TOKEN = 'Error generating S2S Token'
 /**

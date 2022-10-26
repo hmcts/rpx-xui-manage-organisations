@@ -1,27 +1,27 @@
-import { NgModule, ErrorHandler } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { organisationRouting } from './organisation.routing';
 import { SharedModule } from '../shared/shared.module';
+import { organisationRouting } from './organisation.routing';
 
 // containers
 import * as fromContainers from './containers';
 
 // services
-import * as fromServices from './services';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import * as fromServices from './services';
 
-import { reducers, effects } from './store';
 import { HttpClientModule } from '@angular/common/http';
-import { OrganisationGuard } from './guards/organisation.guard';
-import { MonitoringService } from '../shared/services/monitoring.service';
-import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
-import { LoggerService } from '../shared/services/logger.service';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
+import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
 import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
+import { LoggerService } from '../shared/services/logger.service';
+import { MonitoringService } from '../shared/services/monitoring.service';
+import { OrganisationGuard } from './guards/organisation.guard';
+import { effects, reducers } from './store';
 
 @NgModule({
   imports: [

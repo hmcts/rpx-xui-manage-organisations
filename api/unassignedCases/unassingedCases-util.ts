@@ -81,7 +81,7 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
     size: pageSize,
     sort: [
       {
-        created_date: 'desc'
-      },]
+        created_date: 'desc',
+      }, ],
   }
 }

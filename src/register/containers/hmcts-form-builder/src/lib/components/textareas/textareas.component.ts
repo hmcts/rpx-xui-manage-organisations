@@ -14,25 +14,25 @@ import {ValidationService} from '../../services/form-builder-validation.service'
  * then we should display a red box around the text area.
  */
 export class TextareasComponent {
-    @Input() group: FormGroup;
-    @Input() idPrefix = 'ta';
-    @Input() name = 'ta';
-    @Input() id = 'ta';
-    @Input() labelFor;
-    @Input() rows;
-    @Input() classes;
-    @Input() control;
-    @Input() showValidation;
-    @Input() label;
-    @Input() items;
-    @Input() validationError;
+    @Input() public group: FormGroup;
+    @Input() public idPrefix = 'ta';
+    @Input() public name = 'ta';
+    @Input() public id = 'ta';
+    @Input() public labelFor;
+    @Input() public rows;
+    @Input() public classes;
+    @Input() public control;
+    @Input() public showValidation;
+    @Input() public label;
+    @Input() public items;
+    @Input() public validationError;
 
     constructor(private validationService: ValidationService) {
     }
 
-    isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
+    public isGroupInvalidAndShowValidation(formGroup: FormGroup, showValidation: boolean) {
 
-            if(formGroup.errors && formGroup.errors[this.control] && showValidation) {
+            if (formGroup.errors && formGroup.errors[this.control] && showValidation) {
                 return true;
             }
 
@@ -50,7 +50,7 @@ export class TextareasComponent {
      * // @param control
      * // @return {boolean}
      */
-    isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
+    public isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
 
 
         return !this.isFormControlValid(formGroup, control) && showValidation;
@@ -61,7 +61,7 @@ export class TextareasComponent {
      *
      * // @see ValidationService
      */
-    isFormControlValid(formGroup: FormGroup, control: string): boolean {
+    public isFormControlValid(formGroup: FormGroup, control: string): boolean {
         return this.validationService.isFormControlValid(formGroup, control);
     }
 }

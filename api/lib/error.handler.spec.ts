@@ -40,8 +40,8 @@ describe('errorHandler', () => {
       config : {
         headers: {
 
-        }
-      }
+        },
+      },
     }
     errorHandler.default(err, req, res, next)
     expect(propsExist(err, ['config', 'headers'])).to.be.false
@@ -58,8 +58,8 @@ describe('errorHandler', () => {
     const err = {
       status: 404,
       data: {
-        test: 'dummy'
-      }
+        test: 'dummy',
+      },
     }
     errorHandler.default(err, req, res, next)
     expect(res.status).to.have.been.calledWith(404)
@@ -70,8 +70,8 @@ describe('errorHandler', () => {
     const err = {
       request : {
         _header: {
-        }
-      }
+        },
+      },
     }
     errorHandler.default(err, req, res, next)
     expect(propsExist(err, ['request', '_header'])).to.be.false

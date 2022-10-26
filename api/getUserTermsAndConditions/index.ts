@@ -3,7 +3,7 @@ import { getConfigValue, showFeature } from '../configuration'
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
 import { application } from '../lib/config/application.config'
-import {valueOrNull} from '../lib/util';
+import {valueOrNull} from '../lib/util'
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
 
 /**

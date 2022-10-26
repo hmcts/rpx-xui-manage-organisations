@@ -23,7 +23,7 @@ export class CustomValidatorsService implements ICustomValidatorsService {
    * @param length - 13
    * @returns ValidatorFn
    */
-  exactLengthValidator(length: number): ValidatorFn {
+  public exactLengthValidator(length: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
 
       if (!control.value) {
@@ -47,7 +47,7 @@ export class CustomValidatorsService implements ICustomValidatorsService {
    * @see https://angular.io/api/forms/ValidationErrors
    * @returns
    */
-  validationError(validationErrorName, validationErrorMessage): ValidationErrors {
+  public validationError(validationErrorName, validationErrorMessage): ValidationErrors {
     return {
       [validationErrorName]: {
         value: validationErrorMessage

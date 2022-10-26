@@ -6,7 +6,7 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './extensions.component.html'
 })
 export class ExtensionsComponent {
-  @Input() title;
-  @Input() text;
-  @Input() ul;
+  @Input() public title;
+  @Input() public text;
+  @Input() public ul;
 }

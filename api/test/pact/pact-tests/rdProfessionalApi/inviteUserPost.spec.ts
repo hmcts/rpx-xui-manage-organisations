@@ -1,12 +1,11 @@
-import { expect } from 'chai';
-import { InviteUserResponse } from '../pactFixtures';
-import { inviteUser } from '../pactUtil';
-import { PactTestSetup } from '../settings/provider.mock';
+import { expect } from 'chai'
+import { InviteUserResponse } from '../pactFixtures'
+import { inviteUser } from '../pactUtil'
+import { PactTestSetup } from '../settings/provider.mock'
 
-const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike, like, eachLike } = Matchers;
-const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 });
-
+const { Matchers } = require('@pact-foundation/pact')
+const { somethingLike, like, eachLike } = Matchers
+const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 })
 
 describe("RD Professional API", () => {
 
@@ -17,14 +16,14 @@ describe("RD Professional API", () => {
       "firstName": "Joe",
       "lastName": "Bloggs",
       "roles": ["admin"],
-      "resendInvite": true
+      "resendInvite": true,
     }
 
     const mockResponse = {
-      userIdentifier: somethingLike('urlIdentifier')
+      userIdentifier: somethingLike('urlIdentifier'),
     }
 
-    const requestPath = "/refdata/external/v1/organisations/users/";
+    const requestPath = "/refdata/external/v1/organisations/users/"
 
     before(async () => {
       await pactSetUp.provider.setup()
@@ -36,7 +35,7 @@ describe("RD Professional API", () => {
           headers: {
             "Content-Type": "application/json;charset=utf-8",
             "Authorization": "Bearer some-access-token",
-            "ServiceAuthorization": "serviceAuthToken"
+            "ServiceAuthorization": "serviceAuthToken",
           },
           path: requestPath,
           body: mockRequest,
@@ -46,7 +45,7 @@ describe("RD Professional API", () => {
             "Content-Type": "application/json",
           },
           status: 201,
-          body: mockResponse
+          body: mockResponse,
         },
       }
       // @ts-ignore
@@ -54,11 +53,11 @@ describe("RD Professional API", () => {
     })
 
     it("returns the correct response", async () => {
-      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`;
-      const resp = inviteUser(taskUrl, mockRequest as any);
-      resp.then((response) => {
-        const responseDto: InviteUserResponse = <InviteUserResponse>response.data
-        assertResponse(responseDto);
+      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/`
+      const resp = inviteUser(taskUrl, mockRequest as any)
+      resp.then(response => {
+        const responseDto: InviteUserResponse = response.data as InviteUserResponse
+        assertResponse(responseDto)
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
@@ -68,5 +67,5 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto: InviteUserResponse): void {
-  expect(dto.userIdentifier).to.be.equal('urlIdentifier');
+  expect(dto.userIdentifier).to.be.equal('urlIdentifier')
 }

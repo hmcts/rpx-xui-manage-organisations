@@ -6,5 +6,5 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./hint.component.scss']
 })
 export class HintComponent {
-    @Input() classes;
+    @Input() public classes;
 }

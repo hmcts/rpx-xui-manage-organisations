@@ -135,7 +135,7 @@ export class FormComponent implements OnInit {
       rows: 5,
       classes: 'govuk-label--m',
       isPageHeading: true
-    }
+    };
   }
 
   public onSubmit(): void {

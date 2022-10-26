@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import * as feeAccountsActions from '../actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {FeeAccountsService} from '../../services';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
+import {FeeAccountsService} from '../../services';
+import * as feeAccountsActions from '../actions';
 
 
 
@@ -18,7 +18,7 @@ export class FeeAccountsEffects {
   ) {}
 
   @Effect()
-  loadFeeAccounts$ = this.actions$.pipe(
+  public loadFeeAccounts$ = this.actions$.pipe(
     ofType(feeAccountsActions.LOAD_FEE_ACCOUNTS),
     switchMap((payload: any) => {
       return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(

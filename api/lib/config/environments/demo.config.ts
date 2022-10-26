@@ -32,6 +32,6 @@ export default {
     {id: 'BULKSCAN'},
     {id: 'IA'},
     {id: 'EMPLOYMENT'},
-    {id: 'CMC'}
+    {id: 'CMC'},
       ],
 }

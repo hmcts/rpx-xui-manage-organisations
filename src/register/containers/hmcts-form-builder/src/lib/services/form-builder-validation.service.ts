@@ -1,9 +1,9 @@
+import {DatePipe} from '@angular/common';
 import {Injectable} from '@angular/core';
 import {AbstractControl, Form, FormGroup} from '@angular/forms';
-import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {DatePipe} from '@angular/common';
-import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './form-group-validation.typescript';
+import {ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { CustomValidatorsService } from './form-builder-custom-validators.service';
+import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './form-group-validation.typescript';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class ValidationService {
    *
    * @see https://angular.io/guide/form-validation#custom-validators
    */
-  ngValidatorFunctionMap: Array<any> = [
+  public ngValidatorFunctionMap: any[] = [
     {
       simpleName: 'required',
       ngValidatorFunction: Validators.required
@@ -63,7 +63,7 @@ export class ValidationService {
    *
    * // @returnArray
    */
-  getNgValidationFunctionMap() {
+  public getNgValidationFunctionMap() {
     return this.ngValidatorFunctionMap;
   }
 
@@ -82,9 +82,9 @@ export class ValidationService {
    * @see state_meta
    * // @param validators - ie. ['required', 'email']
    */
-  getNgValidators(validators: Array<string>): any[] {
+  public getNgValidators(validators: string[]): any[] {
 
-    const ngValidators: Array<any> = [];
+    const ngValidators: any[] = [];
 
     validators.forEach((validatorName) => {
       for (const ngValidatorFunction of this.getNgValidationFunctionMap()) {
@@ -111,7 +111,7 @@ export class ValidationService {
    * //@param {Array} validators - ['required']
    * //@return {boolean}
    */
-  controlHasValidation(validators: Array<string>): boolean {
+  public controlHasValidation(validators: string[]): boolean {
 
     return validators && validators.length > 0;
   }
@@ -128,7 +128,7 @@ export class ValidationService {
    * // @param {String} control - 'informationNeeded'
    * // @return {boolean}
    */
-  isFormControlValid(formGroup: FormGroup, control: string): boolean {
+  public isFormControlValid(formGroup: FormGroup, control: string): boolean {
 
     return formGroup.get(control).valid;
   }
@@ -154,7 +154,7 @@ export class ValidationService {
    * need to pass this in once the Universal Form Builder is merged with Validation.
    * // @return{boolean}
    */
-  isFormGroupInvalid(formGroup: any, validationErrorId: string): boolean {
+  public isFormGroupInvalid(formGroup: any, validationErrorId: string): boolean {
     if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
       return formGroup.errors[validationErrorId];
     } else {
@@ -183,7 +183,7 @@ export class ValidationService {
    * to display the error in the  view.
    * // @return{any}
    */
-  isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
+  public isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: string[], validationIdentifier: string): ValidatorFn | null {
     const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
       for (const checkbox of checkboxes) {
@@ -204,7 +204,7 @@ export class ValidationService {
   // Common function for validator
   // Returninng the validationIdentifier true if invalid and null if valid
 
-  isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+  public isAllFieldsRequiredValidationFn(controls: FormGroup, fields: string[], validationIdentifier) {
     if (controls !== null && fields !== null) {
       for (const field of fields) {
         if (!controls.get(field).value) {
@@ -227,7 +227,7 @@ export class ValidationService {
    * // @return{any}
    */
 
-  isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+  public isAllFieldsRequired(formGroup: FormGroup, fields: string[], validationIdentifier: string): ValidatorFn | null {
     const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
       return this.isAllFieldsRequiredValidationFn(controls, fields, validationIdentifier);
     };
@@ -242,7 +242,7 @@ export class ValidationService {
    */
 
 
-  isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+  public isValidDateValidationFn(controls: FormGroup, fields: string[], validationIdentifier) {
 
     if (controls !== null && fields !== null) {
       const dateValueArray = [];
@@ -270,9 +270,9 @@ export class ValidationService {
 
           // Check if array is ready and convert to string
 
-          if (dateValueArray.length === 3){
+          if (dateValueArray.length === 3) {
 
-            //Return error if not numbers
+            // Return error if not numbers
             for (const element of dateValueArray) {
               if (element != Number(element)) {
                 return {
@@ -301,15 +301,15 @@ export class ValidationService {
             // Here value might me invalid
 
             // Adding zeros in front if less than 10
-            if (dateValueArray[1] < 10) { dateValueArray[1] = ("0" + (dateValueArray[1]).toString().slice(-2)); }
-            if (dateValueArray[2] < 10) { dateValueArray[2] = ("0" + (dateValueArray[2]).toString().slice(-2)); }
+            if (dateValueArray[1] < 10) { dateValueArray[1] = ('0' + (dateValueArray[1]).toString().slice(-2)); }
+            if (dateValueArray[2] < 10) { dateValueArray[2] = ('0' + (dateValueArray[2]).toString().slice(-2)); }
 
             // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
 
             const dateStr = dateValueArray.toString();
 
             const dateObj = new Date(dateStr);
-            const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ",").replace("T", " ");
+            const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ',').replace('T', ' ');
 
             // Return null if valid date
             if (checkDateStr === dateStr) {
@@ -328,7 +328,7 @@ export class ValidationService {
     return null;
   }
 
-  isValidDate(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+  public isValidDate(formGroup: FormGroup, fields: string[], validationIdentifier: string): ValidatorFn | null {
     const isValidDateValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
       return this.isValidDateValidationFn(controls, fields, validationIdentifier);
     };
@@ -346,7 +346,7 @@ export class ValidationService {
    * //@return {any}
    */
 
-  isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
+  public isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
 
 
     const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
@@ -377,7 +377,7 @@ export class ValidationService {
    * // @return {any}
    */
 
-  isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string){
+  public isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string) {
 
     const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
 
@@ -389,14 +389,14 @@ export class ValidationService {
           // Add word "ValidationFn" to the name of validator when you extend child validation functions
 
           if (option.childValidator.validatorFunc) {
-            return  this[option.childValidator.validatorFunc + "ValidationFn"](null, null, option.childValidator.validationErrorId);
+            return  this[option.childValidator.validatorFunc + 'ValidationFn'](null, null, option.childValidator.validationErrorId);
           }
 
           return null;
 
         } else {
-          if (option.childValidator.validatorFunc){
-            return this[option.childValidator.validatorFunc + "ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
+          if (option.childValidator.validatorFunc) {
+            return this[option.childValidator.validatorFunc + 'ValidationFn'](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
           }
         }
       }
@@ -428,7 +428,7 @@ export class ValidationService {
      *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
      *    ]}]
    */
-  createFormGroupValidators(formGroup: FormGroup, formGroupValidators) {
+  public createFormGroupValidators(formGroup: FormGroup, formGroupValidators) {
 
     return formGroupValidators.map(formGroupValidator => {
 
@@ -453,7 +453,7 @@ export class ValidationService {
    *
    * // @return {ValidatorFn}
    */
-  createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
+  public createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
 
     return this[validatorFunc](formGroup, controls, validationErrorId);
   }

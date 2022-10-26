@@ -1,13 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CheckboxComponent } from './checkbox.component';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { CheckboxComponent } from './checkbox.component';
 
 describe('CheckboxComponent', () => {
     @Component({
         selector: `app-host-dummy-component`,
-        template: `<app-checkbox 
-            [group]="group" 
+        template: `<app-checkbox
+            [group]="group"
             [idPrefix]="idPrefix"
             [name]="name"
             [items]="items"
@@ -17,13 +17,13 @@ describe('CheckboxComponent', () => {
         ></app-checkbox>`
     })
     class TestDummyHostComponent {
-        group: FormGroup;
-        idPrefix = 'waste';
-        name = 'waste';
-        items;
-        classes;
-        labelClasses;
-        validate;
+        public group: FormGroup;
+        public idPrefix = 'waste';
+        public name = 'waste';
+        public items;
+        public classes;
+        public labelClasses;
+        public validate;
         @ViewChild(CheckboxComponent)
         public checkboxComponent: CheckboxComponent;
     }

@@ -1,8 +1,8 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { StyleGuideComponent } from './containers/style-guide/style-guide.component';
+import { RouterModule, Routes } from '@angular/router';
 import {AuthGuard} from '../user-profile/guards/auth.guard';
+import { StyleGuideComponent } from './containers/style-guide/style-guide.component';
 
 export const ROUTES: Routes = [
     {

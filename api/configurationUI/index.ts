@@ -1,9 +1,6 @@
 import { Router } from 'express'
 import { getConfigValue } from '../configuration'
 import {
-  FEATURE_HELMET_ENABLED,
-  FEATURE_REDIS_ENABLED,
-  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   GOOGLE_ANALYTICS_KEY,
   LAUNCH_DARKLY_CLIENT_ID,
   LINKS_MANAGE_CASES_LINK,

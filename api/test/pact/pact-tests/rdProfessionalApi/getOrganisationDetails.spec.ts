@@ -1,13 +1,11 @@
-import { expect } from 'chai';
-import { organisation } from '../pactFixtures';
-import { getOrganisationDetails } from '../pactUtil';
-import { PactTestSetup } from '../settings/provider.mock';
+import { expect } from 'chai'
+import { organisation } from '../pactFixtures'
+import { getOrganisationDetails } from '../pactUtil'
+import { PactTestSetup } from '../settings/provider.mock'
 
-
-const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike, like, eachLike } = Matchers;
-const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 });
-
+const { Matchers } = require('@pact-foundation/pact')
+const { somethingLike, like, eachLike } = Matchers
+const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 })
 
 describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
@@ -24,7 +22,7 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer some-access-token",
-            "ServiceAuthorization": "serviceAuthToken"
+            "ServiceAuthorization": "serviceAuthToken",
           },
         },
         willRespondWith: {
@@ -43,13 +41,13 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
     it("returns the correct response", async () => {
 
-      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
+      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`
 
-      const resp = getOrganisationDetails(taskUrl);
+      const resp = getOrganisationDetails(taskUrl)
 
-      resp.then((response) => {
-        const responseDto: organisation = <organisation>response.data
-        assertResponse(responseDto);
+      resp.then(response => {
+        const responseDto: organisation = response.data as organisation
+        assertResponse(responseDto)
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
@@ -58,19 +56,18 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
     })
 
     function assertResponse(dto: organisation): void {
-      expect(dto).to.be.not.null;
-      for (var element of dto.contactInformation) {
-        expect(element.addressLine1).to.equal("addressLine1");
+      expect(dto).to.be.not.null
+      for (let element of dto.contactInformation) {
+        expect(element.addressLine1).to.equal("addressLine1")
       }
-      expect(dto.sraId).to.equal("sraId");
-      expect(dto.organisationIdentifier).to.equal("K100");
-      expect(dto.superUser.firstName).to.equal("Joe");
-      expect(dto.superUser.lastName).to.equal("Bloggs");
+      expect(dto.sraId).to.equal("sraId")
+      expect(dto.organisationIdentifier).to.equal("K100")
+      expect(dto.superUser.firstName).to.equal("Joe")
+      expect(dto.superUser.lastName).to.equal("Bloggs")
 
     }
 
-    const organisationResponse =
-    {
+    const organisationResponse = {
       companyNumber: somethingLike('Address Line 2'),
       companyUrl: somethingLike('google.com'),
       name: somethingLike('TheOrganisation'),
@@ -82,12 +79,12 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
         addressLine1: 'addressLine1',
         addressLine2: 'addressLine2',
         country: 'country',
-        postCode: 'Ha5 1BJ'
+        postCode: 'Ha5 1BJ',
       }),
       superUser: {
         firstName: somethingLike("Joe"),
-        lastName: somethingLike("Bloggs")
-      }
+        lastName: somethingLike("Bloggs"),
+      },
     }
   })
 })

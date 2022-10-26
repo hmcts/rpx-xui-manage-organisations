@@ -1,6 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccessibilityComponent } from '..';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AccessibilityComponent', () => {
   let component: AccessibilityComponent;

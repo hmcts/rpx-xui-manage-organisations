@@ -55,8 +55,8 @@ tunnel.init()
 function healthcheckConfig(msUrl) {
   return healthcheck.web(`${msUrl}/health`, {
     timeout: 6000,
-    deadline: 6000
-  });
+    deadline: 6000,
+  })
 }
 
 const healthChecks = {
@@ -68,7 +68,7 @@ const healthChecks = {
 
 if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
   healthChecks.checks = {...healthChecks.checks, ...{
-    termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))
+    termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)),
   }}
 }
 

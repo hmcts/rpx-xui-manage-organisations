@@ -6,13 +6,13 @@ import {FormGroup} from '@angular/forms';
     templateUrl: './checkbox.component.html'
 })
 export class CheckboxComponent {
-    @Input() group: FormGroup;
-    @Input() idPrefix;
-    @Input() name;
-    @Input() items;
-    @Input() classes;
-    @Input() labelClasses;
-    @Input() validate;
+    @Input() public group: FormGroup;
+    @Input() public idPrefix;
+    @Input() public name;
+    @Input() public items;
+    @Input() public classes;
+    @Input() public labelClasses;
+    @Input() public validate;
 
     constructor() {
     }

@@ -8,8 +8,8 @@ import {getConfigValue, getEnvironment, showFeature} from './index'
 import {
   COOKIE_TOKEN,
   COOKIES_USERID,
-  FEATURE_SECURE_COOKIE_ENABLED,
   FEATURE_OIDC_ENABLED,
+  FEATURE_SECURE_COOKIE_ENABLED,
   IDAM_CLIENT,
   INDEX_URL,
   LINKS_MANAGE_CASES_LINK,
@@ -66,7 +66,7 @@ export const uiConfig = () => {
       termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
     } as EnvironmentConfigServices,
     features: {
-      oidcEnabled: showFeature(FEATURE_OIDC_ENABLED)
+      oidcEnabled: showFeature(FEATURE_OIDC_ENABLED),
     },
     sessionSecret: getConfigValue(SESSION_SECRET),
   }

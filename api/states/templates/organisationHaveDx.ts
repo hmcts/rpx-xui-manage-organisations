@@ -33,11 +33,11 @@ export default {
                 value: 'no',
                 text: 'No',
                 hiddenAccessibilityText: 'some hidden text',
-              }
-            ]
-          }
-        }
-      ]
+              },
+            ],
+          },
+        },
+      ],
     },
     {
       button: {
@@ -45,8 +45,8 @@ export default {
         value: 'Continue',
         type: 'submit',
         classes: '',
-        onEvent: 'continue'
-      }
-    }
-  ]
+        onEvent: 'continue',
+      },
+    },
+  ],
 }

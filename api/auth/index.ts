@@ -42,7 +42,7 @@ export const successCallback = async (req: Request, res: Response, next: NextFun
         orgId: '-1',
         roles: userinfo.roles,
         token: accessToken,
-        userId: userinfo.uid || userinfo.id
+        userId: userinfo.uid || userinfo.id,
       }
 
       const authRequest = {
@@ -50,9 +50,9 @@ export const successCallback = async (req: Request, res: Response, next: NextFun
           headers: {
             Authorization: `Bearer ${accessToken}`,
             'user-roles': userinfo.roles,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-          }
-        } as unknown as Request)
+            ServiceAuthorization: req.headers.ServiceAuthorization,
+          },
+        } as unknown as Request),
       }
 
       try {

@@ -13,16 +13,16 @@ import {ValidationService} from '../../services/form-builder-validation.service'
  * show the Error Message, sent through from the parent component.
  */
 export class ValidationHeaderComponent {
-    @Input() formGroup: FormGroup;
-    @Input() controlId;
+    @Input() public formGroup: FormGroup;
+    @Input() public controlId;
 
     // TODO : deprecate as not needed?
-    @Input() idPrefix = 'ta';
-    @Input() name = 'ta';
+    @Input() public idPrefix = 'ta';
+    @Input() public name = 'ta';
 
     // TODO : Move to constants file.
-    FORM_CONTROL = 'formControl';
-    FORM_GROUP = 'formGroup';
+    public FORM_CONTROL = 'formControl';
+    public FORM_GROUP = 'formGroup';
 
     /**
      * Signature for validationHeaderControls to be used in a Unit Test is:
@@ -38,7 +38,7 @@ export class ValidationHeaderComponent {
      *  pageLink: '#linkToRadiobuttons'
      *}];
      */
-    @Input() validationHeaderErrorMessages;
+    @Input() public validationHeaderErrorMessages;
 
     constructor(private validationService: ValidationService) {
     }
@@ -49,7 +49,7 @@ export class ValidationHeaderComponent {
      * // @see ValidationService
      * // @param control - 'informationNeeded'
      */
-    isFormControlValid(formGroup: FormGroup, control: string): boolean {
+    public isFormControlValid(formGroup: FormGroup, control: string): boolean {
 
         return this.validationService.isFormControlValid(formGroup, control);
     }
@@ -61,7 +61,7 @@ export class ValidationHeaderComponent {
      * // @param validationErrorId
      * // @return {boolean}
      */
-    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+    public isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
 
         return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
@@ -82,10 +82,10 @@ export class ValidationHeaderComponent {
      * // @param controlId
      * // @return {boolean}
      */
-    isValidationLevel(validationLevel: string, level: string): boolean {
+    public isValidationLevel(validationLevel: string, level: string): boolean {
         return validationLevel === level;
     }
-    scrollToElement(id): boolean {
+    public scrollToElement(id): boolean {
         const el = document.getElementById(id);
         el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
         return false;

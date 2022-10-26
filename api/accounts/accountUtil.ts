@@ -1,6 +1,6 @@
 import {Request} from 'express'
 import { FeeAccount } from '../interfaces/feeAccountPayload'
-import {valueOrNull} from "../lib/util";
+import {valueOrNull} from "../lib/util"
 
 export function getAccountUrl(baseUrl: string, accountName: string) {
     return `${baseUrl}/accounts/${accountName}`

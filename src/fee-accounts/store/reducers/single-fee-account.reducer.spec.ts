@@ -1,6 +1,6 @@
-import { initialState, reducer, getSingleFeeAccountOverview,
-  getSingleFeeAccountOverviewLoading, getSingleFeeAccountOverviewLoaded } from './single-fee-account.reducer';
 import { LoadSingleFeeAccountSuccess, ResetSingleFeeAccount } from '../actions';
+import { getSingleFeeAccountOverview, getSingleFeeAccountOverviewLoaded, getSingleFeeAccountOverviewLoading,
+  initialState, reducer } from './single-fee-account.reducer';
 
 describe('SingleFeeAccountReducer', () => {
   describe('undefined action', () => {

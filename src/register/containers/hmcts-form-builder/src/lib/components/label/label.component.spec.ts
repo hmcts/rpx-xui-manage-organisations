@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LabelComponent } from './label.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { LabelComponent } from './label.component';
 
 describe('LabelComponent', () => {
   let component: LabelComponent;
@@ -21,10 +21,10 @@ describe('LabelComponent', () => {
     fixture.detectChanges();
   });
 
-    it('should create', () => {
+  it('should create', () => {
         expect(component).toBeTruthy();
     });
-    it('Predifined data: idPrefix', () => {
+  it('Predifined data: idPrefix', () => {
         expect(component.idPrefix).toEqual('lb');
         expect(component.name).toEqual('lb');
     });

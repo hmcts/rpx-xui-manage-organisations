@@ -10,17 +10,17 @@ const publish = async (): Promise<void> => {
     const pactBroker = getConfigValue(PACT_BROKER_URL) ?
       getConfigValue(PACT_BROKER_URL) : 'http://localhost:80'
 
-        const pactTag = getConfigValue(PACT_BRANCH_NAME) ?
+    const pactTag = getConfigValue(PACT_BRANCH_NAME) ?
             getConfigValue(PACT_BRANCH_NAME) : 'Dev'
 
-        const consumerVersion = getConfigValue(PACT_CONSUMER_VERSION) !== '' ?
+    const consumerVersion = getConfigValue(PACT_CONSUMER_VERSION) !== '' ?
             // @ts-ignore
             getConfigValue(PACT_CONSUMER_VERSION) : git.short()
 
-        const certPath = path.resolve(__dirname, "../cer/ca-bundle.crt")
-        process.env.SSL_CERT_FILE = certPath
+    const certPath = path.resolve(__dirname, "../cer/ca-bundle.crt")
+    process.env.SSL_CERT_FILE = certPath
 
-        const opts = {
+    const opts = {
             consumerVersion,
             pactBroker,
             pactBrokerPassword: getConfigValue(PACT_BROKER_PASSWORD),
@@ -31,12 +31,12 @@ const publish = async (): Promise<void> => {
             tags: [pactTag],
         }
 
-        await pact.publishPacts(opts)
+    await pact.publishPacts(opts)
 
-        console.log('Pact contract publishing complete!')
-        console.log('')
-        console.log(`Head over to ${pactBroker}`)
-        console.log('to see your published contracts.')
+    console.log('Pact contract publishing complete!')
+    console.log('')
+    console.log(`Head over to ${pactBroker}`)
+    console.log('to see your published contracts.')
 
     } catch (e) {
         console.log('Pact contract publishing failed: ', e)

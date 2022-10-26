@@ -1,5 +1,5 @@
-import * as fromStyleGuide from './style-guide.reducer';
 import * as fromStyleGuideActions from '../actions/style-guide.actions';
+import * as fromStyleGuide from './style-guide.reducer';
 
 
 describe('AppReducer', () => {

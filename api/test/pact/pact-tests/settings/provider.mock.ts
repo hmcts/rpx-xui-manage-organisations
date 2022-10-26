@@ -1,8 +1,8 @@
-import { Pact } from '@pact-foundation/pact';
-import * as path from 'path';
+import { Pact } from '@pact-foundation/pact'
+import * as path from 'path'
 
-export interface IPactTestSetupConfig {
-  provider: string;
+export interface PactTestSetupConfig {
+  provider: string
   port: number
 }
 
@@ -11,7 +11,7 @@ export class PactTestSetup {
   provider: Pact
   port: number
 
-  constructor(config: IPactTestSetupConfig) {
+  constructor(config: PactTestSetupConfig) {
     this.provider = new Pact({
       port: this.port,
       log: path.resolve(process.cwd(), "api/test/pact/logs", "mockserver-integration.log"),
@@ -19,7 +19,7 @@ export class PactTestSetup {
       spec: 2,
       consumer: "xui_manageOrg",
       provider: config.provider,
-      pactfileWriteMode: "merge"
+      pactfileWriteMode: "merge",
     })
   }
 }

@@ -1,16 +1,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
-import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromSingleFeeAccountEffects from './single-fee-account.effects';
-import { SingleFeeAccountEffects } from './single-fee-account.effects';
+import { cold, hot } from 'jasmine-marbles';
+import { of, throwError } from 'rxjs';
+import { FeeAccountsService } from '../../../fee-accounts/services';
+import { LoggerService } from '../../../shared/services/logger.service';
 import {
   LoadSingleFeeAccount, LoadSingleFeeAccountFail, LoadSingleFeeAccountSuccess,
   LoadSingleFeeAccountTransactions, LoadSingleFeeAccountTransactionsFail, LoadSingleFeeAccountTransactionsSuccess
 } from '../actions';
-import { FeeAccountsService } from '../../../fee-accounts/services';
-import { LoggerService } from '../../../shared/services/logger.service';
+import * as fromSingleFeeAccountEffects from './single-fee-account.effects';
+import { SingleFeeAccountEffects } from './single-fee-account.effects';
 
 describe('Single fee account Effects', () => {
   let actions$;

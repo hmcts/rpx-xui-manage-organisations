@@ -6,12 +6,12 @@ import { LoaderState } from '../loader.model';
 })
 export class LoaderService {
   private loaderSubject = new Subject<LoaderState>();
-  loaderState = this.loaderSubject.asObservable();
+  public loaderState = this.loaderSubject.asObservable();
   constructor() { }
-  show() {
+  public show() {
     this.loaderSubject.next({ show: true } as LoaderState);
   }
-  hide() {
+  public hide() {
     this.loaderSubject.next({ show: false } as LoaderState);
   }
 }

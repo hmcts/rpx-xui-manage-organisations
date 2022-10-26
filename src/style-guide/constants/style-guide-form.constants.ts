@@ -13,7 +13,7 @@ enum StyleGuideFormModel {
  * */
 export class StyleGuideFormConstants {
 
-  static STG_FORM_MODEL = StyleGuideFormModel;
+  public static STG_FORM_MODEL = StyleGuideFormModel;
 
 }
 

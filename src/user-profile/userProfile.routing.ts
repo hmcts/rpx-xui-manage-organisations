@@ -1,8 +1,8 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { ProfileComponent } from './containers/profile/profile.component';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './/guards/auth.guard';
+import { ProfileComponent } from './containers/profile/profile.component';
 import { UserGuard } from './guards/user.guard';
 
 // TODO please remove when profile story gets runned

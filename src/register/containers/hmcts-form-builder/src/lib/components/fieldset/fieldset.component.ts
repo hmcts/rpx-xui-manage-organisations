@@ -5,8 +5,8 @@ import {Component, Input} from '@angular/core';
   templateUrl: './fieldset.component.html'
 })
 export class FieldsetComponent {
-    @Input() classes;
-    @Input() validate;
-    @Input() group;
-    @Input() data: Array<any>;
+    @Input() public classes;
+    @Input() public validate;
+    @Input() public group;
+    @Input() public data: any[];
 }

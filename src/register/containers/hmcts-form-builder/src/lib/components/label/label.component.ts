@@ -5,10 +5,10 @@ import {Component, Input} from '@angular/core';
   templateUrl: './label.component.html'
 })
 export class LabelComponent {
-    @Input() idPrefix = 'lb';
-    @Input() name = 'lb';
-    @Input() forElement;
-    @Input() label: string;
+    @Input() public idPrefix = 'lb';
+    @Input() public name = 'lb';
+    @Input() public forElement;
+    @Input() public label: string;
 
     constructor() {}
 }

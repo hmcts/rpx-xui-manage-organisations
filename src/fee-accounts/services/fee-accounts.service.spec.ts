@@ -1,6 +1,6 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { FeeAccountsService } from '.';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { inject, TestBed } from '@angular/core/testing';
+import { FeeAccountsService } from '.';
 
 let feeAccountsService: FeeAccountsService;
 let httpMock: HttpTestingController;

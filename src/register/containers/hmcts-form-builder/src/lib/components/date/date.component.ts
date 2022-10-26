@@ -6,11 +6,11 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './date.component.html'
 })
 export class DateComponent {
-    @Input() group: FormGroup;
-    @Input() id;
-    @Input() data;
-    @Input() validate;
-    @Input() showValidation;
-    @Input() validationError;
+    @Input() public group: FormGroup;
+    @Input() public id;
+    @Input() public data;
+    @Input() public validate;
+    @Input() public showValidation;
+    @Input() public validationError;
 
 }

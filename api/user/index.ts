@@ -5,8 +5,8 @@ export const router = express.Router({ mergeParams: true })
 import { getUserSessionTimeout } from '@hmcts/rpx-xui-node-lib'
 import { getConfigValue } from '../configuration'
 import { SESSION_TIMEOUTS } from '../configuration/references'
+import {exists} from "../lib/util"
 import { UserProfileModel } from './user'
-import {exists} from "../lib/util";
 
 router.get('/details', handleUserRoute)
 
@@ -22,7 +22,7 @@ function handleUserRoute(req, res) {
     orgId,
     roles,
     sessionTimeout,
-    userId
+    userId,
   }
 
   try {
@@ -33,7 +33,7 @@ function handleUserRoute(req, res) {
       const errReport = {
         apiError: error,
         apiStatusCode: exists(error, 'statusCode'),
-        message: ''
+        message: '',
       }
       res.status(500).send(errReport)
   }

@@ -1,18 +1,17 @@
-import { expect } from 'chai';
-import { SuspendUserReponseDto } from '../pactFixtures';
-import { suspendUser } from '../pactUtil';
-import { PactTestSetup } from '../settings/provider.mock';
+import { expect } from 'chai'
+import { SuspendUserReponseDto } from '../pactFixtures'
+import { suspendUser } from '../pactUtil'
+import { PactTestSetup } from '../settings/provider.mock'
 
-const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike, like, eachLike } = Matchers;
-const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
-
+const { Matchers } = require('@pact-foundation/pact')
+const { somethingLike, like, eachLike } = Matchers
+const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 })
 
 describe("RD Professional API", () => {
 
   describe("Suspend A User", async () => {
 
-    const userId = '123456';
+    const userId = '123456'
 
     const mockRequest = {
       "email": "Joe.bloggs@mailnesia.com",
@@ -21,19 +20,19 @@ describe("RD Professional API", () => {
       "idamStatus": "active",
       "rolesAdd": [
         {
-          "name": "superuser"
-        }
-      ]
+          "name": "superuser",
+        },
+      ],
     }
 
     const mockResponse = {
       "roleAdditionResponse": {
         "idamMessage": somethingLike("Role successfully Updated"),
-        "idamStatusCode": somethingLike("200")
-      }
+        "idamStatusCode": somethingLike("200"),
+      },
     }
 
-    const requestPath = "/refdata/external/v1/organisations/users/123456";
+    const requestPath = "/refdata/external/v1/organisations/users/123456"
 
     before(async () => {
       const jwt = 'some-access-token'
@@ -46,7 +45,7 @@ describe("RD Professional API", () => {
           headers: {
             "Content-Type": "application/json;charset=utf-8",
             "Authorization": "Bearer some-access-token",
-            "ServiceAuthorization": "serviceAuthToken"
+            "ServiceAuthorization": "serviceAuthToken",
           },
           path: requestPath,
           body: mockRequest,
@@ -56,7 +55,7 @@ describe("RD Professional API", () => {
             "Content-Type": "application/json",
           },
           status: 200,
-          body: mockResponse
+          body: mockResponse,
         },
       }
       // @ts-ignore
@@ -65,14 +64,14 @@ describe("RD Professional API", () => {
 
     it("returns the correct response", async () => {
       // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
-      const userId = '123456';
-      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
+      const userId = '123456'
+      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId
 
-      const resp = suspendUser(taskUrl, mockRequest as any);
+      const resp = suspendUser(taskUrl, mockRequest as any)
 
-      resp.then((response) => {
-        const responseDto: SuspendUserReponseDto = <SuspendUserReponseDto>response.data
-        assertResponse(responseDto);
+      resp.then(response => {
+        const responseDto: SuspendUserReponseDto = response.data as SuspendUserReponseDto
+        assertResponse(responseDto)
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
@@ -82,6 +81,6 @@ describe("RD Professional API", () => {
 })
 
 function assertResponse(dto: SuspendUserReponseDto): void {
-  expect(dto.roleAdditionResponse.idamMessage).to.equal('Role successfully Updated');
-  expect(dto.roleAdditionResponse.idamStatusCode).to.equal("200");
+  expect(dto.roleAdditionResponse.idamMessage).to.equal('Role successfully Updated')
+  expect(dto.roleAdditionResponse.idamStatusCode).to.equal("200")
 }

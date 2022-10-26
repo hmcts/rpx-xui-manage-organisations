@@ -21,7 +21,7 @@ export class HmctsMainWrapperComponent  {
   @Input() public backAction: () => {};
   @Input() public title: string;
   @Input() public summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]};
-  @Input() public actionButtons: {name: string, class: string, action: () => {}}[];
+  @Input() public actionButtons: {name: string, class: string, action(): {}}[];
   @Input() public showWarningMessage: boolean;
 
   constructor() { }

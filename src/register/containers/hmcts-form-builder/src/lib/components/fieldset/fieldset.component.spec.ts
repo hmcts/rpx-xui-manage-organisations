@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FieldsetComponent} from './fieldset.component';
 
@@ -14,10 +14,10 @@ describe('FieldsetComponent', () => {
         ></app-fieldset>`
     })
     class TestDummyHostComponent {
-        classes = '';
-        validate = '';
-        group = '';
-        data: Array<any>;
+        public classes = '';
+        public validate = '';
+        public group = '';
+        public data: any[];
 
 
         @ViewChild(FieldsetComponent)

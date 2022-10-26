@@ -6,7 +6,7 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './jui-form-elements.component.html'
 })
 export class JuiFormElementsComponent {
-    @Input() group: FormGroup;
-    @Input() data;
-    @Input() validate;
+    @Input() public group: FormGroup;
+    @Input() public data;
+    @Input() public validate;
 }

@@ -6,9 +6,9 @@ import { getApiPath, getRequestBody, mapCcdCases } from './unassingedCases-util'
 export async function handleUnassignedCases(req: Request, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
-  const page: number = (+req.query.pageNo || 1) - 1;
-  const size: number = (+req.query.pageSize);
-  const fromNo: number = page * size;
+  const page: number = (+req.query.pageNo || 1) - 1
+  const size: number = (+req.query.pageSize)
+  const fromNo: number = page * size
   const payload = getRequestBody(req.session.auth.orgId, fromNo, size)
 
   try {

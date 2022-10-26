@@ -1,7 +1,7 @@
-import { SubmittedConfirmationComponent } from './components/submitted-confirmation/submitted-confirmation.component';
+import {ModuleWithProviders} from '@angular/core';
 // routes
 import {RouterModule, Routes} from '@angular/router';
-import {ModuleWithProviders} from '@angular/core';
+import { SubmittedConfirmationComponent } from './components/submitted-confirmation/submitted-confirmation.component';
 import {RegisterComponent} from './containers';
 
 export const ROUTES: Routes = [

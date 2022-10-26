@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import {UserListApiModel} from '../models/userform.model';
@@ -15,7 +15,7 @@ const dummy = {
 export class InviteUserService {
   constructor(private http: HttpClient) { }
   // TODO add type when server returns someting.
-  inviteUser(data): Observable<any> {
+  public inviteUser(data): Observable<any> {
     return this.http.post<UserListApiModel>('api/inviteUser', data);
   }
 

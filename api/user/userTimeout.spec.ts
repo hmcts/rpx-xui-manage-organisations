@@ -94,7 +94,7 @@ describe('userTimeout', () => {
         },
       ]
 
-      const usersSessionTimeout = getUserSessionTimeout(roles, roleGroupSessionTimeouts);
+      const usersSessionTimeout = getUserSessionTimeout(roles, roleGroupSessionTimeouts)
 
       expect(usersSessionTimeout).to.equal(roleGroupSessionTimeouts[0])
     })
@@ -260,5 +260,5 @@ describe('userTimeout', () => {
 
       expect(sortUserRoles(roles)).to.equal(sortedRoles)
     })
-  });
+  })
 })

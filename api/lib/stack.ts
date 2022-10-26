@@ -1,8 +1,8 @@
 // TODO: It looks like this is no longer being used? Ask team and remove.
 import * as log4js from 'log4js'
 import { config } from '../lib/config'
-import { Store } from './store'
 import { isObject } from '../lib/util'
+import { Store } from './store'
 
 const logger = log4js.getLogger('scss engine')
 logger.level = config.logging ? config.logging : 'OFF'

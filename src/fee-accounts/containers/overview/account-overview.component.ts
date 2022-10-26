@@ -19,7 +19,7 @@ import { FeeAccount } from '../../models/pba-accounts';
 export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   public columnConfig: GovukTableColumnConfig[];
   public tableRows: {}[];
-  public accounts$: Observable<Array<FeeAccount>>;
+  public accounts$: Observable<FeeAccount[]>;
   public loading$: Observable<boolean>;
   public orgData: Organisation;
   public org$: Observable<Organisation>;
@@ -27,7 +27,7 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   public organisationSubscription: Subscription;
   public dependanciesSubscription: Subscription;
   public oneOrMoreAccountMissing$: Observable<boolean>;
-  public errorMessages$: Observable<Array<string>>;
+  public errorMessages$: Observable<string[]>;
 
   constructor(
     private readonly feeStore: Store<fromAccountStore.FeeAccountsState>,

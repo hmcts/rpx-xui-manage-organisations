@@ -7,17 +7,17 @@ export const LOAD_SINGLE_FEE_ACCOUNT_FAIL = '[Single Fee Account] Load Single Fe
 export const RESET_SINGLE_FEE_ACCOUNT = '[Single Fee Account] Reset Single Fee Account';
 
 export class LoadSingleFeeAccount {
-  readonly type = LOAD_SINGLE_FEE_ACCOUNT;
+  public readonly type = LOAD_SINGLE_FEE_ACCOUNT;
   constructor(public payload: any) {}
 }
 
 export class LoadSingleFeeAccountSuccess  implements Action {
-  readonly type = LOAD_SINGLE_FEE_ACCOUNT_SUCCESS;
+  public readonly type = LOAD_SINGLE_FEE_ACCOUNT_SUCCESS;
   constructor(public payload: any) {}
 }
 
 export class LoadSingleFeeAccountFail implements Action {
-  readonly type = LOAD_SINGLE_FEE_ACCOUNT_FAIL;
+  public readonly type = LOAD_SINGLE_FEE_ACCOUNT_FAIL;
   constructor(public payload: any) {}
 }
 
@@ -27,23 +27,23 @@ export const LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_FAIL = '[Single Fee Account] L
 
 
 export class LoadSingleFeeAccountTransactions {
-  readonly type = LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS;
+  public readonly type = LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS;
   constructor(public payload: any) {}
 }
 
 export class LoadSingleFeeAccountTransactionsSuccess  implements Action {
-  readonly type = LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_SUCCESS;
+  public readonly type = LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_SUCCESS;
   constructor(public payload: any[]) {}
 }
 
 export class LoadSingleFeeAccountTransactionsFail implements Action {
-  readonly type = LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_FAIL;
+  public readonly type = LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_FAIL;
   constructor(public payload: any) {}
 }
 
 
 export class ResetSingleFeeAccount implements Action {
-  readonly type = RESET_SINGLE_FEE_ACCOUNT;
+  public readonly type = RESET_SINGLE_FEE_ACCOUNT;
   constructor(public payload: any) {}
 }
 

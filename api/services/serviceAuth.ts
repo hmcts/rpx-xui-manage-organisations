@@ -3,7 +3,6 @@ import { Request, Router } from 'express'
 import * as otp from 'otp'
 import { getConfigValue, showFeature } from '../configuration'
 import {
-  APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
   FEATURE_APP_INSIGHTS_ENABLED,
@@ -21,7 +20,6 @@ import {
   PROTOCOL,
   REDIS_KEY_PREFIX,
   REDIS_TTL,
-  REDISCLOUD_URL,
   S2S_SECRET,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,

@@ -1,5 +1,5 @@
-import { TermsConditionGuard } from './termsCondition.guard';
 import { of } from 'rxjs';
+import { TermsConditionGuard } from './termsCondition.guard';
 
 describe('Accept Tc Component', () => {
   let guard: TermsConditionGuard;

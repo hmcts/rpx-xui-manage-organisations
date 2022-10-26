@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import 'rxjs/add/operator/do';
 import {
-  HttpRequest,
-  HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { HeadersService } from './headers.service';
-import { PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Inject, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/observable/fromPromise';
+import { Observable } from 'rxjs/Observable';
+import { HeadersService } from './headers.service';
 
 
 @Injectable({
@@ -28,7 +28,7 @@ export class HttpIntercepterServer implements HttpInterceptor {
   ) {
   }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authHeaders = this.authService.getAuthHeaders();
     request = request.clone({
       setHeaders: authHeaders

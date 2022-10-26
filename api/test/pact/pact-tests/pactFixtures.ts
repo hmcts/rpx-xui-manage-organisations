@@ -1,5 +1,4 @@
-import {PaymentAccountDto} from '../../../lib/models/transactions';
-
+import {PaymentAccountDto} from '../../../lib/models/transactions'
 
 /**
  *
@@ -24,13 +23,6 @@ export interface UserCreationRequest {
     lastName: string
 }
 
-const responsePaymentAccountDto: PaymentAccountDto[] = [
-    {
-        pbaNumber: 'XDDDDDoDDDD',
-        organisationId: 'B123456',
-        userId: 'A123123'
-    }
-]
 
 export interface UserProfileModel {
     orgId: string
@@ -42,21 +34,21 @@ export interface UserProfileModel {
 }
 
 export interface Roles {
-    name: string;
+    name: string
 }
 
-export const organisationRequestBody: Object = {
+export const organisationRequestBody = {
     name: 'firstname',
     status: 'status',
     sraId: 'sraId',
     paymentAccount: [],
     superUser: {
         firstName: 'Joe',
-        lastName: 'Bloggs'
-    }
+        lastName: 'Bloggs',
+    },
 }
 
-export interface organisationCreationDto {
+export interface OrganisationCreationDto {
     name: string
     status: string
     sraId: string
@@ -65,17 +57,17 @@ export interface organisationCreationDto {
 
 }
 
-export interface contactInformation {
+export interface ContactInformation {
     addressLine1: string
     addressLine2: string
     country: string
     postCode: string
 }
 
-export interface newUser {
+export interface NewUser {
     firstName: string,
     status: string,
-    sraId: string;
+    sraId: string
     lastName: string,
     email: string,
     roles: [
@@ -89,13 +81,12 @@ export interface newUser {
     resendInvite: boolean
 }
 
-
-export interface superUser {
+export interface SuperUser {
     firstName: string,
     lastName: string
 }
 
-export interface organisation {
+export interface Organisation {
     companyNumber: string,
     companyUrl: string,
     name: string,
@@ -103,10 +94,9 @@ export interface organisation {
     sraId: string,
     sraRegulated: boolean,
     status: string,
-    contactInformation: [contactInformation]
-    superUser: superUser
+    contactInformation: [ContactInformation]
+    superUser: SuperUser
 }
-
 
 export interface SuspendUserReponseDto {
     roleAdditionResponse?: {
@@ -125,7 +115,6 @@ export interface SuspendUserReponseDto {
         idamStatusCode: string
     }
 }
-
 
 export interface EditUserPermissionsDto {
     roleAdditionResponse?: {
@@ -150,7 +139,6 @@ export interface NewUserCreationResponse {
     userIdentifier?: string
 }
 
-
 export interface InviteUserResponse {
     idamStatus?: string,
     userIdentifier?: string
@@ -159,5 +147,3 @@ export interface InviteUserResponse {
 export interface OrganisationCreatedResponse {
     organisationIdentifier: string
 }
-
-

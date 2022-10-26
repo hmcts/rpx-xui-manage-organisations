@@ -1,11 +1,11 @@
+import { Location } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { cold, hot } from 'jasmine-marbles';
+import * as RouterActions from '../actions/router.action';
 import * as fromRouterEffects from './router.effect';
 import { RouterEffects } from './router.effect';
-import * as RouterActions from '../actions/router.action';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 
 describe('App Effects', () => {
     let actions$;

@@ -78,7 +78,6 @@ export class UnassignedCasesComponent implements OnInit {
 
   private setTabItems(tabName: string): void {
     this.resetPaginationParameters();
-    this.store.pipe(select(fromStore.getAllUnassignedCases));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
     this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));

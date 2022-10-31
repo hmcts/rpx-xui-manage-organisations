@@ -1,14 +1,12 @@
 
+const pa11y = require("pa11y");
+const assert = require("assert");
+const {conf} = require("../config/config");
 
-const pa11y = require('pa11y');
-const assert = require('assert');
-const {conf} = require('../config/config');
+const jwt = require("jsonwebtoken");
+const puppeteer = require("puppeteer");
 
-const jwt = require('jsonwebtoken');
-const puppeteer = require('puppeteer');
-
-
-const fs = require('fs');
+const fs = require("fs");
 
 async function pa11ytest(test, actions, timeoutVal) {
     let isTestSuccess = false;
@@ -27,46 +25,46 @@ async function pa11ytest(test, actions, timeoutVal) {
     }
 }
 
-async function pa11ytestRunner(test,actions,timeoutVal) {
+async function pa11ytestRunner(test, actions, timeoutVal) {
     console.log("pally test with actions : " + test.test.title);
     console.log(actions);
 
-    let screenshotPath = process.env.PWD + "/" + conf.reportPath + 'assets/';
+    let screenshotPath = process.env.PWD + "/" + conf.reportPath + "assets/";
     if (!fs.existsSync(screenshotPath)) {
         fs.mkdirSync(screenshotPath, { recursive: true });
     }
-    screenshotName = Date.now() + '.png';
-    screenshotPath = screenshotPath + Date.now()+'.png';
-    screenshotReportRef = 'assets/' + screenshotName;
+    screenshotName = Date.now() + ".png";
+    screenshotPath = screenshotPath + Date.now() + ".png";
+    screenshotReportRef = "assets/" + screenshotName;
 
     const startTime = Date.now();
 
     let token = jwt.sign({
-    data: 'foobar'
-    }, 'secret', { expiresIn: 60 * 60 });
+    data: "foobar",
+    }, "secret", { expiresIn: 60 * 60 });
 
     const cookies = [
         {
-        name: '__auth__',
+        name: "__auth__",
         value: token,
-        domain: 'localhost:4200',
-        path: '/',
+        domain: "localhost:4200",
+        path: "/",
         httpOnly: false,
         secure: false,
         session: true,
-        }
+        },
     ];
     const browser = await puppeteer.launch({
         ignoreHTTPSErrors: true,
-        headless:conf.headless,
-        args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications']
+        headless: conf.headless,
+        args: ["--no-sandbox", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-zygote ", "--disableChecks", "--disable-notifications"],
     });
     const page = await browser.newPage();
     await page.setCookie(...cookies);
     await page.goto(conf.baseUrl);
 
     let result;
-    try{
+    try {
 
         result = await pa11y(conf.baseUrl, {
             browser: browser,
@@ -76,11 +74,11 @@ async function pa11ytestRunner(test,actions,timeoutVal) {
             log: {
                 debug: console.log,
                 error: console.error,
-                info: console.info
+                info: console.info,
             },
-            actions: actions
-        })
-    }catch(err){
+            actions: actions,
+        });
+    } catch (err) {
         await page.screenshot({ path: screenshotPath});
         const elapsedTime = Date.now() - startTime;
         result = {};
@@ -101,13 +99,12 @@ async function pa11ytestRunner(test,actions,timeoutVal) {
     test.a11yResult = result;
     await page.close();
     await browser.close();
-    console.log("Test Execution time : "+elapsedTime);
-    if (conf.failTestOna11yIssues){
-        assert(result.issues.length === 0, "a11y issues reported")
+    console.log("Test Execution time : " + elapsedTime);
+    if (conf.failTestOna11yIssues) {
+        assert(result.issues.length === 0, "a11y issues reported");
     }
     return result;
 
 }
 
-
-module.exports = { pa11ytest}
+module.exports = { pa11ytest};

@@ -2,14 +2,14 @@
  * WebDriver Radio field component class
  */
 const DEFAULT_TIMEOUT = 5000;
-class RadioField{
+class RadioField {
 
   /**
    * This css should be an <input> tag
    * @param css
    * @param radioButtonId
    */
-  constructor(css, radioButtonId){
+  constructor(css, radioButtonId) {
     this.css = css;
     this.wrapperXPath = `//ccd-field-write[div/ccd-write-yes-no-field//*[@id="${radioButtonId}"]]`;
   }
@@ -18,11 +18,11 @@ class RadioField{
    * Click value
    * @param text
    */
-  async click(){
+  async click() {
     await $(this.css).click();
   }
 
-  async waitForElementToBeInvisible(){
+  async waitForElementToBeInvisible() {
     const EC = protractor.ExpectedConditions;
 
     try {
@@ -34,7 +34,7 @@ class RadioField{
     }
   }
 
-  async waitForElementToBeVisible(){
+  async waitForElementToBeVisible() {
     const EC = protractor.ExpectedConditions;
 
     try {
@@ -50,7 +50,7 @@ class RadioField{
    * Check the input tag is present
    * @returns {Promise<boolean|*>}
    */
-  async isPresent(){
+  async isPresent() {
     return await $(this.css).isPresent();
   }
 
@@ -58,10 +58,9 @@ class RadioField{
    * Check the input tag is enabled
    * @returns {Promise<boolean|*>}
    */
-  async isEnabled(){
+  async isEnabled() {
     return await $(this.css).isEnabled();
   }
-
 
 }
 

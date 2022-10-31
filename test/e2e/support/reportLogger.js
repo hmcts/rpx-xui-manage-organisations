@@ -1,5 +1,4 @@
 
-
 class CucumberReportLog {
 
     setScenarioWorld(world) {
@@ -16,9 +15,9 @@ class CucumberReportLog {
 
     async AddScreenshot(browser) {
         const stream = await browser.takeScreenshot();
-        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ""), "base64");
         if (this.scenarioWorld) {
-            this.scenarioWorld.attach(decodedImage, 'image/png');
+            this.scenarioWorld.attach(decodedImage, "image/png");
         }
 
     }

@@ -5,7 +5,7 @@ export const router = express.Router({ mergeParams: true })
 import { getUserSessionTimeout } from '@hmcts/rpx-xui-node-lib'
 import { getConfigValue } from '../configuration'
 import { SESSION_TIMEOUTS } from '../configuration/references'
-import { exists } from '../lib/util';
+import { exists } from '../lib/util'
 import { UserProfileModel } from './user'
 
 router.get('/details', handleUserRoute)

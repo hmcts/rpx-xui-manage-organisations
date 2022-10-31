@@ -1,31 +1,31 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
-const chai = require('chai');
+const chai = require("chai");
 
-const { SpecReporter } = require('jasmine-spec-reporter');
+const { SpecReporter } = require("jasmine-spec-reporter");
 const screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    '../tests/*.js'
+    "../tests/*.js",
   ],
   capabilities: {
-    'browserName': 'chrome',
-    'chromeOptions': { args: ['--headless1', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications'] }
+    "browserName": "chrome",
+    "chromeOptions": { args: ["--headless1", "--no-sandbox", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-zygote ", "--disableChecks", "--disable-notifications"] },
 
   },
   directConnect: true,
-  baseUrl: 'http://localhost:4200/',
-  framework: 'mocha',
+  baseUrl: "http://localhost:4200/",
+  framework: "mocha",
   mochaOpts: {
-    reporter: 'mochawesome',
-     
+    reporter: "mochawesome",
+
     reporterOptions: {
       reportFilename: "MO_NG_Integration",
-      quiet: true
+      quiet: true,
     },
-    timeout: 120000
+    timeout: 120000,
   },
   onPrepare() {
     browser.waitForAngularEnabled(false);
@@ -33,9 +33,9 @@ exports.config = {
     global.assert = chai.assert;
     global.should = chai.should;
     global.screenShotUtils = new screenShotUtils({
-      browserInstance: browser
+      browserInstance: browser,
     });
   },
-  onComplete(){
-  }
+  onComplete() {
+  },
 };

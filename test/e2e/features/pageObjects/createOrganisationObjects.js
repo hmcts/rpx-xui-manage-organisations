@@ -1,8 +1,8 @@
-'use strict';
-let RadioField = require('./webdriver-components/radioField.js');
-const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
+"use strict";
+let RadioField = require("./webdriver-components/radioField.js");
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require("../../support/constants");
 
-var BrowserWaits = require('../../support/customWaits')
+var BrowserWaits = require("../../support/customWaits");
 
 class CreateOrganisationObjects {
   constructor() {
@@ -15,7 +15,7 @@ class CreateOrganisationObjects {
     this.start_button = element(by.xpath("//*[@id='content']/div/div/a"));
     this.org_name = element(by.css("[id='orgName']"));
     this.continue_button = element(by.css("[id='createButtonContinue']"));
-    this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
+    this.officeAddressOne = element(by.xpath("//*[@id=\"officeAddressOne\"]"));
     this.townName = element(by.xpath("//input[@id='townOrCity']"));
     this.postcode = element(by.css("[id='postcode']"));
     this.PBAnumber1 = element(by.css("#PBANumber1"));
@@ -31,7 +31,7 @@ class CreateOrganisationObjects {
     this.lastName = element(by.css("[id='lastName']"));
     this.emailAddr = element(by.css("#emailAddress"));
     this.submit_button = element(by.css("app-check-your-answers button"));
-    this.org_success_heading = element(by.css("[class='govuk-panel__title']"))
+    this.org_success_heading = element(by.css("[class='govuk-panel__title']"));
     this.org_failure_error_heading = element(by.css("#error-summary-title"));
     this.off_address_error_heading = element(by.css("#error-summary-title"));
     this.pba_error_heading = element(by.css("#error-summary-title"));
@@ -43,22 +43,22 @@ class CreateOrganisationObjects {
 
     this.registrationDetailsSubmitted = element(by.xpath("//h1[contains(text() ,'Registration details submitted')]"));
 
-    this.backLink = element(by.css('.govuk-back-link'));
-    this.alreadyRegisteredAccountHeader = element(by.css('h3.govuk-heading-m'));
+    this.backLink = element(by.css(".govuk-back-link"));
+    this.alreadyRegisteredAccountHeader = element(by.css("h3.govuk-heading-m"));
     this.manageCasesAppLink = element(by.xpath('//a[contains(text(),"manage your cases")]'));
     this.manageOrgAppLink = element(by.xpath('//a[contains(text(),"manage your organisation")]'));
     this.mcWindowHandle = "";
   }
-  async clickDXreferenceCheck(){
+  async clickDXreferenceCheck() {
     BrowserWaits.waitForElement(this.DXContinuee);
         // browser.sleep(AMAZING_DELAY);
 
-      await this.DXreference.click();
+    await this.DXreference.click();
     // browser.sleep(AMAZING_DELAY);
     await this.DXContinuee.click();
   }
 
-  async clickSRAreferenceCheck(){
+  async clickSRAreferenceCheck() {
     BrowserWaits.waitForElement(this.SRAContinuee);
     // browser.sleep(AMAZING_DELAY);
     await this.SRACheckBox.click();
@@ -106,7 +106,7 @@ class CreateOrganisationObjects {
 
   async enterOrgName(testorgName) {
     BrowserWaits.waitForElement(this.org_name);
-    var orgName ="AutoTest"+Math.random().toString(36).substring(2);
+    var orgName = "AutoTest" + Math.random().toString(36).substring(2);
       //Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     global.latestOrgCreated = orgName;
     await this.org_name.sendKeys(testorgName ? testorgName : orgName);
@@ -121,62 +121,62 @@ class CreateOrganisationObjects {
 
   }
 
-  async waitForPage(page){
-    switch(page){
+  async waitForPage(page) {
+    switch (page) {
       case "What's the name of your organisation?":
         await BrowserWaits.waitForElement(this.org_name);
-      break;
+        break;
       case "What's the address of your main office?":
         await BrowserWaits.waitForElement(this.officeAddressOne);
-      break;
+        break;
       case "What's your payment by account (PBA) number for your organisation?":
         await BrowserWaits.waitForElement(this.PBAnumber1);
-      break;
+        break;
       case "Do you have a DX reference for your main office?":
 
         await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have a Document Exchange (DX) reference for your main office')]")));
-      break;
+        break;
       case "What's the DX reference for your main office?":
         await BrowserWaits.waitForElement(this.DXNumber);
-      break;
+        break;
       case "Do you have an organisation SRA ID?":
         await BrowserWaits.waitForElement(element(by.xpath("//h1[contains(text(),'Do you have an organisation Solicitors Regulation Authority (SRA) ID')]")));
         break;
       case "Enter your organisation SRA ID":
         await BrowserWaits.waitForElement(this.SRANumber);
-      break;
+        break;
       case "What's your name?":
         await BrowserWaits.waitForElement(this.lastName);
-      break;
+        break;
       case "What's your email address?":
         await BrowserWaits.waitForElement(this.emailAddress);
         break;
       case "Check your answers before you register":
         await BrowserWaits.waitForElement(this.checkYourAnswers);
-      break;
+        break;
     }
   }
 
-  async waitForSubmission(){
+  async waitForSubmission() {
     await BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
 
   }
 
-async enterAddressDetails(){
-  await this.officeAddressOne.isDisplayed()
+async enterAddressDetails() {
+  await this.officeAddressOne.isDisplayed();
   await this.officeAddressOne.sendKeys("1, Cliffinton");
 
   await this.townName.sendKeys("London");
   await this.postcode.sendKeys("SE15TY");
 }
 
-async enterUserFirtandLastName(){
+async enterUserFirtandLastName() {
   await this.firstName.sendKeys("Mario");
   await this.lastName.sendKeys("Perta");
 }
 
-  async createOrganisation(orgName,email){
-   ;
+  async createOrganisation(orgName, email) {
+   
 
     await BrowserWaits.waitForElement(this.start_button);
     await this.start_button.click();
@@ -219,19 +219,19 @@ async enterUserFirtandLastName(){
     await this.submit_button.click();
     await BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
 
-    ;
+    
   }
-  async clickBackLink(){
+  async clickBackLink() {
     await BrowserWaits.waitForElement(this.backLink);
     await this.backLink.click();
   }
 
-  async waitForStartRegisterPage(){
+  async waitForStartRegisterPage() {
     await BrowserWaits.waitForElement(this.start_button);
 
   }
 
-  async getAlreadyRegisteredAccountHeaderText(){
+  async getAlreadyRegisteredAccountHeaderText() {
     await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
     return await this.alreadyRegisteredAccountHeader.getText();
   }
@@ -246,7 +246,7 @@ async enterUserFirtandLastName(){
     return await this.manageOrgAppLink.isPresent();
   }
 
-  async clickAndValidateMCLink(){
+  async clickAndValidateMCLink() {
     await BrowserWaits.waitForElement(this.alreadyRegisteredAccountHeader);
     this.mainWindowHandle = await browser.driver.getWindowHandle();
 

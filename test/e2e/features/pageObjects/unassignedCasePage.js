@@ -1,19 +1,19 @@
-var BrowserWaits = require('../../support/customWaits')
-const { isConstructorDeclaration } = require('typescript')
+var BrowserWaits = require("../../support/customWaits");
+const { isConstructorDeclaration } = require("typescript");
 
-class UnassignedCasesPage{
-    constructor(){
+class UnassignedCasesPage {
+    constructor() {
         this.headerTitle = $("h1.govuk-heading-xl");
     }
 
-    async waitForPageToLoad(){
-        await BrowserWaits.waitForElement(this.headerTitle,undefined,"Unassigned Cses Page header not displayed" );
+    async waitForPageToLoad() {
+        await BrowserWaits.waitForElement(this.headerTitle, undefined, "Unassigned Cses Page header not displayed" );
         await BrowserWaits.waitForCondition(async () => {
             return (await this.headerTitle.getText()).includes("Unassigned cases");
         });
     }
 
-    async amOnPage(){
+    async amOnPage() {
         await this.waitForPageToLoad();
         return true;
     }

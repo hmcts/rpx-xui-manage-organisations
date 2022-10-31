@@ -8,7 +8,7 @@ export class DummyAppInsights implements Microsoft.ApplicationInsights.IAppInsig
       throw new Error('Method not implemented.');
     }
     public trackPageView(name?: string, url?: string, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; },
-                  duration?: number) {
+                         duration?: number) {
       throw new Error('Method not implemented.');
     }
     public startTrackEvent(name: string) {
@@ -21,11 +21,11 @@ export class DummyAppInsights implements Microsoft.ApplicationInsights.IAppInsig
       throw new Error('Method not implemented.');
     }
     public trackDependency(id: string, method: string, absoluteUrl: string, pathName: string, totalTime: number, success: boolean,
-                    resultCode: number, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
+                           resultCode: number, properties?: { [name: string]: string; }, measurements?: { [name: string]: number; }) {
       throw new Error('Method not implemented.');
     }
     public trackException(exception: Error, handledAt?: string, properties?: { [name: string]: string; },
-                   measurements?: { [name: string]: number; }, severityLevel?: AI.SeverityLevel) {
+                          measurements?: { [name: string]: number; }, severityLevel?: AI.SeverityLevel) {
       throw new Error('Method not implemented.');
     }
     public trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number, properties?: { [name: string]: string; }) {

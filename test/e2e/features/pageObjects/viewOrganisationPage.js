@@ -1,22 +1,22 @@
-'use strict';
+"use strict";
 
-const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-var BrowserWaits = require('../../support/customWaits')
+const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require("../../support/constants");
+var BrowserWaits = require("../../support/customWaits");
 
 class ViewOrganisationPage {
-  constructor(){
+  constructor() {
     this.header = element(by.xpath("//*[contains(@class,'govuk-heading-xl') and contains(text(),'Organisation')]"));
   }
 
-  async getPageHeader(){
+  async getPageHeader() {
     await BrowserWaits.waitForElement(this.header);
     return await this.header.getText();
   }
 
-  async amOnPage(){
+  async amOnPage() {
 
     let header = await this.getPageHeader();
-    return header === 'Organisation';
+    return header === "Organisation";
   }
 
 }

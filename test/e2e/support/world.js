@@ -1,16 +1,16 @@
-const { expect, assert } = require('chai');
-const config = require('./config');
-const { setWorldConstructor } = require('cucumber');
-const minimist = require('minimist');
+const { expect, assert } = require("chai");
+const config = require("./config");
+const { setWorldConstructor } = require("cucumber");
+const minimist = require("minimist");
 
 const argv = minimist(process.argv.slice(2));
-const { setDefaultTimeout } = require('cucumber');
+const { setDefaultTimeout } = require("cucumber");
 
 setDefaultTimeout(60 * 1000);
 
 function processRecursive(part) {
     if (part in config.lookups) {
-        if (config.lookups[part].indexOf('|') === -1) {
+        if (config.lookups[part].indexOf("|") === -1) {
             return config.lookups[part];
         }
         return processSelector(config.lookups[part]);
@@ -19,13 +19,13 @@ function processRecursive(part) {
 
 function processSelector(selector) {
     if (selector.search(/\s/ig) !== -1) {
-        throw new Error('selector cannot contain spaces');
+        throw new Error("selector cannot contain spaces");
     }
-    return selector.split('|')
-        .map(level => level.split('.')
+    return selector.split("|")
+        .map(level => level.split(".")
             .map(part => processRecursive(part) || `[data-selector~="${part}"]`)
-            .join(''))
-        .join(' ');
+            .join(""))
+        .join(" ");
 }
 
 const seconds = n => n * 1000;

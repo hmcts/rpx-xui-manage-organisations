@@ -13,8 +13,7 @@ let userCookie = '';
 
 export async function  authenticateAndGetcookies(url)  {
   console.log( 'Getting Cookie details...');
-  if (userCookie !== '')
-  {
+  if (userCookie !== '') {
     return userCookie;
   }
   const browser = await puppeteer.launch(getPuppeteerLaunchOptions(url));

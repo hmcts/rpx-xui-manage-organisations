@@ -1,5 +1,5 @@
 import { generateAPIRequest } from './utils';
-const should = require('chai').should()
+const should = require('chai').should();
 
 suite('Manage Org -> Get Organisation details', function() {
   this.timeout(50000);

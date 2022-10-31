@@ -1,23 +1,20 @@
 
 const cases = [];
 
-
-
 class ShareCaseData {
 
     AddCaseShareData(caseid, sharedWith, tobeShared, tobeRemoved) {
         let caseData = this.getCaseWithId(caseid);
         if (caseData !== null) {
-            // caseData.sharedWith = sharedWith; 
+            // caseData.sharedWith = sharedWith;
             // caseData.markedForShare = tobeShared;
-            // caseData.markedForUnShare = tobeRemoved; 
-        }
-        else {
+            // caseData.markedForUnShare = tobeRemoved;
+        } else {
             caseData = {
                 caseId: caseid,
                 sharedWith: sharedWith,
                 markedForShare: tobeShared,
-                markedForUnShare: tobeRemoved
+                markedForUnShare: tobeRemoved,
             };
             cases.push(caseData);
         }
@@ -53,7 +50,7 @@ class ShareCaseData {
         if (index > -1) {
             console.log("******* Test data Tracking: => cancel TO BE REMOVED : " + caseid + " : " + email);
             caseData.markedForUnShare.splice(index, 1);
-        };
+        }
     }
 
     ResetChanges() {

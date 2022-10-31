@@ -1,29 +1,29 @@
 
-const loginLogout = require('./loginLogoutObjects');
+const loginLogout = require("./loginLogoutObjects");
 
 var EC = protractor.ExpectedConditions;
 
-class ApproveOrganisationService{
+class ApproveOrganisationService {
 
     constructor() {
         this.baseUrl = "";
         this.useremail = "";
         this.password = "";
-        if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")){
+        if (process.env.TEST_URL.includes("aat") || process.env.TEST_URL.includes("preview")) {
             this.baseUrl = "https://administer-orgs.aat.platform.hmcts.net";
             this.useremail = "vmuniganti@mailnesia.com";
             this.password = "Monday01";
-        } else if (process.env.TEST_URL.includes("demo")){
+        } else if (process.env.TEST_URL.includes("demo")) {
             this.baseUrl = "https://xui-ao-webapp-demo.service.core-compute-demo.internal";
             this.useremail = "sourav.bhattacharya@hmcts.net";
             this.password = "ReferenceData2019";
-       } 
+       }
 
     }
 
     async init() {
 
-        if(this.BrowserStatus === "STARTED"){
+        if (this.BrowserStatus === "STARTED") {
             this.destroy();
         }
 
@@ -34,7 +34,6 @@ class ApproveOrganisationService{
         await this.aoBrowser.waitForAngularEnabled(false);
         this.BrowserStatus === "STARTED";
 
-
         this.checkNowLink = this.aoElement(by.xpath("//a[contains(text(),'Check now')]"));
         this.pendingOrgPageHeader = this.aoElement(by.xpath("//h1[contains(text(),'Organisations pending activation')]"));
         this.activateOrganisationBtn = this.aoElement(by.css(".govuk-button[type = 'submit']"));
@@ -43,15 +42,14 @@ class ApproveOrganisationService{
         this.approveOrganisationBtn = this.aoElement(by.css(".govuk-button"));
 
         this.approveOrgConfirmationPageHeader = this.aoElement(by.xpath("//h1[contains(text(),'Organisation approved successfully')]"));
-        this.backToOrganisationsLink = this.aoElement(by.xpath("//a[contains(text(),'Back to organisations')]")); 
-
+        this.backToOrganisationsLink = this.aoElement(by.xpath("//a[contains(text(),'Back to organisations')]"));
 
         this.emailAddressElement = this.aoElement(by.css("input#username"));
         this.passwordElement = this.aoElement(by.css("[id='password']"));
         this.signinTitle = this.aoElement(by.xpath("//h1[@class='heading-large']"));
         //this.signinTitle = element(by.css("h1"));
         this.signinBtn = this.aoElement(by.css("input.button"));
-""
+        "";
         this.organisationDetailsHeader = this.aoElement(by.xpath('//h1[contains(@class,"govuk-heading-xl") and contains(text(),"Organisation details")]'));
 
         await this.aoBrowser.get(this.baseUrl);
@@ -61,12 +59,12 @@ class ApproveOrganisationService{
         });
     }
 
-    async destroy(){
+    async destroy() {
         this.aoBrowser.driver.quit();
-        this.BrowserStatus = "QUIT"; 
+        this.BrowserStatus = "QUIT";
     }
 
-    async waitForElement(element){
+    async waitForElement(element) {
         await this.aoBrowser.wait(EC.presenceOf(element), 60000, "Error : " + element.locator().toString());
 
     }
@@ -78,8 +76,7 @@ class ApproveOrganisationService{
             try {
                 await this.waitForElement(element);
                 retryCounter += 3;
-            }
-            catch (err) {
+            } catch (err) {
                 retryCounter += 1;
                 if (callback) {
                     callback(retryCounter + "");
@@ -92,7 +89,7 @@ class ApproveOrganisationService{
         }
     }
 
-    async approveOrg(orgName){
+    async approveOrg(orgName) {
         await this.emailAddressElement.sendKeys(this.useremail);
         await this.passwordElement.sendKeys(this.password);
         await this.signinBtn.click();
@@ -101,14 +98,14 @@ class ApproveOrganisationService{
         await this.waitForElement(this.pendingOrgPageHeader);
         await this.waitForElement(this.activateOrganisationBtn);
 
-        let viewLink = this.aoElement(by.xpath("//*[contains(@class,'govuk-table')]//td[contains(text(),'" + orgName+"')]/..//a"));
+        let viewLink = this.aoElement(by.xpath("//*[contains(@class,'govuk-table')]//td[contains(text(),'" + orgName + "')]/..//a"));
 
         // await viewLink.click();
-        let orgPageLink = await viewLink.getAttribute('href'); 
+        let orgPageLink = await viewLink.getAttribute("href");
         console.log(orgPageLink);
         await this.aoBrowser.get(orgPageLink);
 
-        await this.waitForElement(this.organisationDetailsHeader)
+        await this.waitForElement(this.organisationDetailsHeader);
         await this.waitForElement(this.approveOrganisationBtn);
         await this.approveOrganisationBtn.click();
 
@@ -116,14 +113,14 @@ class ApproveOrganisationService{
 
         await this.waitForElement(this.activateApproveOrgPageHeader);
         await this.approveOrganisationBtn.click();
-        
+
         await this.waitForElement(this.approveOrgConfirmationPageHeader);
 
         await this.backToOrganisationsLink.click();
         await this.waitForElement(this.checkNowLink);
     }
 
-    async getScrenshot(){
+    async getScrenshot() {
 
         return await this.aoBrowser.takeScreenshot();
     }
@@ -132,4 +129,4 @@ class ApproveOrganisationService{
 
 const approveOrganisationService = new ApproveOrganisationService();
 
-module.exports = approveOrganisationService; 
+module.exports = approveOrganisationService;

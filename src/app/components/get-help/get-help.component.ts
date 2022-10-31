@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ContactDetailsDataModel } from '@hmcts/rpx-xui-common-lib';
-import { AppConstants } from 'src/app/app.constants';
+import { AppConstants } from '../../../app/app.constants';
 
 @Component({
     selector: 'app-get-help',

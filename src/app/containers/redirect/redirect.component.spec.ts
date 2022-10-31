@@ -1,8 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
-import { reducers} from 'src/app/store';
+import { reducers} from '../../../app/store';
 import * as fromAuth from '../../../user-profile/store';
 import {RedirectComponent} from './redirect.component';
 

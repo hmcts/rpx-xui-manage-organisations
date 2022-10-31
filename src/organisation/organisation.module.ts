@@ -14,10 +14,10 @@ import * as fromServices from './services';
 
 import { HttpClientModule } from '@angular/common/http';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
-import { DefaultErrorHandler } from 'src/shared/errorHandler/defaultErrorHandler';
-import { AbstractAppInsights, AppInsightsWrapper } from 'src/shared/services/appInsightsWrapper';
-import { CryptoWrapper } from 'src/shared/services/cryptoWrapper';
-import { JwtDecodeWrapper } from 'src/shared/services/jwtDecodeWrapper';
+import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
+import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
+import { CryptoWrapper } from '../shared/services/cryptoWrapper';
+import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { OrganisationGuard } from './guards/organisation.guard';

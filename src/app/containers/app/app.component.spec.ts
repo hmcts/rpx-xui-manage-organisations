@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
-import {Logout, reducers} from 'src/app/store';
+import {Logout, reducers} from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
 
@@ -12,8 +12,8 @@ import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSess
 
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
-import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { LoggerService } from '../../../shared/services/logger.service';
 import * as fromAuth from '../../../user-profile/store';
 
 const windowMock: Window = { gtag: () => {}} as any;

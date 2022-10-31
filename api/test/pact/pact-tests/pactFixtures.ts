@@ -23,7 +23,6 @@ export interface UserCreationRequest {
     lastName: string
 }
 
-
 export interface UserProfileModel {
     orgId: string
     userId: string

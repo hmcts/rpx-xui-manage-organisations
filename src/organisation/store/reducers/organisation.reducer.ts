@@ -1,4 +1,4 @@
-import { Organisation } from 'src/organisation/organisation.model';
+import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisation from '../actions/organisation.actions';
 
 

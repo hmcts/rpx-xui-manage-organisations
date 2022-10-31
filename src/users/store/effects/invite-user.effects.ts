@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import {of} from 'rxjs';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 import * as fromRoot from '../../../app/store';
 import {ErrorReport} from '../../models/errorReport.model';
 import {InviteUserService } from '../../services';

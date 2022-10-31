@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
+import { UserRolesUtil } from '../../../users/containers/utils/user-roles-util';
 import {AcceptTcService} from '../../../accept-tc/services/accept-tc.service';
 import { LoggerService } from '../../../shared/services/logger.service';
 import * as usersActions from '../../../users/store/actions/user.actions';

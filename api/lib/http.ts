@@ -7,7 +7,7 @@ axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 export const http = (req: Request) => {
 
-  const headers = {}
+  const headers = {} as any
 
   if (req.headers) {
     if (exists(req, 'headers.Authorization')) {

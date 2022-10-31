@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from 'src/app/store/reducers';
+import { reducers } from '../../../app/store/reducers';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {

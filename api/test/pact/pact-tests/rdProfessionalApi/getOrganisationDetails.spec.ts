@@ -57,7 +57,7 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
 
     function assertResponse(dto: organisation): void {
       expect(dto).to.be.not.null
-      for (let element of dto.contactInformation) {
+      for (const element of dto.contactInformation) {
         expect(element.addressLine1).to.equal("addressLine1")
       }
       expect(dto.sraId).to.equal("sraId")

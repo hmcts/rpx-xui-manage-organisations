@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { AppConstants } from 'src/app/app.constants';
+import { AppConstants } from '../../../app/app.constants';
 
 import {AppUtils} from '../../utils/app-utils';
 import * as fromRoot from '../reducers';

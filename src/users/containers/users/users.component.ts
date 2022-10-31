@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 // TODO: The below is an odd way to import.
 import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import { Observable } from 'rxjs';
-import { UsersService } from 'src/users/services';
+import { UsersService } from '../../../users/services';
 
 import * as fromStore from '../../store';
 

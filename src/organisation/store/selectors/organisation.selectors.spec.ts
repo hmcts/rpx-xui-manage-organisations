@@ -1,12 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { select, Store, StoreModule } from '@ngrx/store';
-import { Organisation } from 'src/organisation/organisation.model';
-import { LoadOrganisationSuccess } from '../actions';
+import { Store, StoreModule } from '@ngrx/store';
 import { reducers } from '../index';
 import { OrganisationState } from '../reducers/organisation.reducer';
-import { getOrganisationSel, getOrganisationState } from './organisation.selectors';
-
-
 
 describe('Organisation selectors', () => {
   let store: Store<OrganisationState>;

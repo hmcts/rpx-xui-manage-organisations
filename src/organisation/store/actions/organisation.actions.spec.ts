@@ -1,5 +1,5 @@
 
-import { Organisation } from 'src/organisation/organisation.model';
+import { Organisation } from '../../../organisation/organisation.model';
 import { LOAD_ORGANISATION, LoadOrganisation } from './organisation.actions';
 import { LOAD_ORGANISATION_SUCCESS, LoadOrganisationSuccess } from './organisation.actions';
 import { LOAD_ORGANISATION_FAIL, LoadOrganisationFail } from './organisation.actions';

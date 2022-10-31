@@ -1,5 +1,5 @@
 
-const loginLogout = require('./loginLogoutObjects');
+const loginLogout = require("./loginLogoutObjects");
 
 var EC = protractor.ExpectedConditions;
 
@@ -18,15 +18,15 @@ class ManageCasesService {
 
     }
 
-    setLogger(loggerObj){
+    setLogger(loggerObj) {
         this.loggerObj = loggerObj;
     }
 
-    logger(message,isScreenshot){
-        if (isScreenshot){
-            this.loggerObj(message,true);
+    logger(message, isScreenshot) {
+        if (isScreenshot) {
+            this.loggerObj(message, true);
 
-        }else{
+        } else {
             this.loggerObj("[Manage Cases] " + this.getCurrentTime() + " " + message);
         }
     }
@@ -50,22 +50,22 @@ class ManageCasesService {
         this.signinBtn = this.mcElement(by.css("input.button"));
 
         this.erroSummaryBannner = this.mcElement(by.css("h2.error-summary-heading"));
-        this.hmctsHeader = this.mcElement(by.css('.hmcts-header__link')); 
+        this.hmctsHeader = this.mcElement(by.css(".hmcts-header__link"));
 
-        await this.mcBrowser.get(this.baseUrl)
+        await this.mcBrowser.get(this.baseUrl);
         // await this.retryForPageLoad(this.emailAddressElement, async () => {
         //     await this.mcBrowser.get(this.baseUrl);
-        // }); 
+        // });
     }
 
-    async destroy(){
-        if (this.BrowserStatus !== "QUIT"){
+    async destroy() {
+        if (this.BrowserStatus !== "QUIT") {
             this.mcBrowser.driver.quit();
             this.BrowserStatus = "QUIT";
         }
     }
 
-    async waitForElement(element,waitTime) {
+    async waitForElement(element, waitTime) {
         await this.mcBrowser.wait(EC.presenceOf(element), waitTime ? waitTime :  10000, "Error : " + element.locator().toString());
 
     }
@@ -77,8 +77,7 @@ class ManageCasesService {
             try {
                 await this.waitForElement(element);
                 retryCounter += 3;
-            }
-            catch (err) {
+            } catch (err) {
                 retryCounter += 1;
                 if (callback) {
                     callback(retryCounter + "");
@@ -91,25 +90,25 @@ class ManageCasesService {
         }
     }
 
-    async login(username,password) {
+    async login(username, password) {
 
-        try{
+        try {
             this.logger("MC Login Step started");
             await this.mcBrowser.driver.manage()
                 .deleteAllCookies();
             await this.mcBrowser.get(this.baseUrl);
 
-            let counter =0;
-            while (!(await this.emailAddressElement.isPresent()) && counter <=5){
+            let counter = 0;
+            while (!(await this.emailAddressElement.isPresent()) && counter <= 5) {
                 await this.mcBrowser.get(this.baseUrl);
 
-                try{
+                try {
                     await this.waitForElement(this.emailAddressElement);
                     break;
-                }catch(error){
-                    this.logger("MC Login page not loaded. Retry page load "+counter);
+                } catch (error) {
+                    this.logger("MC Login page not loaded. Retry page load " + counter);
                     await this.attachScreenshot();
-                    counter+=1;
+                    counter += 1;
                 }
 
             }
@@ -118,33 +117,31 @@ class ManageCasesService {
             await this.emailAddressElement.sendKeys(username);
             await this.passwordElement.sendKeys(password);
             await this.signinBtn.click();
-            this.logger("MC Login submitted for user : " + username)
-        }
-        catch(error){
+            this.logger("MC Login submitted for user : " + username);
+        } catch (error) {
             await this.attachScreenshot();
             throw new Error(error);
         }
 
-
     }
 
-    async attachScreenshot(){
+    async attachScreenshot() {
         let stream = await this.mcBrowser.takeScreenshot();
-        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-        this.logger(decodedImage, true)
+        const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ""), "base64");
+        this.logger(decodedImage, true);
     }
 
-    async validateLoginSuccess(){
+    async validateLoginSuccess() {
         await this.waitForElement(this.hmctsHeader);
         this.logger("MC Login Success as expected");
 
     }
 
-    async validateLoginFailure(){
+    async validateLoginFailure() {
         await this.mcBrowser.wait(async () => {
             await this.waitForElement(this.emailAddressElement);
-            let loginEmailFieldValue = await this.emailAddressElement.getAttribute('value');
-            return loginEmailFieldValue === '';
+            let loginEmailFieldValue = await this.emailAddressElement.getAttribute("value");
+            return loginEmailFieldValue === "";
         }, this.waitTime);
         this.logger("MC Login Failed as expected");
     }

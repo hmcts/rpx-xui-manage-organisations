@@ -5,4 +5,4 @@ module.exports = function CustomError(message, extra) {
   this.extra = extra;
 };
 
-require('util').inherits(module.exports, Error);
+require("util").inherits(module.exports, Error);

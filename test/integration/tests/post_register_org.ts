@@ -25,7 +25,7 @@ suite('Register Org -> POST Register Organisation', function() {
     },
       event: 'continue' };
 
-      test('POST Invite User', () => generateregPOSTAPIRequest ('POST', '/external/register-org/register', payload)
+  test('POST Invite User', () => generateregPOSTAPIRequest ('POST', '/external/register-org/register', payload)
      // console.log('response', response.headers.get('cache-control'))
         .then(response => {
            response.status.should.be.eql(200);

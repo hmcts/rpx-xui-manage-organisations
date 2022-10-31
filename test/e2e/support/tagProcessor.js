@@ -1,14 +1,14 @@
 module.exports = function(config, argv) {
-    let tags = '@all';
+    let tags = "@all";
     if (config.defaultTags) {
-        tags = config.defaultTags.join(' and ');
+        tags = config.defaultTags.join(" and ");
     }
 
     if (argv.tags) {
-        if (tags) tags += ' and ';
+        if (tags) { tags += " and "; }
         tags += argv.tags;
     }
 
-    console.log('Applying tag expression: ', tags);
+    console.log("Applying tag expression: ", tags);
     return tags;
 };

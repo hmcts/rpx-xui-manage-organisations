@@ -2,13 +2,13 @@
  * WebDriver Text field component class
  */
 const DEFAULT_TIMEOUT = 5000;
-class TextField{
+class TextField {
 
   /**
    * This css should be an <input> tag
    * @param css
    */
-  constructor(css){
+  constructor(css) {
       this.css = css;
   }
 
@@ -16,22 +16,22 @@ class TextField{
    * Enter text value into the text boy
    * @param text
    */
-  async enterText(text){
+  async enterText(text) {
     await $(this.css).sendKeys(text);
   }
   /**
    * Check the input tag is present
    * @returns {Promise<boolean|*>}
    */
-  async isType(type){
-    return await $(this.css).getAttribute('type') === type;
+  async isType(type) {
+    return await $(this.css).getAttribute("type") === type;
   }
 
   /**
    * Check the input tag is present
    * @returns {Promise<boolean|*>}
    */
-  async isPresent(){
+  async isPresent() {
     return await $(this.css).isPresent();
   }
 
@@ -39,11 +39,11 @@ class TextField{
    * Check the input tag is displayed
    * @returns {Promise<boolean|*>}
    */
-  async isDisplayed(){
+  async isDisplayed() {
     return await $(this.css).isDisplayed();
   }
 
-  async waitForElementToBeInvisible(){
+  async waitForElementToBeInvisible() {
     const EC = protractor.ExpectedConditions;
 
     try {
@@ -55,7 +55,7 @@ class TextField{
     }
   }
 
-  async waitForElementToBeVisible(){
+  async waitForElementToBeVisible() {
     const EC = protractor.ExpectedConditions;
 
     try {
@@ -70,7 +70,7 @@ class TextField{
   /**
    * Clear contents of an input field
    */
-  async clearField(){
+  async clearField() {
     await $(this.css).clear();
   }
 
@@ -78,8 +78,8 @@ class TextField{
    * Get value of text box contents
    * @returns {Promise<String>}
    */
-  async getText(){
-    return await $(this.css).getAttribute('value');
+  async getText() {
+    return await $(this.css).getAttribute("value");
   }
 
 }

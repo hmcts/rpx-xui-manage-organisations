@@ -1,8 +1,6 @@
 var EC = protractor.ExpectedConditions;
-const CucumberReporter = require('./reportLogger')
+const CucumberReporter = require("./reportLogger");
 class BrowserWaits {
-
-
 
     constructor() {
         this.waitTime = 30000;
@@ -10,11 +8,11 @@ class BrowserWaits {
         this.retriesCount = 3;
     }
 
-    async waitForElement(waitelement, customWait,message) {
+    async waitForElement(waitelement, customWait, message) {
         await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, "Error : " + waitelement.locator().toString() + (message ? " => " + message : "_"));
     }
 
-    async waitForElementNotVisible(element,customWait) {
+    async waitForElementNotVisible(element, customWait) {
         await browser.wait(EC.not(EC.presenceOf(element), customWait ? customWait : this.waitTime, "Error : " + element.locator().toString()));
 
     }
@@ -32,7 +30,7 @@ class BrowserWaits {
         let conditionResult = await condition();
 
         let counter = 0;
-        while (!conditionResult && counter < 10){
+        while (!conditionResult && counter < 10) {
             browser.sleep(5000);
             counter++;
             conditionResult = await condition();
@@ -47,7 +45,7 @@ class BrowserWaits {
         await browser.wait(EC.presenceOf($(selector)), this.waitTime, "Error find element with selector: " + selector);
     }
 
-    async waitForstalenessOf(element,timeout) {
+    async waitForstalenessOf(element, timeout) {
         await browser.wait(EC.stalenessOf(element), timeout ? timeout : this.waitTime);
     }
 
@@ -72,8 +70,7 @@ class BrowserWaits {
             try {
                 await this.waitForElement(element);
                 retryCounter += 3;
-            }
-            catch (err) {
+            } catch (err) {
                 retryCounter += 1;
                 if (callback) {
                     callback(retryCounter + "");
@@ -86,16 +83,14 @@ class BrowserWaits {
         }
     }
 
-
     async retryWithAction(element, action) {
         let retryCounter = 0;
 
         while (retryCounter < 3) {
             try {
-                await this.waitForElement(element,15000);
+                await this.waitForElement(element, 15000);
                 retryCounter += 3;
-            }
-            catch (err) {
+            } catch (err) {
                 retryCounter += 1;
                 if (action) {
                     await action(retryCounter + "");
@@ -120,11 +115,10 @@ class BrowserWaits {
                 const retVal = await callback();
                 isSuccess = true;
                 return retVal;
-            }
-            catch (err) {
-                error = err
+            } catch (err) {
+                error = err;
                 retryCounter += 1;
-                CucumberReporter.AddMessage(`Actions success Condition ${actionMessage ? actionMessage : ''} failed ${err.message} ${err.stack}. `);
+                CucumberReporter.AddMessage(`Actions success Condition ${actionMessage ? actionMessage : ""} failed ${err.message} ${err.stack}. `);
                 CucumberReporter.AddMessage(`Retrying attempt ${retryCounter}. `);
             }
         }

@@ -1,29 +1,27 @@
 
-const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
-let HeaderPage = require('../pageObjects/headerPage');
+const acceptTermsAndConditionsPage = require("../pageObjects/termsAndConditionsConfirmPage");
+let HeaderPage = require("../pageObjects/headerPage");
 
-const { config } = require('../../config/common.conf');
-const browserWaits = require('../../support/customWaits');
+const { config } = require("../../config/common.conf");
+const browserWaits = require("../../support/customWaits");
 
+var { defineSupportCode } = require("cucumber");
 
-var { defineSupportCode } = require('cucumber');
-
-
-defineSupportCode(function ({ And, But, Given, Then, When }) {
+defineSupportCode(function({ And, But, Given, Then, When }) {
 
     let headerPage = new HeaderPage();
-    Then("I am on Accept Terms and Conditions page", async function () {
+    Then("I am on Accept Terms and Conditions page", async function() {
         const world = this;
-        if (await acceptTermsAndConditionsPage.isFeatureToggleEnabled()){
+        if (await acceptTermsAndConditionsPage.isFeatureToggleEnabled()) {
             await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer);
             expect(await acceptTermsAndConditionsPage.amOnPage()).to.be.true;
-        }else{
+        } else {
             world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js. Validating Home page displayed");
             await headerPage.waitForPrimaryNavigationToDisplay();
         }
     });
 
-    When("I click Confirm in Accept Terms and Conditions page", async function () {
+    When("I click Confirm in Accept Terms and Conditions page", async function() {
         const world = this;
         if (await acceptTermsAndConditionsPage.isFeatureToggleEnabled()) {
             await browserWaits.waitForElement(acceptTermsAndConditionsPage.accepttermsAndConditionsContainer);
@@ -33,6 +31,6 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
             world.attach("Accept Terms and Conditions feature disabled in config. ../../config/common.conf.js.Validating Home page displayed");
             await headerPage.waitForPrimaryNavigationToDisplay();
         }
-    })
+    });
 
 });

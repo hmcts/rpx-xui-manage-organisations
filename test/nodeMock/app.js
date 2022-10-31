@@ -1,27 +1,25 @@
 
-
-const express = require('express');
-let { requestMapping,configurations} = require('./reqResMapping');
-const { browser } = require('protractor');
+const express = require("express");
+let { requestMapping, configurations} = require("./reqResMapping");
+const { browser } = require("protractor");
 const port = 3001;
 
+const nodeMockAvailablePort = require("./availablePortFinder").getAvailablePort();
 
-const nodeMockAvailablePort = require('./availablePortFinder').getAvailablePort();
-
-class MockApp{
-    init(){
-        this.conf = { 
+class MockApp {
+    init() {
+        this.conf = {
             get: { ...requestMapping.get},
             post: { ...requestMapping.post },
             put: { ...requestMapping.put },
-            delete: { ...requestMapping.delete }
+            delete: { ...requestMapping.delete },
         };
         this.configurations = Object.assign({}, configurations);
         console.log("Mock Config Initialized");
         return "done";
     }
 
-    async startServer(){
+    async startServer() {
         const app = express();
         for (const [key, value] of Object.entries(this.conf.get)) {
             app.get(key, value);
@@ -39,37 +37,36 @@ class MockApp{
             app.delete(key, value);
         }
 
-        this.server = await app.listen(nodeMockAvailablePort)
+        this.server = await app.listen(nodeMockAvailablePort);
         console.log("mock api started");
         // return "Mock started successfully"
 
     }
 
-    async stopServer(){
+    async stopServer() {
         await this.server.close();
         this.conf = {  };
         this.configurations = { };
     }
 
-    onGet(path, callback){
-        this.conf.get[path] = callback; 
+    onGet(path, callback) {
+        this.conf.get[path] = callback;
     }
 
-
-    onPost(path, callback){
-        this.conf.post[path] = callback; 
+    onPost(path, callback) {
+        this.conf.post[path] = callback;
     }
 
-    onPut(path, callback){
-        this.conf.put[path] = callback; 
+    onPut(path, callback) {
+        this.conf.put[path] = callback;
     }
 
-    onDelete(path, callback){
-        this.conf.delete[path] = callback; 
+    onDelete(path, callback) {
+        this.conf.delete[path] = callback;
     }
 
-    setConfig(configKey,value){
-       this.configurations[configKey] = value; 
+    setConfig(configKey, value) {
+       this.configurations[configKey] = value;
     }
 
 }

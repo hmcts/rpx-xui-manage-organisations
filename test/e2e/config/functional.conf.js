@@ -1,9 +1,9 @@
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised')
+const chai = require("chai");
+const chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
-var { localConfig, jenkinsConfig, cucumberOpts } = require('./common.conf');
-const minimist = require('minimist');
+var { localConfig, jenkinsConfig, cucumberOpts } = require("./common.conf");
+const minimist = require("minimist");
 
 var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
 
@@ -11,13 +11,13 @@ const argv = minimist(process.argv.slice(2));
 const cap = (argv.local) ? localConfig : jenkinsConfig;
 
 const config = {
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
-    baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
-    specs: ['../features/**/*.feature'],
+    framework: "custom",
+    frameworkPath: require.resolve("protractor-cucumber-framework"),
+    baseUrl: process.env.TEST_URL || "http://localhost:3000/",
+    specs: ["../features/**/*.feature"],
     params: {
-        serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
-        targetEnv: argv.env || 'local'
+        serverUrls: process.env.TEST_URL || "http://localhost:3000/",
+        targetEnv: argv.env || "local",
     },
 
     directConnect: true,
@@ -31,31 +31,30 @@ const config = {
         global.assert = chai.assert;
         global.should = chai.should;
         global.screenShotUtils = new screenShotUtils({
-            browserInstance: browser
+            browserInstance: browser,
         });
     },
 
     cucumberOpts: {
         strict: true,
-        format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
-        tags: ['@all or @fullFunctional'],
+        format: ["node_modules/cucumber-pretty", "json:reports_json/results.json"],
+        tags: ["@all or @fullFunctional"],
         // tags: ['@all or @smoke or @fullFunctional or @end2end'],
-        require: cucumberOpts
+        require: cucumberOpts,
     },
 
     plugins: [
         {
-            package: 'protractor-multiple-cucumber-html-reporter-plugin',
+            package: "protractor-multiple-cucumber-html-reporter-plugin",
             options: {
                 automaticallyGenerateReport: true,
                 removeExistingJsonReportFile: true,
-                reportName: 'XUI Functional Tests',
-                jsonDir: 'reports/tests/functional',
-                reportPath: 'reports/tests/functional'
-            }
-        }
-    ]
+                reportName: "XUI Functional Tests",
+                jsonDir: "reports/tests/functional",
+                reportPath: "reports/tests/functional",
+            },
+        },
+    ],
 };
-
 
 exports.config = config;

@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-var BrowserWaits = require('../../support/customWaits')
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require("../../support/constants");
+var BrowserWaits = require("../../support/customWaits");
 
 class HeaderPage {
 
@@ -13,7 +13,6 @@ class HeaderPage {
     this.user = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Users']"));
     this.feeAccounts = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = 'Fee Accounts']"));
 
-
     this.inviteUser = element(by.css("[class='govuk-button hmcts-page-heading__button']"));
     this.back = element(by.xpath("//a[contains(text(),'Back')]"));
     this.signOut = element(by.xpath("//a[contains(text(),'Sign out')]"));
@@ -21,18 +20,18 @@ class HeaderPage {
     this.spinner = element(by.css(".spinner-wrapper"));
   }
 
-  async waitForPrimaryNavigationToDisplay(){
+  async waitForPrimaryNavigationToDisplay() {
     await BrowserWaits.waitForElement(this.hmctsPrimaryNavigation);
   }
 
- async isPrimaryNavigationTabDisplayed(){
+ async isPrimaryNavigationTabDisplayed() {
    await this.waitForSpinnerNotPresent();
    return await this.hmctsPrimaryNavigation.isDisplayed();
   }
 
-  async isHeaderTabPresent(displayText){
+  async isHeaderTabPresent(displayText) {
     await this.waitForPrimaryNavigationToDisplay();
-    return await element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + displayText+"']")).isPresent();
+    return await element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + displayText + "']")).isPresent();
   }
 
   async getHeaderTabs() {
@@ -40,23 +39,22 @@ class HeaderPage {
     let headerTabs = $$(".hmcts-primary-navigation__link");
     let headersCount = await headerTabs.count();
     let headerTexts = [];
-    for(let i = 0; i< headersCount; i++){
+    for (let i = 0; i < headersCount; i++) {
       headerTexts.push(await (await headerTabs.get(i)).getText());
     }
     return headerTexts;
   }
 
-
-  async validateNavigationTabDisplayed(datatable){
+  async validateNavigationTabDisplayed(datatable) {
     let navTabs = datatable.hashes();
     await this.waitForSpinnerNotPresent();
-    for(let tabCounter = 0; tabCounter < navTabs.length; tabCounter++){
+    for (let tabCounter = 0; tabCounter < navTabs.length; tabCounter++) {
       let isNavTabPresent = await this.isHeaderTabPresent(navTabs[tabCounter].NavigationTab);
       assert(isNavTabPresent, "Navigation Tab is not displayed/present : " + navTabs[tabCounter].NavigationTab);
     }
   }
 
-  async clickUser(){
+  async clickUser() {
     // await this.waitForSpinnerNotPresent();
 
     await BrowserWaits.waitForCondition(async () => {
@@ -66,7 +64,6 @@ class HeaderPage {
     await BrowserWaits.waitForElement(this.user);
     await this.clickHeaderTab(this.user);
   }
-
 
   async clickOrganisation() {
     await BrowserWaits.waitForCondition( async () => {
@@ -79,7 +76,6 @@ class HeaderPage {
     // browser.sleep(AMAZING_DELAY);
   }
 
-
   async clickHeaderTab(tabElement) {
     let clickSuccess = false;
     let counter = 0;
@@ -87,28 +83,24 @@ class HeaderPage {
       try {
         await tabElement.click();
         clickSuccess = true;
-      }
-      catch (err) {
+      } catch (err) {
         counter++;
-    browser.sleep(SHORT_DELAY);
+        browser.sleep(SHORT_DELAY);
         console.log("Error clicking element : " + err);
       }
     }
 
   }
 
-  async clickHeaderTabWithtext(headerText){
-    let headerElement = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + headerText+"']"));
+  async clickHeaderTabWithtext(headerText) {
+    let headerElement = element(by.xpath("//*[contains(@class, 'hmcts-primary-navigation__link') and text() = '" + headerText + "']"));
     await this.clickHeaderTab(headerElement);
   }
 
-
-  async waitForSpinnerNotPresent(){
+  async waitForSpinnerNotPresent() {
     await BrowserWaits.waitForElementNotVisible(this.spinner, 30000);
 
   }
-
-
 
 }
 module.exports = HeaderPage;

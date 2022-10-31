@@ -6,8 +6,8 @@ import * as appActions from '../actions';
 
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineLatest, Observable, of } from 'rxjs';
-import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { JurisdictionService } from '../../../users/services';

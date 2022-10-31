@@ -61,7 +61,7 @@ export class MonitoringService implements IMonitoringService {
             }
 
   public logPageView(name?: string, url?: string, properties?: any,
-              measurements?: any, duration?: number) {
+                     measurements?: any, duration?: number) {
     this.send(() => {
       this.appInsights.trackPageView(name, url, properties, measurements, duration);
     });

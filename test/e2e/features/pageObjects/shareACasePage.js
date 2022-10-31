@@ -1,29 +1,29 @@
 
-const BrowserWaits = require('../../support/customWaits');
-const { browser, $ } = require('protractor');
+const BrowserWaits = require("../../support/customWaits");
+const { browser, $ } = require("protractor");
 
-const ShareCaseData = require('../../utils/shareCaseData');
+const ShareCaseData = require("../../utils/shareCaseData");
 
 const CucumberReportLog = require("../../support/reportLogger");
 class ShareCasePage {
 
     constructor() {
-        this.backLink = $('.govuk-back-link');
-        this.shareCaseContainer = $('exui-case-share');
-        this.selectedCases = $$('xuilib-selected-case-list xuilib-selected-case');
+        this.backLink = $(".govuk-back-link");
+        this.shareCaseContainer = $("exui-case-share");
+        this.selectedCases = $$("xuilib-selected-case-list xuilib-selected-case");
 
         this.continueButton = $("#share-case-nav button");
 
-        this.noCaseDisplay = $('#noCaseDisplay');
+        this.noCaseDisplay = $("#noCaseDisplay");
 
         //User selection element
-        this.userEmailInput = $('#add-user xuilib-user-select .govuk-input');
+        this.userEmailInput = $("#add-user xuilib-user-select .govuk-input");
 
-        this.userFilterContainer = $('.mat-autocomplete-panel');
-        this.userFilterList = $$('.mat-autocomplete-panel .mat-option-text');
-        this.addUserBtn = $('#btn-add-user');
+        this.userFilterContainer = $(".mat-autocomplete-panel");
+        this.userFilterList = $$(".mat-autocomplete-panel .mat-option-text");
+        this.addUserBtn = $("#btn-add-user");
 
-        this.openCloseAll = $('.govuk-accordion__open-all');
+        this.openCloseAll = $(".govuk-accordion__open-all");
 
         this.testData_lastSelectedUser = "";
         this.testData_lastAddedUser = "";
@@ -62,10 +62,10 @@ class ShareCasePage {
             for (let userCounter = 1; userCounter <= usersCountInCase; userCounter++) {
                 let email = await this.getEmailForUserIncase(caseCounter, userCounter);
                 let actionLinktext = await this.getActionLinkTextForUser(caseCounter, userCounter);
-                if (actionLinktext === 'Cancel') {
+                if (actionLinktext === "Cancel") {
                     let actionStatusLabel = await this.getActionLabelForUserWithEmail(caseCounter, email);
 
-                    if (actionStatusLabel.includes('added')) {
+                    if (actionStatusLabel.includes("added")) {
                         tobeAdded.push(email);
                     } else {
                         sharedWith.push(email);
@@ -113,10 +113,10 @@ class ShareCasePage {
         let usernameEmails = await this.getFilteredUserNameEmails();
         for (let userCounter = 0; userCounter < usernameEmails.length; userCounter++) {
             let usernameEmailText = usernameEmails[userCounter];
-            let userEmail = usernameEmailText.split('-')[1].trim();
+            let userEmail = usernameEmailText.split("-")[1].trim();
             userEmails.push(userEmail);
         }
-        return userEmails; s
+        return userEmails; s;
     }
 
     async getFilteredUserNameEmails() {
@@ -130,7 +130,6 @@ class ShareCasePage {
         CucumberReportLog.AddMessage("Filtered Users : " + JSON.stringify(userNameEmails));
         return userNameEmails;
     }
-
 
     async selectUserFromFilteredList(userNum) {
         let userToSelect = await this.userFilterList.get(userNum - 1);
@@ -152,18 +151,18 @@ class ShareCasePage {
 
     async getCaseTitle(caseNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        return await selectedCase.$('.govuk-case-title').getText();
+        return await selectedCase.$(".govuk-case-title").getText();
     }
 
     async getCaseSubtitle(caseNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        return await selectedCase.$('.govuk-case-sub-title').getText();
+        return await selectedCase.$(".govuk-case-sub-title").getText();
     }
 
     async clickDeselectCase(caseNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
         CucumberReportLog.AddMessage("Deselecting Case " + await selectedCase.getText());
-        await selectedCase.$('#btn-deselect-case').click();
+        await selectedCase.$("#btn-deselect-case").click();
 
         await BrowserWaits.waitForCondition(async () => {
             return !(await selectedCase.isPresent());
@@ -172,33 +171,33 @@ class ShareCasePage {
 
     async clickCaseDetailsExpandCollapseBtn(caseNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        let button = await selectedCase.$('.govuk-accordion__section-button');
+        let button = await selectedCase.$(".govuk-accordion__section-button");
         await BrowserWaits.waitForElement(button, "Expand/collapse icon not present");
         await browser.sleep(1000);
-        await browser.executeScript('arguments[0].scrollIntoView()',
+        await browser.executeScript("arguments[0].scrollIntoView()",
             button);
         await button.click();
     }
 
     async isCaseContentDisplayed(caseNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        return await selectedCase.$('.govuk-accordion__section--expanded').isPresent();
+        return await selectedCase.$(".govuk-accordion__section--expanded").isPresent();
     }
 
     async getUsersCount(caseNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        return await selectedCase.$$('tbody tr').count();
+        return await selectedCase.$$("tbody tr").count();
     }
 
     async getActionLinkForUser(caseNum, userNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        let user = await selectedCase.$$('tbody tr').get(userNum - 1);
-        return user.$('a');
+        let user = await selectedCase.$$("tbody tr").get(userNum - 1);
+        return user.$("a");
     }
 
     async getActionLinkTextForUser(caseNum, userNum) {
         let actionLink = await this.getActionLinkForUser(caseNum, userNum);
-        let linkText = await browser.executeScript('return arguments[0].textContent',
+        let linkText = await browser.executeScript("return arguments[0].textContent",
             actionLink);
         return linkText;
     }
@@ -231,31 +230,30 @@ class ShareCasePage {
 
     async getEmailForUserIncase(caseNum, userNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        let userRow = await selectedCase.$$('tbody tr').get(userNum - 1);
-        let email = await browser.executeScript('return arguments[0].textContent',
-            userRow.$('td:nth-of-type(2)'));
+        let userRow = await selectedCase.$$("tbody tr").get(userNum - 1);
+        let email = await browser.executeScript("return arguments[0].textContent",
+            userRow.$("td:nth-of-type(2)"));
         return email;
     }
 
-
     async getActionStatusLabelForUser(caseNum, userNum) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        let user = await selectedCase.$$('tbody tr').get(userNum - 1);
-        let actionLabelCol = user.$('td:nth-of-type(4)');
-        let actionLabel = await browser.executeScript('return arguments[0].textContent',
+        let user = await selectedCase.$$("tbody tr").get(userNum - 1);
+        let actionLabelCol = user.$("td:nth-of-type(4)");
+        let actionLabel = await browser.executeScript("return arguments[0].textContent",
             actionLabelCol);
         return actionLabel;
     }
 
     async getUserRowInCase(caseNum, email) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        let users = selectedCase.$$('tbody tr');
+        let users = selectedCase.$$("tbody tr");
         let userCount = await users.count();
         for (let user = 0; user < userCount; user++) {
             let userRow = await users.get(user);
 
-            let userEmail = await browser.executeScript('return arguments[0].textContent',
-                userRow.$('td:nth-of-type(2)'));
+            let userEmail = await browser.executeScript("return arguments[0].textContent",
+                userRow.$("td:nth-of-type(2)"));
 
             if (userEmail === email) {
                 return userRow;
@@ -271,33 +269,33 @@ class ShareCasePage {
 
     async isUserWithEmailMarkedToBeAdded(caseNum, email) {
         let userRow = await this.getUserRowInCase(caseNum, email);
-        let actionLabel = await browser.executeScript('return arguments[0].textContent',
-            userRow.$('td:nth-of-type(4)'));
+        let actionLabel = await browser.executeScript("return arguments[0].textContent",
+            userRow.$("td:nth-of-type(4)"));
         return actionLabel.toLowerCase().includes("added");
     }
 
     async isUserWithEmailMarkedToBeRemoved(caseNum, email) {
         let userRow = await this.getUserRowInCase(caseNum, email);
-        let actionLabel = await browser.executeScript('return arguments[0].textContent',
-            userRow.$('td:nth-of-type(4)'));
+        let actionLabel = await browser.executeScript("return arguments[0].textContent",
+            userRow.$("td:nth-of-type(4)"));
         return actionLabel.toLowerCase().includes("removed");
     }
 
     async getActionLabelForUserWithEmail(caseNum, email) {
         let selectedCase = await this.selectedCases.get(caseNum - 1);
-        let users = selectedCase.$$('tbody tr');
+        let users = selectedCase.$$("tbody tr");
         let userCount = await users.count();
         for (let user = 0; user < userCount; user++) {
             let userRow = await users.get(user);
-            let userEmail = await browser.executeScript('return arguments[0].textContent',
-                userRow.$('td:nth-of-type(2)'));
+            let userEmail = await browser.executeScript("return arguments[0].textContent",
+                userRow.$("td:nth-of-type(2)"));
             if (userEmail === email) {
-                let actionLabel = await browser.executeScript('return arguments[0].textContent',
-                    userRow.$('td:nth-of-type(4)'));
+                let actionLabel = await browser.executeScript("return arguments[0].textContent",
+                    userRow.$("td:nth-of-type(4)"));
                 return actionLabel;
             }
         }
-        return "user not listed"
+        return "user not listed";
     }
 
     async getMessageDisplayedInNoCasesDisplayed() {
@@ -354,7 +352,6 @@ class ShareCasePage {
             throw Error("AllUsers shared with all selected cases. cannot proceed with test step to select a user not shared with atleast one case");
         }
     }
-
 
     async selectUserWithEmail_SharedWithAtLeastOneCase() {
         let useremails = await this.getFilteredUserEmails();

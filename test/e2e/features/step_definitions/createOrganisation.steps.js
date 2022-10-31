@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
-let CreateOrganisationObjects = require('../pageObjects/createOrganisationObjects');
-const { defineSupportCode } = require('cucumber');
-const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-const {config} = require('../../config/common.conf.js');
-const approveOrganizationService = require('../pageObjects/approveOrganizationService');
+let CreateOrganisationObjects = require("../pageObjects/createOrganisationObjects");
+const { defineSupportCode } = require("cucumber");
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require("../../support/constants");
+const {config} = require("../../config/common.conf.js");
+const approveOrganizationService = require("../pageObjects/approveOrganizationService");
 
 const EC = protractor.ExpectedConditions;
 
-const BrowserWaits = require('../../support/customWaits');
+const BrowserWaits = require("../../support/customWaits");
 
 async function waitForElement(el) {
     await browser.wait(result => {
@@ -16,57 +16,57 @@ async function waitForElement(el) {
     }, 600000);
 }
 
-defineSupportCode(function ({ Given, When, Then }) {
+defineSupportCode(function({ Given, When, Then }) {
   let createOrganisationObject = new CreateOrganisationObjects();
 
-  When(/^I navigate to EUI Manage Organisation Url$/, async function () {
+  When(/^I navigate to EUI Manage Organisation Url$/, async function() {
     await browser.driver.manage().deleteAllCookies();
-    await browser.get(config.config.baseUrl + '/register-org/register');
+    await browser.get(config.config.baseUrl + "/register-org/register");
     browser.sleep(MID_DELAY);
   });
 
-  When(/^I navigate to EUI Register Organisation Url$/, async function () {
+  When(/^I navigate to EUI Register Organisation Url$/, async function() {
     await browser.driver.manage().deleteAllCookies();
-    await browser.get(config.config.baseUrl + '/register-org/register');
+    await browser.get(config.config.baseUrl + "/register-org/register");
     browser.sleep(MID_DELAY);
-  })
+  });
 
-  Then('I am on Register organisation start page', async function () {
+  Then("I am on Register organisation start page", async function() {
    await createOrganisationObject.waitForStartRegisterPage();
-    await expect(createOrganisationObject.start_button.isDisplayed(),"Create Organisation START button not present").to.eventually.be.true;
-    await expect(createOrganisationObject.start_button.getText(),"Start button text not mathing with expected")
+   await expect(createOrganisationObject.start_button.isDisplayed(), "Create Organisation START button not present").to.eventually.be.true;
+   await expect(createOrganisationObject.start_button.getText(), "Start button text not mathing with expected")
       .to
       .eventually
-      .equal('Start');
+      .equal("Start");
   });
 
-  Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I land on register organisation page and continue$/, { timeout: 600 * 1000 }, async function() {
         // await waitForElement('govuk-heading-xl');
-      
+
       await BrowserWaits.retryWithActionCallback(async () => {
         browser.sleep(LONG_DELAY);
-        try{
+        try {
           browser.sleep(LONG_DELAY);
 
           await BrowserWaits.retryWithActionCallback(async () => {
-            await BrowserWaits.waitForElement($('.govuk-heading-xl'));
+            await BrowserWaits.waitForElement($(".govuk-heading-xl"));
           });
 
-          await waitForElement('govuk-heading-xl', LONG_DELAY);
+          await waitForElement("govuk-heading-xl", LONG_DELAY);
           await expect(createOrganisationObject.start_button.isDisplayed(), "Create Organisation START button not present").to.eventually.be.true;
           await expect(createOrganisationObject.start_button.getText())
             .to
             .eventually
-            .equal('Start');
+            .equal("Start");
           await createOrganisationObject.start_button.click();
-        }catch(err){
-          await browser.get(config.config.baseUrl + '/register-org/register');
+        } catch (err) {
+          await browser.get(config.config.baseUrl + "/register-org/register");
           throw new Error(err);
         }
       });
     });
 
-  Then(/^I Enter the Organization name$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the Organization name$/, { timeout: 600 * 1000 }, async function() {
     // await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.org_name.isDisplayed(), "Input Organisation name nor present").to.eventually.be.true;
     await createOrganisationObject.enterOrgName();
@@ -74,7 +74,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the Office Address details$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the Office Address details$/, { timeout: 600 * 1000 }, async function() {
     // await waitForElement(createOrganisationObject.officeAddressOne);
     await expect(createOrganisationObject.officeAddressOne.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.officeAddressOne.sendKeys("1, Cliffinton");
@@ -87,7 +87,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the PBA1 and PBA2 details$/, async function () {
+  Then(/^I Enter the PBA1 and PBA2 details$/, async function() {
     // await waitForElement('govuk-heading-xl');
     browser.sleep(MID_DELAY);
     await createOrganisationObject.PBAnumber1.isDisplayed();
@@ -98,7 +98,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function() {
     await createOrganisationObject.clickDXreferenceCheck();
     browser.sleep(MID_DELAY);
     await createOrganisationObject.DXNumber.isDisplayed();
@@ -110,7 +110,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
   });
 
-  Then(/^I Select and Enter the SRA number$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Select and Enter the SRA number$/, { timeout: 600 * 1000 }, async function() {
     // await waitForElement('govuk-heading-xl');
     //await expect(createOrganisationObject.SRACheckBox.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.clickSRAreferenceCheck();
@@ -122,8 +122,8 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the firstName and lastName$/, { timeout: 600 * 1000 }, async function () {
-    await waitForElement('govuk-heading-xl');
+  Then(/^I Enter the firstName and lastName$/, { timeout: 600 * 1000 }, async function() {
+    await waitForElement("govuk-heading-xl");
     expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.firstName.sendKeys("Mario");
     expect(createOrganisationObject.lastName.isDisplayed()).to.eventually.be.true;
@@ -132,7 +132,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the Email Address$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the Email Address$/, { timeout: 600 * 1000 }, async function() {
     // await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.emailAddr.isDisplayed()).to.eventually.be.true;
 
@@ -142,11 +142,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     await createOrganisationObject.enterEmailAddress(global.latestOrgSuperUser);
     await createOrganisationObject.continue_button.click();
 
-
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I land on the summary page and check submit$/, async function () {
+  Then(/^I land on the summary page and check submit$/, async function() {
     // browser.sleep(MID_DELAY);
     // await waitForElement('govuk-heading-l');
 
@@ -154,39 +153,39 @@ defineSupportCode(function ({ Given, When, Then }) {
     await expect(createOrganisationObject.submit_button.getText())
       .to
       .eventually
-      .equal('Confirm and submit details');
+      .equal("Confirm and submit details");
     await createOrganisationObject.submit_button.click();
 
   });
 
-  Then(/^I created the organisation successfully$/,  async function () {
+  Then(/^I created the organisation successfully$/,  async function() {
     // browser.sleep(MID_DELAY);
     createOrganisationObject.waitForSubmission();
     await expect(createOrganisationObject.org_success_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.org_success_heading.getText())
       .to
       .eventually
-      .equal('Registration details submitted');
+      .equal("Registration details submitted");
 
   });
 
-  When(/^I am not entered Organization name$/, async function () {
+  When(/^I am not entered Organization name$/, async function() {
 
     createOrganisationObject.org_name.sendKeys();
     await createOrganisationObject.continue_button.click();
     browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display organization error$/,  async function () {
+  Then(/^I should be display organization error$/,  async function() {
     await expect(createOrganisationObject.org_failure_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.org_failure_error_heading.getText())
       .to
       .eventually
-      .equal('There is a problem');
+      .equal("There is a problem");
 
   });
 
-  When(/^I am not entered the Office Address details$/, async function () {
+  When(/^I am not entered the Office Address details$/, async function() {
 
     await createOrganisationObject.officeAddressOne.sendKeys();
     await createOrganisationObject.townName.sendKeys();
@@ -194,16 +193,16 @@ defineSupportCode(function ({ Given, When, Then }) {
     await createOrganisationObject.continue_button.click();
     // browser.sleep(LONG_DELAY);
   });
-  Then(/^I should be display Office Address error$/,async function () {
+  Then(/^I should be display Office Address error$/, async function() {
     await expect(createOrganisationObject.off_address_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.off_address_error_heading.getText())
       .to
       .eventually
-      .equal('There is a problem');
+      .equal("There is a problem");
 
   });
 
-  When(/^I am not entered SRA number$/, async function () {
+  When(/^I am not entered SRA number$/, async function() {
     await createOrganisationObject.clickSRAreferenceCheck();
     await createOrganisationObject.waitForPage("Enter your organisation SRA ID");
     await createOrganisationObject.SRANumber.sendKeys();
@@ -211,32 +210,32 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display SRA error$/, async function () {
+  Then(/^I should be display SRA error$/, async function() {
     await createOrganisationObject.waitForPage("Enter your organisation SRA ID");
-      await expect(createOrganisationObject.sra_error_heading.getText())
+    await expect(createOrganisationObject.sra_error_heading.getText())
       .to
       .eventually
-      .equal('There is a problem');
+      .equal("There is a problem");
 
   });
 
-  When(/^I am not entered the email address$/,  async function () {
+  When(/^I am not entered the email address$/,  async function() {
     await expect(createOrganisationObject.emailAddr.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.emailAddr.sendKeys();
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display email error$/,  async function () {
+  Then(/^I should be display email error$/,  async function() {
     await expect(createOrganisationObject.email_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.email_error_heading.getText())
       .to
       .eventually
-      .equal('There is a problem');
+      .equal("There is a problem");
 
   });
 
-  When(/^I Enter the invalid PBA1 and PBA2 details$/,  async function () {
+  When(/^I Enter the invalid PBA1 and PBA2 details$/,  async function() {
     await expect(createOrganisationObject.PBAnumber1.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.PBAnumber1.sendKeys(1234455558);
     await createOrganisationObject.PBAnumber2.sendKeys(1233334988);
@@ -244,16 +243,16 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
   });
 
-  Then(/^I should be display PBA error$/,  async function () {
+  Then(/^I should be display PBA error$/,  async function() {
     await expect(createOrganisationObject.pba_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.pba_error_heading.getText())
       .to
       .eventually
-      .equal('There is a problem');
+      .equal("There is a problem");
 
   });
 
-  When(/^I am not entered the firstName and lastName$/,  async function () {
+  When(/^I am not entered the firstName and lastName$/,  async function() {
     await expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.firstName.sendKeys();
     await createOrganisationObject.lastName.sendKeys();
@@ -261,46 +260,46 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I should be display firstName and lastName error$/,  async function () {
+  Then(/^I should be display firstName and lastName error$/,  async function() {
     await expect(createOrganisationObject.name_error_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.name_error_heading.getText())
       .to
       .eventually
-      .equal('There is a problem');
+      .equal("There is a problem");
 
   });
 
-  When('I am on page {string} in registration step', async function (page) {
+  When("I am on page {string} in registration step", async function(page) {
     await createOrganisationObject.waitForPage(page);
   });
 
-  Then('I see content header already registered account',  function () {
+  Then("I see content header already registered account",  function() {
     expect(createOrganisationObject.getAlreadyRegisteredAccountHeaderText()).to
     .eventually.
-    equal('Already registered for a MyHMCTS account?');
+    equal("Already registered for a MyHMCTS account?");
   });
 
-  Then('I see manage cases link under already registered account header',  function () {
+  Then("I see manage cases link under already registered account header",  function() {
     expect(createOrganisationObject.isManageCasesLinkPresent()).to
       .eventually.
       be.true;
   });
 
-  Then('I see manage org link under already registered account header',  function () {
+  Then("I see manage org link under already registered account header",  function() {
     expect(createOrganisationObject.isManageOrgLinkPresent()).to
       .eventually.
       be.true;
   });
 
-  Then('I click and validate MC link opens in new tab', async function () {
+  Then("I click and validate MC link opens in new tab", async function() {
     await createOrganisationObject.clickAndValidateMCLink();
   });
 
-  Then('I click and validate MO link opens in new tab', async function () {
+  Then("I click and validate MO link opens in new tab", async function() {
     await createOrganisationObject.clickAndValidateMOLink();
-  })
+  });
 
-  When('I click back link in register org workflow', async function () {
+  When("I click back link in register org workflow", async function() {
     await createOrganisationObject.clickBackLink();
 
   });

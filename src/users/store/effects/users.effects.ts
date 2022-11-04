@@ -58,21 +58,21 @@ export class UsersEffects {
     })
   );
 
-  // @Effect()
-  // public loadUserDetails$ = this.actions$.pipe(
-  //   ofType(usersActions.LOAD_USER_DETAILS),
-  //   switchMap(() => {
-  //     return this.usersService.getUserDetailsWithPermission().pipe(
-  //       map(userDetails => {
-  //         return new usersActions.LoadUsersSuccess({users: });
-  //       }),
-  //       catchError(error => {
-  //         this.loggerService.error(error.message);
-  //         return of(new usersActions.LoadUsersFail(error));
-  //       })
-  //     );
-  //   })
-  // );
+  @Effect()
+  public loadUserDetails$ = this.actions$.pipe(
+    ofType(usersActions.LOAD_USER_DETAILS),
+    switchMap((action: any) => {
+      return this.usersService.getUserDetailsWithPermission(action.payload).pipe(
+        map(userDetails => {
+          return new usersActions.LoadUsersSuccess(userDetails);
+        }),
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.LoadUsersFail(error));
+        })
+      );
+    })
+  );
 
   @Effect()
   public suspendUser$ = this.actions$.pipe(

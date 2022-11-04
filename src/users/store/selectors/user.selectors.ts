@@ -37,3 +37,8 @@ export const editUserFailureSelector = createSelector(
   getUserState,
   fromUsers.getEditUserFailure
 );
+
+export const getUserDetails = createSelector(
+  getUserState,
+  fromUsers.getUserDetails
+);

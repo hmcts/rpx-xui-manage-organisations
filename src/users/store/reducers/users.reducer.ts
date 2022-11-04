@@ -9,6 +9,7 @@ export interface UsersListState {
   loading: boolean;
   reinvitePendingUser: User;
   editUserFailure: boolean;
+  userDetails: User
 }
 
 export const initialState: UsersListState = {
@@ -16,7 +17,8 @@ export const initialState: UsersListState = {
   loaded: false,
   loading: false,
   reinvitePendingUser: null,
-  editUserFailure: false
+  editUserFailure: false,
+  userDetails: null
 };
 
 export function reducer(
@@ -150,6 +152,20 @@ export function reducer(
       };
     }
 
+    case fromUsers.LOAD_USER_DETAILS: {
+      return {
+        ...state,
+        userDetails: action.payload,
+      }
+    }
+
+    case fromUsers.LOAD_USER_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        userDetails: action.payload,
+      }
+    }
+
     default:
       return state;
 
@@ -161,3 +177,4 @@ export const getUsersLoading = (state: UsersListState) => state.loading;
 export const getUsersLoaded = (state: UsersListState) => state.loaded;
 export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;
+export const getUserDetails = (state: UsersListState) => state.userDetails;

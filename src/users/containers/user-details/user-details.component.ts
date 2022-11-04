@@ -7,6 +7,7 @@ import { UsersService } from '../../../users/services';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -32,11 +33,13 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public hideSuspendView: () => {};
 
   public suspendSuccessSubscription: Subscription;
+  public userId: string;
 
   constructor(
     private readonly userStore: Store<fromStore.UserState>,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly actions$: Actions,
+    private readonly activeRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
@@ -52,11 +55,16 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
-    this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
+    /*this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
       this.handleDependanciesSubscription(users, route);
-    });
+    });*/
 
+    this.userId = this.activeRoute.snapshot.params.userId;
 
+    this.userStore.dispatch(new fromStore.LoadUserDetails(this.userId));
+    
+    this.user$ = this.userStore.pipe(select(fromStore.getUserDetails))
+    
     this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isfeatureEnabled$));
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
@@ -95,11 +103,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  public dispatchGetUsers(users, userStore): void {
-    if (!users) {
-      userStore.dispatch(new fromStore.LoadUsers());
-    }
-  }
+  // public dispatchGetUsers(users, userStore): void {
+  //   if (!users) {
+  //     userStore.dispatch(new fromStore.LoadUsers());
+  //   }
+  // }
 
   public getUserObservable(userId, userStore): any {
     return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
@@ -131,10 +139,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public handleDependanciesSubscription(users, route): void {
-    this.dispatchGetUsers(users, this.userStore);
-    this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
-  }
+  // public handleDependanciesSubscription(users, route): void {
+  //   this.dispatchGetUsers(users, this.userStore);
+  //   this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
+  // }
 
   public isInactive(status: string, inactiveStatuses: string[] = ['Suspended', 'Pending']): boolean {
     return !inactiveStatuses.includes(status);

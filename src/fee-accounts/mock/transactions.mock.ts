@@ -1,4 +1,4 @@
-export const PaymentsMock = {
+export const paymentsMock = {
   payments: [
     {
       _links: {

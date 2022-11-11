@@ -1,9 +1,8 @@
-import { AxiosResponse } from 'axios'
-import { Request, Router } from 'express'
-import * as otp from 'otp'
-import { getConfigValue, showFeature } from '../configuration'
+import { AxiosResponse } from 'axios';
+import { Request, Router } from 'express';
+import * as otp from 'otp';
+import { getConfigValue, showFeature } from '../configuration';
 import {
-  APP_INSIGHTS_KEY,
   COOKIE_TOKEN,
   COOKIES_USERID,
   FEATURE_APP_INSIGHTS_ENABLED,
@@ -21,7 +20,6 @@ import {
   PROTOCOL,
   REDIS_KEY_PREFIX,
   REDIS_TTL,
-  REDISCLOUD_URL,
   S2S_SECRET,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
@@ -30,44 +28,44 @@ import {
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET
-} from '../configuration/references'
-import { application } from '../lib/config/application.config'
-import { http } from '../lib/http'
-import * as log4jui from '../lib/log4jui'
-import * as tunnel from '../lib/tunnel'
+} from '../configuration/references';
+import { application } from '../lib/config/application.config';
+import { http } from '../lib/http';
+import * as log4jui from '../lib/log4jui';
+import * as tunnel from '../lib/tunnel';
 
 export async function postS2SLease() {
-  const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA'
-  const url = getConfigValue(SERVICE_S2S_PATH)
-  const microservice =  application.microservice
-  const logger = log4jui.getLogger('service user-profile')
-  let request: AxiosResponse<any>
+  const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA';
+  const url = getConfigValue(SERVICE_S2S_PATH);
+  const microservice =  application.microservice;
+  const logger = log4jui.getLogger('service user-profile');
+  let request: AxiosResponse<any>;
   const axiosInstance = http({
     session: {
       auth: {
         token: '',
       },
     },
-  } as unknown as Request)
-  console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV)
-  console.log('postS2SLease url:', url)
+  } as unknown as Request);
+  console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV);
+  console.log('postS2SLease url:', url);
   if (process.env.NODE_CONFIG_ENV !== 'ldocker') {
-        const oneTimePassword = otp({ secret: s2sSecret }).totp()
-        logger.info('Generating S2S token for microservice: ', microservice)
+        const oneTimePassword = otp({ secret: s2sSecret }).totp();
+        logger.info('Generating S2S token for microservice: ', microservice);
         request = await axiosInstance.post(`${url}/lease`, {
           microservice,
           oneTimePassword,
-        })
+        });
     } else {
         // this is only for local development against the RD docker image
         // end tunnel before posting to docker
-        tunnel.end()
-        request = await axiosInstance.get(`${url}`)
+        tunnel.end();
+        request = await axiosInstance.get(`${url}`);
     }
-  return request.data
+  return request.data;
 }
 
-export const router = Router({ mergeParams: true })
+export const router = Router({ mergeParams: true });
 
 router.get('/health', (req, res, next) => {
     res.status(200).send({
@@ -106,5 +104,5 @@ router.get('/health', (req, res, next) => {
         prefix: getConfigValue(REDIS_KEY_PREFIX),
         ttl: getConfigValue(REDIS_TTL),
       },
-    })
-})
+    });
+});

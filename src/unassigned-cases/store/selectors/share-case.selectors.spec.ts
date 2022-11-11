@@ -19,7 +19,7 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new UnassignedCasesComponent(store, null);
+      const caseListComponent = new UnassignedCasesComponent(store);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

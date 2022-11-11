@@ -1,7 +1,7 @@
-import { Router } from 'express'
-import { getConfigValue } from '../configuration'
-import { JURISDICTIONS } from '../configuration/references'
-import {exists} from '../lib/util'
+import { Router } from 'express';
+import { getConfigValue } from '../configuration';
+import { JURISDICTIONS } from '../configuration/references';
+import {exists} from '../lib/util';
 
 /**
  * getJurisdiction
@@ -34,27 +34,27 @@ import {exists} from '../lib/util'
  * ]
  *
  */
-const formatJurisdictions = jurisdictionFromConfig => jurisdictionFromConfig.map(jurisdiction => ({ id: jurisdiction }))
+const formatJurisdictions = jurisdictionFromConfig => jurisdictionFromConfig.map(jurisdiction => ({ id: jurisdiction }));
 
 export async function handleJurisdictions(req, res) {
 
-    const uiJurisdictions = formatJurisdictions(getConfigValue(JURISDICTIONS))
+    const uiJurisdictions = formatJurisdictions(getConfigValue(JURISDICTIONS));
 
     try {
-        res.send(uiJurisdictions)
+        res.send(uiJurisdictions);
     } catch (error) {
-        const status = exists(error, 'statusCode') ? error.statusCode : 500
+        const status = exists(error, 'statusCode') ? error.statusCode : 500;
         const errReport = JSON.stringify({
             apiError: error,
             apiStatusCode: status,
             message: 'List of jurisdictions route error',
-        })
-        res.status(status).send(errReport)
+        });
+        res.status(status).send(errReport);
     }
 }
 
-export const router = Router({ mergeParams: true })
+export const router = Router({ mergeParams: true });
 
-router.get('/', handleJurisdictions)
+router.get('/', handleJurisdictions);
 
-export default router
+export default router;

@@ -1,6 +1,5 @@
-import * as fromOrganisation from './organisation.reducer';
 import * as fromActions from '../actions/organisation.actions';
-import { Organisation } from 'src/organisation/organisation.model';
+import * as fromOrganisation from './organisation.reducer';
 
 
 describe('OrganisationReducer', () => {

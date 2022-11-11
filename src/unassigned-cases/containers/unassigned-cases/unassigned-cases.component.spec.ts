@@ -7,7 +7,7 @@ describe('UnassignedCasesComponent', () => {
     beforeEach(() => {
         store = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
         appStore = jasmine.createSpyObj('store', ['pipe', 'dispatch']);
-        component = new UnassignedCasesComponent(store, appStore);
+        component = new UnassignedCasesComponent(store);
     });
 
     it('is truthy', () => {

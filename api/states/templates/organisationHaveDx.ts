@@ -1,52 +1,52 @@
 export default {
-  idPrefix: 'tbc',
-  name: 'name',
-  header: "Do you have a DX reference for your main office?",
   formGroupValidators: [],
-  validationHeaderErrorMessages: [
-    {
-      validationLevel: 'formControl',
-      controlId: 'haveDx',
-      text: 'Tell us if you have a DX reference',
-      href: '/register/organisation-address',
-    },
-  ],
   groups: [
     {
       fieldset: [
         {
           radios: {
-            control: 'haveDx',
             classes: 'govuk-radios--inline',
-            validators: ['required'],
-            validationError: {
-              value: 'Tell us if you have a DX reference',
-              controlId: 'haveDx',
-            },
+            control: 'haveDx',
             radioGroup: [
               {
-                value: 'yes',
-                text: 'Yes',
                 hiddenAccessibilityText: 'some hidden text',
+                text: 'Yes',
+                value: 'yes',
               },
               {
-                value: 'no',
-                text: 'No',
                 hiddenAccessibilityText: 'some hidden text',
-              }
-            ]
-          }
-        }
-      ]
+                text: 'No',
+                value: 'no',
+              },
+            ],
+            validationError: {
+              controlId: 'haveDx',
+              value: 'Tell us if you have a DX reference',
+            },
+            validators: ['required'],
+          },
+        },
+      ],
     },
     {
       button: {
-        control: 'createButton',
-        value: 'Continue',
-        type: 'submit',
         classes: '',
-        onEvent: 'continue'
-      }
-    }
-  ]
-}
+        control: 'createButton',
+        onEvent: 'continue',
+        type: 'submit',
+        value: 'Continue',
+      },
+    },
+  ],
+  header: "Do you have a DX reference for your main office?",
+  idPrefix: 'tbc',
+  name: 'name',
+  validationHeaderErrorMessages: [
+    {
+      controlId: 'haveDx',
+      href: '/register/organisation-address',
+      text: 'Tell us if you have a DX reference',
+      validationLevel: 'formControl',
+    },
+  ],
+};

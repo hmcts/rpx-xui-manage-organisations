@@ -1,6 +1,5 @@
+import {LoadPageItems, ResetErrorMessage, SubmitFormDataFail} from '../actions/registration.actions';
 import {initialState, reducer} from './registration.reducer';
-import {LoadPageItems, SubmitFormDataFail, ResetErrorMessage} from '../actions/registration.actions';
-import {LoadPageItemsSuccess} from '../actions';
 
 describe('RegistrationReducer', () => {
   describe('undefined action', () => {
@@ -22,7 +21,6 @@ describe('RegistrationReducer', () => {
       const pageId = 'something';
       const action = new LoadPageItems(pageId);
 
-      const completion = new LoadPageItemsSuccess({payload: {}, pageId });
       const state = reducer(initialState, action);
       // console.log('state.pages', state.pages)
       expect(state.pages).toEqual({});

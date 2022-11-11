@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { FeeAccountsState } from '../reducers/fee-accounts.reducer';
-import { getFeeAccountsState, feeAccounts } from './fee-accounts.selectors';
-import { reducers } from '../index';
 import { LoadFeeAccountsSuccess } from '../actions';
+import { reducers } from '../index';
+import { FeeAccountsState } from '../reducers/fee-accounts.reducer';
+import { feeAccounts, getFeeAccountsState } from './fee-accounts.selectors';
 
 describe('Fee accounts selectors', () => {
   let store: Store<FeeAccountsState>;

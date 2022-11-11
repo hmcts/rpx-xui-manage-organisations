@@ -1,15 +1,15 @@
-import * as log4js from 'log4js'
-import { getConfigValue } from '../configuration'
-import { LOGGING } from '../configuration/references'
-import { client } from './appInsights'
+import * as log4js from 'log4js';
+import { getConfigValue } from '../configuration';
+import { LOGGING } from '../configuration/references';
+import { client } from './appInsights';
 
-let logger = null
+let logger = null;
 
 // This is done to mimic log4js calls
 
 export function getLogger(category: string) {
-    logger = log4js.getLogger(category)
-    logger.level = getConfigValue(LOGGING) || 'off'
+    logger = log4js.getLogger(category);
+    logger.level = getConfigValue(LOGGING) || 'off';
 
     return {
         _logger: logger,
@@ -18,58 +18,58 @@ export function getLogger(category: string) {
         info,
         trackRequest,
         warn,
-    }
+    };
 }
 
 function info(...messages: any[]) {
-    let fullMessage = ''
+    let fullMessage = '';
 
     for (const message of messages) {
-        fullMessage += message
+        fullMessage += message;
     }
 
-    const category = this._logger.category
+    const category = this._logger.category;
     if (client) {
-        client.trackTrace({ message: `[INFO] ${category} - ${fullMessage}` })
+        client.trackTrace({ message: `[INFO] ${category} - ${fullMessage}` });
     }
-    this._logger.info(fullMessage)
+    this._logger.info(fullMessage);
 }
 
 function warn(...messages: any[]) {
-    let fullMessage = ''
+    let fullMessage = '';
 
     for (const message of messages) {
-        fullMessage += message
+        fullMessage += message;
     }
 
-    this._logger.warn(fullMessage)
+    this._logger.warn(fullMessage);
 }
 
 function debug(...messages: any[]) {
-    let fullMessage = ''
+    let fullMessage = '';
 
     for (const message of messages) {
-        fullMessage += message
+        fullMessage += message;
     }
-    this._logger.debug(fullMessage)
+    this._logger.debug(fullMessage);
 }
 
 function trackRequest(obj: any) {
     if (client) {
-        client.trackRequest(obj)
+        client.trackRequest(obj);
     }
 }
 
 function error(...messages: any[]) {
-    let fullMessage = ''
+    let fullMessage = '';
 
     for (const message of messages) {
-        fullMessage += message
+        fullMessage += message;
     }
 
-    const category = this._logger.category
+    const category = this._logger.category;
     if (client) {
-        client.trackException({ exception: new Error(`[ERROR] ${category} - ${fullMessage}`) })
+        client.trackException({ exception: new Error(`[ERROR] ${category} - ${fullMessage}`) });
     }
-    this._logger.error(fullMessage)
+    this._logger.error(fullMessage);
 }

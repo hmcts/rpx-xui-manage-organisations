@@ -1,6 +1,4 @@
 import { EditUserPermissionComponent } from './edit-user-permission.component';
-import { Observable, of } from 'rxjs';
-import { Actions } from '@ngrx/effects';
 
 describe('Edit User Permission Component Component', () => {
 

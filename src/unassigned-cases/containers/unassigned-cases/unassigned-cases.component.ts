@@ -4,7 +4,6 @@ import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.mode
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromRoot from '../../../app/store';
 import * as converters from '../../converters/case-converter';
 import * as fromStore from '../../store';
 import { UnAssignedCases } from '../../store/reducers';
@@ -32,7 +31,6 @@ export class UnassignedCasesComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromStore.UnassignedCasesState>,
-    private readonly appRoute: Store<fromRoot.State>
   ) {}
 
   public ngOnInit(): void {

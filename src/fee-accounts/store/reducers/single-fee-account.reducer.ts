@@ -1,5 +1,5 @@
-import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
 import {SingleAccountSummary} from '../../models/single-account-summary';
+import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
 
 
 
@@ -35,7 +35,6 @@ export function reducer(
 ): SingleFeeAccountState {
   switch (action.type) {
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_SUCCESS: {
-      const payload = action.payload;
       return {
         ...state,
         overview: {
@@ -48,7 +47,6 @@ export function reducer(
 
     }
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_SUCCESS: {
-      const payload = action.payload;
       return {
         ...state,
         transactions: {

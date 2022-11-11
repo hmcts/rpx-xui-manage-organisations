@@ -1,30 +1,29 @@
-import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
-import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromRouterEffects from './router.effect';
-import { RouterEffects } from './router.effect';
-import * as RouterActions from '../actions/router.action';
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { hot } from 'jasmine-marbles';
+import * as RouterActions from '../actions/router.action';
+import { RouterEffects } from './router.effect';
 
 describe('App Effects', () => {
     let actions$;
     let effects: RouterEffects;
 
-    const RouterMock = jasmine.createSpyObj('Router', [
+    const routerMock = jasmine.createSpyObj('Router', [
         'navigate',
     ]);
 
-    const LocationMock = jasmine.createSpyObj('Location', [
+    const locationMock = jasmine.createSpyObj('Location', [
         'back',
         'forward',
     ]);
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                { provide: Location, useValue: LocationMock },
-                { provide: Router, useValue: RouterMock },
-                fromRouterEffects.RouterEffects,
+                { provide: Location, useValue: locationMock },
+                { provide: Router, useValue: routerMock },
+                RouterEffects,
                 provideMockActions(() => actions$)
             ]
         });
@@ -39,7 +38,7 @@ describe('App Effects', () => {
 
             actions$ = hot('-a', { a: action });
             effects.navigate$.subscribe(() => {
-                expect(RouterMock.navigate).toHaveBeenCalled();
+                expect(routerMock.navigate).toHaveBeenCalled();
             });
         });
     });
@@ -50,7 +49,7 @@ describe('App Effects', () => {
 
             actions$ = hot('-a', { a: action });
             effects.navigateBack$.subscribe(() => {
-                expect(LocationMock.back).toHaveBeenCalled();
+                expect(locationMock.back).toHaveBeenCalled();
             });
         });
     });
@@ -61,7 +60,7 @@ describe('App Effects', () => {
 
             actions$ = hot('-a', { a: action });
             effects.navigateForward$.subscribe(() => {
-                expect(LocationMock.forward).toHaveBeenCalled();
+                expect(locationMock.forward).toHaveBeenCalled();
             });
         });
     });

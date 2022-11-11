@@ -11,10 +11,10 @@ export function propsExist(object, nestedProps) {
 
   for (const nestedProperty of nestedProps) {
     if (!object || !object.hasOwnProperty(nestedProperty)) {
-      return false
+      return false;
     }
-    object = object[nestedProperty]
+    object = object[nestedProperty];
   }
 
-  return true
+  return true;
 }

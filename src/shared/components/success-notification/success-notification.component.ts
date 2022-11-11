@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
 })
 export class SuccessNotificationComponent {
 
-    @Input() notification;
+    @Input() public notification;
 
 }

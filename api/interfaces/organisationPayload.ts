@@ -1,17 +1,17 @@
 export interface OrganisationPayload {
-    name: string,
-    sraId?: string,
+    name: string;
+    sraId?: string;
     superUser: {
         firstName: string,
         lastName: string,
         email: string,
-    }
+    };
     pbaAccounts?: [
           {
             pbaAccounts: string,
             pbaNumber: string,
           }
-        ],
+        ];
 
     contactInformation?: [{
         addressLine1: string,
@@ -25,10 +25,10 @@ export interface OrganisationPayload {
             dxNumber: string,
           }
         ],
-    }]
+    }];
 }
 
 export interface OrganisationUser {
-  email: string
-  idamStatus: string
+  email: string;
+  idamStatus: string;
 }

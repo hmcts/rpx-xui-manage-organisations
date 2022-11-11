@@ -13,7 +13,7 @@
 export function setPropertyIfNotNull(organisationPayload, propertyName, value) {
 
   if (value) {
-    organisationPayload[propertyName] = value
+    organisationPayload[propertyName] = value;
   }
 }
 
@@ -21,30 +21,30 @@ export function setDXIfNotNull(organisationPayload, propertyNameArray, arrayName
 
   if (stateValuesArray[0] || stateValuesArray[1]) {
 
-    organisationPayload[arrayName] = {}
+    organisationPayload[arrayName] = {};
 
     for (const key in stateValuesArray) {
       if (stateValuesArray[key] != null && stateValuesArray[key] !== "") {
-        organisationPayload[arrayName][propertyNameArray[key]] = stateValuesArray[key]
+        organisationPayload[arrayName][propertyNameArray[key]] = stateValuesArray[key];
       } else {
-        organisationPayload[arrayName][propertyNameArray[key]] = ""
+        organisationPayload[arrayName][propertyNameArray[key]] = "";
       }
     }
-    organisationPayload[arrayName] = [organisationPayload[arrayName]]
+    organisationPayload[arrayName] = [organisationPayload[arrayName]];
   }
 }
 
 export function setPBAIfNotNull(organisationPayload, arrayName, stateValuesArray) {
 
-  organisationPayload[arrayName] = []
+  organisationPayload[arrayName] = [];
 
   for (const key in stateValuesArray) {
     if (stateValuesArray[key]) {
-      organisationPayload[arrayName][key] = stateValuesArray[key]
+      organisationPayload[arrayName][key] = stateValuesArray[key];
     }
   }
 
-  organisationPayload[arrayName] = organisationPayload[arrayName].filter(value => Object.keys(value).length !== 0)
+  organisationPayload[arrayName] = organisationPayload[arrayName].filter(value => Object.keys(value).length !== 0);
 }
 
 export function makeOrganisationPayload(stateValues): any {
@@ -65,18 +65,18 @@ export function makeOrganisationPayload(stateValues): any {
       firstName: stateValues.firstName,
       lastName: stateValues.lastName,
     },
-  }
+  };
 
-  setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber)
+  setPropertyIfNotNull(organisationPayload, 'sraId', stateValues.sraNumber);
 
-  let stateValuesArray = [stateValues.PBAnumber1, stateValues.PBAnumber2]
-  setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray)
+  let stateValuesArray = [stateValues.PBAnumber1, stateValues.PBAnumber2];
+  setPBAIfNotNull(organisationPayload, 'paymentAccount', stateValuesArray);
 
-  stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange]
-  const [contactInformationArray] = organisationPayload.contactInformation
-  const propertyNameArray = ['dxNumber', 'dxExchange']
+  stateValuesArray = [stateValues.DXnumber, stateValues.DXexchange];
+  const [contactInformationArray] = organisationPayload.contactInformation;
+  const propertyNameArray = ['dxNumber', 'dxExchange'];
   setDXIfNotNull(contactInformationArray, propertyNameArray, 'dxAddress',
-    stateValuesArray)
+    stateValuesArray);
 
-  return organisationPayload
+  return organisationPayload;
 }

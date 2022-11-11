@@ -3,16 +3,16 @@ export const application = {
         token: '__auth__',
         userId: '__userid__',
     },
-    microservice: 'xui_webapp',
-    idamClient: 'xuimowebapp',
-    oauthCallbackUrl: '/oauth2/callback',
-    protocol: 'https',
-    logging: 'debug',
-    maxLogLine: 80,
     exceptionOptions: {
         maxLines: 1,
     },
+    idamClient: 'xuimowebapp',
     indexUrl: '/',
+    logging: 'debug',
+    maxLogLine: 80,
+    microservice: 'xui_webapp',
+    oauthCallbackUrl: '/oauth2/callback',
+    protocol: 'https',
     secureCookie: false,
     sessionSecret: 'secretSauce',
-}
+};

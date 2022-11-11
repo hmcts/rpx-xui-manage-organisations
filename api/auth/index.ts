@@ -1,6 +1,6 @@
-import {AUTH, AuthOptions, xuiNode} from '@hmcts/rpx-xui-node-lib'
-import {NextFunction, Request, Response} from 'express'
-import {getConfigValue, showFeature} from '../configuration'
+import {AUTH, AuthOptions, xuiNode} from '@hmcts/rpx-xui-node-lib';
+import {NextFunction, Request, Response} from 'express';
+import {getConfigValue, showFeature} from '../configuration';
 import {
   COOKIE_TOKEN,
   FEATURE_OIDC_ENABLED,
@@ -21,20 +21,20 @@ import {
   SERVICES_IDAM_ISS_URL,
   SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
   SESSION_SECRET
-} from '../configuration/references'
-import { http } from '../lib/http'
-import * as log4jui from '../lib/log4jui'
-import {getOrganisationDetails} from '../organisation'
+} from '../configuration/references';
+import { http } from '../lib/http';
+import * as log4jui from '../lib/log4jui';
+import {getOrganisationDetails} from '../organisation';
 
-const logger = log4jui.getLogger('auth')
+const logger = log4jui.getLogger('auth');
 
 export const successCallback = async (req: Request, res: Response, next: NextFunction) => {
-    const {accessToken} = req.session.passport.user.tokenset
-    const {userinfo} = req.session.passport.user
+    const {accessToken} = req.session.passport.user.tokenset;
+    const {userinfo} = req.session.passport.user;
 
-    logger.info('Setting session and cookies')
+    logger.info('Setting session and cookies');
     // set browser cookie
-    res.cookie(getConfigValue(COOKIE_TOKEN), accessToken)
+    res.cookie(getConfigValue(COOKIE_TOKEN), accessToken);
 
     if (!req.session.auth) {
       const auth = {
@@ -42,48 +42,48 @@ export const successCallback = async (req: Request, res: Response, next: NextFun
         orgId: '-1',
         roles: userinfo.roles,
         token: accessToken,
-        userId: userinfo.uid || userinfo.id
-      }
+        userId: userinfo.uid || userinfo.id,
+      };
 
       const authRequest = {
         http: http({
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization,
             'user-roles': userinfo.roles,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-          }
-        } as unknown as Request)
-      }
+          },
+        } as unknown as Request),
+      };
 
       try {
-        const orgDetails = await getOrganisationDetails(authRequest as unknown as Request, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH))
-        auth.orgId = orgDetails.data.organisationIdentifier
+        const orgDetails = await getOrganisationDetails(authRequest as unknown as Request, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH));
+        auth.orgId = orgDetails.data.organisationIdentifier;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
 
-      req.session.auth = auth
+      req.session.auth = auth;
 
     }
 
     if (!req.isRefresh) {
-        return res.redirect('/')
+        return res.redirect('/');
     }
-    next()
-}
+    next();
+};
 
-xuiNode.on(AUTH.EVENT.AUTHENTICATE_SUCCESS, successCallback)
+xuiNode.on(AUTH.EVENT.AUTHENTICATE_SUCCESS, successCallback);
 
 export const getXuiNodeMiddleware = () => {
 
-    const idamWebUrl = getConfigValue(SERVICES_IDAM_WEB)
-    const authorizationUrl = `${idamWebUrl}/login`
-    const secret = getConfigValue(IDAM_SECRET)
-    const idamClient = getConfigValue(IDAM_CLIENT)
-    const issuerUrl = getConfigValue(SERVICES_IDAM_ISS_URL)
-    const idamApiPath = getConfigValue(SERVICES_IDAM_API_PATH)
-    const s2sSecret = getConfigValue(S2S_SECRET)
-    const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`
+    const idamWebUrl = getConfigValue(SERVICES_IDAM_WEB);
+    const authorizationUrl = `${idamWebUrl}/login`;
+    const secret = getConfigValue(IDAM_SECRET);
+    const idamClient = getConfigValue(IDAM_CLIENT);
+    const issuerUrl = getConfigValue(SERVICES_IDAM_ISS_URL);
+    const idamApiPath = getConfigValue(SERVICES_IDAM_API_PATH);
+    const s2sSecret = getConfigValue(S2S_SECRET);
+    const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
 
     // TODO: we can move these out into proper config at some point to tidy up even further
     const options: AuthOptions = {
@@ -101,7 +101,7 @@ export const getXuiNodeMiddleware = () => {
         tokenEndpointAuthMethod: 'client_secret_post',
         tokenURL: tokenUrl,
         useRoutes: true,
-    }
+    };
 
     const baseStoreOptions = {
         cookie: {
@@ -113,7 +113,7 @@ export const getXuiNodeMiddleware = () => {
         resave: false,
         saveUninitialized: false,
         secret: getConfigValue(SESSION_SECRET),
-    }
+    };
 
     const redisStoreOptions = {
         redisStore: {
@@ -125,7 +125,7 @@ export const getXuiNodeMiddleware = () => {
                 },
             },
         },
-    }
+    };
 
     const fileStoreOptions = {
         fileStore: {
@@ -135,7 +135,7 @@ export const getXuiNodeMiddleware = () => {
                 },
             },
         },
-    }
+    };
 
     const nodeLibOptions = {
         auth: {
@@ -146,18 +146,18 @@ export const getXuiNodeMiddleware = () => {
             },
         },
         session: showFeature(FEATURE_REDIS_ENABLED) ? redisStoreOptions : fileStoreOptions,
-    }
+    };
 
-    const type = showFeature(FEATURE_OIDC_ENABLED) ? 'oidc' : 'oauth2'
-    nodeLibOptions.auth[type] = options
-    logger._logger.info('Setting XuiNodeLib options')
-    return xuiNode.configure(nodeLibOptions)
-}
+    const type = showFeature(FEATURE_OIDC_ENABLED) ? 'oidc' : 'oauth2';
+    nodeLibOptions.auth[type] = options;
+    logger._logger.info('Setting XuiNodeLib options');
+    return xuiNode.configure(nodeLibOptions);
+};
 
 export async function attach(req: Request, res: Response, next: NextFunction) {
   // TODO: req now has req.headers.Authorization/ServiceAuthorization, so might be worthwhile replacing this in future
   if (!req.http) {
-    req.http = http(req)
+    req.http = http(req);
   }
-  next()
+  next();
 }

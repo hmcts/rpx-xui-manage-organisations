@@ -11,7 +11,7 @@ import * as fromUsersEffects from './users.effects';
 describe('Users Effects', () => {
     let actions$;
     let effects: fromUsersEffects.UsersEffects;
-    const UsersServiceMock = jasmine.createSpyObj('UsersService', [
+    const usersServiceMock = jasmine.createSpyObj('UsersService', [
         'getListOfUsers', 'suspendUser',
     ]);
     let loggerService: LoggerService;
@@ -24,7 +24,7 @@ describe('Users Effects', () => {
             providers: [
                 {
                     provide: UsersService,
-                    useValue: UsersServiceMock,
+                    useValue: usersServiceMock,
                 },
                 {
                     provide: LoggerService,
@@ -43,7 +43,7 @@ describe('Users Effects', () => {
     describe('loadUsers$', () => {
         it('should return a collection from loadUsers$ - LoadUsersSuccess', () => {
             const payload = { users: [{ payload: 'something' }] };
-            UsersServiceMock.getListOfUsers.and.returnValue(of(payload));
+            usersServiceMock.getListOfUsers.and.returnValue(of(payload));
             const action = new LoadUsers();
             const completion = new LoadUsersSuccess({
                 users: [
@@ -57,7 +57,7 @@ describe('Users Effects', () => {
 
         it('should return a collection from loadUsers$ when status pending - LoadUsersSuccess', () => {
             const payload = { users: [{ idamStatus: 'PENDING' }] };
-            UsersServiceMock.getListOfUsers.and.returnValue(of(payload));
+            usersServiceMock.getListOfUsers.and.returnValue(of(payload));
             const action = new LoadUsers();
             const completion = new LoadUsersSuccess({
                 users: [
@@ -72,7 +72,7 @@ describe('Users Effects', () => {
 
     describe('loadUsers$ error', () => {
         it('should return LoadUsersFail', () => {
-            UsersServiceMock.getListOfUsers.and.returnValue(throwError(new Error()));
+            usersServiceMock.getListOfUsers.and.returnValue(throwError(new Error()));
             const action = new LoadUsers();
             const completion = new LoadUsersFail(new Error());
             actions$ = hot('-a', { a: action });
@@ -97,7 +97,7 @@ describe('Users Effects', () => {
                 selected: false,
                 status: 'Active'
             };
-            UsersServiceMock.suspendUser.and.returnValue(of({}));
+            usersServiceMock.suspendUser.and.returnValue(of({}));
             const action = new SuspendUser({payload: user});
             const completion = new SuspendUserSuccess({payload: user});
             actions$ = hot('-a', { a: action });
@@ -108,7 +108,7 @@ describe('Users Effects', () => {
 
     describe('suspendUser$ error', () => {
         it('should return LoadUsersFail', () => {
-            UsersServiceMock.suspendUser.and.returnValue(throwError(new Error()));
+            usersServiceMock.suspendUser.and.returnValue(throwError(new Error()));
             const action = new SuspendUser({});
             const completion = new SuspendUserFail(new Error());
             actions$ = hot('-a', { a: action });

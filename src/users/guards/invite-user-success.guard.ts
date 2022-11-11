@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable, of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import * as fromStore from '../store';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import * as fromRoot from '../../app/store';
+import * as fromStore from '../store';
 
 
 @Injectable()
 export class InviteUserSuccessGuard implements CanActivate {
     constructor(
-        private store: Store<fromStore.UserState>
+        private readonly store: Store<fromStore.UserState>
     ) {
     }
 
-    canActivate() {
+    public canActivate() {
         return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
-    checkStore(): Observable<boolean> {
+    public checkStore(): Observable<boolean> {
         return this.store.pipe(select(fromStore.getInviteUserIsUserConfirmed),
             tap(isUserConfirmed => {
                 if (!isUserConfirmed) {

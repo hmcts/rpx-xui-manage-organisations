@@ -1,6 +1,6 @@
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
-import { User } from '@hmcts/rpx-xui-common-lib';
 
 describe('User Details Component', () => {
 

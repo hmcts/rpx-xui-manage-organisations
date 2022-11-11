@@ -1,8 +1,8 @@
-import * as applicationinsights from 'applicationinsights'
-import { getConfigValue, hasConfigValue, showFeature } from '../configuration'
-import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references'
+import * as applicationinsights from 'applicationinsights';
+import { getConfigValue, hasConfigValue, showFeature } from '../configuration';
+import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references';
 
-export let client
+export let client;
 
 export function initialiseAppInsights() {
   // Check the APP_INSIGHTS_KEY config value is present before trying to initialise the App Insights client
@@ -17,23 +17,23 @@ export function initialiseAppInsights() {
       .setAutoCollectConsole(true)
       .setSendLiveMetrics(true)
       .setUseDiskRetryCaching(true)
-      .start()
+      .start();
 
-    client = applicationinsights.defaultClient
-    client.context.tags[client.context.keys.cloudRole] = 'xui-mo'
-    client.trackTrace({ message: 'App Insights activated' })
+    client = applicationinsights.defaultClient;
+    client.context.tags[client.context.keys.cloudRole] = 'xui-mo';
+    client.trackTrace({ message: 'App Insights activated' });
   } else {
-    console.error(`App Insights not activated: Key "${APP_INSIGHTS_KEY}" is not defined!`)
+    console.error(`App Insights not activated: Key "${APP_INSIGHTS_KEY}" is not defined!`);
   }
 }
 
 if (showFeature(FEATURE_APP_INSIGHTS_ENABLED)) {
-  console.log('App Insights enabled')
-  initialiseAppInsights()
+  console.log('App Insights enabled');
+  initialiseAppInsights();
 }
 
 export function resetAppInsights() {
   if (client) {
-    client = null
+    client = null;
   }
 }

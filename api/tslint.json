@@ -32,6 +32,7 @@
                 "import": false
             }
         ],
+
         "no-unused-variable": [
             true,
             {
@@ -45,10 +46,7 @@
             }
         ],
         "quotemark": false,
-        "semicolon": [
-            true,
-            "never"
-        ],
+        "semicolon": { "severity": "warning" },
         "trailing-comma": [
             true,
             {

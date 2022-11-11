@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
-    private usersService: UsersService
+    private readonly usersService: UsersService
   ) {}
 
   public ngOnInit(): void {

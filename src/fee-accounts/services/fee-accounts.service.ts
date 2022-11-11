@@ -1,30 +1,29 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {map} from '../../../node_modules/rxjs/operators';
-import {Payment} from '../models/pba-transactions';
+import {singleAccontSummaryMock} from '../mock/singleAccontSummary.mock';
 import {FeeAccount} from '../models/pba-accounts';
+import {Payment} from '../models/pba-transactions';
 import {SingleAccountSummary} from '../models/single-account-summary';
-import {SingleAccontSummaryMock} from '../mock/singleAccontSummary.mock';
 
 @Injectable()
 export class FeeAccountsService {
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
-  fetchFeeAccounts(paymentAccounts: string[]): Observable<Array<FeeAccount>> {
+  public fetchFeeAccounts(paymentAccounts: string[]): Observable<FeeAccount[]> {
     const accounts = paymentAccounts.join(',');
-    return this.http.get<Array<FeeAccount>> (`/api/accounts?accountNames=${accounts}`);
+    return this.http.get<FeeAccount[]> (`/api/accounts?accountNames=${accounts}`);
   }
   // Overview load
-  fetchSingleFeeAccount(payload): Observable<SingleAccountSummary> {
-    const obj: SingleAccountSummary = SingleAccontSummaryMock;
+  public fetchSingleFeeAccount(payload): Observable<SingleAccountSummary> {
+    const obj: SingleAccountSummary = singleAccontSummaryMock;
     return of(obj);
     // return this.http.get<SingleAccountSummary>(`/api/accounts/${payload.id}`);
   }
   // Overview transactions
-  fetchPbAAccountTransactions(payload): Observable<Array<Payment>> {
-    return this.http.get<Array<Payment>>(`/api/payments/${payload.id}`);
+  public fetchPbAAccountTransactions(payload): Observable<Payment[]> {
+    return this.http.get<Payment[]>(`/api/payments/${payload.id}`);
   }
 
 }

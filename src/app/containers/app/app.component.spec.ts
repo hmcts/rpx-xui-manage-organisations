@@ -1,20 +1,20 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { combineReducers, StoreModule, Store } from '@ngrx/store';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { async, TestBed } from '@angular/core/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { cold } from 'jasmine-marbles';
 import {Logout, reducers} from 'src/app/store';
 import { HeaderComponent } from '../header/header.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { cold } from 'jasmine-marbles';
+import { AppComponent } from './app.component';
 
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
 
-import * as fromAuth from '../../../user-profile/store';
-import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
-import { of } from 'rxjs';
 import { CookieModule } from 'ngx-cookie';
+import { of } from 'rxjs';
+import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
 import { LoggerService } from 'src/shared/services/logger.service';
+import * as fromAuth from '../../../user-profile/store';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -121,17 +121,6 @@ describe('AppComponent', () => {
 
 
   it('should have navItems$ Observable the app', async(() => {
-    const navItems = [
-      {
-        text: 'Organisation',
-        href: '/organisation',
-        active: true
-      },
-      {
-        text: 'Users',
-        href: '/users',
-        active: false
-      }];
     const expected = cold('a', { a: { navItems: [] } });
     expect(app.navItems$).toBeObservable(expected);
 

@@ -1,8 +1,8 @@
-import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
 import {FeeAccount, FeeAccountSummary} from '../../models/pba-accounts';
+import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
 
 export interface FeeAccountsState {
-  feeAccounts: Array<FeeAccount> | null;
+  feeAccounts: FeeAccount[] | null;
   oneOrMoreAccountMissing: boolean;
   loaded: boolean;
   loading: boolean;

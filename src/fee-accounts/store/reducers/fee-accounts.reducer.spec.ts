@@ -1,6 +1,6 @@
-import { initialState, reducer, getFeeAccounts, getFeeAccountsLoading, getFeeAccountsLoaded } from './fee-accounts.reducer';
+import { FeeAccountSummary } from 'src/fee-accounts/models/pba-accounts';
 import { LoadFeeAccountsSuccess } from '../actions';
-import { FeeAccount, FeeAccountSummary } from 'src/fee-accounts/models/pba-accounts';
+import { getFeeAccounts, getFeeAccountsLoaded, getFeeAccountsLoading, initialState, reducer } from './fee-accounts.reducer';
 
 describe('FeeAccountsReducer', () => {
   describe('undefined action', () => {

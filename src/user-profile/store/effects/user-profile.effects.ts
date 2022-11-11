@@ -18,7 +18,6 @@ export class UserProfileEffects {
     private readonly actions$: Actions,
     private readonly userService: UserService,
     private readonly loggerService: LoggerService,
-    private readonly authService: UserService,
     private readonly acceptTcService: AcceptTcService
   ) { }
 
@@ -29,7 +28,7 @@ export class UserProfileEffects {
       return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => {
-            return new authActions.GetUserDetailsSuccess(userDetails)
+            return new authActions.GetUserDetailsSuccess(userDetails);
           }),
           catchError((error: HttpErrorResponse) => {
             this.loggerService.error(error.message);

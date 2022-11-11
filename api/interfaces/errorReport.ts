@@ -1,5 +1,5 @@
 export interface ErrorReport {
-    apiError: string
-    apiStatusCode: string
-    message: string
+    apiError: string;
+    apiStatusCode: string;
+    message: string;
 }

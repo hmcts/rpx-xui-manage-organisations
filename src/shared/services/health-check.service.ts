@@ -24,7 +24,7 @@ export class HealthCheckService implements OnDestroy {
       path = value;
     });
 
-    return path ? this.http.get('/api/healthCheck?path=' + encodeURIComponent(path)) : of(result);
+    return path ? this.http.get(`/api/healthCheck?path=${encodeURIComponent(path)}`) : of(result);
   }
 
   public ngOnDestroy(): void {

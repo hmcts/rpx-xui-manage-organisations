@@ -1,23 +1,22 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { hot, cold } from 'jasmine-marbles';
-import { of, throwError } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as fromSingleFeeAccountEffects from './single-fee-account.effects';
-import { SingleFeeAccountEffects } from './single-fee-account.effects';
+import { cold, hot } from 'jasmine-marbles';
+import { of, throwError } from 'rxjs';
+import { FeeAccountsService } from '../../../fee-accounts/services';
+import { LoggerService } from '../../../shared/services/logger.service';
 import {
   LoadSingleFeeAccount, LoadSingleFeeAccountFail, LoadSingleFeeAccountSuccess,
   LoadSingleFeeAccountTransactions, LoadSingleFeeAccountTransactionsFail, LoadSingleFeeAccountTransactionsSuccess
 } from '../actions';
-import { FeeAccountsService } from '../../../fee-accounts/services';
-import { LoggerService } from '../../../shared/services/logger.service';
+import { SingleFeeAccountEffects } from './single-fee-account.effects';
 
 describe('Single fee account Effects', () => {
   let actions$;
   let effects: SingleFeeAccountEffects;
   let loggerService: LoggerService;
 
-  const SingleFeeAccountServiceMock = jasmine.createSpyObj('FeeAccountsService', [
+  const singleFeeAccountServiceMock = jasmine.createSpyObj('FeeAccountsService', [
     'fetchSingleFeeAccount',
     'fetchPbAAccountTransactions'
   ]);
@@ -28,13 +27,13 @@ describe('Single fee account Effects', () => {
       providers: [
           {
             provide: FeeAccountsService,
-            useValue: SingleFeeAccountServiceMock,
+            useValue: singleFeeAccountServiceMock,
           },
           {
             provide: LoggerService,
             useValue: mockedLoggerService
           },
-          fromSingleFeeAccountEffects.SingleFeeAccountEffects,
+          SingleFeeAccountEffects,
           provideMockActions(() => actions$)
       ]
     });
@@ -54,7 +53,7 @@ describe('Single fee account Effects', () => {
         status: 'someStatus',
         effective_date: 'someDate'
       };
-      SingleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(of(payload));
+      singleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(of(payload));
       const action = new LoadSingleFeeAccount({});
       const completion = new LoadSingleFeeAccountSuccess(payload);
       actions$ = hot('-a', { a: action });
@@ -65,7 +64,7 @@ describe('Single fee account Effects', () => {
 
   describe('loadSingleFeeAccount$ error', () => {
     it('should return LoadSingleFeeAccountFail', () => {
-      SingleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(throwError(new Error()));
+      singleFeeAccountServiceMock.fetchSingleFeeAccount.and.returnValue(throwError(new Error()));
       const action = new LoadSingleFeeAccount({});
       const completion = new LoadSingleFeeAccountFail(new Error());
       actions$ = hot('-a', { a: action });
@@ -79,7 +78,7 @@ describe('Single fee account Effects', () => {
     it('should return a collection from loadSingleFeeAccountTransactions$ - loadSingleFeeAccountTransactionsSuccess', () => {
       // const payload = [{payload: 'something'}];
       const payload = [];
-      SingleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(of(payload));
+      singleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(of(payload));
       const action = new LoadSingleFeeAccountTransactions({});
       const completion = new LoadSingleFeeAccountTransactionsSuccess([]);
       actions$ = hot('-a', { a: action });
@@ -90,7 +89,7 @@ describe('Single fee account Effects', () => {
 
   describe('loadSingleFeeAccountTransactions$ error', () => {
     it('should return loadSingleFeeAccountTransactionsFail', () => {
-      SingleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(throwError(new Error()));
+      singleFeeAccountServiceMock.fetchPbAAccountTransactions.and.returnValue(throwError(new Error()));
       const action = new LoadSingleFeeAccountTransactions({});
       const completion = new LoadSingleFeeAccountTransactionsFail(new Error());
       actions$ = hot('-a', { a: action });

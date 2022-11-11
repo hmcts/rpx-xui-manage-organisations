@@ -1,5 +1,4 @@
 import * as fromUserform from '../../../style-guide/store/reducers/style-guide.reducer';
-import * as fromActions from '../../../style-guide/store/actions/style-guide.actions';
 
 
 describe('UserformReducer', () => {

@@ -1,7 +1,7 @@
-import { searchCasesString } from "./unassignedCaseTypes-constants"
+import { searchCasesString } from "./unassignedCaseTypes-constants";
 
 export function getRequestBody(organisationID: string) {
-    const rangeKey = `supplementary_data.orgs_assigned_users.${organisationID}`
+    const rangeKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
     return {
         _source: false,
         from: 0,
@@ -33,9 +33,9 @@ export function getRequestBody(organisationID: string) {
               order: 'desc',
            },
         },
-     }
+     };
 }
 
 export function getApiPath(ccdPath: string, caseTypes: string) {
-    return `${ccdPath}${searchCasesString}${caseTypes}`
+    return `${ccdPath}${searchCasesString}${caseTypes}`;
 }

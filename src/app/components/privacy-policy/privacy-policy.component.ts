@@ -15,19 +15,19 @@ export class PrivacyPolicyComponent implements OnInit {
   public ngOnInit(): void {
     this.subscription = this.route.fragment.subscribe(fragment => {
       try {
-        document.querySelector('#' + fragment).scrollIntoView();
+        document.querySelector(`#${fragment}`).scrollIntoView();
       } catch (e) { }
     });
   }
 
   @HostListener('document:click', ['$event'])
-  clickout(event) {
+  public clickout(event) {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
     this.subscription = this.route.fragment.subscribe(fragment => {
       try {
-        document.querySelector('#' + fragment).scrollIntoView();
+        document.querySelector(`#${fragment}`).scrollIntoView();
       } catch (e) { }
     });
   }

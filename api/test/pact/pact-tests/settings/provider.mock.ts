@@ -1,6 +1,7 @@
 import { Pact } from '@pact-foundation/pact';
 import * as path from 'path';
 
+/* tslint:disable-next-line */
 export interface IPactTestSetupConfig {
   provider: string;
   port: number

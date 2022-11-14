@@ -8,6 +8,7 @@ import { postS2SLease } from '../services/serviceAuth'
 
 const logger = log4jui.getLogger('service-token')
 const that = this
+/* tslint:disable-next-line */
 const _cache = {}
 const microservice = getConfigValue(MICROSERVICE)
 

@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { getConfigValue } from '../../../configuration';
-import { SERVICES_FEE_AND_PAY_API_PATH } from '../../../configuration/references';
 
 export async function inviteUser(taskUrl: string, payload: any): Promise<any> {
   const axiosConfig = {
@@ -30,7 +28,6 @@ export async function registerOrganisationExternalV1(taskurl: string, payload: a
       'ServiceAuthorization': 'ServiceAuthToken'
     }
   };
-  const url = getConfigValue(SERVICES_FEE_AND_PAY_API_PATH) + '/refdata/external/v1/organisations';
   return await axios.post(taskurl, payload, axiosConfig);
 }
 

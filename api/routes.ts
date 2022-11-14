@@ -1,5 +1,4 @@
 import {xuiNode} from '@hmcts/rpx-xui-node-lib'
-import * as express from 'express'
 import { Router } from 'express'
 import accountsRouter from './accounts'
 import { router as caseShareRouter } from './caseshare/routes'

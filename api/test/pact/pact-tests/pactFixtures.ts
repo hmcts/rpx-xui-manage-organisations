@@ -22,14 +22,6 @@ export interface UserCreationRequest {
   lastName: string
 }
 
-const responsePaymentAccountDto: PaymentAccountDto[] = [
-  {
-    pbaNumber: 'XDDDDDoDDDD',
-    organisationId: 'B123456',
-    userId: 'A123123'
-  }
-]
-
 export interface UserProfileModel {
   orgId: string
   userId: string

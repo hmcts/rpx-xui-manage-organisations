@@ -1,50 +1,55 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {
-        "object-literal-key-quotes": false,
-        "arrow-parens": [
-            true,
-            "ban-single-arg-parens"
-        ],
-        "comment-format": false,
-        "indent": [
-            true,
-            "spaces"
-        ],
-        "interface-name": [
-            true,
-            "never-prefix"
-        ],
-        "max-classes-per-file": false,
-        "max-line-length": [
-            true,
-            3000
-        ],
-        "member-access": false,
-        "no-console": false,
-        "no-shadowed-variable": [
-            true,
-            {
-                "import": false
-            }
-        ],
-        "object-literal-sort-keys": false,
-        "no-unused-variable": false,
-        "prefer-const": [
-            true,
-            {
-                "destructuring": "all"
-            }
-        ],
-        "no-string-literal": false,
-        "quotemark": false,
-        "semicolon": { "severity": "warning" },
-        "trailing-comma": false,
-        "ordered-imports": { "severity": "warning" }
-    },
-    "rulesDirectory": []
+  "defaultSeverity": "error",
+  "extends": [
+      "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+      "no-string-literal": false,
+      "object-literal-key-quotes": false,
+      "object-literal-sort-keys": false,
+      "arrow-parens": [
+          true,
+          "ban-single-arg-parens"
+      ],
+      "comment-format": false,
+      "indent": [
+          true,
+          "spaces"
+      ],
+      "interface-name": [
+          true,
+          "never-prefix"
+      ],
+      "max-classes-per-file": false,
+      "max-line-length": [
+          false,
+          3000
+      ],
+      "member-access": false,
+      "no-console": false,
+      "no-shadowed-variable": [
+          true,
+          {
+              "import": false
+          }
+      ],
+      "no-unused-variable": [
+          true,
+          {
+              "check-parameters": false
+          }
+      ],
+      "prefer-const": [
+          true,
+          {
+              "destructuring": "all"
+          }
+      ],
+      "quotemark": false,
+      "ordered-imports": false,
+      "semicolon": false,
+      "trailing-comma": false
+  },
+  "rulesDirectory": []
 }

@@ -26,7 +26,7 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
 }
 
 export function getRefdataUserDetailsUrl(rdProfessionalApiPath: string, userId: string): string {
-    return `https://rd-professional-api-pr-1322.preview.platform.hmcts.net/refdata/external/v1/organisations/users?userIdentifier=${userId}`;
+    return `${rdProfessionalApiPath}/refdata/external/v1/organisations/users?returnRoles=true&userIdentifier=${userId}`;
 }
 
 export const router = Router({ mergeParams: true })

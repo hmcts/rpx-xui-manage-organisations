@@ -8,10 +8,11 @@ const logger = log4jui.getLogger('user-details');
 
 export async function handleUserDetailsRoute(req: Request, res: Response) {
     try {
-        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-        logger.info('user Details API Linkaa: ', getRefdataUserDetailsUrl(rdProfessionalApiPath, req.query.userId as string))
-        const response = await req.http.get(getRefdataUserDetailsUrl(rdProfessionalApiPath, req.query.userId as string));
-        logger.info('user details response::', response.data);
+        const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+        const apiUrl = getRefdataUserDetailsUrl(rdProfessionalApiPath, req.query.userId as string);
+        logger.info('User Details API Link: ', apiUrl);
+        const response = await req.http.get(apiUrl);
+        logger.info('User Details API response: ', JSON.stringify(response.data));
         res.send(response.data);
     } catch (error) {
         logger.error('error', error);

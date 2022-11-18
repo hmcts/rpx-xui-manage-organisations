@@ -96,21 +96,14 @@ export function reducer(
 
     case fromUsers.SUSPEND_USER_SUCCESS: {
       const user = action.payload ? action.payload : null;
-      const amendedUserList = [];
-      state.userList.slice(0).forEach(element => {
-        const elementInstance = {...element};
-        if (elementInstance['userIdentifier'] ===  user.userIdentifier) {
-          elementInstance['idamStatus'] = 'SUSPENDED';
-          elementInstance['status'] = 'Suspended';
-        }
-        amendedUserList.push(elementInstance);
-      });
+
+      const userDetails = {...user};
+      userDetails['idamStatus'] = 'SUSPENDED';
+      userDetails['status'] = 'Suspended';
 
       return {
         ...state,
-        userList: [
-          ...amendedUserList
-        ],
+        userDetails: userDetails,
         loading: false,
         loaded: true
       };
@@ -160,10 +153,26 @@ export function reducer(
     }
 
     case fromUsers.LOAD_USER_DETAILS_SUCCESS: {
+      const payload = action.payload ? action.payload : null;
+      const userDetailsPayload = {
+        ...payload,
+        selected: false
+      };
+
+      AppConstants.USER_ROLES.forEach((userRoles) => {
+        if (userDetailsPayload.roles) {
+          userDetailsPayload[userRoles.roleType] = userDetailsPayload.roles.includes(userRoles.role) ? 'Yes' : 'No';
+        }
+      });
+
+      userDetailsPayload.status = AppUtils.capitalizeString(userDetailsPayload.idamStatus);
+
       return {
         ...state,
-        userDetails: action.payload,
-      }
+        userDetails: userDetailsPayload,
+        loaded: true,
+        loading: false
+      };
     }
 
     default:

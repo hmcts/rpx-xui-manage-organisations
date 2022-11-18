@@ -109,9 +109,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  public getUserObservable(userId, userStore): any {
-    return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
-  }
+  // public getUserObservable(userId, userStore): any {
+  //   return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
+  // }
 
   public setSuspendViewFunctions(): void {
     this.hideSuspendView = () => this.suspendViewFlag = false;

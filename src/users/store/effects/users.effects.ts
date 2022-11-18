@@ -64,7 +64,16 @@ export class UsersEffects {
     switchMap((action: any) => {
       return this.usersService.getUserDetailsWithPermission(action.payload).pipe(
         map(userDetails => {
-          return new usersActions.LoadUsersSuccess(userDetails);
+          let amendedUser;
+          userDetails.users.forEach(element => {
+              const fullName = `${element.firstName} ${element.lastName}`;
+              const user = element;
+              user.fullName = fullName;
+              user.routerLink = `user/${user.userIdentifier}`;
+              user.routerLinkTitle = `User details for ${fullName} with id ${user.userIdentifier}`;
+              amendedUser = user;
+          });
+          return new usersActions.LoadUserDetailsSuccess(amendedUser);
         }),
         catchError(error => {
           this.loggerService.error(error.message);

@@ -55,10 +55,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
-    /*this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
-      this.handleDependanciesSubscription(users, route);
-    });*/
-
     this.userId = this.activeRoute.snapshot.params.userId;
 
     this.userStore.dispatch(new fromStore.LoadUserDetails(this.userId));
@@ -103,16 +99,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  // public dispatchGetUsers(users, userStore): void {
-  //   if (!users) {
-  //     userStore.dispatch(new fromStore.LoadUsers());
-  //   }
-  // }
-
-  // public getUserObservable(userId, userStore): any {
-  //   return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
-  // }
-
   public setSuspendViewFunctions(): void {
     this.hideSuspendView = () => this.suspendViewFlag = false;
     this.showSuspendView = () => this.suspendViewFlag = true;
@@ -138,11 +124,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  // public handleDependanciesSubscription(users, route): void {
-  //   this.dispatchGetUsers(users, this.userStore);
-  //   this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
-  // }
 
   public isInactive(status: string, inactiveStatuses: string[] = ['Suspended', 'Pending']): boolean {
     return !inactiveStatuses.includes(status);

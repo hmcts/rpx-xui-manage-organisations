@@ -8,7 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { OrganisationService } from 'src/organisation/services';
 import { SharedModule } from 'src/shared/shared.module';
-import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
+import { reducers as orgReducers } from '../organisation/store';
 import * as fromContainers from './containers';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
@@ -24,7 +24,6 @@ import {unassignedCasesRouting} from './unassigned-cases.routing';
         SharedModule,
         unassignedCasesRouting,
         StoreModule.forFeature('org', orgReducers),
-        EffectsModule.forFeature(orgEffects),
         StoreModule.forFeature('unassignedCases', reducers),
         EffectsModule.forFeature(effects),
         CaseListModule,

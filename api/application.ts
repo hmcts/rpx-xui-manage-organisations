@@ -32,7 +32,7 @@ export const logger = log4jui.getLogger('server')
  * this application.
  */
 if (!getEnvironment()) {
-  logger.info(ERROR_NODE_CONFIG_ENV)
+    logger.info(ERROR_NODE_CONFIG_ENV)
 }
 
 /**
@@ -41,8 +41,8 @@ if (!getEnvironment()) {
 logger.info(environmentCheckText())
 
 if (showFeature(FEATURE_HELMET_ENABLED)) {
-  logger.info('Helmet enabled')
-  app.use(helmet(getConfigValue(HELMET)))
+    logger.info('Helmet enabled')
+    app.use(helmet(getConfigValue(HELMET)))
 }
 
 app.use(bodyParser.json({limit: '5mb'}))
@@ -53,40 +53,44 @@ app.use(getXuiNodeMiddleware())
 tunnel.init()
 
 function healthcheckConfig(msUrl) {
-  return healthcheck.web(`${msUrl}/health`, {
-    timeout: 6000,
-    deadline: 6000
-  });
+    return healthcheck.web(`${msUrl}/health`, {
+        timeout: 6000,
+        deadline: 6000,
+    })
 }
 
 const healthChecks = {
-  checks: {
-    feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)),
-    rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)),
-  },
+    checks: {
+        feeAndPayApi: healthcheckConfig(getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)),
+        rdProfessionalApi: healthcheckConfig(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)),
+    },
 }
 
 if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
-  healthChecks.checks = {...healthChecks.checks, ...{
-    termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH))
-  }}
+    healthChecks.checks = {
+        ...healthChecks.checks,
+        ...{
+            termsAndConditions: healthcheckConfig(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)),
+        },
+    }
 }
 
 if (showFeature(FEATURE_REDIS_ENABLED)) {
-  xuiNode.on(SESSION.EVENT.REDIS_CLIENT_READY, (redisClient: any) => {
-    console.log('REDIS EVENT FIRED!!')
-    app.locals.redisClient = redisClient
-    healthChecks.checks = {
-      ...healthChecks.checks, ...{
-        redis: healthcheck.raw(() => {
-          return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down()
-        }),
-      },
-    }
-  })
-  xuiNode.on(SESSION.EVENT.REDIS_CLIENT_ERROR, (error: any) => {
-    logger.error('redis Client error is', error)
-  })
+    xuiNode.on(SESSION.EVENT.REDIS_CLIENT_READY, (redisClient: any) => {
+        console.log('REDIS EVENT FIRED!!')
+        app.locals.redisClient = redisClient
+        healthChecks.checks = {
+            ...healthChecks.checks,
+            ...{
+                redis: healthcheck.raw(() => {
+                    return app.locals.redisClient.connected ? healthcheck.up() : healthcheck.down()
+                }),
+            },
+        }
+    })
+    xuiNode.on(SESSION.EVENT.REDIS_CLIENT_ERROR, (error: any) => {
+        logger.error('redis Client error is', error)
+    })
 }
 
 console.log('healthChecks', healthChecks)

@@ -1,10 +1,14 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
 import { OrganisationComponent } from './containers';
+import { UpdatePbaNumbersCheckComponent } from './containers/update-pba-check/update-pba-numbers-check.component';
+import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/update-pba-numbers.component';
+
 import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
-import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+import { UserRoleGuard } from 'src/shared/guards/user-role.guard';
 
 export const ROUTES: Routes = [
   {
@@ -13,6 +17,24 @@ export const ROUTES: Routes = [
     canActivate: [
       OrganisationGuard,
       HealthCheckGuard,
+    ]
+  },
+  {
+    path: 'update-pba-numbers',
+    component: UpdatePbaNumbersComponent,
+    data: { role: 'pui-finance-manager' },
+    canActivate: [
+      OrganisationGuard,
+      UserRoleGuard
+    ]
+  },
+  {
+    path: 'update-pba-numbers-check',
+    component: UpdatePbaNumbersCheckComponent,
+    data: { role: 'pui-finance-manager' },
+    canActivate: [
+      OrganisationGuard,
+      UserRoleGuard
     ]
   }
 ];

@@ -111,7 +111,7 @@
               "**/api/**",
               "**/src/style-guide/**/*",
               "**/projects/**",
-              "**/hmcts-form-builder/**" // TODO REMOVE AND LINT
+              "**/hmcts-form-builder/**"
             ]
           }
         }

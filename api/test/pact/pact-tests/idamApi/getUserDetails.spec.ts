@@ -59,9 +59,9 @@ describe("Idam API user details", async () => {
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
-      }).finally(() =>{
+      }).finally(() => {
         pactSetUp.provider.verify()
-        pactSetUp.provider.finalize() 
+        pactSetUp.provider.finalize()
       })
     })
   })

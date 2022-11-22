@@ -1,10 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+
 import * as fromRoot from '../../../app/store';
-import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models/organisation.model';
-import * as fromStore from '../../../users/store';
+import { DxAddress, OrganisationContactInformation } from '../../../models';
+import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
@@ -13,14 +15,24 @@ const storeMock = {
   dispatch: (action: Action) => {
   }
 };
+
+const authStoreMock = {
+  pipe: () => {
+  },
+  dispatch: (action: Action) => {
+  }
+};
+
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
+
+let userIsPuiFinanceManager: boolean;
 
 describe('OrganisationComponent', () => {
 
   let component: OrganisationComponent;
   let fixture: ComponentFixture<OrganisationComponent>;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromOrgStore.UserState>;
 
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
@@ -55,13 +67,13 @@ describe('OrganisationComponent', () => {
       lastName: 'Wilson',
       email: 'lukesuperuserxui@mailnesia.com'
     },
-    paymentAccount: ['test']
+    paymentAccount: [{ pbaNumber: 'test' }],
+    pendingPaymentAccount: undefined,
+    pendingAddPaymentAccount: undefined
   };
 
   beforeEach(() => {
-
-    const pipeRequest = new Observable<OrganisationDetails>(obs => obs.next(mockOrganisationDetails));
-    pipeSpy = spyOn(storeMock, 'pipe').and.callFake(() => pipeRequest);
+    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
@@ -69,7 +81,7 @@ describe('OrganisationComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          feature: combineReducers(fromStore.reducers),
+          feature: combineReducers(fromOrgStore.reducers),
         }),
       ],
       declarations: [OrganisationComponent],
@@ -77,7 +89,11 @@ describe('OrganisationComponent', () => {
       providers: [
         {
           provide: Store,
-          useValue: storeMock,
+          useValue: authStoreMock
+        },
+        {
+          provide: Store,
+          useValue: storeMock
         },
         OrganisationComponent
       ]
@@ -90,90 +106,52 @@ describe('OrganisationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should get the first Contact Information item from the Organisation Details.', () => {
-    expect(component.getContactInformation(mockOrganisationDetails)).toEqual(mockOrganisationDetails.contactInformation[0]);
-  });
-
-  describe('getDxAddress', () => {
-
-    it('should return null if there is no dxAddress.', () => {
-
-      const orgContactInformation = {
-        addressLine1: '23',
-        addressLine2: null,
-        addressLine3: null,
-        townCity: 'Aldgate East',
-        county: 'London',
-        country: null,
-        postCode: 'AT54RT',
-      };
-
-      expect(component.getDxAddress(orgContactInformation)).toBeNull();
-    });
-
-    it('should return null if the length of dxAddresses is 0.', () => {
-
-      const orgContactInformation = {
-        addressLine1: '23',
-        postCode: 'AT54RT',
-        dxAddress: []
-      };
-
-      expect(component.getDxAddress(orgContactInformation)).toBeNull();
-    });
-
-    it('should return dxAddress.', () => {
-
-      const orgDxAddress = {
-        dxNumber: 'DX 4534234552',
-        dxExchange: 'London',
-      };
-
-      const orgContactInformation = {
-        addressLine1: '23',
-        postCode: 'AT54RT',
-        dxAddress: [orgDxAddress]
-      };
-
-      expect(component.getDxAddress(orgContactInformation)).toEqual(orgDxAddress);
-    });
-  });
-
-  describe('getPaymentAccount', () => {
-
-    it('should return null if there is no paymentAccount.', () => {
-
-      const organisationDetails = {};
-
-      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
-    });
-
-    it('should return null if the length of paymentAccount is 0.', () => {
-
-      const organisationDetails = {
-        paymentAccount: [],
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toBeNull();
-    });
-
-    it('should return paymentAccount.', () => {
-
-      const paymentAccount = ['PBA3344552', 'PBA7843345'];
-
-      const organisationDetails = {
-        paymentAccount,
-      };
-
-      expect(component.getPaymentAccount(organisationDetails)).toEqual(paymentAccount);
-    });
-  });
-
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
 
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
-    expect(component.getOrganisationDetails()).toEqual(mockOrganisationDetails);
+    expect(component.organisationDetails).toEqual(mockOrganisationDetails);
+  });
+
+  it('should get the User Details from the Store, and set it on orgData.', () => {
+
+    component.getOrganisationDetailsFromStore();
+
+    expect(store.pipe).toHaveBeenCalled();
+    expect(component.organisationDetails).toEqual(mockOrganisationDetails);
+  });
+
+  describe('showChangePbaNumberLink property', () => {
+    const CHANGE_LINK = By.css('#change-pba-account-numbers__link');
+
+    it(`should show the 'Change' link when false`, () => {
+      component.showChangePbaNumberLink = true;
+      fixture.detectChanges();
+
+      const changeLink = fixture.debugElement.query(CHANGE_LINK);
+
+      expect(changeLink).toBeTruthy();
+    });
+
+    it(`should not show the 'Change' link when false`, () => {
+      component.showChangePbaNumberLink = false;
+      fixture.detectChanges();
+
+      const changeLink = fixture.debugElement.query(CHANGE_LINK);
+
+      expect(changeLink).toBeNull();
+    });
+  });
+
+  describe('canShowChangePbaNumbersLink()', () => {
+
+    it('should set to true when the user has pui-finance-manager', () => {
+      userIsPuiFinanceManager = true;
+
+      component.canShowChangePbaNumbersLink();
+
+      expect(component.showChangePbaNumberLink).toBeTruthy();
+    });
   });
 });

@@ -56,8 +56,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
   declarations: [
     AppComponent,
     ...fromComponents.components,
-    ...fromContainers.containers,
-    PhaseBannerComponent
+    ...fromContainers.containers
   ],
   imports: [
     BrowserModule,

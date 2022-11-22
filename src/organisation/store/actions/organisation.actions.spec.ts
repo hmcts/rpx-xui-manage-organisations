@@ -1,9 +1,12 @@
-
-import { Organisation } from 'src/organisation/organisation.model';
-import { LOAD_ORGANISATION, LoadOrganisation } from './organisation.actions';
-import { LOAD_ORGANISATION_SUCCESS, LoadOrganisationSuccess } from './organisation.actions';
-import { LOAD_ORGANISATION_FAIL, LoadOrganisationFail } from './organisation.actions';
-
+import { OrganisationDetails } from '../../../models';
+import {
+  LOAD_ORGANISATION,
+  LOAD_ORGANISATION_FAIL,
+  LOAD_ORGANISATION_SUCCESS,
+  LoadOrganisation,
+  LoadOrganisationFail,
+  LoadOrganisationSuccess,
+} from './organisation.actions';
 
 describe('Load Organisation', () => {
   it('should create an action', () => {
@@ -12,19 +15,36 @@ describe('Load Organisation', () => {
   });
 });
 
-
-
 describe('LoadOrganisationSuccess', () => {
   it('should create an action', () => {
-    const payload: Organisation = {
+    const payload: OrganisationDetails = {
       name: 'a@b.com',
+      organisationIdentifier: 'A111111',
+      contactInformation: [{
       addressLine1: '10  oxford street',
+      addressLine2: 'A Town',
+      addressLine3: null,
       townCity: 'London',
-      postcode: 'W1',
-      addressLine2: '',
+      county: null,
       country: 'UK',
-      contactInformation: [],
-      paymentAccount: []
+      postCode: 'W1',
+      dxAddress: [{
+        dxNumber: 'dx11111',
+        dxExchange: 'dxExchange'
+      }]
+    }],
+      status: '',
+      sraId: '',
+      sraRegulated: true,
+      superUser: {
+      firstName: 'James',
+        lastName: 'Chris',
+        email: 'James.Chris@test.com'
+    },
+      paymentAccount: [{pbaNumber: 'PBA000000'}],
+      pendingAddPaymentAccount: [],
+      pendingRemovePaymentAccount: [],
+      pendingPaymentAccount: undefined,
     };
     const action = new LoadOrganisationSuccess(payload);
     expect({ ...action }).toEqual({
@@ -33,8 +53,6 @@ describe('LoadOrganisationSuccess', () => {
     });
   });
 });
-
-
 
 describe('LoadOrganisationFail', () => {
   it('should create an action', () => {
@@ -46,4 +64,3 @@ describe('LoadOrganisationFail', () => {
     });
   });
 });
-

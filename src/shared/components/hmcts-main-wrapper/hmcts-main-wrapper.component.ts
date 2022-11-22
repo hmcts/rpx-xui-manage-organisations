@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 /*
 * Main Content wrapper
 * Responsible for:
@@ -20,8 +21,12 @@ export class HmctsMainWrapperComponent  {
   @Input() public backLink: string;
   @Input() public backAction: () => {};
   @Input() public title: string;
-  @Input() public summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]};
-  @Input() public actionButtons: {name: string, class: string, action(): {}; }[];
+  @Input() public summaryErrors: {
+    isFromValid: boolean;
+    header?: string;
+    items: { id: string; message: any; }[]
+  };
+  @Input() public actionButtons: { name: string, class: string, action: () => {} }[];
   @Input() public showWarningMessage: boolean;
 
   constructor() { }

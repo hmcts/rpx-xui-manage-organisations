@@ -157,8 +157,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public reinviteUser(user: User) {
-    console.log('REINVITE USER');
-    console.log(user);
     this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
 

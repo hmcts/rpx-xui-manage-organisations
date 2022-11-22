@@ -62,9 +62,9 @@ describe("RD Professional API", () => {
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
-      }).finally(() =>{
+      }).finally(() => {
         pactSetUp.provider.verify()
-        pactSetUp.provider.finalize() 
+        pactSetUp.provider.finalize()
       })
     })
   })

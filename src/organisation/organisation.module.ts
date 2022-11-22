@@ -7,12 +7,17 @@ import { organisationRouting } from './organisation.routing';
 // containers
 import * as fromContainers from './containers';
 
+// components
+import * as fromComponent from './components';
+
 // services
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromServices from './services';
 
 import { HttpClientModule } from '@angular/common/http';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
+import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
@@ -34,10 +39,12 @@ import { effects, reducers } from './store';
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
-    })
+    }),
+    ExuiCommonLibModule,
+    RxReactiveFormsModule
   ],
-  exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers],
+  exports: [...fromContainers.containers, ...fromComponent.components],
+  declarations: [...fromContainers.containers, ...fromComponent.components],
   providers: [...fromServices.services, OrganisationGuard,
   { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
   CryptoWrapper, JwtDecodeWrapper, MonitoringService, LoggerService,

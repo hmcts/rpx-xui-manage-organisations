@@ -34,7 +34,7 @@ import { effects } from './store/effects';
 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
-import { PhaseBannerComponent } from 'src/shared/components/phase-banner/phase-banner.component';
+import { SharedModule } from 'src/shared/shared.module';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
@@ -65,6 +65,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     RouterModule.forRoot(ROUTES, {
       anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
     }),
+    SharedModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     UserProfileModule,

@@ -23,7 +23,7 @@ describe('User Details Component', () => {
     });
 
     describe('ngOnInit', () => {
-        it('should create subscriptions', () => {
+        xit('should create subscriptions', () => {
             actionsObject.pipe.and.returnValue(of());
             routerStoreSpyObject.pipe.and.returnValue(of());
             component.ngOnInit();

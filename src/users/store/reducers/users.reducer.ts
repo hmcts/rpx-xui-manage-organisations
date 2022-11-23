@@ -9,7 +9,7 @@ export interface UsersListState {
   loading: boolean;
   reinvitePendingUser: User;
   editUserFailure: boolean;
-  userDetails: User
+  userDetails: User;
 }
 
 export const initialState: UsersListState = {
@@ -103,7 +103,7 @@ export function reducer(
 
       return {
         ...state,
-        userDetails: userDetails,
+        userDetails,
         loading: false,
         loaded: true
       };
@@ -149,7 +149,7 @@ export function reducer(
       return {
         ...state,
         userDetails: action.payload,
-      }
+      };
     }
 
     case fromUsers.LOAD_USER_DETAILS_SUCCESS: {

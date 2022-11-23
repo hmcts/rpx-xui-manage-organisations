@@ -12,7 +12,6 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
         const apiUrl = getRefdataUserDetailsUrl(rdProfessionalApiPath, req.query.userId as string);
         logger.info('User Details API Link: ', apiUrl);
         const response = await req.http.get(apiUrl);
-        logger.info('User Details API response: ', JSON.stringify(response.data));
         res.send(response.data);
     } catch (error) {
         logger.error('error', error);

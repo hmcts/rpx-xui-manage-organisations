@@ -22,7 +22,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public user: any;
 
   public userSubscription: Subscription;
-  public dependanciesSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
   public actionButtons: { name: string, class: string, action(): {} }[] = [];
@@ -58,9 +57,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.userId = this.activeRoute.snapshot.params.userId;
 
     this.userStore.dispatch(new fromStore.LoadUserDetails(this.userId));
-    
+
     this.user$ = this.userStore.pipe(select(fromStore.getUserDetails))
-    
+
     this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isfeatureEnabled$));
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
@@ -75,10 +74,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.dependanciesSubscription) {
-      this.dependanciesSubscription.unsubscribe();
-    }
-
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

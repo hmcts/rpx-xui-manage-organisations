@@ -3,7 +3,7 @@ import { EditUserPermissionsDto } from '../pactFixtures';
 import { editUserPermissions } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
-const {Matchers} = require('@pact-foundation/pact');
+import { Matchers } from '@pact-foundation/pact';
 const {somethingLike, like, eachLike} = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
 

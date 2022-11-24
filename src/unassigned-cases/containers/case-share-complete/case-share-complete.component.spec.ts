@@ -1,18 +1,18 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CaseShareCompleteComponent } from './case-share-complete.component';
-import { of } from 'rxjs';
-import { State } from '../../../app/store/reducers';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
+import { UnassignedCasesState } from '../../store/reducers';
+import { CaseShareCompleteComponent } from './case-share-complete.component';
 
 describe('CaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 
-  let store: MockStore<State>;
+  let store: Store<UnassignedCasesState>;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
   beforeEach(() => {
@@ -28,7 +28,7 @@ describe('CaseShareCompleteComponent', () => {
         }
       ]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CaseShareCompleteComponent);
     component = fixture.componentInstance;
     mockFeatureToggleService.getValue.and.returnValue(of(true));

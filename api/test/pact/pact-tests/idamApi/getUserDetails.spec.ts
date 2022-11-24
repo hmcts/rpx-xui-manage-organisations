@@ -1,13 +1,10 @@
 import { expect } from 'chai';
 import { getDetails } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
-import { IdamGetDetailsResponseDto } from "./getUserDetails.spec";
 
 const { Matchers } = require('@pact-foundation/pact');
 const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'idamApi_users', port: 8000 });
-
-
 
 describe("Idam API user details", async () => {
 

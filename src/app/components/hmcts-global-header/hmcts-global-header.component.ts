@@ -11,19 +11,19 @@ import * as fromRoot from '../../store';
 })
 export class HmctsGlobalHeaderComponent {
 
-    @Input() set userLoggedIn(value) {
+    @Input() public set userLoggedIn(value) {
         this.userValue = value;
     }
-    @Input() headerTitle: AppTitlesModel;
-    @Input() navigation;
-    @Input() isBrandedHeader: boolean;
-    @Output() navigate = new EventEmitter<string>();
-    @Input() showHeaderItems: boolean;
+    @Input() public headerTitle: AppTitlesModel;
+    @Input() public navigation;
+    @Input() public isBrandedHeader: boolean;
+    @Output() public navigate = new EventEmitter<string>();
+    @Input() public showHeaderItems: boolean;
 
-    userValue: any;
+    public userValue: any;
     constructor(public store: Store<fromRoot.State>) { }
 
-    onEmitEvent(index) {
+    public onEmitEvent(index) {
         this.navigate.emit(this.navigation.items[index].emit);
     }
 }

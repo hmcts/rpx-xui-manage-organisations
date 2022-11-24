@@ -9,6 +9,7 @@ import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/updat
 import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
 import { UserRoleGuard } from 'src/shared/guards/user-role.guard';
+import { OrganisationModule } from './organisation.module';
 
 export const ROUTES: Routes = [
   {
@@ -39,5 +40,4 @@ export const ROUTES: Routes = [
   }
 ];
 
-
-export const organisationRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const organisationRouting: ModuleWithProviders<OrganisationModule> = RouterModule.forChild(ROUTES);

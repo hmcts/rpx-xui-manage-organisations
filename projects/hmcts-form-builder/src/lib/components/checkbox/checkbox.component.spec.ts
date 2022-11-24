@@ -1,33 +1,33 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CheckboxComponent } from './checkbox.component';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-describe('CheckboxComponent', () => {
-    @Component({
-        selector: `app-host-dummy-component`,
-        template: `<app-checkbox 
-            [group]="group" 
-            [idPrefix]="idPrefix"
-            [name]="name"
-            [items]="items"
-            [classes]="classes"
-            [labelClasses]="labelClasses"
-            [validate]="validate"
-        ></app-checkbox>`
-    })
-    class TestDummyHostComponent {
-        group: FormGroup;
-        idPrefix = 'waste';
-        name = 'waste';
-        items;
-        classes;
-        labelClasses;
-        validate;
-        @ViewChild(CheckboxComponent)
-        public checkboxComponent: CheckboxComponent;
-    }
+@Component({
+    selector: `app-host-dummy-component`,
+    template: `<app-checkbox 
+        [group]="group" 
+        [idPrefix]="idPrefix"
+        [name]="name"
+        [items]="items"
+        [classes]="classes"
+        [labelClasses]="labelClasses"
+        [validate]="validate"
+    ></app-checkbox>`
+})
+class TestDummyHostComponent {
+    group: FormGroup;
+    idPrefix = 'waste';
+    name = 'waste';
+    items;
+    classes;
+    labelClasses;
+    validate;
+    @ViewChild(CheckboxComponent)
+    public checkboxComponent: CheckboxComponent;
+}
 
+describe('CheckboxComponent', () => {
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
     let el: DebugElement;
@@ -36,7 +36,7 @@ describe('CheckboxComponent', () => {
     let fixture: ComponentFixture<CheckboxComponent>;
     let element: DebugElement;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 ReactiveFormsModule,
@@ -44,18 +44,14 @@ describe('CheckboxComponent', () => {
             ],
             declarations: [ CheckboxComponent, TestDummyHostComponent ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
-        })
-            .compileComponents();
-    }));
-    beforeEach(() => {
+        }).compileComponents();
+        
         testHostFixture = TestBed.createComponent(TestDummyHostComponent);
         testHostComponent = testHostFixture.componentInstance;
-    });
-    beforeEach(() => {
         fixture = TestBed.createComponent(CheckboxComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement;
-    });
+    }));
 
     it('should create', () => {
         expect(component).toBeTruthy();
@@ -75,5 +71,4 @@ describe('CheckboxComponent', () => {
         expect(testHostComponent.checkboxComponent.idPrefix).toEqual('waste');
         expect(testHostComponent.checkboxComponent.name).toEqual('waste');
     });
-
 });

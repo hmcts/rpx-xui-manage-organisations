@@ -1,13 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { MockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of } from 'rxjs';
-import { State } from '../../../app/store/reducers';
 import { CaseShareService } from '../../services';
 import {
   AddShareCaseGo,
@@ -20,18 +18,19 @@ import {
   LoadUserFromOrgForCaseSuccess
 } from '../actions';
 import * as fromShareCaseEffects from './share-case.effects';
+import * as shareCases from '../reducers/share-case.reducer';
 
 describe('Share Case Effects', () => {
   let actions$;
   let effects: fromShareCaseEffects.ShareCaseEffects;
-  let store: MockStore<State>;
+  let store: Store<shareCases.ShareCasesState>;
   const routerMock = jasmine.createSpyObj('Router', [
     'navigate'
   ]);
   let spyOnDispatchToStore = jasmine.createSpy();
   const caseShareServiceMock = jasmine.createSpyObj('CaseShareService', ['getShareCases', 'getUsersFromOrg', 'assignUsersWithCases']);
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -50,10 +49,15 @@ describe('Share Case Effects', () => {
         provideMockActions(() => actions$)
       ]
     });
-    store = TestBed.get(Store);
+
+    store = TestBed.inject(Store);
+
     spyOnDispatchToStore = spyOn(store, 'dispatch').and.callThrough();
-    effects = TestBed.get(fromShareCaseEffects.ShareCaseEffects);
-  });
+    effects = TestBed.inject(fromShareCaseEffects.ShareCaseEffects);
+
+    initTestScheduler();
+    addMatchers();
+  }));
 
   describe('addShareCases$', () => {
     it('should add share case action', () => {

@@ -1,5 +1,6 @@
 import {AUTH, AuthOptions, xuiNode} from '@hmcts/rpx-xui-node-lib'
 import {NextFunction, Request, Response} from 'express'
+import { EnhancedRequest } from '../models/enhanced-request.interface'
 import {getConfigValue, showFeature} from '../configuration'
 import {
   COOKIE_TOKEN,
@@ -28,7 +29,7 @@ import {getOrganisationDetails} from '../organisation'
 
 const logger = log4jui.getLogger('auth')
 
-export const successCallback = async (req: Request, res: Response, next: NextFunction) => {
+export const successCallback = async (req: EnhancedRequest, res: Response, next: NextFunction) => {
     const {accessToken} = req.session.passport.user.tokenset
     const {userinfo} = req.session.passport.user
 

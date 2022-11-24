@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
 
@@ -9,9 +9,9 @@ export const ENVIRONMENT = {
 
 @Injectable()
 export class OrganisationService {
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  fetchOrganisation(): Observable<any> {
+  public fetchOrganisation(): Observable<any> {
    return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
   }
 

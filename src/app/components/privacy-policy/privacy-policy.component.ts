@@ -21,7 +21,7 @@ export class PrivacyPolicyComponent implements OnInit {
   }
 
   @HostListener('document:click', ['$event'])
-  clickout(event) {
+  public clickout(event) {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

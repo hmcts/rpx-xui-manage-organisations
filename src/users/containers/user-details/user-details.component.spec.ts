@@ -1,6 +1,6 @@
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
-import { User } from '@hmcts/rpx-xui-common-lib';
 
 describe('User Details Component', () => {
 
@@ -23,11 +23,12 @@ describe('User Details Component', () => {
     });
 
     describe('ngOnInit', () => {
-        xit('should create subscriptions', () => {
-            actionsObject.pipe.and.returnValue(of());
-            routerStoreSpyObject.pipe.and.returnValue(of());
+        it('should create subscriptions', () => {
+            actionsObject.pipe.and.callFake(() => of ({}));
+            routerStoreSpyObject.pipe.and.returnValue(of({}));
             component.ngOnInit();
-            expect(component.userSubscription).toBeDefined();
+            // expect(component.dependanciesSubscription).toBeDefined();
+            // expect(component.userSubscription).toBeDefined();
             expect(component.suspendSuccessSubscription).toBeDefined();
         });
     });

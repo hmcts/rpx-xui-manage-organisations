@@ -51,8 +51,4 @@ import { effects, reducers } from './store';
   {provide: ErrorHandler, useClass: DefaultErrorHandler}]
 })
 
-
-
-export class OrganisationModule {
-
-}
+export class OrganisationModule {}

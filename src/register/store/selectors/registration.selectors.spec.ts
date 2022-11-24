@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { combineReducers, select, Store, StoreModule } from '@ngrx/store';
-import {RegistrationFormState} from '../reducers/registration.reducer';
-import {getCurrentPageItems, getRegistrationPages, getRegistrationState, getErrorMessages} from './registration.selectors';
+import {LoadPageItemsSuccess} from '../actions';
 import {LoadPageItems, SubmitFormDataFail} from '../actions/registration.actions';
 import {reducers} from '../index';
-import {LoadPageItemsSuccess} from '../actions';
+import {RegistrationFormState} from '../reducers/registration.reducer';
+import {getCurrentPageItems, getErrorMessages, getRegistrationPages, getRegistrationState} from './registration.selectors';
 
 describe('Registration selectors', () => {
   let store: Store<RegistrationFormState>;
@@ -15,7 +15,7 @@ describe('Registration selectors', () => {
         StoreModule.forFeature('registration', reducers),
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

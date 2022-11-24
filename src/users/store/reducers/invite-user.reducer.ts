@@ -1,4 +1,4 @@
-import { errorMessageMappings } from 'src/register/mappings/apiErrorMappings';
+import { errorMessageMappings } from '../../../register/mappings/apiErrorMappings';
 import * as fromInviteUsers from '../actions/invite-user.actions';
 
 

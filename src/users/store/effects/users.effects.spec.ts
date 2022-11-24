@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
@@ -18,7 +18,7 @@ describe('Users Effects', () => {
 
     const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [
@@ -35,13 +35,15 @@ describe('Users Effects', () => {
             ]
         });
 
-        effects = TestBed.get(fromUsersEffects.UsersEffects);
-        loggerService = TestBed.get(LoggerService);
+        effects = TestBed.inject(fromUsersEffects.UsersEffects);
+        loggerService = TestBed.inject(LoggerService);
 
-    });
+        initTestScheduler();
+        addMatchers();
+    }));
 
     describe('loadUsers$', () => {
-        it('should return a collection from loadUsers$ - LoadUsersSuccess', () => {
+        it('should return a collection from loadUsers$ - LoadUsersSuccess', waitForAsync(() => {
             const payload = { users: [{ payload: 'something' }] };
             UsersServiceMock.getListOfUsers.and.returnValue(of(payload));
             const action = new LoadUsers();
@@ -53,9 +55,9 @@ describe('Users Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.loadUsers$).toBeObservable(expected);
-        });
+        }));
 
-        it('should return a collection from loadUsers$ when status pending - LoadUsersSuccess', () => {
+        it('should return a collection from loadUsers$ when status pending - LoadUsersSuccess', waitForAsync(() => {
             const payload = { users: [{ idamStatus: 'PENDING' }] };
             UsersServiceMock.getListOfUsers.and.returnValue(of(payload));
             const action = new LoadUsers();
@@ -67,11 +69,11 @@ describe('Users Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.loadUsers$).toBeObservable(expected);
-        });
+        }));
     });
 
     describe('loadUsers$ error', () => {
-        it('should return LoadUsersFail', () => {
+        it('should return LoadUsersFail', waitForAsync(() => {
             UsersServiceMock.getListOfUsers.and.returnValue(throwError(new Error()));
             const action = new LoadUsers();
             const completion = new LoadUsersFail(new Error());
@@ -79,11 +81,11 @@ describe('Users Effects', () => {
             const expected = cold('-b', { b: completion });
             expect(effects.loadUsers$).toBeObservable(expected);
             expect(loggerService.error).toHaveBeenCalled();
-        });
+        }));
     });
 
     describe('suspendUser$', () => {
-        it('should return a collection from suspendUser$ - SuspendUserSuccess', () => {
+        it('should return a collection from suspendUser$ - SuspendUserSuccess', waitForAsync(() => {
             const user = {
                 userIdentifier: 'cfeba78e-ff81-49d5-8a65-55fa2a9c2424',
                 firstName: 'Humpty',
@@ -103,18 +105,18 @@ describe('Users Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.suspendUser$).toBeObservable(expected);
-        });
+        }));
     });
 
     describe('suspendUser$ error', () => {
-        it('should return LoadUsersFail', () => {
+        it('should return LoadUsersFail', waitForAsync(() => {
             UsersServiceMock.suspendUser.and.returnValue(throwError(new Error()));
             const action = new SuspendUser({});
             const completion = new SuspendUserFail(new Error());
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.suspendUser$).toBeObservable(expected);
-        });
+        }));
     });
 
     describe('loadUserDetails$', () => {
@@ -130,5 +132,4 @@ describe('Users Effects', () => {
             expect(effects.loadUserDetails$).toBeObservable(expected);
         });
     });
-
 });

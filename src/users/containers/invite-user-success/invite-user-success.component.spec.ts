@@ -1,10 +1,10 @@
-import { InviteUserSuccessComponent } from './invite-user-success.component';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { StoreModule, Store, combineReducers } from '@ngrx/store';
-import * as fromStore from '../../store';
-import * as fromRoot from '../../../app/store';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import * as fromRoot from '../../../app/store';
+import * as fromStore from '../../store';
+import { InviteUserSuccessComponent } from './invite-user-success.component';
 
 describe('Invite User Success Component', () => {
 
@@ -29,7 +29,7 @@ describe('Invite User Success Component', () => {
             ]
         }).compileComponents();
 
-        store = TestBed.get(Store);
+        store = TestBed.inject(Store);
 
         fixture = TestBed.createComponent(InviteUserSuccessComponent);
         component = fixture.componentInstance;

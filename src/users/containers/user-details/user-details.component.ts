@@ -3,7 +3,6 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { UsersService } from '../../../users/services';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';

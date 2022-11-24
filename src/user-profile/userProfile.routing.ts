@@ -1,9 +1,7 @@
 // routes
-import { RouterModule, Routes } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
-import { ProfileComponent } from './containers/profile/profile.component';
-import { AuthGuard } from './/guards/auth.guard';
-import { UserGuard } from './guards/user.guard';
+import { RouterModule, Routes } from '@angular/router';
+import { UserProfileModule } from './user-profile.module';
 
 // TODO please remove when profile story gets runned
 
@@ -19,5 +17,4 @@ export const ROUTES: Routes = [
   }
 ];
 
-
-export const userProfileRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const userProfileRouting: ModuleWithProviders<UserProfileModule> = RouterModule.forChild(ROUTES);

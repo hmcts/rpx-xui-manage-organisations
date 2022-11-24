@@ -4,7 +4,7 @@
  */
 import {formatDate} from '@angular/common';
 import { AppConstants } from '../app.constants';
-import { NavItemModel, NavItemsModel } from '../models/nav-items.model';
+import { NavItemModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
 
 export class AppUtils {

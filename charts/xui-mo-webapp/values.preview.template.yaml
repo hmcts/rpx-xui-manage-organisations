@@ -24,6 +24,7 @@ nodejs:
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD
   autoscaling:
     enabled: false
 redis:
@@ -32,4 +33,4 @@ idam-pr:
   enabled: true
   redirect_uris:
     XUIMO:
-      - https://${SERVICE_FQDN}/oauth2/callback 
+      - https://${SERVICE_FQDN}/oauth2/callback

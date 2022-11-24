@@ -1,5 +1,5 @@
-import { Action } from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
+import { Action } from '@ngrx/store';
 import {UserInterface} from '../../models/user.model';
 
 export enum AuthActionTypes {
@@ -17,56 +17,56 @@ export enum AuthActionTypes {
 }
 
 export class LogIn implements Action {
-  readonly type = AuthActionTypes.LOGIN;
+  public readonly type = AuthActionTypes.LOGIN;
   constructor(public payload: any) {}
 }
 
 export class LogInFailure implements Action {
-  readonly type = AuthActionTypes.LOGIN_FAILURE;
+  public readonly type = AuthActionTypes.LOGIN_FAILURE;
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class GetUserDetails implements Action {
-  readonly type = AuthActionTypes.GET_USER_DETAILS;
+  public readonly type = AuthActionTypes.GET_USER_DETAILS;
 }
 
 export class GetUserDetailsSuccess implements Action {
-  readonly type = AuthActionTypes.GET_USER_DETAILS_SUCCESS;
+  public readonly type = AuthActionTypes.GET_USER_DETAILS_SUCCESS;
   constructor(public payload: UserInterface) {}
 }
 
 export class GetUserDetailsFailure implements Action {
-  readonly type = AuthActionTypes.GET_USER_DETAILS_FAIL;
+  public readonly type = AuthActionTypes.GET_USER_DETAILS_FAIL;
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class LoadHasAcceptedTC implements Action {
-  readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC;
+  public readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC;
   constructor(public payload: string) {}
 }
 
 export class LoadHasAcceptedTCSuccess implements Action {
-  readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC_SUCCESS;
+  public readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC_SUCCESS;
   constructor(public payload: string) {}
 }
 
 export class LoadHasAcceptedTCFail implements Action {
-  readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC_FAIL;
+  public readonly type = AuthActionTypes.LOAD_HAS_ACCEPTED_TC_FAIL;
   constructor(public payload: HttpErrorResponse) {}
 }
 
 export class AcceptTandC implements Action {
-  readonly type = AuthActionTypes.ACCEPT_T_AND_C;
+  public readonly type = AuthActionTypes.ACCEPT_T_AND_C;
   constructor(public payload: any) {}
 }
 
 export class AcceptTandCSuccess implements Action {
-  readonly type = AuthActionTypes.ACCEPT_T_AND_C_SUCCESS;
+  public readonly type = AuthActionTypes.ACCEPT_T_AND_C_SUCCESS;
   constructor(public payload: boolean) {}
 }
 
 export class AcceptTandCFail implements Action {
-  readonly type = AuthActionTypes.ACCEPT_T_AND_C_FAIL;
+  public readonly type = AuthActionTypes.ACCEPT_T_AND_C_FAIL;
   constructor(public payload: any) {}
 }
 

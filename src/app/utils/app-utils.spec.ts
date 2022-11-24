@@ -226,21 +226,21 @@ describe('AppUtils', () => {
       const object = { level1: { level2: { level3: 'level3' } } };
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(true);
-    })
+    });
 
     it('Should return false if a property does not exist on an object.', () => {
 
       const object = { level1: { level2: { level3: 'level3' } } }
 
       expect(propsExist(object, ['level1', 'breakingProperty', 'level3'])).toEqual(false);
-    })
+    });
 
     it('Should return false if the object is undefined.', () => {
 
       const object = undefined;
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
-    })
+    });
 
     it('Should return false if the object is null.', () => {
 

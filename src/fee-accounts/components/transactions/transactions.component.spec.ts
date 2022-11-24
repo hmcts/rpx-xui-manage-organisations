@@ -1,6 +1,6 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TransactionsComponent } from './transactions.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('TransactionsComponent', () => {
     let component: TransactionsComponent;

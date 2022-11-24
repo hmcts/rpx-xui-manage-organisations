@@ -1,5 +1,5 @@
-import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
 import {SingleAccountSummary} from '../../models/single-account-summary';
+import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
 
 
 

@@ -10,9 +10,9 @@ import * as organisationActions from '../actions';
 export class OrganisationEffects {
   public payload: any;
   constructor(
-    private actions$: Actions,
-    private organisationService: OrganisationService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly organisationService: OrganisationService,
+    private readonly loggerService: LoggerService
   ) { }
 
   @Effect()

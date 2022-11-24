@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountTransactionsComponent } from './account-transactions.component';
+import { APP_BASE_HREF } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { APP_BASE_HREF } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
-import { reducers } from 'src/fee-accounts/store/reducers';
-import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DateFormatAtTimePipe } from 'src/shared/components/custom-pipe/date-pipe-with-to';
+import { StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
+import { reducers } from '../../../fee-accounts/store/reducers';
+import { DateFormatAtTimePipe } from '../../../shared/components/custom-pipe/date-pipe-with-to';
+import { AccountTransactionsComponent } from './account-transactions.component';
 
 describe('AccountTransactionsComponent', () => {
   let component: AccountTransactionsComponent;

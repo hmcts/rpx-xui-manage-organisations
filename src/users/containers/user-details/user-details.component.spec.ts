@@ -26,7 +26,7 @@ describe('User Details Component', () => {
         it('should create subscriptions', () => {
             actionsObject.pipe.and.callFake(() => of ({}));
             routerStoreSpyObject.pipe.and.returnValue(of({}));
-            userStoreSpyObject.pipe.and.returnValue(of({}));            
+            userStoreSpyObject.pipe.and.returnValue(of({}));
             component.ngOnInit();
             expect(component.suspendSuccessSubscription).toBeDefined();
         });

@@ -23,12 +23,11 @@ describe('User Details Component', () => {
     });
 
     describe('ngOnInit', () => {
-        xit('should create subscriptions', () => {
+        it('should create subscriptions', () => {
             actionsObject.pipe.and.callFake(() => of ({}));
             routerStoreSpyObject.pipe.and.returnValue(of({}));
+            userStoreSpyObject.pipe.and.returnValue(of({}));            
             component.ngOnInit();
-            // expect(component.dependanciesSubscription).toBeDefined();
-            // expect(component.userSubscription).toBeDefined();
             expect(component.suspendSuccessSubscription).toBeDefined();
         });
     });

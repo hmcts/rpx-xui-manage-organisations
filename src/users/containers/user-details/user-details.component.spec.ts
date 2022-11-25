@@ -28,6 +28,7 @@ describe('User Details Component', () => {
             routerStoreSpyObject.pipe.and.returnValue(of({}));
             userStoreSpyObject.pipe.and.returnValue(of({}));
             component.ngOnInit();
+            expect(component.userSubscription).toBeDefined();
             expect(component.suspendSuccessSubscription).toBeDefined();
         });
     });

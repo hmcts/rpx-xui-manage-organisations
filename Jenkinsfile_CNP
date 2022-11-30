@@ -55,11 +55,11 @@ withPipeline(type, product, component) {
      AppPipelineDsl.PactRoles.CONSUMER
 ])
 
-    after('build') {
+    afterSuccess('build') {
         yarnBuilder.yarn('build')
     }
 
-    after('test') {
+    afterSuccess('test') {
 
         publishHTML ( [
             allowMissing         : true,
@@ -104,7 +104,7 @@ withPipeline(type, product, component) {
 //        ])
 //    }
 
-    after('smoketest:preview') {
+    afterSuccess('smoketest:preview') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -124,7 +124,7 @@ withPipeline(type, product, component) {
         ])
     }
 
-    after('functionalTest:preview') {
+    afterSuccess('functionalTest:preview') {
 
       publishHTML([
         allowMissing         : true,
@@ -146,7 +146,7 @@ withPipeline(type, product, component) {
     }
 
 
-    after('smoketest:aat') {
+    afterSuccess('smoketest:aat') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -166,7 +166,7 @@ withPipeline(type, product, component) {
         ])
     }
 
-    after('functionalTest:aat') {
+    afterSuccess('functionalTest:aat') {
 
       publishHTML([
         allowMissing         : true,

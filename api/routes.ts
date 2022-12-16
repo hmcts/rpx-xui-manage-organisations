@@ -1,7 +1,10 @@
-import {xuiNode} from '@hmcts/rpx-xui-node-lib'
-import * as express from 'express'
+import { xuiNode } from '@hmcts/rpx-xui-node-lib'
 import { Router } from 'express'
 import accountsRouter from './accounts'
+import getAllUserList from './allUserList'
+import getAllUserListWithoutRoles from './allUserListWithoutRoles'
+import { router as caaCasesRouter } from './caaCases'
+import { router as caaCaseTypesRouter } from './caaCaseTypes'
 import { router as caseShareRouter } from './caseshare/routes'
 import editUserPermissions from './editUserPermissions'
 import getUserTermsAndConditions from './getUserTermsAndConditions'
@@ -13,12 +16,8 @@ import payments from './payments'
 import postUserTermsAndConditions from './postUserTermsAndConditions'
 import suspendUser from './suspendUser'
 import getTermsAndConditions from './termsAndConditions'
-import unnassignedCasesRouter from './unassignedCases'
-import unassignedCaseTypesRouter from './unassignedCaseTypes'
 import userDetailsRouter from './user'
 import getUserList from './userList'
-import getAllUserList from './allUserList'
-import getAllUserListWithoutRoles from './allUserListWithoutRoles'
 import { router as pbaRouter } from './pbas/routes';
 import { router as registerRouter } from './register-org';
 
@@ -46,5 +45,6 @@ router.use('/unassignedCaseTypes', unassignedCaseTypesRouter);
 router.use('/caseshare', caseShareRouter);
 router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);
+router.use('/caaCases', caaCasesRouter);
+router.use('/caaCaseTypes', caaCaseTypesRouter);
 export default router;
-

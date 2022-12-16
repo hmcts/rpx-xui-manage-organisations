@@ -1,0 +1,42 @@
+.govuk-grid-row {
+  .govuk-grid-column-one-half {
+    background-color: #f3f2f1;
+    padding-top: 20px;
+    margin-left: 15px;
+  }
+
+  #filterContainer {
+    margin-bottom: 30px;
+  }
+
+  #assignee-person {
+    width: 90%;
+  }
+
+  #case-reference-number {
+    width: 70%;
+  }
+  
+  .hide-autocomplete {
+    display: none;
+  }
+}
+
+.mat-optgroup {
+  .mat-group-header {
+    font-size: 16px !important;
+    font-weight: bold !important;
+  }
+
+  .mat-option {
+    &:hover {
+      background: #2596be;
+    }
+    &.select-option {
+      &:hover {
+        background: #1d70b8;
+        color: #ffffff;
+      }
+    }
+  }
+}

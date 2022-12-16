@@ -40,8 +40,6 @@ router.use('/userTermsAndConditions', postUserTermsAndConditions);
 router.use('/termsAndConditions', getTermsAndConditions);
 router.use('/user/:userId/suspend', suspendUser);
 router.use('/editUserPermissions/users/:userId', editUserPermissions);
-router.use('/unassignedCases', unnassignedCasesRouter);
-router.use('/unassignedCaseTypes', unassignedCaseTypesRouter);
 router.use('/caseshare', caseShareRouter);
 router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);

@@ -1,25 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material';
+import { MatTabGroup } from '@angular/material/tabs/tab-group';
 import { Router } from '@angular/router';
-import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/lib/shared/components/case-list/case-list.component';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { OrganisationDetails } from 'src/models';
 import { CaaCasesService } from '../../../caa-cases/services';
-import { Organisation } from '../../../organisation/organisation.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
 import {
-  CaaCasesFilterType,
-  CaaCasesNoDataMessage,
-  CaaCasesPageTitle,
-  CaaCasesPageType,
-  CaaCasesShareButtonText,
-  CaaCasesShowHideFilterButtonText
+	CaaCasesFilterType,
+	CaaCasesNoDataMessage,
+	CaaCasesPageTitle,
+	CaaCasesPageType,
+	CaaCasesShareButtonText,
+	CaaCasesShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
+import {
+	CaaCases,
+	CaaCasesSessionState,
+	CaaCasesSessionStateValue,
+	ErrorMessage
+} from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -29,7 +34,7 @@ import * as fromStore from '../../store';
 export class CaaCasesComponent implements OnInit {
 
   public cases$: Observable<any>;
-  public selectedOrganisation$: Observable<Organisation>;
+  public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;

@@ -1,15 +1,15 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete/autocomplete-module';
 import { Observable } from 'rxjs';
-import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import {
-  CaaCasesFilterErrorMessage,
-  CaaCasesFilterHeading,
-  CaaCasesFilterType,
-  CaaCasesPageType
+	CaaCasesFilterErrorMessage,
+	CaaCasesFilterHeading,
+	CaaCasesFilterType,
+	CaaCasesPageType
 } from '../../../caa-cases/models/caa-cases.enum';
+import { CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import { CaaFilterComponent } from './caa-filter.component';
 
 describe('CaaFilterComponent', () => {
@@ -17,7 +17,7 @@ describe('CaaFilterComponent', () => {
   let fixture: ComponentFixture<CaaFilterComponent>;
   let nativeElement: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,

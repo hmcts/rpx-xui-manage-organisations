@@ -4,6 +4,8 @@
         "paths": { "*": ["customTypings/*"] },
         "outDir": "../dist/rpa-pui-manager/api",
         "target": "es6",
+        "module": "commonjs",
+        "skipLibCheck": true,
         "types": [
             "node",
             "mocha",

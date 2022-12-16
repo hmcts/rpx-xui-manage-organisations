@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete/autocomplete-module';
+import { MatTabsModule } from '@angular/material/tabs';
 import { Observable } from 'rxjs';
 import {
 	CaaCasesFilterErrorMessage,
@@ -21,7 +22,8 @@ describe('CaaFilterComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+				MatTabsModule
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ CaaFilterComponent ],

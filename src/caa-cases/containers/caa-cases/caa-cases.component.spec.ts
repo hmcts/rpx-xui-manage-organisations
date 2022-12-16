@@ -19,6 +19,8 @@ import {
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
@@ -52,7 +54,9 @@ describe('CaaCasesComponent', () => {
       imports: [
         StoreModule.forRoot({}),
         RouterTestingModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+				MatAutocompleteModule,
+				MatTabsModule
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ CaaCasesComponent ],

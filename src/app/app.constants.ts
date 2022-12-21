@@ -167,7 +167,9 @@ const ccdRoles = [
   'caseworker-ia-legalrep-solicitor',
   'caseworker-publiclaw-solicitor',
   'caseworker-civil',
-  'caseworker-civil-solicitor'
+  'caseworker-civil-solicitor',
+  'caseworker-employment',
+  'caseworker-employment-legalrep-solicitor'
 ];
 
 const redirectUrl = {

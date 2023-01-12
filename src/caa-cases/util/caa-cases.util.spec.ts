@@ -89,7 +89,7 @@ describe('CaaCasesUtil', () => {
       fullName: 'Lindsey Johnson',
       email: 'user@test.com',
       status: 'pending'
-    }
+    };
     control.setValue(user);
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
     expect(assigneeNameValidator(control)).toBeNull();

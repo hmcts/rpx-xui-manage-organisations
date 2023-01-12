@@ -91,7 +91,7 @@ export function reducer(
           navItems = [
             ...navItems,
             // Allow for multiple nav items per role
-            ...state.allNavItems[role] as [],
+            ...(Array.isArray(state.allNavItems[role]) ? state.allNavItems[role] as [] : [state.allNavItems[role]])
           ];
         }
       });

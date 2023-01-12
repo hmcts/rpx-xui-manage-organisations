@@ -13,7 +13,7 @@ import * as fromfeatureStore from '../../store';
   styleUrls: ['./account-summary.component.scss']
 })
 export class AccountSummaryComponent implements OnInit, OnDestroy {
-  public accounts$: Observable<Array<FeeAccount>>;
+  public accounts$: Observable<FeeAccount[]>;
   public accountName$: Observable<string>;
   public subscription: Subscription;
   public navItems = [

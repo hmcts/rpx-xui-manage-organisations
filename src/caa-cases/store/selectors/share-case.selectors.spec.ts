@@ -2,20 +2,30 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { UserState } from '../../../users/store';
 import { OrganisationState } from '../../../organisation/store';
+import { UserState } from '../../../users/store';
 import { CaaCasesComponent } from '../../containers';
-import { CaaCasesState, getShareCaseListState, reducers } from '../index';
 import { CaaCasesService } from '../../services';
+import { CaaCasesState, getShareCaseListState, reducers } from '../index';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
   let organisationStore: Store<OrganisationState>;
   let userStore: Store<UserState>;
-  let caaCasesService: CaaCasesService
+  let caaCasesService: jasmine.SpyObj<CaaCasesService>;
   const router: any = {};
 
   beforeEach(() => {
+    caaCasesService = jasmine.createSpyObj<CaaCasesService>(
+      'caaCasesService',
+      [
+        'getCaaCases',
+        'getCaaCaseTypes',
+        'storeSessionState',
+        'retrieveSessionState',
+        'removeSessionState'
+      ]
+    );
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -24,13 +34,12 @@ describe('Share case selectors', () => {
       ],
       providers: [
         { provide: Router, useValue: router },
-        CaaCasesService
+        { provide: CaaCasesService, useValue: caaCasesService }
       ]
     });
-    store = TestBed.get(Store);
-    organisationStore = TestBed.get(Store);
-    userStore = TestBed.get(Store);
-    caaCasesService = TestBed.get(CaaCasesService);
+    store = TestBed.inject(Store);
+    organisationStore = TestBed.inject(Store);
+    userStore = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

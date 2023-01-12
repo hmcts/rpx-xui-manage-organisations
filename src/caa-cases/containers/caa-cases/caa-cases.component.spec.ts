@@ -1,21 +1,21 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import * as fromOrganisationStore from '../../../organisation/store';
 import {
   CaaCasesFilterType,
   CaaCasesNoDataMessage,
   CaaCasesPageTitle,
   CaaCasesPageType,
-  CaaCasesShowHideFilterButtonText,
-  CaaCasesShareButtonText
+  CaaCasesShareButtonText,
+  CaaCasesShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
+import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
@@ -37,7 +37,7 @@ describe('CaaCasesComponent', () => {
     value: sessionStateValue
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     caaCasesService = jasmine.createSpyObj<CaaCasesService>(
       'caaCasesService',
       [
@@ -64,11 +64,11 @@ describe('CaaCasesComponent', () => {
   }));
 
   beforeEach(() => {
-    store = TestBed.get(Store);
-    organisationStore = TestBed.get(Store);
+    store = TestBed.inject(Store);
+    organisationStore = TestBed.inject(Store);
     fixture = TestBed.createComponent(CaaCasesComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

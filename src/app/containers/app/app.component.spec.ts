@@ -1,20 +1,18 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-import { combineReducers, StoreModule, Store } from '@ngrx/store';
-import {Logout, reducers} from 'src/app/store';
-import { HeaderComponent } from '../header/header.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { cold } from 'jasmine-marbles';
-
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
-
-import * as fromAuth from '../../../user-profile/store';
-import { ENVIRONMENT_CONFIG } from 'src/models/environmentConfig.model';
-import { of } from 'rxjs';
+import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken } from '@hmcts/rpx-xui-common-lib';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
 import { CookieModule } from 'ngx-cookie';
-import { LoggerService } from 'src/shared/services/logger.service';
+import { of } from 'rxjs';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { LoggerService } from '../../../shared/services/logger.service';
+import * as fromAuth from '../../../user-profile/store';
+import { Logout, reducers } from '../../store';
+import { HeaderComponent } from '../header/header.component';
+import { AppComponent } from './app.component';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -40,7 +38,7 @@ describe('AppComponent', () => {
   let app;
   let loggerService: any;
   let cookieService: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
@@ -92,35 +90,38 @@ describe('AppComponent', () => {
         }
       ],
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
+
+    initTestScheduler();
+    addMatchers();
 
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
+  it('should have pageTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
 
   }));
 
 
-  it('should have appHeaderTitle$ Observable the app', async(() => {
+  it('should have appHeaderTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
 
   }));
 
-  it('should have userNav$ Observable the app', async(() => {
+  it('should have userNav$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
   }));
 
 
-  it('should have navItems$ Observable the app', async(() => {
+  it('should have navItems$ Observable the app', waitForAsync(() => {
     const navItems = [
       {
         text: 'Organisation',
@@ -137,7 +138,7 @@ describe('AppComponent', () => {
 
   }));
 
-  it('should dispatch a logout action', async(() => {
+  it('should dispatch a logout action', waitForAsync(() => {
     spyOn(window.sessionStorage, 'clear').and.callThrough();
     app.onNavigate('sign-out');
     fixture.detectChanges();

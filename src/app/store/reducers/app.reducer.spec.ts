@@ -1,4 +1,4 @@
-import { AppConstants } from 'src/app/app.constants';
+import { AppConstants } from '../../../app/app.constants';
 import * as fromAppActions from '../actions/app.actions';
 import * as fromApp from './app.reducer';
 
@@ -58,7 +58,8 @@ describe('AppReducer', () => {
         'pui-case-manager',
         'pui-user-manager',
         'pui-finance-manager',
-        'pui-organisation-manager'
+        'pui-organisation-manager',
+        'pui-caa'
       ];
       const navItems = [
         {
@@ -80,6 +81,24 @@ describe('AppReducer', () => {
           orderId: 3,
           featureToggle: {
             featureName: AppConstants.FEATURE_NAMES.feeAccount
+          }
+        },
+        {
+          href: '/unassigned-cases',
+          text: 'Unassigned cases',
+          active: false,
+          orderId: 4,
+          featureToggle: {
+            featureName: AppConstants.FEATURE_NAMES.caaMenuItems
+          }
+        },
+        {
+          href: '/assigned-cases',
+          text: 'Assigned cases',
+          active: false,
+          orderId: 5,
+          featureToggle: {
+            featureName: AppConstants.FEATURE_NAMES.caaMenuItems
           }
         }
       ];

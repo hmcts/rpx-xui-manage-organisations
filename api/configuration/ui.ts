@@ -2,14 +2,14 @@ import {
   EnvironmentConfigCookies,
   EnvironmentConfigExceptionOptions,
   EnvironmentConfigServices
-} from '../interfaces/environment.config'
-import {healthEndpoints} from './health'
-import {getConfigValue, getEnvironment, showFeature} from './index'
+} from '../interfaces/environment.config';
+import { healthEndpoints } from './health';
+import { getConfigValue, getEnvironment, showFeature } from './index';
 import {
   COOKIE_TOKEN,
   COOKIES_USERID,
-  FEATURE_SECURE_COOKIE_ENABLED,
   FEATURE_OIDC_ENABLED,
+  FEATURE_SECURE_COOKIE_ENABLED,
   IDAM_CLIENT,
   INDEX_URL,
   LINKS_MANAGE_CASES_LINK,
@@ -26,14 +26,14 @@ import {
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_ROLE_ASSIGNMENT_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
-  SESSION_SECRET,
-  SERVICES_ROLE_ASSIGNMENT_API_PATH
-} from './references'
+  SESSION_SECRET
+} from './references';
 
 export const uiConfig = () => {
 
-  const configEnv = getEnvironment()
+  const configEnv = getEnvironment();
 
   return {
     configEnv,
@@ -71,5 +71,5 @@ export const uiConfig = () => {
       oidcEnabled: showFeature(FEATURE_OIDC_ENABLED)
     },
     sessionSecret: getConfigValue(SESSION_SECRET),
-  }
-}
+  };
+};

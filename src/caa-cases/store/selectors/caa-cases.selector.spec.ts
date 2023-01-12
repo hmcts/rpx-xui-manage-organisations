@@ -14,7 +14,7 @@ describe('CaaCases selectors', () => {
         StoreModule.forFeature('caaCases', reducers)
       ]
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

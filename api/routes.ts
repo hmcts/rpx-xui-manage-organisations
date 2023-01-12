@@ -13,7 +13,9 @@ import inviteUser from './inviteUser'
 import getJurisdictions from './jurisdictions'
 import organisationRouter from './organisation'
 import payments from './payments'
+import { router as pbaRouter } from './pbas/routes'
 import postUserTermsAndConditions from './postUserTermsAndConditions'
+import { router as registerRouter } from './register-org'
 import suspendUser from './suspendUser'
 import getTermsAndConditions from './termsAndConditions'
 import userDetailsRouter from './user'
@@ -30,6 +32,7 @@ router.use('/inviteUser', inviteUser)
 router.use('/allUserList', getAllUserList)
 router.use('/allUserListWithoutRoles', getAllUserListWithoutRoles)
 router.use('/userList', getUserList)
+router.use('/userDetails', getUserList)
 router.use('/jurisdictions', getJurisdictions)
 router.use('/payments/:account', payments)
 router.use('/userTermsAndConditions/:userId', getUserTermsAndConditions)
@@ -40,4 +43,6 @@ router.use('/editUserPermissions/users/:userId', editUserPermissions)
 router.use('/caaCases', caaCasesRouter)
 router.use('/caaCaseTypes', caaCaseTypesRouter)
 router.use('/caseshare', caseShareRouter)
+router.use('/pba', pbaRouter)
+router.use('/register-org', registerRouter)
 export default router

@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
-import { TableConfig } from '@hmcts/ccd-case-ui-toolkit/dist/shared/components/case-list/case-list.component';
+import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CaaCasesService } from '../../../caa-cases/services';
-import { Organisation } from '../../../organisation/organisation.model';
+import { OrganisationDetails } from '../../../models';
 import * as fromOrganisationStore from '../../../organisation/store';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
-import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
 import {
   CaaCasesFilterType,
   CaaCasesNoDataMessage,
@@ -20,6 +19,7 @@ import {
   CaaCasesShareButtonText,
   CaaCasesShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
+import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({
@@ -29,7 +29,7 @@ import * as fromStore from '../../store';
 export class CaaCasesComponent implements OnInit {
 
   public cases$: Observable<any>;
-  public selectedOrganisation$: Observable<Organisation>;
+  public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;
@@ -313,7 +313,7 @@ export class CaaCasesComponent implements OnInit {
         caseReferenceNumber: this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber ? this.selectedFilterValue : caseReferenceNumber,
         assigneeName: this.selectedFilterType === CaaCasesFilterType.AssigneeName ? this.selectedFilterValue : assigneeName
       }
-    }
+    };
     this.service.storeSessionState(sessionStateToUpdate);
   }
 

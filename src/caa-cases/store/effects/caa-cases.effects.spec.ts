@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { NavItemModel } from '../../../app/models/nav-items.model';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -30,7 +30,9 @@ describe('CaaCasesEffects', () => {
         provideMockActions(() => actions$)
       ]
     });
-    effects = TestBed.get(CaaCasesEffects);
+    effects = TestBed.inject(CaaCasesEffects);
+    initTestScheduler();
+    addMatchers();
   });
 
   describe('loadAssignedCases$', () => {

@@ -29,12 +29,6 @@ export const organisationAddress = {
       {
         fieldset: [
           {
-            legend: {
-              text: 'What\'s the address of your main office?',
-              classes: 'govuk-fieldset__legend--xl'
-            }
-          },
-          {
             input: {
               label: {
                 text: 'Building and street',

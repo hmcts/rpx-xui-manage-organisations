@@ -1,23 +1,23 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { State } from '../../../app/store/reducers';
+import { provideMockStore } from '@ngrx/store/testing';
+import { CaaCasesState } from '../../store/reducers';
 import { CaseShareConfirmComponent } from './case-share-confirm.component';
 
 describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
-  let store: MockStore<State>;
+  let store: Store<CaaCasesState>;
   let mockRouter: any;
 
   mockRouter = {
     url: '/assigned-cases'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -31,9 +31,9 @@ describe('CaseShareConfirmComponent', () => {
   }));
 
   beforeEach(() => {
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CaseShareConfirmComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
     fixture.detectChanges();
   });
 

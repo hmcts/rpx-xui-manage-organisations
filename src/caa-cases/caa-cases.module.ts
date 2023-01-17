@@ -7,7 +7,7 @@ import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { OrganisationService } from '../organisation/services';
+import { OrganisationService, PBAService } from '../organisation/services';
 import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
 import { SharedModule } from '../shared/shared.module';
 import { InviteUserService, UsersService } from '../users/services';
@@ -39,7 +39,7 @@ import { effects, reducers } from './store';
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers, ...fromComponents.components],
-  providers: [...fromServices.services, OrganisationService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
+  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 

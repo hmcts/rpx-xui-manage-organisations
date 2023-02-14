@@ -39,6 +39,8 @@ export class AppComponent implements OnInit, OnDestroy {
   private userId: string = null;
   public cookieName;
   public isCookieBannerVisible: boolean = false;
+  // TODO: Gary please remove this
+  public isRedis: boolean = false;
   private cookieBannerEnabledSubscription: Subscription;
 
   private cookieBannerEnabled: boolean = false;

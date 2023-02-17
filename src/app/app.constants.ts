@@ -51,7 +51,7 @@ const roleBasedNav = {
 };
 
 const userNav: UserNavModel = {
-  label: 'Account navigation',
+  label: 'Account',
   items: [{
     text: 'Sign out',
     emit: 'sign-out'

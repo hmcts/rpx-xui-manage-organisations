@@ -31,7 +31,7 @@ describe('HmctsGlobalHeaderComponent', () => {
       url: '#'
     };
     component.navigation = {
-      label: 'Account navigation',
+      label: 'Account',
       items: [{
         text: 'Nav item 1',
         href: '#1',

@@ -77,7 +77,7 @@ describe('AppUtils', () => {
   it('should set user navigation as an array of items', () => {
     const state = {
       userNav: {
-        label: 'Account navigation',
+        label: 'Account',
         items: [{ text: 'Sign out', emit: 'sign-out' }]
       }
     };

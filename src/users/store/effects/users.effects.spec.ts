@@ -49,7 +49,7 @@ describe('Users Effects', () => {
             const action = new LoadUsers();
             const completion = new LoadUsersSuccess({
                 users: [
-                    { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined' }
+                    { payload: 'something', userIdentifier: undefined, fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined' }
                 ]
             });
             actions$ = hot('-a', { a: action });
@@ -63,7 +63,7 @@ describe('Users Effects', () => {
             const action = new LoadUsers();
             const completion = new LoadUsersSuccess({
                 users: [
-                    { idamStatus: 'PENDING', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined'  }
+                    { userIdentifier: undefined, idamStatus: 'PENDING', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined'  }
                 ]
             });
             actions$ = hot('-a', { a: action });

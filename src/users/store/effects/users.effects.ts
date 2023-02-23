@@ -26,6 +26,7 @@ export class UsersEffects {
           userDetails.users.forEach(element => {
               const fullName = `${element.firstName} ${element.lastName}`;
               const user = element;
+              user.userIdentifier = user.userIdentifier;
               user.fullName = fullName;
               user.routerLink = `user/${user.userIdentifier}`;
               user.routerLinkTitle = `User details for ${fullName} with id ${user.userIdentifier}`;

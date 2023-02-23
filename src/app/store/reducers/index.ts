@@ -1,13 +1,12 @@
+import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Params,
-  RouterStateSnapshot,
+  RouterStateSnapshot
 } from '@angular/router';
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-
 import * as fromRouter from '@ngrx/router-store';
+import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromApp from '../reducers/app.reducer';
-import { Injectable } from '@angular/core';
 
 export interface RouterStateUrl {
   url: string;
@@ -23,12 +22,11 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   routerReducer: fromRouter.routerReducer,
   appState: fromApp.reducer,
-
 };
 
-export const getRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
-  >('routerReducer');
+export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
+  'routerReducer'
+);
 
 export const getRootAppState = createFeatureSelector<fromApp.AppState>(
   'appState'

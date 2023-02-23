@@ -1,20 +1,18 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken } from '@hmcts/rpx-xui-common-lib';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
-import {Logout, reducers} from '../../store';
-import { HeaderComponent } from '../header/header.component';
-import { AppComponent } from './app.component';
-
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
-
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import * as fromAuth from '../../../user-profile/store';
+import { Logout, reducers } from '../../store';
+import { HeaderComponent } from '../header/header.component';
+import { AppComponent } from './app.component';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -103,27 +101,27 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
+  it('should have pageTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
 
   }));
 
 
-  it('should have appHeaderTitle$ Observable the app', async(() => {
+  it('should have appHeaderTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
 
   }));
 
-  it('should have userNav$ Observable the app', async(() => {
+  it('should have userNav$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
   }));
 
 
-  it('should have navItems$ Observable the app', async(() => {
+  it('should have navItems$ Observable the app', waitForAsync(() => {
     const navItems = [
       {
         text: 'Organisation',
@@ -140,12 +138,14 @@ describe('AppComponent', () => {
 
   }));
 
-  it('should dispatch a logout action', () => {
+  it('should dispatch a logout action', waitForAsync(() => {
+    spyOn(window.sessionStorage, 'clear').and.callThrough();
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
-  });
+    expect(window.sessionStorage.clear).toHaveBeenCalled();
+  }));
 
 
   describe('cookie actions', () => {

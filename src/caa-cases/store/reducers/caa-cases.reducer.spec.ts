@@ -14,7 +14,9 @@ describe('CaaCases Reducer', () => {
       data: null
     },
     caseTypes: [],
-    selectedCases: {}
+    selectedCases: {},
+    assignedCasesLastError: null,
+    unassignedCasesLastError: null
   };
 
   it('should undefined action return default state', () => {

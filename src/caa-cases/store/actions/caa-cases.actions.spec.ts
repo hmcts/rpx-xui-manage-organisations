@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCases } from '../../models/caa-cases.model';
 import * as fromActions from './caa-cases.actions';
@@ -27,7 +28,7 @@ describe('Caa actions', () => {
   });
 
   it('load assigned cases failure action', () => {
-    const payload = {};
+    const payload = new HttpErrorResponse({error: 'assigned cases error'})
     const action = new fromActions.LoadAssignedCasesFailure(payload);
     expect({ ...action }).toEqual({
       payload,
@@ -59,7 +60,7 @@ describe('Caa actions', () => {
   });
 
   it('load unassigned cases failure action', () => {
-    const payload = {};
+    const payload = new HttpErrorResponse({error: 'unassigned cases error'})
     const action = new fromActions.LoadUnassignedCasesFailure(payload);
     expect({ ...action }).toEqual({
       payload,

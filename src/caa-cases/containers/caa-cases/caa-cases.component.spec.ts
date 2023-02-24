@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
@@ -161,7 +162,7 @@ describe('CaaCasesComponent', () => {
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.loadDataFromStore();
     expect(store.dispatch).toHaveBeenCalled();
-    expect(store.pipe).toHaveBeenCalled();
+    expect(store.pipe).toHaveBeenCalledTimes(2);
   });
 
   it('should not load case data only when case type is not set', () => {
@@ -172,7 +173,23 @@ describe('CaaCasesComponent', () => {
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.loadDataFromStore();
     expect(store.dispatch).not.toHaveBeenCalled();
-    expect(store.pipe).not.toHaveBeenCalled();
+    expect(store.pipe).toHaveBeenCalledTimes(0);
+  });
+
+  it('should load data from store error', () => {
+    spyOn(store, 'dispatch').and.returnValue(of({}));
+    spyOn(store, 'pipe').and.returnValue(of({}));
+    const httpErrorResponse = new HttpErrorResponse({error: 'unassigned cases error'});
+    component.casesError$ = of(httpErrorResponse);
+    component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+    component.navItems = [
+      {text: 'Financial Remedy Consented', href: '', active: true},
+      {text: 'Asylum', href: '', active: false}
+    ];
+    component.loadDataFromStore();
+    fixture.detectChanges();
+    const casesErrorElement = fixture.debugElement.nativeElement.querySelector('#cases-error');
+    expect(casesErrorElement.textContent.trim()).toEqual('This view has not been configured for the case type.');
   });
 
   it('should set table config', () => {

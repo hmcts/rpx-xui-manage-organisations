@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Action } from '@ngrx/store';
 import { CaaCases } from '../../models/caa-cases.model';
 
@@ -24,7 +25,7 @@ export class LoadAssignedCasesSuccess implements Action {
 
 export class LoadAssignedCasesFailure implements Action {
   public readonly type = LOAD_ASSIGNED_CASES_FAILURE;
-  constructor(public payload: any) {}
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class LoadUnassignedCases implements Action {
@@ -39,7 +40,7 @@ export class LoadUnassignedCasesSuccess implements Action {
 
 export class LoadUnassignedCasesFailure implements Action {
   public readonly type = LOAD_UNASSIGNED_CASES_FAILURE;
-  constructor(public payload: any) {}
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class LoadCaseTypes implements Action {

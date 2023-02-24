@@ -51,7 +51,7 @@
     </p>
     <mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
       <mat-tab *ngFor="let navItem of navItems; let last = last;" [id]="navItem.id" [label]="navItem.text">
-        <div class="govuk-!-margin-top-7" *ngIf="(casesError$ | async)">
+        <div id="cases-error" class="govuk-!-margin-top-7" *ngIf="(casesError$ | async)">
           This view has not been configured for the case type.
         </div>
         <div *ngIf="(cases$ | async)?.length > 0">

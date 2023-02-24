@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -18,46 +18,49 @@ export class CaaCasesEffects {
               private readonly loggerService: LoggerService) {
   }
 
-  @Effect()
-  public loadAssignedCases$ = this.actions$.pipe(
-    ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
-    switchMap((action: fromCaaActions.LoadAssignedCases) => {
-      const payload = action.payload;
-      return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.AssignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-        map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
-        catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
-      );
-    })
+  public loadAssignedCases$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
+      switchMap((action: fromCaaActions.LoadAssignedCases) => {
+        const payload = action.payload;
+        return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.AssignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
+          map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
+          catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
+        );
+      })
+    )
   );
 
-  @Effect()
-  public loadUnassignedCases$ = this.actions$.pipe(
-    ofType(fromCaaActions.LOAD_UNASSIGNED_CASES),
-    switchMap((action: fromCaaActions.LoadUnassignedCases) => {
-      const payload = action.payload;
-      return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.UnassignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-        map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
-        catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))
-      );
-    })
+  public loadUnassignedCases$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromCaaActions.LOAD_UNASSIGNED_CASES),
+      switchMap((action: fromCaaActions.LoadUnassignedCases) => {
+        const payload = action.payload;
+        return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.UnassignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
+          map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
+          catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))
+        );
+      })
+    )
   );
 
-  @Effect()
-  public loadCaseTypes$ = this.actions$.pipe(
-    ofType(fromCaaActions.LOAD_CASE_TYPES),
-    switchMap((action: fromCaaActions.LoadCaseTypes) => {
-      const payload = action.payload;
-      return this.caaCasesService.getCaaCaseTypes(payload.caaCasesPageType, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-        map(caaCaseTypes => {
-          const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
-          return new fromCaaActions.LoadCaseTypesSuccess(navItems);
-        }),
-        catchError(error => {
-          this.loggerService.error(error);
-          return of(new fromCaaActions.LoadCaseTypesFailure(error));
-        })
-      );
-    })
+  public loadCaseTypes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromCaaActions.LOAD_CASE_TYPES),
+      switchMap((action: fromCaaActions.LoadCaseTypes) => {
+        const payload = action.payload;
+        return this.caaCasesService.getCaaCaseTypes(payload.caaCasesPageType, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
+          map(caaCaseTypes => {
+            const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
+            return new fromCaaActions.LoadCaseTypesSuccess(navItems);
+          }),
+          catchError(error => {
+            this.loggerService.error(error);
+            return of(new fromCaaActions.LoadCaseTypesFailure(error));
+          })
+        );
+      })
+    )
   );
 
   public static handleError(error: HttpErrorResponse, loggerService: LoggerService, caaCasesPageType: string): Observable<Action> {

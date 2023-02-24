@@ -2,7 +2,14 @@ import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { reducers } from '../reducers';
 import { CaaCasesState, initialState } from '../reducers/caa-cases.reducer';
-import { getAllAssignedCases, getAllCaseTypes, getAllUnassignedCases, getSelectedCases } from './caa-cases.selector';
+import {
+  getAllAssignedCases,
+  getAllAssignedCasesError,
+  getAllCaseTypes,
+  getAllUnassignedCases,
+  getAllUnassignedCasesError,
+  getSelectedCases
+} from './caa-cases.selector';
 
 describe('CaaCases selectors', () => {
   let store: Store<CaaCasesState>;
@@ -26,12 +33,28 @@ describe('CaaCases selectors', () => {
     expect(result).toEqual(initialState.assignedCases);
   });
 
+  it('should return all assigned cases error', () => {
+    let result;
+    store.pipe(select(getAllAssignedCasesError)).subscribe(value => {
+      result = value;
+    });
+    expect(result).toEqual(initialState.assignedCasesLastError);
+  });
+
   it('should return all unassigned cases', () => {
     let result;
     store.pipe(select(getAllUnassignedCases)).subscribe(value => {
       result = value;
     });
     expect(result).toEqual(initialState.unassignedCases);
+  });
+
+  it('should return all unassigned cases error', () => {
+    let result;
+    store.pipe(select(getAllUnassignedCasesError)).subscribe(value => {
+      result = value;
+    });
+    expect(result).toEqual(initialState.assignedCasesLastError);
   });
 
   it('should return all case types', () => {

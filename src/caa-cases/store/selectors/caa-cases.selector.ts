@@ -13,8 +13,8 @@ export const getAllAssignedCases = createSelector(
 );
 
 export const getAllAssignedCasesError = createSelector(
-	getCaaCasesState,
-	fromFeature.getAssignedCasesError
+  getCaaCasesState,
+  fromFeature.getAssignedCasesError
 );
 
 export const getAllAssignedCaseData = createSelector(
@@ -28,8 +28,8 @@ export const getAllUnassignedCases = createSelector(
 );
 
 export const getAllUnassignedCasesError = createSelector(
-	getCaaCasesState,
-	fromFeature.getUnassignedCasesError
+  getCaaCasesState,
+  fromFeature.getUnassignedCasesError
 )
 
 export const getAllUnassignedCaseData = createSelector(

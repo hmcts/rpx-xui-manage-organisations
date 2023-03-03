@@ -4,7 +4,7 @@ import { getAccountFeeAndPayApi } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
 
-const { Matchers } = require('@pact-foundation/pact');
+import { Matchers } from '@pact-foundation/pact';
 const { somethingLike, like, eachLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'payment_accounts', port: 8000 });
 
@@ -61,6 +61,9 @@ describe("Payment API interaction for get account", () => {
         const responseDto: FeeAccount = <FeeAccount>response.data
         assertResponse(responseDto);
       }).then(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
+      }).finally(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
       })

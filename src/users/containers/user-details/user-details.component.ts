@@ -3,7 +3,6 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { UsersService } from '../../../users/services';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
@@ -158,8 +157,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public reinviteUser(user: User) {
-    console.log('REINVITE USER');
-    console.log(user);
     this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
 

@@ -3,6 +3,7 @@ import {ModuleWithProviders} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import { SubmittedConfirmationComponent } from './components/submitted-confirmation/submitted-confirmation.component';
 import {RegisterComponent} from './containers';
+import { RegisterModule } from './register.module';
 
 export const ROUTES: Routes = [
   {
@@ -21,4 +22,4 @@ export const ROUTES: Routes = [
   }
 ];
 
-export const registerRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const registerRouting: ModuleWithProviders<RegisterModule> = RouterModule.forChild(ROUTES);

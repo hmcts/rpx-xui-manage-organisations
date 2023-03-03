@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import {map} from '../../../node_modules/rxjs/operators';
 import {SingleAccontSummaryMock} from '../mock/singleAccontSummary.mock';
 import {FeeAccount} from '../models/pba-accounts';
 import {Payment} from '../models/pba-transactions';
@@ -9,7 +8,7 @@ import {SingleAccountSummary} from '../models/single-account-summary';
 
 @Injectable()
 export class FeeAccountsService {
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
   }
 
   public fetchFeeAccounts(paymentAccounts: string[]): Observable<FeeAccount[]> {

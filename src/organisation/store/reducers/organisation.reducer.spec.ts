@@ -12,10 +12,6 @@ describe('OrganisationReducer', () => {
     });
   });
 
-
-
-
-
   describe('LOAD_ORGANISATION action', () => {
     it('should set loading to true', () => {
       const { initialState } = fromOrganisation;
@@ -28,8 +24,6 @@ describe('OrganisationReducer', () => {
       // expect(state.organisation).toEqual([]);
     });
   });
-
-
 
   // fail
   describe('LOAD_ORGANISATION action', () => {

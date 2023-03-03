@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import * as fromRoot from '../../app/store';
 import * as fromStore from '../store';
 
@@ -10,7 +10,7 @@ import * as fromStore from '../store';
 @Injectable()
 export class InviteUserSuccessGuard implements CanActivate {
     constructor(
-        private store: Store<fromStore.UserState>
+        private readonly store: Store<fromStore.UserState>
     ) {
     }
 

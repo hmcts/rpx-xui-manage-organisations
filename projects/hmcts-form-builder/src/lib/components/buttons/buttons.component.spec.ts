@@ -1,4 +1,4 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 // import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
 // import {RouterTestingModule} from '@angular/router/testing';
 // import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -37,7 +37,7 @@
 //     let fixture: ComponentFixture<ButtonsComponent>;
 //     let element: DebugElement;
 //
-//     beforeEach(async(() => {
+//     beforeEach(waitForAsync(() => {
 //         TestBed.configureTestingModule({
 //             imports: [
 //                 RouterTestingModule,

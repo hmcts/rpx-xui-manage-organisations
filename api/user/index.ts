@@ -1,12 +1,14 @@
-import * as express from 'express'
-import * as log4jui from '../lib/log4jui'
+import { getUserSessionTimeout } from '@hmcts/rpx-xui-node-lib';
+import * as express from 'express';
+
+import { getConfigValue } from '../configuration';
+import { SESSION_TIMEOUTS } from '../configuration/references';
+import * as log4jui from '../lib/log4jui';
+import { exists } from '../lib/util';
+import { UserProfileModel } from './user';
+
 const logger = log4jui.getLogger('auth')
 export const router = express.Router({ mergeParams: true })
-import { getUserSessionTimeout } from '@hmcts/rpx-xui-node-lib'
-import { getConfigValue } from '../configuration'
-import { SESSION_TIMEOUTS } from '../configuration/references'
-import { exists } from '../lib/util'
-import { UserProfileModel } from './user'
 
 router.get('/details', handleUserRoute)
 

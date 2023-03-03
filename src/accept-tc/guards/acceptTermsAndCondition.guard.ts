@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import {CanActivate, Router} from '@angular/router';
+import {CanActivate} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
-import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
+import {filter, take, tap} from 'rxjs/operators';
 import * as fromRoot from '../../app/store';
 import * as fromUserProfile from '../../user-profile/store';
 
 @Injectable()
 export class AcceptTermsAndConditionGuard implements CanActivate {
   constructor(
-    private store: Store<fromRoot.State>,
+    private readonly store: Store<fromRoot.State>,
   ) {
   }
 

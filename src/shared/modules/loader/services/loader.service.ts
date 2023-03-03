@@ -5,7 +5,7 @@ import { LoaderState } from '../loader.model';
   providedIn: 'root'
 })
 export class LoaderService {
-  private loaderSubject = new Subject<LoaderState>();
+  private readonly loaderSubject = new Subject<LoaderState>();
   public loaderState = this.loaderSubject.asObservable();
   constructor() { }
   public show() {

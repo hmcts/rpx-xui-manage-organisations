@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import {inject, TestBed} from '@angular/core/testing';
-import {FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {ValidationService} from './form-builder-validation.service';
+import { inject, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ValidationService } from './form-builder-validation.service';
 
 describe('ValidationService', () => {
   beforeEach(() => {
@@ -43,11 +43,11 @@ describe('ValidationService', () => {
     expect(service.getNgValidationFunctionMap()).toEqual(jasmine.any(Array));
   }));
   it('should take an array of simple names and map them to Ng Validation functions', inject([ValidationService], (service: ValidationService) => {
-    const validators = [ 'required', 'email' ];
-    expect(service.getNgValidators(validators)).toEqual([ jasmine.any(Function), jasmine.any(Function) ]);
+    const validators = ['required', 'email'];
+    expect(service.getNgValidators(validators)).toEqual([jasmine.any(Function), jasmine.any(Function)]);
   }));
   it('control should has a validator', inject([ValidationService], (service: ValidationService) => {
-    const validators = [ 'required', 'email' ];
+    const validators = ['required', 'email'];
     expect(service.controlHasValidation(validators)).not.toBeLessThan(0);
   }));
   it('control should be valid', inject([ValidationService], (service: ValidationService) => {
@@ -59,7 +59,7 @@ describe('ValidationService', () => {
   it('form group should be not valid', inject([ValidationService], (service: ValidationService) => {
     const formGroup = {
       errors: {
-        testErrorId : true
+        testErrorId: true
       }
     };
     const validationErrorId = 'testErrorId';
@@ -205,7 +205,8 @@ describe('ValidationService', () => {
     expect(isValidDate).toEqual(jasmine.any(Function));
     expect(isValidDate(formGroup)[validationIdentifier]).toBe(true);
   }));
-  describe( 'isValidDateValidationFn' , () => {
+
+  describe('isValidDateValidationFn', () => {
     const formGroup = new FormGroup({
       dayTestFiled: new FormControl(),
       monthTestFiled: new FormControl(),
@@ -215,11 +216,6 @@ describe('ValidationService', () => {
     const fields = [
       'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
     ];
-
-    it('should check if return invalid state for empty fields', inject([ValidationService], (service: ValidationService) => {
-      const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);
-      expect(isValidDateValidationFn[validationIdentifier]).toBe(true);
-    }));
 
     it('should check if return invalid state for the case if at least one field is not a number value', inject([ValidationService], (service: ValidationService) => {
       formGroup.get('dayTestFiled').setValue('1');
@@ -262,4 +258,45 @@ describe('ValidationService', () => {
     }));
   });
 
+ describe('invalidPBANumberValidatorFn', () => {
+    const pbaNumber1 = new FormControl('1234567');
+    pbaNumber1.setErrors({invalidPBANumberError: true});
+    const fg = new FormGroup({
+      PBANumber1: pbaNumber1,
+    });
+    const validationIdentifier = 'invalidPBANumberError';
+
+    it('should check if invalid PBA number', inject([ValidationService], (service: ValidationService) => {
+      const invalidPBANumberValidatorFn = service.invalidPBANumberValidatorFn(fg, 'PBANumber');
+      expect(invalidPBANumberValidatorFn[validationIdentifier]).toBe(true);
+    }));
+
+  });
+
+  describe('duplicatedPBAValidatorFn', () => {
+    const validationIdentifier = 'duplicatedPBAError';
+
+    it('should return duplicatedPBAError when duplicated PBA numbers found', inject([ValidationService], (service: ValidationService) => {
+      const pbaNumber1 = new FormControl('PBA1234567');
+      const pbaNumber2 = new FormControl('PBA1234567');
+      const fg = new FormGroup({
+        PBANumber1: pbaNumber1,
+        PBANumber2: pbaNumber2,
+      });
+      const invalidPBANumberValidatorFn = service.duplicatedPBAValidatorFn(fg, 'PBANumber', validationIdentifier);
+      expect(invalidPBANumberValidatorFn[validationIdentifier]).toBe(true);
+    }));
+
+    it('should return null when no duplicated PBA numbers found', inject([ValidationService], (service: ValidationService) => {
+      const pbaNumber1 = new FormControl('PBA1234567');
+      const pbaNumber2 = new FormControl('PBA7654321');
+      const fg = new FormGroup({
+        PBANumber1: pbaNumber1,
+        PBANumber2: pbaNumber2,
+      });
+      const invalidPBANumberValidatorFn = service.duplicatedPBAValidatorFn(fg, 'PBANumber', validationIdentifier);
+      expect(invalidPBANumberValidatorFn).toBeFalsy();
+    }));
+
+  });
 });

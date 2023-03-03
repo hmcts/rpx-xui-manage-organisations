@@ -18,11 +18,13 @@ export class InviteUserPermissionComponent  implements OnInit {
   @Input() public errorMessages: { isInvalid: boolean; messages: string[] };
 
   public grantCaseAccessAdmin$: Observable<boolean>;
+  public grantFinanceManager$: Observable<boolean>;
 
   constructor(public readonly featureToggleService: FeatureToggleService) {}
 
   public ngOnInit(): void {
     this.grantCaseAccessAdmin$ = this.featureToggleService.getValue('mo-grant-case-access-admin', false);
+    this.grantFinanceManager$ = this.featureToggleService.getValue('mo-grant-manage-fee-accounts', false);
   }
 
 }

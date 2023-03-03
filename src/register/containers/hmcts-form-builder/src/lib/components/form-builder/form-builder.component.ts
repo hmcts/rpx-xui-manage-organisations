@@ -26,6 +26,8 @@ export class FormBuilderComponent implements OnChanges {
   @Input() public pageValues: any;
   @Input() public isPageValid: boolean;
   @Output() public submitPage = new EventEmitter<FormGroup>();
+  @Output() public btnClick = new EventEmitter<any>();
+  @Output() public blurCast = new EventEmitter<any>();
 
   public formDraft: FormGroup;
   public isLegendAvailable: boolean;
@@ -39,10 +41,10 @@ export class FormBuilderComponent implements OnChanges {
       for (const group of this.pageItems.groups) {
         if (group.fieldset) {
           for (const item of group.fieldset) {
-          if (item.legend) {
-            this.isLegendAvailable = true;
-            break;
-          }
+            if (item.legend) {
+              this.isLegendAvailable = true;
+              break;
+            }
           }
         }
       }
@@ -50,7 +52,7 @@ export class FormBuilderComponent implements OnChanges {
   }
 
   public createForm(): void {
-    this.formDraft = new FormGroup(this.formsService.defineformControls(this.pageItems, this.pageValues));
+    this.formDraft = new FormGroup(this.formsService.defineFormControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
 
@@ -63,5 +65,13 @@ export class FormBuilderComponent implements OnChanges {
 
   public onFormSubmit(): void {
     this.submitPage.emit(this.formDraft);
+  }
+
+  public onBtnClick(eventId) {
+    this.btnClick.emit({eventId, data: this.formDraft});
+  }
+
+  public onBlur(eventId) {
+    this.blurCast.emit(eventId);
   }
 }

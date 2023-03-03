@@ -8,7 +8,7 @@ import { UserInterface} from '../models/user.model';
 })
 
 export class UserService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public editUserPermissions(editUser): Observable<any> {
     return this.http.put(`/api/editUserPermissions/users/${editUser.userId}`, editUser.editUserRolesObj);

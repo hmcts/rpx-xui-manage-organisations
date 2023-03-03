@@ -1,4 +1,4 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 //
 // import { RadiobuttonComponent } from './radiobutton.component';
 //
@@ -6,7 +6,7 @@
 //   let component: RadiobuttonComponent;
 //   let fixture: ComponentFixture<RadiobuttonComponent>;
 //
-//   beforeEach(async(() => {
+//   beforeEach(waitForAsync(() => {
 //     TestBed.configureTestingModule({
 //       declarations: [ RadiobuttonComponent ]
 //     })

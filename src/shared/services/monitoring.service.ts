@@ -53,8 +53,8 @@ export class MonitoringService implements IMonitoringService {
 
   public areCookiesEnabled: boolean = false;
 
-  constructor(private http: HttpClient, @Optional() private config?: MonitorConfig,
-              @Optional() private appInsights?: AbstractAppInsights) {
+  constructor(private readonly http: HttpClient, @Optional() private config?: MonitorConfig,
+              @Optional() private readonly appInsights?: AbstractAppInsights) {
                 if (!appInsights) {
                 appInsights = AppInsights;
               }
@@ -75,7 +75,9 @@ export class MonitoringService implements IMonitoringService {
 
   public logException(exception: Error) {
     this.send(() => {
-      this.appInsights.trackException(exception);
+      if(this.appInsights) {
+        this.appInsights.trackException(exception);
+      }
     });
   }
 

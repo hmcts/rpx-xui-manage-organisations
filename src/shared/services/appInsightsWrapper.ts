@@ -1,7 +1,8 @@
 import { AppInsights } from 'applicationinsights-js';
+import { Injectable } from '@angular/core';
 
 export abstract class AbstractAppInsights implements Microsoft.ApplicationInsights.IAppInsights {
-  public config: Microsoft.ApplicationInsights.IConfig;  public context: Microsoft.ApplicationInsights.ITelemetryContext;
+  public config: Microsoft.ApplicationInsights.IConfig; public context: Microsoft.ApplicationInsights.ITelemetryContext;
   public queue: (() => void)[];
   public abstract startTrackPage(name?: string);
   public abstract stopTrackPage(name?: string, url?: string, properties?: { [name: string]: string; },
@@ -21,7 +22,7 @@ export abstract class AbstractAppInsights implements Microsoft.ApplicationInsigh
 
   public abstract trackMetric(name: string, average: number, sampleCount?: number, min?: number, max?: number,
                               properties?: { [name: string]: string; });
-  public abstract trackTrace(message: string, properties?: { [name: string]: string; }, severityLevel?: AI.SeverityLevel) ;
+  public abstract trackTrace(message: string, properties?: { [name: string]: string; }, severityLevel?: AI.SeverityLevel);
   public abstract flush();
   public abstract setAuthenticatedUserContext(authenticatedUserId: string, accountId?: string, storeInCookie?: boolean);
   public abstract clearAuthenticatedUserContext();
@@ -30,8 +31,9 @@ export abstract class AbstractAppInsights implements Microsoft.ApplicationInsigh
 
 }
 
+@Injectable()
 export class AppInsightsWrapper implements AbstractAppInsights {
-  public config: Microsoft.ApplicationInsights.IConfig;  public context: Microsoft.ApplicationInsights.ITelemetryContext;
+  public config: Microsoft.ApplicationInsights.IConfig; public context: Microsoft.ApplicationInsights.ITelemetryContext;
   public queue: (() => void)[];
   public startTrackPage(name?: string) {
     AppInsights.startTrackPage(name);

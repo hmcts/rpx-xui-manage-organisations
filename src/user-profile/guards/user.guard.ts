@@ -16,7 +16,7 @@ import { userLoaded} from '../store/selectors';
 @Injectable()
 export class UserGuard implements CanActivate {
 
-  constructor(private store: Store<fromAuth.AuthState>) {
+  constructor(private readonly store: Store<fromAuth.AuthState>) {
   }
 
   public canActivate(): Observable<boolean> {

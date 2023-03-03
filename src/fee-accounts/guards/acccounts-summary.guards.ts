@@ -16,7 +16,7 @@ import { pbaAccountSummaryLoaded } from '../store/selectors/single-fee-account.s
 @Injectable()
 export class AccountSummaryGuard implements CanActivate {
 
-  constructor(private store: Store<fromFeature.FeeAccountsState>) {
+  constructor(private readonly store: Store<fromFeature.FeeAccountsState>) {
   }
 
   public canActivate(): Observable<boolean> {

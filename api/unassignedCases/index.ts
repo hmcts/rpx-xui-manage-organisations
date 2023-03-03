@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response, Router } from 'express'
+import { NextFunction, Response, Router } from 'express'
+import { EnhancedRequest } from '../models/enhanced-request.interface'
 import { getConfigValue } from '../configuration'
 import { SERVICES_MCA_PROXY_API_PATH } from '../configuration/references'
 import { getApiPath, getRequestBody, mapCcdCases } from './unassingedCases-util'
 
-export async function handleUnassignedCases(req: Request, res: Response, next: NextFunction) {
+export async function handleUnassignedCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId)
   const page: number = (+req.query.pageNo || 1) - 1

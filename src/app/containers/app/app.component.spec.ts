@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, TestBed, waitForAsync } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
 import {Logout, reducers} from '../../store';
@@ -103,27 +103,27 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
+  it('should have pageTitle$ Observable the app', (() => {
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
 
   }));
 
 
-  it('should have appHeaderTitle$ Observable the app', async(() => {
+  it('should have appHeaderTitle$ Observable the app', (() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
 
   }));
 
-  it('should have userNav$ Observable the app', async(() => {
+  it('should have userNav$ Observable the app', (() => {
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
   }));
 
 
-  it('should have navItems$ Observable the app', async(() => {
+  it('should have navItems$ Observable the app', (() => {
     const navItems = [
       {
         text: 'Organisation',

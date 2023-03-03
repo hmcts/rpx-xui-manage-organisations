@@ -8,7 +8,6 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import {RegistrationFormService} from '../../services/registration-form.service';
 import {LoadPageItemsSuccess} from '../actions';
 import {LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, SubmitFormDataSuccess} from '../actions/registration.actions';
-import * as fromRegistrationEffects from './registration.effects';
 import {RegistrationEffects} from './registration.effects';
 
 
@@ -34,7 +33,7 @@ describe('Registration Effects', () => {
             provide: LoggerService,
             useValue: mockedLoggerService
           },
-          fromRegistrationEffects.RegistrationEffects,
+          RegistrationEffects,
           provideMockActions(() => actions$)
       ]
     });

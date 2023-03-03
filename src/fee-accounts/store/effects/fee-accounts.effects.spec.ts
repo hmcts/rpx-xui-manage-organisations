@@ -7,7 +7,6 @@ import { FeeAccountsService } from '../../../fee-accounts/services';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';
-import * as fromFeeAccountsEffects from './fee-accounts.effects';
 import { FeeAccountsEffects } from './fee-accounts.effects';
 
 describe('Fee accounts Effects', () => {
@@ -32,7 +31,7 @@ describe('Fee accounts Effects', () => {
           provide: LoggerService,
           useValue: mockedLoggerService
         },
-        fromFeeAccountsEffects.FeeAccountsEffects,
+        FeeAccountsEffects,
         provideMockActions(() => actions$)
       ]
     });

@@ -76,7 +76,7 @@ export interface NewUser {
   lastName: string;
   email: string;
   roles: string[];
-  jurisdictions: Array<{ id: string }>;
+  jurisdictions: { id: string }[];
   resendInvite: boolean;
 }
 

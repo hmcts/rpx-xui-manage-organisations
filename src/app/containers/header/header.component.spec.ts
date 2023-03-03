@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from 'src/app/store/reducers';
 import { HeaderComponent } from './header.component';
@@ -7,7 +7,7 @@ import { HeaderComponent } from './header.component';
 describe('HeaderComponent', () => {
     let fixture;
     let app;
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 StoreModule.forRoot({}),

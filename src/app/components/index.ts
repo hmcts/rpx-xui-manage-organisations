@@ -1,6 +1,3 @@
-import {
-  HmctsPrimaryNavigationComponent
-} from '../../../projects/gov-ui/src/lib/components/hmcts-primary-navigation/hmcts-primary-navigation.component';
 import { AccessibilityComponent } from './accessibility/accessibility.component';
 import { CookiePolicyComponent } from './cookie-policy/cookie-policy.component';
 import { GetHelpComponent } from './get-help/get-help.component';
@@ -8,13 +5,12 @@ import { HmctsGlobalFooterComponent } from './hmcts-global-footer/hmcts-global-f
 import { HmctsGlobalHeaderComponent } from './hmcts-global-header/hmcts-global-header.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ServiceDownComponent } from './service-down/service-down.component';
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { SignedOutComponent } from './signed-out/signed-out.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 export const components: any[] = [
   HmctsGlobalHeaderComponent,
   HmctsGlobalFooterComponent,
-  HmctsPrimaryNavigationComponent,
   CookiePolicyComponent,
   PrivacyPolicyComponent,
   AccessibilityComponent,

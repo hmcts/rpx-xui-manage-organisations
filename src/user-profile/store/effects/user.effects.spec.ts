@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { AcceptTcService } from '../../../accept-tc/services/accept-tc.service';
 import { LoggerService } from '../../../shared/services/logger.service';
@@ -16,7 +16,7 @@ import {
 } from '../actions';
 import * as fromUserEffects from './user-profile.effects';
 
-describe('Fee accounts Effects', () => {
+describe('User Profile Effects', () => {
   let actions$;
   let effects: fromUserEffects.UserProfileEffects;
   let loggerService: LoggerService;
@@ -32,7 +32,7 @@ describe('Fee accounts Effects', () => {
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
           imports: [HttpClientTestingModule],
           providers: [
@@ -53,13 +53,15 @@ describe('Fee accounts Effects', () => {
           ]
       });
 
-      effects = TestBed.get(fromUserEffects.UserProfileEffects);
-      loggerService = TestBed.get(LoggerService);
+      effects = TestBed.inject(fromUserEffects.UserProfileEffects);
+      loggerService = TestBed.inject(LoggerService);
 
-  });
+      initTestScheduler();
+      addMatchers();
+  }));
 
   describe('getUser$', () => {
-      it('should return a UserInterface - GetUserDetailsSuccess', () => {
+      it('should return a UserInterface - GetUserDetailsSuccess', waitForAsync(() => {
           const returnValue = {
               userId: 'something',
               email: 'something',
@@ -77,11 +79,11 @@ describe('Fee accounts Effects', () => {
           actions$ = hot('-a', { a: action });
           const expected = cold('-b', { b: completion });
           expect(effects.getUser$).toBeObservable(expected);
-      });
+      }));
   });
 
   describe('getUser$ error', () => {
-      it('should return GetUserDetailsFailure', () => {
+      it('should return GetUserDetailsFailure', waitForAsync(() => {
           userServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
           const action = new GetUserDetails();
           const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
@@ -89,11 +91,11 @@ describe('Fee accounts Effects', () => {
           const expected = cold('-b', { b: completion });
 
           expect(effects.getUser$).toBeObservable(expected);
-      });
+      }));
   });
 
   describe('loadHasAccepted$', () => {
-    it('should return a hasUserAccepted Object - LoadHasAcceptedTCSuccess', () => {
+    it('should return a hasUserAccepted Object - LoadHasAcceptedTCSuccess', waitForAsync(() => {
       const returnValue = 'true';
       acceptTandCSrviceMock.getHasUserAccepted.and.returnValue(of(returnValue));
       const action = new LoadHasAcceptedTC('1234');
@@ -101,22 +103,22 @@ describe('Fee accounts Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadHasAccepted$).toBeObservable(expected);
-    });
+    }));
   });
 
   describe('loadHasAccepted$ error', () => {
-    it('should return LoadHasAcceptedFail', () => {
+    it('should return LoadHasAcceptedFail', waitForAsync(() => {
       acceptTandCSrviceMock.getHasUserAccepted.and.returnValue(throwError(new HttpErrorResponse({})));
       const action = new LoadHasAcceptedTC('1234');
       const completion = new LoadHasAcceptedTCFail(new HttpErrorResponse({}));
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadHasAccepted$).toBeObservable(expected);
-    });
+    }));
   });
 
   describe('getUser$ error', () => {
-      it('should return GetUserDetailsFailure', () => {
+      it('should return GetUserDetailsFailure', waitForAsync(() => {
           userServiceMock.getUserDetails.and.returnValue(throwError(new HttpErrorResponse({})));
           const action = new GetUserDetails();
           const completion = new GetUserDetailsFailure(new HttpErrorResponse({}));
@@ -124,11 +126,11 @@ describe('Fee accounts Effects', () => {
           const expected = cold('-b', { b: completion });
           expect(effects.getUser$).toBeObservable(expected);
           expect(loggerService.error).toHaveBeenCalled();
-      });
+      }));
   });
 
   describe('getUserFail$', () => {
-        it('should return hardcoded UserInterface - GetUserDetailsSuccess', () => {
+        it('should return hardcoded UserInterface - GetUserDetailsSuccess', waitForAsync(() => {
             const returnValue = {
                 email: 'hardcoded@user.com',
                 orgId: '12345',
@@ -144,6 +146,6 @@ describe('Fee accounts Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.getUserFail$).toBeObservable(expected);
-        });
+        }));
     });
   });

@@ -12,7 +12,7 @@
                 </ng-container>
                 <ng-container
                         *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_GROUP) &&
-                                isFormGroupInvalid(formGroup, validationHeaderErrorMessage.formGroupValidationErrorId)">
+                                isFormGroupInvalid(formGroup, validationHeaderErrorMessage.validationErrorId)">
                     <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
             </li>

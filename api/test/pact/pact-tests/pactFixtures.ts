@@ -10,32 +10,40 @@ import { PaymentAccountDto } from '../../../lib/models/transactions';
  *
  */
 export interface OrganisationCreationRequest {
-  name: string
-  status: string
-  sraId: string
-  paymentAccount: PaymentAccountDto[]
-  superUser: UserCreationRequest
+  name: string;
+  status: string;
+  sraId: string;
+  paymentAccount: PaymentAccountDto[];
+  superUser: UserCreationRequest;
 }
 
 export interface UserCreationRequest {
-  firstName: string
-  lastName: string
+  firstName: string;
+  lastName: string;
+}
+
+export interface RoleResponse {
+  idamMessage: string;
+  idamStatusCode: string;
+}
+
+export interface RoleDeletionResponse extends RoleResponse {
+  roleName: string;
 }
 
 export interface UserProfileModel {
-  orgId: string
-  userId: string
-  email: string
-  rolesAdd: Roles[]
-  rolesDelete: Roles[]
-
+  orgId: string;
+  userId: string;
+  email: string;
+  rolesAdd: Roles[];
+  rolesDelete: Roles[];
 }
 
 export interface Roles {
   name: string;
 }
 
-export const organisationRequestBody = {
+export const organisationRequestBody: object = {
   name: 'firstname',
   status: 'status',
   sraId: 'sraId',
@@ -44,109 +52,73 @@ export const organisationRequestBody = {
     firstName: 'Joe',
     lastName: 'Bloggs'
   }
-}
+};
 
-/* tslint:disable-next-line */
-export interface organisationCreationDto {
-  name: string
-  status: string
-  sraId: string
-  paymentAccount: string[]
-  superUser: UserCreationRequest
-
-}
-
-/* tslint:disable-next-line */
-export interface contactInformation {
-  addressLine1: string
-  addressLine2: string
-  country: string
-  postCode: string
-}
-
-/* tslint:disable-next-line */
-export interface newUser {
-  firstName: string,
-  status: string,
+export interface OrganisationCreationDto {
+  name: string;
+  status: string;
   sraId: string;
-  lastName: string,
-  email: string,
-  roles: [
-    string
-  ],
-  jurisdictions: [
-    {
-      id: string
-    }
-  ],
-  resendInvite: boolean
+  paymentAccount: string[];
+  superUser: UserCreationRequest;
 }
 
-/* tslint:disable-next-line */
-export interface superUser {
-  firstName: string,
-  lastName: string
+export interface ContactInformation {
+  addressLine1: string;
+  addressLine2: string;
+  country: string;
+  postCode: string;
 }
 
-/* tslint:disable-next-line */
-export interface organisation {
-  companyNumber: string,
-  companyUrl: string,
-  name: string,
-  organisationIdentifier: string,
-  sraId: string,
-  sraRegulated: boolean,
-  status: string,
-  contactInformation: [contactInformation]
-  superUser: superUser
+export interface NewUser {
+  firstName: string;
+  status: string;
+  sraId: string;
+  lastName: string;
+  email: string;
+  roles: string[];
+  jurisdictions: Array<{ id: string }>;
+  resendInvite: boolean;
+}
+
+export interface SuperUser {
+  firstName: string;
+  lastName: string;
+}
+
+export interface Organisation {
+  companyNumber: string;
+  companyUrl: string;
+  name: string;
+  organisationIdentifier: string;
+  sraId: string;
+  sraRegulated: boolean;
+  status: string;
+  contactInformation: ContactInformation[];
+  superUser: SuperUser;
 }
 
 export interface SuspendUserReponseDto {
-  roleAdditionResponse?: {
-    idamMessage: string,
-    idamStatusCode: string
-  },
-  roleDeletionResponse?: [
-    {
-      idamMessage: string,
-      idamStatusCode: string,
-      roleName: string
-    }
-  ],
-  statusUpdateResponse?: {
-    idamMessage: string,
-    idamStatusCode: string
-  }
+  roleAdditionResponse?: RoleResponse;
+  roleDeletionResponse?: RoleDeletionResponse[];
+  statusUpdateResponse?: RoleResponse;
 }
 
 export interface EditUserPermissionsDto {
-  roleAdditionResponse?: {
-    idamMessage: string,
-    idamStatusCode: string
-  },
-  roleDeletionResponse?: [
-    {
-      idamMessage: string,
-      idamStatusCode: string,
-      roleName: string
-    }
-  ],
-  statusUpdateResponse?: {
-    idamMessage: string,
-    idamStatusCode: string
-  }
+  roleAdditionResponse?: RoleResponse;
+  roleDeletionResponse?: RoleDeletionResponse[];
+  statusUpdateResponse?: RoleResponse;
 }
 
 export interface NewUserCreationResponse {
-  idamStatus?: string,
-  userIdentifier?: string
+  idamStatus?: string;
+  userIdentifier?: string;
 }
 
 export interface InviteUserResponse {
-  idamStatus?: string,
-  userIdentifier?: string
+  idamStatus?: string;
+  userIdentifier?: string;
 }
 
 export interface OrganisationCreatedResponse {
-  organisationIdentifier: string
+  organisationIdentifier: string;
 }

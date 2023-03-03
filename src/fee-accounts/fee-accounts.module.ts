@@ -13,8 +13,8 @@ import * as fromServices from './services';
 
 import {HttpClientModule} from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
-import { OrganisationService } from 'src/organisation/services';
-import { DateFormatAtTimePipe } from 'src/shared/components/custom-pipe/date-pipe-with-to';
+import { OrganisationService } from '../organisation/services';
+import { DateFormatAtTimePipe } from '../shared/components/custom-pipe/date-pipe-with-to';
 import { effects as orgEffects, reducers as orgReducers } from '../organisation/store';
 import { AccountOverviewComponent } from './containers/account-overview/account-overview.component';
 import { AccountSummaryComponent } from './containers/account-summary/account-summary.component';

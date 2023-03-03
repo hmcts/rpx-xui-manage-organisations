@@ -70,7 +70,7 @@ export class EditUserPermissionComponent  implements OnInit, OnDestroy {
         this.userStore.dispatch(new fromStore.LoadUsers());
       }
       this.userId = route.state.params.userId;
-      this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: this.userId }));
+      this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
       this.backUrl = this.getBackurl(this.userId);
     });
 

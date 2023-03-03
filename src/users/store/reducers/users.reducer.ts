@@ -9,6 +9,7 @@ export interface UsersListState {
   loading: boolean;
   reinvitePendingUser: User;
   editUserFailure: boolean;
+  userDetails: User;
 }
 
 export const initialState: UsersListState = {
@@ -16,7 +17,8 @@ export const initialState: UsersListState = {
   loaded: false,
   loading: false,
   reinvitePendingUser: null,
-  editUserFailure: false
+  editUserFailure: false,
+  userDetails: null
 };
 
 export function reducer(
@@ -94,21 +96,14 @@ export function reducer(
 
     case fromUsers.SUSPEND_USER_SUCCESS: {
       const user = action.payload ? action.payload : null;
-      const amendedUserList = [];
-      state.userList.slice(0).forEach(element => {
-        const elementInstance = {...element};
-        if (elementInstance['userIdentifier'] ===  user.userIdentifier) {
-          elementInstance['idamStatus'] = 'SUSPENDED';
-          elementInstance['status'] = 'Suspended';
-        }
-        amendedUserList.push(elementInstance);
-      });
+
+      const userDetails = {...user};
+      userDetails['idamStatus'] = 'SUSPENDED';
+      userDetails['status'] = 'Suspended';
 
       return {
         ...state,
-        userList: [
-          ...amendedUserList
-        ],
+        userDetails,
         loading: false,
         loaded: true
       };
@@ -150,6 +145,36 @@ export function reducer(
       };
     }
 
+    case fromUsers.LOAD_USER_DETAILS: {
+      return {
+        ...state,
+        userDetails: action.payload,
+      };
+    }
+
+    case fromUsers.LOAD_USER_DETAILS_SUCCESS: {
+      const payload = action.payload ? action.payload : null;
+      const userDetailsPayload = {
+        ...payload,
+        selected: false
+      };
+
+      AppConstants.USER_ROLES.forEach((userRoles) => {
+        if (userDetailsPayload.roles) {
+          userDetailsPayload[userRoles.roleType] = userDetailsPayload.roles.includes(userRoles.role) ? 'Yes' : 'No';
+        }
+      });
+
+      userDetailsPayload.status = AppUtils.capitalizeString(userDetailsPayload.idamStatus);
+
+      return {
+        ...state,
+        userDetails: userDetailsPayload,
+        loaded: true,
+        loading: false
+      };
+    }
+
     default:
       return state;
 
@@ -161,3 +186,4 @@ export const getUsersLoading = (state: UsersListState) => state.loading;
 export const getUsersLoaded = (state: UsersListState) => state.loaded;
 export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;
+export const getUserDetails = (state: UsersListState) => state.userDetails;

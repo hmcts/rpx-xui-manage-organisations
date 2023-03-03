@@ -1,11 +1,28 @@
 import { expect } from 'chai'
 import { getDetails } from '../pactUtil'
 import { PactTestSetup } from '../settings/provider.mock'
-import { IdamGetDetailsResponseDto } from "./getUserDetails.spec"
 
 const { Matchers } = require('@pact-foundation/pact')
 const { somethingLike } = Matchers
 const pactSetUp = new PactTestSetup({ provider: 'idamApi_users', port: 8000 })
+
+function assertResponses(dto: IdamGetDetailsResponseDto) {
+  expect(dto.active).to.be.equal(true)
+  expect(dto.email).to.be.equal('joe.bloggs@hmcts.net')
+  expect(dto.forename).to.be.equal('Joe')
+  expect(dto.surname).to.be.equal('Bloggs')
+  expect(dto.roles[0]).to.be.equal('solicitor')
+  expect(dto.roles[1]).to.be.equal('caseworker')
+}
+
+export interface IdamGetDetailsResponseDto {
+  id: string,
+  forename: string,
+  surname: string,
+  email: string,
+  active: boolean
+  roles: string[]
+}
 
 describe("Idam API user details", async () => {
 
@@ -52,30 +69,15 @@ describe("Idam API user details", async () => {
       const response: Promise<any> = getDetails(taskUrl, jwt)
 
       response.then(axiosResponse => {
-        const dto: IdamGetDetailsResponseDto = axiosResponse as IdamGetDetailsResponseDto
+        const dto = axiosResponse as IdamGetDetailsResponseDto
         assertResponses(dto)
       }).then(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
+      }).finally(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
       })
     })
   })
 })
-
-function assertResponses(dto: IdamGetDetailsResponseDto) {
-  expect(dto.active).to.be.equal(true)
-  expect(dto.email).to.be.equal('joe.bloggs@hmcts.net')
-  expect(dto.forename).to.be.equal('Joe')
-  expect(dto.surname).to.be.equal('Bloggs')
-  expect(dto.roles[0]).to.be.equal('solicitor')
-  expect(dto.roles[1]).to.be.equal('caseworker')
-}
-
-export interface IdamGetDetailsResponseDto {
-  id: string,
-  forename: string,
-  surname: string,
-  email: string,
-  active: boolean
-  roles: string[]
-}

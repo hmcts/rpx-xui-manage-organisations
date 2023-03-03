@@ -1,4 +1,4 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 //
 // import { JuiFormElementsComponent } from './jui-form-elements.component';
 //
@@ -6,7 +6,7 @@
 //   let component: JuiFormElementsComponent;
 //   let fixture: ComponentFixture<JuiFormElementsComponent>;
 //
-//   beforeEach(async(() => {
+//   beforeEach(waitForAsync(() => {
 //     TestBed.configureTestingModule({
 //       declarations: [ JuiFormElementsComponent ]
 //     })

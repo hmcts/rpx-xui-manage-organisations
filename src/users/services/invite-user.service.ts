@@ -13,7 +13,7 @@ const dummy = {
 
 @Injectable()
 export class InviteUserService {
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
   // TODO add type when server returns someting.
   public inviteUser(data): Observable<any> {
     return this.http.post<UserListApiModel>('api/inviteUser', data);

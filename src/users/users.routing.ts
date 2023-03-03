@@ -1,12 +1,13 @@
 // routes
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HealthCheckGuard } from '../../src/shared/guards/health-check.guard';
+import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
 import {EditUserPermissionComponent, EditUserPermissionsFailureComponent, UserDetailsComponent, UsersComponent} from './containers';
 import { InviteUserSuccessComponent } from './containers/invite-user-success/invite-user-success.component';
 import { InviteUserComponent } from './containers/invite-user/invite-user.component';
 import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.guard';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
+import { UsersModule } from './users.module';
 
 export const ROUTES: Routes = [
     {
@@ -39,5 +40,4 @@ export const ROUTES: Routes = [
     }
 ];
 
-
-export const usersRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const usersRouting: ModuleWithProviders<UsersModule> = RouterModule.forChild(ROUTES);

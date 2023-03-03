@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ExuiCommonLibModule, FeatureToggleService, LaunchDarklyService } from '@hmcts/rpx-xui-common-lib';
+import { CookieService, ExuiCommonLibModule, FeatureToggleService, GoogleAnalyticsService, LaunchDarklyService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 // ngrx
@@ -10,7 +10,7 @@ import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
-import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import { LoggerModule, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService } from 'ngx-logger';
 import config from '../../api/lib/config';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
@@ -18,7 +18,6 @@ import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler'
 import { CryptoWrapper } from '../shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
-import { SharedModule } from '../shared/shared.module';
 import { UserService } from '../user-profile/services/user.service';
 import { UserProfileModule } from '../user-profile/user-profile.module';
 import { JurisdictionService } from '../users/services';
@@ -35,7 +34,15 @@ import { effects } from './store/effects';
 
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
+import { SharedModule } from 'src/shared/shared.module';
+import { GovUiModule } from '../../projects/gov-ui/src/public_api';
+import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
+import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { EnvironmentService } from '../shared/services/environment.service';
+import { HealthCheckService } from '../shared/services/health-check.service';
+import { MonitoringService } from '../shared/services/monitoring.service';
+import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
+import { TermsConditionGuard } from './guards/termsCondition.guard';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -49,7 +56,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
   declarations: [
     AppComponent,
     ...fromComponents.components,
-    ...fromContainers.containers,
+    ...fromContainers.containers
   ],
   imports: [
     BrowserModule,
@@ -58,22 +65,35 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     RouterModule.forRoot(ROUTES, {
       anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
     }),
+    SharedModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
-    SharedModule,
     UserProfileModule,
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
     }),
     LoaderModule,
+    GovUiModule,
     ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
     NoopAnimationsModule
   ],
   providers: [
+    NGXLogger,
+    NGXLoggerHttpService,
+    NGXMapperService,
+    CookieService,
+    GoogleAnalyticsService,
+    HealthCheckGuard,
+    HealthCheckService,
+    ManageSessionServices,
+    MonitoringService,
+    TermsConditionGuard,
+    AcceptTermsAndConditionGuard,
+    FeatureToggleEditUserGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,

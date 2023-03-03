@@ -4,6 +4,7 @@ import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { CaseShareCompleteComponent, CaseShareComponent, CaseShareConfirmComponent, UnassignedCasesComponent } from './containers';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
+import { UnassignedCasesModule } from './unassigned-cases.module';
 
 export const ROUTES: Routes = [
     {
@@ -44,4 +45,4 @@ export const ROUTES: Routes = [
     }
 ];
 
-export const unassignedCasesRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const unassignedCasesRouting: ModuleWithProviders<UnassignedCasesModule> = RouterModule.forChild(ROUTES);

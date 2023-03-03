@@ -12,9 +12,9 @@ import * as singleFeeAccountActions from '../actions';
 @Injectable()
 export class SingleFeeAccountEffects {
   constructor(
-    private actions$: Actions,
-    private feeAccountsService: FeeAccountsService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly feeAccountsService: FeeAccountsService,
+    private readonly loggerService: LoggerService
   ) {}
 
   @Effect()

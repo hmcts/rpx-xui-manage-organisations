@@ -13,10 +13,21 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "class-transformer",
+              "rx-polling",
+              "util",
+              "@edium/fsm",
+              "applicationinsights-js",
+              "crypto-js",
+              "jwt-decode"
+            ],
+            "aot": true,
             "outputPath": "dist/rpa-pui-manager",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
+            "preserveSymlinks": true,
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -29,6 +40,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -38,7 +55,6 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -85,7 +101,7 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
@@ -111,7 +127,7 @@
               "**/api/**",
               "**/src/style-guide/**/*",
               "**/projects/**",
-              "**/hmcts-form-builder/**" // TODO REMOVE AND LINT
+              "**/hmcts-form-builder/**"
             ]
           }
         }
@@ -158,7 +174,8 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/gov-ui/ng-package.prod.json"
+              "project": "projects/gov-ui/ng-package.prod.json",
+              "tsConfig": "projects/gov-ui/tsconfig.lib.prod.json"
             }
           }
         },
@@ -188,7 +205,11 @@
   "defaultProject": "rpa-pui-manager",
   "schematics": {
     "@schematics/angular:component": {
+      "style": "scss",
       "styleext": "scss"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

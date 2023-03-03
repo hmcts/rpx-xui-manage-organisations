@@ -1,5 +1,4 @@
 import {Action} from '@ngrx/store';
-import {SingleAccountSummary} from '../../models/single-account-summary';
 
 export const LOAD_SINGLE_FEE_ACCOUNT = '[Single Fee Account] Load Single Fee Account';
 export const LOAD_SINGLE_FEE_ACCOUNT_SUCCESS = '[Single Fee Account] Load Single Fee Account Success';

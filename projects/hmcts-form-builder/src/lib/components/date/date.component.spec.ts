@@ -6,7 +6,7 @@
 //   let component: DateComponent;
 //   let fixture: ComponentFixture<DateComponent>;
 //
-//   beforeEach(async(() => {
+//   beforeEach(waitForAsync(() => {
 //     TestBed.configureTestingModule({
 //       declarations: [ DateComponent ]
 //     })

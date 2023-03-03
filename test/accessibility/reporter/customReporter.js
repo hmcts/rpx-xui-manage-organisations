@@ -10,8 +10,8 @@ function report(runner) {
     let tests = [];
     let passCounter = 0;
     let failCounter = 0;
-    runner.on("pass", function(test) {
-        if (test.ctx.a11yResult.issues.length === 0) {
+    runner.on('pass', function (test) {
+        if (test.ctx.a11yResult.issues && test.ctx.a11yResult.issues.length === 0){
             onPass(test);
         } else {
             test.state = "failed";

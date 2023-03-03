@@ -75,12 +75,15 @@ describe("RD Professional API", () => {
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
+      }).finally(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
       })
     })
   })
 })
 
 function assertResponse(dto: SuspendUserReponseDto): void {
-  expect(dto.roleAdditionResponse.idamMessage).to.equal('Role successfully Updated')
-  expect(dto.roleAdditionResponse.idamStatusCode).to.equal("200")
+  expect(dto.roleAdditionResponse?.idamMessage).to.equal('Role successfully Updated')
+  expect(dto.roleAdditionResponse?.idamStatusCode).to.equal("200")
 }

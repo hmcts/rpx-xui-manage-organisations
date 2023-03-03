@@ -21,11 +21,11 @@ export interface ILoggerService {
 
 export class LoggerService implements ILoggerService {
     public COOKIE_KEYS;
-    constructor(private monitoringService: MonitoringService,
-                private ngxLogger: NGXLogger,
-                private cookieService: CookieService,
-                private cryptoWrapper: CryptoWrapper,
-                private jwtDecodeWrapper: JwtDecodeWrapper) {
+    constructor(private readonly monitoringService: MonitoringService,
+                private readonly ngxLogger: NGXLogger,
+                private readonly cookieService: CookieService,
+                private readonly cryptoWrapper: CryptoWrapper,
+                private readonly jwtDecodeWrapper: JwtDecodeWrapper) {
                     this.COOKIE_KEYS = {
                         TOKEN: config.cookies.token,
                         USER: config.cookies.userId

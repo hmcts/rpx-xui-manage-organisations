@@ -1,5 +1,5 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FieldsetComponent} from './fieldset.component';
 
@@ -20,7 +20,7 @@ describe('FieldsetComponent', () => {
         public data: any[];
 
 
-        @ViewChild(FieldsetComponent)
+        @ViewChild(FieldsetComponent, { static: true })
         public fieldsetComponent: FieldsetComponent;
     }
 
@@ -32,7 +32,7 @@ describe('FieldsetComponent', () => {
     let fixture: ComponentFixture<FieldsetComponent>;
     let element: DebugElement;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule

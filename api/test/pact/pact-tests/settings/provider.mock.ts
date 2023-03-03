@@ -2,14 +2,14 @@ import { Pact } from '@pact-foundation/pact'
 import * as path from 'path'
 
 export interface PactTestSetupConfig {
-  provider: string
-  port: number
+  provider: string;
+  port: number;
 }
 
 export class PactTestSetup {
 
-  provider: Pact
-  port: number
+  provider: Pact;
+  port: number;
 
   constructor(config: PactTestSetupConfig) {
     this.provider = new Pact({
@@ -19,7 +19,7 @@ export class PactTestSetup {
       spec: 2,
       consumer: "xui_manageOrg",
       provider: config.provider,
-      pactfileWriteMode: "merge",
-    })
+      pactfileWriteMode: "merge"
+    });
   }
 }

@@ -4,7 +4,7 @@ import { inviteUser } from '../pactUtil'
 import { PactTestSetup } from '../settings/provider.mock'
 
 const { Matchers } = require('@pact-foundation/pact')
-const { somethingLike, like, eachLike } = Matchers
+const { somethingLike } = Matchers
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 })
 
 describe("RD Professional API", () => {
@@ -59,6 +59,9 @@ describe("RD Professional API", () => {
         const responseDto: InviteUserResponse = response.data as InviteUserResponse
         assertResponse(responseDto)
       }).then(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
+      }).finally(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
       })

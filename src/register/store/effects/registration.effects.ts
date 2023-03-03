@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {of} from 'rxjs';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
 import {RegistrationFormService} from '../../services/registration-form.service';
 import * as registrationActions from '../actions';
@@ -10,9 +10,9 @@ import * as registrationActions from '../actions';
 @Injectable()
 export class RegistrationEffects {
   constructor(
-    private actions$: Actions,
-    private registrationService: RegistrationFormService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly registrationService: RegistrationFormService,
+    private readonly loggerService: LoggerService
   ) {}
 
   @Effect()

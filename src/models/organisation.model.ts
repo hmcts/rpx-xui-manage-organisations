@@ -1,3 +1,5 @@
+import { PBANumberModel } from './pbaNumber.model';
+
 export interface DxAddress {
   dxNumber: string;
   dxExchange: string;
@@ -26,5 +28,9 @@ export interface OrganisationDetails {
     lastName: string;
     email: string;
   };
-  paymentAccount: string[];
+  paymentAccount: PBANumberModel[];
+  pendingPaymentAccount?: string[];
+  pendingAddPaymentAccount: PBANumberModel[];
+  pendingRemovePaymentAccount: PBANumberModel[];
+  response?: any;
 }

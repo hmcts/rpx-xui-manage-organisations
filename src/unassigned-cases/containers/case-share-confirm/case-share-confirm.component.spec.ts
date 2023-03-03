@@ -1,15 +1,15 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { State } from '../../../app/store/reducers';
+import { provideMockStore } from '@ngrx/store/testing';
+import { UnassignedCasesState } from '../../store/reducers';
 import { CaseShareConfirmComponent } from './case-share-confirm.component';
 
 describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
 
-  let store: MockStore<State>;
+  let store: Store<UnassignedCasesState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -19,7 +19,7 @@ describe('CaseShareConfirmComponent', () => {
         provideMockStore(),
       ]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture = TestBed.createComponent(CaseShareConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

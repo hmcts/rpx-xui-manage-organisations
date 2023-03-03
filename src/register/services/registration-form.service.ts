@@ -15,7 +15,7 @@ export const ENVIRONMENT = {
 
 @Injectable()
 export class RegistrationFormService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public getRegistrationForm(pageId): Observable<any> { // TODO create type/model
     return of(RegistrationConstants.FORM_BUILDER_TEMPLATES[pageId]);

@@ -5,6 +5,10 @@ export const LOAD_PAGE_ITEMS = '[Registration] LoadPageItems';
 export const LOAD_PAGE_ITEMS_SUCCESS = '[Registration] LoadPageItems Success';
 export const LOAD_PAGE_ITEMS_FAIL = '[Registration] LoadPageItems Fail';
 
+export const ADD_PBA_NUMBER = '[Registration] Add PBA Number';
+
+export const REMOVE_PBA_NUMBER = '[Registration] Remove PBA Number';
+
 export const SAVE_FORM_DATA = '[Registration] Save Form Data';
 
 export const RESET_ERROR_MESSAGE = '[Registration] ResetErrorMessage';
@@ -27,6 +31,16 @@ export class LoadPageItemsFail implements Action {
   public readonly type = LOAD_PAGE_ITEMS_FAIL;
   constructor(public payload: any) {
   }
+}
+
+export class AddPBANumber implements Action {
+  public readonly type = ADD_PBA_NUMBER;
+  constructor(public payload: any) {}
+}
+
+export class RemovePBANumber implements Action {
+  public readonly type = REMOVE_PBA_NUMBER;
+  constructor(public payload: any) {}
 }
 
 export class SaveFormData implements Action {
@@ -73,6 +87,8 @@ export type RegistrationActions =
   | LoadPageItems
   | LoadPageItemsSuccess
   | LoadPageItemsFail
+  | AddPBANumber
+  | RemovePBANumber
   | SaveFormData
   | SubmitFormData
   | SubmitFormDataSuccess

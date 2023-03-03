@@ -14,18 +14,18 @@ class CreateOrganisationObjects {
     this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
     this.start_button = element(by.xpath("//*[@id='content']/div/div/a"));
     this.org_name = element(by.css("[id='orgName']"));
-    this.continue_button = element(by.css("[id='createButtonContinue']"));
-    this.officeAddressOne = element(by.xpath("//*[@id=\"officeAddressOne\"]"));
+    this.continue_button = element(by.css("[id='createButton']"));
+    this.officeAddressOne =element(by.xpath("//*[@id=\"officeAddressOne\"]"));
     this.townName = element(by.xpath("//input[@id='townOrCity']"));
     this.postcode = element(by.css("[id='postcode']"));
     this.PBAnumber1 = element(by.css("#PBANumber1"));
     this.PBAnumber2 = element(by.css("#PBANumber2"));
     this.DXreference = element(by.css("input[id='haveDxyes']"));
     this.DXNumber = element(by.css("[id='DXnumber']"));
-    this.DXContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
+    this.DXContinuee = element(by.xpath("//input[@id='createButton']"));
     this.DXexchange = element(by.css("[id='DXexchange']"));
     this.SRACheckBox = element(by.css("[id='haveSrayes']"));
-    this.SRAContinuee = element(by.xpath("//input[@id='createButtonContinue']"));
+    this.SRAContinuee = element(by.xpath("//input[@id='createButton']"));
     this.SRANumber = element(by.css("[id='sraNumber']"));
     this.firstName = element(by.css("[id='firstName']"));
     this.lastName = element(by.css("[id='lastName']"));
@@ -176,7 +176,7 @@ async enterUserFirtandLastName() {
 }
 
   async createOrganisation(orgName, email) {
-   
+
 
     await BrowserWaits.waitForElement(this.start_button);
     await this.start_button.click();
@@ -219,7 +219,7 @@ async enterUserFirtandLastName() {
     await this.submit_button.click();
     await BrowserWaits.waitForElement(this.registrationDetailsSubmitted);
 
-    
+
   }
   async clickBackLink() {
     await BrowserWaits.waitForElement(this.backLink);

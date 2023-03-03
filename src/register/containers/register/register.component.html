@@ -31,6 +31,8 @@
         [pageItems]="pageItems"
         [pageValues]="pageValues"
         [isPageValid]="isPageValid"
+        (btnClick)="onClick($event)"
+        (blurCast)="onBlur($event)"
         (submitPage)="onPageContinue($event)" >
       </app-form-builder>
 

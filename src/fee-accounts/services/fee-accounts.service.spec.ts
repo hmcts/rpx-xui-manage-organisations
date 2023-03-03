@@ -16,8 +16,8 @@ describe('FeeAccountsService', () => {
             ]
         });
 
-        feeAccountsService = TestBed.get(FeeAccountsService);
-        httpMock = TestBed.get(HttpTestingController);
+        feeAccountsService = TestBed.inject(FeeAccountsService);
+        httpMock = TestBed.inject(HttpTestingController);
 
     });
 

@@ -89,6 +89,9 @@ describe("Register External Organisation", () => {
       }).then(() => {
         pactSetUp.provider.verify()
         pactSetUp.provider.finalize()
+      }).finally(() => {
+        pactSetUp.provider.verify()
+        pactSetUp.provider.finalize()
       })
     })
   })

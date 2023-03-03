@@ -10,8 +10,8 @@ import { HealthCheckService } from '../services/health-check.service';
 @Injectable()
 export class HealthCheckGuard implements CanActivate {
     constructor(
-        private healthCheck: HealthCheckService,
-        private store: Store<fromRoot.State>,
+        private readonly healthCheck: HealthCheckService,
+        private readonly store: Store<fromRoot.State>,
     ) {
     }
 

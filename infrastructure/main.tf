@@ -10,10 +10,6 @@ data "azurerm_key_vault" "key_vault" {
     resource_group_name = local.shared_vault_name
 }
 
-provider "azurerm" {
-    features {}
-}
-
 data "azurerm_subnet" "core_infra_redis_subnet" {
   name                 = "core-infra-subnet-1-${var.env}"
   virtual_network_name = "core-infra-vnet-${var.env}"

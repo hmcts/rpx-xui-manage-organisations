@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { cold } from 'jasmine-marbles';
+import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
 import {Logout, reducers} from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
@@ -40,7 +40,7 @@ describe('AppComponent', () => {
   let app;
   let loggerService: any;
   let cookieService: any;
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
@@ -92,35 +92,38 @@ describe('AppComponent', () => {
         }
       ],
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
+
+    initTestScheduler();
+    addMatchers();
 
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.componentInstance;
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
+  it('should have pageTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
 
   }));
 
 
-  it('should have appHeaderTitle$ Observable the app', async(() => {
+  it('should have appHeaderTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
 
   }));
 
-  it('should have userNav$ Observable the app', async(() => {
+  it('should have userNav$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
 
   }));
 
 
-  it('should have navItems$ Observable the app', async(() => {
+  it('should have navItems$ Observable the app', waitForAsync(() => {
     const navItems = [
       {
         text: 'Organisation',
@@ -137,13 +140,12 @@ describe('AppComponent', () => {
 
   }));
 
-  it('should dispatch a logout action', async(() => {
+  it('should dispatch a logout action', () => {
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
-
-  }));
+  });
 
 
   describe('cookie actions', () => {

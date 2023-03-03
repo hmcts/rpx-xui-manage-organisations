@@ -1,4 +1,4 @@
-import { FeeAccount, FeeAccountSummary } from '../../../fee-accounts/models/pba-accounts';
+import { FeeAccountSummary } from '../../../fee-accounts/models/pba-accounts';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { getFeeAccounts, getFeeAccountsLoaded, getFeeAccountsLoading, initialState, reducer } from './fee-accounts.reducer';
 

@@ -1,4 +1,4 @@
-import {PaymentAccountDto} from '../../../lib/models/transactions'
+import { PaymentAccountDto } from '../../../lib/models/transactions';
 
 /**
  *
@@ -11,40 +11,16 @@ import {PaymentAccountDto} from '../../../lib/models/transactions'
  */
 
 export interface OrganisationCreationRequest {
-    name: string
-    status: string
-    sraId: string
-    paymentAccount: PaymentAccountDto[]
-    superUser: UserCreationRequest
+  name: string;
+  status: string;
+  sraId: string;
+  paymentAccount: PaymentAccountDto[];
+  superUser: UserCreationRequest;
 }
 
 export interface UserCreationRequest {
-    firstName: string
-    lastName: string
-}
-
-export interface UserProfileModel {
-    orgId: string
-    userId: string
-    email: string
-    rolesAdd: Roles[]
-    rolesDelete: Roles[]
-
-}
-
-export interface Roles {
-    name: string
-}
-
-export const organisationRequestBody = {
-    name: 'firstname',
-    status: 'status',
-    sraId: 'sraId',
-    paymentAccount: [],
-    superUser: {
-        firstName: 'Joe',
-        lastName: 'Bloggs',
-    },
+  firstName: string;
+  lastName: string;
 }
 
 export interface OrganisationCreationDto {
@@ -57,10 +33,10 @@ export interface OrganisationCreationDto {
 }
 
 export interface ContactInformation {
-    addressLine1: string
-    addressLine2: string
-    country: string
-    postCode: string
+  addressLine1: string
+  addressLine2: string
+  country: string
+  postCode: string
 }
 
 export interface NewUser {
@@ -79,12 +55,6 @@ export interface NewUser {
     ],
     resendInvite: boolean
 }
-
-export interface SuperUser {
-    firstName: string,
-    lastName: string
-}
-
 export interface Organisation {
     companyNumber: string,
     companyUrl: string,
@@ -97,52 +67,65 @@ export interface Organisation {
     superUser: SuperUser
 }
 
+export interface RoleResponse {
+  idamMessage: string;
+  idamStatusCode: string;
+}
+
+export interface RoleDeletionResponse extends RoleResponse {
+  roleName: string;
+}
+
+export interface UserProfileModel {
+  orgId: string;
+  userId: string;
+  email: string;
+  rolesAdd: Roles[];
+  rolesDelete: Roles[];
+}
+
+export interface Roles {
+  name: string;
+}
+
+export const organisationRequestBody: object = {
+  name: 'firstname',
+  status: 'status',
+  sraId: 'sraId',
+  paymentAccount: [],
+  superUser: {
+    firstName: 'Joe',
+    lastName: 'Bloggs'
+  }
+};
+
+export interface SuperUser {
+  firstName: string;
+  lastName: string;
+}
+
 export interface SuspendUserReponseDto {
-    roleAdditionResponse?: {
-        idamMessage: string,
-        idamStatusCode: string
-    },
-    roleDeletionResponse?: [
-        {
-            idamMessage: string,
-            idamStatusCode: string,
-            roleName: string
-        }
-    ],
-    statusUpdateResponse?: {
-        idamMessage: string,
-        idamStatusCode: string
-    }
+  roleAdditionResponse?: RoleResponse;
+  roleDeletionResponse?: RoleDeletionResponse[];
+  statusUpdateResponse?: RoleResponse;
 }
 
 export interface EditUserPermissionsDto {
-    roleAdditionResponse?: {
-        idamMessage: string,
-        idamStatusCode: string
-    },
-    roleDeletionResponse?: [
-        {
-            idamMessage: string,
-            idamStatusCode: string,
-            roleName: string
-        }
-    ],
-    statusUpdateResponse?: {
-        idamMessage: string,
-        idamStatusCode: string
-    }
+  roleAdditionResponse?: RoleResponse;
+  roleDeletionResponse?: RoleDeletionResponse[];
+  statusUpdateResponse?: RoleResponse;
 }
 
 export interface NewUserCreationResponse {
-    idamStatus?: string,
-    userIdentifier?: string
+  idamStatus?: string;
+  userIdentifier?: string;
 }
 
 export interface InviteUserResponse {
-    idamStatus?: string,
-    userIdentifier?: string
+  idamStatus?: string;
+  userIdentifier?: string;
 }
 
 export interface OrganisationCreatedResponse {
-    organisationIdentifier: string
+  organisationIdentifier: string;
 }

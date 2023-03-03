@@ -15,7 +15,7 @@ describe('Registration selectors', () => {
         StoreModule.forFeature('registration', reducers),
       ],
     });
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -50,10 +50,11 @@ describe('Registration selectors', () => {
       expect(result).toEqual({
         pageNameMock: {
           dummy: 'something',
+          init: true,
           loaded: true,
           loading: false
         }
-    });
+      });
     });
   });
 

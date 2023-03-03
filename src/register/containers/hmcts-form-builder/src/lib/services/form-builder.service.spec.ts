@@ -30,7 +30,7 @@ describe('FormsService', () => {
         const someData = {};
 
         service.create(someJson, someData);
-        expect(service.FormControls.hasOwnProperty('radio')).toBeTruthy();
+        expect(service.formControls.hasOwnProperty('radio')).toBeTruthy();
       }));
 
       it('should create radio buttons where data does not match', inject([FormsService], (service: FormsService) => {
@@ -65,7 +65,7 @@ describe('FormsService', () => {
         };
 
         service.create(someJson, someData);
-        expect(service.FormControls.hasOwnProperty('radio')).toBeTruthy();
+        expect(service.formControls.hasOwnProperty('radio')).toBeTruthy();
       }));
 
     });
@@ -98,7 +98,42 @@ describe('FormsService', () => {
         };
 
         service.create(someJson, someData);
-        expect(service.FormControls.hasOwnProperty('text')).toBeTruthy();
+        expect(service.formControls.hasOwnProperty('text')).toBeTruthy();
+      }));
+
+      it('should create control where json type is inputButton', inject([FormsService], (service: FormsService) => {
+        const someJson = {
+          control: 'PBANumber1',
+          type: 'inputButton'
+        };
+        const someData = {
+          text: 'dummy'
+        };
+
+        service.create(someJson, someData);
+        expect(service.formControls.hasOwnProperty('PBANumber1')).toBeTruthy();
+      }));
+    });
+
+    describe('should test createFormControl', () => {
+      const someJson = {
+        control: 'PBANumber1',
+        type: 'inputButton'
+      };
+      const someData = {
+        text: 'dummy'
+      };
+
+      it('should create form control when updateOn is set', inject([FormsService], (service: FormsService) => {
+        service.defineFormControls(someJson, someData);
+        service.createFormControl('PBA1111111', 'PBANumber1', ['required'], true);
+        expect(service.formControls['PBANumber1']._updateOn).toBe('blur');
+      }));
+
+      it('should not create form control with updateOn when updateOn is not set', inject([FormsService], (service: FormsService) => {
+        service.defineFormControls(someJson, someData);
+        service.createFormControl('PBA1111111', 'PBANumber1', ['required']);
+        expect(service.formControls['PBANumber1']._updateOn).toBeFalsy();
       }));
     });
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HealthCheckService } from './health-check.service';
 
 describe('HealthCheckService', () => {

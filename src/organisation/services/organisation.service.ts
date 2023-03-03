@@ -1,8 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 export const ENVIRONMENT = {
   orgUri: '/api/organisation'
@@ -10,7 +9,7 @@ export const ENVIRONMENT = {
 
 @Injectable()
 export class OrganisationService {
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   public fetchOrganisation(): Observable<any> {
    return this.http.get<any>(`${ENVIRONMENT.orgUri}`);

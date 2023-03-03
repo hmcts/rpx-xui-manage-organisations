@@ -1,15 +1,15 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
-import {StoreModule} from '@ngrx/store';
-import { cold, hot } from 'jasmine-marbles';
+import { StoreModule } from '@ngrx/store';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
+import { JurisdictionService } from '../../../users/services/jurisdiction.service';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import {AuthService} from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
-import { JurisdictionService } from '../../../users/services/jurisdiction.service';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
 import { SetPageTitleErrors } from '../actions/app.actions';
@@ -36,7 +36,7 @@ describe('App Effects', () => {
     },
     removeAll: () => { }
   };
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot(
@@ -62,10 +62,12 @@ describe('App Effects', () => {
       ]
     });
 
-    effects = TestBed.get(fromAppEffects.AppEffects);
-    loggerService = TestBed.get(LoggerService);
+    effects = TestBed.inject(fromAppEffects.AppEffects);
+    loggerService = TestBed.inject(LoggerService);
 
-  });
+    initTestScheduler();
+    addMatchers();
+  }));
 
   describe('updateTitle$', () => {
     it('should update error headerTitle', () => {

@@ -1,4 +1,4 @@
-// import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 //
 // import { DateComponent } from './date.component';
 //
@@ -6,7 +6,7 @@
 //   let component: DateComponent;
 //   let fixture: ComponentFixture<DateComponent>;
 //
-//   beforeEach(async(() => {
+//   beforeEach(waitForAsync(() => {
 //     TestBed.configureTestingModule({
 //       declarations: [ DateComponent ]
 //     })

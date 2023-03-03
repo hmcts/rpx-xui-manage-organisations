@@ -1,5 +1,4 @@
 import {createFeatureSelector} from '@ngrx/store';
-import * as fromAcceptTCActions from '../../../accept-tc/store/actions';
 import { UserModel} from '../../models/user.model';
 import { AuthActionTypes, UserProfileActions } from '../actions/user-profile.actions';
 

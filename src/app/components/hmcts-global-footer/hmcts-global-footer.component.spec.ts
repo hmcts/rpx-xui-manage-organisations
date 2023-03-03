@@ -1,5 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppConstants } from '../../app.constants';
 import {Helper, Navigation} from '../../containers/footer/footer.model';
@@ -7,28 +6,13 @@ import { HmctsGlobalFooterComponent } from './hmcts-global-footer.component';
 
 
 describe('HmctsGlobalFooterComponent', () => {
-    @Component({
-        selector: `app-host-dummy-component`,
-        template: `<app-hmcts-global-footer
-                    [reference]="iconFallbackText"
-                    [title]="type"
-                    [items]="text"></app-hmcts-global-footer>`
-    })
-    class TestDummyHostComponent {
-        @Input() public help: Helper;
-        @Input() public navigation: Navigation;
-        @ViewChild(HmctsGlobalFooterComponent)
-        public hmctsGlobalFooterComponent: HmctsGlobalFooterComponent;
-    }
-
     let component: HmctsGlobalFooterComponent;
     let fixture: ComponentFixture<HmctsGlobalFooterComponent>;
-
 
     const helpData: Helper = AppConstants.FOOTER_DATA;
     const navigationData: Navigation = AppConstants.FOOTER_DATA_NAVIGATION;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ HmctsGlobalFooterComponent ],
         imports: [

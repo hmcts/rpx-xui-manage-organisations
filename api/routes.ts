@@ -18,26 +18,32 @@ import unnassignedCasesRouter from './unassignedCases'
 import unassignedCaseTypesRouter from './unassignedCaseTypes'
 import userDetailsRouter from './user'
 import getUserList from './userList'
+import { router as pbaRouter } from './pbas/routes';
+import { router as registerRouter } from './register-org';
 
-const router = Router({ mergeParams: true })
+const router = Router({ mergeParams: true });
 
-router.use(xuiNode.authenticate)
-router.use('/organisation', organisationRouter)
-router.use('/accounts', accountsRouter)
-router.use('/user', userDetailsRouter)
-router.use('/healthCheck', healthCheck)
-router.use('/inviteUser', inviteUser)
+router.use(xuiNode.authenticate);
+router.use('/organisation', organisationRouter);
+router.use('/accounts', accountsRouter);
+router.use('/user', userDetailsRouter);
+router.use('/healthCheck', healthCheck);
+router.use('/inviteUser', inviteUser);
+router.use('/userList', getUserList);
 router.use('/allUserList', getAllUserList)
 router.use('/allUserListWithoutRoles', getAllUserListWithoutRoles)
-router.use('/userList', getUserList)
-router.use('/jurisdictions', getJurisdictions)
-router.use('/payments/:account', payments)
-router.use('/userTermsAndConditions/:userId', getUserTermsAndConditions)
-router.use('/userTermsAndConditions', postUserTermsAndConditions)
-router.use('/termsAndConditions', getTermsAndConditions)
-router.use('/user/:userId/suspend', suspendUser)
-router.use('/editUserPermissions/users/:userId', editUserPermissions)
-router.use('/unassignedCases', unnassignedCasesRouter)
-router.use('/unassignedCaseTypes', unassignedCaseTypesRouter)
-router.use('/caseshare', caseShareRouter)
-export default router
+router.use('/userDetails', getUserList);
+router.use('/jurisdictions', getJurisdictions);
+router.use('/payments/:account', payments);
+router.use('/userTermsAndConditions/:userId', getUserTermsAndConditions);
+router.use('/userTermsAndConditions', postUserTermsAndConditions);
+router.use('/termsAndConditions', getTermsAndConditions);
+router.use('/user/:userId/suspend', suspendUser);
+router.use('/editUserPermissions/users/:userId', editUserPermissions);
+router.use('/unassignedCases', unnassignedCasesRouter);
+router.use('/unassignedCaseTypes', unassignedCaseTypesRouter);
+router.use('/caseshare', caseShareRouter);
+router.use('/pba', pbaRouter);
+router.use('/register-org', registerRouter);
+export default router;
+

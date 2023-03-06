@@ -24,12 +24,22 @@ const userList = [
     }
 ];
 
+const userDetails = {
+    firstName: 'Test1firstname',
+    lastName: 'Test1lastname',
+    email: 'somthing1@something',
+    status: 'active',
+    roles: 'blabla1',
+    userIdentifier: 'userId1'
+}
+
 const mockUserListState: UsersListState = {
     userList,
     loaded: true,
     loading: false,
     reinvitePendingUser: null,
     editUserFailure: false,
+    userDetails
 };
 
 const mockUserState: UserState = {
@@ -48,17 +58,15 @@ describe('User selectors', () => {
 
     describe('getGetSingleUser', () => {
         it('should return single user', () => {
-
             const expectedUser = {
-                firstName: 'Test2fggftfirstname',
-                lastName: 'Test2gfgtlastname',
-                email: 'somthing2@somffgething',
+                firstName: 'Test1firstname',
+                lastName: 'Test1lastname',
+                email: 'somthing1@something',
                 status: 'active',
-                roles: 'blabfgfgla',
-                userIdentifier: 'userId2'
+                roles: 'blabla1',
+                userIdentifier: 'userId1'
             };
-
-            expect(getGetSingleUser({users: mockUserState}, { userIdentifier: 'userId2' })).toEqual(expectedUser);
+            expect(getGetSingleUser({users: mockUserState})).toEqual(expectedUser);
         });
     });
 

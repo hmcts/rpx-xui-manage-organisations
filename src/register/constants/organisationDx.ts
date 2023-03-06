@@ -23,7 +23,7 @@ export const organisationDx = {
       {
         input: {
           label: {
-            text: 'DX number',
+            text: 'DX number (Optional)',
             classes: 'govuk-label--m',
           },
           hint: {
@@ -42,7 +42,7 @@ export const organisationDx = {
       {
         input: {
           label: {
-            text: 'DX exchange',
+            text: 'DX exchange (Optional)',
             classes: 'govuk-label--m',
           },
           hint: {

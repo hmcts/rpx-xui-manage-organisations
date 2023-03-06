@@ -5,8 +5,14 @@ $hmcts-images-path: "/assets/images/";
 $hmcts-page-width: 1220px;
 
 // TODO temporary solution to extend the width of the page until is addressed through govuk-frontend"
-body .govuk-width-container, #content {
+body .govuk-width-container,
+#content {
   max-width: 1220px;
+  padding-right: 30px;
+  padding-left: 20px;
+  max-width: 1860px;
+  min-width: 900px;
+  margin: auto;
 }
 
 #content {
@@ -17,7 +23,7 @@ body .govuk-width-container, #content {
 @import "~@hmcts/frontend/all";
 
 // gov uk frond-end template is not installed on this
-.js-hidden{
+.js-hidden {
   display: none;
   visibility: hidden;
 }

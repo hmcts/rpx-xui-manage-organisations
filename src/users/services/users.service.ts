@@ -40,4 +40,10 @@ export class UsersService {
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 
+  getUserDetailsWithPermission(userId: string): Observable<any> {
+    return this.http
+        .get<any>(`/api/user-details?userId=${userId}`)
+        .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
 }

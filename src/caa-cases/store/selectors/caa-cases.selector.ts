@@ -12,6 +12,11 @@ export const getAllAssignedCases = createSelector(
   caaCases => caaCases.assignedCases
 );
 
+export const getAllAssignedCasesError = createSelector(
+  getCaaCasesState,
+  fromFeature.getAssignedCasesError
+);
+
 export const getAllAssignedCaseData = createSelector(
   getAllAssignedCases,
   caaCases => caaCases ? caaCases.data : null
@@ -21,6 +26,11 @@ export const getAllUnassignedCases = createSelector(
   getCaaCasesState,
   caaCases => caaCases.unassignedCases
 );
+
+export const getAllUnassignedCasesError = createSelector(
+  getCaaCasesState,
+  fromFeature.getUnassignedCasesError
+)
 
 export const getAllUnassignedCaseData = createSelector(
   getAllUnassignedCases,

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
@@ -29,6 +30,7 @@ import * as fromStore from '../../store';
 export class CaaCasesComponent implements OnInit {
 
   public cases$: Observable<any>;
+  public casesError$: Observable<HttpErrorResponse>;
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
   // this shareCases$ will be passed to case share component
@@ -207,6 +209,7 @@ export class CaaCasesComponent implements OnInit {
           caaCasesFilterValue: this.selectedFilterValue
         }));
         this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
+        this.casesError$ = this.store.pipe(select(fromStore.getAllUnassignedCasesError));
       } else {
         this.store.dispatch(new fromStore.LoadAssignedCases({
           caseType: this.currentCaseType,
@@ -216,9 +219,10 @@ export class CaaCasesComponent implements OnInit {
           caaCasesFilterValue: this.selectedFilterValue
         }));
         this.cases$ = this.store.pipe(select(fromStore.getAllAssignedCaseData));
+        this.casesError$ = this.store.pipe(select(fromStore.getAllAssignedCasesError));
       }
       // Set relevant no data message if no cases returned
-      this.cases$.subscribe(cases => {
+      this.cases$.subscribe(() => {
         this.noCasesFoundMessage = this.getNoCasesFoundMessage();
       });
     }

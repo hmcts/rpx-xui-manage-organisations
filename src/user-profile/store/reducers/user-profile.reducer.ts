@@ -1,7 +1,6 @@
+import {createFeatureSelector} from '@ngrx/store';
 import { UserModel} from '../../models/user.model';
 import { AuthActionTypes, UserProfileActions } from '../actions/user-profile.actions';
-import {createFeatureSelector} from '@ngrx/store';
-import * as fromAcceptTCActions from '../../../accept-tc/store/actions';
 
 export interface AuthState {
   isAuthenticated: boolean;

@@ -1,12 +1,12 @@
 import {emailAddress} from './emailAddress';
-import {organisationAddress} from './organisationAddress';
-import {pbaNumber} from './pbaNumber';
 import {haveDx} from './haveDx';
-import {organisationDx} from './organisationDx';
-import {organisationHaveSra} from './organisationHaveSra';
-import {sraNumber} from './sraNumber';
 import {name} from './name';
 import {organisationName} from './oganisationName';
+import {organisationAddress} from './organisationAddress';
+import {organisationDx} from './organisationDx';
+import {organisationHaveSra} from './organisationHaveSra';
+import {pbaNumber} from './pbaNumber';
+import {sraNumber} from './sraNumber';
 
 const formBuilderTemplates = {
   'email-address': emailAddress,
@@ -26,5 +26,5 @@ const formBuilderTemplates = {
  */
 
 export class RegistrationConstants {
-  static FORM_BUILDER_TEMPLATES = formBuilderTemplates;
+  public static FORM_BUILDER_TEMPLATES = formBuilderTemplates;
 }

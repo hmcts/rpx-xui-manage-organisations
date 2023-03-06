@@ -1,22 +1,22 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import * as registrationActions from '../actions';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {RegistrationFormService} from '../../services/registration-form.service';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
+import {RegistrationFormService} from '../../services/registration-form.service';
+import * as registrationActions from '../actions';
 
 
 @Injectable()
 export class RegistrationEffects {
   constructor(
-    private actions$: Actions,
-    private registrationService: RegistrationFormService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly registrationService: RegistrationFormService,
+    private readonly loggerService: LoggerService
   ) {}
 
   @Effect()
-  loadRegistrationForm$ = this.actions$.pipe(
+  public loadRegistrationForm$ = this.actions$.pipe(
     ofType(registrationActions.LOAD_PAGE_ITEMS),
     map((action: registrationActions.LoadPageItems) => action.payload),
     switchMap((pageId) => {
@@ -34,7 +34,7 @@ export class RegistrationEffects {
   );
 
   @Effect()
-  postRegistrationFormData$ = this.actions$.pipe(
+  public postRegistrationFormData$ = this.actions$.pipe(
     ofType(registrationActions.SUBMIT_FORM_DATA),
     map((action: registrationActions.SubmitFormData) => action.payload),
     switchMap((formValues) => {

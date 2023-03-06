@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountSummaryComponent } from './account-summary.component';
+import { APP_BASE_HREF } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { APP_BASE_HREF } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from 'src/fee-accounts/store/reducers';
 import { of } from 'rxjs';
+import { reducers } from '../../../fee-accounts/store/reducers';
+import { AccountSummaryComponent } from './account-summary.component';
 
 describe('AccountSummaryComponent', () => {
   let component: AccountSummaryComponent;

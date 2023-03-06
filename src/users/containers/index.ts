@@ -1,9 +1,9 @@
-import { UsersComponent } from './users/users.component';
-import { InviteUserComponent } from './invite-user/invite-user.component';
-import { InviteUserSuccessComponent } from './invite-user-success/invite-user-success.component';
-import { UserDetailsComponent } from './user-details/user-details.component';
-import { EditUserPermissionComponent } from './edit-user-permissions/edit-user-permission.component';
 import { EditUserPermissionsFailureComponent } from './edit-user-permissions-failure/edit-user-permissions-failure.component';
+import { EditUserPermissionComponent } from './edit-user-permissions/edit-user-permission.component';
+import { InviteUserSuccessComponent } from './invite-user-success/invite-user-success.component';
+import { InviteUserComponent } from './invite-user/invite-user.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { UsersComponent } from './users/users.component';
 
 export const containers: any[] = [UsersComponent, InviteUserComponent, InviteUserSuccessComponent, UserDetailsComponent,
     EditUserPermissionComponent, EditUserPermissionsFailureComponent];

@@ -1,6 +1,6 @@
-import { UsersService } from './users.service';
 import { InviteUserService } from './invite-user.service';
 import { JurisdictionService } from './jurisdiction.service';
+import { UsersService } from './users.service';
 
 export const services: any[] = [UsersService, InviteUserService, JurisdictionService];
 

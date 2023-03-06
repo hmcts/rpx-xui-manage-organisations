@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { InviteUserService } from '../../services/invite-user.service';
@@ -18,7 +18,7 @@ describe('Invite User Effects', () => {
 
     const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
-    beforeEach(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [
@@ -35,12 +35,15 @@ describe('Invite User Effects', () => {
             ]
         });
 
-        effects = TestBed.get(fromUsersEffects.InviteUserEffects);
-        loggerService = TestBed.get(LoggerService);
-    });
+        effects = TestBed.inject(fromUsersEffects.InviteUserEffects);
+        loggerService = TestBed.inject(LoggerService);
+
+        initTestScheduler();
+        addMatchers();
+    }));
 
     describe('saveUser$', () => {
-        it('should return a collection from user details - InviteUserSuccess', () => {
+        it('should return a collection from user details - InviteUserSuccess', waitForAsync(() => {
             const payload = { payload: 'something' };
             inviteUsersServiceMock.inviteUser.and.returnValue(of(payload));
             const requestPayload = {
@@ -55,7 +58,7 @@ describe('Invite User Effects', () => {
             actions$ = hot('-a', { a: action });
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);
-        });
+        }));
     });
 
     describe('getUserInviteLoggerMessage', () => {
@@ -139,7 +142,7 @@ describe('Invite User Effects', () => {
     });
 
     xdescribe('saveUser$ error', () => {
-        it('should return InviteUserFail', () => {
+        it('should return InviteUserFail', waitForAsync(() => {
             inviteUsersServiceMock.inviteUser.and.returnValue(throwError(new Error()));
             const requestPayload = {
                 firstName: 'Captain',
@@ -154,7 +157,7 @@ describe('Invite User Effects', () => {
             const expected = cold('-b', { b: completion });
             expect(effects.saveUser$).toBeObservable(expected);
             expect(loggerService.error).toHaveBeenCalled();
-        });
+        }));
     });
 
 

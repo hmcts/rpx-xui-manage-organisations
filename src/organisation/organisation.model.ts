@@ -1,13 +1,14 @@
-export class Organisation {
-    addressLine1: string;
-    addressLine2: string;
-    name: string;
-    postcode: string;
-    townCity: string;
-    country: string;
-    contactInformation: any[];
-    paymentAccount: any[];
-    constructor(prop) {
-        Object.assign(this, prop);
-    }
-}
+// This File is Deleted
+// export class Organisation {
+//   addressLine1: string;
+//   addressLine2: string;
+//   name: string;
+//   postcode: string;
+//   townCity: string;
+//   country: string;
+//   contactInformation: any[];
+//   paymentAccount: any[];
+//   constructor(prop) {
+//       Object.assign(this, prop);
+//   }
+// }

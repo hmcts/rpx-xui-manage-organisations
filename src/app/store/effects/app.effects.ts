@@ -99,7 +99,7 @@ export class AppEffects {
     })
   );
 
-  getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
+  public getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
     const result: AppFeatureFlag[] = features.map((isEnabled, i) => {
       return {isEnabled, featureName: featureNames[i]};
     });

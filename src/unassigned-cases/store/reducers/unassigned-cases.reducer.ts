@@ -1,6 +1,7 @@
 import { SubNavigation } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/hmcts-sub-navigation/hmcts-sub-navigation.component';
 import {
     LOAD_UNASSIGNED_CASE_TYPES_SUCCESS,
+    LOAD_UNASSIGNED_CASES_FAILURE,
     LOAD_UNASSIGNED_CASES_SUCCESS,
     UnassignedCasesActions,
     UPDATE_SELECTION_FOR_CASE_TYPE } from '../actions/unassigned-cases.actions';
@@ -56,6 +57,8 @@ export function reducer(
                 const selectedCases: SelectedCases = { ... state.selectedCases };
                 selectedCases[action.payload.casetype] = action.payload.cases;
                 return { ...state,  selectedCases };
+            case LOAD_UNASSIGNED_CASES_FAILURE:
+                return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }};
             default:
                 return state;
     }

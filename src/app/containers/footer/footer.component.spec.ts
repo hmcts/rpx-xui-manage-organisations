@@ -1,5 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FooterComponent} from './footer.component';
 
@@ -9,7 +9,7 @@ describe('FooterComponent', () => {
         template: `<app-footer></app-footer>`
     })
     class TestDummyHostComponent {
-        @ViewChild(FooterComponent)
+        @ViewChild(FooterComponent, { static: true })
         public footerComponent: FooterComponent;
     }
 

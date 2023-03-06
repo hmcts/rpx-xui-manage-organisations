@@ -19,8 +19,8 @@ export class UsersEffects {
   @Effect()
   public loadUsers$ = this.actions$.pipe(
     ofType(usersActions.LOAD_USERS),
-    switchMap(() => {
-      return this.usersService.getListOfUsers().pipe(
+    switchMap((action: any) => {
+      return this.usersService.getListOfUsers(action.payload).pipe(
         map(userDetails => {
           const amendedUsers = [];
           userDetails.users.forEach(element => {
@@ -42,6 +42,37 @@ export class UsersEffects {
     })
   );
 
+  @Effect()
+  public loadAllUsers$ = this.actions$.pipe(
+    ofType(usersActions.LOAD_ALL_USERS),
+    switchMap((action: any) => {
+      return this.usersService.getAllUsersListwithReturnRoles().pipe(
+        map(userDetails => {
+          return new usersActions.LoadAllUsersSuccess();
+        }),
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.LoadAllUsersFail(error));
+        })
+      );
+    })
+  );
+
+  // @Effect()
+  // public loadUserDetails$ = this.actions$.pipe(
+  //   ofType(usersActions.LOAD_USER_DETAILS),
+  //   switchMap(() => {
+  //     return this.usersService.getUserDetailsWithPermission().pipe(
+  //       map(userDetails => {
+  //         return new usersActions.LoadUsersSuccess({users: });
+  //       }),
+  //       catchError(error => {
+  //         this.loggerService.error(error.message);
+  //         return of(new usersActions.LoadUsersFail(error));
+  //       })
+  //     );
+  //   })
+  // );
 
   @Effect()
   public suspendUser$ = this.actions$.pipe(

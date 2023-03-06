@@ -11,5 +11,5 @@ import { SingleAccountSummary } from '../../models/single-account-summary';
   templateUrl: './summary.component.html',
 })
 export class SummaryComponent {
-  @Input() data: SingleAccountSummary;
+  @Input() public data: SingleAccountSummary;
 }

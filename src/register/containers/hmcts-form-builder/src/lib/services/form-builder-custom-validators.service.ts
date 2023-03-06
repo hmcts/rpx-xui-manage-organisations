@@ -34,6 +34,15 @@ export class CustomValidatorsService implements ICustomValidatorsService {
     };
   }
 
+  pbaNumbersCustomValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (control.value && isNaN(Number(control.value.substring(3)))) {
+        return {error: 'Enter a valid PBA number'};
+      }
+      return null;
+    };
+  }
+
   /**
    * Validation Error
    *

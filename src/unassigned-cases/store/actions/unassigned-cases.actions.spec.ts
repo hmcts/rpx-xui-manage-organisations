@@ -4,9 +4,12 @@ import * as fromActions from './unassigned-cases.actions';
 describe('Unassigned actions', () => {
     it('Load Unassigned Actions', () => {
         const caseType = 'caseTypeId1';
-        const action = new fromActions.LoadUnassignedCases(caseType);
+        const pageNo = 1;
+        const pageSize = 10;
+        const payload = { caseType, pageNo, pageSize };
+        const action = new fromActions.LoadUnassignedCases(payload);
         expect({ ...action }).toEqual({
-            caseType,
+            payload,
             type: fromActions.LOAD_UNASSIGNED_CASES
           });
     });

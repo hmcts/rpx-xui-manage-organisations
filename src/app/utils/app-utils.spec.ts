@@ -230,7 +230,7 @@ describe('AppUtils', () => {
 
     it('Should return false if a property does not exist on an object.', () => {
 
-      const object = { level1: { level2: { level3: 'level3' } } }
+      const object = { level1: { level2: { level3: 'level3' } } };
 
       expect(propsExist(object, ['level1', 'breakingProperty', 'level3'])).toEqual(false);
     });
@@ -247,7 +247,7 @@ describe('AppUtils', () => {
       const object = null;
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
-    })
+    });
   });
 
   it('should return index of the last element in the array where predicate is true', () => {

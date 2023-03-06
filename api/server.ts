@@ -6,7 +6,6 @@ import * as path from 'path'
 import {app, logger} from './application'
 import errorHandler from './lib/error.handler'
 
-
 console.log('WE ARE USING server.ts on the box.')
 
 /**

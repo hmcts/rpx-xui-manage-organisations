@@ -5,8 +5,7 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import { Inject, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import { HeadersService } from './headers.service';

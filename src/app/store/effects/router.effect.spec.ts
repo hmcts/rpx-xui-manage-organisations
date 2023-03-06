@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import * as RouterActions from '../actions/router.action';
-import * as fromRouterEffects from './router.effect';
 import { RouterEffects } from './router.effect';
 
 describe('Router Effects', () => {
@@ -24,7 +23,7 @@ describe('Router Effects', () => {
             providers: [
                 { provide: Location, useValue: LocationMock },
                 { provide: Router, useValue: RouterMock },
-                fromRouterEffects.RouterEffects,
+                RouterEffects,
                 provideMockActions(() => actions$)
             ]
         });

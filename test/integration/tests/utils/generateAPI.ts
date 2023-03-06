@@ -1,6 +1,4 @@
-import { generateToken } from '../../../../api/auth/serviceToken';
 import { authenticateAndGetcookies } from './getCookie';
-import { getauthToken } from './getToken';
 
 const fetch = require('node-fetch');
 const mainURL = process.env.TEST_URL || 'http://localhost:3000';
@@ -48,6 +46,4 @@ export async function generateAPIRequest(method, subURL) {
   } catch (error) {
     console.log(error);
   }
-
  }
-

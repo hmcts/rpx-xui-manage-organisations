@@ -1,4 +1,4 @@
-import { AppConstants } from 'src/app/app.constants';
+import { AppConstants } from '../../../app/app.constants';
 import * as fromAppActions from '../actions/app.actions';
 import * as fromApp from './app.reducer';
 

@@ -14,19 +14,17 @@ describe('Accept terms guard', () => {
         expect(guard).toBeTruthy();
     });
 
-    it('can activate when TC has been accepted', (done: any) => {
+    it('can activate when TC has been accepted', () => {
         mockStore.pipe.and.returnValue(of(true));
         guard.canActivate().subscribe(v => {
             expect(v).toBeTruthy();
-            done();
         });
     });
 
-    xit('cant activate when TC have not been accepted', (done: any) => {
+    xit('cant activate when TC have not been accepted', () => {
         mockStore.pipe.and.returnValue(throwError('test'));
         guard.canActivate().subscribe(v => {
             expect(v).toBeFalsy();
-            done();
         });
     });
 });

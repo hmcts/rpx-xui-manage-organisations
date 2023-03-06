@@ -1,5 +1,5 @@
-import { UsersService } from './users.service';
 import { of } from 'rxjs';
+import { UsersService } from './users.service';
 
 describe('Users service', () => {
     const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', ['get', 'put']);

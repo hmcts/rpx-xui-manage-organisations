@@ -21,7 +21,7 @@ describe('UnassignedCasesEffects', () => {
       unassignedCases$.subscribe(loadUnassignedCases => expect(new LoadUnassignedCasesSuccess(unassignedCase)).toEqual(loadUnassignedCases));
     });
 
-    it('onLoadUnassignedCases error', (done) => {
+    it('onLoadUnassignedCases error', () => {
       service.fetchUnassignedCases.and.callFake(() => {
         return throwError(new HttpErrorResponse({error: '404 - Not Found', status: 404}));
       });
@@ -34,7 +34,6 @@ describe('UnassignedCasesEffects', () => {
       const unassignedCases$ = UnassignedCasesEffects.onLoadUnassignedCases(action, service, loggerService);
       unassignedCases$.subscribe(errorAction => {
         expect(new fromRoot.Go({ path: ['/service-down']})).toEqual(errorAction);
-        done();
       });
     });
   });

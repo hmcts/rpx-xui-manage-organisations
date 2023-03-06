@@ -46,7 +46,7 @@ For publishing the pacts to broker execute `yarn publish-pact`
 
 To get more help on the Angular CLI use `ng help` or go and check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Logger errors and warnings 
+## Logger errors and warnings
 
 Extended version of script below:
 
@@ -203,4 +203,5 @@ Session Timeout Configuration - An array that contains the Applications and User
 Session Timeout - An object that contains the Idle Modal Display Time, Reg Ex pattern so that we use
 the correct Session Timeout for the application / and or User Groups and Total Idle Time.  
 
-END2
+END2 TEST
+

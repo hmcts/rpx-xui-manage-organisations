@@ -9,7 +9,7 @@ describe('PrivacyPolicyComponent', () => {
 
 
   class MockActivatedRoute {
-    get fragment() {
+    public get fragment() {
       return of('overview');
     }
   }

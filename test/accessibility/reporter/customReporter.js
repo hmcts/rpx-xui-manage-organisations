@@ -11,9 +11,9 @@ function report(runner) {
     let passCounter = 0;
     let failCounter = 0;
     runner.on('pass', function (test) {
-        if (test.ctx.a11yResult.issues.length === 0){
+        if (test.ctx.a11yResult.issues && test.ctx.a11yResult.issues.length === 0){
             onPass(test);
-        }else{
+        } else {
             test.state = "failed";
             onFail(test, {'message':'Accesibility issues reported'});
         }

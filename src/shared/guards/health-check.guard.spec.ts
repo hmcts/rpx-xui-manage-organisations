@@ -1,12 +1,12 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HealthCheckGuard } from './health-check.guard';
+import { HttpClient } from '@angular/common/http';
+import { inject, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { HealthCheckService } from '../services/health-check.service';
-import { HttpClient } from '@angular/common/http';
+import { HealthCheckGuard } from './health-check.guard';
 
 class HttpClientMock {
 
-    get() {
+    public get() {
         return 'response';
     }
 }

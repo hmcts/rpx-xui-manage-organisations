@@ -9,26 +9,26 @@ export const LOAD_FEE_RESET_STATE = '[Fee Accounts] Reset State';
 export class LoadFeeAccounts {
   constructor(public paymentAccounts: string[]) {
   }
-  readonly type = LOAD_FEE_ACCOUNTS;
+  public readonly type = LOAD_FEE_ACCOUNTS;
 }
 
 export class LoadFeeAccountsSuccess  implements Action {
-  readonly type = LOAD_FEE_ACCOUNTS_SUCCESS;
+  public readonly type = LOAD_FEE_ACCOUNTS_SUCCESS;
   constructor(public payload: any[]) {}  // TODO add type list of users
 }
 
 export class LoadFeeAccountsFail implements Action {
-  readonly type = LOAD_FEE_ACCOUNTS_FAIL;
+  public readonly type = LOAD_FEE_ACCOUNTS_FAIL;
   constructor(public payload: any) {}
 }
 
 export class LoadFeeOneOrMoreAccountsFail implements Action {
-  readonly type = LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL;
+  public readonly type = LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL;
   constructor(public payload: any) {}
 }
 
 export class LoadFeeAccountResetState implements Action {
-  readonly type = LOAD_FEE_RESET_STATE;
+  public readonly type = LOAD_FEE_RESET_STATE;
 }
 
 export type FeeAccountsActions =

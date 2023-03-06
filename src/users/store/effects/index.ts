@@ -1,5 +1,5 @@
-import { UsersEffects } from './users.effects';
 import { InviteUserEffects } from './invite-user.effects';
+import { UsersEffects } from './users.effects';
 
 export const effects: any[] = [
   UsersEffects,

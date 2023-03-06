@@ -1,6 +1,6 @@
-import { RemoveHostDirective } from './remove-host.directive';
-import { ElementRef, Component, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RemoveHostDirective } from './remove-host.directive';
 
 @Component({
     template: '<div id="parent" appRemoveHost><div id="child"></div></div>'

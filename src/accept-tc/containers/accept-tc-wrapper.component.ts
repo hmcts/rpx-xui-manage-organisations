@@ -37,21 +37,21 @@ export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
     this.unsubscribe(this.uidSubscription);
   }
 
-  getObservable(actions$: Actions, action: string): Observable<never> {
+  public getObservable(actions$: Actions, action: string): Observable<never> {
     return actions$.pipe(ofType(action));
   }
 
-  dispatchAction(store: Store<fromStore.AuthState>, action: Action) {
+  public dispatchAction(store: Store<fromStore.AuthState>, action: Action) {
     store.dispatch(action);
   }
 
-  unsubscribe(subscription: Subscription) {
+  public unsubscribe(subscription: Subscription) {
     if (subscription) {
       subscription.unsubscribe();
     }
   }
 
-  onAcceptTandC() {
+  public onAcceptTandC() {
     this.store.dispatch(new fromStore.AcceptTandC(this.uid));
   }
 }

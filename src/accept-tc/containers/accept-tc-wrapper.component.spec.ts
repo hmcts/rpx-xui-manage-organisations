@@ -1,4 +1,6 @@
+import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { AcceptTcWrapperComponent } from './accept-tc-wrapper.component';
 
 describe('Accept Tc Wrapper Component', () => {
@@ -11,7 +13,7 @@ describe('Accept Tc Wrapper Component', () => {
     }
 
     beforeEach(() => {
-        mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch']);
+        mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
         mockActions = jasmine.createSpyObj('mockActions', ['pipe']);
         component = new AcceptTcWrapperComponent(mockStore, mockActions);
     });

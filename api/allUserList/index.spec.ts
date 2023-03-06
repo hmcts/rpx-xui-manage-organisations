@@ -56,7 +56,7 @@ describe('allUserList index', () => {
         const errorReport = {
             apiError: errorMessage,
             apiStatusCode: errorCode,
-            message: 'List of users route error',
+            message: 'All List of users route error',
         }
 
         // Test the function and check expectations
@@ -78,7 +78,7 @@ describe('allUserList index', () => {
         const errorReport = {
             apiError: errorMessage,
             apiStatusCode: errorCode,
-            message: 'List of users route error',
+            message: 'All List of users route error',
         }
 
         // Test the function and check expectations

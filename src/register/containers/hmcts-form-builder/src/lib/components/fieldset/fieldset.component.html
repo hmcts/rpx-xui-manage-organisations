@@ -1,9 +1,9 @@
 <fieldset [attr.validate]="validate" [class]="classes" [attr.data]="data" [attr.group]="group">
   <ng-container *ngFor="let item of data">
     <legend *ngIf="item.legend" [class]="'govuk-fieldset__legend ' + item.legend.classes">
-        <h1 class="govuk-heading-xl">
+        <h2 class="govuk-heading-xl">
             {{item.legend.text}}
-        </h1>
+        </h2>
     </legend>    
     <app-jui-form-elements [validate]="validate" [group]="group" [data]="item"></app-jui-form-elements>
     <br>

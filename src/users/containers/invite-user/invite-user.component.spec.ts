@@ -1,13 +1,15 @@
+import { of } from 'rxjs';
 import { InviteUserComponent } from './invite-user.component';
 
 describe('User Details Component', () => {
 
     let component: InviteUserComponent;
     let userStoreSpyObject;
+    let actionSpy;
 
     beforeEach(() => {
         userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-        const actionSpy = jasmine.createSpyObj('actionSpy', ['pipe']);
+        actionSpy = jasmine.createSpyObj('actionSpy', ['pipe']);
         component = new InviteUserComponent(userStoreSpyObject, actionSpy);
     });
 
@@ -15,8 +17,30 @@ describe('User Details Component', () => {
         expect(component).toBeTruthy();
     });
 
+    it('should initialize the form', () => {
+        const user = {
+            userList: [],
+            loaded: true,
+            loading: false,
+            reinvitePendingUser: {},
+            editUserFailure: false
+        };
+        const error = {
+            apiError: '',
+            apiStatusCode: 400,
+            message: ''
+        };
+
+        userStoreSpyObject.pipe.and.returnValue(of(user));
+        actionSpy.pipe.and.returnValue(of(true));
+        component.ngOnInit();
+        expect(component.errorMessages.firstName).toEqual(['Enter first name']);
+    });
+
     it('unsubscribe', () => {
-        const mockSubscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
+        const mockSubscription = jasmine.createSpyObj(['unsubscribe']);
+        component.juridictionSubscription = mockSubscription;
+        component.pendingUserSubscription = mockSubscription;
         component.unSubscribe(mockSubscription);
         expect(mockSubscription.unsubscribe).toHaveBeenCalled();
     });

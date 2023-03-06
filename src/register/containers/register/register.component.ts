@@ -142,6 +142,15 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onPageContinue(formDraft: any): void {
     if (formDraft.invalid) {
+      if (!!this.pageItems.validationHeaderErrorMessages && this.pageItems.validationHeaderErrorMessages.length > 0) {
+        setTimeout(() => {
+          const debugElement = document.getElementsByTagName('app-validation-header')[0];
+          if (!!debugElement) {
+            debugElement.setAttribute('tabindex', '0');
+            (debugElement as HTMLElement).focus();
+          }
+        }, 200);
+      }
       this.showFormValidation(true);
       window.scrollTo(0, 0);
     } else {

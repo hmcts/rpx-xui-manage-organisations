@@ -1,4 +1,3 @@
-import { Actions } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { EditUserPermissionComponent } from './edit-user-permission.component';
 

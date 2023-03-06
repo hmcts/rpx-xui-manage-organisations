@@ -8,41 +8,28 @@ describe('User Details Component', () => {
     let userStoreSpyObject;
     let routerStoreSpyObject;
     let actionsObject;
+    let activeRoute;
 
     beforeEach(() => {
         userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
         routerStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
         actionsObject = jasmine.createSpyObj('Actions', ['pipe']);
-        component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject);
+        activeRoute = {
+            snapshot: {
+              params: of({})
+          }
+        };
+        component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject, activeRoute);
     });
 
     describe('ngOnInit', () => {
         it('should create subscriptions', () => {
             actionsObject.pipe.and.callFake(() => of ({}));
             routerStoreSpyObject.pipe.and.returnValue(of({}));
+            userStoreSpyObject.pipe.and.returnValue(of({}));
             component.ngOnInit();
-            // expect(component.dependanciesSubscription).toBeDefined();
-            // expect(component.userSubscription).toBeDefined();
+            expect(component.userSubscription).toBeDefined();
             expect(component.suspendSuccessSubscription).toBeDefined();
-        });
-    });
-
-    describe('dispatchGetUsers', () => {
-        it('should load users when there are none', () => {
-            component.dispatchGetUsers(false, userStoreSpyObject);
-            expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
-        });
-
-        it('should not load users when they exist', () => {
-            component.dispatchGetUsers(true, userStoreSpyObject);
-            expect(userStoreSpyObject.dispatch).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('getUserObservable', () => {
-        it('should return user', () => {
-            component.getUserObservable('user', userStoreSpyObject);
-            expect(userStoreSpyObject.pipe).toHaveBeenCalled();
         });
     });
 
@@ -94,44 +81,25 @@ describe('User Details Component', () => {
         });
     });
 
-    describe('handleDependanciesSubscription', () => {
-        it('should load users when there are none', () => {
-            component.handleDependanciesSubscription(false, { state: { params: { userId: 'user' } } });
-            expect(userStoreSpyObject.dispatch).toHaveBeenCalled();
-        });
-
-        it('should not load users when they exist', () => {
-            component.handleDependanciesSubscription(true, { state: { params: { userId: 'user' } } });
-            expect(userStoreSpyObject.dispatch).not.toHaveBeenCalled();
-        });
-    });
-
     describe('ngOnDestroy', () => {
         it('should unsubscribe from observables when subscribed', () => {
-            component.dependanciesSubscription = new Observable().subscribe();
             component.userSubscription = new Observable().subscribe();
             component.suspendSuccessSubscription = new Observable().subscribe();
-            const componentDependanciesSubscriptionUnsubscribeSpy = spyOn(component.dependanciesSubscription, 'unsubscribe');
             const componentUserSubscriptionUnsubscribeSpy = spyOn(component.userSubscription, 'unsubscribe');
             const componentSuspendSuccessSubscriptionUnsubscribeSpy = spyOn(component.suspendSuccessSubscription, 'unsubscribe');
             component.ngOnDestroy();
-            expect(componentDependanciesSubscriptionUnsubscribeSpy).toHaveBeenCalled();
             expect(componentUserSubscriptionUnsubscribeSpy).toHaveBeenCalled();
             expect(componentSuspendSuccessSubscriptionUnsubscribeSpy).toHaveBeenCalled();
         });
 
         it('should not unsubscribe from observables when not subscribed', () => {
-            component.dependanciesSubscription = new Observable().subscribe();
             component.userSubscription = new Observable().subscribe();
             component.suspendSuccessSubscription = new Observable().subscribe();
-            const componentDependanciesSubscriptionUnsubscribeSpy = spyOn(component.dependanciesSubscription, 'unsubscribe');
             const componentUserSubscriptionUnsubscribeSpy = spyOn(component.userSubscription, 'unsubscribe');
             const componentSuspendSuccessSubscriptionUnsubscribeSpy = spyOn(component.suspendSuccessSubscription, 'unsubscribe');
-            component.dependanciesSubscription = undefined;
             component.userSubscription = undefined;
             component.suspendSuccessSubscription = undefined;
             component.ngOnDestroy();
-            expect(componentDependanciesSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
             expect(componentUserSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
             expect(componentSuspendSuccessSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
         });

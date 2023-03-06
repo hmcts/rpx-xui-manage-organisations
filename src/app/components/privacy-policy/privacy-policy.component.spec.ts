@@ -40,4 +40,11 @@ describe('PrivacyPolicyComponent', () => {
     await fixture.whenStable();
     expect(documenentQuery).toHaveBeenCalledWith('#overview');
   });
+
+  it('should trigger the hostlistner event', () => {
+    const event = new Event('click', { bubbles: true });
+    const documentClickSpy = spyOn(component, 'clickout').and.callThrough();
+    component.clickout(event);
+    expect(documentClickSpy).toHaveBeenCalled();
+  });
 });

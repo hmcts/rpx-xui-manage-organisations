@@ -58,21 +58,30 @@ export class UsersEffects {
     })
   );
 
-  // @Effect()
-  // public loadUserDetails$ = this.actions$.pipe(
-  //   ofType(usersActions.LOAD_USER_DETAILS),
-  //   switchMap(() => {
-  //     return this.usersService.getUserDetailsWithPermission().pipe(
-  //       map(userDetails => {
-  //         return new usersActions.LoadUsersSuccess({users: });
-  //       }),
-  //       catchError(error => {
-  //         this.loggerService.error(error.message);
-  //         return of(new usersActions.LoadUsersFail(error));
-  //       })
-  //     );
-  //   })
-  // );
+  @Effect()
+  public loadUserDetails$ = this.actions$.pipe(
+    ofType(usersActions.LOAD_USER_DETAILS),
+    switchMap((action: any) => {
+      return this.usersService.getUserDetailsWithPermission(action.payload).pipe(
+        map(userDetails => {
+          let amendedUser;
+          userDetails.users.forEach(element => {
+              const fullName = `${element.firstName} ${element.lastName}`;
+              const user = element;
+              user.fullName = fullName;
+              user.routerLink = `user/${user.userIdentifier}`;
+              user.routerLinkTitle = `User details for ${fullName} with id ${user.userIdentifier}`;
+              amendedUser = user;
+          });
+          return new usersActions.LoadUserDetailsSuccess(amendedUser);
+        }),
+        catchError(error => {
+          this.loggerService.error(error.message);
+          return of(new usersActions.LoadUsersFail(error));
+        })
+      );
+    })
+  );
 
   @Effect()
   public suspendUser$ = this.actions$.pipe(

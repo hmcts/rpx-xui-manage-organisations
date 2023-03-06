@@ -42,5 +42,4 @@ export class AcceptTermsAndConditionGuard implements CanActivate {
     );
   }
 
-
 }

@@ -1,24 +1,24 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import * as singleFeeAccountActions from '../actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {FeeAccountsService} from '../../services';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
+import {FeeAccountsService} from '../../services';
+import * as singleFeeAccountActions from '../actions';
 
 
 
 @Injectable()
 export class SingleFeeAccountEffects {
   constructor(
-    private actions$: Actions,
-    private feeAccountsService: FeeAccountsService,
-    private loggerService: LoggerService
+    private readonly actions$: Actions,
+    private readonly feeAccountsService: FeeAccountsService,
+    private readonly loggerService: LoggerService
   ) {}
 
   @Effect()
-  loadSingleFeeAccount$ = this.actions$.pipe(
+  public loadSingleFeeAccount$ = this.actions$.pipe(
     ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT),
     switchMap((data: { payload: string, type: string}) => {
       this.loggerService.log('LOAD_SINGLE_FEE_ACCOUNT ::: data is');
@@ -37,7 +37,7 @@ export class SingleFeeAccountEffects {
   );
 
   @Effect()
-  loadSingleFeeAccountTransactions$ = this.actions$.pipe(
+  public loadSingleFeeAccountTransactions$ = this.actions$.pipe(
     ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS),
     switchMap((data: { payload: string, type: string}) => {
       this.loggerService.log('data is LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS');

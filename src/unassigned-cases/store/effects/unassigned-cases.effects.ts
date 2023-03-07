@@ -35,12 +35,16 @@ export class UnassignedCasesEffects {
       })
     );
 
-  public static onLoadUnassignedCases(payload: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
-    return service.fetchUnassignedCases(payload.caseType).pipe(
+  public static onLoadUnassignedCases(action: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
+    return service.fetchUnassignedCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
       map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
-      catchError(errorResponse => {
+      catchError(async(errorResponse) => {
         loggerService.error(errorResponse);
-        return of(new fromRoot.Go({ path: ['/service-down']}));
+        if (errorResponse.error.status === 400) {
+          return new LoadUnassignedCasesFailure(errorResponse.error);
+        } else {
+          return new fromRoot.Go({ path: ['/service-down']});
+        }
       })
     );
   }

@@ -1,6 +1,6 @@
 import { User } from '@hmcts/rpx-xui-common-lib';
-import { AppConstants } from 'src/app/app.constants';
-import {AppUtils} from 'src/app/utils/app-utils';
+import { AppConstants } from '../../../app/app.constants';
+import {AppUtils} from '../../../app/utils/app-utils';
 import * as fromUsers from '../actions/user.actions';
 
 export interface UsersListState {

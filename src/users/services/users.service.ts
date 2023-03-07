@@ -1,20 +1,35 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import {Observable, of, throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 @Injectable()
 export class UsersService {
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getListOfUsers(): Observable<any> {
+  // returnRoles true
+  public getAllUsersListwithReturnRoles(): Observable<any> {
     return this.http
-       .get<any>(`/api/userList`)
+       .get<any>(`/api/allUserList`)
        .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  suspendUser(param): Observable<any> {
+  // returnRoles true with pageNumber
+  public getListOfUsers(pageNumber: number): Observable<any> {
+    return this.http
+       .get<any>(`/api/userList?pageNumber=${pageNumber}`)
+       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  // get all users with returnRoles false
+  public getAllUsersList(): Observable<any> {
+    return this.http
+       .get<any>(`/api/allUserListWithoutRoles`)
+       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  public suspendUser(param): Observable<any> {
     let user = param.payload;
     user = {
       ...user,

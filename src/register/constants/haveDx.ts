@@ -17,12 +17,6 @@ export const haveDx = {
       {
         fieldset: [
           {
-            legend: {
-              text: 'Do you have a Document Exchange (DX) reference for your main office?',
-              classes: 'govuk-fieldset__legend--xl'
-            }
-          },
-          {
             radios: {
               control: 'haveDx',
               classes: 'govuk-radios--inline',

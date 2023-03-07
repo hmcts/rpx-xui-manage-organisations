@@ -65,6 +65,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.suspendUserServerErrorSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_FAIL)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
     });
+
+
   }
 
   public ngOnDestroy(): void {
@@ -155,8 +157,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public reinviteUser(user: User) {
-    console.log('REINVITE USER');
-    console.log(user);
     this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
 

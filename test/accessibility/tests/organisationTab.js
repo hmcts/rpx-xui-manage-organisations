@@ -27,7 +27,5 @@ describe('Pa11y tests', function () {
         actions.push(...PallyActions.waitForPageWithCssLocator('app-prd-organisation-component'));
         await pa11ytest(this, actions);
     });
-
 });
-
 

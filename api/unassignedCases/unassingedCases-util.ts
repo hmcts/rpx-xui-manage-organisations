@@ -54,10 +54,10 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
   return ccdColumnConfigs
 }
 
-export function getRequestBody(organisationID: string) {
+export function getRequestBody(organisationID: string, pageNo: number, pageSize: number) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`
   return {
-    from: 0,
+    from: pageNo,
     query: {
       bool: {
         filter: [
@@ -78,9 +78,10 @@ export function getRequestBody(organisationID: string) {
         ],
       },
     },
-    size: 100,
-    sort: {
-      created_date: { order: 'desc'},
-    },
+    size: pageSize,
+    sort: [
+      {
+        created_date: 'desc'
+      },]
   }
 }

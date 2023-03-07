@@ -1,4 +1,3 @@
-import { json } from 'body-parser'
 import { Request, Response, Router } from 'express'
 import { getConfigValue } from '../configuration'
 import { APP_INSIGHTS_KEY } from '../configuration/references'

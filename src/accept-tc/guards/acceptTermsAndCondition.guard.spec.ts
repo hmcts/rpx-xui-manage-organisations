@@ -7,7 +7,7 @@ describe('Accept terms guard', () => {
 
     beforeEach(() => {
         mockStore = jasmine.createSpyObj('mockStore', ['unsubscribe', 'dispatch', 'pipe']);
-        guard = new AcceptTermsAndConditionGuard();
+        guard = new AcceptTermsAndConditionGuard(mockStore);
     });
 
     it('is Truthy', () => {

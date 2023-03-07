@@ -11,7 +11,7 @@ import * as fromUsersEffects from './users.effects';
 describe('Users Effects', () => {
     let actions$;
     let effects: fromUsersEffects.UsersEffects;
-    const UsersServiceMock = jasmine.createSpyObj('UsersService', [
+    const usersServiceMock = jasmine.createSpyObj('UsersService', [
         'getListOfUsers', 'suspendUser', 'getUserDetailsWithPermission'
     ]);
     let loggerService: LoggerService;
@@ -124,7 +124,7 @@ describe('Users Effects', () => {
             const payload = { users: [{ payload: 'something' }] };
             const users = { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined',
             routerLinkTitle: 'User details for undefined undefined with id undefined' };
-            UsersServiceMock.getUserDetailsWithPermission.and.returnValue(of(payload));
+            usersServiceMock.getUserDetailsWithPermission.and.returnValue(of(payload));
             const action = new LoadUserDetails(payload);
             const completion = new LoadUserDetailsSuccess(users);
             actions$ = hot('-a', { a: action });

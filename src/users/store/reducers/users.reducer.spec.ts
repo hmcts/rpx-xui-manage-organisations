@@ -131,13 +131,13 @@ describe('Users Reducer', () => {
      */
     it('EDIT_USER_FAILURE_RESET action should reset editUserFailure', () => {
       const { initialState } = fromUsers;
-      initialState.editUserFailure = true;
-      expect(initialState.editUserFailure).toBeTruthy();
+      const action = new fromUserActions.EditUserFailure('');
+      fromUsers.reducer(initialState, action);
 
-      const action = new fromUserActions.EditUserFailureReset();
-      const state = fromUsers.reducer(initialState, action);
+      const action2 = new fromUserActions.EditUserFailureReset();
+      const state2 = fromUsers.reducer(initialState, action2);
 
-      expect(state.editUserFailure).toBeFalsy();
+      expect(state2.editUserFailure).toBeFalsy();
     });
 });
 

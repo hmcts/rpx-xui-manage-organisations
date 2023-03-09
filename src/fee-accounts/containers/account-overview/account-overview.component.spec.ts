@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AccountOverviewComponent } from './account-overview.component';
-import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '../../../organisation/store/reducers';
+import { AccountOverviewComponent } from './account-overview.component';
 
 describe('AccountOverviewComponent', () => {
   let component: AccountOverviewComponent;

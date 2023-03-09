@@ -1,0 +1,5 @@
+<xuilib-gov-uk-input
+  [config]="{label: 'PBA Number', name: 'pbaNumber', id: id, type: 'text', classes: 'govuk-label--m'}"
+  [group]="group"
+  [errorMessage]="errorMessages">
+</xuilib-gov-uk-input>

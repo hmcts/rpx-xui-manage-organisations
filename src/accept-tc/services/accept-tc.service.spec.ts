@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, TestBed } from '@angular/core/testing';
-import { AcceptTcService } from './accept-tc.service';
 import { of } from 'rxjs';
+import { AcceptTcService } from './accept-tc.service';
 
 describe('Accept Terms Service', () => {
 

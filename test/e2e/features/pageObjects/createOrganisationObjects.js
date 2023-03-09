@@ -44,7 +44,7 @@ class CreateOrganisationObjects {
     this.registrationDetailsSubmitted = element(by.xpath("//h1[contains(text() ,'Registration details submitted')]"));
 
     this.backLink = element(by.css('.govuk-back-link'));
-    this.alreadyRegisteredAccountHeader = element(by.css('h3.govuk-heading-m'));
+    this.alreadyRegisteredAccountHeader = element(by.css('h2.govuk-heading-m'));
     this.manageCasesAppLink = element(by.xpath('//a[contains(text(),"manage your cases")]'));
     this.manageOrgAppLink = element(by.xpath('//a[contains(text(),"manage your organisation")]'));
     this.mcWindowHandle = "";

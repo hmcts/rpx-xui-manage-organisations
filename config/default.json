@@ -27,7 +27,7 @@
   "services": {
     "idamApi": "https://idam-api.platform.hmcts.net",
     "idamWeb": "https://hmcts-access.service.gov.uk",
-    "rdProfessionalApi": "http://rd-professional-api-prod.service.core-compute-prod.internal",
+    "rdProfessionalApi": "https://rd-professional-api-pr-1292.service.core-compute-preview.internal",
     "s2s": "http://rpe-service-auth-provider-prod.service.core-compute-prod.internal",
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",

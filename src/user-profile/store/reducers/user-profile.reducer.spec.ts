@@ -1,6 +1,6 @@
-import * as fromAuth from './user-profile.reducer';
-import * as fromAuthActions from '../actions/user-profile.actions';
 import { UserModel} from '../../models/user.model';
+import * as fromAuthActions from '../actions/user-profile.actions';
+import * as fromAuth from './user-profile.reducer';
 
 describe('User Profile Reducer', () => {
     it('undefined action should return the default state', () => {

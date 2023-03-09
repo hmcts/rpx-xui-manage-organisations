@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
+import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 // TODO: The below is an odd way to import.
-import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import { Observable } from 'rxjs';
-import { UsersService } from 'src/users/services';
+import { UsersService } from '../../../users/services';
 
 import * as fromStore from '../../store';
 
@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
-    private usersService: UsersService
+    private readonly usersService: UsersService
   ) {}
 
   public ngOnInit(): void {

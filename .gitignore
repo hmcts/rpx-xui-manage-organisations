@@ -64,3 +64,4 @@ report.json
 # Stryker - mutation tests
 .stryker-tmp/
 stryker.log 
+functional-output/

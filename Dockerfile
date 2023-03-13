@@ -8,7 +8,7 @@ USER hmcts
 COPY --chown=hmcts:hmcts .yarn ./.yarn
 COPY --chown=hmcts:hmcts package.json yarn.lock .yarnrc.yml tsconfig.json ./
 
-RUN yarn run
+RUN yarn
 
 FROM base as build
 

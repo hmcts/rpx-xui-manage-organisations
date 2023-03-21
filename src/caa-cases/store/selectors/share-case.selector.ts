@@ -7,9 +7,14 @@ export const getCaseShareState = createSelector(
   (state: fromFeature.CaaCasesState) => state.caseShare
 );
 
-export const getShareCaseListState = createSelector(
+export const getShareAssignedCaseListState = createSelector(
   getCaseShareState,
-  fromFeature.getShareCases
+  fromFeature.getShareAssignedCases
+);
+
+export const getShareUnassignedCaseListState = createSelector(
+  getCaseShareState,
+  fromFeature.getShareUnassignedCases
 );
 
 export const getOrganisationUsersState = createSelector(

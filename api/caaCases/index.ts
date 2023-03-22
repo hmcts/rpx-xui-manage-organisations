@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_MCA_PROXY_API_PATH, SERVICES_ROLE_ASSIGNMENT_API_PATH } from '../configuration/references';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getApiPath, getRequestBody, mapCcdCases } from './caaCases.util';
 import { CaaCasesFilterType } from './enums';
 import { RoleAssignmentResponse } from './models/roleAssignmentResponse';
 
-export async function handleCaaCases(req: Request, res: Response, next: NextFunction) {
+export async function handleCaaCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string;
   const caaCasesPageType = req.query.caaCasesPageType as string;
   const caaCasesFilterType = req.query.caaCasesFilterType as string;

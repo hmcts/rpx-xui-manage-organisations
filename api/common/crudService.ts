@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { NextFunction, Request } from 'express';
+import { NextFunction } from 'express';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 import * as log4jui from '../lib/log4jui';
 import { JUILogger } from '../lib/models';
 
@@ -12,7 +13,7 @@ const logger: JUILogger = log4jui.getLogger('crud-service');
  * @param next
  * @returns {Promise<AxiosResponse>}
  */
-export async function handleGet(path: string, req: Request, next: NextFunction): Promise<AxiosResponse> {
+export async function handleGet(path: string, req: EnhancedRequest, next: NextFunction): Promise<AxiosResponse> {
   try {
     logger.info('handle get:', path);
     return await req.http.get(path);
@@ -28,7 +29,7 @@ export async function handleGet(path: string, req: Request, next: NextFunction):
  * @param req
  * @returns {Promise<AxiosResponse>}
  */
-export async function handlePost<T>(path: string, body: T, req: Request): Promise<AxiosResponse> {
+export async function handlePost<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
     logger.info('handle post:', path);
     return await req.http.post(path, body);
@@ -45,7 +46,7 @@ export async function handlePost<T>(path: string, body: T, req: Request): Promis
  * @param req
  * @returns {Promise<AxiosResponse>}
  */
-export async function handlePut<T>(path: string, body: T, req: Request): Promise<AxiosResponse> {
+export async function handlePut<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
     logger.info('handle put:', path);
     return await req.http.put(path, body);
@@ -63,7 +64,7 @@ export async function handlePut<T>(path: string, body: T, req: Request): Promise
  * @param req
  * @returns {Promise<AxiosResponse>}
  */
-export async function handleDelete<T>(path: string, body: T, req: Request): Promise<AxiosResponse> {
+export async function handleDelete<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
   try {
     logger.info('handle delete:', path);
     return await req.http.delete(path, {

@@ -29,7 +29,8 @@ export const RESET_UNASSIGNED_CASE_SELECTION = '[ShareCase] Reset Unassigned Cas
 
 export const LOAD_USERS_FROM_ORG_FOR_CASE = '[LoadUsers] From ORG For A Case';
 export const LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS = '[LoadUsers] From ORG For A Case Success';
-export const SYNCHRONIZE_STATE_TO_STORE = '[ShareCase] Synchronize State To Store';
+export const SYNCHRONIZE_STATE_TO_STORE_ASSIGNED_CASES = '[ShareCase] Synchronize State To Store Assigned Cases';
+export const SYNCHRONIZE_STATE_TO_STORE_UNASSIGNED_CASES = '[ShareCase] Synchronize State To Store Unassigned Cases';
 
 export class NavigateToShareAssignedCases implements Action {
   public readonly type = NAVIGATE_TO_SHARE_ASSIGNED_CASES;
@@ -38,6 +39,16 @@ export class NavigateToShareAssignedCases implements Action {
 
 export class NavigateToShareUnassignedCases implements Action {
   public readonly type = NAVIGATE_TO_SHARE_UNASSIGNED_CASES;
+  constructor(public payload: SharedCase[]) {}
+}
+
+export class SynchronizeStateToStoreAssignedCases implements Action {
+  public readonly type = SYNCHRONIZE_STATE_TO_STORE_ASSIGNED_CASES;
+  constructor(public payload: SharedCase[]) {}
+}
+
+export class SynchronizeStateToStoreUnassignedCases implements Action {
+  public readonly type = SYNCHRONIZE_STATE_TO_STORE_UNASSIGNED_CASES;
   constructor(public payload: SharedCase[]) {}
 }
 
@@ -53,6 +64,21 @@ export class LoadShareAssignedCasesSuccess implements Action {
 
 export class LoadShareAssignedCaseFailure implements Action {
   public readonly type = LOAD_SHARE_ASSIGNED_CASES_FAILURE;
+  constructor(public payload: Error) {}
+}
+
+export class LoadShareUnassignedCases implements Action {
+  public readonly type = LOAD_SHARE_UNASSIGNED_CASES;
+  constructor(public payload: SharedCase[]) {}
+}
+
+export class LoadShareUnassignedCasesSuccess implements Action {
+  public readonly type = LOAD_SHARE_UNASSIGNED_CASES_SUCCESS;
+  constructor(public payload: SharedCase[]) {}
+}
+
+export class LoadShareUnassignedCaseFailure implements Action {
+  public readonly type = LOAD_SHARE_UNASSIGNED_CASES_FAILURE;
   constructor(public payload: Error) {}
 }
 
@@ -78,30 +104,6 @@ export class AddShareAssignedCaseGo implements Action {
   ) {}
 }
 
-export class DeleteAShareAssignedCase implements Action {
-  public readonly type = DELETE_A_SHARE_ASSIGNED_CASE;
-  constructor(
-    public payload: {
-      caseId: string;
-    }
-  ) {}
-}
-
-export class LoadShareUnassignedCases implements Action {
-  public readonly type = LOAD_SHARE_UNASSIGNED_CASES;
-  constructor(public payload: SharedCase[]) {}
-}
-
-export class LoadShareUnassignedCasesSuccess implements Action {
-  public readonly type = LOAD_SHARE_UNASSIGNED_CASES_SUCCESS;
-  constructor(public payload: SharedCase[]) {}
-}
-
-export class LoadShareUnassignedCaseFailure implements Action {
-  public readonly type = LOAD_SHARE_UNASSIGNED_CASES_FAILURE;
-  constructor(public payload: Error) {}
-}
-
 export class AddShareUnassignedCases implements Action {
   public readonly type = ADD_SHARE_UNASSIGNED_CASES;
   constructor(public payload: {
@@ -120,6 +122,15 @@ export class AddShareUnassignedCaseGo implements Action {
       query?: object;
       extras?: NavigationExtras;
       sharedCases: SharedCase[]
+    }
+  ) {}
+}
+
+export class DeleteAShareAssignedCase implements Action {
+  public readonly type = DELETE_A_SHARE_ASSIGNED_CASE;
+  constructor(
+    public payload: {
+      caseId: string;
     }
   ) {}
 }
@@ -143,11 +154,6 @@ export class AssignUsersToAssignedCaseSuccess implements Action {
   constructor(public payload: SharedCase[]) {}
 }
 
-export class ResetAssignedCaseSelection implements Action {
-  public readonly type = RESET_ASSIGNED_CASE_SELECTION;
-  constructor() {}
-}
-
 export class AssignUsersToUnassignedCase implements Action {
   public readonly type = ASSIGN_USERS_TO_UNASSIGNED_CASE;
   constructor(public payload: SharedCase[]) {}
@@ -156,6 +162,11 @@ export class AssignUsersToUnassignedCase implements Action {
 export class AssignUsersToUnassignedCaseSuccess implements Action {
   public readonly type = ASSIGN_USERS_TO_UNASSIGNED_CASE_SUCCESS;
   constructor(public payload: SharedCase[]) {}
+}
+
+export class ResetAssignedCaseSelection implements Action {
+  public readonly type = RESET_ASSIGNED_CASE_SELECTION;
+  constructor() {}
 }
 
 export class ResetUnassignedCaseSelection implements Action {
@@ -173,32 +184,28 @@ export class LoadUserFromOrgForCaseSuccess implements Action {
   constructor(public payload: UserDetails[]) {}
 }
 
-export class SynchronizeStateToStore implements Action {
-  public readonly type = SYNCHRONIZE_STATE_TO_STORE;
-  constructor(public payload: SharedCase[]) {}
-}
-
 export type Actions =
     NavigateToShareAssignedCases
   | NavigateToShareUnassignedCases
+  | SynchronizeStateToStoreAssignedCases
+  | SynchronizeStateToStoreUnassignedCases
   | LoadShareAssignedCases
   | LoadShareAssignedCasesSuccess
   | LoadShareAssignedCaseFailure
-  | AddShareAssignedCases
-  | AddShareAssignedCaseGo
-  | DeleteAShareAssignedCase
   | LoadShareUnassignedCases
   | LoadShareUnassignedCasesSuccess
   | LoadShareUnassignedCaseFailure
+  | AddShareAssignedCases
+  | AddShareAssignedCaseGo
   | AddShareUnassignedCases
   | AddShareUnassignedCaseGo
+  | DeleteAShareAssignedCase
   | DeleteAShareUnassignedCase
-  | AssignUsersToCase
-  | AssignUsersToCaseSuccess
-  | ResetAssignedCaseSelection
+  | AssignUsersToAssignedCase
+  | AssignUsersToAssignedCaseSuccess
   | AssignUsersToUnassignedCase
   | AssignUsersToUnassignedCaseSuccess
+  | ResetAssignedCaseSelection
   | ResetUnassignedCaseSelection
   | LoadUserFromOrgForCase
-  | LoadUserFromOrgForCaseSuccess
-  | SynchronizeStateToStore;
+  | LoadUserFromOrgForCaseSuccess;

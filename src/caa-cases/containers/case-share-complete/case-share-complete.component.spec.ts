@@ -1,11 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 
@@ -16,6 +17,15 @@ describe('CaseShareCompleteComponent', () => {
   let store: Store<CaaCasesState>;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
   let router: Router;
+  let mockRoute: any;
+
+  mockRoute = {
+    snapshot: {
+      params: {
+        pageType: CaaCasesPageType.AssignedCases
+      }
+    }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,10 +34,8 @@ describe('CaseShareCompleteComponent', () => {
       imports: [ RouterTestingModule ],
       providers: [
         provideMockStore(),
-        {
-          provide: FeatureToggleService,
-          useValue: mockFeatureToggleService
-        }
+        { provide: FeatureToggleService, useValue: mockFeatureToggleService },
+        { provide: ActivatedRoute, useValue: mockRoute }
       ]
     }).compileComponents();
     store = TestBed.inject(Store);

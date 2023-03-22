@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
@@ -16,14 +17,17 @@ export class CaseShareConfirmComponent implements OnInit {
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public url: string;
+  public pageType: string;
   public fnTitle: string;
   public backLink: string;
   public changeLink: string;
   public completeLink: string;
 
   constructor(private readonly store: Store<fromCaseList.CaaCasesState>,
+              private readonly route: ActivatedRoute,
               private readonly router: Router) {
-    this.url = this.router && this.router.url;
+    this.url = this.router?.url;
+    this.pageType = this.route.snapshot.params.pageType;
   }
 
   public ngOnInit(): void {
@@ -40,7 +44,9 @@ export class CaseShareConfirmComponent implements OnInit {
       this.changeLink = '/assigned-cases/case-share';
       this.completeLink = '/assigned-cases/case-share-complete';
     }
-    this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
+    this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
+        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
+        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
     this.shareCases$.subscribe(shareCases => {
       this.shareCases = shareCases;
     });

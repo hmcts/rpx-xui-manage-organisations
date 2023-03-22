@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store/index';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaseShareService } from '../../services';
 import * as shareCaseActions from '../actions/share-case.action';
 import * as shareCases from '../reducers/share-case.reducer';
@@ -52,7 +53,7 @@ export class ShareCaseEffects {
     map((action: shareCaseActions.AddShareAssignedCaseGo) => action.payload),
     tap(({ path, query: queryParams, extras, sharedCases }) => {
       const thatSharedCases = sharedCases;
-      queryParams = { init: true };
+      queryParams = { init: true, pageType: CaaCasesPageType.AssignedCases };
       return this.router.navigate(path, { queryParams, ...extras }).then(() => {
         this.store.dispatch(new shareCaseActions.NavigateToShareAssignedCases(thatSharedCases));
       });
@@ -65,7 +66,7 @@ export class ShareCaseEffects {
     map((action: shareCaseActions.AddShareUnassignedCaseGo) => action.payload),
     tap(({ path, query: queryParams, extras, sharedCases }) => {
       const thatSharedCases = sharedCases;
-      queryParams = { init: true };
+      queryParams = { init: true, pageType: CaaCasesPageType.UnassignedCases };
       return this.router.navigate(path, { queryParams, ...extras }).then(() => {
         this.store.dispatch(new shareCaseActions.NavigateToShareUnassignedCases(thatSharedCases));
       });

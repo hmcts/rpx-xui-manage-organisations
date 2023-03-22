@@ -6,7 +6,7 @@ import { OrganisationState } from '../../../organisation/store';
 import { UserState } from '../../../users/store';
 import { CaaCasesComponent } from '../../containers';
 import { CaaCasesService } from '../../services';
-import { CaaCasesState, getShareCaseListState, reducers } from '../index';
+import { CaaCasesState, getShareAssignedCaseListState, reducers } from '../index';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
@@ -59,7 +59,7 @@ describe('Share case selectors', () => {
       }];
       caseListComponent.shareCaseSubmit();
       let result = [];
-      store.pipe(select(getShareCaseListState)).subscribe(value => {
+      store.pipe(select(getShareAssignedCaseListState)).subscribe(value => {
         result = value;
       });
       expect(result.length).toEqual(2);

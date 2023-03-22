@@ -1,9 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareConfirmComponent } from './case-share-confirm.component';
 
@@ -11,7 +12,16 @@ describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
   let store: Store<CaaCasesState>;
+  let mockRoute: any;
   let mockRouter: any;
+
+  mockRoute = {
+    snapshot: {
+      params: {
+        pageType: CaaCasesPageType.AssignedCases
+      }
+    }
+  };
 
   mockRouter = {
     url: '/assigned-cases'
@@ -24,7 +34,8 @@ describe('CaseShareConfirmComponent', () => {
       declarations: [ CaseShareConfirmComponent ],
       providers: [
         provideMockStore(),
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockRoute }
       ]
     })
     .compileComponents();

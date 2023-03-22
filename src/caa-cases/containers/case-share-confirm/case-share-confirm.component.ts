@@ -37,12 +37,12 @@ export class CaseShareConfirmComponent implements OnInit {
       this.fnTitle = 'Share a case';
       this.backLink = '/unassigned-cases/case-share';
       this.changeLink = '/unassigned-cases/case-share';
-      this.completeLink = '/unassigned-cases/case-share-complete';
+      this.completeLink = `/unassigned-cases/case-share-complete/${this.pageType}`;
     } else {
       this.fnTitle = 'Manage case sharing';
       this.backLink = '/assigned-cases/case-share';
       this.changeLink = '/assigned-cases/case-share';
-      this.completeLink = '/assigned-cases/case-share-complete';
+      this.completeLink = `/assigned-cases/case-share-complete/${this.pageType}`;
     }
     this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
         ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))

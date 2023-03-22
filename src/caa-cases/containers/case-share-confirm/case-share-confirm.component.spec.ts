@@ -61,6 +61,6 @@ describe('CaseShareConfirmComponent', () => {
     expect(component.fnTitle).toEqual('Manage case sharing');
     expect(component.backLink).toEqual('/assigned-cases/case-share');
     expect(component.changeLink).toEqual('/assigned-cases/case-share');
-    expect(component.completeLink).toEqual('/assigned-cases/case-share-complete');
+    expect(component.completeLink).toEqual('/assigned-cases/case-share-complete/assigned-cases');
   });
 });

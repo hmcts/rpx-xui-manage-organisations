@@ -1,12 +1,13 @@
+import { Response, Router } from 'express';
+import { handleRoleAssignments } from '../caaCases';
 import { CaaCasesFilterType, CaaCasesPageType } from '../caaCases/enums';
-import { Request, Response, Router } from 'express';
+import { RoleAssignmentResponse } from '../caaCases/models/roleAssignmentResponse';
 import { getConfigValue } from '../configuration';
 import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getApiPath, getRequestBody } from './caaCaseTypes.util';
-import { handleRoleAssignments } from '../caaCases';
-import { RoleAssignmentResponse } from '../caaCases/models/roleAssignmentResponse';
 
-export async function handleCaaCaseTypes(req: Request, res: Response) {
+export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response) {
   const caaCasesPageType = req.query.caaCasesPageType as string;
 	const caaCasesFilterType: string = req.query.caaCasesFilterType as string;
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), getConfigValue(CASE_TYPES));

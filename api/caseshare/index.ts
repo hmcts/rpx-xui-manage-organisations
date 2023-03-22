@@ -1,4 +1,5 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
+import { EnhancedRequest } from '../models/enhanced-request.interface'
 import { getConfigValue } from '../configuration'
 import { STUB } from '../configuration/references'
 import * as realAPI from './real-api'
@@ -10,7 +11,7 @@ const stub: boolean = getConfigValue(STUB)
  * searchUsers
  * example 1: /api/caseshare/users
  */
-export async function getUsers(req: Request, res: Response, next: NextFunction) {
+export async function getUsers(req: EnhancedRequest, res: Response, next: NextFunction) {
   if (stub) {
     return stubAPI.getUsers(req, res)
    } else {
@@ -22,7 +23,7 @@ export async function getUsers(req: Request, res: Response, next: NextFunction) 
  * searchUsers
  * example: /api/caseshare/cases
  */
-export async function getCases(req: Request, res: Response, next: NextFunction) {
+export async function getCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   if (stub) {
     return stubAPI.getCases(req, res)
   } else {
@@ -30,7 +31,7 @@ export async function getCases(req: Request, res: Response, next: NextFunction) 
   }
 }
 
-export async function assignCasesToUsers(req: Request, res: Response) {
+export async function assignCasesToUsers(req: EnhancedRequest, res: Response) {
   if (stub) {
     return stubAPI.assignCases(req, res)
   } else {

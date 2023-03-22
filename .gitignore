@@ -63,5 +63,13 @@ report.json
 
 # Stryker - mutation tests
 .stryker-tmp/
-stryker.log 
-functional-output/
+stryker.log
+
+# Yarn
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

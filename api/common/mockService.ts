@@ -1,7 +1,8 @@
 import { AxiosResponse } from 'axios';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 
 import * as log4jui from '../lib/log4jui';
-import { EnhancedRequest, JUILogger } from '../lib/models';
+import { JUILogger } from '../lib/models';
 import { setHeaders } from '../lib/proxy';
 import { exists } from '../lib/util';
 import { httpMock } from './httpMock';

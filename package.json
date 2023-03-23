@@ -5,7 +5,6 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "clean": "rimraf node_modules",
     "start": "node ./dist/rpa-pui-manager/api/server.bundle.js",
     "build": "yarn build:prod && yarn build:node",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
@@ -41,7 +40,6 @@
     "test:ng": "ng test",
     "lint": "yarn lint:ng",
     "lint:ng": "ng lint",
-    "lint:node": "cd api && yarn lint",
     "e2e": "ng e2e",
     "pre-push": "ng lint rpa-pui-manager && ng build --prod && ng test rpa-pui-manager --code-coverage",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
@@ -71,7 +69,7 @@
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "2.1.6-angular-upgrade-11",
+    "@hmcts/rpx-xui-common-lib": "2.1.0-angular-upgrade-11",
     "@hmcts/rpx-xui-node-lib": "2.25.12",
     "@ng-idle/core": "^10.0.0",
     "@ng-idle/keepalive": "^10.0.0",

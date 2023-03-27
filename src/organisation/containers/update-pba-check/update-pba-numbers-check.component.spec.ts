@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { PBAService } from '../../services/pba.service';
@@ -109,11 +108,11 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       ]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(UpdatePbaNumbersCheckComponent);
     component = fixture.componentInstance;
-    pbaService = TestBed.get(PBAService);
+    pbaService = TestBed.inject(PBAService);
   });
 
   afterEach(() => {
@@ -123,6 +122,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
 
   describe('when there is nothing pending', () => {
     const MOCK_NOTHING_PENDING: OrganisationDetails = getMockOrganisation([], []);
+
     beforeEach(() => {
       pipeSpy.and.returnValue(of(MOCK_NOTHING_PENDING));
       fixture.detectChanges();
@@ -132,6 +132,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       expect(store.pipe).toHaveBeenCalled();
       expect(component.organisationDetails).toEqual(MOCK_NOTHING_PENDING);
     });
+
     it('should navigate away', () => {
       expect(routerMock.navigateCalls.length).toEqual(1);
       expect(routerMock.navigateCalls[0].commands).toEqual(['/organisation/update-pba-numbers']);
@@ -160,6 +161,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     it('should NOT navigate away', () => {
       expect(routerMock.navigateCalls.length).toEqual(0);
     });
+
     it('should dispatch an appropriate action when submitting', () => {
       component.onSubmitClicked();
     });

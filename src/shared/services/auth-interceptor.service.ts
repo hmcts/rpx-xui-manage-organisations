@@ -5,18 +5,15 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import { Inject, PLATFORM_ID } from '@angular/core';
-import {Router} from '@angular/router';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HeadersService } from './headers.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthIntercepterServer implements HttpInterceptor  {
-
   constructor(public router: Router,
               private readonly authService: HeadersService, @Inject(PLATFORM_ID)
               private readonly platformId: string) {

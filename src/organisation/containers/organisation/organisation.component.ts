@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
@@ -13,7 +12,6 @@ import { utils } from '../../utils';
   templateUrl: './organisation.component.html',
 })
 export class OrganisationComponent implements OnDestroy {
-
   public organisationDetails: Partial<OrganisationDetails>;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
@@ -21,7 +19,7 @@ export class OrganisationComponent implements OnDestroy {
   public organisationPendingPaymentAccount: string[];
   public showChangePbaNumberLink: boolean;
 
-  private untiDestroy = new Subject<void>();
+  private readonly untiDestroy = new Subject<void>();
 
   constructor(
     private readonly orgStore: Store<fromStore.OrganisationState>,
@@ -31,7 +29,7 @@ export class OrganisationComponent implements OnDestroy {
     this.getOrganisationDetailsFromStore();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.untiDestroy.next();
     this.untiDestroy.complete();
   }

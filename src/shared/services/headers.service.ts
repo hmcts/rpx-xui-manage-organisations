@@ -32,7 +32,7 @@ export class HeadersService {
     const authorization = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
     if (authorization)  {
        headers = {
-         authorization
+         Authorization: authorization
       };
     }
     return headers;

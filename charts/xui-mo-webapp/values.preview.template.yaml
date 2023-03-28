@@ -29,6 +29,8 @@ nodejs:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
         - launch-darkly-client-id
   autoscaling:
     enabled: false

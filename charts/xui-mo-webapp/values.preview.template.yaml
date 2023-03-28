@@ -22,7 +22,7 @@ nodejs:
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_OIDC_ENABLED: true
-    REDISCLOUD_URL: redis://ignore:fake-password@${SERVICE_NAME}-redis-master:6379
+    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
     CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD
   autoscaling:

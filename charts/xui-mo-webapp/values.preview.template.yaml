@@ -24,6 +24,12 @@ nodejs:
     REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
     CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD
+  keyVaults:
+    rpx:
+      secrets:
+        - mo-s2s-client-secret
+        - xui-oauth2-token
+        - launch-darkly-client-id
   autoscaling:
     enabled: false
 redis:

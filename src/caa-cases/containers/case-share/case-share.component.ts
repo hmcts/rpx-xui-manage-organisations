@@ -6,10 +6,10 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
 import { Observable } from 'rxjs';
-
 import { getRouterState, RouterStateUrl } from '../../../app/store/reducers';
+import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
-import { LoadShareCase, LoadUserFromOrgForCase } from '../../store/actions';
+import { LoadShareAssignedCases, LoadShareUnassignedCases, LoadUserFromOrgForCase } from '../../store/actions';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
@@ -21,6 +21,7 @@ export class CaseShareComponent implements OnInit {
 
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;
   public init: boolean;
+  public pageType: string;
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public orgUsers$: Observable<UserDetails[]>;
@@ -40,13 +41,15 @@ export class CaseShareComponent implements OnInit {
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
     this.routerState$.subscribe(router => {
+      this.init = router.state.queryParams.init;
+      this.pageType = router.state.queryParams.pageType;
       // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation
       // is via the Unassigned Cases or Assigned Cases page
       const url = router.state.url.substring(0, router.state.url.indexOf('/', 1));
       // Set backLink and confirmLink only if the URL is either "/unassigned-cases" or "/assigned-cases"
       if (url === '/unassigned-cases' || url === '/assigned-cases') {
         this.backLink = `${url}`;
-        this.confirmLink = `${url}/case-share-confirm`;
+        this.confirmLink = `${url}/case-share-confirm/${this.pageType}`;
       }
       if (url === '/unassigned-cases') {
         this.fnTitle = 'Share a case';
@@ -59,16 +62,23 @@ export class CaseShareComponent implements OnInit {
         this.addUserLabel = 'Add people to share access to the selected cases';
         this.showRemoveUsers = true;
       }
-      this.init = router.state.queryParams.init;
+
+      this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
+        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
+        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
+      this.shareCases$.subscribe(shareCases => {
+        this.shareCases = shareCases;
+      });
     });
-    this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-    this.shareCases$.subscribe(shareCases => {
-      this.shareCases = shareCases;
-    });
+
     this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));
     if (this.init) {
-      // call api to retrieve case assigned users
-      this.store.dispatch(new LoadShareCase(this.shareCases));
+      // call api to retrieve case share users
+      if (this.pageType === CaaCasesPageType.UnassignedCases) {
+        this.store.dispatch(new LoadShareUnassignedCases(this.shareCases));
+      } else {
+        this.store.dispatch(new LoadShareAssignedCases(this.shareCases));
+      }
       // call api to retrieve users in the same organisation
       this.store.dispatch(new LoadUserFromOrgForCase());
     }
@@ -79,11 +89,18 @@ export class CaseShareComponent implements OnInit {
   }
 
   public deselect($event): void {
-    this.store.dispatch(new fromCasesFeature.DeleteAShareCase($event));
+    if (this.pageType === CaaCasesPageType.UnassignedCases) {
+      this.store.dispatch(new fromCasesFeature.DeleteAShareUnassignedCase($event));
+    } else {
+      this.store.dispatch(new fromCasesFeature.DeleteAShareAssignedCase($event));
+    }
   }
 
   public synchronizeStore($event): void {
-    this.store.dispatch(new fromCasesFeature.SynchronizeStateToStore($event));
+    if (this.pageType === CaaCasesPageType.UnassignedCases) {
+      this.store.dispatch(new fromCasesFeature.SynchronizeStateToStoreUnassignedCases($event));
+    } else {
+      this.store.dispatch(new fromCasesFeature.SynchronizeStateToStoreAssignedCases($event));
+    }
   }
-
 }

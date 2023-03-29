@@ -1,10 +1,20 @@
-import { LoadUnassignedCases, LoadUnassignedCasesFailure, LoadUnassignedCasesSuccess } from './caa-cases.actions';
+import {
+  LoadAssignedCases,
+  LoadAssignedCasesFailure,
+  LoadAssignedCasesSuccess,
+  LoadUnassignedCases,
+  LoadUnassignedCasesFailure,
+  LoadUnassignedCasesSuccess
+} from './caa-cases.actions';
 
 export const actions: any[] = [
-    LoadUnassignedCases,
-    LoadUnassignedCasesFailure,
-    LoadUnassignedCasesSuccess
-  ];
+  LoadAssignedCases,
+  LoadAssignedCasesSuccess,
+  LoadAssignedCasesFailure,
+  LoadUnassignedCases,
+  LoadUnassignedCasesSuccess,
+  LoadUnassignedCasesFailure
+];
 
 export * from './caa-cases.actions';
 export * from './share-case.action';

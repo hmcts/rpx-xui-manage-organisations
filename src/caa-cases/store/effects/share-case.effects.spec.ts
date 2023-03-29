@@ -8,12 +8,18 @@ import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of } from 'rxjs';
 import { CaseShareService } from '../../services';
 import {
-  AddShareCaseGo,
-  AddShareCases,
-  AssignUsersToCase,
-  AssignUsersToCaseSuccess,
-  LoadShareCase,
-  LoadShareCaseSuccess,
+  AddShareAssignedCaseGo,
+  AddShareAssignedCases,
+  AddShareUnassignedCaseGo,
+  AddShareUnassignedCases,
+  AssignUsersToAssignedCase,
+  AssignUsersToAssignedCaseSuccess,
+  AssignUsersToUnassignedCase,
+  AssignUsersToUnassignedCaseSuccess,
+  LoadShareAssignedCases,
+  LoadShareAssignedCasesSuccess,
+  LoadShareUnassignedCases,
+  LoadShareUnassignedCasesSuccess,
   LoadUserFromOrgForCase,
   LoadUserFromOrgForCaseSuccess
 } from '../actions';
@@ -60,14 +66,14 @@ describe('Share Case Effects', () => {
     addMatchers();
   }));
 
-  describe('addShareCases$', () => {
-    it('should add share case action', () => {
-      const action = new AddShareCases({
+  describe('addShareAssignedCases$', () => {
+    it('should add share assigned case action', () => {
+      const action = new AddShareAssignedCases({
         sharedCases: [
           {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
           {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}]
       });
-      const completion = new AddShareCaseGo({
+      const completion = new AddShareAssignedCaseGo({
         path: ['/unassigned-cases/case-share'],
         sharedCases: [
           {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
@@ -75,12 +81,31 @@ describe('Share Case Effects', () => {
       });
       actions$ = hot('-a', {a: action});
       const expected = cold('-b', {b: completion});
-      expect(effects.addShareCases$).toBeObservable(expected);
+      expect(effects.addShareAssignedCases$).toBeObservable(expected);
     });
   });
 
-  describe('navigateToAddShareCase$', () => {
-    it('should add share case go', () => {
+  describe('addShareUnassignedCases$', () => {
+    it('should add share unassigned case action', () => {
+      const action = new AddShareUnassignedCases({
+        sharedCases: [
+          {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
+          {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}]
+      });
+      const completion = new AddShareUnassignedCaseGo({
+        path: ['/unassigned-cases/case-share'],
+        sharedCases: [
+          {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
+          {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}]
+      });
+      actions$ = hot('-a', {a: action});
+      const expected = cold('-b', {b: completion});
+      expect(effects.addShareUnassignedCases$).toBeObservable(expected);
+    });
+  });
+
+  describe('navigateToAddShareAssignedCase$', () => {
+    it('should add share assigned case go', () => {
       const payload = {
         path: ['/unassigned-cases/case-share'],
         sharedCases: [
@@ -88,16 +113,33 @@ describe('Share Case Effects', () => {
           {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}]
       };
       routerMock.navigate.and.returnValue(Promise.resolve(true));
-      const action = new AddShareCaseGo(payload);
+      const action = new AddShareAssignedCaseGo(payload);
       actions$ = hot('-a', {a: action});
-      effects.navigateToAddShareCase$.subscribe(() => {
+      effects.navigateToAddShareAssignedCase$.subscribe(() => {
         expect(routerMock.navigate).toHaveBeenCalled();
       });
     });
   });
 
-  describe('loadShareCases$', () => {
-    it('should load share case', () => {
+  describe('navigateToAddShareUnassignedCase$', () => {
+    it('should add share unassigned case go', () => {
+      const payload = {
+        path: ['/unassigned-cases/case-share'],
+        sharedCases: [
+          {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
+          {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}]
+      };
+      routerMock.navigate.and.returnValue(Promise.resolve(true));
+      const action = new AddShareUnassignedCaseGo(payload);
+      actions$ = hot('-a', {a: action});
+      effects.navigateToAddShareUnassignedCase$.subscribe(() => {
+        expect(routerMock.navigate).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('loadShareAssignedCases$', () => {
+    it('should load share assigned cases', () => {
       const requestPayload = [
         {caseId: '1', caseTitle: 'James123'},
         {caseId: '2', caseTitle: 'Steve321'}];
@@ -105,11 +147,28 @@ describe('Share Case Effects', () => {
         {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
         {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}];
       caseShareServiceMock.getShareCases.and.returnValue(of(returnPayload));
-      const action = new LoadShareCase(requestPayload);
-      const completion = new LoadShareCaseSuccess(returnPayload);
+      const action = new LoadShareAssignedCases(requestPayload);
+      const completion = new LoadShareAssignedCasesSuccess(returnPayload);
       actions$ = hot('-a', {a: action});
       const expected = cold('-b', {b: completion});
-      expect(effects.loadShareCases$).toBeObservable(expected);
+      expect(effects.loadShareAssignedCases$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadShareUnassignedCases$', () => {
+    it('should load share unassigned cases', () => {
+      const requestPayload = [
+        {caseId: '1', caseTitle: 'James123'},
+        {caseId: '2', caseTitle: 'Steve321'}];
+      const returnPayload = [
+        {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
+        {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}];
+      caseShareServiceMock.getShareCases.and.returnValue(of(returnPayload));
+      const action = new LoadShareUnassignedCases(requestPayload);
+      const completion = new LoadShareUnassignedCasesSuccess(returnPayload);
+      actions$ = hot('-a', {a: action});
+      const expected = cold('-b', {b: completion});
+      expect(effects.loadShareUnassignedCases$).toBeObservable(expected);
     });
   });
 
@@ -137,8 +196,8 @@ describe('Share Case Effects', () => {
     });
   });
 
-  describe('assignUsersWithCases$', () => {
-    it('should assign users with cases', () => {
+  describe('assignUsersToAssignedCases$', () => {
+    it('should assign users with assigned cases', () => {
       const requestPayload = [
         {
           caseId: '1', caseTitle: 'James123', caseTypeId: 'type1', sharedWith: [
@@ -162,11 +221,44 @@ describe('Share Case Effects', () => {
         {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
         {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}];
       caseShareServiceMock.assignUsersWithCases.and.returnValue(of(returnPayload));
-      const action = new AssignUsersToCase(requestPayload);
-      const completion = new AssignUsersToCaseSuccess(returnPayload);
+      const action = new AssignUsersToAssignedCase(requestPayload);
+      const completion = new AssignUsersToAssignedCaseSuccess(returnPayload);
       actions$ = hot('-a', {a: action});
       const expected = cold('-b', {b: completion});
-      expect(effects.assignUsersWithCases$).toBeObservable(expected);
+      expect(effects.assignUsersToAssignedCases$).toBeObservable(expected);
+    });
+  });
+
+  describe('assignUsersToUnassignedCases$', () => {
+    it('should assign users with unassigned cases', () => {
+      const requestPayload = [
+        {
+          caseId: '1', caseTitle: 'James123', caseTypeId: 'type1', sharedWith: [
+            {
+              idamId: 'U111111',
+              firstName: 'James',
+              lastName: 'Priest',
+              email: 'james.priest@test.com'
+            }]
+        },
+        {
+          caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2', sharedWith: [
+            {
+              idamId: 'U222222',
+              firstName: 'Shaun',
+              lastName: 'Godard',
+              email: 'shaun.godard@test.com'
+            }]
+        }];
+      const returnPayload = [
+        {caseId: '1', caseTitle: 'James123', caseTypeId: 'type1'},
+        {caseId: '2', caseTitle: 'Steve321', caseTypeId: 'type2'}];
+      caseShareServiceMock.assignUsersWithCases.and.returnValue(of(returnPayload));
+      const action = new AssignUsersToUnassignedCase(requestPayload);
+      const completion = new AssignUsersToUnassignedCaseSuccess(returnPayload);
+      actions$ = hot('-a', {a: action});
+      const expected = cold('-b', {b: completion});
+      expect(effects.assignUsersToUnassignedCases$).toBeObservable(expected);
     });
   });
 });

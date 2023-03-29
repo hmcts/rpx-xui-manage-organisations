@@ -33,12 +33,15 @@ export class CaaCasesComponent implements OnInit {
   public casesError$: Observable<HttpErrorResponse>;
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
-  // this shareCases$ will be passed to case share component
-  public shareCases$: Observable<SharedCase[]>;
+  // shareAssignedCases$ and shareUnassignedCases$ will be passed to case share component
+  public shareAssignedCases$: Observable<SharedCase[]>;
+  public shareUnassignedCases$: Observable<SharedCase[]>;
   public tableConfig: TableConfig;
   // this selectedCases is emitted from the ccd-case-list
   // ideally the any[] should be mapped with the unassigned case payload
   public selectedCases: any[] = [];
+  public selectedAssignedCases: any[] = [];
+  public selectedUnassignedCases: any[] = [];
   public currentCaseType: string;
 
   public navItems: any[];
@@ -83,9 +86,21 @@ export class CaaCasesComponent implements OnInit {
     // Load case types from store based on current page type
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
 
-    // Get selected cases to share from store
-    this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      // Get selected unassigned cases to share from store
+      this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
+      this.shareUnassignedCases$.subscribe(shareUnassignedCases => {
+        this.selectedUnassignedCases = converters.toSearchResultViewItemConverter(shareUnassignedCases);
+        this.selectedCases = this.selectedUnassignedCases;
+      });
+    } else {
+      // Get selected assigned cases to share from store
+      this.shareAssignedCases$ = this.store.pipe(select(fromStore.getShareAssignedCaseListState));
+      this.shareAssignedCases$.subscribe(shareAssignedCases => {
+        this.selectedAssignedCases = converters.toSearchResultViewItemConverter(shareAssignedCases);
+        this.selectedCases = this.selectedAssignedCases;
+      });
+    }
 
     // Load selected organisation details from store
     this.organisationStore.dispatch(new fromOrganisationStore.LoadOrganisation());
@@ -109,7 +124,7 @@ export class CaaCasesComponent implements OnInit {
 
   public setCurrentPageType(): void {
     // Identify whether user selected to view assigned cases or unassigned cases
-    if (this.router && this.router.url && this.router.url.includes('unassigned-cases')) {
+    if (this.router?.url?.includes('unassigned-cases')) {
       this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     } else if (this.router && this.router.url && this.router.url.includes('assigned-cases')) {
       this.caaCasesPageType = CaaCasesPageType.AssignedCases;
@@ -174,16 +189,29 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public shareCaseSubmit(): void {
-    this.store.dispatch(new fromStore.AddShareCases({
-      sharedCases: converters.toShareCaseConverter(this.selectedCases, this.currentCaseType)
-    }));
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.store.dispatch(new fromStore.AddShareUnassignedCases({
+        sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
+      }));
+    } else {
+      this.store.dispatch(new fromStore.AddShareAssignedCases({
+        sharedCases: converters.toShareCaseConverter(this.selectedAssignedCases, this.currentCaseType)
+      }));
+    }
   }
 
   public onCaseSelection(selectedCases: any[]): void {
-    this.selectedCases = selectedCases;
-    this.store.dispatch(new fromStore.SynchronizeStateToStore(
-      converters.toShareCaseConverter(this.selectedCases, this.currentCaseType)
-    ));
+    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+      this.selectedUnassignedCases = selectedCases;
+      this.store.dispatch(new fromStore.SynchronizeStateToStoreUnassignedCases(
+        converters.toShareCaseConverter(selectedCases, this.currentCaseType)
+      ));
+    } else {
+      this.selectedAssignedCases = selectedCases;
+      this.store.dispatch(new fromStore.SynchronizeStateToStoreAssignedCases(
+        converters.toShareCaseConverter(selectedCases, this.currentCaseType)
+      ));
+    }
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
@@ -370,7 +398,8 @@ export class CaaCasesComponent implements OnInit {
     } else {
       this.store.pipe(select(fromStore.getAllAssignedCases));
     }
-    this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
+    this.shareAssignedCases$ = this.store.pipe(select(fromStore.getShareAssignedCaseListState));
+    this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
     this.currentCaseType = tabName;
     if (!fromTabChangedEvent && this.tabGroup) {
         this.tabGroup.selectedIndex = 0;

@@ -1,20 +1,18 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, TestBed, waitForAsync } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
-import {Logout, reducers} from '../../store';
-import { HeaderComponent } from '../header/header.component';
-import { AppComponent } from './app.component';
-
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CookieService, FeatureToggleService, GoogleAnalyticsService, ManageSessionServices, windowToken} from '@hmcts/rpx-xui-common-lib';
-
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { addMatchers, cold, initTestScheduler } from 'jasmine-marbles';
 import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
 import * as fromAuth from '../../../user-profile/store';
+import { Logout, reducers } from '../../store';
+import { HeaderComponent } from '../header/header.component';
+import { AppComponent } from './app.component';
 
 const windowMock: Window = { gtag: () => {}} as any;
 
@@ -40,6 +38,7 @@ describe('AppComponent', () => {
   let app;
   let loggerService: any;
   let cookieService: any;
+
   beforeEach(waitForAsync(() => {
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     loggerService = jasmine.createSpyObj('LoggerService', ['enableCookies']);
@@ -103,27 +102,22 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   }));
 
-  it('should have pageTitle$ Observable the app', async(() => {
+  it('should have pageTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: '' });
     expect(app.pageTitle$).toBeObservable(expected);
-
   }));
 
-
-  it('should have appHeaderTitle$ Observable the app', async(() => {
+  it('should have appHeaderTitle$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: undefined });
     expect(app.appHeaderTitle$).toBeObservable(expected);
-
   }));
 
-  it('should have userNav$ Observable the app', async(() => {
+  it('should have userNav$ Observable the app', waitForAsync(() => {
     const expected = cold('a', { a: [] });
     expect(app.userNav$).toBeObservable(expected);
-
   }));
 
-
-  it('should have navItems$ Observable the app', async(() => {
+  it('should have navItems$ Observable the app', waitForAsync(() => {
     const navItems = [
       {
         text: 'Organisation',
@@ -137,7 +131,6 @@ describe('AppComponent', () => {
       }];
     const expected = cold('a', { a: { navItems: [] } });
     expect(app.navItems$).toBeObservable(expected);
-
   }));
 
   it('should dispatch a logout action', () => {
@@ -147,66 +140,53 @@ describe('AppComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
   });
 
-
   describe('cookie actions', () => {
-
     describe('setCookieBannerVisibility()', () => {
-        it('should set isCookieBannerVisible true when there is no cookie and there is a user and cookie banner is feature toggled on', () => {
+      it('should set isCookieBannerVisible true when there is no cookie and there is a user and cookie banner is feature toggled on', () => {
+        app.handleCookieBannerFeatureToggle();
+        app.setUserAndCheckCookie('dummy');
+        expect(app.isCookieBannerVisible).toBeTruthy();
+      });
 
-          app.handleCookieBannerFeatureToggle();
-          app.setUserAndCheckCookie('dummy');
-          expect(app.isCookieBannerVisible).toBeTruthy();
-        });
-
-        it('should set isCookieBannerVisible false when there is no cookie and there is no user and cookie banner is feature toggled on', () => {
-            app.handleCookieBannerFeatureToggle();
-            expect(app.isCookieBannerVisible).toBeFalsy();
-        });
+      it('should set isCookieBannerVisible false when there is no cookie and there is no user and cookie banner is feature toggled on', () => {
+        app.handleCookieBannerFeatureToggle();
+        expect(app.isCookieBannerVisible).toBeFalsy();
+      });
     });
 
     describe('setUserAndCheckCookie()', () => {
-
-        it('should call setCookieBannerVisibility', () => {
-            const spy = spyOn(app, 'setCookieBannerVisibility');
-            app.setUserAndCheckCookie('dummy');
-            expect(spy).toHaveBeenCalled();
-        });
-
+      it('should call setCookieBannerVisibility', () => {
+        const spy = spyOn(app, 'setCookieBannerVisibility');
+        app.setUserAndCheckCookie('dummy');
+        expect(spy).toHaveBeenCalled();
+      });
     });
 
     describe('handleCookieBannerFeatureToggle()', () => {
-
-        it('should make a call to setCookieBannerVisibility', () => {
-            const spy = spyOn(app, 'setCookieBannerVisibility');
-            app.handleCookieBannerFeatureToggle();
-            expect(spy).toHaveBeenCalled();
-        });
-
+      it('should make a call to setCookieBannerVisibility', () => {
+        const spy = spyOn(app, 'setCookieBannerVisibility');
+        app.handleCookieBannerFeatureToggle();
+        expect(spy).toHaveBeenCalled();
+      });
     });
 
     describe('notifyAcceptance()', () => {
-
       it('should make a call to googleAnalyticsService', () => {
-          app.notifyAcceptance();
-          expect(googleAnalyticsService.init).toHaveBeenCalled();
+        app.notifyAcceptance();
+        expect(googleAnalyticsService.init).toHaveBeenCalled();
       });
 
       it('should make a call to loggerService', () => {
-          app.notifyAcceptance();
-          expect(loggerService.enableCookies).toHaveBeenCalled();
+        app.notifyAcceptance();
+        expect(loggerService.enableCookies).toHaveBeenCalled();
       });
-
-  });
-
-    describe('notifyRejection()', () => {
-
-        it('should make a call to cookieService', () => {
-            app.notifyRejection();
-            expect(cookieService.deleteCookieByPartialMatch).toHaveBeenCalled();
-        });
-
     });
 
-});
-
+    describe('notifyRejection()', () => {
+      it('should make a call to cookieService', () => {
+        app.notifyRejection();
+        expect(cookieService.deleteCookieByPartialMatch).toHaveBeenCalled();
+      });
+    });
+  });
 });

@@ -1,11 +1,11 @@
 import { OrganisationDetails } from '../../../models';
 import {
-  LOAD_ORGANISATION,
-  LOAD_ORGANISATION_FAIL,
-  LOAD_ORGANISATION_SUCCESS,
   LoadOrganisation,
   LoadOrganisationFail,
   LoadOrganisationSuccess,
+  LOAD_ORGANISATION,
+  LOAD_ORGANISATION_FAIL,
+  LOAD_ORGANISATION_SUCCESS
 } from './organisation.actions';
 
 describe('Load Organisation', () => {

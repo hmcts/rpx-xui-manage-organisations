@@ -1,9 +1,9 @@
-import { UserRoleGuard } from './user-role.guard';
-import { Store } from '@ngrx/store';
-import * as fromAuthStore from '../../user-profile/store/index';
-import { UserModel } from 'src/user-profile/models/user.model';
 import { ActivatedRouteSnapshot, Data } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import { UserModel } from 'src/user-profile/models/user.model';
+import * as fromAuthStore from '../../user-profile/store/index';
+import { UserRoleGuard } from './user-role.guard';
 
 const mockUser = {
   id: 't',

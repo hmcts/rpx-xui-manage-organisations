@@ -17,8 +17,8 @@ import {
   LoadUserFromOrgForCase,
   LoadUserFromOrgForCaseSuccess
 } from '../actions';
-import * as fromShareCaseEffects from './share-case.effects';
 import * as shareCases from '../reducers/share-case.reducer';
+import * as fromShareCaseEffects from './share-case.effects';
 
 describe('Share Case Effects', () => {
   let actions$;

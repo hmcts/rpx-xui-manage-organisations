@@ -1,9 +1,6 @@
-import {DxAddress} from './../../models/organisation.model';
-import { OrganisationContactInformation } from 'src/models';
 import { utils } from '.';
 
 describe('organisation.utils', () => {
-
   describe('getContactInformation', () => {
     it('should return null if there is no contactInformation', () => {
       const ORGANISATION_DETAILS = {
@@ -12,6 +9,7 @@ describe('organisation.utils', () => {
       };
       expect(utils.getContactInformation(ORGANISATION_DETAILS)).toBeNull();
     });
+
     it('should return null if there contactInformation is empty', () => {
       const ORGANISATION_DETAILS = {
         name: 'Luke Solicitors',
@@ -20,6 +18,7 @@ describe('organisation.utils', () => {
       };
       expect(utils.getContactInformation(ORGANISATION_DETAILS)).toBeNull();
     });
+
     it('should get the first Contact Information item from the Organisation Details', () => {
       const CONTACT_INFO_ONE = {
         addressLine1: '23',

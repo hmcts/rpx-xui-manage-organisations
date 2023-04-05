@@ -9,7 +9,7 @@ describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
 
-  let store: Store<UnassignedCasesState>;;
+  let store: Store<UnassignedCasesState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -1,7 +1,4 @@
 import * as fromRegistration from './registration.actions';
-import { LoadPageItems } from './registration.actions';
-import { LoadPageItemsSuccess } from './registration.actions';
-import { LoadPageItemsFail } from './registration.actions';
 
 describe('Registration actions', () => {
   describe('LoadPageItems actions GROUP', () => {

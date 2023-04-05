@@ -1,7 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { APP_BASE_HREF } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
@@ -16,7 +15,7 @@ describe('AccountTransactionsComponent', () => {
 
   let activatedRoute: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     activatedRoute = {
         snapshot: {
           params: of({})

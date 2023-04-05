@@ -29,7 +29,7 @@ export const getSelectedCases = createSelector(
 
 export const anySelectedCases = createSelector(
   getSelectedCases,
-  selectedCases => AppUtils.atleastOneCase(selectedCases)
+  selectedCases => AppUtils.atLeastOneCase(selectedCases)
 );
 
 export const getSelectedCasesList = createSelector(

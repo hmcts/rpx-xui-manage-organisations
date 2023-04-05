@@ -96,7 +96,7 @@ export function reducer(
 
         console.log('exitingPendingAddPaymentAccount', existingPendingAddPaymentAccount);
         console.log('exitingPendingRemovePaymentAccount', existingPendingRemovePaymentAccount);
-        console.log('existingPendingPaymentAccount', existingPendingPaymentAccount)
+        console.log('existingPendingPaymentAccount', existingPendingPaymentAccount);
         console.log('updatePaymentAccount', updatePaymentAccount);
         console.log('updatedPendingPaymentAccount', updatedPendingPaymentAccount);
 

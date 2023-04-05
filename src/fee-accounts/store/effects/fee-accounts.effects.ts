@@ -1,13 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-
-import {of} from 'rxjs';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
-import {FeeAccountsService} from '../../services';
+import { FeeAccountsService } from '../../services';
 import * as feeAccountsActions from '../actions';
-
-
 
 @Injectable()
 export class FeeAccountsEffects {

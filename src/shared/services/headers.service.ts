@@ -18,10 +18,9 @@ export class HeadersService {
       TOKEN: config.cookies.token,
       USER: config.cookies.userId
     };
-    this.API_BASE_URL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
+    this.API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
    // this.API_BASE_URL = 'https://rd-professional-api-preview.service.core-compute-preview.internal';
   }
-
 
   public getAuthHeaders() {
     interface HeaderObject {
@@ -30,10 +29,10 @@ export class HeadersService {
     let headers: HeaderObject = {};
     // if the cookie does not exist then do not set heathers so that
     // register organisation calls can get through
-    const Authorization = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-    if (Authorization)  {
+    const authorization = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
+    if (authorization)  {
        headers = {
-          Authorization
+         Authorization: authorization
       };
     }
     return headers;
@@ -48,10 +47,7 @@ export class HeadersService {
     if (jwtData === false) {
       return false;
     }
-    const expired = jwtData.exp > Math.round(new Date().getTime() / 1000);
-
-    // do stuff!!
-    return expired;
+    return jwtData.exp > Math.round(new Date().getTime() / 1000);
   }
 
   public getJwt() {

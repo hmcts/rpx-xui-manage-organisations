@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 
 import { AppConstants } from '../../../app/app.constants';
-import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { EnvironmentConfig, ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { HeadersService } from '../../../shared/services/headers.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
@@ -94,7 +94,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.handleCookieBannerFeatureToggle();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.cookieBannerEnabledSubscription) {
       this.cookieBannerEnabledSubscription.unsubscribe();
     }
@@ -145,7 +145,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * We listen for idle service events, that alert the application to the User being Idle.
    */
   public addIdleServiceListener() {
-
     this.idleService.appStateChanges().subscribe(event => {
       this.idleServiceEventHandler(event);
     });
@@ -164,7 +163,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * TODO: Remove console.log(userProfile) after testing
    */
   public addUserProfileListener() {
-
     this.store.pipe(select(fromUserProfile.getUser)).subscribe(userProfile => {
       if (userProfile) {
         const { idleModalDisplayTime, totalIdleTime } = userProfile.sessionTimeout;
@@ -184,7 +182,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param value - { 'isVisible': false, 'countdown': ''}
    */
   public idleServiceEventHandler(value) {
-
     const IDLE_EVENT_MODAL = 'modal';
     const IDLE_EVENT_SIGNOUT = 'signout';
     const IDLE_EVENT_KEEP_ALIVE = 'keepalive';
@@ -249,7 +246,6 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param totalIdleTime - Should reach here in minutes
    */
   public initIdleService(idleModalDisplayTime, totalIdleTime) {
-
     const idleModalDisplayTimeInSeconds = idleModalDisplayTime * 60;
     const totalIdleTimeInMilliseconds = (totalIdleTime * 60) * 1000;
 

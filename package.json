@@ -213,5 +213,5 @@
     "@stryker-mutator/mocha-runner": "^3.0.1",
     "@stryker-mutator/typescript": "^4.0.0"
   },
-  "packageManager": "yarn@3.4.1"
+  "packageManager": "yarn@3.5.0"
 }

@@ -9735,17 +9735,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"govuk-frontend@npm:3.1.0":
-  version: 3.1.0
-  resolution: "govuk-frontend@npm:3.1.0"
-  checksum: a8ad99dccdca5ed9fe9bd7eb07d991afef2f5e827064c034a2fd09e1163026be79e325aeb96b3d16701a74ed79c3ab9ca63bed663bd8e2625afce563ccdc834d
+"govuk-frontend@npm:3.14.0":
+  version: 3.14.0
+  resolution: "govuk-frontend@npm:3.14.0"
+  checksum: 14db4c8fad243c09a89178a2ea932e04a79a6e36ea1a10d3499f783a4d024cab1ecb6879ad6cb5ebdadda8cd3e2b16b1508a7873414be7cdcddc311cf6814bdf
   languageName: node
   linkType: hard
 
-"govuk_frontend_toolkit@npm:^8.2.0":
-  version: 8.2.0
-  resolution: "govuk_frontend_toolkit@npm:8.2.0"
-  checksum: 1fbc7872c946802edd65012648b31b79ec8dd74979090a54918d541e1de021e9d68ad851765d9c243db124ae29fe59e464c5ed5b7d2aeb48664032ae819528f0
+"govuk_frontend_toolkit@npm:^9.0.0":
+  version: 9.0.1
+  resolution: "govuk_frontend_toolkit@npm:9.0.1"
+  checksum: 9923db05c79e723cb96f63e0aa3706343ba236246ccaef64aac9bddd09c204b297b33f40a7b826f872a2aa08c24db2854e42f9e90b92207748727e84c0c82a22
   languageName: node
   linkType: hard
 
@@ -17442,8 +17442,8 @@ __metadata:
     form-data: ^2.5.1
     git-rev-sync: ^2.0.0
     global-agent: ^2.1.8
-    govuk-frontend: 3.1.0
-    govuk_frontend_toolkit: ^8.2.0
+    govuk-frontend: 3.14.0
+    govuk_frontend_toolkit: ^9.0.0
     helmet: ^3.21.3
     isomorphic-fetch: ^3.0.0
     jasmine-core: ~3.6.0

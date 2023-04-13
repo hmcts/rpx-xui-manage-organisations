@@ -21,7 +21,6 @@ export async function addDeletePBA(req: EnhancedRequest, res: Response, next: Ne
             pendingAddPBAs = {
                 paymentAccounts: pendingPaymentAccount.pendingAddPaymentAccount
             };
-    
             const addPBAPromise = handlePost(fullPath, pendingAddPBAs, req);
             allPromises.push(addPBAPromise);
         }

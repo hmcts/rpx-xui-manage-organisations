@@ -7,9 +7,10 @@ export async function handleInstrumentationKeyRoute(req: Request, res: Response)
     try {
         res.send({key: getConfigValue(APP_INSIGHTS_KEY)})
     } catch (error) {
-        const status = exists(error, 'statusCode') ? error.statusCode : 500
+        const status = exists(error, 'statusCode') ? error.statusCode : 500;
+
         const errReport = {
-            apiError: error,
+            apiError: {...error},
             apiStatusCode: status,
             message: 'Instrumentation key route error',
         }

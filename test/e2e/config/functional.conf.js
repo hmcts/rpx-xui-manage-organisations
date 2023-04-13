@@ -50,8 +50,8 @@ const config = {
                 automaticallyGenerateReport: true,
                 removeExistingJsonReportFile: true,
                 reportName: 'XUI Functional Tests',
-                jsonDir: 'reports/tests/functional',
-                reportPath: 'reports/tests/functional'
+                jsonDir: 'functional-output/tests/functional',
+                reportPath: 'functional-output/tests/functional'
             }
         }
     ]

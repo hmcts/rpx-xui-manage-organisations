@@ -9,7 +9,6 @@ import { PaymentAccountDto } from '../../../lib/models/transactions';
  * for Swagger docs [VPN + FOXY PROXY 'On']
  *
  */
-
 export interface OrganisationCreationRequest {
   name: string;
   status: string;
@@ -77,7 +76,7 @@ export interface NewUser {
   lastName: string;
   email: string;
   roles: string[];
-  jurisdictions: Array<{ id: string }>;
+  jurisdictions: { id: string }[];
   resendInvite: boolean;
 }
 

@@ -7,7 +7,7 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 import * as configuration from '../configuration'
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
 import { http } from '../lib/http'
-import * as refdataUserUrlUtil from '../refdataUserUrlUtil'
+import * as refdataUserCommonUrlUtil from '../refdataUserCommonUrlUtil'
 import { inviteUserRoute } from './index'
 
 chai.use(sinonChai)
@@ -19,7 +19,7 @@ describe('inviteUser index', () => {
 
     beforeEach(() => {
         sinon.stub(configuration, 'getConfigValue').returns('apiPath')
-        sinon.stub(refdataUserUrlUtil, 'getRefdataUserUrl').returns('refdata/users/')
+        sinon.stub(refdataUserCommonUrlUtil, 'getRefdataUserCommonUrlUtil').returns('apiPath')
 
         // Create a dummy request body
         req.body = {
@@ -41,8 +41,8 @@ describe('inviteUser index', () => {
         // Test the function and check expectations
         await inviteUserRoute(req, res)
         expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH)
-        expect(refdataUserUrlUtil.getRefdataUserUrl).to.be.calledWith('apiPath')
-        expect(req.http.post).to.be.calledWith('refdata/users/', req.body)
+        expect(refdataUserCommonUrlUtil.getRefdataUserCommonUrlUtil).to.be.calledWith('apiPath')
+        expect(req.http.post).to.be.calledWith('apiPath', req.body)
         expect(res.send).to.be.calledWith('test')
     })
 

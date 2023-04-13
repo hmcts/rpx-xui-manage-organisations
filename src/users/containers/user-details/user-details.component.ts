@@ -6,6 +6,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -20,7 +21,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public user: any;
 
   public userSubscription: Subscription;
-  public dependanciesSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
   public actionButtons: { name: string, class: string, action(): {} }[] = [];
@@ -31,11 +31,13 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public hideSuspendView: () => {};
 
   public suspendSuccessSubscription: Subscription;
+  public userId: string;
 
   constructor(
     private readonly userStore: Store<fromStore.UserState>,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly actions$: Actions,
+    private readonly activeRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
@@ -51,10 +53,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
-    this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
-      this.handleDependanciesSubscription(users, route);
-    });
+    this.userId = this.activeRoute.snapshot.params.userId;
 
+    this.userStore.dispatch(new fromStore.LoadUserDetails(this.userId));
+
+    this.user$ = this.userStore.pipe(select(fromStore.getUserDetails))
 
     this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isfeatureEnabled$));
 
@@ -70,10 +73,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.dependanciesSubscription) {
-      this.dependanciesSubscription.unsubscribe();
-    }
-
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
@@ -92,16 +91,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       routerStore.pipe(select(fromRoot.getRouterState)),
       userStore.pipe(select(fromStore.getGetUserLoaded))
     ]);
-  }
-
-  public dispatchGetUsers(users, userStore): void {
-    if (!users) {
-      userStore.dispatch(new fromStore.LoadUsers());
-    }
-  }
-
-  public getUserObservable(userId, userStore): any {
-    return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
   }
 
   public setSuspendViewFunctions(): void {
@@ -128,11 +117,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         this.actionButtons = null;
       }
     });
-  }
-
-  public handleDependanciesSubscription(users, route): void {
-    this.dispatchGetUsers(users, this.userStore);
-    this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
   }
 
   public isInactive(status: string, inactiveStatuses: string[] = ['Suspended', 'Pending']): boolean {

@@ -5,16 +5,16 @@ import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
-import { LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import { LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
 import * as fromUsersEffects from './users.effects';
 
 describe('Users Effects', () => {
-  let actions$;
-  let effects: fromUsersEffects.UsersEffects;
-  const usersServiceMock = jasmine.createSpyObj('UsersService', [
-    'getListOfUsers', 'suspendUser',
-  ]);
-  let loggerService: LoggerService;
+    let actions$;
+    let effects: fromUsersEffects.UsersEffects;
+    const usersServiceMock = jasmine.createSpyObj('UsersService', [
+        'getListOfUsers', 'suspendUser', 'getUserDetailsWithPermission'
+    ]);
+    let loggerService: LoggerService;
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
@@ -117,5 +117,18 @@ describe('Users Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.suspendUser$).toBeObservable(expected);
     }));
+  });
+  describe('loadUserDetails$', () => {
+    it('should return a details of the selected user - LoadUserDetails', () => {
+        const payload = { users: [{ payload: 'something' }] };
+        const users = { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined',
+        routerLinkTitle: 'User details for undefined undefined with id undefined' };
+        usersServiceMock.getUserDetailsWithPermission.and.returnValue(of(payload));
+        const action = new LoadUserDetails(payload);
+        const completion = new LoadUserDetailsSuccess(users);
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+        expect(effects.loadUserDetails$).toBeObservable(expected);
+    });
   });
 });

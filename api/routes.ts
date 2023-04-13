@@ -1,5 +1,4 @@
 import {xuiNode} from '@hmcts/rpx-xui-node-lib'
-import * as express from 'express'
 import { Router } from 'express'
 import accountsRouter from './accounts'
 import { router as caseShareRouter } from './caseshare/routes'
@@ -21,6 +20,7 @@ import getAllUserList from './allUserList'
 import getAllUserListWithoutRoles from './allUserListWithoutRoles'
 import { router as pbaRouter } from './pbas/routes';
 import { router as registerRouter } from './register-org';
+import  getUserDetails from './user-details';
 
 const router = Router({ mergeParams: true });
 
@@ -46,5 +46,6 @@ router.use('/unassignedCaseTypes', unassignedCaseTypesRouter);
 router.use('/caseshare', caseShareRouter);
 router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);
+router.use('/user-details', getUserDetails);
 export default router;
 

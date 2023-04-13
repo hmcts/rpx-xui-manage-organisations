@@ -7,11 +7,11 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import {RegistrationFormService} from '../../services/registration-form.service';
 import {LoadPageItemsSuccess} from '../actions';
 import {LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, SubmitFormDataSuccess} from '../actions/registration.actions';
-import * as fromRegistrationEffects from './registration.effects';
+import {RegistrationEffects} from './registration.effects';
 
 describe('Registration Effects', () => {
   let actions$;
-  let effects: fromRegistrationEffects.RegistrationEffects;
+  let effects: RegistrationEffects;
   let loggerService: LoggerService;
 
   const mockedRegistrationFormService = jasmine.createSpyObj('RegistrationFormService', [
@@ -32,12 +32,12 @@ describe('Registration Effects', () => {
             provide: LoggerService,
             useValue: mockedLoggerService
           },
-          fromRegistrationEffects.RegistrationEffects,
+          RegistrationEffects,
           provideMockActions(() => actions$)
       ]
     });
 
-    effects = TestBed.inject(fromRegistrationEffects.RegistrationEffects);
+    effects = TestBed.inject(RegistrationEffects);
     loggerService = TestBed.inject(LoggerService);
 
     initTestScheduler();

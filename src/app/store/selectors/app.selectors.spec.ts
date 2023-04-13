@@ -96,22 +96,22 @@ describe('App Selectors', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should get unassigned cases feature', () => {
+    it('should get CAA assigned/unassigned cases feature', () => {
       const featureFlags: AppFeatureFlag[] = [
-        { featureName: 'unassigned-cases', isEnabled: true },
-        { featureName: 'unassigned-cases', isEnabled: false }
+        { featureName: 'mo-caa-menu-items', isEnabled: true },
+        { featureName: 'mo-caa-menu-items', isEnabled: false }
       ];
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
-      store.pipe(select(fromSelectors.getUnassignedCasesFeature)).subscribe(value => (result = value));
-      expect(result.featureName).toBe('unassigned-cases');
+      store.pipe(select(fromSelectors.getCaaMenuItemsFeature)).subscribe(value => (result = value));
+      expect(result.featureName).toBe('mo-caa-menu-items');
     });
 
-    it('should get unassigned cases feature is enabled', () => {
+    it('should get CAA assigned/unassigned cases feature is enabled', () => {
       const featureFlag: AppFeatureFlag = { featureName: 'unassigned-cases', isEnabled: true };
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlag));
-      store.pipe(select(fromSelectors.getUnassignedCasesFeatureIsEnabled)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getCaaMenuItemsFeatureIsEnabled)).subscribe(value => (result = value));
       expect(result).toBeUndefined();
     });
 
@@ -127,7 +127,7 @@ describe('App Selectors', () => {
     });
 
     it('should get edit user feature is enabled', () => {
-      const featureFlag: AppFeatureFlag = { featureName: 'unassigned-cases', isEnabled: true };
+      const featureFlag: AppFeatureFlag = { featureName: 'edit-permissions', isEnabled: true };
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlag));
       store.pipe(select(fromSelectors.getEditUserFeatureIsEnabled)).subscribe(value => (result = value));

@@ -13,10 +13,10 @@ router.put('/', suspendUser);
 export async function suspendUser(req: Request, res: Response): Promise<void> {
   const payload = req.body;
   try {
-    const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
-    const response = await req.http.put(`${getRefdataUserCommonUrlUtil(rdProfessionalApiPath)}${req.params.userId}`, payload)
-    logger.info('response::', response.data)
-    res.send(response.data)
+      const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+      const response = await req.http.put(`${getRefdataUserCommonUrlUtil(rdProfessionalApiPath)}${req.params.userId}`, payload)
+      logger.info('response::', response.data)
+      res.send(response.data)
   } catch (error) {
     logger.error('error', error);
     const status = exists(error, 'status') ? error.status : 500;

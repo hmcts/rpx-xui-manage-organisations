@@ -25,7 +25,7 @@ export const getGetUserLoading = createSelector(
 
 export const getGetSingleUser = createSelector(
   fromFeature.getRootUserState,
-  (state: fromFeature.UserState, prop) => state.invitedUsers.userList.find(item => item['userIdentifier'] === prop.userIdentifier)
+  (state: fromFeature.UserState) => state.invitedUsers.userDetails
 );
 
 export const getGetReinvitePendingUser = createSelector(
@@ -36,4 +36,9 @@ export const getGetReinvitePendingUser = createSelector(
 export const editUserFailureSelector = createSelector(
   getUserState,
   fromUsers.getEditUserFailure
+);
+
+export const getUserDetails = createSelector(
+  getUserState,
+  fromUsers.getUserDetails
 );

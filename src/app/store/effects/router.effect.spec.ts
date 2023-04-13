@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, hot, initTestScheduler } from 'jasmine-marbles';
 import * as RouterActions from '../actions/router.action';
-import * as fromRouterEffects from './router.effect';
+import { RouterEffects } from './router.effect';
 
 describe('Router Effects', () => {
   let actions$;
-  let effects: fromRouterEffects.RouterEffects;
+  let effects: RouterEffects;
 
   const routerMock = jasmine.createSpyObj('Router', [
     'navigate',
@@ -24,12 +24,12 @@ describe('Router Effects', () => {
       providers: [
         { provide: Location, useValue: locationMock },
         { provide: Router, useValue: routerMock },
-        fromRouterEffects.RouterEffects,
+        RouterEffects,
         provideMockActions(() => actions$)
       ]
     });
 
-    effects = TestBed.inject(fromRouterEffects.RouterEffects);
+    effects = TestBed.inject(RouterEffects);
 
     initTestScheduler();
     addMatchers();

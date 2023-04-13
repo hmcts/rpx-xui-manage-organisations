@@ -7,6 +7,6 @@ describe('refdata user URL util', () => {
         expect(url).to.equal('http://base/refdata/external/v1/organisations/users?size=50&page=0')
 
         url = getRefdataUserUrl('http://base', '1')
-        expect(url).to.equal('http://base/refdata/external/v1/organisations/users?size=50&page=')
+        expect(url).to.equal('http://base/refdata/external/v1/organisations/users?size=50&page=1')
     })
 })

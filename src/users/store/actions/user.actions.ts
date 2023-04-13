@@ -79,15 +79,15 @@ export class EditUserFailureReset implements Action {
   }
 }
 
-// export class LoadUserDetails {
-//   public readonly type = LOAD_USER_DETAILS;
-//   constructor() { }
-// }
+export class LoadUserDetails {
+  public readonly type = LOAD_USER_DETAILS;
+  constructor(public payload: any) { }
+}
 
-// export class LoadUserDetailsSuccess implements Action {
-//   public readonly type = LOAD_USER_DETAILS_SUCCESS;
-//   constructor(public payload: any) { }  // TODO add type list of users
-// }
+export class LoadUserDetailsSuccess implements Action {
+  public readonly type = LOAD_USER_DETAILS_SUCCESS;
+  constructor(public payload: any) { }  // TODO add type list of users
+}
 
 export class SuspendUser {
   public readonly type = SUSPEND_USER;
@@ -124,8 +124,8 @@ export type UserActions =
   | EditUser
   | EditUserFailure
   | EditUserFailureReset
-  // | LoadUserDetails
-  // | LoadUserDetailsSuccess
+  | LoadUserDetails
+  | LoadUserDetailsSuccess
   | SuspendUser
   | SuspendUserSuccess
   | SuspendUserFail

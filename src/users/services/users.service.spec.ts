@@ -16,19 +16,27 @@ describe('Users service', () => {
       mockedHttpClient.get.and.returnValue(of());
       service.getAllUsersListwithReturnRoles();
       expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/allUserList');
-  });
+    });
 
     it('should call getAllUsersList without roles', () => {
       const service = new UsersService(mockedHttpClient);
       mockedHttpClient.get.and.returnValue(of());
       service.getAllUsersList();
       expect(mockedHttpClient.get).toHaveBeenCalledWith('/api/allUserListWithoutRoles');
-  });
+    });
 
     it('should suspend account', () => {
         const service = new UsersService(mockedHttpClient);
         mockedHttpClient.put.and.returnValue(of());
         service.suspendUser({payload: { userIdentifier: 'dummy' }});
         expect(mockedHttpClient.put).toHaveBeenCalledWith('/api/user/dummy/suspend', { userIdentifier: 'dummy', idamStatus: 'SUSPENDED' });
+    });
+
+    it('should get userdetails', () => {
+      const service = new UsersService(mockedHttpClient);
+      const userId = 'dummy';
+      mockedHttpClient.get.and.returnValue(of());
+      service.getUserDetailsWithPermission(userId);
+      expect(mockedHttpClient.get).toHaveBeenCalledWith(`/api/user-details?userId=${userId}`);
     });
 });

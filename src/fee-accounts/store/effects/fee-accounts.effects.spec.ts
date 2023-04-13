@@ -7,11 +7,11 @@ import { FeeAccountsService } from '../../../fee-accounts/services';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';
-import * as fromFeeAccountsEffects from './fee-accounts.effects';
+import { FeeAccountsEffects } from './fee-accounts.effects';
 
 describe('Fee accounts Effects', () => {
   let actions$;
-  let effects: fromFeeAccountsEffects.FeeAccountsEffects;
+  let effects: FeeAccountsEffects;
   let loggerService: LoggerService;
 
   const feeAccountsServiceMock = jasmine.createSpyObj('FeeAccountsService', [
@@ -31,12 +31,12 @@ describe('Fee accounts Effects', () => {
           provide: LoggerService,
           useValue: mockedLoggerService
         },
-        fromFeeAccountsEffects.FeeAccountsEffects,
+        FeeAccountsEffects,
         provideMockActions(() => actions$)
       ]
     });
 
-    effects = TestBed.inject(fromFeeAccountsEffects.FeeAccountsEffects);
+    effects = TestBed.inject(FeeAccountsEffects);
     loggerService = TestBed.inject(LoggerService);
 
     initTestScheduler();

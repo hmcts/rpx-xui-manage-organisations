@@ -20,6 +20,7 @@ import suspendUser from './suspendUser'
 import getTermsAndConditions from './termsAndConditions'
 import userDetailsRouter from './user'
 import getUserList from './userList'
+import getUserDetails from './user-details';
 
 const router = Router({ mergeParams: true })
 
@@ -45,4 +46,5 @@ router.use('/caaCaseTypes', caaCaseTypesRouter)
 router.use('/caseshare', caseShareRouter)
 router.use('/pba', pbaRouter)
 router.use('/register-org', registerRouter)
+router.use('/user-details', getUserDetails);
 export default router

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { GovukDlListItemComponent } from './govuk-dl-list-item.component';
 
 describe('GovukDlListItemComponent', () => {

@@ -7,7 +7,6 @@ import { Subscription } from 'rxjs';
   templateUrl: './privacy-policy.component.html'
 })
 export class PrivacyPolicyComponent implements OnInit {
-
   constructor(private readonly route: ActivatedRoute) { }
 
   private subscription: Subscription;
@@ -15,7 +14,7 @@ export class PrivacyPolicyComponent implements OnInit {
   public ngOnInit(): void {
     this.subscription = this.route.fragment.subscribe(fragment => {
       try {
-        document.querySelector('#' + fragment).scrollIntoView();
+        document.querySelector(`#${fragment}`).scrollIntoView();
       } catch (e) { }
     });
   }
@@ -27,7 +26,7 @@ export class PrivacyPolicyComponent implements OnInit {
     }
     this.subscription = this.route.fragment.subscribe(fragment => {
       try {
-        document.querySelector('#' + fragment).scrollIntoView();
+        document.querySelector(`#${fragment}`).scrollIntoView();
       } catch (e) { }
     });
   }

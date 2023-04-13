@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HeadersService } from './headers.service';
 
-
 @Injectable({
   providedIn: 'root'
 })

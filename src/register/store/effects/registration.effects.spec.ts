@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
@@ -9,7 +8,6 @@ import {RegistrationFormService} from '../../services/registration-form.service'
 import {LoadPageItemsSuccess} from '../actions';
 import {LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, SubmitFormDataSuccess} from '../actions/registration.actions';
 import {RegistrationEffects} from './registration.effects';
-
 
 describe('Registration Effects', () => {
   let actions$;
@@ -21,6 +19,7 @@ describe('Registration Effects', () => {
     'submitRegistrationForm'
   ]);
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -44,6 +43,7 @@ describe('Registration Effects', () => {
     initTestScheduler();
     addMatchers();
   }));
+
   describe('loadRegistrationForm$', () => {
     it('should return a collection from loadRegistrationForm$ - LoadPageItemsSuccess', waitForAsync(() => {
       const pageId = 'something';
@@ -91,5 +91,4 @@ describe('Registration Effects', () => {
       }));
     });
   });
-
 });

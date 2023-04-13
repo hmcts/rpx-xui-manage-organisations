@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import { Action } from '@ngrx/store';
 import {of} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
-import { LoggerService } from '../../../shared/services/logger.service';
 import * as fromRoot from '../../../app/store';
+import { LoggerService } from '../../../shared/services/logger.service';
 import {ErrorReport} from '../../models/errorReport.model';
 import {InviteUserService } from '../../services';
 import * as usersActions from '../actions';

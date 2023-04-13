@@ -1,11 +1,11 @@
-import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
-import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {Store} from '@ngrx/store';
-import {of} from 'rxjs';
-import {EditUserFailureReset} from '../../store/actions';
-import {EditUserPermissionsFailureComponent} from './edit-user-permissions-failure.component';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { EditUserFailureReset } from '../../store/actions';
+import { EditUserPermissionsFailureComponent } from './edit-user-permissions-failure.component';
 
 describe('EditUserPermissionsFailureComponent', () => {
   let component: EditUserPermissionsFailureComponent;
@@ -45,21 +45,17 @@ describe('EditUserPermissionsFailureComponent', () => {
   });
 
   describe('ngOnInit()', () => {
-
     it('should dispatch an action to the store to reset edit user failure.', () => {
-
       component.ngOnInit();
       expect(mockUserStore.dispatch).toHaveBeenCalledWith(new EditUserFailureReset());
     });
 
     it('should set userId to be the userId from url params.', () => {
-
       expect(component.userId).toEqual(USER_ID);
     });
   });
 
   describe('getEditUserPermissionsLink()', () => {
-
     it('should return a link to the user page', () => {
 
       const editUserPermissionsLink = `/users/user/${USER_ID}`;

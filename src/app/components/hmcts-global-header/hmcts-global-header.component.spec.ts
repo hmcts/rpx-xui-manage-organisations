@@ -1,8 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-
 import { metaReducers } from '../../../app/app.module';
 import { reducers } from '../../../app/store';
 import { HmctsGlobalHeaderComponent } from './hmcts-global-header.component';

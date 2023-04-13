@@ -1,8 +1,9 @@
-import {EDIT_USER_FAILURE, EDIT_USER_FAILURE_RESET, EditUserFailure, EditUserFailureReset,
-  LoadUserDetails, LOAD_USER_DETAILS, LoadUserDetailsSuccess, LOAD_USER_DETAILS_SUCCESS} from './user.actions';
+import {
+  EditUserFailure, EditUserFailureReset, EDIT_USER_FAILURE, EDIT_USER_FAILURE_RESET, LoadUserDetails,
+  LOAD_USER_DETAILS, LoadUserDetailsSuccess, LOAD_USER_DETAILS_SUCCESS
+} from './user.actions';
 
 describe('User actions', () => {
-
   it('should have a EditUserFailureReset action, used to reset editUserFailure on store.', () => {
     const action = new EditUserFailureReset();
     expect({...action}).toEqual({

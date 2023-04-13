@@ -66,5 +66,4 @@ describe('Fee accounts Effects', () => {
       expect(loggerService.error).toHaveBeenCalled();
     });
   });
-
 });

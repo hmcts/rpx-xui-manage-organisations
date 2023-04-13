@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { APP_BASE_HREF } from '@angular/common';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from '../../../organisation/store/reducers';

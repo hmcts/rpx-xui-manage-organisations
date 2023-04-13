@@ -1,19 +1,17 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { State } from '../../../app/store/reducers';
 import { RegisterComponent } from './register.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
-  let mockStore: MockStore<State>;
+  let mockStore: any;
   let dispatchSpy: jasmine.Spy;
   let pipeSpy: jasmine.Spy;
   let router: Router;
@@ -28,8 +26,8 @@ describe('RegisterComponent', () => {
       providers: [provideMockStore()]
     })
       .compileComponents();
-    mockStore = TestBed.get(Store);
-    router = TestBed.get(Router);
+    mockStore = TestBed.inject(Store);
+    router = TestBed.inject(Router);
     dispatchSpy = spyOn(mockStore, 'dispatch');
     pipeSpy = spyOn(mockStore, 'pipe');
     pipeSpy.and.callThrough();

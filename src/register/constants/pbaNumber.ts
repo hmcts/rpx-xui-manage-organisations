@@ -30,7 +30,7 @@ export const pbaNumber = {
       {
         inputButton: {
           label: {
-            text: 'PBA number (optional)',
+            text: 'PBA number (Optional)',
             classes: 'govuk-label--m',
           },
           control: 'PBANumber1',

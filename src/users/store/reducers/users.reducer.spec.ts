@@ -51,6 +51,21 @@ const resultUserList = [
     }
 ];
 
+const userDetails = {
+    firstName: 'Test1firstname',
+    lastName: 'Test1lastname',
+    email: 'somthing1@something',
+    idamStatus: 'active',
+    userIdentifier: 'userId1',
+    selected: false,
+    status: 'Active',
+    roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager', 'pui-finance-manager'],
+    manageOrganisations: 'Yes',
+    manageUsers: 'Yes',
+    manageCases: 'Yes',
+    managePayments: 'Yes'
+}
+
 describe('Users Reducer', () => {
     it('undefined action should return the default state', () => {
         const { initialState } = fromUsers;
@@ -138,6 +153,21 @@ describe('Users Reducer', () => {
       const state2 = fromUsers.reducer(initialState, action2);
 
       expect(state2.editUserFailure).toBeFalsy();
+    });
+
+    it('LOAD_USER_DETAILS action should load user details', () => {
+        const { initialState } = fromUsers;
+        const userIdentifier = 'dummy';
+        const action = new fromUserActions.LoadUserDetails(userIdentifier);
+        const state = fromUsers.reducer(initialState, action);
+        expect(state.userDetails).toBeDefined();
+    });
+
+    it('LOAD_USER_DETAILS_SUCCESS action should load user details successfully', () => {
+        const { initialState } = fromUsers;
+        const action = new fromUserActions.LoadUserDetailsSuccess(userDetails);
+        const state = fromUsers.reducer(initialState, action);
+        expect(fromUsers.getUserDetails(state)).toEqual(userDetails);
     });
 });
 

@@ -75,7 +75,7 @@ export class MonitoringService implements IMonitoringService {
 
   public logException(exception: Error) {
     this.send(() => {
-      if(this.appInsights) {
+      if (this.appInsights) {
         this.appInsights.trackException(exception);
       }
     });

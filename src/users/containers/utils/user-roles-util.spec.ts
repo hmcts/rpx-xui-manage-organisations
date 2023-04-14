@@ -7,10 +7,34 @@ describe('UserRolesUtil class ', () => {
         expect(rolesAdded).toEqual([{name: 'permission2'}]);
     });
 
+    it('should get rolesAdded', () => {
+        const user = { roles: ['permission1', 'permission3', 'pui-case-manager']};
+        const rolesAdded = UserRolesUtil.getRolesAdded(user, ['permission1', 'permission2', 'pui-case-manager']);
+        expect(rolesAdded[0].name).toBe('permission2');
+    });
+
     it('should get rolesDeleted', () => {
         const user = { roles: ['permission1', 'permission2', 'permission3']};
         const rolesDeleted = UserRolesUtil.getRolesDeleted(user, ['permission1', 'permission2']);
         expect(rolesDeleted).toEqual([{name: 'permission3'}]);
+    });
+
+    it('should map the permissions', () => {
+      const user = { roles: {key1: 'value1'}};
+      const result = UserRolesUtil.mapPermissions(user);
+      expect(result[0]).toBe('key1');
+    });
+
+    it('should check role addition exist', () => {
+      const user = {roleAdditionResponse: true};
+      const result = UserRolesUtil.doesRoleAdditionExist(user);
+      expect(result).toBeFalsy();
+    });
+
+    it('should check role addition exist', () => {
+      const user = {roleDeletionResponse: true};
+      const result = UserRolesUtil.doesRoleDeletionExist(user);
+      expect(result).toBeTruthy();
     });
 
     it('should mapEditUserRoles', () => {

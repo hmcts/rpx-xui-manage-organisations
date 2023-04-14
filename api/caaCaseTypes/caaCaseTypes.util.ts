@@ -15,7 +15,7 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
       caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
     }
   }
-  
+
   return {
     _source: false,
     from: 0,

@@ -126,7 +126,7 @@ export class CaaCasesComponent implements OnInit {
     // Identify whether user selected to view assigned cases or unassigned cases
     if (this.router?.url?.includes('unassigned-cases')) {
       this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
-    } else if (this.router && this.router.url && this.router.url.includes('assigned-cases')) {
+    } else if (this.router?.url?.includes('assigned-cases')) {
       this.caaCasesPageType = CaaCasesPageType.AssignedCases;
     } else {
       // Invalid request, redirect to error page
@@ -228,6 +228,7 @@ export class CaaCasesComponent implements OnInit {
 
   public loadDataFromStore(): void {
     if (this.currentCaseType) {
+      this.setCurrentPageType();
       if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
         this.store.dispatch(new fromStore.LoadUnassignedCases({
           caseType: this.currentCaseType,

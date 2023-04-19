@@ -10,8 +10,8 @@ export const emailAddress = {
         validationLevel: 'formControl',
         controlId: 'emailAddress',
         text: 'Enter email address',
-        href: '/register/organisation-address',
-      },
+        href: '/register/organisation-address'
+      }
     ],
     groups: [
       {
@@ -27,11 +27,11 @@ export const emailAddress = {
           validators: ['required', 'email'],
           validationError: {
             value: 'Enter email address',
-            controlId: 'emailAddress',
+            controlId: 'emailAddress'
           },
           control: 'emailAddress',
-          classes: '',
-        },
+          classes: ''
+        }
       },
       {
         button: {
@@ -39,10 +39,10 @@ export const emailAddress = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

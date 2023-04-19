@@ -11,12 +11,12 @@ describe('Router Effects', () => {
   let effects: RouterEffects;
 
   const routerMock = jasmine.createSpyObj('Router', [
-    'navigate',
+    'navigate'
   ]);
 
   const locationMock = jasmine.createSpyObj('Location', [
     'back',
-    'forward',
+    'forward'
   ]);
 
   beforeEach(() => {

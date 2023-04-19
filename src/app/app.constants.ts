@@ -1,7 +1,7 @@
 import { BadgeColour, ContactDetailsDataModel } from '@hmcts/rpx-xui-common-lib';
-import {AppTitlesModel} from './models/app-titles.model';
-import {NavItemModel} from './models/nav-items.model';
-import {UserNavModel} from './models/user-nav.model';
+import { AppTitlesModel } from './models/app-titles.model';
+import { NavItemModel } from './models/nav-items.model';
+import { UserNavModel } from './models/user-nav.model';
 
 const featureNames = {
   feeAccount: 'fee-and-accounts',
@@ -70,7 +70,7 @@ const manageOrgTitle: AppTitlesModel = {
   hideBranding: false
 };
 
-const footerData =  {
+const footerData = {
   heading: 'Help',
   email: {
     address: 'service-desk@hmcts.gov.uk',
@@ -86,14 +86,13 @@ const footerData =  {
 
 const footerDataNavigation = {
   items: [
-    { text: 'Accessibility', href: 'accessibility', target: '_blank'},
-    { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank'},
+    { text: 'Accessibility', href: 'accessibility', target: '_blank' },
+    { text: 'Terms and conditions', href: 'terms-and-conditions', target: '_blank' },
     { text: 'Cookies', href: 'cookies', target: '_blank' },
-    { text: 'Privacy policy', href: 'privacy-policy', target: '_blank'},
+    { text: 'Privacy policy', href: 'privacy-policy', target: '_blank' },
     { text: 'Get help', href: 'get-help', target: '_blank' }
   ]
 };
-
 
 const getHelpDetailsData: ContactDetailsDataModel[] = [
   {
@@ -135,24 +134,24 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
 
 const userRoles = [
 
-    { role: 'pui-organisation-manager', roleType: 'manageOrganisations'},
-    { role: 'pui-user-manager', roleType: 'manageUsers' },
-    { role: 'pui-case-manager', roleType: 'manageCases'},
-    { role: 'pui-finance-manager', roleType: 'managePayments'}
+  { role: 'pui-organisation-manager', roleType: 'manageOrganisations' },
+  { role: 'pui-user-manager', roleType: 'manageUsers' },
+  { role: 'pui-case-manager', roleType: 'manageCases' },
+  { role: 'pui-finance-manager', roleType: 'managePayments' }
 ];
 
 const jurisdictions = [
-    {id: 'SSCS'},
-    {id: 'AUTOTEST1'},
-    {id: 'DIVORCE'},
-    {id: 'PROBATE'},
-    {id: 'PUBLICLAW'},
-    {id: 'bulkscan'},
-    {id: 'BULKSCAN'},
-    {id: 'IA'},
-    {id: 'EMPLOYMENT'},
-    {id: 'CMC'}
-  ];
+  { id: 'SSCS' },
+  { id: 'AUTOTEST1' },
+  { id: 'DIVORCE' },
+  { id: 'PROBATE' },
+  { id: 'PUBLICLAW' },
+  { id: 'bulkscan' },
+  { id: 'BULKSCAN' },
+  { id: 'IA' },
+  { id: 'EMPLOYMENT' },
+  { id: 'CMC' }
+];
 
 const ccdRoles = [
   'caseworker',

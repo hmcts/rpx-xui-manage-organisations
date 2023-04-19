@@ -1,1 +1,1 @@
-export const searchCasesString = '/ccd/searchCases?ctid='
+export const searchCasesString = '/ccd/searchCases?ctid=';

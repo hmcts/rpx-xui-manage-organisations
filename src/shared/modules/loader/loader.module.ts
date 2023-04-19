@@ -4,8 +4,6 @@ import { NgModule } from '@angular/core';
 import { LoaderComponent } from './components/loader.component';
 import { LoaderInterceptorService } from './services/loader-interceptor.service';
 
-
-
 @NgModule({
   declarations: [
     LoaderComponent
@@ -24,5 +22,4 @@ import { LoaderInterceptorService } from './services/loader-interceptor.service'
     }
   ]
 })
-export class LoaderModule {
-}
+export class LoaderModule {}

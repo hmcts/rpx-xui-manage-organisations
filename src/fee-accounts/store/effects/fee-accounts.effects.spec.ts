@@ -15,17 +15,18 @@ describe('Fee accounts Effects', () => {
   let loggerService: LoggerService;
 
   const feeAccountsServiceMock = jasmine.createSpyObj('FeeAccountsService', [
-    'fetchFeeAccounts',
+    'fetchFeeAccounts'
   ]);
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         {
           provide: FeeAccountsService,
-          useValue: feeAccountsServiceMock,
+          useValue: feeAccountsServiceMock
         },
         {
           provide: LoggerService,

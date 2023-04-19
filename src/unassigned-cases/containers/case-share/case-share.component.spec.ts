@@ -30,7 +30,7 @@ describe('CaseShareComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ CaseShareComponent ],
+      declarations: [CaseShareComponent],
       providers: [
         provideMockStore(),
         {

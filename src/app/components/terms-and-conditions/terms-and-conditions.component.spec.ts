@@ -3,36 +3,35 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@ang
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 
 const storeMock = {
   pipe: () => of(null),
-  dispatch: (action: Action) => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  dispatch: () => {}
 };
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
 
 describe('TermsAndConditionsComponent', () => {
   @Component({
-    selector: `app-exui-app-host-dummy-component`,
-    template: `<exui-terms-and-conditions></exui-terms-and-conditions>`
+    selector: 'app-exui-app-host-dummy-component',
+    template: '<exui-terms-and-conditions></exui-terms-and-conditions>'
   })
   class TestDummyHostComponent {
     @ViewChild(TermsAndConditionsComponent, { static: true })
     public footerComponent: TermsAndConditionsComponent;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let testHostComponent: TestDummyHostComponent;
   let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-  // tslint:disable-next-line
-  let el: DebugElement;
-  // tslint:disable-next-line
-  let de: any;
   let component: TermsAndConditionsComponent;
   let fixture: ComponentFixture<TermsAndConditionsComponent>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
   let termsConditionsService: TermsConditionsService;
 
@@ -44,7 +43,7 @@ describe('TermsAndConditionsComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule
       ],
-      declarations: [ TermsAndConditionsComponent, TestDummyHostComponent ],
+      declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
@@ -56,6 +55,7 @@ describe('TermsAndConditionsComponent', () => {
     })
       .compileComponents();
   }));
+
   beforeEach(() => {
     testHostFixture = TestBed.createComponent(TestDummyHostComponent);
     testHostComponent = testHostFixture.componentInstance;

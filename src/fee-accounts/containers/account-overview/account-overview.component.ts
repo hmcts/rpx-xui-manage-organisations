@@ -22,7 +22,7 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
       .subscribe((data: OrganisationDetails) => {
         this.orgData = data;
       }
-    );
+      );
   }
 
   public ngOnDestroy(): void {
@@ -30,5 +30,4 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
       this.organisationSubscription.unsubscribe();
     }
   }
-
 }

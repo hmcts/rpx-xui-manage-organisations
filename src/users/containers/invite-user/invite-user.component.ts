@@ -17,7 +17,7 @@ import * as fromStore from '../../store';
 * */
 @Component({
   selector: 'app-prd-invite-user-component',
-  templateUrl: './invite-user.component.html',
+  templateUrl: './invite-user.component.html'
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
   public inviteUserForm: FormGroup;
@@ -28,8 +28,9 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     firstName: ['Enter first name'],
     lastName: ['Enter last name'],
     email: ['Enter a valid email address'],
-    roles: ['You must select at least one action'],
+    roles: ['You must select at least one action']
   };
+
   public juridictionSubscription: Subscription;
   public resendInvite: boolean = false;
   public pendingUserSubscription: Subscription;
@@ -48,7 +49,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     this.errorsArray$ = this.store.pipe(select(fromStore.getGetInviteUserErrorsArray));
     this.inviteUserForm = this.initialiseUserForm();
     this.backLink = this.getBackLink(null);
-    this.pendingUserSubscription = this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe(pendingUser => {
+    this.pendingUserSubscription = this.store.pipe(select(fromStore.getGetReinvitePendingUser)).subscribe((pendingUser) => {
       this.populateFormControl(pendingUser, this.inviteUserForm);
       this.backLink = this.getBackLink(pendingUser);
     });
@@ -101,11 +102,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       urlText: null,
       url: null
     },
-      {
-        bodyText: null,
-        urlText: 'Go back to manage users',
-        url: '/users'
-      }];
+    {
+      bodyText: null,
+      urlText: 'Go back to manage users',
+      url: '/users'
+    }];
     const globalError = {
       header: 'Sorry, there is a problem with the service',
       errors: errorMessages
@@ -133,11 +134,11 @@ export class InviteUserComponent implements OnInit, OnDestroy {
       url: '/get-help',
       newTab: true
     },
-      {
-        bodyText: null,
-        urlText: 'Go back to manage users',
-        url: '/users'
-      }];
+    {
+      bodyText: null,
+      urlText: 'Go back to manage users',
+      url: '/users'
+    }];
     const globalError = {
       header: 'Sorry, there is a problem with this account',
       errors: errorMessages
@@ -189,13 +190,16 @@ export class InviteUserComponent implements OnInit, OnDestroy {
   }
 
   // convenience getter for easy access to form fields
-  public get f() { return this.inviteUserForm.controls; }
+  public get f() {
+    return this.inviteUserForm.controls;
+  }
+
   public onSubmit(): void {
     this.showWarningMessage = false;
     this.dispatchValidationAction();
     if (this.inviteUserForm.valid) {
       const value = this.inviteUserForm.getRawValue();
-      const permissions = Object.keys(value.roles).filter(key => {
+      const permissions = Object.keys(value.roles).filter((key) => {
         if (value.roles[key]) {
           return key;
         }
@@ -226,7 +230,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
         firstName: [(this.f.firstName.errors && this.f.firstName.errors.required)],
         lastName: [(this.f.lastName.errors && this.f.lastName.errors.required)],
         email: [(this.f.email.errors && (this.f.email.errors.required || this.f.email.errors.email))],
-        roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)],
+        roles: [(this.f.roles.errors && this.f.roles.errors.requireOneCheckboxToBeChecked)]
       },
       errorMessages: this.errorMessages,
       isSubmitted: true

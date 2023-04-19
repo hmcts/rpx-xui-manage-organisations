@@ -17,6 +17,3 @@ export const getRootUserState = createFeatureSelector<UserState>(
   'users'
 );
 
-
-
-

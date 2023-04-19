@@ -5,11 +5,9 @@ import { PendingPaymentAccount } from '../../models/pendingPaymentAccount.model'
 
 @Injectable()
 export class PBAService {
-  constructor(private readonly http: HttpClient) {
-  }
+  constructor(private readonly http: HttpClient) {}
 
   public updatePBAs(pendingPaymentAccount: PendingPaymentAccount): Observable<any> {
-    return this.http.post<any>(`api/pba/addDeletePBA`, {pendingPaymentAccount});
+    return this.http.post<any>('api/pba/addDeletePBA', { pendingPaymentAccount });
   }
-
 }

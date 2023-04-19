@@ -7,9 +7,9 @@ import * as fromUserProfile from '../../user-profile/store';
 
 @Injectable()
 export class RoleGuard implements CanActivate {
-    constructor(private readonly store: Store<fromStore.OrganisationState>) { }
+  constructor(private readonly store: Store<fromStore.OrganisationState>) {}
 
-    public canActivate(): Observable<boolean> {
-        return this.store.pipe(select(fromUserProfile.getIsUserCaaAdmin));
-    }
+  public canActivate(): Observable<boolean> {
+    return this.store.pipe(select(fromUserProfile.getIsUserCaaAdmin));
+  }
 }

@@ -15,15 +15,13 @@ describe('FormsService', () => {
   }));
 
   describe('on form creation', () => {
-
     describe('when creating radio buttons', () => {
-
       it('should create radio buttons where data does not exist', inject([FormsService], (service: FormsService) => {
         const someJson = [
           {
             control: 'radio',
             radioGroup: [
-              {value: 'dummy'}
+              { value: 'dummy' }
             ]
           }
         ];
@@ -39,7 +37,7 @@ describe('FormsService', () => {
           {
             control: 'radio',
             radioGroup: [
-              {value: 'dummy'}
+              { value: 'dummy' }
             ]
           }
         ];
@@ -56,7 +54,7 @@ describe('FormsService', () => {
           {
             control: 'radio',
             radioGroup: [
-              {value: 'dummy'}
+              { value: 'dummy' }
             ]
           }
         ];
@@ -67,11 +65,9 @@ describe('FormsService', () => {
         service.create(someJson, someData);
         expect(service.formControls.hasOwnProperty('radio')).toBeTruthy();
       }));
-
     });
 
     describe('when creating non radio buttons controls', () => {
-
       it('should create control where data does not match', inject([FormsService], (service: FormsService) => {
         const createFormControlSpy = spyOn(service, 'createFormControl');
         const someJson = [
@@ -127,16 +123,16 @@ describe('FormsService', () => {
       it('should create form control when updateOn is set', inject([FormsService], (service: FormsService) => {
         service.defineFormControls(someJson, someData);
         service.createFormControl('PBA1111111', 'PBANumber1', ['required'], true);
+        // eslint-disable-next-line dot-notation
         expect(service.formControls['PBANumber1']._updateOn).toBe('blur');
       }));
 
       it('should not create form control with updateOn when updateOn is not set', inject([FormsService], (service: FormsService) => {
         service.defineFormControls(someJson, someData);
         service.createFormControl('PBA1111111', 'PBANumber1', ['required']);
+        // eslint-disable-next-line dot-notation
         expect(service.formControls['PBANumber1']._updateOn).toBeFalsy();
       }));
     });
-
   });
-
 });

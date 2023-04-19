@@ -5,5 +5,5 @@ import { Injectable } from '@angular/core';
 })
 export class GovUiService {
 
-  constructor() { }
+  constructor() {}
 }

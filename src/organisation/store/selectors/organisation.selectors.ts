@@ -23,6 +23,3 @@ export const getOrganisationError = createSelector(
   fromOrganisation.getOrganisationError
 );
 
-
-
-

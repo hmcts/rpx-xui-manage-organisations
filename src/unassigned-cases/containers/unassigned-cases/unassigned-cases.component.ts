@@ -15,7 +15,6 @@ import { UnAssignedCases } from '../../store/reducers';
   styleUrls: ['./unassigned-cases.component.scss']
 })
 export class UnassignedCasesComponent implements OnInit {
-
   public cases$: Observable<any>;
   // this shareCases$ will be passed to case share component
   public shareCases$: Observable<SharedCase[]>;
@@ -39,15 +38,15 @@ export class UnassignedCasesComponent implements OnInit {
     this.store.dispatch(new fromStore.LoadUnassignedCaseTypes());
     this.store.pipe(select(fromStore.getAllUnassignedCases)).subscribe((config: UnAssignedCases) => {
       if (config !== null) {
-        this.tableConfig =  {
+        this.tableConfig = {
           idField: config.idField,
           columnConfigs: config.columnConfigs
         };
       }
     });
-    this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe(items => this.fixCurrentTab(items));
+    this.store.pipe(select(fromStore.getAllUnassignedCaseTypes)).subscribe((items) => this.fixCurrentTab(items));
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.shareCases$.subscribe(shareCases => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
+    this.shareCases$.subscribe((shareCases) => this.selectedCases = converters.toSearchResultViewItemConverter(shareCases));
   }
 
   private fixCurrentTab(items: any): void {
@@ -72,21 +71,21 @@ export class UnassignedCasesComponent implements OnInit {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
-    this.totalCases = this.navItems.find(data => data.text === event.tab.textLabel) ? this.navItems.find(data => data.text === event.tab.textLabel).total : 0;
+    this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel) ? this.navItems.find((data) => data.text === event.tab.textLabel).total : 0;
     this.setTabItems(event.tab.textLabel);
   }
 
   private setTabItems(tabName: string): void {
     this.resetPaginationParameters();
     this.shareCases$ = this.store.pipe(select(fromStore.getShareCaseListState));
-    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
+    this.store.dispatch(new fromStore.LoadUnassignedCases({ caseType: tabName, pageNo: this.currentPageNo, pageSize: this.paginationPageSize }));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
     this.currentCaseType = tabName;
   }
 
   public onPaginationHandler(pageNo: number): void {
     this.currentPageNo = pageNo;
-    this.store.dispatch(new fromStore.LoadUnassignedCases({caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize}));
+    this.store.dispatch(new fromStore.LoadUnassignedCases({ caseType: this.currentCaseType, pageNo: this.currentPageNo, pageSize: this.paginationPageSize }));
     this.cases$ = this.store.pipe(select(fromStore.getAllUnassignedCaseData));
   }
 

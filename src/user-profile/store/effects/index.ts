@@ -1,4 +1,4 @@
-import {UserProfileEffects} from './user-profile.effects';
+import { UserProfileEffects } from './user-profile.effects';
 
 export const effects: any[] = [
   UserProfileEffects

@@ -9,7 +9,7 @@ describe('CaseShareService', () => {
       mockHttp.get.and.returnValue(of({}));
       const service = new CaseShareService(mockHttp);
       service.getUsersFromOrg();
-      expect(mockHttp.get).toHaveBeenCalledWith(`api/caseshare/users`);
+      expect(mockHttp.get).toHaveBeenCalledWith('api/caseshare/users');
     });
   });
 
@@ -30,7 +30,7 @@ describe('CaseShareService', () => {
           case_ids: '1,2'
         }
       };
-      expect(mockHttp.get).toHaveBeenCalledWith(`api/caseshare/cases`, expectedOptions);
+      expect(mockHttp.get).toHaveBeenCalledWith('api/caseshare/cases', expectedOptions);
     });
 
     it('should get share case with correct params', () => {
@@ -48,7 +48,7 @@ describe('CaseShareService', () => {
           case_ids: '1'
         }
       };
-      expect(mockHttp.get).toHaveBeenCalledWith(`api/caseshare/cases`, expectedOptions);
+      expect(mockHttp.get).toHaveBeenCalledWith('api/caseshare/cases', expectedOptions);
     });
   });
 });

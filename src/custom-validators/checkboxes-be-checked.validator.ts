@@ -4,7 +4,7 @@ export function checkboxesBeCheckedValidator(minRequired = 1): ValidatorFn {
   return function validate(formGroup: FormGroup) {
     let checked = 0;
 
-    Object.keys(formGroup.controls).forEach(key => {
+    Object.keys(formGroup.controls).forEach((key) => {
       const control = formGroup.controls[key];
 
       if (control.value === true) {
@@ -14,7 +14,7 @@ export function checkboxesBeCheckedValidator(minRequired = 1): ValidatorFn {
 
     if (checked < minRequired) {
       return {
-        requireOneCheckboxToBeChecked: true,
+        requireOneCheckboxToBeChecked: true
       };
     }
 

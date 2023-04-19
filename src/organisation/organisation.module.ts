@@ -46,9 +46,9 @@ import { effects, reducers } from './store';
   exports: [...fromContainers.containers, ...fromComponent.components],
   declarations: [...fromContainers.containers, ...fromComponent.components],
   providers: [...fromServices.services, OrganisationGuard,
-  { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
-  CryptoWrapper, JwtDecodeWrapper, MonitoringService, LoggerService,
-  {provide: ErrorHandler, useClass: DefaultErrorHandler}]
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
+    CryptoWrapper, JwtDecodeWrapper, MonitoringService, LoggerService,
+    { provide: ErrorHandler, useClass: DefaultErrorHandler }]
 })
 
 export class OrganisationModule {}

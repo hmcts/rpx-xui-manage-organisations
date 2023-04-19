@@ -22,15 +22,16 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public navItems = [
     {
       text: 'Summary',
-      href: `../`,
+      href: '../',
       active: false
     },
     {
       text: 'Transactions',
-      href: `../transactions`,
+      href: '../transactions',
       active: true
     }
   ];
+
   public columnConfig = [
     { header: 'Payment Reference', key: 'payment_reference' },
     { header: 'Case', key: 'ccd_case_number' },
@@ -39,6 +40,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     { header: 'Date created', key: 'date_created', type: 'dateAtTime' },
     { header: 'Amount', key: 'amount', type: 'money' }
   ];
+
   public loading$: Observable<boolean>;
 
   constructor(
@@ -63,7 +65,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
   }
 
   public subscribeAccounts(accounts$: Observable<FeeAccount[]>): Subscription {
-    return accounts$.subscribe(acc => {
+    return accounts$.subscribe((acc) => {
       if (acc && acc[0]) {
         this.accounts = acc;
         this.accountName$ = of(acc[0].account_name);
@@ -83,8 +85,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     return `/fee-accounts/account/${id}`;
   }
 
-  public getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, {} | SingleAccountSummary>):
-  Observable<{} | SingleAccountSummary> {
+  public getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, object | SingleAccountSummary>): Observable<object | SingleAccountSummary> {
     return this.store.pipe(select(pbaAccountTransactions));
   }
 

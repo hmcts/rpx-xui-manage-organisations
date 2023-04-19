@@ -15,29 +15,26 @@ import { pbaAccountSummaryLoaded } from '../store/selectors/single-fee-account.s
 
 @Injectable()
 export class AccountSummaryGuard implements CanActivate {
-
-  constructor(private readonly store: Store<fromFeature.FeeAccountsState>) {
-  }
+  constructor(private readonly store: Store<fromFeature.FeeAccountsState>) {}
 
   public canActivate(): Observable<boolean> {
     return this.checkStore()
       .pipe(
         switchMap(() => of(true)),
-        catchError((error: any) => of(false))
+        catchError(() => of(false))
       );
   }
 
   public checkStore(): Observable<boolean> {
     return this.store.pipe(
       select(pbaAccountSummaryLoaded),
-      tap(loaded => {
+      tap((loaded) => {
         if (!loaded) {
           this.store.dispatch(new LoadSingleFeeAccount('2A2ABCDFFFA'));
         }
       }),
-      filter(loaded => loaded),
+      filter((loaded) => loaded),
       take(1)
     );
   }
-
 }

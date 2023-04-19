@@ -37,8 +37,7 @@ describe('OrganisationReducer', () => {
     });
   });
 
-
-/* TO DO - fix the unit test
+  /* TO DO - fix the unit test
   // success
   describe('LOAD_ORGANISATION_SUCCESS action', () => {
     it('should populate users from the array', () => {
@@ -82,5 +81,4 @@ console.log(`${initialState}`);
     });
   });
 */
-
 });

@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import { InviteUserPermissionComponent } from './invite-user-permission.component';
 
 describe('Invite User Permission Component', () => {
-
   let component: InviteUserPermissionComponent;
   let fixture: ComponentFixture<InviteUserPermissionComponent>;
 
@@ -15,7 +14,7 @@ describe('Invite User Permission Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ InviteUserPermissionComponent ],
+      declarations: [InviteUserPermissionComponent],
       providers: [
         {
           provide: FeatureToggleService,

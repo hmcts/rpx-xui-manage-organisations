@@ -64,7 +64,7 @@ export interface Payments {
 }
 
 export interface PaymentAccountDto {
-  pbaNumber:	string
-  userId?:	string
-  organisationId:	string
+  pbaNumber: string
+  userId?: string
+  organisationId: string
 }

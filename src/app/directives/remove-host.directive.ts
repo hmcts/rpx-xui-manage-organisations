@@ -1,6 +1,5 @@
 import { Directive, ElementRef, OnInit } from '@angular/core';
 
-
 /*
 * Remove Host Directive
 * Used to remove native angular host tags tags
@@ -10,7 +9,6 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
   selector: '[appRemoveHost]'
 })
 export class RemoveHostDirective implements OnInit {
-
   constructor(private readonly el: ElementRef) {}
 
   public ngOnInit(): void {

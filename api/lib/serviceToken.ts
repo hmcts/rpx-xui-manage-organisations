@@ -8,7 +8,6 @@ import { postS2SLease } from '../services/serviceAuth';
 import * as log4jui from './log4jui';
 
 const logger = log4jui.getLogger('service-token');
-/* tslint:disable-next-line */
 const cache = {};
 const microservice = getConfigValue(MICROSERVICE);
 
@@ -33,7 +32,7 @@ export async function generateToken(): Promise<any> {
 
   cache[microservice] = {
     expiresAt: tokenData.exp,
-    token,
+    token
   };
 
   return token;
@@ -44,9 +43,8 @@ export async function serviceTokenGenerator(): Promise<any> {
     logger.info('Getting cached s2s token');
     const tokenData = getToken();
     return tokenData.token;
-  } else {
-    return await generateToken();
   }
+  return await generateToken();
 }
 
 export default async (req, res, next) => {
@@ -59,4 +57,4 @@ export default async (req, res, next) => {
 
     next();
   }
-}
+};

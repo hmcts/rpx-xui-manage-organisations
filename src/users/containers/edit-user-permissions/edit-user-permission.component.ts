@@ -12,14 +12,15 @@ import { UserRolesUtil } from '../utils/user-roles-util';
 
 @Component({
   selector: 'app-edit-user-permission',
-  templateUrl: './edit-user-permission.component.html',
+  templateUrl: './edit-user-permission.component.html'
 })
-export class EditUserPermissionComponent  implements OnInit, OnDestroy {
+export class EditUserPermissionComponent implements OnInit, OnDestroy {
   public editUserForm: FormGroup;
   public errorMessages = {
     header: 'There is a problem',
-    roles: ['You must select at least one action'],
+    roles: ['You must select at least one action']
   };
+
   public user$: Observable<any>;
   public isLoading$: Observable<boolean>;
   public user: any;
@@ -51,10 +52,10 @@ export class EditUserPermissionComponent  implements OnInit, OnDestroy {
     });
 
     this.editPermissionServerErrorSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
-      this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
+      this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
     });
 
-    this.userStore.select(editUserFailureSelector).subscribe(editUserFailure => {
+    this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
       if (editUserFailure) {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
       }
@@ -98,6 +99,7 @@ export class EditUserPermissionComponent  implements OnInit, OnDestroy {
   }
 
   // TODO: Sort out parameter typing.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): FormGroup {
     return new FormGroup({
       roles: new FormGroup({
@@ -138,26 +140,23 @@ export class EditUserPermissionComponent  implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (!this.editUserForm.valid) {
-      this.summaryErrors = { isFromValid: false, items: [{id: 'roles',
-      message: this.errorMessages.roles[0] }], header: this.errorMessages.header};
-      this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]]};
+      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles',
+        message: this.errorMessages.roles[0] }], header: this.errorMessages.header };
+      this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]] };
       return;
     }
 
-    const {value} = this.editUserForm;
+    const { value } = this.editUserForm;
     const permissions = UserRolesUtil.mapPermissions(value);
     const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
     const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
-      this.userStore.dispatch(new fromStore.EditUser({editUserRolesObj, userId: this.userId}));
+      this.userStore.dispatch(new fromStore.EditUser({ editUserRolesObj, userId: this.userId }));
     } else {
-     /* tslint:disable-next-line */
-      this.summaryErrors = { isFromValid: false, items: [{id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
-      header: this.errorMessages.header};
-      /* tslint:disable-next-line */
-      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' ]};
-      /* tslint:disable-next-line */
+      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
+        header: this.errorMessages.header };
+      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
       return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }
   }

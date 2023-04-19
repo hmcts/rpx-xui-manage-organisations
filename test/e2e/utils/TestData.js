@@ -6,6 +6,6 @@ module.exports = {
 
   firstName: 'Peter',
   lastName: 'Parker',
-  emailAddress: 'peter.parker@gmail.com',
+  emailAddress: 'peter.parker@gmail.com'
 
 };

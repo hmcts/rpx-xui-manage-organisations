@@ -1,10 +1,9 @@
 import { createSelector } from '@ngrx/store';
 import { AppConstants } from 'src/app/app.constants';
 
-import {AppUtils} from '../../utils/app-utils';
+import { AppUtils } from '../../utils/app-utils';
 import * as fromRoot from '../reducers';
 import * as fromAppFeature from '../reducers/app.reducer';
-
 
 export const getAppState = createSelector(
   fromRoot.getRootAppState,
@@ -36,37 +35,37 @@ export const getNav = createSelector(
 
 export const getFeatureFlag = createSelector(
   getAppState,
-  state => state.featureFlags
+  (state) => state.featureFlags
 );
 
 export const getFeeAndPayFeature = createSelector(
   getFeatureFlag,
-  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.feeAccount)
+  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.feeAccount)
 );
 
 export const getFeeAndPayFeatureIsEnabled = createSelector(
   getFeeAndPayFeature,
-  featureFlag => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag && featureFlag.isEnabled
 );
 
 export const getUnassignedCasesFeature = createSelector(
   getFeatureFlag,
-  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.unassignedCases)
+  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.unassignedCases)
 );
 
 export const getUnassignedCasesFeatureIsEnabled = createSelector(
   getUnassignedCasesFeature,
-  featureFlag => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag && featureFlag.isEnabled
 );
 
 export const getEditUserFeature = createSelector(
   getFeatureFlag,
-  featureFlags => featureFlags && featureFlags.find(flag => flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions)
+  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.editUserPermissions)
 );
 
 export const getEditUserFeatureIsEnabled = createSelector(
   getEditUserFeature,
-  featureFlag => featureFlag && featureFlag.isEnabled
+  (featureFlag) => featureFlag && featureFlag.isEnabled
 );
 
 export const getFeatureEnabledNav = createSelector(
@@ -110,7 +109,7 @@ export const getUserNav = createSelector(
 
 export const getTermsAndConditions = createSelector(
   getAppState,
-  state => state.termsAndConditions
+  (state) => state.termsAndConditions
 );
 
 export const getModalSessionData = createSelector(

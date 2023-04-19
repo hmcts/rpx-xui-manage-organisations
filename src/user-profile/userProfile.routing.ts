@@ -5,7 +5,6 @@ import { UserProfileModule } from './user-profile.module';
 
 // TODO please remove when profile story gets runned
 
-
 export const ROUTES: Routes = [
   {
     path: 'profile',
@@ -13,7 +12,7 @@ export const ROUTES: Routes = [
     // // canActivate: [AuthGuard, UserGuard ]
     // canActivate: [false]
     redirectTo: 'organisation',
-    pathMatch: 'full',
+    pathMatch: 'full'
   }
 ];
 

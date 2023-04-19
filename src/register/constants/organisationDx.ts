@@ -10,13 +10,13 @@ export const organisationDx = {
         validationLevel: 'formControl',
         controlId: 'DXnumber',
         text: 'Enter valid DX number',
-        href: '/register/organisation-name',
+        href: '/register/organisation-name'
       },
       {
         validationLevel: 'formControl',
         controlId: 'DXexchange',
         text: 'Enter valid DX exchange',
-        href: '/register/organisation-name',
+        href: '/register/organisation-name'
       }
     ],
     groups: [
@@ -24,7 +24,7 @@ export const organisationDx = {
         input: {
           label: {
             text: 'DX number (Optional)',
-            classes: 'govuk-label--m',
+            classes: 'govuk-label--m'
           },
           hint: {
             text: 'This can be up to 13 characters (including letters and numbers). For example 931NR. You don\'t need to include \'DX\'.',
@@ -34,16 +34,16 @@ export const organisationDx = {
           validators: ['dxNumberMaxLength'],
           validationError: {
             value: 'Enter valid DX number',
-            controlId: 'DXnumber',
+            controlId: 'DXnumber'
           },
-          classes: 'govuk-!-width-two-thirds',
-        },
+          classes: 'govuk-!-width-two-thirds'
+        }
       },
       {
         input: {
           label: {
             text: 'DX exchange (Optional)',
-            classes: 'govuk-label--m',
+            classes: 'govuk-label--m'
           },
           hint: {
             text: 'This can be up to 20 characters (including letters, numbers and symbols). For example: HAYES (MIDDLESEX).',
@@ -53,10 +53,10 @@ export const organisationDx = {
           validators: ['dxExchangeMaxLength'],
           validationError: {
             value: 'Enter valid DX exchange',
-            controlId: 'DXexchange',
+            controlId: 'DXexchange'
           },
-          classes: 'govuk-!-width-two-thirds',
-        },
+          classes: 'govuk-!-width-two-thirds'
+        }
       },
       {
         button: {
@@ -64,10 +64,10 @@ export const organisationDx = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

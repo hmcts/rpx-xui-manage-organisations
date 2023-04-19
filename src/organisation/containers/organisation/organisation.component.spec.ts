@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
@@ -10,33 +10,35 @@ import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
-  pipe: () => {
-  },
-  dispatch: (action: Action) => {
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  pipe: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  dispatch: () => {}
 };
 
 const authStoreMock = {
-  pipe: () => {
-  },
-  dispatch: (action: Action) => {
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  pipe: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  dispatch: () => {}
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let userIsPuiFinanceManager: boolean;
 
 describe('OrganisationComponent', () => {
-
   let component: OrganisationComponent;
   let fixture: ComponentFixture<OrganisationComponent>;
   let store: Store<fromOrgStore.UserState>;
 
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
-    dxExchange: 'London',
+    dxExchange: 'London'
   };
 
   const contactInformation: OrganisationContactInformation = {
@@ -57,7 +59,7 @@ describe('OrganisationComponent', () => {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
     contactInformation: [
-      contactInformation,
+      contactInformation
     ],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',
@@ -81,8 +83,8 @@ describe('OrganisationComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          feature: combineReducers(fromOrgStore.reducers),
-        }),
+          feature: combineReducers(fromOrgStore.reducers)
+        })
       ],
       declarations: [OrganisationComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -107,7 +109,6 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the Organisation Details from the Store, and set it on orgData.', () => {
-
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
@@ -115,7 +116,6 @@ describe('OrganisationComponent', () => {
   });
 
   it('should get the User Details from the Store, and set it on orgData.', () => {
-
     component.getOrganisationDetailsFromStore();
 
     expect(store.pipe).toHaveBeenCalled();
@@ -125,7 +125,7 @@ describe('OrganisationComponent', () => {
   describe('showChangePbaNumberLink property', () => {
     const CHANGE_LINK = By.css('#change-pba-account-numbers__link');
 
-    it(`should show the 'Change' link when false`, () => {
+    it('should show the \'Change\' link when false', () => {
       component.showChangePbaNumberLink = true;
       fixture.detectChanges();
 
@@ -134,7 +134,7 @@ describe('OrganisationComponent', () => {
       expect(changeLink).toBeTruthy();
     });
 
-    it(`should not show the 'Change' link when false`, () => {
+    it('should not show the \'Change\' link when false', () => {
       component.showChangePbaNumberLink = false;
       fixture.detectChanges();
 
@@ -145,7 +145,6 @@ describe('OrganisationComponent', () => {
   });
 
   describe('canShowChangePbaNumbersLink()', () => {
-
     it('should set to true when the user has pui-finance-manager', () => {
       userIsPuiFinanceManager = true;
 

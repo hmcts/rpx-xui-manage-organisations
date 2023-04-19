@@ -1,7 +1,7 @@
 import { TCDocument } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from '../../app.constants';
 import { AppTitlesModel } from '../../models/app-titles.model';
-import {NavItemModel} from '../../models/nav-items.model';
+import { NavItemModel } from '../../models/nav-items.model';
 import { UserNavModel } from '../../models/user-nav.model';
 import { AppUtils } from '../../utils/app-utils';
 import * as fromAction from '../actions';
@@ -40,7 +40,7 @@ export const initialState: AppState = {
   pageTitle: '',
   userNav: AppConstants.USER_NAV,
   navItems: [],
-  headerTitle: {regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE},
+  headerTitle: { regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE },
   jurisdictions: [],
   termsAndConditions: null,
   featureFlags: [],
@@ -50,7 +50,7 @@ export const initialState: AppState = {
       isVisible: false,
       countdown: ''
     }
-  },
+  }
 };
 
 export function reducer(
@@ -59,11 +59,11 @@ export function reducer(
 ): AppState {
   switch (action.type) {
     case fromAction.LOAD_JURISDICTIONS_GLOBAL_SUCCESS:
-        const jurisdictions = action.payload;
-        return {
-          ...state,
-          jurisdictions
-        };
+      const jurisdictions = action.payload;
+      return {
+        ...state,
+        jurisdictions
+      };
 
     case fromAction.SET_PAGE_TITLE: {
       const pageTitle = AppUtils.setPageTitle(action.payload);
@@ -86,7 +86,7 @@ export function reducer(
     case fromAction.SET_USER_ROLES: {
       const roles = [...action.payload];
       let navItems = [];
-      roles.forEach(role => {
+      roles.forEach((role) => {
         if (state.allNavItems.hasOwnProperty(role)) {
           navItems = [
             ...navItems,
@@ -136,7 +136,7 @@ export function reducer(
     case fromAction.SET_MODAL: {
       return {
         ...state,
-        modal: {...action.payload}
+        modal: { ...action.payload }
       };
     }
 

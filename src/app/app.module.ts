@@ -32,8 +32,8 @@ import { AppComponent } from './containers/app/app.component';
 import { CustomSerializer, reducers } from './store/';
 import { effects } from './store/effects';
 
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {NgIdleKeepaliveModule} from '@ng-idle/keepalive';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { SharedModule } from 'src/shared/shared.module';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
@@ -70,7 +70,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     EffectsModule.forRoot(effects),
     UserProfileModule,
     StoreRouterConnectingModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({logOnly: true}) : [],
+    !environment.production ? StoreDevtoolsModule.instrument({ logOnly: true }) : [],
     LoggerModule.forRoot({
       level: NgxLoggerLevel.TRACE,
       disableConsoleLogging: false
@@ -95,12 +95,12 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     AcceptTermsAndConditionGuard,
     FeatureToggleEditUserGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
-    UserService, {provide: ErrorHandler, useClass: DefaultErrorHandler},
+    UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
     CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
     { provide: FeatureToggleService, useClass: LaunchDarklyService },
-    { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true },
-    ],
+    { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true }
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AppModule {}

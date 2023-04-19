@@ -7,12 +7,13 @@ import { getSingleAccounOverview, getSingleFeeAccountState } from './single-fee-
 
 describe('Single fee account selectors', () => {
   let store: Store<SingleFeeAccountState>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('feeAccounts', reducers),
-      ],
+        StoreModule.forFeature('feeAccounts', reducers)
+      ]
     });
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
@@ -21,9 +22,8 @@ describe('Single fee account selectors', () => {
   describe('getSingleFeeAccountState', () => {
     it('should return single fee account state', () => {
       let result;
-      store.pipe(select(getSingleFeeAccountState)).subscribe(value => {
+      store.pipe(select(getSingleFeeAccountState)).subscribe((value) => {
         result = value;
-
       });
 
       const expected = {
@@ -43,17 +43,15 @@ describe('Single fee account selectors', () => {
     });
   });
 
-
   describe('getSingleFeeAccountArray', () => {
     it('should return single fee account array', () => {
       let result;
-      store.pipe(select(getSingleAccounOverview)).subscribe(value => {
+      store.pipe(select(getSingleAccounOverview)).subscribe((value) => {
         result = value;
       });
       expect(result).toEqual({});
-      store.dispatch(new LoadSingleFeeAccountSuccess({payload: 'something'}));
-      expect(result).toEqual({payload: 'something'});
+      store.dispatch(new LoadSingleFeeAccountSuccess({ payload: 'something' }));
+      expect(result).toEqual({ payload: 'something' });
     });
   });
-
 });

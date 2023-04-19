@@ -53,4 +53,4 @@ const COMPONENTS = [
   exports: [...COMPONENTS]
 })
 
-export class GovUiModule { }
+export class GovUiModule {}

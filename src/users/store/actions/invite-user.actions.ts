@@ -14,56 +14,55 @@ import { UserListApiModel } from '../../models/userform.model';
 
 export class SendInviteUser implements Action {
   public readonly type = SEND_INVITE_USER;
-  constructor(public payload: UserListApiModel) { }
+  constructor(public payload: UserListApiModel) {}
 }
 
 export class InviteUserSuccess implements Action {
   public readonly type = INVITE_USER_SUCCESS;
-  constructor(public payload: any) { }  // TODO add type list of users
+  constructor(public payload: any) {} // TODO add type list of users
 }
 
 export class InviteUserFail implements Action {
   public readonly type = INVITE_USER_FAIL;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class InviteUserFailWith400 implements Action {
   public readonly type = INVITE_USER_FAIL_WITH_400;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class InviteUserFailWith404 implements Action {
   public readonly type = INVITE_USER_FAIL_WITH_404;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class InviteUserFailWith429 implements Action {
   public readonly type = INVITE_USER_FAIL_WITH_429;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class InviteUserFailWith409 implements Action {
   public readonly type = INVITE_USER_FAIL_WITH_409;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class InviteUserFailWith500 implements Action {
   public readonly type = INVITE_USER_FAIL_WITH_500;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 export class AddFromData {
   public readonly type = ADD_FORM_DATA;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class UpdateErrorMessages implements Action {
   public readonly type = UPDATE_ERROR_MESSAGES;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class Reset implements Action {
   public readonly type = RESET;
-  constructor() { }
 }
 
 export type InviteUserActions =

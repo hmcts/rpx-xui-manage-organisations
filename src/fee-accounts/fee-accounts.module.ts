@@ -19,13 +19,13 @@ import { DateFormatAtTimePipe } from '../shared/components/custom-pipe/date-pipe
 import { AccountOverviewComponent } from './containers/account-overview/account-overview.component';
 import { AccountSummaryComponent } from './containers/account-summary/account-summary.component';
 import { AccountTransactionsComponent } from './containers/account-transactions/account-transactions.component';
-import {AccountSummaryGuard} from './guards/acccounts-summary.guards';
-import {AccountsGuard} from './guards/accounts.guard';
+import { AccountSummaryGuard } from './guards/acccounts-summary.guards';
+import { AccountsGuard } from './guards/accounts.guard';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle-account.guard';
 import { effects, reducers } from './store';
 
 export const GUARDS = [FeatureToggleAccountGuard, AccountsGuard, AccountSummaryGuard];
-export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
+export const COMPONENTS = [AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
 
 @NgModule({
   imports: [
@@ -36,7 +36,7 @@ export const COMPONENTS = [ AccountOverviewComponent, AccountSummaryComponent, A
     StoreModule.forFeature('feeAccounts', reducers),
     EffectsModule.forFeature(effects),
     StoreModule.forFeature('org', orgReducers),
-    EffectsModule.forFeature(orgEffects),
+    EffectsModule.forFeature(orgEffects)
   ],
   exports: [...fromContainers.containers],
   declarations: [...fromContainers.containers, ...COMPONENTS, DateFormatAtTimePipe],

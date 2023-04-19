@@ -1,4 +1,4 @@
-import {FeeAccount, FeeAccountSummary} from '../../models/pba-accounts';
+import { FeeAccount, FeeAccountSummary } from '../../models/pba-accounts';
 import * as fromFeeAccountActions from '../actions/fee-accounts.actions';
 
 export interface FeeAccountsState {
@@ -22,7 +22,6 @@ export function reducer(
   action: fromFeeAccountActions.FeeAccountsActions
 ): FeeAccountsState {
   switch (action.type) {
-
     case fromFeeAccountActions.LOAD_FEE_ACCOUNTS: {
       return {
         ...state,
@@ -35,51 +34,51 @@ export function reducer(
       let feeAccounts = payload;
       if (feeAccounts.length !== 0) {
         feeAccounts = payload.map((entity: FeeAccount) => {
-            const element: FeeAccountSummary = {
-              ...entity,
-              routerLink: `/fee-accounts/account/${entity.account_number}/`,
-              isAccountInfoMissing: false
-            };
-            return element;
-          });
+          const element: FeeAccountSummary = {
+            ...entity,
+            routerLink: `/fee-accounts/account/${entity.account_number}/`,
+            isAccountInfoMissing: false
+          };
+          return element;
+        });
       }
 
       return {
         ...state,
-          feeAccounts,
-          oneOrMoreAccountMissing: false,
-          loaded: true,
-          loading: false,
-          errorMessages: []
+        feeAccounts,
+        oneOrMoreAccountMissing: false,
+        loaded: true,
+        loading: false,
+        errorMessages: []
       };
+    }
+    case fromFeeAccountActions.LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL: {
+      const payload = action.payload;
+      let feeAccounts = payload;
+      let errorMessages = new Array<string>();
+      if (feeAccounts.length !== 0) {
+        feeAccounts = payload.map((entity: FeeAccount) => {
+          const element: FeeAccountSummary = {
+            ...entity,
+            routerLink: entity.account_name ? `/fee-accounts/account/${entity.account_number}/` : '',
+            isAccountInfoMissing: entity.account_name === null || entity.account_name === undefined || entity.account_name === ''
+          };
+          if (element.isAccountInfoMissing) {
+            // errorMessages.push(`Account number ${entity.account_number} not found. Contact your service representative for help`);
+            errorMessages = [...errorMessages,
+              `Account number ${entity.account_number} not found. Contact your service representative for help`];
+          }
+          return element;
+        });
       }
-      case fromFeeAccountActions.LOAD_FEE_ONE_OR_MORE_ACCOUNTS_FAIL: {
-        const payload = action.payload;
-        let feeAccounts = payload;
-        let errorMessages = new Array<string>();
-        if (feeAccounts.length !== 0) {
-          feeAccounts = payload.map((entity: FeeAccount) => {
-              const element: FeeAccountSummary = {
-                ...entity,
-                routerLink: entity.account_name ? `/fee-accounts/account/${entity.account_number}/` : '',
-                isAccountInfoMissing: entity.account_name === null || entity.account_name === undefined || entity.account_name === ''
-              };
-              if (element.isAccountInfoMissing) {
-                // errorMessages.push(`Account number ${entity.account_number} not found. Contact your service representative for help`);
-                errorMessages = [...errorMessages,
-                  `Account number ${entity.account_number} not found. Contact your service representative for help`];
-              }
-              return element;
-            });
-        }
-        return {
-          ...state,
-            feeAccounts,
-            oneOrMoreAccountMissing: true,
-            loaded: true,
-            loading: false,
-            errorMessages
-        };
+      return {
+        ...state,
+        feeAccounts,
+        oneOrMoreAccountMissing: true,
+        loaded: true,
+        loading: false,
+        errorMessages
+      };
     }
 
     case fromFeeAccountActions.LOAD_FEE_RESET_STATE: {
@@ -90,8 +89,8 @@ export function reducer(
         loading: false,
         errorMessages
       };
+    }
   }
-}
 
   return state;
 }

@@ -13,12 +13,12 @@ describe('HmctsGlobalFooterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsGlobalFooterComponent ],
+      declarations: [HmctsGlobalFooterComponent],
       imports: [
-          RouterTestingModule
+        RouterTestingModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

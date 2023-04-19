@@ -12,7 +12,6 @@ import * as fromCaseList from '../../store/reducers';
   styleUrls: ['./case-share-confirm.component.scss']
 })
 export class CaseShareConfirmComponent implements OnInit {
-
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
 
@@ -20,9 +19,8 @@ export class CaseShareConfirmComponent implements OnInit {
 
   public ngOnInit(): void {
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-    this.shareCases$.subscribe(shareCases => {
+    this.shareCases$.subscribe((shareCases) => {
       this.shareCases = shareCases;
     });
   }
-
 }

@@ -2,22 +2,24 @@ import { inject, TestBed } from '@angular/core/testing';
 import { CookieService } from 'ngx-cookie';
 import { HeadersService } from './headers.service';
 
-const expiredJwt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOj`
-  + `EwNTkyNTE3NDR9.6pdabSR59z99w-OE8_ZMka7IazJbY2cLfax09Cy1JIY`;
+const expiredJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOj'
+  + 'EwNTkyNTE3NDR9.6pdabSR59z99w-OE8_ZMka7IazJbY2cLfax09Cy1JIY';
 
-const nonExpiredJwt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHA`
-  + `iOjIwNTkyNTE3NDR9.3XJN4KnwY82gULXpN5tJDcUMmNcypk2MFPRUGB_Frv0`;
+const nonExpiredJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHA'
+  + 'iOjIwNTkyNTE3NDR9.3XJN4KnwY82gULXpN5tJDcUMmNcypk2MFPRUGB_Frv0';
 
 const cookieService = {
-  get: key => {
+  get: (key) => {
     return cookieService[key];
   },
   set: (key, value) => {
     cookieService[key] = value;
   },
-  removeAll: () => { }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  removeAll: () => {}
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let deleteCookiesSpy;
 
 describe('HeadersService', () => {
@@ -27,7 +29,7 @@ describe('HeadersService', () => {
       imports: [],
       providers: [
         HeadersService,
-        { provide: CookieService, useValue: cookieService },
+        { provide: CookieService, useValue: cookieService }
       ]
     });
   });
@@ -50,7 +52,7 @@ describe('HeadersService', () => {
   describe('getAuthHeaders', () => {
     it('should get headers', inject([HeadersService], (service: HeadersService) => {
       cookieService.set('__auth__', nonExpiredJwt);
-      expect(service.getAuthHeaders()).toEqual({Authorization: nonExpiredJwt});
+      expect(service.getAuthHeaders()).toEqual({ Authorization: nonExpiredJwt });
     }));
   });
 });

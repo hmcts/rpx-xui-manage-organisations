@@ -23,41 +23,40 @@ export class UnassignedCasesEffects {
 
   @Effect()
   public loadUnassignedCases$ = this.actions$.pipe(
-    ofType(LOAD_UNASSIGNED_CASES),
-    switchMap((payload: any) => {
+      ofType(LOAD_UNASSIGNED_CASES),
+      switchMap((payload: any) => {
         return UnassignedCasesEffects.onLoadUnassignedCases(payload, this.service, this.loggerService);
       })
-  );
+    );
 
   @Effect()
   public loadUnassignedCaseTypes$ = this.actions$.pipe(
-    ofType(LOAD_UNASSIGNED_CASE_TYPES),
-    switchMap((payload: any) => {
+      ofType(LOAD_UNASSIGNED_CASE_TYPES),
+      switchMap((payload: any) => {
         return UnassignedCasesEffects.onLoadUnassignedCaseTypes(payload, this.service, this.loggerService);
       })
-  );
+    );
 
   public static onLoadUnassignedCases(action: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
     return service.fetchUnassignedCases(action.payload.caseType, action.payload.pageNo, action.payload.pageSize).pipe(
-      map(unassignedCases => new LoadUnassignedCasesSuccess(unassignedCases)),
+      map((unassignedCases) => new LoadUnassignedCasesSuccess(unassignedCases)),
       catchError(async (errorResponse) => {
         loggerService.error(errorResponse);
         if (errorResponse.error.status === 400) {
           return new LoadUnassignedCasesFailure(errorResponse.error);
-        } else {
-          return new fromRoot.Go({ path: ['/service-down']});
         }
+        return new fromRoot.Go({ path: ['/service-down'] });
       })
     );
   }
 
   public static onLoadUnassignedCaseTypes(payload: any, service: UnassignedCasesService, loggerService: LoggerService): Observable<any> {
     return service.fetchUnassignedCaseTypes().pipe(
-      map(unassignedCaseTypes => {
+      map((unassignedCaseTypes) => {
         const navItems = UnassingedCasesUtil.getNavUnassignedNavItems(unassignedCaseTypes);
         return new LoadUnassignedCaseTypesSuccess(navItems);
       }),
-      catchError(errorResponse => {
+      catchError((errorResponse) => {
         loggerService.error(errorResponse);
         return of(new LoadUnassignedCaseTypesFailure(errorResponse.error));
       })

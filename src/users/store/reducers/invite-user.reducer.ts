@@ -1,7 +1,6 @@
 import { errorMessageMappings } from '../../../register/mappings/apiErrorMappings';
 import * as fromInviteUsers from '../actions/invite-user.actions';
 
-
 export interface InviteUserState {
   inviteUserFormData: object;
   errorMessages: object;
@@ -30,14 +29,13 @@ export function reducer(
       const formErrorIsInvalid = action.payload.isInvalid;
 
       const errorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
-
         const objArr = (k): any[] => {
           return formErrorIsInvalid[k].map((item, i) => {
-              return item ? errorMessagesPayload[k][i] : '';
+            return item ? errorMessagesPayload[k][i] : '';
           });
         };
 
-        const isInvalid = objArr(key).filter(item => item.length);
+        const isInvalid = objArr(key).filter((item) => item.length);
 
         acc[key] = {
           messages: objArr(key),
@@ -45,10 +43,9 @@ export function reducer(
         };
 
         return acc;
-
-        }, {});
+      }, {});
       const isFormValid = !Object.keys(errorMessages)
-        .filter(key => errorMessages[key].isInvalid).length;
+        .filter((key) => errorMessages[key].isInvalid).length;
 
       return {
         ...state,
@@ -62,7 +59,7 @@ export function reducer(
       const errorMessages = {
         serverResponse: {
           messages: [
-            action.payload.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] :  action.payload.error.message
+            action.payload.apiStatusCode === 409 && errorMessageMappings ? errorMessageMappings[1] : action.payload.error.message
           ]
         }
       };

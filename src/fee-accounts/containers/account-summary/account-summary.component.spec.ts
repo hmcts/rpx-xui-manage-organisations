@@ -15,23 +15,23 @@ describe('AccountSummaryComponent', () => {
 
   beforeEach(waitForAsync(() => {
     activatedRoute = {
-        snapshot: {
-          params: of({})
+      snapshot: {
+        params: of({})
       }
     };
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('feeAccounts', reducers),
+        StoreModule.forFeature('feeAccounts', reducers)
       ],
-      declarations: [ AccountSummaryComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      declarations: [AccountSummaryComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: ActivatedRoute, useValue: activatedRoute }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

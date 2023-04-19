@@ -16,14 +16,13 @@ import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-prd-user-form-component',
-  templateUrl: './style-guide.component.html',
+  templateUrl: './style-guide.component.html'
 })
 export class StyleGuideComponent implements OnInit {
-
   public styleGuideForm: FormGroup;
 
   public formValidationErrors$: Observable<any>;
-  public formValidationErrorsArray$: Observable<{isFromValid: boolean; items: { id: string; message: any; }[]}>;
+  public formValidationErrorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; }[] }>;
 
   public errorMessages: StyleGuideFormDataModel = {
     [CONST.STG_FORM_MODEL.input]: ['Enter first name', 'Email must contain at least the @ character'],
@@ -38,7 +37,7 @@ export class StyleGuideComponent implements OnInit {
   constructor(
     private readonly store: Store<fromStore.UserState>,
     private readonly fb: FormBuilder
-  ) { }
+  ) {}
 
   public ngOnInit(): void {
     this.formValidationErrors$ = this.store.pipe(select(fromStore.getStyleGuideErrorMessage));
@@ -48,7 +47,7 @@ export class StyleGuideComponent implements OnInit {
       [CONST.STG_FORM_MODEL.input]: new FormControl('', [Validators.required, Validators.email]),
       [CONST.STG_FORM_MODEL.checkboxes]: new FormGroup({ // checkboxes
         manageCases: new FormControl(),
-        manageUsers: new FormControl(''),
+        manageUsers: new FormControl('')
       }, checkboxesBeCheckedValidator()),
       [CONST.STG_FORM_MODEL.contactPreference]: new FormControl('', Validators.required),
       [CONST.STG_FORM_MODEL.passport]: new FormGroup({ // date
@@ -63,13 +62,15 @@ export class StyleGuideComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  public get f() { return this.styleGuideForm.controls; }
+  public get f() {
+    return this.styleGuideForm.controls;
+  }
 
   public onSubmit(): void {
     this.dispatchValidation();
     // this is where the form values would get dispatched
-    const {value} = this.styleGuideForm;
-    console.log(value)
+    const { value } = this.styleGuideForm;
+    console.log(value);
   }
 
   public dispatchValidation(): void {
@@ -108,5 +109,4 @@ export class StyleGuideComponent implements OnInit {
     };
     this.store.dispatch(new fromStore.UpdateErrorMessages(formValidationData));
   }
-
 }

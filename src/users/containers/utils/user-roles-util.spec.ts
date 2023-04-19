@@ -1,114 +1,113 @@
 import { UserRolesUtil } from './user-roles-util';
 
 describe('UserRolesUtil class ', () => {
-    it('should get rolesAdded', () => {
-        const user = { roles: ['permission1', 'permission3']};
-        const rolesAdded = UserRolesUtil.getRolesAdded(user, ['permission1', 'permission2']);
-        expect(rolesAdded).toEqual([{name: 'permission2'}]);
+  it('should get rolesAdded', () => {
+    const user = { roles: ['permission1', 'permission3'] };
+    const rolesAdded = UserRolesUtil.getRolesAdded(user, ['permission1', 'permission2']);
+    expect(rolesAdded).toEqual([{ name: 'permission2' }]);
+  });
+
+  it('should get rolesAdded', () => {
+    const user = { roles: ['permission1', 'permission3', 'pui-case-manager'] };
+    const rolesAdded = UserRolesUtil.getRolesAdded(user, ['permission1', 'permission2', 'pui-case-manager']);
+    expect(rolesAdded[0].name).toBe('permission2');
+  });
+
+  it('should get rolesDeleted', () => {
+    const user = { roles: ['permission1', 'permission2', 'permission3'] };
+    const rolesDeleted = UserRolesUtil.getRolesDeleted(user, ['permission1', 'permission2']);
+    expect(rolesDeleted).toEqual([{ name: 'permission3' }]);
+  });
+
+  it('should map the permissions', () => {
+    const user = { roles: { key1: 'value1' } };
+    const result = UserRolesUtil.mapPermissions(user);
+    expect(result[0]).toBe('key1');
+  });
+
+  it('should check role addition exist', () => {
+    const user = { roleAdditionResponse: true };
+    const result = UserRolesUtil.doesRoleAdditionExist(user);
+    expect(result).toBeFalsy();
+  });
+
+  it('should check role addition exist', () => {
+    const user = { roleDeletionResponse: true };
+    const result = UserRolesUtil.doesRoleDeletionExist(user);
+    expect(result).toBeTruthy();
+  });
+
+  it('should mapEditUserRoles', () => {
+    const user = {
+      email: 'email',
+      lastName: 'last',
+      firstName: 'first',
+      idamStatus: 'idam',
+      roles: ['permission1', 'permission2']
+    };
+    const userEditObj = UserRolesUtil.mapEditUserRoles(user, ['permission3', 'permission4'], ['permission1', 'permission2']);
+    expect(userEditObj).toEqual({ email: 'email',
+      lastName: 'last',
+      firstName: 'first',
+      idamStatus: 'idam',
+      rolesAdd: ['permission3', 'permission4'],
+      rolesDelete: ['permission1', 'permission2']
+    }
+    );
+  });
+
+  it('should get deletable roles GetCCDRoles', () => {
+    const user = { roles: ['Perm1', 'caseworker', 'caseworker-divorce'] };
+    const roles = ['caseworker', 'caseworker-divorce'];
+    const result = UserRolesUtil.GetRemovableRolesForUser(user, roles);
+    expect(result).toEqual([{ name: 'caseworker' }, { name: 'caseworker-divorce' }]);
+  });
+
+  it('should get roles ccd roles to add GetCCDRoles', () => {
+    const user = { roles: ['role-1', 'role-2'] };
+    const roles = ['caseworker', 'caseworker-divorce'];
+    const result = UserRolesUtil.GetRolesToBeAddedForUser(user, roles);
+    expect(result).toEqual([{ name: 'caseworker' }, { name: 'caseworker-divorce' }]);
+  });
+
+  describe('checkRoleDeletionsSuccess()', () => {
+    it('should return false if any of the Idam status codes, are not a \'204\'. Anything other than a 204 symbolfies a deletion failure.', () => {
+      const successfulRoleDeletion = [
+        {
+          roleName: 'pui-organisation-manager',
+          idamStatusCode: '204',
+          idamMessage: '20 User Role Deleted'
+        },
+        {
+          roleName: 'pui-user-manager',
+          idamStatusCode: '400',
+          idamMessage: '20 User Role Deleted'
+        },
+        {
+          roleName: 'pui-user-manager',
+          idamStatusCode: '404',
+          idamMessage: '20 User Role Deleted'
+        }
+      ];
+
+      expect(UserRolesUtil.checkRoleDeletionsSuccess(successfulRoleDeletion)).toEqual(false);
     });
 
-    it('should get rolesAdded', () => {
-        const user = { roles: ['permission1', 'permission3', 'pui-case-manager']};
-        const rolesAdded = UserRolesUtil.getRolesAdded(user, ['permission1', 'permission2', 'pui-case-manager']);
-        expect(rolesAdded[0].name).toBe('permission2');
+    it('should return true if all of the Idam status codes are \'204\'', () => {
+      const successfulRoleDeletion = [
+        {
+          roleName: 'pui-organisation-manager',
+          idamStatusCode: '204',
+          idamMessage: '20 User Role Deleted'
+        },
+        {
+          roleName: 'pui-user-manager',
+          idamStatusCode: '204',
+          idamMessage: '20 User Role Deleted'
+        }
+      ];
+
+      expect(UserRolesUtil.checkRoleDeletionsSuccess(successfulRoleDeletion)).toEqual(true);
     });
-
-    it('should get rolesDeleted', () => {
-        const user = { roles: ['permission1', 'permission2', 'permission3']};
-        const rolesDeleted = UserRolesUtil.getRolesDeleted(user, ['permission1', 'permission2']);
-        expect(rolesDeleted).toEqual([{name: 'permission3'}]);
-    });
-
-    it('should map the permissions', () => {
-      const user = { roles: {key1: 'value1'}};
-      const result = UserRolesUtil.mapPermissions(user);
-      expect(result[0]).toBe('key1');
-    });
-
-    it('should check role addition exist', () => {
-      const user = {roleAdditionResponse: true};
-      const result = UserRolesUtil.doesRoleAdditionExist(user);
-      expect(result).toBeFalsy();
-    });
-
-    it('should check role addition exist', () => {
-      const user = {roleDeletionResponse: true};
-      const result = UserRolesUtil.doesRoleDeletionExist(user);
-      expect(result).toBeTruthy();
-    });
-
-    it('should mapEditUserRoles', () => {
-        const user = {
-                        email: 'email',
-                        lastName: 'last',
-                        firstName: 'first',
-                        idamStatus: 'idam',
-                        roles: ['permission1', 'permission2']
-                    };
-        const userEditObj = UserRolesUtil.mapEditUserRoles(user, ['permission3', 'permission4'], ['permission1', 'permission2']);
-        expect(userEditObj).toEqual({ email: 'email',
-                                      lastName: 'last',
-                                      firstName: 'first',
-                                      idamStatus: 'idam',
-                                      rolesAdd: ['permission3', 'permission4'],
-                                      rolesDelete: ['permission1', 'permission2']
-                                    }
-                                    );
-    });
-
-    it('should get deletable roles GetCCDRoles', () => {
-      const user = {roles: ['Perm1', 'caseworker', 'caseworker-divorce']};
-      const roles = ['caseworker', 'caseworker-divorce'];
-      const result = UserRolesUtil.GetRemovableRolesForUser(user, roles);
-      expect(result).toEqual([{ name: 'caseworker' }, {name: 'caseworker-divorce'}]);
-    });
-
-    it('should get roles ccd roles to add GetCCDRoles', () => {
-      const user = {roles: ['role-1', 'role-2']};
-      const roles = ['caseworker', 'caseworker-divorce'];
-      const result = UserRolesUtil.GetRolesToBeAddedForUser(user, roles);
-      expect(result).toEqual([{name: 'caseworker'}, {name: 'caseworker-divorce'}]);
-    });
-
-    describe('checkRoleDeletionsSuccess()', () => {
-
-      it('should return false if any of the Idam status codes, are not a \'204\'. Anything other than a 204 symbolfies a deletion failure.', () => {
-        const successfulRoleDeletion = [
-          {
-            roleName: 'pui-organisation-manager',
-            idamStatusCode: '204',
-            idamMessage: '20 User Role Deleted'
-          },
-          {
-            roleName: 'pui-user-manager',
-            idamStatusCode: '400',
-            idamMessage: '20 User Role Deleted'
-          },
-          {
-            roleName: 'pui-user-manager',
-            idamStatusCode: '404',
-            idamMessage: '20 User Role Deleted'
-          }
-        ];
-
-        expect(UserRolesUtil.checkRoleDeletionsSuccess(successfulRoleDeletion)).toEqual(false);
-      });
-
-      it('should return true if all of the Idam status codes are \'204\'', () => {
-        const successfulRoleDeletion = [
-          {
-            roleName: 'pui-organisation-manager',
-            idamStatusCode: '204',
-            idamMessage: '20 User Role Deleted'
-          },
-          {
-            roleName: 'pui-user-manager',
-            idamStatusCode: '204',
-            idamMessage: '20 User Role Deleted'
-          }
-        ];
-
-        expect(UserRolesUtil.checkRoleDeletionsSuccess(successfulRoleDeletion)).toEqual(true);
-      });
-    });
+  });
 });

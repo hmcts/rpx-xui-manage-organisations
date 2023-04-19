@@ -5,11 +5,11 @@ import { StyleGuideComponent } from './containers/style-guide/style-guide.compon
 import { StyleGuideModule } from './style-guide.module';
 
 export const ROUTES: Routes = [
-    {
-      path: '',
-      component: StyleGuideComponent,
-      // canActivate: [AuthGuard],
-    }
+  {
+    path: '',
+    component: StyleGuideComponent
+    // canActivate: [AuthGuard],
+  }
 ];
 
 export const styleGuideRouting: ModuleWithProviders<StyleGuideModule> = RouterModule.forChild(ROUTES);

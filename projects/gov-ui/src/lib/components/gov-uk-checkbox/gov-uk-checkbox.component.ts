@@ -20,7 +20,7 @@ import { FormGroup } from '@angular/forms';
   `
 })
 export class GovUkCheckboxComponent implements OnInit {
-  constructor() { }
+  constructor() {}
   @Input() public group: FormGroup;
   @Input() public config: {
     value: string;

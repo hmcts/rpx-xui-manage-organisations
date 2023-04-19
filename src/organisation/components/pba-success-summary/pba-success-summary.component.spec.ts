@@ -9,7 +9,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ PbaSuccessSummaryComponent, SuccessIconComponent ]
+      declarations: [PbaSuccessSummaryComponent, SuccessIconComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PbaSuccessSummaryComponent);
@@ -22,6 +22,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     const wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
     expect(wrapper).toBeNull();
   });
+
   it('should show an appropriate message for a 200 response status', () => {
     const RESPONSE = { code: 200 };
     component.response = RESPONSE;
@@ -34,6 +35,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     expect(message).toBeDefined();
     expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[200]);
   });
+
   it('should show an appropriate message for a 202 response status', () => {
     const RESPONSE = { code: 202 };
     component.response = RESPONSE;
@@ -46,6 +48,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     expect(message).toBeDefined();
     expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
   });
+
   it('should show no message for a response code other than 200 or 202', () => {
     const RESPONSE = { code: 400 };
     component.response = RESPONSE;
@@ -55,6 +58,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     const wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
     expect(wrapper).toBeNull();
   });
+
   it('should show no message for a null response', () => {
     const RESPONSE = { code: 202 };
     component.response = RESPONSE;
@@ -72,6 +76,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
     expect(wrapper).toBeNull();
   });
+
   it('should handle receiving the same response multiple times without changing the message', () => {
     const RESPONSE = { code: 202 };
     component.response = RESPONSE;
@@ -88,5 +93,4 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
     expect(wrapper).toBeDefined();
   });
-
 });

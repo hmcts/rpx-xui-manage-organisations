@@ -27,7 +27,7 @@ export const organisationName = {
           },
           control: 'orgName',
           classes: ''
-        },
+        }
       },
       {
         button: {
@@ -35,10 +35,10 @@ export const organisationName = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

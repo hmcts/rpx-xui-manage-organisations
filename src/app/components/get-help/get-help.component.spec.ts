@@ -10,9 +10,9 @@ describe('GetHelpComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ GetHelpComponent, ContactDetailsComponent ]
+      declarations: [GetHelpComponent, ContactDetailsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

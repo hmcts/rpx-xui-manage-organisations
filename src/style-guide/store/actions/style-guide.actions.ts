@@ -11,11 +11,10 @@ export class AddFromData {
 
 export class UpdateErrorMessages implements Action {
   readonly type = UPDATE_ERROR_MESSAGES;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export type StyleGuideActions =
   | AddFromData
   | UpdateErrorMessages;
-
 

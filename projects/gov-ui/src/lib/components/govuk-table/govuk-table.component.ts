@@ -21,7 +21,7 @@ export class GovukTableComponent {
         { header: 'Amount', key: 'amount' }
     ];
 
-    constructor() { }
+    constructor() {}
 
     public formatDate(date: Date): string {
         return formatDate(date, 'dd/MM/yyyy', 'en-UK');

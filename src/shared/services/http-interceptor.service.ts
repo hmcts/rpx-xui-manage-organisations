@@ -13,14 +13,12 @@ import { HeadersService } from './headers.service';
   providedIn: 'root'
 })
 export class HttpIntercepterServer implements HttpInterceptor {
-
   constructor(
     public router: Router,
     private readonly authService: HeadersService,
     @Inject(PLATFORM_ID)
     private readonly platformId: string
-  ) {
-  }
+  ) {}
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authHeaders = this.authService.getAuthHeaders();

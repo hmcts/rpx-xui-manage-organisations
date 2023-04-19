@@ -53,7 +53,6 @@ export async function handlePut<T>(path: string, body: T, req: Request): Promise
     logger.error(e.status, e.statusText, JSON.stringify(e.data));
     throw e;
   }
-
 }
 
 /**
@@ -67,7 +66,7 @@ export async function handleDelete<T>(path: string, body: T, req: Request): Prom
   try {
     logger.info('handle delete:', path);
     return await req.http.delete(path, {
-      data: body,
+      data: body
     });
   } catch (e) {
     logger.error(e.status, e.statusText, JSON.stringify(e.data));

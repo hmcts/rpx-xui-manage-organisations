@@ -25,7 +25,7 @@ export const newPBAElement = (newPBAIndex) => {
     inputButton: {
       label: {
         text: 'PBA number (optional)',
-        classes: 'govuk-label--m',
+        classes: 'govuk-label--m'
       },
       control: `PBANumber${newPBAIndex}`,
       type: 'inputButton',
@@ -35,13 +35,13 @@ export const newPBAElement = (newPBAIndex) => {
           validationErrorId: 'duplicatedPBAError',
           validationLevel: 'formControl',
           controls: 'PBANumber',
-          text: 'You have entered this PBA number more than once',
+          text: 'You have entered this PBA number more than once'
         },
         {
           validationErrorId: 'invalidPBANumberError',
           validationLevel: 'formControl',
           controls: 'PBANumber',
-          text: 'Enter a valid PBA number',
+          text: 'Enter a valid PBA number'
         }
       ],
       classes: 'govuk-width-input-button'
@@ -86,7 +86,6 @@ export function reducer(
   action: fromRegistration.RegistrationActions
 ): RegistrationFormState {
   switch (action.type) {
-
     case fromRegistration.LOAD_PAGE_ITEMS: {
       if (state.pages['organisation-pba']) {
         const copypbaPage = Object.assign({}, state.pages['organisation-pba']);
@@ -95,7 +94,7 @@ export function reducer(
         const filledpbaList = [];
         const emptypbaList = [];
 
-        Object.keys(state.pagesValues).map(key => {
+        Object.keys(state.pagesValues).map((key) => {
           if (key.startsWith('PBANumber')) {
             allpbaList.push(key);
             if (state.pagesValues[key]) {
@@ -118,11 +117,9 @@ export function reducer(
           }
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const allDataList = Object.entries(state.pagesValues).filter((key, value) => {
-          if (emptypbaList.includes(key[0]) && allpbaList.length > 1) {
-            return false;
-          }
-          return true;
+          return !(emptypbaList.includes(key[0]) && allpbaList.length > 1);
         }).reduce((obj, k) => {
           obj[k[0]] = k[1];
           return obj;
@@ -136,7 +133,7 @@ export function reducer(
 
       return {
         ...state,
-        loading: true,
+        loading: true
       };
     }
 
@@ -159,13 +156,13 @@ export function reducer(
         ...state,
         pages,
         loading: false,
-        loaded: true,
+        loaded: true
       };
     }
 
     case fromRegistration.ADD_PBA_NUMBER: {
       const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
-      const predicate = (element: {}) => element.hasOwnProperty('inputButton');
+      const predicate = (element: any) => element.hasOwnProperty('inputButton');
       const lastInputIndex = AppUtils.findLastIndex(pageGroups, predicate);
       if (lastInputIndex === -1) {
         // @ts-ignore
@@ -197,13 +194,13 @@ export function reducer(
         pages,
         pagesValues,
         loading: false,
-        loaded: true,
+        loaded: true
       };
     }
 
     case fromRegistration.REMOVE_PBA_NUMBER: {
       const pageGroups: [] = state.pages['organisation-pba'].meta.groups.slice();
-      const predicate = (element: {}) => element.hasOwnProperty('inputButton') && action.payload.includes(element['inputButton'].control);
+      const predicate = (element: any) => element.hasOwnProperty('inputButton') && action.payload.includes(element.inputButton.control);
       const matchIndex = pageGroups.findIndex(predicate);
       pageGroups.splice(matchIndex, 1);
       const pages = {
@@ -224,7 +221,7 @@ export function reducer(
         pages,
         pagesValues,
         loading: false,
-        loaded: true,
+        loaded: true
       };
     }
 
@@ -245,7 +242,7 @@ export function reducer(
         ...action.payload.value
       };
 
-      const partialMatchHaveKey = Object.keys(action.payload.value).find(key => key.indexOf('have') > -1);
+      const partialMatchHaveKey = Object.keys(action.payload.value).find((key) => key.indexOf('have') > -1);
 
       const nextUrl = partialMatchHaveKey ?
         state.navigation[action.payload.pageId][action.payload.value[partialMatchHaveKey]] :
@@ -275,7 +272,7 @@ export function reducer(
     case fromRegistration.RESET_NEXT_URL: {
       return {
         ...state,
-        nextUrl: '',
+        nextUrl: ''
       };
     }
 
@@ -291,7 +288,6 @@ export function reducer(
       const apiError = action.payload.error.apiError;
 
       let apiMessageMapped;
-      // tslint:disable-next-line:forin
       for (const key in apiErrors) {
         if (apiError) {
           if (apiError.includes('PBA_NUMBER Invalid or already exists')) {

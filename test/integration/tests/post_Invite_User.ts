@@ -8,16 +8,15 @@ suite('Manage Org -> POST Invite User', function() {
     lastName: 'Muniganti',
     email: `vam.mun${Date.now()}@mailnesia.com`,
     roles: [
-    'pui-case-manager'
-  ],
+      'pui-case-manager'
+    ],
     resendInvite: false
   };
 
-
-  test('POST Invite User', () => generatePOSTAPIRequest ('POST', '/api/inviteUser', payload)
-     // console.log('response', response.headers.get('cache-control'))
-        .then(response => {
-           response.status.should.be.eql(200);
-           console.log(response);
-        }));
+  test('POST Invite User', () => generatePOSTAPIRequest('POST', '/api/inviteUser', payload)
+  // console.log('response', response.headers.get('cache-control'))
+    .then((response) => {
+      response.status.should.be.eql(200);
+      console.log(response);
+    }));
 });

@@ -7,12 +7,13 @@ import { feeAccounts, getFeeAccountsState } from './fee-accounts.selectors';
 
 describe('Fee accounts selectors', () => {
   let store: Store<FeeAccountsState>;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('feeAccounts', reducers),
-      ],
+        StoreModule.forFeature('feeAccounts', reducers)
+      ]
     });
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
@@ -21,21 +22,18 @@ describe('Fee accounts selectors', () => {
   describe('getFeeAccountsState', () => {
     it('should return fee accounts state', () => {
       let result;
-      store.pipe(select(getFeeAccountsState)).subscribe(value => {
+      store.pipe(select(getFeeAccountsState)).subscribe((value) => {
         result = value;
-
       });
       expect(result).toEqual({ feeAccounts: null, loaded: false, loading: false, oneOrMoreAccountMissing: false, errorMessages: null });
     });
   });
 
-
   describe('getFeeAccountsArray', () => {
     it('should return fee accounts array', () => {
       let result;
-      store.pipe(select(feeAccounts)).subscribe(value => {
+      store.pipe(select(feeAccounts)).subscribe((value) => {
         result = value;
-
       });
       expect(result).toEqual(null);
       store.dispatch(new LoadFeeAccountsSuccess([{ payload: 'something' }]));
@@ -48,5 +46,4 @@ describe('Fee accounts selectors', () => {
       ]);
     });
   });
-
 });

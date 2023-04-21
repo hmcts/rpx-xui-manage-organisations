@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import {Observable, of} from 'rxjs';
-import {RegistrationConstants} from '../constants/registration.constants';
+import { Observable, of } from 'rxjs';
+import { RegistrationConstants } from '../constants/registration.constants';
 
 // TODO MOVE THIS INTO THE ENVIRONMENT FILE
 export const ENVIRONMENT = {
@@ -22,12 +22,11 @@ export class RegistrationFormService {
   }
 
   public submitRegistrationForm(data: any): Observable<any> {
-    const  postData = {
-      fromValues: {...data},
+    const postData = {
+      fromValues: { ...data },
       event: 'continue'
     };
     return this.http.post<any>(`${ENVIRONMENT.registerOrganisation}`, postData);
   }
-
 }
 

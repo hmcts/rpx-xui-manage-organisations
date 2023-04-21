@@ -18,13 +18,13 @@ describe('InputButtonComponent', () => {
       validationErrorId: 'duplicatedPBAError',
       validationLevel: 'formControl',
       controls: 'PBANumber',
-      text: 'You have entered this PBA number more than once',
+      text: 'You have entered this PBA number more than once'
     },
     {
       validationErrorId: 'invalidPBANumberError',
       validationLevel: 'formControl',
       controls: 'PBANumber',
-      text: 'Enter a valid PBA number',
+      text: 'Enter a valid PBA number'
     }
   ];
 
@@ -45,8 +45,8 @@ describe('InputButtonComponent', () => {
     fixture = TestBed.createComponent(InputButtonComponent);
     component = fixture.componentInstance;
     const pbaNumber1 = new FormControl('');
-    component.group = new FormGroup({PBANumber1: pbaNumber1});
-    component.item = {control: 'PBANumber1'};
+    component.group = new FormGroup({ PBANumber1: pbaNumber1 });
+    component.item = { control: 'PBANumber1' };
     fixture.detectChanges();
   });
 
@@ -60,7 +60,7 @@ describe('InputButtonComponent', () => {
       'organisation-pba': {
         meta: {
           groups: [
-            {inputButton: {}}
+            { inputButton: {} }
           ]
         }
       }
@@ -76,8 +76,8 @@ describe('InputButtonComponent', () => {
       'organisation-pba': {
         meta: {
           groups: [
-            {inputButton: {}},
-            {inputButton: {}}
+            { inputButton: {} },
+            { inputButton: {} }
           ]
         }
       }
@@ -90,8 +90,8 @@ describe('InputButtonComponent', () => {
   it('should show duplicated pba number error', () => {
     component.validationErrors = VALIDATION_ERRORS;
     const pbaNumber1 = new FormControl('');
-    pbaNumber1.setErrors({duplicatedPBAError: true});
-    const formGroup = new FormGroup({PBANumber1: pbaNumber1});
+    pbaNumber1.setErrors({ duplicatedPBAError: true });
+    const formGroup = new FormGroup({ PBANumber1: pbaNumber1 });
     const hasError = component.hasValidationError(formGroup, 'PBANumber1');
     expect(component.validationError).toBe('You have entered this PBA number more than once');
     expect(hasError).toBeTruthy();
@@ -100,15 +100,15 @@ describe('InputButtonComponent', () => {
   it('should show invalid pba number error', () => {
     component.validationErrors = VALIDATION_ERRORS;
     const pbaNumber1 = new FormControl('');
-    pbaNumber1.setErrors({invalidPBANumberError: true});
-    const formGroup = new FormGroup({PBANumber1: pbaNumber1});
+    pbaNumber1.setErrors({ invalidPBANumberError: true });
+    const formGroup = new FormGroup({ PBANumber1: pbaNumber1 });
     const hasError = component.hasValidationError(formGroup, 'PBANumber1');
     expect(component.validationError).toBe('Enter a valid PBA number');
     expect(hasError).toBeTruthy();
   });
 
   it('should not show error', () => {
-    const formGroup = new FormGroup({PBANumber1: new FormControl('')});
+    const formGroup = new FormGroup({ PBANumber1: new FormControl('') });
     const hasError = component.hasValidationError(formGroup, 'PBANumber1');
     expect(hasError).toBeFalsy();
   });
@@ -121,7 +121,7 @@ describe('InputButtonComponent', () => {
       }
     };
     component.onBlur(event);
-    expect(component.group.controls['PBANumber1'].value).toBe('PBA1234567');
+    expect(component.group.controls.PBANumber1.value).toBe('PBA1234567');
   });
 
   it('should convert input text if prefix has pba', () => {
@@ -132,7 +132,7 @@ describe('InputButtonComponent', () => {
       }
     };
     component.onBlur(event);
-    expect(component.group.controls['PBANumber1'].value).toBe('PBA1234567');
+    expect(component.group.controls.PBANumber1.value).toBe('PBA1234567');
   });
 
   afterEach(() => {

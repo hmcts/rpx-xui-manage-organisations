@@ -6,35 +6,35 @@ import {
 describe('User actions', () => {
   it('should have a EditUserFailureReset action, used to reset editUserFailure on store.', () => {
     const action = new EditUserFailureReset();
-    expect({...action}).toEqual({
-      type: EDIT_USER_FAILURE_RESET,
+    expect({ ...action }).toEqual({
+      type: EDIT_USER_FAILURE_RESET
     });
   });
 
   it('should have a EditUserFailure action, used to set app state to editUserFailure true on store.', () => {
     const payload = {};
     const action = new EditUserFailure(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: EDIT_USER_FAILURE,
-      payload,
+      payload
     });
   });
 
   it('should have a LoadUserDetails action', () => {
     const payload = {};
     const action = new LoadUserDetails(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: LOAD_USER_DETAILS,
-      payload,
+      payload
     });
   });
 
   it('should have a LoadUserDetailsSuccess action', () => {
     const payload = {};
     const action = new LoadUserDetailsSuccess(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: LOAD_USER_DETAILS_SUCCESS,
-      payload,
+      payload
     });
   });
 });

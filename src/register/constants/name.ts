@@ -10,49 +10,49 @@ export const name = {
         validationLevel: 'formControl',
         controlId: 'firstName',
         text: 'Enter first name',
-        href: '/register/organisation-address',
+        href: '/register/organisation-address'
       },
       {
         validationLevel: 'formControl',
         controlId: 'lastName',
         text: 'Enter Last Name',
-        href: '/register/organisation-address',
-      },
+        href: '/register/organisation-address'
+      }
     ],
     groups: [
       {
         input: {
           label: {
             text: 'First name',
-            classes: 'govuk-label--m',
+            classes: 'govuk-label--m'
           },
           hint: {
             text: 'Include all middle names.',
-            classes: 'govuk-hint',
+            classes: 'govuk-hint'
           },
           validators: ['required'],
           validationError: {
             value: 'Enter first name',
-            controlId: 'firstName',
+            controlId: 'firstName'
           },
           control: 'firstName',
-          classes: 'govuk-!-width-two-thirds',
-        },
+          classes: 'govuk-!-width-two-thirds'
+        }
       },
       {
         input: {
           label: {
             text: 'Last name',
-            classes: 'govuk-label--m',
+            classes: 'govuk-label--m'
           },
           validators: ['required'],
           validationError: {
             value: 'Enter last name',
-            controlId: 'lastName',
+            controlId: 'lastName'
           },
           control: 'lastName',
-          classes: 'govuk-!-width-two-thirds',
-        },
+          classes: 'govuk-!-width-two-thirds'
+        }
       },
       {
         button: {
@@ -60,10 +60,10 @@ export const name = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

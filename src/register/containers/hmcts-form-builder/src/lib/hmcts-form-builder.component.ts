@@ -9,5 +9,4 @@ import { Component } from '@angular/core';
   `,
   styles: []
 })
-export class HmctsFormBuilderComponent {
-}
+export class HmctsFormBuilderComponent {}

@@ -20,8 +20,8 @@ const ROUTES = [
   {
     path: '',
     component: AcceptTcWrapperComponent,
-    canActivate: [HealthCheckGuard],
-  },
+    canActivate: [HealthCheckGuard]
+  }
 ];
 
 @NgModule({

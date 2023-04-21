@@ -5,8 +5,8 @@ import * as fromAppStore from '../../../app/store';
 import { GlobalError } from '../../../app/store/reducers/app.reducer';
 
 @Component({
-    selector: 'app-service-down',
-    templateUrl: './service-down.component.html'
+  selector: 'app-service-down',
+  templateUrl: './service-down.component.html'
 })
 export class ServiceDownComponent implements OnInit, OnDestroy {
   public currentError: GlobalError;
@@ -15,16 +15,17 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.currentError = {
-      errors: [{bodyText: 'Try again later.', urlText: null, url: null, newTab: null}],
+      errors: [{ bodyText: 'Try again later.', urlText: null, url: null, newTab: null }],
       header: 'Sorry, there is a problem with the service'
     };
     this.store.pipe(select(fromAppStore.getCurrentError))
-    .subscribe(error => {
-      if (error) {
-        this.currentError = error;
-      }
-    });
+      .subscribe((error) => {
+        if (error) {
+          this.currentError = error;
+        }
+      });
   }
+
   public ngOnDestroy(): void {
     this.store.dispatch(new fromAppStore.ClearGlobalError());
   }

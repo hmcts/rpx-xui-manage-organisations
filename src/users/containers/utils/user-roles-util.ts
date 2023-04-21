@@ -1,17 +1,17 @@
 import { AppConstants } from '../../../app/app.constants';
-import {AppUtils} from '../../../app/utils/app-utils';
+import { AppUtils } from '../../../app/utils/app-utils';
 
 export class UserRolesUtil {
   public static getRolesAdded(user: any, permissions: string[]): any[] {
     const roles = [];
-    permissions.forEach( (permission) => {
+    permissions.forEach((permission) => {
       if (!user.roles || !user.roles.includes(permission)) {
         roles.push({
-            name: permission
+          name: permission
         });
         if (permission === 'pui-case-manager') {
           const ccdRolesTobeAdded = UserRolesUtil.GetRolesToBeAddedForUser(user, AppConstants.CCD_ROLES);
-          ccdRolesTobeAdded.forEach(newRole => roles.push(newRole));
+          ccdRolesTobeAdded.forEach((newRole) => roles.push(newRole));
         }
       }
     });
@@ -21,14 +21,14 @@ export class UserRolesUtil {
   public static getRolesDeleted(user: any, permissions: string[]): any[] {
     const roles = [];
     if (user.roles) {
-      user.roles.forEach( (permission) => {
+      user.roles.forEach((permission) => {
         if (!permissions.includes(permission) && !AppConstants.CCD_ROLES.includes(permission)) {
           roles.push({
-              name: permission
+            name: permission
           });
           if (permission === 'pui-case-manager') {
             const ccdRolesTobeRemoved = UserRolesUtil.GetRemovableRolesForUser(user, AppConstants.CCD_ROLES);
-            ccdRolesTobeRemoved.forEach(newRole => roles.push(newRole));
+            ccdRolesTobeRemoved.forEach((newRole) => roles.push(newRole));
           }
         }
       });
@@ -48,7 +48,7 @@ export class UserRolesUtil {
   }
 
   public static mapPermissions(value: any) {
-    return Object.keys(value.roles).filter(key => {
+    return Object.keys(value.roles).filter((key) => {
       if (value.roles[key]) {
         return key;
       }
@@ -100,7 +100,7 @@ export class UserRolesUtil {
    * @see unit
    */
   public static checkRoleDeletionsSuccess(roleDeletionResponse) {
-    const deleteFailures = roleDeletionResponse.filter(deleteResponse => {
+    const deleteFailures = roleDeletionResponse.filter((deleteResponse) => {
       return deleteResponse.idamStatusCode !== '204';
     });
 
@@ -109,19 +109,19 @@ export class UserRolesUtil {
 
   public static GetRemovableRolesForUser(user: any, roles: string[]): any[] {
     const rolesTobeRemoved = new Array<any>();
-    roles.forEach(role => {
+    roles.forEach((role) => {
       if (user.roles.includes(role)) {
-        rolesTobeRemoved.push({name: role});
+        rolesTobeRemoved.push({ name: role });
       }
     });
-    return  rolesTobeRemoved;
+    return rolesTobeRemoved;
   }
 
   public static GetRolesToBeAddedForUser(user: any, roles: string[]): any[] {
     const rolesTobeAdded = new Array<any>();
-    roles.forEach(role => {
-        rolesTobeAdded.push({name: role});
+    roles.forEach((role) => {
+      rolesTobeAdded.push({ name: role });
     });
-    return  rolesTobeAdded;
+    return rolesTobeAdded;
   }
 }

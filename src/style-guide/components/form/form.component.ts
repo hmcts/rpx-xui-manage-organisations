@@ -5,10 +5,9 @@ import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-fo
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html',
+  templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
-
   @Output() public submitForm = new EventEmitter();
   @Input() public styleGuideFromGroup: FormGroup;
   @Input() public set errorMessages(value) {
@@ -56,7 +55,6 @@ export class FormComponent implements OnInit {
       ]
     };
 
-
     this[CONST.STG_FORM_MODEL.contactPreference] = {
       key: CONST.STG_FORM_MODEL.contactPreference,
       config: {
@@ -102,28 +100,28 @@ export class FormComponent implements OnInit {
         id: 'sortBy',
         label: 'Sort By',
         classes: 'govuk-label--m',
-        isHeading: true,
+        isHeading: true
       },
       items: [
         {
           value: 'published',
           label: 'Recently Published',
-          id: 'published',
+          id: 'published'
         },
         {
           value: 'updated',
           label: 'Recently updated',
-          id: 'phone',
+          id: 'phone'
         },
         {
           value: 'views',
           label: 'Most views',
-          id: 'views',
+          id: 'views'
         },
         {
           value: 'comments',
           label: 'Most comments',
-          id: 'comments',
+          id: 'comments'
         }
       ]
     };
@@ -135,7 +133,7 @@ export class FormComponent implements OnInit {
       rows: 5,
       classes: 'govuk-label--m',
       isPageHeading: true
-    }
+    };
   }
 
   public onSubmit(): void {
@@ -149,5 +147,4 @@ export class FormComponent implements OnInit {
      * */
     return true;
   }
-
 }

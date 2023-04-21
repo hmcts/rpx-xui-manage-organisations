@@ -1,30 +1,32 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FooterComponent } from './footer.component';
 
 describe('FooterComponent', () => {
   @Component({
-    selector: `app-host-dummy-component`,
-    template: `<app-footer></app-footer>`
+    selector: 'app-host-dummy-component',
+    template: '<app-footer></app-footer>'
   })
   class TestDummyHostComponent {
     @ViewChild(FooterComponent, { static: true })
     public footerComponent: FooterComponent;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let testHostComponent: TestDummyHostComponent;
   let testHostFixture: ComponentFixture<TestDummyHostComponent>;
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-          RouterTestingModule
+        RouterTestingModule
       ],
-      declarations: [ FooterComponent, TestDummyHostComponent ],
+      declarations: [FooterComponent, TestDummyHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents();

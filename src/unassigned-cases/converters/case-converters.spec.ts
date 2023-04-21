@@ -60,7 +60,7 @@ describe('case-converter', () => {
     it('should convert OTHER to share case - single case without title', () => {
       const selectedCases = [{
         case_id: '1',
-        caseType: 'Contested',
+        caseType: 'Contested'
       }];
 
       const expectedShareCases = [

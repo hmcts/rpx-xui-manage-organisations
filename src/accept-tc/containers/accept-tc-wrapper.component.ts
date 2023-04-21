@@ -26,7 +26,7 @@ export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.uidSubscription = this.store.pipe(select(fromUserProfile.getUid)).subscribe(uid => this.uid = uid);
+    this.uidSubscription = this.store.pipe(select(fromUserProfile.getUid)).subscribe((uid) => this.uid = uid);
     this.subscription = this.getObservable(this.actions$, fromStore.AuthActionTypes.ACCEPT_T_AND_C_SUCCESS).subscribe(() => {
       this.dispatchAction(this.store, new fromRoot.Go({ path: ['home'] }));
     });

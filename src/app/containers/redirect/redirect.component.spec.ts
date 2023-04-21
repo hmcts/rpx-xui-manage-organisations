@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { reducers} from '../../../app/store/reducers';
+import { reducers } from '../../../app/store/reducers';
 import * as fromAuth from '../../../user-profile/store';
-import {RedirectComponent} from './redirect.component';
+import { RedirectComponent } from './redirect.component';
 
 describe('AppRedirectComponent', () => {
   let store: Store<fromAuth.AuthState>;
@@ -12,7 +12,7 @@ describe('AppRedirectComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
-        RedirectComponent,
+        RedirectComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [

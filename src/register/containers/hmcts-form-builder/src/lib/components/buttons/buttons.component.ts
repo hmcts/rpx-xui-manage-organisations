@@ -6,30 +6,25 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './buttons.component.html'
 })
 export class ButtonsComponent implements OnInit {
-    @Input() public idPrefix = 'btn';
-    @Input() public name = 'btn';
-    @Input() public group: FormGroup;
-    @Input() public classes;
-    @Input() public typeBtn;
-    @Input() public control;
-    @Input() public value;
-    @Output() public btnClick =  new EventEmitter();
+  @Input() public idPrefix = 'btn';
+  @Input() public name = 'btn';
+  @Input() public group: FormGroup;
+  @Input() public classes;
+  @Input() public typeBtn;
+  @Input() public control;
+  @Input() public value;
+  @Output() public btnClick = new EventEmitter();
 
-    public isValid: boolean;
+  public isValid: boolean;
 
-    constructor() {
-    }
-
-    public ngOnInit(): void {
-
+  public ngOnInit(): void {
+    this.isValid = this.group.status === 'INVALID';
+    this.group.valueChanges.subscribe(() => {
       this.isValid = this.group.status === 'INVALID';
-      this.group.valueChanges.subscribe(value => {
-        this.isValid = this.group.status === 'INVALID';
-      });
+    });
+  }
 
-    }
-
-    public onClick(event) {
-      this.btnClick.emit(event.target.id);
-    }
+  public onClick(event) {
+    this.btnClick.emit(event.target.id);
+  }
 }

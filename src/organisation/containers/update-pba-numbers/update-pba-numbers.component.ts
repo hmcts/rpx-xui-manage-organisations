@@ -7,13 +7,12 @@ import * as organisationActions from '../../store/actions';
 
 @Component({
   selector: 'app-prd-update-pba-numbers-component',
-  templateUrl: './update-pba-numbers.component.html',
+  templateUrl: './update-pba-numbers.component.html'
 })
 export class UpdatePbaNumbersComponent implements OnInit {
-
   public organisationDetails: OrganisationDetails;
 
-  constructor(private readonly orgStore: Store<fromStore.OrganisationState>) { }
+  constructor(private readonly orgStore: Store<fromStore.OrganisationState>) {}
 
   public ngOnInit(): void {
     this.getOrganisationDetailsFromStore();
@@ -26,7 +25,7 @@ export class UpdatePbaNumbersComponent implements OnInit {
    * Once we have the Organisation Details, we display them on the page.
    */
   private getOrganisationDetailsFromStore(): void {
-    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
+    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe((organisationDetails) => {
       this.organisationDetails = organisationDetails;
     });
   }

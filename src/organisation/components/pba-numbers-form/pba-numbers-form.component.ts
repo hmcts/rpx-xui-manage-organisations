@@ -12,7 +12,6 @@ import * as fromStore from '../../store';
   templateUrl: './pba-numbers-form.component.html'
 })
 export class PbaNumbersFormComponent implements OnInit {
-
   public readonly title = 'Add or remove PBA accounts';
 
   public pbaFormGroup: FormGroup;
@@ -60,7 +59,7 @@ export class PbaNumbersFormComponent implements OnInit {
    */
   public get currentPaymentAccounts(): PBANumberModel[] {
     return this.organisationDetails.paymentAccount
-      .filter(pba => !this.organisationDetails.pendingRemovePaymentAccount.includes(pba));
+      .filter((pba) => !this.organisationDetails.pendingRemovePaymentAccount.includes(pba));
   }
 
   public get noAccountsAdded(): boolean {
@@ -73,19 +72,19 @@ export class PbaNumbersFormComponent implements OnInit {
 
   public onRemoveNewPbaNumberClicked(i: number): void {
     const pbaValue = this.pbaNumbers.at(i).value.pbaNumber;
-    const pendingAddPaymentAccount = this.organisationDetails.pendingAddPaymentAccount.filter(pba => pba.pbaNumber !== pbaValue);
+    const pendingAddPaymentAccount = this.organisationDetails.pendingAddPaymentAccount.filter((pba) => pba.pbaNumber !== pbaValue);
     this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs(pendingAddPaymentAccount));
     this.pbaNumbers.removeAt(i);
     this.refreshValidation();
   }
 
   public onClickContinue(): void {
-      return this.onSubmit();
+    return this.onSubmit();
   }
 
   public onCancelRemoveExistingPaymentByAccountNumberClicked(paymentByAccountNumber: PBANumberModel): void {
     const current = this.organisationDetails.pendingRemovePaymentAccount;
-    const pendingRemovePbaAccounts = current.filter(account => account.pbaNumber !== paymentByAccountNumber.pbaNumber);
+    const pendingRemovePbaAccounts = current.filter((account) => account.pbaNumber !== paymentByAccountNumber.pbaNumber);
     this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingRemovePBAs(pendingRemovePbaAccounts));
     this.refreshValidation();
   }
@@ -101,6 +100,7 @@ export class PbaNumbersFormComponent implements OnInit {
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     this.router.navigate(['/organisation/update-pba-numbers-check']).then(() => {});
   }
 
@@ -109,7 +109,7 @@ export class PbaNumbersFormComponent implements OnInit {
       pbaNumbers: this.fb.array([])
     });
 
-    this.pbaFormGroup.valueChanges.subscribe(value => {
+    this.pbaFormGroup.valueChanges.subscribe((value) => {
       if (!value) {
         return;
       }
@@ -125,7 +125,7 @@ export class PbaNumbersFormComponent implements OnInit {
 
         const pendingPBAs: PBANumberModel[] = value.pbaNumbers.map((item: { pbaNumber: string }) => {
           return item.pbaNumber ? { pbaNumber: item.pbaNumber, status: 'Pending approval' } : null;
-        }).filter(item => !!item);
+        }).filter((item) => !!item);
         this.orgStore.dispatch(new fromStore.UpdateOrganisationPendingAddPBAs(pendingPBAs));
       }
     });
@@ -134,7 +134,7 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   private hydratePbaFormFromExistingPendingAddPbas(): void {
-    this.organisationDetails.pendingAddPaymentAccount.forEach(pendingPbaAddition => {
+    this.organisationDetails.pendingAddPaymentAccount.forEach((pendingPbaAddition) => {
       this.pbaNumbers.push(this.newPbaNumber(pendingPbaAddition.pbaNumber));
     });
   }
@@ -144,7 +144,7 @@ export class PbaNumbersFormComponent implements OnInit {
       pbaNumber: new FormControl(value, {
         validators: this.getPbaNumberValidators(),
         updateOn: 'blur'
-      }),
+      })
     });
   }
 
@@ -182,7 +182,7 @@ export class PbaNumbersFormComponent implements OnInit {
           message
         };
       })
-      .filter(i => i);
+      .filter((i) => i);
 
     if (items.length === 0) {
       this.clearSummaryErrorMessage();
@@ -202,7 +202,7 @@ export class PbaNumbersFormComponent implements OnInit {
    * Once we have the Organisation Details, we display them on the page.
    */
   private getOrganisationDetailsFromStore(): void {
-    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
+    this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe((organisationDetails) => {
       this.organisationDetails = organisationDetails;
     });
   }
@@ -228,7 +228,7 @@ export class PbaNumbersFormComponent implements OnInit {
       Validators.maxLength(10),
       this.getPBANumbersCustomValidator(),
       RxwebValidators.noneOf({
-        matchValues: this.currentPaymentAccounts.map(pba => pba.pbaNumber)
+        matchValues: this.currentPaymentAccounts.map((pba) => pba.pbaNumber)
       }),
       RxwebValidators.unique()
     ];

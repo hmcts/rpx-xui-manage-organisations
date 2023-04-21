@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getAllUsers();
-    this.loadUsers(this.currentPageNumber - 1 );
+    this.loadUsers(this.currentPageNumber - 1);
   }
 
   public inviteNewUser(): void {
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit {
   }
 
   public getAllUsers() {
-    return this.usersService.getAllUsersList().subscribe((allUserList => {
+    return this.usersService.getAllUsersList().subscribe(((allUserList) => {
       this.pageTotalSize = allUserList.users.length;
     }));
   }

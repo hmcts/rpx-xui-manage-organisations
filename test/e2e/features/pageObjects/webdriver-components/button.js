@@ -4,7 +4,6 @@ CustomError = require('../../../utils/errors/custom-error.js');
  */
 const DEFAULT_TIMEOUT = 5000;
 class Button{
-
   /**
    * This css and content should be an <button> tag
    * @param css
@@ -21,7 +20,7 @@ class Button{
    * @returns {Promise<Boolean>}
    */
   async isPresent(){
-    let button = await this._getElementFinder();
+    const button = await this._getElementFinder();
     return await button.isPresent();
   }
 
@@ -30,7 +29,7 @@ class Button{
    * @returns {Promise<Boolean>}
    */
   async isEnabled(){
-    let button = await this._getElementFinder();
+    const button = await this._getElementFinder();
     return await button.isEnabled();
   }
 
@@ -41,22 +40,21 @@ class Button{
     } catch (e) {
       if (e.name === 'NoSuchElementError'){
         displayed = false; //element not present so not displayed
-      }
-      else {
+      } else {
         throw new CustomError(e);
       }
     }
 
-    return displayed
+    return displayed;
   }
 
   /**
    * Click Button element
    */
   async click(){
-      let button = await this._getElementFinder();
-      await button.click();
-      browser.waitForAngular()
+    const button = await this._getElementFinder();
+    await button.click();
+    browser.waitForAngular();
   }
 
   /**
@@ -70,8 +68,8 @@ class Button{
     try {
       await browser.wait(await EC.elementToBeClickable(await this._getElementFinder()), DEFAULT_TIMEOUT);
     } catch (e) {
-      let message = `timed out after ${DEFAULT_TIMEOUT} waiting for element ${element} to be clickable`;
-      throw new CustomError(message, e)
+      const message = `timed out after ${DEFAULT_TIMEOUT} waiting for element ${element} to be clickable`;
+      throw new CustomError(message, e);
     }
   }
 

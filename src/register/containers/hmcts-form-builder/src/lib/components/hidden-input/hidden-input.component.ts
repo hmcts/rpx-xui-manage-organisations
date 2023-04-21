@@ -11,6 +11,7 @@ export class HiddenInputComponent implements OnInit{
     control: string;
     classes: Array<string>
   };
+
   @Input() public value; // TODO: Add type.
   public componentClasses: string;
 

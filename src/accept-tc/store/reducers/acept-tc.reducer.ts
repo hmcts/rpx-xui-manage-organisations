@@ -5,11 +5,12 @@ export interface TermsAndCondition {
 }
 
 export const initialState: TermsAndCondition = {
-  copy: '',
+  copy: ''
 };
 
 export function reducer(
   state = initialState,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   action: fromAcceptTCActions.AceptTcActions
 ): TermsAndCondition {
   // switch (action.type) {

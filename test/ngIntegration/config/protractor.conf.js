@@ -3,7 +3,7 @@
 const chai = require('chai');
 
 const { SpecReporter } = require('jasmine-spec-reporter');
-const screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
+const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
 
 exports.config = {
   allScriptsTimeout: 11000,
@@ -20,9 +20,9 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     reporter: 'mochawesome',
-     
+
     reporterOptions: {
-      reportFilename: "MO_NG_Integration",
+      reportFilename: 'MO_NG_Integration',
       quiet: true
     },
     timeout: 120000

@@ -20,7 +20,7 @@ exports.config = {
     print: function() {}
   },
   beforeLaunch: function () {
-    require('ts-node/register')
+    require('ts-node/register');
   },
   onPrepare() {
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));

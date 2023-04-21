@@ -7,36 +7,36 @@ import * as fromStore from '../../store';
 import { InviteUserSuccessComponent } from './invite-user-success.component';
 
 describe('Invite User Success Component', () => {
+  let fixture: ComponentFixture<InviteUserSuccessComponent>;
+  let component: InviteUserSuccessComponent;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  let store: Store<fromStore.UserState>;
 
-    let fixture: ComponentFixture<InviteUserSuccessComponent>;
-    let component: InviteUserSuccessComponent;
-    let store: Store<fromStore.UserState>;
+  beforeEach((() => {
+    TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule,
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          feature: combineReducers(fromStore.reducers)
+        })
+      ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
+      declarations: [
+        InviteUserSuccessComponent
+      ]
+    }).compileComponents();
 
-    beforeEach((() => {
-        TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule,
-                StoreModule.forRoot({
-                    ...fromRoot.reducers,
-                    feature: combineReducers(fromStore.reducers),
-                }),
-            ],
-            schemas: [
-              CUSTOM_ELEMENTS_SCHEMA
-            ],
-            declarations: [
-                InviteUserSuccessComponent
-            ]
-        }).compileComponents();
+    store = TestBed.inject(Store);
 
-        store = TestBed.inject(Store);
+    fixture = TestBed.createComponent(InviteUserSuccessComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
-        fixture = TestBed.createComponent(InviteUserSuccessComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    }));
-
-    it('should have a component', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should have a component', () => {
+    expect(component).toBeTruthy();
+  });
 });

@@ -10,7 +10,7 @@ export class HmctsSubNavigationComponent {
     @Input() label: string;
     @Input() items: Array<SubNavigation>;
 
-    constructor() { }
+    constructor() {}
 
 }
 

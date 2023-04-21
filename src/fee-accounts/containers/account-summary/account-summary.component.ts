@@ -19,15 +19,16 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
   public navItems = [
     {
       text: 'Summary',
-      href: `./`,
+      href: './',
       active: true
     },
     {
       text: 'Transactions',
-      href: `./transactions`,
+      href: './transactions',
       active: false
     }
   ];
+
   public loading$: Observable<boolean>;
 
   constructor(
@@ -38,7 +39,7 @@ export class AccountSummaryComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.store.dispatch(new fromFeeAccountsStore.LoadFeeAccounts([this.activeRoute.snapshot.params.id]));
     this.accounts$ = this.store.pipe(select(fromFeeAccountsStore.feeAccounts));
-    this.subscription = this.accounts$.subscribe(acc => {
+    this.subscription = this.accounts$.subscribe((acc) => {
       if (acc && acc[0]) {
         this.accountName$ = of(acc[0].account_name);
       }

@@ -1,11 +1,11 @@
-import { AddPBANumber, LoadPageItems, LoadPageItemsSuccess, RemovePBANumber, ResetErrorMessage, SaveFormData, SubmitFormDataFail } from '../actions';
+import { AddPBANumber, LoadPageItems, RemovePBANumber, ResetErrorMessage, SaveFormData, SubmitFormDataFail } from '../actions';
 import { initialState, reducer } from './registration.reducer';
 
 describe('RegistrationReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = {} as any;
-      const state = reducer( undefined, action);
+      const state = reducer(undefined, action);
       expect(state).toEqual(initialState);
     });
   });
@@ -16,12 +16,12 @@ describe('RegistrationReducer', () => {
       expect(state.loading).toEqual(true);
     });
   });
+
   describe('LOAD_PAGE_ITEMS_SUCCESS action', () => {
     it('should update the state.pages', () => {
       const pageId = 'something';
       const action = new LoadPageItems(pageId);
 
-      const completion = new LoadPageItemsSuccess({payload: {}, pageId });
       const state = reducer(initialState, action);
       // console.log('state.pages', state.pages)
       expect(state.pages).toEqual({});
@@ -30,8 +30,7 @@ describe('RegistrationReducer', () => {
 
   describe('SUBMIT_FORM_DATA_FAIL action', () => {
     it('should update the state.errorMessage', () => {
-
-      const payload = {error: {apiError: 'Undefined error'}, status: '500'};
+      const payload = { error: { apiError: 'Undefined error' }, status: '500' };
       const action = new SubmitFormDataFail(payload);
       const state = reducer(initialState, action);
       expect(state.errorMessage).toEqual('Sorry, there is a problem with the service. Try again later');
@@ -79,7 +78,7 @@ describe('RegistrationReducer', () => {
           }
         }
       };
-      const anInitialState = {...initialState, pages};
+      const anInitialState = { ...initialState, pages };
       const state = reducer(anInitialState, action);
       expect(state.pages['organisation-pba'].meta.groups.length).toEqual(3);
       expect(state.pages['organisation-pba'].meta.groups[0].inputButton.control).toEqual('PBANumber1');
@@ -147,7 +146,7 @@ describe('RegistrationReducer', () => {
           }
         }
       };
-      const anInitialState = {...initialState, pages};
+      const anInitialState = { ...initialState, pages };
       const state = reducer(anInitialState, action);
       expect(state.pages['organisation-pba'].meta.groups.length).toEqual(4);
       expect(state.pages['organisation-pba'].meta.groups[1].inputButton.control).toEqual('PBANumber2');
@@ -245,12 +244,11 @@ describe('RegistrationReducer', () => {
           }
         }
       };
-      const anInitialState = {...initialState, pages};
+      const anInitialState = { ...initialState, pages };
       const state = reducer(anInitialState, action);
       expect(state.pages['organisation-pba'].meta.groups.length).toEqual(5);
       expect(state.pages['organisation-pba'].meta.groups[2].inputButton.control).toEqual('PBANumber4');
     });
-
   });
 
   describe('REMOVE_PBA_NUMBER action', () => {
@@ -346,7 +344,7 @@ describe('RegistrationReducer', () => {
           }
         }
       };
-      const anInitialState = {...initialState, pages};
+      const anInitialState = { ...initialState, pages };
       const state = reducer(anInitialState, action);
       expect(state.pages['organisation-pba'].meta.groups.length).toEqual(3);
       expect(state.pages['organisation-pba'].meta.groups[1].inputButton).toBeFalsy();
@@ -474,7 +472,7 @@ describe('RegistrationReducer', () => {
           }
         }
       };
-      const anInitialState = {...initialState, pages};
+      const anInitialState = { ...initialState, pages };
       const state = reducer(anInitialState, action);
       expect(state.pages['organisation-pba'].meta.groups.length).toEqual(4);
       expect(state.pages['organisation-pba'].meta.groups[1].inputButton.control).toBe('PBANumber3');
@@ -583,12 +581,11 @@ describe('RegistrationReducer', () => {
           }
         }
       };
-      const anInitialState = {...initialState, pages};
+      const anInitialState = { ...initialState, pages };
       const state = reducer(anInitialState, action);
       expect(state.pages['organisation-pba'].init).toBe(false);
       expect(state.pagesValues.hasOwnProperty('PBANumber1')).toBeTruthy();
       expect(state.pagesValues.hasOwnProperty('PBANumber2')).toBeTruthy();
     });
   });
-
 });

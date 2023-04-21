@@ -1,5 +1,5 @@
 
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 export const LOAD_PAGE_ITEMS = '[Registration] LoadPageItems';
 export const LOAD_PAGE_ITEMS_SUCCESS = '[Registration] LoadPageItems Success';
@@ -29,8 +29,7 @@ export class LoadPageItemsSuccess implements Action {
 
 export class LoadPageItemsFail implements Action {
   public readonly type = LOAD_PAGE_ITEMS_FAIL;
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class AddPBANumber implements Action {
@@ -63,8 +62,7 @@ export class SubmitFormDataSuccess implements Action {
 
 export class SubmitFormDataFail implements Action {
   public readonly type = SUBMIT_FORM_DATA_FAIL;
-  constructor(public payload: any) {
-  }
+  constructor(public payload: any) {}
 }
 
 export class ResetErrorMessage implements Action {
@@ -79,8 +77,6 @@ export class ResetErrorMessageCode implements Action {
 
 export class ResetNextUrl implements Action {
   public readonly type = RESET_NEXT_URL;
-  constructor() {
-  }
 }
 
 export type RegistrationActions =

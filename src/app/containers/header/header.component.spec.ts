@@ -12,12 +12,12 @@ describe('HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('app', reducers),
+        StoreModule.forFeature('app', reducers)
       ],
       declarations: [
         HeaderComponent
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
     fixture = TestBed.createComponent(HeaderComponent);
     app = fixture.debugElement.componentInstance;

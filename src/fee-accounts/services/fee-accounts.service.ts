@@ -12,14 +12,15 @@ export class FeeAccountsService {
 
   public fetchFeeAccounts(paymentAccounts: string[]): Observable<FeeAccount[]> {
     const accounts = paymentAccounts.join(',');
-    return this.http.get<FeeAccount[]> (`/api/accounts?accountNames=${accounts}`);
+    return this.http.get<FeeAccount[]>(`/api/accounts?accountNames=${accounts}`);
   }
+
   // Overview load
-  public fetchSingleFeeAccount(payload): Observable<SingleAccountSummary> {
-    const obj: SingleAccountSummary = singleAccontSummaryMock;
-    return of(obj);
+  public fetchSingleFeeAccount(): Observable<SingleAccountSummary> {
+    return of(singleAccontSummaryMock);
     // return this.http.get<SingleAccountSummary>(`/api/accounts/${payload.id}`);
   }
+
   // Overview transactions
   public fetchPbAAccountTransactions(payload): Observable<Payment[]> {
     return this.http.get<Payment[]>(`/api/payments/${payload.id}`);

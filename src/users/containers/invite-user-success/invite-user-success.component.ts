@@ -9,7 +9,6 @@ import * as fromStore from '../../store';
   templateUrl: './invite-user-success.component.html'
 })
 export class InviteUserSuccessComponent implements OnInit, OnDestroy {
-
   public userEmail$: Observable<string>;
 
   constructor(private readonly store: Store<fromStore.UserState>) {}

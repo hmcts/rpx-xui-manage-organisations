@@ -29,9 +29,9 @@ export class HeadersService {
     // if the cookie does not exist then do not set heathers so that
     // register organisation calls can get through
     const authorization = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-    if (authorization)  {
-       headers = {
-         Authorization: authorization
+    if (authorization) {
+      headers = {
+        Authorization: authorization
       };
     }
     return headers;

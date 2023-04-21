@@ -10,7 +10,6 @@ import { UserState } from '../../store/reducers';
   templateUrl: './edit-user-permissions-failure.component.html'
 })
 export class EditUserPermissionsFailureComponent implements OnInit {
-
   public userId: string;
 
   constructor(
@@ -29,7 +28,7 @@ export class EditUserPermissionsFailureComponent implements OnInit {
   public ngOnInit(): void {
     this.userStore.dispatch(new EditUserFailureReset());
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId');
     });
   }

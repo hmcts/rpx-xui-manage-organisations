@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Action, combineReducers, Store, StoreModule } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models';
@@ -9,11 +9,15 @@ import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
 const storeMock = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   pipe: () => {},
-  dispatch: (action: Action) => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  dispatch: () => {}
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
 describe('UpdatePbaNumbersComponent', () => {
@@ -23,7 +27,7 @@ describe('UpdatePbaNumbersComponent', () => {
   let activatedRoute: any;
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
-    dxExchange: 'London',
+    dxExchange: 'London'
   };
 
   const contactInformation: OrganisationContactInformation = {
@@ -34,7 +38,7 @@ describe('UpdatePbaNumbersComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [ dxAddress ]
+    dxAddress: [dxAddress]
   };
 
   /**
@@ -43,7 +47,7 @@ describe('UpdatePbaNumbersComponent', () => {
   const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
-    contactInformation: [ contactInformation ],
+    contactInformation: [contactInformation],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',
     sraRegulated: false,
@@ -55,7 +59,7 @@ describe('UpdatePbaNumbersComponent', () => {
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingAddPaymentAccount: [],
     pendingRemovePaymentAccount: [],
-    pendingPaymentAccount: undefined,
+    pendingPaymentAccount: undefined
   };
 
   beforeEach(() => {
@@ -72,8 +76,8 @@ describe('UpdatePbaNumbersComponent', () => {
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          feature: combineReducers(fromOrgStore.reducers),
-        }),
+          feature: combineReducers(fromOrgStore.reducers)
+        })
       ],
       declarations: [UpdatePbaNumbersComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -27,7 +27,7 @@ const pbaInputFeed = [
       id: 'pba1',
       type: 'text',
       classes: ''
-    },
+    }
   },
   {
     config: {
@@ -59,5 +59,4 @@ export class ErrorMessage {
   public error: string;
   public headerError: string;
 }
-
 

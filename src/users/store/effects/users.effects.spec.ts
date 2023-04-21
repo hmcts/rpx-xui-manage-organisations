@@ -9,12 +9,12 @@ import { LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, Load
 import * as fromUsersEffects from './users.effects';
 
 describe('Users Effects', () => {
-    let actions$;
-    let effects: fromUsersEffects.UsersEffects;
-    const usersServiceMock = jasmine.createSpyObj('UsersService', [
-        'getListOfUsers', 'suspendUser', 'getUserDetailsWithPermission'
-    ]);
-    let loggerService: LoggerService;
+  let actions$;
+  let effects: fromUsersEffects.UsersEffects;
+  const usersServiceMock = jasmine.createSpyObj('UsersService', [
+    'getListOfUsers', 'suspendUser', 'getUserDetailsWithPermission'
+  ]);
+  let loggerService: LoggerService;
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
@@ -24,7 +24,7 @@ describe('Users Effects', () => {
       providers: [
         {
           provide: UsersService,
-          useValue: usersServiceMock,
+          useValue: usersServiceMock
         },
         {
           provide: LoggerService,
@@ -48,9 +48,9 @@ describe('Users Effects', () => {
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
       const completion = new LoadUsersSuccess({
-          users: [
-              { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined' }
-          ]
+        users: [
+          { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined' }
+        ]
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -62,9 +62,9 @@ describe('Users Effects', () => {
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
       const completion = new LoadUsersSuccess({
-          users: [
-              { idamStatus: 'PENDING', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined'  }
-          ]
+        users: [
+          { idamStatus: 'PENDING', fullName: 'undefined undefined', routerLink: 'user/undefined', routerLinkTitle: 'User details for undefined undefined with id undefined' }
+        ]
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -92,7 +92,7 @@ describe('Users Effects', () => {
         lastName: 'Dumpty',
         email: 'aa@aa.com',
         idamStatus: 'Suspend',
-        idamStatusCode:  '',
+        idamStatusCode: '',
         idamMessage: '19 No call made to SIDAM to get the user roles as user status is ‘Pending’',
         fullName: 'Humpty Dumpty',
         routerLink: 'user/cfeba78e-ff81-49d5-8a65-55fa2a9c2424',
@@ -100,8 +100,8 @@ describe('Users Effects', () => {
         status: 'Active'
       };
       usersServiceMock.suspendUser.and.returnValue(of({}));
-      const action = new SuspendUser({payload: user});
-      const completion = new SuspendUserSuccess({payload: user});
+      const action = new SuspendUser({ payload: user });
+      const completion = new SuspendUserSuccess({ payload: user });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.suspendUser$).toBeObservable(expected);
@@ -120,15 +120,15 @@ describe('Users Effects', () => {
   });
   describe('loadUserDetails$', () => {
     it('should return a details of the selected user - LoadUserDetails', () => {
-        const payload = { users: [{ payload: 'something' }] };
-        const users = { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined',
+      const payload = { users: [{ payload: 'something' }] };
+      const users = { payload: 'something', fullName: 'undefined undefined', routerLink: 'user/undefined',
         routerLinkTitle: 'User details for undefined undefined with id undefined' };
-        usersServiceMock.getUserDetailsWithPermission.and.returnValue(of(payload));
-        const action = new LoadUserDetails(payload);
-        const completion = new LoadUserDetailsSuccess(users);
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', { b: completion });
-        expect(effects.loadUserDetails$).toBeObservable(expected);
+      usersServiceMock.getUserDetailsWithPermission.and.returnValue(of(payload));
+      const action = new LoadUserDetails(payload);
+      const completion = new LoadUserDetailsSuccess(users);
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadUserDetails$).toBeObservable(expected);
     });
   });
 });

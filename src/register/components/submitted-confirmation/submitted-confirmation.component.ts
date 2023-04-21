@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 /**
  * Stateless component responsible for
  * displaying confirmation after form submit.
@@ -27,8 +27,4 @@ import {Component} from '@angular/core';
   </main>
   `
 })
-export class SubmittedConfirmationComponent {
-
-  constructor() {}
-
-}
+export class SubmittedConfirmationComponent {}

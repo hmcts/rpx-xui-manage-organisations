@@ -20,7 +20,6 @@ export function reducer(
   action: fromOrganisation.organisationActions
 ): OrganisationState {
   switch (action.type) {
-
     case fromOrganisation.LOAD_ORGANISATION: {
       return {
         ...state,
@@ -30,11 +29,11 @@ export function reducer(
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const paymentAccount: PBANumberModel[] = [];
-      action.payload.paymentAccount.forEach(pba => {
+      action.payload.paymentAccount.forEach((pba) => {
         let pbaNumberModel: PBANumberModel;
         if (typeof pba === 'string') {
           pbaNumberModel = {
-            pbaNumber: pba,
+            pbaNumber: pba
           };
         }
         paymentAccount.push(pbaNumberModel);
@@ -50,11 +49,9 @@ export function reducer(
         organisationDetails: loadedOrgDetails,
         loaded: true
       };
-
     }
 
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_ADD: {
-      const organisationDetails = state.organisationDetails;
       const orgDetails = {
         ...state.organisationDetails,
         pendingAddPaymentAccount: action.payload
@@ -66,7 +63,6 @@ export function reducer(
     }
 
     case fromOrganisation.UPDATE_ORGANISATION_PBA_PENDING_REMOVE: {
-      const organisationDetails = state.organisationDetails;
       const orgDetails = {
         ...state.organisationDetails,
         pendingRemovePaymentAccount: action.payload
@@ -78,7 +74,7 @@ export function reducer(
     }
 
     case fromOrganisation.ORGANISATION_UPDATE_PBA_RESPONSE:
-      let organisationDetailWithResponse = {...state.organisationDetails};
+      let organisationDetailWithResponse = { ...state.organisationDetails };
       console.log('action', action);
       if (action.payload) {
         let existingPaymentAccount = state.organisationDetails.paymentAccount.slice();
@@ -88,11 +84,11 @@ export function reducer(
         existingPaymentAccount = [...existingPaymentAccount, ...existingPendingAddPaymentAccount];
         const updatePaymentAccount =
           existingPaymentAccount
-            .filter(paymentAccounts => !existingPendingRemovePaymentAccount.includes(paymentAccounts))
-            .filter(filtered => !filtered.status);
+            .filter((paymentAccounts) => !existingPendingRemovePaymentAccount.includes(paymentAccounts))
+            .filter((filtered) => !filtered.status);
 
         const updatedPendingPaymentAccount = existingPendingAddPaymentAccount
-          .map(addPaymentAccount => addPaymentAccount.pbaNumber);
+          .map((addPaymentAccount) => addPaymentAccount.pbaNumber);
 
         console.log('exitingPendingAddPaymentAccount', existingPendingAddPaymentAccount);
         console.log('exitingPendingRemovePaymentAccount', existingPendingRemovePaymentAccount);
@@ -100,7 +96,7 @@ export function reducer(
         console.log('updatePaymentAccount', updatePaymentAccount);
         console.log('updatedPendingPaymentAccount', updatedPendingPaymentAccount);
 
-        console.log([...updatedPendingPaymentAccount, ...existingPendingPaymentAccount] );
+        console.log([...updatedPendingPaymentAccount, ...existingPendingPaymentAccount]);
 
         organisationDetailWithResponse = {
           ...state.organisationDetails,
@@ -108,7 +104,7 @@ export function reducer(
           paymentAccount: updatePaymentAccount,
           pendingPaymentAccount: [...updatedPendingPaymentAccount, ...existingPendingPaymentAccount],
           pendingAddPaymentAccount: [],
-          pendingRemovePaymentAccount: [],
+          pendingRemovePaymentAccount: []
         };
       }
 
@@ -125,7 +121,7 @@ export function reducer(
 
     case fromOrganisation.ORGANISATION_UPDATE_PBA_ERROR_RESET:
       if (state.error) {
-        state = {...state, error: {}};
+        state = { ...state, error: {} };
       }
       return state;
 

@@ -1,4 +1,4 @@
-import {RegistrationFormService} from './registration-form.service';
+import { RegistrationFormService } from './registration-form.service';
 
 export const services: any[] = [RegistrationFormService];
 

@@ -20,7 +20,6 @@ describe('ValidationService', () => {
     }));
 
   it('should create a form group validator, with type ValidationFn.', inject([ValidationService], (service: ValidationService) => {
-
     const formGroup = new FormGroup({
       test: new FormControl('test')
     });
@@ -39,33 +38,39 @@ describe('ValidationService', () => {
 
     expect(formGroupValidatorFunction).toEqual(jasmine.any(Function));
   }));
+
   it('should return mapped simple names to Ng Validators', inject([ValidationService], (service: ValidationService) => {
     expect(service.getNgValidationFunctionMap()).toEqual(jasmine.any(Array));
   }));
+
   it('should take an array of simple names and map them to Ng Validation functions', inject([ValidationService], (service: ValidationService) => {
     const validators = ['required', 'email'];
     expect(service.getNgValidators(validators)).toEqual([jasmine.any(Function), jasmine.any(Function)]);
   }));
+
   it('control should has a validator', inject([ValidationService], (service: ValidationService) => {
     const validators = ['required', 'email'];
     expect(service.controlHasValidation(validators)).not.toBeLessThan(0);
   }));
+
   it('control should be valid', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       test: new FormControl('test')
     });
     expect(service.isFormControlValid(formGroup, 'test')).toBe(true);
   }));
+
   it('form group should be not valid', inject([ValidationService], (service: ValidationService) => {
     const formGroup = {
       errors: {
         testErrorId: true
       }
-    }
+    };
     const validationErrorId = 'testErrorId';
     const isFormGroupInvalidFunc = service.isFormGroupInvalid(formGroup, validationErrorId);
     expect(isFormGroupInvalidFunc).toBe(true);
   }));
+
   it('form group should be valid', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       test: new FormControl('test')
@@ -74,6 +79,7 @@ describe('ValidationService', () => {
     const isFormGroupInvalidFunc = service.isFormGroupInvalid(formGroup, validationErrorId);
     expect(isFormGroupInvalidFunc).toBe(null);
   }));
+
   it('should at least one checkbox to be checked validation', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       checkboxTest1: new FormControl('checkboxTest1'),
@@ -91,6 +97,7 @@ describe('ValidationService', () => {
     formGroup.get('checkboxTest2').setValue(false);
     expect(isAnyCheckboxChecked(formGroup).isAnyCheckboxChecked).toBe(true);
   }));
+
   it('should check if all fields required common function unit test', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       test1Filed: new FormControl(),
@@ -99,7 +106,7 @@ describe('ValidationService', () => {
     const validationIdentifier = 'isAllFieldsRequiredValidationFn';
     const fields = [
       'test1Filed', 'test2Filed'
-    ]
+    ];
     let isAllFieldsRequiredValidationFn = service.isAllFieldsRequiredValidationFn(formGroup, fields, validationIdentifier);
     expect(isAllFieldsRequiredValidationFn[validationIdentifier]).toBe(true);
     formGroup.get('test1Filed').setValue('test value 1');
@@ -107,6 +114,7 @@ describe('ValidationService', () => {
     isAllFieldsRequiredValidationFn = service.isAllFieldsRequiredValidationFn(formGroup, fields, validationIdentifier);
     expect(isAllFieldsRequiredValidationFn).toBe(null);
   }));
+
   it('should check if all fields required group validator returns a validation function', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       test1Filed: new FormControl(),
@@ -120,6 +128,7 @@ describe('ValidationService', () => {
     expect(isAllFieldsRequired).toEqual(jasmine.any(Function));
     expect(isAllFieldsRequired(formGroup)[validationIdentifier]).toBe(true);
   }));
+
   it('should check conditional validator textarea should be valid if parent checkbox checked', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       testCheckbox: new FormControl(),
@@ -139,12 +148,13 @@ describe('ValidationService', () => {
     isTextAreaValidWhenCheckboxChecked = service.isTextAreaValidWhenCheckboxChecked(formGroup, controls, validationIdentifier);
     expect(isTextAreaValidWhenCheckboxChecked(formGroup)).toBe(null);
   }));
+
   it('should check conditional validator radio should be valid if one option selected', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       testRadioControl: new FormControl('testOption'),
       test1: new FormControl('test1'),
       test2: new FormControl('test2'),
-      test3: new FormControl('test3'),
+      test3: new FormControl('test3')
     });
     const validationIdentifier = 'isRadioValidWhenSomeOptionSelected';
     const controls = {
@@ -162,7 +172,7 @@ describe('ValidationService', () => {
         }
       ]
     };
-    const isRadioValidWhenSomeOptionSelected = service.isRadioValidWhenSomeOptionSelected(formGroup, controls, validationIdentifier);    expect(isRadioValidWhenSomeOptionSelected).toEqual(jasmine.any(Function));
+    const isRadioValidWhenSomeOptionSelected = service.isRadioValidWhenSomeOptionSelected(formGroup, controls, validationIdentifier); expect(isRadioValidWhenSomeOptionSelected).toEqual(jasmine.any(Function));
     formGroup.get('testRadioControl').setValue(true);
     expect(isRadioValidWhenSomeOptionSelected(formGroup)).toBe(null);
     formGroup.get('testRadioControl').setValue('testOption');
@@ -170,14 +180,15 @@ describe('ValidationService', () => {
     formGroup.get('test1').setValue('');
     formGroup.get('test2').setValue('');
     formGroup.get('test3').setValue('');
-    expect(isRadioValidWhenSomeOptionSelected(formGroup)['testChildValidationErrorId']).toBe(true);
+    expect(isRadioValidWhenSomeOptionSelected(formGroup).testChildValidationErrorId).toBe(true);
   }));
+
   it('should check create form group validators', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       testRadioControl: new FormControl('testOption'),
       test1: new FormControl('test1'),
       test2: new FormControl('test2'),
-      test3: new FormControl('test3'),
+      test3: new FormControl('test3')
     });
     const formGroupValidators = [{
       validatorFunc: 'isAnyCheckboxChecked',
@@ -190,6 +201,7 @@ describe('ValidationService', () => {
     const createFormGroupValidators = service.createFormGroupValidators(formGroup, formGroupValidators);
     expect(createFormGroupValidators[0]).toEqual(jasmine.any(Function));
   }));
+
   it('should check if date group validator returns a validation function', inject([ValidationService], (service: ValidationService) => {
     const formGroup = new FormGroup({
       dayTestFiled: new FormControl(),
@@ -257,11 +269,11 @@ describe('ValidationService', () => {
     }));
   });
 
- describe('invalidPBANumberValidatorFn', () => {
+  describe('invalidPBANumberValidatorFn', () => {
     const pbaNumber1 = new FormControl('1234567');
-    pbaNumber1.setErrors({invalidPBANumberError: true});
+    pbaNumber1.setErrors({ invalidPBANumberError: true });
     const fg = new FormGroup({
-      PBANumber1: pbaNumber1,
+      PBANumber1: pbaNumber1
     });
     const validationIdentifier = 'invalidPBANumberError';
 
@@ -269,7 +281,6 @@ describe('ValidationService', () => {
       const invalidPBANumberValidatorFn = service.invalidPBANumberValidatorFn(fg, 'PBANumber');
       expect(invalidPBANumberValidatorFn[validationIdentifier]).toBe(true);
     }));
-
   });
 
   describe('duplicatedPBAValidatorFn', () => {
@@ -280,7 +291,7 @@ describe('ValidationService', () => {
       const pbaNumber2 = new FormControl('PBA1234567');
       const fg = new FormGroup({
         PBANumber1: pbaNumber1,
-        PBANumber2: pbaNumber2,
+        PBANumber2: pbaNumber2
       });
       const invalidPBANumberValidatorFn = service.duplicatedPBAValidatorFn(fg, 'PBANumber', validationIdentifier);
       expect(invalidPBANumberValidatorFn[validationIdentifier]).toBe(true);
@@ -291,11 +302,10 @@ describe('ValidationService', () => {
       const pbaNumber2 = new FormControl('PBA7654321');
       const fg = new FormGroup({
         PBANumber1: pbaNumber1,
-        PBANumber2: pbaNumber2,
+        PBANumber2: pbaNumber2
       });
       const invalidPBANumberValidatorFn = service.duplicatedPBAValidatorFn(fg, 'PBANumber', validationIdentifier);
       expect(invalidPBANumberValidatorFn).toBeFalsy();
     }));
-
   });
 });

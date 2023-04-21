@@ -17,8 +17,8 @@ describe('AccountTransactionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     activatedRoute = {
-        snapshot: {
-          params: of({})
+      snapshot: {
+        params: of({})
       }
     };
     TestBed.configureTestingModule({
@@ -27,14 +27,14 @@ describe('AccountTransactionsComponent', () => {
         StoreModule.forFeature('feeAccounts', reducers),
         RouterTestingModule
       ],
-      declarations: [ AccountTransactionsComponent, DateFormatAtTimePipe],
+      declarations: [AccountTransactionsComponent, DateFormatAtTimePipe],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: ActivatedRoute, useValue: activatedRoute }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

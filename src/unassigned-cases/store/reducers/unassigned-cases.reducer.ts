@@ -48,19 +48,19 @@ export const initialState: UnassignedCasesState = {
 export function reducer(
   state = initialState,
   action: UnassignedCasesActions): UnassignedCasesState {
-    switch (action.type) {
-      case LOAD_UNASSIGNED_CASES_SUCCESS:
-        return {...state, unassignedCases: action.payload};
-      case LOAD_UNASSIGNED_CASE_TYPES_SUCCESS:
-        return {...state, caseTypes: action.payload };
-      case UPDATE_SELECTION_FOR_CASE_TYPE:
-        const selectedCases: SelectedCases = { ... state.selectedCases };
-        selectedCases[action.payload.casetype] = action.payload.cases;
-        return { ...state,  selectedCases };
-      case LOAD_UNASSIGNED_CASES_FAILURE:
-        return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }};
-      default:
-        return state;
+  switch (action.type) {
+    case LOAD_UNASSIGNED_CASES_SUCCESS:
+      return { ...state, unassignedCases: action.payload };
+    case LOAD_UNASSIGNED_CASE_TYPES_SUCCESS:
+      return { ...state, caseTypes: action.payload };
+    case UPDATE_SELECTION_FOR_CASE_TYPE:
+      const selectedCases: SelectedCases = { ... state.selectedCases };
+      selectedCases[action.payload.casetype] = action.payload.cases;
+      return { ...state, selectedCases };
+    case LOAD_UNASSIGNED_CASES_FAILURE:
+      return { ...state, unassignedCases: { idField: '', columnConfigs: [], data: [] } };
+    default:
+      return state;
   }
 }
 

@@ -3,7 +3,7 @@ import { CanActivate } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import {AuthService} from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import * as fromStore from '../store';
 
 @Injectable()
@@ -11,8 +11,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private readonly store: Store<fromStore.AuthState>,
     public authService: AuthService
-  ) {
-  }
+  ) {}
 
   public canActivate() {
     const obsOne1$ = this.isAuthenticated();
@@ -21,7 +20,7 @@ export class AuthGuard implements CanActivate {
   }
 
   public isAuthenticated(): Observable<boolean> {
-    return this.authService.isAuthenticated().pipe(map(isAuth => {
+    return this.authService.isAuthenticated().pipe(map((isAuth) => {
       if (!isAuth) {
         this.authService.loginRedirect();
         return false;
@@ -32,12 +31,12 @@ export class AuthGuard implements CanActivate {
 
   public checkUserStore(): Observable<boolean> {
     return this.store.pipe(select(fromStore.userLoaded),
-      tap(loaded => {
+      tap((loaded) => {
         if (!loaded) {
           this.store.dispatch(new fromStore.GetUserDetails());
         }
       }),
-      filter(loaded => loaded),
+      filter((loaded) => loaded),
       take(1)
     );
   }

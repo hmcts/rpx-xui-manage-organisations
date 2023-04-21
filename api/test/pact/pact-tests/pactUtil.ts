@@ -14,8 +14,8 @@ export async function inviteUser(taskUrl: string, payload: any): Promise<any> {
 export async function registerOrganisation(taskUrl: string, payload: any): Promise<any> {
   const axiosConfig = {
     headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      "ServiceAuthorization": "ServiceAuthToken"
+      'Content-Type': 'application/json;charset=utf-8',
+      'ServiceAuthorization': 'ServiceAuthToken'
     }
   };
   return await axios.post(taskUrl, payload, axiosConfig);
@@ -24,8 +24,8 @@ export async function registerOrganisation(taskUrl: string, payload: any): Promi
 export async function registerOrganisationExternalV1(taskurl: string, payload: any): Promise<any> {
   const axiosConfig = {
     headers: {
-      "Content-Type": "application/json;charset=utf-8",
-      "ServiceAuthorization": "ServiceAuthToken"
+      'Content-Type': 'application/json;charset=utf-8',
+      'ServiceAuthorization': 'ServiceAuthToken'
     }
   };
   return await axios.post(taskurl, payload, axiosConfig);
@@ -45,7 +45,7 @@ export async function editUserPermissions(taskUrl: string, payload: any): Promis
 export async function getAccountFeeAndPayApi(taskUrl: string): Promise<AxiosResponse<any>> {
   const axiosConfig = {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     }
   };
 
@@ -56,8 +56,8 @@ export async function getOrganisationDetails(taskUrl: string): Promise<AxiosResp
   const axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": "Bearer some-access-token",
-      "ServiceAuthorization": "serviceAuthToken"
+      'Authorization': 'Bearer some-access-token',
+      'ServiceAuthorization': 'serviceAuthToken'
     }
   };
 
@@ -68,8 +68,8 @@ export async function getOrganisationByEmail(taskUrl: string): Promise<AxiosResp
   const axiosConfig = {
     headers: {
       'Content-Type': 'application/json',
-      "Authorization": "Bearer some-access-token",
-      "ServiceAuthorization": "serviceAuthToken"
+      'Authorization': 'Bearer some-access-token',
+      'ServiceAuthorization': 'serviceAuthToken'
     }
   };
   return axios.get(taskUrl, axiosConfig);
@@ -100,7 +100,7 @@ export async function suspendUser(taskUrl: string, payload: any): Promise<any> {
 export async function getDetails(idamUrl: string, token: string = null): Promise<any> {
   const axiosConfig = {
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${token}`
     }
   };
   const response = await axios.get(`${idamUrl}/details`, axiosConfig);

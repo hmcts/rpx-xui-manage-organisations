@@ -19,20 +19,20 @@ import { unassignedCasesRouting } from './unassigned-cases.routing';
 
 @NgModule({
   imports: [
-      CommonModule,
-      ExuiCommonLibModule,
-      HttpClientModule,
-      SharedModule,
-      unassignedCasesRouting,
-      StoreModule.forFeature('org', orgReducers),
-      EffectsModule.forFeature(orgEffects),
-      StoreModule.forFeature('unassignedCases', reducers),
-      EffectsModule.forFeature(effects),
-      MatTabsModule,
-      CaseListModule
-    ],
-    declarations: [...fromContainers.containers],
-    providers: [...fromServices.services, OrganisationService, PBAService, FeatureToggleAccountGuard, RoleGuard],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  })
+    CommonModule,
+    ExuiCommonLibModule,
+    HttpClientModule,
+    SharedModule,
+    unassignedCasesRouting,
+    StoreModule.forFeature('org', orgReducers),
+    EffectsModule.forFeature(orgEffects),
+    StoreModule.forFeature('unassignedCases', reducers),
+    EffectsModule.forFeature(effects),
+    MatTabsModule,
+    CaseListModule
+  ],
+  declarations: [...fromContainers.containers],
+  providers: [...fromServices.services, OrganisationService, PBAService, FeatureToggleAccountGuard, RoleGuard],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+})
 export class UnassignedCasesModule {}

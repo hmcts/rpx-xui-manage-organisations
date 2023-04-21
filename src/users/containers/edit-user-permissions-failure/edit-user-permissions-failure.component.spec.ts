@@ -14,7 +14,7 @@ describe('EditUserPermissionsFailureComponent', () => {
   const USER_ID = '5fe34csdf-dfs9-424c-x0sd2-23test';
 
   const mockUserStore = jasmine.createSpyObj('Store', [
-    'dispatch',
+    'dispatch'
   ]);
 
   beforeEach(waitForAsync(() => {
@@ -27,11 +27,11 @@ describe('EditUserPermissionsFailureComponent', () => {
       providers: [
         {
           provide: Store,
-          useValue: mockUserStore,
+          useValue: mockUserStore
         },
         {
           provide: ActivatedRoute,
-          useValue: { paramMap: of(convertToParamMap({userId: USER_ID})) }
+          useValue: { paramMap: of(convertToParamMap({ userId: USER_ID })) }
         }
       ]
     })
@@ -57,7 +57,6 @@ describe('EditUserPermissionsFailureComponent', () => {
 
   describe('getEditUserPermissionsLink()', () => {
     it('should return a link to the user page', () => {
-
       const editUserPermissionsLink = `/users/user/${USER_ID}`;
       expect(component.getEditUserPermissionsLink(USER_ID)).toEqual(editUserPermissionsLink);
     });

@@ -12,5 +12,4 @@ export class DateComponent {
     @Input() validate;
     @Input() showValidation;
     @Input() validationError;
-
 }

@@ -16,7 +16,6 @@ import { FormsService } from '../../services/form-builder.service';
 })
 
 export class FormBuilderComponent implements OnChanges {
-
   constructor(
     private readonly formsService: FormsService,
     private readonly validationService: ValidationService
@@ -68,7 +67,7 @@ export class FormBuilderComponent implements OnChanges {
   }
 
   public onBtnClick(eventId) {
-    this.btnClick.emit({eventId, data: this.formDraft});
+    this.btnClick.emit({ eventId, data: this.formDraft });
   }
 
   public onBlur(eventId) {

@@ -14,6 +14,3 @@ export const getRootStyleGuideState = createFeatureSelector<UserState>(
   'style-guide'
 );
 
-
-
-

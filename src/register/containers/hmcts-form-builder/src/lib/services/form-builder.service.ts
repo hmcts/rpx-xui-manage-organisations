@@ -8,8 +8,7 @@ import { ValidationService } from './form-builder-validation.service';
 export class FormsService {
   public formControls = [];
 
-  constructor(private validationService: ValidationService) {
-  }
+  constructor(private validationService: ValidationService) {}
 
   /**
    * Creation of FormControls for a FormGroup.
@@ -29,7 +28,6 @@ export class FormsService {
   public create(someJson, someData) {
     if (someJson && typeof someJson === 'object') {
       for (const prop of Object.keys(someJson)) {
-
         if (prop === 'control') {
           if (someJson.radioGroup !== undefined) {
             // RadioButton Logic
@@ -61,14 +59,11 @@ export class FormsService {
       }
     }
     if (someJson !== undefined && someJson.isArray) {
-
       for (const item of someJson) {
         this.create(someJson[item], someData);
       }
     }
   }
-
-
 
   /**
    * Creates a new `FormControl` instance.
@@ -76,7 +71,6 @@ export class FormsService {
    * @param updateOn? - validator updateOn options, can be change/submit/blur
    */
   public createFormControl(initialValue: any, controlName: string, validators: string[], updateOn?: boolean) {
-
     if (this.validationService.controlHasValidation(validators)) {
       if (updateOn) {
         this.formControls[controlName] = new FormControl(initialValue, {
@@ -92,7 +86,7 @@ export class FormsService {
     this.formControls[controlName] = new FormControl(initialValue);
   }
 
- public defineFormControls(someJson: any, someData: any): any {
+  public defineFormControls(someJson: any, someData: any): any {
     this.formControls = [];
     this.create(someJson, someData);
     return this.formControls;

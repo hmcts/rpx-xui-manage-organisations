@@ -11,14 +11,16 @@ import * as fromStore from '../../store';
 import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.component';
 
 @Component({
-  template: `<div>Nothing to see here. Move along, please.</div>`
+  template: '<div>Nothing to see here. Move along, please.</div>'
 })
 class MockComponent {}
 
 describe('UpdatePbaNumbersCheckComponent', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let pbaService: any;
   const storeMock = {
     actionsDispatched: [],
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     pipe: () => {},
     dispatch: (action: fromStore.OrganisationUpdatePBAs) => {
       storeMock.actionsDispatched.push(action);
@@ -33,6 +35,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
   };
 
   let pipeSpy: jasmine.Spy;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let dispatchSpy: jasmine.Spy;
   let component: UpdatePbaNumbersCheckComponent;
   let fixture: ComponentFixture<UpdatePbaNumbersCheckComponent>;
@@ -41,7 +44,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
 
   const MOCK_DX_ADDRESS: DxAddress = {
     dxNumber: 'DX 4534234552',
-    dxExchange: 'London',
+    dxExchange: 'London'
   };
 
   const MOCK_CONTACT_INFORMATION: OrganisationContactInformation = {
@@ -52,7 +55,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [ MOCK_DX_ADDRESS ]
+    dxAddress: [MOCK_DX_ADDRESS]
   };
 
   const getMockOrganisation = (add: PBANumberModel[], remove: PBANumberModel[]): OrganisationDetails => {
@@ -71,7 +74,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       },
       paymentAccount: [{ pbaNumber: 'test' }],
       pendingAddPaymentAccount: add,
-      pendingRemovePaymentAccount: remove,
+      pendingRemovePaymentAccount: remove
     };
   };
 
@@ -89,8 +92,8 @@ describe('UpdatePbaNumbersCheckComponent', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          feature: combineReducers(fromStore.reducers),
-        }),
+          feature: combineReducers(fromStore.reducers)
+        })
       ],
       declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -104,7 +107,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
           useValue: storeMock
         },
         PBAService,
-        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: ActivatedRoute, useValue: activatedRoute }
       ]
     }).compileComponents();
 

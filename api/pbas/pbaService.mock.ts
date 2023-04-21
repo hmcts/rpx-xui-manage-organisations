@@ -39,7 +39,7 @@ function checkForErrors(pbas: string[]): object[] {
     for (const pba of pbas) {
       const err = PBA_ERRORS[pba];
       if (err) {
-        return [ err.code, generateError(err.message, err.description) ];
+        return [err.code, generateError(err.message, err.description)];
       }
     }
   }
@@ -73,14 +73,14 @@ const MOCK_PBAS = {
 };
 
 const MOCK_ORGS = {
-  xxccx2: { status: 'active', pbas: [ '1111111', '2222222' ] },
-  xxccx3: { status: 'active', pbas: [ '3333333', '4444444' ] }
+  xxccx2: { status: 'active', pbas: ['1111111', '2222222'] },
+  xxccx3: { status: 'active', pbas: ['3333333', '4444444'] }
 };
 
 export const init = () => {
   const mock = new MockAdapter(httpMock);
 
-  const ALL_ORGS = [ toOrg('xxccx2'), toOrg('xxccx3') ];
+  const ALL_ORGS = [toOrg('xxccx2'), toOrg('xxccx3')];
 
   const getPBAUrl = /\/api\/pba\/getPBA/;
   const addPBAUrl = /\/api\/pba\/addPBA/;
@@ -91,24 +91,24 @@ export const init = () => {
 
   // GET
   mock.onGet(getPBAUrl).reply(() => {
-    return [ 200, ALL_ORGS, ];
+    return [200, ALL_ORGS];
   });
 
   // POST
-  mock.onPost(addPBAUrl).reply(req => {
+  mock.onPost(addPBAUrl).reply((req) => {
     const numbers = JSON.parse(req.data);
-    return checkForErrors(numbers) || [ 200, {} ];
+    return checkForErrors(numbers) || [200, {}];
   });
 
   // DELETE
-  mock.onDelete(deletePBAUrl).reply(req => {
+  mock.onDelete(deletePBAUrl).reply((req) => {
     const numbers = JSON.parse(req.data);
-    return checkForErrors(numbers) || [ 204, {} ];
+    return checkForErrors(numbers) || [204, {}];
   });
 
   // PUT
   mock.onPut(updatePBAUrl).reply(() => {
-    return [ 200, {} ];
+    return [200, {}];
   });
 
   /**

@@ -6,46 +6,46 @@ const { Matchers } = require('@pact-foundation/pact');
 const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'idamApi_users', port: 8000 });
 
-describe("Idam API user details", async () => {
-
+describe('Idam API user details', async () => {
   const RESPONSE_BODY = {
-    "id": somethingLike("abc123"),
-    "forename": somethingLike("Joe"),
-    "surname": somethingLike("Bloggs"),
-    "email": somethingLike("joe.bloggs@hmcts.net"),
-    "active": somethingLike(true),
-    "roles": somethingLike([
-      somethingLike("solicitor"), somethingLike("caseworker")
+    'id': somethingLike('abc123'),
+    'forename': somethingLike('Joe'),
+    'surname': somethingLike('Bloggs'),
+    'email': somethingLike('joe.bloggs@hmcts.net'),
+    'active': somethingLike(true),
+    'roles': somethingLike([
+      somethingLike('solicitor'), somethingLike('caseworker')
     ])
-  }
+  };
 
-  describe("get /details", () => {
+  describe('get /details', () => {
+    const jwt = 'some-access-token';
 
-    const jwt = 'some-access-token'
     before(async () => {
-      await pactSetUp.provider.setup()
+      await pactSetUp.provider.setup();
       const interaction = {
-        state: "a valid user exists",
-        uponReceiving: "a request for that user:",
+        state: 'a valid user exists',
+        uponReceiving: 'a request for that user:',
         withRequest: {
-          method: "GET",
-          path: "/details",
+          method: 'GET',
+          path: '/details',
           headers: {
-            Authorization: "Bearer some-access-token"
-          },
+            Authorization: 'Bearer some-access-token'
+          }
         },
         willRespondWith: {
           status: 200,
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
           },
-          body: RESPONSE_BODY,
-        },
-      }
+          body: RESPONSE_BODY
+        }
+      };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction)
-    })
-    it("returns the correct response", async () => {
+      pactSetUp.provider.addInteraction(interaction);
+    });
+
+    it('returns the correct response', async () => {
       const taskUrl = `${pactSetUp.provider.mockService.baseUrl}`;
 
       const response: Promise<any> = getDetails(taskUrl, jwt);
@@ -54,15 +54,15 @@ describe("Idam API user details", async () => {
         const dto: IdamGetDetailsResponseDto = <IdamGetDetailsResponseDto>axiosResponse;
         assertResponses(dto);
       }).then(() => {
-        pactSetUp.provider.verify()
-        pactSetUp.provider.finalize()
+        pactSetUp.provider.verify();
+        pactSetUp.provider.finalize();
       }).finally(() => {
-        pactSetUp.provider.verify()
-        pactSetUp.provider.finalize()
-      })
-    })
-  })
-})
+        pactSetUp.provider.verify();
+        pactSetUp.provider.finalize();
+      });
+    });
+  });
+});
 
 function assertResponses(dto: IdamGetDetailsResponseDto) {
   expect(dto.active).to.be.equal(true);

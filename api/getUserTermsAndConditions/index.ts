@@ -1,10 +1,10 @@
-import { Request, Response, Router } from 'express'
-import { getConfigValue, showFeature } from '../configuration'
-import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references'
-import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse'
-import { application } from '../lib/config/application.config'
-import {valueOrNull} from '../lib/util';
-import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
+import { Request, Response, Router } from 'express';
+import { getConfigValue, showFeature } from '../configuration';
+import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references';
+import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse';
+import { application } from '../lib/config/application.config';
+import { valueOrNull } from '../lib/util';
+import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil';
 
 /**
  * getUserTermsAndConditions
@@ -16,43 +16,43 @@ import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil'
  * @param res
  */
 async function getUserTermsAndConditions(req: Request, res: Response) {
-    if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
-      console.log('T&Cs is enabled.')
-      res.setHeader('debugger', 'T&Cs is enabled.')
-      let errReport: any
-      if (!req.params.userId) {
-        errReport = {
-          apiError: 'UserId is missing',
-          apiStatusCode: '400',
-          message: 'User Terms and Conditions route error',
-        }
-        res.status(400).send(errReport)
-      }
-      try {
-        const url = getUserTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), req.params.userId, application.idamClient)
-        const response = await req.http.get(url)
-        const userTandCResponse = response.data as GetUserAcceptTandCResponse
-        res.send(userTandCResponse.accepted)
-      } catch (error) {
-        // we get a 404 if the user has not agreed to Terms and conditions
-        if (valueOrNull(error, 'status') === 404) {
-          res.send(true)
-          return
-        }
-        errReport = {
-          apiError: valueOrNull(error, 'data.message'),
-          apiStatusCode: valueOrNull(error, 'status'),
-          message: 'User Terms and Conditions route error',
-        }
-        res.status(error.status).send(errReport)
-      }
-    } else {
-      console.log('T&Cs is not enabled.')
-      res.setHeader('debugger', 'T&Cs is not enabled.')
-      res.status(200).send(true)
+  if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
+    console.log('T&Cs is enabled.');
+    res.setHeader('debugger', 'T&Cs is enabled.');
+    let errReport: any;
+    if (!req.params.userId) {
+      errReport = {
+        apiError: 'UserId is missing',
+        apiStatusCode: '400',
+        message: 'User Terms and Conditions route error'
+      };
+      res.status(400).send(errReport);
     }
+    try {
+      const url = getUserTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), req.params.userId, application.idamClient);
+      const response = await req.http.get(url);
+      const userTandCResponse = response.data as GetUserAcceptTandCResponse;
+      res.send(userTandCResponse.accepted);
+    } catch (error) {
+      // we get a 404 if the user has not agreed to Terms and conditions
+      if (valueOrNull(error, 'status') === 404) {
+        res.send(true);
+        return;
+      }
+      errReport = {
+        apiError: valueOrNull(error, 'data.message'),
+        apiStatusCode: valueOrNull(error, 'status'),
+        message: 'User Terms and Conditions route error'
+      };
+      res.status(error.status).send(errReport);
+    }
+  } else {
+    console.log('T&Cs is not enabled.');
+    res.setHeader('debugger', 'T&Cs is not enabled.');
+    res.status(200).send(true);
+  }
 }
 
-export const router = Router({ mergeParams: true })
-router.get('', getUserTermsAndConditions)
-export default getUserTermsAndConditions
+export const router = Router({ mergeParams: true });
+router.get('', getUserTermsAndConditions);
+export default getUserTermsAndConditions;

@@ -28,7 +28,7 @@ import {
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
-  SESSION_SECRET,
+  SESSION_SECRET
 } from '../configuration/references';
 import { application } from '../lib/config/application.config';
 import { http } from '../lib/http';
@@ -38,15 +38,15 @@ import * as tunnel from '../lib/tunnel';
 export async function postS2SLease() {
   const s2sSecret = getConfigValue(S2S_SECRET) || 'AAAAAAAAAAAAAAAA';
   const url = getConfigValue(SERVICE_S2S_PATH);
-  const microservice =  application.microservice;
+  const microservice = application.microservice;
   const logger = log4jui.getLogger('service user-profile');
   let request: AxiosResponse<any>;
   const axiosInstance = http({
     session: {
       auth: {
-        token: '',
-      },
-    },
+        token: ''
+      }
+    }
   } as unknown as Request);
   console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV);
   console.log('postS2SLease url:', url);
@@ -55,7 +55,7 @@ export async function postS2SLease() {
     logger.info('Generating S2S token for microservice: ', microservice);
     request = await axiosInstance.post(`${url}/lease`, {
       microservice,
-      oneTimePassword,
+      oneTimePassword
     });
   } else {
     // this is only for local development against the RD docker image
@@ -68,12 +68,11 @@ export async function postS2SLease() {
 
 export const router = Router({ mergeParams: true });
 
-router.get('/health', (req, res, next) => {
+router.get('/health', (req, res) => {
   res.status(200).send({
     allowConfigMutations: process.env.ALLOW_CONFIG_MUTATIONS,
     nodeConfigEnv: process.env.NODE_CONFIG_ENV,
     // 1st set
-    // tslint:disable-next-line:object-literal-sort-keys
     idamClient: getConfigValue(IDAM_CLIENT),
     maxLogLine: getConfigValue(MAX_LOG_LINE),
     microService: getConfigValue(MICROSERVICE),
@@ -103,7 +102,7 @@ router.get('/health', (req, res, next) => {
 
     redis: {
       prefix: getConfigValue(REDIS_KEY_PREFIX),
-      ttl: getConfigValue(REDIS_TTL),
-    },
+      ttl: getConfigValue(REDIS_TTL)
+    }
   });
-})
+});

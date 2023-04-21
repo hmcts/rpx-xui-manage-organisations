@@ -1,12 +1,12 @@
-import {emailAddress} from './emailAddress';
-import {haveDx} from './haveDx';
-import {name} from './name';
-import {organisationName} from './oganisationName';
-import {organisationAddress} from './organisationAddress';
-import {organisationDx} from './organisationDx';
-import {organisationHaveSra} from './organisationHaveSra';
-import {pbaNumber} from './pbaNumber';
-import {sraNumber} from './sraNumber';
+import { emailAddress } from './emailAddress';
+import { haveDx } from './haveDx';
+import { name } from './name';
+import { organisationName } from './oganisationName';
+import { organisationAddress } from './organisationAddress';
+import { organisationDx } from './organisationDx';
+import { organisationHaveSra } from './organisationHaveSra';
+import { pbaNumber } from './pbaNumber';
+import { sraNumber } from './sraNumber';
 
 const formBuilderTemplates = {
   'email-address': emailAddress,
@@ -17,7 +17,7 @@ const formBuilderTemplates = {
   'organisation-have-dx': haveDx,
   'organisation-name': organisationName,
   'organisation-pba': pbaNumber,
-  sraNumber,
+  sraNumber
 };
 
 /**

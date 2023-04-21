@@ -16,7 +16,6 @@ const targetJson = `${jsonReports}/cucumber_report.json`;
 const { Given, When, Then } = require('cucumber');
 const CucumberReportLogger = require('./reportLogger');
 
-
 // defineSupportCode(function({After }) {
 //     registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {
 //         var origFn = browser.driver.controlFlow().execute;
@@ -92,9 +91,8 @@ const CucumberReportLogger = require('./reportLogger');
 
 // });
 
-
 defineSupportCode(({ Before, After }) => {
-  Before(function (scenario,done){
+  Before(function (scenario, done){
     const world = this;
     CucumberReportLogger.setScenarioWorld(world);
     done();
@@ -103,14 +101,14 @@ defineSupportCode(({ Before, After }) => {
   After(function(scenario, done) {
     const world = this;
     if (scenario.result.status === 'failed') {
-      screenShotUtils.takeScreenshot().then(stream => {
+      screenShotUtils.takeScreenshot().then((stream) => {
         const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
         world.attach(decodedImage, 'image/png');
       })
         .then(() => {
           browser.manage().logs().get('browser').then(function (browserLog) {
             // console.log('log: ' + require('util').inspect(browserLog));
-            let browserErrorLogs = []
+            const browserErrorLogs = [];
             for (let browserLogCounter = 0; browserLogCounter < browserLog.length; browserLogCounter++){
               if (browserLog[browserLogCounter].level.value > 900){
                 browserErrorLogs.push(browserLog[browserLogCounter]);
@@ -121,11 +119,8 @@ defineSupportCode(({ Before, After }) => {
             world.attach(JSON.stringify(browserErrorLogs, null, 2));
             // scenario.attach(scenario);
             done();
-          })
-
+          });
         });
-
-
     } else {
       done();
     }

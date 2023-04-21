@@ -28,7 +28,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
   `
 })
 export class GovUkFieldsetComponent {
-  constructor () { }
+  constructor () {}
   @Input() config: {legend: string; classes: string, id: string, hint: string, key: string};
   @Input() isHeading: boolean;
   @Input() errorMessage: string[];

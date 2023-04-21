@@ -1,6 +1,6 @@
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { AppConstants } from '../../../app/app.constants';
-import {AppUtils} from '../../../app/utils/app-utils';
+import { AppUtils } from '../../../app/utils/app-utils';
 import * as fromUsers from '../actions/user.actions';
 
 export interface UsersListState {
@@ -26,7 +26,6 @@ export function reducer(
   action: fromUsers.UserActions
 ): UsersListState {
   switch (action.type) {
-
     case fromUsers.LOAD_USERS: {
       const userList = [];
       return {
@@ -48,7 +47,6 @@ export function reducer(
       );
 
       const userList = userListPayload.map((user) => {
-
         user.status = AppUtils.capitalizeString(user.idamStatus);
 
         AppConstants.USER_ROLES.forEach((userRoles) => {
@@ -97,9 +95,9 @@ export function reducer(
     case fromUsers.SUSPEND_USER_SUCCESS: {
       const user = action.payload ? action.payload : null;
 
-      const userDetails = {...user};
-      userDetails['idamStatus'] = 'SUSPENDED';
-      userDetails['status'] = 'Suspended';
+      const userDetails = { ...user };
+      userDetails.idamStatus = 'SUSPENDED';
+      userDetails.status = 'Suspended';
 
       return {
         ...state,
@@ -127,28 +125,28 @@ export function reducer(
     case fromUsers.EDIT_USER: {
       return {
         ...state,
-        editUserFailure: false,
+        editUserFailure: false
       };
     }
 
     case fromUsers.EDIT_USER_FAILURE: {
       return {
         ...state,
-        editUserFailure: true,
+        editUserFailure: true
       };
     }
 
     case fromUsers.EDIT_USER_FAILURE_RESET: {
       return {
         ...state,
-        editUserFailure: false,
+        editUserFailure: false
       };
     }
 
     case fromUsers.LOAD_USER_DETAILS: {
       return {
         ...state,
-        userDetails: action.payload,
+        userDetails: action.payload
       };
     }
 
@@ -177,7 +175,6 @@ export function reducer(
 
     default:
       return state;
-
   }
 }
 

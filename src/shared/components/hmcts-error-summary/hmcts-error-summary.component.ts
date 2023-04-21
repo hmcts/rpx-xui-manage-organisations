@@ -12,7 +12,6 @@ import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges } fro
   templateUrl: './hmcts-error-summary.component.html'
 })
 export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
-
   @Input() public set errorMessages(value: object[]) {
     this.messages = value;
   }
@@ -22,7 +21,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
 
   public messages: object[];
 
-  constructor(@Inject(DOCUMENT) private readonly document) { }
+  constructor(@Inject(DOCUMENT) private readonly document) {}
 
   public ngAfterViewInit(): void {
     this.scrollTo('errorSummary');
@@ -45,5 +44,4 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
   public hasElement(selector: string): boolean {
     return this.document.querySelector(`#${selector}`);
   }
-
 }

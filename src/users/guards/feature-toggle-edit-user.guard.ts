@@ -6,9 +6,9 @@ import * as fromRoot from '../../../src/app/store';
 
 @Injectable()
 export class FeatureToggleEditUserGuard implements CanActivate {
-constructor(private readonly appStore: Store<fromRoot.State>) {}
+  constructor(private readonly appStore: Store<fromRoot.State>) {}
 
-    public canActivate(): Observable<boolean> {
-        return this.appStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
-    }
+  public canActivate(): Observable<boolean> {
+    return this.appStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+  }
 }

@@ -22,13 +22,13 @@ const userList = [
 ];
 
 const userDetails = {
-    firstName: 'Test1firstname',
-    lastName: 'Test1lastname',
-    email: 'somthing1@something',
-    status: 'active',
-    roles: 'blabla1',
-    userIdentifier: 'userId1'
-}
+  firstName: 'Test1firstname',
+  lastName: 'Test1lastname',
+  email: 'somthing1@something',
+  status: 'active',
+  roles: 'blabla1',
+  userIdentifier: 'userId1'
+};
 
 const mockUserListState: UsersListState = {
   userList,
@@ -47,7 +47,7 @@ const mockUserState: UserState = {
 describe('User selectors', () => {
   describe('getUserState', () => {
     it('should return user list state', () => {
-      expect(getUserState({users: mockUserState})).toEqual(mockUserListState);
+      expect(getUserState({ users: mockUserState })).toEqual(mockUserListState);
     });
   });
 
@@ -62,7 +62,7 @@ describe('User selectors', () => {
         userIdentifier: 'userId1'
       };
 
-      expect(getGetSingleUser({users: mockUserState})).toEqual(expectedUser);
+      expect(getGetSingleUser({ users: mockUserState })).toEqual(expectedUser);
     });
   });
 

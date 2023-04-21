@@ -7,8 +7,8 @@ import { TermsConditionsService } from '../../../shared/services/termsConditions
 import * as fromRoot from '../../store';
 
 @Component({
-    selector: 'app-terms-and-conditions',
-    templateUrl: './terms-and-conditions.component.html'
+  selector: 'app-terms-and-conditions',
+  templateUrl: './terms-and-conditions.component.html'
 })
 export class TermsAndConditionsComponent implements OnInit, OnDestroy {
   public document: TCDocument = null;
@@ -23,12 +23,12 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.termsAndConditionsService.isTermsConditionsFeatureEnabled().subscribe(enabled => {
+    this.termsAndConditionsService.isTermsConditionsFeatureEnabled().subscribe((enabled) => {
       if (enabled) {
         this.isTandCEnabled = true;
         const s = this.store.pipe(
           select(fromRoot.getTermsAndConditions)
-        ).subscribe(doc => {
+        ).subscribe((doc) => {
           if (doc) {
             this.document = doc;
           } else {
@@ -41,6 +41,6 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscriptions.forEach(s => s.unsubscribe());
+    this.subscriptions.forEach((s) => s.unsubscribe());
   }
 }

@@ -9,15 +9,14 @@ import * as fromSelectors from '../selectors/app.selectors';
 describe('App Selectors', () => {
   let store: Store<fromReducers.State>;
 
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          products: combineReducers(fromReducers.reducers),
-        }),
-      ],
+          products: combineReducers(fromReducers.reducers)
+        })
+      ]
     });
 
     store = TestBed.inject(Store);
@@ -30,7 +29,7 @@ describe('App Selectors', () => {
       let result;
 
       store.pipe(select(fromSelectors.getPageTitle))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual('');
 
@@ -45,11 +44,10 @@ describe('App Selectors', () => {
       let result;
 
       store.pipe(select(fromSelectors.getHeaderTitle))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
-      store.dispatch(new fromRoot.Go({path: ['/organisation']}));
+      store.dispatch(new fromRoot.Go({ path: ['/organisation'] }));
       expect(result).toEqual(undefined);
-
     });
   });
 
@@ -58,9 +56,9 @@ describe('App Selectors', () => {
       let result;
 
       store.pipe(select(fromSelectors.getNavItems))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
-      expect(result).toEqual({navItems: []});
+      expect(result).toEqual({ navItems: [] });
     });
   });
 
@@ -69,10 +67,9 @@ describe('App Selectors', () => {
       let result;
 
       store.pipe(select(fromSelectors.getUserNav))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
 
       expect(result).toEqual([]);
-
     });
   });
 
@@ -84,7 +81,7 @@ describe('App Selectors', () => {
       ];
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
-      store.pipe(select(fromSelectors.getFeeAndPayFeature)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getFeeAndPayFeature)).subscribe((value) => (result = value));
       expect(result.featureName).toBe('fee-and-accounts');
     });
 
@@ -92,7 +89,7 @@ describe('App Selectors', () => {
       const featureFlags: AppFeatureFlag = { featureName: 'fee-and-accounts', isEnabled: false };
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlags));
-      store.pipe(select(fromSelectors.getFeeAndPayFeatureIsEnabled)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getFeeAndPayFeatureIsEnabled)).subscribe((value) => (result = value));
       expect(result).toBeUndefined();
     });
 
@@ -103,7 +100,7 @@ describe('App Selectors', () => {
       ];
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
-      store.pipe(select(fromSelectors.getUnassignedCasesFeature)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getUnassignedCasesFeature)).subscribe((value) => (result = value));
       expect(result.featureName).toBe('unassigned-cases');
     });
 
@@ -111,7 +108,7 @@ describe('App Selectors', () => {
       const featureFlag: AppFeatureFlag = { featureName: 'unassigned-cases', isEnabled: true };
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlag));
-      store.pipe(select(fromSelectors.getUnassignedCasesFeatureIsEnabled)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getUnassignedCasesFeatureIsEnabled)).subscribe((value) => (result = value));
       expect(result).toBeUndefined();
     });
 
@@ -122,7 +119,7 @@ describe('App Selectors', () => {
       ];
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfigSuccess(featureFlags));
-      store.pipe(select(fromSelectors.getEditUserFeature)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getEditUserFeature)).subscribe((value) => (result = value));
       expect(result.featureName).toBe('edit-permissions');
     });
 
@@ -130,9 +127,8 @@ describe('App Selectors', () => {
       const featureFlag: AppFeatureFlag = { featureName: 'unassigned-cases', isEnabled: true };
       let result;
       store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlag));
-      store.pipe(select(fromSelectors.getEditUserFeatureIsEnabled)).subscribe(value => (result = value));
+      store.pipe(select(fromSelectors.getEditUserFeatureIsEnabled)).subscribe((value) => (result = value));
       expect(result).toBeUndefined();
     });
-
   });
 });

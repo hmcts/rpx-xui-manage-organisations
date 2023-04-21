@@ -11,10 +11,9 @@ import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-check-your-answers',
-  templateUrl: './check-your-answers.component.html',
+  templateUrl: './check-your-answers.component.html'
 })
 export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewInit {
-
   constructor(
     private readonly store: Store<fromStore.RegistrationState>
   ) {}
@@ -32,7 +31,7 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
         pbaNumbers.push(values[key]);
       }
     }
-    this.formDataValues = {...this.formDataValues, PBANumbers: pbaNumbers};
+    this.formDataValues = { ...this.formDataValues, PBANumbers: pbaNumbers };
   }
 
   public ngOnInit(): void {

@@ -131,7 +131,7 @@
     "rxjs-compat": "^6.4.0",
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
-    "xlsx": "^0.15.4",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

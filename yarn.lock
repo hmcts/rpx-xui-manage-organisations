@@ -1946,15 +1946,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.1.0-angular-upgrade-11":
-  version: 2.1.0-angular-upgrade-11
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.1.0-angular-upgrade-11"
+"@hmcts/rpx-xui-common-lib@npm:1.8.7-fee-paid-filter-change":
+  version: 1.8.7-fee-paid-filter-change
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.8.7-fee-paid-filter-change"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
-  checksum: d12b96187f34863a87eff336540c809a30eae8ab5ab11a5230e5b4b017f53948a5b20637f1bcfbdf7e0ec5f3be72121c3a84e0e9e7547cc38b51daf92b6a897b
+  checksum: 1a8dec2da5bf117c2370e22e3592c608b21f2e6700a9d5d25e286e1a188467a306f220043bc2c81f1b48d382115a9266009ee71342cc4a1c1d7d73e80af4a88f
   languageName: node
   linkType: hard
 
@@ -17378,7 +17378,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.1.0-angular-upgrade-11
+    "@hmcts/rpx-xui-common-lib": 1.8.7-fee-paid-filter-change
     "@hmcts/rpx-xui-node-lib": 2.25.12
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

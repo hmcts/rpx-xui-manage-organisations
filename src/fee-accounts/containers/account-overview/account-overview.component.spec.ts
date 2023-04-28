@@ -13,11 +13,11 @@ describe('AccountOverviewComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         RouterModule.forRoot([]),
-          StoreModule.forRoot({}),
-          StoreModule.forFeature('org', reducers),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('org', reducers)
       ],
       declarations: [AccountOverviewComponent],
-      providers: [ { provide: APP_BASE_HREF, useValue: '/' }]
+      providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
     })
       .compileComponents();
   }));

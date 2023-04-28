@@ -11,7 +11,7 @@ describe('TransactionsComponent', () => {
       declarations: [TransactionsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

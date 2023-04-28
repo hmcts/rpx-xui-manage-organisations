@@ -10,14 +10,12 @@ import {
   tap
 } from 'rxjs/operators';
 import * as fromAuth from '../store';
-import {GetUserDetails} from '../store/actions';
-import { userLoaded} from '../store/selectors';
+import { GetUserDetails } from '../store/actions';
+import { userLoaded } from '../store/selectors';
 
 @Injectable()
 export class UserGuard implements CanActivate {
-
-  constructor(private readonly store: Store<fromAuth.AuthState>) {
-  }
+  constructor(private readonly store: Store<fromAuth.AuthState>) {}
 
   public canActivate(): Observable<boolean> {
     return this.checkStore()
@@ -30,12 +28,12 @@ export class UserGuard implements CanActivate {
   public checkStore(): Observable<boolean> {
     return this.store.pipe(
       select(userLoaded),
-      tap(loaded => {
+      tap((loaded) => {
         if (!loaded) {
           this.store.dispatch(new GetUserDetails());
         }
       }),
-      filter(loaded => loaded),
+      filter((loaded) => loaded),
       take(1)
     );
   }

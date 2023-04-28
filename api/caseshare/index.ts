@@ -1,11 +1,11 @@
-import { NextFunction, Response } from 'express'
-import { EnhancedRequest } from '../models/enhanced-request.interface'
-import { getConfigValue } from '../configuration'
-import { STUB } from '../configuration/references'
-import * as realAPI from './real-api'
-import * as stubAPI from './stub-api'
+import { NextFunction, Response } from 'express';
+import { getConfigValue } from '../configuration';
+import { STUB } from '../configuration/references';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
+import * as realAPI from './real-api';
+import * as stubAPI from './stub-api';
 
-const stub: boolean = getConfigValue(STUB)
+const stub: boolean = getConfigValue(STUB);
 
 /**
  * searchUsers
@@ -13,10 +13,9 @@ const stub: boolean = getConfigValue(STUB)
  */
 export async function getUsers(req: EnhancedRequest, res: Response, next: NextFunction) {
   if (stub) {
-    return stubAPI.getUsers(req, res)
-   } else {
-    return realAPI.getUsers(req, res, next)
+    return stubAPI.getUsers(req, res);
   }
+  return realAPI.getUsers(req, res, next);
 }
 
 /**
@@ -25,16 +24,14 @@ export async function getUsers(req: EnhancedRequest, res: Response, next: NextFu
  */
 export async function getCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   if (stub) {
-    return stubAPI.getCases(req, res)
-  } else {
-    return realAPI.getCases(req, res, next)
+    return stubAPI.getCases(req, res);
   }
+  return realAPI.getCases(req, res, next);
 }
 
 export async function assignCasesToUsers(req: EnhancedRequest, res: Response) {
   if (stub) {
-    return stubAPI.assignCases(req, res)
-  } else {
-    return realAPI.assignCases(req, res)
+    return stubAPI.assignCases(req, res);
   }
+  return realAPI.assignCases(req, res);
 }

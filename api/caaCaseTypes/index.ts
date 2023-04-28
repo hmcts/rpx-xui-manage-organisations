@@ -1,4 +1,4 @@
-import { Response, Router } from 'express';
+import { NextFunction, Response, Router } from 'express';
 import { handleRoleAssignments } from '../caaCases';
 import { CaaCasesFilterType, CaaCasesPageType } from '../caaCases/enums';
 import { RoleAssignmentResponse } from '../caaCases/models/roleAssignmentResponse';
@@ -7,7 +7,7 @@ import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/refere
 import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getApiPath, getRequestBody } from './caaCaseTypes.util';
 
-export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response) {
+export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caaCasesPageType = req.query.caaCasesPageType as string;
   const caaCasesFilterType: string = req.query.caaCasesFilterType as string;
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), getConfigValue(CASE_TYPES));
@@ -15,7 +15,7 @@ export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response) {
 
   try {
     if (caaCasesPageType === CaaCasesPageType.AssignedCases && caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
-      const roleAssignments = await handleRoleAssignments(req);
+      const roleAssignments = await handleRoleAssignments(req, next);
       const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
       caaCasesFilterValue = roleAssignmentResponse.map(x => x.attributes.caseId);
     }

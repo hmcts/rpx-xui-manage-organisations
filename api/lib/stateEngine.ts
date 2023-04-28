@@ -22,7 +22,7 @@ export function handleState(stateNode, variables): any {
     return handleCondition(stateNode, variables);
   } else if (stateNode.conditions) {
     logger.info(`Found multiple conditions for ${stateNode.state}`);
-    return some(stateNode.conditions, conditions => handleCondition(conditions, variables));
+    return some(stateNode.conditions, (conditions) => handleCondition(conditions, variables));
   } else if (stateNode.result) {
     logger.info(`State result without conditional: ${stateNode.result}`);
     return stateNode.result;
@@ -36,21 +36,20 @@ export function handleInstruction(instruction, stateId, variables): any {
     return handleState(instruction, variables);
   } else if (instruction.states) {
     logger.info(`Found multiple states for ${instruction.event}`);
-    return some(instruction.states, stateNode => {
+    return some(instruction.states, (stateNode) => {
       if (stateNode.state === stateId) {
         return handleState(stateNode, variables);
       }
       return false;
     });
-  } else {
-    // no states
-    logger.info(`Instruction result without state: ${instruction.result} `);
-    return instruction.result;
   }
+  // no states
+  logger.info(`Instruction result without state: ${instruction.result} `);
+  return instruction.result;
 }
 
 export function getRegister(mapping): any {
-  return mapping.filter(mapInstruction => mapInstruction.register);
+  return mapping.filter((mapInstruction) => mapInstruction.register);
 }
 
 export async function process(req, res, mapping, payload, templates, store): Promise<void> {
@@ -117,7 +116,7 @@ export async function process(req, res, mapping, payload, templates, store): Pro
       }
       result = true;
       return false;
-    })
+    });
   } else {
     // reset for testing
     if (stateId === 'reset') {
@@ -136,7 +135,7 @@ export async function process(req, res, mapping, payload, templates, store): Pro
     const response = {
       formValues: variables,
       meta,
-      newRoute,
+      newRoute
     };
     req.session.save(() => res.send(JSON.stringify(response)));
   }

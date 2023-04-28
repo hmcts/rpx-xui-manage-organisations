@@ -18,7 +18,6 @@ import * as fromCaseList from '../../store/reducers';
   styleUrls: ['./case-share.component.scss']
 })
 export class CaseShareComponent implements OnInit {
-
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;
   public init: boolean;
   public pageType: string;
@@ -40,7 +39,7 @@ export class CaseShareComponent implements OnInit {
 
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
-    this.routerState$.subscribe(router => {
+    this.routerState$.subscribe((router) => {
       this.init = router.state.queryParams.init;
       this.pageType = router.state.queryParams.pageType;
       // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation
@@ -66,9 +65,7 @@ export class CaseShareComponent implements OnInit {
       this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
         ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
         : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-      this.shareCases$.subscribe(shareCases => {
-        this.shareCases = shareCases;
-      });
+      this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
     });
 
     this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));

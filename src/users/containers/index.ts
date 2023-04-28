@@ -6,8 +6,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { UsersComponent } from './users/users.component';
 
 export const containers: any[] = [UsersComponent, InviteUserComponent, InviteUserSuccessComponent, UserDetailsComponent,
-    EditUserPermissionComponent, EditUserPermissionsFailureComponent];
-
+  EditUserPermissionComponent, EditUserPermissionsFailureComponent];
 
 export * from './users/users.component';
 export * from './invite-user/invite-user.component';

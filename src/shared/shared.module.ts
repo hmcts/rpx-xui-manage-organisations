@@ -61,7 +61,7 @@ import { MonitoringService } from './services/monitoring.service';
       multi: true
     },
     HeadersService,
-    { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
     MonitoringService,
     UserRoleGuard,
     HealthCheckGuard,
@@ -71,5 +71,4 @@ import { MonitoringService } from './services/monitoring.service';
     FeatureToggleEditUserGuard
   ]
 })
-export class SharedModule {
-}
+export class SharedModule {}

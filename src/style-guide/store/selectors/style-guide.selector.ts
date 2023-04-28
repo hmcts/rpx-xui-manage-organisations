@@ -24,12 +24,11 @@ export const getGetStyleGuideErrorsArray = createSelector(
   getStyleGuideErrorMessage,
   getStyleGuideIsFormValid,
   (obj, isFormValid) => {
-
-    const items =  Object.keys(obj).map(key => {
+    const items = Object.keys(obj).map((key) => {
       if (key) {
         return {
-            id: key,
-            message: obj[key].messages.filter((el) => el !== '')
+          id: key,
+          message: obj[key].messages.filter((el) => el !== '')
         };
       }
     });
@@ -38,6 +37,5 @@ export const getGetStyleGuideErrorsArray = createSelector(
       isFromValid: isFormValid,
       items
     };
-
   }
 );

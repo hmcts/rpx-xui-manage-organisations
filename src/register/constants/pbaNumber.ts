@@ -10,28 +10,28 @@ export const pbaNumber = {
         validationErrorId: 'duplicatedPBAError',
         validationLevel: 'formGroup',
         controls: 'PBANumber',
-        text: 'You have entered this PBA number more than once',
+        text: 'You have entered this PBA number more than once'
       },
       {
         validatorFunc: 'invalidPBANumberCheck',
         validationErrorId: 'invalidPBANumberError',
         validationLevel: 'formGroup',
         controls: 'PBANumber',
-        text: 'Enter a valid PBA number',
+        text: 'Enter a valid PBA number'
       }],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'PBANumber1',
-        text: 'Enter a valid PBA number',
-      },
+        text: 'Enter a valid PBA number'
+      }
     ],
     groups: [
       {
         inputButton: {
           label: {
             text: 'PBA number (Optional)',
-            classes: 'govuk-label--m',
+            classes: 'govuk-label--m'
           },
           control: 'PBANumber1',
           type: 'inputButton',
@@ -41,17 +41,17 @@ export const pbaNumber = {
               validationErrorId: 'duplicatedPBAError',
               validationLevel: 'formControl',
               controls: 'PBANumber',
-              text: 'You have entered this PBA number more than once',
+              text: 'You have entered this PBA number more than once'
             },
             {
               validationErrorId: 'invalidPBANumberError',
               validationLevel: 'formControl',
               controls: 'PBANumber',
-              text: 'Enter a valid PBA number',
+              text: 'Enter a valid PBA number'
             }
           ],
-          classes: 'govuk-width-input-button',
-        },
+          classes: 'govuk-width-input-button'
+        }
       },
       {
         button: {
@@ -59,8 +59,8 @@ export const pbaNumber = {
           value: 'Add another PBA number',
           type: 'button',
           classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
-          onEvent: 'addAnotherPBANumber',
-        },
+          onEvent: 'addAnotherPBANumber'
+        }
       },
       {
         button: {
@@ -68,10 +68,10 @@ export const pbaNumber = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

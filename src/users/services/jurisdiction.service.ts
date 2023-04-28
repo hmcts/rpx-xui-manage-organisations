@@ -4,9 +4,9 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class JurisdictionService {
-    constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
-    public getJurisdictions(): Observable<any> {
-        return this.http.get('api/jurisdictions');
-      }
+  public getJurisdictions(): Observable<any> {
+    return this.http.get('api/jurisdictions');
+  }
 }

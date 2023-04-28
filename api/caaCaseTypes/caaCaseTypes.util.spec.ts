@@ -38,9 +38,9 @@ describe('caaCaseTypes Util', () => {
       size: 100,
       sort: {
         created_date: {
-          order: 'desc',
-        },
-      },
+          order: 'desc'
+        }
+      }
     });
   });
 
@@ -73,9 +73,9 @@ describe('caaCaseTypes Util', () => {
       size: 100,
       sort: {
         created_date: {
-          order: 'desc',
-        },
-      },
+          order: 'desc'
+        }
+      }
     });
   });
 
@@ -117,9 +117,9 @@ describe('caaCaseTypes Util', () => {
       size: 100,
       sort: {
         created_date: {
-          order: 'desc',
-        },
-      },
+          order: 'desc'
+        }
+      }
     });
   });
 
@@ -161,9 +161,9 @@ describe('caaCaseTypes Util', () => {
       size: 100,
       sort: {
         created_date: {
-          order: 'desc',
-        },
-      },
+          order: 'desc'
+        }
+      }
     });
   });
 
@@ -212,9 +212,9 @@ describe('caaCaseTypes Util', () => {
       size: 100,
       sort: {
         created_date: {
-          order: 'desc',
-        },
-      },
+          order: 'desc'
+        }
+      }
     });
   });
 });

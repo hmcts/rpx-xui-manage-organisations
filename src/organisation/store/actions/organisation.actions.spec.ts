@@ -21,35 +21,35 @@ describe('LoadOrganisationSuccess', () => {
       name: 'a@b.com',
       organisationIdentifier: 'A111111',
       contactInformation: [{
-      addressLine1: '10  oxford street',
-      addressLine2: 'A Town',
-      addressLine3: null,
-      townCity: 'London',
-      county: null,
-      country: 'UK',
-      postCode: 'W1',
-      dxAddress: [{
-        dxNumber: 'dx11111',
-        dxExchange: 'dxExchange'
-      }]
-    }],
+        addressLine1: '10  oxford street',
+        addressLine2: 'A Town',
+        addressLine3: null,
+        townCity: 'London',
+        county: null,
+        country: 'UK',
+        postCode: 'W1',
+        dxAddress: [{
+          dxNumber: 'dx11111',
+          dxExchange: 'dxExchange'
+        }]
+      }],
       status: '',
       sraId: '',
       sraRegulated: true,
       superUser: {
-      firstName: 'James',
+        firstName: 'James',
         lastName: 'Chris',
         email: 'James.Chris@test.com'
-    },
-      paymentAccount: [{pbaNumber: 'PBA000000'}],
+      },
+      paymentAccount: [{ pbaNumber: 'PBA000000' }],
       pendingAddPaymentAccount: [],
       pendingRemovePaymentAccount: [],
-      pendingPaymentAccount: undefined,
+      pendingPaymentAccount: undefined
     };
     const action = new LoadOrganisationSuccess(payload);
     expect({ ...action }).toEqual({
       type: LOAD_ORGANISATION_SUCCESS,
-      payload,
+      payload
     });
   });
 });
@@ -60,7 +60,7 @@ describe('LoadOrganisationFail', () => {
     const action = new LoadOrganisationFail(payload);
     expect({ ...action }).toEqual({
       type: LOAD_ORGANISATION_FAIL,
-      payload,
+      payload
     });
   });
 });

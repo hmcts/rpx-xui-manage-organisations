@@ -14,7 +14,6 @@ import * as fromCaseList from '../../store/reducers';
   styleUrls: ['case-share-complete.component.scss']
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
-
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public newShareCases$: Observable<SharedCase[]>;
@@ -37,14 +36,12 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.shareCaseState$ = this.store.pipe(select(fromCasesFeature.getCaseShareState));
-    this.shareCaseState$.subscribe(state => this.isLoading = state.loading);
+    this.shareCaseState$.subscribe((state) => this.isLoading = state.loading);
 
     this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
-        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
-        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-    this.shareCases$.subscribe(shareCases => {
-      this.shareCases = shareCases;
-    });
+      ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
+      : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
+    this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
 
     if (this.pageType === CaaCasesPageType.UnassignedCases) {
       this.store.dispatch(new fromCasesFeature.AssignUsersToUnassignedCase(this.shareCases));
@@ -54,7 +51,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
       this.newShareCases$ = this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
     }
 
-    this.newShareCases$.subscribe(shareCases => {
+    this.newShareCases$.subscribe((shareCases) => {
       this.completeScreenMode = this.checkIfIncomplete(shareCases);
       this.newShareCases = shareCases;
     });
@@ -75,8 +72,8 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
 
   public checkIfIncomplete(shareCases: SharedCase[]): string {
     if (this.isLoading) {
-      if (shareCases.some(aCase => aCase.pendingShares && aCase.pendingShares.length > 0)
-        || shareCases.some(aCase => aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
+      if (shareCases.some((aCase) => aCase.pendingShares && aCase.pendingShares.length > 0)
+        || shareCases.some((aCase) => aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
         return 'PENDING';
       }
       return 'COMPLETE';
@@ -86,7 +83,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   public showUserAccessBlock(aCase: SharedCase): boolean {
     if ((aCase.pendingShares && aCase.pendingShares.length > 0)
       || (aCase.pendingUnshares && aCase.pendingUnshares.length > 0)) {
-        return true;
+      return true;
     }
     return false;
   }

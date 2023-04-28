@@ -10,15 +10,15 @@ export const sraNumber = {
         validationLevel: 'formControl',
         controlId: 'sraNumber',
         text: 'Enter your organisation SRA ID',
-        href: '/register/sra-number',
-      },
+        href: '/register/sra-number'
+      }
     ],
     groups: [
       {
         hiddenInput: {
           control: 'pageId',
-          value: 'check',
-        },
+          value: 'check'
+        }
       },
       {
         input: {
@@ -29,11 +29,11 @@ export const sraNumber = {
           validators: ['required'],
           validationError: {
             value: 'Enter your organisation SRA ID',
-            controlId: 'sraNumber',
+            controlId: 'sraNumber'
           },
           control: 'sraNumber',
-          classes: '',
-        },
+          classes: ''
+        }
       },
       {
         button: {
@@ -41,10 +41,10 @@ export const sraNumber = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

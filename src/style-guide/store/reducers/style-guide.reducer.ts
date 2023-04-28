@@ -1,6 +1,5 @@
 import * as fromStyleGuide from '../actions/style-guide.actions';
 
-
 export interface StyleGuideState {
   styleGuideFormData: object;
   styleGuideMessages: object;
@@ -23,14 +22,13 @@ export function reducer(
       const formErrorIsInvalid = action.payload.isInvalid;
 
       const formErrorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
-
         const objArr = (k): any[] => {
           return formErrorIsInvalid[k].map((item, i) => {
-              return item ? formErrorMessagesPayload[k][i] : '';
+            return item ? formErrorMessagesPayload[k][i] : '';
           });
         };
 
-        const isInvalid = objArr(key).filter(item => item.length);
+        const isInvalid = objArr(key).filter((item) => item.length);
 
         acc[key] = {
           messages: objArr(key),
@@ -38,10 +36,9 @@ export function reducer(
         };
 
         return acc;
-
-        }, {});
+      }, {});
       const isFormValid = !Object.keys(formErrorMessages)
-        .filter(key => formErrorMessages[key].isInvalid).length;
+        .filter((key) => formErrorMessages[key].isInvalid).length;
 
       return {
         ...state,
@@ -49,7 +46,6 @@ export function reducer(
         isFormValid
       };
     }
-
   }
 
   return state;

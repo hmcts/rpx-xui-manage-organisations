@@ -1,8 +1,8 @@
-const chai            = require('chai');
-const chaiAsPromised  = require('chai-as-promised');
-const minimist        = require('minimist');
-var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
-var { localConfig, jenkinsConfig, cucumberOpts} = require('./common.conf');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const minimist = require('minimist');
+const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
+const { localConfig, jenkinsConfig, cucumberOpts } = require('./common.conf');
 chai.use(chaiAsPromised);
 
 const argv = minimist(process.argv.slice(2));
@@ -17,8 +17,8 @@ const config = {
   params: {
     serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
     targetEnv: argv.env || 'local',
-    username: process.env.TEST_EMAIL || 'autotest_superuser@mailinator.com' ,
-    password: process.env.TEST_PASSWORD || 'Monday01',
+    username: process.env.TEST_EMAIL || 'autotest_superuser@mailinator.com',
+    password: process.env.TEST_PASSWORD || 'Monday01'
     // username: 'peterxuisuperuser@mailnesia.com',
     // password: 'Monday01'
   },
@@ -61,8 +61,6 @@ const config = {
     }
   ]
 
-
 };
-
 
 exports.config = config;

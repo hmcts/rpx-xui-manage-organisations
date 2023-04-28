@@ -317,7 +317,7 @@ describe('AppUtils', () => {
       }
     ];
 
-    const predicate = (element: {}) => element.hasOwnProperty('input');
+    const predicate = (element: any) => element.hasOwnProperty('input');
     const result = AppUtils.findLastIndex(htmlComponentArray, predicate);
     expect(result).toEqual(1);
   });
@@ -356,7 +356,7 @@ describe('AppUtils', () => {
         }
       }
     ];
-    const predicate = (element: {}) => element.hasOwnProperty('input');
+    const predicate = (element: any) => element.hasOwnProperty('input');
     const result = AppUtils.findLastIndex(htmlComponentArray2, predicate);
     expect(result).toEqual(-1);
   });

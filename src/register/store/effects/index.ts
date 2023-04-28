@@ -1,4 +1,4 @@
-import {RegistrationEffects} from './registration.effects';
+import { RegistrationEffects } from './registration.effects';
 
 export const effects: any[] = [
   RegistrationEffects

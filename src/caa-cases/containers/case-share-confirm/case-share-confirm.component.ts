@@ -13,7 +13,6 @@ import * as fromCaseList from '../../store/reducers';
   styleUrls: ['./case-share-confirm.component.scss']
 })
 export class CaseShareConfirmComponent implements OnInit {
-
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public url: string;
@@ -45,10 +44,8 @@ export class CaseShareConfirmComponent implements OnInit {
       this.completeLink = `/assigned-cases/case-share-complete/${this.pageType}`;
     }
     this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
-        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
-        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-    this.shareCases$.subscribe(shareCases => {
-      this.shareCases = shareCases;
-    });
+      ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
+      : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
+    this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
   }
 }

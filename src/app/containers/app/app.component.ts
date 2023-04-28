@@ -68,13 +68,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.serviceMessageCookie = AppConstants.SERVICE_MESSAGE_COOKIE;
 
     // no need to unsubscribe as app component is always init.
-    this.store.pipe(select(fromRoot.getRouterState)).subscribe(rootState => {
+    this.store.pipe(select(fromRoot.getRouterState)).subscribe((rootState) => {
       if (rootState) {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
     if (this.headersService.isAuthenticated()) {
-      this.userService.getUserDetails().subscribe(user => {
+      this.userService.getUserDetails().subscribe((user) => {
         const featureUser: FeatureUser = {
           key: user.userId,
           custom: {
@@ -102,10 +102,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public handleCookieBannerFeatureToggle(): void {
     this.cookieBannerEnabledSubscription = this.featureService.isEnabled('mo-cookie-banner-enabled')
-                                            .subscribe(flag => {
-                                              this.cookieBannerEnabled = flag;
-                                              this.setCookieBannerVisibility();
-                                            });
+      .subscribe((flag) => {
+        this.cookieBannerEnabled = flag;
+        this.setCookieBannerVisibility();
+      });
   }
 
   public setUserAndCheckCookie(userId) {
@@ -145,7 +145,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * We listen for idle service events, that alert the application to the User being Idle.
    */
   public addIdleServiceListener() {
-    this.idleService.appStateChanges().subscribe(event => {
+    this.idleService.appStateChanges().subscribe((event) => {
       this.idleServiceEventHandler(event);
     });
   }
@@ -163,7 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * TODO: Remove console.log(userProfile) after testing
    */
   public addUserProfileListener() {
-    this.store.pipe(select(fromUserProfile.getUser)).subscribe(userProfile => {
+    this.store.pipe(select(fromUserProfile.getUser)).subscribe((userProfile) => {
       if (userProfile) {
         const { idleModalDisplayTime, totalIdleTime } = userProfile.sessionTimeout;
 
@@ -253,7 +253,7 @@ export class AppComponent implements OnInit, OnDestroy {
       timeout: idleModalDisplayTimeInSeconds,
       idleMilliseconds: totalIdleTimeInMilliseconds,
       idleServiceName: 'idleSession',
-      keepAliveInSeconds: 5 * 60 * 60,
+      keepAliveInSeconds: 5 * 60 * 60
     };
 
     this.idleService.init(idleConfig);

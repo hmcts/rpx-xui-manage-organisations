@@ -39,8 +39,8 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
 
   public get pendingChanges(): PendingPaymentAccount {
     return {
-      pendingAddPaymentAccount: this.organisationDetails.pendingAddPaymentAccount.map(pba => pba.pbaNumber),
-      pendingRemovePaymentAccount: this.organisationDetails.pendingRemovePaymentAccount.map(pba => pba.pbaNumber)
+      pendingAddPaymentAccount: this.organisationDetails.pendingAddPaymentAccount.map((pba) => pba.pbaNumber),
+      pendingRemovePaymentAccount: this.organisationDetails.pendingRemovePaymentAccount.map((pba) => pba.pbaNumber)
     };
   }
 
@@ -55,7 +55,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   }
 
   public getError(pba: PBANumberModel): string {
-    const errorFound = this.errors.filter(x => x.pbaNumber === pba.pbaNumber);
+    const errorFound = this.errors.filter((x) => x.pbaNumber === pba.pbaNumber);
     return errorFound.length ? errorFound[0].error : '';
   }
 
@@ -63,7 +63,7 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
     this.errors = [];
     this.orgStore.dispatch(new organisationActions.OrganisationUpdatePBAs(this.pendingChanges));
     this.err$ = this.orgStore.pipe(select(fromStore.getOrganisationError));
-    this.err$.subscribe(err => {
+    this.err$.subscribe((err) => {
       if (err) {
         this.errors.push(err);
       }
@@ -71,10 +71,11 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   }
 
   private getOrganisationDetailsFromStore(): void {
-    this.detailsSubscription = this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe(organisationDetails => {
+    this.detailsSubscription = this.orgStore.pipe(select(fromStore.getOrganisationSel)).subscribe((organisationDetails) => {
       this.organisationDetails = organisationDetails;
 
       if (!this.hasPendingChanges) {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         this.router.navigate(['/organisation/update-pba-numbers']).then(() => {});
       }
     });

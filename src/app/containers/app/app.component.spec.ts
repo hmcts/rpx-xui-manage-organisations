@@ -14,9 +14,11 @@ import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
 
-const windowMock: Window = { gtag: () => {}} as any;
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const windowMock: Window = { gtag: () => {} } as any;
 
 const featureMock: FeatureToggleService = {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   initialize: () => {},
   isEnabled: () => of(true),
   getValue: () => of(),
@@ -89,7 +91,7 @@ describe('AppComponent', () => {
           provide: GoogleAnalyticsService,
           useValue: googleAnalyticsService
         }
-      ],
+      ]
     }).compileComponents();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
@@ -118,17 +120,6 @@ describe('AppComponent', () => {
   }));
 
   it('should have navItems$ Observable the app', waitForAsync(() => {
-    const navItems = [
-      {
-        text: 'Organisation',
-        href: '/organisation',
-        active: true
-      },
-      {
-        text: 'Users',
-        href: '/users',
-        active: false
-      }];
     const expected = cold('a', { a: { navItems: [] } });
     expect(app.navItems$).toBeObservable(expected);
   }));

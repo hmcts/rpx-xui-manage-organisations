@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/form-builder-validation.service';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-    selector: 'app-validation-error-formgroup',
-    templateUrl: './validation-error-formgroup.component.html'
+  selector: 'app-validation-error-formgroup',
+  templateUrl: './validation-error-formgroup.component.html'
 })
 
 /**
@@ -24,8 +24,7 @@ export class ValidationErrorFormGroupComponent {
     @Input() group: FormGroup;
     @Input() validationErrorId;
 
-    constructor(private validationService: ValidationService) {
-    }
+    constructor(private validationService: ValidationService) {}
 
     /**
      * Is Form Group Invalid
@@ -40,6 +39,6 @@ export class ValidationErrorFormGroupComponent {
      * // @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
-        return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
+      return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 }

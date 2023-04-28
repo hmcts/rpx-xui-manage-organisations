@@ -32,24 +32,23 @@ import {
 } from './references';
 
 export const uiConfig = () => {
-
   const configEnv = getEnvironment();
 
   return {
     configEnv,
     cookies: {
       token: getConfigValue(COOKIE_TOKEN),
-      userId: getConfigValue(COOKIES_USERID),
+      userId: getConfigValue(COOKIES_USERID)
     } as EnvironmentConfigCookies,
     exceptionOptions: {
-      maxLines: getConfigValue(MAX_LINES),
+      maxLines: getConfigValue(MAX_LINES)
     } as EnvironmentConfigExceptionOptions,
     health: healthEndpoints() as EnvironmentConfigServices,
     idamClient: getConfigValue(IDAM_CLIENT),
     indexUrl: getConfigValue(INDEX_URL),
     links: {
       manageCaseLink: getConfigValue(LINKS_MANAGE_CASES_LINK),
-      manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),
+      manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK)
     },
     logging: getConfigValue(LOGGING),
     maxLogLine: getConfigValue(MAX_LOG_LINE),
@@ -63,13 +62,13 @@ export const uiConfig = () => {
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),
       rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
-      s2s: getConfigValue(SERVICE_S2S_PATH),
-      termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
       roleAssignmentApi: getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH),
+      s2s: getConfigValue(SERVICE_S2S_PATH),
+      termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)
     } as EnvironmentConfigServices,
     features: {
       oidcEnabled: showFeature(FEATURE_OIDC_ENABLED)
     },
-    sessionSecret: getConfigValue(SESSION_SECRET),
+    sessionSecret: getConfigValue(SESSION_SECRET)
   };
 };

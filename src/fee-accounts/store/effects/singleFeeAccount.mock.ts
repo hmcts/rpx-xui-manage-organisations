@@ -1,6 +1,6 @@
 export const singleFeeAccountDummy = {
   id: 'PBA0241163',
-  name: 'Wedlake Bell	- Account Alfa',
+  name: 'Wedlake Bell - Account Alfa',
   lastUpdated: '15 October 2018 at 3:12pm',
   summary: {
     availableCredit: '£17,254.00',

@@ -13,7 +13,6 @@ import * as fromContainers from './containers';
 // containers
 import * as fromComponents from './components';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +23,7 @@ import * as fromComponents from './components';
     FormsModule
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers,  ...fromComponents.components]
+  declarations: [...fromContainers.containers, ...fromComponents.components]
 })
 
 /**

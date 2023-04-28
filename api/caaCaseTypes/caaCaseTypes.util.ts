@@ -59,9 +59,9 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
     size: 100,
     sort: {
       created_date: {
-        order: 'desc',
-      },
-    },
+        order: 'desc'
+      }
+    }
   };
 }
 

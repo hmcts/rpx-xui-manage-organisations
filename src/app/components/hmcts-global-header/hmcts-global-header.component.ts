@@ -5,15 +5,15 @@ import { AppTitlesModel } from '../../../app/models/app-titles.model';
 import * as fromRoot from '../../store';
 
 @Component({
-    selector: 'app-hmcts-global-header',
-    templateUrl: './hmcts-global-header.component.html',
-    styleUrls: ['./hmcts-global-header.component.scss']
+  selector: 'app-hmcts-global-header',
+  templateUrl: './hmcts-global-header.component.html',
+  styleUrls: ['./hmcts-global-header.component.scss']
 })
 export class HmctsGlobalHeaderComponent {
-
     @Input() public set userLoggedIn(value) {
-        this.userValue = value;
-    }
+    this.userValue = value;
+  }
+
     @Input() public headerTitle: AppTitlesModel;
     @Input() public navigation;
     @Input() public isBrandedHeader: boolean;
@@ -21,9 +21,9 @@ export class HmctsGlobalHeaderComponent {
     @Input() public showHeaderItems: boolean;
 
     public userValue: any;
-    constructor(public store: Store<fromRoot.State>) { }
+    constructor(public store: Store<fromRoot.State>) {}
 
     public onEmitEvent(index) {
-        this.navigate.emit(this.navigation.items[index].emit);
+      this.navigate.emit(this.navigation.items[index].emit);
     }
 }

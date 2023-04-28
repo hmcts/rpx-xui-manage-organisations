@@ -24,7 +24,7 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
 
   if (caaCasesFilterValue) {
     if (Array.isArray(caaCasesFilterValue)) {
-      caaCasesFilterValue.forEach(caseReference => {
+      caaCasesFilterValue.forEach((caseReference) => {
         caseReferenceFilter.push({ match: { [reference]: caseReference } })
       });
     } else {
@@ -41,22 +41,22 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
             multi_match: {
               fields: ['data.*.Organisation.OrganisationID'],
               query: `${organisationID}`,
-              type: 'phrase',
-            },
+              type: 'phrase'
+            }
           },
           {
             bool: {
               ...(caaCasesPageType === CaaCasesPageType.AssignedCases && {
                 must: [
                   { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
-                ],
+                ]
               }),
               ...(caaCasesPageType === CaaCasesPageType.UnassignedCases && {
                 must_not: [
                   { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
-                ],
-              }),
-            },
+                ]
+              })
+            }
           },
           {
             bool: {
@@ -65,31 +65,31 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
               }),
               ...(caaCasesFilterValue && Array.isArray(caaCasesFilterValue) && {
                 should: caseReferenceFilter
-              }),
+              })
             }
           }
-        ],
-      },
+        ]
+      }
     },
     size: pageSize,
     sort: [
       {
-        created_date: 'desc',
-      },
-    ],
+        created_date: 'desc'
+      }
+    ]
   };
 }
 
 function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[], caseType: string): any[] {
   const data = Array<any>();
-  ccdCase.cases.forEach(caseData => data.push(onGeneratedRow(caseData, columnConfigs, caseType)));
+  ccdCase.cases.forEach((caseData) => data.push(onGeneratedRow(caseData, columnConfigs, caseType)));
   return data;
 }
 
 function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig[], caseType: string) {
   const caaCase = {};
-  columnConfigs.forEach(columnConfig => {
-    if (!(typeof ccdCaseData.fields[columnConfig.key] === 'object')) {
+  columnConfigs.forEach((columnConfig) => {
+    if (typeof ccdCaseData.fields[columnConfig.key] !== 'object') {
       caaCase[columnConfig.key] = ccdCaseData.fields[columnConfig.key];
     } else {
       if (ccdCaseData.fields[columnConfig.key]) {
@@ -105,7 +105,7 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
 function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
   const ccdColumnConfigs = new Array<CcdColumnConfig>();
   ccdCases.headers.forEach((caseHeader: CaseHeader) => {
-    caseHeader.fields.forEach(header => {
+    caseHeader.fields.forEach((header) => {
       if (header) {
         ccdColumnConfigs.push({
           header: header.label,

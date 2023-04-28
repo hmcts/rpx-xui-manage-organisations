@@ -45,21 +45,21 @@ describe('RegisterComponent', () => {
 
   it('should instantiate page from template if init flag is true', () => {
     component.pageId = 'organisation-pba';
-    component.init = {'organisation-pba': true};
+    component.init = { 'organisation-pba': true };
     component.instantiatePageItems();
     expect(mockStore.dispatch).toHaveBeenCalled();
   });
 
   it('should not instantiate page from template if init flag is false', () => {
     component.pageId = 'organisation-pba';
-    component.init = {'organisation-pba': false};
+    component.init = { 'organisation-pba': false };
     component.instantiatePageItems();
     expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 
   it('should instantiate page from template if init flag is undefined', () => {
     component.pageId = 'organisation-pba';
-    component.init = {'organisation-pba': undefined};
+    component.init = { 'organisation-pba': undefined };
     component.instantiatePageItems();
     expect(mockStore.dispatch).toHaveBeenCalled();
   });
@@ -87,7 +87,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should instantiate page items', () => {
-    const routeParams = {pageId: 'page1'};
+    const routeParams = { pageId: 'page1' };
     component.pageId = 'page2';
     pipeSpy.and.returnValue(of(routeParams));
     component.subscribeToRoute();
@@ -105,7 +105,7 @@ describe('RegisterComponent', () => {
         init: true
       },
       pageValues: {
-        PBANumber1: 'PBA1111111',
+        PBANumber1: 'PBA1111111'
       },
       nextUrl: 'organisation-have-dx'
     };
@@ -116,45 +116,45 @@ describe('RegisterComponent', () => {
   });
 
   it('should show form validation when form is invalid', () => {
-    const formDraft = {invalid: true};
+    const formDraft = { invalid: true };
     component.onPageContinue(formDraft);
     expect(component.isPageValid).toBeTruthy();
   });
 
   it('should not show form validation when form is valid', () => {
-    const formDraft = {invalid: false};
+    const formDraft = { invalid: false };
     component.onPageContinue(formDraft);
     expect(component.isPageValid).toBeFalsy();
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
   it('should show validation error when PBA number is invalid', () => {
-    const event = {eventId: 'addAnotherPBANumber', data: {invalid: true}};
+    const event = { eventId: 'addAnotherPBANumber', data: { invalid: true } };
     component.onClick(event);
     expect(component.isPageValid).toBeTruthy();
   });
 
   it('should add pba number when form is valid', () => {
-    const event = {eventId: 'addAnotherPBANumber', data: {invalid: false}};
+    const event = { eventId: 'addAnotherPBANumber', data: { invalid: false } };
     component.onClick(event);
     expect(component.isPageValid).toBeFalsy();
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
   it('should remove pba number', () => {
-    const event = {eventId: 'removePBANumber'};
+    const event = { eventId: 'removePBANumber' };
     component.onClick(event);
     expect(dispatchSpy).toHaveBeenCalled();
   });
 
   it('should show form validation when form is invalid and onblur', () => {
-    const event = {invalid: true};
+    const event = { invalid: true };
     component.onBlur(event);
     expect(component.isPageValid).toBeTruthy();
   });
 
   it('should not show form validation when form is valid and onblur', () => {
-    const event = {invalid: false};
+    const event = { invalid: false };
     component.onBlur(event);
     expect(component.isPageValid).toBeFalsy();
   });

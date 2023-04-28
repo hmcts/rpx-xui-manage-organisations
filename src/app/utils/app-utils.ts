@@ -1,20 +1,20 @@
 /**
  * Contains static stateless utility methods for the App
  */
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
 import { AppConstants } from '../app.constants';
 import { NavItemModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
 
 export class AppUtils {
   public static getFeatureEnabledNavItems(navItems: NavItemModel[],
-                                          featureFlags: AppFeatureFlag[]): NavItemModel[] {
+    featureFlags: AppFeatureFlag[]): NavItemModel[] {
     let featureNavItems = new Array<NavItemModel>();
-    navItems.forEach(navItem => {
+    navItems.forEach((navItem) => {
       if (!navItem.featureToggle) {
         featureNavItems = [...featureNavItems, navItem];
       } else {
-        const currentFeature = featureFlags.filter(flag => flag.featureName === navItem.featureToggle.featureName)[0];
+        const currentFeature = featureFlags.filter((flag) => flag.featureName === navItem.featureToggle.featureName)[0];
         if (currentFeature && currentFeature.isEnabled) {
           featureNavItems = [...featureNavItems, navItem];
         }
@@ -46,11 +46,10 @@ export class AppUtils {
       return {
         navItems: nav
       };
-    } else {
-      return {
-        navItems: []
-      };
     }
+    return {
+      navItems: []
+    };
   }
 
   public static setSetUserNavItems(state, routes) {
@@ -144,17 +143,18 @@ export class AppUtils {
         case AppConstants.ENVIRONMENT_NAMES.aat:
         case AppConstants.ENVIRONMENT_NAMES.localhost:
         case AppConstants.ENVIRONMENT_NAMES.pr:
-           return AppConstants.ENVIRONMENT_NAMES.aat;
+          return AppConstants.ENVIRONMENT_NAMES.aat;
         case AppConstants.ENVIRONMENT_NAMES.demo:
-            return AppConstants.ENVIRONMENT_NAMES.demo;
+          return AppConstants.ENVIRONMENT_NAMES.demo;
         case AppConstants.ENVIRONMENT_NAMES.ithc:
-            return AppConstants.ENVIRONMENT_NAMES.ithc;
+          return AppConstants.ENVIRONMENT_NAMES.ithc;
         case AppConstants.ENVIRONMENT_NAMES.perfTest:
-            return AppConstants.ENVIRONMENT_NAMES.perfTest;
+          return AppConstants.ENVIRONMENT_NAMES.perfTest;
       }
     }
     return AppConstants.ENVIRONMENT_NAMES.prod;
   }
+
   public static showSubHeaderItems(isAuth: boolean, router: any) {
     return isAuth && router && router.state && router.state.url.indexOf('accept-terms-and-conditions') <= 0;
   }

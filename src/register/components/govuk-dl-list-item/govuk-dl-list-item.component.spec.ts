@@ -7,9 +7,9 @@ describe('GovukDlListItemComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ GovukDlListItemComponent ]
+      declarations: [GovukDlListItemComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,4 +1,4 @@
-import {AxiosInstance} from 'axios'
+import { AxiosInstance } from 'axios';
 
 // use declaration merging to type http onto express request
 declare global {

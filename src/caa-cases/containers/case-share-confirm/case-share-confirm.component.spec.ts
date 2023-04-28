@@ -11,6 +11,8 @@ import { CaseShareConfirmComponent } from './case-share-confirm.component';
 describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: Store<CaaCasesState>;
   let mockRoute: any;
   let mockRouter: any;
@@ -29,9 +31,9 @@ describe('CaseShareConfirmComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ CaseShareConfirmComponent ],
+      imports: [RouterTestingModule],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [CaseShareConfirmComponent],
       providers: [
         provideMockStore(),
         { provide: Router, useValue: mockRouter },

@@ -60,10 +60,6 @@ export const getCurrentPageItems = createSelector(
       pageValues,
       nextUrl
     };
-
   }
 );
-
-
-
 

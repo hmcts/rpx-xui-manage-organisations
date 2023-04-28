@@ -26,16 +26,16 @@ describe('Single fee account Effects', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-          {
-            provide: FeeAccountsService,
-            useValue: singleFeeAccountServiceMock,
-          },
-          {
-            provide: LoggerService,
-            useValue: mockedLoggerService
-          },
-          fromSingleFeeAccountEffects.SingleFeeAccountEffects,
-          provideMockActions(() => actions$)
+        {
+          provide: FeeAccountsService,
+          useValue: singleFeeAccountServiceMock
+        },
+        {
+          provide: LoggerService,
+          useValue: mockedLoggerService
+        },
+        fromSingleFeeAccountEffects.SingleFeeAccountEffects,
+        provideMockActions(() => actions$)
       ]
     });
 

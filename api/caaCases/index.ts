@@ -21,7 +21,7 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
     if (caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req, next);
       const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
-      caaCasesFilterValue = roleAssignmentResponse.map(x => x.attributes.caseId);
+      caaCasesFilterValue = roleAssignmentResponse.map((x) => x.attributes.caseId);
     }
 
     const payload = getRequestBody(req.session.auth.orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
@@ -44,13 +44,12 @@ export async function handleRoleAssignments(req: Request, next: NextFunction): P
   try {
     const response = await req.http.post(path, payload);
     return response;
-
   } catch (error) {
     next(error);
   }
 }
 
-export const router = Router({mergeParams: true});
+export const router = Router({ mergeParams: true });
 router.post('', handleCaaCases);
 
 export default router;

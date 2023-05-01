@@ -16,8 +16,8 @@ describe('CaaCases Reducer', () => {
     },
     caseTypes: [],
     selectedCases: {},
-    assignedCasesLastError: new HttpErrorResponse({error: 'assigned cases error'}),
-    unassignedCasesLastError: new HttpErrorResponse({error: 'unassigned cases error'})
+    assignedCasesLastError: new HttpErrorResponse({ error: 'assigned cases error' }),
+    unassignedCasesLastError: new HttpErrorResponse({ error: 'unassigned cases error' })
   };
 
   it('should undefined action return default state', () => {
@@ -34,7 +34,7 @@ describe('CaaCases Reducer', () => {
   });
 
   it('should LoadAssignedCasesFailure action set error', () => {
-    const error = new HttpErrorResponse({error: 'assigned cases error'});
+    const error = new HttpErrorResponse({ error: 'assigned cases error' });
     const action = new fromActions.LoadAssignedCasesFailure(initialState.assignedCasesLastError);
     const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
     expect(state.assignedCasesLastError).toEqual(error);
@@ -47,7 +47,7 @@ describe('CaaCases Reducer', () => {
   });
 
   it('should LoadUnassignedCasesFailure action set error', () => {
-    const error = new HttpErrorResponse({error: 'unassigned cases error'});
+    const error = new HttpErrorResponse({ error: 'unassigned cases error' });
     const action = new fromActions.LoadUnassignedCasesFailure(initialState.unassignedCasesLastError);
     const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
     expect(state.unassignedCasesLastError).toEqual(error);

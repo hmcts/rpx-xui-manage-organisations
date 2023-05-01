@@ -20,7 +20,7 @@ export interface State {
 }
 
 export const reducers: ActionReducerMap<State> = {
-  routerX: fromNgrxRouter.routerReducer,
+  routerX: fromNgrxRouter.routerReducer
   // auth: fromAuth.reducer,
 };
 

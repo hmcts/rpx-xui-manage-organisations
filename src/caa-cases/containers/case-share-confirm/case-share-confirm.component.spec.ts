@@ -14,18 +14,14 @@ describe('CaseShareConfirmComponent', () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: Store<CaaCasesState>;
-  let mockRoute: any;
-  let mockRouter: any;
-
-  mockRoute = {
+  const mockRoute = {
     snapshot: {
       params: {
         pageType: CaaCasesPageType.AssignedCases
       }
     }
   };
-
-  mockRouter = {
+  const mockRouter = {
     url: '/assigned-cases'
   };
 
@@ -39,8 +35,7 @@ describe('CaseShareConfirmComponent', () => {
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockRoute }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

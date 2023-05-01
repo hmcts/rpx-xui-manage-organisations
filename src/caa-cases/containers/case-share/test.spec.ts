@@ -2,19 +2,12 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  RouterReducerState, RouterStateSerializer, StoreRouterConnectingModule
-} from '@ngrx/router-store';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { RouterReducerState, RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { Store, StoreModule, combineReducers } from '@ngrx/store';
 import { skip } from 'rxjs/operators';
-import {
-  getRouterState, reducers,
-  RouterStateUrl, State
-} from './';
+import { RouterStateUrl, State, getRouterState, reducers } from './';
 
-class CustomRouterStateSerializer
-  implements RouterStateSerializer<RouterStateUrl>
-{
+class CustomRouterStateSerializer implements RouterStateSerializer<RouterStateUrl> {
   public serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     let route = routerState.root;
 
@@ -24,7 +17,7 @@ class CustomRouterStateSerializer
 
     const {
       url,
-      root: { queryParams },
+      root: { queryParams }
     } = routerState;
     const { params } = route;
 
@@ -33,7 +26,7 @@ class CustomRouterStateSerializer
 }
 
 @Component({
-  template: ``,
+  template: ''
 })
 class ListMockComponent {}
 
@@ -47,23 +40,23 @@ describe('Router Selectors', () => {
         RouterTestingModule.withRoutes([
           {
             path: 'list/:someId',
-            component: ListMockComponent,
-          },
+            component: ListMockComponent
+          }
         ]),
         StoreModule.forRoot({
-          routerX: combineReducers(reducers),
+          routerX: combineReducers(reducers)
         }),
         StoreRouterConnectingModule.forRoot({
-          stateKey: 'routerX',
-        }),
+          stateKey: 'routerX'
+        })
       ],
       declarations: [ListMockComponent],
       providers: [
         {
           provide: RouterStateSerializer,
-          useClass: CustomRouterStateSerializer,
-        },
-      ],
+          useClass: CustomRouterStateSerializer
+        }
+      ]
     });
 
     store = TestBed.inject(Store);
@@ -77,18 +70,18 @@ describe('Router Selectors', () => {
           state: {
             url: '/list/123',
             params: { someId: '123' },
-            queryParams: {},
+            queryParams: {}
           },
-          navigationId: 1,
-        } as RouterReducerState<RouterStateUrl>,
+          navigationId: 1
+        } as RouterReducerState<RouterStateUrl>
       };
       router.navigateByUrl('/list/123');
       store
         .select(getRouterState)
         .pipe(skip(1))
         .subscribe((routerState) => {
-          console.log(routerState['routerX']);
-          // expect(routerState).toEqual(result);
+          // eslint-disable-next-line dot-notation
+          expect(routerState['routerX']).toEqual(result.routerX);
           done();
         });
 

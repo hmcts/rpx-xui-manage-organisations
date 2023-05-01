@@ -4,7 +4,7 @@ describe('Case Share Actions', () => {
   it('NavigateToShareAssignedCases', () => {
     const payload = [];
     const action = new fromCaseShare.NavigateToShareAssignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.NAVIGATE_TO_SHARE_ASSIGNED_CASES,
       payload
     });
@@ -13,7 +13,7 @@ describe('Case Share Actions', () => {
   it('NavigateToShareUnassignedCases', () => {
     const payload = [];
     const action = new fromCaseShare.NavigateToShareUnassignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.NAVIGATE_TO_SHARE_UNASSIGNED_CASES,
       payload
     });
@@ -22,7 +22,7 @@ describe('Case Share Actions', () => {
   it('SynchronizeStateToStoreAssignedCases', () => {
     const payload = [];
     const action = new fromCaseShare.SynchronizeStateToStoreAssignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.SYNCHRONIZE_STATE_TO_STORE_ASSIGNED_CASES,
       payload
     });
@@ -31,7 +31,7 @@ describe('Case Share Actions', () => {
   it('SynchronizeStateToStoreUnassignedCases', () => {
     const payload = [];
     const action = new fromCaseShare.SynchronizeStateToStoreUnassignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.SYNCHRONIZE_STATE_TO_STORE_UNASSIGNED_CASES,
       payload
     });
@@ -40,7 +40,7 @@ describe('Case Share Actions', () => {
   it('LoadShareAssignedCases', () => {
     const payload = [];
     const action = new fromCaseShare.LoadShareAssignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_SHARE_ASSIGNED_CASES,
       payload
     });
@@ -49,7 +49,7 @@ describe('Case Share Actions', () => {
   it('LoadShareAssignedCasesSuccess', () => {
     const payload = [];
     const action = new fromCaseShare.LoadShareAssignedCasesSuccess(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_SHARE_ASSIGNED_CASES_SUCCESS,
       payload
     });
@@ -58,7 +58,7 @@ describe('Case Share Actions', () => {
   it('LoadShareAssignedCaseFailure', () => {
     const payload: Error = new Error();
     const action = new fromCaseShare.LoadShareAssignedCaseFailure(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_SHARE_ASSIGNED_CASES_FAILURE,
       payload
     });
@@ -67,7 +67,7 @@ describe('Case Share Actions', () => {
   it('LoadShareUnassignedCases', () => {
     const payload = [];
     const action = new fromCaseShare.LoadShareUnassignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_SHARE_UNASSIGNED_CASES,
       payload
     });
@@ -76,7 +76,7 @@ describe('Case Share Actions', () => {
   it('LoadShareUnassignedAssignedCasesSuccess', () => {
     const payload = [];
     const action = new fromCaseShare.LoadShareUnassignedCasesSuccess(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_SHARE_UNASSIGNED_CASES_SUCCESS,
       payload
     });
@@ -85,7 +85,7 @@ describe('Case Share Actions', () => {
   it('LoadShareUnassignedCaseFailure', () => {
     const payload: Error = new Error();
     const action = new fromCaseShare.LoadShareUnassignedCaseFailure(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_SHARE_UNASSIGNED_CASES_FAILURE,
       payload
     });
@@ -93,7 +93,7 @@ describe('Case Share Actions', () => {
 
   it('LoadUserFromOrgForCase', () => {
     const action = new fromCaseShare.LoadUserFromOrgForCase();
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_USERS_FROM_ORG_FOR_CASE
     });
   });
@@ -103,7 +103,7 @@ describe('Case Share Actions', () => {
       sharedCases: []
     };
     const action = new fromCaseShare.AddShareAssignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.ADD_SHARE_ASSIGNED_CASES,
       payload
     });
@@ -115,7 +115,7 @@ describe('Case Share Actions', () => {
       sharedCases: []
     };
     const action = new fromCaseShare.AddShareAssignedCaseGo(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.ADD_SHARE_ASSIGNED_CASES_GO,
       payload
     });
@@ -126,7 +126,7 @@ describe('Case Share Actions', () => {
       sharedCases: []
     };
     const action = new fromCaseShare.AddShareUnassignedCases(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.ADD_SHARE_UNASSIGNED_CASES,
       payload
     });
@@ -138,7 +138,7 @@ describe('Case Share Actions', () => {
       sharedCases: []
     };
     const action = new fromCaseShare.AddShareUnassignedCaseGo(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.ADD_SHARE_UNASSIGNED_CASES_GO,
       payload
     });
@@ -149,7 +149,7 @@ describe('Case Share Actions', () => {
       caseId: '1'
     };
     const action = new fromCaseShare.DeleteAShareAssignedCase(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.DELETE_A_SHARE_ASSIGNED_CASE,
       payload
     });
@@ -160,7 +160,7 @@ describe('Case Share Actions', () => {
       caseId: '1'
     };
     const action = new fromCaseShare.DeleteAShareUnassignedCase(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.DELETE_A_SHARE_UNASSIGNED_CASE,
       payload
     });
@@ -169,7 +169,7 @@ describe('Case Share Actions', () => {
   it('AssignUsersToAssignedCase', () => {
     const payload = [];
     const action = new fromCaseShare.AssignUsersToAssignedCase(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.ASSIGN_USERS_TO_ASSIGNED_CASE,
       payload
     });
@@ -178,7 +178,7 @@ describe('Case Share Actions', () => {
   it('AssignUsersToUnassignedCase', () => {
     const payload = [];
     const action = new fromCaseShare.AssignUsersToUnassignedCase(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.ASSIGN_USERS_TO_UNASSIGNED_CASE,
       payload
     });
@@ -187,7 +187,7 @@ describe('Case Share Actions', () => {
   it('LoadUserFromOrgForCaseSuccess', () => {
     const payload = [];
     const action = new fromCaseShare.LoadUserFromOrgForCaseSuccess(payload);
-    expect({...action}).toEqual({
+    expect({ ...action }).toEqual({
       type: fromCaseShare.LOAD_USERS_FROM_ORG_FOR_CASE_SUCCESS,
       payload
     });

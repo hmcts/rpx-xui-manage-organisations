@@ -24,8 +24,8 @@ export class CaaCasesEffects {
       switchMap((action: fromCaaActions.LoadAssignedCases) => {
         const payload = action.payload;
         return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.AssignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-          map(caaCases => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
-          catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
+          map((caaCases) => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
+          catchError((error) => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
         );
       })
     )
@@ -37,8 +37,8 @@ export class CaaCasesEffects {
       switchMap((action: fromCaaActions.LoadUnassignedCases) => {
         const payload = action.payload;
         return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.UnassignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-          map(caaCases => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
-          catchError(error => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))
+          map((caaCases) => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
+          catchError((error) => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))
         );
       })
     )
@@ -50,11 +50,11 @@ export class CaaCasesEffects {
       switchMap((action: fromCaaActions.LoadCaseTypes) => {
         const payload = action.payload;
         return this.caaCasesService.getCaaCaseTypes(payload.caaCasesPageType, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-          map(caaCaseTypes => {
+          map((caaCaseTypes) => {
             const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
             return new fromCaaActions.LoadCaseTypesSuccess(navItems);
           }),
-          catchError(error => {
+          catchError((error) => {
             this.loggerService.error(error);
             return of(new fromCaaActions.LoadCaseTypesFailure(error));
           })
@@ -69,6 +69,6 @@ export class CaaCasesEffects {
       ? caaCasesPageType === CaaCasesPageType.UnassignedCases
         ? of(new fromCaaActions.LoadUnassignedCasesFailure(error))
         : of(new fromCaaActions.LoadAssignedCasesFailure(error))
-      : of(new fromRoot.Go({ path: ['/service-down']}));
+      : of(new fromRoot.Go({ path: ['/service-down'] }));
   }
 }

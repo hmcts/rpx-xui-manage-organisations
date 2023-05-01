@@ -28,7 +28,7 @@ describe('Caa actions', () => {
   });
 
   it('load assigned cases failure action', () => {
-    const payload = new HttpErrorResponse({error: 'assigned cases error'})
+    const payload = new HttpErrorResponse({ error: 'assigned cases error' });
     const action = new fromActions.LoadAssignedCasesFailure(payload);
     expect({ ...action }).toEqual({
       payload,
@@ -60,7 +60,7 @@ describe('Caa actions', () => {
   });
 
   it('load unassigned cases failure action', () => {
-    const payload = new HttpErrorResponse({error: 'unassigned cases error'})
+    const payload = new HttpErrorResponse({ error: 'unassigned cases error' });
     const action = new fromActions.LoadUnassignedCasesFailure(payload);
     expect({ ...action }).toEqual({
       payload,
@@ -84,7 +84,7 @@ describe('Caa actions', () => {
     const action = new fromActions.LoadCaseTypesSuccess(payload);
     expect({ ...action }).toEqual({
       payload,
-       type: fromActions.LOAD_CASE_TYPES_SUCCESS
+      type: fromActions.LOAD_CASE_TYPES_SUCCESS
     });
   });
 
@@ -93,7 +93,7 @@ describe('Caa actions', () => {
     const action = new fromActions.LoadCaseTypesFailure(payload);
     expect({ ...action }).toEqual({
       payload,
-       type: fromActions.LOAD_CASE_TYPES_FAILURE
+      type: fromActions.LOAD_CASE_TYPES_FAILURE
     });
   });
 });

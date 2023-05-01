@@ -25,6 +25,7 @@ describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
   let fixture: ComponentFixture<CaaCasesComponent>;
   let store: Store<fromStore.CaaCasesState>;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let organisationStore: Store<fromOrganisationStore.OrganisationState>;
   let router: Router;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
@@ -55,13 +56,12 @@ describe('CaaCasesComponent', () => {
         RouterTestingModule,
         HttpClientTestingModule
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ CaaCasesComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [CaaCasesComponent],
       providers: [
         { provide: CaaCasesService, useValue: caaCasesService }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -179,12 +179,12 @@ describe('CaaCasesComponent', () => {
   it('should load data from store error', () => {
     spyOn(store, 'dispatch').and.returnValue(of({}));
     spyOn(store, 'pipe').and.returnValue(of({}));
-    const httpErrorResponse = new HttpErrorResponse({error: 'unassigned cases error'});
+    const httpErrorResponse = new HttpErrorResponse({ error: 'unassigned cases error' });
     component.casesError$ = of(httpErrorResponse);
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.navItems = [
-      {text: 'Financial Remedy Consented', href: '', active: true},
-      {text: 'Asylum', href: '', active: false}
+      { text: 'Financial Remedy Consented', href: '', active: true },
+      { text: 'Asylum', href: '', active: false }
     ];
     component.loadDataFromStore();
     fixture.detectChanges();

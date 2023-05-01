@@ -166,17 +166,14 @@ export class AssignUsersToUnassignedCaseSuccess implements Action {
 
 export class ResetAssignedCaseSelection implements Action {
   public readonly type = RESET_ASSIGNED_CASE_SELECTION;
-  constructor() {}
 }
 
 export class ResetUnassignedCaseSelection implements Action {
   public readonly type = RESET_UNASSIGNED_CASE_SELECTION;
-  constructor() {}
 }
 
 export class LoadUserFromOrgForCase implements Action {
   public readonly type = LOAD_USERS_FROM_ORG_FOR_CASE;
-  constructor() {}
 }
 
 export class LoadUserFromOrgForCaseSuccess implements Action {

@@ -59,11 +59,10 @@ describe('Share case selectors', () => {
       }];
       caseListComponent.shareCaseSubmit();
       let result = [];
-      store.pipe(select(getShareAssignedCaseListState)).subscribe(value => {
+      store.pipe(select(getShareAssignedCaseListState)).subscribe((value) => {
         result = value;
       });
       expect(result.length).toEqual(2);
     });
   });
-
 });

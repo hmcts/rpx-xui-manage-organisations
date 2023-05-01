@@ -27,7 +27,7 @@ describe('CaaCases selectors', () => {
 
   it('should return all assigned cases', () => {
     let result;
-    store.pipe(select(getAllAssignedCases)).subscribe(value => {
+    store.pipe(select(getAllAssignedCases)).subscribe((value) => {
       result = value;
     });
     expect(result).toEqual(initialState.assignedCases);
@@ -35,7 +35,7 @@ describe('CaaCases selectors', () => {
 
   it('should return all assigned cases error', () => {
     let result;
-    store.pipe(select(getAllAssignedCasesError)).subscribe(value => {
+    store.pipe(select(getAllAssignedCasesError)).subscribe((value) => {
       result = value;
     });
     expect(result).toEqual(initialState.assignedCasesLastError);
@@ -43,7 +43,7 @@ describe('CaaCases selectors', () => {
 
   it('should return all unassigned cases', () => {
     let result;
-    store.pipe(select(getAllUnassignedCases)).subscribe(value => {
+    store.pipe(select(getAllUnassignedCases)).subscribe((value) => {
       result = value;
     });
     expect(result).toEqual(initialState.unassignedCases);
@@ -51,7 +51,7 @@ describe('CaaCases selectors', () => {
 
   it('should return all unassigned cases error', () => {
     let result;
-    store.pipe(select(getAllUnassignedCasesError)).subscribe(value => {
+    store.pipe(select(getAllUnassignedCasesError)).subscribe((value) => {
       result = value;
     });
     expect(result).toEqual(initialState.assignedCasesLastError);
@@ -59,7 +59,7 @@ describe('CaaCases selectors', () => {
 
   it('should return all case types', () => {
     let result;
-    store.pipe(select(getAllCaseTypes)).subscribe(value => {
+    store.pipe(select(getAllCaseTypes)).subscribe((value) => {
       result = value;
     });
     expect(result).toEqual(initialState.caseTypes);
@@ -67,7 +67,7 @@ describe('CaaCases selectors', () => {
 
   it('should return selected cases', () => {
     let result;
-    store.pipe(select(getSelectedCases)).subscribe(value => {
+    store.pipe(select(getSelectedCases)).subscribe((value) => {
       result = value;
     });
     expect(result).toEqual(initialState.selectedCases);

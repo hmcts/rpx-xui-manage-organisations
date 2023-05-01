@@ -28,7 +28,6 @@ import * as fromStore from '../../store';
   templateUrl: './caa-cases.component.html'
 })
 export class CaaCasesComponent implements OnInit {
-
   public cases$: Observable<any>;
   public casesError$: Observable<HttpErrorResponse>;
   public selectedOrganisation$: Observable<OrganisationDetails>;
@@ -89,14 +88,14 @@ export class CaaCasesComponent implements OnInit {
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
       // Get selected unassigned cases to share from store
       this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
-      this.shareUnassignedCases$.subscribe(shareUnassignedCases => {
+      this.shareUnassignedCases$.subscribe((shareUnassignedCases) => {
         this.selectedUnassignedCases = converters.toSearchResultViewItemConverter(shareUnassignedCases);
         this.selectedCases = this.selectedUnassignedCases;
       });
     } else {
       // Get selected assigned cases to share from store
       this.shareAssignedCases$ = this.store.pipe(select(fromStore.getShareAssignedCaseListState));
-      this.shareAssignedCases$.subscribe(shareAssignedCases => {
+      this.shareAssignedCases$.subscribe((shareAssignedCases) => {
         this.selectedAssignedCases = converters.toSearchResultViewItemConverter(shareAssignedCases);
         this.selectedCases = this.selectedAssignedCases;
       });
@@ -116,8 +115,9 @@ export class CaaCasesComponent implements OnInit {
 
   public loadCaseTypes(selectedFilterType: string, selectedFilterValue: string): void {
     // Load case types based on current page type according to filtered value
-    this.store.dispatch(new fromStore.LoadCaseTypes({caaCasesPageType: this.caaCasesPageType, caaCasesFilterType: selectedFilterType, caaCasesFilterValue: selectedFilterValue}));
-    this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe(items =>
+    this.store.dispatch(new fromStore.LoadCaseTypes(
+      { caaCasesPageType: this.caaCasesPageType, caaCasesFilterType: selectedFilterType, caaCasesFilterValue: selectedFilterValue }));
+    this.store.pipe(select(fromStore.getAllCaseTypes)).subscribe((items) =>
       this.fixCurrentTab(items)
     );
   }
@@ -174,7 +174,7 @@ export class CaaCasesComponent implements OnInit {
 
   public setTableConfig(config: TableConfig): void {
     if (config !== null) {
-      this.tableConfig =  {
+      this.tableConfig = {
         idField: config.idField,
         columnConfigs: config.columnConfigs
       };
@@ -215,8 +215,8 @@ export class CaaCasesComponent implements OnInit {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
-    this.totalCases = this.navItems.find(data => data.text === event.tab.textLabel)
-      ? this.navItems.find(data => data.text === event.tab.textLabel).total
+    this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
+      ? this.navItems.find((data) => data.text === event.tab.textLabel).total
       : 0;
     this.setTabItems(event.tab.textLabel, true);
   }
@@ -403,7 +403,7 @@ export class CaaCasesComponent implements OnInit {
     this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
     this.currentCaseType = tabName;
     if (!fromTabChangedEvent && this.tabGroup) {
-        this.tabGroup.selectedIndex = 0;
+      this.tabGroup.selectedIndex = 0;
     }
     this.loadDataFromStore();
   }

@@ -30,8 +30,8 @@ describe('CaaCasesService', () => {
       }
     };
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ CaaCasesService ]
+      imports: [HttpClientTestingModule],
+      providers: [CaaCasesService]
     });
     mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));

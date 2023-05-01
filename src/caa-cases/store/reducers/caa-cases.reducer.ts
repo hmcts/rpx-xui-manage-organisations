@@ -8,8 +8,8 @@ export interface CaaCasesState {
   unassignedCases: CaaCases;
   caseTypes: SubNavigation[];
   selectedCases: SelectedCases;
-  assignedCasesLastError: HttpErrorResponse,
-  unassignedCasesLastError: HttpErrorResponse
+  assignedCasesLastError: HttpErrorResponse;
+  unassignedCasesLastError: HttpErrorResponse;
 }
 
 export const initialState: CaaCasesState = {
@@ -24,19 +24,19 @@ export const initialState: CaaCasesState = {
 export function caaCasesReducer(state = initialState, action: fromCaaActions.CaaCasesActions): CaaCasesState {
   switch (action.type) {
     case fromCaaActions.LOAD_ASSIGNED_CASES_SUCCESS:
-      return {...state, assignedCases: action.payload, assignedCasesLastError: null};
+      return { ...state, assignedCases: action.payload, assignedCasesLastError: null };
     case fromCaaActions.LOAD_ASSIGNED_CASES_FAILURE:
-      return {...state, assignedCases: {idField: '', columnConfigs: [], data: [] }, assignedCasesLastError: action.payload};
+      return { ...state, assignedCases: { idField: '', columnConfigs: [], data: [] }, assignedCasesLastError: action.payload };
     case fromCaaActions.LOAD_UNASSIGNED_CASES_SUCCESS:
-      return {...state, unassignedCases: action.payload, unassignedCasesLastError: null};
+      return { ...state, unassignedCases: action.payload, unassignedCasesLastError: null };
     case fromCaaActions.LOAD_UNASSIGNED_CASES_FAILURE:
-      return {...state, unassignedCases: {idField: '', columnConfigs: [], data: [] }, unassignedCasesLastError: action.payload};
+      return { ...state, unassignedCases: { idField: '', columnConfigs: [], data: [] }, unassignedCasesLastError: action.payload };
     case fromCaaActions.LOAD_CASE_TYPES_SUCCESS:
-      return {...state, caseTypes: action.payload };
+      return { ...state, caseTypes: action.payload };
     case fromCaaActions.UPDATE_SELECTION_FOR_CASE_TYPE:
-      const selectedCases: SelectedCases = { ... state.selectedCases };
+      const selectedCases: SelectedCases = { ...state.selectedCases };
       selectedCases[action.payload.casetype] = action.payload.cases;
-      return { ...state,  selectedCases };
+      return { ...state, selectedCases };
     default:
       return state;
   }

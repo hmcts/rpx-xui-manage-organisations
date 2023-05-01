@@ -6,7 +6,7 @@ export class CaaCasesUtil {
   public static getCaaNavItems(response: CaseTypesResultsResponse): SubNavigation[] {
     const result = new Array<SubNavigation>();
     if (response.case_types_results) {
-      response.case_types_results.forEach(caseType => {
+      response.case_types_results.forEach((caseType) => {
         if (caseType.total > 0) {
           result.push({
             text: caseType.case_type_id,
@@ -30,7 +30,7 @@ export class CaaCasesUtil {
     return (control: AbstractControl): ValidationErrors | null => {
       // Use template literal to coerce control.value to a string in case it is null
       if (!(`${control.value}`).replace(/[\s-]/g, '').match(/^\d{16}$/)) {
-        return {caseReference: true};
+        return { caseReference: true };
       }
       return null;
     };
@@ -39,10 +39,10 @@ export class CaaCasesUtil {
   public static assigneeNameValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) {
-        return {assigneeName: true};
+        return { assigneeName: true };
       }
       if (typeof control.value === 'string' && (!control.value.includes('@') || !control.value.includes('-'))) {
-        return {assigneeName: true};
+        return { assigneeName: true };
       }
       return null;
     };

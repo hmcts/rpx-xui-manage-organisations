@@ -18,9 +18,7 @@ describe('CaseShareCompleteComponent', () => {
   let store: Store<CaaCasesState>;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
   let router: Router;
-  let mockRoute: any;
-
-  mockRoute = {
+  const mockRoute = {
     snapshot: {
       params: {
         pageType: CaaCasesPageType.AssignedCases

@@ -5,7 +5,6 @@ import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../mo
 
 @Injectable()
 export class CaaCasesService {
-
   public static caaCasesUrl: string = '/api/caaCases';
   public static caaCaseTypesUrl: string = '/api/caaCaseTypes';
 

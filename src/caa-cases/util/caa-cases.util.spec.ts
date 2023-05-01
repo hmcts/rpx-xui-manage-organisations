@@ -11,27 +11,27 @@ describe('CaaCasesUtil', () => {
 
   it('getCaaNavItems', () => {
     const response = {
-        total: 11,
-        cases: [],
-        case_types_results: [
-          {
-            total: 1,
-            case_type_id: 'FT_MasterCaseType'
-          },
-          {
-            total: 1,
-            case_type_id: 'FT_ComplexCollectionComplex'
-          },
-          {
-            total: 5,
-            case_type_id: 'FT_Conditionals'
-          },
-          {
-            total: 4,
-            case_type_id: 'FT_ComplexOrganisation'
-          }
-        ]
-      };
+      total: 11,
+      cases: [],
+      case_types_results: [
+        {
+          total: 1,
+          case_type_id: 'FT_MasterCaseType'
+        },
+        {
+          total: 1,
+          case_type_id: 'FT_ComplexCollectionComplex'
+        },
+        {
+          total: 5,
+          case_type_id: 'FT_Conditionals'
+        },
+        {
+          total: 4,
+          case_type_id: 'FT_ComplexOrganisation'
+        }
+      ]
+    };
     const results = CaaCasesUtil.getCaaNavItems(response);
     expect(results.length).toEqual(4);
     expect(results[0].text).toEqual('FT_MasterCaseType');
@@ -44,13 +44,13 @@ describe('CaaCasesUtil', () => {
   it('should fail caseReference validation if input is less than 16 digits after removing separators', () => {
     control.setValue('1234 12-- -34-1234  123-');
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
-    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+    expect(caseReferenceValidator(control)).toEqual({ caseReference: true });
   });
 
   it('should fail caseReference validation if input is more than 16 digits after removing separators', () => {
     control.setValue('1234 12-- -34-1234  12345');
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
-    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+    expect(caseReferenceValidator(control)).toEqual({ caseReference: true });
   });
 
   it('should pass caseReference validation if input is exactly 16 digits after removing separators', () => {
@@ -62,25 +62,25 @@ describe('CaaCasesUtil', () => {
   it('should fail caseReference validation if input is null', () => {
     control.setValue(null);
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
-    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+    expect(caseReferenceValidator(control)).toEqual({ caseReference: true });
   });
 
   it('should fail caseReference validation if input is the empty string', () => {
     control.setValue('');
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
-    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+    expect(caseReferenceValidator(control)).toEqual({ caseReference: true });
   });
 
   it('should fail caseReference validation if input contains one or more letters', () => {
     control.setValue('1234-1234 1234123A');
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
-    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+    expect(caseReferenceValidator(control)).toEqual({ caseReference: true });
   });
 
   it('should fail caseReference validation if input contains one or more symbols (except for "-")', () => {
     control.setValue('1234-1234 1234_1234');
     const caseReferenceValidator = CaaCasesUtil.caseReferenceValidator();
-    expect(caseReferenceValidator(control)).toEqual({caseReference: true});
+    expect(caseReferenceValidator(control)).toEqual({ caseReference: true });
   });
 
   it('should pass assigneeName validation if input contains one or more characters', () => {
@@ -98,7 +98,7 @@ describe('CaaCasesUtil', () => {
   it('should fail assigneeName validation if input is empty', () => {
     control.setValue('');
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
-    expect(assigneeNameValidator(control)).toEqual({assigneeName: true});
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
   });
 
   it('should pass assigneeName validation if input string is in correct format', () => {
@@ -110,6 +110,6 @@ describe('CaaCasesUtil', () => {
   it('should fail assigneeName validation if input is not in expected format string', () => {
     control.setValue('test string');
     const assigneeNameValidator = CaaCasesUtil.assigneeNameValidator();
-    expect(assigneeNameValidator(control)).toEqual({assigneeName: true});
+    expect(assigneeNameValidator(control)).toEqual({ assigneeName: true });
   });
 });

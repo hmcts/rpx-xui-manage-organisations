@@ -10,7 +10,7 @@ export interface ShareCasesState {
   users: UserDetails[];
 }
 
-export let initialSharedCasesState: ShareCasesState = {
+export const initialSharedCasesState: ShareCasesState = {
   shareAssignedCases: [],
   shareUnassignedCases: [],
   loading: false,
@@ -18,13 +18,14 @@ export let initialSharedCasesState: ShareCasesState = {
   users: []
 };
 
-export function shareCasesReducer(state: ShareCasesState = initialSharedCasesState,
-                                  action: ShareCasesActions.Actions): ShareCasesState {
+export function shareCasesReducer(
+  state: ShareCasesState = initialSharedCasesState,
+  action: ShareCasesActions.Actions): ShareCasesState {
   switch (action.type) {
     case ShareCasesActions.NAVIGATE_TO_SHARE_ASSIGNED_CASES:
       const navigateToShareAssignedCases = state.shareAssignedCases.slice();
       for (const aCase of action.payload) {
-        if (!navigateToShareAssignedCases.some(hasACase => hasACase.caseId === aCase.caseId)) {
+        if (!navigateToShareAssignedCases.some((hasACase) => hasACase.caseId === aCase.caseId)) {
           navigateToShareAssignedCases.push(aCase);
         }
       }
@@ -42,7 +43,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
       const casesFromNode: SharedCase[] = sortedUserInCases(action.payload);
       const casesWithTypes = [];
       for (const aCase of casesInStore) {
-        const intersectionCase = casesFromNode.find(nodeCase => nodeCase.caseId === aCase.caseId);
+        const intersectionCase = casesFromNode.find((nodeCase) => nodeCase.caseId === aCase.caseId);
         if (intersectionCase && intersectionCase.caseId) {
           const caseTypeId = aCase.caseTypeId ? aCase.caseTypeId : null;
           const caseTitle = aCase.caseTitle ? aCase.caseTitle : null;
@@ -70,7 +71,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.ADD_SHARE_ASSIGNED_CASES:
       const addShareAssignedCases = state.shareAssignedCases.slice();
       for (const aCase of action.payload.sharedCases) {
-        if (!addShareAssignedCases.some(hasACase => hasACase.caseId === aCase.caseId)) {
+        if (!addShareAssignedCases.some((hasACase) => hasACase.caseId === aCase.caseId)) {
           addShareAssignedCases.push(aCase);
         }
       }
@@ -81,7 +82,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.ADD_SHARE_ASSIGNED_CASES_GO:
       const addShareAssignedCasesGo = state.shareAssignedCases.slice();
       for (const aCase of action.payload.sharedCases) {
-        if (!addShareAssignedCasesGo.some(hasACase => hasACase.caseId === aCase.caseId)) {
+        if (!addShareAssignedCasesGo.some((hasACase) => hasACase.caseId === aCase.caseId)) {
           addShareAssignedCasesGo.push(aCase);
         }
       }
@@ -121,7 +122,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.NAVIGATE_TO_SHARE_UNASSIGNED_CASES:
       const navigateToShareUnassignedCases = state.shareUnassignedCases.slice();
       for (const aCase of action.payload) {
-        if (!navigateToShareUnassignedCases.some(hasACase => hasACase.caseId === aCase.caseId)) {
+        if (!navigateToShareUnassignedCases.some((hasACase) => hasACase.caseId === aCase.caseId)) {
           navigateToShareUnassignedCases.push(aCase);
         }
       }
@@ -139,7 +140,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
       const unassignedCasesFromNode: SharedCase[] = sortedUserInCases(action.payload);
       const unassignedCasesWithTypes = [];
       for (const aCase of unassignedCasesInStore) {
-        const intersectionCase = unassignedCasesFromNode.find(nodeCase => nodeCase.caseId === aCase.caseId);
+        const intersectionCase = unassignedCasesFromNode.find((nodeCase) => nodeCase.caseId === aCase.caseId);
         if (intersectionCase && intersectionCase.caseId) {
           const caseTypeId = aCase.caseTypeId ? aCase.caseTypeId : null;
           const caseTitle = aCase.caseTitle ? aCase.caseTitle : null;
@@ -158,7 +159,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
         shareUnassignedCases: unassignedCasesWithTypes,
         loading: false
       };
-    case ShareCasesActions.LOAD_SHARE_ASSIGNED_CASES_FAILURE:
+    case ShareCasesActions.LOAD_SHARE_UNASSIGNED_CASES_FAILURE:
       return {
         ...state,
         error: action.payload,
@@ -167,7 +168,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.ADD_SHARE_UNASSIGNED_CASES:
       const addShareUnassignedCases = state.shareUnassignedCases.slice();
       for (const aCase of action.payload.sharedCases) {
-        if (!addShareUnassignedCases.some(hasACase => hasACase.caseId === aCase.caseId)) {
+        if (!addShareUnassignedCases.some((hasACase) => hasACase.caseId === aCase.caseId)) {
           addShareUnassignedCases.push(aCase);
         }
       }
@@ -178,7 +179,7 @@ export function shareCasesReducer(state: ShareCasesState = initialSharedCasesSta
     case ShareCasesActions.ADD_SHARE_UNASSIGNED_CASES_GO:
       const addShareUnassignedCasesGo = state.shareUnassignedCases.slice();
       for (const aCase of action.payload.sharedCases) {
-        if (!addShareUnassignedCasesGo.some(hasACase => hasACase.caseId === aCase.caseId)) {
+        if (!addShareUnassignedCasesGo.some((hasACase) => hasACase.caseId === aCase.caseId)) {
           addShareUnassignedCasesGo.push(aCase);
         }
       }

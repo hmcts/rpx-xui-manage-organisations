@@ -51,7 +51,6 @@ describe('Users Effects', () => {
         users: [
           {
             payload: 'something',
-            userIdentifier: undefined,
             fullName: 'undefined undefined',
             routerLink: 'user/undefined',
             routerLinkTitle: 'User details for undefined undefined with id undefined'
@@ -71,7 +70,6 @@ describe('Users Effects', () => {
         users: [
           {
             idamStatus: 'PENDING',
-            userIdentifier: undefined,
             fullName: 'undefined undefined',
             routerLink: 'user/undefined',
             routerLinkTitle: 'User details for undefined undefined with id undefined'

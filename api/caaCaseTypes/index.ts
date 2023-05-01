@@ -17,7 +17,7 @@ export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, ne
     if (caaCasesPageType === CaaCasesPageType.AssignedCases && caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req, next);
       const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
-      caaCasesFilterValue = roleAssignmentResponse.map(x => x.attributes.caseId);
+      caaCasesFilterValue = roleAssignmentResponse.map((x) => x.attributes.caseId);
     }
 
     const payload = getRequestBody(req.session.auth.orgId, caaCasesPageType, caaCasesFilterValue);
@@ -27,7 +27,7 @@ export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, ne
   } catch (error) {
     res.status(500).send({
       errorMessage: error.data,
-      errorStatusText: error.statusText,
+      errorStatusText: error.statusText
     });
   }
 }

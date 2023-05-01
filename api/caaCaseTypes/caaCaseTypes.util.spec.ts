@@ -1,7 +1,7 @@
-import { expect } from 'chai'
-import { CaaCasesPageType } from '../caaCases/enums'
-import { searchCasesString } from './caaCaseTypes.constants'
-import { getApiPath, getRequestBody } from './caaCaseTypes.util'
+import { expect } from 'chai';
+import { CaaCasesPageType } from '../caaCases/enums';
+import { searchCasesString } from './caaCaseTypes.constants';
+import { getApiPath, getRequestBody } from './caaCaseTypes.util';
 
 describe('caaCaseTypes Util', () => {
   it('should getApiPath', () => {
@@ -20,9 +20,9 @@ describe('caaCaseTypes Util', () => {
           filter: [
             {
               multi_match: {
-                fields: ["data.*.Organisation.OrganisationID"],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
-                type: "phrase"
+                type: 'phrase'
               }
             },
             {
@@ -55,9 +55,9 @@ describe('caaCaseTypes Util', () => {
           filter: [
             {
               multi_match: {
-                fields: ["data.*.Organisation.OrganisationID"],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
-                type: "phrase"
+                type: 'phrase'
               }
             },
             {
@@ -90,9 +90,9 @@ describe('caaCaseTypes Util', () => {
           filter: [
             {
               multi_match: {
-                fields: ["data.*.Organisation.OrganisationID"],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
-                type: "phrase"
+                type: 'phrase'
               }
             },
             {
@@ -134,9 +134,9 @@ describe('caaCaseTypes Util', () => {
           filter: [
             {
               multi_match: {
-                fields: ["data.*.Organisation.OrganisationID"],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
-                type: "phrase"
+                type: 'phrase'
               }
             },
             {
@@ -178,9 +178,9 @@ describe('caaCaseTypes Util', () => {
           filter: [
             {
               multi_match: {
-                fields: ["data.*.Organisation.OrganisationID"],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
-                type: "phrase"
+                type: 'phrase'
               }
             },
             {

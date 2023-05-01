@@ -91,9 +91,8 @@ export async function assignCases(req: EnhancedRequest, res: Response): Promise<
   } else if (unshareCaseRejection && unshareCaseRejection.rejectedCount === 1) {
     // Should be a count of only 1 because it's a single Promise
     return res.status(500).send(unshareCaseRejection.updatedErrorMessages);
-  } else {
-    return res.status(201).send(finalSharedCases && finalSharedCases.length > 0 ? finalSharedCases : updatedSharedCases);
   }
+  return res.status(201).send(finalSharedCases && finalSharedCases.length > 0 ? finalSharedCases : updatedSharedCases);
 }
 
 function doShareCase(req: EnhancedRequest, shareCases: SharedCase[]): Promise<AxiosResponse>[] {

@@ -13,7 +13,7 @@ export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
   return {
     columnConfigs,
     data,
-    idField,
+    idField
   };
 }
 
@@ -25,7 +25,7 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
   if (caaCasesFilterValue) {
     if (Array.isArray(caaCasesFilterValue)) {
       caaCasesFilterValue.forEach((caseReference) => {
-        caseReferenceFilter.push({ match: { [reference]: caseReference } })
+        caseReferenceFilter.push({ match: { [reference]: caseReference } });
       });
     } else {
       caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
@@ -48,12 +48,12 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
             bool: {
               ...(caaCasesPageType === CaaCasesPageType.AssignedCases && {
                 must: [
-                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
+                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } }
                 ]
               }),
               ...(caaCasesPageType === CaaCasesPageType.UnassignedCases && {
                 must_not: [
-                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
+                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } }
                 ]
               })
             }
@@ -110,7 +110,7 @@ function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
         ccdColumnConfigs.push({
           header: header.label,
           key: header.case_field_id,
-          type: header.case_field_type.type === 'DateTime' ? 'date' : header.case_field_type.type,
+          type: header.case_field_type.type === 'DateTime' ? 'date' : header.case_field_type.type
         });
       }
     });

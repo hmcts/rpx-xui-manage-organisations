@@ -8,8 +8,8 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
 
   if (caaCasesFilterValue) {
     if (Array.isArray(caaCasesFilterValue)) {
-      caaCasesFilterValue.forEach(caseReference => {
-        caseReferenceFilter.push({ match: { [reference]: caseReference } })
+      caaCasesFilterValue.forEach((caseReference) => {
+        caseReferenceFilter.push({ match: { [reference]: caseReference } });
       });
     } else {
       caseReferenceFilter.push({ match: { [reference]: caaCasesFilterValue } });
@@ -24,9 +24,9 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
         filter: [
           {
             multi_match: {
-              fields: ["data.*.Organisation.OrganisationID"],
+              fields: ['data.*.Organisation.OrganisationID'],
               query: `${organisationID}`,
-              type: "phrase"
+              type: 'phrase'
             }
           },
           {

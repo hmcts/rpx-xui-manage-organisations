@@ -19,7 +19,7 @@ describe('caaCases Util', () => {
           filter: [
             {
               multi_match: {
-                fields: [ 'data.*.Organisation.OrganisationID' ],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
                 type: 'phrase'
               }
@@ -59,7 +59,7 @@ describe('caaCases Util', () => {
           filter: [
             {
               multi_match: {
-                fields: [ 'data.*.Organisation.OrganisationID' ],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
                 type: 'phrase'
               }
@@ -99,7 +99,7 @@ describe('caaCases Util', () => {
           filter: [
             {
               multi_match: {
-                fields: [ 'data.*.Organisation.OrganisationID' ],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
                 type: 'phrase'
               }
@@ -148,7 +148,7 @@ describe('caaCases Util', () => {
           filter: [
             {
               multi_match: {
-                fields: [ 'data.*.Organisation.OrganisationID' ],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
                 type: 'phrase'
               }
@@ -197,7 +197,7 @@ describe('caaCases Util', () => {
           filter: [
             {
               multi_match: {
-                fields: [ 'data.*.Organisation.OrganisationID' ],
+                fields: ['data.*.Organisation.OrganisationID'],
                 query: 'GCXGCY1',
                 type: 'phrase'
               }

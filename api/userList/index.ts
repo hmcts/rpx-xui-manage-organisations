@@ -1,9 +1,9 @@
-import { Request, Response, Router } from 'express'
-import { getConfigValue } from '../configuration'
-import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references'
-import * as log4jui from '../lib/log4jui'
-import { exists, valueOrNull } from '../lib/util'
-import { getRefdataUserUrl } from '../refdataUserUrlUtil'
+import { Request, Response, Router } from 'express';
+import { getConfigValue } from '../configuration';
+import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
+import * as log4jui from '../lib/log4jui';
+import { exists, valueOrNull } from '../lib/util';
+import { getRefdataUserUrl } from '../refdataUserUrlUtil';
 
 const logger = log4jui.getLogger('user-list');
 
@@ -20,7 +20,7 @@ export async function handleUserListRoute(req: Request, res: Response) {
     logger.info(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
     const response = await req.http.get(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
 
-    logger.info('response::', response.data);
+    logger.info('response:', response.data);
     res.send(response.data);
   } catch (error) {
     logger.error('error', error);

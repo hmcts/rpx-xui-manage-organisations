@@ -17,7 +17,6 @@ import {
   CaaCasesNoDataMessage,
   CaaCasesPageTitle,
   CaaCasesPageType,
-  CaaCasesShareButtonText,
   CaaCasesShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
 import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
@@ -52,7 +51,6 @@ export class CaaCasesComponent implements OnInit {
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaShowHideFilterButtonText: string;
   public caaShowHideFilterButtonTextLookup = CaaCasesShowHideFilterButtonText;
-  public caaCasesShareButtonText: string;
   public selectedFilterType: string;
   public selectedFilterValue: string;
   public sessionStateValue: CaaCasesSessionStateValue;
@@ -79,8 +77,6 @@ export class CaaCasesComponent implements OnInit {
     this.setSelectedFilterTypeAndValue();
     // Retrieve session state to check and pre-populate the previous state if any
     this.retrieveSessionState();
-    // Set share button text
-    this.setShareButtonText();
 
     // Load case types from store based on current page type
     this.loadCaseTypes(this.selectedFilterType, this.selectedFilterValue);
@@ -146,12 +142,6 @@ export class CaaCasesComponent implements OnInit {
       : CaaCasesShowHideFilterButtonText.AssignedCasesShow;
   }
 
-  public setShareButtonText(): void {
-    this.caaCasesShareButtonText = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
-      ? CaaCasesShareButtonText.UnassignedCases
-      : CaaCasesShareButtonText.AssignedCases;
-  }
-
   public loadCasesAndSetTableConfig(): void {
     switch (this.caaCasesPageType) {
       case CaaCasesPageType.UnassignedCases:
@@ -188,16 +178,16 @@ export class CaaCasesComponent implements OnInit {
     this.selectedFilterValue = null;
   }
 
-  public shareCaseSubmit(): void {
-    if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.store.dispatch(new fromStore.AddShareUnassignedCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
-      }));
-    } else {
-      this.store.dispatch(new fromStore.AddShareAssignedCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedAssignedCases, this.currentCaseType)
-      }));
-    }
+  public shareAssignedCasesSubmit(): void {
+    this.store.dispatch(new fromStore.AddShareAssignedCases({
+      sharedCases: converters.toShareCaseConverter(this.selectedAssignedCases, this.currentCaseType)
+    }));
+  }
+
+  public shareUnassignedCaseSubmit(): void {
+    this.store.dispatch(new fromStore.AddShareUnassignedCases({
+      sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
+    }));
   }
 
   public onCaseSelection(selectedCases: any[]): void {

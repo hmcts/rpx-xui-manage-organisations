@@ -57,7 +57,7 @@ describe('Share case selectors', () => {
           solsSolicitorAppReference: 'Steve321'
         }
       }];
-      caseListComponent.shareCaseSubmit();
+      caseListComponent.shareAssignedCaseSubmit();
       let result = [];
       store.pipe(select(getShareAssignedCaseListState)).subscribe((value) => {
         result = value;

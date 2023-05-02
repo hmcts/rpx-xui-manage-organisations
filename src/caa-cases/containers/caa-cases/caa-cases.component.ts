@@ -178,7 +178,7 @@ export class CaaCasesComponent implements OnInit {
     this.selectedFilterValue = null;
   }
 
-  public shareAssignedCasesSubmit(): void {
+  public shareAssignedCaseSubmit(): void {
     this.store.dispatch(new fromStore.AddShareAssignedCases({
       sharedCases: converters.toShareCaseConverter(this.selectedAssignedCases, this.currentCaseType)
     }));

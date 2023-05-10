@@ -10,8 +10,8 @@ export const haveDx = {
         validationLevel: 'formControl',
         controlId: 'haveDx',
         text: 'Tell us if you have a DX reference',
-        href: '/register/organisation-address',
-      },
+        href: '/register/organisation-address'
+      }
     ],
     groups: [
       {
@@ -23,18 +23,18 @@ export const haveDx = {
               validators: ['required'],
               validationError: {
                 value: 'Tell us if you have a DX reference',
-                controlId: 'haveDx',
+                controlId: 'haveDx'
               },
               radioGroup: [
                 {
                   value: 'yes',
                   text: 'Yes',
-                  hiddenAccessibilityText: 'some hidden text',
+                  hiddenAccessibilityText: 'some hidden text'
                 },
                 {
                   value: 'no',
                   text: 'No',
-                  hiddenAccessibilityText: 'some hidden text',
+                  hiddenAccessibilityText: 'some hidden text'
                 }
               ]
             }

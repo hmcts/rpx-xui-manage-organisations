@@ -1,23 +1,21 @@
 'use strict';
 
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
-var BrowserWaits = require('../../support/customWaits')
+const BrowserWaits = require('../../support/customWaits');
 
 class ViewUserPage {
-
   constructor() {
     this.header = 'h1';
-    this.inviteUser = element(by.xpath("//*[contains(@class,'govuk-button') and contains(text(),'Invite user')]"));
+    this.inviteUser = element(by.xpath('//*[contains(@class,\'govuk-button\') and contains(text(),\'Invite user\')]'));
 
-    this.header = element(by.xpath("//h1[text() = 'Users']"));
-    this.spinner = element(by.css(".spinner-wrapper"));
+    this.header = element(by.xpath('//h1[text() = \'Users\']'));
+    this.spinner = element(by.css('.spinner-wrapper'));
 
     this.userstable = element(by.css('table'));
     this.userRowsBy = by.css('.govuk-table tbody tr');
     this.userRowsHeader = element.all(by.css('.govuk-table thead tr th'));
 
     this.selectedUserDetailsContainer = $('app-prd-user-details-component xuilib-user-details ');
-
   }
 
   async getPageHeader() {
@@ -37,28 +35,30 @@ class ViewUserPage {
   }
 
   async validateUserWithEmailListed(useremail){
-    await BrowserWaits.waitForElement(this.userstable,300*1000); 
-    let users = await this.userstable.getText();
-    assert(users.includes(useremail), "User with email is not listed : " + useremail);
+    await BrowserWaits.waitForElement(this.userstable, 300*1000);
+    const users = await this.userstable.getText();
+    assert(users.includes(useremail), 'User with email is not listed : ' + useremail);
   }
 
   async validateUsersTableDisplaysAllDetails(){
     await BrowserWaits.waitForElement(this.userstable);
-    await BrowserWaits.waitForCondition(async () => { return await this.userRows.length > 0 });
-  
-    let usersCount = (await this.userRows).length;
-    console.log(" rows length " + usersCount);
-    for (let userRow = 0; userRow < usersCount ;userRow++){
-      console.log(userRow + " : " + await this.userRows.get(userRow).getText());
-      let userRowEle =  this.userRows.get(userRow);
-      let userDetailElemets = userRowEle.all(by.css("td"));
-      console.log(userRow+ " : "+ (await userRowEle).getText());
-      for(let rowDetails = 0; rowDetails< (await userDetailElemets).length; rowDetails++){
-        let detailText = await userDetailElemets.get(rowDetails).getText();
-        let detailHeaderLabel = (await this.userRowsHeader.get(rowDetails).getText()) ; 
-        console.log(userRow + " => " + detailHeaderLabel+ " is " + detailText);
-        assert(detailText !== "", detailHeaderLabel  + " is displayed empty for user row : " + (await userRowEle.getText()));
-      } 
+    await BrowserWaits.waitForCondition(async () => {
+      return await this.userRows.length > 0;
+    });
+
+    const usersCount = (await this.userRows).length;
+    console.log(' rows length ' + usersCount);
+    for (let userRow = 0; userRow < usersCount; userRow++){
+      console.log(userRow + ' : ' + await this.userRows.get(userRow).getText());
+      const userRowEle = this.userRows.get(userRow);
+      const userDetailElemets = userRowEle.all(by.css('td'));
+      console.log(userRow+ ' : '+ (await userRowEle).getText());
+      for (let rowDetails = 0; rowDetails< (await userDetailElemets).length; rowDetails++){
+        const detailText = await userDetailElemets.get(rowDetails).getText();
+        const detailHeaderLabel = (await this.userRowsHeader.get(rowDetails).getText());
+        console.log(userRow + ' => ' + detailHeaderLabel+ ' is ' + detailText);
+        assert(detailText !== '', detailHeaderLabel + ' is displayed empty for user row : ' + (await userRowEle.getText()));
+      }
     }
   }
 
@@ -73,26 +73,25 @@ class ViewUserPage {
 
   async validateTableHasNoEmptyCells(){
     await BrowserWaits.waitForElement($('.govuk-table tbody tr'));
-    let userRows = await element.all(by.css('.govuk-table tbody tr'));
-    const rowCount = userRows.length; 
-    console.log("Users coundt : " + rowCount);
-    for (var ctr = 0; ctr < rowCount; ctr++){
-      let userRow = userRows[ctr];
-      let userNameElement = userRow.element(by.css('td:nth-of-type(1)'));
-      let userEmail = userRow.element(by.css('td:nth-of-type(2)'));
-      let userActivationStatus = userRow.element(by.css('td:nth-of-type(3)'));
+    const userRows = await element.all(by.css('.govuk-table tbody tr'));
+    const rowCount = userRows.length;
+    console.log('Users coundt : ' + rowCount);
+    for (let ctr = 0; ctr < rowCount; ctr++){
+      const userRow = userRows[ctr];
+      const userNameElement = userRow.element(by.css('td:nth-of-type(1)'));
+      const userEmail = userRow.element(by.css('td:nth-of-type(2)'));
+      const userActivationStatus = userRow.element(by.css('td:nth-of-type(3)'));
 
-      let name = await userNameElement.getText(); 
-      let email = await userEmail.getText(); 
-      let status = await userActivationStatus.getText(); 
+      const name = await userNameElement.getText();
+      const email = await userEmail.getText();
+      const status = await userActivationStatus.getText();
 
       console.log(` |${name}|${email}|${status}|`);
 
-      expect(name, "Name is empty at row " + (ctr + 1)).to.not.equal('');
-      expect(email, "Email is empty at row " + (ctr + 1)).to.not.equal('');
-      expect(status, "Status is empty at row " + (ctr + 1)).to.not.equal('');
-    };
-
+      expect(name, 'Name is empty at row ' + (ctr + 1)).to.not.equal('');
+      expect(email, 'Email is empty at row ' + (ctr + 1)).to.not.equal('');
+      expect(status, 'Status is empty at row ' + (ctr + 1)).to.not.equal('');
+    }
   }
 }
 module.exports = ViewUserPage;

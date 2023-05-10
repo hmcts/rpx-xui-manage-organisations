@@ -5,9 +5,9 @@ import { SERVICE_S2S_PATH, SERVICES_RD_PROFESSIONAL_API_PATH } from '../configur
 import { http } from '../lib/http';
 import { makeOrganisationPayload } from '../lib/payloadBuilder';
 import { generateS2sToken } from '../lib/s2sTokenGeneration';
-import {exists, valueOrNull} from '../lib/util';
+import { exists, valueOrNull } from '../lib/util';
 
-export const router = Router({mergeParams: true});
+export const router = Router({ mergeParams: true });
 
 export async function handleRegisterOrgRoute(req: Request, res: Response) {
   // TODO: Should be in common constants
@@ -19,7 +19,6 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
   const registerPayload = makeOrganisationPayload(req.body.fromValues);
 
   try {
-
     /**
      * S2S Token generation, if it fails, should send an error back to the UI, within the catch block.
      */
@@ -31,7 +30,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     console.log(s2sToken);
     const url = `${rdProfessionalPath}/refdata/internal/v1/organisations`;
     const options = {
-      headers: { ServiceAuthorization: `Bearer ${s2sToken}` },
+      headers: { ServiceAuthorization: `Bearer ${s2sToken}` }
     };
     const axiosInstance = http({} as unknown as Request);
     const response = await axiosInstance.post(url, registerPayload, options);
@@ -43,7 +42,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     if (valueOrNull(error, 'message') === ERROR_GENERATING_S2S_TOKEN) {
       return res.status(500).send({
         errorMessage: ERROR_GENERATING_S2S_TOKEN,
-        errorOnPath: s2sServicePath,
+        errorOnPath: s2sServicePath
       });
     }
 
@@ -52,7 +51,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response) {
     const errReport = {
       apiError: valueOrNull(error, 'data.errorMessage'),
       apiErrorDescription: valueOrNull(error, 'data.errorDescription'),
-      statusCode: status,
+      statusCode: status
     };
     res.status(status).send(errReport);
   }

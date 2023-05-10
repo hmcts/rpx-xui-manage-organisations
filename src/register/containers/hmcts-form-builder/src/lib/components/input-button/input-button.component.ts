@@ -29,15 +29,14 @@ export class InputButtonComponent implements OnInit {
   public id: string;
 
   constructor(private readonly store: Store<fromStore.RegistrationState>,
-              private validationService: ValidationService) {
-  }
+              private validationService: ValidationService) {}
 
   public ngOnInit(): void {
     this.pages$ = this.store.pipe(select(fromStore.getRegistrationPages));
-    this.pages$.subscribe(pages => {
+    this.pages$.subscribe((pages) => {
       const groups: [] = pages['organisation-pba'].meta.groups;
       let pbaCount = 0;
-      groups.forEach(group => {
+      groups.forEach((group) => {
         // @ts-ignore
         if (group.hasOwnProperty('inputButton')) {
           pbaCount++;

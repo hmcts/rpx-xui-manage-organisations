@@ -6,6 +6,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -13,37 +14,37 @@ import * as fromStore from '../../store';
   styleUrls: ['./user-details.component.scss']
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
-
   public editPermissionRouter: string;
   public user$: Observable<User>;
   public isLoading$: Observable<boolean>;
   public user: any;
 
   public userSubscription: Subscription;
-  public dependanciesSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
-  public actionButtons: { name: string, class: string, action(): {} }[] = [];
+  public actionButtons: { name: string, class: string, action: () => void }[] = [];
 
   public suspendViewFlag: boolean = false;
 
-  public showSuspendView: () => {};
-  public hideSuspendView: () => {};
+  public showSuspendView: () => void;
+  public hideSuspendView: () => void;
 
   public suspendSuccessSubscription: Subscription;
+  public userId: string;
 
   constructor(
     private readonly userStore: Store<fromStore.UserState>,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly actions$: Actions,
+    private readonly activeRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
     this.user$ = new Observable();
 
-    const isfeatureEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+    const isFeatureEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
 
-    isfeatureEnabled$.subscribe(isFeatureEnabled => {
+    isFeatureEnabled$.subscribe((isFeatureEnabled) => {
       this.editPermissionRouter = isFeatureEnabled ? 'editpermission' : '';
     });
 
@@ -51,29 +52,24 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.userStore.pipe(select(fromStore.getGetUserLoading));
 
-    this.dependanciesSubscription = this.getDependancyObservables(this.userStore, this.routerStore).subscribe(([route, users]) => {
-      this.handleDependanciesSubscription(users, route);
-    });
+    this.userId = this.activeRoute.snapshot.params.userId;
 
+    this.userStore.dispatch(new fromStore.LoadUserDetails(this.userId));
 
-    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isfeatureEnabled$));
+    this.user$ = this.userStore.pipe(select(fromStore.getUserDetails));
+
+    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isFeatureEnabled$));
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
       this.hideSuspendView();
     });
 
     this.suspendUserServerErrorSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_FAIL)).subscribe(() => {
-      this.routerStore.dispatch(new fromRoot.Go({ path: [`service-down`] }));
+      this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
     });
-
-
   }
 
   public ngOnDestroy(): void {
-    if (this.dependanciesSubscription) {
-      this.dependanciesSubscription.unsubscribe();
-    }
-
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }
@@ -87,21 +83,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getDependancyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
+  public getDependencyObservables(routerStore: Store<fromStore.UserState>, userStore: Store<fromRoot.State>) {
     return combineLatest([
       routerStore.pipe(select(fromRoot.getRouterState)),
       userStore.pipe(select(fromStore.getGetUserLoaded))
     ]);
-  }
-
-  public dispatchGetUsers(users, userStore): void {
-    if (!users) {
-      userStore.dispatch(new fromStore.LoadUsers());
-    }
-  }
-
-  public getUserObservable(userId, userStore): any {
-    return userStore.pipe(select(fromStore.getGetSingleUser, { userIdentifier: userId }));
   }
 
   public setSuspendViewFunctions(): void {
@@ -111,12 +97,11 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public handleUserSubscription(user, isFeatureEnabled$: Observable<boolean>): void {
     if (user && user.status) {
-      this.user = {...user, resendInvite: user.status === 'Pending' };
+      this.user = { ...user, resendInvite: user.status === 'Pending' };
     }
 
-    isFeatureEnabled$.subscribe(isFeatureEnabled => {
+    isFeatureEnabled$.subscribe((isFeatureEnabled) => {
       if (isFeatureEnabled && this.user && this.user.status === 'Active') {
-
         this.actionButtons = [
           {
             name: 'Suspend account',
@@ -128,11 +113,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         this.actionButtons = null;
       }
     });
-  }
-
-  public handleDependanciesSubscription(users, route): void {
-    this.dispatchGetUsers(users, this.userStore);
-    this.user$ = this.getUserObservable(route.state.params.userId, this.userStore);
   }
 
   public isInactive(status: string, inactiveStatuses: string[] = ['Suspended', 'Pending']): boolean {
@@ -147,7 +127,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     return status === 'Pending';
   }
 
-
   public isSuspendView() {
     return this.suspendViewFlag;
   }
@@ -159,5 +138,4 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public reinviteUser(user: User) {
     this.userStore.dispatch(new fromStore.ReinvitePendingUser(user));
   }
-
 }

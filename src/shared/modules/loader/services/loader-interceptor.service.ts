@@ -7,7 +7,7 @@ import { LoaderService } from './loader.service';
   providedIn: 'root'
 })
 export class LoaderInterceptorService implements HttpInterceptor {
-  constructor(private readonly loaderService: LoaderService) { }
+  constructor(private readonly loaderService: LoaderService) {}
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.showLoader();
     return next.handle(req).pipe(tap((event: HttpEvent<any>) => {
@@ -15,16 +15,19 @@ export class LoaderInterceptorService implements HttpInterceptor {
         this.onEnd();
       }
     },
-      (err: any) => {
-        this.onEnd();
+    () => {
+      this.onEnd();
     }));
   }
+
   private onEnd(): void {
     this.hideLoader();
   }
+
   private showLoader(): void {
     this.loaderService.show();
   }
+
   private hideLoader(): void {
     this.loaderService.hide();
   }

@@ -8,9 +8,9 @@ describe('HmctsFormBuilderComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsFormBuilderComponent ]
+      declarations: [HmctsFormBuilderComponent]
     })
-    .compileComponents();
+      .compileComponents();
     fixture = TestBed.createComponent(HmctsFormBuilderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

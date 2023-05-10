@@ -17,13 +17,12 @@ describe('App actions', () => {
         });
       });
     });
-
   });
 
   describe('LoadJurisdictionsSuccess', () => {
     it('should create an action', () => {
-      const action = new fromAppActions.LoadJurisdictionsSuccess([{id: 'Juridiction1'}]);
-      const payload = [{id: 'Juridiction1'}];
+      const action = new fromAppActions.LoadJurisdictionsSuccess([{ id: 'Juridiction1' }]);
+      const payload = [{ id: 'Juridiction1' }];
       expect({ ...action }).toEqual({
         type: fromAppActions.LOAD_JURISDICTIONS_GLOBAL_SUCCESS,
         payload

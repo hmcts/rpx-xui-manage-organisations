@@ -10,38 +10,37 @@ export const LOAD_UNASSIGNED_CASE_TYPES_FAILURE = '[Unassigned Cases] Load Unass
 export const UPDATE_SELECTION_FOR_CASE_TYPE = '[Unassigned Cases] Update Selection For Case Types';
 
 export class LoadUnassignedCases implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASES;
-    constructor(public payload: {caseType: string, pageNo: number, pageSize: number}) {}
+  public readonly type = LOAD_UNASSIGNED_CASES;
+  constructor(public payload: {caseType: string, pageNo: number, pageSize: number}) {}
 }
 
 export class LoadUnassignedCasesSuccess implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASES_SUCCESS;
-    constructor(public payload: UnAssignedCases) {}
+  public readonly type = LOAD_UNASSIGNED_CASES_SUCCESS;
+  constructor(public payload: UnAssignedCases) {}
 }
 
 export class UpdateSelectionForCaseType implements Action {
-    public readonly type = UPDATE_SELECTION_FOR_CASE_TYPE;
-    constructor(public payload: {casetype: string; cases: any [] }) {}
+  public readonly type = UPDATE_SELECTION_FOR_CASE_TYPE;
+  constructor(public payload: {casetype: string; cases: any [] }) {}
 }
 
 export class LoadUnassignedCasesFailure implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASES_FAILURE;
-    constructor(public payload: any) {}
+  public readonly type = LOAD_UNASSIGNED_CASES_FAILURE;
+  constructor(public payload: any) {}
 }
 
 export class LoadUnassignedCaseTypes implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASE_TYPES;
-    constructor() {}
+  public readonly type = LOAD_UNASSIGNED_CASE_TYPES;
 }
 
 export class LoadUnassignedCaseTypesSuccess implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASE_TYPES_SUCCESS;
-    constructor(public payload: any[]) {}
+  public readonly type = LOAD_UNASSIGNED_CASE_TYPES_SUCCESS;
+  constructor(public payload: any[]) {}
 }
 
 export class LoadUnassignedCaseTypesFailure implements Action {
-    public readonly type = LOAD_UNASSIGNED_CASE_TYPES_FAILURE;
-    constructor(public payload: any) {}
+  public readonly type = LOAD_UNASSIGNED_CASE_TYPES_FAILURE;
+  constructor(public payload: any) {}
 }
 
 export type UnassignedCasesActions =

@@ -20,13 +20,12 @@ const config = {
 
   params: {
     serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
-    targetEnv: argv.env || 'local',
+    targetEnv: argv.env || 'local'
     //username: process.env.TEST_EMAIL,
     //password: process.env.TEST_PASSWORD,
   },
 
-
- // sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
+  // sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API
   sauceUser: process.env.SAUCE_USERNAME,
   sauceKey: process.env.SAUCE_ACCESS_KEY,
   SAUCE_REST_ENDPOINT: 'https://eu-central-1.saucelabs.com/rest/v1/',
@@ -109,9 +108,8 @@ const config = {
       extendedDebugging: true,
       sharedTestFiles: false,
       maxInstances: 1
-    },
+    }
   ],
-
 
   exclude: [],
 
@@ -121,7 +119,6 @@ const config = {
     require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
     tags: ['@crossbrowser']
   },
-
 
   plugins: [
     {
@@ -147,6 +144,5 @@ const config = {
     global.should = chai.should;
   }
 };
-
 
 exports.config = config;

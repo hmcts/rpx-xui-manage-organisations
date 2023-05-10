@@ -1,77 +1,72 @@
 
-
 const express = require('express');
-let { requestMapping,configurations} = require('./reqResMapping');
+const { requestMapping, configurations } = require('./reqResMapping');
 const { browser } = require('protractor');
 const port = 3001;
-
 
 const nodeMockAvailablePort = require('./availablePortFinder').getAvailablePort();
 
 class MockApp{
-    init(){
-        this.conf = { 
-            get: { ...requestMapping.get},
-            post: { ...requestMapping.post },
-            put: { ...requestMapping.put },
-            delete: { ...requestMapping.delete }
-        };
-        this.configurations = Object.assign({}, configurations);
-        console.log("Mock Config Initialized");
-        return "done";
+  init(){
+    this.conf = {
+      get: { ...requestMapping.get },
+      post: { ...requestMapping.post },
+      put: { ...requestMapping.put },
+      delete: { ...requestMapping.delete }
+    };
+    this.configurations = Object.assign({}, configurations);
+    console.log('Mock Config Initialized');
+    return 'done';
+  }
+
+  async startServer(){
+    const app = express();
+    for (const [key, value] of Object.entries(this.conf.get)) {
+      app.get(key, value);
     }
 
-    async startServer(){
-        const app = express();
-        for (const [key, value] of Object.entries(this.conf.get)) {
-            app.get(key, value);
-        }
-
-        for (const [key, value] of Object.entries(this.conf.post)) {
-            app.post(key, value);
-        }
-
-        for (const [key, value] of Object.entries(this.conf.put)) {
-            app.put(key, value);
-        }
-
-        for (const [key, value] of Object.entries(this.conf.delete)) {
-            app.delete(key, value);
-        }
-
-        this.server = await app.listen(nodeMockAvailablePort)
-        console.log("mock api started");
-        // return "Mock started successfully"
-
+    for (const [key, value] of Object.entries(this.conf.post)) {
+      app.post(key, value);
     }
 
-    async stopServer(){
-        await this.server.close();
-        this.conf = {  };
-        this.configurations = { };
+    for (const [key, value] of Object.entries(this.conf.put)) {
+      app.put(key, value);
     }
 
-    onGet(path, callback){
-        this.conf.get[path] = callback; 
+    for (const [key, value] of Object.entries(this.conf.delete)) {
+      app.delete(key, value);
     }
 
+    this.server = await app.listen(nodeMockAvailablePort);
+    console.log('mock api started');
+    // return "Mock started successfully"
+  }
 
-    onPost(path, callback){
-        this.conf.post[path] = callback; 
-    }
+  async stopServer(){
+    await this.server.close();
+    this.conf = { };
+    this.configurations = { };
+  }
 
-    onPut(path, callback){
-        this.conf.put[path] = callback; 
-    }
+  onGet(path, callback){
+    this.conf.get[path] = callback;
+  }
 
-    onDelete(path, callback){
-        this.conf.delete[path] = callback; 
-    }
+  onPost(path, callback){
+    this.conf.post[path] = callback;
+  }
 
-    setConfig(configKey,value){
-       this.configurations[configKey] = value; 
-    }
+  onPut(path, callback){
+    this.conf.put[path] = callback;
+  }
 
+  onDelete(path, callback){
+    this.conf.delete[path] = callback;
+  }
+
+  setConfig(configKey, value){
+    this.configurations[configKey] = value;
+  }
 }
 
 const mockInstance = new MockApp();

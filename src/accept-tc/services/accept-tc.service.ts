@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AcceptTcService {
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
   // TO DO add proper typings
   public getHasUserAccepted(userId: string): Observable<any> {
     return this.http
@@ -15,6 +15,6 @@ export class AcceptTcService {
   }
 
   public acceptTandC(userId): Observable<any> {
-    return this.http.post('/api/userTermsAndConditions', {userId});
+    return this.http.post('/api/userTermsAndConditions', { userId });
   }
 }

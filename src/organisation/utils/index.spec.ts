@@ -1,9 +1,6 @@
-import {DxAddress} from './../../models/organisation.model';
-import { OrganisationContactInformation } from 'src/models';
 import { utils } from '.';
 
 describe('organisation.utils', () => {
-
   describe('getContactInformation', () => {
     it('should return null if there is no contactInformation', () => {
       const ORGANISATION_DETAILS = {
@@ -12,6 +9,7 @@ describe('organisation.utils', () => {
       };
       expect(utils.getContactInformation(ORGANISATION_DETAILS)).toBeNull();
     });
+
     it('should return null if there contactInformation is empty', () => {
       const ORGANISATION_DETAILS = {
         name: 'Luke Solicitors',
@@ -20,6 +18,7 @@ describe('organisation.utils', () => {
       };
       expect(utils.getContactInformation(ORGANISATION_DETAILS)).toBeNull();
     });
+
     it('should get the first Contact Information item from the Organisation Details', () => {
       const CONTACT_INFO_ONE = {
         addressLine1: '23',
@@ -44,7 +43,7 @@ describe('organisation.utils', () => {
       const ORGANISATION_DETAILS = {
         name: 'Luke Solicitors',
         organisationIdentifier: 'HAUN33E',
-        contactInformation: [ CONTACT_INFO_ONE, CONTACT_INFO_TWO ]
+        contactInformation: [CONTACT_INFO_ONE, CONTACT_INFO_TWO]
       };
       expect(utils.getContactInformation(ORGANISATION_DETAILS)).toEqual(CONTACT_INFO_ONE);
     });
@@ -59,10 +58,11 @@ describe('organisation.utils', () => {
         townCity: 'Aldgate East',
         county: 'London',
         country: null,
-        postCode: 'AT54RT',
+        postCode: 'AT54RT'
       };
       expect(utils.getDxAddress(contactInformation)).toBeNull();
     });
+
     it('should return null if the length of dxAddress is 0', () => {
       const contactInformation = {
         addressLine1: '23',
@@ -75,11 +75,11 @@ describe('organisation.utils', () => {
     it('should return the first dxAddress ONLY', () => {
       const ADDRESS_ONE = {
         dxNumber: 'DX 4534234552',
-        dxExchange: 'London',
+        dxExchange: 'London'
       };
       const ADDRESS_TWO = {
         dxNumber: 'DX 9999988888',
-        dxExchange: 'Manchester',
+        dxExchange: 'Manchester'
       };
       const contactInformation = {
         addressLine1: '23',
@@ -91,7 +91,6 @@ describe('organisation.utils', () => {
   });
 
   describe('getPaymentAccount', () => {
-
     it('should return null if there is no paymentAccount', () => {
       const organisationDetails = {};
       const result = utils.getPaymentAccount(organisationDetails);
@@ -100,7 +99,7 @@ describe('organisation.utils', () => {
 
     it('should return an empty if the length of paymentAccount is 0', () => {
       const organisationDetails = {
-        paymentAccount: [],
+        paymentAccount: []
       };
       const result = utils.getPaymentAccount(organisationDetails);
       expect(result).toBeNull();

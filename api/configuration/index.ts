@@ -45,9 +45,9 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV;
  * @see references.ts
  * @param reference - ie. 'services.ccdDefApi'
  */
-export const getConfigValue = reference => config.get(reference);
+export const getConfigValue = (reference) => config.get(reference);
 
-export const hasConfigValue = reference => config.has(reference);
+export const hasConfigValue = (reference) => config.has(reference);
 
 /**
  * Show Feature
@@ -57,7 +57,7 @@ export const hasConfigValue = reference => config.has(reference);
  * @param feature
  * @return boolean
  */
-export const showFeature = feature => config.get(`feature.${feature}`);
+export const showFeature = (feature) => config.get(`feature.${feature}`);
 
 /**
  * Generate Environment Check Text

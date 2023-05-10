@@ -16,7 +16,6 @@ const logger: JUILogger = log4jui.getLogger('mock-service');
  * @param req
  */
 export async function handleGet(path: string, req: EnhancedRequest): Promise<AxiosResponse> {
-
   try {
     logger.info('handle get method', path);
     const headers = setHeaders(req);
@@ -25,7 +24,6 @@ export async function handleGet(path: string, req: EnhancedRequest): Promise<Axi
     exists(e, 'message') ? logger.error(e.message) : logger.error('Error in get response');
     throw e;
   }
-
 }
 
 /**
@@ -37,7 +35,6 @@ export async function handleGet(path: string, req: EnhancedRequest): Promise<Axi
  * @returns {Promise<AxiosResponse>}
  */
 export async function handlePost<T>(path: string, body: T, req: EnhancedRequest): Promise<AxiosResponse> {
-
   try {
     logger.info('handle post method', path);
     const headers = setHeaders(req);
@@ -46,7 +43,6 @@ export async function handlePost<T>(path: string, body: T, req: EnhancedRequest)
     exists(e, 'message') ? logger.error(e.message) : logger.error('Error in post response');
     throw e;
   }
-
 }
 
 /**

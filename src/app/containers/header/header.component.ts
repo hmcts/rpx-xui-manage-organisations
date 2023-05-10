@@ -13,12 +13,10 @@ import * as fromRoot from '../../store';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
   @Input() public navItems: {navItems: { active: boolean; href: string; }[]};
   @Input() public title: AppTitlesModel;
   @Input() public userNav: UserNavModel;
   @Output() public navigate = new EventEmitter<string>();
-
 
   public isBrandedHeader = true;
   public isUserLoggedIn$: Observable<boolean>;

@@ -9,10 +9,9 @@ import { Payment } from '../../models/pba-transactions';
 
 @Component({
   selector: 'app-prd-transactions-component',
-  templateUrl: './transactions.component.html',
+  templateUrl: './transactions.component.html'
 })
 export class TransactionsComponent implements OnChanges {
-
   @Input() public transactions = Array<Payment>();
 
   public columnConfig: GovukTableColumnConfig[];

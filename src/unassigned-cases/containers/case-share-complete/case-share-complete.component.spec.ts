@@ -12,14 +12,15 @@ describe('CaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: Store<UnassignedCasesState>;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [ CaseShareCompleteComponent ],
-      imports: [ RouterTestingModule ],
+      declarations: [CaseShareCompleteComponent],
+      imports: [RouterTestingModule],
       providers: [
         provideMockStore(),
         {

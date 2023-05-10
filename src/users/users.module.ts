@@ -30,10 +30,10 @@ import * as fromServices from './services';
     StoreModule.forFeature('users', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule,
+    ExuiCommonLibModule
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers,  ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
   providers: [...fromServices.services, InviteUserSuccessGuard]
 })
 

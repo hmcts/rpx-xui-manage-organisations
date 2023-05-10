@@ -17,7 +17,7 @@ export const ROUTES: Routes = [
     component: OrganisationComponent,
     canActivate: [
       OrganisationGuard,
-      HealthCheckGuard,
+      HealthCheckGuard
     ]
   },
   {

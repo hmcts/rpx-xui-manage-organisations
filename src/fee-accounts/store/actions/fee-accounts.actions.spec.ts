@@ -15,8 +15,8 @@ describe('Accept Terms and Conditions', () => {
     // Success
     describe('LoadFeeAccountsSuccess', () => {
       it('should create an action', () => {
-        const payload = [{payload: 'something', pageId: 'someString'}];
-        const action = new fromFeeAccounts.LoadFeeAccountsSuccess([{payload: 'something', pageId: 'someString'}]);
+        const payload = [{ payload: 'something', pageId: 'someString' }];
+        const action = new fromFeeAccounts.LoadFeeAccountsSuccess([{ payload: 'something', pageId: 'someString' }]);
         expect({ ...action }).toEqual({
           type: fromFeeAccounts.LOAD_FEE_ACCOUNTS_SUCCESS,
           payload

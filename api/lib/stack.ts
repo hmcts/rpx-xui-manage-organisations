@@ -69,7 +69,7 @@ export async function stackEmpty(req): Promise<boolean> {
 }
 
 export function forwardStack(register, stateId): any {
-  const index = register.map(x => Object.values(x)[0] as any).indexOf(stateId);
+  const index = register.map((x) => Object.values(x)[0] as any).indexOf(stateId);
   logger.info(`Forwarding stack at ${index} for ${stateId}`);
   return register.slice(index + 1);
 }

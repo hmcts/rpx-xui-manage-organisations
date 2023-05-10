@@ -18,48 +18,46 @@ export const ORGANISATION_UPDATE_PBA_ERROR_RESET = '[Organisation] Organisation 
 
 export class LoadOrganisation {
   public readonly type = LOAD_ORGANISATION;
-  constructor() { }
 }
 
 export class LoadOrganisationSuccess implements Action {
   public readonly type = LOAD_ORGANISATION_SUCCESS;
-  constructor(public payload: OrganisationDetails) {
-  }
+  constructor(public payload: OrganisationDetails) {}
 }
 
 export class LoadOrganisationFail implements Action {
   public readonly type = LOAD_ORGANISATION_FAIL;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class UpdateOrganisationPendingAddPBAs implements Action {
   public readonly type = UPDATE_ORGANISATION_PBA_PENDING_ADD;
-  constructor(public payload: PBANumberModel[]) { }
+  constructor(public payload: PBANumberModel[]) {}
 }
 
 export class UpdateOrganisationPendingRemovePBAs implements Action {
   public readonly type = UPDATE_ORGANISATION_PBA_PENDING_REMOVE;
-  constructor(public payload: PBANumberModel[]) { }
+  constructor(public payload: PBANumberModel[]) {}
 }
 
 export class OrganisationUpdatePBAs implements Action {
   public readonly type = ORGANISATION_UPDATE_PBAS;
-  constructor(public payload: PendingPaymentAccount) { }
+  constructor(public payload: PendingPaymentAccount) {}
 }
 
 export class OrganisationUpdatePBAResponse implements Action {
   public readonly type = ORGANISATION_UPDATE_PBA_RESPONSE;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class OrganisationUpdatePBAError implements Action {
   public readonly type = ORGANISATION_UPDATE_PBA_ERROR;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class OrganisationUpdatePBAErrorReset implements Action {
   public readonly type = ORGANISATION_UPDATE_PBA_ERROR_RESET;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export type organisationActions =

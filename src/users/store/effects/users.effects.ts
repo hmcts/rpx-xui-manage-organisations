@@ -14,90 +14,99 @@ export class UsersEffects {
     private readonly actions$: Actions,
     private readonly usersService: UsersService,
     private readonly loggerService: LoggerService
-  ) { }
+  ) {}
 
   @Effect()
   public loadUsers$ = this.actions$.pipe(
-    ofType(usersActions.LOAD_USERS),
-    switchMap((action: any) => {
-      return this.usersService.getListOfUsers(action.payload).pipe(
-        map(userDetails => {
-          const amendedUsers = [];
-          userDetails.users.forEach(element => {
+      ofType(usersActions.LOAD_USERS),
+      switchMap((action: any) => {
+        return this.usersService.getListOfUsers(action.payload).pipe(
+          map((userDetails) => {
+            const amendedUsers = [];
+            userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
               const user = element;
               user.fullName = fullName;
               user.routerLink = `user/${user.userIdentifier}`;
               user.routerLinkTitle = `User details for ${fullName} with id ${user.userIdentifier}`;
               amendedUsers.push(user);
-          });
+            });
 
-          return new usersActions.LoadUsersSuccess({users: amendedUsers});
-        }),
-        catchError(error => {
-          this.loggerService.error(error.message);
-          return of(new usersActions.LoadUsersFail(error));
-        })
-      );
-    })
-  );
+            return new usersActions.LoadUsersSuccess({ users: amendedUsers });
+          }),
+          catchError((error) => {
+            this.loggerService.error(error.message);
+            return of(new usersActions.LoadUsersFail(error));
+          })
+        );
+      })
+    );
 
   @Effect()
   public loadAllUsers$ = this.actions$.pipe(
-    ofType(usersActions.LOAD_ALL_USERS),
-    switchMap((action: any) => {
-      return this.usersService.getAllUsersListwithReturnRoles().pipe(
-        map(userDetails => {
-          return new usersActions.LoadAllUsersSuccess();
-        }),
-        catchError(error => {
-          this.loggerService.error(error.message);
-          return of(new usersActions.LoadAllUsersFail(error));
-        })
-      );
-    })
-  );
+      ofType(usersActions.LOAD_ALL_USERS),
+      switchMap(() => {
+        return this.usersService.getAllUsersListwithReturnRoles().pipe(
+          map(() => {
+            return new usersActions.LoadAllUsersSuccess();
+          }),
+          catchError((error) => {
+            this.loggerService.error(error.message);
+            return of(new usersActions.LoadAllUsersFail(error));
+          })
+        );
+      })
+    );
 
-  // @Effect()
-  // public loadUserDetails$ = this.actions$.pipe(
-  //   ofType(usersActions.LOAD_USER_DETAILS),
-  //   switchMap(() => {
-  //     return this.usersService.getUserDetailsWithPermission().pipe(
-  //       map(userDetails => {
-  //         return new usersActions.LoadUsersSuccess({users: });
-  //       }),
-  //       catchError(error => {
-  //         this.loggerService.error(error.message);
-  //         return of(new usersActions.LoadUsersFail(error));
-  //       })
-  //     );
-  //   })
-  // );
+  @Effect()
+  public loadUserDetails$ = this.actions$.pipe(
+      ofType(usersActions.LOAD_USER_DETAILS),
+      switchMap((action: any) => {
+        return this.usersService.getUserDetailsWithPermission(action.payload).pipe(
+          map((userDetails) => {
+            let amendedUser;
+            userDetails.users.forEach((element) => {
+              const fullName = `${element.firstName} ${element.lastName}`;
+              const user = element;
+              user.fullName = fullName;
+              user.routerLink = `user/${user.userIdentifier}`;
+              user.routerLinkTitle = `User details for ${fullName} with id ${user.userIdentifier}`;
+              amendedUser = user;
+            });
+            return new usersActions.LoadUserDetailsSuccess(amendedUser);
+          }),
+          catchError((error) => {
+            this.loggerService.error(error.message);
+            return of(new usersActions.LoadUsersFail(error));
+          })
+        );
+      })
+    );
 
   @Effect()
   public suspendUser$ = this.actions$.pipe(
-    ofType(usersActions.SUSPEND_USER),
-    switchMap((user: usersActions.SuspendUser) => {
-      return this.usersService.suspendUser(user).pipe(
-        map(res => new usersActions.SuspendUserSuccess(user.payload)),
-        catchError(error => of(new usersActions.SuspendUserFail(error)))
-      );
-    })
-  );
+      ofType(usersActions.SUSPEND_USER),
+      switchMap((user: usersActions.SuspendUser) => {
+        return this.usersService.suspendUser(user).pipe(
+          map(() => new usersActions.SuspendUserSuccess(user.payload)),
+          catchError((error) => of(new usersActions.SuspendUserFail(error)))
+        );
+      })
+    );
 
   @Effect()
   public inviteNewUser$ = this.actions$.pipe(
-    ofType(usersActions.INVITE_NEW_USER),
-    map(() => {
-      return new fromRoot.Go({ path: ['users/invite-user'] });
-    })
-  );
+      ofType(usersActions.INVITE_NEW_USER),
+      map(() => {
+        return new fromRoot.Go({ path: ['users/invite-user'] });
+      })
+    );
 
   @Effect()
   public reinviteUser$ = this.actions$.pipe(
-    ofType(usersActions.REINVITE_PENDING_USER),
-    map(() => {
-      return new fromRoot.Go({ path: ['users/invite-user'] });
-    })
-  );
+      ofType(usersActions.REINVITE_PENDING_USER),
+      map(() => {
+        return new fromRoot.Go({ path: ['users/invite-user'] });
+      })
+    );
 }

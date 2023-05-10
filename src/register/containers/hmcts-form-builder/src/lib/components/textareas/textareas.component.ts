@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/form-builder-validation.service';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-    selector: 'app-textareas',
-    templateUrl: './textareas.component.html'
+  selector: 'app-textareas',
+  templateUrl: './textareas.component.html'
 })
 /**
  * TextareasComponent
@@ -27,17 +27,14 @@ export class TextareasComponent {
     @Input() items;
     @Input() validationError;
 
-    constructor(private validationService: ValidationService) {
-    }
+    constructor(private validationService: ValidationService) {}
 
     isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
+      if (formGroup.errors && formGroup.errors[this.control] && showValidation) {
+        return true;
+      }
 
-            if(formGroup.errors && formGroup.errors[this.control] && showValidation) {
-                return true;
-            }
-
-            return false;
-
+      return false;
     }
 
     /**
@@ -51,9 +48,7 @@ export class TextareasComponent {
      * // @return {boolean}
      */
     isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
-
-
-        return !this.isFormControlValid(formGroup, control) && showValidation;
+      return !this.isFormControlValid(formGroup, control) && showValidation;
     }
 
     /**
@@ -62,6 +57,6 @@ export class TextareasComponent {
      * // @see ValidationService
      */
     isFormControlValid(formGroup: FormGroup, control: string): boolean {
-        return this.validationService.isFormControlValid(formGroup, control);
+      return this.validationService.isFormControlValid(formGroup, control);
     }
 }

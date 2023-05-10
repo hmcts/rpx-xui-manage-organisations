@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/form-builder-validation.service';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-    selector: 'app-validation-error-formcontrol',
-    templateUrl: './validation-error-formcontrol.component.html'
+  selector: 'app-validation-error-formcontrol',
+  templateUrl: './validation-error-formcontrol.component.html'
 })
 
 /**
@@ -16,8 +16,7 @@ export class ValidationErrorFormControlComponent {
     @Input() group: FormGroup;
     @Input() controlId;
 
-    constructor(private validationService: ValidationService) {
-    }
+    constructor(private validationService: ValidationService) {}
 
     /**
      * Is Form Control Valid
@@ -30,6 +29,6 @@ export class ValidationErrorFormControlComponent {
      * // @return {boolean}
      */
     isFormControlValid(formGroup: FormGroup, controlId: string): boolean {
-        return this.validationService.isFormControlValid(formGroup, controlId);
+      return this.validationService.isFormControlValid(formGroup, controlId);
     }
 }

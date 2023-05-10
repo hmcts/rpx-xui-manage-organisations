@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { PBAService } from '../../services/pba.service';
@@ -12,14 +11,16 @@ import * as fromStore from '../../store';
 import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.component';
 
 @Component({
-  template: `<div>Nothing to see here. Move along, please.</div>`
+  template: '<div>Nothing to see here. Move along, please.</div>'
 })
 class MockComponent {}
 
 describe('UpdatePbaNumbersCheckComponent', () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let pbaService: any;
   const storeMock = {
     actionsDispatched: [],
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     pipe: () => {},
     dispatch: (action: fromStore.OrganisationUpdatePBAs) => {
       storeMock.actionsDispatched.push(action);
@@ -34,6 +35,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
   };
 
   let pipeSpy: jasmine.Spy;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let dispatchSpy: jasmine.Spy;
   let component: UpdatePbaNumbersCheckComponent;
   let fixture: ComponentFixture<UpdatePbaNumbersCheckComponent>;
@@ -42,7 +44,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
 
   const MOCK_DX_ADDRESS: DxAddress = {
     dxNumber: 'DX 4534234552',
-    dxExchange: 'London',
+    dxExchange: 'London'
   };
 
   const MOCK_CONTACT_INFORMATION: OrganisationContactInformation = {
@@ -53,7 +55,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     county: 'London',
     country: '',
     postCode: 'AT54RT',
-    dxAddress: [ MOCK_DX_ADDRESS ]
+    dxAddress: [MOCK_DX_ADDRESS]
   };
 
   const getMockOrganisation = (add: PBANumberModel[], remove: PBANumberModel[]): OrganisationDetails => {
@@ -72,7 +74,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       },
       paymentAccount: [{ pbaNumber: 'test' }],
       pendingAddPaymentAccount: add,
-      pendingRemovePaymentAccount: remove,
+      pendingRemovePaymentAccount: remove
     };
   };
 
@@ -90,8 +92,8 @@ describe('UpdatePbaNumbersCheckComponent', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
-          feature: combineReducers(fromStore.reducers),
-        }),
+          feature: combineReducers(fromStore.reducers)
+        })
       ],
       declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -105,15 +107,15 @@ describe('UpdatePbaNumbersCheckComponent', () => {
           useValue: storeMock
         },
         PBAService,
-        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: ActivatedRoute, useValue: activatedRoute }
       ]
     }).compileComponents();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
 
     fixture = TestBed.createComponent(UpdatePbaNumbersCheckComponent);
     component = fixture.componentInstance;
-    pbaService = TestBed.get(PBAService);
+    pbaService = TestBed.inject(PBAService);
   });
 
   afterEach(() => {
@@ -123,6 +125,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
 
   describe('when there is nothing pending', () => {
     const MOCK_NOTHING_PENDING: OrganisationDetails = getMockOrganisation([], []);
+
     beforeEach(() => {
       pipeSpy.and.returnValue(of(MOCK_NOTHING_PENDING));
       fixture.detectChanges();
@@ -132,6 +135,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       expect(store.pipe).toHaveBeenCalled();
       expect(component.organisationDetails).toEqual(MOCK_NOTHING_PENDING);
     });
+
     it('should navigate away', () => {
       expect(routerMock.navigateCalls.length).toEqual(1);
       expect(routerMock.navigateCalls[0].commands).toEqual(['/organisation/update-pba-numbers']);
@@ -160,6 +164,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     it('should NOT navigate away', () => {
       expect(routerMock.navigateCalls.length).toEqual(0);
     });
+
     it('should dispatch an appropriate action when submitting', () => {
       component.onSubmitClicked();
     });

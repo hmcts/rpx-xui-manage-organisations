@@ -5,15 +5,15 @@ import { StoreModule } from '@ngrx/store';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { CookieService } from 'ngx-cookie';
 import { of, throwError } from 'rxjs';
-import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
-import { JurisdictionService } from '../../../users/services/jurisdiction.service';
 import { LoggerService } from '../../../shared/services/logger.service';
-import {AuthService} from '../../../user-profile/services/auth.service';
+import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
+import { AuthService } from '../../../user-profile/services/auth.service';
 import * as fromUserProfile from '../../../user-profile/store';
+import { JurisdictionService } from '../../../users/services/jurisdiction.service';
 import * as usersActions from '../../../users/store/actions';
 import * as appActions from '../../store/actions';
 import { SetPageTitleErrors } from '../actions/app.actions';
-import {reducers} from '../reducers';
+import { reducers } from '../reducers';
 import * as fromAppEffects from './app.effects';
 
 describe('App Effects', () => {
@@ -28,14 +28,16 @@ describe('App Effects', () => {
   let effects: fromAppEffects.AppEffects;
 
   const cookieService = {
-    get: key => {
+    get: (key) => {
       return cookieService[key];
     },
     set: (key, value) => {
       cookieService[key] = value;
     },
-    removeAll: () => { }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    removeAll: () => {}
   };
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -79,24 +81,23 @@ describe('App Effects', () => {
     });
   });
 
-
   describe('setUserRoles$', () => {
     it('should set user roles', () => {
       const payload = {
         email: 'puisuperuser@mailnesia.com',
-          orgId: '1',
-          roles: [
+        orgId: '1',
+        roles: [
           'pui-case-manager',
           'pui-user-manager',
           'pui-finance-manager',
           'pui-organisation-manager'
-          ],
-          sessionTimeout: {
-            idleModalDisplayTime: 10,
-            pattern: '.',
-            totalIdleTime: 50
-          },
-          userId: '5b9639a7-49a5-4c85-9e17-bf55186c8afa'
+        ],
+        sessionTimeout: {
+          idleModalDisplayTime: 10,
+          pattern: '.',
+          totalIdleTime: 50
+        },
+        userId: '5b9639a7-49a5-4c85-9e17-bf55186c8afa'
       };
       const userRolesPayload = [
         'pui-case-manager',
@@ -145,7 +146,7 @@ describe('App Effects', () => {
 
     it('getFeaturesPayload', () => {
       const resultAction = effects.getFeaturesPayload([false, true], ['feature1', 'feature2']);
-      const features = [{isEnabled: false, featureName: 'feature1'}, {isEnabled: true, featureName: 'feature2'}];
+      const features = [{ isEnabled: false, featureName: 'feature1' }, { isEnabled: true, featureName: 'feature2' }];
       expect(resultAction).toEqual(new appActions.LoadFeatureToggleConfigSuccess(features));
     });
   });

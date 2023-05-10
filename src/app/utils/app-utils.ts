@@ -1,22 +1,20 @@
 /**
  * Contains static stateless utility methods for the App
- *
  */
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
 import { AppConstants } from '../app.constants';
 import { NavItemModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
 
 export class AppUtils {
-
   public static getFeatureEnabledNavItems(navItems: NavItemModel[],
-                                          featureFlags: AppFeatureFlag[]): NavItemModel[] {
+    featureFlags: AppFeatureFlag[]): NavItemModel[] {
     let featureNavItems = new Array<NavItemModel>();
-    navItems.forEach(navItem => {
+    navItems.forEach((navItem) => {
       if (!navItem.featureToggle) {
         featureNavItems = [...featureNavItems, navItem];
       } else {
-        const currentFeature = featureFlags.filter(flag => flag.featureName === navItem.featureToggle.featureName)[0];
+        const currentFeature = featureFlags.filter((flag) => flag.featureName === navItem.featureToggle.featureName)[0];
         if (currentFeature && currentFeature.isEnabled) {
           featureNavItems = [...featureNavItems, navItem];
         }
@@ -29,13 +27,12 @@ export class AppUtils {
    * it changes active property based on the url
    */
   public static setActiveLink(items: NavItemModel[], router) {
-    const nav = items.map((item: { href }) => {
+    return items.map((item: { href }) => {
       return {
         ...item,
         active: item.href === router.state.url
       };
     });
-    return nav;
   }
 
   public static titleSwitcher(router, title) {
@@ -49,11 +46,10 @@ export class AppUtils {
       return {
         navItems: nav
       };
-    } else {
-      return {
-        navItems: []
-      };
     }
+    return {
+      navItems: []
+    };
   }
 
   public static setSetUserNavItems(state, routes) {
@@ -69,8 +65,7 @@ export class AppUtils {
 
   public static capitalizeString(stringToCapitalize: string) {
     const stringLowercase = stringToCapitalize.toLowerCase();
-    const stringCapitalised = stringLowercase.charAt(0).toUpperCase() + stringLowercase.slice(1);
-    return stringCapitalised;
+    return stringLowercase.charAt(0).toUpperCase() + stringLowercase.slice(1);
   }
 
   public static formatDateAtTime(date: Date, is24Hour: boolean): string {
@@ -144,21 +139,22 @@ export class AppUtils {
     const matched = url.match(regex);
 
     if (matched && matched[0]) {
-        switch (matched[0]) {
-          case AppConstants.ENVIRONMENT_NAMES.aat:
-          case AppConstants.ENVIRONMENT_NAMES.localhost:
-          case AppConstants.ENVIRONMENT_NAMES.pr:
-             return AppConstants.ENVIRONMENT_NAMES.aat;
-          case AppConstants.ENVIRONMENT_NAMES.demo:
-              return AppConstants.ENVIRONMENT_NAMES.demo;
-          case AppConstants.ENVIRONMENT_NAMES.ithc:
-              return AppConstants.ENVIRONMENT_NAMES.ithc;
-          case AppConstants.ENVIRONMENT_NAMES.perfTest:
-              return AppConstants.ENVIRONMENT_NAMES.perfTest;
-        }
+      switch (matched[0]) {
+        case AppConstants.ENVIRONMENT_NAMES.aat:
+        case AppConstants.ENVIRONMENT_NAMES.localhost:
+        case AppConstants.ENVIRONMENT_NAMES.pr:
+          return AppConstants.ENVIRONMENT_NAMES.aat;
+        case AppConstants.ENVIRONMENT_NAMES.demo:
+          return AppConstants.ENVIRONMENT_NAMES.demo;
+        case AppConstants.ENVIRONMENT_NAMES.ithc:
+          return AppConstants.ENVIRONMENT_NAMES.ithc;
+        case AppConstants.ENVIRONMENT_NAMES.perfTest:
+          return AppConstants.ENVIRONMENT_NAMES.perfTest;
       }
+    }
     return AppConstants.ENVIRONMENT_NAMES.prod;
   }
+
   public static showSubHeaderItems(isAuth: boolean, router: any) {
     return isAuth && router && router.state && router.state.url.indexOf('accept-terms-and-conditions') <= 0;
   }
@@ -171,7 +167,6 @@ export class AppUtils {
    * @see unit tests
    */
   public static propsExist(object, nestedProps) {
-
     for (const nestedProperty of nestedProps) {
       if (!object || !object.hasOwnProperty(nestedProperty)) {
         return false;
@@ -182,7 +177,7 @@ export class AppUtils {
     return true;
   }
 
-  public static atleastOneCase(currentSelection: any) {
+  public static atLeastOneCase(currentSelection: any) {
     let anyItem = false;
     for (const key in currentSelection) {
       if (currentSelection[key] && currentSelection[key].length > 0) {
@@ -206,6 +201,7 @@ export class AppUtils {
   /**
    * Returns the index of the last element in the array where predicate is true, and -1
    * otherwise.
+   *
    * @param array The source array to search in
    * @param predicate find calls predicate once for each element of the array, in descending
    * order, until it finds one where predicate returns true. If such an element is found,

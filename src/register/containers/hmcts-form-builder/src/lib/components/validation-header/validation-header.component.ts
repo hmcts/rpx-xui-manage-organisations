@@ -1,10 +1,10 @@
-import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {ValidationService} from '../../services/form-builder-validation.service';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-    selector: 'app-validation-header',
-    templateUrl: './validation-header.component.html'
+  selector: 'app-validation-header',
+  templateUrl: './validation-header.component.html'
 })
 /**
  * ValidationHeaderComponent
@@ -40,8 +40,7 @@ export class ValidationHeaderComponent {
      */
     @Input() validationHeaderErrorMessages;
 
-    constructor(private validationService: ValidationService) {
-    }
+    constructor(private validationService: ValidationService) {}
 
     /**
      * Checks if this control is valid.
@@ -50,8 +49,7 @@ export class ValidationHeaderComponent {
      * // @param control - 'informationNeeded'
      */
     isFormControlValid(formGroup: FormGroup, control: string): boolean {
-
-        return this.validationService.isFormControlValid(formGroup, control);
+      return this.validationService.isFormControlValid(formGroup, control);
     }
 
     /**
@@ -62,8 +60,7 @@ export class ValidationHeaderComponent {
      * // @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
-
-        return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
+      return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 
     /**
@@ -83,11 +80,12 @@ export class ValidationHeaderComponent {
      * // @return {boolean}
      */
     isValidationLevel(validationLevel: string, level: string): boolean {
-        return validationLevel === level;
+      return validationLevel === level;
     }
+
     scrollToElement(id): boolean {
-        const el = document.getElementById(id);
-        el.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-        return false;
+      const el = document.getElementById(id);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+      return false;
     }
 }

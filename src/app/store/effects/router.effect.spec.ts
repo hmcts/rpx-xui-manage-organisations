@@ -2,69 +2,69 @@ import { Location } from '@angular/common';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
+import { addMatchers, hot, initTestScheduler } from 'jasmine-marbles';
 import * as RouterActions from '../actions/router.action';
-import * as fromRouterEffects from './router.effect';
 import { RouterEffects } from './router.effect';
 
 describe('Router Effects', () => {
-    let actions$;
-    let effects: RouterEffects;
+  let actions$;
+  let effects: RouterEffects;
 
-    const RouterMock = jasmine.createSpyObj('Router', [
-        'navigate',
-    ]);
+  const routerMock = jasmine.createSpyObj('Router', [
+    'navigate'
+  ]);
 
-    const LocationMock = jasmine.createSpyObj('Location', [
-        'back',
-        'forward',
-    ]);
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                { provide: Location, useValue: LocationMock },
-                { provide: Router, useValue: RouterMock },
-                fromRouterEffects.RouterEffects,
-                provideMockActions(() => actions$)
-            ]
-        });
+  const locationMock = jasmine.createSpyObj('Location', [
+    'back',
+    'forward'
+  ]);
 
-        effects = TestBed.inject(RouterEffects);
-
-        initTestScheduler();
-        addMatchers();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: Location, useValue: locationMock },
+        { provide: Router, useValue: routerMock },
+        RouterEffects,
+        provideMockActions(() => actions$)
+      ]
     });
 
-    describe('navigate$', () => {
-        it('should navigate', waitForAsync(() => {
-            const action = new RouterActions.Go({ path: [] });
+    effects = TestBed.inject(RouterEffects);
 
-            actions$ = hot('-a', { a: action });
-            effects.navigate$.subscribe(() => {
-                expect(RouterMock.navigate).toHaveBeenCalled();
-            });
-        }));
-    });
+    initTestScheduler();
+    addMatchers();
+  });
 
-    describe('navigateBack$', () => {
-        it('should navigate back', waitForAsync(() => {
-            const action = new RouterActions.Back();
+  describe('navigate$', () => {
+    it('should navigate', waitForAsync(() => {
+      const action = new RouterActions.Go({ path: [] });
 
-            actions$ = hot('-a', { a: action });
-            effects.navigateBack$.subscribe(() => {
-                expect(LocationMock.back).toHaveBeenCalled();
-            });
-        }));
-    });
+      actions$ = hot('-a', { a: action });
+      effects.navigate$.subscribe(() => {
+        expect(routerMock.navigate).toHaveBeenCalled();
+      });
+    }));
+  });
 
-    describe('navigateForward$', () => {
-        it('should navigate forward', waitForAsync(() => {
-            const action = new RouterActions.Forward();
+  describe('navigateBack$', () => {
+    it('should navigate back', waitForAsync(() => {
+      const action = new RouterActions.Back();
 
-            actions$ = hot('-a', { a: action });
-            effects.navigateForward$.subscribe(() => {
-                expect(LocationMock.forward).toHaveBeenCalled();
-            });
-        }));
-    });
+      actions$ = hot('-a', { a: action });
+      effects.navigateBack$.subscribe(() => {
+        expect(locationMock.back).toHaveBeenCalled();
+      });
+    }));
+  });
+
+  describe('navigateForward$', () => {
+    it('should navigate forward', waitForAsync(() => {
+      const action = new RouterActions.Forward();
+
+      actions$ = hot('-a', { a: action });
+      effects.navigateForward$.subscribe(() => {
+        expect(locationMock.forward).toHaveBeenCalled();
+      });
+    }));
+  });
 });

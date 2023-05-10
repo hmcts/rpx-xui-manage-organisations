@@ -1,10 +1,10 @@
+/* eslint-disable no-undef */
+
 // Check for contenteditable support
-var isContentEditableSupported = 'contentEditable' in document.documentElement;
+const isContentEditableSupported = 'contentEditable' in document.documentElement;
 
-
-if(isContentEditableSupported == true) {
-
-  var Editor = function(textarea) {
+if (isContentEditableSupported === true) {
+  const Editor = function(textarea) {
     this.textarea = textarea;
     this.container = $(textarea).parent();
     this.createToolbar();
@@ -21,15 +21,14 @@ if(isContentEditableSupported == true) {
     this.toolbar.on('keydown', $.proxy(this, 'onToolbarKeydown'));
   };
 
-
   Editor.prototype.onToolbarKeydown = function(e) {
-    var focusableButton;
-    switch(e.keyCode) {
+    let focusableButton;
+    switch (e.keyCode) {
       case this.keys.right:
       case this.keys.down:
         focusableButton = this.toolbar.find('button[tabindex=0]');
-        var nextButton = focusableButton.next('button');
-        if(nextButton[0]) {
+        const nextButton = focusableButton.next('button');
+        if (nextButton[0]) {
           nextButton.focus();
           focusableButton.attr('tabindex', '-1');
           nextButton.attr('tabindex', '0');
@@ -38,8 +37,8 @@ if(isContentEditableSupported == true) {
       case this.keys.left:
       case this.keys.up:
         focusableButton = this.toolbar.find('button[tabindex=0]');
-        var previousButton = focusableButton.prev('button');
-        if(previousButton[0]) {
+        const previousButton = focusableButton.prev('button');
+        if (previousButton[0]) {
           previousButton.focus();
           focusableButton.attr('tabindex', '-1');
           previousButton.attr('tabindex', '0');
@@ -48,9 +47,7 @@ if(isContentEditableSupported == true) {
     }
   };
 
-
-  Editor.prototype.getEnhancedHtml = function(val) {
-
+  Editor.prototype.getEnhancedHtml = function() {
     return `<div class="jui-editor__toolbar" role="toolbar">
               <button class="jui-editor__toolbar-button jui-editor__toolbar-button--bold" type="button" data-command="bold"><span class="govuk-visually-hidden">Bold</span></button>
               <button class="jui-editor__toolbar-button jui-editor__toolbar-button--italic" type="button" data-command="italic"><span class="govuk-visually-hidden">Italic</span></button>
@@ -62,7 +59,6 @@ if(isContentEditableSupported == true) {
             <div class="jui-editor__content" contenteditable="true" spellcheck="false"></div>`;
   };
 
-
   Editor.prototype.hideDefault = function() {
     this.label = this.container.find('label')[0];
     this.label.classList.add('govuk-visually-hidden');
@@ -73,7 +69,6 @@ if(isContentEditableSupported == true) {
     this.textarea.setAttribute('tabindex', '-1');
   };
 
-
   Editor.prototype.createToolbar = function() {
     this.toolbar = document.createElement('div');
     this.toolbar.className = 'jui-editor';
@@ -83,31 +78,25 @@ if(isContentEditableSupported == true) {
     this.container.find('.jui-editor__content').html(this.textarea.val());
   };
 
-
   Editor.prototype.configureToolbar = function() {
     this.buttons = this.container.find('.jui-editor__toolbar-button');
     this.buttons.prop('tabindex', '-1');
-    var firstTab = this.buttons.first();
+    const firstTab = this.buttons.first();
     firstTab.prop('tabindex', '0');
   };
-
 
   Editor.prototype.onButtonClick = function(e) {
     document.execCommand($(e.currentTarget).data('command'), false, null);
   };
 
-
   Editor.prototype.getContent = function() {
     return this.container.find('.jui-editor__content')[0].innerHTML;
   };
 
-
-  Editor.prototype.updateTextarea = function(e) {
-    var content = this.getContent();
-    var textarea = this.container.find('.js-editor');
+  Editor.prototype.updateTextarea = function() {
+    const content = this.getContent();
+    const textarea = this.container.find('.js-editor');
     document.execCommand('defaultParagraphSeparator', false, 'p');
     textarea.val(content);
   };
-
-
 }

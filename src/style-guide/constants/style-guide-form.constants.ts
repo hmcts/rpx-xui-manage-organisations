@@ -1,5 +1,5 @@
 enum StyleGuideFormModel {
-  input  = 'input',
+  input = 'input',
   checkboxes = 'checkboxes',
   contactPreference = 'contactPreference',
   passport = 'passport',
@@ -12,8 +12,6 @@ enum StyleGuideFormModel {
  *
  * */
 export class StyleGuideFormConstants {
-
   static STG_FORM_MODEL = StyleGuideFormModel;
-
 }
 

@@ -14,10 +14,9 @@ import * as fromStore from '../../store/';
 
 @Component({
   selector: 'app-prd-register-component',
-  templateUrl: './register.component.html',
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
-
   constructor(
     private readonly router: Router,
     private readonly store: Store<fromStore.RegistrationState>,
@@ -60,8 +59,8 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.errorMessage = this.store.pipe(select(fromStore.getErrorMessages));
 
-    this.manageCaseLink$ = this.environmentService.config$.pipe(map(config => config.manageCaseLink));
-    this.manageOrgLink$ = this.environmentService.config$.pipe(map(config => config.manageOrgLink));
+    this.manageCaseLink$ = this.environmentService.config$.pipe(map((config) => config.manageCaseLink));
+    this.manageOrgLink$ = this.environmentService.config$.pipe(map((config) => config.manageOrgLink));
   }
 
   public subscribeNextUrl(): void {
@@ -103,7 +102,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
       this.resetFocus();
     });
   }
@@ -118,9 +117,9 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public subscribeToPageItems(): void {
     this.$pageItemsSubscription = this.store.pipe(select(fromStore.getCurrentPageItems))
-      .subscribe(formData => {
+      .subscribe((formData) => {
         if (this.pageId && formData.pageItems && formData.pageValues) {
-          this.pageValues  = formData.pageValues;
+          this.pageValues = formData.pageValues;
           this.pageItems = formData.pageItems ? formData.pageItems.meta : undefined;
           if (formData && formData.pageItems && formData.pageItems.meta) {
             this.init[formData.pageItems.meta.name] = formData.pageItems.init;
@@ -128,7 +127,7 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
           this.nextUrl = formData.nextUrl;
           this.store.dispatch(new fromStore.ResetNextUrl());
         }
-    });
+      });
   }
 
   /**
@@ -142,12 +141,21 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onPageContinue(formDraft: any): void {
     if (formDraft.invalid) {
+      if (this.pageItems && !!this.pageItems.validationHeaderErrorMessages && this.pageItems.validationHeaderErrorMessages.length > 0) {
+        setTimeout(() => {
+          const debugElement = document.getElementsByTagName('app-validation-header')[0];
+          if (!!debugElement) {
+            debugElement.setAttribute('tabindex', '0');
+            (debugElement as HTMLElement).focus();
+          }
+        }, 200);
+      }
       this.showFormValidation(true);
       window.scrollTo(0, 0);
     } else {
       this.showFormValidation(false);
       const { value } = formDraft;
-      this.store.dispatch(new fromStore.SaveFormData({value, pageId: this.pageId}));
+      this.store.dispatch(new fromStore.SaveFormData({ value, pageId: this.pageId }));
     }
   }
 
@@ -190,10 +198,10 @@ export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
     const pageValues = {
       ...this.pageValues
     };
-    this.store.dispatch( new fromStore.SubmitFormData(pageValues));
+    this.store.dispatch(new fromStore.SubmitFormData(pageValues));
   }
 
-  public onGoBack(event: any): void {
+  public onGoBack(): void {
     this.store.dispatch(new fromStore.ResetNextUrl());
     this.store.dispatch(new fromRoot.Back());
   }

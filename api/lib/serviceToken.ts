@@ -32,7 +32,7 @@ export async function generateToken(): Promise<any> {
 
   cache[microservice] = {
     expiresAt: tokenData.exp,
-    token,
+    token
   };
 
   return token;
@@ -43,9 +43,8 @@ export async function serviceTokenGenerator(): Promise<any> {
     logger.info('Getting cached s2s token');
     const tokenData = getToken();
     return tokenData.token;
-  } else {
-    return await generateToken();
   }
+  return await generateToken();
 }
 
 export default async (req, res, next) => {
@@ -58,4 +57,4 @@ export default async (req, res, next) => {
 
     next();
   }
-}
+};

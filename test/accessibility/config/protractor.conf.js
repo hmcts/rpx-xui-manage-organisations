@@ -18,7 +18,7 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     reporter: 'test/accessibility/reporter/customReporter.js',
-        // reporter: 'spec',
+    // reporter: 'spec',
 
     timeout: 180000
   },

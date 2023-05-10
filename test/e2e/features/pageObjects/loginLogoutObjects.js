@@ -3,15 +3,14 @@
 const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
 function loginLogoutObjects() {
-
-  this.emailAddress = element(by.css("input#username"));
-  this.password = element(by.css("[id='password']"));
-  this.signinTitle= element(by.xpath("//h1[@class='heading-large']"));
+  this.emailAddress = element(by.css('input#username'));
+  this.password = element(by.css('[id=\'password\']'));
+  this.signinTitle= element(by.xpath('//h1[@class=\'heading-large\']'));
   //this.signinTitle = element(by.css("h1"));
-  this.signinBtn = element(by.css("input.button"));
-  this.signOutlink = element(by.xpath("//a[@class='hmcts-header__navigation-link']"));
-  this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
-  this.dashboard_header= element(by.css("a.hmcts-header__link"));
+  this.signinBtn = element(by.css('input.button'));
+  this.signOutlink = element(by.xpath('//a[@class=\'hmcts-header__navigation-link\']'));
+  this.failure_error_heading = element(by.css('[id=\'validation-error-summary-heading\']'));
+  this.dashboard_header= element(by.css('a.hmcts-header__link'));
 
   this.givenIAmLoggedIn = async function () {
     await this.enterUrEmail('');
@@ -20,17 +19,17 @@ function loginLogoutObjects() {
   };
 
   this.givenIAmUnauthenticatedUser = async function () {
-    await this.enterUrEmail("test@gmail.com");
-    await this.enterPassword("123");
+    await this.enterUrEmail('test@gmail.com');
+    await this.enterPassword('123');
     await this.clickSignIn();
   };
 
-  this.loginWithCredentials = async function (email,password) {
+  this.loginWithCredentials = async function (email, password) {
     await this.waitFor(this.emailAddress);
     await this.enterUrEmail(email);
     await this.enterPassword(password);
     await this.clickSignIn();
-  }
+  };
 
   this.enterUrEmail = async function (email) {
     await this.emailAddress.sendKeys(email);
@@ -51,12 +50,9 @@ function loginLogoutObjects() {
     }, LONG_DELAY);
   };
 
-
   this.defaultTime = function () {
     this.setDefaultTimeout(60 * 1000);
   };
-
-
 }
 
-module.exports = new loginLogoutObjects;
+module.exports = new loginLogoutObjects();

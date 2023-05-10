@@ -6,7 +6,7 @@ import * as fromAuth from '../../store';
 
 @Component({
   selector: 'app-prd-profile-component',
-  templateUrl: './profile.component.html',
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
   public user$: Observable<fromAuth.AuthState>;
@@ -14,13 +14,7 @@ export class ProfileComponent implements OnInit {
   constructor(private readonly store: Store<fromAuth.AuthState>) {}
 
   public ngOnInit(): void {
-   this.user$ = this.store.pipe(select(fromAuth.getAuthState));
+    this.user$ = this.store.pipe(select(fromAuth.getAuthState));
   }
 }
-
-
-
-
-
-
 

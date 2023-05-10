@@ -1,4 +1,4 @@
-import {FormComponent} from './form/form.component';
+import { FormComponent } from './form/form.component';
 
 export const components: any[] = [FormComponent];
 

@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { of } from 'rxjs';
 
@@ -12,13 +12,15 @@ import { OrganisationDetails } from '../../../models/organisation.model';
 import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 
 const storeMock = {
-  pipe: () => {
-  },
-  dispatch: (action: Action) => {
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  pipe: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  dispatch: () => {}
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
 const mockOrganisationDetails: OrganisationDetails = {
@@ -45,7 +47,7 @@ const mockOrganisationDetails: OrganisationDetails = {
     lastName: 'Chris',
     email: 'James.Chris@test.com'
   },
-  paymentAccount: [{pbaNumber: 'PBA000000'}],
+  paymentAccount: [{ pbaNumber: 'PBA000000' }],
   pendingAddPaymentAccount: [],
   pendingPaymentAccount: [],
   pendingRemovePaymentAccount: []
@@ -71,10 +73,10 @@ describe('PbaNumbersFormComponent', () => {
         {
           provide: Store,
           useValue: storeMock
-        },
+        }
       ],
       declarations: [PbaNumbersFormComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PbaNumbersFormComponent);

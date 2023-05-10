@@ -6,12 +6,11 @@ export function radioGroupValidator(): ValidatorFn {
       for (const control in formGroup.controls) {
         if (!formGroup.controls[control].valid) {
           return {
-            isRadioGroupInvalid: true,
+            isRadioGroupInvalid: true
           };
         }
       }
     }
-
 
     return null;
   };

@@ -12,19 +12,19 @@ export class AcceptTcEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly acceptTcService: AcceptTcService
-  ) { }
+  ) {}
 
   @Effect()
   public acceptTandC$ = this.actions$.pipe(
-    ofType(acceptTandCActions.ACCEPT_T_AND_C),
-    map((action: acceptTandCActions.AcceptTandC) => action.payload),
-    switchMap((userData) => {
-      return this.acceptTcService.acceptTandC(userData).pipe(
-        map(tcDetails => {
-          return new acceptTandCActions.AcceptTandCSuccess(tcDetails);
-        }),
-        catchError(err => of(new appActions.Go({ path: ['/service-down'] })))
-      );
-    })
-  );
+      ofType(acceptTandCActions.ACCEPT_T_AND_C),
+      map((action: acceptTandCActions.AcceptTandC) => action.payload),
+      switchMap((userData) => {
+        return this.acceptTcService.acceptTandC(userData).pipe(
+          map((tcDetails) => {
+            return new acceptTandCActions.AcceptTandCSuccess(tcDetails);
+          }),
+          catchError(() => of(new appActions.Go({ path: ['/service-down'] })))
+        );
+      })
+    );
 }

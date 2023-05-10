@@ -3,36 +3,36 @@ import { AppUtils } from '../../../app/utils/app-utils';
 import * as fromFeature from '../reducers';
 
 export const getUnassignedCasesState = createSelector(
-    fromFeature.getRootUnassignedCases,
-    (state: fromFeature.UnassignedCasesState) => state.unassignedCases
-  );
+  fromFeature.getRootUnassignedCases,
+  (state: fromFeature.UnassignedCasesState) => state.unassignedCases
+);
 
 export const getAllUnassignedCases = createSelector(
   getUnassignedCasesState,
-  unassignedCasesState => unassignedCasesState.unassignedCases
+  (unassignedCasesState) => unassignedCasesState.unassignedCases
 );
 
 export const getAllUnassignedCaseData = createSelector(
   getAllUnassignedCases,
-  unassignedCasesState => unassignedCasesState ? unassignedCasesState.data : null
+  (unassignedCasesState) => unassignedCasesState ? unassignedCasesState.data : null
 );
 
 export const getAllUnassignedCaseTypes = createSelector(
   getUnassignedCasesState,
-  unassignedCasesState => unassignedCasesState.caseTypes
+  (unassignedCasesState) => unassignedCasesState.caseTypes
 );
 
 export const getSelectedCases = createSelector(
   getUnassignedCasesState,
-  unassignedCasesState => unassignedCasesState.selectedCases
+  (unassignedCasesState) => unassignedCasesState.selectedCases
 );
 
 export const anySelectedCases = createSelector(
   getSelectedCases,
-  selectedCases => AppUtils.atleastOneCase(selectedCases)
+  (selectedCases) => AppUtils.atLeastOneCase(selectedCases)
 );
 
 export const getSelectedCasesList = createSelector(
   getSelectedCases,
-  selectedCases => AppUtils.getSelectedItemsList(selectedCases)
+  (selectedCases) => AppUtils.getSelectedItemsList(selectedCases)
 );

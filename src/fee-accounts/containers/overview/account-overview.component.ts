@@ -13,12 +13,11 @@ import { FeeAccount } from '../../models/pba-accounts';
 
 @Component({
   selector: 'app-prd-fee-accounts-component',
-  templateUrl: './account-overview.component.html',
+  templateUrl: './account-overview.component.html'
 })
-
 export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   public columnConfig: GovukTableColumnConfig[];
-  public tableRows: {}[];
+  public tableRows: object[];
   public accounts$: Observable<FeeAccount[]>;
   public loading$: Observable<boolean>;
   public orgData: OrganisationDetails;
@@ -48,7 +47,7 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
       });
     }
     if (this.org$) {
-      this.organisationSubscription = this.org$.subscribe(( data) => {
+      this.organisationSubscription = this.org$.subscribe((data) => {
         this.orgData = data;
         const anyAccountForOrg = this.dispatchLoadFeeAccount(data);
         this.isOrgAccountAvailable$ = of(anyAccountForOrg);
@@ -79,7 +78,7 @@ export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   public dispatchLoadFeeAccount(organisation: OrganisationDetails): boolean {
     const anyAccountForOrg = organisation.paymentAccount.length > 0;
     if (anyAccountForOrg) {
-      const paymentAccount: string[] = organisation.paymentAccount.map(pa => pa.pbaNumber);
+      const paymentAccount: string[] = organisation.paymentAccount.map((pa) => pa.pbaNumber);
       this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccounts(paymentAccount));
     } else {
       this.dispatchAction(this.feeStore, new fromAccountStore.LoadFeeAccountsSuccess([]));

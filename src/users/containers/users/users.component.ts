@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
-import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 // TODO: The below is an odd way to import.
 import { Observable } from 'rxjs';
+import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
 import { UsersService } from '../../../users/services';
 
 import * as fromStore from '../../store';
@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getAllUsers();
-    this.loadUsers(this.currentPageNumber - 1 );
+    this.loadUsers(this.currentPageNumber - 1);
   }
 
   public inviteNewUser(): void {
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit {
   }
 
   public getAllUsers() {
-    return this.usersService.getAllUsersList().subscribe((allUserList => {
+    return this.usersService.getAllUsersList().subscribe(((allUserList) => {
       this.pageTotalSize = allUserList.users.length;
     }));
   }

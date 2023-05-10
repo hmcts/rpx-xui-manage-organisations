@@ -10,20 +10,20 @@ export const organisationAddress = {
         validationLevel: 'formControl',
         controlId: 'officeAddressOne',
         text: 'Enter Building and street',
-        href: '/register/organisation-address',
+        href: '/register/organisation-address'
       },
       {
         validationLevel: 'formControl',
         controlId: 'townOrCity',
         text: 'Enter town or city',
-        href: '/register/organisation-address',
+        href: '/register/organisation-address'
       },
       {
         validationLevel: 'formControl',
         controlId: 'postcode',
         text: 'Enter postcode',
-        href: '/register/organisation-address',
-      },
+        href: '/register/organisation-address'
+      }
     ],
     groups: [
       {
@@ -32,16 +32,16 @@ export const organisationAddress = {
             input: {
               label: {
                 text: 'Building and street',
-                classes: 'govuk-label--m',
+                classes: 'govuk-label--m'
               },
               validators: ['required'],
               validationError: {
                 value: 'Enter Building and street',
-                controlId: 'officeAddressOne',
+                controlId: 'officeAddressOne'
               },
               control: 'officeAddressOne',
-              classes: '',
-            },
+              classes: ''
+            }
           },
           {
             input: {
@@ -51,51 +51,51 @@ export const organisationAddress = {
               },
               validationError: {
                 value: 'Enter Building and street line 2 of 2',
-                controlId: 'officeAddressTwo',
+                controlId: 'officeAddressTwo'
               },
               control: 'officeAddressTwo',
-              classes: '',
-            },
+              classes: ''
+            }
           },
           {
             input: {
               label: {
                 text: 'Town or city',
-                classes: 'govuk-label--m',
+                classes: 'govuk-label--m'
               },
               control: 'townOrCity',
               validators: ['required'],
               validationError: {
                 value: 'Enter town or city',
-                controlId: 'townOrCity',
+                controlId: 'townOrCity'
               },
-              classes: 'govuk-!-width-two-thirds',
-            },
+              classes: 'govuk-!-width-two-thirds'
+            }
           },
           {
             input: {
               label: {
                 text: 'County',
-                classes: 'govuk-label--m',
+                classes: 'govuk-label--m'
               },
               control: 'county',
-              classes: 'govuk-!-width-two-thirds',
-            },
+              classes: 'govuk-!-width-two-thirds'
+            }
           },
           {
             input: {
               label: {
                 text: 'Postcode',
-                classes: 'govuk-label--m',
+                classes: 'govuk-label--m'
               },
               control: 'postcode',
               validators: ['required'],
               validationError: {
                 value: 'Enter postcode',
-                controlId: 'postcode',
+                controlId: 'postcode'
               },
-              classes: 'govuk-input--width-10',
-            },
+              classes: 'govuk-input--width-10'
+            }
           }
         ]
       },
@@ -105,10 +105,10 @@ export const organisationAddress = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

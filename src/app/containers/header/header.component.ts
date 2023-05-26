@@ -1,37 +1,35 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromAuth from '../../../user-profile/store';
+import { AppTitlesModel } from '../../models/app-titles.model';
+import { UserNavModel } from '../../models/user-nav.model';
 import * as fromRoot from '../../store';
-import {AppTitlesModel} from '../../models/app-titles.model';
-import {UserNavModel} from '../../models/user-nav.model';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss']
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  @Input() navItems: {navItems: { active: boolean; href: string; }[]};
-  @Input() title: AppTitlesModel;
-  @Input() userNav: UserNavModel;
-  @Output() navigate = new EventEmitter<string>();
-
+  @Input() public navItems: {navItems: { active: boolean; href: string; }[]};
+  @Input() public title: AppTitlesModel;
+  @Input() public userNav: UserNavModel;
+  @Output() public navigate = new EventEmitter<string>();
 
   public isBrandedHeader = true;
-  isUserLoggedIn$: Observable<boolean>;
-  showHeaderItems$: Observable<boolean>;
+  public isUserLoggedIn$: Observable<boolean>;
+  public showHeaderItems$: Observable<boolean>;
 
   constructor(public store: Store<fromRoot.State>) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.isUserLoggedIn$ = this.store.pipe(select(fromAuth.getIsAuthenticated));
     this.showHeaderItems$ = this.store.pipe(select(fromAuth.getShowHeaderItems));
   }
 
-  onNavigate(event) {
+  public onNavigate(event: string): void {
     this.navigate.emit(event);
   }
 }

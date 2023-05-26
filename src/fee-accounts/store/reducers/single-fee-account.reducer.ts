@@ -1,31 +1,29 @@
+import { SingleAccountSummary } from '../../models/single-account-summary';
 import * as fromSingleFeeAccountActions from '../actions/single-fee-account.actions';
-import {SingleAccountSummary} from '../../models/single-account-summary';
-
-
 
 export interface SingleFeeAccountState {
   overview: {
-    data: {}  | SingleAccountSummary;
+    data: object | SingleAccountSummary;
     loaded: boolean;
     loading: boolean;
   };
   transactions: {
-    data: {}  | SingleAccountSummary;
+    data: object | SingleAccountSummary;
     loaded: boolean;
     loading: boolean;
   };
 }
 
 export const initialState: SingleFeeAccountState = {
- overview: {
-   data: {},
-   loaded: false,
-   loading: false,
- },
+  overview: {
+    data: {},
+    loaded: false,
+    loading: false
+  },
   transactions: {
     data: {},
     loaded: false,
-    loading: false,
+    loading: false
   }
 };
 
@@ -35,7 +33,6 @@ export function reducer(
 ): SingleFeeAccountState {
   switch (action.type) {
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_SUCCESS: {
-      const payload = action.payload;
       return {
         ...state,
         overview: {
@@ -43,12 +40,9 @@ export function reducer(
           loaded: true,
           loading: false
         }
-
       };
-
     }
     case fromSingleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS_SUCCESS: {
-      const payload = action.payload;
       return {
         ...state,
         transactions: {
@@ -57,12 +51,10 @@ export function reducer(
           loading: false
         }
       };
-
     }
     case fromSingleFeeAccountActions.RESET_SINGLE_FEE_ACCOUNT: {
       return initialState;
     }
-
   }
 
   return state;

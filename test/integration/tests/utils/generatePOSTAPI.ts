@@ -1,16 +1,15 @@
 import { generateToken } from '../../../../api/auth/serviceToken';
 import { getauthToken } from './getToken';
 const fetch = require('node-fetch');
-import { authenticateAndGetcookies } from './getCookie';
+import { authenticateAndGetCookies } from './getCookie';
 import { xxsrftoken } from './getCookie';
 
 const mainURL = process.env.TEST_URL || 'https://localhost:3000';
 const LOG_REQUEST_ERROR_DETAILS = false;
 
 export async function generatePOSTAPIRequest(method, subURL, payload) {
-
   try {
-    const cookie = await authenticateAndGetcookies(mainURL);
+    const cookie = await authenticateAndGetCookies(mainURL);
     const xxsrfcookie = await xxsrftoken();
 
     // console.log(cookie)
@@ -37,7 +36,7 @@ export async function generatePOSTAPIRequest(method, subURL, payload) {
     //   options.body = params.body;
     // }
 
-   // console.log('OPTIONS: ', method, mainURL + subURL, options);
+    // console.log('OPTIONS: ', method, mainURL + subURL, options);
     const response = await fetch(url, options);
     const data = await response.json();
     const headers = response.headers;
@@ -47,10 +46,8 @@ export async function generatePOSTAPIRequest(method, subURL, payload) {
       statusText: response.statusText,
       data
     };
-
   } catch (error) {
     console.log(error);
   }
-
- }
+}
 

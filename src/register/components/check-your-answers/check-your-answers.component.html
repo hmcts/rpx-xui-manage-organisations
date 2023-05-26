@@ -26,11 +26,12 @@
       </ng-container>
     </div>
 
-    <div app-govuk-dl-list-item *ngIf="formDataValues.PBAnumber1 || formDataValues.PBAnumber2" class="govuk-check-your-answers__contents">
+    <div app-govuk-dl-list-item *ngIf="formDataValues.PBANumbers && formDataValues.PBANumbers.length >= 0" class="govuk-check-your-answers__contents">
       <ng-container question>PBA number</ng-container>
       <ng-container answer>
-        <span *ngIf="formDataValues.PBAnumber1">{{ formDataValues.PBAnumber1 }}</span><span *ngIf="formDataValues.PBAnumber1 && formDataValues.PBAnumber2">, </span>
-        <span *ngIf="formDataValues.PBAnumber2">{{ formDataValues.PBAnumber2 }}</span>
+        <div *ngFor="let PBANumber of formDataValues.PBANumbers">
+          <span>{{ PBANumber }}</span><br>
+        </div>
         <div *ngIf="(errorMessageDetailsCode | async) == '6 : PBA_NUMBER Invalid or already exists'">
           <div class="detailed-cya-registration-message"> {{errorMessageDetails | async}} You should check that the PBA has been entered correctly.
           You should also check if your organisation has already been registered.
@@ -115,7 +116,7 @@
 
   <ul class="govuk-list govuk-list--bullet">
     <li>Your personal and organisation details are correct</li>
-    <li>You have read and understood the <a routerLink="/terms-and-conditions" rel="noopener noreferrer" target="_blank">terms and conditions</a> and are eligible for an account to manage your organisation and cases</li>
+    <li>You have read and understood the <a routerLink="/terms-and-conditions" rel="noopener noreferrer" target="_blank">terms and conditions (link opens a new window)</a> and are eligible for an account to manage your organisation and cases</li>
     <li>You are creating an account for your organisation for the first time</li>
     <li>You will be asked to accept the terms and conditions again when logging into a MyHMCTS application for the first time</li>
   </ul>

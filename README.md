@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Node Proxy Server  
 Run `npm run start:node`
 
-## Issues and Solutions 
+## Issues and Solutions  
 
 Property 'cookies' does not exist on type 'EnhancedRequest' - you will need to make
 sure @types/express-session is added ie.
@@ -17,7 +17,7 @@ sure @types/express-session is added ie.
 Run `npm run start:ng` for a dev server in separate terminal. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 
-## Code scaffolding
+## Code scaffolding 
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
@@ -46,7 +46,7 @@ For publishing the pacts to broker execute `yarn publish-pact`
 
 To get more help on the Angular CLI use `ng help` or go and check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-## Logger errors and warnings 
+## Logger errors and warnings
 
 Extended version of script below:
 
@@ -203,4 +203,5 @@ Session Timeout Configuration - An array that contains the Applications and User
 Session Timeout - An object that contains the Idle Modal Display Time, Reg Ex pattern so that we use
 the correct Session Timeout for the application / and or User Groups and Total Idle Time.  
 
-END2
+END2 TEST
+

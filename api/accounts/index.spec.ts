@@ -26,9 +26,9 @@ describe('account index', () => {
   let sandbox
   const MockDataForOrganisations: PaymentAccountDto[] = [
     {
-      pbaNumber:	'XDDDDDoDDDD',
-      organisationId:	'B123123',
-      userId:	'A123123'
+      pbaNumber: 'XDDDDDoDDDD',
+      organisationId: 'B123123',
+      userId: 'A123123'
     }
   ]
   const request = {
@@ -103,14 +103,14 @@ describe('account index', () => {
     sandbox.stub(accountIndex, 'validatePBANumberForOrganisation').resolves(true)
     const accountsMock = [
         {
-        pbaNumber:	'sadasdas',
-        userId:	'1',
-        organisationId:	'asdasd'
+        pbaNumber: 'sadasdas',
+        userId: '1',
+        organisationId: 'asdasd'
        },
        {
-        pbaNumber:	'sadasdas',
-        userId:	'2',
-        organisationId:	'asdasd'
+        pbaNumber: 'sadasdas',
+        userId: '2',
+        organisationId: 'asdasd'
        }
      ]
     sandbox.stub(util, 'asyncReturnOrError').resolves({data: accountsMock})

@@ -1,72 +1,69 @@
 import { expect } from 'chai';
-import { organisation } from '../pactFixtures';
+import { Organisation } from '../pactFixtures';
 import { getOrganisationDetails } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
-
 const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike, like, eachLike } = Matchers;
+const { somethingLike, eachLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalExternalUsers', port: 8000 });
 
-
-describe("Get Organisation Details from RDProfessionalAPI ", () => {
-
-  describe("Get Organisation Details", async () => {
-
+describe('Get Organisation Details from RDProfessionalAPI ', () => {
+  describe('Get Organisation Details', async () => {
     before(async () => {
-      await pactSetUp.provider.setup()
+      await pactSetUp.provider.setup();
       const interaction = {
-        state: "Organisation with Id exists",
-        uponReceiving: "A request for from a logged in user of that organisation",
+        state: 'Organisation with Id exists',
+        uponReceiving: 'A request for from a logged in user of that organisation',
         withRequest: {
-          method: "GET",
-          path: "/refdata/external/v1/organisations",
+          method: 'GET',
+          path: '/refdata/external/v1/organisations',
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer some-access-token",
-            "ServiceAuthorization": "serviceAuthToken"
-          },
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer some-access-token',
+            'ServiceAuthorization': 'serviceAuthToken'
+          }
         },
         willRespondWith: {
           status: 200,
           headers: {
-            "Content-type": "application/json",
+            'Content-type': 'application/json'
           },
           body:
             organisationResponse
-          ,
-        },
-      }
+
+        }
+      };
       // @ts-ignore
-      pactSetUp.provider.addInteraction(interaction)
-    })
+      pactSetUp.provider.addInteraction(interaction);
+    });
 
-    it("returns the correct response", async () => {
-
+    it('returns the correct response', async () => {
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations`;
 
       const resp = getOrganisationDetails(taskUrl);
 
       resp.then((response) => {
-        const responseDto: organisation = <organisation>response.data
+        const responseDto: Organisation = <Organisation>response.data;
         assertResponse(responseDto);
       }).then(() => {
-        pactSetUp.provider.verify()
-        pactSetUp.provider.finalize()
-      })
+        pactSetUp.provider.verify();
+        pactSetUp.provider.finalize();
+      }).finally(() => {
+        pactSetUp.provider.verify();
+        pactSetUp.provider.finalize();
+      });
+    });
 
-    })
-
-    function assertResponse(dto: organisation): void {
+    function assertResponse(dto: Organisation): void {
+      // eslint-disable-next-line no-unused-expressions
       expect(dto).to.be.not.null;
-      for (var element of dto.contactInformation) {
-        expect(element.addressLine1).to.equal("addressLine1");
+      for (const element of dto.contactInformation) {
+        expect(element.addressLine1).to.equal('addressLine1');
       }
-      expect(dto.sraId).to.equal("sraId");
-      expect(dto.organisationIdentifier).to.equal("K100");
-      expect(dto.superUser.firstName).to.equal("Joe");
-      expect(dto.superUser.lastName).to.equal("Bloggs");
-
+      expect(dto.sraId).to.equal('sraId');
+      expect(dto.organisationIdentifier).to.equal('K100');
+      expect(dto.superUser.firstName).to.equal('Joe');
+      expect(dto.superUser.lastName).to.equal('Bloggs');
     }
 
     const organisationResponse =
@@ -85,9 +82,9 @@ describe("Get Organisation Details from RDProfessionalAPI ", () => {
         postCode: 'Ha5 1BJ'
       }),
       superUser: {
-        firstName: somethingLike("Joe"),
-        lastName: somethingLike("Bloggs")
+        firstName: somethingLike('Joe'),
+        lastName: somethingLike('Bloggs')
       }
-    }
-  })
-})
+    };
+  });
+});

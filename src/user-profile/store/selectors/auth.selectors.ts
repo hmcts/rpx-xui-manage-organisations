@@ -1,11 +1,11 @@
-import {createSelector} from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
+import { AppUtils } from 'src/app/utils/app-utils';
 import * as fromApp from '../../../../src/app/store/index';
 import * as fromRoot from '../reducers/';
-import { AppUtils } from 'src/app/utils/app-utils';
 
 export const authState = createSelector(
   fromRoot.getAuthState,
-  (state: fromRoot.AuthState) =>  state
+  (state: fromRoot.AuthState) => state
 );
 
 export const getIsAuthenticated = createSelector(
@@ -31,10 +31,16 @@ export const getIsUserCaaAdmin = createSelector(
   (user) => user.roles.includes('pui-caa')
 );
 
+export const getIsUserPuiFinanceManager = createSelector(
+  getUser,
+  (user) => user.roles.indexOf('pui-finance-manager') !== -1
+);
+
 export const getUid = createSelector(
   getUser,
   (user) => {
     if (user) {
+      // eslint-disable-next-line dot-notation
       return user['userId'];
     }
   }
@@ -49,6 +55,4 @@ export const getHasUserSelectedTC = createSelector(
   authState,
   fromRoot.gethasUserAcceptedTC
 );
-
-
 

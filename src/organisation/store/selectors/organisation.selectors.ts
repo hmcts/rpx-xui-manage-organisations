@@ -13,14 +13,13 @@ export const getOrganisationSel = createSelector(
   fromOrganisation.getOrganisation
 );
 
-
-
 export const getOrganisationLoaded = createSelector(
   getOrganisationState,
   fromOrganisation.getOrganisationLoaded
 );
 
-
-
-
+export const getOrganisationError = createSelector(
+  getOrganisationState,
+  fromOrganisation.getOrganisationError
+);
 

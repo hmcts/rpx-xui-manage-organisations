@@ -1,9 +1,7 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
-import { map } from 'rxjs/operators';
-import { TermsConditionsService } from '../../../../src/shared/services/termsConditions.service';
-import {FormDataValuesModel} from '../../models/form-data-values.model';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+
+import { FormDataValuesModel } from '../../models/form-data-values.model';
 import * as fromStore from '../../store';
 
 /**
@@ -13,10 +11,9 @@ import * as fromStore from '../../store';
 
 @Component({
   selector: 'app-check-your-answers',
-  templateUrl: './check-your-answers.component.html',
+  templateUrl: './check-your-answers.component.html'
 })
 export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewInit {
-
   constructor(
     private readonly store: Store<fromStore.RegistrationState>
   ) {}
@@ -28,6 +25,13 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   @Output() public submit = new EventEmitter();
   @Input() public set fromValues(values: FormDataValuesModel) {
     this.formDataValues = values;
+    const pbaNumbers = [];
+    for (const key of Object.keys(values)) {
+      if (key.includes('PBANumber') && !key.includes('addAnotherPBANumber') && values[key]) {
+        pbaNumbers.push(values[key]);
+      }
+    }
+    this.formDataValues = { ...this.formDataValues, PBANumbers: pbaNumbers };
   }
 
   public ngOnInit(): void {
@@ -36,13 +40,12 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
   }
 
   // Set to focus to the title when the page started for accessibility
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     const focusElement = document.getElementsByTagName('h1')[0];
     if (focusElement) {
       focusElement.setAttribute('tabindex', '-1');
       focusElement.focus();
     }
-
   }
 
   public ngOnDestroy(): void {
@@ -50,8 +53,7 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
     this.store.dispatch(new fromStore.ResetErrorMessageCode({}));
   }
 
-  public onSubmitData() {
+  public onSubmitData(): void {
     this.submit.emit();
   }
-
 }

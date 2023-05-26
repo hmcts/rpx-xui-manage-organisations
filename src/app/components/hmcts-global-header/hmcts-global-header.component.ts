@@ -1,26 +1,29 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import * as fromRoot from '../../store';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { AppTitlesModel } from '../../../app/models/app-titles.model';
+import * as fromRoot from '../../store';
+
 @Component({
-    selector: 'app-hmcts-global-header',
-    templateUrl: './hmcts-global-header.component.html'
+  selector: 'app-hmcts-global-header',
+  templateUrl: './hmcts-global-header.component.html',
+  styleUrls: ['./hmcts-global-header.component.scss']
 })
 export class HmctsGlobalHeaderComponent {
+    @Input() public set userLoggedIn(value) {
+    this.userValue = value;
+  }
 
-    @Input() set userLoggedIn(value) {
-        this.userValue = value;
-    }
-    @Input() headerTitle: { name: string; url: string };
-    @Input() navigation;
-    @Input() isBrandedHeader: boolean;
-    @Output() navigate = new EventEmitter<string>();
-    @Input() showHeaderItems: boolean;
+    @Input() public headerTitle: AppTitlesModel;
+    @Input() public navigation;
+    @Input() public isBrandedHeader: boolean;
+    @Output() public navigate = new EventEmitter<string>();
+    @Input() public showHeaderItems: boolean;
 
-    userValue: any;
-    constructor(public store: Store<fromRoot.State>) { }
+    public userValue: any;
+    constructor(public store: Store<fromRoot.State>) {}
 
-    onEmitEvent(index) {
-        this.navigate.emit(this.navigation.items[index].emit);
+    public onEmitEvent(index) {
+      this.navigate.emit(this.navigation.items[index].emit);
     }
 }

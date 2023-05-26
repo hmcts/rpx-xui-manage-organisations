@@ -1,5 +1,5 @@
+import { Directive, ElementRef, OnInit } from '@angular/core';
 
-import {Directive, ElementRef, OnInit} from '@angular/core';
 /*
 * Remove Host Directive
 * Used to remove native angular host tags tags
@@ -9,10 +9,9 @@ import {Directive, ElementRef, OnInit} from '@angular/core';
   selector: '[appRemoveHost]'
 })
 export class RemoveHostDirective implements OnInit {
+  constructor(private readonly el: ElementRef) {}
 
-  constructor(private el: ElementRef) {}
-
-  ngOnInit() {
+  public ngOnInit(): void {
     const nativeElement: HTMLElement = this.el.nativeElement;
     const parentElement: HTMLElement = nativeElement.parentElement;
     // move all children out of the element

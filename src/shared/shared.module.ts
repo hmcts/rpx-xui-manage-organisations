@@ -6,13 +6,17 @@ import { RouterModule } from '@angular/router';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAndCondition.guard';
 import { FeatureToggleEditUserGuard } from 'src/users/guards/feature-toggle-edit-user.guard';
-import {TermsConditionGuard} from '../app/guards/termsCondition.guard';
+
+import { TermsConditionGuard } from '../app/guards/termsCondition.guard';
 import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
+import { SuccessIconComponent } from './components/icons/success-icon.component';
+import { WarningIconComponent } from './components/icons/warning-icon.component';
 import { PhaseBannerComponent } from './components/phase-banner/phase-banner.component';
 import { SuccessNotificationComponent } from './components/success-notification/success-notification.component';
 import { HealthCheckGuard } from './guards/health-check.guard';
+import { UserRoleGuard } from './guards/user-role.guard';
 import { LoaderModule } from './modules/loader/loader.module';
 import { AuthIntercepterServer } from './services/auth-interceptor.service';
 import { HeadersService } from './services/headers.service';
@@ -24,8 +28,10 @@ import { MonitoringService } from './services/monitoring.service';
   declarations: [
     HmctsMainWrapperComponent,
     HmctsErrorSummaryComponent,
+    PhaseBannerComponent,
     SuccessNotificationComponent,
-    PhaseBannerComponent
+    SuccessIconComponent,
+    WarningIconComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -35,11 +41,13 @@ import { MonitoringService } from './services/monitoring.service';
     LoaderModule
   ],
   exports: [
-    ReactiveFormsModule,
     GovUiModule,
     HmctsMainWrapperComponent,
+    PhaseBannerComponent,
+    ReactiveFormsModule,
+    SuccessIconComponent,
     SuccessNotificationComponent,
-    PhaseBannerComponent
+    WarningIconComponent
   ],
   providers: [
     {
@@ -53,8 +61,9 @@ import { MonitoringService } from './services/monitoring.service';
       multi: true
     },
     HeadersService,
-    { provide: AbstractAppInsights, useClass: AppInsightsWrapper},
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
     MonitoringService,
+    UserRoleGuard,
     HealthCheckGuard,
     HealthCheckService,
     TermsConditionGuard,
@@ -62,5 +71,4 @@ import { MonitoringService } from './services/monitoring.service';
     FeatureToggleEditUserGuard
   ]
 })
-export class SharedModule {
-}
+export class SharedModule {}

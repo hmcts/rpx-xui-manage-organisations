@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-invite-permission-form',
-  templateUrl: './invite-user-permission.component.html',
+  templateUrl: './invite-user-permission.component.html'
 })
 
-export class InviteUserPermissionComponent  implements OnInit {
+export class InviteUserPermissionComponent implements OnInit {
   @Input() public inviteUserForm: FormGroup;
   @Input() public isPuiCaseManager: boolean = false;
   @Input() public isPuiUserManager: boolean = false;
@@ -18,12 +18,12 @@ export class InviteUserPermissionComponent  implements OnInit {
   @Input() public errorMessages: { isInvalid: boolean; messages: string[] };
 
   public grantCaseAccessAdmin$: Observable<boolean>;
+  public grantFinanceManager$: Observable<boolean>;
 
-  constructor(public readonly featureToggleService: FeatureToggleService) {
-  }
+  constructor(public readonly featureToggleService: FeatureToggleService) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.grantCaseAccessAdmin$ = this.featureToggleService.getValue('mo-grant-case-access-admin', false);
+    this.grantFinanceManager$ = this.featureToggleService.getValue('mo-grant-manage-fee-accounts', false);
   }
-
 }

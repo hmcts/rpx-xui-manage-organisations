@@ -1,5 +1,4 @@
 import * as puppeteer from 'puppeteer';
-import {Error} from 'tslint/lib/error';
 
 const username = process.env.TEST_API_EMAIL;
 const password = process.env.TEST_API_PASSWORD;
@@ -11,17 +10,16 @@ const passwordCSSSelector = '#password';
 
 let userCookie = '';
 
-export async function  authenticateAndGetcookies(url)  {
-  console.log( 'Getting Cookie details...');
-  if (userCookie !== '')
-  {
+export async function authenticateAndGetCookies(url) {
+  console.log('Getting Cookie details...');
+  if (userCookie !== '') {
     return userCookie;
   }
   const browser = await puppeteer.launch(getPuppeteerLaunchOptions(url));
 
   const page = await browser.newPage();
   await page.goto(url);
-  console.log( 'Loading...');
+  console.log('Loading...');
 
   // try {
   //   await page.waitForSelector('#username', { visible: true });
@@ -48,7 +46,7 @@ export async function  authenticateAndGetcookies(url)  {
       await page.waitForSelector('.hmcts-header__navigation', { visible: true, timeout: 30000 });
       isLoginSuccess = true;
     } catch (error) {
-      const usernameInput = await page.$eval(userNameCSSSelector , element => element.value);
+      const usernameInput = await page.$eval(userNameCSSSelector, (element) => element.value);
       if (usernameInput === '') {
         loginRetryCounter++;
         console.log(`Login error :  ${error.message}`);
@@ -68,8 +66,8 @@ export async function  authenticateAndGetcookies(url)  {
 
   cookies.forEach((cookie: any) => {
     if (cookie.name === 'XSRF-TOKEN') {
-       xxsrfCookie = cookie.value;
-       xsrfCookie = `XSRF-TOKEN= ${cookie.value}`;
+      xxsrfCookie = cookie.value;
+      xsrfCookie = `XSRF-TOKEN= ${cookie.value}`;
     }
     if (cookie.name === '__auth__') {
       authCookie = `__auth__= ${cookie.value}`;
@@ -85,15 +83,16 @@ export async function  authenticateAndGetcookies(url)  {
   return finalCookie;
 }
 
-export async function xxsrftoken()  {
+export async function xxsrftoken() {
   return xxsrfCookie;
 }
 
 function getPuppeteerLaunchOptions(url) {
   const puppeteerOption = { ignoreHTTPSErrors: true, headless: true, args: [] };
- // if (!url.includes('manage-org.')) {
- //   puppeteerOption.args.push('--proxy-server=http://proxyout.reform.hmcts.net:8080');
- // }
+
+  // if (!url.includes('manage-org.')) {
+  //   puppeteerOption.args.push('--proxy-server=http://proxyout.reform.hmcts.net:8080');
+  // }
 
   return puppeteerOption;
 }

@@ -3,33 +3,37 @@ export const sraNumber = {
   meta: {
     idPrefix: 'tbc',
     name: 'sraNumber',
-    header: 'Enter your organisation SRA ID',
+    header: 'Enter your organisation Solicitors Regulation Authority (SRA) ID',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'sraNumber',
         text: 'Enter your organisation SRA ID',
-        href: '/register/sra-number',
-      },
+        href: '/register/sra-number'
+      }
     ],
     groups: [
       {
         hiddenInput: {
           control: 'pageId',
-          value: 'check',
-        },
+          value: 'check'
+        }
       },
       {
         input: {
+          label: {
+            text: 'Enter your organisation SRA ID',
+            classes: 'govuk-label--m govuk-visually-hidden'
+          },
           validators: ['required'],
           validationError: {
             value: 'Enter your organisation SRA ID',
-            controlId: 'sraNumber',
+            controlId: 'sraNumber'
           },
           control: 'sraNumber',
-          classes: '',
-        },
+          classes: ''
+        }
       },
       {
         button: {
@@ -37,10 +41,10 @@ export const sraNumber = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

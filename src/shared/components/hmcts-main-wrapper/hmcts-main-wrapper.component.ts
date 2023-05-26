@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 /*
 * Main Content wrapper
 * Responsible for:
@@ -13,17 +14,18 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'app-hmcts-main-wrapper',
   templateUrl: './hmcts-main-wrapper.component.html',
-  styles: [`.govuk-back-link { cursor: pointer }`]
+  styles: ['.govuk-back-link { cursor: pointer }']
 })
-export class HmctsMainWrapperComponent  {
-
+export class HmctsMainWrapperComponent {
   @Input() public backLink: string;
-  @Input() public backAction: () => {};
+  @Input() public backAction: () => void;
   @Input() public title: string;
-  @Input() public summaryErrors: {isFromValid: boolean; items: { id: string; message: any; }[]};
-  @Input() public actionButtons: {name: string, class: string, action: () => {}}[];
+  @Input() public summaryErrors: {
+    isFromValid: boolean;
+    header?: string;
+    items: { id: string; message: any; }[]
+  };
+
+  @Input() public actionButtons: { name: string, class: string, action: () => void }[];
   @Input() public showWarningMessage: boolean;
-
-  constructor() { }
-
 }

@@ -4,17 +4,17 @@ import { TCDocument } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class TermsConditionsService {
-    constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
-    private readonly configuration = 'feature.termsAndConditionsEnabled';
-    public getTermsConditions(): Observable<TCDocument> {
-        return this.http.get<TCDocument>(`api/termsAndConditions`);
-    }
+  private readonly configuration = 'feature.termsAndConditionsEnabled';
+  public getTermsConditions(): Observable<TCDocument> {
+    return this.http.get<TCDocument>('api/termsAndConditions');
+  }
 
-    public isTermsConditionsFeatureEnabled(): Observable<boolean> {
-        return this.http.get<boolean>(`external/configuration?configurationKey=${this.configuration}`);
-    }
+  public isTermsConditionsFeatureEnabled(): Observable<boolean> {
+    return this.http.get<boolean>(`external/configuration?configurationKey=${this.configuration}`);
+  }
 }

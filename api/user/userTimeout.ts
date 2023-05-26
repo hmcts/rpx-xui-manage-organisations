@@ -10,8 +10,8 @@ export const DEFAULT_SESSION_TIMEOUT = {
   idleModalDisplayTime: 10,
   pattern: 'ERROR: NO-SESSION_TIMEOUT_SET. You need to set a DEFAULT Session Timeout for this application through the configuration file. ie.' +
   'use the pattern ".", @see unit tests. The totalIdleTime will be set to a low value.',
-  totalIdleTime: 480,
-}
+  totalIdleTime: 480
+};
 
 /**
  * Is Role Match
@@ -29,9 +29,8 @@ export const DEFAULT_SESSION_TIMEOUT = {
  * @returns {boolean}
  */
 export const isRoleMatch = (role: string, pattern: string): boolean => {
-
-  return Boolean(role.match(new RegExp(pattern)))
-}
+  return Boolean(role.match(new RegExp(pattern)));
+};
 
 /**
  * Any Roles Match
@@ -45,9 +44,8 @@ export const isRoleMatch = (role: string, pattern: string): boolean => {
  * @param pattern - 'case-manager' / 'pui-' / '.'
  */
 export const anyRolesMatch = (roles: string[], pattern: string): boolean => {
-
-  return roles.filter(role => isRoleMatch(role, pattern)).length > 0
-}
+  return roles.filter((role) => isRoleMatch(role, pattern)).length > 0;
+};
 
 /**
  * Sort User Roles
@@ -77,7 +75,7 @@ export const anyRolesMatch = (roles: string[], pattern: string): boolean => {
  * 'pui-finance-manager',
  * ]
  */
-export const sortUserRoles = (roles: string[]) => roles.sort()
+export const sortUserRoles = (roles: string[]) => roles.sort();
 
 /**
  * Get User Session Timeout
@@ -113,14 +111,13 @@ export const sortUserRoles = (roles: string[]) => roles.sort()
  * @returns
  */
 export const getUserSessionTimeout = (userRoles, sessionTimeouts) => {
-
-  const sortedUserRoles = sortUserRoles(userRoles)
+  const sortedUserRoles = sortUserRoles(userRoles);
 
   for (const sessionTimeout of sessionTimeouts) {
     if (anyRolesMatch(sortedUserRoles, sessionTimeout.pattern)) {
-      return sessionTimeout
+      return sessionTimeout;
     }
   }
 
-  return DEFAULT_SESSION_TIMEOUT
-}
+  return DEFAULT_SESSION_TIMEOUT;
+};

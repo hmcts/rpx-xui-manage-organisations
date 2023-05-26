@@ -1,5 +1,6 @@
-import {DOCUMENT} from '@angular/common';
-import {AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+
 /*
   Error Summary component
   State Less component
@@ -11,7 +12,6 @@ import {AfterViewInit, Component, Inject, Input, OnChanges, OnInit, SimpleChange
   templateUrl: './hmcts-error-summary.component.html'
 })
 export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
-
   @Input() public set errorMessages(value: object[]) {
     this.messages = value;
   }
@@ -21,7 +21,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
 
   public messages: object[];
 
-  constructor(@Inject(DOCUMENT) private readonly document) { }
+  constructor(@Inject(DOCUMENT) private readonly document) {}
 
   public ngAfterViewInit(): void {
     this.scrollTo('errorSummary');
@@ -33,7 +33,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public scrollTo(selector) {
+  public scrollTo(selector: string): void {
     if (this.document.querySelector(`#${selector}`)) {
       const el = this.document.querySelector(`#${selector}`);
 
@@ -41,8 +41,7 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public hasElement(selector) {
+  public hasElement(selector: string): boolean {
     return this.document.querySelector(`#${selector}`);
   }
-
 }

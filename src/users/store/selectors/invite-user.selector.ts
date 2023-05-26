@@ -38,7 +38,7 @@ export const getGetInviteUserErrorsArray = createSelector(
   getInviteUserIsFormValid,
   getInviteUserErrorHeader,
   (obj, isFormValid, header) => {
-    const items = Object.keys(obj).map(key => {
+    const items = Object.keys(obj).map((key) => {
       if (key) {
         return {
           id: key,
@@ -52,6 +52,5 @@ export const getGetInviteUserErrorsArray = createSelector(
       header,
       items
     };
-
   }
 );

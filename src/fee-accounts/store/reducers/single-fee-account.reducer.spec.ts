@@ -1,12 +1,12 @@
-import { initialState, reducer, getSingleFeeAccountOverview,
-  getSingleFeeAccountOverviewLoading, getSingleFeeAccountOverviewLoaded } from './single-fee-account.reducer';
 import { LoadSingleFeeAccountSuccess, ResetSingleFeeAccount } from '../actions';
+import { getSingleFeeAccountOverview, getSingleFeeAccountOverviewLoaded, getSingleFeeAccountOverviewLoading,
+  initialState, reducer } from './single-fee-account.reducer';
 
 describe('SingleFeeAccountReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = {} as any;
-      const state = reducer( undefined, action);
+      const state = reducer(undefined, action);
       expect(state).toEqual(initialState);
     });
   });
@@ -23,7 +23,7 @@ describe('SingleFeeAccountReducer', () => {
       };
       const action = new LoadSingleFeeAccountSuccess(payload);
       const state = reducer(initialState, action);
-      expect(state.overview).toEqual({data: { ...payload }, loaded: true, loading: false});
+      expect(state.overview).toEqual({ data: { ...payload }, loaded: true, loading: false });
     });
   });
 
@@ -31,7 +31,7 @@ describe('SingleFeeAccountReducer', () => {
     it('should return the initial state', () => {
       const action = new ResetSingleFeeAccount({});
       const state = reducer(initialState, action);
-      expect(state.overview).toEqual({data: {}, loaded: false, loading: false});
+      expect(state.overview).toEqual({ data: {}, loaded: false, loading: false });
     });
   });
 

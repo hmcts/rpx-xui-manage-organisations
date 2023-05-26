@@ -17,8 +17,8 @@ export const organisationName = {
       {
         input: {
           label: {
-            text: '',
-            classes: 'govuk-label--m'
+            text: 'what is the name of your organisation',
+            classes: 'govuk-label--m govuk-visually-hidden'
           },
           validators: ['required'],
           validationError: {
@@ -27,7 +27,7 @@ export const organisationName = {
           },
           control: 'orgName',
           classes: ''
-        },
+        }
       },
       {
         button: {
@@ -35,10 +35,10 @@ export const organisationName = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

@@ -1,9 +1,9 @@
-const chai            = require('chai');
-const chaiAsPromised  = require('chai-as-promised');
-const minimist        = require('minimist');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const minimist = require('minimist');
 
 chai.use(chaiAsPromised);
-var screenShotUtils = require("protractor-screenshot-utils").ProtractorScreenShotUtils;
+const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
 
 const argv = minimist(process.argv.slice(2));
 
@@ -34,7 +34,7 @@ const localConfig = [
     browserName: 'chrome',
     acceptInsecureCerts: true,
     unexpectedAlertBehaviour: 'accept',
-    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications']} ,
+    chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disable-notifications'] },
     proxy: {
       proxyType: 'manual',
       httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -115,9 +115,7 @@ const config = {
     }
   ]
 
-
 };
-
 
 exports.config = config;
 

@@ -1,7 +1,7 @@
 import { ActionReducerMap, createFeatureSelector } from '@ngrx/store';
 
-import * as fromUsers from './users.reducer';
 import * as fromInviteUser from './invite-user.reducer';
+import * as fromUsers from './users.reducer';
 
 export interface UserState {
   invitedUsers: fromUsers.UsersListState;
@@ -16,7 +16,4 @@ export const reducers: ActionReducerMap<UserState> = {
 export const getRootUserState = createFeatureSelector<UserState>(
   'users'
 );
-
-
-
 

@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {MemoizedSelector, select, Store} from '@ngrx/store';
-import {Observable, of, Subscription} from 'rxjs';
-import { FeeAccount } from 'src/fee-accounts/models/pba-accounts';
-import { SingleAccountSummary } from 'src/fee-accounts/models/single-account-summary';
-import { AppUtils } from '../../../../src/app/utils/app-utils';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { MemoizedSelector, select, Store } from '@ngrx/store';
+import { Observable, of, Subscription } from 'rxjs';
+
+import { FeeAccount } from '../../../fee-accounts/models/pba-accounts';
+import { SingleAccountSummary } from '../../../fee-accounts/models/single-account-summary';
 import * as fromfeatureStore from '../../store';
 
 @Component({
@@ -22,15 +22,16 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public navItems = [
     {
       text: 'Summary',
-      href: `../`,
+      href: '../',
       active: false
     },
     {
       text: 'Transactions',
-      href: `../transactions`,
+      href: '../transactions',
       active: true
     }
   ];
+
   public columnConfig = [
     { header: 'Payment Reference', key: 'payment_reference' },
     { header: 'Case', key: 'ccd_case_number' },
@@ -39,12 +40,15 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     { header: 'Date created', key: 'date_created', type: 'dateAtTime' },
     { header: 'Amount', key: 'amount', type: 'money' }
   ];
-  public loading$: Observable<boolean>;
-  constructor(
-    private activeRoute: ActivatedRoute,
-    private store: Store<fromfeatureStore.FeeAccountsState>) { }
 
-  public ngOnInit() {
+  public loading$: Observable<boolean>;
+
+  constructor(
+    private readonly activeRoute: ActivatedRoute,
+    private readonly store: Store<fromfeatureStore.FeeAccountsState>
+  ) {}
+
+  public ngOnInit(): void {
     this.loading$ = this.isTransactionLoading(fromfeatureStore.pbaAccountTransactionsLoading);
     this.dispatchAccountTransactions(this.activeRoute.snapshot.params.id);
     this.accountTransactions$ = this.getAccountTransactions(fromfeatureStore.pbaAccountTransactions);
@@ -55,8 +59,13 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     this.subscription = this.subscribeAccounts(this.accounts$);
   }
 
+  public ngOnDestroy(): void {
+    this.resetSingleFeeAccount();
+    this.unsubscribe(this.subscription);
+  }
+
   public subscribeAccounts(accounts$: Observable<FeeAccount[]>): Subscription {
-    return accounts$.subscribe(acc => {
+    return accounts$.subscribe((acc) => {
       if (acc && acc[0]) {
         this.accounts = acc;
         this.accountName$ = of(acc[0].account_name);
@@ -68,7 +77,7 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     return this.store.pipe(select(feeAccounts));
   }
 
-  public dispatchLoadFeeAccounts(id: string) {
+  public dispatchLoadFeeAccounts(id: string): void {
     this.store.dispatch(new fromfeatureStore.LoadFeeAccounts([id]));
   }
 
@@ -76,31 +85,25 @@ export class AccountTransactionsComponent implements OnInit, OnDestroy {
     return `/fee-accounts/account/${id}`;
   }
 
-  public getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, {} | SingleAccountSummary>):
-  Observable<{} | SingleAccountSummary> {
+  public getAccountTransactions(pbaAccountTransactions: MemoizedSelector<object, object | SingleAccountSummary>): Observable<object | SingleAccountSummary> {
     return this.store.pipe(select(pbaAccountTransactions));
   }
 
-  public dispatchAccountTransactions(id: string) {
+  public dispatchAccountTransactions(id: string): void {
     this.store.dispatch(new fromfeatureStore.LoadSingleFeeAccountTransactions({ id }));
   }
 
-  public isTransactionLoading(isTransactionLoading: MemoizedSelector<object, boolean>) {
+  public isTransactionLoading(isTransactionLoading: MemoizedSelector<object, boolean>): Observable<boolean> {
     return this.store.pipe(select(isTransactionLoading));
   }
 
-  public ngOnDestroy() {
-    this.resetSingleFeeAccount();
-    this.unsubscribe(this.subscription);
-  }
-
-  public unsubscribe(subscription: Subscription) {
+  public unsubscribe(subscription: Subscription): void {
     if (subscription) {
       subscription.unsubscribe();
     }
   }
 
-  public resetSingleFeeAccount() {
+  public resetSingleFeeAccount(): void {
     this.store.dispatch(new fromfeatureStore.ResetSingleFeeAccount({}));
   }
 }

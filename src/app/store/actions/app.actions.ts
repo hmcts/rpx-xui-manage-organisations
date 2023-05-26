@@ -36,22 +36,21 @@ export class FinishAppInitilizer implements Action {
 }
 
 export class LoadFeatureToggleConfig implements Action {
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
   public readonly type = LOAD_FEATURE_TOGGLE_CONFIG;
 }
 
 export class LoadFeatureToggleConfigSuccess implements Action {
   public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class LoadFeatureToggleConfigFail implements Action {
   public readonly type = LOAD_FEATURE_TOGGLE_CONFIG_FAIL;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 export class AddGlobalErrorSuccess implements Action {
   public readonly type = APP_ADD_GLOBAL_ERROR_SUCCESS;
-  constructor() {}
 }
 export class AddGlobalError implements Action {
   public readonly type = APP_ADD_GLOBAL_ERROR;
@@ -60,7 +59,6 @@ export class AddGlobalError implements Action {
 
 export class ClearGlobalError implements Action {
   public readonly type = APP_CLEAR_GLOBAL_ERROR;
-  constructor() {}
 }
 
 export class SetPageTitle implements Action {
@@ -87,17 +85,16 @@ export class SetUserRoles implements Action {
 
 export class LoadJurisdictions {
   public readonly type = LOAD_JURISDICTIONS_GLOBAL;
-  constructor() { }
 }
 
 export class LoadJurisdictionsSuccess {
   public readonly type = LOAD_JURISDICTIONS_GLOBAL_SUCCESS;
-  constructor(public payload: any[]) { }
+  constructor(public payload: any[]) {}
 }
 
 export class LoadJurisdictionsFail {
   public readonly type = LOAD_JURISDICTIONS_GLOBAL_FAIL;
-  constructor(public payload: any) { }
+  constructor(public payload: any) {}
 }
 
 export class LoadTermsConditions {
@@ -116,7 +113,7 @@ export class LoadTermsConditionsFail {
 
 export class SetModal implements Action {
   public readonly type = SET_MODAL;
-  constructor(public payload: {[id: string]: {isVisible?: boolean; countdown?: string}}) { }
+  constructor(public payload: {[id: string]: {isVisible?: boolean; countdown?: string}}) {}
 }
 
 export type appActions =

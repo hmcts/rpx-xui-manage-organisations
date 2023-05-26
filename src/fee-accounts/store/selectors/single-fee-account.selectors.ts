@@ -21,4 +21,3 @@ export const pbaAccountTransactionsLoading =
 export const pbaAccountTransactionsLoaded =
   createSelector(getSingleFeeAccountState, fromSingleFeeAccount.getSingleFeeAccountTransactionsLoaded);
 
-

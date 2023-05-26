@@ -1,47 +1,48 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/user-profile/guards/auth.guard';
+import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { CaseShareCompleteComponent, CaseShareComponent, CaseShareConfirmComponent, UnassignedCasesComponent } from './containers';
 import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
+import { UnassignedCasesModule } from './unassigned-cases.module';
 
 export const ROUTES: Routes = [
-    {
-        path: '',
-        component: UnassignedCasesComponent,
-        canActivate: [
-            AuthGuard,
-            FeatureToggleAccountGuard,
-            RoleGuard
-        ]
-    },
-    {
-      path: 'case-share',
-      component: CaseShareComponent,
-      canActivate: [
-        AuthGuard,
-        FeatureToggleAccountGuard,
-        RoleGuard
-      ]
-    },
-    {
-      path: 'case-share-confirm',
-      component: CaseShareConfirmComponent,
-      canActivate: [
-        AuthGuard,
-        FeatureToggleAccountGuard,
-        RoleGuard
-      ]
-    },
-    {
-      path: 'case-share-complete',
-      component: CaseShareCompleteComponent,
-      canActivate: [
-        AuthGuard,
-        FeatureToggleAccountGuard,
-        RoleGuard
-      ]
-    }
+  {
+    path: '',
+    component: UnassignedCasesComponent,
+    canActivate: [
+      AuthGuard,
+      FeatureToggleAccountGuard,
+      RoleGuard
+    ]
+  },
+  {
+    path: 'case-share',
+    component: CaseShareComponent,
+    canActivate: [
+      AuthGuard,
+      FeatureToggleAccountGuard,
+      RoleGuard
+    ]
+  },
+  {
+    path: 'case-share-confirm',
+    component: CaseShareConfirmComponent,
+    canActivate: [
+      AuthGuard,
+      FeatureToggleAccountGuard,
+      RoleGuard
+    ]
+  },
+  {
+    path: 'case-share-complete',
+    component: CaseShareCompleteComponent,
+    canActivate: [
+      AuthGuard,
+      FeatureToggleAccountGuard,
+      RoleGuard
+    ]
+  }
 ];
 
-export const unassignedCasesRouting: ModuleWithProviders = RouterModule.forChild(ROUTES);
+export const unassignedCasesRouting: ModuleWithProviders<UnassignedCasesModule> = RouterModule.forChild(ROUTES);

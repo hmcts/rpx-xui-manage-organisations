@@ -14,7 +14,7 @@ import {Component, Directive, Input} from '@angular/core';
   `
 })
 export class GovUkErrorMessageComponent {
-  constructor () { }
+  constructor () {}
   @Input() config: { id: string };
   @Input() errorMessage;
 }

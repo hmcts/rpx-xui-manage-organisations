@@ -1,20 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { AppUtils } from 'src/app/utils/app-utils';
-import {SingleAccountSummary} from '../../models/single-account-summary';
+import { Component, Input } from '@angular/core';
+
+import { SingleAccountSummary } from '../../models/single-account-summary';
+
 /**
  * Bootstraps the Summary Components
  */
 
 @Component({
   selector: 'app-prd-summary-component',
-  templateUrl: './summary.component.html',
+  templateUrl: './summary.component.html'
 })
-export class SummaryComponent implements OnInit {
-
-  @Input() data: SingleAccountSummary;
-
-  constructor() {}
-
-  ngOnInit(): void {
-  }
+export class SummaryComponent {
+  @Input() public data: SingleAccountSummary;
 }

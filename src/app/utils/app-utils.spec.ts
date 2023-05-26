@@ -1,15 +1,15 @@
-
-import {AppConstants} from '../app.constants';
-import { AppFeatureFlag } from '../store/reducers/app.reducer';
-import {AppUtils} from './app-utils';
 import { propsExist } from '../../../api/lib/objectUtilities';
+import { AppConstants } from '../app.constants';
+import { AppFeatureFlag } from '../store/reducers/app.reducer';
+import { AppUtils } from './app-utils';
+
 const router = {
   state: {
     url: 'register'
   }
 };
-describe('AppUtils', () => {
 
+describe('AppUtils', () => {
   it('should return only getFeatureEnabledNavItems', () => {
     const navItems = [{
       text: 'Organisation',
@@ -77,7 +77,7 @@ describe('AppUtils', () => {
     const state = {
       userNav: {
         label: 'Account navigation',
-        items: [{text: 'Sign out', emit: 'sign-out'}]
+        items: [{ text: 'Sign out', emit: 'sign-out' }]
       }
     };
     const routerOrg = {
@@ -93,46 +93,57 @@ describe('AppUtils', () => {
     const array = AppUtils.setPageTitle('invite-users');
     expect(array).toEqual('Invite user - Manage organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('organisation-name');
     expect(array).toEqual('Organisation name - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('organisation-address');
     expect(array).toEqual('Organisation address - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('organisation-pba');
     expect(array).toEqual('PBA - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('have-dx');
     expect(array).toEqual('DX - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('organisation-dx');
     expect(array).toEqual('DX reference - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('haveSra');
     expect(array).toEqual('SRA - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('sraNumber');
     expect(array).toEqual('SRA number - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('name');
     expect(array).toEqual('Name - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('email-address');
     expect(array).toEqual('Email - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('check');
     expect(array).toEqual('Check answers - Register organisation');
   });
+
   it('should set correct page titles', () => {
     const array = AppUtils.setPageTitle('register-org/register');
     expect(array).toEqual('Register - Register organisation');
@@ -163,7 +174,7 @@ describe('AppUtils', () => {
     const nav = 'Navigation item';
     const returnNavItems = AppUtils.returnNavs(routerObj, nav);
 
-    expect(returnNavItems).toEqual({navItems: 'Navigation item'});
+    expect(returnNavItems).toEqual({ navItems: 'Navigation item' });
   });
 
   it('should return an undefined nav item array', () => {
@@ -175,7 +186,7 @@ describe('AppUtils', () => {
 
     const nav = '';
     const returnNavItems = AppUtils.returnNavs(routerObj, nav);
-    expect(returnNavItems).toEqual({navItems: []});
+    expect(returnNavItems).toEqual({ navItems: [] });
   });
 
   it('should return aat environment string', () => {
@@ -207,11 +218,13 @@ describe('AppUtils', () => {
     const url = AppUtils.getEnvironment(nav);
     expect(url).toEqual(AppConstants.ENVIRONMENT_NAMES.prod);
   });
+
   it('should format date with time in 12 hour format', () => {
     const dateTime = new Date(2020, 0, 1, 21, 12);
     const dateString = AppUtils.formatDateAtTime(dateTime, false);
     expect(dateString).toEqual('01 Jan 2020 at 9:12 pm');
   });
+
   it('should format date with time in 24 hour format', () => {
     const dateTime = new Date(2020, 0, 1, 21, 12);
     const dateString = AppUtils.formatDateAtTime(dateTime, true);
@@ -219,33 +232,132 @@ describe('AppUtils', () => {
   });
 
   describe('propsExist()', () => {
-
     it('Should return true if all the properties exist on an object.', () => {
-
-      const object = {level1: {level2: {level3: 'level3'}}}
+      const object = { level1: { level2: { level3: 'level3' } } };
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(true);
-    })
+    });
 
     it('Should return false if a property does not exist on an object.', () => {
-
-      const object = {level1: {level2: {level3: 'level3'}}}
+      const object = { level1: { level2: { level3: 'level3' } } };
 
       expect(propsExist(object, ['level1', 'breakingProperty', 'level3'])).toEqual(false);
-    })
+    });
 
     it('Should return false if the object is undefined.', () => {
-
-      const object = undefined
+      const object = undefined;
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
-    })
+    });
 
     it('Should return false if the object is null.', () => {
-
-      const object = null
+      const object = null;
 
       expect(propsExist(object, ['level1', 'level2', 'level3'])).toEqual(false);
-    })
-  })
+    });
+  });
+
+  it('should return index of the last element in the array where predicate is true', () => {
+    const htmlComponentArray = [
+      {
+        input: {
+          label: {
+            text: 'PBA number(optional)',
+            classes: 'govuk-label--m'
+          },
+          control: 'PBAnumber1',
+          validators: [
+            'pbaNumberPattern',
+            'pbaNumberMaxLength',
+            'pbaNumberMinLength'
+          ],
+          validationError: {
+            value: 'Enter a valid PBA number',
+            controlId: 'PBAnumber1'
+          },
+          classes: 'govuk-!-width-two-thirds'
+        }
+      },
+      {
+        input: {
+          label: {
+            text: 'PBA number(optional)',
+            classes: 'govuk-label--m'
+          },
+          control: 'PBAnumber2',
+          validators: [
+            'pbaNumberPattern',
+            'pbaNumberMaxLength',
+            'pbaNumberMinLength'
+          ],
+          validationError: {
+            value: 'Enter a valid PBA number',
+            controlId: 'PBAnumber2'
+          },
+          classes: 'govuk-!-width-two-thirds'
+        }
+      },
+      {
+        button: {
+          control: 'addAnotherPBANumber',
+          value: 'Add another PBA number',
+          type: 'button',
+          classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
+          onEvent: 'addAnotherPBANumber'
+        }
+      },
+      {
+        button: {
+          control: 'createButton',
+          value: 'Continue',
+          type: 'submit',
+          classes: '',
+          onEvent: 'continue'
+        }
+      }
+    ];
+
+    const predicate = (element: any) => element.hasOwnProperty('input');
+    const result = AppUtils.findLastIndex(htmlComponentArray, predicate);
+    expect(result).toEqual(1);
+  });
+
+  it('should return -1 if index of last element in the array where predicate is true', () => {
+    const htmlComponentArray2 = [
+      {
+        control: 'PBAnumber1',
+        validators: [
+          'pbaNumberPattern',
+          'pbaNumberMaxLength',
+          'pbaNumberMinLength'
+        ],
+        validationError: {
+          value: 'Enter a valid PBA number',
+          controlId: 'PBAnumber1'
+        },
+        classes: 'govuk-!-width-two-thirds'
+      },
+      {
+        button: {
+          control: 'addAnotherPBANumber',
+          value: 'Add another PBA number',
+          type: 'button',
+          classes: 'hmcts-button--secondary  hmcts-add-another__add-button',
+          onEvent: 'addAnotherPBANumber'
+        }
+      },
+      {
+        button: {
+          control: 'createButton',
+          value: 'Continue',
+          type: 'submit',
+          classes: '',
+          onEvent: 'continue'
+        }
+      }
+    ];
+    const predicate = (element: any) => element.hasOwnProperty('input');
+    const result = AppUtils.findLastIndex(htmlComponentArray2, predicate);
+    expect(result).toEqual(-1);
+  });
 });

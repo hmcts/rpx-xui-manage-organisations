@@ -1,27 +1,26 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PrivacyPolicyComponent } from '..';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { PrivacyPolicyComponent } from '..';
 
 describe('PrivacyPolicyComponent', () => {
   let component: PrivacyPolicyComponent;
   let fixture: ComponentFixture<PrivacyPolicyComponent>;
 
-
   class MockActivatedRoute {
-    get fragment() {
+    public get fragment() {
       return of('overview');
     }
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrivacyPolicyComponent ],
+      declarations: [PrivacyPolicyComponent],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -35,9 +34,15 @@ describe('PrivacyPolicyComponent', () => {
   });
 
   it('should scroll to the fragment section', async () => {
-    const documenentQuery = spyOn(document, 'querySelector').and.callThrough();
+    const documentQuery = spyOn(document, 'querySelector').and.callThrough();
     component.ngOnInit();
     await fixture.whenStable();
-    expect(documenentQuery).toHaveBeenCalledWith('#overview');
+    expect(documentQuery).toHaveBeenCalledWith('#overview');
+  });
+
+  it('should trigger the hostListner event', () => {
+    const documentClickSpy = spyOn(component, 'clickout').and.callThrough();
+    component.clickout();
+    expect(documentClickSpy).toHaveBeenCalled();
   });
 });

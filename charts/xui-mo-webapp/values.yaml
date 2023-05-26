@@ -1,12 +1,11 @@
 redis:
   enabled: false
-  cluster:
-    enabled: false
-    slaveCount: 0
-  password: fake-password
+  architecture: standalone
   master:
     persistence:
       enabled: false
+  auth:
+    enabled: false
 
 nodejs:
   aadIdentityName: xui
@@ -16,7 +15,7 @@ nodejs:
   memoryRequests: 512Mi
   memoryLimits: 2048Mi
   autoscaling:        # Default is false
-    enabled: true
+    enabled: false
     minReplicas: 2
     maxReplicas: 8    # Required setting
     targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization

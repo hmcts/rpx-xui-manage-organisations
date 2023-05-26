@@ -1,22 +1,20 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-invite-user-form',
-  templateUrl: './invite-user-form.component.html',
+  templateUrl: './invite-user-form.component.html'
 })
 export class InviteUserFormComponent {
-
-  @Output() submitForm = new EventEmitter();
-  @Input() inviteUserForm: FormGroup;
-  @Input() set errorMessages(value) {
-    this.isInvalid = value || {} ;
+  @Output() public submitForm = new EventEmitter();
+  @Input() public inviteUserForm: FormGroup;
+  @Input() public set errorMessages(value) {
+    this.isInvalid = value || {};
   }
 
-  isInvalid;
+  public isInvalid;
 
-  onSubmit() {
+  public onSubmit() {
     this.submitForm.emit();
   }
 }

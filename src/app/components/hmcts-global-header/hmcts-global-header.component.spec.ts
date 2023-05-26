@@ -1,17 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HmctsGlobalHeaderComponent } from './hmcts-global-header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { reducers } from 'src/app/store';
-import { metaReducers } from 'src/app/app.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
+import { metaReducers } from '../../../app/app.module';
+import { reducers } from '../../../app/store';
+import { HmctsGlobalHeaderComponent } from './hmcts-global-header.component';
 
 describe('HmctsGlobalHeaderComponent', () => {
   let component: HmctsGlobalHeaderComponent;
   let fixture: ComponentFixture<HmctsGlobalHeaderComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [HmctsGlobalHeaderComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -53,5 +52,32 @@ describe('HmctsGlobalHeaderComponent', () => {
     spyOn(component.navigate, 'emit');
     component.onEmitEvent(1);
     expect(component.navigate.emit).toHaveBeenCalledWith('emit2');
+  });
+
+  it('should NOT show MyHMCTS text in register org if isBrandedHeader is false', () => {
+    component.isBrandedHeader = false;
+    component.headerTitle = { ...component.headerTitle, hideBranding: false };
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
+    expect(headerTitle).toBeNull();
+  });
+
+  it('should show MyHMCTS text if hideBranding false', () => {
+    component.isBrandedHeader = true;
+    component.headerTitle = { ...component.headerTitle, hideBranding: false };
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
+    expect(headerTitle).toBeDefined();
+    expect(headerTitle).not.toBeNull();
+    expect(headerTitle.textContent).toContain('MyHMCTS');
+    expect(component.headerTitle.hideBranding).toBeFalsy();
+  });
+
+  it('should NOT show MyHMCTS text in register org if hideBranding true', () => {
+    component.isBrandedHeader = true;
+    component.headerTitle = { ...component.headerTitle, hideBranding: true };
+    fixture.detectChanges();
+    const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
+    expect(headerTitle).toBeNull();
   });
 });

@@ -1,4 +1,6 @@
-var Casefile = function(container) {
+/* eslint-disable no-undef */
+
+const Casefile = function(container) {
   this.container = container;
   this.items = container.find('.jui-cf__files');
   this.comments = container.find('.jui-cf__document-comments');
@@ -10,19 +12,16 @@ var Casefile = function(container) {
   this.hideComments();
 };
 
-
 Casefile.prototype.hideComments = function() {
   this.container.removeClass('jui-cf--show-comments');
   this.comments.hide();
   this.commentsButton.attr('aria-pressed', 'false');
 };
 
-
 Casefile.prototype.hideItems = function() {
   this.items.hide();
   this.itemsButton.attr('aria-pressed', 'false');
 };
-
 
 Casefile.prototype.showComments = function() {
   this.container.addClass('jui-cf--show-comments');
@@ -30,20 +29,17 @@ Casefile.prototype.showComments = function() {
   this.commentsButton.attr('aria-pressed', 'true');
 };
 
-
 Casefile.prototype.showItems = function() {
   this.items.show();
   this.itemsButton.attr('aria-pressed', 'true');
 };
 
-
-Casefile.prototype.onButtonItemsClick = function(e) {
+Casefile.prototype.onButtonItemsClick = function() {
   this.showItems();
   this.hideComments();
 };
 
-
-Casefile.prototype.onButtonCommentsClick = function(e) {
+Casefile.prototype.onButtonCommentsClick = function() {
   this.showComments();
   this.hideItems();
 };

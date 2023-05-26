@@ -10,8 +10,8 @@ export const emailAddress = {
         validationLevel: 'formControl',
         controlId: 'emailAddress',
         text: 'Enter email address',
-        href: '/register/organisation-address',
-      },
+        href: '/register/organisation-address'
+      }
     ],
     groups: [
       {
@@ -20,14 +20,18 @@ export const emailAddress = {
             text: 'You should use your business email address wherever possible.',
             classes: 'govuk-hint'
           },
+          label: {
+            text: 'What is your email address',
+            classes: 'govuk-label--m govuk-visually-hidden'
+          },
           validators: ['required', 'email'],
           validationError: {
             value: 'Enter email address',
-            controlId: 'emailAddress',
+            controlId: 'emailAddress'
           },
           control: 'emailAddress',
-          classes: '',
-        },
+          classes: ''
+        }
       },
       {
         button: {
@@ -35,10 +39,10 @@ export const emailAddress = {
           value: 'Continue',
           type: 'submit',
           classes: '',
-          onEvent: 'continue',
-        },
-      },
-    ],
+          onEvent: 'continue'
+        }
+      }
+    ]
   },
   newRoute: null
 };

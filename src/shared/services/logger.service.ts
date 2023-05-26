@@ -1,10 +1,10 @@
-import { MonitoringService } from './monitoring.service';
-import { NGXLogger } from 'ngx-logger';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
+import { NGXLogger } from 'ngx-logger';
 import config from '../../../api/lib/config';
 import { CryptoWrapper } from './cryptoWrapper';
 import { JwtDecodeWrapper } from './jwtDecodeWrapper';
+import { MonitoringService } from './monitoring.service';
 
 export interface ILoggerService {
     trace(message: any, ...additional: any[]): void;
@@ -20,64 +20,82 @@ export interface ILoggerService {
 @Injectable()
 
 export class LoggerService implements ILoggerService {
-    COOKIE_KEYS;
-    constructor(private monitoringService: MonitoringService,
-                private ngxLogger: NGXLogger,
-                private cookieService: CookieService,
-                private cryptoWrapper: CryptoWrapper,
-                private jwtDecodeWrapper: JwtDecodeWrapper) {
-                    this.COOKIE_KEYS = {
-                        TOKEN: config.cookies.token,
-                        USER: config.cookies.userId
-                      };
-    }
+  public COOKIE_KEYS;
+  constructor(private readonly monitoringService: MonitoringService,
+                private readonly ngxLogger: NGXLogger,
+                private readonly cookieService: CookieService,
+                private readonly cryptoWrapper: CryptoWrapper,
+                private readonly jwtDecodeWrapper: JwtDecodeWrapper) {
+    this.COOKIE_KEYS = {
+      TOKEN: config.cookies.token,
+      USER: config.cookies.userId
+    };
+  }
 
-    trace(message: any, ...additional: any[]): void {
-        const formattedMessage = this.getMessage(message);
-        this.ngxLogger.trace(formattedMessage);
-        this.monitoringService.logEvent(message);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public trace(message: any, ...additional: any[]): void {
+    const formattedMessage = this.getMessage(message);
+    this.ngxLogger.trace(formattedMessage);
+    this.monitoringService.logEvent(message);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public debug(message: any, ...additional: any[]): void {
+    const formattedMessage = this.getMessage(message);
+    this.ngxLogger.debug(formattedMessage);
+    this.monitoringService.logEvent(message);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public info(message: any, ...additional: any[]): void {
+    const formattedMessage = this.getMessage(message);
+    this.ngxLogger.info(formattedMessage);
+    this.monitoringService.logEvent(message);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public log(message: any, ...additional: any[]): void {
+    const formattedMessage = this.getMessage(message);
+    this.ngxLogger.log(formattedMessage);
+    this.monitoringService.logEvent(message);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public warn(message: any, ...additional: any[]): void {
+    const formattedMessage = this.getMessage(message);
+    this.ngxLogger.warn(formattedMessage);
+    this.monitoringService.logEvent(message);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public error(message: any, ...additional: any[]): void {
+    this.ngxLogger.error(message);
+    const formattedMessage = this.getMessage(message);
+    const error = new Error(formattedMessage);
+    this.monitoringService.logException(error);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public fatal(message: any, ...additional: any[]): void {
+    this.ngxLogger.fatal(message);
+    const formattedMessage = this.getMessage(message);
+    const error = new Error(formattedMessage);
+    this.monitoringService.logException(error);
+  }
+
+  public getMessage(message: any): string {
+    const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
+    if (jwt) {
+      const jwtData = this.jwtDecodeWrapper.decode(jwt);
+      if (jwtData) {
+        const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
+        return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
+      }
     }
-    debug(message: any, ...additional: any[]): void {
-        const formattedMessage = this.getMessage(message);
-        this.ngxLogger.debug(formattedMessage);
-        this.monitoringService.logEvent(message);
-    }
-    info(message: any, ...additional: any[]): void {
-        const formattedMessage = this.getMessage(message);
-        this.ngxLogger.info(formattedMessage);
-        this.monitoringService.logEvent(message);
-    }
-    log(message: any, ...additional: any[]): void {
-        const formattedMessage = this.getMessage(message);
-        this.ngxLogger.log(formattedMessage);
-        this.monitoringService.logEvent(message);
-    }
-    warn(message: any, ...additional: any[]): void {
-        const formattedMessage = this.getMessage(message);
-        this.ngxLogger.warn(formattedMessage);
-        this.monitoringService.logEvent(message);
-    }
-    error(message: any, ...additional: any[]): void {
-       this.ngxLogger.error(message);
-       const formattedMessage = this.getMessage(message);
-       const error = new Error(formattedMessage);
-       this.monitoringService.logException(error);
-    }
-    fatal(message: any, ...additional: any[]): void {
-        this.ngxLogger.fatal(message);
-        const formattedMessage = this.getMessage(message);
-        const error = new Error(formattedMessage);
-        this.monitoringService.logException(error);
-    }
-    getMessage(message: any): string {
-        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-        if (jwt) {
-            const jwtData = this.jwtDecodeWrapper.decode(jwt);
-            if (jwtData) {
-                const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
-                return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
-            }
-        }
-        return `Message - ${message}, Timestamp - ${Date.now()}`;
-    }
+    return `Message - ${message}, Timestamp - ${Date.now()}`;
+  }
+
+  public enableCookies(): void {
+    this.monitoringService.enableCookies();
+  }
 }

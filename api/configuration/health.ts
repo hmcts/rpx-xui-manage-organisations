@@ -1,5 +1,5 @@
-import {EnvironmentConfigServices} from '../interfaces/environment.config'
-import {getConfigValue} from './index'
+import { EnvironmentConfigServices } from '../interfaces/environment.config';
+import { getConfigValue } from './index';
 import {
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
@@ -7,11 +7,10 @@ import {
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH
-} from './references'
+} from './references';
 
 export const healthEndpoints = (): EnvironmentConfigServices => {
-
-  const HEALTH = '/health'
+  const HEALTH = '/health';
 
   return {
     feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH) + HEALTH,
@@ -19,6 +18,6 @@ export const healthEndpoints = (): EnvironmentConfigServices => {
     idamWeb: getConfigValue(SERVICES_IDAM_WEB) + HEALTH,
     rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH) + HEALTH,
     s2s: getConfigValue(SERVICE_S2S_PATH) + HEALTH,
-    termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH) + HEALTH,
-  }
-}
+    termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH) + HEALTH
+  };
+};

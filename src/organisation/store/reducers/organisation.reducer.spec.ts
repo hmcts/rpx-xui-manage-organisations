@@ -1,7 +1,5 @@
-import * as fromOrganisation from './organisation.reducer';
 import * as fromActions from '../actions/organisation.actions';
-import { Organisation } from 'src/organisation/organisation.model';
-
+import * as fromOrganisation from './organisation.reducer';
 
 describe('OrganisationReducer', () => {
   describe('undefined action', () => {
@@ -13,10 +11,6 @@ describe('OrganisationReducer', () => {
       expect(state).toBe(initialState);
     });
   });
-
-
-
-
 
   describe('LOAD_ORGANISATION action', () => {
     it('should set loading to true', () => {
@@ -31,8 +25,6 @@ describe('OrganisationReducer', () => {
     });
   });
 
-
-
   // fail
   describe('LOAD_ORGANISATION action', () => {
     it('should return the previous state', () => {
@@ -45,8 +37,7 @@ describe('OrganisationReducer', () => {
     });
   });
 
-
-/* TO DO - fix the unit test
+  /* TO DO - fix the unit test
   // success
   describe('LOAD_ORGANISATION_SUCCESS action', () => {
     it('should populate users from the array', () => {
@@ -90,5 +81,4 @@ console.log(`${initialState}`);
     });
   });
 */
-
 });

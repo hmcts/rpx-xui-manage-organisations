@@ -1,25 +1,27 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {StyleGuideFormConstants as CONST} from '../../constants/style-guide-form.constants';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+
+import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-form.constants';
+
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html',
+  templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
-
-  @Output() submitForm = new EventEmitter();
-  @Input() styleGuideFromGroup: FormGroup;
-  @Input() set errorMessages(value) {
+  @Output() public submitForm = new EventEmitter();
+  @Input() public styleGuideFromGroup: FormGroup;
+  @Input() public set errorMessages(value) {
     this.errors = value || {};
   }
 
-  errors: string[];
-  checkboxes;
-  contactPreference;
-  sortBySelect;
-  moreDetail;
-  formConstModel;
-  ngOnInit(): void {
+  public errors: string[];
+  public checkboxes; // TODO: Add type.
+  public contactPreference; // TODO: Add type.
+  public sortBySelect; // TODO: Add type.
+  public moreDetail; // TODO: Add type.
+  public formConstModel; // TODO: Add type.
+
+  public ngOnInit(): void {
     this.formConstModel = CONST.STG_FORM_MODEL;
     // temporary to
     this[CONST.STG_FORM_MODEL.checkboxes] = {
@@ -52,7 +54,6 @@ export class FormComponent implements OnInit {
         }
       ]
     };
-
 
     this[CONST.STG_FORM_MODEL.contactPreference] = {
       key: CONST.STG_FORM_MODEL.contactPreference,
@@ -99,28 +100,28 @@ export class FormComponent implements OnInit {
         id: 'sortBy',
         label: 'Sort By',
         classes: 'govuk-label--m',
-        isHeading: true,
+        isHeading: true
       },
       items: [
         {
           value: 'published',
           label: 'Recently Published',
-          id: 'published',
+          id: 'published'
         },
         {
           value: 'updated',
           label: 'Recently updated',
-          id: 'phone',
+          id: 'phone'
         },
         {
           value: 'views',
           label: 'Most views',
-          id: 'views',
+          id: 'views'
         },
         {
           value: 'comments',
           label: 'Most comments',
-          id: 'comments',
+          id: 'comments'
         }
       ]
     };
@@ -132,19 +133,18 @@ export class FormComponent implements OnInit {
       rows: 5,
       classes: 'govuk-label--m',
       isPageHeading: true
-    }
+    };
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     this.submitForm.emit();
   }
 
-  dispatchLoadData() {
+  public dispatchLoadData(): boolean {
     /**
      * This could be used to dispatch load form data
      * after feature toggle was enabled
      * */
     return true;
   }
-
 }

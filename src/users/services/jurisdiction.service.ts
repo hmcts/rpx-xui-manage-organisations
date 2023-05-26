@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class JurisdictionService {
-    constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
-    getJurisdictions(): Observable<any> {
-        return this.http.get('api/jurisdictions');
-      }
+  public getJurisdictions(): Observable<any> {
+    return this.http.get('api/jurisdictions');
+  }
 }

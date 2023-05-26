@@ -7,13 +7,10 @@ export interface TCState {
 }
 
 export const reducers: ActionReducerMap<TCState> = {
-  acceptedTC: fromTC.reducer,
+  acceptedTC: fromTC.reducer
 };
 
 export const getAcceptTCRootState = createFeatureSelector<TCState>(
   'acceptTc'
 );
-
-
-
 

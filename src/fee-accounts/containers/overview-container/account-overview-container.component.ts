@@ -1,24 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { GovukTableColumnConfig } from 'projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
+import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'app-account-overview-container',
-    templateUrl: './account-overview-container.component.html'
+  selector: 'app-account-overview-container',
+  templateUrl: './account-overview-container.component.html'
 })
-
 export class OrganisationAccountsOverviewContainerComponent {
+  @Input() public classes = '';
 
-    @Input() classes = '';
+  @Input() public caption = 'Dates and amounts';
+  @Input() public firstCellIsHeader = true;
 
-    @Input() caption = 'Dates and amounts';
-    @Input() firstCellIsHeader = true;
+  @Input() public rows;
 
-    @Input() rows;
-
-    @Input() columnConfig: any;
-    @Input() isAccountAvailableForOrg = true;
-    @Input() oneOrMoreAccountInfoMissing = false;
-
-    constructor() {
-    }
+  @Input() public columnConfig: any;
+  @Input() public isAccountAvailableForOrg = true;
+  @Input() public oneOrMoreAccountInfoMissing = false;
 }

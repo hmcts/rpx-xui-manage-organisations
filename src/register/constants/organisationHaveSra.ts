@@ -3,15 +3,15 @@ export const organisationHaveSra = {
   meta: {
     idPrefix: 'tbc',
     name: 'sra',
-    header: 'Do you have an organisation SRA ID?',
+    header: 'Do you have an organisation Solicitors Regulation Authority (SRA) ID?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
       {
         validationLevel: 'formControl',
         controlId: 'haveSra',
         text: 'Tell us if you have an organisation SRA ID',
-        href: '/register/organisation-address',
-      },
+        href: '/register/organisation-address'
+      }
     ],
     groups: [
       {
@@ -23,13 +23,13 @@ export const organisationHaveSra = {
               validators: ['required'],
               validationError: {
                 value: 'Tell us if you have an organisation SRA ID',
-                controlId: 'haveSra',
+                controlId: 'haveSra'
               },
               radioGroup: [
                 {
                   value: 'yes',
                   text: 'Yes',
-                  hiddenAccessibilityText: 'some hidden text',
+                  hiddenAccessibilityText: 'some hidden text'
                 },
                 {
                   value: 'no',

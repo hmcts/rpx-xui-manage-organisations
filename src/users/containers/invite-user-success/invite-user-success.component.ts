@@ -1,23 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as fromStore from '../../store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
+import * as fromStore from '../../store';
+
 @Component({
-    selector: 'app-invite-user-success',
-    templateUrl: './invite-user-success.component.html'
+  selector: 'app-invite-user-success',
+  templateUrl: './invite-user-success.component.html'
 })
 export class InviteUserSuccessComponent implements OnInit, OnDestroy {
+  public userEmail$: Observable<string>;
 
-    userEmail$: Observable<string>;
+  constructor(private readonly store: Store<fromStore.UserState>) {}
 
-    constructor(private store: Store<fromStore.UserState>) { }
+  public ngOnInit(): void {
+    this.userEmail$ = this.store.pipe(select(fromStore.getInviteUserEmail));
+  }
 
-    ngOnInit() {
-        this.userEmail$ = this.store.pipe(select(fromStore.getInviteUserEmail));
-    }
-
-    ngOnDestroy(): void {
-        this.store.dispatch(new fromStore.Reset());
-    }
+  public ngOnDestroy(): void {
+    this.store.dispatch(new fromStore.Reset());
+  }
 }

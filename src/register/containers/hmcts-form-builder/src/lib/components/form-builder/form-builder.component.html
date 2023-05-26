@@ -5,7 +5,7 @@
 
 <form *ngIf="pageItems" [formGroup]="formDraft" (ngSubmit)="onFormSubmit()">
   <div [ngClass]="{'govuk-form-group':true, 'govuk-form-group--error' : isPageValid && formDraft.invalid }">
-    <h1 class="govuk-heading-xl">
+    <h1 *ngIf="!isLegendAvailable" class="govuk-heading-xl">
       <span *ngIf="pageItems.caption" [class]="pageItems.caption.classes">{{ pageItems.caption.text }}</span>
       {{pageItems.header}}
     </h1>
@@ -16,7 +16,12 @@
                     [data]="group.fieldset"
                     [validate]="isPageValid">
       </app-fieldset>
-      <app-jui-form-elements [group]="formDraft" [validate]="isPageValid" [data]="group"></app-jui-form-elements>
+      <app-jui-form-elements [group]="formDraft"
+                             [validate]="isPageValid"
+                             [data]="group"
+                             (btnClick)="onBtnClick($event)"
+                             (blurCast)="onBlur($event)"
+      ></app-jui-form-elements>
     </div>
   </div>
 </form>

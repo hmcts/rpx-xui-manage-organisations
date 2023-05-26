@@ -1,12 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { AccountSummaryComponent } from './account-summary.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { reducers } from 'src/fee-accounts/store/reducers';
 import { of } from 'rxjs';
+import { reducers } from '../../../fee-accounts/store/reducers';
+import { AccountSummaryComponent } from './account-summary.component';
 
 describe('AccountSummaryComponent', () => {
   let component: AccountSummaryComponent;
@@ -14,25 +13,25 @@ describe('AccountSummaryComponent', () => {
 
   let activatedRoute: any;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     activatedRoute = {
-        snapshot: {
-          params: of({})
+      snapshot: {
+        params: of({})
       }
     };
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('feeAccounts', reducers),
+        StoreModule.forFeature('feeAccounts', reducers)
       ],
-      declarations: [ AccountSummaryComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      declarations: [AccountSummaryComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        { provide: ActivatedRoute, useValue: activatedRoute },
+        { provide: ActivatedRoute, useValue: activatedRoute }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

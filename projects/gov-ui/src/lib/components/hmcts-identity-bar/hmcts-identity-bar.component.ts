@@ -13,5 +13,5 @@ export class HmctsIdentityBarComponent {
 
     value: string;
 
-    constructor() { }
+    constructor() {}
 }

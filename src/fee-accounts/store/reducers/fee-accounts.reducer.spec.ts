@@ -1,12 +1,12 @@
-import { initialState, reducer, getFeeAccounts, getFeeAccountsLoading, getFeeAccountsLoaded } from './fee-accounts.reducer';
+import { FeeAccountSummary } from 'src/fee-accounts/models/pba-accounts';
 import { LoadFeeAccountsSuccess } from '../actions';
-import { FeeAccount, FeeAccountSummary } from 'src/fee-accounts/models/pba-accounts';
+import { getFeeAccounts, getFeeAccountsLoaded, getFeeAccountsLoading, initialState, reducer } from './fee-accounts.reducer';
 
 describe('FeeAccountsReducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = {} as any;
-      const state = reducer( undefined, action);
+      const state = reducer(undefined, action);
       expect(state).toEqual(initialState);
     });
   });
@@ -20,7 +20,7 @@ describe('FeeAccountsReducer', () => {
           credit_limit: null,
           available_balance: null,
           status: null,
-          effective_date: null,
+          effective_date: null
         }
       ]);
       const state = reducer(initialState, action);
@@ -31,7 +31,7 @@ describe('FeeAccountsReducer', () => {
         available_balance: null,
         status: null,
         effective_date: null,
-        routerLink: `/fee-accounts/account/123/`,
+        routerLink: '/fee-accounts/account/123/',
         isAccountInfoMissing: false
       };
       expect(state.feeAccounts).toEqual([expected]);

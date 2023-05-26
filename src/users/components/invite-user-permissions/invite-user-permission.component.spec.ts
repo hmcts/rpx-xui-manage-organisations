@@ -6,7 +6,6 @@ import { of } from 'rxjs';
 import { InviteUserPermissionComponent } from './invite-user-permission.component';
 
 describe('Invite User Permission Component', () => {
-
   let component: InviteUserPermissionComponent;
   let fixture: ComponentFixture<InviteUserPermissionComponent>;
 
@@ -15,7 +14,7 @@ describe('Invite User Permission Component', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [ InviteUserPermissionComponent ],
+      declarations: [InviteUserPermissionComponent],
       providers: [
         {
           provide: FeatureToggleService,
@@ -46,5 +45,19 @@ describe('Invite User Permission Component', () => {
     fixture.detectChanges();
     const grantCaseAccessAdmin = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-case-access-admin');
     expect(grantCaseAccessAdmin).toBeTruthy();
+  });
+
+  it('should not see the manage fee accounts if feature is toggled off', () => {
+    component.grantFinanceManager$ = of(false);
+    fixture.detectChanges();
+    const grantFinanceManager = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-finance-manager');
+    expect(grantFinanceManager).toBeFalsy();
+  });
+
+  it('should see the manage fee accounts if feature is toggled on', () => {
+    component.grantFinanceManager$ = of(true);
+    fixture.detectChanges();
+    const grantFinanceManager = fixture.debugElement.nativeElement.querySelector('#checkbox-grant-finance-manager');
+    expect(grantFinanceManager).toBeTruthy();
   });
 });

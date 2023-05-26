@@ -1,14 +1,6 @@
 import * as fromUserform from '../../../style-guide/store/reducers/style-guide.reducer';
-import * as fromActions from '../../../style-guide/store/actions/style-guide.actions';
-
 
 describe('UserformReducer', () => {
-
-
-
-
-
-
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserform;
@@ -18,8 +10,6 @@ describe('UserformReducer', () => {
       expect(state).toBe(initialState);
     });
   });
-
-
 
   // describe('SAVE_USER action', () => {
   //   it('should recieve form data upon click', () => {
@@ -41,9 +31,6 @@ describe('UserformReducer', () => {
   //   });
   // });
 
-
-
-
   // describe('SAVE_USERS_FAIL action', () => {
   //   it('should return the previous state', () => {
   //     const { initialState } = fromUserform
@@ -54,9 +41,6 @@ describe('UserformReducer', () => {
   //     expect(state).toEqual(initialState);
   //   });
   // });
-
-
-
 
   // describe('SAVE_USERS_SUCCESS action', () => {
   //   it('should populate users from the array', () => {
@@ -77,6 +61,4 @@ describe('UserformReducer', () => {
   //     expect(state.userList).toEqual(mockUser);
   //   });
   // });
-
-
 });

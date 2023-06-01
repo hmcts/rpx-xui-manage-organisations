@@ -9,7 +9,6 @@ const html = require('pa11y-reporter-html');
 const { conf } = require('../config/config');
 
 const MockApp = require('../../nodeMock/app');
-
 describe('Pa11y tests', function () {
   beforeEach(function () {
     MockApp.init();
@@ -53,7 +52,7 @@ describe('Pa11y tests', function () {
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
-    actions.push(...PallyActions.clickElement('#btn-share-button'));
+    actions.push(...PallyActions.clickElement('#btn-share-unassigned-case-button'));
 
     actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
     actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
@@ -73,7 +72,7 @@ describe('Pa11y tests', function () {
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
-    actions.push(...PallyActions.clickElement('#btn-share-button'));
+    actions.push(...PallyActions.clickElement('#btn-share-unassigned-case-button'));
 
     actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
     actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
@@ -98,7 +97,7 @@ describe('Pa11y tests', function () {
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
-    actions.push(...PallyActions.clickElement('#btn-share-button'));
+    actions.push(...PallyActions.clickElement('#btn-share-unassigned-case-button'));
 
     actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
     actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));
@@ -123,7 +122,7 @@ describe('Pa11y tests', function () {
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'unassigned-cases'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(1) th input'));
     actions.push(...PallyActions.clickElement('tbody tr:nth-of-type(2) th input'));
-    actions.push(...PallyActions.clickElement('#btn-share-button'));
+    actions.push(...PallyActions.clickElement('#btn-share-unassigned-case-button'));
 
     actions.push(...PallyActions.waitForPageWithCssLocator('app-exui-case-share'));
     actions.push(...PallyActions.clickElement('#accordion-with-summary-sections .govuk-accordion__open-all'));

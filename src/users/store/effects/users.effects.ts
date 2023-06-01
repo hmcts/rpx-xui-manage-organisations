@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
@@ -16,8 +15,8 @@ export class UsersEffects {
     private readonly loggerService: LoggerService
   ) {}
 
-  @Effect()
-  public loadUsers$ = this.actions$.pipe(
+  public loadUsers$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(usersActions.LOAD_USERS),
       switchMap((action: any) => {
         return this.usersService.getListOfUsers(action.payload).pipe(
@@ -40,26 +39,26 @@ export class UsersEffects {
           })
         );
       })
-    );
+    )
+  );
 
-  @Effect()
-  public loadAllUsers$ = this.actions$.pipe(
+  public loadAllUsers$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(usersActions.LOAD_ALL_USERS),
       switchMap(() => {
         return this.usersService.getAllUsersListwithReturnRoles().pipe(
-          map(() => {
-            return new usersActions.LoadAllUsersSuccess();
-          }),
+          map(() => new usersActions.LoadAllUsersSuccess()),
           catchError((error) => {
             this.loggerService.error(error.message);
             return of(new usersActions.LoadAllUsersFail(error));
           })
         );
       })
-    );
+    )
+  );
 
-  @Effect()
-  public loadUserDetails$ = this.actions$.pipe(
+  public loadUserDetails$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(usersActions.LOAD_USER_DETAILS),
       switchMap((action: any) => {
         return this.usersService.getUserDetailsWithPermission(action.payload).pipe(
@@ -81,10 +80,11 @@ export class UsersEffects {
           })
         );
       })
-    );
+    )
+  );
 
-  @Effect()
-  public suspendUser$ = this.actions$.pipe(
+  public suspendUser$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(usersActions.SUSPEND_USER),
       switchMap((user: usersActions.SuspendUser) => {
         return this.usersService.suspendUser(user).pipe(
@@ -92,21 +92,20 @@ export class UsersEffects {
           catchError((error) => of(new usersActions.SuspendUserFail(error)))
         );
       })
-    );
+    )
+  );
 
-  @Effect()
-  public inviteNewUser$ = this.actions$.pipe(
+  public inviteNewUser$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(usersActions.INVITE_NEW_USER),
-      map(() => {
-        return new fromRoot.Go({ path: ['users/invite-user'] });
-      })
-    );
+      map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
+    )
+  );
 
-  @Effect()
-  public reinviteUser$ = this.actions$.pipe(
+  public reinviteUser$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(usersActions.REINVITE_PENDING_USER),
-      map(() => {
-        return new fromRoot.Go({ path: ['users/invite-user'] });
-      })
-    );
+      map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
+    )
+  );
 }

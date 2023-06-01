@@ -111,7 +111,7 @@ export interface EnhancedRequest extends express.Request {
     data?: any
   }
   body,
-  headers
-  session?
+  headers,
+  session,
   url: string
 }

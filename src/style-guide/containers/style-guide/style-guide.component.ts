@@ -69,8 +69,6 @@ export class StyleGuideComponent implements OnInit {
   public onSubmit(): void {
     this.dispatchValidation();
     // this is where the form values would get dispatched
-    const { value } = this.styleGuideForm;
-    console.log(value);
   }
 
   public dispatchValidation(): void {

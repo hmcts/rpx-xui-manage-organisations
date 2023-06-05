@@ -1,10 +1,10 @@
-import { getConfigValue, getEnvironment, showFeature } from '.';
 import {
   EnvironmentConfigCookies,
   EnvironmentConfigExceptionOptions,
   EnvironmentConfigServices
 } from '../interfaces/environment.config';
 import { healthEndpoints } from './health';
+import { getConfigValue, getEnvironment, showFeature } from './index';
 import {
   COOKIE_TOKEN,
   COOKIES_USERID,
@@ -26,6 +26,7 @@ import {
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_ROLE_ASSIGNMENT_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET
 } from './references';
@@ -61,6 +62,7 @@ export const uiConfig = () => {
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),
       rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
+      roleAssignmentApi: getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH),
       s2s: getConfigValue(SERVICE_S2S_PATH),
       termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)
     } as EnvironmentConfigServices,

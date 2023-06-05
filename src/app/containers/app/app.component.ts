@@ -270,6 +270,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public onNavigate(event): void {
     if (event === 'sign-out') {
+      // Clear browser session entries
+      window.sessionStorage.clear();
       return this.store.dispatch(new fromRoot.Logout());
     }
   }

@@ -6,8 +6,8 @@ import { UserNavModel } from './models/user-nav.model';
 const featureNames = {
   feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
-  unassignedCases: 'unassigned-cases',
-  removeUserFromCase: 'remove-user-from-case-mo'
+  removeUserFromCase: 'remove-user-from-case-mo',
+  caaMenuItems: 'mo-caa-menu-items'
 };
 
 const navItemsArray: NavItemModel[] = [
@@ -38,7 +38,16 @@ const navItemsArray: NavItemModel[] = [
     orderId: 4,
     active: false,
     featureToggle: {
-      featureName: featureNames.unassignedCases
+      featureName: featureNames.caaMenuItems
+    }
+  },
+  {
+    text: 'Assigned cases',
+    href: '/assigned-cases',
+    orderId: 5,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.caaMenuItems
     }
   }
 ];
@@ -47,7 +56,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
-  'pui-caa': navItemsArray[3]
+  'pui-caa': [navItemsArray[3], navItemsArray[4]]
 };
 
 const userNav: UserNavModel = {
@@ -128,6 +137,13 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     badgeColour: BadgeColour.BADGE_RED,
     email: 'contactfpl@justice.gov.uk',
     phone: '0330 808 4424',
+    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Employment Tribunal',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'etreform@justice.gov.uk',
+    phone: 'England and Wales: 0330 123 1024, Scotland: 0300 790 6234',
     openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
   }
 ];

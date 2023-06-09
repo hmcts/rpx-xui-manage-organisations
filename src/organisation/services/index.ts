@@ -4,3 +4,4 @@ import { PBAService } from './pba.service';
 export const services: any[] = [OrganisationService, PBAService];
 
 export * from './organisation.service';
+export * from './pba.service';

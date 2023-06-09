@@ -124,12 +124,14 @@ describe('AppComponent', () => {
     expect(app.navItems$).toBeObservable(expected);
   }));
 
-  it('should dispatch a logout action', () => {
+  it('should dispatch a logout action', waitForAsync(() => {
+    spyOn(window.sessionStorage, 'clear').and.callThrough();
     app.onNavigate('sign-out');
     fixture.detectChanges();
 
     expect(store.dispatch).toHaveBeenCalledWith(new Logout());
-  });
+    expect(window.sessionStorage.clear).toHaveBeenCalled();
+  }));
 
   describe('cookie actions', () => {
     describe('setCookieBannerVisibility()', () => {

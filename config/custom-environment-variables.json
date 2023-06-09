@@ -29,7 +29,10 @@
         "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE",
         "ccdDataApi": "SERVICES_CCD_DATA_STORE_API",
-        "caseAssignmentApi": "SERVICES_MCA_PROXY_API"
+        "caseAssignmentApi": "SERVICES_MCA_PROXY_API",
+        "role_assignment": {
+          "roleApi": "SERVICES_ROLE_ASSIGNMENT_API"
+        }
     },
     "links": {
       "manageCaseLink": "MANAGE_CASE_LINK",

@@ -1,9 +1,9 @@
 import { NextFunction, Response } from 'express';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 
 import { handleDelete, handleGet, handlePost, handlePut } from '../common/crudService';
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
-import { EnhancedRequest } from '../lib/models';
 import { PendingPaymentAccount } from './models';
 
 const url: string = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);

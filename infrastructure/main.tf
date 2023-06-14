@@ -1,13 +1,13 @@
 locals {
-    app_full_name = "xui-${var.component}"
-    ase_name = "core-compute-${var.env}"
-    local_env = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env
-    shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+  app_full_name     = "xui-${var.component}"
+  ase_name          = "core-compute-${var.env}"
+  local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env
+  shared_vault_name = "${var.shared_product_name}-${local.local_env}"
 }
 
 data "azurerm_key_vault" "key_vault" {
-    name = local.shared_vault_name
-    resource_group_name = local.shared_vault_name
+  name                = local.shared_vault_name
+  resource_group_name = local.shared_vault_name
 }
 
 data "azurerm_subnet" "core_infra_redis_subnet" {
@@ -17,18 +17,19 @@ data "azurerm_subnet" "core_infra_redis_subnet" {
 }
 
 resource "azurerm_key_vault_secret" "redis_connection_string" {
-  name = "${var.component}-redis-connection-string"
-  value = "redis://${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
+  name         = "${var.component}-redis-connection-string"
+  value        = "redis://${urlencode(module.redis-cache.access_key)}@${module.redis-cache.host_name}:${module.redis-cache.redis_port}?tls=true"
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
 
 module "redis-cache" {
-  source      = "git@github.com:hmcts/cnp-module-redis?ref=master"
-  product     = "${var.shared_product_name}-mo-redis"
-  location    = var.location
-  env         = var.env
-  subnetid    = data.azurerm_subnet.core_infra_redis_subnet.id
-  common_tags = var.common_tags
+  source        = "git@github.com:hmcts/cnp-module-redis?ref=master"
+  product       = "${var.shared_product_name}-mo-redis"
+  location      = var.location
+  env           = var.env
+  subnetid      = data.azurerm_subnet.core_infra_redis_subnet.id
+  common_tags   = var.common_tags
+  redis_version = "6"
 }
 
 resource "azurerm_application_insights" "appinsights" {

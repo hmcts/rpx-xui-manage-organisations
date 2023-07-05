@@ -11,6 +11,17 @@ export async function inviteUser(taskUrl: string, payload: any): Promise<any> {
   return await axios.post(taskUrl, payload, axiosConfig);
 }
 
+export async function handleCaaCaseTypes(caseUrl: string, payload: any): Promise<any> {
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer some-access-token',
+      'ServiceAuthorization': 'serviceAuthToken'
+    }
+  };
+  return await axios.post(caseUrl, payload, axiosConfig);
+}
+
 export async function registerOrganisation(taskUrl: string, payload: any): Promise<any> {
   const axiosConfig = {
     headers: {
@@ -62,6 +73,18 @@ export async function getOrganisationDetails(taskUrl: string): Promise<AxiosResp
   };
 
   return axios.get(taskUrl, axiosConfig);
+}
+
+export async function getCases(caseUrl: string): Promise<AxiosResponse<any>> {
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer some-access-token',
+      'ServiceAuthorization': 'serviceAuthToken'
+    }
+  };
+
+  return axios.get(caseUrl, axiosConfig);
 }
 
 export async function getOrganisationByEmail(taskUrl: string): Promise<AxiosResponse<any>> {

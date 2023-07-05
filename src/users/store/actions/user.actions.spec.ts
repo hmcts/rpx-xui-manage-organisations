@@ -1,6 +1,18 @@
 import {
-  EditUserFailure, EditUserFailureReset, EDIT_USER_FAILURE, EDIT_USER_FAILURE_RESET, LoadUserDetails,
-  LOAD_USER_DETAILS, LoadUserDetailsSuccess, LOAD_USER_DETAILS_SUCCESS
+  EDIT_USER_FAILURE,
+  EDIT_USER_FAILURE_RESET,
+  EditUserFailure,
+  EditUserFailureReset,
+  LOAD_ALL_USERS_NO_ROLE_DATA,
+  LOAD_ALL_USERS_NO_ROLE_DATA_FAIL,
+  LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS,
+  LOAD_USER_DETAILS,
+  LOAD_USER_DETAILS_SUCCESS,
+  LoadAllUsersNoRoleData,
+  LoadAllUsersNoRoleDataFail,
+  LoadAllUsersNoRoleDataSuccess,
+  LoadUserDetails,
+  LoadUserDetailsSuccess
 } from './user.actions';
 
 describe('User actions', () => {
@@ -34,6 +46,31 @@ describe('User actions', () => {
     const action = new LoadUserDetailsSuccess(payload);
     expect({ ...action }).toEqual({
       type: LOAD_USER_DETAILS_SUCCESS,
+      payload
+    });
+  });
+
+  it('should have a LoadAllUsersNoRoleData action, for loading the entire user list but without role data', () => {
+    const action = new LoadAllUsersNoRoleData();
+    expect({ ...action }).toEqual({
+      type: LOAD_ALL_USERS_NO_ROLE_DATA
+    });
+  });
+
+  it('should have a LoadAllUsersNoRoleDataSuccess action, triggered on successful retrieval of the user list', () => {
+    const payload = {};
+    const action = new LoadAllUsersNoRoleDataSuccess(payload);
+    expect({ ...action }).toEqual({
+      type: LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS,
+      payload
+    });
+  });
+
+  it('should have a LoadAllUsersNoRoleDataFail action, triggered on failure to retrieve the user list', () => {
+    const payload = {};
+    const action = new LoadAllUsersNoRoleDataFail(payload);
+    expect({ ...action }).toEqual({
+      type: LOAD_ALL_USERS_NO_ROLE_DATA_FAIL,
       payload
     });
   });

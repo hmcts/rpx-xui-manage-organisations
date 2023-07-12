@@ -1,7 +1,7 @@
+import { Request } from 'express';
 import { getConfigValue } from './configuration';
 import { SERVICES_IDAM_WEB } from './configuration/references';
 import { http } from './lib/http';
-import { Request } from 'express';
 
 export const idamCheck = async (resolve, reject) => {
   try {

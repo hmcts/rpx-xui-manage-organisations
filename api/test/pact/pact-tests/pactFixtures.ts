@@ -122,3 +122,7 @@ export interface InviteUserResponse {
 export interface OrganisationCreatedResponse {
   organisationIdentifier: string;
 }
+
+export interface S2SResponse {
+  token?: string;
+}

@@ -22,8 +22,6 @@ describe('RD Professional API', () => {
       ]
     };
 
-    const requestPath = '/refdata/external/v1/organisations/users';
-
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {

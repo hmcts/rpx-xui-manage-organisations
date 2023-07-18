@@ -26,7 +26,8 @@ export function reducer(
   action: fromUsers.UserActions
 ): UsersListState {
   switch (action.type) {
-    case fromUsers.LOAD_USERS: {
+    case fromUsers.LOAD_USERS:
+    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA: {
       const userList = [];
       return {
         ...state,
@@ -35,7 +36,8 @@ export function reducer(
       };
     }
 
-    case fromUsers.LOAD_USERS_SUCCESS: {
+    case fromUsers.LOAD_USERS_SUCCESS:
+    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS: {
       const payload = action.payload ? action.payload.users : null;
 
       const userListPayload = payload.map((item) => {
@@ -68,7 +70,8 @@ export function reducer(
       };
     }
 
-    case fromUsers.LOAD_USERS_FAIL: {
+    case fromUsers.LOAD_USERS_FAIL:
+    case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA_FAIL: {
       return {
         ...state,
         loading: false,

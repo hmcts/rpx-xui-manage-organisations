@@ -22,6 +22,7 @@ import * as log4jui from './lib/log4jui';
 import * as tunnel from './lib/tunnel';
 import openRoutes from './openRoutes';
 import routes from './routes';
+import { idamCheck } from './idamCheck';
 
 export const app = express();
 
@@ -117,3 +118,5 @@ app.use('/external', openRoutes);
  *
  */
 app.use('/api', routes);
+
+new Promise(idamCheck).then(() => 'IDAM is up and running');

@@ -5,14 +5,14 @@ import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
-import { LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import { LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
 import * as fromUsersEffects from './users.effects';
 
 describe('Users Effects', () => {
   let actions$;
   let effects: fromUsersEffects.UsersEffects;
-  const usersServiceMock = jasmine.createSpyObj('UsersService', [
-    'getListOfUsers', 'suspendUser', 'getUserDetailsWithPermission'
+  const usersServiceMock: jasmine.SpyObj<UsersService> = jasmine.createSpyObj<UsersService>('UsersService', [
+    'getListOfUsers', 'suspendUser', 'getUserDetailsWithPermission', 'getAllUsersList'
   ]);
   let loggerService: LoggerService;
 
@@ -119,7 +119,7 @@ describe('Users Effects', () => {
   });
 
   describe('suspendUser$ error', () => {
-    it('should return LoadUsersFail', waitForAsync(() => {
+    it('should return SuspendUserFail', waitForAsync(() => {
       usersServiceMock.suspendUser.and.returnValue(throwError(new Error()));
       const action = new SuspendUser({});
       const completion = new SuspendUserFail(new Error());
@@ -128,6 +128,7 @@ describe('Users Effects', () => {
       expect(effects.suspendUser$).toBeObservable(expected);
     }));
   });
+
   describe('loadUserDetails$', () => {
     it('should return a details of the selected user - LoadUserDetails', () => {
       const payload = { users: [{ payload: 'something' }] };
@@ -140,5 +141,36 @@ describe('Users Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadUserDetails$).toBeObservable(expected);
     });
+  });
+
+  describe('loadAllUsersNoRoleData$', () => {
+    it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+      const payload = { users: [{ payload: 'something' }] };
+      usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+      const action = new LoadAllUsersNoRoleData();
+      const completion = new LoadAllUsersNoRoleDataSuccess({
+        users: [
+          {
+            payload: 'something',
+            fullName: 'undefined undefined'
+          }
+        ]
+      });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+    }));
+  });
+
+  describe('loadAllUsersNoRoleData$ error', () => {
+    it('should return LoadAllUsersNoRoleDataFail', waitForAsync(() => {
+      usersServiceMock.getAllUsersList.and.returnValue(throwError(new Error()));
+      const action = new LoadAllUsersNoRoleData();
+      const completion = new LoadAllUsersNoRoleDataFail(new Error());
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+      expect(loggerService.error).toHaveBeenCalled();
+    }));
   });
 });

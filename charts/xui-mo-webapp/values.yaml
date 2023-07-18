@@ -81,7 +81,8 @@ nodejs:
         - xui-oauth2-token
         - appinsights-instrumentationkey-mo
         - google-analytics-key
-        - mo-webapp-redis-connection-string
+        - name: mo-webapp-redis6-connection-string
+          alias: mo-webapp-redis-connection-string
         - launch-darkly-client-id
   # Don't modify below here
   image: ${IMAGE_NAME}

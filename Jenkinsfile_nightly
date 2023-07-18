@@ -39,7 +39,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    //enableFortifyScan()
+    enableFortifyScan()
     enableFullFunctionalTest(60)
     // enableSecurityScan()
     enableMutationTest()

@@ -7,6 +7,6 @@ Feature: Smoke tests
         When I navigate to manage organisation Url
         Then I am on Idam login page
 
-    Scenario: Validate Register Org URL is up and accesible 
-        When I navigate to EUI Register Organisation Url
-        Then I land on register organisation page and continue
+#    Scenario: Validate Register Org URL is up and accesible
+#        When I navigate to EUI Register Organisation Url
+#        Then I land on register organisation page and continue

@@ -169,5 +169,39 @@ describe('Users Reducer', () => {
     const state = fromUsers.reducer(initialState, action);
     expect(fromUsers.getUserDetails(state)).toEqual(userDetails);
   });
+
+  it('LOAD_ALL_USERS_NO_ROLE_DATA action should return correct state', () => {
+    const { initialState } = fromUsers;
+
+    const action = new fromUserActions.LoadAllUsersNoRoleData();
+    const state = fromUsers.reducer(initialState, action);
+
+    expect(state.userList).toEqual([]);
+  });
+
+  it('LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS action should return correct state', () => {
+    const { initialState } = fromUsers;
+
+    const action = new fromUserActions.LoadAllUsersNoRoleDataSuccess({
+      users: mockUserList
+    });
+    const state = fromUsers.reducer(initialState, action);
+
+    expect(state.userList).toEqual(resultUserList);
+    expect(fromUsers.getUsers(state)).toEqual(resultUserList);
+    expect(fromUsers.getUsersLoaded(state)).toEqual(true);
+    expect(fromUsers.getUsersLoading(state)).toEqual(false);
+    expect(state.loaded).toEqual(true);
+    expect(state.loading).toEqual(false);
+  });
+
+  it('LOAD_ALL_USERS_NO_ROLE_DATA_FAIL action should return correct state', () => {
+    const { initialState } = fromUsers;
+
+    const action = new fromUserActions.LoadAllUsersNoRoleDataFail({});
+    const state = fromUsers.reducer(initialState, action);
+
+    expect(state.userList).toEqual([]);
+  });
 });
 

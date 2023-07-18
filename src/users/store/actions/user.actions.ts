@@ -7,6 +7,9 @@ export const LOAD_USERS_FAIL = '[User] Load Users Fail';
 export const LOAD_ALL_USERS = '[User] Load All Users';
 export const LOAD_ALL_USERS_SUCCESS = '[User] Load All Users Success';
 export const LOAD_ALL_USERS_FAIL = '[User] Load All Users Fail';
+export const LOAD_ALL_USERS_NO_ROLE_DATA = '[User] Load All Users No Role Data';
+export const LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS = '[User] Load All Users No Role Data Success';
+export const LOAD_ALL_USERS_NO_ROLE_DATA_FAIL = '[User] Load All Users No Role Data Fail';
 export const EDIT_USER = '[User] Edit User';
 export const EDIT_USER_SUCCESS = '[User] Edit User Success';
 export const EDIT_USER_FAILURE = '[User] Edit User Failure';
@@ -18,7 +21,7 @@ export const SUSPEND_USER = '[User] Suspend User';
 export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
 export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
 export const INVITE_NEW_USER = '[User] Invite New User';
-export const REINVITE_PENDING_USER = '[User]Reinvite Pending User';
+export const REINVITE_PENDING_USER = '[User] Reinvite Pending User';
 
 export class LoadUsers {
   public readonly type = LOAD_USERS;
@@ -45,6 +48,20 @@ export class LoadAllUsersSuccess implements Action {
 
 export class LoadAllUsersFail implements Action {
   public readonly type = LOAD_ALL_USERS_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class LoadAllUsersNoRoleData {
+  public readonly type = LOAD_ALL_USERS_NO_ROLE_DATA;
+}
+
+export class LoadAllUsersNoRoleDataSuccess implements Action {
+  public readonly type = LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class LoadAllUsersNoRoleDataFail implements Action {
+  public readonly type = LOAD_ALL_USERS_NO_ROLE_DATA_FAIL;
   constructor(public payload: any) {}
 }
 
@@ -112,6 +129,9 @@ export type UserActions =
   | LoadAllUsers
   | LoadAllUsersSuccess
   | LoadAllUsersFail
+  | LoadAllUsersNoRoleData
+  | LoadAllUsersNoRoleDataSuccess
+  | LoadAllUsersNoRoleDataFail
   | EditUser
   | EditUserFailure
   | EditUserFailureReset

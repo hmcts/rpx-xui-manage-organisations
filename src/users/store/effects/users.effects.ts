@@ -57,6 +57,30 @@ export class UsersEffects {
     )
   );
 
+  public loadAllUsersNoRoleData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(usersActions.LOAD_ALL_USERS_NO_ROLE_DATA),
+      switchMap(() => {
+        return this.usersService.getAllUsersList().pipe(
+          map((userDetails) => {
+            const amendedUsers = [];
+            userDetails.users.forEach((element) => {
+              const fullName = `${element.firstName} ${element.lastName}`;
+              const user = element;
+              user.fullName = fullName;
+              amendedUsers.push(user);
+            });
+            return new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers });
+          }),
+          catchError((error) => {
+            this.loggerService.error(error.message);
+            return of(new usersActions.LoadAllUsersNoRoleDataFail(error));
+          })
+        );
+      })
+    )
+  );
+
   public loadUserDetails$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.LOAD_USER_DETAILS),

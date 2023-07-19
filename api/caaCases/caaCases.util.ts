@@ -80,8 +80,8 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
   };
 }
 
-export function validateCaseTypeId(caseTypeId: string): string {
-  return caseTypeId.match('^[0-9\\-_]+$') === null ? '' : caseTypeId;
+export function sanitizeCaseTypeId(caseTypeId: string): string {
+  return caseTypeId === null ? null : (caseTypeId.match('^[0-9\\-_]+$') === null ? '' : caseTypeId);
 }
 
 function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[], caseType: string): any[] {

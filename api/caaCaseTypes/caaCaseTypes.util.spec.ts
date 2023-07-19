@@ -1,9 +1,29 @@
 import { expect } from 'chai';
 import { CaaCasesPageType } from '../caaCases/enums';
 import { searchCasesString } from './caaCaseTypes.constants';
-import { getApiPath, getRequestBody } from './caaCaseTypes.util';
+import { getApiPath, getRequestBody, sanitizeCaseTypeId } from './caaCaseTypes.util';
 
 describe('caaCaseTypes Util', () => {
+
+  it('should accept valid case type IDs', () => {
+    expect(sanitizeCaseTypeId('')).to.eql('');
+    expect(sanitizeCaseTypeId('1')).to.eql('1');
+    expect(sanitizeCaseTypeId('21-0')).to.eql('21-0');
+    expect(sanitizeCaseTypeId('234-123_99')).to.eql('234-123_99');
+    expect(sanitizeCaseTypeId('000-123_99')).to.eql('000-123_99');
+  });
+
+  it('should clip risky case type IDs', () => {
+    expect(sanitizeCaseTypeId(' ')).to.eql('');
+    expect(sanitizeCaseTypeId(null)).to.eql(null);
+    expect(sanitizeCaseTypeId('(')).to.eql('');
+    expect(sanitizeCaseTypeId(')')).to.eql('');
+    expect(sanitizeCaseTypeId('\'')).to.eql('');
+    expect(sanitizeCaseTypeId('abc*/(-123_99')).to.eql('');
+    expect(sanitizeCaseTypeId('abc-123)_99')).to.eql('');
+    expect(sanitizeCaseTypeId('*abc-123_99')).to.eql('');
+  });
+
   it('should getApiPath', () => {
     const fullPath = getApiPath('http://somePath', 'case1');
     expect(fullPath).to.equal(`http://somePath${searchCasesString}case1`);
@@ -31,6 +51,9 @@ describe('caaCaseTypes Util', () => {
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
                 ]
               }
+            },
+            {
+              bool: { }
             }
           ]
         }
@@ -66,6 +89,9 @@ describe('caaCaseTypes Util', () => {
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
                 ]
               }
+            },
+            {
+              bool: { }
             }
           ]
         }
@@ -103,13 +129,15 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }
@@ -147,13 +175,15 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }

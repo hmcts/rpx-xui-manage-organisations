@@ -1,6 +1,11 @@
 import { CaaCasesPageType } from '../caaCases/enums';
 import { searchCasesString } from './caaCaseTypes.constants';
 
+
+export function sanitizeCaseTypeId(caseTypeId: string): string {
+  return caseTypeId === null ? null : (caseTypeId.match('^[0-9\\-_]+$') === null ? '' : caseTypeId);
+}
+
 export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
   const reference = 'reference.keyword';

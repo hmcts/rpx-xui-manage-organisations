@@ -1,12 +1,29 @@
 import { expect } from 'chai';
 import { caseAssignment } from './caaCases.constants';
-import { getApiPath, getRequestBody } from './caaCases.util';
+import { getApiPath, getRequestBody, validateCaseTypeId } from './caaCases.util';
 import { CaaCasesPageType } from './enums';
 
 describe('caaCases Util', () => {
   it('should getApiPath', () => {
     const fullPath = getApiPath('http://somePath', 'caseTypeId1');
     expect(fullPath).to.equal(`http://somePath${caseAssignment}?ctid=caseTypeId1&use_case=ORGCASES`);
+  });
+
+  it('should accept valid case type IDs', () => {
+    expect(validateCaseTypeId('')).to.eql('');
+    expect(validateCaseTypeId('a')).to.eql('a');
+    expect(validateCaseTypeId('ab-c')).to.eql('ab-c');
+    expect(validateCaseTypeId(null)).to.eql(null);
+    expect(validateCaseTypeId('abc-123_99')).to.eql('abc-123_99');
+    expect(validateCaseTypeId('abc-123_99')).to.eql(null);
+  });
+
+  it('should reject invalid case type IDs', () => {
+    expect(validateCaseTypeId('')).to.eql(null);
+    expect(validateCaseTypeId('abc*/(-123_99')).to.eql(null);
+    expect(validateCaseTypeId('abc-123)_99')).to.eql(null);
+    expect(validateCaseTypeId('*abc-123_99')).to.eql(null);
+    expect(validateCaseTypeId('+a\'bc-123_99')).to.eql(null);
   });
 
   it('should generate the request body for retrieving all assigned cases', () => {

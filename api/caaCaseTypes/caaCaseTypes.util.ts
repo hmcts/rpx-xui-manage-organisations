@@ -1,8 +1,15 @@
 import { CaaCasesPageType } from '../caaCases/enums';
 import { searchCasesString, validCaseTypeIdRegex, dummyCaseTypeId } from './caaCaseTypes.constants';
+import * as log4jui from '../lib/log4jui';
+
+const logger = log4jui.getLogger('user-types');
 
 export function sanitizeCaseTypeId(caseTypeId: string): string {
-  return caseTypeId === null ? null : (caseTypeId.match(validCaseTypeIdRegex) === null ? dummyCaseTypeId : caseTypeId);
+  const out = caseTypeId === null ? null : (caseTypeId.match(validCaseTypeIdRegex) === null ? dummyCaseTypeId : caseTypeId);
+  if (out !== caseTypeId) {
+    logger.warn('Case Type Id with unacceptible characters detected. Will be sanitized with default dummy value replacement.');
+  }
+  return out;
 }
 
 export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {

@@ -1,27 +1,28 @@
 import { expect } from 'chai';
 import { CaaCasesPageType } from '../caaCases/enums';
-import { searchCasesString } from './caaCaseTypes.constants';
+import { searchCasesString, dummyCaseTypeId } from './caaCaseTypes.constants';
 import { getApiPath, getRequestBody, sanitizeCaseTypeId } from './caaCaseTypes.util';
 
 describe('caaCaseTypes Util', () => {
-
   it('should accept valid case type IDs', () => {
-    expect(sanitizeCaseTypeId('')).to.eql('');
+    expect(sanitizeCaseTypeId('12_aBc_')).to.eql('12_aBc_');
     expect(sanitizeCaseTypeId('1')).to.eql('1');
     expect(sanitizeCaseTypeId('21-0')).to.eql('21-0');
-    expect(sanitizeCaseTypeId('234-123_99')).to.eql('234-123_99');
-    expect(sanitizeCaseTypeId('000-123_99')).to.eql('000-123_99');
+    expect(sanitizeCaseTypeId('234-1a2Z3_99')).to.eql('234-1a2Z3_99');
+    expect(sanitizeCaseTypeId('000-1Z2a3_99')).to.eql('000-1Z2a3_99');
   });
 
-  it('should clip risky case type IDs', () => {
-    expect(sanitizeCaseTypeId(' ')).to.eql('');
+  it('should replace risky case type IDs with a dummy case type id', () => {
     expect(sanitizeCaseTypeId(null)).to.eql(null);
-    expect(sanitizeCaseTypeId('(')).to.eql('');
-    expect(sanitizeCaseTypeId(')')).to.eql('');
-    expect(sanitizeCaseTypeId('\'')).to.eql('');
-    expect(sanitizeCaseTypeId('abc*/(-123_99')).to.eql('');
-    expect(sanitizeCaseTypeId('abc-123)_99')).to.eql('');
-    expect(sanitizeCaseTypeId('*abc-123_99')).to.eql('');
+    expect(sanitizeCaseTypeId('')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId(' ')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId('(')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId(')')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId('\'')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId('TEST#_CASE_TYPE_ID')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId('abc*/(-123_99')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId('abc-123)_99')).to.eql(dummyCaseTypeId);
+    expect(sanitizeCaseTypeId('*abc-123_99')).to.eql(dummyCaseTypeId);
   });
 
   it('should getApiPath', () => {

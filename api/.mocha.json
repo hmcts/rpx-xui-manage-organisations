@@ -1,0 +1,12 @@
+{
+    "exit": true,
+    "bail": true,
+    "slow": 1000,
+    "recursive": true,
+    "spec": ["api/**/*.spec.ts"],
+    "exclude": ["**/pact/**", "node_modules/**", "../node_modules/**", "**/node_modules/**"],
+    "require": "ts-node/register",
+  "colors": true,
+  "check-leaks": true,
+  "use_strict": true
+}

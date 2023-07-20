@@ -8585,6 +8585,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esm-utils@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "esm-utils@npm:4.1.2"
+  dependencies:
+    import-meta-resolve: 2.2.2
+    url-or-path: 2.1.0
+  checksum: a78f977d18cf3e07f352ce465fd3b083a7e33942980430eb4769c79d67fc5679a272b3e11666405c2dc9eeaebf2de949ffdf7f49976974b4d5683688f5c1708c
+  languageName: node
+  linkType: hard
+
 "espree@npm:^9.5.1":
   version: 9.5.1
   resolution: "espree@npm:9.5.1"
@@ -10861,6 +10871,13 @@ __metadata:
   bin:
     import-local-fixture: fixtures/cli.js
   checksum: bfcdb63b5e3c0e245e347f3107564035b128a414c4da1172a20dc67db2504e05ede4ac2eee1252359f78b0bfd7b19ef180aec427c2fce6493ae782d73a04cddd
+  languageName: node
+  linkType: hard
+
+"import-meta-resolve@npm:2.2.2":
+  version: 2.2.2
+  resolution: "import-meta-resolve@npm:2.2.2"
+  checksum: 3a5910a6f914b5f06b307d7d1c25710bc56f12e21e923d5b2180dd0d53c6c2d51e7b55df26f168b63f5670babcaca9422b7a9429e877bbb8c1997d79bd65882b
   languageName: node
   linkType: hard
 
@@ -13730,7 +13747,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mocha@npm:^8.1.1":
+"mocha@npm:^8.4.0":
   version: 8.4.0
   resolution: "mocha@npm:8.4.0"
   dependencies:
@@ -17897,6 +17914,7 @@ __metadata:
     dotenv-extended: ^2.7.0
     ejs: ^2.6.1
     eslint: ^8.37.0
+    esm-utils: ^4.1.2
     exception-formatter: ^1.0.7
     express: ^4.16.4
     express-session: ^1.15.6
@@ -17923,7 +17941,7 @@ __metadata:
     karma-spec-reporter: 0.0.34
     launchdarkly-js-client-sdk: ^2.15.2
     log4js: ^3.0.6
-    mocha: ^8.1.1
+    mocha: ^8.4.0
     mochawesome: 3.1.1
     ng-packagr: ^10.1.0
     ngrx-store-freeze: ^0.2.4
@@ -20889,6 +20907,13 @@ __metadata:
   version: 4.0.1
   resolution: "url-join@npm:4.0.1"
   checksum: f74e868bf25dbc8be6a8d7237d4c36bb5b6c62c72e594d5ab1347fe91d6af7ccd9eb5d621e30152e4da45c2e9a26bec21390e911ab54a62d4d82e76028374ee5
+  languageName: node
+  linkType: hard
+
+"url-or-path@npm:2.1.0":
+  version: 2.1.0
+  resolution: "url-or-path@npm:2.1.0"
+  checksum: 8bbc00439fe7bc4ce8c3cb92d80a5b8b4925d4709a210116c6996cf17135e361b97233f7abbd7dd09ea00684fc0043c8ae9abfd62fc20b648419bc2cd01bc219
   languageName: node
   linkType: hard
 

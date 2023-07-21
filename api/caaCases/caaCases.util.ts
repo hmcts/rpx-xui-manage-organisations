@@ -80,10 +80,6 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
   };
 }
 
-export function sanitizeCaseTypeId(caseTypeId: string): string {
-  return caseTypeId === null ? null : (caseTypeId.match('^[0-9\\-_]+$') === null ? '' : caseTypeId);
-}
-
 function mapCcdData(ccdCase: CcdCase, columnConfigs: CcdColumnConfig[], caseType: string): any[] {
   const data = Array<any>();
   ccdCase.cases.forEach((caseData) => data.push(onGeneratedRow(caseData, columnConfigs, caseType)));

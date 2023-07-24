@@ -5,7 +5,7 @@ import { PactTestSetup } from '../settings/provider.mock';
 
 import { Matchers } from '@pact-foundation/pact';
 const { somethingLike, like } = Matchers;
-const pactSetUp = new PactTestSetup({ provider: 'payment_accounts', port: 8000 });
+const pactSetUp = new PactTestSetup({ provider: 'payment_creditAccountPayment', port: 8000 });
 
 const responsePaymentAccountDto =
 {

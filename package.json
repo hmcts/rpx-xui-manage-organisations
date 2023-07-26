@@ -200,7 +200,7 @@
     "source-map-explorer": "^1.5.0",
     "terser-webpack-plugin": "^5.3.3",
     "ts-loader": "^6.2.1",
-    "ts-node": "~10.8.1",
+    "ts-node": "^10.8.2",
     "tslib": "^2.1.0",
     "typescript": "~4.1.2",
     "webpack": "^5.73.0",
@@ -215,7 +215,10 @@
     "@stryker-mutator/html-reporter": "^3.0.1",
     "@stryker-mutator/karma-runner": "^3.0.1",
     "@stryker-mutator/mocha-runner": "^3.0.1",
-    "@stryker-mutator/typescript": "^4.0.0"
+    "@stryker-mutator/typescript": "^4.0.0",
+    "typed-rest-client": "^1.8.0",
+    "minimist": "^1.2.8",
+    "loader-utils": "~2.0.3"
   },
   "packageManager": "yarn@3.5.0"
 }

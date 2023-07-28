@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SubmittedConfirmationComponent } from './components/submitted-confirmation/submitted-confirmation.component';
 import { RegisterComponent } from './containers';
 import { RegisterModule } from './register.module';
+import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
 
 export const ROUTES: Routes = [
   {
@@ -19,6 +20,10 @@ export const ROUTES: Routes = [
     path: 'confirmation',
     component: SubmittedConfirmationComponent
     // canActivate: [HealthCheckGuard]
+  },
+  {
+    path: 'document-exchange-reference',
+    component: DocumentExchangeReferenceComponent
   }
 ];
 

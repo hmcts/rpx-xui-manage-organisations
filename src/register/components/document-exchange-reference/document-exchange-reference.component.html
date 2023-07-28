@@ -8,14 +8,31 @@
       <br>
       <div class="govuk-body govuk-!-margin-top-6">
         <form>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" id="checkbox" name="checkbox" type="checkbox" value="checkbox">
-            <label class="govuk-label govuk-checkboxes__label" for="checkbox">
-              I've checked whether my organisation already has an account
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="dx-number">
+              DX number
             </label>
+            <div id="dx-number-hint" class="govuk-hint">
+              For example: 931NR. You do not need to include the term 'DX'
+            </div>
+            <input class="govuk-input" type="text"
+              id="dx-number" name="dxNumber" formControlName="dxNumber"
+              aria-describedby="dx-number-hint">
           </div>
-          <div class="govuk-body govuk-!-margin-top-6">
-            <button class="govuk-button govuk-buton--primary">Start</button>
+          <div class="govuk-form-group">
+            <label class="govuk-label" for="dx-exchange">
+              DX exchange
+            </label>
+            <div id="dx-exchange-hint" class="govuk-hint">
+              For example: HAYES (MIDDLESEX)
+            </div>
+            <input class="govuk-input" type="text"
+              id="dx-exchange" name="dxExchange" formControlName="dxExchange"
+              aria-describedby="dx-exchange-hint">
+          </div>
+          <div class="govuk-button-group">
+            <button class="govuk-button govuk-button--secondary">Previous</button>
+            <button class="govuk-button govuk-button--primary">Continue</button>
           </div>
         </form>
       </div>

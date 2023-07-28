@@ -73,3 +73,5 @@ stryker.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+/.yarn/
+/api/.yarn/

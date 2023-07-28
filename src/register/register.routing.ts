@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 // routes
 import { RouterModule, Routes } from '@angular/router';
+import { OrganisationTypeComponent } from './components/organisation-type/organisation-type.component';
 import { SubmittedConfirmationComponent } from './components/submitted-confirmation/submitted-confirmation.component';
 import { RegisterComponent } from './containers';
 import { RegisterModule } from './register.module';
@@ -19,6 +20,10 @@ export const ROUTES: Routes = [
     path: 'confirmation',
     component: SubmittedConfirmationComponent
     // canActivate: [HealthCheckGuard]
+  },
+  {
+    path: 'organisation-type',
+    component: OrganisationTypeComponent
   }
 ];
 

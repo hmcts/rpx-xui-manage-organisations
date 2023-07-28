@@ -1,0 +1,79 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <span class="govuk-caption-xl">Register an organisation</span>
+      <h1 class="govuk-heading-xl">
+        What type of organisation are you registering?
+      </h1>
+      <hr>
+      <div class="govuk-body govuk-!-margin-top-6">
+        <form>
+          <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                <h1 class="govuk-fieldset__heading">
+                  Select the type of organisation
+                </h1>
+              </legend>
+              <div class="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio"
+                    id="solicitor-organisation" name="organisationType" value="solicitorOrganisation">
+                  <label class="govuk-label govuk-radios__label" for="solicitor-organisation">
+                    Solicitor organisation
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio"
+                    id="probate-practitioner" name="organisationType" value="probatePractitioner">
+                  <label class="govuk-label govuk-radios__label" for="probate-practitioner">
+                    Probate practitioner or chartered surveyor
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio"
+                    id="local-authority" name="organisationType" value="localAuthority">
+                  <label class="govuk-label govuk-radios__label" for="local-authority">
+                    Local authority
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio"
+                    id="government-department" name="organisationType" value="governmentDepartment">
+                  <label class="govuk-label govuk-radios__label" for="government-department">
+                    Government department (TBC)
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio"
+                    id="other" name="organisationType" value="other" data-aria-controls="other-organisation-type-container">
+                  <label class="govuk-label govuk-radios__label" for="other">
+                    Other
+                  </label>
+                </div>
+                <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="other-organisation-type-container">
+                  <div class="govuk-form-group">
+                    <label class="govuk-label" for="other-organisation-type">
+                      Select another type of organisation
+                    </label>
+                    <select class="govuk-select" id="other-organisation-type" name="otherOrganisationType">
+                      <option value="published">Recently published</option>
+                      <option value="updated" selected>Recently updated</option>
+                      <option value="views">Most views</option>
+                      <option value="comments">Most comments</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div class="govuk-button-group">
+            <button class="govuk-button govuk-button--primary">Continue</button>
+          </div>
+          <a class="govuk-link" href="javascript:void(0)">Cancel</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>

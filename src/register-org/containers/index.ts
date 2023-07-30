@@ -1,5 +1,5 @@
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './register/register-org.component';
 
 export const containers: any[] = [RegisterComponent];
 
-export * from './register/register.component';
+export * from './register/register-org.component';

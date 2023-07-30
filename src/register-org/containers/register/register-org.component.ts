@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-prd-register-component',
-  templateUrl: './register.component.html'
+  templateUrl: './register-org.component.html'
 })
 
 export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {

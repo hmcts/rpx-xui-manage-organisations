@@ -2,7 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 // routes
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './containers';
-import { RegisterModule } from './register.module';
+import { RegisterOrgModule } from './register-org.module';
 
 export const ROUTES: Routes = [
   {
@@ -11,4 +11,4 @@ export const ROUTES: Routes = [
   }
 ];
 
-export const registerRouting: ModuleWithProviders<RegisterModule> = RouterModule.forChild(ROUTES);
+export const registerRouting: ModuleWithProviders<RegisterOrgModule> = RouterModule.forChild(ROUTES);

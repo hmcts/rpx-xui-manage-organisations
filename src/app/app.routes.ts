@@ -44,7 +44,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
-    loadChildren: () => import('../register-org/register.module').then((m) => m.RegisterModule)
+    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule)
   },
   {
     path: 'accept-terms-and-conditions',

@@ -44,6 +44,10 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
+    loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)
+  },
+  {
+    path: 'register-org-new',
     loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule)
   },
   {

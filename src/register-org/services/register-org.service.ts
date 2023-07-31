@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SessionStorageService } from '../../../src/shared/services/session-storage.service';
+import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { RegistrationData } from '../models/registrationdata.model';
 
 @Injectable({

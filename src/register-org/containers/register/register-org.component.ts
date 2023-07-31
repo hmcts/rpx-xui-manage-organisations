@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RegisterOrgService } from '../../services/index';
 import { RegistrationData } from '../../models/registrationdata.model';
+import { RegisterOrgService } from '../../services/index';
 
 @Component({
   selector: 'app-prd-register-component',

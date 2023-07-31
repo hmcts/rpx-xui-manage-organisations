@@ -19,46 +19,55 @@
               <div class="govuk-radios" data-module="govuk-radios">
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio"
-                    id="solicitor-organisation" name="organisationType" value="solicitorOrganisation" formControlName="organisationType">
+                    id="solicitor-organisation" name="organisationType" value="solicitorOrganisation" formControlName="organisationType"
+                    (click)="canShowOtherOrganisationTypes(false)">
                   <label class="govuk-label govuk-radios__label" for="solicitor-organisation">
                     Solicitor organisation
                   </label>
                 </div>
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio"
-                    id="probate-practitioner" name="organisationType" value="probatePractitioner" formControlName="organisationType">
+                    id="probate-practitioner" name="organisationType" value="probatePractitioner" formControlName="organisationType"
+                    (click)="canShowOtherOrganisationTypes(false)">
                   <label class="govuk-label govuk-radios__label" for="probate-practitioner">
                     Probate practitioner or chartered surveyor
                   </label>
                 </div>
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio"
-                    id="local-authority" name="organisationType" value="localAuthority" formControlName="organisationType">
+                    id="local-authority" name="organisationType" value="localAuthority" formControlName="organisationType"
+                    (click)="canShowOtherOrganisationTypes(false)">
                   <label class="govuk-label govuk-radios__label" for="local-authority">
                     Local authority
                   </label>
                 </div>
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio"
-                    id="government-department" name="organisationType" value="governmentDepartment" formControlName="organisationType">
+                    id="government-department" name="organisationType" value="governmentDepartment" formControlName="organisationType"
+                    (click)="canShowOtherOrganisationTypes(false)">
                   <label class="govuk-label govuk-radios__label" for="government-department">
                     Government department (TBC)
                   </label>
                 </div>
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio"
-                    id="other" name="organisationType" value="other" data-aria-controls="other-organisation-type-container" formControlName="organisationType">
+                    id="other" name="organisationType" value="other" formControlName="organisationType"
+                    data-aria-controls="other-organisation-type-container"
+                    (click)="canShowOtherOrganisationTypes(true)">
                   <label class="govuk-label govuk-radios__label" for="other">
                     Other
                   </label>
                 </div>
-                <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="other-organisation-type-container">
+                <div class="govuk-radios__conditional"
+                  [ngClass]="{'govuk-radios__conditional--hidden': showOtherOrganisationTypes === false }"
+                  id="other-organisation-type-container">
                   <div class="govuk-form-group">
                     <div class="govuk-form-group">
-                      <label class="govuk-label" for="other-organisation-type">
+                      <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
                         Select another type of organisation
                       </label>
-                      <select class="govuk-select" id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
+                      <select class="govuk-select govuk-!-width-two-thirds"
+                        id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
                         <option value="published">Recently published</option>
                         <option value="updated" selected>Recently updated</option>
                         <option value="views">Most views</option>
@@ -66,10 +75,10 @@
                       </select>
                     </div>
                     <div class="govuk-form-group">
-                      <label class="govuk-label" for="other-organisation-detail">
+                      <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
                         Enter details
                       </label>
-                      <input class="govuk-input" type="text"
+                      <input class="govuk-input govuk-!-width-two-thirds" type="text"
                         id="other-organisation-detail" name="otherOrganisationDetail" formControlName="otherOrganisationDetail">
                     </div>
                   </div>

@@ -35,6 +35,6 @@ export async function getLovRefData(req: EnhancedRequest, res: Response) {
 }
 
 export const router = Router({ mergeParams: true });
-router.get('/getLovRefData', getLovRefData);
+router.get('/', getLovRefData);
 
 export default router;

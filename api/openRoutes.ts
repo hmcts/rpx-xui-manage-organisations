@@ -2,7 +2,7 @@ import { Router } from 'express';
 import getConfigurationUIRouter from './configurationUI';
 import getConfigValue from './configValueRouter';
 
-import { router as getLovRefDataRouter } from './prd/lov';
+import getLovRefDataRouter from './prd/lov';
 
 // TODO: rename from prdRouter
 import getappInsightsInstrumentationKey from './monitoring-tools';

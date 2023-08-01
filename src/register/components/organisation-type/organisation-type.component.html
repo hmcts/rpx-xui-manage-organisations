@@ -68,10 +68,10 @@
                       </label>
                       <select class="govuk-select govuk-!-width-two-thirds"
                         id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
-                        <option value="published">Recently published</option>
-                        <option value="updated" selected>Recently updated</option>
-                        <option value="views">Most views</option>
-                        <option value="comments">Most comments</option>
+                        <option>--Select a value--</option>
+                        <option *ngFor="let organisationType of otherOrganisationTypes$ | async" value="{{organisationType.key}}">
+                          {{organisationType.value_en}}
+                        </option>
                       </select>
                     </div>
                     <div class="govuk-form-group">

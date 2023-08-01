@@ -16,7 +16,12 @@ export class RegisterOrgService {
       const registerOrganisation = JSON.parse(registerOrgStr) as RegistrationData;
       return registerOrganisation;
     }
-    return { name: '' } as RegistrationData;
+    return {
+      name: '',
+      hasDxReference: null,
+      dxNumber: null,
+      dxExchange: null
+    } as RegistrationData;
   }
 
   public persistRegistrationData(data: RegistrationData) {

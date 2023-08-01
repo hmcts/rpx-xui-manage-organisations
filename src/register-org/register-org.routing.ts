@@ -4,13 +4,12 @@ import { BeforeYouStartComponent } from './components/before-you-start/before-yo
 import { CompanyHouseDetailsComponent } from './components/company-house-details/company-house-details.component';
 import { DocumentExchangeReferenceDetailsComponent } from './components/document-exchange-reference-details/document-exchange-reference-details.component';
 import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
-import { RegisterComponent } from './containers';
 import { RegisterOrgModule } from './register-org.module';
 
 export const ROUTES: Routes = [
   {
-    path: 'register',
-    component: RegisterComponent
+    path: '',
+    component: BeforeYouStartComponent
   },
   {
     path: 'before-you-start',

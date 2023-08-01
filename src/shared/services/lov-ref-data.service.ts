@@ -7,14 +7,22 @@ import { LovRefDataModel } from '../models/lovRefData.model';
 export class LovRefDataService {
   public constructor(private readonly http: HttpClient) {}
 
-  public getListOfValues(category: string, service: string, isChildRequired: boolean = false): Observable<LovRefDataModel[]> {
-    // const options = {
-    //   params: new HttpParams()
-    //     .set('categoryId', category)
-    //     .set('serviceId', service)
-    //     .set('isChildRequired', isChildRequired ? 'Y' : 'N')
-    // };
-    // return this.http.get<LovRefDataModel[]>('external/getLovRefData', options);
-    return this.http.get<LovRefDataModel[]>('external/getLovRefData');
+  public getListOfValues(category: string, isChildRequired: boolean = false): Observable<LovRefDataModel[]> {
+    const options = {
+      params: new HttpParams()
+        .set('categoryId', category)
+        .set('isChildRequired', isChildRequired ? 'Y' : 'N')
+    };
+    return this.http.get<LovRefDataModel[]>('external/getLovRefData', options);
+  }
+
+  public getListOfValuesForService(category: string, service: string, isChildRequired: boolean = false): Observable<LovRefDataModel[]> {
+    const options = {
+      params: new HttpParams()
+        .set('categoryId', category)
+        .set('serviceId', service)
+        .set('isChildRequired', isChildRequired ? 'Y' : 'N')
+    };
+    return this.http.get<LovRefDataModel[]>('external/getLovRefData', options);
   }
 }

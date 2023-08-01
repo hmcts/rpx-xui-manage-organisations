@@ -9,29 +9,19 @@ const prdUrl: string = getConfigValue(SERVICES_PRD_COMMONDATA_API);
 /**
  * getRefData from category and service ID
  */
-export async function getLovRefData(req: EnhancedRequest, res: Response) {
+export async function getLovRefData(req: EnhancedRequest, res: Response, next: NextFunction) {
   const { serviceId, categoryId, isChildRequired } = req.query as { serviceId: string, categoryId: string, isChildRequired: string };
 
-  console.log('SERVICE ID', serviceId);
-  console.log('CATEGORY ID', categoryId);
-  console.log('IS CHILD REQUIRED', isChildRequired);
+  const params = serviceId ? new URLSearchParams({ serviceId, isChildRequired }) : new URLSearchParams({ isChildRequired });
 
-  const params = new URLSearchParams({ serviceId, isChildRequired });
   const markupPath: string = `${prdUrl}/refdata/commondata/lov/categories/${categoryId}?${params}`;
 
-  // try {
-  //   console.log('PARAMS', params);
-  //   console.log('MARKUP PATH', markupPath);
-
-  //   const { status, data }: { status: number, data: LovRefDataByServiceModel } = await req.http.get(markupPath);
-  //   console.log('STATUS', status);
-  //   console.log('DATA', data);
-  //   res.status(status).send(data.list_of_values);
-  // } catch (error) {
-  //   next(error);
-  // }
-
-  res.status(200).send({});
+  try {
+    const { status, data }: { status: number, data: LovRefDataByServiceModel } = await req.http.get(markupPath);
+    res.status(status).send(data.list_of_values);
+  } catch (error) {
+    next(error);
+  }
 }
 
 export const router = Router({ mergeParams: true });

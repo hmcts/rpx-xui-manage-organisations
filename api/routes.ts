@@ -48,5 +48,4 @@ router.use('/caseshare', caseShareRouter);
 router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);
 router.use('/user-details', getUserDetails);
-// router.use('/getLovRefData', getLovRefDataRouter);
 export default router;

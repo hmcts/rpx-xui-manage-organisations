@@ -1,3 +1,6 @@
 export type RegistrationData = {
-    name: string;
+  name: string;
+  hasDxReference: boolean;
+  dxNumber?: string;
+  dxExchange?: string;
 }

@@ -8,7 +8,7 @@
       </h1>
       <hr>
       <div class="govuk-body govuk-!-margin-top-6">
-        <form>
+        <form [formGroup]="dxFormGroup">
           <div class="govuk-form-group">
             <label class="govuk-label govuk-!-font-weight-bold" for="dx-number">
               DX number
@@ -32,7 +32,7 @@
               aria-describedby="dx-exchange-hint">
           </div>
           <div class="govuk-button-group">
-            <button class="govuk-button govuk-button--primary">Continue</button>
+            <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
           </div>
           <a class="govuk-link" href="javascript:void(0)">Cancel</a>
         </form>

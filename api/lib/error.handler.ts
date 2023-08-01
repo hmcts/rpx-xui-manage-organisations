@@ -21,7 +21,5 @@ export default function errorHandler(err, req: Request, res: Response) {
 
   const errorStatus = err.status ? err.status : 500;
   const errorContent = err.data ? err.data : { message: 'Internal Server Error' };
-  console.log('ERROR STATUS', err);
-  console.log('RESPONSE', res);
   res.status(errorStatus).send(errorContent);
 }

@@ -15,7 +15,6 @@ import organisationRouter from './organisation';
 import payments from './payments';
 import { router as pbaRouter } from './pbas/routes';
 import postUserTermsAndConditions from './postUserTermsAndConditions';
-import { router as getLovRefDataRouter } from './prd/lov';
 import { router as registerRouter } from './register-org';
 import suspendUser from './suspendUser';
 import getTermsAndConditions from './termsAndConditions';

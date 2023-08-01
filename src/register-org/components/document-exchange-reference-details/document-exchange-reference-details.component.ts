@@ -40,10 +40,7 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
     this.router.navigate(['register-org-new', 'before-you-start']);
   }
 
-  private setFormControlValues(): void {
-    console.log('DX Number', this.registrationData.dxNumber);
-    console.log('DX Exchange', this.registrationData.dxExchange);
-
+  public setFormControlValues(): void {
     if (this.registrationData.dxNumber) {
       this.dxFormGroup.get('dxNumber').setValue(this.registrationData.dxNumber);
     }

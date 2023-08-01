@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
+import { FeatureToggleGuard } from '@hmcts/rpx-xui-common-lib';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
+import { AppConstants } from './app.constants';
 
 export const ROUTES: Routes = [
   {
@@ -48,7 +50,13 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org-new',
-    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule)
+    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule),
+    canActivate: [FeatureToggleGuard],
+    data: {
+      title: 'Register Organisation',
+      needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      featureDisabledRedirect: '/register-org'
+    }
   },
   {
     path: 'accept-terms-and-conditions',

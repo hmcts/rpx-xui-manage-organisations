@@ -87,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
       });
     } else {
-      this.featureService.initialize({anonymous: true}, this.environmentConfig.launchDarklyClientId)
+      this.featureService.initialize({ anonymous: true }, this.environmentConfig.launchDarklyClientId);
     }
 
     this.addIdleServiceListener();

@@ -48,7 +48,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
     }
   }
 
-  private setFormControlValues(): void {
+  public setFormControlValues(): void {
     if (this.registrationData.hasDxReference !== null) {
       if (this.registrationData.hasDxReference) {
         this.dxFormGroup.get('documentExchange').setValue('yes');

@@ -8,6 +8,9 @@ import { RegistrationData } from '../models/registrationdata.model';
 
 export class RegisterOrgService {
   private readonly registrationDataKey = 'Registeration-Data';
+
+  public readonly REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+
   constructor(private readonly sessionStorageService: SessionStorageService) {}
 
   public getRegisterData() : RegistrationData {

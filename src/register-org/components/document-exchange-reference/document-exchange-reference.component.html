@@ -1,13 +1,15 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <ng-container *ngIf="dxError">
     <div class="govuk-error-summary govuk-!-margin-top-4" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">
+      <h2 class="govuk-error-summary__title" id="error-summary-title" #errorSummaryTitleElement>
         There is a problem
       </h2>
       <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
           <li>
-            <a href="register-org-new/document-exchange-reference#{{dxError.fieldId}}">{{dxError.description}}</a>
+            <a href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference#{{dxError.fieldId}}">
+              {{dxError.description}}
+            </a>
           </li>
         </ul>
       </div>

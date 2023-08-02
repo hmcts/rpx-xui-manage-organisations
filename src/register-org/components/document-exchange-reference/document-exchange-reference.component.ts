@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
@@ -10,6 +10,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './document-exchange-reference.component.html'
 })
 export class DocumentExchangeReferenceComponent extends RegisterComponent implements OnInit, OnDestroy {
+  @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
+
   public dxFormGroup: FormGroup;
   public dxError: ErrorMessage;
 
@@ -39,12 +41,12 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
         // Set corresponding registration data
         this.registrationData.hasDxReference = true;
         // Navigate to collect DX details
-        this.router.navigate(['register-org-new', 'document-exchange-reference-details']);
+        this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'document-exchange-reference-details']);
       } else {
         // Set corresponding registration data
         this.registrationData.hasDxReference = false;
         // Navigate to office address page
-        this.router.navigate(['register-org-new', 'office-addresses']);
+        this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'office-addresses']);
       }
     }
   }
@@ -66,7 +68,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
         title: '',
         fieldId: 'document-exchange-yes'
       };
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }
     return true;

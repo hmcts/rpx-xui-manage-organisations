@@ -47,6 +47,10 @@ export const ROUTES: Routes = [
     loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)
   },
   {
+    path: 'register-org-new',
+    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule)
+  },
+  {
     path: 'accept-terms-and-conditions',
     canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
     loadChildren: () => import('../accept-tc/accept-tc.module').then((m) => m.AcceptTcModule)

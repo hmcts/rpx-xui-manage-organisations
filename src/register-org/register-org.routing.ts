@@ -11,7 +11,8 @@ import { RegisterOrgModule } from './register-org.module';
 export const ROUTES: Routes = [
   {
     path: '',
-    component: BeforeYouStartComponent
+    redirectTo: 'before-you-start',
+    pathMatch: 'full'
   },
   {
     path: 'before-you-start',

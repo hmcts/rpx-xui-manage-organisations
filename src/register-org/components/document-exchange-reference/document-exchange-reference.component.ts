@@ -44,6 +44,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
         // Set corresponding registration data
         this.registrationData.hasDxReference = false;
         // Navigate to office address page
+        this.router.navigate(['register-org-new', 'office-addresses']);
       }
     }
   }

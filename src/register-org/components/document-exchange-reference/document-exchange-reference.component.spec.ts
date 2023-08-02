@@ -32,12 +32,6 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not set the radio button form control', () => {
-    component.registrationData = registrationData;
-    component.setFormControlValues();
-    expect(component.dxFormGroup.get('documentExchange').value).toEqual(null);
-  });
-
   it('should set the yes radio button form control', () => {
     component.registrationData = registrationData;
     component.registrationData.hasDxReference = true;

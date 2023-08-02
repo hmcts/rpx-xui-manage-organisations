@@ -47,7 +47,12 @@ describe('DocumentExchangeReferenceComponent', () => {
   });
 
   it('should set the error message if none of the radio option is selection', () => {
-    spyOn(window, 'scrollTo');
+    const scrollIntoViewSpy = jasmine.createSpy();
+    component.errorSummaryTitleElement = {
+      nativeElement: {
+        scrollIntoView: scrollIntoViewSpy
+      }
+    };
     const errorMessage: ErrorMessage = {
       description: 'Please select at least one option',
       title: '',
@@ -56,6 +61,6 @@ describe('DocumentExchangeReferenceComponent', () => {
     component.dxFormGroup.get('documentExchange').setValue(null);
     component.onContinue();
     expect(component.dxError).toEqual(errorMessage);
-    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'smooth' });
+    expect(scrollIntoViewSpy).toHaveBeenCalled();
   });
 });

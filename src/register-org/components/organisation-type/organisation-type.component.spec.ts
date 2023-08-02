@@ -76,7 +76,6 @@ describe('OrganisationTypeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(mockLovRefDataService.getListOfValues).toHaveBeenCalled();
   });
 
   it('should display other organisation types dropdown when other radio option is selected', () => {

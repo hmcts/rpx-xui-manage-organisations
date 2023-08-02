@@ -1,1 +1,2 @@
-export * from './other-org-types.mock';
+export * from './organisation-types.mock';
+export * from './other-organisation-types.mock';

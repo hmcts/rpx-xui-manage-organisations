@@ -32,19 +32,36 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the correct radio button form control', () => {
+  it('should not set the radio button form control', () => {
     component.registrationData = registrationData;
     component.setFormControlValues();
     expect(component.dxFormGroup.get('documentExchange').value).toEqual(null);
+  });
 
-    registrationData.hasDxReference = true;
+  it('should set the yes radio button form control', () => {
     component.registrationData = registrationData;
+    component.registrationData.hasDxReference = true;
     component.setFormControlValues();
     expect(component.dxFormGroup.get('documentExchange').value).toEqual('yes');
+  });
 
-    registrationData.hasDxReference = false;
+  it('should set the no radio button form control', () => {
     component.registrationData = registrationData;
+    component.registrationData.hasDxReference = false;
     component.setFormControlValues();
     expect(component.dxFormGroup.get('documentExchange').value).toEqual('no');
+  });
+
+  it('should set the error message if none of the radio option is selection', () => {
+    spyOn(window, 'scrollTo');
+    const errorMessage: ErrorMessage = {
+      description: 'Please select at least one option',
+      title: '',
+      fieldId: 'document-exchange-yes'
+    };
+    component.dxFormGroup.get('documentExchange').setValue(null);
+    component.onContinue();
+    expect(component.dxError).toEqual(errorMessage);
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'smooth' });
   });
 });

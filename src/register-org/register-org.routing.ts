@@ -4,6 +4,7 @@ import { BeforeYouStartComponent } from './components/before-you-start/before-yo
 import { CompanyHouseDetailsComponent } from './components/company-house-details/company-house-details.component';
 import { DocumentExchangeReferenceDetailsComponent } from './components/document-exchange-reference-details/document-exchange-reference-details.component';
 import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
+import { OfficeAddressesComponent } from './components/office-addresses/office-addresses.component';
 import { RegisterOrgModule } from './register-org.module';
 
 export const ROUTES: Routes = [
@@ -26,6 +27,10 @@ export const ROUTES: Routes = [
   {
     path: 'document-exchange-reference-details',
     component: DocumentExchangeReferenceDetailsComponent
+  },
+  {
+    path: 'office-addresses',
+    component: OfficeAddressesComponent
   }
 ];
 

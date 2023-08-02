@@ -35,9 +35,8 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
   public onContinue(): void {
     this.registrationData.dxNumber = this.dxFormGroup.get('dxNumber').value;
     this.registrationData.dxExchange = this.dxFormGroup.get('dxExchange').value;
-    // TODO: Navigate to office address page
-    // Navigating to Before you start page just to reflect the session storage update
-    this.router.navigate(['register-org-new', 'before-you-start']);
+    // Navigate to office address page
+    this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'office-addresses']);
   }
 
   public setFormControlValues(): void {

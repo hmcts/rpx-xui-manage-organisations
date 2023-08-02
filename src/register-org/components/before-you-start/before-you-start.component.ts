@@ -32,4 +32,8 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   public ngOnDestroy(): void {
     super.ngOnDestroy();
   }
+
+  public onStart(): void {
+    this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'company-house-details']);
+  }
 }

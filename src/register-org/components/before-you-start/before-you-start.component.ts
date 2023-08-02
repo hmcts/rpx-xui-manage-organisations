@@ -34,6 +34,6 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   }
 
   public onStart(): void {
-    this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'company-house-details']);
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
   }
 }

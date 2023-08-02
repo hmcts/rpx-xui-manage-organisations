@@ -41,12 +41,12 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
         // Set corresponding registration data
         this.registrationData.hasDxReference = true;
         // Navigate to collect DX details
-        this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'document-exchange-reference-details']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
       } else {
         // Set corresponding registration data
         this.registrationData.hasDxReference = false;
         // Navigate to office address page
-        this.router.navigate([`${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}`, 'office-addresses']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'office-addresses']);
       }
     }
   }

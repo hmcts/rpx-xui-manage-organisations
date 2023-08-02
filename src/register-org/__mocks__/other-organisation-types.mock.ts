@@ -3,7 +3,7 @@ import { LovRefDataModel } from '../../shared/models/lovRefData.model';
 export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -16,7 +16,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -29,7 +29,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -42,7 +42,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -55,7 +55,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -68,7 +68,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -81,7 +81,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -94,7 +94,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -107,7 +107,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -120,7 +120,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -133,7 +133,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -146,7 +146,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -159,7 +159,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -172,7 +172,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -185,7 +185,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -198,7 +198,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -211,7 +211,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -224,7 +224,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -237,7 +237,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -250,7 +250,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -263,7 +263,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -276,7 +276,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -289,7 +289,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -302,7 +302,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -315,7 +315,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -328,7 +328,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -341,7 +341,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -354,7 +354,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -367,7 +367,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -380,7 +380,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -393,7 +393,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -406,7 +406,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -419,7 +419,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',
@@ -432,7 +432,7 @@ export const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
   },
   {
     active_flag: 'Y',
-    category_key: 'OrgType',
+    category_key: 'OtherOrgType',
     child_nodes: null,
     hint_text_cy: '',
     hint_text_en: '',

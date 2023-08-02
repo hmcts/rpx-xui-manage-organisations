@@ -5,6 +5,7 @@ import { CompanyHouseDetailsComponent } from './components/company-house-details
 import { DocumentExchangeReferenceDetailsComponent } from './components/document-exchange-reference-details/document-exchange-reference-details.component';
 import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
 import { OfficeAddressesComponent } from './components/office-addresses/office-addresses.component';
+import { OrganisationTypeComponent } from './components/organisation-type/organisation-type.component';
 import { RegisterOrgModule } from './register-org.module';
 
 export const ROUTES: Routes = [
@@ -19,6 +20,10 @@ export const ROUTES: Routes = [
   {
     path: 'company-house-details',
     component: CompanyHouseDetailsComponent
+  },
+  {
+    path: 'organisation-type',
+    component: OrganisationTypeComponent
   },
   {
     path: 'document-exchange-reference',

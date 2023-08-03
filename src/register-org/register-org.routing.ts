@@ -6,7 +6,6 @@ import { DocumentExchangeReferenceDetailsComponent } from './components/document
 import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
 import { OfficeAddressesComponent } from './components/office-addresses/office-addresses.component';
 import { OrganisationServicesAccessComponent } from './components/organisation-services-access/organisation-services-access.component';
-import { PaymentByAccountComponent } from './components/payment-by-account/payment-by-account.component';
 import { RegisterOrgModule } from './register-org.module';
 
 export const ROUTES: Routes = [

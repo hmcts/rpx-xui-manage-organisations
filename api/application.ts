@@ -23,6 +23,7 @@ import * as tunnel from './lib/tunnel';
 import openRoutes from './openRoutes';
 import routes from './routes';
 import { idamCheck } from './idamCheck';
+import { initProxy } from './proxy.config';
 
 export const app = express();
 
@@ -46,12 +47,16 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   app.use(helmet(getConfigValue(HELMET)));
 }
 
-app.use(bodyParser.json({ limit: '5mb' }));
-app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));
 
 app.use(getXuiNodeMiddleware());
 tunnel.init();
+
+// applyProxy needs to be used before bodyParser
+initProxy(app);
+
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 function healthcheckConfig(msUrl) {
   return healthcheck.web(`${msUrl}/health`, {

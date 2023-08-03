@@ -28,7 +28,8 @@ import {
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_ROLE_ASSIGNMENT_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
-  SESSION_SECRET
+  SESSION_SECRET,
+  SERVICES_CCD_COMPONENT_API_PATH
 } from './references';
 
 export const uiConfig = () => {
@@ -58,6 +59,7 @@ export const uiConfig = () => {
     protocol: getConfigValue(PROTOCOL),
     secureCookie: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     services: {
+      ccdGatewayUrl: getConfigValue(SERVICES_CCD_COMPONENT_API_PATH),
       feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),

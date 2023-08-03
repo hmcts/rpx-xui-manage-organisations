@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { EnvironmentService } from '../../../shared/services/environment.service';
@@ -10,6 +11,10 @@ import { EnvironmentService } from '../../../shared/services/environment.service
 export class BeforeYouStartComponent implements OnInit {
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
+
+  //temporary test fields
+  public formGroup: FormGroup = new FormGroup({});
+  public internationalFormGroup = new FormGroup({});
 
   constructor(
     private readonly environmentService: EnvironmentService

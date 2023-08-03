@@ -12,7 +12,8 @@ describe('DocumentExchangeReferenceComponent', () => {
     name: '',
     hasDxReference: null,
     dxNumber: null,
-    dxExchange: null
+    dxExchange: null,
+    services: []
   };
 
   beforeEach(async () => {

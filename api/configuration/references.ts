@@ -31,6 +31,7 @@ export const NOW = 'now';
 export const OAUTH_CALLBACK_URL = 'oauthCallbackUrl';
 export const PROTOCOL = 'protocol';
 
+export const SERVICES_CCD_COMPONENT_API_PATH = 'services.ccd.componentApi';
 export const SERVICES_IDAM_API_PATH = 'services.idamApi';
 export const SERVICES_IDAM_WEB = 'services.idamWeb';
 export const SERVICE_S2S_PATH = 'services.s2s';

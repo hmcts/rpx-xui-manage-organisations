@@ -10,6 +10,7 @@ import editUserPermissions from './editUserPermissions';
 import getUserTermsAndConditions from './getUserTermsAndConditions';
 import healthCheck from './healthCheck';
 import inviteUser from './inviteUser';
+import authInterceptor from './lib/middleware/auth';
 import getJurisdictions from './jurisdictions';
 import organisationRouter from './organisation';
 import payments from './payments';
@@ -21,8 +22,18 @@ import getTermsAndConditions from './termsAndConditions';
 import userDetailsRouter from './user';
 import getUserDetails from './user-details';
 import getUserList from './userList';
+import { getAddressDetails } from './addresses';
+import { showFeature } from './configuration';
 
 const router = Router({ mergeParams: true });
+
+router.use('/healthCheck', healthCheck);
+
+router.get('/configuration', (req, res) => {
+  res.send(showFeature(req.query.configurationKey as string));
+});
+
+router.use(authInterceptor);
 
 router.use(xuiNode.authenticate);
 router.use('/organisation', organisationRouter);

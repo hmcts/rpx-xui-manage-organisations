@@ -21,7 +21,8 @@ import {
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_ISS_URL,
   SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
-  SESSION_SECRET
+  SESSION_SECRET,
+  SERVICES_CCD_COMPONENT_API_PATH
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
@@ -82,6 +83,7 @@ export const getXuiNodeMiddleware = () => {
   const issuerUrl = getConfigValue(SERVICES_IDAM_ISS_URL);
   const idamApiPath = getConfigValue(SERVICES_IDAM_API_PATH);
   const s2sSecret = getConfigValue(S2S_SECRET);
+  const ccdUrl = getConfigValue(SERVICES_CCD_COMPONENT_API_PATH);
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
 
   // TODO: we can move these out into proper config at some point to tidy up even further

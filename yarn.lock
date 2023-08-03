@@ -3047,6 +3047,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/http-proxy@npm:^1.17.5":
+  version: 1.17.11
+  resolution: "@types/http-proxy@npm:1.17.11"
+  dependencies:
+    "@types/node": "*"
+  checksum: 38ef4f8c91c7a5b664cf6dd4d90de7863f88549a9f8ef997f2f1184e4f8cf2e7b9b63c04f0b7b962f34a09983073a31a9856de5aae5159b2ddbb905a4c44dc9f
+  languageName: node
+  linkType: hard
+
 "@types/http-proxy@npm:^1.17.8":
   version: 1.17.9
   resolution: "@types/http-proxy@npm:1.17.9"
@@ -5336,6 +5345,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bufferhelper@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "bufferhelper@npm:0.2.1"
+  checksum: e655de617b2184ffe97f4d5b1f0a315429c816d55a28c1f68862eeed3f5d8ee038c5de68fd63261f3a4d058f4859556ca89a313ead704f7e7b1ae704cda5fbc8
+  languageName: node
+  linkType: hard
+
 "buffers@npm:~0.1.1":
   version: 0.1.1
   resolution: "buffers@npm:0.1.1"
@@ -6421,7 +6437,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"concat-stream@npm:^1.4.7, concat-stream@npm:^1.5.0, concat-stream@npm:^1.6.2":
+"concat-stream@npm:^1.4.7, concat-stream@npm:^1.5.0, concat-stream@npm:^1.5.1, concat-stream@npm:^1.6.2":
   version: 1.6.2
   resolution: "concat-stream@npm:1.6.2"
   dependencies:
@@ -10634,6 +10650,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"http-proxy-middleware@npm:1.1.x":
+  version: 1.1.2
+  resolution: "http-proxy-middleware@npm:1.1.2"
+  dependencies:
+    "@types/http-proxy": ^1.17.5
+    http-proxy: ^1.18.1
+    is-glob: ^4.0.1
+    is-plain-obj: ^3.0.0
+    micromatch: ^4.0.2
+  checksum: 919de2881ae94353fbc06dab219fd413e6ecd9d52a6ecad0d4aa2855f0c0691dd3d14c0c1ca5f558d3eabfa6168911e5093d480eeffe52b1cdb2259ded962c78
+  languageName: node
+  linkType: hard
+
 "http-proxy-middleware@npm:^0.19.0":
   version: 0.19.2
   resolution: "http-proxy-middleware@npm:0.19.2"
@@ -14331,6 +14360,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-http-proxy-json@npm:^0.1.9":
+  version: 0.1.9
+  resolution: "node-http-proxy-json@npm:0.1.9"
+  dependencies:
+    bufferhelper: ^0.2.1
+    concat-stream: ^1.5.1
+  checksum: 453696f79cc5c630eb2e1242207ddc7f174babcd36302b3d0ef068a1c72dee45c27d64001e7c200ac55b147f935765fb9e77071f0e60aaf0b118c2c61a1bc255
+  languageName: node
+  linkType: hard
+
 "node-libs-browser@npm:^2.2.1":
   version: 2.2.1
   resolution: "node-libs-browser@npm:2.2.1"
@@ -17908,6 +17947,7 @@ __metadata:
     govuk-frontend: 3.14.0
     govuk_frontend_toolkit: ^9.0.0
     helmet: ^3.21.3
+    http-proxy-middleware: 1.1.x
     isomorphic-fetch: ^3.0.0
     jasmine-core: ~3.6.0
     jasmine-marbles: ^0.4.1
@@ -17933,6 +17973,7 @@ __metadata:
     ngx-md: ^12.0.0
     ngx-pagination: ^3.2.1
     node-fetch: ^2.6.1
+    node-http-proxy-json: ^0.1.9
     nodemon: ^1.18.9
     otp: ^0.1.3
     p-iteration: ^1.1.7
@@ -17956,6 +17997,7 @@ __metadata:
     smoothscroll-polyfill: ^0.4.3
     sonar-scanner: ^3.1.0
     source-map-explorer: ^1.5.0
+    striptags: ^3.1.1
     terser-webpack-plugin: ^5.3.3
     ts-loader: ^6.2.1
     ts-node: ~10.8.1
@@ -19566,6 +19608,13 @@ __metadata:
   version: 2.0.1
   resolution: "strip-json-comments@npm:2.0.1"
   checksum: 1074ccb63270d32ca28edfb0a281c96b94dc679077828135141f27d52a5a398ef5e78bcf22809d23cadc2b81dfbe345eb5fd8699b385c8b1128907dec4a7d1e1
+  languageName: node
+  linkType: hard
+
+"striptags@npm:^3.1.1":
+  version: 3.2.0
+  resolution: "striptags@npm:3.2.0"
+  checksum: 1b1f127ab46394665bd4f4dc3dc10f5f98c012cbdea93a68b10d78693671e98efc9ae7609f546af997ae0a02b81a5c9b7b916fa119482c31741406cdabaebf3b
   languageName: node
   linkType: hard
 

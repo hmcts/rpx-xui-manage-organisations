@@ -13,7 +13,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
-    hasPBA: false
+    hasPBA: null
   };
 
   beforeEach(async () => {

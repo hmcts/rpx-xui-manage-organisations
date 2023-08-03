@@ -9,16 +9,16 @@ import { RegisterOrgService } from '../../services/index';
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {
-  constructor(private readonly router: Router,
-    private readonly registerOrgService: RegisterOrgService) {}
+  constructor(public readonly router: Router,
+    public readonly registerOrgService: RegisterOrgService) {}
 
-  private registrationData: RegistrationData;
+  public registrationData: RegistrationData;
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.registrationData = this.registerOrgService.getRegisterData();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.registerOrgService.persistRegistrationData(this.registrationData);
   }
 }

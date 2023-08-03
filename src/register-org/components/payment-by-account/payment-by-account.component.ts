@@ -6,14 +6,14 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-  selector: 'app-document-exchange-reference',
-  templateUrl: './document-exchange-reference.component.html'
+  selector: 'app-payment-by-account',
+  templateUrl: './payment-by-account.component.html'
 })
-export class DocumentExchangeReferenceComponent extends RegisterComponent implements OnInit, OnDestroy {
+export class PaymentByAccountComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
-  public dxFormGroup: FormGroup;
-  public dxError: ErrorMessage;
+  public pbaFormGroup: FormGroup;
+  public pbaError: ErrorMessage;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -24,8 +24,8 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.dxFormGroup = new FormGroup({
-      documentExchange: new FormControl(null, Validators.required)
+    this.pbaFormGroup = new FormGroup({
+      pba: new FormControl(null, Validators.required)
     });
 
     this.setFormControlValues();
@@ -36,37 +36,30 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   }
 
   public onContinue(): void {
+    // TODO: Functionality JIRA ticket will follow
     if (this.isFormValid()) {
-      if (this.dxFormGroup.get('documentExchange').value === 'yes') {
+      if (this.pbaFormGroup.get('pba').value === 'yes') {
         // Set corresponding registration data
-        this.registrationData.hasDxReference = true;
-        // Navigate to collect DX details
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
+        this.registrationData.hasPBA = true;
+        // TODO: Navigate
       } else {
         // Set corresponding registration data
-        this.registrationData.hasDxReference = false;
-        // Navigate to office address page
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'office-addresses']);
+        this.registrationData.hasPBA = false;
+        // TODO: Navigate
       }
     }
   }
 
   public setFormControlValues(): void {
-    if (this.registrationData.hasDxReference !== null) {
-      if (this.registrationData.hasDxReference) {
-        this.dxFormGroup.get('documentExchange').setValue('yes');
-      } else {
-        this.dxFormGroup.get('documentExchange').setValue('no');
-      }
-    }
+    // TODO: Functionality JIRA ticket will follow
   }
 
   private isFormValid(): boolean {
-    if (this.dxFormGroup.invalid) {
-      this.dxError = {
+    if (this.pbaFormGroup.invalid) {
+      this.pbaError = {
         description: 'Please select at least one option',
         title: '',
-        fieldId: 'document-exchange-yes'
+        fieldId: 'pba-yes'
       };
       this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;

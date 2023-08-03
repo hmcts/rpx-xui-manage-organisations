@@ -3,11 +3,13 @@ import { CompanyHouseDetailsComponent } from './company-house-details/company-ho
 import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-reference-details/document-exchange-reference-details.component';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference/document-exchange-reference.component';
 import { OfficeAddressesComponent } from './office-addresses/office-addresses.component';
+import { PaymentByAccountComponent } from './payment-by-account/payment-by-account.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,
   CompanyHouseDetailsComponent,
   DocumentExchangeReferenceComponent,
   DocumentExchangeReferenceDetailsComponent,
-  OfficeAddressesComponent
+  OfficeAddressesComponent,
+  PaymentByAccountComponent
 ];

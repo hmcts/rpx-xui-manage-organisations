@@ -36,22 +36,29 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   }
 
   public onContinue(): void {
-    // TODO: Functionality JIRA ticket will follow
     if (this.isFormValid()) {
       if (this.pbaFormGroup.get('pba').value === 'yes') {
         // Set corresponding registration data
         this.registrationData.hasPBA = true;
-        // TODO: Navigate
+        // Navigate to collect PBA details
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details']);
       } else {
         // Set corresponding registration data
         this.registrationData.hasPBA = false;
-        // TODO: Navigate
+        // Navigate to collect contact details
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
       }
     }
   }
 
   public setFormControlValues(): void {
-    // TODO: Functionality JIRA ticket will follow
+    if (this.registrationData.hasPBA !== null) {
+      if (this.registrationData.hasPBA) {
+        this.pbaFormGroup.get('pba').setValue('yes');
+      } else {
+        this.pbaFormGroup.get('pba').setValue('no');
+      }
+    }
   }
 
   private isFormValid(): boolean {

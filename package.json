@@ -71,7 +71,7 @@
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "1.8.7-fee-paid-filter-change",
+    "@hmcts/rpx-xui-common-lib": "1.8.7-address-component",
     "@hmcts/rpx-xui-node-lib": "2.25.12",
     "@ng-idle/core": "^10.0.0",
     "@ng-idle/keepalive": "^10.0.0",

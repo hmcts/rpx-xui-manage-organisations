@@ -13,6 +13,7 @@ describe('RegisteredWithRegulatorComponent', () => {
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
+    contactDetails: null,
     hasRegisteredWithRegulator: null
   };
 

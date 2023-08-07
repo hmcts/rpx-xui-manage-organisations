@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { EnvironmentService } from '../../../shared/services/environment.service';
 import { RegistrationData } from '../../models/registrationdata.model';
 import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-reference-details.component';
 
@@ -13,7 +12,8 @@ describe('DocumentExchangeReferenceComponent', () => {
     name: '',
     hasDxReference: true,
     dxNumber: '931NR',
-    dxExchange: 'MIDDLESEX'
+    dxExchange: 'MIDDLESEX',
+    contactDetails: null
   };
 
   beforeEach(async () => {
@@ -22,8 +22,7 @@ describe('DocumentExchangeReferenceComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule
-      ],
-      providers: [EnvironmentService]
+      ]
     })
       .compileComponents();
   });

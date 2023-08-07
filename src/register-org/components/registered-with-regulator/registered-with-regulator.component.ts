@@ -39,21 +39,19 @@ export class RegisteredWithRegulatorComponent extends RegisterComponent implemen
     if (this.isFormValid()) {
       if (this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value === 'yes') {
         // Set corresponding registration data
-        this.registrationData.hasDxReference = true;
-        // Navigate to collect DX details
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
+        this.registrationData.hasRegisteredWithRegulator = true;
+        // TODO: Navigate to what regulator are you registered with page
       } else {
         // Set corresponding registration data
-        this.registrationData.hasDxReference = false;
-        // Navigate to office address page
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'office-addresses']);
+        this.registrationData.hasRegisteredWithRegulator = false;
+        // TODO: Navigate to CYA page
       }
     }
   }
 
   public setFormControlValues(): void {
-    if (this.registrationData.hasDxReference !== null) {
-      if (this.registrationData.hasDxReference) {
+    if (this.registrationData.hasRegisteredWithRegulator !== null) {
+      if (this.registrationData.hasRegisteredWithRegulator) {
         this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue('yes');
       } else {
         this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue('no');

@@ -16,6 +16,9 @@
                   Select the type of organisation
                 </h1>
               </legend>
+              <div class="govuk-hint">
+                Select the type of company you are registering. If you are not sure, select 'other'.
+              </div>
               <div class="govuk-radios" data-module="govuk-radios">
                 <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes$ | async">
                   <input class="govuk-radios__input" type="radio"

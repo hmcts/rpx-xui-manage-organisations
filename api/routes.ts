@@ -22,7 +22,6 @@ import getTermsAndConditions from './termsAndConditions';
 import userDetailsRouter from './user';
 import getUserDetails from './user-details';
 import getUserList from './userList';
-import { getAddressDetails } from './addresses';
 import { showFeature } from './configuration';
 
 const router = Router({ mergeParams: true });

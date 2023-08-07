@@ -23,7 +23,8 @@ export class RegisterOrgService {
       name: '',
       hasDxReference: null,
       dxNumber: null,
-      dxExchange: null
+      dxExchange: null,
+      contactDetails: null
     } as RegistrationData;
   }
 

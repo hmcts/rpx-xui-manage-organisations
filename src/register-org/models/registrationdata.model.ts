@@ -3,4 +3,5 @@ export type RegistrationData = {
   hasDxReference: boolean;
   dxNumber?: string;
   dxExchange?: string;
+  hasRegisteredWithRegulator: boolean;
 }

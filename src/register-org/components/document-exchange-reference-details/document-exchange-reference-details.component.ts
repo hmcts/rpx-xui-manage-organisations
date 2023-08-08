@@ -12,7 +12,7 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
   public dxFormGroup: FormGroup;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
   }

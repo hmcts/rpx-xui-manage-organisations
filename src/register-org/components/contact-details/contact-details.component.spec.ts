@@ -12,6 +12,7 @@ describe('ContactDetailsComponent', () => {
     hasDxReference: true,
     dxNumber: '931NR',
     dxExchange: 'MIDDLESEX',
+    hasPBA: null,
     contactDetails: {
       firstName: 'John',
       lastName: 'Davis',

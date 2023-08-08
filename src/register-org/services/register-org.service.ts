@@ -25,6 +25,7 @@ export class RegisterOrgService {
       dxNumber: null,
       dxExchange: null,
       services: [],
+      hasPBA: null,
       contactDetails: null,
       hasRegisteredWithRegulator: null
     } as RegistrationData;

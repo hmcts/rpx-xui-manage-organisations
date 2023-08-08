@@ -16,7 +16,11 @@ describe('DocumentExchangeReferenceComponent', () => {
     services: [],
     hasPBA: false,
     contactDetails: null,
-    hasRegisteredWithRegulator: null
+    hasRegisteredWithRegulator: null,
+    address: null,
+    organisationType: null,
+    regulatoryOrgType: null,
+    reulatorRegisteredWith: null
   };
 
   beforeEach(async () => {

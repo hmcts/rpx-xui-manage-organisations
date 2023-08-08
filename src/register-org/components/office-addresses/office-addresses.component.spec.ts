@@ -1,19 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
+import { OfficeAddressesComponent } from './office-addresses.component';
 
 describe('DocumentExchangeReferenceComponent', () => {
-  let component: DocumentExchangeReferenceComponent;
-  let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
+  let component: OfficeAddressesComponent;
+  let fixture: ComponentFixture<OfficeAddressesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DocumentExchangeReferenceComponent]
+      declarations: [OfficeAddressesComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DocumentExchangeReferenceComponent);
+    fixture = TestBed.createComponent(OfficeAddressesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

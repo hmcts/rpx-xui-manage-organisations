@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { FeatureToggleGuard } from '@hmcts/rpx-xui-common-lib';
+import { AppConstants } from './app.constants';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
@@ -45,6 +47,16 @@ export const ROUTES: Routes = [
   {
     path: 'register-org',
     loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)
+  },
+  {
+    path: 'register-org-new',
+    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule),
+    canActivate: [FeatureToggleGuard],
+    data: {
+      title: 'Register Organisation',
+      needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      featureDisabledRedirect: '/register-org/register'
+    }
   },
   {
     path: 'accept-terms-and-conditions',

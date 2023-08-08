@@ -33,6 +33,9 @@
         "caseAssignmentApi": "SERVICES_MCA_PROXY_API",
         "role_assignment": {
           "roleApi": "SERVICES_ROLE_ASSIGNMENT_API"
+        },
+        "prd": {
+          "commondataApi": "SERVICES_PRD_COMMONDATA_API"
         }
     },
     "links": {

@@ -5,5 +5,8 @@ export type RegistrationData = {
   hasDxReference: boolean;
   dxNumber?: string;
   dxExchange?: string;
-  contactDetails: ContactDetails
+  services: string[];
+  hasPBA: boolean;
+  contactDetails: ContactDetails;
+  hasRegisteredWithRegulator: boolean;
 }

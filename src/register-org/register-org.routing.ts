@@ -8,6 +8,7 @@ import { DocumentExchangeReferenceComponent } from './components/document-exchan
 import { OfficeAddressesComponent } from './components/office-addresses/office-addresses.component';
 import { OrganisationTypeComponent } from './components/organisation-type/organisation-type.component';
 import { RegisterOrgModule } from './register-org.module';
+import { RegulatoryOrganisationTypeComponent } from './components/regulatory-organisation-type/regulatory-organisation-type.component';
 
 export const ROUTES: Routes = [
   {
@@ -26,6 +27,10 @@ export const ROUTES: Routes = [
   {
     path: 'organisation-type',
     component: OrganisationTypeComponent
+  },
+  {
+    path: 'regulatory-organisation-type',
+    component: RegulatoryOrganisationTypeComponent
   },
   {
     path: 'document-exchange-reference',

@@ -3,6 +3,7 @@ import getConfigurationUIRouter from './configurationUI';
 import getConfigValue from './configValueRouter';
 
 import getLovRefDataRouter from './prd/lov';
+import getOrganisationTypesRouter from './organisationTypesRouter';
 
 // TODO: rename from prdRouter
 import getappInsightsInstrumentationKey from './monitoring-tools';
@@ -31,5 +32,6 @@ router.use('/configuration', getConfigValue);
 router.use('/configuration-ui', getConfigurationUIRouter);
 
 router.use('/getLovRefData', getLovRefDataRouter);
+router.use('/organisationTypes', getOrganisationTypesRouter);
 
 export default router;

@@ -13,7 +13,10 @@ describe('DocumentExchangeReferenceComponent', () => {
     hasDxReference: true,
     dxNumber: '931NR',
     dxExchange: 'MIDDLESEX',
-    contactDetails: null
+    services: [],
+    hasPBA: false,
+    contactDetails: null,
+    hasRegisteredWithRegulator: null
   };
 
   beforeEach(async () => {

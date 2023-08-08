@@ -13,6 +13,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
+    hasPBA: null,
     contactDetails: null,
     hasRegisteredWithRegulator: null
   };

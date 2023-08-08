@@ -15,7 +15,8 @@ describe('RegisteredWithRegulatorComponent', () => {
     dxExchange: null,
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null
+    hasRegisteredWithRegulator: null,
+    services: []
   };
 
   beforeEach(async () => {

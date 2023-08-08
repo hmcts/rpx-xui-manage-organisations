@@ -15,7 +15,9 @@ describe('PaymentByAccountComponent', () => {
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
-    hasPBA: null
+    hasPBA: null,
+    contactDetails: null,
+    hasRegisteredWithRegulator: null
   };
 
   beforeEach(async () => {

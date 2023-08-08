@@ -21,6 +21,18 @@
                 </div>
               </fieldset>
             </div>
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
+                Select another type of organisation
+              </label>
+              <select class="govuk-select govuk-!-width-two-thirds"
+                id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
+                <option [ngValue]="'none'" disabled>--Select a value--</option>
+                <option *ngFor="let otherOrganisationType of organisationTypes$ | async" [ngValue]="otherOrganisationType.id">
+                  {{otherOrganisationType.name}}
+                </option>
+              </select>
+            </div>
             <div class="govuk-button-group">
               <button class="govuk-button govuk-button--primary">Continue</button>
             </div>

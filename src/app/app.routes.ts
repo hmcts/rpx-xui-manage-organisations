@@ -7,6 +7,7 @@ import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
+import { TermsAndConditionsNewComponent } from './components/terms-and-conditions-new/terms-and-conditions-new.component';
 
 export const ROUTES: Routes = [
   {
@@ -83,6 +84,10 @@ export const ROUTES: Routes = [
   {
     path: 'terms-and-conditions',
     component: TermsAndConditionsComponent
+  },
+  {
+    path: 'terms-and-conditions-new',
+    component: TermsAndConditionsNewComponent
   },
   {
     path: 'accessibility',

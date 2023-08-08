@@ -5,6 +5,7 @@ import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-r
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference/document-exchange-reference.component';
 import { OfficeAddressesComponent } from './office-addresses/office-addresses.component';
 import { OrganisationTypeComponent } from './organisation-type/organisation-type.component';
+import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,
@@ -13,5 +14,6 @@ export const components: any[] = [
   DocumentExchangeReferenceDetailsComponent,
   OfficeAddressesComponent,
   OrganisationTypeComponent,
-  ContactDetailsComponent
+  ContactDetailsComponent,
+  RegulatoryOrganisationTypeComponent
 ];

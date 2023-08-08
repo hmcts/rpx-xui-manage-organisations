@@ -5,13 +5,15 @@ import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-r
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference/document-exchange-reference.component';
 import { OfficeAddressesComponent } from './office-addresses/office-addresses.component';
 import { OrganisationTypeComponent } from './organisation-type/organisation-type.component';
+import { RegisteredWithRegulatorComponent } from './registered-with-regulator/registered-with-regulator.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,
   CompanyHouseDetailsComponent,
+  ContactDetailsComponent,
   DocumentExchangeReferenceComponent,
   DocumentExchangeReferenceDetailsComponent,
   OfficeAddressesComponent,
   OrganisationTypeComponent,
-  ContactDetailsComponent
+  RegisteredWithRegulatorComponent
 ];

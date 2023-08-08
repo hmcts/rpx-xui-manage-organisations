@@ -9,4 +9,10 @@ export type RegistrationData = {
   hasPBA: boolean;
   contactDetails: ContactDetails;
   hasRegisteredWithRegulator: boolean;
+  companyHouseNumber?: string;
+  address: string;
+  organisationType: string;
+  organisatinonNumber?: string;
+  regulatoryOrgType: string;
+  reulatorRegisteredWith: string;
 }

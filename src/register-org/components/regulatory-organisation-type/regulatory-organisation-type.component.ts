@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { RegisterOrgService } from '../../services/index';
-import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatoryOrganisationType } from '../../../shared/models/lovRefData.model';
+import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 
 @Component({
   selector: 'app-regulatory-organisation-type',

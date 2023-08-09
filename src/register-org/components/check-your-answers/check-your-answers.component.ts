@@ -27,9 +27,9 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       dxNumber: '789MI',
       services: ['Employment Tribunals'],
       organisationType: 'IT & communications',
-      organisatinonNumber: '1234',
+      organisationNumber: '1234',
       regulatoryOrgType: 'Solicotor Regulation Authority',
-      reulatorRegisteredWith: '123456',
+      regulatorRegisteredWith: '123456',
       contactDetails: {
         firstName: 'John',
         lastName: 'Davis',
@@ -42,7 +42,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     if (optional === 'false') {
       delete this.registrationData.companyHouseNumber;
       delete this.registrationData.dxNumber;
-      delete this.registrationData.organisatinonNumber;
+      delete this.registrationData.organisationNumber;
     }
   }
 }

@@ -7,7 +7,7 @@ import { AuthGuard } from '../user-profile/guards/auth.guard';
 import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
-import { TermsAndConditionsNewComponent } from './components/terms-and-conditions-new/terms-and-conditions-new.component';
+import { TermsAndConditionsRegisterOtherOrgComponent } from './components/terms-and-conditions-register-other-org/terms-and-conditions-register-other-org.component';
 
 export const ROUTES: Routes = [
   {
@@ -86,8 +86,8 @@ export const ROUTES: Routes = [
     component: TermsAndConditionsComponent
   },
   {
-    path: 'terms-and-conditions-new',
-    component: TermsAndConditionsNewComponent
+    path: 'terms-and-conditions-register-other-org',
+    component: TermsAndConditionsRegisterOtherOrgComponent
   },
   {
     path: 'accessibility',

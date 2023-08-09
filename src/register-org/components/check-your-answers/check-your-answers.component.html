@@ -10,7 +10,7 @@
           <dt class="govuk-summary-list__key">Organisation name</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.name }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()"
+            <a class="govuk-link" href="javascript:void(0)"
               [routerLink]="'/register-org-new/company-house-details'">Change
               <span class="govuk-visually-hidden">Organisation name</span>
             </a>
@@ -31,12 +31,13 @@
         </div>
       </dl>
 
-      <dl class="govuk-summary-list govuk-!-margin-bottom-0" [ngClass]="{ 'govuk-summary-list--no-border':registrationData.dxNumber}" >
+      <dl class="govuk-summary-list govuk-!-margin-bottom-0"
+        [ngClass]="{ 'govuk-summary-list--no-border':registrationData.dxNumber}">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation address</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.address }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()">
+            <a class="govuk-link" href="javascript:void(0)">
               Change<span class="govuk-visually-hidden">Organisation address</span>
             </a>
           </dd>
@@ -48,7 +49,7 @@
           <dt class="govuk-summary-list__key">DX reference</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.dxNumber }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()"
+            <a class="govuk-link" href="javascript:void(0)"
               [routerLink]="'/register-org-new/document-exchange-reference-details'">
               Change<span class="govuk-visually-hidden">DX reference</span>
             </a>
@@ -62,7 +63,8 @@
           <dt class="govuk-summary-list__key">Service to access</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.services }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()">
+            <a class="govuk-link" href="javascript:void(0)"
+              [routerLink]="'/register-org-new/organisation-services-access'">
               Change<span class="govuk-visually-hidden">Service to access</span>
             </a>
           </dd>
@@ -74,7 +76,7 @@
           <dt class="govuk-summary-list__key">Organisation type</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.organisationType }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()" [routerLink]="'/register-org-new/organisation-type'">
+            <a class="govuk-link" href="javascript:void(0)" [routerLink]="'/register-org-new/organisation-type'">
               Change<span class="govuk-visually-hidden">Organisation type</span>
             </a>
           </dd>
@@ -86,7 +88,8 @@
           <dt class="govuk-summary-list__key">Regulatory organisation type</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.regulatoryOrgType }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()">
+            <a class="govuk-link" href="javascript:void(0)"
+              [routerLink]="'/register-org-new/registered-with-regulator'">
               Change<span class="govuk-visually-hidden">Regulatory organisation type</span>
             </a>
           </dd>
@@ -98,7 +101,8 @@
           <dt class="govuk-summary-list__key">What regulator are you(as an individual) registered with?</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.reulatorRegisteredWith }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()">
+            <a class="govuk-link" href="javascript:void(0)"
+              [routerLink]="'/register-org-new/registered-with-regulator'">
               Change<span class="govuk-visually-hidden">What regulator are you(as an individual) registered with?</span>
             </a>
           </dd>
@@ -112,7 +116,7 @@
           <dt class="govuk-summary-list__key">First name</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.firstName }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()" [routerLink]="'/register-org-new/contact-details'">
+            <a class="govuk-link" href="javascript:void(0)" [routerLink]="'/register-org-new/contact-details'">
               Change<span class="govuk-visually-hidden">First name</span>
             </a>
           </dd>
@@ -124,7 +128,7 @@
           <dt class="govuk-summary-list__key">Last name</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.lastName }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()" [routerLink]="'/register-org-new/contact-details'">
+            <a class="govuk-link" href="javascript:void(0)" [routerLink]="'/register-org-new/contact-details'">
               Change<span class="govuk-visually-hidden">Last name</span>
             </a>
           </dd>
@@ -136,7 +140,7 @@
           <dt class="govuk-summary-list__key">Email address</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.workEmailAddress }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()" [routerLink]="'/register-org-new/contact-details'">
+            <a class="govuk-link" href="javascript:void(0)" [routerLink]="'/register-org-new/contact-details'">
               Change<span class="govuk-visually-hidden">Email address</span>
             </a>
           </dd>
@@ -167,7 +171,7 @@
               name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
             <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
               You have read and understood the
-              <a href="javascript:history.back()">terms and conditions</a>
+              <a href="javascript:void(0)">terms and conditions</a>
               and are eligible for an account to manage your organisation and cases
             </label>
           </div>
@@ -176,7 +180,7 @@
               name="confirmCodeOfConduct" formControlName="confirmCodeOfConduct">
             <label class="govuk-label govuk-checkboxes__label" for="confirm-code-of-conduct">
               You have read and understood the
-              <a href="javascript:history.back()">MyHMCTS code of conduct</a>
+              <a href="javascript:void(0)">MyHMCTS code of conduct</a>
               and are eligible for an account to manage your organisation and cases
             </label>
           </div>

@@ -8,6 +8,7 @@ import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { Router } from '@angular/router';
 
 const storeMock = {
   pipe: () => of(null),
@@ -17,7 +18,7 @@ const storeMock = {
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
 
-fdescribe('TermsAndConditionsComponent', () => {
+describe('TermsAndConditionsComponent', () => {
   @Component({
     selector: 'app-exui-app-host-dummy-component',
     template: '<exui-terms-and-conditions></exui-terms-and-conditions>'
@@ -36,6 +37,9 @@ fdescribe('TermsAndConditionsComponent', () => {
   let element: DebugElement;
   let termsConditionsService: TermsConditionsService;
   const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
+  const routerMock = {
+    navigate: jasmine.createSpy().and.returnValue(Promise.resolve(true))
+  };
 
   beforeEach(waitForAsync(() => {
     pipeSpy = spyOn(storeMock, 'pipe');
@@ -56,6 +60,10 @@ fdescribe('TermsAndConditionsComponent', () => {
         {
           provide: FeatureToggleService,
           useValue: featureToggleServiceMock
+        },
+        {
+          provide: Router,
+          useValue: routerMock
         }
       ]
     })
@@ -74,6 +82,10 @@ fdescribe('TermsAndConditionsComponent', () => {
     termsConditionsService = fixture.debugElement.injector.get(TermsConditionsService);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -86,7 +98,6 @@ fdescribe('TermsAndConditionsComponent', () => {
     featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(false));
     component.ngOnInit();
-    fixture.detectChanges();
     const legacy = fixture.debugElement.query(By.css('#content'));
     expect(legacy).toBeTruthy();
   });
@@ -106,6 +117,17 @@ fdescribe('TermsAndConditionsComponent', () => {
     pipeSpy.and.returnValue(of(true));
     component.ngOnInit();
     expect(pipeSpy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).not.toHaveBeenCalled();
+  });
+
+  it('should display terms and conditions related to register other organisation', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(true));
+    spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled');
+    component.ngOnInit();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['terms-and-conditions-register-other-org']);
+    expect(component.isTandCEnabled).toEqual(false);
+    expect(termsConditionsService.isTermsConditionsFeatureEnabled).not.toHaveBeenCalled();
+    expect(pipeSpy).not.toHaveBeenCalled();
     expect(dispatchSpy).not.toHaveBeenCalled();
   });
 });

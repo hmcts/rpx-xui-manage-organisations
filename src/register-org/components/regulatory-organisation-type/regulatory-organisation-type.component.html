@@ -8,6 +8,16 @@
         </h1>
         <hr>
         <div class="govuk-body govuk-!-margin-top-6">
+           <fieldset class="govuk-fieldset">
+              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                <div class="govuk-hint">Give as much detail as you can on the regulator or profressional body your organisation is registered with.</div>
+              </legend>
+          </fieldset>
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+              <div class="govuk-hint">HMCTS needs to gather this information as it is required to gain access to some of our services.</div>
+            </legend>
+          </fieldset>
           <form [formGroup]="regulatoryOrganisationTypeFormGroup">
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset">
@@ -17,21 +27,16 @@
                   </h1>
                 </legend>
                 <div class="govuk-hint">
-                  Select the type of company you are registering. If you are not sure, select 'other'.
+                  For example Solicitor Regulation Authority (SRA) number
                 </div>
-              </fieldset>
-            </div>
-            <div class="govuk-form-group">
-              <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
-                Select another type of organisation
-              </label>
-              <select class="govuk-select govuk-!-width-two-thirds"
+                <select class="govuk-select govuk-!-width-two-thirds"
                 id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
                 <option [ngValue]="'none'" disabled>--Select a value--</option>
                 <option *ngFor="let otherOrganisationType of organisationTypes$ | async" [ngValue]="otherOrganisationType.id">
                   {{otherOrganisationType.name}}
                 </option>
               </select>
+              </fieldset>
             </div>
             <div class="govuk-button-group">
               <button class="govuk-button govuk-button--primary">Continue</button>

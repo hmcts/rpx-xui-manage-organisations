@@ -2,13 +2,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { Router } from '@angular/router';
 
 const storeMock = {
   pipe: () => of(null),

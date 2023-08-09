@@ -29,8 +29,6 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     // Navigate to new terms and conditions page if new register organisation feature is turned on
     this.subscriptions[0] = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false).subscribe((newRegisteOrgFeature) => {
-			console.log('newRegisteOrgFeature', newRegisteOrgFeature);
-      debugger;
       if (newRegisteOrgFeature) {
         this.router.navigate([this.ROUTE_TERMS_AND_CONDITIONS_REGISTER_OTHER_ORG]);
       } else {

@@ -6,7 +6,7 @@ import { HmctsGlobalHeaderComponent } from './hmcts-global-header/hmcts-global-h
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { ServiceDownComponent } from './service-down/service-down.component';
 import { SignedOutComponent } from './signed-out/signed-out.component';
-import { TermsAndConditionsNewComponent } from './terms-and-conditions-new/terms-and-conditions-new.component';
+import { TermsAndConditionsRegisterOtherOrgComponent } from './terms-and-conditions-register-other-org/terms-and-conditions-register-other-org.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 export const components: any[] = [
@@ -17,7 +17,7 @@ export const components: any[] = [
   AccessibilityComponent,
   ServiceDownComponent,
   GetHelpComponent,
-  TermsAndConditionsNewComponent,
+  TermsAndConditionsRegisterOtherOrgComponent,
   TermsAndConditionsComponent,
   SignedOutComponent
 ];

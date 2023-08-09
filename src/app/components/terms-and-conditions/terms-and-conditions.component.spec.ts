@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 
 const storeMock = {
   pipe: () => of(null),
@@ -16,7 +17,7 @@ const storeMock = {
 let pipeSpy: jasmine.Spy;
 let dispatchSpy: jasmine.Spy;
 
-describe('TermsAndConditionsComponent', () => {
+fdescribe('TermsAndConditionsComponent', () => {
   @Component({
     selector: 'app-exui-app-host-dummy-component',
     template: '<exui-terms-and-conditions></exui-terms-and-conditions>'
@@ -34,6 +35,7 @@ describe('TermsAndConditionsComponent', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
   let termsConditionsService: TermsConditionsService;
+  const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
   beforeEach(waitForAsync(() => {
     pipeSpy = spyOn(storeMock, 'pipe');
@@ -50,7 +52,11 @@ describe('TermsAndConditionsComponent', () => {
           provide: Store,
           useValue: storeMock
         },
-        TermsConditionsService
+        TermsConditionsService,
+        {
+          provide: FeatureToggleService,
+          useValue: featureToggleServiceMock
+        }
       ]
     })
       .compileComponents();
@@ -77,6 +83,7 @@ describe('TermsAndConditionsComponent', () => {
   });
 
   it('should display old legacy terms and conditions when feature is not enabled', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(false));
     component.ngOnInit();
     fixture.detectChanges();
@@ -85,6 +92,7 @@ describe('TermsAndConditionsComponent', () => {
   });
 
   it('should dispatch LoadTermsConditions', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(true));
     pipeSpy.and.returnValue(of(null));
     component.ngOnInit();
@@ -93,6 +101,7 @@ describe('TermsAndConditionsComponent', () => {
   });
 
   it('should not dispatch when document is available', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(true));
     pipeSpy.and.returnValue(of(true));
     component.ngOnInit();

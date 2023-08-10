@@ -27,6 +27,7 @@ import {
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_ROLE_ASSIGNMENT_API_PATH,
+  SERVICES_PRD_COMMONDATA_API,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET
 } from './references';
@@ -63,6 +64,9 @@ export const uiConfig = () => {
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),
       rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
       roleAssignmentApi: getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH),
+      prd: {
+        commondataApi: getConfigValue(SERVICES_PRD_COMMONDATA_API)
+      },
       s2s: getConfigValue(SERVICE_S2S_PATH),
       termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)
     } as EnvironmentConfigServices,

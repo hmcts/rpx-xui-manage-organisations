@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BeforeYouStartComponent } from './components/before-you-start/before-you-start.component';
+import { CheckYourAnswersComponent } from './components/check-your-answers/check-your-answers.component';
 import { CompanyHouseDetailsComponent } from './components/company-house-details/company-house-details.component';
 import { ContactDetailsComponent } from './components/contact-details/contact-details.component';
 import { DocumentExchangeReferenceDetailsComponent } from './components/document-exchange-reference-details/document-exchange-reference-details.component';
@@ -62,6 +63,10 @@ export const ROUTES: Routes = [
   {
     path: 'contact-details',
     component: ContactDetailsComponent
+  },
+  {
+    path: 'check-your-answers/:optional',
+    component: CheckYourAnswersComponent
   }
 ];
 

@@ -117,7 +117,7 @@
           <dt class="govuk-summary-list__key">First name</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.firstName }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)" 
+            <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
               Change<span class="govuk-visually-hidden">First name</span>
             </a>
@@ -130,7 +130,7 @@
           <dt class="govuk-summary-list__key">Last name</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.lastName }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)" 
+            <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
               Change<span class="govuk-visually-hidden">Last name</span>
             </a>
@@ -143,7 +143,7 @@
           <dt class="govuk-summary-list__key">Email address</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.workEmailAddress }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)" 
+            <a class="govuk-link" href="javascript:void(0)"
             routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
               Change<span class="govuk-visually-hidden">Email address</span>
             </a>
@@ -175,7 +175,8 @@
               name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
             <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
               You have read and understood the
-              <a href="javascript:void(0)">terms and conditions</a>
+              <a href="javascript:void(0)" target="_blank"
+                routerLink="/terms-and-conditions-register-other-org">terms and conditions</a>
               and are eligible for an account to manage your organisation and cases
             </label>
           </div>
@@ -184,7 +185,7 @@
               name="confirmCodeOfConduct" formControlName="confirmCodeOfConduct">
             <label class="govuk-label govuk-checkboxes__label" for="confirm-code-of-conduct">
               You have read and understood the
-              <a href="javascript:void(0)">MyHMCTS code of conduct</a>
+              <a href="javascript:void(0)" target="_blank">MyHMCTS code of conduct</a>
               and are eligible for an account to manage your organisation and cases
             </label>
           </div>

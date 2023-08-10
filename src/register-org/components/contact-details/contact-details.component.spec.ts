@@ -12,12 +12,14 @@ describe('ContactDetailsComponent', () => {
     hasDxReference: true,
     dxNumber: '931NR',
     dxExchange: 'MIDDLESEX',
+    hasPBA: null,
     contactDetails: {
       firstName: 'John',
       lastName: 'Davis',
       workEmailAddress: 'john.davis@testorganisation.com'
     },
-    hasRegisteredWithRegulator: null
+    hasRegisteredWithRegulator: null,
+    services: []
   };
 
   beforeEach(async () => {

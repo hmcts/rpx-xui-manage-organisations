@@ -13,6 +13,7 @@ import { RegisteredWithRegulatorComponent } from './registered-with-regulator/re
 
 export const components: any[] = [
   BeforeYouStartComponent,
+  CheckYourAnswersComponent,
   CompanyHouseDetailsComponent,
   ContactDetailsComponent,
   DocumentExchangeReferenceComponent,
@@ -22,7 +23,5 @@ export const components: any[] = [
   OrganisationTypeComponent,
   PaymentByAccountComponent,
   PaymentByAccountDetailsComponent,
-  RegisteredWithRegulatorComponent,
-  ContactDetailsComponent,
-  CheckYourAnswersComponent
+  RegisteredWithRegulatorComponent
 ];

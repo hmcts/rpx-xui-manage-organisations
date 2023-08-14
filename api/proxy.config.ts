@@ -18,13 +18,6 @@ export const initProxy = (app: Express) => {
   });
 
   applyProxy(app, {
-    rewrite: true,
-    rewriteUrl: '/addresses',
-    source: '/api/addresses',
-    target: getConfigValue(SERVICES_CCD_COMPONENT_API_PATH)
-  });
-
-  applyProxy(app, {
     rewrite: false,
     source: '/categoriesAndDocuments',
     target: getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH)

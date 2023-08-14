@@ -5,6 +5,7 @@ import getConfigValue from './configValueRouter';
 // TODO: rename from prdRouter
 import getappInsightsInstrumentationKey from './monitoring-tools';
 import prdRouter from './register-org';
+import addressRouter from './addresses';
 
 // TODO: Not sure if this is needed
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
@@ -22,6 +23,7 @@ const router = Router({ mergeParams: true });
  */
 router.use('/register-org', prdRouter);
 router.use('/monitoring-tools', getappInsightsInstrumentationKey);
+router.use('/addresses', addressRouter);
 
 // TODO: Discuss which method we use across all projects to send the
 // Node configuration to the UI.

@@ -85,6 +85,17 @@ export const getXuiNodeMiddleware = () => {
   const s2sSecret = getConfigValue(S2S_SECRET);
   const ccdUrl = getConfigValue(SERVICES_CCD_COMPONENT_API_PATH);
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
+  const userName = 'cwd_system@mailinator.com';
+  const password = 'Password123';
+
+  const routeCredential = {
+    password,
+    routes: [
+      '/external/addresses',
+    ],
+    scope: 'openid profile roles manage-user create-user search-user',
+    userName
+  };
 
   // TODO: we can move these out into proper config at some point to tidy up even further
   const options: AuthOptions = {
@@ -97,6 +108,7 @@ export const getXuiNodeMiddleware = () => {
     issuerURL: issuerUrl,
     logoutURL: idamApiPath,
     responseTypes: ['code'],
+    routeCredential,
     scope: 'profile openid roles manage-user create-user manage-roles',
     sessionKey: 'xui-mo-webapp',
     tokenEndpointAuthMethod: 'client_secret_post',

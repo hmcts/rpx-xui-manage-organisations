@@ -22,8 +22,10 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
   public organisationTypes$: Observable<RegulatoryOrganisationType[]>;
   ngOnInit(): void {
     this.regulatoryOrganisationTypeFormGroup = new FormGroup({
-      organisationType: new FormControl(null)
+      organisationType: new FormControl(null),
+      otherOrganisationType: new FormControl(null)
     });
+    this.regulatoryOrganisationTypeFormGroup.get('otherOrganisationType').setValue('none');
     this.organisationTypes$ = this.lovRefDataService.getRegulatoryOrganisationType();
   }
 }

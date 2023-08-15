@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { RegistrationData } from 'src/register-org/models';
+import { RegistrationData } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type.component';
 

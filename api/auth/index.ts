@@ -85,15 +85,15 @@ export const getXuiNodeMiddleware = () => {
   const s2sSecret = getConfigValue(S2S_SECRET);
   const ccdUrl = getConfigValue(SERVICES_CCD_COMPONENT_API_PATH);
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
-  const userName = 'cwd_system@mailinator.com';
-  const password = 'Password123';
+  const userName = 'xui_mo_system_user@mailinator.com';
+  const password = 'Welcome01';
 
   const routeCredential = {
     password,
     routes: [
-      '/external/addresses',
+      '/external/addresses'
     ],
-    scope: 'openid profile roles manage-user create-user search-user',
+    scope: 'openid profile roles manage-user create-user',
     userName
   };
 

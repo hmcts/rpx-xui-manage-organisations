@@ -3,5 +3,6 @@ import { RegisteredAddressComponent } from './registered-address/registered-addr
 
 export const containers: any[] = [RegisterComponent, RegisteredAddressComponent];
 
+export * from './registered-address/registered-address.component';
 export * from './register/register-org.component';
 export * from './registered-address/registered-address.component';

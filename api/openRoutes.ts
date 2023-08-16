@@ -2,6 +2,9 @@ import { Router } from 'express';
 import getConfigurationUIRouter from './configurationUI';
 import getConfigValue from './configValueRouter';
 
+import getRegulatoryOrganisationTypesRouter from './organisationTypesRouter';
+import getLovRefDataRouter from './prd/lov';
+
 // TODO: rename from prdRouter
 import getappInsightsInstrumentationKey from './monitoring-tools';
 import prdRouter from './register-org';
@@ -29,5 +32,8 @@ router.use('/addresses', addressRouter);
 // Node configuration to the UI.
 router.use('/configuration', getConfigValue);
 router.use('/configuration-ui', getConfigurationUIRouter);
+
+router.use('/getLovRefData', getLovRefDataRouter);
+router.use('/regulatoryOrganisationTypes', getRegulatoryOrganisationTypesRouter);
 
 export default router;

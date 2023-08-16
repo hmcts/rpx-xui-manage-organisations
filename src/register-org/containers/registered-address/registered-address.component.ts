@@ -6,8 +6,5 @@ import { FormGroup } from '@angular/forms';
   templateUrl: './registered-address.component.html'
 })
 export class RegisteredAddressComponent {
-
   public formGroup = new FormGroup({});
-
-
 }

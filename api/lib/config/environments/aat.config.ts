@@ -17,7 +17,7 @@ export default {
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal/health',
     feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal/health'
   },
-  useProxy: true,
+  useProxy: false,
   secureCookie: false,
   sessionSecret: 'secretSauce',
   logging: 'debug',

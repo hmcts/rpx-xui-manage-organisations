@@ -10,6 +10,7 @@ import { OrganisationTypeComponent } from './components/organisation-type/organi
 import { PaymentByAccountDetailsComponent } from './components/payment-by-account-details/payment-by-account-details.component';
 import { PaymentByAccountComponent } from './components/payment-by-account/payment-by-account.component';
 import { RegisteredWithRegulatorComponent } from './components/registered-with-regulator/registered-with-regulator.component';
+import { RegisteredAddressComponent } from './containers/registered-address/registered-address.component';
 import { RegisterOrgModule } from './register-org.module';
 
 export const ROUTES: Routes = [
@@ -49,6 +50,10 @@ export const ROUTES: Routes = [
   {
     path: 'payment-by-account-details',
     component: PaymentByAccountDetailsComponent
+  },
+  {
+    path: 'registered-address',
+    component: RegisteredAddressComponent
   },
   {
     path: 'registered-with-regulator',

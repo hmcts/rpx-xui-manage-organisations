@@ -5,7 +5,6 @@ import * as express from 'express';
 import * as path from 'path';
 import { app, logger } from './application';
 import errorHandler from './lib/error.handler';
-import { removeCacheHeaders } from './lib/middleware/removeCacheHeaders';
 
 console.log('WE ARE USING server.ts on the box.');
 
@@ -15,9 +14,6 @@ console.log('WE ARE USING server.ts on the box.');
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname);
-
-app.use([removeCacheHeaders, express.static(path.join(__dirname, '..', 'assets'), { index: false, cacheControl: false })]);
-app.use([removeCacheHeaders, express.static(path.join(__dirname, '..'), { index: false, cacheControl: false })]);
 
 app.use(express.static(path.join(__dirname, '..', 'assets'), { index: false }));
 app.use(express.static(path.join(__dirname, '..'), { index: false }));

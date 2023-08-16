@@ -18,7 +18,12 @@ describe('ContactDetailsComponent', () => {
       lastName: 'Davis',
       workEmailAddress: 'john.davis@testorganisation.com'
     },
-    hasRegisteredWithRegulator: null
+    hasRegisteredWithRegulator: null,
+    services: [],
+    address: null,
+    organisationType: null,
+    regulatoryOrgType: null,
+    regulatorRegisteredWith: null
   };
 
   beforeEach(async () => {

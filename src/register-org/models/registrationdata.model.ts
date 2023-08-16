@@ -5,7 +5,14 @@ export type RegistrationData = {
   hasDxReference: boolean;
   dxNumber?: string;
   dxExchange?: string;
+  services: string[];
   hasPBA: boolean;
   contactDetails: ContactDetails;
   hasRegisteredWithRegulator: boolean;
+  companyHouseNumber?: string;
+  address: string;
+  organisationType: string;
+  organisationNumber?: string;
+  regulatoryOrgType: string;
+  regulatorRegisteredWith: string;
 }

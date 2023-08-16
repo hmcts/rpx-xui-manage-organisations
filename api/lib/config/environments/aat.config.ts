@@ -23,7 +23,7 @@ export default {
       commondataApi: 'http://rd-commondata-api-aat.service.core-compute-aat.internal'
     }
   },
-  useProxy: true,
+  useProxy: false,
   secureCookie: false,
   sessionSecret: 'secretSauce',
   logging: 'debug',

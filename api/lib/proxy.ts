@@ -5,10 +5,6 @@
  */
 // TODO: remove this entire file in favour of middleware/proxy.ts
 import * as express from 'express';
-import * as striptags from 'striptags';
-import { getConfigValue } from '../configuration';
-import { SERVICES_CCD_COMPONENT_API_PATH } from '../configuration/references';
-import { http } from './http';
 import { exists } from './util';
 
 export function setHeaders(req: express.Request, contentType?: string) {
@@ -43,20 +39,4 @@ export function setHeaders(req: express.Request, contentType?: string) {
   }
 
   return headers;
-}
-
-export async function get(req: express.Request, res: express.Response, next: express.NextFunction) {
-  let url = striptags(req.url);
-  url = req.baseUrl + url;
-  const headers: any = setHeaders(req);
-
-  try {
-    const axiosInstance = http({} as unknown as express.Request);
-    const response = await axiosInstance.get(`${getConfigValue(SERVICES_CCD_COMPONENT_API_PATH)}${url}`, { headers });
-
-    res.status(200);
-    res.send(response.data);
-  } catch (e) {
-    next(e);
-  }
 }

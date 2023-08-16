@@ -2281,15 +2281,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.8.7-address-component":
-  version: 1.8.7-address-component
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.8.7-address-component"
+"@hmcts/rpx-xui-common-lib@npm:1.8.7-address-lookup-working":
+  version: 1.8.7-address-lookup-working
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.8.7-address-lookup-working"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
-  checksum: 82363a78ccd82030e8979fc5fd2615a034b11e91aff21e805ac5be718655841c3fa47c41cd9f1ff9cd29c8550a0fa58ec23283b70b35758011ff6e37d7351592
+  checksum: f6e41c8b82250d9d82da7ca58c88365ecfc8d5c7c1da98445c2af92db528a9c5dc162678fc8216e033e2b62251d62416ffc59c400a9fc1c6fc13674f956cee0f
   languageName: node
   linkType: hard
 
@@ -19422,7 +19422,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.8.7-address-component
+    "@hmcts/rpx-xui-common-lib": 1.8.7-address-lookup-working
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

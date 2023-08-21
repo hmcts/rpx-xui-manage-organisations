@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-hidden-input',
   templateUrl: './hidden-input.component.html'
 })
 export class HiddenInputComponent implements OnInit{
-  @Input() public group: FormGroup;
+  @Input() public group: UntypedFormGroup;
   @Input() public item: {
     control: string;
     classes: Array<string>

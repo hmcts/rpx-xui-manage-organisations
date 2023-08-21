@@ -1,12 +1,12 @@
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { CaaCasesUtil } from './caa-cases.util';
 
 describe('CaaCasesUtil', () => {
-  let control: FormControl;
+  let control: UntypedFormControl;
 
   beforeEach(() => {
-    control = new FormControl({});
+    control = new UntypedFormControl({});
   });
 
   it('getCaaNavItems', () => {

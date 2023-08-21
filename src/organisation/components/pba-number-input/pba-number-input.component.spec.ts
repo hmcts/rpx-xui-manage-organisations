@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule, RxwebValidators } from '@rxweb/reactive-form-validators';
 
@@ -9,14 +9,14 @@ import { PbaNumberInputComponent } from './pba-number-input.component';
 const id: string = 'pba-number-input0';
 
 describe('PbaNumberInputComponent', () => {
-  let group: FormGroup;
+  let group: UntypedFormGroup;
 
   let component: PbaNumberInputComponent;
   let fixture: ComponentFixture<PbaNumberInputComponent>;
 
   beforeEach(() => {
-    group = new FormGroup({
-      pbaNumber: new FormControl('', [
+    group = new UntypedFormGroup({
+      pbaNumber: new UntypedFormControl('', [
         Validators.pattern(/(PBA\w*)/i),
         Validators.minLength(10),
         Validators.maxLength(10),

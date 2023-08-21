@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 
 export class InviteUserPermissionComponent implements OnInit {
-  @Input() public inviteUserForm: FormGroup;
+  @Input() public inviteUserForm: UntypedFormGroup;
   @Input() public isPuiCaseManager: boolean = false;
   @Input() public isPuiUserManager: boolean = false;
   @Input() public isPuiOrganisationManager: boolean = false;

@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-radiobutton',
   templateUrl: './radiobutton.component.html'
 })
 export class RadiobuttonComponent {
-  @Input() group: FormGroup;
+  @Input() group: UntypedFormGroup;
   @Input() idPrefix = 'rb';
   @Input() name = 'rb';
   @Input() items;

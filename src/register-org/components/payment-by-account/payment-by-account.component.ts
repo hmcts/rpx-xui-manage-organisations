@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -12,7 +12,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class PaymentByAccountComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
-  public pbaFormGroup: FormGroup;
+  public pbaFormGroup: UntypedFormGroup;
   public pbaError: ErrorMessage;
 
   constructor(public readonly router: Router,
@@ -24,8 +24,8 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.pbaFormGroup = new FormGroup({
-      pba: new FormControl(null, Validators.required)
+    this.pbaFormGroup = new UntypedFormGroup({
+      pba: new UntypedFormControl(null, Validators.required)
     });
 
     this.setFormControlValues();

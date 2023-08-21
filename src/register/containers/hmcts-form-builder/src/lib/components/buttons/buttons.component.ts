@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-buttons',
@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 export class ButtonsComponent implements OnInit {
   @Input() public idPrefix = 'btn';
   @Input() public name = 'btn';
-  @Input() public group: FormGroup;
+  @Input() public group: UntypedFormGroup;
   @Input() public classes;
   @Input() public typeBtn;
   @Input() public control;

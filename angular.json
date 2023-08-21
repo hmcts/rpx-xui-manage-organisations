@@ -202,7 +202,6 @@
       }
     }
   },
-  "defaultProject": "rpa-pui-manager",
   "schematics": {
     "@schematics/angular:component": {
       "style": "scss",

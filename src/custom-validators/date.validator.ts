@@ -1,7 +1,7 @@
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 export function dateValidator(): ValidatorFn {
-  return function validate(formGroup: FormGroup) {
+  return function validate(formGroup: UntypedFormGroup) {
     const d = new Date(
       parseInt(formGroup.controls.day.value, 10),
       parseInt(formGroup.controls.month.value, 10) - 1,

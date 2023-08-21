@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 
@@ -36,7 +36,7 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 })
 export class GovUkFileUploadComponent implements OnInit {
   @Input() public errorMessage;
-  @Input() public group: FormGroup;
+  @Input() public group: UntypedFormGroup;
   @Input() public config: { label: string, hint: string; name: string; id: string, type: string; isPageHeading, classes: string };
 
   public reloadInput = true;

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import {
@@ -25,7 +25,7 @@ describe('CaaFilterComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaFilterComponent],
-      providers: [FormBuilder]
+      providers: [UntypedFormBuilder]
     }).compileComponents();
   }));
 

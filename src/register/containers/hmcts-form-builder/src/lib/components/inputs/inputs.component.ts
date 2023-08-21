@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
   templateUrl: './inputs.component.html'
 })
 export class InputsComponent {
-  @Input() group: FormGroup;
+  @Input() group: UntypedFormGroup;
   @Input() item;
   @Input() label;
   @Input() hint;
@@ -29,7 +29,7 @@ export class InputsComponent {
    * // @param control
    * // @return {boolean}
    */
-  isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
+  isControlInvalidAndShowValidation(formGroup: UntypedFormGroup, control: string, showValidation: boolean) {
     return !this.isFormControlValid(formGroup, control) && showValidation;
   }
 
@@ -38,7 +38,7 @@ export class InputsComponent {
    *
    * // @see ValidationService
    */
-  isFormControlValid(formGroup: FormGroup, control: string): boolean {
+  isFormControlValid(formGroup: UntypedFormGroup, control: string): boolean {
     return this.validationService.isFormControlValid(formGroup, control);
   }
 }

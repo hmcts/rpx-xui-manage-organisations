@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
@@ -13,7 +13,7 @@ export class OrganisationTypeComponent implements OnInit {
   public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';
   public readonly CATEGORY_OTHER_ORGANISATION_TYPE = 'OrgSubType';
 
-  public organisationTypeFormGroup: FormGroup;
+  public organisationTypeFormGroup: UntypedFormGroup;
   public organisationTypes$: Observable<LovRefDataModel[]>;
   public otherOrganisationTypes$: Observable<LovRefDataModel[]>;
   public showOtherOrganisationTypes = false;
@@ -21,10 +21,10 @@ export class OrganisationTypeComponent implements OnInit {
   constructor(private readonly lovRefDataService: LovRefDataService) {}
 
   public ngOnInit(): void {
-    this.organisationTypeFormGroup = new FormGroup({
-      organisationType: new FormControl(null),
-      otherOrganisationType: new FormControl(null),
-      otherOrganisationDetail: new FormControl(null)
+    this.organisationTypeFormGroup = new UntypedFormGroup({
+      organisationType: new UntypedFormControl(null),
+      otherOrganisationType: new UntypedFormControl(null),
+      otherOrganisationDetail: new UntypedFormControl(null)
     });
     this.organisationTypeFormGroup.get('otherOrganisationType').setValue('none');
 

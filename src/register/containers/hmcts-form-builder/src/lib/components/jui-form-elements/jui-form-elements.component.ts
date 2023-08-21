@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-jui-form-elements',
   templateUrl: './jui-form-elements.component.html'
 })
 export class JuiFormElementsComponent {
-  @Input() public group: FormGroup;
+  @Input() public group: UntypedFormGroup;
   @Input() public data;
   @Input() public validate;
   @Output() public btnClick = new EventEmitter();

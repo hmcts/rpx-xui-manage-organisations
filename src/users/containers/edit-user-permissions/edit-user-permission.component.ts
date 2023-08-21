@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable, Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
   templateUrl: './edit-user-permission.component.html'
 })
 export class EditUserPermissionComponent implements OnInit, OnDestroy {
-  public editUserForm: FormGroup;
+  public editUserForm: UntypedFormGroup;
   public errorMessages = {
     header: 'There is a problem',
     roles: ['You must select at least one action']
@@ -100,14 +100,14 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
 
   // TODO: Sort out parameter typing.
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): FormGroup {
-    return new FormGroup({
-      roles: new FormGroup({
-        'pui-case-manager': new FormControl(isPuiCaseManager),
-        'pui-user-manager': new FormControl(isPuiUserManager),
-        'pui-organisation-manager': new FormControl(isPuiOrganisationManager),
-        'pui-finance-manager': new FormControl(isPuiFinanceManager),
-        'pui-caa': new FormControl(isCaseAccessAdmin)
+  public getFormGroup(isPuiCaseManager, isPuiUserManager, isPuiOrganisationManager, isPuiFinanceManager, isCaseAccessAdmin, validator: any): UntypedFormGroup {
+    return new UntypedFormGroup({
+      roles: new UntypedFormGroup({
+        'pui-case-manager': new UntypedFormControl(isPuiCaseManager),
+        'pui-user-manager': new UntypedFormControl(isPuiUserManager),
+        'pui-organisation-manager': new UntypedFormControl(isPuiOrganisationManager),
+        'pui-finance-manager': new UntypedFormControl(isPuiFinanceManager),
+        'pui-caa': new UntypedFormControl(isCaseAccessAdmin)
       }, checkboxesBeCheckedValidator())
     });
   }

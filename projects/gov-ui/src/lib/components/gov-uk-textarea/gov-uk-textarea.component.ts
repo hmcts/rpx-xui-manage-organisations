@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 /*
 * CheckBox component - state less
@@ -28,7 +28,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 export class GovUkTextareaComponent {
   @Input() config: {label: string; classes: string; hint: string; key: string; rows: number, id: string};
   @Input() errorMessage: any;
-  @Input() group: FormGroup;
+  @Input() group: UntypedFormGroup;
 
   setDescribedBy(): string {
     return HtmlTemplatesHelper.setDescribedBy(this.errorMessage, this.config);

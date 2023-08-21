@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
@@ -21,7 +21,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
  * // @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
  */
 export class ValidationErrorFormGroupComponent {
-    @Input() group: FormGroup;
+    @Input() group: UntypedFormGroup;
     @Input() validationErrorId;
 
     constructor(private validationService: ValidationService) {}
@@ -38,7 +38,7 @@ export class ValidationErrorFormGroupComponent {
      * need to pass this in once the Universal Form Builder is merged with Validation.
      * // @return {boolean}
      */
-    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+    isFormGroupInvalid(formGroup: UntypedFormGroup, validationErrorId: string): boolean {
       return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 }

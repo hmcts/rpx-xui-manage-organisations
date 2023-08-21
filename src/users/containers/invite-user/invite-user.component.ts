@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControlOptions, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControlOptions, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
@@ -20,7 +20,7 @@ import * as fromStore from '../../store';
   templateUrl: './invite-user.component.html'
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
-  public inviteUserForm: FormGroup;
+  public inviteUserForm: UntypedFormGroup;
   public backLink: string;
   public errors$: Observable<any>;
   public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
@@ -150,8 +150,8 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     store.dispatch(action);
   }
 
-  public initialiseUserForm(): FormGroup {
-    return new FormGroup({
+  public initialiseUserForm(): UntypedFormGroup {
+    return new UntypedFormGroup({
       firstName: this.createFormControl('', Validators.required),
       lastName: this.createFormControl('', Validators.required),
       email: this.createFormControl('', [Validators.required, Validators.email]),
@@ -159,12 +159,12 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     });
   }
 
-  public createFormControl(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions): FormControl {
-    return new FormControl(formState, validatorOrOpts);
+  public createFormControl(formState?: any, validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions): UntypedFormControl {
+    return new UntypedFormControl(formState, validatorOrOpts);
   }
 
-  public createFormGroup(checkBoxValidator: ValidatorFn): FormGroup {
-    return new FormGroup({
+  public createFormGroup(checkBoxValidator: ValidatorFn): UntypedFormGroup {
+    return new UntypedFormGroup({
       'pui-case-manager': this.createFormControl(''),
       'pui-user-manager': this.createFormControl(''),
       'pui-organisation-manager': this.createFormControl(''),
@@ -173,7 +173,7 @@ export class InviteUserComponent implements OnInit, OnDestroy {
     }, checkBoxValidator);
   }
 
-  public populateFormControl(pendingUser: User, inviteUserForm: FormGroup): void {
+  public populateFormControl(pendingUser: User, inviteUserForm: UntypedFormGroup): void {
     if (pendingUser) {
       this.resendInvite = true;
       inviteUserForm.controls.firstName.setValue(pendingUser.firstName);

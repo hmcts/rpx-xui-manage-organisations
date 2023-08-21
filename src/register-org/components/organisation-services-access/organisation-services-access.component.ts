@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
@@ -14,7 +14,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 })
 export class OrganisationServicesAccessComponent extends RegisterComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_SERVICE_ACCESS = 'Service';
-  public servicesFormGroup: FormGroup;
+  public servicesFormGroup: UntypedFormGroup;
   public lovRefDataSubscription: Subscription;
   public services: LovRefDataModel[] = [];
   public selectedServices: string[] = [];
@@ -37,8 +37,8 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     //   this.services = lov;
     // });
 
-    this.servicesFormGroup = new FormGroup({
-      services: new FormControl(null)
+    this.servicesFormGroup = new UntypedFormGroup({
+      services: new UntypedFormControl(null)
     });
 
     this.setFormControlValues();

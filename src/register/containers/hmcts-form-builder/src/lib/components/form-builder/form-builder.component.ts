@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { ValidationService } from '../../services/form-builder-validation.service';
 import { FormsService } from '../../services/form-builder.service';
@@ -24,11 +24,11 @@ export class FormBuilderComponent implements OnChanges {
   @Input() public pageItems: any;
   @Input() public pageValues: any;
   @Input() public isPageValid: boolean;
-  @Output() public submitPage = new EventEmitter<FormGroup>();
+  @Output() public submitPage = new EventEmitter<UntypedFormGroup>();
   @Output() public btnClick = new EventEmitter<any>();
   @Output() public blurCast = new EventEmitter<any>();
 
-  public formDraft: FormGroup;
+  public formDraft: UntypedFormGroup;
   public isLegendAvailable: boolean;
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -51,7 +51,7 @@ export class FormBuilderComponent implements OnChanges {
   }
 
   public createForm(): void {
-    this.formDraft = new FormGroup(this.formsService.defineFormControls(this.pageItems, this.pageValues));
+    this.formDraft = new UntypedFormGroup(this.formsService.defineFormControls(this.pageItems, this.pageValues));
     this.setValidators();
   }
 

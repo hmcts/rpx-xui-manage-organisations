@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -12,7 +12,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class RegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
-  public registeredWithRegulatorFormGroup: FormGroup;
+  public registeredWithRegulatorFormGroup: UntypedFormGroup;
   public registeredWithRegulatorError: ErrorMessage;
 
   constructor(public readonly router: Router,
@@ -24,8 +24,8 @@ export class RegisteredWithRegulatorComponent extends RegisterComponent implemen
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.registeredWithRegulatorFormGroup = new FormGroup({
-      registeredWithRegulator: new FormControl(null, Validators.required)
+    this.registeredWithRegulatorFormGroup = new UntypedFormGroup({
+      registeredWithRegulator: new UntypedFormControl(null, Validators.required)
     });
 
     this.setFormControlValues();

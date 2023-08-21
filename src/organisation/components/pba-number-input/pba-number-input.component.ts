@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/models';
 
 @Component({
@@ -12,9 +12,9 @@ export class PbaNumberInputComponent implements OnInit {
   public static PBA_EXISTING_ERROR_MESSAGE = ['This PBA number is already associated with your organisation'];
 
   @Input() public id: string;
-  @Input() public group: FormGroup;
+  @Input() public group: UntypedFormGroup;
 
-  public control: FormControl;
+  public control: UntypedFormControl;
 
   public errorMessages: ErrorMessagesModel = {
     isInvalid: false,

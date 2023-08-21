@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { inject, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ValidationService } from './form-builder-validation.service';
 
 describe('ValidationService', () => {
@@ -20,8 +20,8 @@ describe('ValidationService', () => {
     }));
 
   it('should create a form group validator, with type ValidationFn.', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      test: new FormControl('test')
+    const formGroup = new UntypedFormGroup({
+      test: new UntypedFormControl('test')
     });
 
     const formGroupValidators = {
@@ -54,8 +54,8 @@ describe('ValidationService', () => {
   }));
 
   it('control should be valid', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      test: new FormControl('test')
+    const formGroup = new UntypedFormGroup({
+      test: new UntypedFormControl('test')
     });
     expect(service.isFormControlValid(formGroup, 'test')).toBe(true);
   }));
@@ -72,8 +72,8 @@ describe('ValidationService', () => {
   }));
 
   it('form group should be valid', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      test: new FormControl('test')
+    const formGroup = new UntypedFormGroup({
+      test: new UntypedFormControl('test')
     });
     const validationErrorId = 'testErrorId';
     const isFormGroupInvalidFunc = service.isFormGroupInvalid(formGroup, validationErrorId);
@@ -81,9 +81,9 @@ describe('ValidationService', () => {
   }));
 
   it('should at least one checkbox to be checked validation', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      checkboxTest1: new FormControl('checkboxTest1'),
-      checkboxTest2: new FormControl('checkboxTest2')
+    const formGroup = new UntypedFormGroup({
+      checkboxTest1: new UntypedFormControl('checkboxTest1'),
+      checkboxTest2: new UntypedFormControl('checkboxTest2')
     });
     const validationIdentifier = 'isAnyCheckboxChecked';
     const checkboxes = [
@@ -99,9 +99,9 @@ describe('ValidationService', () => {
   }));
 
   it('should check if all fields required common function unit test', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      test1Filed: new FormControl(),
-      test2Filed: new FormControl()
+    const formGroup = new UntypedFormGroup({
+      test1Filed: new UntypedFormControl(),
+      test2Filed: new UntypedFormControl()
     });
     const validationIdentifier = 'isAllFieldsRequiredValidationFn';
     const fields = [
@@ -116,9 +116,9 @@ describe('ValidationService', () => {
   }));
 
   it('should check if all fields required group validator returns a validation function', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      test1Filed: new FormControl(),
-      test2Filed: new FormControl()
+    const formGroup = new UntypedFormGroup({
+      test1Filed: new UntypedFormControl(),
+      test2Filed: new UntypedFormControl()
     });
     const validationIdentifier = 'isAllFieldsRequiredValidationFn';
     const fields = [
@@ -130,9 +130,9 @@ describe('ValidationService', () => {
   }));
 
   it('should check conditional validator textarea should be valid if parent checkbox checked', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      testCheckbox: new FormControl(),
-      testTextarea: new FormControl()
+    const formGroup = new UntypedFormGroup({
+      testCheckbox: new UntypedFormControl(),
+      testTextarea: new UntypedFormControl()
     });
     const validationIdentifier = 'isTextAreaValidWhenCheckboxChecked';
     const controls = {
@@ -150,11 +150,11 @@ describe('ValidationService', () => {
   }));
 
   it('should check conditional validator radio should be valid if one option selected', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      testRadioControl: new FormControl('testOption'),
-      test1: new FormControl('test1'),
-      test2: new FormControl('test2'),
-      test3: new FormControl('test3')
+    const formGroup = new UntypedFormGroup({
+      testRadioControl: new UntypedFormControl('testOption'),
+      test1: new UntypedFormControl('test1'),
+      test2: new UntypedFormControl('test2'),
+      test3: new UntypedFormControl('test3')
     });
     const validationIdentifier = 'isRadioValidWhenSomeOptionSelected';
     const controls = {
@@ -184,11 +184,11 @@ describe('ValidationService', () => {
   }));
 
   it('should check create form group validators', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      testRadioControl: new FormControl('testOption'),
-      test1: new FormControl('test1'),
-      test2: new FormControl('test2'),
-      test3: new FormControl('test3')
+    const formGroup = new UntypedFormGroup({
+      testRadioControl: new UntypedFormControl('testOption'),
+      test1: new UntypedFormControl('test1'),
+      test2: new UntypedFormControl('test2'),
+      test3: new UntypedFormControl('test3')
     });
     const formGroupValidators = [{
       validatorFunc: 'isAnyCheckboxChecked',
@@ -203,10 +203,10 @@ describe('ValidationService', () => {
   }));
 
   it('should check if date group validator returns a validation function', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      dayTestFiled: new FormControl(),
-      monthTestFiled: new FormControl(),
-      yearTestFiled: new FormControl()
+    const formGroup = new UntypedFormGroup({
+      dayTestFiled: new UntypedFormControl(),
+      monthTestFiled: new UntypedFormControl(),
+      yearTestFiled: new UntypedFormControl()
     });
     const validationIdentifier = 'isValidDate';
     const fields = [
@@ -218,10 +218,10 @@ describe('ValidationService', () => {
   }));
 
   describe('isValidDateValidationFn', () => {
-    const formGroup = new FormGroup({
-      dayTestFiled: new FormControl(),
-      monthTestFiled: new FormControl(),
-      yearTestFiled: new FormControl()
+    const formGroup = new UntypedFormGroup({
+      dayTestFiled: new UntypedFormControl(),
+      monthTestFiled: new UntypedFormControl(),
+      yearTestFiled: new UntypedFormControl()
     });
     const validationIdentifier = 'isValidDateValidationFn';
     const fields = [
@@ -270,9 +270,9 @@ describe('ValidationService', () => {
   });
 
   describe('invalidPBANumberValidatorFn', () => {
-    const pbaNumber1 = new FormControl('1234567');
+    const pbaNumber1 = new UntypedFormControl('1234567');
     pbaNumber1.setErrors({ invalidPBANumberError: true });
-    const fg = new FormGroup({
+    const fg = new UntypedFormGroup({
       PBANumber1: pbaNumber1
     });
     const validationIdentifier = 'invalidPBANumberError';
@@ -287,9 +287,9 @@ describe('ValidationService', () => {
     const validationIdentifier = 'duplicatedPBAError';
 
     it('should return duplicatedPBAError when duplicated PBA numbers found', inject([ValidationService], (service: ValidationService) => {
-      const pbaNumber1 = new FormControl('PBA1234567');
-      const pbaNumber2 = new FormControl('PBA1234567');
-      const fg = new FormGroup({
+      const pbaNumber1 = new UntypedFormControl('PBA1234567');
+      const pbaNumber2 = new UntypedFormControl('PBA1234567');
+      const fg = new UntypedFormGroup({
         PBANumber1: pbaNumber1,
         PBANumber2: pbaNumber2
       });
@@ -298,9 +298,9 @@ describe('ValidationService', () => {
     }));
 
     it('should return null when no duplicated PBA numbers found', inject([ValidationService], (service: ValidationService) => {
-      const pbaNumber1 = new FormControl('PBA1234567');
-      const pbaNumber2 = new FormControl('PBA7654321');
-      const fg = new FormGroup({
+      const pbaNumber1 = new UntypedFormControl('PBA1234567');
+      const pbaNumber2 = new UntypedFormControl('PBA7654321');
+      const fg = new UntypedFormGroup({
         PBANumber1: pbaNumber1,
         PBANumber2: pbaNumber2
       });

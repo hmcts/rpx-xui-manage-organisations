@@ -10,9 +10,9 @@ import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => { },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -68,7 +68,7 @@ describe('UpdatePbaNumbersComponent', () => {
         params: of({})
       }
     };
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
+    pipeSpy = spyOn(storeMock, 'pipe');//.and.returnValue(of(mockOrganisationDetails));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 

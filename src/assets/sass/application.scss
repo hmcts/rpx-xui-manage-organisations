@@ -10,8 +10,8 @@ $govuk-global-styles: true;
 $hmcts-page-width: 1220px;
 
 // Import GOV.UK Frontend
-@import "~govuk-frontend/govuk/all";
-@import "~@hmcts/frontend/all";
+@import "govuk-frontend/govuk/all";
+@import "@hmcts/frontend/all";
 
 // Patterns that aren’t in Frontend
 @import "patterns/check-your-answers";
@@ -85,10 +85,8 @@ html {
 
 
 .jui-case-action-alert__heading {
-  @include govuk-font(
-    $size: 24,
-    $weight: bold
-  );
+  @include govuk-font($size: 24,
+    $weight: bold);
   color: inherit;
   margin-bottom: govuk-spacing(2);
   margin-top: 0;
@@ -145,7 +143,7 @@ html {
     display: inline-block;
     vertical-align: top;
 
-    .hmcts-page-heading__button:first-child  {
+    .hmcts-page-heading__button:first-child {
       margin-left: 0;
     }
 

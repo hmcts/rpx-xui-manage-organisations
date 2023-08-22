@@ -1907,6 +1907,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@circlon/angular-tree-component@npm:^11.0.4":
+  version: 11.0.4
+  resolution: "@circlon/angular-tree-component@npm:11.0.4"
+  dependencies:
+    mobx: ~4.14.1
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/common": ">=11.0.0"
+    "@angular/core": ">=11.0.0"
+  checksum: bbadb1231b7422fa829da9afb10f0fa31a770c4c860e9aafec697260e47705d5b6c0e46dee3913fe0d1a8308ac0f19c4c0aaa9c27a956ecf1e37bee62723d2aa
+  languageName: node
+  linkType: hard
+
 "@colors/colors@npm:1.5.0":
   version: 1.5.0
   resolution: "@colors/colors@npm:1.5.0"
@@ -2393,14 +2406,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:5.0.14-angular11-upgrade":
-  version: 5.0.14-angular11-upgrade
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:5.0.14-angular11-upgrade"
-  dependencies:
-    tslib: ^2.0.0
-  checksum: 31423d10606ee354989b76ef8ffc8ab0e7776be526f401fe70be1c4ca41c452e0698f726cdd4fb73c8c23807688ce9b81cf2ef0b5585722b62bc69cb08940340
+"@hmcts/ccd-case-ui-toolkit@link:../ccd-case-ui-toolkit/dist/ccd-case-ui-toolkit::locator=rpa-pui-manager%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@hmcts/ccd-case-ui-toolkit@link:../ccd-case-ui-toolkit/dist/ccd-case-ui-toolkit::locator=rpa-pui-manager%40workspace%3A."
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@hmcts/ccpay-web-component@link:../ccpay-web-component/dist/payment-lib::locator=rpa-pui-manager%40workspace%3A.":
   version: 0.0.0-use.local
@@ -2414,6 +2424,12 @@ __metadata:
   checksum: 40121f8b72d9e4045f8f544458a5a48fd09dab61c75da7d719f5225a0a6019deb84cee08b03b3596fb409dc3518efaed264269257cc6b8e9f6abbdc48d25e4bf
   languageName: node
   linkType: hard
+
+"@hmcts/media-viewer@link:../em-media-viewer/dist/media-viewer::locator=rpa-pui-manager%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@hmcts/media-viewer@link:../em-media-viewer/dist/media-viewer::locator=rpa-pui-manager%40workspace%3A."
+  languageName: node
+  linkType: soft
 
 "@hmcts/nodejs-healthcheck@npm:1.7.0":
   version: 1.7.0
@@ -4267,6 +4283,20 @@ __metadata:
   version: 3.3.1
   resolution: "@stryker-mutator/util@npm:3.3.1"
   checksum: 344c17ebcb65093be12e32ec69f5aa01fcb2aefd30f8af73e0767763b9dd62fd982c08d5f5f6313d47354ef05604edec0f5937f99e288ba9ea64479aa66d1f17
+  languageName: node
+  linkType: hard
+
+"@swimlane/ngx-datatable@npm:^20.0.0":
+  version: 20.1.0
+  resolution: "@swimlane/ngx-datatable@npm:20.1.0"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/common": ">=11.0.2"
+    "@angular/core": ">=11.0.2"
+    "@angular/platform-browser": ">=11.0.2"
+    rxjs: ^6.6.3 || ^7.4.0
+  checksum: ecc6ddab9e68ca07a100183357a6c8d1335d066d1676e0156202ca33f7008b6c7debe1b31bc4404cf3f25fe874a04a7ae39c6430c2340c6831dfafc282a38e66
   languageName: node
   linkType: hard
 
@@ -10598,6 +10628,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hammerjs@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "hammerjs@npm:2.0.8"
+  checksum: b092da7d1565a165d7edb53ef0ce212837a8b11f897aa3cf81a7818b66686b0ab3f4747fbce8fc8a41d1376594639ce3a054b0fd4889ca8b5b136a29ca500e27
+  languageName: node
+  linkType: hard
+
 "handle-thing@npm:^2.0.0":
   version: 2.0.1
   resolution: "handle-thing@npm:2.0.1"
@@ -13695,6 +13732,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mobx@npm:~4.14.1":
+  version: 4.14.1
+  resolution: "mobx@npm:4.14.1"
+  checksum: 0acf79c55fc77310e52b67a8ac9c8a00276c616cff0919bcc7ce7c9494ce97e2bbbc20abd5f75944f2a66a398e1e96b46d06b195f712069eb15305298c1717c1
+  languageName: node
+  linkType: hard
+
 "mocha@npm:^8.1.1":
   version: 8.4.0
   resolution: "mocha@npm:8.4.0"
@@ -13772,7 +13816,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.19.0, moment@npm:^2.19.3, moment@npm:^2.24.0":
+"moment-timezone@npm:^0.5.28":
+  version: 0.5.43
+  resolution: "moment-timezone@npm:0.5.43"
+  dependencies:
+    moment: ^2.29.4
+  checksum: 8075c897ed8a044f992ef26fe8cdbcad80caf974251db424cae157473cca03be2830de8c74d99341b76edae59f148c9d9d19c1c1d9363259085688ec1cf508d0
+  languageName: node
+  linkType: hard
+
+"moment@npm:^2.19.0, moment@npm:^2.19.3, moment@npm:^2.24.0, moment@npm:^2.29.4":
   version: 2.29.4
   resolution: "moment@npm:2.29.4"
   checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
@@ -13867,6 +13920,19 @@ __metadata:
   bin:
     mustache: ./bin/mustache
   checksum: e3073355fe8efc4c36eb18af9985812aa7ab216d2b07246b407320b0f93acebeae14719ade700e817393c27e2168a4a1092d6c2f65efb3e26f0be84747a81e78
+  languageName: node
+  linkType: hard
+
+"mutable-div@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "mutable-div@npm:1.0.0"
+  dependencies:
+    tslib: ^1.9.0
+  peerDependencies:
+    "@angular/common": ^8.2.13
+    "@angular/core": ^8.2.13
+    hammerjs: ^2.0.8
+  checksum: 162d3c33dd18abb22b6554fbb272f95cacc9fdb939e030436e9d7a13a87addacd93bcdb80646586e4ff19d94119b7d3205ab782e3243e0cad17b437b153cd17e
   languageName: node
   linkType: hard
 
@@ -14039,6 +14105,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ng2-material-dropdown@npm:0.11.0":
+  version: 0.11.0
+  resolution: "ng2-material-dropdown@npm:0.11.0"
+  dependencies:
+    tslib: ^1.9.0
+  peerDependencies:
+    "@angular/animations": ^8.0.0
+    "@angular/common": ^8.0.0
+    "@angular/core": ^8.0.0
+  checksum: 6022aa673d3e20ec3816bee261fd9c6b75d40c2b6ef7eb1e59cab764907b1d8d5ee04d50093bcbb1be62be5c52e379120c7a8eedb270d7907e4bb8ee38a24ed2
+  languageName: node
+  linkType: hard
+
 "ngrx-store-freeze@npm:^0.2.4":
   version: 0.2.4
   resolution: "ngrx-store-freeze@npm:0.2.4"
@@ -14047,6 +14126,21 @@ __metadata:
   peerDependencies:
     "@ngrx/store": ">=4.0.0"
   checksum: 55e211176c7c80a14523ad122cf006d5dedbf4b643a53fd60124eb73f86a018ade047fabcdc566eba7a13a14677b8442f56da6759e8563f7f5b8eaf36f169ddb
+  languageName: node
+  linkType: hard
+
+"ngx-chips@npm:2.1.0":
+  version: 2.1.0
+  resolution: "ngx-chips@npm:2.1.0"
+  dependencies:
+    ng2-material-dropdown: 0.11.0
+    tslib: ^1.9.0
+  peerDependencies:
+    "@angular/animations": ^8.0.0
+    "@angular/common": ^8.0.0
+    "@angular/core": ^8.0.0
+    "@angular/forms": ^8.0.0
+  checksum: ea630d2876fe0e3c0ca8664b8be886a101d596d09c2165148c16c495346a73d15a021af35fa9404321d35c351cbb3bcba2b0975f0f64ca9ac5d0da0daeadcd5a
   languageName: node
   linkType: hard
 
@@ -15201,6 +15295,22 @@ __metadata:
   version: 0.0.1
   resolution: "pause@npm:0.0.1"
   checksum: e96ee581b68085e6f2ba5adbcb4d4a41fe88e5b514061e76df2fe1905f0f65f4fe5a843b538e9551122c6b9184ff4be266c2ee0ea4614702f9a3d04466d9f462
+  languageName: node
+  linkType: hard
+
+"pdfjs-dist@npm:2.5.207":
+  version: 2.5.207
+  resolution: "pdfjs-dist@npm:2.5.207"
+  checksum: 253c7f44e7412d96b373162928b4ab820a4c1589e684c8cb8beb6306ffd62416402006edbe4a817789cb3f2f25ac21f217478aa335bb18bf66ca94d8fe65186e
+  languageName: node
+  linkType: hard
+
+"pegjs@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "pegjs@npm:0.10.0"
+  bin:
+    pegjs: bin/pegjs
+  checksum: 65d184ca0e1823ec0a3e7f384d7fd771bcbbc7abf460c82c9704022c1fa325425dc9007c92982b951879c3c9d4c39bf5cd6d99690e0540ff5016c04ca1ecd17e
   languageName: node
   linkType: hard
 
@@ -16831,10 +16941,12 @@ __metadata:
     "@angular/platform-browser": ^15.2.9
     "@angular/platform-browser-dynamic": ^15.2.9
     "@angular/router": ^15.2.9
+    "@circlon/angular-tree-component": ^11.0.4
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 5.0.14-angular11-upgrade
+    "@hmcts/ccd-case-ui-toolkit": "link:../ccd-case-ui-toolkit/dist/ccd-case-ui-toolkit"
     "@hmcts/ccpay-web-component": "link:../ccpay-web-component/dist/payment-lib"
     "@hmcts/frontend": 0.0.50-alpha
+    "@hmcts/media-viewer": "link:../em-media-viewer/dist/media-viewer"
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.0-NodeAndNgUpgrades-03
@@ -16855,6 +16967,7 @@ __metadata:
     "@stryker-mutator/karma-runner": ^3.0.1
     "@stryker-mutator/mocha-runner": ^3.0.1
     "@stryker-mutator/typescript": ^4.0.0
+    "@swimlane/ngx-datatable": ^20.0.0
     "@types/applicationinsights-js": ^1.0.9
     "@types/chai": ^4.1.7
     "@types/chai-as-promised": ^7.1.2
@@ -16906,6 +17019,7 @@ __metadata:
     global-agent: ^2.1.8
     govuk-frontend: 3.14.0
     govuk_frontend_toolkit: ^9.0.0
+    hammerjs: ^2.0.8
     helmet: ^3.21.3
     isomorphic-fetch: ^3.0.0
     jasmine-core: ~5.1.0
@@ -16924,8 +17038,11 @@ __metadata:
     log4js: ^3.0.6
     mocha: ^8.1.1
     mochawesome: 3.1.1
+    moment-timezone: ^0.5.28
+    mutable-div: ^1.0.0
     ng-packagr: ^14.2.2
     ngrx-store-freeze: ^0.2.4
+    ngx-chips: 2.1.0
     ngx-cookie: 4.0.2
     ngx-cookie-service: ^2.1.0
     ngx-logger: ^4.0.3
@@ -16937,6 +17054,8 @@ __metadata:
     p-iteration: ^1.1.7
     pa11y: ^5.3.0
     pa11y-reporter-html: ^2.0.0
+    pdfjs-dist: 2.5.207
+    pegjs: ^0.10.0
     portfinder: ^1.0.28
     protractor: ~7.0.0
     protractor-cucumber-framework: 6.1.1

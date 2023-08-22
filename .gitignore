@@ -27,6 +27,8 @@ api/.sessions/
 /config/local*.*
 api/.env
 
+api/.nyc_output
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
@@ -64,6 +66,8 @@ report.json
 # Stryker - mutation tests
 .stryker-tmp/
 stryker.log
+
+.angular/cache/
 
 # Yarn
 .pnp.*

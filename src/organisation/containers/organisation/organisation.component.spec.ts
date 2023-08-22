@@ -11,16 +11,16 @@ import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => { },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 const authStoreMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => { },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -75,7 +75,7 @@ describe('OrganisationComponent', () => {
   };
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
+    pipeSpy = spyOn(storeMock, 'pipe');//.and.returnValue(of(mockOrganisationDetails));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 

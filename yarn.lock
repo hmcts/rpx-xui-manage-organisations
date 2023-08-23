@@ -2281,16 +2281,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-display-international-finish":
-  version: 1.9.0-address-display-international-finish
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-display-international-finish"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-display-full":
+  version: 1.9.0-address-display-full
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-display-full"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 66463af3d6e0a0d38018f764b53933a23c8d378100b786f073d691f6c22f25212bb1952dd9a9f4ad244c95b83f8005de67cbb6941fcb127c72de0cf3c8437e0e
+  checksum: 804edc259bd7981357455bd4e83bb95c5b647b37efa95d302c937bdb3b348eac71a1722e6459e5a3a3ff47cc72b7808cef947717ad2d39646f278c0b9e525dcd
   languageName: node
   linkType: hard
 
@@ -19437,7 +19437,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-address-display-international-finish
+    "@hmcts/rpx-xui-common-lib": 1.9.0-address-display-full
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

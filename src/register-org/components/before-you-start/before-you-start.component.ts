@@ -50,7 +50,8 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   }
 
   private isFormValid(): boolean {
-    if (this.beforeYouStartForm.invalid) {
+    if (this.beforeYouStartForm.invalid ||
+      !this.beforeYouStartForm.get('confirmedOrganisationAccount').value) {
       this.beforeYouStartError = {
         description: 'Please select the checkbox',
         title: '',

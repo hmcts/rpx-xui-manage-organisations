@@ -13,7 +13,6 @@ import * as fromServices from './services';
     CommonModule,
     ExuiCommonLibModule,
     HttpClientModule,
-    ExuiCommonLibModule,
     registerRouting,
     SharedModule
   ],

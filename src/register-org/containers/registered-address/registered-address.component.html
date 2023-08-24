@@ -8,12 +8,11 @@
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">{{headingText}}</h1>
       <hr>
-      <p class="govuk-body" *ngIf="!startedInternational">
-        Add the main address of your organisation.
+      <p class="govuk-body" *ngIf="!startedInternational">Add the main address of your organisation.
         If registered with Companies House,
         add the address listed in the
         <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
-          information register</a>
+          information register</a>.
       </p>
       <form>
         <xuilib-write-address-field [formGroup]="formGroup" [isExpanded]="false" [internationalMode]="true"

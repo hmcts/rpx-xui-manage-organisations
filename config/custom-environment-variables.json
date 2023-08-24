@@ -22,6 +22,7 @@
     "loginRoleMatcher": "LOGIN_ROLE_MATCHER",
     "protocol": "PROTOCOL",
     "services": {
+        "componentApi": "SERVICES_CCD_COMPONENT_API",
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",

@@ -16,7 +16,7 @@
               </label>
               <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
                 name="pbaNumber" formControlName="pbaNumber">
-              <button *ngIf="i > 0" (click)="onRemovePBANumber(i)"
+              <button *ngIf="pbaNumbers.controls.length > 1" (click)="onRemovePBANumber(i)"
                 class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
                 Remove
               </button>

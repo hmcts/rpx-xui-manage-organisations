@@ -21,4 +21,8 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
   public ngOnDestroy(): void {
     super.ngOnDestroy();
   }
+
+  public onContinue(): void {
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address']);
+  }
 }

@@ -12,6 +12,7 @@ import { OrganisationTypeComponent } from './components/organisation-type/organi
 import { PaymentByAccountDetailsComponent } from './components/payment-by-account-details/payment-by-account-details.component';
 import { PaymentByAccountComponent } from './components/payment-by-account/payment-by-account.component';
 import { RegisteredWithRegulatorComponent } from './components/registered-with-regulator/registered-with-regulator.component';
+import { RegulatoryOrganisationTypeComponent } from './components/regulatory-organisation-type/regulatory-organisation-type.component';
 import { RegisteredAddressComponent } from './containers';
 import { RegisterOrgModule } from './register-org.module';
 
@@ -32,6 +33,10 @@ export const ROUTES: Routes = [
   {
     path: 'organisation-type',
     component: OrganisationTypeComponent
+  },
+  {
+    path: 'regulatory-organisation-type',
+    component: RegulatoryOrganisationTypeComponent
   },
   {
     path: 'document-exchange-reference',

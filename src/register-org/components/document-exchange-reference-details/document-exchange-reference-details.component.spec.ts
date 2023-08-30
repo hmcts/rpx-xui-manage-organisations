@@ -16,7 +16,11 @@ describe('DocumentExchangeReferenceComponent', () => {
     services: [],
     hasPBA: false,
     contactDetails: null,
-    hasRegisteredWithRegulator: null
+    hasRegisteredWithRegulator: null,
+    address: null,
+    organisationType: null,
+    regulatoryOrgType: null,
+    regulatorRegisteredWith: null
   };
 
   beforeEach(async () => {
@@ -45,5 +49,12 @@ describe('DocumentExchangeReferenceComponent', () => {
     component.setFormControlValues();
     expect(component.dxFormGroup.get('dxNumber').value).toEqual('931NR');
     expect(component.dxFormGroup.get('dxExchange').value).toEqual('MIDDLESEX');
+  });
+
+  it('should verify the labels', () => {
+    const dxNumberLabelEl = fixture.debugElement.nativeElement.querySelector('#dx-number-label');
+    const dxExchangeLabelEl = fixture.debugElement.nativeElement.querySelector('#dx-exchange-label');
+    expect(dxNumberLabelEl.textContent.trim()).toEqual('DX number (Optional)');
+    expect(dxExchangeLabelEl.textContent.trim()).toEqual('DX exchange (Optional)');
   });
 });

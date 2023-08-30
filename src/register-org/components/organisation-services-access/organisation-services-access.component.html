@@ -1,0 +1,39 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <span class="govuk-caption-xl">Register an organisation</span>
+      <form [formGroup]="servicesFormGroup">
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">
+                which services will your organisation need to access?
+              </h1>
+            </legend>
+            <hr>
+            <div class="govuk-label govuk-!-font-weight-bold">
+              Select services to access
+            </div>
+            <div class="govuk-hint">
+              You must select at least one option
+            </div>
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item" *ngFor="let service of services">
+                <input class="govuk-checkboxes__input" [id]="service.key" type="checkbox" [value]="service.value_en"
+                  name="services" formControlName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
+                <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
+                  {{service.value_en}}
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="govuk-button-group">
+          <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+        </div>
+        <a class="govuk-link" href="javascript:void(0)">Cancel</a>
+      </form>
+    </div>
+  </div>
+</main>

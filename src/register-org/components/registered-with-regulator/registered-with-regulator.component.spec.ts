@@ -16,7 +16,11 @@ describe('RegisteredWithRegulatorComponent', () => {
     hasPBA: null,
     contactDetails: null,
     hasRegisteredWithRegulator: null,
-    services: []
+    services: [],
+    address: null,
+    organisationType: null,
+    regulatoryOrgType: null,
+    regulatorRegisteredWith: null
   };
 
   beforeEach(async () => {

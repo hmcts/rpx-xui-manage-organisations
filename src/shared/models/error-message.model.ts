@@ -1,8 +1,12 @@
-/**
- * Cloned from rpx-xui-webapp src/app/models/error-message.model.ts
- */
 export interface ErrorMessage {
   title: string;
   description: string;
   fieldId?: string;
+  multiple?: boolean;
+  errors?: MultipleErrorMessage[];
+}
+
+export interface MultipleErrorMessage {
+  error: string;
+  name?: string;
 }

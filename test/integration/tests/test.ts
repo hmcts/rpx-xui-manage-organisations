@@ -3,7 +3,7 @@ import * as Mocha from 'mocha';
 import { config } from '../../../api/lib/config';
 import * as tunnel from '../../../api/lib/tunnel';
 
-if (config.proxy) {
+if (config.useProxy) {
   tunnel.init();
 }
 

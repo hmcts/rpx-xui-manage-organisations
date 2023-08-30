@@ -46,12 +46,13 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
   app.use(helmet(getConfigValue(HELMET)));
 }
 
-app.use(bodyParser.json({ limit: '5mb' }));
-app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));
 
 app.use(getXuiNodeMiddleware());
 tunnel.init();
+
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 function healthcheckConfig(msUrl) {
   return healthcheck.web(`${msUrl}/health`, {

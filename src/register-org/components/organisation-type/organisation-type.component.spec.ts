@@ -131,6 +131,7 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails on other', () => {
+    component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('');
     spyOn(component, 'onContinue').and.callThrough();
     spyOn(router, 'navigate');
     nativeElement.querySelector('#other').click();

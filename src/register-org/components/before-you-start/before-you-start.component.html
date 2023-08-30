@@ -1,4 +1,20 @@
-<main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1">
+<main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1" #mainContent>
+  <ng-container *ngIf="beforeYouStartError">
+    <div class="govuk-error-summary govuk-!-margin-top-4" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title">
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <li>
+            <a href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/before-you-start#{{beforeYouStartError.fieldId}}">
+              {{beforeYouStartError.description}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">
@@ -41,12 +57,19 @@
         </ul>
       </div>
       <div class="govuk-body govuk-!-margin-top-6">
-        <form>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" type="checkbox" id="confirmed-organisation-account" name="confirmedOrganisationAccount" formControlName="confirmedOrganisationAccount">
-            <label class="govuk-label govuk-checkboxes__label" for="confirmed-organisation-account">
-              I've checked whether my organisation already has an account
-            </label>
+        <form [formGroup]="beforeYouStartForm">
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': beforeYouStartError}">
+            <p class="govuk-error-message" *ngIf="beforeYouStartError">
+              <span class="govuk-visually-hidden">Error:</span>{{beforeYouStartError.description}}
+            </p>
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" type="checkbox" id="confirmed-organisation-account" name="confirmedOrganisationAccount" formControlName="confirmedOrganisationAccount">
+                <label class="govuk-label govuk-checkboxes__label" for="confirmed-organisation-account">
+                  I've checked whether my organisation already has an account
+                </label>
+              </div>
+            </div>
           </div>
           <div class="govuk-body govuk-!-margin-top-6">
             <button class="govuk-button govuk-buton--primary" (click)="onStart()">Start</button>

@@ -19,7 +19,7 @@ describe('RegisteredWithRegulatorComponent', () => {
     services: [],
     address: null,
     organisationType: null,
-    regulatoryOrganisationTypes: null,
+    regulators: [],
     regulatorRegisteredWith: null
   };
 

@@ -28,7 +28,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       services: ['Employment Tribunals'],
       organisationType: 'IT & communications',
       organisationNumber: '1234',
-      regulatoryOrganisationTypes: [{
+      regulators: [{
         regulatorType: 'Other',
         regulatorName: 'Solicotor Regulation Authority',
         organisationRegistrationNumber: '1234'

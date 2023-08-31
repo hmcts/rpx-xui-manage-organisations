@@ -108,10 +108,6 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     return this.regulatoryOrganisationTypeFormGroup.get('regulators') as FormArray;
   }
 
-  public get regulatoryTypes(): typeof RegulatoryType {
-    return RegulatoryType;
-  }
-
   public get regulatoryOrganisationTypeMessage(): typeof RegulatoryOrganisationTypeMessage {
     return RegulatoryOrganisationTypeMessage;
   }

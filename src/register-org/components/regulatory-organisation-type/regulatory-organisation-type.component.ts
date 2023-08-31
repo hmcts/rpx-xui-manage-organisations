@@ -128,7 +128,6 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     if (this.validateForm()) {
       // Set corresponding registration data
       this.registrationData.regulators = this.regulators.value as Regulator[];
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       this.router.navigate(['/register-org-new/organisation-services-access']);
     }
   }

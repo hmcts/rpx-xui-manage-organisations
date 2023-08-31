@@ -86,7 +86,7 @@
       <dl class="govuk-summary-list govuk-!-margin-bottom-0 govuk-summary-list--no-border">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Regulatory organisation type</dt>
-          <dd class="govuk-summary-list__value">{{ registrationData.regulatoryOrgType }}</dd>
+          <dd class="govuk-summary-list__value">{{ registrationData.regulatoryOrganisationTypes[0].regulatorName }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-with-regulator">

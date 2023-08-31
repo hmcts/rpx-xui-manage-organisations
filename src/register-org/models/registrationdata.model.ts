@@ -1,4 +1,5 @@
 import { ContactDetails } from './contact-details.model';
+import { RegulatoryOrganisationType } from './regulatory-organisation-type.model';
 
 export type RegistrationData = {
   name: string;
@@ -13,6 +14,6 @@ export type RegistrationData = {
   address: string;
   organisationType: string;
   organisationNumber?: string;
-  regulatoryOrgType: string;
+  regulatoryOrganisationTypes: RegulatoryOrganisationType[];
   regulatorRegisteredWith: string;
 }

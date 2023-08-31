@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { RegistrationData, RegulatoryOrgTypeMessageEnum } from '../../../register-org/models';
+import { RegistrationData, RegulatoryOrganisationTypeMessage } from '../../models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type.component';
 
@@ -27,7 +27,7 @@ describe('OrganisationTypeComponent', () => {
     services: [],
     address: null,
     organisationType: null,
-    regulatoryOrgType: null,
+    regulatoryOrganisationTypes: null,
     regulatorRegisteredWith: null
   };
 
@@ -154,11 +154,11 @@ describe('OrganisationTypeComponent', () => {
     expect(component.validationErrors.length).toBe(2);
     expect(component.validationErrors[0]).toEqual({
       id: 'regulator-name0',
-      message: RegulatoryOrgTypeMessageEnum.NO_REGULATOR_NAME
+      message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME
     });
     expect(component.validationErrors[1]).toEqual({
       id: 'regulator-type1',
-      message: RegulatoryOrgTypeMessageEnum.NO_REGULATORY_ORG_SELECTED
+      message: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED
     });
     expect(router.navigate).not.toHaveBeenCalled();
     // TODO Test to be amended to check for non-persistence once this has been modified to use

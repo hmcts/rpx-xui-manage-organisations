@@ -22,7 +22,7 @@ describe('ContactDetailsComponent', () => {
     services: [],
     address: null,
     organisationType: null,
-    regulatoryOrgType: null,
+    regulatoryOrganisationTypes: null,
     regulatorRegisteredWith: null
   };
 

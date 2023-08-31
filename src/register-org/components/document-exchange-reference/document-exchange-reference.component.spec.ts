@@ -19,7 +19,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     hasRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
-    regulatoryOrgType: null,
+    regulatoryOrganisationTypes: null,
     regulatorRegisteredWith: null
   };
 

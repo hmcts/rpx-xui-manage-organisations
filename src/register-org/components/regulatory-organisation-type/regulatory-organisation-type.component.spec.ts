@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { RegistrationData, RegulatoryOrganisationTypeMessage } from '../../models';
+import { RegistrationData, RegulatoryOrganisationTypeMessage } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type.component';
 
@@ -27,7 +27,7 @@ describe('OrganisationTypeComponent', () => {
     services: [],
     address: null,
     organisationType: null,
-    regulatoryOrganisationTypes: null,
+    regulators: [],
     regulatorRegisteredWith: null
   };
 
@@ -35,12 +35,12 @@ describe('OrganisationTypeComponent', () => {
     { name: 'Solicitor Regulation Authority', id: 'SRA' },
     { name: 'Financial Conduct Authority', id: 'FCA' },
     { name: 'Other', id: 'Other' },
-    { name: 'Not Applicable', id: 'N/A' }
+    { name: 'Not Applicable', id: 'NA' }
   ];
 
   beforeEach(async () => {
-    mockLovRefDataService = jasmine.createSpyObj('LovRefDataService', ['getRegulatoryOrganisationType']);
-    mockLovRefDataService.getRegulatoryOrganisationType.and.returnValue(of(organisationTypes));
+    mockLovRefDataService = jasmine.createSpyObj('LovRefDataService', ['getRegulatoryOrganisationTypes']);
+    mockLovRefDataService.getRegulatoryOrganisationTypes.and.returnValue(of(organisationTypes));
     await TestBed.configureTestingModule({
       declarations: [RegulatoryOrganisationTypeComponent],
       imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
@@ -64,13 +64,19 @@ describe('OrganisationTypeComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
+
   it('should create component with one "regulator type" selection field displayed and nothing else', () => {
+    component.registrationData = registrationData;
     expect(component).toBeTruthy();
     expect(nativeElement.querySelector('#regulator-type0')).toBeTruthy();
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
   });
 
   it('should show "Add another regulator" button and "Registration number" field if a regulator type is selected', () => {
+    component.registrationData = registrationData;
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
     const selectElement = nativeElement.querySelector('#regulator-type0');
     selectElement.value = selectElement.options[1].value;
@@ -86,6 +92,7 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should show "Add" button, and "Regulator name" and "Registration number" fields if the regulator type "Other" is selected', () => {
+    component.registrationData = registrationData;
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
     const selectElement = nativeElement.querySelector('#regulator-type0');
     selectElement.value = selectElement.options[3].value;
@@ -100,14 +107,15 @@ describe('OrganisationTypeComponent', () => {
     expect(nativeElement.querySelector('#add-another-regulator')).toBeTruthy();
   });
 
-  it('should show only the "Add another regulator" button if the regulator type "N/A" is selected', () => {
+  it('should show only the "Add another regulator" button if the regulator type "NA" is selected', () => {
+    component.registrationData = registrationData;
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
     const selectElement = nativeElement.querySelector('#regulator-type0');
     selectElement.value = selectElement.options[4].value;
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('N/A');
-    expect(component.onOptionSelected).toHaveBeenCalledWith('N/A', 0);
+    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('NA');
+    expect(component.onOptionSelected).toHaveBeenCalledWith('NA', 0);
     expect(component.regulators.controls[0].get('regulatorName')).toBeFalsy();
     expect(component.regulators.controls[0].get('organisationRegistrationNumber')).toBeFalsy();
     expect(nativeElement.querySelector('#regulator-name0')).toBeFalsy();
@@ -116,6 +124,7 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should add a new regulator entry when the "Add another regulator" button is clicked', () => {
+    component.registrationData = registrationData;
     spyOn(component, 'onAddNewBtnClicked').and.callThrough();
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     selectElement0.value = selectElement0.options[1].value;
@@ -139,6 +148,7 @@ describe('OrganisationTypeComponent', () => {
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
     spyOn(component, 'onContinueClicked').and.callThrough();
     spyOn(router, 'navigate');
+    component.registrationData = registrationData;
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     // Select the "Other" option and leave the mandatory regulatorName field blank deliberately
     selectElement0.value = selectElement0.options[3].value;
@@ -153,12 +163,14 @@ describe('OrganisationTypeComponent', () => {
     expect(component.onContinueClicked).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(2);
     expect(component.validationErrors[0]).toEqual({
-      id: 'regulator-name0',
-      message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME
+      description: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME,
+      title: '',
+      fieldId: 'regulator-name0'
     });
     expect(component.validationErrors[1]).toEqual({
-      id: 'regulator-type1',
-      message: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED
+      description: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED,
+      title: '',
+      fieldId: 'regulator-type1'
     });
     expect(router.navigate).not.toHaveBeenCalled();
     // TODO Test to be amended to check for non-persistence once this has been modified to use
@@ -168,6 +180,7 @@ describe('OrganisationTypeComponent', () => {
   it('should validate the form on clicking "Continue" and persist data and navigate to next page if validation succeeds', () => {
     spyOn(component, 'onContinueClicked').and.callThrough();
     spyOn(router, 'navigate');
+    component.registrationData = registrationData;
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     // Select the "Other" option and fill in the mandatory regulatorName field
     selectElement0.value = selectElement0.options[3].value;
@@ -194,6 +207,7 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should not show a "Remove" button when there is only one regulator entry', () => {
+    component.registrationData = registrationData;
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     selectElement0.value = selectElement0.options[1].value;
     selectElement0.dispatchEvent(new Event('change'));
@@ -202,6 +216,7 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should show a "Remove" button for every entry when there is more than one regulator entry', () => {
+    component.registrationData = registrationData;
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     selectElement0.value = selectElement0.options[1].value;
     selectElement0.dispatchEvent(new Event('change'));

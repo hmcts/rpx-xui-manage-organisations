@@ -21,7 +21,7 @@ describe('PaymentByAccountComponent', () => {
     hasRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
-    regulatoryOrganisationTypes: null,
+    regulators: [],
     regulatorRegisteredWith: null
   };
 

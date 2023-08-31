@@ -5,7 +5,12 @@ import { Observable } from 'rxjs';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegisterComponent } from '../../containers/register/register-org.component';
-import { RegulatoryOrganisationType, RegulatoryOrganisationTypeMessage, RegulatoryType } from '../../models';
+import {
+  Regulator,
+  RegulatoryOrganisationType,
+  RegulatoryOrganisationTypeMessage,
+  RegulatoryType
+} from '../../models';
 import { RegisterOrgService } from '../../services/index';
 
 @Component({
@@ -29,14 +34,6 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
 
   public ngOnInit(): void {
     super.ngOnInit();
-
-    this.regulatoryOrganisationTypeFormGroup = new FormGroup({
-      regulators: new FormArray([
-        new FormGroup({
-          regulatorType: new FormControl(null, Validators.required)
-        })
-      ])
-    });
     this.regulatorTypes$ = this.lovRefDataService.getRegulatoryOrganisationTypes();
     this.setFormControlValues();
   }
@@ -51,8 +48,8 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     const formGroup = this.regulators.controls[formGroupIndex] as FormGroup;
     switch (value) {
       case (RegulatoryType.Other): {
-        formGroup.setControl('regulatorName', new FormControl(null, Validators.required));
-        formGroup.setControl('organisationRegistrationNumber', new FormControl(null));
+        formGroup.addControl('regulatorName', new FormControl(formGroup.value.regulatorName, Validators.required));
+        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber));
         break;
       }
       case (RegulatoryType.NotApplicable): {
@@ -62,35 +59,47 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
       }
       default: {
         formGroup.removeControl('regulatorName');
-        formGroup.setControl('organisationRegistrationNumber', new FormControl(null));
+        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber));
       }
     }
   }
 
   public setFormControlValues(): void {
-    if (this.registrationData.regulatoryOrganisationTypes?.length) {
-      console.log('REGULATORY ORGANISATION TYPES', this.registrationData.regulatoryOrganisationTypes);
-      let formGroupIndex = 1;
-      this.registrationData.regulatoryOrganisationTypes.forEach((regulatoryOrganisationType) => {
-        console.log('REGULATORY ORGANISATION TYPE', regulatoryOrganisationType);
-        const formGroup = new FormGroup({}); // this.regulators.controls[formGroupIndex] as FormGroup;
+    if (this.registrationData.regulators?.length) {
+      this.regulatoryOrganisationTypeFormGroup = new FormGroup({
+        regulators: new FormArray([])
+      });
+      this.registrationData.regulators.forEach((regulatoryOrganisationType) => {
         switch (regulatoryOrganisationType.regulatorType) {
           case (RegulatoryType.Other): {
-            formGroup.setControl('regulatorName', new FormControl(regulatoryOrganisationType.regulatorName, Validators.required));
-            formGroup.setControl('organisationRegistrationNumber', new FormControl(regulatoryOrganisationType.organisationRegistrationNumber));
+            this.regulators.push(new FormGroup({
+              regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required),
+              regulatorName: new FormControl(regulatoryOrganisationType.regulatorName, Validators.required),
+              organisationRegistrationNumber: new FormControl(regulatoryOrganisationType.organisationRegistrationNumber)
+            }));
             break;
           }
           case (RegulatoryType.NotApplicable): {
-            formGroup.removeControl('regulatorName');
-            formGroup.removeControl('organisationRegistrationNumber');
+            this.regulators.push(new FormGroup({
+              regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required)
+            }));
             break;
           }
           default: {
-            // formGroup.removeControl('regulatorName');
-            formGroup.setControl('organisationRegistrationNumber', new FormControl(regulatoryOrganisationType.organisationRegistrationNumber));
+            this.regulators.push(new FormGroup({
+              regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required),
+              organisationRegistrationNumber: new FormControl(regulatoryOrganisationType.organisationRegistrationNumber)
+            }));
           }
         }
-        formGroupIndex = formGroupIndex + 1;
+      });
+    } else {
+      this.regulatoryOrganisationTypeFormGroup = new FormGroup({
+        regulators: new FormArray([
+          new FormGroup({
+            regulatorType: new FormControl(null, Validators.required)
+          })
+        ])
       });
     }
   }
@@ -121,10 +130,19 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
 
   public onContinueClicked(): void {
     if (this.validateForm()) {
-      this.registrationData.regulatoryOrganisationTypes = this.regulators.value as RegulatoryOrganisationType[];
+      // Set corresponding registration data
+      this.registrationData.regulators = this.regulators.value as Regulator[];
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      this.router.navigate(['/register-org-new/organisation-services-access']).then(() => {});
+      this.router.navigate(['/register-org-new/organisation-services-access']);
     }
+  }
+
+  public fieldHasErrorMessage(fieldId: string): boolean {
+    return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId);
+  }
+
+  public onRemoveBtnClicked(index: number): void {
+    // TODO To be implemented in a future ticket
   }
 
   private validateForm(): boolean {
@@ -150,13 +168,5 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
       this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
     return this.validationErrors.length === 0;
-  }
-
-  public fieldHasErrorMessage(fieldId: string): boolean {
-    return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId);
-  }
-
-  public onRemoveBtnClicked(index: number): void {
-    // TODO To be implemented in a future ticket
   }
 }

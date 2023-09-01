@@ -38,7 +38,7 @@ describe('CompanyHouseDetailsComponent', () => {
   });
 
   it('should set the error message if company number is invalid', () => {
-    const companyNumberError = { title: '', description: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER, fieldId: 'companyHouseNumber' };
+    const companyNumberError = { title: '', description: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER, fieldId: 'company-house-number' };
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
     expect(component.companyNumberError).toEqual(companyNumberError);

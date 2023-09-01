@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { RegistrationData } from '../../../register-org/models';
+import { RegistrationData, RegulatoryType } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type.component';
 
@@ -166,6 +166,27 @@ describe('RegulatoryOrganisationTypeComponent', () => {
     fixture.detectChanges();
     expect(nativeElement.querySelector('#remove-button0')).toBeTruthy();
     expect(nativeElement.querySelector('#remove-button1')).toBeTruthy();
+  });
+
+  it('should select unique "Not Applicable" regulatory type submitting the form', () => {
+    // Not Applicable
+    const selectElement0: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
+    selectElement0.selectedIndex = 4;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    // Display controls to add new regulator
+    const addButton = nativeElement.querySelector('#add-another-regulator');
+    addButton.click();
+    fixture.detectChanges();
+    // Not Applicable
+    const selectElement1: HTMLSelectElement = nativeElement.querySelector('#regulator-type1');
+    selectElement1.selectedIndex = 4;
+    selectElement1.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    component.onContinueClicked();
+    expect(component.registrationData.regulators.length).toEqual(1);
+    expect(component.registrationData.regulators[0].regulatorType).toEqual(RegulatoryType.NotApplicable);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });
 
   /* TODO: Commenting the below tests for now

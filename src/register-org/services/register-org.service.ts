@@ -15,7 +15,8 @@ export class RegisterOrgService {
 
   public getRegisterData() : RegistrationData {
     const registerOrgStr = this.sessionStorageService.getItem(this.registrationDataKey);
-    if (registerOrgStr) {
+    // TODO: Remove 'undefined' check once all pages finished
+    if (registerOrgStr && registerOrgStr !== 'undefined') {
       const registerOrganisation = JSON.parse(registerOrgStr) as RegistrationData;
       return registerOrganisation;
     }

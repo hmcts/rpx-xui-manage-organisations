@@ -4,7 +4,7 @@
         <a class="govuk-back-link" href="javascript:history.back()">Back</a>
         <span class="govuk-caption-xl">Register an organisation</span>
         <h1 class="govuk-heading-xl">
-          Who is your organisation registered with?
+            What regulator are you (as in individual) registered with?
         </h1>
         <hr>
         <div class="govuk-body govuk-!-margin-top-6">
@@ -18,26 +18,7 @@
               <div class="govuk-hint">HMCTS needs to gather this information as it is required to gain access to some of our services.</div>
             </legend>
           </fieldset>
-          <form [formGroup]="regulatoryOrganisationTypeFormGroup">
-            <div class="govuk-form-group">
-              <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                  <h1 class="govuk-fieldset__heading">
-                    Select the type of regulatory organisation
-                  </h1>
-                </legend>
-                <div class="govuk-hint">
-                  For example Solicitor Regulation Authority (SRA) number
-                </div>
-                <select class="govuk-select govuk-!-width-two-thirds"
-                id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
-                <option [ngValue]="'none'" disabled>--Select a value--</option>
-                <option *ngFor="let otherOrganisationType of organisationTypes$ | async" [ngValue]="otherOrganisationType.id">
-                  {{otherOrganisationType.name}}
-                </option>
-              </select>
-              </fieldset>
-            </div>
+          <form [formGroup]="regulatoryOrganisationFormGroup">
             <div class="govuk-button-group">
               <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
             </div>

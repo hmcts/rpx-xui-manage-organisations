@@ -128,7 +128,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     if (this.validateForm()) {
       // Set corresponding registration data
       this.registrationData.regulators = this.regulators.value as Regulator[];
-      this.router.navigate(['/register-org-new/organisation-services-access']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }
 

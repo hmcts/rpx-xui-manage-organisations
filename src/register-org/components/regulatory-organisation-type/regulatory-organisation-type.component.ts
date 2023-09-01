@@ -28,4 +28,8 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     this.regulatoryOrganisationTypeFormGroup.get('otherOrganisationType').setValue('none');
     this.organisationTypes$ = this.lovRefDataService.getRegulatoryOrganisationType();
   }
+
+  public onContinue(): void {
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+  }
 }

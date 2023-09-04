@@ -8,6 +8,7 @@ nodejs:
     NODE_TLS_REJECT_UNAUTHORIZED: 0
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
+    SERVICES_CCD_COMPONENT_API: https://idam-api.aat.platform.hmcts.net
     IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
     IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
     #RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal
@@ -16,6 +17,7 @@ nodejs:
     #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
+
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     PUI_ENV: preview
     FEATURE_SECURE_COOKIE_ENABLED: false

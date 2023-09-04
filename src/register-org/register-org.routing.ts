@@ -6,12 +6,13 @@ import { CompanyHouseDetailsComponent } from './components/company-house-details
 import { ContactDetailsComponent } from './components/contact-details/contact-details.component';
 import { DocumentExchangeReferenceDetailsComponent } from './components/document-exchange-reference-details/document-exchange-reference-details.component';
 import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
+import { IndividualRegisteredWithRegulatorDetailsComponent } from './components/individual-registered-with-regulator-details/individual-registered-with-regulator-details.component';
+import { IndividualRegisteredWithRegulatorComponent } from './components/individual-registered-with-regulator/individual-registered-with-regulator.component';
 import { OfficeAddressesComponent } from './components/office-addresses/office-addresses.component';
 import { OrganisationServicesAccessComponent } from './components/organisation-services-access/organisation-services-access.component';
 import { OrganisationTypeComponent } from './components/organisation-type/organisation-type.component';
 import { PaymentByAccountDetailsComponent } from './components/payment-by-account-details/payment-by-account-details.component';
 import { PaymentByAccountComponent } from './components/payment-by-account/payment-by-account.component';
-import { RegisteredWithRegulatorComponent } from './components/registered-with-regulator/registered-with-regulator.component';
 import { RegulatoryOrganisationTypeComponent } from './components/regulatory-organisation-type/regulatory-organisation-type.component';
 import { RegisteredAddressComponent } from './containers';
 import { RegisterOrgModule } from './register-org.module';
@@ -67,8 +68,12 @@ export const ROUTES: Routes = [
     component: RegisteredAddressComponent
   },
   {
-    path: 'registered-with-regulator',
-    component: RegisteredWithRegulatorComponent
+    path: 'individual-registered-with-regulator',
+    component: IndividualRegisteredWithRegulatorComponent
+  },
+  {
+    path: 'individual-registered-with-regulator-details',
+    component: IndividualRegisteredWithRegulatorDetailsComponent
   },
   {
     path: 'contact-details',

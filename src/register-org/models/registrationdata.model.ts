@@ -8,7 +8,7 @@ export type RegistrationData = {
   services: string[];
   hasPBA: boolean;
   contactDetails: ContactDetails;
-  hasRegisteredWithRegulator: boolean;
+  hasIndividualRegisteredWithRegulator: boolean;
   companyHouseNumber?: string;
   address: string;
   organisationType: string;

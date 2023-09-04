@@ -15,7 +15,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     dxExchange: null,
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     services: [],
     address: null,
     organisationType: null,
@@ -42,14 +42,14 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
 
   it('should set the yes radio button form control', () => {
     component.registrationData = registrationData;
-    component.registrationData.hasRegisteredWithRegulator = true;
+    component.registrationData.hasIndividualRegisteredWithRegulator = true;
     component.setFormControlValues();
     expect(component.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value).toEqual('yes');
   });
 
   it('should set the no radio button form control', () => {
     component.registrationData = registrationData;
-    component.registrationData.hasRegisteredWithRegulator = false;
+    component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.setFormControlValues();
     expect(component.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value).toEqual('no');
   });

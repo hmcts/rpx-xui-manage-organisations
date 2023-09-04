@@ -39,20 +39,20 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
     if (this.isFormValid()) {
       if (this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value === 'yes') {
         // Set corresponding registration data
-        this.registrationData.hasRegisteredWithRegulator = true;
+        this.registrationData.hasIndividualRegisteredWithRegulator = true;
         // Navigate to what regulator are you registered with page
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']);
       } else {
         // Set corresponding registration data
-        this.registrationData.hasRegisteredWithRegulator = false;
+        this.registrationData.hasIndividualRegisteredWithRegulator = false;
         // TODO: Navigate to CYA page
       }
     }
   }
 
   public setFormControlValues(): void {
-    if (this.registrationData.hasRegisteredWithRegulator !== null) {
-      if (this.registrationData.hasRegisteredWithRegulator) {
+    if (this.registrationData.hasIndividualRegisteredWithRegulator !== null) {
+      if (this.registrationData.hasIndividualRegisteredWithRegulator) {
         this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue('yes');
       } else {
         this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue('no');

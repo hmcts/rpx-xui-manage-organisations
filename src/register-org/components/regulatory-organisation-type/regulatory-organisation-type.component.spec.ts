@@ -19,7 +19,7 @@ describe('OrganisationTypeComponent', () => {
     dxExchange: null,
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     services: [],
     address: null,
     organisationType: null,

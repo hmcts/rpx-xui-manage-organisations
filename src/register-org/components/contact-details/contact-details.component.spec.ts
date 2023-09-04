@@ -18,7 +18,7 @@ describe('ContactDetailsComponent', () => {
       lastName: 'Davis',
       workEmailAddress: 'john.davis@testorganisation.com'
     },
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     services: [],
     address: null,
     organisationType: null,

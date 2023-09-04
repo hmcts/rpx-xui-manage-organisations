@@ -36,7 +36,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
         workEmailAddress: 'John.Davis@testorganisation.com'
       },
       hasPBA: true,
-      hasRegisteredWithRegulator: true
+      hasIndividualRegisteredWithRegulator: true
     };
     const optional = this.route.snapshot.paramMap.get('optional');
     if (optional === 'false') {

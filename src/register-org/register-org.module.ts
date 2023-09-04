@@ -11,8 +11,8 @@ import * as fromServices from './services';
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
     ExuiCommonLibModule,
+    HttpClientModule,
     registerRouting,
     SharedModule
   ],

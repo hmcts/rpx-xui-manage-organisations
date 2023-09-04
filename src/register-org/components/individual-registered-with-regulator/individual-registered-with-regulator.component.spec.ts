@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegistrationData } from '../../models/registrationdata.model';
-import { RegisteredWithRegulatorComponent } from './registered-with-regulator.component';
+import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 
-describe('RegisteredWithRegulatorComponent', () => {
-  let component: RegisteredWithRegulatorComponent;
-  let fixture: ComponentFixture<RegisteredWithRegulatorComponent>;
+describe('IndividualRegisteredWithRegulatorComponent', () => {
+  let component: IndividualRegisteredWithRegulatorComponent;
+  let fixture: ComponentFixture<IndividualRegisteredWithRegulatorComponent>;
 
   const registrationData: RegistrationData = {
     name: '',
@@ -25,13 +25,13 @@ describe('RegisteredWithRegulatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisteredWithRegulatorComponent],
+      declarations: [IndividualRegisteredWithRegulatorComponent],
       imports: [RouterTestingModule]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisteredWithRegulatorComponent);
+    fixture = TestBed.createComponent(IndividualRegisteredWithRegulatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

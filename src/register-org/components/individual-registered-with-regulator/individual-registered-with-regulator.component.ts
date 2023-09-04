@@ -6,10 +6,10 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-  selector: 'app-registered-with-regulator',
-  templateUrl: './registered-with-regulator.component.html'
+  selector: 'app-individual-registered-with-regulator',
+  templateUrl: './individual-registered-with-regulator.component.html'
 })
-export class RegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
+export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
   public registeredWithRegulatorFormGroup: FormGroup;
@@ -40,7 +40,8 @@ export class RegisteredWithRegulatorComponent extends RegisterComponent implemen
       if (this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value === 'yes') {
         // Set corresponding registration data
         this.registrationData.hasRegisteredWithRegulator = true;
-        // TODO: Navigate to what regulator are you registered with page
+        // Navigate to what regulator are you registered with page
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']);
       } else {
         // Set corresponding registration data
         this.registrationData.hasRegisteredWithRegulator = false;

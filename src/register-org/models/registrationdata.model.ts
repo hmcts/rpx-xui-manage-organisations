@@ -9,11 +9,12 @@ export type RegistrationData = {
   services: string[];
   hasPBA: boolean;
   contactDetails: ContactDetails;
-  hasIndividualRegisteredWithRegulator: boolean;
   companyHouseNumber?: string;
   address: string;
   organisationType: string;
   organisationNumber?: string;
-  regulators: Regulator[];
   regulatorRegisteredWith: string;
+  regulators: Regulator[];
+  hasIndividualRegisteredWithRegulator: boolean;
+  individualRegulatorDetails?: Regulator[];
 }

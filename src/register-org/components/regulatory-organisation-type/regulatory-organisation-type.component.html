@@ -31,7 +31,9 @@
         <form [formGroup]="regulatoryOrganisationTypeFormGroup">
           <div class="govuk-form-group">
             <ng-container formArrayName="regulators">
-              <div *ngFor="let _ of regulators.controls; index as i" [ngClass]="{'govuk-form-group--error': validationErrors.length}">
+              <div *ngFor="let _ of regulators.controls; index as i"
+                class="govuk-!-margin-bottom-6"
+                [ngClass]="{'govuk-form-group--error': validationErrors.length}">
                 <ng-container [formGroupName]="i">
                   <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
@@ -50,7 +52,7 @@
                       [id]="'regulator-type' + i"
                       name="regulatorType" formControlName="regulatorType"
                       (change)="onOptionSelected($event.target.value, i)">
-                      <option disabled>--Select a value--</option>
+                      <option [ngValue]="SELECT_A_VALUE" disabled>--Select a value--</option>
                       <option *ngFor="let regulatorType of regulatorTypes$ | async"
                         [value]="regulatorType.id">
                         {{regulatorType.name}}

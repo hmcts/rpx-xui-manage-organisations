@@ -20,6 +20,8 @@ import { RegisterOrgService } from '../../services/index';
 export class RegulatoryOrganisationTypeComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;
 
+  public readonly SELECT_A_VALUE = 'none';
+
   public regulatoryOrganisationTypeFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
   public validationErrors: ErrorMessage[] = [];
@@ -97,7 +99,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
       this.regulatoryOrganisationTypeFormGroup = new FormGroup({
         regulators: new FormArray([
           new FormGroup({
-            regulatorType: new FormControl(null, Validators.required)
+            regulatorType: new FormControl(this.SELECT_A_VALUE, Validators.required)
           })
         ])
       });
@@ -114,14 +116,14 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
 
   public onAddNewBtnClicked(): void {
     this.regulators.push(new FormGroup({
-      regulatorType: new FormControl(null, Validators.required)
+      regulatorType: new FormControl(this.SELECT_A_VALUE, Validators.required)
     }));
   }
 
   public showAddRegulatorButton(): boolean {
     // Return true if an organisation type has been selected for every regulator entry displayed; this prevents the
     // user from adding a new regulator before selecting an organisation type for the previous entry
-    return this.regulators.controls.every((formGroup) => !!formGroup.get('regulatorType').value);
+    return this.regulators.controls.every((formGroup) => !!formGroup.get('regulatorType').value && formGroup.get('regulatorType').value !== this.SELECT_A_VALUE);
   }
 
   public onContinueClicked(): void {

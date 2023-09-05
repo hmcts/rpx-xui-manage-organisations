@@ -28,8 +28,8 @@ describe('OrganisationTypeComponent', () => {
     hasRegisteredWithRegulator: null,
     services: [],
     address: null,
+    regulators: [],
     organisationType: null,
-    regulatoryOrgType: null,
     regulatorRegisteredWith: null
   };
 

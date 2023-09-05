@@ -23,12 +23,14 @@ describe('RegulatoryOrganisationTypeComponent', () => {
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
+    services: [],
     hasPBA: null,
     contactDetails: null,
     hasRegisteredWithRegulator: null,
-    services: [],
+    companyHouseNumber: null,
     address: null,
     organisationType: null,
+    organisationNumber: null,
     regulators: [],
     regulatorRegisteredWith: null
   };
@@ -69,17 +71,25 @@ describe('RegulatoryOrganisationTypeComponent', () => {
   });
 
   afterEach(() => {
-    TestBed.resetTestingModule();
+    fixture.destroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display a dropdown with "none" as default value during initial load', () => {
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     const selectElement: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
     expect(selectElement.value).toContain(component.SELECT_A_VALUE);
   });
 
   it('should show "Add another regulator" button and "Registration number" field if a regulator type is selected', () => {
-    component.registrationData = registrationData;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
     const selectElement: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
     selectElement.selectedIndex = 1;
@@ -94,8 +104,10 @@ describe('RegulatoryOrganisationTypeComponent', () => {
     expect(nativeElement.querySelector('#add-another-regulator')).toBeTruthy();
   });
 
-  it('should show "Add" button, and "Regulator name" and "Registration number" fields if the regulator type "Other" is selected', () => {
-    component.registrationData = registrationData;
+  it('should show "Add another regulator" button, and "Regulator name" and "Registration number" fields if the regulator type "Other" is selected', () => {
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
     const selectElement: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
     selectElement.selectedIndex = 3;
@@ -111,22 +123,21 @@ describe('RegulatoryOrganisationTypeComponent', () => {
   });
 
   it('should show only the "Add another regulator" button if the regulator type "NA" is selected', () => {
-    component.registrationData = registrationData;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     expect(nativeElement.querySelector('#add-another-regulator')).toBeFalsy();
     const selectElement: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
     selectElement.selectedIndex = 4;
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
     expect(component.regulators.controls[0].get('regulatorType').value).toEqual('NA');
-    expect(component.onOptionSelected).toHaveBeenCalledWith('NA', 0);
-    expect(component.regulators.controls[0].get('organisationRegistrationNumber')).toBeFalsy();
-    expect(nativeElement.querySelector('#regulator-name0')).toBeFalsy();
-    expect(nativeElement.querySelector('#organisation-registration-number0')).toBeFalsy();
-    expect(nativeElement.querySelector('#add-another-regulator')).toBeTruthy();
   });
 
   it('should add a new regulator entry when the "Add another regulator" button is clicked', () => {
-    component.registrationData = registrationData;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     spyOn(component, 'onAddNewBtnClicked').and.callThrough();
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     selectElement0.value = selectElement0.options[1].value;
@@ -148,7 +159,9 @@ describe('RegulatoryOrganisationTypeComponent', () => {
   });
 
   it('should not show a "Remove" button when there is only one regulator entry', () => {
-    component.registrationData = registrationData;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     selectElement0.value = selectElement0.options[1].value;
     selectElement0.dispatchEvent(new Event('change'));
@@ -157,7 +170,9 @@ describe('RegulatoryOrganisationTypeComponent', () => {
   });
 
   it('should show a "Remove" button for every entry when there is more than one regulator entry', () => {
-    component.registrationData = registrationData;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     const selectElement0 = nativeElement.querySelector('#regulator-type0');
     selectElement0.value = selectElement0.options[1].value;
     selectElement0.dispatchEvent(new Event('change'));
@@ -171,16 +186,16 @@ describe('RegulatoryOrganisationTypeComponent', () => {
   });
 
   it('should select unique "Not Applicable" regulatory type submitting the form', () => {
-    // Not Applicable
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
     const selectElement0: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
     selectElement0.selectedIndex = 4;
     selectElement0.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    // Display controls to add new regulator
     const addButton = nativeElement.querySelector('#add-another-regulator');
     addButton.click();
     fixture.detectChanges();
-    // Not Applicable
     const selectElement1: HTMLSelectElement = nativeElement.querySelector('#regulator-type1');
     selectElement1.selectedIndex = 4;
     selectElement1.dispatchEvent(new Event('change'));

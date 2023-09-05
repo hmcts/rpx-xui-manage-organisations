@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LovRefDataModel, RegulatoryOrganisationType } from '../models/lovRefData.model';
+import { LovRefDataModel } from '../models/lovRefData.model';
+import { RegulatoryOrganisationType } from '../../register-org/models/regulatory-organisation-type.model';
 
 @Injectable({ providedIn: 'root' })
 export class LovRefDataService {
@@ -26,7 +27,7 @@ export class LovRefDataService {
     return this.http.get<LovRefDataModel[]>('external/getLovRefData', options);
   }
 
-  public getRegulatoryOrganisationType(): Observable<RegulatoryOrganisationType[]> {
+  public getRegulatoryOrganisationTypes(): Observable<RegulatoryOrganisationType[]> {
     return this.http.get<RegulatoryOrganisationType[]>('external/regulatoryOrganisationTypes');
   }
 }

@@ -74,6 +74,8 @@ describe('RegulatoryOrganisationTypeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    const selectElement: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
+    expect(selectElement.value).toContain(component.SELECT_A_VALUE);
   });
 
   it('should show "Add another regulator" button and "Registration number" field if a regulator type is selected', () => {

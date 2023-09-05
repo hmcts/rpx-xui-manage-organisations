@@ -11,6 +11,7 @@ import { PaymentByAccountDetailsComponent } from './payment-by-account-details/p
 import { PaymentByAccountComponent } from './payment-by-account/payment-by-account.component';
 import { RegisteredWithRegulatorComponent } from './registered-with-regulator/registered-with-regulator.component';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
+import { RegistrationSubmittedComponent } from './registration-submitted/registration-submitted.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,
@@ -25,5 +26,6 @@ export const components: any[] = [
   RegulatoryOrganisationTypeComponent,
   PaymentByAccountComponent,
   PaymentByAccountDetailsComponent,
-  RegisteredWithRegulatorComponent
+  RegisteredWithRegulatorComponent,
+  RegistrationSubmittedComponent
 ];

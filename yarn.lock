@@ -2406,17 +2406,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@link:./temp-dist/ccd-case-ui-toolkit::locator=rpa-pui-manager%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@hmcts/ccd-case-ui-toolkit@link:./temp-dist/ccd-case-ui-toolkit::locator=rpa-pui-manager%40workspace%3A."
+"@hmcts/ccd-case-ui-toolkit@npm:7.0.0-NodeAndNgUpgrades.1":
+  version: 7.0.0-NodeAndNgUpgrades.1
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.0.0-NodeAndNgUpgrades.1"
+  dependencies:
+    tslib: ^2.3.0
+  checksum: 4240425015517a3c99ab8485746264d5c0867e0d6d4f4c791e4feffab4607b69f24357ca897b968882cc2b359d568bec673498384ee1af7d707c28e3a0f5b9e7
   languageName: node
-  linkType: soft
+  linkType: hard
 
-"@hmcts/ccpay-web-component@link:./temp-dist/payment-lib::locator=rpa-pui-manager%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@hmcts/ccpay-web-component@link:./temp-dist/payment-lib::locator=rpa-pui-manager%40workspace%3A."
+"@hmcts/ccpay-web-component@npm:6.0.0-beta01":
+  version: 6.0.0-beta01
+  resolution: "@hmcts/ccpay-web-component@npm:6.0.0-beta01"
+  dependencies:
+    tslib: ^2.3.0
+  peerDependencies:
+    "@angular/common": ^16.1.6
+    "@angular/core": ^16.1.6
+  checksum: 841e6b94254409e6cb7c3d67a2074eee91ffdb64eed40ea8d3b9c828751509e58f8dc256baac0a402ab4e8f994f19909f334f56cd2bdd8a1dc523e8253b69327
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@hmcts/frontend@npm:0.0.50-alpha":
   version: 0.0.50-alpha
@@ -17033,8 +17042,8 @@ __metadata:
     "@angular/router": ^15.2.9
     "@circlon/angular-tree-component": ^11.0.4
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": "link:./temp-dist/ccd-case-ui-toolkit"
-    "@hmcts/ccpay-web-component": "link:./temp-dist/payment-lib"
+    "@hmcts/ccd-case-ui-toolkit": 7.0.0-NodeAndNgUpgrades.1
+    "@hmcts/ccpay-web-component": 6.0.0-beta01
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/media-viewer": 2.10.0
     "@hmcts/nodejs-healthcheck": 1.7.0
@@ -17153,7 +17162,7 @@ __metadata:
     protractor-screenshot-utils: ^1.0.5
     redis: ^3.0.2
     rest-assured: ^0.1.0
-    rpx-xui-translation: 0.1.6
+    rpx-xui-translation: 1.0.0-NodeAndNgUpgrades-02
     rx-polling: ^1.1.0
     rxjs: ^7.8.1
     rxjs-compat: ^6.4.0
@@ -17181,17 +17190,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:0.1.6":
-  version: 0.1.6
-  resolution: "rpx-xui-translation@npm:0.1.6"
+"rpx-xui-translation@npm:1.0.0-NodeAndNgUpgrades-02":
+  version: 1.0.0-NodeAndNgUpgrades-02
+  resolution: "rpx-xui-translation@npm:1.0.0-NodeAndNgUpgrades-02"
   dependencies:
     dexie: ^3.2.2
     luxon: ^2.4.0
-    tslib: ^1.10.0
+    tslib: ^2.0.0
   peerDependencies:
     "@angular/common": ^9.1.13
     "@angular/core": ^9.1.13
-  checksum: ca306a8c8815fea3a0b452a9d2a8a5402aeb16dae12385bd5daa5e5159290710c03924873e81b90a417535f5c02c8d9ba3de407d5dd9df4c4055723643601985
+  checksum: 8d9bc8272ef8dc13a04a2edbee11e9805036978449ddeb087acbd7b792dd35582344941a521ca8bde986671b1267624dfaf70fcc89abbef926b93b06e2bf6621
   languageName: node
   linkType: hard
 
@@ -19090,7 +19099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.10.0, tslib@npm:^1.8.1, tslib@npm:^1.9.0":
+"tslib@npm:^1.8.1, tslib@npm:^1.9.0":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: dbe628ef87f66691d5d2959b3e41b9ca0045c3ee3c7c7b906cc1e328b39f199bb1ad9e671c39025bd56122ac57dfbf7385a94843b1cc07c60a4db74795829acd

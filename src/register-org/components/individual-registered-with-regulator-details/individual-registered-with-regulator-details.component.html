@@ -20,14 +20,12 @@
       <a class="govuk-back-link" href="javascript:history.back()">Back</a>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">
-        Who is your organisation registered with?
+        What regulator are you (as an individual) registered with?
       </h1>
       <hr>
       <div class="govuk-body govuk-!-margin-top-6">
-        <p>Give as much detail as you can on the regulator or professional body your
-          organisation is registered with.</p>
-        <p>HMCTS needs to gather this information as it is required to gain access to some of
-          our services.</p>
+        <p>Give as much detail as you can on the regulator or professional body that
+          are registered with.</p>
         <form [formGroup]="regulatorDetailsFormGroup">
           <div class="govuk-form-group">
             <ng-container formArrayName="regulators">
@@ -38,7 +36,7 @@
                   <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                       <h1 class="govuk-fieldset__heading govuk-!-margin-top-4">
-                        Select the type of regulatory organisation
+                        Select the type of regulator
                       </h1>
                     </legend>
                     <div class="govuk-hint">
@@ -65,7 +63,7 @@
 
                     <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-!-margin-top-4">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
-                        Enter the name of the professional body or regulator
+                        Enter your organisation's registration number
                       </label>
                       <div *ngIf="fieldHasErrorMessage('regulator-name' + i)" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGULATOR_NAME}}

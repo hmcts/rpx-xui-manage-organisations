@@ -40,10 +40,6 @@ describe('DocumentExchangeReferenceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should set the form control values', () => {
     component.registrationData = registrationData;
     component.setFormControlValues();

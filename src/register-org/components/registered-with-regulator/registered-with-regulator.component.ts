@@ -41,10 +41,12 @@ export class RegisteredWithRegulatorComponent extends RegisterComponent implemen
         // Set corresponding registration data
         this.registrationData.hasRegisteredWithRegulator = true;
         // TODO: Navigate to what regulator are you registered with page
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-regulator']);
       } else {
         // Set corresponding registration data
         this.registrationData.hasRegisteredWithRegulator = false;
-        // TODO: Navigate to CYA page
+        // Note: optional currently a placeholder to make the route work
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
       }
     }
   }

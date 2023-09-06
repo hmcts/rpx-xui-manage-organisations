@@ -5,7 +5,7 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "build": "yarn build:prod && yarn build:node",
+    "build": "export NODE_OPTIONS=--openssl-legacy-provider;  yarn build:prod && yarn build:node",
     "build:prod": "npx ng build --prod",
     "build:ng": "ng build",
     "build:node": "cd api && yarn build",

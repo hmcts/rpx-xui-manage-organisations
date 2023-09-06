@@ -134,22 +134,8 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public onContinueClicked(): void {
     if (this.validateForm()) {
       // Set corresponding registration data
-      switch (this.regulatorType) {
-        case RegulatorType.Individual: {
-          this.registrationData.individualRegulators = this.regulators.value as Regulator[];
-          this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
-          break;
-        }
-        case RegulatorType.Organisation: {
-          this.registrationData.regulators = this.regulators.value as Regulator[];
-          this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
-          break;
-        }
-        default: {
-          this.router.navigate(['/service-down']);
-          break;
-        }
-      }
+      this.setRegulatorData();
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }
 
@@ -169,6 +155,30 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
         return this.registrationData.regulators;
       default:
         return [];
+    }
+  }
+
+  private setRegulatorData(): void {
+    const regulators = this.regulators.value as Regulator[];
+    // Remove duplicate "Not Applicable" regulatory type entries
+    const filteredRegulators = regulators.filter((regulator) => regulator.regulatorType !== RegulatoryType.NotApplicable);
+    if (regulators.findIndex((regulator) => regulator.regulatorType === RegulatoryType.NotApplicable) > -1) {
+      filteredRegulators.push({ regulatorType: RegulatoryType.NotApplicable });
+    }
+    // Set corresponding registration data
+    switch (this.regulatorType) {
+      case RegulatorType.Individual: {
+        this.registrationData.individualRegulators = this.regulators.value as Regulator[];
+        break;
+      }
+      case RegulatorType.Organisation: {
+        this.registrationData.regulators = this.regulators.value as Regulator[];
+        break;
+      }
+      default: {
+        this.router.navigate(['/service-down']);
+        break;
+      }
     }
   }
 

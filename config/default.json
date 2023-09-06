@@ -26,7 +26,7 @@
   "protocol": "https",
   "services": {
     "ccd": {
-      "componentApi": "https://gateway-ccd.prod.platform.hmcts.net"
+      "componentApi": "https://ccd-api-gateway-web-prod.service.core-compute-prod.internal"
     },
     "idamApi": "https://idam-api.platform.hmcts.net",
     "idamWeb": "https://hmcts-access.service.gov.uk",

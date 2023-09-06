@@ -12,6 +12,8 @@ export type RegistrationData = {
   companyHouseNumber?: string;
   address: string;
   organisationType: string;
+  otherOrganisationType?: string;
+  otherOrganisationDetail?: string;
   organisationNumber?: string;
   regulatorRegisteredWith: string;
   regulators: Regulator[];

@@ -25,6 +25,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
   public regulatoryOrganisationTypeFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
   public validationErrors: ErrorMessage[] = [];
+  private duplicatesIndex: number[];
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
@@ -51,7 +52,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     switch (value) {
       case (RegulatoryType.Other): {
         formGroup.addControl('regulatorName', new FormControl(formGroup.value.regulatorName, Validators.required));
-        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber));
+        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber, Validators.required));
         break;
       }
       case (RegulatoryType.NotApplicable): {
@@ -61,7 +62,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
       }
       default: {
         formGroup.removeControl('regulatorName');
-        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber));
+        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber, Validators.required));
       }
     }
   }
@@ -77,7 +78,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
             this.regulators.push(new FormGroup({
               regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required),
               regulatorName: new FormControl(regulatoryOrganisationType.regulatorName, Validators.required),
-              organisationRegistrationNumber: new FormControl(regulatoryOrganisationType.organisationRegistrationNumber)
+              organisationRegistrationNumber: new FormControl(regulatoryOrganisationType.organisationRegistrationNumber, Validators.required)
             }));
             break;
           }
@@ -90,7 +91,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
           default: {
             this.regulators.push(new FormGroup({
               regulatorType: new FormControl(regulatoryOrganisationType.regulatorType, Validators.required),
-              organisationRegistrationNumber: new FormControl(regulatoryOrganisationType.organisationRegistrationNumber)
+              organisationRegistrationNumber: new FormControl(regulatoryOrganisationType.organisationRegistrationNumber, Validators.required)
             }));
           }
         }
@@ -141,7 +142,12 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
   }
 
   public fieldHasErrorMessage(fieldId: string): boolean {
-    return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId);
+    return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId
+      && errorMessage.description !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR);
+  }
+
+  public duplicateErrorMessage(index: number): boolean {
+    return this.duplicatesIndex?.includes(index);
   }
 
   public onRemoveBtnClicked(index: number): void {
@@ -150,6 +156,8 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
 
   private validateForm(): boolean {
     this.validationErrors = [];
+    this.duplicatesIndex = [];
+    const regulators: string[] = [];
     this.regulators.controls.forEach((formGroup, index) => {
       if (formGroup.get('regulatorType').errors) {
         this.validationErrors.push({
@@ -165,11 +173,47 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
           fieldId: `regulator-name${index}`
         });
       }
+      if (formGroup.get('organisationRegistrationNumber') && formGroup.get('organisationRegistrationNumber').errors) {
+        this.validationErrors.push({
+          description: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER,
+          title: '',
+          fieldId: `organisation-registration-number${index}`
+        });
+      }
+
+      if (formGroup.get('regulatorType').value !== RegulatoryType.NotApplicable) {
+        regulators.push(formGroup.get('regulatorType').value.trim().toLowerCase() +
+          formGroup.get('regulatorName')?.value?.trim().toLowerCase() +
+          formGroup.get('organisationRegistrationNumber')?.value?.trim().toLowerCase()
+        );
+      }
     });
+
+    if (this.duplicateExists(regulators)) {
+      if (!this.validationErrors.some((e) => e.description === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR)) {
+        this.validationErrors.push({
+          description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR,
+          title: '',
+          fieldId: `regulator-type${this.duplicatesIndex[0]}`
+        });
+      }
+    }
+
     // Scroll to the error banner at the top of the screen if there are validation failures
     if (this.validationErrors.length > 0) {
       this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }
     return this.validationErrors.length === 0;
+  }
+
+  private duplicateExists(regulators: string[]): boolean {
+    const uniqueRegulators = regulators.filter((value, index, array) => array.indexOf(value) === index);
+    uniqueRegulators.forEach((item) => {
+      const index = regulators.map((m, i) => m === item ? i : -1).filter((i) => i !== -1);
+      if (index.length > 1) {
+        this.duplicatesIndex = this.duplicatesIndex.concat(index);
+      }
+    });
+    return this.duplicatesIndex.length > 0;
   }
 }

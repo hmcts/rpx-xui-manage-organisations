@@ -32,20 +32,21 @@
           <div class="govuk-form-group">
             <ng-container formArrayName="regulators">
               <div *ngFor="let _ of regulators.controls; index as i"
-                class="govuk-!-margin-bottom-6"
                 [ngClass]="{'govuk-form-group--error': validationErrors.length}">
                 <ng-container [formGroupName]="i">
                   <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <h1 class="govuk-fieldset__heading govuk-!-margin-top-4">
-                        Select the type of regulatory organisation
-                      </h1>
-                    </legend>
+                    <label class="govuk-label govuk-!-font-weight-bold" 
+                      for="'regulator-name' + i">
+                      Select the type of regulatory organisation
+                    </label>
                     <div class="govuk-hint">
                       For example Solicitor Regulation Authority (SRA) number
                     </div>
                     <div *ngIf="fieldHasErrorMessage('regulator-type' + i)" class="govuk-error-message">
                       <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED}}
+                    </div>
+                    <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
+                      <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR}}
                     </div>
                     <select class="govuk-select govuk-!-width-two-thirds"
                       [ngClass]="{'govuk-select--error': fieldHasErrorMessage('regulator-type' + i)}"
@@ -80,9 +81,15 @@
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
                         Enter your organisation's registration number
                       </label>
-                      <input class="govuk-input govuk-!-width-two-thirds" type="text" [id]="'organisation-registration-number' + i"
+                      <div *ngIf="fieldHasErrorMessage('organisation-registration-number' + i)" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER}}
+                      </div>
+                      <input class="govuk-input govuk-!-width-two-thirds" 
+                        [ngClass]="{'govuk-input--error': fieldHasErrorMessage('organisation-registration-number' + i)}"
+                        type="text" [id]="'organisation-registration-number' + i"
                         name="organisationRegistrationNumber" formControlName="organisationRegistrationNumber">
                     </div>
+                    <br>
                   </fieldset>
                 </ng-container>
               </div>

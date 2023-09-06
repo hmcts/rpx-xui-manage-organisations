@@ -13,6 +13,8 @@ export type RegistrationData = {
   companyHouseNumber?: string;
   address: string;
   organisationType: string;
+  otherOrganisationType?: string;
+  otherOrganisationDetail?: string;
   organisationNumber?: string;
   regulators: Regulator[];
   regulatorRegisteredWith: string;

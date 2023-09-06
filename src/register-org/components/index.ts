@@ -11,6 +11,7 @@ import { OrganisationServicesAccessComponent } from './organisation-services-acc
 import { OrganisationTypeComponent } from './organisation-type/organisation-type.component';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details/payment-by-account-details.component';
 import { PaymentByAccountComponent } from './payment-by-account/payment-by-account.component';
+import { RegulatorDetailsComponent } from './regulator-details/regulator-details.component';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
 
 export const components: any[] = [
@@ -20,13 +21,13 @@ export const components: any[] = [
   ContactDetailsComponent,
   DocumentExchangeReferenceComponent,
   DocumentExchangeReferenceDetailsComponent,
+  IndividualRegisteredWithRegulatorComponent,
+  IndividualRegisteredWithRegulatorDetailsComponent,
   OfficeAddressesComponent,
   OrganisationServicesAccessComponent,
   OrganisationTypeComponent,
-  ContactDetailsComponent,
-  RegulatoryOrganisationTypeComponent,
   PaymentByAccountComponent,
   PaymentByAccountDetailsComponent,
-  IndividualRegisteredWithRegulatorComponent,
-  IndividualRegisteredWithRegulatorDetailsComponent
+  RegulatorDetailsComponent,
+  RegulatoryOrganisationTypeComponent
 ];

@@ -16,5 +16,5 @@ export type RegistrationData = {
   regulatorRegisteredWith: string;
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;
-  individualRegulatorDetails?: Regulator[];
+  individualRegulators?: Regulator[];
 }

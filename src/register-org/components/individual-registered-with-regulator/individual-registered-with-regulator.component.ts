@@ -45,7 +45,8 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
       } else {
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
-        // TODO: Navigate to CYA page
+        // Note: optional currently a placeholder to make the route work
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
       }
     }
   }

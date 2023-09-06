@@ -34,8 +34,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
 
   public onContinue(): void {
     if (this.isFormValid()) {
-      // TODO: Set corresponding registration data
-      // and navigate to the next page
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }
   }
 

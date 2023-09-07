@@ -145,7 +145,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   public onRemoveBtnClicked(index: number): void {
-    // TODO To be implemented in a future ticket
+    this.regulators.removeAt(index);
   }
 
   private getRegulatorData(): Regulator[] {

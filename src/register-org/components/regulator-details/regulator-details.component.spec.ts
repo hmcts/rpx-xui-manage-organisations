@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { RegistrationData, RegulatoryType } from '../../../register-org/models';
+import { RegistrationData, RegulatorType, RegulatoryType } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatorDetailsComponent } from './regulator-details.component';
 
@@ -187,6 +187,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should select unique "Not Applicable" regulatory type submitting the form', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [];
     component.setFormControlValues();
     fixture.detectChanges();

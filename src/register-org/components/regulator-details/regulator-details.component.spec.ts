@@ -186,6 +186,38 @@ describe('RegulatorDetailsComponent', () => {
     expect(nativeElement.querySelector('#remove-button1')).toBeTruthy();
   });
 
+  it('should remove the regulator entry when "Remove" button is clicked', () => {
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
+    const selectElement0 = nativeElement.querySelector('#regulator-type0');
+    selectElement0.selectedIndex = 2;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    nativeElement.querySelector('#add-another-regulator').click();
+    fixture.detectChanges();
+    const selectElement1 = nativeElement.querySelector('#regulator-type1');
+    selectElement1.selectedIndex = 3;
+    selectElement1.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    nativeElement.querySelector('#add-another-regulator').click();
+    fixture.detectChanges();
+    const selectElement2 = nativeElement.querySelector('#regulator-type2');
+    selectElement2.selectedIndex = 4;
+    selectElement2.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(nativeElement.querySelector('#remove-button0')).toBeTruthy();
+    expect(nativeElement.querySelector('#remove-button1')).toBeTruthy();
+    expect(nativeElement.querySelector('#remove-button2')).toBeTruthy();
+    nativeElement.querySelector('#remove-button1').click();
+    fixture.detectChanges();
+    expect(nativeElement.querySelector('#remove-button2')).toBeFalsy();
+    nativeElement.querySelector('#remove-button1').click();
+    fixture.detectChanges();
+    expect(nativeElement.querySelector('#remove-button0')).toBeFalsy();
+    expect(nativeElement.querySelector('#remove-button1')).toBeFalsy();
+  });
+
   it('should select unique "Not Applicable" regulatory type submitting the form', () => {
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [];

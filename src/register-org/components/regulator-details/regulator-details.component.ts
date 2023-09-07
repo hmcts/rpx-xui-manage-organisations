@@ -169,11 +169,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     // Set corresponding registration data
     switch (this.regulatorType) {
       case RegulatorType.Individual: {
-        this.registrationData.individualRegulators = this.regulators.value as Regulator[];
+        this.registrationData.individualRegulators = filteredRegulators;
         break;
       }
       case RegulatorType.Organisation: {
-        this.registrationData.regulators = this.regulators.value as Regulator[];
+        this.registrationData.regulators = filteredRegulators;
         break;
       }
       default: {

@@ -25,7 +25,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     super(router, registerOrgService);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.regulatoryOrganisationTypeFormGroup = new FormGroup({
       organisationType: new FormControl(null),
       otherOrganisationType: new FormControl(null)

@@ -22,11 +22,11 @@ import { RegisterOrgModule } from './register-org.module';
 export const ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'before-you-start',
+    redirectTo: 'register',
     pathMatch: 'full'
   },
   {
-    path: 'before-you-start',
+    path: 'register',
     component: BeforeYouStartComponent
   },
   {

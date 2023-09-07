@@ -16,12 +16,12 @@ suite('Manage Org -> POST Re Invite User', function() {
   // console.log('response', response.headers.get('cache-control'))
     .then((response) => {
       // console.log('response', response)
-      // if (response.status === 429) {
-      //   // console.log(`User Already Invited: ${response.status}`);
-      // }
-      // if (response.status === 200) {
-      //   // console.log(`User Re Invited: ${response.status}`);
-      // }
+      if (response.status === 429) {
+        console.log(`User Already Invited: ${response.status}`);
+      }
+      if (response.status === 200) {
+        console.log(`User Re Invited: ${response.status}`);
+      }
       // if (response.status === 404 ) {
       //  throw new Error(console.log(`User doesn't exist: ${response.status}`));
       // }

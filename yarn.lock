@@ -17037,9 +17037,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rpa-pui-manager@workspace:.":
+"rpx-xui-manage-organisations@workspace:.":
   version: 0.0.0-use.local
-  resolution: "rpa-pui-manager@workspace:."
+  resolution: "rpx-xui-manage-organisations@workspace:."
   dependencies:
     "@angular-devkit/build-angular": ^15.2.9
     "@angular-material-components/datetime-picker": 15.0.0

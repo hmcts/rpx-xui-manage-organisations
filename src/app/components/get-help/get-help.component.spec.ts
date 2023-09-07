@@ -13,7 +13,7 @@ describe('GetHelpComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [GetHelpComponent, ContactDetailsComponent, RpxTranslatePipe],
-      providers: [{ provide: RpxTranslationService, useValue: translationMockService },]
+      providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
     })
       .compileComponents();
   }));

@@ -25,6 +25,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
 
   public regulatorDetailsFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
+  public regulatorTypeEnum = RegulatorType;
   public validationErrors: ErrorMessage[] = [];
 
   constructor(

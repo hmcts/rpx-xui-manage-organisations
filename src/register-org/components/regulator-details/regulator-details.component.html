@@ -8,7 +8,12 @@
           <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
               <h1 class="govuk-fieldset__heading govuk-!-margin-top-4">
-                Select the type of regulatory organisation
+                <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+                  Select the type of regulator
+                </span>
+                <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+                  Select the type of regulatory organisation
+                </span>
               </h1>
             </legend>
             <div class="govuk-hint">

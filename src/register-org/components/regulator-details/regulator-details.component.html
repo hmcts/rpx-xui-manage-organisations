@@ -9,27 +9,32 @@
           What regulator are you (as an individual) registered with?
         </span>
         <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-          What regulator are you (as an individual) registered with?
+          Who is your organisation registered with?
         </span>
       </h1>
       <hr>
       <div class="govuk-body govuk-!-margin-top-6">
         <p *ngIf="regulatorType === regulatorTypeEnum.Individual">
-          Give as much detail as you can on the regulator or professional body that are personally registered with.
+          Give as much detail as you can on the regulator or professional body that are you personally registered with.
         </p>
         <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-          
+          Give as much detail as you can on the regulator or professional body your organisation is registered with.
+          <br/>
+          HMCTS needs to gather this information as it is required to gain access to some of our services.
         </p>
         <form [formGroup]="regulatorDetailsFormGroup">
           <div class="govuk-form-group">
             <ng-container formArrayName="regulators">
               <div *ngFor="let _ of regulators.controls; index as i"
                 class="govuk-!-margin-bottom-6"
-                [ngClass]="{'govuk-form-group--error': validationErrors.length}">
+                [ngClass]="{'govuk-form-group--error': duplicatesIndex?.length}">
                 <ng-container [formGroupName]="i">
+                  <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_INLINE}}
+                  </div>
                   <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                      <h1 class="govuk-fieldset__heading govuk-!-margin-top-4">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                      <h1 class="govuk-fieldset__heading">
                         <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
                           Select the type of regulator
                         </span>
@@ -63,7 +68,8 @@
                       Remove
                     </button>
 
-                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-!-margin-top-4">
+                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-form-group govuk-!-margin-top-4"
+                      [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('regulator-name' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
                         Enter the name of the professional body or regulator
                       </label>
@@ -76,7 +82,9 @@
                         name="regulatorName" formControlName="regulatorName">
                     </div>
 
-                    <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')" class="govuk-!-margin-top-4">
+                    <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')"
+                      class="govuk-form-group govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+                      [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
                         Enter your organisation's registration number
                       </label>

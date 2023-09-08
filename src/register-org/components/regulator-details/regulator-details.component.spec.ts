@@ -246,6 +246,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
+    mockRouter.navigate.calls.reset();
     spyOn(component, 'onContinueClicked').and.callThrough();
     component.registrationData.regulators = [];
     component.setFormControlValues();
@@ -265,14 +266,12 @@ describe('RegulatorDetailsComponent', () => {
     expect(component.onContinueClicked).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(2);
     expect(component.validationErrors[0]).toEqual({
-      description: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME,
-      title: '',
-      fieldId: 'regulator-name0'
+      id: 'regulator-name0',
+      message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME
     });
     expect(component.validationErrors[1]).toEqual({
-      description: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER,
-      title: '',
-      fieldId: 'organisation-registration-number0'
+      id: 'organisation-registration-number0',
+      message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
     });
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
@@ -315,18 +314,20 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should set the error message if regulator name is empty for a known regulator type', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
       regulatorType: 'SRA',
       organisationRegistrationNumber: ''
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const registrationNumberError = { title: '', description: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, fieldId: 'organisation-registration-number0' };
+    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
     component.onContinueClicked();
     expect(component.validationErrors[0]).toEqual(registrationNumberError);
   });
 
   it('should set the error message if regulator name & number is empty for Other regulator type', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
       regulatorType: 'Other',
       regulatorName: '',
@@ -334,14 +335,15 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const reglatorNameError = { title: '', description: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, fieldId: 'regulator-name0' };
-    const registrationNumberError = { title: '', description: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, fieldId: 'organisation-registration-number0' };
+    const reglatorNameError = { message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, id: 'regulator-name0' };
+    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
     component.onContinueClicked();
     expect(component.validationErrors[0]).toEqual(reglatorNameError);
     expect(component.validationErrors[1]).toEqual(registrationNumberError);
   });
 
   it('should not set the error message if regulator type is NA', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
       regulatorType: 'NA'
     }];
@@ -352,6 +354,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should not set the error message if entries for regulator details are correct for SRA', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
       regulatorType: 'SRA',
       organisationRegistrationNumber: '123'
@@ -363,6 +366,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should not set the error message if entries for regulator are correct for Other', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
       regulatorType: 'Other',
       regulatorName: 'Test',
@@ -375,6 +379,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should not set the error message if duplicate entries for regulator - SRA', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [
       {
         regulatorType: 'SRA',
@@ -391,6 +396,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should set the duplicate error message if duplicate entries for regulator - SRA', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [
       {
         regulatorType: 'SRA',
@@ -402,12 +408,13 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const duplicateError = { title: '', description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR, fieldId: 'regulator-type0' };
+    const duplicateError = { message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, id: 'regulator-type0' };
     component.onContinueClicked();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
 
   it('should set the duplicate error message if duplicate entries for regulator - Other', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [
       {
         regulatorType: 'Other',
@@ -421,12 +428,13 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const duplicateError = { title: '', description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR, fieldId: 'regulator-type0' };
+    const duplicateError = { message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, id: 'regulator-type0' };
     component.onContinueClicked();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
 
   it('should not set error message if duplicate entries for regulator - Other', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [
       {
         regulatorType: 'Other',
@@ -445,6 +453,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should not set error message if duplicate entries for regulator - Other', () => {
+    component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [
       {
         regulatorType: 'Other',

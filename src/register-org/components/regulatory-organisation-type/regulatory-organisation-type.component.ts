@@ -1,5 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
+import { Component } from '@angular/core';
 import { RegulatorType } from '../../models';
 
 @Component({
@@ -7,7 +6,5 @@ import { RegulatorType } from '../../models';
   templateUrl: './regulatory-organisation-type.component.html'
 })
 export class RegulatoryOrganisationTypeComponent {
-  @ViewChild('mainContent') public mainContentElement: ElementRef;
-  public validationErrors: ErrorMessage[] = [];
   public regulatorType = RegulatorType;
 }

@@ -21,6 +21,8 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
 
   public organisationTypeFormGroup: FormGroup;
   public organisationTypeErrors: { id: string, message: string }[] = [];
+  public otherOrgTypeErrors: { id: string, message: string };
+  public otherOrgDetailsErrors: { id: string, message: string };
   public organisationTypes$: Observable<LovRefDataModel[]>;
   public otherOrganisationTypes$: Observable<LovRefDataModel[]>;
   public showOtherOrganisationTypes = false;
@@ -74,23 +76,32 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
 
   private isFormValid(): boolean {
     this.organisationTypeErrors = [];
+    this.otherOrgTypeErrors = null;
+    this.otherOrgDetailsErrors = null;
     if (this.organisationTypeFormGroup.invalid) {
       this.organisationTypeErrors.push({
         id: 'govuk-radios',
         message: OrgTypeMessageEnum.NO_ORG_SELECTED
       });
-      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      return false;
-    } else if (this.showOtherOrganisationTypes && (this.organisationTypeFormGroup.get('otherOrganisationType').value === 'none'
-      || this.organisationTypeFormGroup.get('otherOrganisationDetail').value === '')) {
-      this.organisationTypeErrors.push({
-        id: 'other',
-        message: OrgTypeMessageEnum.NO_ORG_TYPE_SELECTED
-      });
-      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      return false;
     }
-    return true;
+    if (this.showOtherOrganisationTypes && this.organisationTypeFormGroup.get('otherOrganisationType').value === 'none') {
+      this.otherOrgTypeErrors = {
+        id: 'other-organisation-type',
+        message: OrgTypeMessageEnum.NO_ORG_TYPE_SELECTED
+      }
+      this.organisationTypeErrors.push(this.otherOrgTypeErrors);
+    }
+    if (this.showOtherOrganisationTypes && this.organisationTypeFormGroup.get('otherOrganisationDetail').value === '') {
+      this.otherOrgDetailsErrors = {
+        id: 'other-organisation-detail',
+        message: OrgTypeMessageEnum.NO_ORG_DETAIS
+      }
+      this.organisationTypeErrors.push(this.otherOrgDetailsErrors);
+    }
+    if (this.organisationTypeErrors.length > 0) {
+      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    return this.organisationTypeErrors.length === 0;
   }
 
   public canShowOtherOrganisationTypes(state: boolean) {

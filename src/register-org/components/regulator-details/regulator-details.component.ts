@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -20,13 +20,15 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class RegulatorDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public readonly SELECT_A_VALUE = 'none';
 
+  @ViewChild('mainContent') public mainContentElement: ElementRef;
+
   @Input() regulatorType: string = null;
 
   public regulatorDetailsFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
   public regulatorTypeEnum = RegulatorType;
   public validationErrors: { id: string, message: string }[] = [];
-  private duplicatesIndex: number[];
+  public duplicatesIndex: number[];
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
@@ -153,7 +155,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
 
   public fieldHasErrorMessage(fieldId: string): boolean {
     return this.validationErrors.some((errorMessage) => errorMessage.id === fieldId
-      && errorMessage.message !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR);
+      && errorMessage.message !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER);
   }
 
   public duplicateErrorMessage(index: number): boolean {
@@ -231,19 +233,27 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
     });
 
+    if (this.validationErrors.length > 0) {
+      return this.isFormValid();
+    }
+
     if (this.duplicateExists(regulators)) {
-      if (!this.validationErrors.some((e) => e.message === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR)) {
+      if (!this.validationErrors.some((e) => e.message === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER)) {
         this.validationErrors.push({
           id: `regulator-type${this.duplicatesIndex[0]}`,
-          message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR
+          message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER
         });
       }
     }
 
+    return this.isFormValid();
+  }
+
+  private isFormValid(): boolean {
     // Scroll to the error banner at the top of the screen if there are validation failures
-    // if (this.validationErrors.length > 0) {
-    //   this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-    // }
+    if (this.validationErrors.length > 0) {
+      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
     return this.validationErrors.length === 0;
   }
 

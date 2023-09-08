@@ -206,7 +206,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     this.duplicatesIndex = [];
     const regulators: string[] = [];
     this.regulators.controls.forEach((formGroup, index) => {
-      if (formGroup.get('regulatorType').errors) {
+      if (formGroup.get('regulatorType').errors || formGroup.get('regulatorType').value === this.SELECT_A_VALUE) {
         this.validationErrors.push({
           id: `regulator-type${index}`,
           message: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED

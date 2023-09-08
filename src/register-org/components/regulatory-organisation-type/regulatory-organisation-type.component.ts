@@ -128,8 +128,14 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
 
   public onContinueClicked(): void {
     if (this.validateForm()) {
+      const regulators = this.regulators.value as Regulator[];
+      // Remove duplicate "Not Applicable" regulatory type entries
+      const filteredRegulators = regulators.filter((regulator) => regulator.regulatorType !== RegulatoryType.NotApplicable);
+      if (regulators.findIndex((regulator) => regulator.regulatorType === RegulatoryType.NotApplicable) > -1) {
+        filteredRegulators.push({ regulatorType: RegulatoryType.NotApplicable });
+      }
       // Set corresponding registration data
-      this.registrationData.regulators = this.regulators.value as Regulator[];
+      this.registrationData.regulators = filteredRegulators;
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }

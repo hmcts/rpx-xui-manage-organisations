@@ -28,8 +28,8 @@ describe('OrganisationTypeComponent', () => {
     hasRegisteredWithRegulator: null,
     services: [],
     address: null,
-    regulators: [],
     organisationType: null,
+    regulators: [],
     regulatorRegisteredWith: null
   };
 
@@ -165,5 +165,14 @@ describe('OrganisationTypeComponent', () => {
     expect(component.registrationData.organisationType).toBe('other');
     expect(component.registrationData.otherOrganisationType).toBe('example');
     expect(component.registrationData.otherOrganisationDetail).toBe('text');
+  });
+
+  it('should clicking on back link navigate back to the first page of the registration', () => {
+    spyOn(router, 'navigate');
+    component.onBack();
+    expect(component.registrationData.organisationType).toBeNull();
+    expect(component.registrationData.otherOrganisationType).toBeNull();
+    expect(component.registrationData.otherOrganisationDetail).toBeNull();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
   });
 });

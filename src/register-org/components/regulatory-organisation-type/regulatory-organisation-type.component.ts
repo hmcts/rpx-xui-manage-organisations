@@ -25,7 +25,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
   public regulatoryOrganisationTypeFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
   public validationErrors: ErrorMessage[] = [];
-  private duplicatesIndex: number[];
+  public duplicatesIndex: number[];
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
@@ -143,7 +143,7 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
 
   public fieldHasErrorMessage(fieldId: string): boolean {
     return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId
-      && errorMessage.description !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR);
+      && errorMessage.description !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER);
   }
 
   public duplicateErrorMessage(index: number): boolean {
@@ -189,17 +189,24 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
       }
     });
 
+    if (this.validationErrors.length > 0) {
+      return this.isFormValid();
+    }
+
     if (this.duplicateExists(regulators)) {
-      if (!this.validationErrors.some((e) => e.description === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR)) {
+      if (!this.validationErrors.some((e) => e.description === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER)) {
         this.validationErrors.push({
-          description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR,
+          description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER,
           title: '',
           fieldId: `regulator-type${this.duplicatesIndex[0]}`
         });
       }
     }
 
-    // Scroll to the error banner at the top of the screen if there are validation failures
+    return this.isFormValid();
+  }
+
+  private isFormValid(): boolean {
     if (this.validationErrors.length > 0) {
       this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
     }

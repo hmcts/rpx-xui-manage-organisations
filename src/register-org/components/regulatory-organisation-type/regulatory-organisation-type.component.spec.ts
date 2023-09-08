@@ -207,6 +207,7 @@ describe('RegulatoryOrganisationTypeComponent', () => {
   });
 
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
+    mockRouter.navigate.calls.reset();
     spyOn(component, 'onContinueClicked').and.callThrough();
     component.registrationData.regulators = [];
     component.setFormControlValues();
@@ -235,6 +236,7 @@ describe('RegulatoryOrganisationTypeComponent', () => {
       title: '',
       fieldId: 'organisation-registration-number0'
     });
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should validate the form on clicking "Continue" and persist data and navigate to next page if validation succeeds', () => {
@@ -362,7 +364,7 @@ describe('RegulatoryOrganisationTypeComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const duplicateError = { title: '', description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR, fieldId: 'regulator-type0' };
+    const duplicateError = { title: '', description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, fieldId: 'regulator-type0' };
     component.onContinueClicked();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
@@ -381,7 +383,7 @@ describe('RegulatoryOrganisationTypeComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const duplicateError = { title: '', description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR, fieldId: 'regulator-type0' };
+    const duplicateError = { title: '', description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, fieldId: 'regulator-type0' };
     component.onContinueClicked();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });

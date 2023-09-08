@@ -32,21 +32,22 @@
           <div class="govuk-form-group">
             <ng-container formArrayName="regulators">
               <div *ngFor="let _ of regulators.controls; index as i"
-                [ngClass]="{'govuk-form-group--error': validationErrors.length}">
+                [ngClass]="{'govuk-form-group--error': duplicatesIndex?.length}">
                 <ng-container [formGroupName]="i">
+                  <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_INLINE}}
+                  </div>                 
                   <fieldset class="govuk-fieldset">
-                    <label class="govuk-label govuk-!-font-weight-bold" 
-                      for="'regulator-name' + i">
-                      Select the type of regulatory organisation
-                    </label>
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                      <h1 class="govuk-fieldset__heading">
+                        Select the type of regulatory organisation
+                      </h1>
+                    </legend>
                     <div class="govuk-hint">
                       For example Solicitor Regulation Authority (SRA) number
                     </div>
                     <div *ngIf="fieldHasErrorMessage('regulator-type' + i)" class="govuk-error-message">
                       <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED}}
-                    </div>
-                    <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
-                      <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR}}
                     </div>
                     <select class="govuk-select govuk-!-width-two-thirds"
                       [ngClass]="{'govuk-select--error': fieldHasErrorMessage('regulator-type' + i)}"
@@ -64,7 +65,8 @@
                       Remove
                     </button>
 
-                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-!-margin-top-4">
+                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-form-group govuk-!-margin-top-4" 
+                      [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('regulator-name' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
                         Enter the name of the professional body or regulator
                       </label>
@@ -77,7 +79,9 @@
                         name="regulatorName" formControlName="regulatorName">
                     </div>
 
-                    <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')" class="govuk-!-margin-top-4">
+                    <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')" 
+                      class="govuk-form-group govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+                      [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
                         Enter your organisation's registration number
                       </label>
@@ -89,7 +93,6 @@
                         type="text" [id]="'organisation-registration-number' + i"
                         name="organisationRegistrationNumber" formControlName="organisationRegistrationNumber">
                     </div>
-                    <br>
                   </fieldset>
                 </ng-container>
               </div>

@@ -2,7 +2,6 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import {
@@ -26,7 +25,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public regulatorDetailsFormGroup: FormGroup;
   public regulatorTypes$: Observable<RegulatoryOrganisationType[]>;
   public regulatorTypeEnum = RegulatorType;
-  public validationErrors: ErrorMessage[] = [];
+  public validationErrors: { id: string, message: string }[] = [];
   private duplicatesIndex: number[];
 
   constructor(
@@ -146,9 +145,15 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     }
   }
 
+  public onBack(): void {
+    this.regulatorType === RegulatorType.Individual
+      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator'])
+      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+  }
+
   public fieldHasErrorMessage(fieldId: string): boolean {
-    return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId
-      && errorMessage.description !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR);
+    return this.validationErrors.some((errorMessage) => errorMessage.id === fieldId
+      && errorMessage.message !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR);
   }
 
   public duplicateErrorMessage(index: number): boolean {
@@ -201,23 +206,20 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     this.regulators.controls.forEach((formGroup, index) => {
       if (formGroup.get('regulatorType').errors) {
         this.validationErrors.push({
-          description: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED,
-          title: '',
-          fieldId: `regulator-type${index}`
+          id: `regulator-type${index}`,
+          message: RegulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED
         });
       }
       if (formGroup.get('regulatorName') && formGroup.get('regulatorName').errors) {
         this.validationErrors.push({
-          description: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME,
-          title: '',
-          fieldId: `regulator-name${index}`
+          id: `regulator-name${index}`,
+          message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME
         });
       }
       if (formGroup.get('organisationRegistrationNumber') && formGroup.get('organisationRegistrationNumber').errors) {
         this.validationErrors.push({
-          description: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER,
-          title: '',
-          fieldId: `organisation-registration-number${index}`
+          id: `organisation-registration-number${index}`,
+          message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
         });
       }
 
@@ -230,11 +232,10 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     });
 
     if (this.duplicateExists(regulators)) {
-      if (!this.validationErrors.some((e) => e.description === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR)) {
+      if (!this.validationErrors.some((e) => e.message === RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR)) {
         this.validationErrors.push({
-          description: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR,
-          title: '',
-          fieldId: `regulator-type${this.duplicatesIndex[0]}`
+          id: `regulator-type${this.duplicatesIndex[0]}`,
+          message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR
         });
       }
     }

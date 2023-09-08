@@ -130,8 +130,9 @@ describe('OrganisationTypeComponent', () => {
     expect(nativeElement.querySelector('#other-organisation-detail')).toBeDefined();
   });
 
-  it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails on other', () => {
+  it('should return validation error for other org with type selected and empty details', () => {
     component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('');
+    component.organisationTypeFormGroup.get('otherOrganisationType').setValue('Test');
     spyOn(component, 'onContinue').and.callThrough();
     spyOn(router, 'navigate');
     nativeElement.querySelector('#other').click();
@@ -142,7 +143,26 @@ describe('OrganisationTypeComponent', () => {
     expect(component.onContinue).toHaveBeenCalled();
     expect(component.organisationTypeErrors.length).toBe(1);
     expect(component.organisationTypeErrors[0]).toEqual({
-      id: 'other',
+      id: 'other-organisation-detail',
+      message: OrgTypeMessageEnum.NO_ORG_DETAIS
+    });
+    expect(router.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should return validation error for other org with type not selected and details filled', () => {
+    component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('Test');
+    component.organisationTypeFormGroup.get('otherOrganisationType').setValue('none');
+    spyOn(component, 'onContinue').and.callThrough();
+    spyOn(router, 'navigate');
+    nativeElement.querySelector('#other').click();
+    fixture.detectChanges();
+    const continueButton = nativeElement.querySelector('.govuk-button--primary');
+    // select an organisation type and continue
+    continueButton.click();
+    expect(component.onContinue).toHaveBeenCalled();
+    expect(component.organisationTypeErrors.length).toBe(1);
+    expect(component.organisationTypeErrors[0]).toEqual({
+      id: 'other-organisation-type',
       message: OrgTypeMessageEnum.NO_ORG_TYPE_SELECTED
     });
     expect(router.navigate).not.toHaveBeenCalled();

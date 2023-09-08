@@ -69,7 +69,7 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
     this.registrationData.otherOrganisationType = null;
     this.registrationData.otherOrganisationDetail = null;
     this.registerOrgService.persistRegistrationData(this.registrationData);
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'before-you-start']);
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
   }
 
   private isFormValid(): boolean {

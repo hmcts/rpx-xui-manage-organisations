@@ -22,6 +22,9 @@
             <div *ngIf="fieldHasErrorMessage('regulator-type' + i)" class="govuk-error-message">
               <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGULATORY_ORG_SELECTED}}
             </div>
+            <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
+              <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR}}
+            </div>
             <select class="govuk-select govuk-!-width-two-thirds"
               [ngClass]="{'govuk-select--error': fieldHasErrorMessage('regulator-type' + i)}"
               [id]="'regulator-type' + i"
@@ -55,7 +58,12 @@
               <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
                 Enter your organisation's registration number
               </label>
-              <input class="govuk-input govuk-!-width-two-thirds" type="text" [id]="'organisation-registration-number' + i"
+              <div *ngIf="fieldHasErrorMessage('organisation-registration-number' + i)" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER}}
+              </div>
+              <input class="govuk-input govuk-!-width-two-thirds"
+                [ngClass]="{'govuk-input--error': fieldHasErrorMessage('organisation-registration-number' + i)}"
+                type="text" [id]="'organisation-registration-number' + i"
                 name="organisationRegistrationNumber" formControlName="organisationRegistrationNumber">
             </div>
           </fieldset>

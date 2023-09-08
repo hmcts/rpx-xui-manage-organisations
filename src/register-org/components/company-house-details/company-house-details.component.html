@@ -1,7 +1,24 @@
-<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
+  <ng-container *ngIf="this.validationErrors.length">
+    <div class="govuk-error-summary govuk-!-margin-top-4" aria-labelledby="error-summary-title" role="alert"
+      tabindex="-1" data-module="govuk-error-summary">
+      <h2 class="govuk-error-summary__title" id="error-summary-title" #errorSummaryTitleElement>
+        There is a problem
+      </h2>
+      <div class="govuk-error-summary__body">
+        <ul class="govuk-list govuk-error-summary__list">
+          <li *ngFor="let error of validationErrors">
+            <a href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details#{{error.fieldId}}">
+              {{error.description}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a class="govuk-back-link" href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">Back</a>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">What is your company name and Companies House number?</h1>
       <hr>
@@ -11,22 +28,28 @@
         <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
           information register</a>
       </p>
-      <form>
-        <div class="govuk-form-group">
+      <form [formGroup]="companyHouseFormGroup">
+        <div class="govuk-form-group" #companyName [ngClass]="{'govuk-form-group--error': companyNameError}">
           <label class="govuk-label govuk-!-font-weight-bold" for="company-name">
             Enter the name of the organisation
           </label>
-          <input class="govuk-input" id="company-name" name="company-name" type="text" formControlName="companyName">
+          <p class="govuk-error-message" *ngIf="companyNameError">
+            <span class="govuk-visually-hidden">Error:</span> {{ companyNameError.description }}
+          </p>
+          <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName">
         </div>
 
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': companyNumberError}">
           <label class="govuk-label govuk-!-font-weight-bold" for="company-house-number">
             Enter the 8-digit Companies House Number (optional)
           </label>
           <div id="company-house-number-hint" class="govuk-hint">
             This helps HMCTS to verify your company on our System
           </div>
-          <input class="govuk-input" id="company-house-number" name="company-house-number" type="text"
+          <p class="govuk-error-message" *ngIf="companyNumberError">
+            <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.description }}
+          </p>
+          <input class="govuk-input" id="company-house-number" name="companyHouseNumber" type="text"
             formControlName="companyHouseNumber" aria-describedby="company-house-number-hint">
         </div>
 

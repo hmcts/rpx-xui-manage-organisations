@@ -88,14 +88,14 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
       this.otherOrgTypeErrors = {
         id: 'other-organisation-type',
         message: OrgTypeMessageEnum.NO_ORG_TYPE_SELECTED
-      }
+      };
       this.organisationTypeErrors.push(this.otherOrgTypeErrors);
     }
     if (this.showOtherOrganisationTypes && this.organisationTypeFormGroup.get('otherOrganisationDetail').value === '') {
       this.otherOrgDetailsErrors = {
         id: 'other-organisation-detail',
         message: OrgTypeMessageEnum.NO_ORG_DETAIS
-      }
+      };
       this.organisationTypeErrors.push(this.otherOrgDetailsErrors);
     }
     if (this.organisationTypeErrors.length > 0) {

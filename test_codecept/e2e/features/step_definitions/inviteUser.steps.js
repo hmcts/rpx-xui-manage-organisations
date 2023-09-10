@@ -132,6 +132,9 @@ const { Error } = require('globalthis/implementation');
   Then(/^I see change link and suspend button$/, async function () {
     
     await browserWaits.waitForElement(inviteUserPage.userDetailsComponent);
+    await browserWaits.waitForElement(inviteUserPage.changeLink);
+    await browserWaits.waitForElement(inviteUserPage.suspendButton);
+
     await expect(inviteUserPage.changeLink.isDisplayed(), 'chnage link not displayed').to.eventually.be.true;
     await expect(inviteUserPage.suspendButton.isDisplayed(), 'suspend button not displayed').to.eventually.be.true;
   });

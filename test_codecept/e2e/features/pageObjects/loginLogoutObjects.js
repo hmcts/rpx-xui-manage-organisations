@@ -43,7 +43,6 @@ function loginLogoutObjects() {
 
   this.clickSignIn = async function () {
     await this.signinBtn.click();
-    await browser.sleep(SHORT_DELAY);
   };
 
   this.waitFor = async function (selector) {

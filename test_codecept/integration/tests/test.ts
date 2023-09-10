@@ -13,7 +13,7 @@ const mocha = new Mocha({
   // bail: 'yes',
   reporter: 'mochawesome',
   reporterOptions: {
-    reportDir: 'reports/tests/api_functional/',
+    reportDir: 'functional-output/tests/api_functional/',
     reportName: 'XUI_MO_Integration_tests'
   }
 });

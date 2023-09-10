@@ -17,12 +17,9 @@ const browserWaits = require('../../support/customWaits');
 
     await headerPage.clickUser();
 
-    await browserWaits.retryWithAction(viewUserPage.header, async function (message) {
-      world.attach('Retrying Click User  : ' + message);
-      const stream = await global.screenShotUtils.takeScreenshot();
-      const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-      world.attach(decodedImage, 'image/png');
+    await browserWaits.retryWithActionCallback( async function (message) {
       await browser.get(config.config.baseUrl+'/users');
+      await browserWaits.waitForElement(viewUserPage.header)
       // await headerPage.clickUser();
     });
 

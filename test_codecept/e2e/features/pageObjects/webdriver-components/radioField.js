@@ -22,10 +22,11 @@ class RadioField{
   }
 
   async waitForElementToBeInvisible(){
-    const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.invisibilityOf(await element(by.xpath(this.wrapperXPath))), DEFAULT_TIMEOUT);
+      const elementToWait = element(by.xpath(this.wrapperXPath))
+      await elementToWait.wait()
+
       return true;
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for radio element ${element} to be invisible`;
@@ -34,10 +35,11 @@ class RadioField{
   }
 
   async waitForElementToBeVisible(){
-    const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.visibilityOf(await element(by.xpath(this.wrapperXPath))), DEFAULT_TIMEOUT);
+      const elementToWait = element(by.xpath(this.wrapperXPath))
+      await elementToWait.wait()
+
       return true;
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for radio element ${element} to be visible`;

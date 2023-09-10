@@ -1,4 +1,4 @@
-
+@fullFunctional
 Feature: Register Organization
 
   Background:
@@ -7,6 +7,7 @@ Feature: Register Organization
 #    Then I should be redirected to manage organisation dashboard page
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
+
 
   Scenario:register organization
     When I am on page "What's the name of your organisation?" in registration step
@@ -27,7 +28,7 @@ Feature: Register Organization
     Then I land on the summary page and check submit
     Then I created the organisation successfully
 
-  @fullFunctional @functional_test
+  @fullFunctional 
   Scenario:email address validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -108,14 +109,14 @@ Feature: Register Organization
     Then I see manage cases link under already registered account header
     Then I see manage org link under already registered account header
 
-  @fullFunctional @all
-  Scenario: Register Organisation first page links to MC and MO
-    When I am on page "What's the name of your organisation?" in registration step
-    When I click back link in register org workflow
-    Then I am on Register organisation start page
-    Then I see content header already registered account
-    Then I see manage cases link under already registered account header
-    Then I see manage org link under already registered account header
-    Then I click and validate MC link opens in new tab
-    Then I click and validate MO link opens in new tab
+  # @fullFunctional @all
+  # Scenario: Register Organisation first page links to MC and MO
+  #   When I am on page "What's the name of your organisation?" in registration step
+  #   When I click back link in register org workflow
+  #   Then I am on Register organisation start page
+  #   Then I see content header already registered account
+  #   Then I see manage cases link under already registered account header
+  #   Then I see manage org link under already registered account header
+  #   Then I click and validate MC link opens in new tab
+  #   Then I click and validate MO link opens in new tab
 

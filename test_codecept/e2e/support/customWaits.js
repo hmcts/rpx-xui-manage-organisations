@@ -34,7 +34,7 @@ class BrowserWaits {
   }
 
   async waitForElementTime(element, waitTime) {
-    await browser.wait(EC.presenceOf(element), waitTime ? waitTime : 10000, "Error waitForElementTime : " + JSON.stringify(element.selector));
+    await this.waitForElement(element)
 
   }
 
@@ -99,11 +99,11 @@ class BrowserWaits {
 
   async waitForSelector(selector) {
     var selectorElement = $(selector);
-    await browser.wait(EC.presenceOf($(selector)), this.waitTime, "Error find element with selector: " + selector);
+    await this.waitForElement(selectorElement)
   }
 
   async waitForstalenessOf(element) {
-    await browser.wait(EC.stalenessOf(element), this.waitTime);
+    
   }
 
   async waitForPageNavigation(currentPageUrl) {

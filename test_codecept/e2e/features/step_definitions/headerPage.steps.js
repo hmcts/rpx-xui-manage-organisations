@@ -11,13 +11,6 @@ const config = require('../../config/common.conf.js');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 
-const { defineSupportCode } = require('cucumber');
-
-async function waitForElement(el) {
-  await browser.wait((result) => {
-    return element(by.className(el)).isPresent();
-  }, 600000);
-}
 
   const headerPage = new HeaderPage();
 

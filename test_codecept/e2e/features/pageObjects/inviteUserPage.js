@@ -11,7 +11,15 @@ class InviteUserPage{
     this.lastName = element(by.css('#lastName'));
     this.emailAddress = element(by.css('#email'));
     this.sendInvitationButton = element(by.css('button[type=submit]'));
+    
+    this.manageCasesCheckbox = element(by.css('#roles'));
     this.manageUserCheckbox = element(by.css('#pui-user-manager'));
+    this.manageOrgCheckbox = element(by.css('#pui-organisation-manager'));
+    this.manageCaaCheckbox = element(by.css('#pui-caa'));
+    this.manageFeeAccountsCheckbox = element(by.css('#pui-finance-manager'));
+
+
+
     this.failure_error_heading = element(by.css('#error-summary-title'));
     this.back = element(by.xpath('//a[contains(text(),\'Back\')]'));
 
@@ -20,10 +28,12 @@ class InviteUserPage{
     this.spinner = element(by.css('.spinner-wrapper'));
 
     this.activeUser = element(by.xpath('//a[contains(text(),\'Townley MCUser\')]'));
-    this.changeLink = element(by.xpath('//a[contains(text(),\'Change \')]'));
-    this.suspendButton = element(by.css('.hmcts-button--secondary'));
+    this.changeLink = element(by.xpath('//a[contains(text(),"Change")]'));
+    this.suspendButton = element(by.css('a.hmcts-button--secondary'));
     this.editUserText = element(by.css('.govuk-heading-xl'));
     this.suspendUserText = element(by.css('.govuk-heading-xl'));
+
+    this.userDetailsComponent = $('xuilib-user-details')
   }
 
   /**
@@ -35,16 +45,22 @@ class InviteUserPage{
   }
 
   async selectPermission(permission, isSelect){
-    const permisssionCheckboxXpath = by.xpath('//div[@class = "govuk-checkboxes"]//div[contains(@class,"govuk-checkboxes__item")]/label[contains(text(),"' + permission+'")]/../input');
-
-    let isSelected = await element(permisssionCheckboxXpath).isSelected();
-    console.log(isSelected);
-
-    if (isSelect !== isSelected){
-      await element(permisssionCheckboxXpath).click();
+    
+    const normalizedPermission = permission.toLowerCase();
+    if (normalizedPermission.includes('manage cases')){
+      await this.manageCasesCheckbox.click()
+    } else if (normalizedPermission.includes('manage users')){
+      await this.manageUserCheckbox.click()
+    } else if (normalizedPermission.includes('manage organisation')) {
+      await this.manageOrgCheckbox.click()
+    } else if (normalizedPermission.includes('case access')) {
+      await this.manageCaaCheckbox.click()
+    } else if (normalizedPermission.includes('fee accounts')) {
+      await this.manageFeeAccountsCheckbox.click()
+    }else{
+      throw Error(`Invalid or unrecognised user permission ${permission}`);
     }
-    isSelected = await element(permisssionCheckboxXpath).isSelected();
-    assert(isSelected === isSelect, permission + ' selection status is not  ' + isSelect);
+
   }
 
   /**
@@ -75,7 +91,7 @@ class InviteUserPage{
   async clickBackButton(){
     // browser.sleep(AMAZING_DELAY);
     await BrowserWaits.waitForElement(this.back);
-    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    await BrowserWaits.waitForSpinnerToDissappear();
 
     await this.back.click();
   }

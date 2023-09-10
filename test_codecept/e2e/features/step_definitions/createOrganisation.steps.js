@@ -9,9 +9,8 @@ const approveOrganizationService = require('../pageObjects/approveOrganizationSe
 const BrowserWaits = require('../../support/customWaits');
 
 async function waitForElement(el) {
-  await browser.wait((result) => {
-    return element(by.className(el)).isPresent();
-  }, 600000);
+  const elementToWait = $(`.${el}`)
+  await elementToWait.wait()
 }
 
   const createOrganisationObject = new CreateOrganisationObjects();
@@ -63,7 +62,7 @@ async function waitForElement(el) {
     });
   });
 
-  Then(/^I Enter the Organization name$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the Organization name$/,  async function () {
     // await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.org_name.isDisplayed(), 'Input Organisation name nor present').to.eventually.be.true;
     await createOrganisationObject.enterOrgName();
@@ -71,7 +70,7 @@ async function waitForElement(el) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the Office Address details$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the Office Address details$/,  async function () {
     // await waitForElement(createOrganisationObject.officeAddressOne);
     await expect(createOrganisationObject.officeAddressOne.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.officeAddressOne.sendKeys('1, Cliffinton');
@@ -95,7 +94,7 @@ async function waitForElement(el) {
     browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the DX Reference details$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the DX Reference details$/,  async function () {
     await createOrganisationObject.clickDXreferenceCheck();
     browser.sleep(MID_DELAY);
     await createOrganisationObject.DXNumber.isDisplayed();
@@ -106,7 +105,7 @@ async function waitForElement(el) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Select and Enter the SRA number$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Select and Enter the SRA number$/,  async function () {
     // await waitForElement('govuk-heading-xl');
     //await expect(createOrganisationObject.SRACheckBox.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.clickSRAreferenceCheck();
@@ -118,7 +117,7 @@ async function waitForElement(el) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the firstName and lastName$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the firstName and lastName$/,  async function () {
     await waitForElement('govuk-heading-xl');
     expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
     await createOrganisationObject.firstName.sendKeys('Mario');
@@ -128,7 +127,7 @@ async function waitForElement(el) {
     // browser.sleep(MID_DELAY);
   });
 
-  Then(/^I Enter the Email Address$/, { timeout: 600 * 1000 }, async function () {
+  Then(/^I Enter the Email Address$/, async function () {
     // await waitForElement('govuk-heading-xl');
     await expect(createOrganisationObject.emailAddr.isDisplayed()).to.eventually.be.true;
 
@@ -155,7 +154,7 @@ async function waitForElement(el) {
 
   Then(/^I created the organisation successfully$/, async function () {
     // browser.sleep(MID_DELAY);
-    createOrganisationObject.waitForSubmission();
+    await createOrganisationObject.waitForSubmission();
     await expect(createOrganisationObject.org_success_heading.isDisplayed()).to.eventually.be.true;
     await expect(createOrganisationObject.org_success_heading.getText())
       .to
@@ -164,7 +163,7 @@ async function waitForElement(el) {
   });
 
   When(/^I am not entered Organization name$/, async function () {
-    createOrganisationObject.org_name.sendKeys();
+    createOrganisationObject.org_name.sendKeys('');
     await createOrganisationObject.continue_button.click();
     browser.sleep(MID_DELAY);
   });
@@ -178,9 +177,9 @@ async function waitForElement(el) {
   });
 
   When(/^I am not entered the Office Address details$/, async function () {
-    await createOrganisationObject.officeAddressOne.sendKeys();
-    await createOrganisationObject.townName.sendKeys();
-    await createOrganisationObject.postcode.sendKeys();
+    await createOrganisationObject.officeAddressOne.sendKeys('');
+    await createOrganisationObject.townName.sendKeys('');
+    await createOrganisationObject.postcode.sendKeys('');
     await createOrganisationObject.continue_button.click();
     // browser.sleep(LONG_DELAY);
   });
@@ -195,7 +194,7 @@ async function waitForElement(el) {
   When(/^I am not entered SRA number$/, async function () {
     await createOrganisationObject.clickSRAreferenceCheck();
     await createOrganisationObject.waitForPage('Enter your organisation SRA ID');
-    await createOrganisationObject.SRANumber.sendKeys();
+    await createOrganisationObject.SRANumber.sendKeys('');
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
   });
@@ -210,7 +209,7 @@ async function waitForElement(el) {
 
   When(/^I am not entered the email address$/, async function () {
     await expect(createOrganisationObject.emailAddr.isDisplayed()).to.eventually.be.true;
-    await createOrganisationObject.emailAddr.sendKeys();
+    await createOrganisationObject.emailAddr.sendKeys('');
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
   });
@@ -241,8 +240,8 @@ async function waitForElement(el) {
 
   When(/^I am not entered the firstName and lastName$/, async function () {
     await expect(createOrganisationObject.firstName.isDisplayed()).to.eventually.be.true;
-    await createOrganisationObject.firstName.sendKeys();
-    await createOrganisationObject.lastName.sendKeys();
+    await createOrganisationObject.firstName.sendKeys('');
+    await createOrganisationObject.lastName.sendKeys('');
     await createOrganisationObject.continue_button.click();
     // browser.sleep(MID_DELAY);
   });

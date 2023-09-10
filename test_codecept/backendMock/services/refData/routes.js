@@ -5,13 +5,9 @@ const express = require('express')
 const router = express.Router({ mergeParams: true });
 const service = require('./index')
 
-router.post('/searchCases', (req, res) => {
-    res.send(service.getCaseTypes())
-});
-
-
-router.post('/internal/searchCases', (req, res) => {
-    res.send(service.getCases())
+router.get('/organisations', (req, res) => {
+ 
+    res.send(service.getOrganization())
 });
 
 
@@ -21,6 +17,11 @@ router.get('/organisations/users', (req, res) => {
     res.send(respose)
 });
 
+
+router.post('/organisations/users', (req, res) => {
+   
+    res.send({})
+});
 
 
 module.exports =  router;

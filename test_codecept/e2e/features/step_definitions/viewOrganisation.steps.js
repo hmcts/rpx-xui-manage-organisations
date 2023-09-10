@@ -29,14 +29,9 @@ const { defineSupportCode } = require('cucumber');
   Then(/^I should be on display the name and address details of organisation$/, async function () {
     // browser.sleep(LONG_DELAY);
     const world = this;
-    await browserWaits.retryWithAction(viewOrganisationPage.header, async function (message) {
-      world.attach('Retrying Click Organisation  : ' + message);
-      global.screenShotUtils.takeScreenshot()
-        .then((stream) => {
-          const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-          world.attach(decodedImage, 'image/png');
-        });
+    await browserWaits.retryWithActionCallback( async function (message) {
       await headerPage.clickOrganisation();
+      await browserWaits.waitForElement(viewOrganisationPage.header)
     });
     expect(await viewOrganisationPage.amOnPage(), 'Organisation page not displayed').to.be.true;
   });

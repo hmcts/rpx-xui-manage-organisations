@@ -1,9 +1,10 @@
+@fullFunctional
 Feature: invite user workflow
 
   Background:
 
     When I navigate to manage organisation Url
-    Given I am logged into manage organisation to invite users
+    Given I am logged into Townley Services Org
 
     Then I should be redirected to manage organisation dashboard page
     When I navigate to invite user page

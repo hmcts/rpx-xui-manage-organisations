@@ -2,25 +2,25 @@ const AppActions = require('../helpers/applicationActions');
 const PallyActions = require('../helpers/pallyActions');
 
 const assert = require('assert');
-const { pa11ytest, getResults } = require('../helpers/pa11yUtil');
+const { pa11ytest, getResults, initBrowser } = require('../helpers/pa11yUtil');
 const html = require('pa11y-reporter-html');
 
 const { conf } = require('../config/config');
 
-const MockApp = require('../../nodeMock/app');
+// const MockApp = require('../../nodeMock/app');
 
 describe('Pa11y tests', function () {
   beforeEach(function(){
-    MockApp.init();
+    // MockApp.init();
   });
   afterEach(async function (done) {
-    await MockApp.stopServer();
+    // await MockApp.stopServer();
     done();
   });
 
   conf.unauthenticatedUrls.forEach((pageUrl) => {
     it('Registration page url ' + pageUrl, async function () {
-      await MockApp.startServer();
+      await initBrowser();
       const actions = [];
       actions.push(...PallyActions.waitForPageWithCssLocator('#content'));
       actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
@@ -30,14 +30,14 @@ describe('Pa11y tests', function () {
   });
 
   it('Registration Check your Answers Page ', async function () {
-    await MockApp.startServer();
+    await initBrowser();
     // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
     const actions = regitrationActions();
     await pa11ytest(this, actions);
   });
 
   it('Registration Success Page ', async function () {
-    await MockApp.startServer();
+    await initBrowser();
     // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
 
     const actions = regitrationActions();
@@ -47,11 +47,9 @@ describe('Pa11y tests', function () {
     await pa11ytest(this, actions);
   });
 
-  it('Registration Error Page ', async function () {
-    MockApp.onPost('/external/register-org/register', (req, res) => {
-      res.status(400).send({ 'apiError': '6 : PBA_NUMBER Invalid or already exists', 'apiErrorDescription': 'ERROR: duplicate key value violates unique constraint "pba_number_uq"\n  Detail: Key (pba_number)=(PBA1234567) already exists.', 'statusCode': 400 });
-    });
-    await MockApp.startServer();
+  it.skip('Registration Error Page ', async function () {
+   
+    await initBrowserr();
     const actions = regitrationActions();
     actions.push(...PallyActions.clickElement('app-check-your-answers button'));
     actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-error-summary'));

@@ -66,7 +66,8 @@ class Button{
     const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(await EC.elementToBeClickable(await this._getElementFinder()), DEFAULT_TIMEOUT);
+      const elementToWait = await this._getElementFinder() 
+      await elementToWait.wait()
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for element ${element} to be clickable`;
       throw new CustomError(message, e);

@@ -109,7 +109,6 @@ class CreateOrganisationObjects {
     global.latestOrgCreated = orgName;
     await this.org_name.sendKeys(testorgName ? testorgName : orgName);
 
-    await browser.sleep(1000);
   }
 
   async enterEmailAddress(email) {

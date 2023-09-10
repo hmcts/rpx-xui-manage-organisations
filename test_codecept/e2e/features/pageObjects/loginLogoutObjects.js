@@ -46,7 +46,7 @@ function loginLogoutObjects() {
     await browser.sleep(SHORT_DELAY);
   };
 
-  this.waitFor = function (selector) {
+  this.waitFor = async function (selector) {
     return await BrowserWaits.waitForElement($(selector))
   };
 

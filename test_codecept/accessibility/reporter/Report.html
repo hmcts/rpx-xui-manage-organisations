@@ -148,14 +148,22 @@
 
     <div class="testResult" ng-repeat="test in data.tests">
        <div class="testTitle" ng-class="{pass : test.status == 'passed', fail: test.status == 'failed'}"  ng-click="showDetails(test)">{{ test.name }}</div>
+        
        <div ng-if="test.status == 'failed'">
            <pre>
               <code>{{test.error}}</code> 
            </pre>
        </div>
-       
+   
        <div class="a11yResult" ng-class="{show: test.show, hide:!test.show}">
             <!-- {{test.a11yResult}} -->
+            <div ng-class="{show: test.show, hide:!test.show}">
+                <h3>Test Steps</h3>
+                <div ng-if="test.a11yResult.steps !== null" ng-repeat="step in test.a11yResult.steps">
+                    <code>{{step}}</code>
+
+                </div>
+            </div>
             <table class="resultTable">
                 <tr>
                     <th>Document title:</th>
@@ -173,6 +181,7 @@
         
             <h4>Issues:</h4>
             <div ng-if="test.a11yResult.issues !== null"  ng-repeat="issue in test.a11yResult.issues">
+               
                 <table class="issuesTable">
                     <tr> <th>Issue code</th><td>{{issue.code}}</td></tr>
                      <tr> <th>Issue type</th><td>{{issue.type}}</td></tr>

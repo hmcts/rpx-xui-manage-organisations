@@ -140,10 +140,10 @@ class Dropdown {
   }
 
   async waitForElementToBeInvisible(){
-    const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.invisibilityOf(await element(by.css(this._dropdownElement))), DEFAULT_TIMEOUT);
+      const elementToWait = element(by.css(this._dropdownElement))
+      await elementToWait.wait()
       return true;
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for dropdown element ${element} to be invisible`;
@@ -152,10 +152,11 @@ class Dropdown {
   }
 
   async waitForElementToBeVisible(){
-    const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.visibilityOf($(this._dropdownElement)), DEFAULT_TIMEOUT);
+      const elementToWait = $(this._dropdownElement)
+      await elementToWait.wait()
+
       return true;
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for dropdown element ${element} to be visible`;

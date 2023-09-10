@@ -9,35 +9,12 @@ const axios = require('axios');
 const http = axios.create({})
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 
-const taskApi = require('./services/task-management-api/routes')
-const workTypeRoutes = require('./services/task-management-api/workTypeRoutes')
+const healthRoutes = require('./services/health/routes')
 
-
-const locationRoutes = require('./services/rdLocation/routes')
-const caseworkerRoutes = require('./services/rdCaseworker/routes')
-const judicialRoutes = require('./services/rdJudicial/routes')
-
-const roleAssignmentRoutes = require('./services/roleAssignments/routes')
-const bookingRoutes = require('./services/roleAssignments/bookingRoutes')
-
-const hearingRoutes = require('./services/hearings/routes')
-
-
-const ccdRoutes = require('./services/ccd/routes')
-const ccdApi = require('./services/ccd/index')
-
-const caseAssignmentsRoutes = require('./services/caseAssignments/routes')
-const prdOrganisationRoutes = require('./services/prdOrganisations/routes')
-
-const prdCommondataroutes = require('./services/prd/routes')
-
-
-const globalSearchRoutes = require('./services/globalSearch/routes')
-
-const idamOpenId = require('./services/idam/routes')
 const sessionRoutes = require('./services/session/routes')
+const refDataRoutes = require('./services/refData/routes')
+const ccdRoutes = require('./services/ccd/routes')
 
-const users = require('./services/users');
 const userApiData = require('./services/userApiData');
 class MockApp {
 
@@ -90,33 +67,9 @@ class MockApp {
 
         app.use('/client', sessionRoutes)
 
-        app.use('/', idamOpenId)
-        app.use('/task', taskApi)
-        app.use('/work-types', workTypeRoutes)
-        app.use('/refdata/location', locationRoutes)
-        app.use('/refdata/case-worker', caseworkerRoutes )
-        app.use('/refdata/judicial', judicialRoutes )
-
-
-        app.use('/am/role-assignments', roleAssignmentRoutes)
-        app.use('/am/bookings', bookingRoutes)
-
-        app.use('/', hearingRoutes)
-
-        app.use('/globalSearch', globalSearchRoutes)
-
-        app.use('/case-assignments', caseAssignmentsRoutes)
-        app.use('/refdata/external/v1/organisations',prdOrganisationRoutes )
-        
-        app.post('/searchCases', (req,res) => {
-            const cases = ccdApi.getSearchCases(req,res)
-            res.send(cases)
-        })
-
-
-        app.use('/', ccdRoutes )
-
-        app.use('/refdata/commondata', prdCommondataroutes)
+        app.use('/health', healthRoutes)
+        app.use('/refdata/external/v1', refDataRoutes)
+        app.use('/ccd', ccdRoutes)
 
 
         // await this.stopServer();

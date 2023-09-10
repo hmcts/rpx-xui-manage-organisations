@@ -218,13 +218,17 @@ class Element {
             if (selectorType === 'css'){
                 return document.querySelector(selector).checked;
             }else{
-                return document.evaluate(
+                const ele = document.evaluate(
                     selector,
                     document,
                     null,
                     XPathResult.FIRST_ORDERED_NODE_TYPE,
                     null
-                ).singleNodeValue.checked;
+                );
+                if(ele === null){
+                    throw Error(`Element with selector not found : ${selector}`);
+                }
+                return ele.singleNodeValue.checked;
             }
             
         }, selectorType, this.selector[selectorType]);

@@ -11,12 +11,11 @@ const manageCasesService = require('../pageObjects/manageCasesService');
 const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 
 const HeaderPage = require('../pageObjects/headerPage');
+const browser = require('../../../codeceptCommon/browser');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
-  await browser.wait((result) => {
-    return element(by.className(el)).isPresent();
-  }, 40000);
+  await $(`.${el}`).wait()
 }
 
   When(/^I navigate to manage organisation Url$/, async function () {
@@ -163,9 +162,7 @@ async function waitForElement(el) {
   Given('I am logged in to created approve organisation', async function () {
     // browser.sleep(LONG_DELAY);
     await loginattemptCheckAndRelogin(global.latestOrgSuperUser, 'Monday01', this);
-    browser.wait(async () => {
-      return !(await loginPage.emailAddress.isPresent());
-    }, 30000);
+    await loginPage.emailAddress.wait();
 
     if (config.config.twoFactorAuthEnabled){
       const verificationCodeInput = element(by.css('#code'));
@@ -188,11 +185,8 @@ async function waitForElement(el) {
 
   Then(/^I should be redirected back to Login page after direct link$/, async function () {
     // await browserWaits.waitForElement(loginPage.emailAddress);
-    await browserWaits.retryWithAction(loginPage.emailAddress, async () => {
-      console.log('ReTry for login page after direct link ');
-      this.attach('ReTry for login page after direct link ');
-      await browser.get(config.config.baseUrl + '/cases/case-filter');
-    });
+    await browser.get(config.config.baseUrl + '/cases/case-filter');
+    await browserWaits.waitForElement(loginPage.signinTitle)
     await expect(loginPage.signinTitle.getText())
       .to
       .eventually
@@ -275,7 +269,6 @@ async function loginattemptCheckAndRelogin(username, password, world) {
         }
 
         console.log(err + ' email field is still present with empty value indicating  Login page reloaded due to EUI-1856 : Login re attempt ' + loginAttemptRetryCounter);
-        world.attach(err + ' email field is still present with empty value indicating Login page reloaded due to EUI-1856 : Login re attempt ' + loginAttemptRetryCounter);
         await loginWithCredentials(username, password, world);
         loginAttemptRetryCounter++;
       }
@@ -283,10 +276,8 @@ async function loginattemptCheckAndRelogin(username, password, world) {
   }
 
   console.log('ONE ATTEMPT:  EUI-1856 issue occured / total logins => ' + firstAttemptFailedLogins + ' / ' + loginAttempts);
-  world.attach('ONE ATTEMPT:  EUI-1856 issue occured / total logins => ' + firstAttemptFailedLogins + ' / ' + loginAttempts);
 
   console.log('TWO ATTEMPT: EUI-1856 issue occured / total logins => ' + secondAttemptFailedLogins + ' / ' + loginAttempts);
-  world.attach('TWO ATTEMPT: EUI-1856 issue occured / total logins => ' + secondAttemptFailedLogins + ' / ' + loginAttempts);
 }
 
 const loginAttempts = 0;

@@ -44,10 +44,11 @@ class TextField{
   }
 
   async waitForElementToBeInvisible(){
-    const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.invisibilityOf(await element(by.css(this.css))), DEFAULT_TIMEOUT);
+      const elementToWait = element(by.css(this.css))
+      await elementToWait.wait()
+
       return true;
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for text element ${element} to be invisible`;
@@ -56,10 +57,12 @@ class TextField{
   }
 
   async waitForElementToBeVisible(){
-    const EC = protractor.ExpectedConditions;
 
     try {
-      await browser.wait(EC.visibilityOf(await element(by.css(this.css))), DEFAULT_TIMEOUT);
+      const elementToWait = $(this.css)
+      await elementToWait.wait()
+
+
       return true;
     } catch (e) {
       const message = `timed out after ${DEFAULT_TIMEOUT} waiting for text element ${element} to be visible`;

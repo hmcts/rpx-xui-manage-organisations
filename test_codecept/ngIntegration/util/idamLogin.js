@@ -45,30 +45,31 @@ class IdamLogin{
         this.idamLoginresponse = {};
         this.xuiCallbackResponse = {}
         this.userDetailsResponse = {};
-        try{
-            await this.onXuiLogin()
-            await this.onIdamAuthorize()
-            await this.onIdamLoginGet()
-            await this.onIdamLoginPost()
-            await this.onXuiCallback()
-            await this.getUserDetails()
+
+        let loginWorkFlowError = null;
+        let counter = 0;
+        while(counter < 3){
+            try {
+                await this.onXuiLogin()
+                await this.onIdamAuthorize()
+                await this.onIdamLoginGet()
+                await this.onIdamLoginPost()
+                await this.onXuiCallback()
+                await this.getUserDetails()
 
 
-            this.authToken = this.userDetailsResponse.details.data.userInfo.token
+                const authTokenCookie = this.xuiCallbackResponse.details.setCookies.find(c => c.name === '__auth__')
+                this.authToken = authTokenCookie.value
+                return;
 
-        }catch(err){
-            reportLogger.AddMessage('************* Login error *************')
-            // reportLogger.AddMessage(
-            //     JSON.stringify({
-            //         xuiLoginResponse: this.xuiLoginResponse,
-            //         idamLoginGetResponse: this.idamLoginGetResponse,
-            //         idamAuthorizeResponse: this.idamAuthorizeResponse,
-            //         idamLoginresponse: this.idamLoginresponse,
-            //         userDetailsResponse: this.userDetailsResponse
-            //     }, null,2)
-            // );
-            throw err
+            } catch (err) {
+                loginWorkFlowError = err;
+                reportLogger.AddMessage('************* Login error *************')
+            }
+            counter++;
         }
+        throw loginWorkFlowError;
+        
 
     }
 
@@ -145,9 +146,10 @@ class IdamLogin{
         if (this.xuiLoginResponse === null) { throw new Error('xuiLogin required') }
 
         reportLogger.AddMessage('API: IDAM Authorize url ' + this.xuiLoginResponse.details.idamAuthorizeUrl)
-
         const response = await axiosInstance.get(this.xuiLoginResponse.details.idamAuthorizeUrl)
-
+        if(response.status === 200){
+            return;
+        }
         const redirectlocation = response.headers.location;
         const redirect_url = redirectlocation.split('redirect_uri')[1];
 
@@ -172,9 +174,9 @@ class IdamLogin{
     }
 
     async onIdamLoginGet() {
-        if (this.idamAuthorizeResponse === null) { throw new Error('idam authorize required') }
-        const cookiesString = `${this.getCookieString(this.idamAuthorizeResponse.details.setCookies)}`
-        const response = await axiosInstance.get(this.idamAuthorizeResponse.details.idamLoginRedirect,{
+        if (this.xuiLoginResponse === null) { throw new Error('idam authorize required') }
+        const cookiesString = `${this.getCookieString(this.xuiLoginResponse.details.setCookies)}`
+        const response = await axiosInstance.get(this.xuiLoginResponse.details.idamAuthorizeUrl,{
             headers:{
                 Cookie: cookiesString
             }
@@ -200,28 +202,31 @@ class IdamLogin{
             username: this.username,
         password: this.password,
         selfRegistrationEnabled: 'false',
-        azureLoginEnabled: 'true',
         mojLoginEnabled: 'true',
         _csrf: this.idamLoginGetResponse.details.csrf
 
         }
-        const cookiesString = `${this.getCookieString(this.idamAuthorizeResponse.details.setCookies)};seen_cookie_message=yes; cookies_policy={"essential":true,"analytics":false,"apm":false}; cookies_preferences_set=false`
+        const cookiesString = `${this.getCookieString(this.xuiLoginResponse.details.setCookies)};seen_cookie_message=yes; cookies_policy={"essential":true,"analytics":false,"apm":false}; cookies_preferences_set=false`
 
 
         const params = new URLSearchParams(formdata);
-
-        const response = await axiosInstance.post(`${this.conf.idamBaseUrl}/login?client_id=${this.conf.idamClientId}&redirect_uri=${this.conf.xuiBaseUrl}/oauth2/callback&state=${this.idamAuthorizeResponse.details.state}&nonce=${this.idamAuthorizeResponse.details.nonce}&response_type=code&scope=profile%20openid%20roles%20manage-user%20create-user%20search-user&prompt=`,
-            params,
-            {
-                maxRedirects: 0,
-                validateStatus: null,
-                headers: {
-                    Cookie: cookiesString,
-                    'content-type':'application/x-www-form-urlencoded',
-                    'accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+        let response = null;
+        try{
+            response = await axiosInstance.post(this.xuiLoginResponse.details.idamAuthorizeUrl,
+                params,
+                {
+                    maxRedirects: 0,
+                    validateStatus: null,
+                    headers: {
+                        Cookie: cookiesString,
+                        'content-type': 'application/x-www-form-urlencoded',
+                        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+                    }
                 }
-            }
-        );
+            );
+        }catch(err){
+            throw err
+        }
         this.idamLoginresponse.status = this.getResponseStatus(response);
         this.idamLoginresponse.details = {
             xuiCallback:response.headers.location,

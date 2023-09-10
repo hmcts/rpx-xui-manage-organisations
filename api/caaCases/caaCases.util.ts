@@ -104,7 +104,7 @@ function onGeneratedRow(ccdCaseData: CcdCaseData, columnConfigs: CcdColumnConfig
 
 function mapCcdColumnConfigs(ccdCases: CcdCase): CcdColumnConfig[] {
   const ccdColumnConfigs = new Array<CcdColumnConfig>();
-  ccdCases.headers.forEach((caseHeader: CaseHeader) => {
+  ccdCases. headers.forEach((caseHeader: CaseHeader) => {
     caseHeader.fields.forEach((header) => {
       if (header) {
         ccdColumnConfigs.push({

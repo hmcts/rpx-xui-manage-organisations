@@ -1,123 +1,18 @@
 
-const { v4 } = require('uuid');
 
-class CCD{
+const express = require('express')
 
-    constructor(){
-       
-    }
+const router = express.Router({ mergeParams: true });
+const service = require('./index')
 
-    getCaseTypes(){
-        return {
-            "total": 0, "cases": [], "case_types_results": [
-                { case_type_id: 'Asylum', total: 1 }
-            ]
-        };
-    }
-
-    getCases(){
-        return {
-            headers: caseDataColumnConfigs,
-            cases: [caseData, caseData]
-        }
-       
-    }
-}
+router.get('/', (req, res) => {
+ 
+    res.send(service.getHealthResponse())
+});
 
 
-module.exports = new CCD();
 
-const caseData = {
-    fields: {
-        "[CASE_REFERENCE]": "1688031324640947",
-        "ethosCaseReference": "6042070/2023",
-        "claimant": "Grayson Becker",
-        "respondent": "Mrs Test Auto",
-        "[STATE]": "Accepted",
-        "case_id": "1688031324640947",
-        "caseType": "ET_EnglandWales"
-    }
-   
-}
-
-
-const caseDataColumnConfigs = [
-    {
-        fields: [
-            {
-                label: "Case Reference",
-                case_field_id: '[CASE_REFERENCE]',
-                case_field_type: { type: 'TEXT' }
-
-            },
-            {
-                label: "Case Number",
-                case_field_id: 'ethosCaseReference',
-                case_field_type: { type: 'TEXT' }
-
-            },
-            {
-                label: "Claimant",
-                case_field_id: 'claimant',
-                case_field_type: { type: 'TEXT' }
-
-            },
-            {
-                label: "Respondent",
-                case_field_id: 'respondent',
-                case_field_type: { type: 'TEXT' }
-
-            },
-            {
-                label: "State",
-                case_field_id: '[STATE',
-                case_field_type: { type: 'FixedList' }
-
-            }
-        ]
-    }
-]
-
-const orgResponse = {
-    "name": "Townley Services (TEST) - LaunchDarkly",
-    "organisationIdentifier": "NPT8F21",
-    "contactInformation": [
-        {
-            "addressId": "f0bd992b-a1f1-4aef-9935-b28acf26aa67",
-            "uprn": null,
-            "created": "2020-04-28T14:59:38.379",
-            "addressLine1": "28",
-            "addressLine2": "Sparrowgrove",
-            "addressLine3": null,
-            "townCity": "Otterbourne",
-            "county": "Winchester",
-            "country": null,
-            "postCode": "SE6 TU7",
-            "dxAddress": [
-                {
-                    "dxNumber": "DX87744556322",
-                    "dxExchange": "Winchester"
-                }
-            ]
-        }
-    ],
-    "status": "ACTIVE",
-    "sraId": "SRA542467777",
-    "sraRegulated": false,
-    "superUser": {
-        "firstName": "Townley",
-        "lastName": "Winchester",
-        "email": "townley.winchester@mailnesia.com"
-    },
-    "paymentAccount": [
-        "PBA0356049",
-        "PBA2445562"
-    ],
-    "pendingPaymentAccount": [],
-    "dateReceived": "2020-04-28T14:59:38.284",
-    "dateApproved": null
-}
-
+module.exports =  router;
 
 
 const lovRefData = [

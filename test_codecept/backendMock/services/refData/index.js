@@ -1,26 +1,81 @@
 
+const { v4 } = require('uuid');
 
-const express = require('express')
+class RefData{
 
-const router = express.Router({ mergeParams: true });
-const service = require('./index')
+    constructor(){
+       
+    }
 
-const userApiData = require('../userApiData')
-
-
-router.get('/lov/categories/:categoryid', (req, res) => {
- 
-    res.send({ list_of_values: service.categoryTypes[req.params.categoryid].value })
-});
-
-router.get('/caseflags/:service-id=ABA5', (req,res) => {
-  
-    res.send(service.caseFlags)
-})
+    getOrganization(){
+        return orgResponse;
+    }
 
 
+    getUsers(count){
+        const usersResponse = {
+            "organisationIdentifier": "NPT8F21",
+            users:[]
+        }
 
-module.exports =  router;
+        for(let i = 0; i< count;i++){
+            usersResponse.users.push({
+                "userIdentifier": "0407967c-93bd-4890-a2a5-da7dad3d71e1",
+                "firstName": "Pet",
+                "lastName": "Solicitor 2",
+                "email": "div-petsol-2@mailinator.com",
+                "idamStatus": "ACTIVE"
+            })
+        }
+        return usersResponse;
+    }
+
+}
+
+
+module.exports = new RefData();
+
+
+const orgResponse = {
+    "name": "Townley Services (TEST) - LaunchDarkly",
+    "organisationIdentifier": "NPT8F21",
+    "contactInformation": [
+        {
+            "addressId": "f0bd992b-a1f1-4aef-9935-b28acf26aa67",
+            "uprn": null,
+            "created": "2020-04-28T14:59:38.379",
+            "addressLine1": "28",
+            "addressLine2": "Sparrowgrove",
+            "addressLine3": null,
+            "townCity": "Otterbourne",
+            "county": "Winchester",
+            "country": null,
+            "postCode": "SE6 TU7",
+            "dxAddress": [
+                {
+                    "dxNumber": "DX87744556322",
+                    "dxExchange": "Winchester"
+                }
+            ]
+        }
+    ],
+    "status": "ACTIVE",
+    "sraId": "SRA542467777",
+    "sraRegulated": false,
+    "superUser": {
+        "firstName": "Townley",
+        "lastName": "Winchester",
+        "email": "townley.winchester@mailnesia.com"
+    },
+    "paymentAccount": [
+        "PBA0356049",
+        "PBA2445562"
+    ],
+    "pendingPaymentAccount": [],
+    "dateReceived": "2020-04-28T14:59:38.284",
+    "dateApproved": null
+}
+
 
 
 const lovRefData = [

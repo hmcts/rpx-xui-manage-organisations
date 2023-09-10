@@ -3,25 +3,25 @@ const AppActions = require('../helpers/applicationActions');
 const PallyActions = require('../helpers/pallyActions');
 
 const assert = require('assert');
-const { pa11ytest, getResults } = require('../helpers/pa11yUtil');
+const { pa11ytest, getResults, initBrowser } = require('../helpers/pa11yUtil');
 const html = require('pa11y-reporter-html');
 
 const { conf } = require('../config/config');
 
-const MockApp = require('../../nodeMock/app');
+// const MockApp = require('../../nodeMock/app');
 
 describe('Pa11y tests', function () {
   beforeEach(function (done) {
-    MockApp.init();
+    // MockApp.init();
     done();
   });
   afterEach(async function (done) {
-    await MockApp.stopServer();
+    // await MockApp.stopServer();
     done();
   });
 
   it('Users page', async function () {
-    await MockApp.startServer();
+    await initBrowser();
     const actions = [];
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users'));
     actions.push(...PallyActions.waitForPageWithCssLocator('app-prd-users-component'));
@@ -29,7 +29,7 @@ describe('Pa11y tests', function () {
   });
 
   it('Invite Users page', async function () {
-    await MockApp.startServer();
+    await initBrowser();
     const actions = [];
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
     actions.push(...PallyActions.waitForPageWithCssLocator('app-prd-invite-user-component'));
@@ -37,11 +37,8 @@ describe('Pa11y tests', function () {
   });
 
   it('a11y test Invite user server error page', async function () {
-    await MockApp.onPost('/api/inviteUser', (req, res) => {
-      console.log('............... invite user error response');
-      res.status(500).send({ error: 'server error occured' });
-    });
-    await MockApp.startServer();
+   
+    await initBrowser();
 
     const actions = [];
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
@@ -51,7 +48,7 @@ describe('Pa11y tests', function () {
   });
 
   it('a11y test Invite user error page', async function () {
-    await MockApp.startServer();
+    await initBrowser();
 
     const actions = [];
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
@@ -61,7 +58,7 @@ describe('Pa11y tests', function () {
   });
 
   it('a11y test Invite user Success page', async function () {
-    await MockApp.startServer();
+    await initBrowser();
 
     const actions = [];
     actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));

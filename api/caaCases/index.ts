@@ -27,7 +27,7 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
     const payload = getRequestBody(req.session.auth.orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
 
     const response = await req.http.post(path, payload);
-    const caaCases = mapCcdCases(caseTypeId, response.data);
+    const   caaCases = mapCcdCases(caseTypeId, response.data);
     res.send(caaCases);
   } catch (error) {
     next(error);

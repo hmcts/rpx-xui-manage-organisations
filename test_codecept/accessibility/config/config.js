@@ -1,8 +1,8 @@
 const conf = {
-  reportPath: 'reports/tests/a11y/',
+  reportPath: 'functional-output/tests/codecept-a11y/',
   appName: 'Manage Organisation',
   baseUrl1: 'https://manage-org.aat.platform.hmcts.net/',
-  baseUrl: 'http://localhost:4200/',
+  baseUrl: 'http://localhost:3000/',
   failTestOna11yIssues: false,
   headless: true,
   params: {

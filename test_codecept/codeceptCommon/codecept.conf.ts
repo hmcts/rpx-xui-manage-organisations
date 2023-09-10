@@ -232,7 +232,7 @@ async function teardown(){
     // await applicationServer.stop()
   }
   statsReporter.run();
-  generateCucumberReport();
+  await generateCucumberReport();
   await exitWithStatus()
 
   // process.exit(1);

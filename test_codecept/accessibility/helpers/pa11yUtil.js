@@ -4,54 +4,72 @@ const { conf } = require('../config/config');
 
 const jwt = require('jsonwebtoken');
 const puppeteer = require('puppeteer');
-const MockApp = require('../../nodeMock/app');
+
+const idamLogin = require('../../ngIntegration/util/idamLogin')
+
+// const MockApp = require('../../nodeMock/app');
 
 const fs = require('fs');
 
 let testBrowser = null;
 let page = null;
 
+
+let sessionCookies = [];
+
 async function initBrowser() {
+  idamLogin.withCredentials('lukesuperuserxui@mailnesia.com', 'Monday01')
+  await idamLogin.do()
+
   testBrowser = await puppeteer.launch({
     ignoreHTTPSErrors: false,
     headless: conf.headless,
     args: [
       '--no-sandbox',
-      '--disable-dev-shm-usage'
-    ]
+      '--disable-dev-shm-usage',
+    ],
   });
 
   page = await testBrowser.newPage();
-  await page.goto('http://localhost:4200/');
-  await page.setCookie({ name: 'scenarioMockPort', value: '' + MockApp.serverPort });
-  // await page.goto("http://localhost:4200/");
+  // await page.goto("http://localhost:3000/");
+
+  await page.goto("http://localhost:3000/get-help");
+  const cookies = idamLogin.xuiCallbackResponse.details.setCookies;
+  sessionCookies = cookies;
+  for (let cookie of cookies) {
+    await page.setCookie({ name: cookie.name, value: cookie.value })
+  }
+  await page.goto("http://localhost:3000/");
+
 }
 
 async function pa11ytest(test, actions, startUrl, roles) {
-  if (!startUrl){
-    startUrl = 'http://localhost:4200/';
+  if (!startUrl ){
+    startUrl = "http://localhost:3000"
   }
   let isTestSuccess = false;
   let retryCounter = 0;
   test.screenshots = [];
+  test.steps = actions;
   while (!isTestSuccess && retryCounter < 3) {
+
     try {
       await pa11ytestRunner(test, actions, startUrl, roles);
       isTestSuccess = true;
     } catch (err) {
       retryCounter++;
-      console.log('Error running pallt test ' + err);
-      console.log('Retrying test again for ' + retryCounter);
+      console.log("Error running pally test " + err);
+      console.log("Retrying test again for " + retryCounter);
     }
   }
   console.log(test.screenshots);
 }
 
 async function pa11ytestRunner(test, actions, startUrl, roles) {
-  console.log('pally test with actions : ' + test.test.title);
+  console.log("pally test with actions : " + test.test.title);
   console.log(actions);
 
-  let screenshotPath = process.env.PWD + '/' + conf.reportPath + 'assets/';
+  let screenshotPath = process.env.PWD + "/" + conf.reportPath + 'assets/';
   if (!fs.existsSync(screenshotPath)) {
     fs.mkdirSync(screenshotPath, { recursive: true });
   }
@@ -61,35 +79,16 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
 
   const startTime = Date.now();
 
-  const token = jwt.sign({
+  let token = jwt.sign({
     data: 'foobar'
   }, 'secret', { expiresIn: 60 * 60 });
 
-  const cookies = [
-    {
-      name: '__auth__',
-      value: token,
-      domain: 'localhost:4200',
-      path: '/',
-      httpOnly: false,
-      secure: false,
-      session: true
-    }
-  ];
-  const browser = await puppeteer.launch({
-    ignoreHTTPSErrors: true,
-    headless: conf.headless,
-    args: ['--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks', '--disable-notifications']
-  });
-  const page = await browser.newPage();
-  await page.setCookie(...cookies);
-  await page.goto(conf.baseUrl);
-
   let result;
+
 
   // await setScenarioCookie(test);
   try {
-    await initBrowser();
+    // await initBrowser();
     result = await pa11y(startUrl, {
       browser: testBrowser,
       page: page,
@@ -101,29 +100,30 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
         info: console.info
       },
       actions: actions
-    });
+    })
   } catch (err) {
     await page.screenshot({ path: screenshotPath });
     const elapsedTime = Date.now() - startTime;
     result = {
-      documentTitle: 'test name ' + test.test.title,
-      pageUrl: '',
+      documentTitle: "test name " + test.test.title,
+      steps: actions,
+      pageUrl: "",
       issues: [{
-        code: 'test execution error',
-        message: '' + err.message,
-        selector: ''
+        code: "test execution error",
+        message: "" + err.message,
+        selector: ""
       }]
     };
-
     result.executionTime = elapsedTime;
     test.screenshots.push(screenshotReportRef);
     result.screenshot = screenshotReportRef;
     test.a11yResult = result;
-    console.log('Test Execution time : ' + elapsedTime);
+    console.log("Test Execution time : " + elapsedTime);
     console.log(err);
     await page.close();
     await testBrowser.close();
     throw err;
+
   }
 
   await page.close();
@@ -134,11 +134,19 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
   test.screenshots.push(screenshotReportRef);
   result.screenshot = screenshotReportRef;
   test.a11yResult = result;
-  console.log('Test Execution time : ' + elapsedTime);
+  console.log("Test Execution time : " + elapsedTime);
   if (conf.failTestOna11yIssues) {
-    assert(result.issues.length === 0, 'a11y issues reported');
+    assert(result.issues.length === 0, "a11y issues reported")
   }
+  result.steps = actions
+
   return result;
+
 }
 
-module.exports = { pa11ytest, initBrowser };
+function getAuthCookie() {
+  return sessionCookies.find(cookie => cookie.name === '__auth__').value
+}
+
+
+module.exports = { pa11ytest, initBrowser, getAuthCookie }

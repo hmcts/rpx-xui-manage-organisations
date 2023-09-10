@@ -12,6 +12,7 @@ const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsC
 
 const HeaderPage = require('../pageObjects/headerPage');
 const browser = require('../../../codeceptCommon/browser');
+const { THIS_EXPR } = require('@angular/compiler/src/output/output_ast');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
@@ -84,8 +85,8 @@ async function waitForElement(el) {
   });
 
   Then(/^I should be redirected to manage organisation dashboard page$/, async function () {
-    await browserWaits.waitForElement(loginPage.dashboard_header, LONG_DELAY, 'Dashboard Header not present');
-    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation, LONG_DELAY, 'Primary navigation Tab not present');
+    await browserWaits.waitForElement(loginPage.dashboard_header);
+    await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation);
 
     await expect(loginPage.dashboard_header.isDisplayed(), 'Dashboard header not displayed').to.eventually.be.true;
     await expect(loginPage.dashboard_header.getText())
@@ -94,7 +95,6 @@ async function waitForElement(el) {
       .equal('Manage organisation');
 
     await expect(headerPage.isPrimaryNavigationTabDisplayed(), 'Primary navigation tabs not displayed').to.eventually.be.true;
-    browser.sleep(LONG_DELAY);
   });
 
   // Given(/^I am logged into manage organisation with ManageOrg user details$/, async function () {
@@ -132,11 +132,12 @@ async function waitForElement(el) {
   });
 
   Given(/^I am logged into Townley Services Org$/, async function () {
-    await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
-    await loginPage.password.sendKeys(config.config.townleyPassword);
-    // browser.sleep(SHORT_DELAY);
-    await loginPage.signinBtn.click();
-    browser.sleep(SHORT_DELAY);
+    // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+    // await loginPage.password.sendKeys(config.config.townleyPassword);
+    // // browser.sleep(SHORT_DELAY);
+    // await loginPage.signinBtn.click();
+    await loginattemptCheckAndRelogin(config.config.townleyUser, config.config.townleyPassword, THIS_EXPR);
+
   });
 
   Given('I am logged into manage organisation with test org user', async function(){
@@ -222,14 +223,6 @@ async function waitForElement(el) {
 
 
 async function loginWithCredentials(username, password, world){
-  await browserWaits.retryForPageLoad(loginPage.emailAddress, async function (message) {
-    world.attach('Retrying Login page load : ' + message);
-    const stream = await browser.takeScreenshot();
-    const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-    world.attach(decodedImage, 'image/png');
-    await browser.get(config.config.baseUrl);
-  });
-
   await browserWaits.waitForElement(loginPage.emailAddress);
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);
@@ -256,22 +249,11 @@ async function loginattemptCheckAndRelogin(username, password, world) {
 
   while (loginAttemptRetryCounter < 5) {
     try {
-      await browserWaits.waitForstalenessOf(loginPage.emailAddress, 5);
+      await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation);
       break;
     } catch (err) {
-      const emailFieldValue = await loginPage.emailAddress.getText();
-      if (!emailFieldValue.includes(username)) {
-        if (loginAttemptRetryCounter === 1) {
-          firstAttemptFailedLogins++;
-        }
-        if (loginAttemptRetryCounter === 2) {
-          secondAttemptFailedLogins++;
-        }
-
-        console.log(err + ' email field is still present with empty value indicating  Login page reloaded due to EUI-1856 : Login re attempt ' + loginAttemptRetryCounter);
-        await loginWithCredentials(username, password, world);
-        loginAttemptRetryCounter++;
-      }
+      await loginWithCredentials(username, password, world);
+      
     }
   }
 

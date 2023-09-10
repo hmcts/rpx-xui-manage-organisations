@@ -50,8 +50,8 @@ class CodeceptMochawesomeLog{
         try{
             // browser.get_I().addMochawesomeContext(this.getDate() + message);
 
-            var buf = message.toString("binary")
-            browser.get_I().say( buf)
+            // var buf = message.toString("binary")
+            browser.get_I().say( message)
         }
         catch(err){
             console.log("Error occured adding message to report. "+err.stack);

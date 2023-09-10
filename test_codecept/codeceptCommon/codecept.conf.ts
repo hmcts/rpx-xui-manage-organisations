@@ -1,7 +1,7 @@
 
 const report = require("multiple-cucumber-html-reporter");
-const { merge } = require('mochawesome-merge')
-const marge = require('mochawesome-report-generator')
+// const { merge } = require('mochawesome-merge')
+// const marge = require('mochawesome-report-generator')
 const fs = require('fs')
 const path = require('path')
 

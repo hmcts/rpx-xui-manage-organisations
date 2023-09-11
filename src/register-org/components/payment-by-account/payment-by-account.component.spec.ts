@@ -68,7 +68,7 @@ describe('PaymentByAccountComponent', () => {
     expect(component.pbaFormGroup.get('pba').value).toEqual('no');
   });
 
-  it('should set the error message if none of the radio option is selection', () => {
+  it('should set the error message and do not navigate if none of the radio option is selected', () => {
     const scrollIntoViewSpy = jasmine.createSpy();
     component.errorSummaryTitleElement = {
       nativeElement: {
@@ -83,6 +83,7 @@ describe('PaymentByAccountComponent', () => {
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(errorMessage);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should continue button navigate to payment by account details page', () => {

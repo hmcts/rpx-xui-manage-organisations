@@ -6,11 +6,13 @@ import getAllUserListWithoutRoles from './allUserListWithoutRoles';
 import { router as caaCaseTypesRouter } from './caaCaseTypes';
 import { router as caaCasesRouter } from './caaCases';
 import { router as caseShareRouter } from './caseshare/routes';
+import { showFeature } from './configuration';
 import editUserPermissions from './editUserPermissions';
 import getUserTermsAndConditions from './getUserTermsAndConditions';
 import healthCheck from './healthCheck';
 import inviteUser from './inviteUser';
 import getJurisdictions from './jurisdictions';
+import authInterceptor from './lib/middleware/auth';
 import organisationRouter from './organisation';
 import payments from './payments';
 import { router as pbaRouter } from './pbas/routes';
@@ -23,6 +25,14 @@ import getUserDetails from './user-details';
 import getUserList from './userList';
 
 const router = Router({ mergeParams: true });
+
+router.use('/healthCheck', healthCheck);
+
+router.get('/configuration', (req, res) => {
+  res.send(showFeature(req.query.configurationKey as string));
+});
+
+router.use(authInterceptor);
 
 router.use(xuiNode.authenticate);
 router.use('/organisation', organisationRouter);

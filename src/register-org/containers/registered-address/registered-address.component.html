@@ -1,0 +1,31 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <!-- go back to previous page if not on international page, reset page otherwise -->
+      <a *ngIf="!startedInternational" class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a *ngIf="startedInternational" class="govuk-back-link"
+        href="javascript:window.location.href=window.location.href">Back</a>
+      <span class="govuk-caption-xl">Register an organisation</span>
+      <h1 class="govuk-heading-xl">{{headingText}}</h1>
+      <hr>
+      <p class="govuk-body" *ngIf="!startedInternational">Add the main address of your organisation.
+        If registered with Companies House,
+        add the address listed in the
+        <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
+          information register</a>.
+      </p>
+      <form>
+        <xuilib-write-address-field [formGroup]="formGroup" [isExpanded]="false" [internationalMode]="true"
+          (internationalModeStart)="onInternationalModeStart()"></xuilib-write-address-field>
+
+        <div class="govuk-button-group">
+          <button class="govuk-button" data-module="govuk-button">
+            Continue
+          </button>
+        </div>
+
+        <a class="govuk-link" href="javascript:void(0)">Cancel</a>
+      </form>
+    </div>
+  </div>
+</main>

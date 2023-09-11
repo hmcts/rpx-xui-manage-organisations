@@ -2,7 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
@@ -34,6 +36,10 @@ describe('TermsAndConditionsComponent', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
   let termsConditionsService: TermsConditionsService;
+  const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
+  const routerMock = {
+    navigate: jasmine.createSpy().and.returnValue(Promise.resolve(true))
+  };
 
   beforeEach(waitForAsync(() => {
     pipeSpy = spyOn(storeMock, 'pipe');
@@ -50,7 +56,15 @@ describe('TermsAndConditionsComponent', () => {
           provide: Store,
           useValue: storeMock
         },
-        TermsConditionsService
+        TermsConditionsService,
+        {
+          provide: FeatureToggleService,
+          useValue: featureToggleServiceMock
+        },
+        {
+          provide: Router,
+          useValue: routerMock
+        }
       ]
     })
       .compileComponents();
@@ -68,6 +82,10 @@ describe('TermsAndConditionsComponent', () => {
     termsConditionsService = fixture.debugElement.injector.get(TermsConditionsService);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -77,14 +95,15 @@ describe('TermsAndConditionsComponent', () => {
   });
 
   it('should display old legacy terms and conditions when feature is not enabled', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(false));
     component.ngOnInit();
-    fixture.detectChanges();
     const legacy = fixture.debugElement.query(By.css('#content'));
     expect(legacy).toBeTruthy();
   });
 
   it('should dispatch LoadTermsConditions', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(true));
     pipeSpy.and.returnValue(of(null));
     component.ngOnInit();
@@ -93,10 +112,22 @@ describe('TermsAndConditionsComponent', () => {
   });
 
   it('should not dispatch when document is available', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(false));
     spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled').and.returnValue(of(true));
     pipeSpy.and.returnValue(of(true));
     component.ngOnInit();
     expect(pipeSpy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).not.toHaveBeenCalled();
+  });
+
+  it('should display terms and conditions related to register other organisation', () => {
+    featureToggleServiceMock.getValue.and.returnValue(of(true));
+    spyOn(termsConditionsService, 'isTermsConditionsFeatureEnabled');
+    component.ngOnInit();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['terms-and-conditions-register-other-org']);
+    expect(component.isTandCEnabled).toEqual(false);
+    expect(termsConditionsService.isTermsConditionsFeatureEnabled).not.toHaveBeenCalled();
+    expect(pipeSpy).not.toHaveBeenCalled();
     expect(dispatchSpy).not.toHaveBeenCalled();
   });
 });

@@ -7,7 +7,7 @@ import { RegistrationData } from '../models/registrationdata.model';
 })
 
 export class RegisterOrgService {
-  private readonly registrationDataKey = 'Registeration-Data';
+  private readonly registrationDataKey = 'Registration-Data';
 
   public readonly REGISTER_ORG_NEW_ROUTE = 'register-org-new';
 
@@ -40,5 +40,9 @@ export class RegisterOrgService {
 
   public persistRegistrationData(data: RegistrationData) {
     this.sessionStorageService.setItem(this.registrationDataKey, JSON.stringify(data));
+  }
+
+  public removeRegistrationData(): void {
+    this.sessionStorageService.removeItem(this.registrationDataKey);
   }
 }

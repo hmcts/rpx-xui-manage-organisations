@@ -21,4 +21,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.registerOrgService.persistRegistrationData(this.registrationData);
   }
+
+  public cancelRegistrationJourney(): void {
+    const confirmed = window.confirm('Cancel would erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
+    if (confirmed) {
+      this.registerOrgService.removeRegistrationData();
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
+    }
+  }
 }

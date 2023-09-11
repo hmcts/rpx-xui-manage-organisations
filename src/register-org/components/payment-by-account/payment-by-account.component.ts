@@ -51,6 +51,10 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.hasPBA !== null) {
       if (this.registrationData.hasPBA) {

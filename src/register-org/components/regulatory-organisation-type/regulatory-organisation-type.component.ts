@@ -140,6 +140,10 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public fieldHasErrorMessage(fieldId: string): boolean {
     return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId);
   }

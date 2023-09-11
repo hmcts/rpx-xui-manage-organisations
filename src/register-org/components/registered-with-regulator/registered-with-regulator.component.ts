@@ -51,6 +51,10 @@ export class RegisteredWithRegulatorComponent extends RegisterComponent implemen
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.hasRegisteredWithRegulator !== null) {
       if (this.registrationData.hasRegisteredWithRegulator) {

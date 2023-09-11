@@ -11,8 +11,8 @@ import { PaymentByAccountDetailsComponent } from './payment-by-account-details/p
 import { PaymentByAccountComponent } from './payment-by-account/payment-by-account.component';
 import { RegisteredRegulatorComponent } from './registered-regulator/registered-regulator.component';
 import { RegisteredWithRegulatorComponent } from './registered-with-regulator/registered-with-regulator.component';
-import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
 import { RegistrationSubmittedComponent } from './registration-submitted/registration-submitted.component';
+import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,

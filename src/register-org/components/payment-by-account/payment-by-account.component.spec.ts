@@ -78,4 +78,10 @@ describe('PaymentByAccountComponent', () => {
     expect(component.pbaError).toEqual(errorMessage);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
   });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
 });

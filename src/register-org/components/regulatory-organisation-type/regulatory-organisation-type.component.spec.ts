@@ -206,6 +206,12 @@ describe('RegulatoryOrganisationTypeComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });
 
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
   /* TODO: Commenting the below tests for now
     as these tests will change while developing the following tickets
     https://tools.hmcts.net/jira/browse/EUI-8781

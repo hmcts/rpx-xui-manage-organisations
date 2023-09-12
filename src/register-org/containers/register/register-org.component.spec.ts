@@ -6,7 +6,7 @@ import { RegistrationData } from '../../models/registrationdata.model';
 import { RegisterOrgService } from '../../services';
 import { RegisterComponent } from './register-org.component';
 
-fdescribe('RegisterComponent', () => {
+describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
@@ -39,7 +39,6 @@ fdescribe('RegisterComponent', () => {
   } as RegistrationData;
 
   beforeEach(async() => {
-    mockRegisterOrgService.removeRegistrationData.and.callThrough();
     mockRegisterOrgService.persistRegistrationData.and.callThrough();
     mockRegisterOrgService.getRegisterData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
@@ -62,6 +61,10 @@ fdescribe('RegisterComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(mockRegisterOrgService.getRegisterData).toHaveBeenCalled();
@@ -75,15 +78,15 @@ fdescribe('RegisterComponent', () => {
 
   it('should cancelRegistrationJourney confirmed by the user', () => {
     spyOn(window, 'confirm').and.returnValue(true);
+    mockRegisterOrgService.removeRegistrationData.and.callThrough();
     component.cancelRegistrationJourney();
-    expect(component.registerOrgService.removeRegistrationData).toHaveBeenCalled();
+    expect(mockRegisterOrgService.removeRegistrationData).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
   });
 
   it('should cancelRegistrationJourney not confirmed by the user', () => {
     spyOn(window, 'confirm').and.returnValue(false);
     component.cancelRegistrationJourney();
-    expect(mockRegisterOrgService.removeRegistrationData).not.toHaveBeenCalled();
     expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 });

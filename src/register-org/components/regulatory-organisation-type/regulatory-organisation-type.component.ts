@@ -141,6 +141,12 @@ export class RegulatoryOrganisationTypeComponent extends RegisterComponent imple
     }
   }
 
+  public goBack(): void {
+    this.registrationData.hasDxReference ? 
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']):
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+  }
+
   public fieldHasErrorMessage(fieldId: string): boolean {
     return this.validationErrors.some((errorMessage) => errorMessage.fieldId === fieldId
       && errorMessage.description !== RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER);

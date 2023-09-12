@@ -69,6 +69,7 @@ describe('PaymentByAccountComponent', () => {
   });
 
   it('should set the error message and do not navigate if none of the radio option is selected', () => {
+    mockRouter.navigate.calls.reset();
     const scrollIntoViewSpy = jasmine.createSpy();
     component.errorSummaryTitleElement = {
       nativeElement: {

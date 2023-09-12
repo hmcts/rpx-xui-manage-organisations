@@ -48,6 +48,8 @@ async function waitForElement(el) {
           .eventually
           .equal('Start');
         await createOrganisationObject.start_button.click();
+        await createOrganisationObject.waitForPage("What's the name of your organisation?");
+
       } catch (err){
         await browser.get(config.config.baseUrl + '/register-org/register');
         throw new Error(err);

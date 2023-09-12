@@ -248,6 +248,7 @@ describe('RegulatorDetailsComponent', () => {
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
     mockRouter.navigate.calls.reset();
     spyOn(component, 'onContinueClicked').and.callThrough();
+    component.validationErrors = [];
     component.registrationData.regulators = [];
     component.setFormControlValues();
     fixture.detectChanges();
@@ -264,7 +265,7 @@ describe('RegulatorDetailsComponent', () => {
     continueButton.click();
     fixture.detectChanges();
     expect(component.onContinueClicked).toHaveBeenCalled();
-    expect(component.validationErrors.length).toBe(2);
+    expect(component.validationErrors.length).toBe(3);
     expect(component.validationErrors[0]).toEqual({
       id: 'regulator-name0',
       message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME

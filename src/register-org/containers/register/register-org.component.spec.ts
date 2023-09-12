@@ -39,6 +39,7 @@ describe('RegisterComponent', () => {
   } as RegistrationData;
 
   beforeEach(async() => {
+    mockRegisterOrgService.removeRegistrationData.and.callThrough();
     mockRegisterOrgService.persistRegistrationData.and.callThrough();
     mockRegisterOrgService.getRegisterData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
@@ -78,7 +79,6 @@ describe('RegisterComponent', () => {
 
   it('should cancelRegistrationJourney confirmed by the user', () => {
     spyOn(window, 'confirm').and.returnValue(true);
-    mockRegisterOrgService.removeRegistrationData.and.callThrough();
     component.cancelRegistrationJourney();
     expect(mockRegisterOrgService.removeRegistrationData).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);

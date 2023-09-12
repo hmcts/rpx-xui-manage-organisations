@@ -41,6 +41,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private initialiseRegistrationJourney(): void {
     this.isRegistrationJourneyCancelled = false;
-    this.registrationData = this.registerOrgService.getRegisterData();
+    this.registrationData = this.registerOrgService.getRegistrationData();
   }
 }

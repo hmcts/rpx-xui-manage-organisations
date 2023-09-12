@@ -11,7 +11,7 @@ describe('RegisterComponent', () => {
   let fixture: ComponentFixture<RegisterComponent>;
 
   const mockRegisterOrgService = jasmine.createSpyObj('RegisterOrgService', [
-    'getRegisterData',
+    'getRegistrationData',
     'persistRegistrationData',
     'removeRegistrationData'
   ]);
@@ -41,7 +41,7 @@ describe('RegisterComponent', () => {
   beforeEach(async() => {
     mockRegisterOrgService.removeRegistrationData.and.callThrough();
     mockRegisterOrgService.persistRegistrationData.and.callThrough();
-    mockRegisterOrgService.getRegisterData.and.returnValue(registrationData);
+    mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
       declarations: [RegisterComponent],
       imports: [
@@ -68,7 +68,7 @@ describe('RegisterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(mockRegisterOrgService.getRegisterData).toHaveBeenCalled();
+    expect(mockRegisterOrgService.getRegistrationData).toHaveBeenCalled();
     expect(component.registrationData).toEqual(registrationData);
   });
 
@@ -85,6 +85,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should cancelRegistrationJourney not confirmed by the user', () => {
+    mockRouter.navigate.calls.reset();
     spyOn(window, 'confirm').and.returnValue(false);
     component.cancelRegistrationJourney();
     expect(mockRouter.navigate).not.toHaveBeenCalled();

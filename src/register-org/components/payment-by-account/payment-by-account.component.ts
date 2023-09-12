@@ -52,8 +52,8 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
 
   public onCancel(): void {
     this.cancelRegistrationJourney();
-	}
-	
+  }
+
   public onBack(): void {
     this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
   }

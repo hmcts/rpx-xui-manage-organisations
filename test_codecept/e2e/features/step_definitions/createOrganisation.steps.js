@@ -40,15 +40,8 @@ async function waitForElement(el) {
     // await waitForElement('govuk-heading-xl');
 
     await BrowserWaits.retryWithActionCallback(async () => {
-      browser.sleep(LONG_DELAY);
       try {
-        browser.sleep(LONG_DELAY);
-
-        await BrowserWaits.retryWithActionCallback(async () => {
-          await BrowserWaits.waitForElement($('.govuk-heading-xl'));
-        });
-
-        await waitForElement('govuk-heading-xl', LONG_DELAY);
+        await BrowserWaits.waitForElement($('.govuk-heading-xl'));
         await expect(createOrganisationObject.start_button.isDisplayed(), 'Create Organisation START button not present').to.eventually.be.true;
         await expect(createOrganisationObject.start_button.getText())
           .to

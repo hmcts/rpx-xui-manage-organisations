@@ -43,7 +43,6 @@ export class RegisterOrgService {
   }
 
   public removeRegistrationData(): void {
-    console.log('INSIDE SERVICE');
     this.sessionStorageService.removeItem(this.registrationDataKey);
   }
 }

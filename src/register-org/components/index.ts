@@ -30,9 +30,8 @@ export const components: any[] = [
   OrganisationTypeComponent,
   PaymentByAccountComponent,
   PaymentByAccountDetailsComponent,
-  RegulatorDetailsComponent,
-  RegulatoryOrganisationTypeComponent,
   RegisteredRegulatorComponent,
-  RegulatoryOrganisationTypeComponent,
-  RegistrationSubmittedComponent
+  RegistrationSubmittedComponent,
+  RegulatorDetailsComponent,
+  RegulatoryOrganisationTypeComponent
 ];

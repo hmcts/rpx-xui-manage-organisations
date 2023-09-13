@@ -22,7 +22,7 @@ describe('PaymentByAccountComponent', () => {
     services: [],
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
     regulators: [],
@@ -50,6 +50,10 @@ describe('PaymentByAccountComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -69,6 +73,7 @@ describe('PaymentByAccountComponent', () => {
   });
 
   it('should set the error message and do not navigate if none of the radio option is selected', () => {
+    mockRouter.navigate.calls.reset();
     const scrollIntoViewSpy = jasmine.createSpy();
     component.errorSummaryTitleElement = {
       nativeElement: {

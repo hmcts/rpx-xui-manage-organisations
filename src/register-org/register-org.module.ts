@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { AddressService, ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { SharedModule } from '../shared/shared.module';
 import * as fromComponent from './components';
 import * as fromContainers from './containers';
@@ -10,13 +11,14 @@ import * as fromServices from './services';
 @NgModule({
   imports: [
     CommonModule,
+    ExuiCommonLibModule,
     HttpClientModule,
     registerRouting,
     SharedModule
   ],
   exports: [...fromContainers.containers, ...fromComponent.components],
   declarations: [...fromContainers.containers, ...fromComponent.components],
-  providers: [...fromServices.services]
+  providers: [AddressService, ...fromServices.services]
 })
 
 export class RegisterOrgModule {}

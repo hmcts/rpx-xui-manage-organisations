@@ -29,7 +29,7 @@ describe('RegisterComponent', () => {
     services: [],
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     companyHouseNumber: null,
     address: null,
     organisationType: null,

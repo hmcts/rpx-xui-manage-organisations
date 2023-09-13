@@ -17,7 +17,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     services: [],
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
     regulators: [],

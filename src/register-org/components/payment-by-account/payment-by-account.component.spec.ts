@@ -22,7 +22,7 @@ describe('PaymentByAccountComponent', () => {
     services: [],
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
     regulators: [],
@@ -48,6 +48,10 @@ describe('PaymentByAccountComponent', () => {
     fixture = TestBed.createComponent(PaymentByAccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {

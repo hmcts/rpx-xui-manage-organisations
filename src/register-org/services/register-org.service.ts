@@ -28,13 +28,16 @@ export class RegisterOrgService {
       services: [],
       hasPBA: null,
       contactDetails: null,
-      hasRegisteredWithRegulator: null,
       companyHouseNumber: null,
       address: null,
       organisationType: null,
+      otherOrganisationType: null,
+      otherOrganisationDetail: null,
       organisationNumber: null,
+      regulatorRegisteredWith: null,
       regulators: [],
-      regulatorRegisteredWith: null
+      hasIndividualRegisteredWithRegulator: null,
+      individualRegulators: []
     } as RegistrationData;
   }
 

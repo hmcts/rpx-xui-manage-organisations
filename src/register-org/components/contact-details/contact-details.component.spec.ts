@@ -107,6 +107,7 @@ describe('ContactDetailsComponent', () => {
     expect(component.firstNameError).toEqual(ContactDetailsErrorMessage.FIRST_NAME);
     expect(component.lastNameError).toEqual(ContactDetailsErrorMessage.LAST_NAME);
     expect(component.workEmailAddressError).toEqual(ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS);
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should fail validation if first name input field is empty', () => {
@@ -121,6 +122,7 @@ describe('ContactDetailsComponent', () => {
     expect(component.firstNameError).toEqual(ContactDetailsErrorMessage.FIRST_NAME);
     expect(component.lastNameError).toBeNull();
     expect(component.workEmailAddressError).toBeNull();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should fail validation if last name input field is empty', () => {
@@ -135,6 +137,7 @@ describe('ContactDetailsComponent', () => {
     expect(component.firstNameError).toBeNull();
     expect(component.lastNameError).toEqual(ContactDetailsErrorMessage.LAST_NAME);
     expect(component.workEmailAddressError).toBeNull();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should fail validation if work email address input field is empty', () => {
@@ -149,6 +152,7 @@ describe('ContactDetailsComponent', () => {
     expect(component.firstNameError).toBeNull();
     expect(component.lastNameError).toBeNull();
     expect(component.workEmailAddressError).toEqual(ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS);
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should fail validation if work email address is invalid', () => {
@@ -163,6 +167,7 @@ describe('ContactDetailsComponent', () => {
     expect(component.firstNameError).toBeNull();
     expect(component.lastNameError).toBeNull();
     expect(component.workEmailAddressError).toEqual(ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS);
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

@@ -72,6 +72,10 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     this.services.forEach((service) => {
       if (this.registrationData.services.includes(service.value_en)) {

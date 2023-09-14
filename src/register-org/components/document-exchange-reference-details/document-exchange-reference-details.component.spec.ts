@@ -53,4 +53,10 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(dxNumberLabelEl.textContent.trim()).toEqual('DX number (Optional)');
     expect(dxExchangeLabelEl.textContent.trim()).toEqual('DX exchange (Optional)');
   });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
 });

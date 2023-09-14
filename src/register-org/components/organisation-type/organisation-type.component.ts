@@ -66,6 +66,10 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public onBack(): void {
     this.registrationData.organisationType = null;
     this.registrationData.otherOrganisationType = null;

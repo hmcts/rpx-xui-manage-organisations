@@ -57,6 +57,10 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     const contactDetails = this.registrationData.contactDetails;
     if (contactDetails) {

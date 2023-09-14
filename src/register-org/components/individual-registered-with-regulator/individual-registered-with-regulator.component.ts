@@ -51,6 +51,10 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.hasIndividualRegisteredWithRegulator !== null) {
       if (this.registrationData.hasIndividualRegisteredWithRegulator) {

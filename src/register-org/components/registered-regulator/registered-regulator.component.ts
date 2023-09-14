@@ -26,4 +26,8 @@ export class RegisteredRegulatorComponent extends RegisterComponent implements O
     // Note: optional currently a placeholder to make the route work
     this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
   }
+
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
 }

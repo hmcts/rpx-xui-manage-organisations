@@ -164,4 +164,10 @@ describe('ContactDetailsComponent', () => {
     expect(component.lastNameError).toBeNull();
     expect(component.workEmailAddressError).toEqual(ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS);
   });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
 });

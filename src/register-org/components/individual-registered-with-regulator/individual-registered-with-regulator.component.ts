@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
@@ -10,10 +10,9 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './individual-registered-with-regulator.component.html'
 })
 export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
-  @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
-
   public registeredWithRegulatorFormGroup: FormGroup;
   public registeredWithRegulatorError: ErrorMessage;
+  public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -55,6 +54,10 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
     this.cancelRegistrationJourney();
   }
 
+  public onBack(): void {
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.hasIndividualRegisteredWithRegulator !== null) {
       if (this.registrationData.hasIndividualRegisteredWithRegulator) {
@@ -67,12 +70,10 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
 
   private isFormValid(): boolean {
     if (this.registeredWithRegulatorFormGroup.invalid) {
-      this.registeredWithRegulatorError = {
-        description: 'Please select an option',
-        title: '',
-        fieldId: 'registered-with-regulator-yes'
-      };
-      this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      this.validationErrors.push({
+        id: 'registered-with-regulator-yes',
+        message: 'Please select an option'
+      });
       return false;
     }
     return true;

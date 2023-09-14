@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { OrganisationServicesMessage } from '../../../register-org/models';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { SERVICES_REF_DATA } from '../../__mocks__';
@@ -18,6 +19,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public lovRefDataSubscription: Subscription;
   public services: LovRefDataModel[] = [];
   public selectedServices: string[] = [];
+  public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -71,13 +73,20 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   }
 
   public setFormControlValues(): void {
-    // TODO: The functionality of setting the checkbox selections
-    //  based on the values from registration data will be handled
-    // in a separate JIRA ticket
+    this.services.forEach((service) => {
+      if (this.registrationData.services.includes(service.value_en)) {
+        service.selected = true;
+      }
+    });
   }
 
   private isFormValid(): boolean {
-    // TODO: Validation to be handled in a separate JIRA ticket
-    return true;
+    if (!this.services.some((service) => service.selected)) {
+      this.validationErrors.push({
+        id: this.services[0].key,
+        message: OrganisationServicesMessage.NO_ORG_SERVICES
+      });
+    }
+    return this.services.some((service) => service.selected);
   }
 }

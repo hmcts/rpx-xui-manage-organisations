@@ -62,7 +62,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
       }
     };
     const errorMessage: ErrorMessage = {
-      description: 'Please select at least one option',
+      description: 'Please select an option',
       title: '',
       fieldId: 'registered-with-regulator-yes'
     };

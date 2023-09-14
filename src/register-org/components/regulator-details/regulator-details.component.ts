@@ -147,6 +147,10 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public onBack(): void {
     this.regulatorType === RegulatorType.Individual
       ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator'])

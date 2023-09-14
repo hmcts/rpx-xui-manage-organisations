@@ -41,8 +41,7 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should not set the error message and navigate to next the page', () => {
     spyOn(router, 'navigate');
-    component.registrationData.services = ['Civil'];
-    component.setFormControlValues();
+    component.services[0].selected = true;
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -51,8 +50,7 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should set the error message and stay on the page', () => {
     spyOn(router, 'navigate');
-    component.registrationData.services = [];
-    component.setFormControlValues();
+    component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
     const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Civil' };
     component.onContinue();

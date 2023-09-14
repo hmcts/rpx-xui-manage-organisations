@@ -38,6 +38,10 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     // TODO: Functionality ticket will follow
   }

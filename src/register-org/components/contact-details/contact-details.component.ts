@@ -66,27 +66,28 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
     }
   }
 
-  public isFormValid(): boolean {
+  private isFormValid(): boolean {
     this.validationErrors = [];
     this.firstNameError = null;
     this.lastNameError = null;
     this.workEmailAddressError = null;
     if (this.contactDetailsFormGroup.invalid) {
-      if (this.contactDetailsFormGroup.get('firstName') && this.contactDetailsFormGroup.get('firstName').errors) {
+      if (this.contactDetailsFormGroup.get('firstName').errors) {
+        console.log('INSIDE FIRST NAME VALIDATION');
         this.validationErrors.push({
           id: 'first-name',
           message: ContactDetailsErrorMessage.FIRST_NAME
         });
         this.firstNameError = ContactDetailsErrorMessage.FIRST_NAME;
       }
-      if (this.contactDetailsFormGroup.get('lastName') && this.contactDetailsFormGroup.get('lastName').errors) {
+      if (this.contactDetailsFormGroup.get('lastName').errors) {
         this.validationErrors.push({
           id: 'last-name',
           message: ContactDetailsErrorMessage.LAST_NAME
         });
         this.lastNameError = ContactDetailsErrorMessage.LAST_NAME;
       }
-      if (this.contactDetailsFormGroup.get('workEmailAddress') && this.contactDetailsFormGroup.get('workEmailAddress').errors) {
+      if (this.contactDetailsFormGroup.get('workEmailAddress').errors) {
         this.validationErrors.push({
           id: 'work-email-address',
           message: ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS

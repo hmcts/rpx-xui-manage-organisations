@@ -68,7 +68,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
   private isFormValid(): boolean {
     if (this.registeredWithRegulatorFormGroup.invalid) {
       this.registeredWithRegulatorError = {
-        description: 'Please select at least one option',
+        description: 'Please select an option',
         title: '',
         fieldId: 'registered-with-regulator-yes'
       };

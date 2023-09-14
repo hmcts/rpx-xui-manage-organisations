@@ -7,13 +7,13 @@ import { RegistrationData } from '../models/registrationdata.model';
 })
 
 export class RegisterOrgService {
-  private readonly registrationDataKey = 'Registeration-Data';
+  private readonly registrationDataKey = 'Registration-Data';
 
   public readonly REGISTER_ORG_NEW_ROUTE = 'register-org-new';
 
   constructor(private readonly sessionStorageService: SessionStorageService) {}
 
-  public getRegisterData() : RegistrationData {
+  public getRegistrationData() : RegistrationData {
     const registerOrgStr = this.sessionStorageService.getItem(this.registrationDataKey);
     // TODO: Remove 'undefined' check once all pages finished
     if (registerOrgStr && registerOrgStr !== 'undefined') {
@@ -43,5 +43,9 @@ export class RegisterOrgService {
 
   public persistRegistrationData(data: RegistrationData) {
     this.sessionStorageService.setItem(this.registrationDataKey, JSON.stringify(data));
+  }
+
+  public removeRegistrationData(): void {
+    this.sessionStorageService.removeItem(this.registrationDataKey);
   }
 }

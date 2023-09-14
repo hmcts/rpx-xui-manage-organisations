@@ -39,6 +39,7 @@ describe('OrganisationServicesAccessComponent', () => {
     expect(component).toBeTruthy();
   });
 
+
   it('should not set the error message and navigate to next the page', () => {
     spyOn(router, 'navigate');
     component.registrationData.services = ['Civil'];
@@ -58,5 +59,11 @@ describe('OrganisationServicesAccessComponent', () => {
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(error);
     expect(router.navigate).not.toHaveBeenCalled();
+  });
+  
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

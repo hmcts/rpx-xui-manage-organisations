@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ContactDetailsErrorMessage } from 'src/register-org/models/contact-details.enum';
+import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
 import { RegistrationData } from '../../models/registrationdata.model';
 import { ContactDetailsComponent } from './contact-details.component';
 

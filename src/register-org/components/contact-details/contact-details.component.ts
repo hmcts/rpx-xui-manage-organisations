@@ -73,7 +73,6 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
     this.workEmailAddressError = null;
     if (this.contactDetailsFormGroup.invalid) {
       if (this.contactDetailsFormGroup.get('firstName').errors) {
-        console.log('INSIDE FIRST NAME VALIDATION');
         this.validationErrors.push({
           id: 'first-name',
           message: ContactDetailsErrorMessage.FIRST_NAME

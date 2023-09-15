@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -11,7 +10,6 @@ import { RegisterOrgService } from '../../services/register-org.service';
 })
 export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   public registeredWithRegulatorFormGroup: FormGroup;
-  public registeredWithRegulatorError: ErrorMessage;
   public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
@@ -45,6 +43,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
         // Note: optional currently a placeholder to make the route work
+        // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
       }
     }

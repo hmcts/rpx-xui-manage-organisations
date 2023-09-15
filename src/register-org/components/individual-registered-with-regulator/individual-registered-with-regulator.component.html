@@ -13,20 +13,25 @@
               </h1>
             </legend>
             <hr>
-            <div class="govuk-radios" data-module="govuk-radios">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="yes"
-                  id="registered-with-regulator-yes" name="registeredWithRegulator" formControlName="registeredWithRegulator">
-                <label class="govuk-label govuk-radios__label" for="registered-with-regulator-yes">
-                  Yes
-                </label>
+            <div [ngClass]="{'govuk-form-group--error': validationErrors.length}">
+              <div *ngIf="validationErrors.length" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> Please select an option
               </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="no"
-                  id="registered-with-regulator-no" name="registeredWithRegulator" formControlName="registeredWithRegulator">
-                <label class="govuk-label govuk-radios__label" for="registered-with-regulator-no">
-                  No
-                </label>
+              <div class="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio" value="yes"
+                    id="registered-with-regulator-yes" name="registeredWithRegulator" formControlName="registeredWithRegulator">
+                  <label class="govuk-label govuk-radios__label" for="registered-with-regulator-yes">
+                    Yes
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio" value="no"
+                    id="registered-with-regulator-no" name="registeredWithRegulator" formControlName="registeredWithRegulator">
+                  <label class="govuk-label govuk-radios__label" for="registered-with-regulator-no">
+                    No
+                  </label>
+                </div>
               </div>
             </div>
           </fieldset>

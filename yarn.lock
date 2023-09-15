@@ -2307,16 +2307,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-display-full":
-  version: 1.9.0-address-display-full
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-display-full"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-update-master-branch-with-release":
+  version: 1.9.0-update-master-branch-with-release
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-update-master-branch-with-release"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 804edc259bd7981357455bd4e83bb95c5b647b37efa95d302c937bdb3b348eac71a1722e6459e5a3a3ff47cc72b7808cef947717ad2d39646f278c0b9e525dcd
+  checksum: 2b600e4b0cebdb07b838d186d13d9816c99d56c259acdd8c5476212555c6b359c9bea2ec054593a6e6e0af1a90076e659d1c258a87db981a83b9fdbdaaff7e04
   languageName: node
   linkType: hard
 
@@ -20363,7 +20363,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-address-display-full
+    "@hmcts/rpx-xui-common-lib": 1.9.0-update-master-branch-with-release
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

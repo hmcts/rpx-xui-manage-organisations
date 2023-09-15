@@ -6,12 +6,13 @@ import getAllUserListWithoutRoles from './allUserListWithoutRoles';
 import { router as caaCaseTypesRouter } from './caaCaseTypes';
 import { router as caaCasesRouter } from './caaCases';
 import { router as caseShareRouter } from './caseshare/routes';
+import { showFeature } from './configuration';
 import editUserPermissions from './editUserPermissions';
 import getUserTermsAndConditions from './getUserTermsAndConditions';
 import healthCheck from './healthCheck';
 import inviteUser from './inviteUser';
-import authInterceptor from './lib/middleware/auth';
 import getJurisdictions from './jurisdictions';
+import authInterceptor from './lib/middleware/auth';
 import organisationRouter from './organisation';
 import payments from './payments';
 import { router as pbaRouter } from './pbas/routes';
@@ -22,7 +23,6 @@ import getTermsAndConditions from './termsAndConditions';
 import userDetailsRouter from './user';
 import getUserDetails from './user-details';
 import getUserList from './userList';
-import { showFeature } from './configuration';
 
 const router = Router({ mergeParams: true });
 

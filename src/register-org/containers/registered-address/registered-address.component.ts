@@ -63,6 +63,10 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public onBack(): void {
     this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address']);
   }

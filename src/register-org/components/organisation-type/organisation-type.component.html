@@ -44,15 +44,16 @@
                 <div class="govuk-radios__conditional"
                   [ngClass]="{'govuk-radios__conditional--hidden': showOtherOrganisationTypes === false }"
                   id="other-organisation-type-container">
-                  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && showOtherOrganisationTypes}">
-                    <p class="govuk-error-message" *ngIf="organisationTypeErrors.length > 0 && showOtherOrganisationTypes">
-                      <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
-                    </p>
-                    <div class="govuk-form-group">
+                  <div class="govuk-form-group" >
+                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
                         Select another type of organisation
                       </label>
+                      <div *ngIf="otherOrgTypeErrors" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{ otherOrgTypeErrors.message }}
+                      </div>
                       <select class="govuk-select govuk-!-width-two-thirds"
+                        [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
                         id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
                         <option [ngValue]="'none'" disabled>--Select a value--</option>
                         <option *ngFor="let otherOrganisationType of otherOrganisationTypes$ | async" [ngValue]="otherOrganisationType.key">
@@ -60,11 +61,15 @@
                         </option>
                       </select>
                     </div>
-                    <div class="govuk-form-group">
+                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
                         Enter details
                       </label>
+                      <div *ngIf="otherOrgDetailsErrors" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{ otherOrgDetailsErrors.message }}
+                      </div>
                       <input class="govuk-input govuk-!-width-two-thirds" type="text"
+                        [ngClass]="{'govuk-input--error': otherOrgDetailsErrors}"
                         id="other-organisation-detail" name="otherOrganisationDetail" formControlName="otherOrganisationDetail">
                     </div>
                   </div>
@@ -75,7 +80,7 @@
           <div class="govuk-button-group">
             <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
           </div>
-          <a class="govuk-link" href="javascript:void(0)">Cancel</a>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>
       </div>
     </div>

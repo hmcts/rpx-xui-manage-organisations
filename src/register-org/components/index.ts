@@ -4,15 +4,17 @@ import { CompanyHouseDetailsComponent } from './company-house-details/company-ho
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-reference-details/document-exchange-reference-details.component';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference/document-exchange-reference.component';
+import { IndividualRegisteredWithRegulatorDetailsComponent } from './individual-registered-with-regulator-details/individual-registered-with-regulator-details.component';
+import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator/individual-registered-with-regulator.component';
 import { OfficeAddressesComponent } from './office-addresses/office-addresses.component';
 import { OrganisationServicesAccessComponent } from './organisation-services-access/organisation-services-access.component';
 import { OrganisationTypeComponent } from './organisation-type/organisation-type.component';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details/payment-by-account-details.component';
 import { PaymentByAccountComponent } from './payment-by-account/payment-by-account.component';
 import { RegisteredRegulatorComponent } from './registered-regulator/registered-regulator.component';
-import { RegisteredWithRegulatorComponent } from './registered-with-regulator/registered-with-regulator.component';
-import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
 import { RegistrationSubmittedComponent } from './registration-submitted/registration-submitted.component';
+import { RegulatorDetailsComponent } from './regulator-details/regulator-details.component';
+import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,
@@ -21,13 +23,15 @@ export const components: any[] = [
   ContactDetailsComponent,
   DocumentExchangeReferenceComponent,
   DocumentExchangeReferenceDetailsComponent,
+  IndividualRegisteredWithRegulatorComponent,
+  IndividualRegisteredWithRegulatorDetailsComponent,
   OfficeAddressesComponent,
   OrganisationServicesAccessComponent,
   OrganisationTypeComponent,
-  RegisteredRegulatorComponent,
-  RegulatoryOrganisationTypeComponent,
   PaymentByAccountComponent,
   PaymentByAccountDetailsComponent,
-  RegisteredWithRegulatorComponent,
-  RegistrationSubmittedComponent
+  RegisteredRegulatorComponent,
+  RegistrationSubmittedComponent,
+  RegulatorDetailsComponent,
+  RegulatoryOrganisationTypeComponent
 ];

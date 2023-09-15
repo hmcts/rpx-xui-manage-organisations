@@ -1,3 +1,4 @@
+import { AddressModel } from '@hmcts/rpx-xui-common-lib';
 import { ContactDetails } from './contact-details.model';
 import { Regulator } from './regulator.model';
 
@@ -11,11 +12,12 @@ export type RegistrationData = {
   contactDetails: ContactDetails;
   hasRegisteredWithRegulator: boolean;
   companyHouseNumber?: string;
-  address: string;
+  address: AddressModel;
   organisationType: string;
   otherOrganisationType?: string;
   otherOrganisationDetail?: string;
   organisationNumber?: string;
   regulators: Regulator[];
   regulatorRegisteredWith: string;
+  inInternationalMode: boolean;
 }

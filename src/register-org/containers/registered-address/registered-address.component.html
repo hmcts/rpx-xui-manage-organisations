@@ -1,10 +1,11 @@
-<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <!-- go back to previous page if not on international page, reset page otherwise -->
-      <a *ngIf="!startedInternational" class="govuk-back-link" href="javascript:history.back()">Back</a>
-      <a *ngIf="startedInternational" class="govuk-back-link"
+      <a *ngIf="!startedInternational && !addressChosen" class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a *ngIf="startedInternational || addressChosen" class="govuk-back-link"
         href="javascript:window.location.href=window.location.href">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="addressErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">{{headingText}}</h1>
       <hr>
@@ -14,18 +15,20 @@
         <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
           information register</a>.
       </p>
-      <form>
-        <xuilib-write-address-field [formGroup]="formGroup" [isExpanded]="false" [internationalMode]="true"
-          (internationalModeStart)="onInternationalModeStart()"></xuilib-write-address-field>
+        <xuilib-write-address-field [formGroup]="formGroup" [internationalMode]="true"
+          [startedInternational]="startedInternational"
+          [isInternational]="isInternational" [submissionAttempted]="submissionAttempted"
+          (postcodeOptionSelected)="onPostcodeOptionSelected()"
+          (internationalModeStart)="onInternationalModeStart()"
+          (ukAddressOptionSelected)="onOptionSelected($event)"></xuilib-write-address-field>
 
         <div class="govuk-button-group">
-          <button class="govuk-button" data-module="govuk-button" (click)="onContinue()">
+          <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
         </div>
 
         <a class="govuk-link" href="javascript:void(0)">Cancel</a>
-      </form>
     </div>
   </div>
 </main>

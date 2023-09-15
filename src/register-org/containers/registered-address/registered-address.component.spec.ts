@@ -138,4 +138,10 @@ fdescribe('RegisteredAddressComponent', () => {
     expect(component.submissionAttempted).toBeFalsy();
     expect(component.formGroup.get('address').get('country').value).toBe('');
   });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
 });

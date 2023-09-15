@@ -19,7 +19,7 @@ describe('ContactDetailsComponent', () => {
       lastName: 'Davis',
       workEmailAddress: 'john.davis@testorganisation.com'
     },
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     services: [],
     address: null,
     organisationType: null,
@@ -51,5 +51,11 @@ describe('ContactDetailsComponent', () => {
     expect(component.contactDetailsFormGroup.get('firstName').value).toEqual('John');
     expect(component.contactDetailsFormGroup.get('lastName').value).toEqual('Davis');
     expect(component.contactDetailsFormGroup.get('workEmailAddress').value).toEqual('john.davis@testorganisation.com');
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

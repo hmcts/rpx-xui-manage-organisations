@@ -6,10 +6,10 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-  selector: 'app-registered-with-regulator',
-  templateUrl: './registered-with-regulator.component.html'
+  selector: 'app-individual-registered-with-regulator',
+  templateUrl: './individual-registered-with-regulator.component.html'
 })
-export class RegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
+export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
   public registeredWithRegulatorFormGroup: FormGroup;
@@ -39,21 +39,25 @@ export class RegisteredWithRegulatorComponent extends RegisterComponent implemen
     if (this.isFormValid()) {
       if (this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value === 'yes') {
         // Set corresponding registration data
-        this.registrationData.hasRegisteredWithRegulator = true;
-        // TODO: Navigate to what regulator are you registered with page
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-regulator']);
+        this.registrationData.hasIndividualRegisteredWithRegulator = true;
+        // Navigate to what regulator are you registered with page
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']);
       } else {
         // Set corresponding registration data
-        this.registrationData.hasRegisteredWithRegulator = false;
+        this.registrationData.hasIndividualRegisteredWithRegulator = false;
         // Note: optional currently a placeholder to make the route work
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
       }
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
-    if (this.registrationData.hasRegisteredWithRegulator !== null) {
-      if (this.registrationData.hasRegisteredWithRegulator) {
+    if (this.registrationData.hasIndividualRegisteredWithRegulator !== null) {
+      if (this.registrationData.hasIndividualRegisteredWithRegulator) {
         this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue('yes');
       } else {
         this.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue('no');

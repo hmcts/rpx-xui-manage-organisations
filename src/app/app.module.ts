@@ -10,7 +10,7 @@ import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
-import { LoggerModule, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService } from 'ngx-logger';
+import { LoggerModule, NGXLogger, NGXLoggerHttpService, NGXMapperService, NgxLoggerLevel } from 'ngx-logger';
 import config from '../../api/lib/config';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
@@ -34,6 +34,7 @@ import { effects } from './store/effects';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { SharedModule } from 'src/shared/shared.module';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
@@ -79,7 +80,15 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     GovUiModule,
     ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    RpxTranslationModule.forRoot({
+      baseUrl: '/api/translation',
+      debounceTimeMs: 300,
+      validity: {
+        days: 1
+      },
+      testMode: false
+    })
   ],
   providers: [
     NGXLogger,

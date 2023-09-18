@@ -20,36 +20,5 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public ngOnInit(): void {
     super.ngOnInit();
-
-    // Todo: Test Data, To be deleted
-    this.registrationDataToDisplay = {
-      name: 'Test organisation name',
-      companyHouseNumber: '07911247',
-      address: '60 Great Prortland Street, London, TE57NG',
-      hasDxReference: true,
-      dxNumber: '789MI',
-      services: ['Employment Tribunals'],
-      organisationType: 'IT & communications',
-      organisationNumber: '1234',
-      regulators: [{
-        regulatorType: 'Other',
-        regulatorName: 'Solicotor Regulation Authority',
-        organisationRegistrationNumber: '1234'
-      }],
-      regulatorRegisteredWith: '123456',
-      contactDetails: {
-        firstName: 'John',
-        lastName: 'Davis',
-        workEmailAddress: 'John.Davis@testorganisation.com'
-      },
-      hasPBA: true,
-      hasIndividualRegisteredWithRegulator: true
-    };
-    const optional = this.route.snapshot.paramMap.get('optional');
-    if (optional === 'false') {
-      delete this.registrationData.companyHouseNumber;
-      delete this.registrationData.dxNumber;
-      delete this.registrationData.organisationNumber;
-    }
   }
 }

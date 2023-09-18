@@ -1,8 +1,11 @@
 import { Routes } from '@angular/router';
+import { FeatureToggleGuard } from '@hmcts/rpx-xui-common-lib';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { AppConstants } from './app.constants';
 import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
+import { TermsAndConditionsRegisterOtherOrgComponent } from './components/terms-and-conditions-register-other-org/terms-and-conditions-register-other-org.component';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 
@@ -47,6 +50,16 @@ export const ROUTES: Routes = [
     loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)
   },
   {
+    path: 'register-org-new',
+    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule),
+    canActivate: [FeatureToggleGuard],
+    data: {
+      title: 'Register Organisation',
+      needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      featureDisabledRedirect: '/register-org/register'
+    }
+  },
+  {
     path: 'accept-terms-and-conditions',
     canActivate: [AuthGuard, AcceptTermsAndConditionGuard],
     loadChildren: () => import('../accept-tc/accept-tc.module').then((m) => m.AcceptTcModule)
@@ -71,6 +84,10 @@ export const ROUTES: Routes = [
   {
     path: 'terms-and-conditions',
     component: TermsAndConditionsComponent
+  },
+  {
+    path: 'terms-and-conditions-register-other-org',
+    component: TermsAndConditionsRegisterOtherOrgComponent
   },
   {
     path: 'accessibility',

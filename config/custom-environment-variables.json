@@ -22,6 +22,9 @@
     "loginRoleMatcher": "LOGIN_ROLE_MATCHER",
     "protocol": "PROTOCOL",
     "services": {
+        "ccd": {
+          "componentApi": "SERVICES_CCD_COMPONENT_API"
+        },
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
@@ -32,6 +35,9 @@
         "caseAssignmentApi": "SERVICES_MCA_PROXY_API",
         "role_assignment": {
           "roleApi": "SERVICES_ROLE_ASSIGNMENT_API"
+        },
+        "prd": {
+          "commondataApi": "SERVICES_PRD_COMMONDATA_API"
         }
     },
     "links": {

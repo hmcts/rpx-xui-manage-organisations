@@ -29,7 +29,9 @@ describe('OrganisationTypeComponent', () => {
     services: [],
     address: null,
     organisationType: null,
-    inInternationalMode: null
+    inInternationalMode: null,
+    regulatorRegisteredWith: null,
+    regulators: []
   };
 
   const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [

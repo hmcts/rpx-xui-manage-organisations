@@ -8,7 +8,7 @@ import { RegisterOrgService } from 'src/register-org/services';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisteredAddressComponent } from './registered-address.component';
 
-fdescribe('RegisteredAddressComponent', () => {
+describe('RegisteredAddressComponent', () => {
   let component: RegisteredAddressComponent;
   let fixture: ComponentFixture<RegisteredAddressComponent>;
   let mockRegisterOrgService: any;
@@ -17,8 +17,8 @@ fdescribe('RegisteredAddressComponent', () => {
   };
 
   beforeEach(async () => {
-    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegisterData', 'persistRegistrationData']);
-    mockRegisterOrgService.getRegisterData.and.returnValue({ address: null });
+    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData']);
+    mockRegisterOrgService.getRegistrationData.and.returnValue({ address: null });
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
       imports: [
@@ -67,11 +67,11 @@ fdescribe('RegisteredAddressComponent', () => {
       },
       inInternationalMode: false
     };
-    mockRegisterOrgService.getRegisterData.and.returnValue(mockRegData);
+    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
     component.ngOnInit();
     expect(component.formGroup.get('address').get('addressLine1').value).toBe('street');
     mockRegData.inInternationalMode = true;
-    mockRegisterOrgService.getRegisterData.and.returnValue(mockRegData);
+    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
     component.ngOnInit();
     expect(component.formGroup.get('address').get('addressLine1').value).toBe('street');
     expect(component.startedInternational).toBeTruthy();
@@ -104,7 +104,7 @@ fdescribe('RegisteredAddressComponent', () => {
       },
       inInternationalMode: false
     };
-    mockRegisterOrgService.getRegisterData.and.returnValue(mockRegData);
+    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
     component.startedInternational = true;
     component.isInternational = true;
     component.submissionAttempted = false;
@@ -130,7 +130,7 @@ fdescribe('RegisteredAddressComponent', () => {
       },
       inInternationalMode: false
     };
-    mockRegisterOrgService.getRegisterData.and.returnValue(mockRegData);
+    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
     component.ngOnInit();
     component.onOptionSelected(true);
 

@@ -56,7 +56,6 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     if (this.isFormValid()) {
       this.registrationData.address = this.formGroup.get('address').value;
       this.registrationData.inInternationalMode = this.startedInternational;
-      this.registerOrgService.persistRegistrationData(this.registrationData);
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
     } else {
       this.submissionAttempted = true;
@@ -68,7 +67,12 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address']);
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+  }
+
+  // go back to original page
+  public onPageRefresh(): void {
+    location.reload();
   }
 
   private isFormValid(): boolean {
@@ -107,11 +111,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
       }
       errorFound = true;
     }
-    if (errorFound) {
-      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      return false;
-    }
-    return true;
+    return errorFound ? false : true;
   }
 
   private isControlInvalid(control: string): boolean {

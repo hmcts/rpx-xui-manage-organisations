@@ -2307,16 +2307,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-non-postcode":
-  version: 1.9.0-address-non-postcode
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-non-postcode"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-non-postcode-2":
+  version: 1.9.0-address-non-postcode-2
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-non-postcode-2"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 30c69e3174f352e8085c1292d417916db35b353e1a967bf1d5cf243f5ba79ad4873d38007ee00b5f84595fe5043489db28f8221b83778310589b564820f89377
+  checksum: be96d3b48cb013581c559ff58093c1e98efcb277c402e15ff307e9c5a3f9ad8bef42dd1cc85ac302ec5d66fce9137197fd859e8ecd226b458ce12e832ce409af
   languageName: node
   linkType: hard
 
@@ -20363,7 +20363,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-address-non-postcode
+    "@hmcts/rpx-xui-common-lib": 1.9.0-address-non-postcode-2
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

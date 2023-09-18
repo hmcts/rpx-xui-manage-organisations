@@ -113,7 +113,6 @@ describe('RegisteredAddressComponent', () => {
 
     expect(component.registrationData.address).toBe(mockRegData.address);
     expect(component.registrationData.inInternationalMode).toBeTruthy();
-    expect(mockRegisterOrgService.persistRegistrationData).toHaveBeenCalledWith(mockRegData);
     expect(component.submissionAttempted).toBeFalsy();
     expect(mockRouter.navigate).toHaveBeenCalled();
   });

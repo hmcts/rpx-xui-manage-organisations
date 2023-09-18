@@ -13,7 +13,7 @@ export class RegisterOrgService {
 
   constructor(private readonly sessionStorageService: SessionStorageService) {}
 
-  public getRegistrationData() : RegistrationData {
+  public getRegistrationData(): RegistrationData {
     const registerOrgStr = this.sessionStorageService.getItem(this.registrationDataKey);
     // TODO: Remove 'undefined' check once all pages finished
     if (registerOrgStr && registerOrgStr !== 'undefined') {

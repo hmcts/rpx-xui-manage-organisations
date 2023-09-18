@@ -1,7 +1,6 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -10,10 +9,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './individual-registered-with-regulator.component.html'
 })
 export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
-  @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
-
   public registeredWithRegulatorFormGroup: FormGroup;
-  public registeredWithRegulatorError: ErrorMessage;
+  public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -46,6 +43,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
         // Note: optional currently a placeholder to make the route work
+        // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
       }
     }
@@ -53,6 +51,10 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
 
   public onCancel(): void {
     this.cancelRegistrationJourney();
+  }
+
+  public onBack(): void {
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
   }
 
   public setFormControlValues(): void {
@@ -67,12 +69,10 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
 
   private isFormValid(): boolean {
     if (this.registeredWithRegulatorFormGroup.invalid) {
-      this.registeredWithRegulatorError = {
-        description: 'Please select at least one option',
-        title: '',
-        fieldId: 'registered-with-regulator-yes'
-      };
-      this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      this.validationErrors.push({
+        id: 'registered-with-regulator-yes',
+        message: 'Please select an option'
+      });
       return false;
     }
     return true;

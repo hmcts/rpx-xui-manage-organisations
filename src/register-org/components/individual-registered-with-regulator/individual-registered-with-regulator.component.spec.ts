@@ -1,12 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegistrationData } from '../../models/registrationdata.model';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 
 describe('IndividualRegisteredWithRegulatorComponent', () => {
   let component: IndividualRegisteredWithRegulatorComponent;
   let fixture: ComponentFixture<IndividualRegisteredWithRegulatorComponent>;
+
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
 
   const registrationData: RegistrationData = {
     name: '',
@@ -26,7 +30,10 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IndividualRegisteredWithRegulatorComponent],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
+      providers: [
+        { provide: Router, useValue: mockRouter }
+      ]
     }).compileComponents();
   });
 
@@ -34,6 +41,10 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     fixture = TestBed.createComponent(IndividualRegisteredWithRegulatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {
@@ -54,27 +65,43 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     expect(component.registeredWithRegulatorFormGroup.get('registeredWithRegulator').value).toEqual('no');
   });
 
-  it('should set the error message if none of the radio option is selection', () => {
-    const scrollIntoViewSpy = jasmine.createSpy();
-    component.errorSummaryTitleElement = {
-      nativeElement: {
-        scrollIntoView: scrollIntoViewSpy
-      }
-    };
-    const errorMessage: ErrorMessage = {
-      description: 'Please select at least one option',
-      title: '',
-      fieldId: 'registered-with-regulator-yes'
+  it('should set the error message if none of the radio option is selected', () => {
+    mockRouter.navigate.calls.reset();
+    const errorMessage = {
+      id: 'registered-with-regulator-yes',
+      message: 'Please select an option'
     };
     component.registeredWithRegulatorFormGroup.get('registeredWithRegulator').setValue(null);
     component.onContinue();
-    expect(component.registeredWithRegulatorError).toEqual(errorMessage);
-    expect(scrollIntoViewSpy).toHaveBeenCalled();
+    expect(component.validationErrors[0]).toEqual(errorMessage);
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
+  });
+
+  it('should continue navigate to individual regulators details collection page', () => {
+    component.registrationData = registrationData;
+    component.registrationData.hasIndividualRegisteredWithRegulator = true;
+    component.setFormControlValues();
+    component.onContinue();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator-details']);
+  });
+
+  it('should continue navigate to check your answers page', () => {
+    component.registrationData = registrationData;
+    component.registrationData.hasIndividualRegisteredWithRegulator = false;
+    component.setFormControlValues();
+    component.onContinue();
+    // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers', 'optional']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to contact details page', () => {
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 });

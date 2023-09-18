@@ -31,6 +31,7 @@ export const NOW = 'now';
 export const OAUTH_CALLBACK_URL = 'oauthCallbackUrl';
 export const PROTOCOL = 'protocol';
 
+export const SERVICES_CCD_COMPONENT_API_PATH = 'services.ccd.componentApi';
 export const SERVICES_IDAM_API_PATH = 'services.idamApi';
 export const SERVICES_IDAM_WEB = 'services.idamWeb';
 export const SERVICE_S2S_PATH = 'services.s2s';
@@ -43,6 +44,8 @@ export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi';
 export const SERVICES_IDAM_ISS_URL = 'iss';
 
 export const SERVICES_ROLE_ASSIGNMENT_API_PATH = 'services.role_assignment.roleApi';
+
+export const SERVICES_PRD_COMMONDATA_API = 'services.prd.commondataApi';
 
 export const CASE_SHARE_PERMISSIONS = 'pui-case-manager';
 

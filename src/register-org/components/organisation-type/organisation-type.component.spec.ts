@@ -25,7 +25,7 @@ describe('OrganisationTypeComponent', () => {
     dxExchange: null,
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     services: [],
     address: null,
     organisationType: null,
@@ -194,5 +194,11 @@ describe('OrganisationTypeComponent', () => {
     expect(component.registrationData.otherOrganisationType).toBeNull();
     expect(component.registrationData.otherOrganisationDetail).toBeNull();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

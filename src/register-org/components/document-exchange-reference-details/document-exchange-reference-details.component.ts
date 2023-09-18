@@ -39,6 +39,10 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
     this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'regulatory-organisation-type']);
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.dxNumber) {
       this.dxFormGroup.get('dxNumber').setValue(this.registrationData.dxNumber);

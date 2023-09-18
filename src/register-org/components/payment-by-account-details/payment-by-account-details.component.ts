@@ -33,6 +33,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
     this.pbaDetailsFormGroup = new FormGroup({
       pbaNumbers: this.fb.array([])
     });
+    this.hydratePbaFormFromExistingPendingAddPbas();
     this.pbaDetailsFormGroup.valueChanges.subscribe((value) => {
       if (!value) {
         return;
@@ -48,7 +49,15 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
         }
       }
     });
-    this.onAddNewPBANumber();
+    if (this.registrationData.pbaNumbers && this.registrationData.pbaNumbers.length === 0) {
+      this.onAddNewPBANumber();
+    }
+  }
+
+  private hydratePbaFormFromExistingPendingAddPbas(): void {
+    this.registrationData.pbaNumbers.forEach((pbaNumber) => {
+      this.pbaNumbers.push(this.newPbaNumber(pbaNumber));
+    });
   }
 
   public ngOnDestroy(): void {
@@ -57,6 +66,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
 
   public onContinue(): void {
     if (this.isFormValid()) {
+      this.registrationData.pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.map((pba) => pba.pbaNumber);
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }
   }

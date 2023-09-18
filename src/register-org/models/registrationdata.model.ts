@@ -19,4 +19,5 @@ export type RegistrationData = {
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];
+  pbaNumbers: string[];
 }

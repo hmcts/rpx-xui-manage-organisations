@@ -17,7 +17,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     services: [],
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
     regulators: [],
@@ -71,5 +71,11 @@ describe('DocumentExchangeReferenceComponent', () => {
     component.onContinue();
     expect(component.dxError).toEqual(errorMessage);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

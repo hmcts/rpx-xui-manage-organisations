@@ -45,6 +45,10 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   private validateForm(): boolean {
     this.validationErrors = [];
 

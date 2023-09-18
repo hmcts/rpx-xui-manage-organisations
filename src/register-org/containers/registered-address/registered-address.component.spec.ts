@@ -4,8 +4,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
-import { RegisterOrgService } from 'src/register-org/services';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
+import { RegisterOrgService } from '../../services';
 import { RegisteredAddressComponent } from './registered-address.component';
 
 describe('RegisteredAddressComponent', () => {

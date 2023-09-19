@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
@@ -8,6 +9,10 @@ describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
 
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganisationServicesAccessComponent],
@@ -15,7 +20,10 @@ describe('OrganisationServicesAccessComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: [EnvironmentService]
+      providers: [
+        EnvironmentService,
+        { provide: Router, useValue: mockRouter }
+      ]
     })
       .compileComponents();
   });
@@ -28,6 +36,15 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

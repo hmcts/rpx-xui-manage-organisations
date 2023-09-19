@@ -187,8 +187,11 @@ describe('OrganisationTypeComponent', () => {
     expect(component.registrationData.otherOrganisationDetail).toBe('text');
   });
 
-  it('should clicking on back link navigate back to the first page of the registration', () => {
-    spyOn(router, 'navigate');
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
     component.onBack();
     expect(component.registrationData.organisationType).toBeNull();
     expect(component.registrationData.otherOrganisationType).toBeNull();

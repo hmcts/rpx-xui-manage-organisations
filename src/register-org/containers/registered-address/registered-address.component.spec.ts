@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisteredAddressComponent } from './registered-address.component';
@@ -8,6 +9,10 @@ describe('RegisteredAddressComponent', () => {
   let component: RegisteredAddressComponent;
   let fixture: ComponentFixture<RegisteredAddressComponent>;
 
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
@@ -15,7 +20,9 @@ describe('RegisteredAddressComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: []
+      providers: [
+        { provide: Router, useValue: mockRouter }
+      ]
     })
       .compileComponents();
   });
@@ -45,5 +52,14 @@ describe('RegisteredAddressComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address']);
   });
 });

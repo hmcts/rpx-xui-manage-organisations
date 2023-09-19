@@ -1,3 +1,4 @@
+export * from './contact-details.enum';
 export * from './contact-details.model';
 export * from './error-messages.model';
 export * from './registrationdata.model';

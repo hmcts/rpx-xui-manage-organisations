@@ -24,7 +24,7 @@
             <dd class="govuk-summary-list__value">{{registrationData.otherOrganisationDetail}}</dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="javascript:void(0)"
-                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
                 Change<span class="govuk-visually-hidden">Organisation details</span>
               </a>
             </dd>
@@ -32,14 +32,14 @@
         </dl>
       </div>
 
-      <dl *ngIf="registrationData.organisationType"
+      <dl *ngIf="registrationData.organisationType && registrationData.organisationType !== 'other'"
         class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation type</dt>
           <dd class="govuk-summary-list__value">{{registrationData.organisationType}}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
               Change<span class="govuk-visually-hidden">Organisation type</span>
             </a>
           </dd>
@@ -73,9 +73,7 @@
         </div>
       </dl>
 
-      <dl *ngIf="registrationData.address"
-        class="govuk-summary-list"
-        [ngClass]="{ 'govuk-summary-list--no-border':registrationData.dxNumber}">
+      <dl *ngIf="registrationData.address" class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation address</dt>
           <dd class="govuk-summary-list__value">
@@ -88,49 +86,58 @@
             <div>{{registrationData.address.country}}</div>
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-address">
               Change<span class="govuk-visually-hidden">Organisation address</span>
             </a>
           </dd>
         </div>
       </dl>
 
-      <div *ngIf="registrationData.dxNumber">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">DX number</dt>
-            <dd class="govuk-summary-list__value">{{registrationData.dxNumber}}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
-                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference-details">
-                Change<span class="govuk-visually-hidden">DX number</span>
-              </a>
-            </dd>
-          </div>
-        </dl>
-        <dl *ngIf="registrationData.dxExchange"
-          class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">DX exchange</dt>
-            <dd class="govuk-summary-list__value">{{registrationData.dxExchange}}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
-                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference-details">
-                Change<span class="govuk-visually-hidden">DX reference</span>
-              </a>
-            </dd>
-          </div>
-        </dl>
-      </div>
+      <dl class="govuk-summary-list" *ngIf="registrationData.dxNumber">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">DX reference</dt>
+          <dd class="govuk-summary-list__value">
+            {{registrationData.dxNumber}}<span *ngIf="registrationData.dxExchange">, {{registrationData.dxExchange}}</span>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference-details">
+              Change<span class="govuk-visually-hidden">DX number</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
 
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Service to access</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.services}}</dd>
+          <dd class="govuk-summary-list__value">
+            <div *ngFor="let service of registrationData.services">
+              {{service}}
+            </div>
+          </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-services-access">
               Change<span class="govuk-visually-hidden">Service to access</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+
+      <dl class="govuk-summary-list" *ngIf="registrationData.hasPBA">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">PBA number(s)</dt>
+          <dd class="govuk-summary-list__value">
+            <div *ngFor="let pbaNumber of registrationData.pbaNumbers">
+              {{pbaNumber}}
+            </div>
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account">
+              Change<span class="govuk-visually-hidden">PBA number(s)</span>
             </a>
           </dd>
         </div>
@@ -157,7 +164,7 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-with-regulator">
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/regulatory-organisation-type">
               Change<span class="govuk-visually-hidden">Regulatory organisation type</span>
             </a>
           </dd>
@@ -225,7 +232,7 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-with-regulator">
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/individual-registered-with-regulator-details">
               Change<span class="govuk-visually-hidden">What regulators are you (as an individual) registered with?</span>
             </a>
           </dd>

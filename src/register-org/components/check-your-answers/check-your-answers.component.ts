@@ -35,6 +35,12 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
         postCode: 'SW1H 9AJ',
         country: 'England'
       };
+      this.registrationData.pbaNumbers = [
+        '12345678',
+        '87654321',
+        '13572468',
+        '86427531'
+      ];
     }
   }
 

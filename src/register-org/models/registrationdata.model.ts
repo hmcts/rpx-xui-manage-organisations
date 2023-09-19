@@ -11,6 +11,7 @@ export type RegistrationData = {
   dxExchange?: string;
   services: string[];
   hasPBA: boolean;
+  pbaNumbers?: string[];
   contactDetails: ContactDetails;
   companyHouseNumber?: string;
   address: Address;

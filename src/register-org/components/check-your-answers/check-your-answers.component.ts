@@ -39,6 +39,10 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+    if (this.registrationData.hasIndividualRegisteredWithRegulator) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    }
   }
 }

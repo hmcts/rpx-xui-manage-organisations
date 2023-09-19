@@ -44,7 +44,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
         // Note: optional currently a placeholder to make the route work
         // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'optional']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
       }
     }
   }
@@ -54,7 +54,11 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+    if (this.getPreviousUrl().includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+    }
   }
 
   public setFormControlValues(): void {

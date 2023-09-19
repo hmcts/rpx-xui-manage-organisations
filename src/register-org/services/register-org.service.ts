@@ -10,6 +10,7 @@ export class RegisterOrgService {
   private readonly registrationDataKey = 'Registration-Data';
 
   public readonly REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+  public readonly CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
 
   constructor(private readonly sessionStorageService: SessionStorageService) {}
 

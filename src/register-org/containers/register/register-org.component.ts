@@ -39,6 +39,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
+  public getPreviousUrl(): string {
+    return this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+  }
+
   private initialiseRegistrationJourney(): void {
     this.isRegistrationJourneyCancelled = false;
     this.registrationData = this.registerOrgService.getRegistrationData();

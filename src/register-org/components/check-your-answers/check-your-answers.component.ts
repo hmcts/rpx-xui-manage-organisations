@@ -37,4 +37,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       };
     }
   }
+
+  public onBack(): void {
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+  }
 }

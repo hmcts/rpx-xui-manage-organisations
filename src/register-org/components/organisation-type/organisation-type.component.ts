@@ -71,11 +71,15 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.registrationData.organisationType = null;
-    this.registrationData.otherOrganisationType = null;
-    this.registrationData.otherOrganisationDetail = null;
-    this.registerOrgService.persistRegistrationData(this.registrationData);
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
+    if (this.getPreviousUrl().includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      this.registrationData.organisationType = null;
+      this.registrationData.otherOrganisationType = null;
+      this.registrationData.otherOrganisationDetail = null;
+      this.registerOrgService.persistRegistrationData(this.registrationData);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
+    }
   }
 
   private isFormValid(): boolean {

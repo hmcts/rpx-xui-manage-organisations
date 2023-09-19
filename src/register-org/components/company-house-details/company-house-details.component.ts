@@ -45,6 +45,14 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
     }
   }
 
+  public onBack(): void {
+    if (this.getPreviousUrl().includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-type']);
+    }
+  }
+
   public onCancel(): void {
     this.cancelRegistrationJourney();
   }

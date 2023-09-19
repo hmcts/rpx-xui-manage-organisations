@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -11,11 +10,10 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './company-house-details.component.html'
 })
 export class CompanyHouseDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
-  @ViewChild('mainContent') public mainContentElement: ElementRef;
-  public validationErrors: ErrorMessage[] = [];
+  public validationErrors: { id: string, message: string }[] = [];
   public companyHouseFormGroup: FormGroup;
-  public companyNameError: ErrorMessage;
-  public companyNumberError: ErrorMessage;
+  public companyNameError = null;
+  public companyNumberError = null;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -62,14 +60,13 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
 
     if (this.companyHouseFormGroup.invalid) {
       if (this.companyHouseFormGroup.get('companyName').invalid) {
-        this.companyNameError = { title: '', description: CompanyHouseDetailsMessage.NO_ORG_NAME, fieldId: 'company-name' };
+        this.companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
         this.validationErrors.push(this.companyNameError);
       }
       if (this.companyHouseFormGroup.get('companyHouseNumber').invalid) {
-        this.companyNumberError = { title: '', description: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER, fieldId: 'company-house-number' };
+        this.companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
         this.validationErrors.push(this.companyNumberError);
       }
-      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }
     return true;

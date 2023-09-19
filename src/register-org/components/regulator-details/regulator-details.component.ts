@@ -137,7 +137,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     );
   }
 
-  public onContinueClicked(): void {
+  public onContinue(): void {
     if (this.validateForm()) {
       // Set corresponding registration data
       this.setRegulatorData();

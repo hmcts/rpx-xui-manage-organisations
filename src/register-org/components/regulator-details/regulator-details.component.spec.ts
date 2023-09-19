@@ -239,7 +239,7 @@ describe('RegulatorDetailsComponent', () => {
     selectElement1.selectedIndex = 4;
     selectElement1.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.registrationData.regulators.length).toEqual(1);
     expect(component.registrationData.regulators[0].regulatorType).toEqual(RegulatoryType.NotApplicable);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
@@ -247,7 +247,7 @@ describe('RegulatorDetailsComponent', () => {
 
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
     mockRouter.navigate.calls.reset();
-    spyOn(component, 'onContinueClicked').and.callThrough();
+    spyOn(component, 'onContinue').and.callThrough();
     component.validationErrors = [];
     component.registrationData.regulators = [];
     component.setFormControlValues();
@@ -264,7 +264,7 @@ describe('RegulatorDetailsComponent', () => {
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     continueButton.click();
     fixture.detectChanges();
-    expect(component.onContinueClicked).toHaveBeenCalled();
+    expect(component.onContinue).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(3);
     expect(component.validationErrors[0]).toEqual({
       id: 'regulator-name0',
@@ -278,7 +278,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should validate the form on clicking "Continue" and persist data and navigate to next page if validation succeeds', () => {
-    spyOn(component, 'onContinueClicked').and.callThrough();
+    spyOn(component, 'onContinue').and.callThrough();
     component.registrationData.regulators = [];
     component.setFormControlValues();
     fixture.detectChanges();
@@ -309,7 +309,7 @@ describe('RegulatorDetailsComponent', () => {
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     continueButton.click();
     fixture.detectChanges();
-    expect(component.onContinueClicked).toHaveBeenCalled();
+    expect(component.onContinue).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(0);
     expect(mockRouter.navigate).toHaveBeenCalled();
   });
@@ -323,7 +323,7 @@ describe('RegulatorDetailsComponent', () => {
     component.setFormControlValues();
     fixture.detectChanges();
     const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(registrationNumberError);
   });
 
@@ -338,7 +338,7 @@ describe('RegulatorDetailsComponent', () => {
     fixture.detectChanges();
     const reglatorNameError = { message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, id: 'regulator-name0' };
     const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(reglatorNameError);
     expect(component.validationErrors[1]).toEqual(registrationNumberError);
   });
@@ -350,7 +350,7 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -362,7 +362,7 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -375,7 +375,7 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -392,7 +392,7 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -410,7 +410,7 @@ describe('RegulatorDetailsComponent', () => {
     component.setFormControlValues();
     fixture.detectChanges();
     const duplicateError = { message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, id: 'regulator-type0' };
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
 
@@ -430,7 +430,7 @@ describe('RegulatorDetailsComponent', () => {
     component.setFormControlValues();
     fixture.detectChanges();
     const duplicateError = { message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, id: 'regulator-type0' };
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
 
@@ -449,7 +449,7 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -468,7 +468,7 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -479,10 +479,11 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
+    getPreviousUrlSpy.and.returnValue('/check-your-answers');
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    getPreviousUrlSpy.and.returnValue('/something-else');
     component.regulatorType = RegulatorType.Individual;
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);

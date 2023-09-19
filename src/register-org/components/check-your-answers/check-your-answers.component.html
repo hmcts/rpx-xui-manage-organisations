@@ -1,7 +1,7 @@
 <main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <h1 class="govuk-heading-l">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
 
@@ -65,7 +65,7 @@
           <dt class="govuk-summary-list__key">Company registration number</dt>
           <dd class="govuk-summary-list__value">{{registrationData.companyHouseNumber}}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:history.back()"
+            <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
               Change<span class="govuk-visually-hidden">Company registration number</span>
             </a>

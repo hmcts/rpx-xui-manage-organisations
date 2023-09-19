@@ -90,7 +90,7 @@ export const ROUTES: Routes = [
     component: RegistrationSubmittedComponent
   },
   {
-    path: 'check-your-answers/:optional',
+    path: 'check-your-answers',
     component: CheckYourAnswersComponent
   }
 ];

@@ -95,6 +95,7 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should fail validation if all the input fields are empty', () => {
+    mockRouter.navigate.calls.reset();
     component.registrationData.contactDetails = {
       firstName: '',
       lastName: '',
@@ -111,6 +112,7 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should fail validation if first name input field is empty', () => {
+    mockRouter.navigate.calls.reset();
     component.registrationData.contactDetails = {
       firstName: '',
       lastName: 'Davis',
@@ -126,6 +128,7 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should fail validation if last name input field is empty', () => {
+    mockRouter.navigate.calls.reset();
     component.registrationData.contactDetails = {
       firstName: 'John',
       lastName: '',
@@ -141,6 +144,7 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should fail validation if work email address input field is empty', () => {
+    mockRouter.navigate.calls.reset();
     component.registrationData.contactDetails = {
       firstName: 'John',
       lastName: 'Davis',
@@ -156,6 +160,7 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should fail validation if work email address is invalid', () => {
+    mockRouter.navigate.calls.reset();
     component.registrationData.contactDetails = {
       firstName: 'John',
       lastName: 'Davis',

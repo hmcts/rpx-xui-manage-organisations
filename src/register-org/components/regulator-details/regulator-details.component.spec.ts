@@ -477,4 +477,17 @@ describe('RegulatorDetailsComponent', () => {
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    component.regulatorType = RegulatorType.Individual;
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
+    component.regulatorType = RegulatorType.Organisation;
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
+  });
 });

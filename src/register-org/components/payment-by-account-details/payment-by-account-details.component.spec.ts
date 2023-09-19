@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details.component';
@@ -8,6 +9,10 @@ import { PaymentByAccountDetailsComponent } from './payment-by-account-details.c
 describe('PaymentByAccountDetailsComponent', () => {
   let component: PaymentByAccountDetailsComponent;
   let fixture: ComponentFixture<PaymentByAccountDetailsComponent>;
+
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -17,7 +22,10 @@ describe('PaymentByAccountDetailsComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule
       ],
-      providers: [EnvironmentService]
+      providers: [
+        EnvironmentService,
+        { provide: Router, useValue: mockRouter }
+      ]
     })
       .compileComponents();
   });
@@ -45,6 +53,15 @@ describe('PaymentByAccountDetailsComponent', () => {
     component.onRemovePBANumber(0);
     const newFormArrayCount = component.pbaNumbers.length;
     expect(newFormArrayCount).toEqual(currentFormArrayCount - 1);
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

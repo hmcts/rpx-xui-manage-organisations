@@ -90,8 +90,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.setFormControlValues();
     component.onContinue();
-    // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers', 'optional']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
@@ -101,10 +100,11 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
+    getPreviousUrlSpy.and.returnValue('/check-your-answers');
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    getPreviousUrlSpy.and.returnValue('/something-else');
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });

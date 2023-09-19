@@ -30,14 +30,14 @@ describe('CompanyHouseDetailsComponent', () => {
   });
 
   it('should set the error message if company name is null', () => {
-    const companyNameError = { title: '', description: CompanyHouseDetailsMessage.NO_ORG_NAME, fieldId: 'company-name' };
+    const companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
     component.companyHouseFormGroup.get('companyName').setValue(null);
     component.onContinue();
     expect(component.companyNameError).toEqual(companyNameError);
   });
 
   it('should set the error message if company number is invalid', () => {
-    const companyNumberError = { title: '', description: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER, fieldId: 'company-house-number' };
+    const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
     expect(component.companyNumberError).toEqual(companyNumberError);
@@ -53,10 +53,11 @@ describe('CompanyHouseDetailsComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
+    getPreviousUrlSpy.and.returnValue('/check-your-answers');
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    getPreviousUrlSpy.and.returnValue('/something-else');
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
   });

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Navigation, Router } from '@angular/router';
 import { RegistrationData } from '../../models/registrationdata.model';
 import { RegisterOrgService } from '../../services/index';
 
@@ -9,12 +9,14 @@ import { RegisterOrgService } from '../../services/index';
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {
-  constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService) {}
-
   private isRegistrationJourneyCancelled = false;
-
+  private currentNavigation: Navigation;
   public registrationData: RegistrationData;
+
+  constructor(public readonly router: Router,
+    public readonly registerOrgService: RegisterOrgService) {
+    this.currentNavigation = this.router.getCurrentNavigation();
+  }
 
   public ngOnInit(): void {
     this.initialiseRegistrationJourney();
@@ -40,7 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   public getPreviousUrl(): string {
-    return this.router.getCurrentNavigation()?.previousNavigation?.finalUrl?.toString();
+    return this.currentNavigation?.previousNavigation?.finalUrl?.toString();
   }
 
   private initialiseRegistrationJourney(): void {

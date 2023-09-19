@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
@@ -23,7 +23,8 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
-    private readonly lovRefDataService: LovRefDataService
+    private readonly lovRefDataService: LovRefDataService,
+    private readonly route: ActivatedRoute
   ) {
     super(router, registerOrgService);
   }
@@ -34,10 +35,15 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     this.services = SERVICES_REF_DATA;
     // TODO: Integration with ref data
     //  1. Delete the above line where it uses the mock data
-    //  2. Uncomment the below lines to integrate with Ref data
-    // this.lovRefDataService.getListOfValues(this.CATEGORY_SERVICE_ACCESS, false).subscribe((lov) => {
-    //   this.services = lov;
-    // });
+    //  2. Uncommented the below lines to test service error
+    const realApi = this.route.snapshot.queryParams.api;
+    if (realApi) {
+      this.lovRefDataService.getListOfValues(this.CATEGORY_SERVICE_ACCESS, false).subscribe((lov) => {
+        this.services = lov;
+      }, (error) => {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'service-down']);
+      });
+    }
 
     this.servicesFormGroup = new FormGroup({
       services: new FormControl(null)

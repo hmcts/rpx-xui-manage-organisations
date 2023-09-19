@@ -43,7 +43,7 @@ describe('Regsiter other orgs', function () {
 
 
     registerOrgPages.forEach((pageRoute) => {
-        it('Users page ' + pageRoute.route, async function () {
+        it('Route:/' + pageRoute.route, async function () {
             await initBrowser();
             const actions = [];
             actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageRoute.route));

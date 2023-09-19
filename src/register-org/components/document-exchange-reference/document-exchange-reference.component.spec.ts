@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegistrationData } from '../../models/registrationdata.model';
@@ -8,6 +9,10 @@ import { DocumentExchangeReferenceComponent } from './document-exchange-referenc
 describe('DocumentExchangeReferenceComponent', () => {
   let component: DocumentExchangeReferenceComponent;
   let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
+
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
 
   const registrationData: RegistrationData = {
     name: '',
@@ -27,7 +32,13 @@ describe('DocumentExchangeReferenceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule]
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers: [
+        { provide: Router, useValue: mockRouter }
+      ]
     }).compileComponents();
   });
 
@@ -77,5 +88,14 @@ describe('DocumentExchangeReferenceComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 });

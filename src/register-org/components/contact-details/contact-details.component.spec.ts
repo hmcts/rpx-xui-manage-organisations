@@ -74,6 +74,10 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
+    spyOn(component, 'getPreviousUrl').and.returnValue('/check-your-answers');
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    spyOn(component, 'getPreviousUrl').and.returnValue('/something-else');
     component.registrationData.hasPBA = true;
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account-details']);

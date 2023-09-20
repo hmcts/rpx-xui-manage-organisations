@@ -40,6 +40,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     if (realApi) {
       this.lovRefDataService.getListOfValues(this.CATEGORY_SERVICE_ACCESS, false).subscribe((lov) => {
         this.services = lov;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       }, (error) => {
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'service-down']);
       });

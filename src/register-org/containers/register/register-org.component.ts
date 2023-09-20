@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Navigation, Router } from '@angular/router';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/index';
 
 @Component({
@@ -41,8 +41,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getPreviousUrl(): string {
-    return this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+  public navigateToPreviousPage(): void {
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl) {
+      this.router.navigateByUrl(previousUrl);
+    } else {
+      // Fallback if previous url is null or empty
+      window.history.back();
+    }
   }
 
   private initialiseRegistrationJourney(): void {

@@ -18,11 +18,12 @@ describe('OrganisationTypeComponent', () => {
   let nativeElement: any;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -188,16 +189,9 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
-    getPreviousUrlSpy.and.returnValue('/check-your-answers');
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    getPreviousUrlSpy.and.returnValue('/something-else');
-    component.onBack();
-    expect(component.registrationData.organisationType).toBeNull();
-    expect(component.registrationData.otherOrganisationType).toBeNull();
-    expect(component.registrationData.otherOrganisationDetail).toBeNull();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

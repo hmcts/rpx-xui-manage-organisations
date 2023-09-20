@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
 
 describe('DocumentExchangeReferenceComponent', () => {
@@ -11,11 +11,12 @@ describe('DocumentExchangeReferenceComponent', () => {
   let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -91,12 +92,8 @@ describe('DocumentExchangeReferenceComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
-    getPreviousUrlSpy.and.returnValue('/check-your-answers');
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    getPreviousUrlSpy.and.returnValue('/something-else');
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

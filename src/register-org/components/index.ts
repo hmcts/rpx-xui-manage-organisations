@@ -1,5 +1,6 @@
 import { BeforeYouStartComponent } from './before-you-start/before-you-start.component';
 import { CheckYourAnswersComponent } from './check-your-answers/check-your-answers.component';
+import { RegulatorListComponent } from './check-your-answers/regulator-list/regulator-list.component';
 import { CompanyHouseDetailsComponent } from './company-house-details/company-house-details.component';
 import { ContactDetailsComponent } from './contact-details/contact-details.component';
 import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-reference-details/document-exchange-reference-details.component';
@@ -33,5 +34,6 @@ export const components: any[] = [
   RegisteredRegulatorComponent,
   RegistrationSubmittedComponent,
   RegulatorDetailsComponent,
+  RegulatorListComponent,
   RegulatoryOrganisationTypeComponent
 ];

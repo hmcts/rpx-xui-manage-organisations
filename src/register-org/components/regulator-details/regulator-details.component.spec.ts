@@ -19,22 +19,23 @@ describe('RegulatorDetailsComponent', () => {
   let fixture: ComponentFixture<RegulatorDetailsComponent>;
   let mockLovRefDataService: any;
   let nativeElement: any;
+
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
+    companyHouseNumber: null,
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
     services: [],
     hasPBA: null,
     contactDetails: null,
-    companyHouseNumber: null,
     address: null,
     organisationType: null,
-    organisationNumber: null,
     regulators: [],
     regulatorRegisteredWith: null,
     hasIndividualRegisteredWithRegulator: null,
@@ -479,16 +480,8 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
-    getPreviousUrlSpy.and.returnValue('/check-your-answers');
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    getPreviousUrlSpy.and.returnValue('/something-else');
-    component.regulatorType = RegulatorType.Individual;
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
-    component.regulatorType = RegulatorType.Organisation;
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

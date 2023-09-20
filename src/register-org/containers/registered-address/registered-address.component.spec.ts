@@ -10,7 +10,8 @@ describe('RegisteredAddressComponent', () => {
   let fixture: ComponentFixture<RegisteredAddressComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {
@@ -55,12 +56,8 @@ describe('RegisteredAddressComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
-    getPreviousUrlSpy.and.returnValue('/check-your-answers');
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    getPreviousUrlSpy.and.returnValue('/something-else');
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

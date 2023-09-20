@@ -11,7 +11,8 @@ describe('BeforeYouStartComponent', () => {
   let fixture: ComponentFixture<BeforeYouStartComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {

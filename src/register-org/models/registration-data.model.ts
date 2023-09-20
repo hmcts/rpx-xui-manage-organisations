@@ -5,7 +5,8 @@ import { Regulator } from './regulator.model';
 // TODO: Reference Address model from CommonLib once it is available
 
 export type RegistrationData = {
-  name: string;
+  companyName: string;
+  companyHouseNumber?: string;
   hasDxReference: boolean;
   dxNumber?: string;
   dxExchange?: string;
@@ -13,12 +14,10 @@ export type RegistrationData = {
   hasPBA: boolean;
   pbaNumbers?: string[];
   contactDetails: ContactDetails;
-  companyHouseNumber?: string;
   address: Address;
   organisationType: string;
   otherOrganisationType?: string;
   otherOrganisationDetail?: string;
-  organisationNumber?: string;
   regulatorRegisteredWith: string;
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;

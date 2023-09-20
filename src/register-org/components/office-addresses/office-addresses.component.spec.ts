@@ -9,7 +9,8 @@ describe('DocumentExchangeReferenceComponent', () => {
   let fixture: ComponentFixture<OfficeAddressesComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {
@@ -36,13 +37,9 @@ describe('DocumentExchangeReferenceComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
-    getPreviousUrlSpy.and.returnValue('/check-your-answers');
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    getPreviousUrlSpy.and.returnValue('/something-else');
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

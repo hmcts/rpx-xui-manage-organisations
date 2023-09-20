@@ -24,7 +24,7 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
   public ngOnInit(): void {
     super.ngOnInit();
     this.companyHouseFormGroup = new FormGroup({
-      companyName: new FormControl(this.registrationData.name, Validators.required),
+      companyName: new FormControl(this.registrationData.companyName, Validators.required),
       companyHouseNumber: new FormControl(this.registrationData.companyHouseNumber,
         Validators.pattern(/^(((AC|ZC|FC|GE|LP|OC|SE|SA|SZ|SF|GS|SL|SO|SC|ES|NA|NZ|NF|GN|NL|NC|R0|NI|EN|\d{2}|SG|FE)\d{5}(\d|C|R))|((RS|SO)\d{3}(\d{3}|\d{2}[WSRCZF]|\d(FI|RS|SA|IP|US|EN|AS)|CUS))|((NI|SL)\d{5}[\dA])|(OC(([\dP]{5}[CWERTB])|([\dP]{4}(OC|CU)))))$/)
       )
@@ -37,18 +37,14 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
 
   public onContinue(): void {
     if (this.validateForm()) {
-      this.registrationData.name = this.companyHouseFormGroup.get('companyName').value;
+      this.registrationData.companyName = this.companyHouseFormGroup.get('companyName').value;
       this.registrationData.companyHouseNumber = this.companyHouseFormGroup.get('companyHouseNumber').value;
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address']);
     }
   }
 
   public onBack(): void {
-    if (this.getPreviousUrl()?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-type']);
-    }
+    this.navigateToPreviousPage();
   }
 
   public onCancel(): void {

@@ -49,7 +49,7 @@
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation name</dt>
-          <dd class="govuk-summary-list__value">{{ registrationData.name }}</dd>
+          <dd class="govuk-summary-list__value">{{ registrationData.companyName }}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
@@ -143,101 +143,57 @@
         </div>
       </dl>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Regulatory organisation type</dt>
-          <dd class="govuk-summary-list__value">
-            <div *ngFor="let regulator of registrationData.regulators">
-              <ng-container [ngSwitch]="regulator.regulatorType">
-                <span *ngSwitchCase="regulatoryType.Other">
-                  {{regulator.regulatorType}}: {{regulator.regulatorName}} ref: {{regulator.organisationRegistrationNumber}}
-                </span>
-                <span *ngSwitchCase="regulatoryType.NotApplicable">
-                  {{regulator.regulatorType}}
-                </span>
-                <span *ngSwitchDefault>
-                  {{regulator.regulatorType}} ref: {{regulator.organisationRegistrationNumber}}
-                </span>
-                <br />
-              </ng-container>
-            </div>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/regulatory-organisation-type">
-              Change<span class="govuk-visually-hidden">Regulatory organisation type</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+      <app-regulator-list *ngIf="registrationData.regulators?.length"
+        [regulatorType]="regulatorType.Organisation"
+        [regulators]="registrationData.regulators">
+      </app-regulator-list>
 
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Administration details</h2>
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">First name(s)</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.contactDetails.firstName}}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
+      <div *ngIf="registrationData.contactDetails">
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">First name(s)</dt>
+            <dd class="govuk-summary-list__value">{{registrationData.contactDetails.firstName}}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="javascript:void(0)"
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
+                Change<span class="govuk-visually-hidden">First name(s)</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Last name</dt>
+            <dd class="govuk-summary-list__value">{{registrationData.contactDetails.lastName}}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="javascript:void(0)"
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
+                Change<span class="govuk-visually-hidden">Last name</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Email address</dt>
+            <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.workEmailAddress }}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
-              Change<span class="govuk-visually-hidden">First name(s)</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+                Change<span class="govuk-visually-hidden">Email address</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+      </div>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Last name</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.contactDetails.lastName}}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
-              Change<span class="govuk-visually-hidden">Last name</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Email address</dt>
-          <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.workEmailAddress }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
-            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
-              Change<span class="govuk-visually-hidden">Email address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">What regulators are you (as an individual) registered with?</dt>
-          <dd class="govuk-summary-list__value">
-            <div *ngFor="let regulator of registrationData.individualRegulators">
-              <ng-container [ngSwitch]="regulator.regulatorType">
-                <span *ngSwitchCase="regulatoryType.Other">
-                  {{regulator.regulatorType}}: {{regulator.regulatorName}} ref: {{regulator.organisationRegistrationNumber}}
-                </span>
-                <span *ngSwitchCase="regulatoryType.NotApplicable">
-                  {{regulator.regulatorType}}
-                </span>
-                <span *ngSwitchDefault>
-                  {{regulator.regulatorType}} ref: {{regulator.organisationRegistrationNumber}}
-                </span>
-                <br />
-              </ng-container>
-            </div>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/individual-registered-with-regulator-details">
-              Change<span class="govuk-visually-hidden">What regulators are you (as an individual) registered with?</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+      <app-regulator-list *ngIf="registrationData.individualRegulators?.length"
+        [regulatorType]="regulatorType.Individual"
+        [regulators]="registrationData.individualRegulators">
+      </app-regulator-list>
 
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Confirm your registration details</h2>
       <p>Ensure that:</p>

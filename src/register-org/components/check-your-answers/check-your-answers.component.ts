@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
-import { RegulatoryType } from '../../models/regulatory-organisation.enum';
+import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
@@ -11,11 +11,11 @@ import { RegisterOrgService } from '../../services/register-org.service';
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
   public cyaFormGroup: FormGroup;
+  public regulatorType = RegulatorType;
   public regulatoryType = RegulatoryType;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
-    private readonly route: ActivatedRoute,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
 
@@ -26,29 +26,9 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public ngOnInit(): void {
     super.ngOnInit();
-
-    if (this.registrationData) {
-      this.registrationData.address = {
-        addressLine1: '102 Petty France',
-        postTown: 'Westminster',
-        county: 'Greater London',
-        postCode: 'SW1H 9AJ',
-        country: 'England'
-      };
-      this.registrationData.pbaNumbers = [
-        '12345678',
-        '87654321',
-        '13572468',
-        '86427531'
-      ];
-    }
   }
 
   public onBack(): void {
-    if (this.registrationData.hasIndividualRegisteredWithRegulator) {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details']);
-    } else {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
-    }
+    this.navigateToPreviousPage();
   }
 }

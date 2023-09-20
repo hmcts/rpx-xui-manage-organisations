@@ -7,8 +7,10 @@ import { CompanyHouseDetailsComponent } from './company-house-details.component'
 describe('CompanyHouseDetailsComponent', () => {
   let component: CompanyHouseDetailsComponent;
   let fixture: ComponentFixture<CompanyHouseDetailsComponent>;
+
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {
@@ -47,19 +49,15 @@ describe('CompanyHouseDetailsComponent', () => {
     component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('12345678');
     component.onContinue();
-    expect(component.registrationData.name).toEqual('Company Name');
+    expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address']);
   });
 
   it('should back link navigate to the correct page', () => {
-    const getPreviousUrlSpy = spyOn(component, 'getPreviousUrl');
-    getPreviousUrlSpy.and.returnValue('/check-your-answers');
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
-    getPreviousUrlSpy.and.returnValue('/something-else');
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

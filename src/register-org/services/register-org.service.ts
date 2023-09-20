@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
-import { RegistrationData } from '../models/registrationdata.model';
+import { RegistrationData } from '../models/registration-data.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,19 +22,18 @@ export class RegisterOrgService {
       return registerOrganisation;
     }
     return {
-      name: '',
+      companyName: '',
+      companyHouseNumber: null,
       hasDxReference: null,
       dxNumber: null,
       dxExchange: null,
       services: [],
       hasPBA: null,
       contactDetails: null,
-      companyHouseNumber: null,
       address: null,
       organisationType: null,
       otherOrganisationType: null,
       otherOrganisationDetail: null,
-      organisationNumber: null,
       regulatorRegisteredWith: null,
       regulators: [],
       hasIndividualRegisteredWithRegulator: null,

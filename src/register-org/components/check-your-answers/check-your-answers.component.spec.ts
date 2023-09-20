@@ -54,7 +54,7 @@ describe('CheckYourAnswersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should back link navigate to the correct page', () => {
+  it('should back link navigate to the correct page', () => {
     spyOn(component, 'navigateToPreviousPage');
     component.onBack();
     expect(component.navigateToPreviousPage).toHaveBeenCalled();

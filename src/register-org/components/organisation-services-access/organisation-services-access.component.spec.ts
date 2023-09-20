@@ -11,11 +11,6 @@ describe('OrganisationServicesAccessComponent', () => {
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
 
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganisationServicesAccessComponent],
@@ -24,8 +19,7 @@ describe('OrganisationServicesAccessComponent', () => {
         RouterTestingModule
       ],
       providers: [
-        EnvironmentService,
-        { provide: Router, useValue: mockRouter }
+        EnvironmentService
       ]
     })
       .compileComponents();

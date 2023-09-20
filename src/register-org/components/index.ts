@@ -16,6 +16,7 @@ import { RegisteredRegulatorComponent } from './registered-regulator/registered-
 import { RegistrationSubmittedComponent } from './registration-submitted/registration-submitted.component';
 import { RegulatorDetailsComponent } from './regulator-details/regulator-details.component';
 import { RegulatoryOrganisationTypeComponent } from './regulatory-organisation-type/regulatory-organisation-type.component';
+import { ServiceDownComponent } from './service-down/service-down.component';
 
 export const components: any[] = [
   BeforeYouStartComponent,
@@ -35,5 +36,6 @@ export const components: any[] = [
   RegistrationSubmittedComponent,
   RegulatorDetailsComponent,
   RegulatorListComponent,
-  RegulatoryOrganisationTypeComponent
+  RegulatoryOrganisationTypeComponent,
+  ServiceDownComponent
 ];

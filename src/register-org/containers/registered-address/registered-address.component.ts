@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AddressMessageEnum, AddressModel } from '@hmcts/rpx-xui-common-lib';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -24,25 +24,29 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
 
   public submissionAttempted = false;
 
+  public isInternal = false;
+
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
+    public readonly route: ActivatedRoute
   ) {
     super(router, registerOrgService);
+    this.isInternal = this.route.snapshot.params.internal === 'internal' ? true : false;
   }
 
   public ngOnInit(): void {
     super.ngOnInit();
-    this.setExistingFormGroup();
+    if (this.isInternal) {
+      this.setExistingFormGroup();
+    }
   }
 
   private setExistingFormGroup(): void {
-    if (this.registrationData.address && this.registrationData.address.addressLine1 && this.registrationData.address.addressLine1 !== '') {
+    if (this.addressExists()) {
       if (this.registrationData.inInternationalMode) {
         this.startedInternational = true;
+        this.headingText = INTERNATIONAL_HEADING;
         this.isInternational = this.registrationData.address.country !== 'UK';
-        // in order to ensure user can go back even with persisted data
-        this.registrationData.inInternationalMode = false;
-        this.registerOrgService.persistRegistrationData(this.registrationData);
       }
       this.setFormGroup(this.registrationData.address);
     }
@@ -72,7 +76,9 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
 
   // go back to original page
   public onPageRefresh(): void {
-    location.reload();
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
+    this.headingText = POSTCODE_HEADING;
+    this.startedInternational = false;
   }
 
   private isFormValid(): boolean {
@@ -126,7 +132,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   public onInternationalModeStart(): void {
     this.startedInternational = true;
     this.headingText = INTERNATIONAL_HEADING;
-    this.setAddressFormGroup();
+    this.addressExists() ? this.setExistingFormGroup() : this.setAddressFormGroup();
   }
 
   public onOptionSelected(isInternational: boolean): void {
@@ -161,5 +167,9 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
         postCode: new FormControl(givenAddress ? givenAddress.postCode : null, this.isInternational ? null : Validators.required)
       })
     });
+  }
+
+  private addressExists(): boolean {
+    return this.registrationData.address && this.registrationData.address.addressLine1 && this.registrationData.address.addressLine1 !== '';
   }
 }

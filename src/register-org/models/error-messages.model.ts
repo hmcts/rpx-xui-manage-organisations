@@ -7,3 +7,7 @@ export enum DxDetailsMessage {
   INVALID_DX_NUMBER = 'Enter valid DX number',
   INVALID_DX_EXCHANGE = 'Enter valid DX exchange'
 }
+
+export enum OrganisationServicesMessage {
+  NO_ORG_SERVICES = 'Please select at least one service'
+}

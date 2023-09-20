@@ -17,6 +17,5 @@ suite('Manage Org -> POST Invite User', function() {
   // console.log('response', response.headers.get('cache-control'))
     .then((response) => {
       response.status.should.be.eql(200);
-      console.log(response);
     }));
 });

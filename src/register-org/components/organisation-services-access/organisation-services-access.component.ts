@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { OrganisationServicesMessage } from '../../../register-org/models';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { SERVICES_REF_DATA } from '../../__mocks__';
@@ -18,10 +19,12 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public lovRefDataSubscription: Subscription;
   public services: LovRefDataModel[] = [];
   public selectedServices: string[] = [];
+  public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
-    private readonly lovRefDataService: LovRefDataService
+    private readonly lovRefDataService: LovRefDataService,
+    private readonly route: ActivatedRoute
   ) {
     super(router, registerOrgService);
   }
@@ -32,10 +35,15 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     this.services = SERVICES_REF_DATA;
     // TODO: Integration with ref data
     //  1. Delete the above line where it uses the mock data
-    //  2. Uncomment the below lines to integrate with Ref data
-    // this.lovRefDataService.getListOfValues(this.CATEGORY_SERVICE_ACCESS, false).subscribe((lov) => {
-    //   this.services = lov;
-    // });
+    //  2. Uncommented the below lines to test service error
+    const realApi = this.route.snapshot.queryParams.api;
+    if (realApi) {
+      this.lovRefDataService.getListOfValues(this.CATEGORY_SERVICE_ACCESS, false).subscribe((lov) => {
+        this.services = lov;
+      }, (error) => {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'service-down']);
+      });
+    }
 
     this.servicesFormGroup = new FormGroup({
       services: new FormControl(null)
@@ -75,13 +83,20 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   }
 
   public setFormControlValues(): void {
-    // TODO: The functionality of setting the checkbox selections
-    //  based on the values from registration data will be handled
-    // in a separate JIRA ticket
+    this.services.forEach((service) => {
+      if (this.registrationData.services.includes(service.value_en)) {
+        service.selected = true;
+      }
+    });
   }
 
   private isFormValid(): boolean {
-    // TODO: Validation to be handled in a separate JIRA ticket
-    return true;
+    if (!this.services.some((service) => service.selected)) {
+      this.validationErrors.push({
+        id: this.services[0].key,
+        message: OrganisationServicesMessage.NO_ORG_SERVICES
+      });
+    }
+    return this.services.some((service) => service.selected);
   }
 }

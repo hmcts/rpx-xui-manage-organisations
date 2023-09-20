@@ -16,6 +16,7 @@ import { PaymentByAccountComponent } from './components/payment-by-account/payme
 import { RegisteredRegulatorComponent } from './components/registered-regulator/registered-regulator.component';
 import { RegistrationSubmittedComponent } from './components/registration-submitted/registration-submitted.component';
 import { RegulatoryOrganisationTypeComponent } from './components/regulatory-organisation-type/regulatory-organisation-type.component';
+import { ServiceDownComponent } from './components/service-down/service-down.component';
 import { RegisteredAddressComponent } from './containers';
 import { RegisterOrgModule } from './register-org.module';
 
@@ -92,6 +93,10 @@ export const ROUTES: Routes = [
   {
     path: 'check-your-answers/:optional',
     component: CheckYourAnswersComponent
+  },
+  {
+    path: 'service-down',
+    component: ServiceDownComponent
   }
 ];
 

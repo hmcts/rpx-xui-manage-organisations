@@ -1,10 +1,8 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RegulatorType } from 'src/register-org/models';
 import { RegulatorListComponent } from './regulator-list.component';
 
-fdescribe('RegulatorListComponent', () => {
+describe('RegulatorListComponent', () => {
   let component: RegulatorListComponent;
   let fixture: ComponentFixture<RegulatorListComponent>;
   let nativeElement: any;
@@ -41,10 +39,7 @@ fdescribe('RegulatorListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegulatorListComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ]
+      imports: []
     }).compileComponents();
   });
 

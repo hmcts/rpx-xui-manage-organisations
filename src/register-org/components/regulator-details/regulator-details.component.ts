@@ -152,9 +152,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.regulatorType === RegulatorType.Individual
-      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator'])
-      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
   }
 
   public fieldHasErrorMessage(fieldId: string): boolean {

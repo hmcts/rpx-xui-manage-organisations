@@ -15,7 +15,6 @@ suite('Manage Org -> POST Re Invite User', function() {
   test('POST Invite User', () => generatePOSTAPIRequest('POST', '/api/inviteUser', payload)
   // console.log('response', response.headers.get('cache-control'))
     .then((response) => {
-      // console.log('response', response)
       if (response.status === 429) {
         console.log(`User Already Invited: ${response.status}`);
       }

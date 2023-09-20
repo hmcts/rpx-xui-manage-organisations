@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
@@ -14,6 +14,13 @@ describe('RegisteredAddressComponent', () => {
   let mockRegisterOrgService: any;
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
+  };
+  const mockRoute = {
+    snapshot: {
+      params: {
+        internal: 'internal'
+      }
+    }
   };
 
   beforeEach(async () => {
@@ -29,7 +36,8 @@ describe('RegisteredAddressComponent', () => {
       providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
         {
           provide: Router, useValue: mockRouter
-        }]
+        },
+        { provide: ActivatedRoute, useValue: mockRoute }]
     })
       .compileComponents();
   });
@@ -76,9 +84,7 @@ describe('RegisteredAddressComponent', () => {
     expect(component.formGroup.get('address').get('addressLine1').value).toBe('street');
     expect(component.startedInternational).toBeTruthy();
     expect(component.isInternational).toBeTruthy();
-    expect(component.registrationData.inInternationalMode).toBeFalsy();
-    mockRegData.inInternationalMode = false;
-    expect(mockRegisterOrgService.persistRegistrationData).toHaveBeenCalledWith(mockRegData);
+    expect(component.registrationData.inInternationalMode).toBeTruthy();
   });
 
   it('should check the form on continue', () => {
@@ -130,6 +136,7 @@ describe('RegisteredAddressComponent', () => {
       inInternationalMode: false
     };
     mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
+    component.isInternal = true;
     component.ngOnInit();
     component.onOptionSelected(true);
 

@@ -38,7 +38,8 @@ describe('RegulatorDetailsComponent', () => {
     regulators: [],
     regulatorRegisteredWith: null,
     hasIndividualRegisteredWithRegulator: null,
-    individualRegulators: []
+    individualRegulators: [],
+    inInternationalMode: null
   };
 
   const organisationTypes = [

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddressMessageEnum, AddressModel } from '@hmcts/rpx-xui-common-lib';
+import { postcodeValidator } from '../../../custom-validators/postcode.validator';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
@@ -115,6 +116,15 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
           message: AddressMessageEnum.NO_POSTCODE_SELECTED
         });
       }
+      // Invalid Input
+      if (!errorFound) {
+        if (this.formGroup.get('address').get('postCode').hasError('invalidPostcode')) {
+          this.addressErrors.push({
+            id: 'postCode',
+            message: AddressMessageEnum.INVALID_POSTCODE
+          });
+        }
+      }
       errorFound = true;
     }
     return errorFound ? false : true;
@@ -139,7 +149,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.isInternational = isInternational;
     this.submissionAttempted = false;
     this.formGroup.get('address').get('country').setValidators(this.isInternational ? [Validators.required] : null);
-    this.formGroup.get('address').get('postCode').setValidators(this.isInternational ? null : [Validators.required]);
+    this.formGroup.get('address').get('postCode').setValidators(this.isInternational ? null : [Validators.required, postcodeValidator()]);
     this.formGroup.get('address').get('country').updateValueAndValidity();
     this.formGroup.get('address').get('postCode').updateValueAndValidity();
     this.formGroup.setErrors(null);
@@ -164,7 +174,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
         postTown: new FormControl(givenAddress ? givenAddress.postTown : null, Validators.required),
         county: new FormControl(givenAddress ? givenAddress.county : null, null),
         country: new FormControl(givenAddress ? givenAddress.country : (this.isInternational ? null: 'UK'), this.isInternational ? Validators.required : null),
-        postCode: new FormControl(givenAddress ? givenAddress.postCode : null, this.isInternational ? null : Validators.required)
+        postCode: new FormControl(givenAddress ? givenAddress.postCode : null, this.isInternational ? null : [Validators.required, postcodeValidator()])
       })
     });
   }

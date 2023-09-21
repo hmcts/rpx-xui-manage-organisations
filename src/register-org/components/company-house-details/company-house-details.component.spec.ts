@@ -49,7 +49,7 @@ describe('CompanyHouseDetailsComponent', () => {
     component.onContinue();
     expect(component.registrationData.name).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

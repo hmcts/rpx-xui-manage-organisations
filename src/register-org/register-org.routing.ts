@@ -67,7 +67,7 @@ export const ROUTES: Routes = [
     component: PaymentByAccountDetailsComponent
   },
   {
-    path: 'registered-address',
+    path: 'registered-address/:internal',
     component: RegisteredAddressComponent
   },
   {

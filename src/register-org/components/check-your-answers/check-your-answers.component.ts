@@ -25,7 +25,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.registrationDataToDisplay = {
       name: 'Test organisation name',
       companyHouseNumber: '07911247',
-      address: '60 Great Prortland Street, London, TE57NG',
+      address: { addressLine1: '60 Great Prortland Street', postTown: 'London', country: 'UK', postCode: 'TE57NG' },
       hasDxReference: true,
       dxNumber: '789MI',
       services: ['Employment Tribunals'],
@@ -43,6 +43,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
         workEmailAddress: 'John.Davis@testorganisation.com'
       },
       hasPBA: true,
+      inInternationalMode: false,
       hasIndividualRegisteredWithRegulator: true
     };
     const optional = this.route.snapshot.paramMap.get('optional');

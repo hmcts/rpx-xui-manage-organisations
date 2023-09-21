@@ -15,7 +15,8 @@ const registrationData: RegistrationData = {
   organisationType: null,
   organisationNumber: null,
   regulators: [],
-  regulatorRegisteredWith: null
+  regulatorRegisteredWith: null,
+  inInternationalMode: null
 };
 
 describe('RegisterOrgService', () => {

@@ -1,4 +1,4 @@
-import { Address } from './address.model';
+import { AddressModel } from '@hmcts/rpx-xui-common-lib';
 import { ContactDetails } from './contact-details.model';
 import { Regulator } from './regulator.model';
 
@@ -14,11 +14,12 @@ export type RegistrationData = {
   hasPBA: boolean;
   pbaNumbers?: string[];
   contactDetails: ContactDetails;
-  address: Address;
+  address: AddressModel;
   organisationType: string;
   otherOrganisationType?: string;
   otherOrganisationDetail?: string;
   regulatorRegisteredWith: string;
+  inInternationalMode: boolean;
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];

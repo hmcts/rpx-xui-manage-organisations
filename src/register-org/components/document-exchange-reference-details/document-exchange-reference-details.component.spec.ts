@@ -13,11 +13,6 @@ describe('DocumentExchangeReferenceComponent', () => {
   const dxNumberError = { message: DxDetailsMessage.INVALID_DX_NUMBER, id: 'dx-number' };
   const dxExchangeError = { message: DxDetailsMessage.INVALID_DX_EXCHANGE, id: 'dx-exchange' };
 
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
-
   const registrationData: RegistrationData = {
     companyName: '',
     hasDxReference: true,
@@ -41,9 +36,7 @@ describe('DocumentExchangeReferenceComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: [
-        { provide: Router, useValue: mockRouter }
-      ]
+      providers: []
     })
       .compileComponents();
   });

@@ -51,7 +51,7 @@ describe('CompanyHouseDetailsComponent', () => {
     component.onContinue();
     expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 
   it('should back link navigate to the correct page', () => {

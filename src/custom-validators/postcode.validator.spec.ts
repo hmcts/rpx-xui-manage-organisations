@@ -16,7 +16,7 @@ describe('postcodeValidator', () => {
     expect(validationError.invalidPostcode).toBeTruthy();
   });
 
-  it('validation should return true, when the secod part of postcode is invalid', () => {
+  it('validation should return true, when the second part of postcode is invalid', () => {
     control.setValue('l15 555');
     const validatorFn = postcodeValidator();
     const validationError = validatorFn(control);
@@ -24,21 +24,21 @@ describe('postcodeValidator', () => {
     expect(validationError.invalidPostcode).toBeTruthy();
   });
 
-  it('validation should be undefined when valid postcode is enterined lowercase', () => {
+  it('validation should be undefined when valid postcode is entered lowercase', () => {
     control.setValue('l155ax');
     const validatorFn = postcodeValidator();
     const validationError = validatorFn(control);
     expect(validationError).toBeUndefined();
   });
 
-  it('validation should be undefined when valid postcode is enterined uppercase with space', () => {
+  it('validation should be undefined when valid postcode is entered uppercase with space', () => {
     control.setValue('L15 5AX');
     const validatorFn = postcodeValidator();
     const validationError = validatorFn(control);
     expect(validationError).toBeUndefined();
   });
 
-  it('validation should be undefined when a valid postcode that is not in postcde database is entered', () => {
+  it('validation should be undefined when a valid postcode that is not in postcode database is entered', () => {
     control.setValue('ZZ77 7ZZ');
     const validatorFn = postcodeValidator();
     const validationError = validatorFn(control);

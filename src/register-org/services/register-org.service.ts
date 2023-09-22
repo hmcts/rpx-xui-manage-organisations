@@ -26,6 +26,7 @@ export class RegisterOrgService {
       dxNumber: null,
       dxExchange: null,
       services: [],
+      otherServices: null,
       hasPBA: null,
       contactDetails: null,
       companyHouseNumber: null,

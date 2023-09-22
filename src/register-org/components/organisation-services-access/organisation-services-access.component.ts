@@ -77,7 +77,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     this.cancelRegistrationJourney();
   }
 
-  public setFormControlValues(): void {
+  private setFormControlValues(): void {
     this.selectedServices = this.registrationData.services;
     this.services.forEach((service) => {
       service.selected = this.selectedServices.includes(service.key);

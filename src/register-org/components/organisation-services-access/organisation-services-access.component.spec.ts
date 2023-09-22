@@ -6,10 +6,11 @@ import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 
-fdescribe('OrganisationServicesAccessComponent', () => {
+describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
+  let nativeElement: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,6 +30,7 @@ fdescribe('OrganisationServicesAccessComponent', () => {
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
+    nativeElement = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
@@ -49,8 +51,7 @@ fdescribe('OrganisationServicesAccessComponent', () => {
 
   it('should not set the error message and navigate to next the page', () => {
     spyOn(router, 'navigate');
-    console.log('SERVICES', JSON.stringify(component.services));
-    component.services[0].selected = true;
+    nativeElement.querySelector('#AAA7').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -59,9 +60,13 @@ fdescribe('OrganisationServicesAccessComponent', () => {
 
   it('should set the error message and stay on the page', () => {
     spyOn(router, 'navigate');
+    component.selectedServices = [];
+    console.log('SERVICES', JSON.stringify(component.services));
     component.services.forEach((s) => s.selected = false);
+    console.log('SERVICES', JSON.stringify(component.services));
     fixture.detectChanges();
-    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Civil' };
+    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'AAA7' };
+    console.log('SELECTED SERVICES', JSON.stringify(component.selectedServices));
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(error);
     expect(router.navigate).not.toHaveBeenCalled();

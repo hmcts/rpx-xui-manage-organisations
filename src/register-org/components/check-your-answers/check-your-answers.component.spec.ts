@@ -23,6 +23,7 @@ describe('CheckYourAnswersComponent', () => {
     },
     address: null,
     organisationType: null,
+    inInternationalMode: true,
     regulators: [],
     regulatorRegisteredWith: null,
     hasIndividualRegisteredWithRegulator: null,

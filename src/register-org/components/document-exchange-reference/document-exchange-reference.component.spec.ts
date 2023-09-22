@@ -9,11 +9,7 @@ import { DocumentExchangeReferenceComponent } from './document-exchange-referenc
 describe('DocumentExchangeReferenceComponent', () => {
   let component: DocumentExchangeReferenceComponent;
   let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
-
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
+  let router: Router;
 
   const registrationData: RegistrationData = {
     companyName: '',
@@ -38,15 +34,15 @@ describe('DocumentExchangeReferenceComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: [
-        { provide: Router, useValue: mockRouter }
-      ]
+      providers: []
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocumentExchangeReferenceComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 

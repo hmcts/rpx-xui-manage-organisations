@@ -45,7 +45,7 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
         // Set corresponding registration data
         this.registrationData.hasPBA = false;
         // Navigate to collect contact details
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
       }
     }
   }
@@ -55,7 +55,7 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+    this.navigateToPreviousPage();
   }
 
   public setFormControlValues(): void {

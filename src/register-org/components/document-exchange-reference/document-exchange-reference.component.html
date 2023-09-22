@@ -17,7 +17,7 @@
   </ng-container>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="dxFormGroup">
         <div class="govuk-form-group">

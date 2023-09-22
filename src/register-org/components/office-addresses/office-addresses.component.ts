@@ -19,6 +19,10 @@ export class OfficeAddressesComponent extends RegisterComponent {
     this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
   }
 
+  public onBack(): void {
+    this.navigateToPreviousPage();
+  }
+
   public onCancel(): void {
     this.cancelRegistrationJourney();
   }

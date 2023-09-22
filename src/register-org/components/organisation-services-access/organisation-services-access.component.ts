@@ -69,6 +69,10 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     }
   }
 
+  public onBack(): void {
+    this.navigateToPreviousPage();
+  }
+
   public onCancel(): void {
     this.cancelRegistrationJourney();
   }

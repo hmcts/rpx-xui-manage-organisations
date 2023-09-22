@@ -1,16 +1,18 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
 
 describe('DocumentExchangeReferenceComponent', () => {
   let component: DocumentExchangeReferenceComponent;
   let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
+  let router: Router;
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -21,19 +23,26 @@ describe('DocumentExchangeReferenceComponent', () => {
     address: null,
     organisationType: null,
     regulators: [],
-    regulatorRegisteredWith: null
+    regulatorRegisteredWith: null,
+    inInternationalMode: null
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule]
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers: []
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocumentExchangeReferenceComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -77,5 +86,11 @@ describe('DocumentExchangeReferenceComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
+    component.onBack();
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

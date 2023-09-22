@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { ContactDetailsComponent } from './contact-details.component';
 
 describe('ContactDetailsComponent', () => {
@@ -11,23 +11,24 @@ describe('ContactDetailsComponent', () => {
   let fixture: ComponentFixture<ContactDetailsComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
+    companyHouseNumber: null,
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
     services: [],
     hasPBA: null,
     contactDetails: null,
-    companyHouseNumber: null,
     address: null,
     organisationType: null,
-    organisationNumber: null,
     regulators: [],
     regulatorRegisteredWith: null,
+    inInternationalMode: null,
     hasIndividualRegisteredWithRegulator: null,
     individualRegulators: []
   };
@@ -74,12 +75,9 @@ describe('ContactDetailsComponent', () => {
   });
 
   it('should back link navigate to the correct page', () => {
-    component.registrationData.hasPBA = true;
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account-details']);
-    component.registrationData.hasPBA = false;
-    component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should navigate to individual regulators page if validation is successful', () => {

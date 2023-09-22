@@ -27,7 +27,8 @@ describe('DocumentExchangeReferenceComponent', () => {
     address: null,
     organisationType: null,
     regulators: [],
-    regulatorRegisteredWith: null
+    regulatorRegisteredWith: null,
+    inInternationalMode: null
   };
 
   beforeEach(async () => {

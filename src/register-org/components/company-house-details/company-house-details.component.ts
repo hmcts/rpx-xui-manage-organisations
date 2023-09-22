@@ -39,7 +39,7 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
     if (this.validateForm()) {
       this.registrationData.companyName = this.companyHouseFormGroup.get('companyName').value;
       this.registrationData.companyHouseNumber = this.companyHouseFormGroup.get('companyHouseNumber').value;
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address']);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
     }
   }
 

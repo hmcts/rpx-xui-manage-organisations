@@ -28,6 +28,7 @@ describe('ContactDetailsComponent', () => {
     organisationType: null,
     regulators: [],
     regulatorRegisteredWith: null,
+    inInternationalMode: null,
     hasIndividualRegisteredWithRegulator: null,
     individualRegulators: []
   };

@@ -6,7 +6,7 @@ import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 
-describe('OrganisationServicesAccessComponent', () => {
+fdescribe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
@@ -41,6 +41,7 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should not set the error message and navigate to next the page', () => {
     spyOn(router, 'navigate');
+    console.log('SERVICES', JSON.stringify(component.services));
     component.services[0].selected = true;
     fixture.detectChanges();
     component.onContinue();

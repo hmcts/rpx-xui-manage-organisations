@@ -59,10 +59,6 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
     this.cancelRegistrationJourney();
   }
 
-  public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'internal']);
-  }
-
   public setFormControlValues(): void {
     if (this.registrationData.hasDxReference !== null) {
       if (this.registrationData.hasDxReference) {

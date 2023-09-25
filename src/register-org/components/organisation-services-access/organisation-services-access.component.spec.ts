@@ -61,12 +61,9 @@ describe('OrganisationServicesAccessComponent', () => {
   it('should set the error message and stay on the page', () => {
     spyOn(router, 'navigate');
     component.selectedServices = [];
-    console.log('SERVICES', JSON.stringify(component.services));
     component.services.forEach((s) => s.selected = false);
-    console.log('SERVICES', JSON.stringify(component.services));
     fixture.detectChanges();
     const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'AAA7' };
-    console.log('SELECTED SERVICES', JSON.stringify(component.selectedServices));
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(error);
     expect(router.navigate).not.toHaveBeenCalled();

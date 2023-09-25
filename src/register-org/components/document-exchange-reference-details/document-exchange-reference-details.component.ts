@@ -47,6 +47,10 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
     }
   }
 
+  public onBack(): void {
+    this.navigateToPreviousPage();
+  }
+
   public onCancel(): void {
     this.cancelRegistrationJourney();
   }

@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -11,11 +10,10 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './company-house-details.component.html'
 })
 export class CompanyHouseDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
-  @ViewChild('mainContent') public mainContentElement: ElementRef;
-  public validationErrors: ErrorMessage[] = [];
+  public validationErrors: { id: string, message: string }[] = [];
   public companyHouseFormGroup: FormGroup;
-  public companyNameError: ErrorMessage;
-  public companyNumberError: ErrorMessage;
+  public companyNameError = null;
+  public companyNumberError = null;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -26,7 +24,7 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
   public ngOnInit(): void {
     super.ngOnInit();
     this.companyHouseFormGroup = new FormGroup({
-      companyName: new FormControl(this.registrationData.name, Validators.required),
+      companyName: new FormControl(this.registrationData.companyName, Validators.required),
       companyHouseNumber: new FormControl(this.registrationData.companyHouseNumber,
         Validators.pattern(/^(((AC|ZC|FC|GE|LP|OC|SE|SA|SZ|SF|GS|SL|SO|SC|ES|NA|NZ|NF|GN|NL|NC|R0|NI|EN|\d{2}|SG|FE)\d{5}(\d|C|R))|((RS|SO)\d{3}(\d{3}|\d{2}[WSRCZF]|\d(FI|RS|SA|IP|US|EN|AS)|CUS))|((NI|SL)\d{5}[\dA])|(OC(([\dP]{5}[CWERTB])|([\dP]{4}(OC|CU)))))$/)
       )
@@ -39,10 +37,14 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
 
   public onContinue(): void {
     if (this.validateForm()) {
-      this.registrationData.name = this.companyHouseFormGroup.get('companyName').value;
+      this.registrationData.companyName = this.companyHouseFormGroup.get('companyName').value;
       this.registrationData.companyHouseNumber = this.companyHouseFormGroup.get('companyHouseNumber').value;
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
     }
+  }
+
+  public onBack(): void {
+    this.navigateToPreviousPage();
   }
 
   public onCancel(): void {
@@ -54,14 +56,13 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
 
     if (this.companyHouseFormGroup.invalid) {
       if (this.companyHouseFormGroup.get('companyName').invalid) {
-        this.companyNameError = { title: '', description: CompanyHouseDetailsMessage.NO_ORG_NAME, fieldId: 'company-name' };
+        this.companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
         this.validationErrors.push(this.companyNameError);
       }
       if (this.companyHouseFormGroup.get('companyHouseNumber').invalid) {
-        this.companyNumberError = { title: '', description: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER, fieldId: 'company-house-number' };
+        this.companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
         this.validationErrors.push(this.companyNumberError);
       }
-      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }
     return true;

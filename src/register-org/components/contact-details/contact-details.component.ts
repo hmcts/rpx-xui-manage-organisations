@@ -50,7 +50,14 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
   }
 
   public onBack(): void {
-    this.navigateToPreviousPage();
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigateByUrl(previousUrl);
+    } else {
+      this.registrationData.hasPBA
+        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details'])
+        : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
+    }
   }
 
   public onCancel(): void {

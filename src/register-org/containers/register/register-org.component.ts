@@ -10,7 +10,7 @@ import { RegisterOrgService } from '../../services/index';
 
 export class RegisterComponent implements OnInit, OnDestroy {
   private isRegistrationJourneyCancelled = false;
-  private currentNavigation: Navigation;
+  public currentNavigation: Navigation;
   public registrationData: RegistrationData;
 
   constructor(public readonly router: Router,
@@ -38,16 +38,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.isRegistrationJourneyCancelled = true;
       this.registerOrgService.removeRegistrationData();
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
-    }
-  }
-
-  public navigateToPreviousPage(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl) {
-      this.router.navigateByUrl(previousUrl);
-    } else {
-      // Fallback if previous url is null or empty
-      window.history.back();
     }
   }
 

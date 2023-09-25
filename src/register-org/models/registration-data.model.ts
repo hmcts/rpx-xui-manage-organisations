@@ -2,20 +2,22 @@ import { AddressModel } from '@hmcts/rpx-xui-common-lib';
 import { ContactDetails } from './contact-details.model';
 import { Regulator } from './regulator.model';
 
+// TODO: Reference Address model from CommonLib once it is available
+
 export type RegistrationData = {
-  name: string;
+  companyName: string;
+  companyHouseNumber?: string;
   hasDxReference: boolean;
   dxNumber?: string;
   dxExchange?: string;
   services: string[];
   hasPBA: boolean;
+  pbaNumbers?: string[];
   contactDetails: ContactDetails;
-  companyHouseNumber?: string;
   address: AddressModel;
   organisationType: string;
   otherOrganisationType?: string;
   otherOrganisationDetail?: string;
-  organisationNumber?: string;
   regulatorRegisteredWith: string;
   inInternationalMode: boolean;
   regulators: Regulator[];

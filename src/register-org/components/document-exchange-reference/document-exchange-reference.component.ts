@@ -51,12 +51,12 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
     }
   }
 
-  public onCancel(): void {
-    this.cancelRegistrationJourney();
+  public onBack(): void {
+    this.navigateToPreviousPage();
   }
 
-  public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'internal']);
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
   }
 
   public setFormControlValues(): void {

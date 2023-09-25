@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Navigation, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -152,7 +152,19 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.navigateToPreviousPage();
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE) &&
+      this.regulatorType === RegulatorType.Organisation) {
+      this.router.navigateByUrl(previousUrl);
+    } else {
+      if (this.regulatorType === RegulatorType.Individual) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+      } else {
+        this.registrationData.hasDxReference
+          ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
+          : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+      }
+    }
   }
 
   public fieldHasErrorMessage(fieldId: string): boolean {

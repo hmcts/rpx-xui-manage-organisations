@@ -39,7 +39,12 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   public onBack(): void {
-    this.navigateToPreviousPage();
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigateByUrl(previousUrl);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
+    }
   }
 
   public onCancel(): void {

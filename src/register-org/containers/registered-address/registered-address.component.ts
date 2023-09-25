@@ -72,7 +72,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+    this.navigateToPreviousPage();
   }
 
   // go back to original page

@@ -137,12 +137,12 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     );
   }
 
-  public onContinueClicked(): void {
+  public onContinue(): void {
     if (this.validateForm()) {
       // Set corresponding registration data
       this.setRegulatorData();
       this.regulatorType === RegulatorType.Individual
-        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'true'])
+        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE])
         : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }
@@ -152,7 +152,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
+    this.navigateToPreviousPage();
   }
 
   public fieldHasErrorMessage(fieldId: string): boolean {

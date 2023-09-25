@@ -13,7 +13,6 @@ import { OrganisationServicesAccessComponent } from './components/organisation-s
 import { OrganisationTypeComponent } from './components/organisation-type/organisation-type.component';
 import { PaymentByAccountDetailsComponent } from './components/payment-by-account-details/payment-by-account-details.component';
 import { PaymentByAccountComponent } from './components/payment-by-account/payment-by-account.component';
-import { RegisteredRegulatorComponent } from './components/registered-regulator/registered-regulator.component';
 import { RegistrationSubmittedComponent } from './components/registration-submitted/registration-submitted.component';
 import { RegulatoryOrganisationTypeComponent } from './components/regulatory-organisation-type/regulatory-organisation-type.component';
 import { ServiceDownComponent } from './components/service-down/service-down.component';
@@ -79,10 +78,6 @@ export const ROUTES: Routes = [
     component: IndividualRegisteredWithRegulatorDetailsComponent
   },
   {
-    path: 'registered-regulator',
-    component: RegisteredRegulatorComponent
-  },
-  {
     path: 'contact-details',
     component: ContactDetailsComponent
   },
@@ -91,7 +86,7 @@ export const ROUTES: Routes = [
     component: RegistrationSubmittedComponent
   },
   {
-    path: 'check-your-answers/:optional',
+    path: 'check-your-answers',
     component: CheckYourAnswersComponent
   },
   {

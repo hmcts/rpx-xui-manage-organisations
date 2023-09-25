@@ -12,15 +12,18 @@ describe('RegisteredAddressComponent', () => {
   let component: RegisteredAddressComponent;
   let fixture: ComponentFixture<RegisteredAddressComponent>;
   let mockRegisterOrgService: any;
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
-  };
+
   const mockRoute = {
     snapshot: {
       params: {
         internal: 'internal'
       }
     }
+  };
+
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {
@@ -149,5 +152,11 @@ describe('RegisteredAddressComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
+    component.onBack();
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

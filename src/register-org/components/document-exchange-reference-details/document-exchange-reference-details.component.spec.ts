@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DxDetailsMessage } from '../../../register-org/models';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-reference-details.component';
 
 describe('DocumentExchangeReferenceComponent', () => {
@@ -14,7 +14,7 @@ describe('DocumentExchangeReferenceComponent', () => {
   const dxExchangeError = { message: DxDetailsMessage.INVALID_DX_EXCHANGE, id: 'dx-exchange' };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: true,
     dxNumber: '931NR',
     dxExchange: 'MIDDLESEX',
@@ -35,7 +35,8 @@ describe('DocumentExchangeReferenceComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule
-      ]
+      ],
+      providers: []
     })
       .compileComponents();
   });
@@ -66,6 +67,12 @@ describe('DocumentExchangeReferenceComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
+    component.onBack();
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should set the validation error if DX number is invalid', () => {

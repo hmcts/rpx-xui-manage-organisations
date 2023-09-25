@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 
 describe('IndividualRegisteredWithRegulatorComponent', () => {
@@ -9,11 +9,12 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
   let fixture: ComponentFixture<IndividualRegisteredWithRegulatorComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -91,8 +92,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.setFormControlValues();
     component.onContinue();
-    // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers', 'optional']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
@@ -101,8 +101,9 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to contact details page', () => {
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

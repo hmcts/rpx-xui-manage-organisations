@@ -78,6 +78,10 @@ export const ROUTES: Routes = [
     component: IndividualRegisteredWithRegulatorDetailsComponent
   },
   {
+    path: 'individual-registered-with-regulator-details/:backLinkTriggeredFromCYA',
+    component: IndividualRegisteredWithRegulatorDetailsComponent
+  },
+  {
     path: 'contact-details',
     component: ContactDetailsComponent
   },

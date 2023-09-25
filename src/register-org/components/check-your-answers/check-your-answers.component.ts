@@ -53,4 +53,13 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       delete this.registrationData.organisationNumber;
     }
   }
+
+  public onSubmitData() {
+    this.registerOrgService.postRegistration().subscribe(() => {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
+    },
+    ((error) => {
+      console.log(error);
+    }),);
+  }
 }

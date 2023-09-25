@@ -1,6 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { RegistrationData } from '../models/registrationdata.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class RegisterOrgService {
 
   public readonly REGISTER_ORG_NEW_ROUTE = 'register-org-new';
 
-  constructor(private readonly sessionStorageService: SessionStorageService) {}
+  constructor(private readonly sessionStorageService: SessionStorageService, private readonly http: HttpClient) {}
 
   public getRegistrationData(): RegistrationData {
     const registerOrgStr = this.sessionStorageService.getItem(this.registrationDataKey);
@@ -47,5 +49,10 @@ export class RegisterOrgService {
 
   public removeRegistrationData(): void {
     this.sessionStorageService.removeItem(this.registrationDataKey);
+  }
+
+  public postRegistration(): Observable<any> {
+    const data = this.getRegistrationData();
+    return this.http.post('/external/register-org-new/register', data);
   }
 }

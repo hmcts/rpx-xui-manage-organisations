@@ -104,7 +104,7 @@ describe('PaymentByAccountComponent', () => {
     component.pbaFormGroup.get('pba').setValue('no');
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 
   it('should back link navigate to the correct page', () => {

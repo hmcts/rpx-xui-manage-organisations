@@ -114,8 +114,8 @@ xdescribe('RegulatorDetailsComponent', () => {
     selectElement.selectedIndex = 1;
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('SRA');
-    expect(component.onOptionSelected).toHaveBeenCalledWith('SRA', 0);
+    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('Solicitor Regulation Authority');
+    expect(component.onOptionSelected).toHaveBeenCalledWith('Solicitor Regulation Authority', 0);
     expect(component.regulators.controls[0].get('regulatorName')).toBeFalsy();
     expect(component.regulators.controls[0].get('organisationRegistrationNumber')).toBeTruthy();
     expect(nativeElement.querySelector('#regulator-name0')).toBeFalsy();
@@ -150,7 +150,7 @@ xdescribe('RegulatorDetailsComponent', () => {
     selectElement.selectedIndex = 4;
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('NA');
+    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('Not Applicable');
   });
 
   it('should add a new regulator entry when the "Add another regulator" button is clicked', () => {
@@ -359,7 +359,7 @@ xdescribe('RegulatorDetailsComponent', () => {
   it('should not set the error message if regulator type is NA', () => {
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
-      regulatorType: 'NA'
+      regulatorType: 'Not Applicable'
     }];
     component.setFormControlValues();
     fixture.detectChanges();

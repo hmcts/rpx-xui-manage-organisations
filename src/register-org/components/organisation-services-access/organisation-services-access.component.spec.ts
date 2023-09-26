@@ -65,7 +65,6 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    spyOn(router, 'navigate');
     nativeElement.querySelector('#AAA7').click();
     fixture.detectChanges();
     component.onContinue();
@@ -74,7 +73,6 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should set the error message and stay on the page', () => {
-    spyOn(router, 'navigate');
     component.selectedServices = [];
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();

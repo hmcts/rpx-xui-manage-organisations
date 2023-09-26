@@ -107,7 +107,6 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
       this.noServicesError = OrganisationServicesMessage.NO_ORG_SERVICES;
     }
     if (this.showOtherServicesInput && !this.servicesFormGroup.get('otherServices').value) {
-      console.log('SERVICES', this.services);
       this.validationErrors.push({
         id: 'other-services',
         message: OrganisationServicesMessage.OTHER_SERVICES

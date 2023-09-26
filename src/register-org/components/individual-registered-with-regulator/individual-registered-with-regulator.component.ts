@@ -56,7 +56,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
   public onBack(): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigateByUrl(previousUrl);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
     } else {
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }

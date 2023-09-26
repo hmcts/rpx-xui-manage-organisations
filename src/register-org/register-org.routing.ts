@@ -8,7 +8,6 @@ import { DocumentExchangeReferenceDetailsComponent } from './components/document
 import { DocumentExchangeReferenceComponent } from './components/document-exchange-reference/document-exchange-reference.component';
 import { IndividualRegisteredWithRegulatorDetailsComponent } from './components/individual-registered-with-regulator-details/individual-registered-with-regulator-details.component';
 import { IndividualRegisteredWithRegulatorComponent } from './components/individual-registered-with-regulator/individual-registered-with-regulator.component';
-import { OfficeAddressesComponent } from './components/office-addresses/office-addresses.component';
 import { OrganisationServicesAccessComponent } from './components/organisation-services-access/organisation-services-access.component';
 import { OrganisationTypeComponent } from './components/organisation-type/organisation-type.component';
 import { PaymentByAccountDetailsComponent } from './components/payment-by-account-details/payment-by-account-details.component';
@@ -48,10 +47,6 @@ export const ROUTES: Routes = [
   {
     path: 'document-exchange-reference-details',
     component: DocumentExchangeReferenceDetailsComponent
-  },
-  {
-    path: 'office-addresses',
-    component: OfficeAddressesComponent
   },
   {
     path: 'organisation-services-access',

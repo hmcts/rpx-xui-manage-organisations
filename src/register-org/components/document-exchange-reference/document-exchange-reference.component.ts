@@ -46,7 +46,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
         // Set corresponding registration data
         this.registrationData.hasDxReference = false;
         // Navigate to office address page
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'office-addresses']);
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'regulatory-organisation-type']);
       }
     }
   }
@@ -54,7 +54,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   public onBack(): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
-      this.router.navigateByUrl(previousUrl);
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
     } else {
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
     }

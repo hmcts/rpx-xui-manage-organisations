@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import {
@@ -480,9 +480,23 @@ describe('RegulatorDetailsComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
     component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the organisation type page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
   });
 });

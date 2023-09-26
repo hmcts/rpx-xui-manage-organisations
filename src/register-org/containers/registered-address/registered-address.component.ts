@@ -27,7 +27,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   public isInternal = false;
 
   public postcodeErrorFound = false;
-  
+
   private addressSelectable = false;
 
   constructor(public readonly router: Router,
@@ -98,7 +98,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
       this.addressErrors.push({
         id: this.addressSelectable ? 'selectAddress' : 'addressLookup',
         message: this.addressSelectable ? AddressMessageEnum.SELECT_ADDRESS : AddressMessageEnum.NO_POSTCODE_SELECTED
-      })
+      });
       errorFound = true;
     } else if (this.startedInternational && this.isInternational === undefined) {
       this.addressErrors.push({

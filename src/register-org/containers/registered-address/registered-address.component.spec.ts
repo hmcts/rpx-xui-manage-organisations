@@ -59,8 +59,9 @@ describe('RegisteredAddressComponent', () => {
     component.onInternationalModeStart();
     fixture.detectChanges();
 
-    component.startedInternational = true;
-    component.headingText = INTERNATIONAL_HEADING;
+    expect(component.startedInternational).toBe(true);
+    expect(component.addressChosen).toBe(false);
+    expect(component.headingText).toBe(INTERNATIONAL_HEADING);
   });
 
   it('should get a persisted address', () => {
@@ -149,5 +150,26 @@ describe('RegisteredAddressComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should reset the component on pagerefresh', () => {
+    component.onPageRefresh();
+    expect(mockRouter.navigate).toHaveBeenCalled();
+    expect(component.headingText).toBe(POSTCODE_HEADING);
+    expect(component.startedInternational).toBe(false);
+    expect(component.addressChosen).toBe(false);
+  });
+
+  it('should set postcode option details correctly', () => {
+    component.onPostcodeOptionSelected();
+    expect(component.submissionAttempted).toBe(false);
+    expect(component.addressChosen).toBe(true);
+    expect(component.addressErrors).toEqual([]);
+  });
+
+  it('should reset submission', () => {
+    component.submissionAttempted = true;
+    component.onResetSubmission();
+    expect(component.submissionAttempted).toBe(false);
   });
 });

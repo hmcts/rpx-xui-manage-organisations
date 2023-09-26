@@ -10,14 +10,16 @@ import { RegisterOrgService } from '../../services/index';
 
 export class RegisterComponent implements OnInit, OnDestroy {
   private isRegistrationJourneyCancelled = false;
+  private routerCurrentNavigation: Navigation;
   public registrationData: RegistrationData;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
+    this.routerCurrentNavigation = this.router.getCurrentNavigation();
   }
 
   public get currentNavigation(): Navigation {
-    return this.router.getCurrentNavigation();
+    return this.routerCurrentNavigation;
   }
 
   public ngOnInit(): void {

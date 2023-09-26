@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import {
@@ -23,6 +23,14 @@ xdescribe('RegulatorDetailsComponent', () => {
   const mockRouter = {
     navigate: jasmine.createSpy('navigate'),
     getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
+  };
+
+  const mockRoute = {
+    snapshot: {
+      params: {
+        backLinkTriggeredFromCYA: true
+      }
+    }
   };
 
   const registrationData: RegistrationData = {
@@ -60,6 +68,9 @@ xdescribe('RegulatorDetailsComponent', () => {
       providers: [
         {
           provide: Router, useValue: mockRouter
+        },
+        {
+          provide: ActivatedRoute, useValue: mockRoute
         },
         {
           provide: LovRefDataService, useValue: mockLovRefDataService
@@ -480,23 +491,29 @@ xdescribe('RegulatorDetailsComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to the check your answers page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/check-your-answers'
-      }
-    });
+  it('should back link navigate to the individual registered with regulator page', () => {
+    component.regulatorType = RegulatorType.Individual;
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
   });
 
-  it('should back link navigate to the organisation type page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/something-else'
-      }
-    });
+  it('should back link navigate to the document exchange reference details page', () => {
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.hasDxReference = true;
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
+  });
+
+  it('should back link navigate to the document exchange reference page', () => {
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.hasDxReference = false;
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
+  });
+
+  it('should back link navigate to the check your answers page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 });

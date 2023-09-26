@@ -117,7 +117,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       if (control.value.length === 10 && control.value) {
         if (isNaN(Number(control.value.substring(3)))) {
           return { error: 'Enter a valid PBA number' };
-        } else if (control.value.substring(0, 3) !== 'PBA') {
+        } else if (control.value.substring(0, 3).toUpperCase() !== 'PBA') {
           return { error: 'Enter a valid PBA number' };
         }
       } else if (control.value.length === 7 && isNaN(Number(control.value))) {

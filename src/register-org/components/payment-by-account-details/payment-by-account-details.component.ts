@@ -66,7 +66,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
 
   public onContinue(): void {
     if (this.isFormValid()) {
-      this.registrationData.pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.map((pba) => pba.pbaNumber);
+      this.registrationData.pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.map((pba) => pba.pbaNumber && pba.pbaNumber.length === 10 ? pba.pbaNumber : `PBA${pba.pbaNumber}`);
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }
   }
@@ -104,8 +104,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   private getPbaNumberValidators(): ValidatorFn[] {
     // TODO: To be used in the functionality ticket if required
     return [
-      Validators.pattern(/(PBA\w*)/i),
-      Validators.minLength(10),
+      Validators.minLength(7),
       Validators.maxLength(10),
       this.getPBANumbersCustomValidator(),
       RxwebValidators.unique()
@@ -115,7 +114,13 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   private getPBANumbersCustomValidator(): ValidatorFn {
     // TODO: To be used in the functionality ticket if required
     return (control: AbstractControl): { [key: string]: any } => {
-      if (control.value && isNaN(Number(control.value.substring(3)))) {
+      if (control.value.length === 10 && control.value) {
+        if (isNaN(Number(control.value.substring(3)))) {
+          return { error: 'Enter a valid PBA number' };
+        } else if (control.value.substring(0, 3) !== 'PBA') {
+          return { error: 'Enter a valid PBA number' };
+        }
+      } else if (control.value.length === 7 && isNaN(Number(control.value))) {
         return { error: 'Enter a valid PBA number' };
       }
       return null;

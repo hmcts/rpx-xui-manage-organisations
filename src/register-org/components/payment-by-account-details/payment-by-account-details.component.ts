@@ -66,7 +66,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
 
   public onContinue(): void {
     if (this.isFormValid()) {
-      this.registrationData.pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.map((pba) => pba.pbaNumber && pba.pbaNumber.length === 10 ? pba.pbaNumber : `PBA${pba.pbaNumber}`);
+      this.registrationData.pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.map((pba) => pba.pbaNumber && pba.pbaNumber.length === 7 ? `PBA${pba.pbaNumber}` : pba.pbaNumber);
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }
   }

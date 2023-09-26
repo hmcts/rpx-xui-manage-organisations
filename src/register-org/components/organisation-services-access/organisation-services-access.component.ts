@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ORGANISATION_SERVICES } from 'src/register-org/constants/register-org-constants';
 import { OrganisationService, OrganisationServicesMessage } from '../../../register-org/models';
+import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 

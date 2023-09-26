@@ -162,8 +162,20 @@ describe('RegisteredAddressComponent', () => {
         finalUrl: '/check-your-answers'
       }
     });
-    component.onBack();
+    component.onBack(true);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the registered address page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack(true);
+    expect(component.headingText).toEqual('What is the registered address of your organisation?');
+    expect(component.startedInternational).toEqual(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 
   it('should back link navigate to the company house details page', () => {
@@ -172,7 +184,7 @@ describe('RegisteredAddressComponent', () => {
         finalUrl: '/something-else'
       }
     });
-    component.onBack();
+    component.onBack(false);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });
 });

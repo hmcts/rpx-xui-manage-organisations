@@ -38,6 +38,10 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
     }
   }
 
+  public onBack(): void {
+    this.navigateToPreviousPage();
+  }
+
   public onCancel(): void {
     this.cancelRegistrationJourney();
   }

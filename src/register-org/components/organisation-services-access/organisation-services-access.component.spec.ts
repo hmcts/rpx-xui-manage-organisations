@@ -18,7 +18,9 @@ describe('OrganisationServicesAccessComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: [EnvironmentService]
+      providers: [
+        EnvironmentService
+      ]
     })
       .compileComponents();
   });
@@ -37,6 +39,12 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
+    component.onBack();
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should not set the error message and navigate to next the page', () => {

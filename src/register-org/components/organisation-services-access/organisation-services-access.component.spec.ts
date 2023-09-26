@@ -10,6 +10,7 @@ describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
+  let nativeElement: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,6 +31,7 @@ describe('OrganisationServicesAccessComponent', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
+    nativeElement = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
@@ -63,7 +65,8 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    component.services[0].selected = true;
+    spyOn(router, 'navigate');
+    nativeElement.querySelector('#AAA7').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -71,9 +74,11 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should set the error message and stay on the page', () => {
+    spyOn(router, 'navigate');
+    component.selectedServices = [];
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
-    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Civil' };
+    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'AAA7' };
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(error);
     expect(router.navigate).not.toHaveBeenCalled();

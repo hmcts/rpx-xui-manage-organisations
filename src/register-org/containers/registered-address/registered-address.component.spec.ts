@@ -27,8 +27,10 @@ describe('RegisteredAddressComponent', () => {
   };
 
   beforeEach(async () => {
-    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData']);
+    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData', 'REGISTER_ORG_NEW_ROUTE', 'CHECK_YOUR_ANSWERS_ROUTE']);
     mockRegisterOrgService.getRegistrationData.and.returnValue({ address: null });
+    mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+    mockRegisterOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
       imports: [

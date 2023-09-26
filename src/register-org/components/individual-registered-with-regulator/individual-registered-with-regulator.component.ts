@@ -42,8 +42,6 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
       } else {
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
-        // Note: optional currently a placeholder to make the route work
-        // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
       }
     }

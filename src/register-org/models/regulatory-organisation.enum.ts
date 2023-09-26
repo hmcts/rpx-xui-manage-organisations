@@ -1,6 +1,6 @@
 export enum RegulatoryType {
   Other = 'Other',
-  NotApplicable = 'NA'
+  NotApplicable = 'Not Applicable'
 }
 
 export enum RegulatoryOrganisationTypeMessage {

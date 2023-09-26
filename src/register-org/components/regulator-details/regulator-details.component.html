@@ -59,7 +59,7 @@
                       (change)="onOptionSelected($event.target.value, i)">
                       <option [ngValue]="SELECT_A_VALUE" disabled>--Select a value--</option>
                       <option *ngFor="let regulatorType of regulatorTypes$ | async"
-                        [value]="regulatorType.id">
+                        [value]="regulatorType.name">
                         {{regulatorType.name}}
                       </option>
                     </select>

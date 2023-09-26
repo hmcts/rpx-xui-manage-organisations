@@ -29,7 +29,11 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   }
 
   public onContinue(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address']);
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+  }
+
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
   }
 
   public onBack(): void {

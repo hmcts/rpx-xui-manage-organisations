@@ -83,6 +83,7 @@ export const getXuiNodeMiddleware = () => {
   const issuerUrl = getConfigValue(SERVICES_IDAM_ISS_URL);
   const idamApiPath = getConfigValue(SERVICES_IDAM_API_PATH);
   const s2sSecret = getConfigValue(S2S_SECRET);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const ccdUrl = getConfigValue(SERVICES_CCD_COMPONENT_API_PATH);
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
   const userName = 'xui_mo_system_user@mailinator.com';

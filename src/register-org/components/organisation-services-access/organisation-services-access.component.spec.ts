@@ -29,6 +29,7 @@ describe('OrganisationServicesAccessComponent', () => {
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -62,7 +63,6 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    spyOn(router, 'navigate');
     component.services[0].selected = true;
     fixture.detectChanges();
     component.onContinue();
@@ -71,7 +71,6 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should set the error message and stay on the page', () => {
-    spyOn(router, 'navigate');
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
     const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Civil' };

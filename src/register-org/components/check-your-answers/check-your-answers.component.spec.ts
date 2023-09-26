@@ -59,23 +59,15 @@ describe('CheckYourAnswersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should back link navigate to the check your answers page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/check-your-answers'
-      }
-    });
+  it('should back link navigate to the individual registered with the regulator details page', () => {
+    component.registrationData.hasIndividualRegisteredWithRegulator = true;
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator-details', true]);
   });
 
-  it('should back link navigate to the organisation type page', () => {
-    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
-      previousNavigation: {
-        finalUrl: '/something-else'
-      }
-    });
+  it('should back link navigate to the individual registered with the regulator page', () => {
+    component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator', true]);
   });
 });

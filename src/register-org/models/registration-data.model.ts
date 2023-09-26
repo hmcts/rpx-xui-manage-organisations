@@ -15,12 +15,17 @@ export type RegistrationData = {
   pbaNumbers?: string[];
   contactDetails: ContactDetails;
   address: AddressModel;
-  organisationType: string;
-  otherOrganisationType?: string;
+  organisationType: OrganisationType;
+  otherOrganisationType?: OrganisationType;
   otherOrganisationDetail?: string;
   regulatorRegisteredWith: string;
   inInternationalMode: boolean;
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];
+}
+
+export interface OrganisationType {
+  key: string;
+  description: string;
 }

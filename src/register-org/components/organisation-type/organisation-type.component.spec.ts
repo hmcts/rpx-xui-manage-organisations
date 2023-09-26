@@ -38,23 +38,23 @@ describe('OrganisationTypeComponent', () => {
     regulators: []
   };
 
-  const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
+  const ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
     {
       active_flag: 'Y',
-      category_key: 'OtherOrgType',
+      category_key: 'OrgType',
       child_nodes: null,
       hint_text_cy: '',
       hint_text_en: '',
-      key: 'AccommodationAndFood',
+      key: 'SolicitorOrganisation',
       lov_order: null,
       parent_category: '',
       parent_key: '',
       value_cy: '',
-      value_en: 'Accommodation & Food'
+      value_en: 'Solicitor Organisation'
     },
     {
       active_flag: 'Y',
-      category_key: 'OtherOrgType',
+      category_key: 'OrgType',
       child_nodes: null,
       hint_text_cy: '',
       hint_text_en: '',
@@ -67,22 +67,36 @@ describe('OrganisationTypeComponent', () => {
     },
     {
       active_flag: 'Y',
-      category_key: 'OtherOrgType',
-      child_nodes: null,
+      category_key: 'OrgType',
       hint_text_cy: '',
       hint_text_en: '',
-      key: 'Education',
+      key: 'OTHER',
       lov_order: null,
       parent_category: '',
       parent_key: '',
       value_cy: '',
-      value_en: 'Education'
+      value_en: 'Other',
+      child_nodes: [
+        {
+          active_flag: 'Y',
+          category_key: 'OtherOrgType',
+          child_nodes: null,
+          hint_text_cy: '',
+          hint_text_en: '',
+          key: 'Education',
+          lov_order: null,
+          parent_category: '',
+          parent_key: 'OTHER',
+          value_cy: '',
+          value_en: 'Education'
+        }
+      ]
     }
   ];
 
   beforeEach(async () => {
     mockLovRefDataService = jasmine.createSpyObj('LovRefDataService', ['getListOfValues']);
-    mockLovRefDataService.getListOfValues.and.returnValue(of(OTHER_ORGANISATION_TYPES_REF_DATA));
+    mockLovRefDataService.getListOfValues.and.returnValue(of(ORGANISATION_TYPES_REF_DATA));
     await TestBed.configureTestingModule({
       declarations: [OrganisationTypeComponent],
       imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
@@ -123,11 +137,11 @@ describe('OrganisationTypeComponent', () => {
     expect(component.onContinue).toHaveBeenCalled();
     expect(component.organisationTypeErrors.length).toBe(0);
     expect(mockRouter.navigate).toHaveBeenCalled();
-    expect(component.registrationData.organisationType).toBe('SolicitorOrganisation');
+    expect(component.registrationData.organisationType.key).toBe('SolicitorOrganisation');
   });
 
   it('should display other organisation types dropdown when other radio option is selected', () => {
-    nativeElement.querySelector('#other').click();
+    nativeElement.querySelector('#OTHER').click();
     fixture.detectChanges();
     expect(nativeElement.querySelector('#other-organisation-type')).toBeDefined();
     expect(nativeElement.querySelector('#other-organisation-detail')).toBeDefined();
@@ -138,7 +152,7 @@ describe('OrganisationTypeComponent', () => {
     component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('');
     component.organisationTypeFormGroup.get('otherOrganisationType').setValue('Test');
     spyOn(component, 'onContinue').and.callThrough();
-    nativeElement.querySelector('#other').click();
+    nativeElement.querySelector('#OTHER').click();
     fixture.detectChanges();
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     // select an organisation type and continue
@@ -157,7 +171,7 @@ describe('OrganisationTypeComponent', () => {
     component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('Test');
     component.organisationTypeFormGroup.get('otherOrganisationType').setValue('none');
     spyOn(component, 'onContinue').and.callThrough();
-    nativeElement.querySelector('#other').click();
+    nativeElement.querySelector('#OTHER').click();
     fixture.detectChanges();
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     // select an organisation type and continue
@@ -173,9 +187,9 @@ describe('OrganisationTypeComponent', () => {
 
   it('should validate the form on clicking "Continue" and persist data if validation succeeds on other', () => {
     spyOn(component, 'onContinue').and.callThrough();
-    nativeElement.querySelector('#other').click();
+    nativeElement.querySelector('#OTHER').click();
     fixture.detectChanges();
-    component.organisationTypeFormGroup.get('otherOrganisationType').setValue('example');
+    component.organisationTypeFormGroup.get('otherOrganisationType').setValue('Education');
     component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('text');
 
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
@@ -184,8 +198,8 @@ describe('OrganisationTypeComponent', () => {
     expect(component.onContinue).toHaveBeenCalled();
     expect(component.organisationTypeErrors.length).toBe(0);
     expect(mockRouter.navigate).toHaveBeenCalled();
-    expect(component.registrationData.organisationType).toBe('other');
-    expect(component.registrationData.otherOrganisationType).toBe('example');
+    expect(component.registrationData.organisationType.description).toBe('Other');
+    expect(component.registrationData.otherOrganisationType.description).toBe('Education');
     expect(component.registrationData.otherOrganisationDetail).toBe('text');
   });
 

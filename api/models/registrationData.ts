@@ -10,7 +10,7 @@ export interface Regulator {
     regulatorType: string;
     regulatorName?: string;
     organisationRegistrationNumber?: string;
-}  
+}
 
 export type RegistrationData = {
     companyName: string;

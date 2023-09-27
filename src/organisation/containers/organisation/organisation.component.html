@@ -1,26 +1,60 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
-  <table class="govuk-table">
-    <tbody class="govuk-table__body">
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header" scope="row">Name</th>
-      <td class="govuk-table__cell">
-        <div>{{organisationDetails.name}}</div>
-      </td>
-    </tr>
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header" scope="row">Address</th>
-      <td class="govuk-table__cell">
-        <!-- Contact Information -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Name</dt>
+      <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
+    </div>
+  </dl>
+
+  <!-- Contact Information -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Address</dt>
+      <dd class="govuk-summary-list__value">
         <div>{{organisationContactInformation.addressLine1}}</div>
-        <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}
-        </div>
+        <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}</div>
         <div>{{organisationContactInformation.townCity}}</div>
         <div>{{organisationContactInformation.county}}</div>
-        <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}
+        <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}</div>
+      </dd>
+    </div>
+  </dl>
+
+  <!-- DX reference -->
+  <dl class="govuk-summary-list" *ngIf="organisationDxAddress?.dxNumber">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">DX reference</dt>
+      <dd class="govuk-summary-list__value">
+        {{organisationDxAddress.dxNumber}}
+        <span *ngIf="organisationDxAddress.dxExchange">, {{organisationDxAddress.dxExchange}}</span>
+      </dd>
+    </div>
+  </dl>
+
+  <dl *ngIf="registrationData.organisationType && registrationData.organisationType !== 'other'"
+        class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Organisation type</dt>
+          <dd class="govuk-summary-list__value">{{registrationData.organisationType}}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
+              Change<span class="govuk-visually-hidden">Organisation type</span>
+            </a>
+          </dd>
         </div>
-        <!-- !Contact Information -->
-      </td>
+      </dl>
+
+  <table class="govuk-table">
+    <tbody class="govuk-table__body">
+
+    <!-- Organisation type -->
+    <tr class="govuk-table__row">
+      <th class="govuk-table__header" scope="row">Organisation type</th>
+        <td class="govuk-table__cell">
+
+        </td>
     </tr>
     <!-- PBA Numbers -->
     <tr class="govuk-table__row">
@@ -33,7 +67,7 @@
         </div>
         <a class="govuk-link fright"
            style = "float:right"
-        routerLink="/organisation/update-pba-numbers" 
+        routerLink="/organisation/update-pba-numbers"
         *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
       </td>
     </tr>
@@ -44,18 +78,6 @@
         <div><p>Until you've added one or more payment by account (PBA) numbers,
                 you won't be able to make payments when creating a case or view your transactions.</p>
         </div>
-      </td>
-    </tr>
-    <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxNumber">
-      <th class="govuk-table__header" scope="row">DX number</th>
-      <td class="govuk-table__cell">
-        <div>{{organisationDxAddress.dxNumber}}</div>
-      </td>
-    </tr>
-    <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxExchange">
-      <th class="govuk-table__header" scope="row">DX exchange</th>
-      <td class="govuk-table__cell">
-        <div>{{organisationDxAddress.dxExchange}}</div>
       </td>
     </tr>
     <tr class="govuk-table__row" *ngIf="organisationDetails.superUser">

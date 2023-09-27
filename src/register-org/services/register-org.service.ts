@@ -28,6 +28,7 @@ export class RegisterOrgService {
       dxNumber: null,
       dxExchange: null,
       services: [],
+      otherServices: null,
       hasPBA: null,
       contactDetails: null,
       address: null,
@@ -37,7 +38,8 @@ export class RegisterOrgService {
       regulatorRegisteredWith: null,
       regulators: [],
       hasIndividualRegisteredWithRegulator: null,
-      individualRegulators: []
+      individualRegulators: [],
+      pbaNumbers: []
     } as RegistrationData;
   }
 

@@ -26,6 +26,7 @@ describe('RegulatorDetailsComponent', () => {
   };
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     companyHouseNumber: null,
     hasDxReference: null,

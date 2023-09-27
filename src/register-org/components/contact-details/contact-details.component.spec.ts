@@ -16,6 +16,7 @@ describe('ContactDetailsComponent', () => {
   };
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     companyHouseNumber: null,
     hasDxReference: null,

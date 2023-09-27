@@ -23,6 +23,7 @@ describe('OrganisationTypeComponent', () => {
   };
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     hasDxReference: null,
     dxNumber: null,

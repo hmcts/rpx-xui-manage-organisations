@@ -12,6 +12,7 @@ describe('DocumentExchangeReferenceComponent', () => {
   let router: Router;
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     hasDxReference: null,
     dxNumber: null,

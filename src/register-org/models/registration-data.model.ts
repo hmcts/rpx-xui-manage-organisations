@@ -11,8 +11,8 @@ export type RegistrationData = {
   dxNumber?: string;
   dxExchange?: string;
   services: string[];
+  otherServices?: string;
   hasPBA: boolean;
-  pbaNumbers?: string[];
   contactDetails: ContactDetails;
   address: AddressModel;
   organisationType: OrganisationType;
@@ -23,6 +23,7 @@ export type RegistrationData = {
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];
+  pbaNumbers: string[];
 }
 
 export interface OrganisationType {

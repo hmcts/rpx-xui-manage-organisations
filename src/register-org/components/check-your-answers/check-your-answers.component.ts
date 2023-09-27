@@ -5,6 +5,7 @@ import { RegisterComponent } from '../../../register-org/containers';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-check-your-answers',
@@ -16,6 +17,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public regulatoryType = RegulatoryType;
   public services: string[] = [];
   public validationErrors: { id: string, message: string }[] = [];
+  public apiErrors: {id: string, message: string}[] = [];
   public readonly errorMessage = 'Please select checkbox to confirm you have read and understood the terms and conditions';
 
   constructor(public readonly router: Router,
@@ -59,14 +61,19 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       this.registerOrgService.postRegistration().subscribe(() => {
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
       },
-      ((error) => {
-        console.log(error);
-      }),);
+      ((errorResponse: HttpErrorResponse) => {
+        console.log(errorResponse);
+        this.apiErrors.push({
+          id: 'confirmTermsAndConditions',
+          message: errorResponse.error.message
+        });
+      }));
     }
   }
 
   private validateForm(): boolean {
     this.validationErrors = [];
+    this.apiErrors = [];
     if (!this.cyaFormGroup.valid) {
       this.validationErrors.push({
         id: 'confirmTermsAndConditions',
@@ -78,5 +85,9 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public termsAndConditionsChange(event: any): void {
     this.validateForm();
+  }
+
+  public getErrorMessages(): { id: string; message: string;}[] {
+    return this.apiErrors;
   }
 }

@@ -1,7 +1,7 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/regulatory-organisation-type">Back</a>
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="servicesFormGroup">
@@ -19,20 +19,32 @@
             <div class="govuk-hint">
               You must select at least one option
             </div>
-            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': validationErrors?.length}">
-            <div *ngIf="validationErrors.length > 0" class="govuk-error-message">
-              <span class="govuk-visually-hidden">Error:</span> {{validationErrors[0].message}}
-            </div>
-            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-              <div class="govuk-checkboxes__item" *ngFor="let service of services">
-                <input class="govuk-checkboxes__input" [id]="service.key" type="checkbox" [value]="service.value_en"
-                  name="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
-                <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
-                  {{service.value_en}}
-                </label>
+            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': noServicesError}">
+              <div *ngIf="noServicesError" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{noServicesError}}
+              </div>
+              <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item" *ngFor="let service of services">
+                  <input class="govuk-checkboxes__input" [id]="service.key" type="checkbox" [value]="service.key"
+                    name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
+                  <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
+                    {{service.value}}
+                  </label>
+                </div>
+                <div class="govuk-checkboxes__conditional"
+                  [ngClass]="{'govuk-checkboxes__conditional--hidden': !showOtherServicesInput}">
+                  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': otherServicesError}">
+                    <label class="govuk-label" for="contact-by-text">
+                      Please enter the HMCTS service you are wishing to access
+                    </label>
+                    <div class="govuk-error-message" *ngIf="otherServicesError">
+                      <span class="govuk-visually-hidden">Error:</span> {{otherServicesError}}
+                    </div>
+                    <input class="govuk-input" id="other-services" name="other-services" formControlName="otherServices" type="text">
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
           </fieldset>
         </div>
         <div class="govuk-button-group">

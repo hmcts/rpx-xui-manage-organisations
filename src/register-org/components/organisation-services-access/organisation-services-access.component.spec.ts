@@ -10,6 +10,7 @@ describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
+  let nativeElement: any;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,7 +19,9 @@ describe('OrganisationServicesAccessComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      providers: [EnvironmentService]
+      providers: [
+        EnvironmentService
+      ]
     })
       .compileComponents();
   });
@@ -27,6 +30,7 @@ describe('OrganisationServicesAccessComponent', () => {
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
+    nativeElement = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
 
@@ -39,9 +43,15 @@ describe('OrganisationServicesAccessComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
+    component.onBack();
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+  });
+
   it('should not set the error message and navigate to next the page', () => {
     spyOn(router, 'navigate');
-    component.services[0].selected = true;
+    nativeElement.querySelector('#AAA7').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -50,9 +60,10 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should set the error message and stay on the page', () => {
     spyOn(router, 'navigate');
+    component.selectedServices = [];
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
-    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Civil' };
+    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'AAA7' };
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(error);
     expect(router.navigate).not.toHaveBeenCalled();

@@ -1,19 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
+import { RegisterOrgService } from '../../services/register-org.service';
 
 describe('IndividualRegisteredWithRegulatorComponent', () => {
   let component: IndividualRegisteredWithRegulatorComponent;
   let fixture: ComponentFixture<IndividualRegisteredWithRegulatorComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -27,13 +29,22 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     regulatorRegisteredWith: null,
     inInternationalMode: null
   };
+  const mockSessionStorageService = jasmine.createSpyObj('SessionStorageService', [
+    'getItem',
+    'setItem',
+    'removeItem'
+  ]);
+
+  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['get', 'post']);
+  const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IndividualRegisteredWithRegulatorComponent],
       imports: [RouterTestingModule],
       providers: [
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: RegisterOrgService, useValue: service }
       ]
     }).compileComponents();
   });
@@ -91,8 +102,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.setFormControlValues();
     component.onContinue();
-    // TODO: Router link parameter "optional" needs to be updated as part of EUI-8814
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers', 'optional']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
@@ -101,8 +111,9 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to contact details page', () => {
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 });

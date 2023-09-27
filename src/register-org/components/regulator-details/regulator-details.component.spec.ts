@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import {
@@ -18,14 +18,19 @@ describe('RegulatorDetailsComponent', () => {
   let component: RegulatorDetailsComponent;
   let fixture: ComponentFixture<RegulatorDetailsComponent>;
   let mockLovRefDataService: any;
+  let router: Router;
   let nativeElement: any;
 
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
+  const mockRoute = {
+    snapshot: {
+      params: {
+        backLinkTriggeredFromCYA: true
+      }
+    }
   };
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     companyHouseNumber: null,
     hasDxReference: null,
@@ -59,7 +64,7 @@ describe('RegulatorDetailsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
-          provide: Router, useValue: mockRouter
+          provide: ActivatedRoute, useValue: mockRoute
         },
         {
           provide: LovRefDataService, useValue: mockLovRefDataService
@@ -75,6 +80,8 @@ describe('RegulatorDetailsComponent', () => {
     nativeElement = fixture.debugElement.nativeElement;
     component.registrationData = registrationData;
     spyOn(component, 'onOptionSelected').and.callThrough();
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -244,11 +251,10 @@ describe('RegulatorDetailsComponent', () => {
     component.onContinue();
     expect(component.registrationData.regulators.length).toEqual(1);
     expect(component.registrationData.regulators[0].regulatorType).toEqual(RegulatoryType.NotApplicable);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });
 
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
-    mockRouter.navigate.calls.reset();
     spyOn(component, 'onContinue').and.callThrough();
     component.validationErrors = [];
     component.registrationData.regulators = [];
@@ -276,7 +282,7 @@ describe('RegulatorDetailsComponent', () => {
       id: 'organisation-registration-number0',
       message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
     });
-    expect(mockRouter.navigate).not.toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('should validate the form on clicking "Continue" and persist data and navigate to next page if validation succeeds', () => {
@@ -313,7 +319,7 @@ describe('RegulatorDetailsComponent', () => {
     fixture.detectChanges();
     expect(component.onContinue).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(0);
-    expect(mockRouter.navigate).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalled();
   });
 
   it('should set the error message if regulator name is empty for a known regulator type', () => {
@@ -480,9 +486,32 @@ describe('RegulatorDetailsComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
+  it('should back link navigate to the individual registered with regulator page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    component.regulatorType = RegulatorType.Individual;
     component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
+  });
+
+  it('should back link navigate to the document exchange reference details page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.hasDxReference = true;
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
+  });
+
+  it('should back link navigate to the document exchange reference page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.hasDxReference = false;
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
+  });
+
+  it('should back link navigate to the check your answers page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 });

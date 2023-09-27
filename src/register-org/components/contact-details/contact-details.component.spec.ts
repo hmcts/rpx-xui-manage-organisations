@@ -16,6 +16,7 @@ describe('ContactDetailsComponent', () => {
   };
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     companyHouseNumber: null,
     hasDxReference: null,
@@ -74,10 +75,36 @@ describe('ContactDetailsComponent', () => {
     expect(component.contactDetailsFormGroup.get('workEmailAddress').value).toEqual('john.davis@testorganisation.com');
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
     component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the payment by account page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.registrationData.hasPBA = false;
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account']);
+  });
+
+  it('should back link navigate to the payment by account details page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.registrationData.hasPBA = true;
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account-details']);
   });
 
   it('should navigate to individual regulators page if validation is successful', () => {

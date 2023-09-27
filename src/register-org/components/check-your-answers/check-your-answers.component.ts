@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
@@ -15,6 +15,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public regulatorType = RegulatorType;
   public regulatoryType = RegulatoryType;
   public services: string[] = [];
+  public validationErrors: { id: string, message: string }[] = [];
+  public readonly errorMessage = 'Please select checkbox to confirm you have read and understood the terms and conditions';
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -26,7 +28,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     super.ngOnInit();
 
     this.cyaFormGroup = new FormGroup({
-      confirmTermsAndConditions: new FormControl(null, Validators.required)
+      confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
 
     this.registrationData.services?.forEach((serviceKey) => {
@@ -38,16 +40,43 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     }
   }
 
+  private getCustomValidationForTermsAndConditions(): ValidatorFn {
+    // TODO: To be used in the functionality ticket if required
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return { error: this.errorMessage };
+      }
+      return null;
+    };
+  }
+
   public onBack() {
     this.navigateToPreviousPage();
   }
 
   public onSubmitData() {
-    this.registerOrgService.postRegistration().subscribe(() => {
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
-    },
-    ((error) => {
-      console.log(error);
-    }),);
+    if (this.validateForm()) {
+      this.registerOrgService.postRegistration().subscribe(() => {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
+      },
+      ((error) => {
+        console.log(error);
+      }),);
+    }
+  }
+
+  private validateForm(): boolean {
+    this.validationErrors = [];
+    if (!this.cyaFormGroup.valid) {
+      this.validationErrors.push({
+        id: 'confirmTermsAndConditions',
+        message: this.errorMessage
+      });
+    }
+    return this.cyaFormGroup.valid;
+  }
+
+  public termsAndConditionsChange(event: any): void {
+    this.validateForm();
   }
 }

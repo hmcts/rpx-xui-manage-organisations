@@ -9,6 +9,7 @@ describe('CheckYourAnswersComponent', () => {
   let fixture: ComponentFixture<CheckYourAnswersComponent>;
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: 'Minstry of Justice',
     companyHouseNumber: '11223344',
     hasDxReference: null,

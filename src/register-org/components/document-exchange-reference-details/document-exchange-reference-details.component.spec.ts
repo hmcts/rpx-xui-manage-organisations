@@ -14,6 +14,7 @@ describe('DocumentExchangeReferenceComponent', () => {
   const dxExchangeError = { message: DxDetailsMessage.INVALID_DX_EXCHANGE, id: 'dx-exchange' };
 
   const registrationData: RegistrationData = {
+    pbaNumbers: [],
     companyName: '',
     hasDxReference: true,
     dxNumber: '931NR',

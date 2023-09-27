@@ -8,8 +8,11 @@
       </h1>
       <hr>
       <form [formGroup]="pbaDetailsFormGroup">
-        <div formArrayName="pbaNumbers">
+        <div formArrayName="pbaNumbers" [ngClass]="{'govuk-form-group--error': summaryErrors && !summaryErrors.isFromValid}">
           <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i = index">
+            <p class="govuk-error-message" *ngIf="summaryErrors && !summaryErrors.isFromValid">
+              <span class="govuk-visually-hidden">Error:</span>{{summaryErrors.items[i].message}}
+            </p>
             <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
               <label class="govuk-label govuk-!-font-weight-bold" for="pba-number">
                 PBA number

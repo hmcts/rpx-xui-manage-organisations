@@ -13,13 +13,17 @@ import { OrganisationTypeComponent } from './organisation-type.component';
 
 describe('OrganisationTypeComponent', () => {
   let component: OrganisationTypeComponent;
-  let router: Router;
   let fixture: ComponentFixture<OrganisationTypeComponent>;
   let mockLovRefDataService: any;
   let nativeElement: any;
 
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
+  };
+
   const registrationData: RegistrationData = {
-    name: '',
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -29,9 +33,9 @@ describe('OrganisationTypeComponent', () => {
     services: [],
     address: null,
     organisationType: null,
-    regulators: [],
+    inInternationalMode: null,
     regulatorRegisteredWith: null,
-    pbaNumbers: []
+    regulators: []
   };
 
   const OTHER_ORGANISATION_TYPES_REF_DATA: LovRefDataModel[] = [
@@ -84,8 +88,8 @@ describe('OrganisationTypeComponent', () => {
       imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        { provide: LovRefDataService, useValue: mockLovRefDataService
-        }
+        { provide: LovRefDataService, useValue: mockLovRefDataService },
+        { provide: Router, useValue: mockRouter }
       ]
     })
       .compileComponents();
@@ -95,7 +99,6 @@ describe('OrganisationTypeComponent', () => {
     fixture = TestBed.createComponent(OrganisationTypeComponent);
     component = fixture.componentInstance;
     nativeElement = fixture.debugElement.nativeElement;
-    router = TestBed.inject(Router);
     component.registrationData = registrationData;
     fixture.detectChanges();
   });
@@ -111,7 +114,6 @@ describe('OrganisationTypeComponent', () => {
 
   it('should validate the form on clicking "Continue" and persist data and navigate to next page if validation succeeds', () => {
     spyOn(component, 'onContinue').and.callThrough();
-    spyOn(router, 'navigate');
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     const firstButton = nativeElement.querySelectorAll('.govuk-radios__input').item(0);
     // select an organisation type and continue
@@ -120,7 +122,7 @@ describe('OrganisationTypeComponent', () => {
     continueButton.click();
     expect(component.onContinue).toHaveBeenCalled();
     expect(component.organisationTypeErrors.length).toBe(0);
-    expect(router.navigate).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalled();
     expect(component.registrationData.organisationType).toBe('SolicitorOrganisation');
   });
 
@@ -132,10 +134,10 @@ describe('OrganisationTypeComponent', () => {
   });
 
   it('should return validation error for other org with type selected and empty details', () => {
+    mockRouter.navigate.calls.reset();
     component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('');
     component.organisationTypeFormGroup.get('otherOrganisationType').setValue('Test');
     spyOn(component, 'onContinue').and.callThrough();
-    spyOn(router, 'navigate');
     nativeElement.querySelector('#other').click();
     fixture.detectChanges();
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
@@ -147,14 +149,14 @@ describe('OrganisationTypeComponent', () => {
       id: 'other-organisation-detail',
       message: OrgTypeMessageEnum.NO_ORG_DETAIS
     });
-    expect(router.navigate).not.toHaveBeenCalled();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should return validation error for other org with type not selected and details filled', () => {
+    mockRouter.navigate.calls.reset();
     component.organisationTypeFormGroup.get('otherOrganisationDetail').setValue('Test');
     component.organisationTypeFormGroup.get('otherOrganisationType').setValue('none');
     spyOn(component, 'onContinue').and.callThrough();
-    spyOn(router, 'navigate');
     nativeElement.querySelector('#other').click();
     fixture.detectChanges();
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
@@ -166,12 +168,11 @@ describe('OrganisationTypeComponent', () => {
       id: 'other-organisation-type',
       message: OrgTypeMessageEnum.NO_ORG_TYPE_SELECTED
     });
-    expect(router.navigate).not.toHaveBeenCalled();
+    expect(mockRouter.navigate).not.toHaveBeenCalled();
   });
 
   it('should validate the form on clicking "Continue" and persist data if validation succeeds on other', () => {
     spyOn(component, 'onContinue').and.callThrough();
-    spyOn(router, 'navigate');
     nativeElement.querySelector('#other').click();
     fixture.detectChanges();
     component.organisationTypeFormGroup.get('otherOrganisationType').setValue('example');
@@ -182,19 +183,16 @@ describe('OrganisationTypeComponent', () => {
     continueButton.click();
     expect(component.onContinue).toHaveBeenCalled();
     expect(component.organisationTypeErrors.length).toBe(0);
-    expect(router.navigate).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalled();
     expect(component.registrationData.organisationType).toBe('other');
     expect(component.registrationData.otherOrganisationType).toBe('example');
     expect(component.registrationData.otherOrganisationDetail).toBe('text');
   });
 
-  it('should clicking on back link navigate back to the first page of the registration', () => {
-    spyOn(router, 'navigate');
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
     component.onBack();
-    expect(component.registrationData.organisationType).toBeNull();
-    expect(component.registrationData.otherOrganisationType).toBeNull();
-    expect(component.registrationData.otherOrganisationDetail).toBeNull();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'register']);
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

@@ -68,7 +68,6 @@ describe('RegisterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(mockRouter.getCurrentNavigation).toHaveBeenCalled();
     expect(mockRegisterOrgService.getRegistrationData).toHaveBeenCalled();
     expect(component.registrationData).toEqual(registrationData);
   });

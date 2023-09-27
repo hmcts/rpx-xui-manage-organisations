@@ -70,7 +70,12 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   }
 
   public onBack(): void {
-    this.navigateToPreviousPage();
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+    }
   }
 
   public onCancel(): void {
@@ -102,7 +107,6 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
       this.noServicesError = OrganisationServicesMessage.NO_ORG_SERVICES;
     }
     if (this.showOtherServicesInput && !this.servicesFormGroup.get('otherServices').value) {
-      console.log('SERVICES', this.services);
       this.validationErrors.push({
         id: 'other-services',
         message: OrganisationServicesMessage.OTHER_SERVICES

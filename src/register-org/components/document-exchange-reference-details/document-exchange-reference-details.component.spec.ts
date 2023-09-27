@@ -70,10 +70,24 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
     component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the document exchange reference page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
   });
 
   it('should set the validation error if DX number is invalid', () => {

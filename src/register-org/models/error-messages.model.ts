@@ -9,5 +9,6 @@ export enum DxDetailsMessage {
 }
 
 export enum OrganisationServicesMessage {
-  NO_ORG_SERVICES = 'Please select at least one service'
+  NO_ORG_SERVICES = 'Please select at least one service',
+  OTHER_SERVICES = 'Enter one or more services'
 }

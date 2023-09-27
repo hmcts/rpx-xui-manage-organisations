@@ -2,6 +2,7 @@ import { RegistrationData } from '../models/registration-data.model';
 import { RegisterOrgService } from './register-org.service';
 
 const registrationData: RegistrationData = {
+  pbaNumbers: [],
   companyName: '',
   companyHouseNumber: null,
   hasDxReference: null,

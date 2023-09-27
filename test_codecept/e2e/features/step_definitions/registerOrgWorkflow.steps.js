@@ -1,21 +1,49 @@
-const ViewOrganisationPage = require('../pageObjects/viewOrganisationPage.js');
-const browserWaits = require('../../support/customWaits.js');
-const { config } = require('../../config/common.conf.js');
 
-const registrationWorkFlow = require('../pageObjects/registerOrgWorkFlow.js')
+const registerOrgWorkflow = require('../pageObjects/registerOrgWorkFlow')
 
-Then('In registration workflow, I validate page {string} is displayed {string}', async function (page, isDisplayed) {
-    if (isDisplayed.toLowerCase() === "true" || isDisplayed.toLowerCase() === "yes"){
-        expect(await registrationWorkFlow.isPageDisplayed(page)).to.be.true
-
-    }else{
-        expect(await registrationWorkFlow.isPageDisplayed(page)).to.be.false
+function getPageObject(page) {
+    const pageObj = registerOrgWorkflow.pages[page];
+    if (pageObj === null || pageObj === undefined) {
+        throw Error(`page object for page not configured or miss spelled: ${page} ${Object.keys(registerOrgWorkflow.pages)}`)
     }
-});
+    return pageObj;
+}
+
+When('I click continue in register organisation workflow', async function () {
+    await registerOrgWorkflow.continueBtn.click();
+})
+
+Then('I am on register organisation page {string}', async function (page) {
+    expect(await getPageObject(page).isDisplayed(), `${page} not displayed`).to.be.true
+})
+
+Then('In register organisation page {string}, I validate fields displayed', async function (page, datatable) {
+    const datatablehashes = datatable.parse().hashes();
+    const pageObj = getPageObject(page);
+    for (let row of datatablehashes) {
+        expect(await pageObj.fieldMapping[row.name].isDisplayed(), `${row.name} not displayed`).to.be.true
+        
+    }
+
+})
+
+Then('In register organisation page {string}, I validate fields not displayed', async function (page, datatable) {
+    const datatablehashes = datatable.parse().hashes();
+    const pageObj = getPageObject(page);
+    for (let row of datatablehashes) {
+        expect(await pageObj.fieldMapping[row.name].isDisplayed(), `${row.name} is displayed`).to.be.false
+    }
+})
 
 
+When('In register organisation page {string}, I input values', async function (page, datatable) {
+    const datatablehashes = datatable.parse().hashes();
+    const pageObj = getPageObject(page);
 
-Then('In registration workflow, I validate page {string}', async function (page) {
-    await registrationWorkFlow.validatePage(page);
-});
+    for (const row of datatablehashes) {
+        await pageObj.inputValue(row.field, row.value);
+
+    }
+})
+
 

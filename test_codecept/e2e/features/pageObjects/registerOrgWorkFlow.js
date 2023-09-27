@@ -8,23 +8,25 @@ class RegsiterOrgWorkFlow{
         this.cancelLink = $('');
         this.backLink = $('');
 
-        this.beforeYouStartPage = new BeforeYouStartPage()
-        this.organisationTypePage = new OrganisationTypePage()
-        this.regulatoryOrganisationTypePage = new RegulatoryOrganisationTypePage()
-        this.companyHouseDetailsComponent = new CompanyHouseDetailsComponent()
-        this.documentExchangeReferencePage = new DocumentExchangeReferencePage()
-        this.documentExchangeReferenceDetailsPage = new DocumentExchangeReferenceDetailsPage()
-        this.officeAddressPage = new OfficeAddressPage()
-        this.organisationServicesPage = new OrganisationServicesPage();
-        this.paymentByAccountPage = new PaymentByAccountPage();
-        this.paymentByAccountDetailsPage = new PaymentByAccountDetailsPage()
-
-        this.registeredAddressPage = new RegisteredAddressPage();
-        this.registeredRegulatorPage = new RegisteredRegulatorPage();
-        this.registeredWithRegulatorPage = new RegisteredWithRegulatorPage()
-        this.contactDetailsPage = new ContactDetailsPage()
-        this.registrationSubmittedPage = new RegistrationSubmittedPage();
-        this.checkYourAnswersPage = new CheckYourAnswersPage();
+        this.pages = {
+            "Before you start": new BeforeYouStartPage(),
+            "": new OrganisationTypePage(),
+            "": new RegulatoryOrganisationTypePage(),
+            "": new CompanyHouseDetailsComponent(),
+            "": new DocumentExchangeReferencePage(),
+            "": new DocumentExchangeReferenceDetailsPage(),
+            "": new OfficeAddressPage(),
+            "": new OrganisationServicesPage(),
+            "": new PaymentByAccountPage(),
+            "": new PaymentByAccountDetailsPage(),
+            "": new RegisteredAddressPage(),
+            "": new RegisteredAddressPage(),
+            "": new RegisteredRegulatorPage(),
+            "": new RegisteredWithRegulatorPage(),
+            "": new ContactDetailsPage(),
+            "": new RegistrationSubmittedPage(),
+            "": new CheckYourAnswersPage()
+        }
     }
 
     async clickContinueBtn() {
@@ -44,14 +46,11 @@ class RegsiterOrgWorkFlow{
     }
 
     getWorkflowPageObject(page){
-        let pageObject = null;
-
-        switch(page){
-            case 'Before you start':
-                pageObject = this.beforeYouStartPage;
-                break;
-            
+        let pageObject = this.pages[page];
+        if (pageObject === null || pageObject === undefined){
+            throw new Error(`test error: Page object ${page} is not found in workflow. `)
         }
+
         return pageObject;
     }
 
@@ -70,16 +69,15 @@ class RegsiterOrgWorkFlow{
 class BeforeYouStartPage{
     constructor(){
         this.checkbox = $('');
+
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj){
-        await this.checkbox.click()
-    }
+    async inputValue(field, value){
 
-    async validatePage(){
-        
     }
-
 
 
 }
@@ -88,32 +86,42 @@ class BeforeYouStartPage{
 class OrganisationTypePage {
     constructor() {
         this.container = $('');
+
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
+
    
 }
 
 class RegulatoryOrganisationTypePage {
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
-   
 }
 
 class CompanyHouseDetailsComponent{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -123,9 +131,12 @@ class CompanyHouseDetailsComponent{
 class DocumentExchangeReferencePage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -135,9 +146,12 @@ class DocumentExchangeReferencePage{
 class DocumentExchangeReferenceDetailsPage {
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -147,9 +161,12 @@ class DocumentExchangeReferenceDetailsPage {
 class OfficeAddressPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -158,9 +175,12 @@ class OfficeAddressPage{
 class OrganisationServicesPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -170,21 +190,26 @@ class OrganisationServicesPage{
 class PaymentByAccountPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
-  
 }
 
 class PaymentByAccountDetailsPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -194,21 +219,26 @@ class PaymentByAccountDetailsPage{
 class RegisteredAddressPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
-  
 }
 
 class RegisteredRegulatorPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -218,9 +248,12 @@ class RegisteredRegulatorPage{
 class RegisteredWithRegulatorPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -230,9 +263,12 @@ class RegisteredWithRegulatorPage{
 class ContactDetailsPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 
@@ -254,9 +290,12 @@ class RegistrationSubmittedPage{
 class CheckYourAnswersPage{
     constructor() {
         this.container = $('');
+        this.fieldMapping = {
+
+        }
     }
 
-    async enterDetails(detailsObj) {
+    async inputValue(field, value) {
 
     }
 

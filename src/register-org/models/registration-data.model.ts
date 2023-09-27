@@ -13,7 +13,6 @@ export type RegistrationData = {
   services: string[];
   otherServices?: string;
   hasPBA: boolean;
-  pbaNumbers?: string[];
   contactDetails: ContactDetails;
   address: AddressModel;
   organisationType: string;
@@ -24,4 +23,5 @@ export type RegistrationData = {
   regulators: Regulator[];
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];
+  pbaNumbers: string[];
 }

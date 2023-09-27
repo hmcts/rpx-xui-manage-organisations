@@ -32,67 +32,71 @@
     </div>
   </dl>
 
-  <dl *ngIf="registrationData.organisationType && registrationData.organisationType !== 'other'"
-        class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Organisation type</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.organisationType}}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
-              Change<span class="govuk-visually-hidden">Organisation type</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+  <!-- Organisation type -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Organisation type</dt>
+      <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
+    </div>
+  </dl>
 
-  <table class="govuk-table">
-    <tbody class="govuk-table__body">
-
-    <!-- Organisation type -->
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header" scope="row">Organisation type</th>
-        <td class="govuk-table__cell">
-
-        </td>
-    </tr>
-    <!-- PBA Numbers -->
-    <tr class="govuk-table__row">
-      <th class="govuk-table__header" scope="row">PBA numbers</th>
-      <td class="govuk-table__cell">
-        <div style = "float:left">
-          <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}}</div>
-            <br>
-          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending approval)</div>
+  <!-- PBA Numbers -->
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">PBA numbers</dt>
+      <dd class="govuk-summary-list__value">
+        <div *ngFor="let pbaNumber of organisationPaymentAccount">
+          {{pbaNumber}}
         </div>
-        <a class="govuk-link fright"
-           style = "float:right"
-        routerLink="/organisation/update-pba-numbers"
-        *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
-      </td>
-    </tr>
-    <!-- !PBA Numbers -->
-    <tr class="govuk-table__row" *ngIf="!organisationPaymentAccount">
-      <th class="govuk-table__header" scope="row">PBA number</th>
-      <td class="govuk-table__cell">
-        <div><p>Until you've added one or more payment by account (PBA) numbers,
-                you won't be able to make payments when creating a case or view your transactions.</p>
-        </div>
-      </td>
-    </tr>
-    <tr class="govuk-table__row" *ngIf="organisationDetails.superUser">
-      <th class="govuk-table__header" scope="row">Administrator</th>
-      <td class="govuk-table__cell">
-        <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
-        <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
-      </td>
-    </tr>
-    <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
-      <th class="govuk-table__header" scope="row">SRA ID</th>
-      <td class="govuk-table__cell">
-        <div>{{organisationDetails.sraId}}</div>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+      </dd>
+      <dd *ngIf="organisationPaymentAccount.length"
+        class="govuk-summary-list__actions">
+        <a class="govuk-link" href="javascript:void(0)"
+          routerLink="/organisation/update-pba-numbers">
+          Change<span class="govuk-visually-hidden">PBA numbers</span>
+        </a>
+      </dd>
+    </div>
+  </dl>
+
+  <!-- Administration details -->
+  <div *ngIf="organisationDetails.superUser">
+    <h2 class="govuk-heading-m govuk-!-margin-top-8">Administration details</h2>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">First name(s)</dt>
+        <dd class="govuk-summary-list__value">{{organisationDetails.superUser.firstName}}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="javascript:void(0)"
+            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
+            Change<span class="govuk-visually-hidden">First name(s)</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Last name</dt>
+        <dd class="govuk-summary-list__value">{{organisationDetails.superUser.lastName}}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="javascript:void(0)"
+            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
+            Change<span class="govuk-visually-hidden">Last name</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Email address</dt>
+        <dd class="govuk-summary-list__value">{{organisationDetails.superUser.email}}</dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link" href="javascript:void(0)"
+          routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
+            Change<span class="govuk-visually-hidden">Email address</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
+  </div>
 </app-hmcts-main-wrapper>

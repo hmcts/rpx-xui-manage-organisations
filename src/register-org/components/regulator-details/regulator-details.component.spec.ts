@@ -486,6 +486,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the individual registered with regulator page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
     component.regulatorType = RegulatorType.Individual;
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);

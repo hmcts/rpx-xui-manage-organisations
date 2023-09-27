@@ -7,8 +7,10 @@ import { CompanyHouseDetailsComponent } from './company-house-details.component'
 describe('CompanyHouseDetailsComponent', () => {
   let component: CompanyHouseDetailsComponent;
   let fixture: ComponentFixture<CompanyHouseDetailsComponent>;
+
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {
@@ -30,14 +32,14 @@ describe('CompanyHouseDetailsComponent', () => {
   });
 
   it('should set the error message if company name is null', () => {
-    const companyNameError = { title: '', description: CompanyHouseDetailsMessage.NO_ORG_NAME, fieldId: 'company-name' };
+    const companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
     component.companyHouseFormGroup.get('companyName').setValue(null);
     component.onContinue();
     expect(component.companyNameError).toEqual(companyNameError);
   });
 
   it('should set the error message if company number is invalid', () => {
-    const companyNumberError = { title: '', description: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER, fieldId: 'company-house-number' };
+    const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
     expect(component.companyNumberError).toEqual(companyNumberError);
@@ -47,9 +49,15 @@ describe('CompanyHouseDetailsComponent', () => {
     component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('12345678');
     component.onContinue();
-    expect(component.registrationData.name).toEqual('Company Name');
+    expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address']);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
+  });
+
+  it('should back link navigate to the correct page', () => {
+    spyOn(component, 'navigateToPreviousPage');
+    component.onBack();
+    expect(component.navigateToPreviousPage).toHaveBeenCalled();
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

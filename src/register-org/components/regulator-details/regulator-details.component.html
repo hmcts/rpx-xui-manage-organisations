@@ -59,7 +59,7 @@
                       (change)="onOptionSelected($event.target.value, i)">
                       <option [ngValue]="SELECT_A_VALUE" disabled>--Select a value--</option>
                       <option *ngFor="let regulatorType of regulatorTypes$ | async"
-                        [value]="regulatorType.id">
+                        [value]="regulatorType.name">
                         {{regulatorType.name}}
                       </option>
                     </select>
@@ -108,7 +108,7 @@
             </div>
           </div>
           <div class="govuk-button-group">
-            <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinueClicked()">Continue</button>
+            <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
           </div>
           <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>

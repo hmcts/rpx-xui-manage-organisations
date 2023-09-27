@@ -55,7 +55,7 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+    this.navigateToPreviousPage();
   }
 
   public setFormControlValues(): void {

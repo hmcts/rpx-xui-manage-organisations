@@ -1,8 +1,9 @@
-import { RegistrationData } from '../models/registrationdata.model';
+import { RegistrationData } from '../models/registration-data.model';
 import { RegisterOrgService } from './register-org.service';
 
 const registrationData: RegistrationData = {
-  name: '',
+  companyName: '',
+  companyHouseNumber: null,
   hasDxReference: null,
   dxNumber: null,
   dxExchange: null,
@@ -10,13 +11,11 @@ const registrationData: RegistrationData = {
   hasPBA: null,
   contactDetails: null,
   hasIndividualRegisteredWithRegulator: null,
-  companyHouseNumber: null,
   address: null,
   organisationType: null,
-  organisationNumber: null,
   regulators: [],
   regulatorRegisteredWith: null,
-  pbaNumbers: []
+  inInternationalMode: null
 };
 
 describe('RegisterOrgService', () => {

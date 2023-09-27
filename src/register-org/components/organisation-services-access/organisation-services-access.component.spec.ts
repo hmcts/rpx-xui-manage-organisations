@@ -30,6 +30,7 @@ describe('OrganisationServicesAccessComponent', () => {
     fixture = TestBed.createComponent(OrganisationServicesAccessComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     nativeElement = fixture.debugElement.nativeElement;
     fixture.detectChanges();
   });
@@ -43,14 +44,27 @@ describe('OrganisationServicesAccessComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
     component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the company house details page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    spyOn(router, 'navigate');
     nativeElement.querySelector('#AAA7').click();
     fixture.detectChanges();
     component.onContinue();
@@ -59,7 +73,6 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should set the error message and stay on the page', () => {
-    spyOn(router, 'navigate');
     component.selectedServices = [];
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();

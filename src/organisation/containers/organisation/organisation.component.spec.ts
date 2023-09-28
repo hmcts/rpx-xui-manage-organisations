@@ -153,4 +153,54 @@ describe('OrganisationComponent', () => {
       expect(component.showChangePbaNumberLink).toBeTruthy();
     });
   });
+
+  fdescribe('company registration number visibility', () => {
+    it('should display company registration number', () => {
+      component.organisationDetails.companyRegistrationNumber = '12345678';
+      fixture.detectChanges();
+      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
+      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Company registration number');
+      expect(companyRegistrationNumberElement).not.toBeNull();
+    });
+
+    it('should not display company registration number', () => {
+      component.organisationDetails.companyRegistrationNumber = '';
+      fixture.detectChanges();
+      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
+      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Company registration number');
+      expect(companyRegistrationNumberElement).toBeNull();
+    });
+  });
+
+  fdescribe('organisation regulators visibility', () => {
+    it('should display organisation regulators', () => {
+      component.organisationDetails.regulators = [
+        {
+          regulatorType: 'Solicitor Regulation Authority (SRA)',
+          organisationRegistrationNumber: '11223344'
+        },
+        {
+          regulatorType: 'Other',
+          regulatorName: 'Other regulatory organisation',
+          organisationRegistrationNumber: '12341234'
+        },
+        {
+          regulatorType: 'Charted Institute of Legal Executives',
+          organisationRegistrationNumber: '43214321'
+        }
+      ];
+      fixture.detectChanges();
+      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
+      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Regulatory organisation type');
+      expect(companyRegistrationNumberElement).not.toBeNull();
+    });
+
+    it('should not display organisation regulators', () => {
+      component.organisationDetails.regulators = [];
+      fixture.detectChanges();
+      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
+      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Regulatory organisation type');
+      expect(companyRegistrationNumberElement).toBeNull();
+    });
+  });
 });

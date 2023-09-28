@@ -1,5 +1,6 @@
 <app-hmcts-main-wrapper [title]="'Organisation'">
   <app-prd-pba-success [response]="organisationDetails.response"></app-prd-pba-success>
+  <!-- Organisation name -->
   <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Name</dt>
@@ -7,10 +8,18 @@
     </div>
   </dl>
 
-  <!-- Contact Information -->
+  <!-- Company registration number -->
+  <dl class="govuk-summary-list" *ngIf="companyRegistrationNumber">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Company registration number</dt>
+      <dd class="govuk-summary-list__value">{{companyRegistrationNumber}}</dd>
+    </div>
+  </dl>
+
+  <!-- Organisation address -->
   <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">Address</dt>
+      <dt class="govuk-summary-list__key">Organisation address</dt>
       <dd class="govuk-summary-list__value">
         <div>{{organisationContactInformation.addressLine1}}</div>
         <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}</div>
@@ -33,10 +42,10 @@
   </dl>
 
   <!-- Organisation type -->
-  <dl class="govuk-summary-list">
+  <dl class="govuk-summary-list" *ngIf="organisationType">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Organisation type</dt>
-      <dd class="govuk-summary-list__value">{{organisationDetails.name}}</dd>
+      <dd class="govuk-summary-list__value">{{organisationType}}</dd>
     </div>
   </dl>
 
@@ -44,9 +53,10 @@
   <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">PBA numbers</dt>
-      <dd class="govuk-summary-list__value">
-        <div *ngFor="let pbaNumber of organisationPaymentAccount">
-          {{pbaNumber}}
+      <dd *ngIf="organisationPaymentAccount.length"
+        class="govuk-summary-list__value">
+        <div *ngFor="let pba of organisationPaymentAccount">
+          {{pba.pbaNumber}}
         </div>
       </dd>
       <dd *ngIf="organisationPaymentAccount.length"
@@ -56,52 +66,57 @@
           Change<span class="govuk-visually-hidden">PBA numbers</span>
         </a>
       </dd>
+      <dd *ngIf="!organisationPaymentAccount.length"
+        class="govuk-summary-list__value">
+        No PBA accounts registered
+      </dd>
     </div>
   </dl>
 
   <!-- Regulatory organisation type -->
-  <!-- <app-regulator-list *ngIf="registrationData.regulators?.length"
-    [regulatorType]="regulatorType.Organisation"
-    [regulators]="registrationData.regulators">
-  </app-regulator-list> -->
+  <dl class="govuk-summary-list" *ngIf="regulators?.length">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Regulatory organisation type
+      </dt>
+      <dd class="govuk-summary-list__value">
+        <div *ngFor="let regulator of regulators">
+          <ng-container [ngSwitch]="regulator.regulatorType">
+            <span *ngSwitchCase="regulatoryTypeEnum.Other">
+              {{regulator.regulatorType}}: {{regulator.regulatorName}} ref: {{regulator.organisationRegistrationNumber}}
+            </span>
+            <span *ngSwitchCase="regulatoryTypeEnum.NotApplicable">
+              {{regulator.regulatorType}}
+            </span>
+            <span *ngSwitchDefault>
+              {{regulator.regulatorType}} ref: {{regulator.organisationRegistrationNumber}}
+            </span>
+            <br />
+          </ng-container>
+        </div>
+      </dd>
+    </div>
+  </dl>
 
   <!-- Administration details -->
   <div *ngIf="organisationDetails.superUser">
-    <h2 class="govuk-heading-m govuk-!-margin-top-8">Administration details</h2>
+    <h2 class="govuk-heading-m govuk-!-margin-top-8">Administrator details</h2>
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">First name(s)</dt>
         <dd class="govuk-summary-list__value">{{organisationDetails.superUser.firstName}}</dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="javascript:void(0)"
-            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
-            Change<span class="govuk-visually-hidden">First name(s)</span>
-          </a>
-        </dd>
       </div>
     </dl>
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Last name</dt>
         <dd class="govuk-summary-list__value">{{organisationDetails.superUser.lastName}}</dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="javascript:void(0)"
-            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
-            Change<span class="govuk-visually-hidden">Last name</span>
-          </a>
-        </dd>
       </div>
     </dl>
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Email address</dt>
         <dd class="govuk-summary-list__value">{{organisationDetails.superUser.email}}</dd>
-        <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="javascript:void(0)"
-          routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
-            Change<span class="govuk-visually-hidden">Email address</span>
-          </a>
-        </dd>
       </div>
     </dl>
   </div>

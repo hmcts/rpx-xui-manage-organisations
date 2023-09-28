@@ -79,17 +79,20 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.cancelRegistrationJourney();
   }
 
-  public onBack(): void {
-    this.navigateToPreviousPage();
-  }
-
-  // mock page refresh
-  public onPageRefresh(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
-    this.headingText = POSTCODE_HEADING;
-    // reset the page
-    this.startedInternational = false;
-    this.addressChosen = false;
+  public onBack(refreshPage: boolean): void {
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      if (refreshPage) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
+        this.headingText = POSTCODE_HEADING;
+        this.startedInternational = false;
+        this.addressChosen = false;
+      } else {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+      }
+    }
   }
 
   private isFormValid(): boolean {

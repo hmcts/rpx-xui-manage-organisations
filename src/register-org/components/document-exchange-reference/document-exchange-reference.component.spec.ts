@@ -106,6 +106,6 @@ describe('DocumentExchangeReferenceComponent', () => {
       }
     });
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'internal']);
   });
 });

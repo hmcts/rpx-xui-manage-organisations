@@ -59,9 +59,10 @@
           {{pba.pbaNumber}}
         </div>
       </dd>
-      <dd *ngIf="organisationPaymentAccount.length"
+      <dd *ngIf="showChangePbaNumberLink && organisationPaymentAccount.length"
         class="govuk-summary-list__actions">
         <a class="govuk-link" href="javascript:void(0)"
+          id="change-pba-account-numbers__link"
           routerLink="/organisation/update-pba-numbers">
           Change<span class="govuk-visually-hidden">PBA numbers</span>
         </a>

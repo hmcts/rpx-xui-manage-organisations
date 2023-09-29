@@ -64,8 +64,9 @@ describe('RegisteredAddressComponent', () => {
     component.onInternationalModeStart();
     fixture.detectChanges();
 
-    component.startedInternational = true;
-    component.headingText = INTERNATIONAL_HEADING;
+    expect(component.startedInternational).toBe(true);
+    expect(component.addressChosen).toBe(false);
+    expect(component.headingText).toBe(INTERNATIONAL_HEADING);
   });
 
   it('should get a persisted address', () => {
@@ -156,6 +157,19 @@ describe('RegisteredAddressComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
+  it('should set postcode option details correctly', () => {
+    component.onPostcodeOptionSelected();
+    expect(component.submissionAttempted).toBe(false);
+    expect(component.addressChosen).toBe(true);
+    expect(component.addressErrors).toEqual([]);
+  });
+
+  it('should reset submission', () => {
+    component.submissionAttempted = true;
+    component.onResetSubmission();
+    expect(component.submissionAttempted).toBe(false);
+  });
+
   it('should back link navigate to the check your answers page', () => {
     spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
       previousNavigation: {
@@ -175,6 +189,7 @@ describe('RegisteredAddressComponent', () => {
     component.onBack(true);
     expect(component.headingText).toEqual('What is the registered address of your organisation?');
     expect(component.startedInternational).toEqual(false);
+    expect(component.addressChosen).toBe(false);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 

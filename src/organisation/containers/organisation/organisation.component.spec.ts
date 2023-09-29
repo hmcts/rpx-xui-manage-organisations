@@ -71,7 +71,8 @@ describe('OrganisationComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingPaymentAccount: undefined,
-    pendingAddPaymentAccount: undefined
+    pendingAddPaymentAccount: undefined,
+    companyRegistrationNumber: '12345678'
   };
 
   beforeEach(() => {
@@ -154,27 +155,25 @@ describe('OrganisationComponent', () => {
     });
   });
 
-  fdescribe('company registration number visibility', () => {
+  describe('company registration number visibility', () => {
     it('should display company registration number', () => {
-      component.organisationDetails.companyRegistrationNumber = '12345678';
+      component.companyRegistrationNumber = '12345678';
       fixture.detectChanges();
-      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
-      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Company registration number');
-      expect(companyRegistrationNumberElement).not.toBeNull();
+      const companyRegistrationNumberEl = fixture.debugElement.nativeElement.querySelector('#company-registration-number') as HTMLElement;
+      expect(companyRegistrationNumberEl.textContent).toContain('12345678');
     });
 
     it('should not display company registration number', () => {
-      component.organisationDetails.companyRegistrationNumber = '';
+      component.companyRegistrationNumber = '';
       fixture.detectChanges();
-      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
-      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Company registration number');
-      expect(companyRegistrationNumberElement).toBeNull();
+      const companyRegistrationNumberEl = fixture.debugElement.nativeElement.querySelector('#company-registration-number') as HTMLElement;
+      expect(companyRegistrationNumberEl).toBeNull();
     });
   });
 
-  fdescribe('organisation regulators visibility', () => {
+  describe('organisation regulators visibility', () => {
     it('should display organisation regulators', () => {
-      component.organisationDetails.regulators = [
+      component.regulators = [
         {
           regulatorType: 'Solicitor Regulation Authority (SRA)',
           organisationRegistrationNumber: '11223344'
@@ -190,17 +189,31 @@ describe('OrganisationComponent', () => {
         }
       ];
       fixture.detectChanges();
-      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
-      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Regulatory organisation type');
-      expect(companyRegistrationNumberElement).not.toBeNull();
+      const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
+      expect(regulatorsEl.textContent).toContain('Solicitor Regulation Authority (SRA)');
     });
 
     it('should not display organisation regulators', () => {
-      component.organisationDetails.regulators = [];
+      component.regulators = null;
       fixture.detectChanges();
-      const columnHeaderElements = fixture.debugElement.nativeElement.queryAll(By.css('govuk-summary-list__key')) as HTMLElement[];
-      const companyRegistrationNumberElement = columnHeaderElements.find((element) => element.innerText === 'Regulatory organisation type');
-      expect(companyRegistrationNumberElement).toBeNull();
+      const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
+      expect(regulatorsEl).toBeNull();
+    });
+  });
+
+  describe('organisation type visibility', () => {
+    it('should display organisation type', () => {
+      component.organisationType = 'IT & communications';
+      fixture.detectChanges();
+      const organisationTypeEl = fixture.debugElement.nativeElement.querySelector('#organisation-type') as HTMLElement;
+      expect(organisationTypeEl.textContent).toContain('IT & communications');
+    });
+
+    it('should not display organisation type', () => {
+      component.organisationType = '';
+      fixture.detectChanges();
+      const organisationTypeEl = fixture.debugElement.nativeElement.querySelector('#organisation-type') as HTMLElement;
+      expect(organisationTypeEl).toBeNull();
     });
   });
 });

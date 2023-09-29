@@ -9,7 +9,7 @@
   </dl>
 
   <!-- Company registration number -->
-  <dl class="govuk-summary-list" *ngIf="companyRegistrationNumber">
+  <dl id="company-registration-number" class="govuk-summary-list" *ngIf="companyRegistrationNumber">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Company registration number</dt>
       <dd class="govuk-summary-list__value">{{companyRegistrationNumber}}</dd>
@@ -42,7 +42,7 @@
   </dl>
 
   <!-- Organisation type -->
-  <dl class="govuk-summary-list" *ngIf="organisationType">
+  <dl id="organisation-type" class="govuk-summary-list" *ngIf="organisationType">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">Organisation type</dt>
       <dd class="govuk-summary-list__value">{{organisationType}}</dd>
@@ -74,7 +74,7 @@
   </dl>
 
   <!-- Regulatory organisation type -->
-  <dl class="govuk-summary-list" *ngIf="regulators?.length">
+  <dl id="regulators" class="govuk-summary-list" *ngIf="regulators?.length">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">
         Regulatory organisation type

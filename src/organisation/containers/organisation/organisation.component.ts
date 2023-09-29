@@ -42,7 +42,6 @@ export class OrganisationComponent implements OnDestroy {
   public getOrganisationDetailsFromStore(): void {
     this.orgStore.pipe(select(fromStore.getOrganisationSel))
       .pipe(takeUntil(this.untiDestroy)).subscribe((organisationDetails) => {
-        console.log('ORGANISATION DETAILS', organisationDetails);
         this.organisationContactInformation = utils.getContactInformation(organisationDetails);
         this.organisationPaymentAccount = utils.getPaymentAccount(organisationDetails);
         this.organisationPendingPaymentAccount = utils.getPendingPaymentAccount(organisationDetails);

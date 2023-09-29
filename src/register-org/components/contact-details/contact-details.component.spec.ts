@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registrationdata.model';
@@ -18,18 +19,18 @@ describe('ContactDetailsComponent', () => {
       lastName: 'Davis',
       workEmailAddress: 'john.davis@testorganisation.com'
     },
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     services: [],
     address: null,
     organisationType: null,
-    regulatoryOrgType: null,
+    regulators: [],
     regulatorRegisteredWith: null
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ContactDetailsComponent],
-      imports: [RouterTestingModule]
+      imports: [HttpClientTestingModule, RouterTestingModule]
     }).compileComponents();
   });
 
@@ -49,5 +50,11 @@ describe('ContactDetailsComponent', () => {
     expect(component.contactDetailsFormGroup.get('firstName').value).toEqual('John');
     expect(component.contactDetailsFormGroup.get('lastName').value).toEqual('Davis');
     expect(component.contactDetailsFormGroup.get('workEmailAddress').value).toEqual('john.davis@testorganisation.com');
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

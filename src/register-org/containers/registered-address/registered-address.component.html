@@ -19,12 +19,11 @@
           (internationalModeStart)="onInternationalModeStart()"></xuilib-write-address-field>
 
         <div class="govuk-button-group">
-          <button class="govuk-button" data-module="govuk-button">
+          <button class="govuk-button" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
         </div>
-
-        <a class="govuk-link" href="javascript:void(0)">Cancel</a>
+        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
@@ -16,17 +17,17 @@ describe('DocumentExchangeReferenceComponent', () => {
     services: [],
     hasPBA: null,
     contactDetails: null,
-    hasRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: null,
     address: null,
     organisationType: null,
-    regulatoryOrgType: null,
+    regulators: [],
     regulatorRegisteredWith: null
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceComponent],
-      imports: [RouterTestingModule]
+      imports: [HttpClientTestingModule, RouterTestingModule]
     }).compileComponents();
   });
 
@@ -70,5 +71,11 @@ describe('DocumentExchangeReferenceComponent', () => {
     component.onContinue();
     expect(component.dxError).toEqual(errorMessage);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

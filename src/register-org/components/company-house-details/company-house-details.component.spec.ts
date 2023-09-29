@@ -8,13 +8,24 @@ import { RegisterOrgService } from '../../services/register-org.service';
 describe('CompanyHouseDetailsComponent', () => {
   let component: CompanyHouseDetailsComponent;
   let fixture: ComponentFixture<CompanyHouseDetailsComponent>;
-  let router: Router;
+  let router: any;
+
+  const mockSessionStorageService = jasmine.createSpyObj('SessionStorageService', [
+    'getItem',
+    'setItem',
+    'removeItem'
+  ]);
+
+  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['get', 'post']);
+  const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CompanyHouseDetailsComponent],
       imports: [RouterTestingModule],
-      providers: []
+      providers: [
+        { provide: RegisterOrgService, useValue: service }
+      ]
     }).compileComponents();
   });
 

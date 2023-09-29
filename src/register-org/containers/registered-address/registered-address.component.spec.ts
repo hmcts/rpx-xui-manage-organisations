@@ -27,8 +27,10 @@ describe('RegisteredAddressComponent', () => {
   };
 
   beforeEach(async () => {
-    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData']);
+    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData', 'REGISTER_ORG_NEW_ROUTE', 'CHECK_YOUR_ANSWERS_ROUTE']);
     mockRegisterOrgService.getRegistrationData.and.returnValue({ address: null });
+    mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+    mockRegisterOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
       imports: [
@@ -154,9 +156,35 @@ describe('RegisteredAddressComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
-    component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
+    component.onBack(true);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the registered address page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack(true);
+    expect(component.headingText).toEqual('What is the registered address of your organisation?');
+    expect(component.startedInternational).toEqual(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
+  });
+
+  it('should back link navigate to the company house details page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });
 });

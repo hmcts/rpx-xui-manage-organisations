@@ -52,8 +52,10 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     };
   }
 
-  public onBack() {
-    this.navigateToPreviousPage();
+  public onBack(): void {
+    this.registrationData.hasIndividualRegisteredWithRegulator
+      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true])
+      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator', true]);
   }
 
   public onSubmitData() {

@@ -8,35 +8,21 @@ import { RegisterOrgService } from '../../services/register-org.service';
 describe('CompanyHouseDetailsComponent', () => {
   let component: CompanyHouseDetailsComponent;
   let fixture: ComponentFixture<CompanyHouseDetailsComponent>;
-
-  const mockSessionStorageService = jasmine.createSpyObj('SessionStorageService', [
-    'getItem',
-    'setItem',
-    'removeItem'
-  ]);
-
-  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['get', 'post']);
-  const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
-
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate'),
-    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CompanyHouseDetailsComponent],
       imports: [RouterTestingModule],
-      providers: [
-        { provide: Router, useValue: mockRouter },
-        { provide: RegisterOrgService, useValue: service }
-      ]
+      providers: []
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CompanyHouseDetailsComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -64,13 +50,27 @@ describe('CompanyHouseDetailsComponent', () => {
     component.onContinue();
     expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
     component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the organisation type page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

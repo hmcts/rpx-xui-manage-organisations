@@ -45,7 +45,7 @@ Feature: Register other org
             | Address line 3        |    auto addr 3   |
             | Town or City          |   auto city    |
             | County                |   auto country    |
-            | Postcode              |  AU12TOT     |
+            | Postcode | SW1V 3BZ |
         When I click continue in register other org workflow
 
         Then I am on register other org page "Do you have a document exchange reference for your main office?"
@@ -74,7 +74,7 @@ Feature: Register other org
         Then I am on register other org page "Which services will your organisation need to access?"
         When In register other org page "Which services will your organisation need to access?", I input values
             | field                                                | value       |
-            | Which services will your organisation need to access? | Civil, Divorce,Probate |
+            | Which services will your organisation need to access? | Divorce,Damages |
 
 
         When I click continue in register other org workflow
@@ -103,5 +103,19 @@ Feature: Register other org
         When I click continue in register other org workflow
 
 
+        Then I am on register other org page "Are you (as an individual) registered with a regulator?"
+        When In register other org page "Are you (as an individual) registered with a regulator?", I input values
+            | field                         | value                    |
+            | Are you (as an individual) registered with a regulator? | Yes |
+        When I click continue in register other org workflow
 
 
+        Then I am on register other org page "What regulator are you (as an individual) registered with?"
+        When In register other org page "What regulator are you (as an individual) registered with?", I input values
+            | field                                                   | value |
+            | Select the type of regulator | Other |
+            | Enter the name of the professional body or regulator | Test regulayor |
+            | Enter your organisation's registration number | 12345678 |
+        When I click continue in register other org workflow
+
+        Then I am on register other org page "Check your answers before you register"

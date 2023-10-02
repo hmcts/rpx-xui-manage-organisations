@@ -1,5 +1,5 @@
 
-
+const browserWaits = require('../../../support/customWaits')
 class ContactDetailsPage {
 
     constructor() {
@@ -17,7 +17,8 @@ class ContactDetailsPage {
             case 'First name':
             case 'Last name':
             case 'Enter your work email address':
-                this.fieldMapping[field].sendKeys(value)
+                await browserWaits.waitForElement(this.fieldMapping[field])
+                await this.fieldMapping[field].sendKeys(value)
                 break;
 
             default:

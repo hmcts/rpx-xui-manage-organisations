@@ -1,15 +1,15 @@
 
 const browserWaits = require('../../../support/customWaits')
-class RegulatoryOrganisationTypePage {
+
+class IndividualRegisteredWithRegulatorDetailsPage {
 
     constructor() {
-        this.container = $('app-regulatory-organisation-type')
+        this.container = $('app-individual-registered-with-regulator-details')
 
-     
 
 
         this.fieldMapping = {
-            'Select the type of regulatory organisation': $('select[name="regulatorType"]'),
+            'Select the type of regulator': $('select[name="regulatorType"]'),
             'Enter the name of the professional body or regulator': $('input[name="regulatorName"]'),
             'Enter your organisation\'s registration number': $('input[name="organisationRegistrationNumber"]')
         }
@@ -17,7 +17,7 @@ class RegulatoryOrganisationTypePage {
 
     async inputValue(field, value) {
         switch (field) {
-            case 'Select the type of regulatory organisation':
+            case 'Select the type of regulator':
                 await this.waitForREgulatorTypeOption(value.trim())
                 await this.fieldMapping[field].select(value.trim())
                 break;
@@ -30,7 +30,8 @@ class RegulatoryOrganisationTypePage {
         }
     }
 
-    async waitForREgulatorTypeOption(option){
+
+    async waitForREgulatorTypeOption(option) {
         const ele = element(by.xpath(`//select[@name='regulatorType']//option[contains(text(),'${option}')]`))
         await browserWaits.waitForElement(ele)
     }
@@ -38,4 +39,4 @@ class RegulatoryOrganisationTypePage {
 
 }
 
-module.exports = RegulatoryOrganisationTypePage 
+module.exports = IndividualRegisteredWithRegulatorDetailsPage 

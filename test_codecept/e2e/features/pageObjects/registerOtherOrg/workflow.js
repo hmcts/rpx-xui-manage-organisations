@@ -12,6 +12,9 @@ const OrganisationServicesAccessPage = require('./organisationServicesAccessPage
 const PaymentByAccountPage = require('./paymentByAccountPage')
 const PaymentByAccountDetailsPage = require('./paymentByAccountDetailsPage')
 const ContactDetailsPage = require('./contactDetailsPage')
+const IndividualRegisteredWithRegulatorPage = require('./individualRegisteredWithRegulatorPage')
+const IndividualRegisteredWithRegulatorDetailsPage = require('./individualRegisteredWithRegulatorDetailsPage')
+const CheckYourAnswersPage = require('./checkYourAnswersPage')
 
 class RegisterOtherOrgWorkflow{
     constructor(){
@@ -30,7 +33,10 @@ class RegisterOtherOrgWorkflow{
             "Which services will your organisation need to access?": new OrganisationServicesAccessPage(),
             "Does your organisation have a payment by account number?" : new PaymentByAccountPage(),
             "What PBA numbers does your organisation use?": new PaymentByAccountDetailsPage(),
-            "Provide your contact details" : new ContactDetailsPage()
+            "Provide your contact details" : new ContactDetailsPage(),
+            "Are you (as an individual) registered with a regulator?": new IndividualRegisteredWithRegulatorPage(),
+            "What regulator are you (as an individual) registered with?": new IndividualRegisteredWithRegulatorDetailsPage(),
+            "Check your answers before you register" : new CheckYourAnswersPage()
 
         }
     }

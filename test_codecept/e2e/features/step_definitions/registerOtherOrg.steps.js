@@ -28,8 +28,9 @@ When('I click continue in register other org workflow', async function () {
 })
 
 Then('I am on register other org page {string}', async function (page) {
-
-    expect(await getPageObject(page).container.isDisplayed(), `${page} not displayed`).to.be.true
+    const pageObj = getPageObject(page);
+    await browserWaits.waitForElement(pageObj.container)
+    expect(await pageObj.container.isDisplayed(), `${page} not displayed`).to.be.true
 })
 
 Then('In register other org page {string}, I validate fields displayed', async function (page, datatable) {

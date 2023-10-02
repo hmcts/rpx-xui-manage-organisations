@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
-import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 
 describe('IndividualRegisteredWithRegulatorComponent', () => {
   let component: IndividualRegisteredWithRegulatorComponent;

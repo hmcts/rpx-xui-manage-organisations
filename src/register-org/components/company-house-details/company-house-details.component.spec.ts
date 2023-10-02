@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
-import { CompanyHouseDetailsComponent } from './company-house-details.component';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { CompanyHouseDetailsComponent } from './company-house-details.component';
 
 describe('CompanyHouseDetailsComponent', () => {
   let component: CompanyHouseDetailsComponent;

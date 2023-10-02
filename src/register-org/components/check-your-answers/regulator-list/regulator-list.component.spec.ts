@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegulatorType } from 'src/register-org/models';
-import { RegulatorListComponent } from './regulator-list.component';
+import { RegulatorType } from '../../../../register-org/models';
 import { RegisterOrgService } from '../../../services/register-org.service';
+import { RegulatorListComponent } from './regulator-list.component';
 
 describe('RegulatorListComponent', () => {
   let component: RegulatorListComponent;

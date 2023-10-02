@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { RegisterComponent } from '../../../register-org/containers';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-check-your-answers',
@@ -58,7 +58,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator', true]);
   }
 
-  public onSubmitData() {
+  public onSubmitData(): void {
     if (this.validateForm()) {
       this.registerOrgService.postRegistration().subscribe(() => {
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);

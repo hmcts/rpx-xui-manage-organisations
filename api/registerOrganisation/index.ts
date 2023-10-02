@@ -3,7 +3,7 @@ import { RegistrationData } from '../models/registrationData';
 
 export const router = Router({ mergeParams: true });
 
-export async function handleRegisterOrgRoute(req: Request, res: Response) {
+export async function handleRegisterOrgRoute(req: Request, res: Response): Promise<Response<{message: string}>> {
   const registrationData = req.body as RegistrationData;
   if (registrationData.dxNumber === '400') {
     res.status(400).send({ message: 'Dx Number is Invalid' });

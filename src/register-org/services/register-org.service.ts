@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { Observable } from 'rxjs';
+import { SessionStorageService } from '../../shared/services/session-storage.service';
 import { RegistrationData } from '../models';
 
 @Injectable({

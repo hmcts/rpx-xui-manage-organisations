@@ -51,7 +51,7 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
 
   public onBack(): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl && previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
     } else {
       this.registrationData.hasPBA

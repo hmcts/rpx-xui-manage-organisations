@@ -83,7 +83,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
 
   public onBack(refreshPage: boolean): void {
     const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl && previousUrl.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
     } else {
       if (refreshPage) {

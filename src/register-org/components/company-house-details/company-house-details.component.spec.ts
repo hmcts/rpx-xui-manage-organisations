@@ -2,18 +2,30 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
+import { RegisterOrgService } from '../../services/register-org.service';
 import { CompanyHouseDetailsComponent } from './company-house-details.component';
 
 describe('CompanyHouseDetailsComponent', () => {
   let component: CompanyHouseDetailsComponent;
   let fixture: ComponentFixture<CompanyHouseDetailsComponent>;
-  let router: Router;
+  let router: any;
+
+  const mockSessionStorageService = jasmine.createSpyObj('SessionStorageService', [
+    'getItem',
+    'setItem',
+    'removeItem'
+  ]);
+
+  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['get', 'post']);
+  const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CompanyHouseDetailsComponent],
       imports: [RouterTestingModule],
-      providers: []
+      providers: [
+        { provide: RegisterOrgService, useValue: service }
+      ]
     }).compileComponents();
   });
 

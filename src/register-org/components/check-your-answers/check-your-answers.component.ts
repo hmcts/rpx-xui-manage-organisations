@@ -98,4 +98,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     const orgRefData = ORGANISATION_TYPES_REF_DATA.find((orgType) => orgType.key === organisationType);
     return orgRefData ? orgRefData.value_en : null;
   }
+
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
 }

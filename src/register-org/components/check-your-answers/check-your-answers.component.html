@@ -2,6 +2,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="getErrorMessages()" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <h1 class="govuk-heading-l">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
 
@@ -36,7 +37,7 @@
         class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation type</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.organisationType}}</dd>
+          <dd class="govuk-summary-list__value">{{getOrganisationType(this.registrationData.organisationType)}}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
@@ -212,20 +213,26 @@
         </strong>
       </div>
 
-      <div class="govuk-body govuk-!-margin-top-6">
+      <div class="govuk-body govuk-!-margin-top-6" [ngClass]="{'govuk-form-group--error': validationErrors.length>0}">
         <form [formGroup]="cyaFormGroup">
+          <div *ngIf="validationErrors.length>0" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> {{validationErrors[0].message}}
+          </div>
           <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
-              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
-            <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
-              You have read and understood the
-              <a href="javascript:void(0)" target="_blank"
-                routerLink="/terms-and-conditions">terms and conditions</a>
-              and are eligible for an account to manage your organisation and cases
-            </label>
+              <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
+              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions" (change)="termsAndConditionsChange($event)">
+              <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
+                You have read and understood the
+                <a href="javascript:void(0)" target="_blank"
+                  routerLink="/terms-and-conditions">terms and conditions</a>
+                and are eligible for an account to manage your organisation and cases
+              </label>
           </div>
           <div class="govuk-body govuk-!-margin-top-6">
-            <button class="govuk-button govuk-buton--primary">Confirm and submit</button>
+            <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="button">Confirm and submit</button>
+          </div>
+          <div>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </div>
         </form>
       </div>

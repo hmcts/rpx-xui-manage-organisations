@@ -37,7 +37,7 @@
         class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation type</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.organisationType}}</dd>
+          <dd class="govuk-summary-list__value">{{getOrganisationType(this.registrationData.organisationType)}}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">

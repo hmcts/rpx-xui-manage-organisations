@@ -6,6 +6,7 @@ import { RegisterComponent } from '../../../register-org/containers';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
+import { ORGANISATION_TYPES_REF_DATA } from 'src/register-org/__mocks__';
 
 @Component({
   selector: 'app-check-your-answers',
@@ -91,5 +92,10 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public getErrorMessages(): { id: string; message: string;}[] {
     return this.apiErrors;
+  }
+
+  public getOrganisationType(organisationType: string): string {
+    const orgRefData = ORGANISATION_TYPES_REF_DATA.find((orgType) => orgType.key === organisationType);
+    return orgRefData ? orgRefData.value_en : null;
   }
 }

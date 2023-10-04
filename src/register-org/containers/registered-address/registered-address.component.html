@@ -2,9 +2,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <!-- go back to previous page if not on international page, reset page otherwise -->
-      <a *ngIf="!startedInternational && !addressChosen" class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <a *ngIf="!startedInternational && !addressChosen" class="govuk-back-link" href="javascript:void(0)" (click)="onBack(false)">Back</a>
       <a *ngIf="startedInternational || addressChosen" class="govuk-back-link"
-        href="javascript:void(0)" (click)="onPageRefresh()">Back</a>
+        href="javascript:void(0)" (click)="onBack(true)">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="addressErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">{{headingText}}</h1>
@@ -16,11 +16,13 @@
           information register</a>.
       </p>
         <xuilib-write-address-field [formGroup]="formGroup" [internationalMode]="true"
-          [startedInternational]="startedInternational"
+          [startedInternational]="startedInternational" [addressChosen]="addressChosen"
           [isInternational]="isInternational" [submissionAttempted]="submissionAttempted"
           (postcodeOptionSelected)="onPostcodeOptionSelected()"
           (internationalModeStart)="onInternationalModeStart()"
-          (ukAddressOptionSelected)="onOptionSelected($event)"></xuilib-write-address-field>
+          (ukAddressOptionSelected)="onOptionSelected($event)"
+          (canSelectAddress)="onAddressSelectable($event)"
+          (resetSubmission)="onResetSubmission()"></xuilib-write-address-field>
 
         <div class="govuk-button-group">
           <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onContinue()">

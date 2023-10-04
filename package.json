@@ -50,7 +50,7 @@
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
     "test-pact": "NODE_PATH=.  NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
-    "test:codeceptE2EDebug": "TEST_TYPE=e2e  npx codeceptjs run  --plugins retryFailedStep --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features --grep @functional_test  ",
+    "test:codeceptE2EDebug": "TEST_TYPE=e2e  npx codeceptjs run  --plugins retryFailedStep --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features --grep @functional_debug  ",
     "test:codeceptE2E": "TEST_TYPE=e2e  npx codeceptjs run-workers --suites 6 --plugins retryFailedStep --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features --grep @fullFunctional ",
     "test:backendMock": "DEBUG=true nodemon test_codecept/backendMock/app --standalone"
   },
@@ -74,7 +74,7 @@
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "1.9.0-postcode-validation",
+    "@hmcts/rpx-xui-common-lib": "1.9.0-persist-postcode",
     "@hmcts/rpx-xui-node-lib": "2.27.1",
     "@ng-idle/core": "^10.0.0",
     "@ng-idle/keepalive": "^10.0.0",

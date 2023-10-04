@@ -7,7 +7,6 @@ import { DocumentExchangeReferenceDetailsComponent } from './document-exchange-r
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference/document-exchange-reference.component';
 import { IndividualRegisteredWithRegulatorDetailsComponent } from './individual-registered-with-regulator-details/individual-registered-with-regulator-details.component';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator/individual-registered-with-regulator.component';
-import { OfficeAddressesComponent } from './office-addresses/office-addresses.component';
 import { OrganisationServicesAccessComponent } from './organisation-services-access/organisation-services-access.component';
 import { OrganisationTypeComponent } from './organisation-type/organisation-type.component';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details/payment-by-account-details.component';
@@ -26,7 +25,6 @@ export const components: any[] = [
   DocumentExchangeReferenceDetailsComponent,
   IndividualRegisteredWithRegulatorComponent,
   IndividualRegisteredWithRegulatorDetailsComponent,
-  OfficeAddressesComponent,
   OrganisationServicesAccessComponent,
   OrganisationTypeComponent,
   PaymentByAccountComponent,

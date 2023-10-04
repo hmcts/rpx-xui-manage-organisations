@@ -27,6 +27,10 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
 
   public isInternal = false;
 
+  public postcodeErrorFound = false;
+
+  private addressSelectable = false;
+
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
     public readonly route: ActivatedRoute
@@ -39,6 +43,8 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     super.ngOnInit();
     if (this.isInternal) {
       this.setExistingFormGroup();
+    } else if (this.addressExists()) {
+      this.setFormGroup(this.registrationData.address);
     }
   }
 
@@ -48,6 +54,9 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
         this.startedInternational = true;
         this.headingText = INTERNATIONAL_HEADING;
         this.isInternational = this.registrationData.address.country !== 'UK';
+      } else {
+        // check to ensure the user has not just started international mode
+        this.addressChosen = !this.startedInternational ? true : false;
       }
       this.setFormGroup(this.registrationData.address);
     }
@@ -61,6 +70,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     if (this.isFormValid()) {
       this.registrationData.address = this.formGroup.get('address').value;
       this.registrationData.inInternationalMode = this.startedInternational;
+
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
     } else {
       this.submissionAttempted = true;
@@ -71,21 +81,32 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.cancelRegistrationJourney();
   }
 
-  public onBack(): void {
-    this.navigateToPreviousPage();
-  }
-
-  // go back to original page
-  public onPageRefresh(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
-    this.headingText = POSTCODE_HEADING;
-    this.startedInternational = false;
+  public onBack(refreshPage: boolean): void {
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      if (refreshPage) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-address', 'external']);
+        this.headingText = POSTCODE_HEADING;
+        this.startedInternational = false;
+        this.addressChosen = false;
+      } else {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+      }
+    }
   }
 
   private isFormValid(): boolean {
     let errorFound = false;
     this.addressErrors = [];
-    if (this.startedInternational && this.isInternational === undefined) {
+    if (!this.addressChosen && !this.startedInternational) {
+      this.addressErrors.push({
+        id: this.addressSelectable ? 'selectAddress' : 'addressLookup',
+        message: this.addressSelectable ? AddressMessageEnum.SELECT_ADDRESS : AddressMessageEnum.NO_POSTCODE_SELECTED
+      });
+      errorFound = true;
+    } else if (this.startedInternational && this.isInternational === undefined) {
       this.addressErrors.push({
         id: 'govuk-radios',
         message: AddressMessageEnum.NO_OPTION_SELECTED
@@ -135,14 +156,22 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   }
 
   public onPostcodeOptionSelected(): void {
+    this.submissionAttempted = false;
     this.addressChosen = true;
+    this.addressErrors = [];
     this.setAddressFormGroup();
   }
 
   public onInternationalModeStart(): void {
     this.startedInternational = true;
+    this.addressChosen = false;
     this.headingText = INTERNATIONAL_HEADING;
+    this.addressErrors = [];
     this.addressExists() ? this.setExistingFormGroup() : this.setAddressFormGroup();
+  }
+
+  public onResetSubmission(): void {
+    this.submissionAttempted = false;
   }
 
   public onOptionSelected(isInternational: boolean): void {
@@ -154,6 +183,10 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.formGroup.get('address').get('postCode').updateValueAndValidity();
     this.formGroup.setErrors(null);
     this.formGroup.get('address').get('country').patchValue(isInternational ? '' : 'UK');
+  }
+
+  public onAddressSelectable(addressSelectable: boolean): void {
+    this.addressSelectable = addressSelectable;
   }
 
   private setAddressFormGroup(): void {

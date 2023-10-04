@@ -10,12 +10,16 @@ import { RegisterOrgService } from '../../services/index';
 
 export class RegisterComponent implements OnInit, OnDestroy {
   private isRegistrationJourneyCancelled = false;
-  private currentNavigation: Navigation;
+  private routerCurrentNavigation: Navigation;
   public registrationData: RegistrationData;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
-    this.currentNavigation = this.router.getCurrentNavigation();
+    this.routerCurrentNavigation = this.router.getCurrentNavigation();
+  }
+
+  public get currentNavigation(): Navigation {
+    return this.routerCurrentNavigation;
   }
 
   public ngOnInit(): void {
@@ -38,16 +42,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.isRegistrationJourneyCancelled = true;
       this.registerOrgService.removeRegistrationData();
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'register']);
-    }
-  }
-
-  public navigateToPreviousPage(): void {
-    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-    if (previousUrl) {
-      this.router.navigateByUrl(previousUrl);
-    } else {
-      // Fallback if previous url is null or empty
-      window.history.back();
     }
   }
 

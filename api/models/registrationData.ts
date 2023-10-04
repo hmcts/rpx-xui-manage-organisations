@@ -33,3 +33,44 @@ export type RegistrationData = {
     individualRegulators?: Regulator[];
     pbaNumbers: string[];
 }
+
+export type RegistrationRequest = {
+    name: string,
+    status?: string,
+    statusMessage?: string,
+    sraId?: string,
+    sraRegulated?: string,
+    companyNumber?: string,
+    companyUrl?: string,
+    superUser: {
+      firstName: string,
+      lastName: string,
+      email: string
+    },
+    paymentAccount: string [],
+    contactInformation: [
+      {
+        uprn?: string,
+        addressLine1: string,
+        addressLine2: string,
+        addressLine3: string,
+        townCity: string,
+        county: string,
+        country: string,
+        postCode: string,
+        dxAddress: [
+          {
+            dxNumber: string,
+            dxExchange: string
+          }
+        ]
+      }
+    ],
+    orgType: string,
+    orgAttributes?: [
+      {
+        key: string,
+        value: string
+      }
+    ]
+}

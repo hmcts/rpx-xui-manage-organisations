@@ -1,18 +1,65 @@
-import { Request, Response, Router } from 'express';
-import { RegistrationData } from '../models/registrationData';
+import { NextFunction, Request, Response, Router } from 'express';
+import { RegistrationData, RegistrationRequest } from '../models/registrationData';
+import { generateS2sToken } from '../lib/s2sTokenGeneration';
+import { getConfigValue } from '../configuration';
+import { SERVICE_S2S_PATH } from '../configuration/references';
+import { http } from '../lib/http';
+
+export function mapRequestObject(requestBody: RegistrationData): RegistrationRequest {
+  const request: RegistrationRequest = {
+    name: requestBody.companyName,
+    companyNumber: requestBody.companyHouseNumber,
+    superUser: {
+      firstName: requestBody.contactDetails.firstName,
+      lastName: requestBody.contactDetails.lastName,
+      email: requestBody.contactDetails.workEmailAddress
+    },
+    paymentAccount: requestBody.pbaNumbers,
+    contactInformation: [
+      {
+        addressLine1: requestBody.address.addressLine1,
+        addressLine2: requestBody.address.addressLine2,
+        addressLine3: requestBody.address.addressLine3,
+        townCity: requestBody.address.postTown,
+        county: requestBody.address.county,
+        country: requestBody.address.country,
+        postCode: requestBody.address.postCode,
+        dxAddress: [
+          {
+            dxNumber: requestBody.dxNumber,
+            dxExchange: requestBody.dxExchange
+          }
+        ]
+      }
+    ],
+    orgType: requestBody.organisationType
+  };
+  return request;
+}
 
 export const router = Router({ mergeParams: true });
 
-export async function handleRegisterOrgRoute(req: Request, res: Response): Promise<Response<{message: string}>> {
-  const registrationData = req.body as RegistrationData;
-  if (registrationData.dxNumber === '400') {
-    res.status(400).send({ message: 'Dx Number is Invalid' });
-  } else if (registrationData.dxNumber === '404') {
-    return res.status(404).send({ message: 'Problem with the service. Please try again.' });
-  } else if (registrationData.dxNumber === '500') {
-    return res.status(500).send({ message: 'Problem with the service. Please try again.' });
-  } else {
-    res.status(200).send();
+export async function handleRegisterOrgRoute(req: Request, res: Response, next: NextFunction): Promise<any> {
+  const registerPayload = req.body as RegistrationData;
+
+  const s2sServicePath = getConfigValue(SERVICE_S2S_PATH);
+
+  const s2sToken = await generateS2sToken(s2sServicePath);
+  const rdProfessionalPath = 'https://rd-professional-api-pr-1407.preview.platform.hmcts.net';
+  /**
+   * We use the S2S token to set the headers.
+   */
+  const url = `${rdProfessionalPath}/refdata/external/v2/organisations`;
+  const options = {
+    headers: { ServiceAuthorization: `Bearer ${s2sToken}` }
+  };
+  const axiosInstance = http({} as unknown as Request);
+  try {
+    const registerRequest = mapRequestObject(registerPayload);
+    const response = await axiosInstance.post(url, registerRequest, options);
+    res.send(response.data);
+  } catch (error) {
+    next(error);
   }
 }
 

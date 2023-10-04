@@ -27,8 +27,10 @@ describe('RegisteredAddressComponent', () => {
   };
 
   beforeEach(async () => {
-    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData']);
+    mockRegisterOrgService = jasmine.createSpyObj('mockRegisterOrgService', ['getRegistrationData', 'persistRegistrationData', 'REGISTER_ORG_NEW_ROUTE', 'CHECK_YOUR_ANSWERS_ROUTE']);
     mockRegisterOrgService.getRegistrationData.and.returnValue({ address: null });
+    mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
+    mockRegisterOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
       imports: [
@@ -62,8 +64,9 @@ describe('RegisteredAddressComponent', () => {
     component.onInternationalModeStart();
     fixture.detectChanges();
 
-    component.startedInternational = true;
-    component.headingText = INTERNATIONAL_HEADING;
+    expect(component.startedInternational).toBe(true);
+    expect(component.addressChosen).toBe(false);
+    expect(component.headingText).toBe(INTERNATIONAL_HEADING);
   });
 
   it('should get a persisted address', () => {
@@ -88,6 +91,24 @@ describe('RegisteredAddressComponent', () => {
     expect(component.startedInternational).toBeTruthy();
     expect(component.isInternational).toBeTruthy();
     expect(component.registrationData.inInternationalMode).toBeTruthy();
+  });
+
+  it('should get a persisted postcode', () => {
+    const mockRegData = {
+      address: {
+        addressLine1: 'street',
+        addressLine2: 'street2',
+        addressLine3: 'extraStreet',
+        postTown: 'city',
+        country: 'unknown',
+        postCode: 'L12 7RT'
+      },
+      inInternationalMode: false
+    };
+    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
+    component.isInternal = false;
+    component.ngOnInit();
+    expect(component.formGroup.get('address').get('postCode').value).toBe('L12 7RT');
   });
 
   it('should check the form on continue', () => {
@@ -154,9 +175,59 @@ describe('RegisteredAddressComponent', () => {
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 
-  it('should back link navigate to the correct page', () => {
-    spyOn(component, 'navigateToPreviousPage');
-    component.onBack();
-    expect(component.navigateToPreviousPage).toHaveBeenCalled();
+  it('should set postcode option details correctly', () => {
+    component.onPostcodeOptionSelected();
+    expect(component.submissionAttempted).toBe(false);
+    expect(component.addressChosen).toBe(true);
+    expect(component.addressErrors).toEqual([]);
+  });
+
+  it('should reset submission', () => {
+    component.submissionAttempted = true;
+    component.onResetSubmission();
+    expect(component.submissionAttempted).toBe(false);
+  });
+
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
+    component.onBack(true);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the registered address page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack(true);
+    expect(component.headingText).toEqual('What is the registered address of your organisation?');
+    expect(component.startedInternational).toEqual(false);
+    expect(component.addressChosen).toBe(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
+  });
+
+  it('should back link navigate to the company house details page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
+    component.onBack(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
+  });
+
+  it('should back link navigate to the company house details page without a previousUrl', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: undefined
+      }
+    });
+    component.onBack(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });
 });

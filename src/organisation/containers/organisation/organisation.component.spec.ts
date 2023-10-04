@@ -153,4 +153,66 @@ describe('OrganisationComponent', () => {
       expect(component.showChangePbaNumberLink).toBeTruthy();
     });
   });
+
+  describe('company registration number visibility', () => {
+    it('should display company registration number', () => {
+      component.companyRegistrationNumber = '12345678';
+      fixture.detectChanges();
+      const companyRegistrationNumberEl = fixture.debugElement.nativeElement.querySelector('#company-registration-number') as HTMLElement;
+      expect(companyRegistrationNumberEl.textContent).toContain('12345678');
+    });
+
+    it('should not display company registration number', () => {
+      component.companyRegistrationNumber = '';
+      fixture.detectChanges();
+      const companyRegistrationNumberEl = fixture.debugElement.nativeElement.querySelector('#company-registration-number') as HTMLElement;
+      expect(companyRegistrationNumberEl).toBeNull();
+    });
+  });
+
+  describe('organisation regulators visibility', () => {
+    it('should display organisation regulators', () => {
+      component.regulators = [
+        {
+          regulatorType: 'Solicitor Regulation Authority (SRA)',
+          organisationRegistrationNumber: '11223344'
+        },
+        {
+          regulatorType: 'Other',
+          regulatorName: 'Other regulatory organisation',
+          organisationRegistrationNumber: '12341234'
+        },
+        {
+          regulatorType: 'Charted Institute of Legal Executives',
+          organisationRegistrationNumber: '43214321'
+        }
+      ];
+      fixture.detectChanges();
+      const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
+      expect(regulatorsEl.textContent).toContain('Solicitor Regulation Authority (SRA)');
+    });
+
+    it('should not display organisation regulators', () => {
+      component.regulators = null;
+      fixture.detectChanges();
+      const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
+      expect(regulatorsEl).toBeNull();
+    });
+  });
+
+  describe('organisation type visibility', () => {
+    it('should display organisation type', () => {
+      component.organisationType = 'IT & communications';
+      fixture.detectChanges();
+      const organisationTypeEl = fixture.debugElement.nativeElement.querySelector('#organisation-type') as HTMLElement;
+      expect(organisationTypeEl.textContent).toContain('IT & communications');
+    });
+
+    it('should not display organisation type', () => {
+      component.organisationType = '';
+      fixture.detectChanges();
+      const organisationTypeEl = fixture.debugElement.nativeElement.querySelector('#organisation-type') as HTMLElement;
+      expect(organisationTypeEl).toBeNull();
+    });
+  });
 });

@@ -2307,16 +2307,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-postcode-validation":
-  version: 1.9.0-postcode-validation
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-postcode-validation"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-persist-postcode":
+  version: 1.9.0-persist-postcode
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-persist-postcode"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 62797e187b2249b4bbe60cb315d311a192d1e487be1348499a4c22118ab217b615399faee7397831ef8bbeb445128e02ec4d1883411996574608ab1d280520db
+  checksum: 036fce25f96895b0780c292fb27ca1fbbb4de999e25f045b501c5ddfc84d9af5bb5af791584ff6963407e6649f7a2dfb9e38ae0fa55a447760aa932195f63429
   languageName: node
   linkType: hard
 
@@ -20363,7 +20363,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-postcode-validation
+    "@hmcts/rpx-xui-common-lib": 1.9.0-persist-postcode
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

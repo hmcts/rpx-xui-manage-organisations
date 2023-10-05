@@ -18,7 +18,7 @@ Feature: Register other org
         Then I am on register other org page "What type of organisation are you registering?"
         When In register other org page "What type of organisation are you registering?", I input values
             | field                           | value                  |
-            | Select the type of organisation | Solicitor Organisation |
+            | Select the type of organisation | Solicitor |
 
         When I click continue in register other org workflow
 

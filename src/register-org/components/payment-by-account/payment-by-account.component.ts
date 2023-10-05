@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -12,8 +11,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class PaymentByAccountComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
-  public pbaFormGroup: UntypedFormGroup;
-  public pbaError: ErrorMessage;
+  public pbaFormGroup: FormGroup;
+  public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -24,8 +23,8 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.pbaFormGroup = new UntypedFormGroup({
-      pba: new UntypedFormControl(null, Validators.required)
+    this.pbaFormGroup = new FormGroup({
+      pba: new FormControl(null, Validators.required)
     });
 
     this.setFormControlValues();
@@ -51,6 +50,14 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
+  public onBack(): void {
+    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.hasPBA !== null) {
       if (this.registrationData.hasPBA) {
@@ -62,12 +69,12 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   }
 
   private isFormValid(): boolean {
+    this.validationErrors = [];
     if (this.pbaFormGroup.invalid) {
-      this.pbaError = {
-        description: 'Please select at least one option',
-        title: '',
-        fieldId: 'pba-yes'
-      };
+      this.validationErrors.push({
+        id: 'pba-yes',
+        message: 'Please select an option'
+      });
       this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }

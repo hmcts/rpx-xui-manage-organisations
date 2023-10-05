@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { OfficeAddressesComponent } from './office-addresses.component';
 
 describe('DocumentExchangeReferenceComponent', () => {
@@ -7,7 +9,8 @@ describe('DocumentExchangeReferenceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OfficeAddressesComponent]
+      declarations: [OfficeAddressesComponent],
+      imports: [HttpClientTestingModule, RouterTestingModule]
     }).compileComponents();
   });
 
@@ -19,5 +22,11 @@ describe('DocumentExchangeReferenceComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

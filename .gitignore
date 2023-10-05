@@ -61,8 +61,8 @@ reports_json/
 .nyc_output/
 cb_reports/
 report.json
-
-
+functional-output/
+mochawesome-report/
 # Stryker - mutation tests
 .stryker-tmp/
 stryker.log

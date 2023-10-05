@@ -7,6 +7,34 @@
         What PBA numbers does your organisation use?
       </h1>
       <hr>
+      <form [formGroup]="pbaDetailsFormGroup">
+        <div formArrayName="pbaNumbers">
+          <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i = index">
+            <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
+              <label class="govuk-label govuk-!-font-weight-bold" for="pba-number">
+                PBA number
+              </label>
+              <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
+                name="pbaNumber" formControlName="pbaNumber">
+              <button *ngIf="pbaNumbers.controls.length > 1" (click)="onRemovePBANumber(i)"
+                class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
+                Remove
+              </button>
+            </div>
+          </div>
+          <div>
+            <button class="govuk-button govuk-button--secondary" (click)="onAddNewPBANumber()">
+              Add another PBA number
+            </button>
+          </div>
+        </div>
+        <div class="govuk-button-group">
+          <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
+            Continue
+          </button>
+        </div>
+        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+      </form>
     </div>
   </div>
 </main>

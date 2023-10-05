@@ -51,6 +51,10 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     if (this.registrationData.hasDxReference !== null) {
       if (this.registrationData.hasDxReference) {

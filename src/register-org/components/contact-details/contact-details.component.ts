@@ -40,8 +40,12 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
         lastName: this.contactDetailsFormGroup.get('lastName').value,
         workEmailAddress: this.contactDetailsFormGroup.get('workEmailAddress').value
       };
-      // TODO: Navigate to 'Are you (as an individual) registered with a regulator' page
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registered-with-regulator']);
     }
+  }
+
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
   }
 
   public setFormControlValues(): void {

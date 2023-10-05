@@ -16,7 +16,11 @@ describe('DocumentExchangeReferenceComponent', () => {
     services: [],
     hasPBA: false,
     contactDetails: null,
-    hasRegisteredWithRegulator: null
+    hasIndividualRegisteredWithRegulator: null,
+    address: null,
+    organisationType: null,
+    regulators: [],
+    regulatorRegisteredWith: null
   };
 
   beforeEach(async () => {
@@ -36,14 +40,23 @@ describe('DocumentExchangeReferenceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should set the form control values', () => {
     component.registrationData = registrationData;
     component.setFormControlValues();
     expect(component.dxFormGroup.get('dxNumber').value).toEqual('931NR');
     expect(component.dxFormGroup.get('dxExchange').value).toEqual('MIDDLESEX');
+  });
+
+  it('should verify the labels', () => {
+    const dxNumberLabelEl = fixture.debugElement.nativeElement.querySelector('#dx-number-label');
+    const dxExchangeLabelEl = fixture.debugElement.nativeElement.querySelector('#dx-exchange-label');
+    expect(dxNumberLabelEl.textContent.trim()).toEqual('DX number (Optional)');
+    expect(dxExchangeLabelEl.textContent.trim()).toEqual('DX exchange (Optional)');
+  });
+
+  it('should invoke the cancel registration journey when clicked on cancel link', () => {
+    spyOn(component, 'cancelRegistrationJourney');
+    component.onCancel();
+    expect(component.cancelRegistrationJourney).toHaveBeenCalled();
   });
 });

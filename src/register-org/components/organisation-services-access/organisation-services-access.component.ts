@@ -70,6 +70,10 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     }
   }
 
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
   public setFormControlValues(): void {
     // TODO: The functionality of setting the checkbox selections
     //  based on the values from registration data will be handled

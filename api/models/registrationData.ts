@@ -12,6 +12,11 @@ export interface Regulator {
     organisationRegistrationNumber?: string;
 }
 
+export interface OrganisationType {
+  key: string;
+  description: string;
+}
+
 export type RegistrationData = {
     companyName: string;
     companyHouseNumber?: string;
@@ -23,7 +28,7 @@ export type RegistrationData = {
     hasPBA: boolean;
     contactDetails: ContactDetails;
     address: AddressModel;
-    organisationType: string;
+    organisationType: OrganisationType;
     otherOrganisationType?: string;
     otherOrganisationDetail?: string;
     regulatorRegisteredWith: string;

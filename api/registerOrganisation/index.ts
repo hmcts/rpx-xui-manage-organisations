@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { RegistrationData, RegistrationRequest } from '../models/registrationData';
 import { generateS2sToken } from '../lib/s2sTokenGeneration';
 import { getConfigValue } from '../configuration';
-import { SERVICE_S2S_PATH } from '../configuration/references';
+import { SERVICES_RD_PROFESSIONAL_API_PATH, SERVICE_S2S_PATH } from '../configuration/references';
 import { http } from '../lib/http';
 
 export function mapRequestObject(requestBody: RegistrationData): RegistrationRequest {
@@ -32,7 +32,7 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         ]
       }
     ],
-    orgType: requestBody.organisationType
+    orgType: requestBody.organisationType.key
   };
   return request;
 }
@@ -45,7 +45,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
   const s2sServicePath = getConfigValue(SERVICE_S2S_PATH);
 
   const s2sToken = await generateS2sToken(s2sServicePath);
-  const rdProfessionalPath = 'https://rd-professional-api-pr-1407.preview.platform.hmcts.net';
+  const rdProfessionalPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
   /**
    * We use the S2S token to set the headers.
    */

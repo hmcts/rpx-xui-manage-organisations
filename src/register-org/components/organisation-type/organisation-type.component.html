@@ -24,21 +24,12 @@
                 Select the type of company you are registering. If you are not sure, select 'other'.
               </div>
               <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
-                <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes$ | async">
+                <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes">
                   <input class="govuk-radios__input" type="radio"
                     [id]="organisationType.key" name="organisationType" [value]="organisationType.key" formControlName="organisationType"
-                    (click)="canShowOtherOrganisationTypes(false)">
+                    (click)="canShowOtherOrganisationTypes(organisationType.key === 'OTHER')">
                   <label class="govuk-label govuk-radios__label" [for]="organisationType.key">
                     {{organisationType.value_en}}
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" type="radio"
-                    id="other" name="organisationType" value="other" formControlName="organisationType"
-                    data-aria-controls="other-organisation-type-container"
-                    (click)="canShowOtherOrganisationTypes(true)">
-                  <label class="govuk-label govuk-radios__label" for="other">
-                    Other
                   </label>
                 </div>
                 <div class="govuk-radios__conditional"
@@ -56,7 +47,7 @@
                         [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
                         id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
                         <option [ngValue]="'none'" disabled>--Select a value--</option>
-                        <option *ngFor="let otherOrganisationType of otherOrganisationTypes$ | async" [ngValue]="otherOrganisationType.key">
+                        <option *ngFor="let otherOrganisationType of otherOrganisationTypes" [ngValue]="otherOrganisationType.key">
                           {{otherOrganisationType.value_en}}
                         </option>
                       </select>

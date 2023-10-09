@@ -10,7 +10,7 @@
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Organisation type</dt>
-            <dd class="govuk-summary-list__value">Other: {{registrationData.otherOrganisationType}}</dd>
+            <dd class="govuk-summary-list__value">Other: {{registrationData.otherOrganisationType.description}}</dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link" href="javascript:void(0)"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
@@ -33,11 +33,11 @@
         </dl>
       </div>
 
-      <dl *ngIf="registrationData.organisationType && registrationData.organisationType !== 'other'"
+      <dl *ngIf="registrationData.organisationType && registrationData.organisationType.key !== 'OTHER'"
         class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">Organisation type</dt>
-          <dd class="govuk-summary-list__value">{{getOrganisationType(this.registrationData.organisationType)}}</dd>
+          <dd class="govuk-summary-list__value">{{registrationData.organisationType.description}}</dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">

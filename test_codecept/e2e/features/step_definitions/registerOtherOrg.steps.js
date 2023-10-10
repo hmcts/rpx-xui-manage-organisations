@@ -75,11 +75,19 @@ When('In register other org work flow, I click submit request', async function (
 
 
 
-Then('In register other org workflow, I validate check yoor answers displayed', async function (datatable) {
+Then('In register other org workflow, I validate check your answers displayed', async function (datatable) {
     const datatableHash = datatable.parse().hashes();
     for (let row of datatableHash) {
-        reportLogger.AddMessage(`Validating ${row.section} => ${row.field}=${row.value}`)
-        await workflow.pages["Check your answers before sending your request"].validateSummaryFieldWithValueDisplayed(row.section, row.field, row.value)
+        reportLogger.AddMessage(`Validating ${row.field}=${row.value}`)
+        await workflow.pages["Check your answers before you register"].validateSummaryFieldWithValueDisplayed(row.field, row.value)
+    }
+})
+
+Then('In register other org workflow, I validate check your answers not displays fields', async function (datatable) {
+    const datatableHash = datatable.parse().hashes();
+    for (let row of datatableHash) {
+        reportLogger.AddMessage(`Validating ${row.field}`)
+        await workflow.pages["Check your answers before you register"].validateSummaryFieldNotDisplayed(row.field)
     }
 })
 
@@ -89,7 +97,7 @@ When('In register other org work flow, I click back link', async function () {
 
 
 When('In register other org check your answers page, I click change link for field {string}', async function (field) {
-    await workflow.pages['Check your answers before sending your request'].clickChangeLinkForField(field)
+    await workflow.pages['Check your answers before you register'].clickChangeLinkForField(field)
 })
 
 

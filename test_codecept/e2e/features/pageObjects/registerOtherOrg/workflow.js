@@ -20,6 +20,7 @@ class RegisterOtherOrgWorkflow{
     constructor(){
         this.startBtn = element(by.xpath(`//button[contains(@class,'govuk-buton--primary')][contains(text(),'Start')]`));
         this.continueBtn = element(by.xpath(`//div[contains(@class,'govuk-button-group')]//button[contains(text(),'Continue')]`));
+        this.backLink = $('a.govuk-back-link')
 
         this.pages = {
             "Apply for an organisation to manage civil, family and tribunal cases": new BeforeYouStartPage(),

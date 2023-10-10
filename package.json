@@ -140,6 +140,7 @@
     "p-iteration": "^1.1.7",
     "pdfjs-dist": "2.5.207",
     "pegjs": "^0.10.0",
+    "puppeteer": "^21.3.8",
     "redis": "^3.0.2",
     "rpx-xui-translation": "1.0.0-NodeAndNgUpgrades-02",
     "rx-polling": "^1.1.0",

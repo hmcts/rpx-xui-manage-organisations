@@ -13,6 +13,10 @@ When('I click continue in register organisation workflow', async function () {
     await registerOrgWorkflow.continueBtn.click();
 })
 
+When('I click back in register organisation workflow', async function () {
+    await registerOrgWorkflow.backLink.click();
+})
+
 Then('I am on register organisation page {string}', async function (page) {
     expect(await getPageObject(page).isDisplayed(), `${page} not displayed`).to.be.true
 })

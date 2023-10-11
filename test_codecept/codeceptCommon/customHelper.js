@@ -89,8 +89,8 @@ class CustomHelper extends Helper {
     }
     
     _getHelper(){
-        const { WebDriver, Puppeteer } = this.helpers;
-        return Puppeteer;
+        const { WebDriver, Puppeteer, Playwright } = this.helpers;
+        return Playwright;
     }
 
 

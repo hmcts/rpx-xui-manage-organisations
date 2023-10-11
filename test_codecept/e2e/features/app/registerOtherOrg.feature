@@ -1,5 +1,5 @@
-
-Feature: Register other org 
+@fullFunctional
+Feature: Register other org
 
     Scenario: register other org workflow with all optional values
         Given I navigate to register other org start page
@@ -133,7 +133,7 @@ Feature: Register other org
             | Email address                                               | auto_test_email@test.com                                                 |
             | What regulators are you (as an individual) registered with? | Other: Test regulator ref: 12345678                                      |
 
-    
+
     Scenario: register other org workflow with minimum values
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
@@ -185,9 +185,9 @@ Feature: Register other org
 
         Then I am on register other org page "Who is your organisation registered with?"
         When In register other org page "Who is your organisation registered with?", I input values
-            | field                                         | value                               |
+            | field                                         | value                                |
             | Select the type of regulatory organisation    | Solicitor Regulation Authority (SRA) |
-            | Enter your organisation's registration number | 12345678                            |
+            | Enter your organisation's registration number | 12345678                             |
 
         When I click continue in register other org workflow
 
@@ -228,7 +228,7 @@ Feature: Register other org
             | field                        | value                                              |
             | Organisation type            | Solicitor                                          |
             | Organisation name            | Auto test organisation                             |
-            | Organisation address         | auto building,auto city,Irelan                     | 
+            | Organisation address         | auto building,auto city,Irelan                     |
             | Service to access            | Divorce,Damages                                    |
             | Regulatory organisation type | Solicitor Regulation Authority (SRA) ref: 12345678 |
             | First name(s)                | auto test fn                                       |
@@ -236,9 +236,112 @@ Feature: Register other org
             | Email address                | auto_test_email@test.com                           |
 
         Then In register other org workflow, I validate check your answers not displays fields
-        |field|
-        |DX reference|
-        | DX number |
+            | field        |
+            | DX reference |
+            | DX number    |
 
 
 
+    @functional_debug
+    Scenario: Register other org, page level validations in What type of organisation are you registering?
+        When In register organisation workflow, I navigate to route "organisation-type"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                    |
+            | Please select an organisation |
+
+        When In register other org page "What type of organisation are you registering?", I input values
+            | field                              | value                  |
+            | Select the type of organisation | Solicitor |
+        When I click continue in register other org workflow
+        Then I am on register other org page "What is your company name and Companies House number?"
+
+
+    @functional_debug
+    Scenario: Register other org, page level validations in What is your company name and Companies House number?
+        When In register organisation workflow, I navigate to route "company-house-details"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                    |
+            | Enter an organisation name |
+
+        When In register other org page "What is your company name and Companies House number?", I input values
+            | field                                    | value                  |
+            | Enter the name of the organisation       | Auto test organisation |
+        When I click continue in register other org workflow
+        Then I am on register other org page "What is the registered address of your organisation?"
+
+
+    @functional_debug
+    Scenario: Register other org, page level validations in What is the registered address of your organisation?
+        When In register organisation workflow, I navigate to route "registered-address/external"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                    |
+            | Enter a valid postcode |
+
+        When In register other org page "What is the registered address of your organisation?", I input values
+            | field                              | value                  |
+            | Provide address details | SW1V 3BZ,Flat 1 |
+        When I click continue in register other org workflow
+
+
+
+    @functional_debug
+    Scenario: Register other org, page level validations in Do you have a document exchange reference for your main office?
+        When In register organisation workflow, I navigate to route "company-house-details"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                    |
+            | Please select at least one option |
+
+        When In register other org page "Do you have a document exchange reference for your main office?", I input values
+            | field                              | value                  |
+            | Do you have a document exchange reference for your main office? | yes |
+        When I click continue in register other org workflow
+        Then I am on register other org page "What's the DX reference for this office?"
+
+
+    @functional_debug
+    Scenario: Register other org, page level validations in Who is your organisation registered with?
+        When In register organisation workflow, I navigate to route "regulatory-organisation-type"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                           |
+            | Please select a regulatory organisation |
+
+        When In register other org page "Who is your organisation registered with?", I input values
+            | field                                                           | value |
+            | Select the type of regulatory organisation | Solicitor Regulation Authority |
+        When I click continue in register other org workflow
+
+
+        Then In register organisation workflow, I validate error messages displayed
+            | message                                 |
+            | Enter a registration number |
+
+        When In register other org page "Who is your organisation registered with?", I input values
+            | field                                      | value                          |
+            | Enter your organisation's registration number | SRA12345678 |
+        When I click continue in register other org workflow
+
+        Then I am on register other org page "Which services will your organisation need to access?"
+
+
+
+
+
+
+    @functional_debug
+    Scenario: Register other org, page level validations in Which services will your organisation need to access?
+        When In register organisation workflow, I navigate to route "organisation-services-access"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                           |
+            | Please select at least one service |
+
+        When In register other org page "Which services will your organisation need to access?", I input values
+            | field                                                           | value |
+            | Which services will your organisation need to access? | Damages |
+        When I click continue in register other org workflow
+        Then I am on register other org page "Does your organisation have a payment by account number?"

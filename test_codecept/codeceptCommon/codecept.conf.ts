@@ -94,7 +94,7 @@ exports.config = {
     Playwright: {
       url: "https://manage-case.aat.platform.hmcts.net",
       restart: false,
-      show:true,
+      show: head ? true : false,
       waitForNavigation: "domcontentloaded",
       waitForAction: 500,
       browser: 'chromium'

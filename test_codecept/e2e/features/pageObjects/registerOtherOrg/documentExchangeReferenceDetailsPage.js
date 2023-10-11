@@ -17,7 +17,7 @@ class DocumentExchangeReferenceDetailsPage {
         switch (field) {
             case 'DX number':
             case 'DX exchange':
-                this.fieldMapping[field].sendKeys(value)
+                await this.fieldMapping[field].sendKeys(value)
                 break;
 
             default:

@@ -53,7 +53,7 @@ export const ROUTES: Routes = [
       title: 'Register Organisation',
       needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
       expectFeatureEnabled: false,
-      featureDisabledRedirect: '/register-org-new/register',
+      featureDisabledRedirect: '/register-org-new/register'
     }
   },
   {

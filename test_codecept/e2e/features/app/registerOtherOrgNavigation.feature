@@ -1,6 +1,7 @@
+@fullFunctional
 Feature: Register org with org Navigations
 
-    Background: rgister orh fill pages
+    Background: rgister org fill pages
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
         Then In register other org page "Apply for an organisation to manage civil, family and tribunal cases", I validate fields displayed
@@ -119,7 +120,6 @@ Feature: Register org with org Navigations
         Then I am on register other org page "Check your answers before you register"
 
 
-    @functional_debug
     Scenario: register other org workflow with all optional values
         When In register other org work flow, I click back link
         Then I am on register other org page "What regulator are you (as an individual) registered with?"
@@ -164,4 +164,41 @@ Feature: Register org with org Navigations
 
         When In register other org work flow, I click back link
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
+
+
+
+    Scenario: check your answers, chnage links
+        Then In register other org workflow, I validate change links
+            | field                                                       | screen                                                     |
+            | Organisation type                                           | What type of organisation are you registering?             |
+            | Organisation name                                           | What is your company name and Companies House number?      |
+            | Company registration number                                 | What is your company name and Companies House number?      |
+            | Organisation address                                        | What is the registered address of your organisation?       |
+            | DX reference                                                | What's the DX reference for this office?                   |
+            | Service to access                                           | Which services will your organisation need to access?      |
+            | PBA number(s)                                               | Does your organisation have a payment by account number?   |
+            | Regulatory organisation type                                | Who is your organisation registered with?                  |
+            | First name(s)                                               | Provide your contact details                               |
+            | Last name                                                   | Provide your contact details                               |
+            | Email address                                               | Provide your contact details                               |
+            | What regulators are you (as an individual) registered with? | What regulator are you (as an individual) registered with? |
+
+
+    Scenario: check your answers, chnage link and continue
+        When In register other org check your answers page, I click change link for field "Organisation type"
+        Then I am on register other org page "What type of organisation are you registering?"
+        Then In register other org workflow, I validate continue pages
+            | page                                                            |
+            | What is your company name and Companies House number?           |
+            | What is the registered address of your organisation?            |
+            | Do you have a document exchange reference for your main office? |
+            | What's the DX reference for this office?                        |
+            | Who is your organisation registered with?                       |
+            | Which services will your organisation need to access?           |
+            | Does your organisation have a payment by account number?        |
+            | What PBA numbers does your organisation use?                    |
+            | Provide your contact details                                    |
+            | Are you (as an individual) registered with a regulator?         |
+            | What regulator are you (as an individual) registered with?      |
+            | Check your answers before you register                          |
 

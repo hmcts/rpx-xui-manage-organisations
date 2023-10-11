@@ -22,6 +22,8 @@ class RegisterOtherOrgWorkflow{
         this.continueBtn = element(by.xpath(`//div[contains(@class,'govuk-button-group')]//button[contains(text(),'Continue')]`));
         this.backLink = $('a.govuk-back-link')
 
+        this.errorSummaryContainer = $('#errorSummary')
+
         this.pages = {
             "Apply for an organisation to manage civil, family and tribunal cases": new BeforeYouStartPage(),
             "What type of organisation are you registering?": new OrganisationTypePage(),
@@ -40,6 +42,11 @@ class RegisterOtherOrgWorkflow{
             "Check your answers before you register" : new CheckYourAnswersPage()
 
         }
+    }
+
+    async validateErrorSummaryMessageDisplayed(message){
+        const ele = element(by.xpath(`//div[contains(@class,'govuk-error-summary__body')]//a[contains(text(),'${message}')]`))
+        expect(await ele.isDisplayed()).to.be.true
     }
 
 

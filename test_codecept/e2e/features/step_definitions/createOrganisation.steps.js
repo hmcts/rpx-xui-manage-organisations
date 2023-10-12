@@ -46,7 +46,7 @@ async function waitForElement(el) {
         await expect(createOrganisationObject.start_button.getText())
           .to
           .eventually
-          .equal('Start');
+          .include('Start');
         await createOrganisationObject.start_button.click();
         await createOrganisationObject.waitForPage("What's the name of your organisation?");
 

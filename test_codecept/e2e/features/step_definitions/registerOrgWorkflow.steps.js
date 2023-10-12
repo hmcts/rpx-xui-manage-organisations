@@ -52,7 +52,7 @@ When('In register organisation page {string}, I input values', async function (p
 })
 
 When('In register organisation workflow, I navigate to route {string}', async function (route) {
-    await browser.get(`${process.env.TEST_URL}register-org-new/${route}`)
+    await browser.get(`${process.env.TEST_URL}/register-org-new/${route}`)
 })
 
 Then('In register organisation workflow, I validate error messages displayed', async function (datatable) {

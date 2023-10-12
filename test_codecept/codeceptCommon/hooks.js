@@ -67,7 +67,7 @@ module.exports = async function () {
       global.scenarioData = {}
       output.print(`Test started : ${test.title}`)
         codeceptMochawesomeLog.AddMessage(`************ Test started : ${test.title}`)
-        await mockClient.logMessage(`************ Test started : ${test.title}`)
+        //await mockClient.logMessage(`************ Test started : ${test.title}`)
         featureLogsMessage(test, `\n ************ Test started : ${test.title}`);
 
         statsReporter.run()
@@ -82,7 +82,7 @@ module.exports = async function () {
 
     event.dispatcher.on(event.test.after, async function (test) {
         output.print(`Test ${test.state} : ${test.title}`)
-     
+
         actor().flushLogsToReport();
 
         const authCookies = idamLogin.authToken
@@ -91,7 +91,7 @@ module.exports = async function () {
             featureLogsMessage(test, `${JSON.stringify(mockSessiondataResponse.data, null, 2)}`);
             codeceptMochawesomeLog.AddJson(cookies);
         }
-       
+
 
         const cookies = idamLogin.xuiCallbackResponse;
         // featureLogsMessage(test, `\n cookies \n ${JSON.stringify(cookies, null, 2)}`);
@@ -103,7 +103,7 @@ module.exports = async function () {
 
 
     event.dispatcher.on(event.test.passed,async function (test) {
-       
+
         codeceptMochawesomeLog.AddMessage("************ Test passed")
 
     });

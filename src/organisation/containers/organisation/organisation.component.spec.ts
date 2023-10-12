@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 
@@ -30,6 +31,8 @@ let dispatchSpy: jasmine.Spy;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let userIsPuiFinanceManager: boolean;
+
+const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
 describe('OrganisationComponent', () => {
   let component: OrganisationComponent;
@@ -76,6 +79,7 @@ describe('OrganisationComponent', () => {
 
   beforeEach(() => {
     pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
+    featureToggleServiceMock.getValue.and.returnValue(of(true));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
@@ -96,6 +100,10 @@ describe('OrganisationComponent', () => {
         {
           provide: Store,
           useValue: storeMock
+        },
+        {
+          provide: FeatureToggleService,
+          useValue: featureToggleServiceMock
         },
         OrganisationComponent
       ]

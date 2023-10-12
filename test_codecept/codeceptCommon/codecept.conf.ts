@@ -52,7 +52,9 @@ exports.config = {
     "steps": "../**/*.steps.js"
   },
   output: functional_output_dir,
- 
+  // disableScreenshots: false,
+  // fullPageScreenshots: true,
+  // uniqueScreenshotNames: true,
   helpers: {
     CustomHelper:{
       require:"./customHelper.js"
@@ -155,7 +157,7 @@ exports.config = {
   plugins:{
     screenshotOnFail: {
       enabled: true,
-      fullPageScreenshots: 'true'
+      fullPageScreenshots: true
     },
    
     "myPlugin": {

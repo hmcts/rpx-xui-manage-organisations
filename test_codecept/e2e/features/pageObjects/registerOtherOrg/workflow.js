@@ -46,7 +46,7 @@ class RegisterOtherOrgWorkflow{
 
     async validateErrorSummaryMessageDisplayed(message){
         const ele = element(by.xpath(`//div[contains(@class,'govuk-error-summary__body')]//a[contains(text(),'${message}')]`))
-        expect(await ele.isDisplayed()).to.be.true
+        expect(await ele.isDisplayed(), `Error message not displayed: ${message}`).to.be.true
     }
 
 

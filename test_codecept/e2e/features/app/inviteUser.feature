@@ -1,4 +1,4 @@
-@fullFunctional @functional_debug
+@fullFunctional
 Feature: invite user workflow
 
   Background:

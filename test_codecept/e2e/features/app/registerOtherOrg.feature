@@ -1,5 +1,5 @@
 @fullFunctional
-Feature: Register other org
+Feature: Register other org, registration
 
     Scenario: register other org workflow with all optional values
         Given I navigate to register other org start page

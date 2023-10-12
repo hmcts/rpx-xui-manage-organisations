@@ -1,5 +1,5 @@
-@fullFunctional
-Feature: Register org with org Navigations
+
+Feature: Register other org, Navigations
 
     Background: rgister org fill pages
         Given I navigate to register other org start page
@@ -120,7 +120,7 @@ Feature: Register org with org Navigations
         Then I am on register other org page "Check your answers before you register"
 
 
-    Scenario: register other org workflow with all optional values
+    Scenario: workflow with all optional values
         When In register other org work flow, I click back link
         Then I am on register other org page "What regulator are you (as an individual) registered with?"
 
@@ -166,7 +166,7 @@ Feature: Register org with org Navigations
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
 
 
-
+@fullFunctional
     Scenario: check your answers, chnage links
         Then In register other org workflow, I validate change links
             | field                                                       | screen                                                     |
@@ -183,7 +183,7 @@ Feature: Register org with org Navigations
             | Email address                                               | Provide your contact details                               |
             | What regulators are you (as an individual) registered with? | What regulator are you (as an individual) registered with? |
 
-
+@fullFunctional
     Scenario: check your answers, chnage link and continue
         When In register other org check your answers page, I click change link for field "Organisation type"
         Then I am on register other org page "What type of organisation are you registering?"

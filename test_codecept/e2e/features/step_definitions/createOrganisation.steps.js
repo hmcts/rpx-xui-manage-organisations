@@ -256,10 +256,9 @@ async function waitForElement(el) {
       be.true;
   });
 
-  Then('I see manage org link under already registered account header', function () {
-    expect(createOrganisationObject.isManageOrgLinkPresent()).to
-      .eventually.
-      be.true;
+  Then('I see manage org link under already registered account header', async function () {
+    expect(await createOrganisationObject.isManageOrgLinkPresent()).to
+      .be.true;
   });
 
   Then('I click and validate MC link opens in new tab', async function () {

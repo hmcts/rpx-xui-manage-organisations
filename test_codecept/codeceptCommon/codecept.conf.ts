@@ -24,7 +24,7 @@ console.log(`parallel : ${parallel}`)
 console.log(`headless : ${!head}`)
 
 
-let pipelineBranch = process.env.TEST_URL.includes('pr-') || process.env.TEST_URL.includes('manage-case.aat')  ? "preview" : "master"
+let pipelineBranch = process.env.TEST_URL.includes('pr-') ? "preview" : "master"
 
 let features = ''
 if (testType === 'e2e' || testType === 'smoke'){  
@@ -45,12 +45,18 @@ const functional_output_dir = path.resolve(`${__dirname}/../../functional-output
 
 const cucumber_functional_output_dir = path.resolve(`${__dirname}/../../functional-output/tests/cucumber-codecept-${testType}`)
 
+const tags = process.env.DEBUG ? 'functional_debug' : 'fullFunctional'
+
+const grepTags = `(?=.*@${tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
+console.log(grepTags)
+
 exports.config = {
   timeout: 600,
   "gherkin": {
     "features": features,
     "steps": "../**/*.steps.js"
   },
+  grep: grepTags,
   output: functional_output_dir,
   // disableScreenshots: false,
   // fullPageScreenshots: true,

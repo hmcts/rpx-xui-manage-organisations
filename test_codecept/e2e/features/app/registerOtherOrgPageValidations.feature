@@ -1,4 +1,4 @@
-@fullFunctional 
+@fullFunctional @preview_only
 Feature: Register other org, page validations
 
 
@@ -112,19 +112,19 @@ Feature: Register other org, page validations
         When I click continue in register other org workflow
         Then I am on register other org page "What PBA numbers does your organisation use?"
 
+@ignore
+    Scenario: Register other org, page level validations in What PBA numbers does your organisation use?
+        When In register organisation workflow, I navigate to route "payment-by-account-details"
+        When I click continue in register other org workflow
+        Then In register organisation workflow, I validate error messages displayed
+            | message                 |
+            | Please enter PBA number |
 
-    # Scenario: Register other org, page level validations in What PBA numbers does your organisation use?
-    #     When In register organisation workflow, I navigate to route "payment-by-account-details"
-    #     When I click continue in register other org workflow
-    #     Then In register organisation workflow, I validate error messages displayed
-    #         | message                 |
-    #         | Please enter PBA number |
-
-    #     When In register other org page "What PBA numbers does your organisation use?", I input values
-    #         | field                                                    | value |
-    #         | PBA number | PBA1234567 |
-    #     When I click continue in register other org workflow
-    #     Then I am on register other org page "What PBA numbers does your organisation use?"
+        When In register other org page "What PBA numbers does your organisation use?", I input values
+            | field                                                    | value |
+            | PBA number | PBA1234567 |
+        When I click continue in register other org workflow
+        Then I am on register other org page "What PBA numbers does your organisation use?"
 
 
     Scenario: Register other org, page level validations in Provide your contact details

@@ -1,9 +1,11 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { Regulator, RegulatorType, RegulatoryType } from '../../../register-org/models';
+import { AppConstants } from '../../../app/app.constants';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
 import { utils } from '../../utils';
@@ -12,7 +14,7 @@ import { utils } from '../../utils';
   selector: 'app-prd-organisation-component',
   templateUrl: './organisation.component.html'
 })
-export class OrganisationComponent implements OnDestroy {
+export class OrganisationComponent implements OnInit, OnDestroy {
   public organisationDetails: Partial<OrganisationDetails>;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
@@ -24,14 +26,20 @@ export class OrganisationComponent implements OnDestroy {
   public companyRegistrationNumber: string;
   public organisationType: string;
   public regulators: Regulator[];
+  public isFeatureEnabled$: Observable<boolean>;
 
   private readonly untiDestroy = new Subject<void>();
 
   constructor(
     private readonly orgStore: Store<fromStore.OrganisationState>,
-    private readonly authStore: Store<fromAuthStore.AuthState>
+    private readonly authStore: Store<fromAuthStore.AuthState>,
+    private readonly featureToggleService: FeatureToggleService
   ) {
     this.getOrganisationDetailsFromStore();
+  }
+
+  ngOnInit(): void {
+    this.isFeatureEnabled$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
   }
 
   public ngOnDestroy(): void {
@@ -48,18 +56,6 @@ export class OrganisationComponent implements OnDestroy {
         this.organisationDxAddress = utils.getDxAddress(this.organisationContactInformation);
         this.organisationDetails = organisationDetails;
 
-        // TODO: Delete the below method call during the implementation of the below ticket
-        // https://tools.hmcts.net/jira/browse/EUI-8869 which deals with the integration/mapping data
-        // once the updated version of the API is available and provides the missing information
-        this.mockMissingDataTillNewVersionOfApiIsReady();
-
-        // TODO: Uncomment the below lines during the implementation of the below ticket
-        // https://tools.hmcts.net/jira/browse/EUI-8869 which deals with the integration/mapping data
-        // once the updated version of the API is available and provides the missing information
-        // this.companyRegistrationNumber = utils.getCompanyRegistrationNumber(organisationDetails);
-        // this.organisationType = utils.getOrganisationType(organisationDetails);
-        // this.regulators = utils.getRegulators(organisationDetails);
-
         this.canShowChangePbaNumbersLink();
       });
   }
@@ -69,28 +65,5 @@ export class OrganisationComponent implements OnDestroy {
       .pipe(takeUntil(this.untiDestroy)).subscribe((userIsPuiFinanceManager: boolean) => {
         this.showChangePbaNumberLink = userIsPuiFinanceManager;
       });
-  }
-
-  // TODO: Delete the below method during the implementation of the below ticket
-  // https://tools.hmcts.net/jira/browse/EUI-8869 which deals with the integration/mapping data
-  // once the updated version of the API is available and provides the missing information
-  private mockMissingDataTillNewVersionOfApiIsReady(): void {
-    this.companyRegistrationNumber = '12345678';
-    this.organisationType = 'IT and communications';
-    this.regulators = [
-      {
-        regulatorType: 'Solicitor Regulation Authority (SRA)',
-        organisationRegistrationNumber: '11223344'
-      },
-      {
-        regulatorType: 'Other',
-        regulatorName: 'Other regulatory organisation',
-        organisationRegistrationNumber: '12341234'
-      },
-      {
-        regulatorType: 'Charted Institute of Legal Executives',
-        organisationRegistrationNumber: '43214321'
-      }
-    ];
   }
 }

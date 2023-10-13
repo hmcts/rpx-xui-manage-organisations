@@ -65,7 +65,6 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
       },
       ((errorResponse: HttpErrorResponse) => {
-        console.log(errorResponse);
         this.apiErrors.push({
           id: 'confirmTermsAndConditions',
           message: errorResponse.error.message

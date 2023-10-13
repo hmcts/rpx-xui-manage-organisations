@@ -93,6 +93,24 @@ describe('RegisteredAddressComponent', () => {
     expect(component.registrationData.inInternationalMode).toBeTruthy();
   });
 
+  it('should get a persisted postcode', () => {
+    const mockRegData = {
+      address: {
+        addressLine1: 'street',
+        addressLine2: 'street2',
+        addressLine3: 'extraStreet',
+        postTown: 'city',
+        country: 'unknown',
+        postCode: 'L12 7RT'
+      },
+      inInternationalMode: false
+    };
+    mockRegisterOrgService.getRegistrationData.and.returnValue(mockRegData);
+    component.isInternal = false;
+    component.ngOnInit();
+    expect(component.formGroup.get('address').get('postCode').value).toBe('L12 7RT');
+  });
+
   it('should check the form on continue', () => {
     component.startedInternational = true;
     component.isInternational = undefined;
@@ -197,6 +215,16 @@ describe('RegisteredAddressComponent', () => {
     spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
       previousNavigation: {
         finalUrl: '/something-else'
+      }
+    });
+    component.onBack(false);
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
+  });
+
+  it('should back link navigate to the company house details page without a previousUrl', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: undefined
       }
     });
     component.onBack(false);

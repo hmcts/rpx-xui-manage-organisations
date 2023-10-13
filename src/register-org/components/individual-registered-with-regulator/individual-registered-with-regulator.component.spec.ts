@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
+import { RegisterOrgService } from '../../services/register-org.service';
 import { IndividualRegisteredWithRegulatorComponent } from './individual-registered-with-regulator.component';
 
 describe('IndividualRegisteredWithRegulatorComponent', () => {
@@ -29,13 +30,22 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     regulatorRegisteredWith: null,
     inInternationalMode: null
   };
+  const mockSessionStorageService = jasmine.createSpyObj('SessionStorageService', [
+    'getItem',
+    'setItem',
+    'removeItem'
+  ]);
+
+  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['get', 'post']);
+  const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [IndividualRegisteredWithRegulatorComponent],
       imports: [RouterTestingModule],
       providers: [
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: RegisterOrgService, useValue: service }
       ]
     }).compileComponents();
   });

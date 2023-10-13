@@ -19,7 +19,7 @@ class RegisteredAddressPage {
 
     async inputValue(field, value) {
         switch (field) {
-            case 'Provide address detail':
+            case 'Provide address details':
                 const addressInput = value.split(',')
                 await this.selectAddress(addressInput[0].trim(), addressInput[1].trim())
                 break;

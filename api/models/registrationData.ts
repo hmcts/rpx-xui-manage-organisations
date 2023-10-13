@@ -63,7 +63,7 @@ export type RegistrationRequest = {
         county: string,
         country: string,
         postCode: string,
-        dxAddress: [
+        dxAddress?: [
           {
             dxNumber: string,
             dxExchange: string

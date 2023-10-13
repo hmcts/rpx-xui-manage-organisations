@@ -12,6 +12,11 @@ export interface Regulator {
     organisationRegistrationNumber?: string;
 }
 
+export interface OrganisationType {
+  key: string;
+  description: string;
+}
+
 export type RegistrationData = {
     companyName: string;
     companyHouseNumber?: string;
@@ -23,7 +28,7 @@ export type RegistrationData = {
     hasPBA: boolean;
     contactDetails: ContactDetails;
     address: AddressModel;
-    organisationType: string;
+    organisationType: OrganisationType;
     otherOrganisationType?: string;
     otherOrganisationDetail?: string;
     regulatorRegisteredWith: string;
@@ -32,4 +37,45 @@ export type RegistrationData = {
     hasIndividualRegisteredWithRegulator: boolean;
     individualRegulators?: Regulator[];
     pbaNumbers: string[];
+}
+
+export type RegistrationRequest = {
+    name: string,
+    status?: string,
+    statusMessage?: string,
+    sraId?: string,
+    sraRegulated?: string,
+    companyNumber?: string,
+    companyUrl?: string,
+    superUser: {
+      firstName: string,
+      lastName: string,
+      email: string
+    },
+    paymentAccount: string [],
+    contactInformation: [
+      {
+        uprn?: string,
+        addressLine1: string,
+        addressLine2: string,
+        addressLine3: string,
+        townCity: string,
+        county: string,
+        country: string,
+        postCode: string,
+        dxAddress: [
+          {
+            dxNumber: string,
+            dxExchange: string
+          }
+        ]
+      }
+    ],
+    orgType: string,
+    orgAttributes?: [
+      {
+        key: string,
+        value: string
+      }
+    ]
 }

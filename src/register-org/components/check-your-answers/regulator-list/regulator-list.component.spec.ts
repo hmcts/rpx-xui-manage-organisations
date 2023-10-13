@@ -1,11 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegulatorType } from 'src/register-org/models';
+import { RegulatorType } from '../../../../register-org/models';
+import { RegisterOrgService } from '../../../services/register-org.service';
 import { RegulatorListComponent } from './regulator-list.component';
 
 describe('RegulatorListComponent', () => {
   let component: RegulatorListComponent;
   let fixture: ComponentFixture<RegulatorListComponent>;
   let nativeElement: any;
+
+  const mockSessionStorageService = jasmine.createSpyObj('SessionStorageService', [
+    'getItem',
+    'setItem',
+    'removeItem'
+  ]);
+
+  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['get', 'post']);
+  const service = new RegisterOrgService(mockSessionStorageService, mockHttpService);
 
   const organisationRegulators = [
     {
@@ -39,7 +49,8 @@ describe('RegulatorListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegulatorListComponent],
-      imports: []
+      imports: [],
+      providers: [{ provide: RegisterOrgService, useValue: service }]
     }).compileComponents();
   });
 

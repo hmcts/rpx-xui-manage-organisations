@@ -15,8 +15,8 @@ export type RegistrationData = {
   hasPBA: boolean;
   contactDetails: ContactDetails;
   address: AddressModel;
-  organisationType: string;
-  otherOrganisationType?: string;
+  organisationType: OrganisationType;
+  otherOrganisationType?: OrganisationType;
   otherOrganisationDetail?: string;
   regulatorRegisteredWith: string;
   inInternationalMode: boolean;
@@ -24,4 +24,9 @@ export type RegistrationData = {
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];
   pbaNumbers: string[];
+}
+
+export interface OrganisationType {
+  key: string;
+  description: string;
 }

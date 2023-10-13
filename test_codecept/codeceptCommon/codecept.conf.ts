@@ -24,7 +24,7 @@ console.log(`parallel : ${parallel}`)
 console.log(`headless : ${!head}`)
 
 
-let pipelineBranch = process.env.TEST_URL.includes('pr-') || process.env.TEST_URL.includes('manage-case.aat')  ? "preview" : "master"
+let pipelineBranch = process.env.TEST_URL.includes('pr-') ? "preview" : "master"
 
 let features = ''
 if (testType === 'e2e' || testType === 'smoke'){  
@@ -45,14 +45,22 @@ const functional_output_dir = path.resolve(`${__dirname}/../../functional-output
 
 const cucumber_functional_output_dir = path.resolve(`${__dirname}/../../functional-output/tests/cucumber-codecept-${testType}`)
 
+const tags = process.env.DEBUG ? 'functional_debug' : 'fullFunctional'
+
+const grepTags = `(?=.*@${tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
+console.log(grepTags)
+
 exports.config = {
   timeout: 600,
   "gherkin": {
     "features": features,
     "steps": "../**/*.steps.js"
   },
+  grep: grepTags,
   output: functional_output_dir,
- 
+  // disableScreenshots: false,
+  // fullPageScreenshots: true,
+  // uniqueScreenshotNames: true,
   helpers: {
     CustomHelper:{
       require:"./customHelper.js"
@@ -60,44 +68,45 @@ exports.config = {
     "Mochawesome": {
       "uniqueScreenshotNames": "true"
     },
-    Puppeteer: {
-      url: 'https://manage-case.aat.platform.hmcts.net/',
-      show: true,
-      waitForNavigation: ['domcontentloaded'],
-      restart: true,
-      keepCookies: false,
-      keepBrowserState: false,
-      smartWait: 50000,
-      waitForTimeout: 90000,
-      chrome: {
-        ignoreHTTPSErrors: true,
-        defaultViewport: {
-          width: 1280,
-          height: 960
-        },
-        args: [
-          `${head ? '' : '--headless'}`,
-          '—disable-notifications',
-          '--smartwait',
-          '--disable-gpu',
-          '--no-sandbox',
-          '--allow-running-insecure-content',
-          '--ignore-certificate-errors',
-          '--window-size=1440,1400',
-          '--viewport-size=1440,1400',
+    // Puppeteer: {
+    //   url: 'https://manage-case.aat.platform.hmcts.net/',
+    //   show: true,
+    //   waitForNavigation: ['domcontentloaded'],
+    //   restart: true,
+    //   keepCookies: false,
+    //   keepBrowserState: false,
+    //   smartWait: 50000,
+    //   waitForTimeout: 90000,
+    //   chrome: {
+    //     ignoreHTTPSErrors: true,
+    //     defaultViewport: {
+    //       width: 1280,
+    //       height: 960
+    //     },
+    //     args: [
+    //       `${head ? '' : '--headless'}`,
+    //       '—disable-notifications',
+    //       '--smartwait',
+    //       '--disable-gpu',
+    //       '--no-sandbox',
+    //       '--allow-running-insecure-content',
+    //       '--ignore-certificate-errors',
+    //       '--window-size=1440,1400',
+    //       '--viewport-size=1440,1400',
 
-           '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks'
-        ]
-      }
+    //        '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks'
+    //     ]
+    //   }
       
-    },
-    // Playwright: {
-    //   url: "https://manage-case.aat.platform.hmcts.net",
-    //   restart: false,
-    //   show:true,
-    //   waitForNavigation: "domcontentloaded",
-    //   waitForAction: 500
-    // }
+    // },
+    Playwright: {
+      url: "https://manage-case.aat.platform.hmcts.net",
+      restart: false,
+      show: head ? true : false,
+      waitForNavigation: "domcontentloaded",
+      waitForAction: 500,
+      browser: 'chromium'
+    }
     // WebDriver:{
     //   url: 'https://manage-case.aat.platform.hmcts.net/',
     //   browser: 'chrome',
@@ -154,7 +163,7 @@ exports.config = {
   plugins:{
     screenshotOnFail: {
       enabled: true,
-      fullPageScreenshots: 'true'
+      fullPageScreenshots: true
     },
    
     "myPlugin": {

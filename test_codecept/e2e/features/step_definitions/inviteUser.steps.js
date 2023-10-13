@@ -60,7 +60,7 @@ const { Error } = require('globalthis/implementation');
 
     await browserWaits.waitForElement(inviteUserPage.userInvitaionConfirmation)
     await browserWaits.retryWithActionCallback(async () => {
-      expect(await inviteUserPage.amOnUserConfirmationPage()).to.be.true;
+      expect(await inviteUserPage.userInvitaionConfirmation.getText()).to.include('You\'ve invited');
 
     })
   });

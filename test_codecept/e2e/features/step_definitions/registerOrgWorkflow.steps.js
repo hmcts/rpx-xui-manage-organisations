@@ -1,5 +1,6 @@
 
-const registerOrgWorkflow = require('../pageObjects/registerOrgWorkFlow')
+const browser = require('../../../codeceptCommon/browser');
+const registerOrgWorkflow = require('../pageObjects/registerOtherOrg/workflow')
 
 function getPageObject(page) {
     const pageObj = registerOrgWorkflow.pages[page];
@@ -47,6 +48,18 @@ When('In register organisation page {string}, I input values', async function (p
     for (const row of datatablehashes) {
         await pageObj.inputValue(row.field, row.value);
 
+    }
+})
+
+When('In register organisation workflow, I navigate to route {string}', async function (route) {
+    await browser.get(`${process.env.TEST_URL}/register-org-new/${route}`)
+})
+
+Then('In register organisation workflow, I validate error messages displayed', async function (datatable) {
+
+    const datatableHash = datatable.parse().hashes();
+    for (let row of datatableHash) {
+        await registerOrgWorkflow.validateErrorSummaryMessageDisplayed(row.message)
     }
 })
 

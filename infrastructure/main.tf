@@ -1,7 +1,7 @@
 locals {
   app_full_name     = "xui-${var.component}"
   ase_name          = "core-compute-${var.env}"
-  local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env
+  local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview") ? "aat" : "saat" : var.env
   shared_vault_name = "${var.shared_product_name}-${local.local_env}"
 }
 
@@ -34,6 +34,9 @@ module "redis6-cache" {
   business_area                 = "cft"
   private_endpoint_enabled      = true
   public_network_access_enabled = false
+  sku_name                      = var.sku_name
+  family                        = var.family
+  capacity                      = var.capacity
 }
 
 resource "azurerm_application_insights" "appinsights" {

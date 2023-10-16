@@ -24,7 +24,7 @@ router.get('/', configurationUIRoute);
  */
 export async function configurationUIRoute(req, res): Promise<void> {
   const environment = process && process.env && process.env.PUI_ENV;
-  const launchDarklyClientId = environment !== 'preview' ? getConfigValue(LAUNCH_DARKLY_CLIENT_ID) : '5de6610b23ce5408280f2268';
+  const launchDarklyClientId = environment !== 'preview' ? getConfigValue(LAUNCH_DARKLY_CLIENT_ID) : '645baeea2787d812993d9d70';
   res.status(200).send({
     feeAndPayApiPath: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),

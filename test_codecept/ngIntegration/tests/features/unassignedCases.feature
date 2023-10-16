@@ -1,4 +1,4 @@
-@ng 
+@ng @fullFunctional
 Feature: Unassigned cases Tab
     Background: Mock and browser setup
         Given I init MockApp
@@ -69,7 +69,7 @@ Feature: Unassigned cases Tab
         When In unassigned cases page, I select case with id "1234567812345671"
         Then In unassigned cases page, I see share case button enabled
 
-@functional_debug @fullFunctional
+
     Scenario: Share case scenario 1
         Given I set MOCK with user roles
             | roles | pui-org-manager,task-supervisor,case-allocator |
@@ -120,7 +120,7 @@ Feature: Unassigned cases Tab
         Then In share case workflow, I see share case confirmation
         Then In share case workflow, I see cinfirmation message "Your selected cases have been updated"
 
-@functional_debug @fullFunctional
+
     Scenario: Share case scenario 2
         Given I set MOCK with user roles
             | roles | pui-org-manager,task-supervisor,case-allocator |

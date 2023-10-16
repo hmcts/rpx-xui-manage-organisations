@@ -47,7 +47,7 @@ const cucumber_functional_output_dir = path.resolve(`${__dirname}/../../function
 
 const tags = process.env.DEBUG ? 'functional_debug' : 'fullFunctional'
 
-const grepTags = `(?=.*@${tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
+const grepTags = `(?=.*@${testType === 'smoke' ? 'smoke':tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
 console.log(grepTags)
 
 exports.config = {

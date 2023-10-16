@@ -14,6 +14,7 @@ const healthRoutes = require('./services/health/routes')
 const sessionRoutes = require('./services/session/routes')
 const refDataRoutes = require('./services/refData/routes')
 const ccdRoutes = require('./services/ccd/routes')
+const rdCommonDataRoutes = require('./services/rdCommondata/routes')
 
 const userApiData = require('./services/userApiData');
 class MockApp {
@@ -69,6 +70,7 @@ class MockApp {
 
         app.use('/health', healthRoutes)
         app.use('/refdata/external/v1', refDataRoutes)
+        app.use('/refdata/commondata/lov', rdCommonDataRoutes )
         app.use('/ccd', ccdRoutes)
 
 

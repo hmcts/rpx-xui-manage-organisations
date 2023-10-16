@@ -3,6 +3,7 @@ const workflow = require('../pageObjects/registerOtherOrg/workflow')
 
 const reportLogger = require('../../../codeceptCommon/reportLogger')
 const browserWaits = require('../../support/customWaits')
+const registerOrgWorkflow = require('../pageObjects/registerOtherOrg/workflow')
 
 function getPageObject(page) {
     const pageObj = workflow.pages[page];
@@ -98,6 +99,50 @@ When('In register other org work flow, I click back link', async function () {
 
 When('In register other org check your answers page, I click change link for field {string}', async function (field) {
     await workflow.pages['Check your answers before you register'].clickChangeLinkForField(field)
+})
+
+
+Then('In register other org workflow, I validate change links' , async function(datatable){
+    const datatableHash = datatable.parse().hashes();
+
+    const sessionStorage = await browser.getSessionStorage('Registration-Data')
+    reportLogger.AddMessage(sessionStorage)
+    for (let row of datatableHash) {
+        reportLogger.AddMessage(`Validating chnage link ${row.field} to page ${row.screen}`)
+        await workflow.pages['Check your answers before you register'].clickChangeLinkForField(row.field)
+        
+        const pageObj = getPageObject(row.screen);
+        await browserWaits.waitForElement(pageObj.container)
+        expect(await pageObj.container.isDisplayed(), `${row.screen} not displayed`).to.be.true
+
+        await browser.get(`${process.env.TEST_URL}/register-org-new/check-your-answers`)
+
+        const cyaPageObject = getPageObject('Check your answers before you register');
+        await browserWaits.waitForElement(cyaPageObject.container)
+    }
+
+})
+
+Then('In register other org workflow, I validate continue pages', async function (datatable){
+    const datatableHash = datatable.parse().hashes();
+
+    const sessionStorage = await browser.getSessionStorage('Registration-Data')
+    reportLogger.AddMessage(sessionStorage)
+
+    for (let row of datatableHash) {
+        reportLogger.AddMessage(`Validating continue to ${row.page} `)
+        await registerOrgWorkflow.continueBtn.click();
+
+        const pageObj = getPageObject(row.page);
+        await browserWaits.waitForElement(pageObj.container)
+        expect(await pageObj.container.isDisplayed(), `${row.page} not displayed`).to.be.true
+
+        if (row.page === 'What is the registered address of your organisation?'){
+            await pageObj.inputValue('Provide address details','SW1V 3BZ,Flat 1')
+        }
+
+    }
+
 })
 
 

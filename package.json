@@ -34,7 +34,7 @@
     "test:coverage:node": "cd api && yarn coverage",
     "test:crossbrowser": "protractor ./test/e2e/config/crossbrowser.conf.js",
     "test:node": "cd api && yarn test",
-    "test:functional": "yarn playwright install chromium && yarn test:api && yarn run test:codeceptE2E",
+    "test:functional": "yarn playwright install chromium && yarn test:api && yarn run test:test:xuiIntegration && yarn run test:codeceptE2E",
     "test:functional:backup": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js",
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js --local",
     "test:fullfunctional": "yarn test:api && yarn run test:codeceptE2E",
@@ -52,7 +52,9 @@
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
     "test:codeceptE2EDebug": "DEBUG=true TEST_TYPE=e2e  npx codeceptjs run  --plugins retryFailedStep --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features",
     "test:codeceptE2E": "TEST_TYPE=e2e  npx codeceptjs run-workers --suites 6 --plugins retryFailedStep --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features",
-    "test:backendMock": "DEBUG=true nodemon test_codecept/backendMock/app --standalone"
+    "test:backendMock": "DEBUG=true nodemon test_codecept/backendMock/app --standalone",
+    "test:xuiIntegrationDebug": "DEBUG=true NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration  npx codeceptjs run  -p pauseOnFail --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features",
+    "test:xuiIntegration": "yarn build && node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration PARALLEL=true  npx codeceptjs run-workers --suites 6  --config=./test_codecept/codeceptCommon/codecept.conf.ts  --features "
   },
   "private": true,
   "dependencies": {

@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 
 const global = require('./globals')
-// import applicationServer from '../localServer'
+import applicationServer from '../localServer'
 
 var spawn = require('child_process').spawn;
 const backendMockApp = require('../backendMock/app');
@@ -25,7 +25,7 @@ console.log(`headless : ${!head}`)
 
 
 let pipelineBranch = process.env.TEST_URL.includes('pr-') ? "preview" : "master"
-
+pipelineBranch = 'preview'
 let features = ''
 if (testType === 'e2e' || testType === 'smoke'){  
   features = `../e2e/features/app/**/*.feature`
@@ -230,7 +230,7 @@ async function setup(){
 
   if (!debugMode && (testType === 'ngIntegration' || testType === 'a11y')){
     await backendMockApp.startServer(debugMode);
-    // await applicationServer.start()
+    await applicationServer.start()
   }
   
 }
@@ -238,7 +238,7 @@ async function setup(){
 async function teardown(){
   if (!debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
     await backendMockApp.stopServer();
-    // await applicationServer.stop()
+    await applicationServer.stop()
   }
   statsReporter.run();
   await generateCucumberReport();

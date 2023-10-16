@@ -6,6 +6,7 @@ import {
   LAUNCH_DARKLY_CLIENT_ID,
   LINKS_MANAGE_CASES_LINK,
   LINKS_MANAGE_ORG_LINK,
+  PREVIEW_LD_KEY,
   PROTOCOL,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
@@ -37,7 +38,8 @@ export async function configurationUIRoute(req, res): Promise<void> {
     s2sPath: getConfigValue(SERVICE_S2S_PATH),
     servicesIdamApiPath: getConfigValue(SERVICES_IDAM_API_PATH),
     servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
-    envrionment: environment ? environment : 'LOCAL'
+    envrionment: environment ? environment : 'LOCAL',
+    ld: getConfigValue(PREVIEW_LD_KEY)
   });
 }
 

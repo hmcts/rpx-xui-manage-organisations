@@ -25,7 +25,7 @@ router.get('/', configurationUIRoute);
  */
 export async function configurationUIRoute(req, res): Promise<void> {
   const environment = process && process.env && process.env.PUI_ENV;
-  const launchDarklyClientId = environment !== 'preview' ? getConfigValue(LAUNCH_DARKLY_CLIENT_ID) : '5de6610b23ce5408280f2268';
+  const launchDarklyClientId = environment !== 'preview' ? getConfigValue(LAUNCH_DARKLY_CLIENT_ID) : getConfigValue(PREVIEW_LD_KEY);
   res.status(200).send({
     feeAndPayApiPath: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),
@@ -38,8 +38,7 @@ export async function configurationUIRoute(req, res): Promise<void> {
     s2sPath: getConfigValue(SERVICE_S2S_PATH),
     servicesIdamApiPath: getConfigValue(SERVICES_IDAM_API_PATH),
     servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
-    envrionment: environment ? environment : 'LOCAL',
-    ld: getConfigValue(PREVIEW_LD_KEY)
+    envrionment: environment ? environment : 'LOCAL'
   });
 }
 

@@ -23,6 +23,7 @@ router.get('/', configurationUIRoute);
  * All the following environmental variables are passed to the UI.
  */
 export async function configurationUIRoute(req, res): Promise<void> {
+  const environment = process && process.env && process.env.PUI_ENV
   res.status(200).send({
     feeAndPayApiPath: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),
@@ -34,7 +35,8 @@ export async function configurationUIRoute(req, res): Promise<void> {
     rdProfessionalApiPath: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
     s2sPath: getConfigValue(SERVICE_S2S_PATH),
     servicesIdamApiPath: getConfigValue(SERVICES_IDAM_API_PATH),
-    servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)
+    servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
+    envrionment: environment ? environment : 'LOCAL'
   });
 }
 

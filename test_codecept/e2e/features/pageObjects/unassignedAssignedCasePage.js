@@ -11,6 +11,9 @@ class UnassignedAssignedCasesPage{
 
     this.shareCaseButton = element(by.xpath(`//button[contains(text(),'Share case')]`))
 
+    this.manageCaseSharingButton = element(by.xpath(`//button[contains(text(),'Manage case sharing')]`))
+
+
     this.errorSummary = $('.govuk-error-summary__body')
 
   }
@@ -38,7 +41,6 @@ class UnassignedAssignedCasesPage{
 
   async clickFilterButton(action){
     await this.getFilterButtonElement(action).click()
-
   }
 
   async enterSearchCaseInput(caseId){
@@ -61,12 +63,13 @@ class UnassignedAssignedCasesPage{
     return this.errorSummary.getText();
   }
 
-  async waitForPageToLoad(){
-    await BrowserWaits.waitForElement(this.headerTitle, undefined, 'Unassigned Cses Page header not displayed');
+  async waitForPageToLoad(pageheaderText){
+    await BrowserWaits.waitForElement(this.headerTitle, undefined, `${pageheaderText} Page header not displayed`);
     await BrowserWaits.waitForCondition(async () => {
-      return (await this.headerTitle.getText()).includes('Unassigned Cases');
+      return (await this.headerTitle.getText()).includes(pageheaderText);
     });
   }
+
 
   async amOnPage(){
     await this.waitForPageToLoad();
@@ -92,8 +95,25 @@ class UnassignedAssignedCasesPage{
     return attr === null
   }
 
+  async isManageCaseSharingutttonEnabled() {
+    const attr = await this.manageCaseSharingButton.getAttribute('disabled')
+    return attr === null
+  }
+
   async clickShareCaseButton(){
     await this.shareCaseButton.click()
+  }
+
+  async clickManageCaseSharingButton() {
+    await this.manageCaseSharingButton.click()
+  }
+
+
+}
+
+class AssignedCasesFilter{
+  constructor(){
+
   }
 
 

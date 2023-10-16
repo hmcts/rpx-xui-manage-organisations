@@ -10,7 +10,7 @@ When('I click on Unassigned cases tab', async function(){
 
 
 Then('I should be on display Unassigned cases page', async function () {
-    await unassignedAssignedCasesPage.amOnPage();
+    await unassignedAssignedCasesPage.waitForPageToLoad('Unassigned Cases');
 });
 
 Then('In unassigned cases page, filter button {string} is displayed', async function (filterShowHideButton) {

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -13,7 +12,8 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
   public dxFormGroup: FormGroup;
-  public dxError: ErrorMessage;
+  public dxErrors: { id: string, message: string }[] = [];
+  public errorPresent = false;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -76,11 +76,11 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
 
   private isFormValid(): boolean {
     if (this.dxFormGroup.invalid) {
-      this.dxError = {
-        description: 'Please select at least one option',
-        title: '',
-        fieldId: 'document-exchange-yes'
-      };
+      this.dxErrors = [{
+        message: 'Please select at least one option',
+        id: 'document-exchange-yes'
+      }];
+      this.errorPresent = true;
       this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }

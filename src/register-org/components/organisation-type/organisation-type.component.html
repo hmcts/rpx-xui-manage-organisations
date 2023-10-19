@@ -35,8 +35,8 @@
                 <div class="govuk-radios__conditional"
                   [ngClass]="{'govuk-radios__conditional--hidden': showOtherOrganisationTypes === false }"
                   id="other-organisation-type-container">
-                  <div class="govuk-form-group" >
-                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
+                  <div >
+                    <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
                         Select another type of organisation
                       </label>
@@ -52,7 +52,7 @@
                         </option>
                       </select>
                     </div>
-                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
+                    <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
                         Enter details
                       </label>

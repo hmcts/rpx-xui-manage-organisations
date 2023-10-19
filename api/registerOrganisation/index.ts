@@ -59,6 +59,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
     const response = await axiosInstance.post(url, registerRequest, options);
     res.send(response.data);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 }

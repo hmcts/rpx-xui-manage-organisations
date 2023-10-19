@@ -85,7 +85,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     return this.cyaFormGroup.valid;
   }
 
-  public termsAndConditionsChange(event: any): void {
+  public termsAndConditionsChange(): void {
     this.validateForm();
   }
 

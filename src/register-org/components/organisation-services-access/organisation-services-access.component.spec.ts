@@ -61,7 +61,7 @@ describe('OrganisationServicesAccessComponent', () => {
       }
     });
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'regulatory-organisation-type']);
   });
 
   it('should not set the error message and navigate to next the page', () => {

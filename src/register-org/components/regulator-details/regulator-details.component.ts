@@ -29,6 +29,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public regulatorTypeEnum = RegulatorType;
   public validationErrors: { id: string, message: string }[] = [];
   public duplicatesIndex: number[];
+  public previousUrl: string;
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
@@ -42,6 +43,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
     this.regulatorTypes$ = this.lovRefDataService.getRegulatoryOrganisationTypes();
+    this.previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     this.setFormControlValues();
   }
 
@@ -161,8 +163,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       //   ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details'])
       //   : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
     } else {
-      const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
-      if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
         // Change link clicked on CYA page
         // Navigate to CYA page
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);

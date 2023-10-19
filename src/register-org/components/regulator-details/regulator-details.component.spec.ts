@@ -487,14 +487,14 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the individual registered with regulator page', () => {
-    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
     component.regulatorType = RegulatorType.Individual;
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
   });
 
   it('should back link navigate to the document exchange reference details page', () => {
-    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.hasDxReference = true;
     component.onBack();
@@ -502,7 +502,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the document exchange reference page', () => {
-    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.hasDxReference = false;
     component.onBack();
@@ -511,6 +511,7 @@ describe('RegulatorDetailsComponent', () => {
 
   it('should back link navigate to the check your answers page', () => {
     mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.previousUrl = 'check-your-answers';
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });

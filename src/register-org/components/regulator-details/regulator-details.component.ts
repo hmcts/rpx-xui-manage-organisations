@@ -29,6 +29,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public regulatorTypeEnum = RegulatorType;
   public validationErrors: { id: string, message: string }[] = [];
   public duplicatesIndex: number[];
+  public previousUrl: string;
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
@@ -42,6 +43,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
     this.regulatorTypes$ = this.lovRefDataService.getRegulatoryOrganisationTypes();
+    this.previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     this.setFormControlValues();
   }
 
@@ -154,17 +156,32 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
 
   public onBack(): void {
     if (this.route.snapshot?.params?.backLinkTriggeredFromCYA) {
-      // Back link triggered from CYA page
-      if (this.regulatorType === RegulatorType.Individual) {
-        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
-      } else {
-        this.registrationData.hasDxReference
-          ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
-          : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
-      }
+      // Back link clicked on CYA page
+      // Navigate to individual regulators yes or no screen
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+      // this.registrationData.hasIndividualRegisteredWithRegulator
+      //   ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details'])
+      //   : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
     } else {
-      // Change link triggered from CYA page
-      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+        // Change link clicked on CYA page
+        // Navigate to CYA page
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      } else {
+        // Normal registration journey
+        if (this.regulatorType === RegulatorType.Individual) {
+          // Currently displayed screen is individual regulator details
+          // Navigate to individual regulators yes or no screen
+          this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+        } else {
+          // Currently displayed screen is organisation regulator details
+          // Navigate to document exchange reference details screen if document exchange details were already entered
+          // Else, navigate to document exchange reference yes or no screen
+          this.registrationData.hasDxReference
+            ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
+            : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+        }
+      }
     }
   }
 

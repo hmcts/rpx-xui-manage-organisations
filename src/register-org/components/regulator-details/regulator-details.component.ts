@@ -159,9 +159,6 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       // Back link clicked on CYA page
       // Navigate to individual regulators yes or no screen
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
-      // this.registrationData.hasIndividualRegisteredWithRegulator
-      //   ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details'])
-      //   : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
     } else {
       if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
         // Change link clicked on CYA page

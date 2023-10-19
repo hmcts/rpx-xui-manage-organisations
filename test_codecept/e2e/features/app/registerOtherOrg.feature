@@ -1,5 +1,5 @@
-
-Feature: Register other org 
+@fullFunctional @preview_only
+Feature: Register other org, registration
 
     Scenario: register other org workflow with all optional values
         Given I navigate to register other org start page
@@ -133,7 +133,7 @@ Feature: Register other org
             | Email address                                               | auto_test_email@test.com                                                 |
             | What regulators are you (as an individual) registered with? | Other: Test regulator ref: 12345678                                      |
 
-    
+
     Scenario: register other org workflow with minimum values
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
@@ -185,9 +185,9 @@ Feature: Register other org
 
         Then I am on register other org page "Who is your organisation registered with?"
         When In register other org page "Who is your organisation registered with?", I input values
-            | field                                         | value                               |
+            | field                                         | value                                |
             | Select the type of regulatory organisation    | Solicitor Regulation Authority (SRA) |
-            | Enter your organisation's registration number | 12345678                            |
+            | Enter your organisation's registration number | 12345678                             |
 
         When I click continue in register other org workflow
 
@@ -228,7 +228,7 @@ Feature: Register other org
             | field                        | value                                              |
             | Organisation type            | Solicitor                                          |
             | Organisation name            | Auto test organisation                             |
-            | Organisation address         | auto building,auto city,Irelan                     | 
+            | Organisation address         | auto building,auto city,Irelan                     |
             | Service to access            | Divorce,Damages                                    |
             | Regulatory organisation type | Solicitor Regulation Authority (SRA) ref: 12345678 |
             | First name(s)                | auto test fn                                       |
@@ -236,9 +236,7 @@ Feature: Register other org
             | Email address                | auto_test_email@test.com                           |
 
         Then In register other org workflow, I validate check your answers not displays fields
-        |field|
-        |DX reference|
-        | DX number |
-
-
+            | field        |
+            | DX reference |
+            | DX number    |
 

@@ -18,18 +18,13 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
     contactInformation: [
       {
         addressLine1: requestBody.address.addressLine1,
-        addressLine2: requestBody.address.addressLine2,
-        addressLine3: requestBody.address.addressLine3,
+        addressLine2: convertEmptyStringToNull(requestBody.address.addressLine2),
+        addressLine3: convertEmptyStringToNull(requestBody.address.addressLine3),
         townCity: requestBody.address.postTown,
         county: requestBody.address.county,
         country: requestBody.address.country,
         postCode: requestBody.address.postCode,
-        dxAddress: [
-          {
-            dxNumber: requestBody.dxNumber,
-            dxExchange: requestBody.dxExchange
-          }
-        ]
+        dxAddress: getDx(requestBody)
       }
     ],
     orgType: requestBody.organisationType.key
@@ -38,6 +33,18 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
 }
 
 export const router = Router({ mergeParams: true });
+
+function getDx(requestBody: RegistrationData): [{ dxNumber: string; dxExchange: string; }] {
+  const dxNumber = convertEmptyStringToNull(requestBody.dxNumber);
+  const dxExchange = convertEmptyStringToNull(requestBody.dxExchange);
+  if (dxNumber && dxExchange) {
+    return [{
+      dxNumber,
+      dxExchange
+    }];
+  }
+  return null;
+}
 
 export async function handleRegisterOrgRoute(req: Request, res: Response, next: NextFunction): Promise<any> {
   const registerPayload = req.body as RegistrationData;
@@ -67,3 +74,8 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
 router.post('/register', handleRegisterOrgRoute);
 
 export default router;
+
+function convertEmptyStringToNull(term: string): string {
+  return term === '' ? null : term;
+}
+

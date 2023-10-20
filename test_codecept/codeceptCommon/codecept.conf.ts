@@ -25,7 +25,6 @@ console.log(`headless : ${!head}`)
 
 
 let pipelineBranch = process.env.TEST_URL.includes('pr-') ? "preview" : "master"
-pipelineBranch = 'preview'
 let features = ''
 if (testType === 'e2e' || testType === 'smoke'){  
   features = `../e2e/features/app/**/*.feature`

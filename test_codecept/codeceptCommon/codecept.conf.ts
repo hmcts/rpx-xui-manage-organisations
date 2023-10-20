@@ -25,6 +25,7 @@ console.log(`headless : ${!head}`)
 
 
 let pipelineBranch = process.env.TEST_URL.includes('pr-') ? "preview" : "master"
+
 let features = ''
 if (testType === 'e2e' || testType === 'smoke'){  
   features = `../e2e/features/app/**/*.feature`
@@ -46,7 +47,7 @@ const cucumber_functional_output_dir = path.resolve(`${__dirname}/../../function
 
 const tags = process.env.DEBUG ? 'functional_debug' : 'fullFunctional'
 
-const grepTags = `(?=.*@${testType === 'smoke' ? 'smoke':tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
+const grepTags = `(?=.*@${tags})^(?!.*@ignore)^(?!.*@${pipelineBranch === 'preview' ? 'AAT_only' : 'preview_only'})`
 console.log(grepTags)
 
 exports.config = {

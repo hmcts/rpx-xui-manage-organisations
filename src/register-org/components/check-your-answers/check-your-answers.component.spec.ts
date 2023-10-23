@@ -11,7 +11,7 @@ describe('CheckYourAnswersComponent', () => {
   let component: CheckYourAnswersComponent;
   let fixture: ComponentFixture<CheckYourAnswersComponent>;
   let router: Router;
-  let mockRegisterOrgService: any;
+  let mockRegisterOrgService: RegisterOrgService;
 
   const registrationData: RegistrationData = {
     pbaNumbers: [],
@@ -36,21 +36,16 @@ describe('CheckYourAnswersComponent', () => {
     inInternationalMode: true,
     regulators: [],
     regulatorRegisteredWith: null,
-    hasIndividualRegisteredWithRegulator: null,
+    hasIndividualRegisteredWithRegulator: true,
     individualRegulators: []
   };
 
   beforeEach(async () => {
-    mockRegisterOrgService = jasmine.createSpyObj<RegisterOrgService>('registerOrgService', ['getRegistrationData', 'persistRegistrationData', 'postRegistration']);
-    mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
       declarations: [CheckYourAnswersComponent],
       imports: [
         HttpClientTestingModule,
         RouterTestingModule
-      ],
-      providers: [
-        { provide: RegisterOrgService, useValue: mockRegisterOrgService }
       ]
     }).compileComponents();
   });
@@ -60,6 +55,7 @@ describe('CheckYourAnswersComponent', () => {
     component = fixture.componentInstance;
     component.registrationData = registrationData;
     router = TestBed.inject(Router);
+    mockRegisterOrgService = TestBed.inject(RegisterOrgService);
     spyOn(router, 'navigate');
     fixture.detectChanges();
   });
@@ -78,7 +74,7 @@ describe('CheckYourAnswersComponent', () => {
   });
 
   it('should display error message banner for api error', () => {
-    mockRegisterOrgService.postRegistration.and.returnValue(throwError('error'));
+    spyOn(mockRegisterOrgService, 'postRegistration').and.returnValue(throwError('error'));
     component.cyaFormGroup.get('confirmTermsAndConditions').setValue(true);
     component.onSubmitData();
     expect(component.validationErrors).toEqual([{ id: 'confirm-terms-and-conditions', message: 'Sorry, there is a problem with the service. Try again later' }]);

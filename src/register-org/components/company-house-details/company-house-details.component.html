@@ -18,7 +18,7 @@
             Enter the name of the organisation
           </label>
           <p class="govuk-error-message" *ngIf="companyNameError">
-            <span class="govuk-visually-hidden">Error:</span> {{ companyNameError.description }}
+            <span class="govuk-visually-hidden">Error:</span> {{ companyNameError.message }}
           </p>
           <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName">
         </div>
@@ -31,7 +31,7 @@
             This helps HMCTS to verify your company on our System
           </div>
           <p class="govuk-error-message" *ngIf="companyNumberError">
-            <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.description }}
+            <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.message }}
           </p>
           <input class="govuk-input" id="company-house-number" name="companyHouseNumber" type="text"
             formControlName="companyHouseNumber" aria-describedby="company-house-number-hint">

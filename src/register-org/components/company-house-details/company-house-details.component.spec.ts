@@ -45,13 +45,16 @@ describe('CompanyHouseDetailsComponent', () => {
     const companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
     component.companyHouseFormGroup.get('companyName').setValue(null);
     component.onContinue();
+    expect(component.validationErrors.length).toEqual(1);
     expect(component.companyNameError).toEqual(companyNameError);
   });
 
   it('should set the error message if company number is invalid', () => {
     const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
+    component.companyHouseFormGroup.get('companyName').setValue('Ministry of Justice');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
+    expect(component.validationErrors.length).toEqual(1);
     expect(component.companyNumberError).toEqual(companyNumberError);
   });
 
@@ -59,6 +62,9 @@ describe('CompanyHouseDetailsComponent', () => {
     component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('12345678');
     component.onContinue();
+    expect(component.validationErrors.length).toEqual(0);
+    expect(component.companyNameError).toBeNull();
+    expect(component.companyNumberError).toBeNull();
     expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);

@@ -47,6 +47,8 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
     }
 
     this.subscription = this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).subscribe((orgTypes) => {
+      // To set Other option as the last option
+      orgTypes.push(orgTypes.splice(orgTypes.findIndex((e) => e.key === 'OTHER'), 1)[0]);
       this.organisationTypes = orgTypes;
 
       const otherTypes = orgTypes.find((orgType) => orgType.key === 'OTHER').child_nodes;

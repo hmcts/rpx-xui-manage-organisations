@@ -1,4 +1,4 @@
-@fullFunctional @preview_only @functional_debug
+@fullFunctional @preview_only
 Feature: Register other org, registration
 
     Scenario: register other org workflow with all optional values

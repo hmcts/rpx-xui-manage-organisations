@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -12,7 +12,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class DocumentExchangeReferenceComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
-  public dxFormGroup: UntypedFormGroup;
+  public dxFormGroup: FormGroup;
   public dxError: ErrorMessage;
 
   constructor(public readonly router: Router,
@@ -24,8 +24,8 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.dxFormGroup = new UntypedFormGroup({
-      documentExchange: new UntypedFormControl(null, Validators.required)
+    this.dxFormGroup = new FormGroup({
+      documentExchange: new FormControl(null, Validators.required)
     });
 
     this.setFormControlValues();

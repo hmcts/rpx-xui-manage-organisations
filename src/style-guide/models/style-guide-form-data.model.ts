@@ -1,11 +1,11 @@
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export interface StyleGuideFormDataModel {
-  input: UntypedFormControl | string[];
-  checkboxes: UntypedFormGroup | string[];
-  passport: UntypedFormGroup | string[];
-  contactPreference: UntypedFormGroup | string[];
-  sortBy: UntypedFormGroup | string[];
-  moreDetails: UntypedFormGroup | string[];
-  fileUpload: UntypedFormGroup | string[]
+  input: FormControl | string[];
+  checkboxes: FormGroup | string[];
+  passport: FormGroup | string[];
+  contactPreference: FormGroup | string[];
+  sortBy: FormGroup | string[];
+  moreDetails: FormGroup | string[];
+  fileUpload: FormGroup | string[]
 }

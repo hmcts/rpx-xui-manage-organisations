@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
@@ -44,8 +44,8 @@ describe('InputButtonComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InputButtonComponent);
     component = fixture.componentInstance;
-    const pbaNumber1 = new UntypedFormControl('');
-    component.group = new UntypedFormGroup({ PBANumber1: pbaNumber1 });
+    const pbaNumber1 = new FormControl('');
+    component.group = new FormGroup({ PBANumber1: pbaNumber1 });
     component.item = { control: 'PBANumber1' };
     fixture.detectChanges();
   });
@@ -89,9 +89,9 @@ describe('InputButtonComponent', () => {
 
   it('should show duplicated pba number error', () => {
     component.validationErrors = VALIDATION_ERRORS;
-    const pbaNumber1 = new UntypedFormControl('');
+    const pbaNumber1 = new FormControl('');
     pbaNumber1.setErrors({ duplicatedPBAError: true });
-    const formGroup = new UntypedFormGroup({ PBANumber1: pbaNumber1 });
+    const formGroup = new FormGroup({ PBANumber1: pbaNumber1 });
     const hasError = component.hasValidationError(formGroup, 'PBANumber1');
     expect(component.validationError).toBe('You have entered this PBA number more than once');
     expect(hasError).toBeTruthy();
@@ -99,16 +99,16 @@ describe('InputButtonComponent', () => {
 
   it('should show invalid pba number error', () => {
     component.validationErrors = VALIDATION_ERRORS;
-    const pbaNumber1 = new UntypedFormControl('');
+    const pbaNumber1 = new FormControl('');
     pbaNumber1.setErrors({ invalidPBANumberError: true });
-    const formGroup = new UntypedFormGroup({ PBANumber1: pbaNumber1 });
+    const formGroup = new FormGroup({ PBANumber1: pbaNumber1 });
     const hasError = component.hasValidationError(formGroup, 'PBANumber1');
     expect(component.validationError).toBe('Enter a valid PBA number');
     expect(hasError).toBeTruthy();
   });
 
   it('should not show error', () => {
-    const formGroup = new UntypedFormGroup({ PBANumber1: new UntypedFormControl('') });
+    const formGroup = new FormGroup({ PBANumber1: new FormControl('') });
     const hasError = component.hasValidationError(formGroup, 'PBANumber1');
     expect(hasError).toBeFalsy();
   });

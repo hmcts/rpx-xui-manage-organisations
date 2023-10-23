@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-document-exchange-reference-details',
   templateUrl: './document-exchange-reference-details.component.html'
 })
 export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
-  public dxFormGroup: UntypedFormGroup;
+  public dxFormGroup: FormGroup;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -20,9 +20,9 @@ export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.dxFormGroup = new UntypedFormGroup({
-      dxNumber: new UntypedFormControl(null),
-      dxExchange: new UntypedFormControl(null)
+    this.dxFormGroup = new FormGroup({
+      dxNumber: new FormControl(null),
+      dxExchange: new FormControl(null)
     });
 
     this.setFormControlValues();

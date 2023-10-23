@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
@@ -14,7 +14,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
  * then we should display a red box around the text area.
  */
 export class TextareasComponent {
-    @Input() group: UntypedFormGroup;
+    @Input() group: FormGroup;
     @Input() idPrefix = 'ta';
     @Input() name = 'ta';
     @Input() id = 'ta';
@@ -29,7 +29,7 @@ export class TextareasComponent {
 
     constructor(private validationService: ValidationService) {}
 
-    isGroupInvalidAndShowValidation (formGroup: UntypedFormGroup, showValidation: boolean) {
+    isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
       if (formGroup.errors && formGroup.errors[this.control] && showValidation) {
         return true;
       }
@@ -47,7 +47,7 @@ export class TextareasComponent {
      * // @param control
      * // @return {boolean}
      */
-    isControlInvalidAndShowValidation(formGroup: UntypedFormGroup, control: string, showValidation: boolean) {
+    isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
       return !this.isFormControlValid(formGroup, control) && showValidation;
     }
 
@@ -56,7 +56,7 @@ export class TextareasComponent {
      *
      * // @see ValidationService
      */
-    isFormControlValid(formGroup: UntypedFormGroup, control: string): boolean {
+    isFormControlValid(formGroup: FormGroup, control: string): boolean {
       return this.validationService.isFormControlValid(formGroup, control);
     }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator } from './form-group-validation.typescript';
@@ -128,7 +128,7 @@ export class ValidationService {
    * // @param {String} control - 'informationNeeded'
    * // @return {boolean}
    */
-  isFormControlValid(formGroup: UntypedFormGroup, control: string): boolean {
+  isFormControlValid(formGroup: FormGroup, control: string): boolean {
     return formGroup.get(control).valid;
   }
 
@@ -181,8 +181,8 @@ export class ValidationService {
    * to display the error in the  view.
    * // @return{any}
    */
-  isAnyCheckboxChecked(formGroup: UntypedFormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
-    return (controls: UntypedFormGroup): ValidationErrors | null => {
+  isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    return (controls: FormGroup): ValidationErrors | null => {
       for (const checkbox of checkboxes) {
         if (controls.get(checkbox).value === true) {
           return null;
@@ -198,7 +198,7 @@ export class ValidationService {
   // Common function for validator
   // Returninng the validationIdentifier true if invalid and null if valid
 
-  isAllFieldsRequiredValidationFn(controls: UntypedFormGroup, fields: Array<string>, validationIdentifier) {
+  isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier) {
     if (controls !== null && fields !== null) {
       for (const field of fields) {
         if (!controls.get(field).value) {
@@ -221,8 +221,8 @@ export class ValidationService {
    * // @return{any}
    */
 
-  isAllFieldsRequired(formGroup: UntypedFormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
-    return (controls: UntypedFormGroup): ValidationErrors | null => {
+  isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    return (controls: FormGroup): ValidationErrors | null => {
       return this.isAllFieldsRequiredValidationFn(controls, fields, validationIdentifier);
     };
   }
@@ -234,7 +234,7 @@ export class ValidationService {
    *
    */
 
-  isValidDateValidationFn(controls: UntypedFormGroup, fields: Array<string>, validationIdentifier) {
+  isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier) {
     if (controls !== null && fields !== null) {
       const dateValueArray = [];
 
@@ -319,8 +319,8 @@ export class ValidationService {
     return null;
   }
 
-  isValidDate(formGroup: UntypedFormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
-    return (controls: UntypedFormGroup): ValidationErrors | null => {
+  isValidDate(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    return (controls: FormGroup): ValidationErrors | null => {
       return this.isValidDateValidationFn(controls, fields, validationIdentifier);
     };
   }
@@ -335,8 +335,8 @@ export class ValidationService {
    * //@return {any}
    */
 
-  isTextAreaValidWhenCheckboxChecked(formGroup: UntypedFormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
-    const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: UntypedFormGroup): ValidationErrors | null => {
+  isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
+    const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
       if (!formControls.get(controls.checkboxControl).value) {
         return null;
       }
@@ -363,8 +363,8 @@ export class ValidationService {
    * // @return {any}
    */
 
-  isRadioValidWhenSomeOptionSelected(formGroup: UntypedFormGroup, controls: any, validationIdentifier: string) {
-    const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: UntypedFormGroup): ValidationErrors | null => {
+  isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string) {
+    const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
       for (const option of controls.selectedOptions) {
         if (formControls.get(controls.radioControl).value !== null && formControls.get(controls.radioControl).value !== option.selectedOption) {
           // Do not validate child if parent is valid so
@@ -408,7 +408,7 @@ export class ValidationService {
    *        'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
    *    ]}]
    */
-  createFormGroupValidators(formGroup: UntypedFormGroup, formGroupValidators) {
+  createFormGroupValidators(formGroup: FormGroup, formGroupValidators) {
     return formGroupValidators.map((formGroupValidator) => {
       const groupValidator: FormGroupValidator = formGroupValidator;
 
@@ -431,18 +431,18 @@ export class ValidationService {
    *
    * @return ValidatorFn - the validation function defined in the generic pattern
    */
-  createFormGroupValidator(formGroup: UntypedFormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
+  createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
     return this[validatorFunc](formGroup, controls, validationErrorId);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public invalidPBANumberCheck(formGroup: UntypedFormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
-    return (fg: UntypedFormGroup): ValidationErrors | null => {
+  public invalidPBANumberCheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
+    return (fg: FormGroup): ValidationErrors | null => {
       return this.invalidPBANumberValidatorFn(fg, controlName);
     };
   }
 
-  public invalidPBANumberValidatorFn(fg: UntypedFormGroup, controlName: string) {
+  public invalidPBANumberValidatorFn(fg: FormGroup, controlName: string) {
     if (fg.controls) {
       for (const key of Object.keys(fg.controls)) {
         if (key.startsWith(controlName) && key.includes(controlName)
@@ -456,13 +456,13 @@ export class ValidationService {
     return null;
   }
 
-  public duplicatedPBACheck(formGroup: UntypedFormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
-    return (fg: UntypedFormGroup): ValidationErrors | null => {
+  public duplicatedPBACheck(formGroup: FormGroup, controlName: string, validationErrorId: string): ValidatorFn | null {
+    return (fg: FormGroup): ValidationErrors | null => {
       return this.duplicatedPBAValidatorFn(fg, controlName, validationErrorId);
     };
   }
 
-  public duplicatedPBAValidatorFn(formGroup: UntypedFormGroup, controlName: string, validationIdentifier: string) {
+  public duplicatedPBAValidatorFn(formGroup: FormGroup, controlName: string, validationIdentifier: string) {
     const originalControls = {};
     const duplicatedControls = {};
     if (formGroup && controlName) {

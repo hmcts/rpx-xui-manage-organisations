@@ -1,6 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { of } from 'rxjs';
 import { InviteUserPermissionComponent } from './invite-user-permission.component';
@@ -25,7 +25,7 @@ describe('Invite User Permission Component', () => {
     mockFeatureToggleService.getValue.and.returnValue(of(true));
     fixture = TestBed.createComponent(InviteUserPermissionComponent);
     component = fixture.componentInstance;
-    component.inviteUserForm = new UntypedFormGroup({});
+    component.inviteUserForm = new FormGroup({});
     fixture.detectChanges();
   });
 

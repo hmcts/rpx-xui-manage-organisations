@@ -1,6 +1,5 @@
 import { AUTH, AuthOptions, xuiNode } from '@hmcts/rpx-xui-node-lib';
 import { NextFunction, Request, Response } from 'express';
-import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getConfigValue, showFeature } from '../configuration';
 import {
   COOKIE_TOKEN,
@@ -13,19 +12,20 @@ import {
   MICROSERVICE,
   NOW,
   OAUTH_CALLBACK_URL,
+  REDISCLOUD_URL,
   REDIS_KEY_PREFIX,
   REDIS_TTL,
-  REDISCLOUD_URL,
   S2S_SECRET,
-  SERVICE_S2S_PATH,
+  SERVICES_CCD_COMPONENT_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_ISS_URL,
   SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
-  SESSION_SECRET,
-  SERVICES_CCD_COMPONENT_API_PATH
+  SERVICE_S2S_PATH,
+  SESSION_SECRET
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getOrganisationDetails } from '../organisation';
 
 const logger = log4jui.getLogger('auth');
@@ -92,7 +92,8 @@ export const getXuiNodeMiddleware = () => {
   const routeCredential = {
     password,
     routes: [
-      '/external/addresses'
+      '/external/addresses',
+      '/external/getLovRefData'
     ],
     scope: 'openid profile roles manage-user create-user',
     userName

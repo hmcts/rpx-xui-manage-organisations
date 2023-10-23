@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { PaymentByAccountComponent } from './payment-by-account.component';
 
 describe('PaymentByAccountComponent', () => {
@@ -11,11 +11,13 @@ describe('PaymentByAccountComponent', () => {
   let fixture: ComponentFixture<PaymentByAccountComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    pbaNumbers: [],
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -26,7 +28,8 @@ describe('PaymentByAccountComponent', () => {
     address: null,
     organisationType: null,
     regulators: [],
-    regulatorRegisteredWith: null
+    regulatorRegisteredWith: null,
+    inInternationalMode: null
   };
 
   beforeEach(async () => {
@@ -105,7 +108,22 @@ describe('PaymentByAccountComponent', () => {
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 
-  it('should back button navigate to organisation services access page', () => {
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    });
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the organisation services access page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    });
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });

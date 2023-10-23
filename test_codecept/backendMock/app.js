@@ -15,7 +15,7 @@ const sessionRoutes = require('./services/session/routes')
 const refDataRoutes = require('./services/refData/routes')
 const ccdRoutes = require('./services/ccd/routes')
 const rdCommonDataRoutes = require('./services/rdCommondata/routes')
-
+const acseAssignmentsRoutes = require('./services/caseAssignments/routes')
 const userApiData = require('./services/userApiData');
 class MockApp {
 

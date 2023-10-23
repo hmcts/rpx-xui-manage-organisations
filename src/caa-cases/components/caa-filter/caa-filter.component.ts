@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subscription, of } from 'rxjs';
 import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   public readonly INACTIVE_USER_GROUP_HEADING = 'Inactive users:';
   public readonly ACTIVE_USER_STATUS = 'active';
 
-  public caaFormGroup: UntypedFormGroup;
+  public caaFormGroup: FormGroup;
   public caaFilterHeading: string;
   public caaCasesPageTypeLookup = CaaCasesPageType;
   public caaCasesFilterType = CaaCasesFilterType;
@@ -47,17 +47,17 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   public caaFilterFormControlSubscription: Subscription;
   public assigneePersonFormControlSubscription: Subscription;
 
-  constructor(private readonly formBuilder: UntypedFormBuilder) { }
+  constructor(private readonly formBuilder: FormBuilder) { }
 
   public ngOnInit(): void {
     this.caaFormGroup = this.formBuilder.group({});
     if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-      this.caaFormGroup.addControl(this.caseRefFormControl, new UntypedFormControl('', CaaCasesUtil.caseReferenceValidator()));
+      this.caaFormGroup.addControl(this.caseRefFormControl, new FormControl('', CaaCasesUtil.caseReferenceValidator()));
       this.caaFilterHeading = CaaCasesFilterHeading.UnassignedCases;
     } else {
-      this.caaFormGroup.addControl(this.caaFilterFormControl, new UntypedFormControl('', Validators.required));
-      this.caaFormGroup.addControl(this.caseRefFormControl, new UntypedFormControl(''));
-      this.caaFormGroup.addControl(this.assigneePersonFormControl, new UntypedFormControl(''));
+      this.caaFormGroup.addControl(this.caaFilterFormControl, new FormControl('', Validators.required));
+      this.caaFormGroup.addControl(this.caseRefFormControl, new FormControl(''));
+      this.caaFormGroup.addControl(this.assigneePersonFormControl, new FormControl(''));
 
       this.caaFilterHeading = CaaCasesFilterHeading.AssignedCases;
 

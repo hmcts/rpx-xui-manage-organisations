@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {UntypedFormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 /*
 * Gov Uk Select Dumb Component responsible for
@@ -25,7 +25,7 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 export class GovUkSelectComponent {
   constructor () {}
   @Input() errorMessage;
-  @Input() group: UntypedFormGroup;
+  @Input() group: FormGroup;
   @Input() config: {hint: string; name: string; id: string,  sPageHeading: boolean, classes: string };
   @Input() items: {label: string, value: string; id: string}[];
 

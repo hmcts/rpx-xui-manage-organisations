@@ -121,7 +121,6 @@ describe('CaaCasesComponent', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
     const storeSelectMock = spyOn(store, 'select');
-    //storeDispatchMock.and.returnValue(of({}));
     storePipeMock.and.returnValue(of({}));
     storeSelectMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -146,7 +145,6 @@ describe('CaaCasesComponent', () => {
   it('should load case data only when case type is set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
-    //storeDispatchMock.and.returnValue(of({}));
     storePipeMock.and.returnValue(of({}));
     component.currentCaseType = 'FinancialRemedyConsented';
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -158,7 +156,6 @@ describe('CaaCasesComponent', () => {
   it('should not load case data only when case type is not set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
-    //storeDispatchMock.and.returnValue(of({}));
     storePipeMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.loadDataFromStore();

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CheckboxComponent } from './checkbox.component';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
-import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('CheckboxComponent', () => {
     @Component({
@@ -17,7 +17,7 @@ describe('CheckboxComponent', () => {
         ></app-checkbox>`
     })
   class TestDummyHostComponent {
-      group: UntypedFormGroup;
+      group: FormGroup;
       idPrefix = 'waste';
       name = 'waste';
       items;

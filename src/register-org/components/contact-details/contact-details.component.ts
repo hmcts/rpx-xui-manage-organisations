@@ -2,14 +2,14 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-details',
   templateUrl: './contact-details.component.html'
 })
 export class ContactDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
-  public contactDetailsFormGroup: UntypedFormGroup;
+  public contactDetailsFormGroup: FormGroup;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -20,10 +20,10 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
   public ngOnInit(): void {
     super.ngOnInit();
 
-    this.contactDetailsFormGroup = new UntypedFormGroup({
-      firstName: new UntypedFormControl(null),
-      lastName: new UntypedFormControl(null),
-      workEmailAddress: new UntypedFormControl(null)
+    this.contactDetailsFormGroup = new FormGroup({
+      firstName: new FormControl(null),
+      lastName: new FormControl(null),
+      workEmailAddress: new FormControl(null)
     });
 
     this.setFormControlValues();

@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html'
 })
 export class CheckboxComponent {
-    @Input() group: UntypedFormGroup;
+    @Input() group: FormGroup;
     @Input() idPrefix;
     @Input() name;
     @Input() items;

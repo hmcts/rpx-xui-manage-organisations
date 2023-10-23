@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
@@ -13,7 +13,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
  * show the Error Message, sent through from the parent component.
  */
 export class ValidationHeaderComponent {
-    @Input() formGroup: UntypedFormGroup;
+    @Input() formGroup: FormGroup;
     @Input() controlId;
 
     // TODO : deprecate as not needed?
@@ -48,7 +48,7 @@ export class ValidationHeaderComponent {
      * // @see ValidationService
      * // @param control - 'informationNeeded'
      */
-    isFormControlValid(formGroup: UntypedFormGroup, control: string): boolean {
+    isFormControlValid(formGroup: FormGroup, control: string): boolean {
       return this.validationService.isFormControlValid(formGroup, control);
     }
 
@@ -59,7 +59,7 @@ export class ValidationHeaderComponent {
      * // @param validationErrorId
      * // @return {boolean}
      */
-    isFormGroupInvalid(formGroup: UntypedFormGroup, validationErrorId: string): boolean {
+    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
       return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 

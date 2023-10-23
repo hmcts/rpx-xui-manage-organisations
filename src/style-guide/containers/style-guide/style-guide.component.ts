@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -19,7 +19,7 @@ import * as fromStore from '../../store';
   templateUrl: './style-guide.component.html'
 })
 export class StyleGuideComponent implements OnInit {
-  public styleGuideForm: UntypedFormGroup;
+  public styleGuideForm: FormGroup;
 
   public formValidationErrors$: Observable<any>;
   public formValidationErrorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; }[] }>;
@@ -36,7 +36,7 @@ export class StyleGuideComponent implements OnInit {
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
-    private readonly fb: UntypedFormBuilder
+    private readonly fb: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -44,20 +44,20 @@ export class StyleGuideComponent implements OnInit {
     this.formValidationErrorsArray$ = this.store.pipe(select(fromStore.getGetStyleGuideErrorsArray));
     // TODO add type
     this.styleGuideForm = this.fb.group({
-      [CONST.STG_FORM_MODEL.input]: new UntypedFormControl('', [Validators.required, Validators.email]),
-      [CONST.STG_FORM_MODEL.checkboxes]: new UntypedFormGroup({ // checkboxes
-        manageCases: new UntypedFormControl(),
-        manageUsers: new UntypedFormControl('')
+      [CONST.STG_FORM_MODEL.input]: new FormControl('', [Validators.required, Validators.email]),
+      [CONST.STG_FORM_MODEL.checkboxes]: new FormGroup({ // checkboxes
+        manageCases: new FormControl(),
+        manageUsers: new FormControl('')
       }, checkboxesBeCheckedValidator()),
-      [CONST.STG_FORM_MODEL.contactPreference]: new UntypedFormControl('', Validators.required),
-      [CONST.STG_FORM_MODEL.passport]: new UntypedFormGroup({ // date
-        day: new UntypedFormControl(''),
-        month: new UntypedFormControl(''),
-        year: new UntypedFormControl('')
+      [CONST.STG_FORM_MODEL.contactPreference]: new FormControl('', Validators.required),
+      [CONST.STG_FORM_MODEL.passport]: new FormGroup({ // date
+        day: new FormControl(''),
+        month: new FormControl(''),
+        year: new FormControl('')
       }, dateValidator()),
-      [CONST.STG_FORM_MODEL.sortBy]: new UntypedFormControl('', Validators.required),
-      [CONST.STG_FORM_MODEL.moreDetails]: new UntypedFormControl('', Validators.required),
-      [CONST.STG_FORM_MODEL.fileUpload]: new UntypedFormControl('', Validators.required)
+      [CONST.STG_FORM_MODEL.sortBy]: new FormControl('', Validators.required),
+      [CONST.STG_FORM_MODEL.moreDetails]: new FormControl('', Validators.required),
+      [CONST.STG_FORM_MODEL.fileUpload]: new FormControl('', Validators.required)
     });
   }
 

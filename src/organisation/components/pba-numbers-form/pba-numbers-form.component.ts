@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -14,7 +14,7 @@ import * as fromStore from '../../store';
 export class PbaNumbersFormComponent implements OnInit {
   public readonly title = 'Add or remove PBA accounts';
 
-  public pbaFormGroup: UntypedFormGroup;
+  public pbaFormGroup: FormGroup;
   public summaryErrors: {
     header: string;
     isFromValid: boolean;
@@ -30,7 +30,7 @@ export class PbaNumbersFormComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly orgStore: Store<fromStore.OrganisationState>,
-    private readonly fb: UntypedFormBuilder
+    private readonly fb: FormBuilder
   ) {}
 
   public ngOnInit(): void {
@@ -46,8 +46,8 @@ export class PbaNumbersFormComponent implements OnInit {
     };
   }
 
-  public get pbaNumbers(): UntypedFormArray {
-    return this.pbaFormGroup.get('pbaNumbers') as UntypedFormArray;
+  public get pbaNumbers(): FormArray {
+    return this.pbaFormGroup.get('pbaNumbers') as FormArray;
   }
 
   public get hasPendingChanges(): boolean {
@@ -105,7 +105,7 @@ export class PbaNumbersFormComponent implements OnInit {
   }
 
   private initialiseForm(): void {
-    this.pbaFormGroup = new UntypedFormGroup({
+    this.pbaFormGroup = new FormGroup({
       pbaNumbers: this.fb.array([])
     });
 
@@ -139,9 +139,9 @@ export class PbaNumbersFormComponent implements OnInit {
     });
   }
 
-  private newPbaNumber(value: string = ''): UntypedFormGroup {
+  private newPbaNumber(value: string = ''): FormGroup {
     return this.fb.group({
-      pbaNumber: new UntypedFormControl(value, {
+      pbaNumber: new FormControl(value, {
         validators: this.getPbaNumberValidators(),
         updateOn: 'blur'
       })

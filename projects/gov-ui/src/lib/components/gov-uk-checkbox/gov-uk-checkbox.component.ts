@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 /*
 * Gov Uk Checkbox Dumb Component responsible for
@@ -21,7 +21,7 @@ import { UntypedFormGroup } from '@angular/forms';
 })
 export class GovUkCheckboxComponent implements OnInit {
   constructor() {}
-  @Input() public group: UntypedFormGroup;
+  @Input() public group: FormGroup;
   @Input() public config: {
     value: string;
     label: string;

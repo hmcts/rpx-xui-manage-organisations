@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ValidationService } from './form-builder-validation.service';
 @Injectable({
   providedIn: 'root'
@@ -34,14 +34,14 @@ export class FormsService {
             if (Object.keys(someData).length !== 0) {
               for (const radioEl of someJson.radioGroup) {
                 if (radioEl.value === someData[someJson.control]) {
-                  this.formControls[someJson.control] = new UntypedFormControl(radioEl.value);
+                  this.formControls[someJson.control] = new FormControl(radioEl.value);
                   break;
                 } else {
                   this.createFormControl(null, someJson.control, someJson.validators);
                 }
               }
             } else {
-              this.formControls[someJson.control] = new UntypedFormControl();
+              this.formControls[someJson.control] = new FormControl();
             }
           } else {
             if (someData[someJson.control]) {
@@ -73,17 +73,17 @@ export class FormsService {
   public createFormControl(initialValue: any, controlName: string, validators: string[], updateOn?: boolean) {
     if (this.validationService.controlHasValidation(validators)) {
       if (updateOn) {
-        this.formControls[controlName] = new UntypedFormControl(initialValue, {
+        this.formControls[controlName] = new FormControl(initialValue, {
           validators: this.validationService.getNgValidators(validators),
           updateOn: 'blur'
         });
       } else {
-        this.formControls[controlName] = new UntypedFormControl(initialValue, this.validationService.getNgValidators(validators));
+        this.formControls[controlName] = new FormControl(initialValue, this.validationService.getNgValidators(validators));
       }
       return;
     }
 
-    this.formControls[controlName] = new UntypedFormControl(initialValue);
+    this.formControls[controlName] = new FormControl(initialValue);
   }
 
   public defineFormControls(someJson: any, someData: any): any {

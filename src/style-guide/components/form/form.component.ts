@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-form.constants';
 
@@ -9,7 +9,7 @@ import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-fo
 })
 export class FormComponent implements OnInit {
   @Output() public submitForm = new EventEmitter();
-  @Input() public styleGuideFromGroup: UntypedFormGroup;
+  @Input() public styleGuideFromGroup: FormGroup;
   @Input() public set errorMessages(value) {
     this.errors = value || {};
   }

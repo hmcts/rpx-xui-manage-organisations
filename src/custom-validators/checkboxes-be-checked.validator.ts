@@ -1,7 +1,7 @@
-import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
+import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export function checkboxesBeCheckedValidator(minRequired = 1): ValidatorFn {
-  return function validate(formGroup: UntypedFormGroup) {
+  return function validate(formGroup: FormGroup) {
     let checked = 0;
 
     Object.keys(formGroup.controls).forEach((key) => {

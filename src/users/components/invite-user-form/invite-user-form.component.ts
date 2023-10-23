@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-invite-user-form',
@@ -7,7 +7,7 @@ import { UntypedFormGroup } from '@angular/forms';
 })
 export class InviteUserFormComponent {
   @Output() public submitForm = new EventEmitter();
-  @Input() public inviteUserForm: UntypedFormGroup;
+  @Input() public inviteUserForm: FormGroup;
   @Input() public set errorMessages(value) {
     this.isInvalid = value || {};
   }

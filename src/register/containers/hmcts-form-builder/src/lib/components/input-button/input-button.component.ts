@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../../../../../../store';
@@ -11,7 +11,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
   styleUrls: ['./input-button.component.scss']
 })
 export class InputButtonComponent implements OnInit {
-  @Input() public group: UntypedFormGroup;
+  @Input() public group: FormGroup;
   @Input() public item;
   @Input() public label;
   @Input() public hint;
@@ -46,15 +46,15 @@ export class InputButtonComponent implements OnInit {
     });
   }
 
-  public isControlInvalid(formGroup: UntypedFormGroup, control: string) {
+  public isControlInvalid(formGroup: FormGroup, control: string) {
     return !this.isFormControlValid(formGroup, control);
   }
 
-  public isFormControlValid(formGroup: UntypedFormGroup, control: string): boolean {
+  public isFormControlValid(formGroup: FormGroup, control: string): boolean {
     return this.validationService.isFormControlValid(formGroup, control);
   }
 
-  public hasValidationError(formGroup: UntypedFormGroup, control: string): boolean {
+  public hasValidationError(formGroup: FormGroup, control: string): boolean {
     if (formGroup.controls[control] && formGroup.controls[control].errors) {
       for (const key of Object.keys(formGroup.controls[control].errors)) {
         if (key === 'duplicatedPBAError') {

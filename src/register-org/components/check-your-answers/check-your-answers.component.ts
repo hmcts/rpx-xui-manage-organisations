@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ORGANISATION_TYPES_REF_DATA } from 'src/register-org/__mocks__';
 import { RegisterComponent } from '../../../register-org/containers';
+import { ORGANISATION_TYPES_REF_DATA } from '../../__mocks__';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';

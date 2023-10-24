@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { Router } from '@angular/router';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { RegisterComponent } from '../../containers/register/register-org.component';
+import { PbaErrorMessage } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
@@ -11,6 +12,11 @@ import { RegisterOrgService } from '../../services/register-org.service';
 })
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
   public pbaDetailsFormGroup: FormGroup;
+  public validationErrors = [{
+    id: 'pba-numbers-container',
+    message: PbaErrorMessage.GENERIC_ERROR_MESSAGE
+  }];
+
   public summaryErrors: {
     header: string;
     isFromValid: boolean;
@@ -124,18 +130,6 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       }
       return null;
     };
-    // return (control: AbstractControl): { [key: string]: any } => {
-    //   if (control.value.length === 10 && control.value) {
-    //     if (isNaN(Number(control.value.substring(3)))) {
-    //       return { error: 'Enter a valid PBA number' };
-    //     } else if (control.value.substring(0, 3).toUpperCase() !== 'PBA') {
-    //       return { error: 'Enter a valid PBA number' };
-    //     }
-    //   } else if (control.value.length === 7 && isNaN(Number(control.value))) {
-    //     return { error: 'Enter a valid PBA number' };
-    //   }
-    //   return null;
-    // };
   }
 
   private isFormValid(): boolean {
@@ -157,47 +151,44 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   private generateSummaryErrorMessage(): void {
-    const genericErrorMessage = 'Enter a valid PBA number';
-    const existingPbaNumber = 'This PBA number is already associated to your organisation';
-    const uniqueErrorMessage = 'You have entered this PBA number more than once';
-
-    const items = this.pbaNumbers.controls
-      .map((control: AbstractControl, index: number) => {
-        if (control.valid) {
-          return;
-        }
-
-        const controlErrors = control.get('pbaNumber').errors;
-
-        if (!controlErrors) {
-          return;
-        }
-
-        let message: string = genericErrorMessage;
-
-        if (controlErrors.unique) {
-          message = uniqueErrorMessage;
-        } else if (controlErrors.noneOf) {
-          message = existingPbaNumber;
-        }
-
+    const items = this.pbaNumbers.controls.map((control: AbstractControl, index: number) => {
+      if (control.valid) {
         return {
           id: `pba-number-input${index}`,
-          message
+          message: ''
         };
-      })
-      .filter((i) => i);
+      }
+
+      const controlErrors = control.get('pbaNumber').errors;
+      if (!controlErrors) {
+        return;
+      }
+
+      let message: string = PbaErrorMessage.GENERIC_ERROR_MESSAGE;
+      if (controlErrors.unique) {
+        message = PbaErrorMessage.UNIQUE_ERROR_MESSAGE;
+      } else if (controlErrors.noneOf) {
+        message = PbaErrorMessage.EXISTING_PBA_NUMBER;
+      }
+
+      return {
+        id: `pba-number-input${index}`,
+        message
+      };
+    }).filter((i) => i);
 
     if (items.length === 0) {
       this.clearSummaryErrorMessage();
       return;
     }
 
-    this.summaryErrors = {
-      isFromValid: false,
-      header: 'There is a problem',
-      items
-    };
+    if (items.filter((item) => item.message !== '')?.length > 0) {
+      this.summaryErrors = {
+        isFromValid: false,
+        header: 'There is a problem',
+        items
+      };
+    }
   }
 
   private clearSummaryErrorMessage(): void {

@@ -2,27 +2,33 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary *ngIf="summaryErrors"
+        [errorMessages]="validationErrors"
+        [header]="'There is a problem'">
+      </xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">
         What PBA numbers does your organisation use?
       </h1>
       <hr>
       <form [formGroup]="pbaDetailsFormGroup">
-        <div formArrayName="pbaNumbers" [ngClass]="{'govuk-form-group--error': summaryErrors && !summaryErrors.isFromValid}">
+        <div id="pba-numbers-container" formArrayName="pbaNumbers">
           <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i = index">
-            <p class="govuk-error-message" *ngIf="summaryErrors && !summaryErrors.isFromValid">
-              <span class="govuk-visually-hidden">Error:</span>{{summaryErrors.items[i].message}}
-            </p>
-            <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
-              <label class="govuk-label govuk-!-font-weight-bold" for="pba-number-{{i}}">
-                PBA number (Optional)
-              </label>
-              <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
-                name="pbaNumber" formControlName="pbaNumber">
-              <button *ngIf="pbaNumbers.controls.length > 1" (click)="onRemovePBANumber(i)"
-                class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
-                Remove
-              </button>
+            <div [ngClass]="{'govuk-form-group--error': summaryErrors?.items[i]?.message?.length > 0}">
+              <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
+                <label class="govuk-label govuk-!-font-weight-bold" for="pba-number-{{i}}">
+                  PBA number (Optional)
+                </label>
+                <p class="govuk-error-message" *ngIf="summaryErrors?.items[i]?.message?.length > 0">
+                  <span class="govuk-visually-hidden">Error:</span>{{summaryErrors?.items[i]?.message}}
+                </p>
+                <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
+                  name="pbaNumber" formControlName="pbaNumber">
+                <button *ngIf="pbaNumbers.controls.length > 1" (click)="onRemovePBANumber(i)"
+                  class="govuk-button govuk-button--secondary govuk-!-margin-left-4 govuk-!-margin-bottom-0">
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
           <div>

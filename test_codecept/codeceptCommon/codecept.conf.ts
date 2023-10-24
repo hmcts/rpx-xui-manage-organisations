@@ -96,7 +96,6 @@ exports.config = {
     //        '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks'
     //     ]
     //   }
-
     // },
     Playwright: {
       url: "https://manage-case.aat.platform.hmcts.net",

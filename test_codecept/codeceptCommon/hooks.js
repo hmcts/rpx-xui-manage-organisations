@@ -66,8 +66,12 @@ module.exports = async function () {
     event.dispatcher.on(event.test.before, async function (test) {
       global.scenarioData = {}
       output.print(`Test started : ${test.title}`)
-        codeceptMochawesomeLog.AddMessage(`************ Test started : ${test.title}`);
+        codeceptMochawesomeLog.AddMessage(`************ Test started : ${test.title}`)
         featureLogsMessage(test, `\n ************ Test started : ${test.title}`);
+        if (test.state === 'failed' && process.env.TEST_TYPE !== 'e2e') {
+            await mockClient.logMessage(`************ Test started : ${test.title}`)
+
+        }
 
         statsReporter.run()
 

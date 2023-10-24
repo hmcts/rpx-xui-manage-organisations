@@ -89,64 +89,131 @@ describe('AppUtils', () => {
     expect(array).toEqual(state.userNav);
   });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('invite-users');
-    expect(array).toEqual('Invite user - Manage organisation');
-  });
+  describe('Page title', () => {
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/register');
+      expect(array).toEqual('Register - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('organisation-name');
-    expect(array).toEqual('Organisation name - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/organisation-type');
+      expect(array).toEqual('Organisation type - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('organisation-address');
-    expect(array).toEqual('Organisation address - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/company-house-details');
+      expect(array).toEqual('Company house details - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('organisation-pba');
-    expect(array).toEqual('PBA - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/document-exchange-reference');
+      expect(array).toEqual('Document exchange reference - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('have-dx');
-    expect(array).toEqual('DX - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/regulatory-organisation-type');
+      expect(array).toEqual('Organisation regulators - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('organisation-dx');
-    expect(array).toEqual('DX reference - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/organisation-services-access');
+      expect(array).toEqual('Services to access - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('haveSra');
-    expect(array).toEqual('SRA - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/payment-by-account');
+      expect(array).toEqual('Payment by account - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('sraNumber');
-    expect(array).toEqual('SRA number - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/individual-registered-with-regulator');
+      expect(array).toEqual('Individual regulators - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('name');
-    expect(array).toEqual('Name - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org-new/check-your-answers');
+      expect(array).toEqual('Check your answers - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('email-address');
-    expect(array).toEqual('Email - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/organisation-name');
+      expect(array).toEqual('Organisation name - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('check');
-    expect(array).toEqual('Check answers - Register organisation');
-  });
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/organisation-address');
+      expect(array).toEqual('Organisation address - Register organisation');
+    });
 
-  it('should set correct page titles', () => {
-    const array = AppUtils.setPageTitle('register-org/register');
-    expect(array).toEqual('Register - Register organisation');
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/organisation-pba');
+      expect(array).toEqual('PBA - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/organisation-have-dx');
+      expect(array).toEqual('DX - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/organisation-dx');
+      expect(array).toEqual('DX reference - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/haveSra');
+      expect(array).toEqual('SRA - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/sraNumber');
+      expect(array).toEqual('SRA number - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/name');
+      expect(array).toEqual('Name - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/email-address');
+      expect(array).toEqual('Email - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register/check');
+      expect(array).toEqual('Check answers - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('register-org/register');
+      expect(array).toEqual('Register - Register organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('invite-users');
+      expect(array).toEqual('Invite user - Manage organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('organisation');
+      expect(array).toEqual('Organisation details - Manage organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('users');
+      expect(array).toEqual('Users - Manage organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('unassigned-cases');
+      expect(array).toEqual('Unassigned cases - Manage organisation');
+    });
+
+    it('should set correct page title', () => {
+      const array = AppUtils.setPageTitle('assigned-cases');
+      expect(array).toEqual('Assigned cases - Manage organisation');
+    });
   });
 
   it('should switch title', () => {

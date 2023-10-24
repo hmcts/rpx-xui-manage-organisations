@@ -69,7 +69,7 @@ describe('CompanyHouseDetailsComponent', () => {
       previousNavigation: {
         finalUrl: '/check-your-answers'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
@@ -79,7 +79,7 @@ describe('CompanyHouseDetailsComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
   });

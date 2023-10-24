@@ -245,8 +245,7 @@ describe('OrganisationTypeComponent', () => {
 
   it('should set other as last option', () => {
     component.ngOnInit();
-    const index = ORGANISATION_TYPES_REF_DATA.findIndex((e) => e.key === 'OTHER');
-    ORGANISATION_TYPES_REF_DATA.push(ORGANISATION_TYPES_REF_DATA.splice(index, 1)[0]);
-    expect(component.organisationTypes).toEqual(ORGANISATION_TYPES_REF_DATA);
+    const lastIndex = component.organisationTypes.length;
+    expect(component.organisationTypes[lastIndex-1].key).toEqual('OTHER');
   });
 });

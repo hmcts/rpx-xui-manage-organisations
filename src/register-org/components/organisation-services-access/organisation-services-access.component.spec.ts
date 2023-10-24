@@ -65,7 +65,7 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    nativeElement.querySelector('#AAA7').click();
+    nativeElement.querySelector('#Damages').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -76,7 +76,7 @@ describe('OrganisationServicesAccessComponent', () => {
     component.selectedServices = [];
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
-    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'AAA7' };
+    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Damages' };
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(error);
     expect(router.navigate).not.toHaveBeenCalled();

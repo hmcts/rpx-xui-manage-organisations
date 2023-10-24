@@ -19,6 +19,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public services: string[] = [];
   public validationErrors: { id: string, message: string }[] = [];
   public apiErrors: {id: string, message: string}[] = [];
+  public pbaUrl: string;
   public readonly errorMessage = 'Please select checkbox to confirm you have read and understood the terms and conditions';
 
   constructor(public readonly router: Router,
@@ -33,6 +34,10 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
+
+    this.pbaUrl = this.registrationData.hasPBA
+      ? `/${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}/payment-by-account-details`
+      : `/${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}/payment-by-account`;
 
     this.registrationData.services?.forEach((serviceKey) => {
       const service = ORGANISATION_SERVICES.find((service) => service.key === serviceKey).value;

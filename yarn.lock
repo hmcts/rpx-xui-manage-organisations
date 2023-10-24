@@ -2564,16 +2564,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.0-NodeAndNgUpgrades-04":
-  version: 2.0.0-NodeAndNgUpgrades-04
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.0-NodeAndNgUpgrades-04"
+"@hmcts/rpx-xui-common-lib@npm:2.0.0-NodeAndNgUpgrades-05":
+  version: 2.0.0-NodeAndNgUpgrades-05
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.0-NodeAndNgUpgrades-05"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 832b7c5cb57075b63d58b25f10efaf4a9ac606d59c4028fa7e1f96c2fa1751fd14374c5ecabe59dc790927a8a16958a37a2d2cb1ffbec8441ec1f2d77dc720fb
+  checksum: 5c9c6c5dc65da71daf6a9cd8578aa9e94076dda038e08342f2d66ce503c88dcf27a74b2647218ce33b071c0953b8e92c6221c9968d2a7622c5e64493529cdea5
   languageName: node
   linkType: hard
 
@@ -11050,12 +11050,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fsevents@npm:2.3.2":
+  version: 2.3.2
+  resolution: "fsevents@npm:2.3.2"
+  dependencies:
+    node-gyp: latest
+  checksum: 97ade64e75091afee5265e6956cb72ba34db7819b4c3e94c431d4be2b19b8bb7a2d4116da417950c3425f17c8fe693d25e20212cac583ac1521ad066b77ae31f
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
 "fsevents@npm:^2.3.2, fsevents@npm:~2.3.1, fsevents@npm:~2.3.2":
   version: 2.3.3
   resolution: "fsevents@npm:2.3.3"
   dependencies:
     node-gyp: latest
   checksum: 11e6ea6fea15e42461fc55b4b0e4a0a3c654faa567f1877dbd353f39156f69def97a69936d1746619d656c4b93de2238bf731f6085a03a50cabf287c9d024317
+  conditions: os=darwin
+  languageName: node
+  linkType: hard
+
+"fsevents@patch:fsevents@2.3.2#~builtin<compat/fsevents>":
+  version: 2.3.2
+  resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
+  dependencies:
+    node-gyp: latest
   conditions: os=darwin
   languageName: node
   linkType: hard
@@ -16723,6 +16742,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"playwright-core@npm:1.39.0":
+  version: 1.39.0
+  resolution: "playwright-core@npm:1.39.0"
+  bin:
+    playwright-core: cli.js
+  checksum: 556e78dee4f9890facf2af8249972e0d6e01a5ae98737b0f6b0166c660a95ffee4cb79350335b1ef96430a0ef01d3669daae9099fa46c8d403d11c623988238b
+  languageName: node
+  linkType: hard
+
+"playwright@npm:^1.18":
+  version: 1.39.0
+  resolution: "playwright@npm:1.39.0"
+  dependencies:
+    fsevents: 2.3.2
+    playwright-core: 1.39.0
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    playwright: cli.js
+  checksum: 96d8ca5aa25465c1c5d554d0d6071981d55e22477800ff8f5d47a53ca75193d60ece2df538a01b7165b3277dd5493c67603a5acda713029df7fbd95ce2417bc9
+  languageName: node
+  linkType: hard
+
 "portfinder@npm:^1.0.28":
   version: 1.0.32
   resolution: "portfinder@npm:1.0.32"
@@ -18344,7 +18387,7 @@ __metadata:
     "@hmcts/media-viewer": 2.10.1-RC.1
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.0-NodeAndNgUpgrades-04
+    "@hmcts/rpx-xui-common-lib": 2.0.0-NodeAndNgUpgrades-05
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0
@@ -18456,6 +18499,7 @@ __metadata:
     pa11y-reporter-html: ^2.0.0
     pdfjs-dist: 2.5.207
     pegjs: ^0.10.0
+    playwright: ^1.18
     portfinder: ^1.0.28
     protractor: ~7.0.0
     protractor-cucumber-framework: ^9.7.0

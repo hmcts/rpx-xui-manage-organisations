@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AppUtils } from '../../../app/utils/app-utils';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegisterComponent } from '../../containers';
@@ -47,7 +48,7 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
     }
 
     this.subscription = this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).subscribe((orgTypes) => {
-      this.organisationTypes = orgTypes;
+      this.organisationTypes = AppUtils.setOtherAsLastOption(orgTypes);
 
       const otherTypes = orgTypes.find((orgType) => orgType.key === 'OTHER').child_nodes;
       this.otherOrganisationTypes = otherTypes;

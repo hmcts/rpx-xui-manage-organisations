@@ -6,7 +6,7 @@
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">What is your company name and Companies House number?</h1>
       <hr>
-      <p class="govuk-body">
+      <p class="govuk-hint">
         If your company is registered with Companies House,
         add the company name and number as they appear in the
         <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
@@ -18,7 +18,7 @@
             Enter the name of the organisation
           </label>
           <p class="govuk-error-message" *ngIf="companyNameError">
-            <span class="govuk-visually-hidden">Error:</span> {{ companyNameError.description }}
+            <span class="govuk-visually-hidden">Error:</span>{{ companyNameError.message }}
           </p>
           <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName">
         </div>

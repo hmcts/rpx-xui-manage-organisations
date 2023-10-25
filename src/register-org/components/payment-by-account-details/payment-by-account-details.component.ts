@@ -12,10 +12,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 })
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
   public pbaDetailsFormGroup: FormGroup;
-  public validationErrors = [{
-    id: 'pba-numbers-container',
-    message: PbaErrorMessage.GENERIC_ERROR_MESSAGE
-  }];
+  public validationErrors: { id: string, message: string }[] = [];
 
   public summaryErrors: {
     header: string;
@@ -154,7 +151,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
     const items = this.pbaNumbers.controls.map((control: AbstractControl, index: number) => {
       if (control.valid) {
         return {
-          id: `pba-number-input${index}`,
+          id: `pba-number-${index}`,
           message: ''
         };
       }
@@ -172,7 +169,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       }
 
       return {
-        id: `pba-number-input${index}`,
+        id: `pba-number-${index}`,
         message
       };
     }).filter((i) => i);
@@ -188,10 +185,12 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
         header: 'There is a problem',
         items
       };
+      this.validationErrors = this.summaryErrors.items.filter((item) => item.message !== '');
     }
   }
 
   private clearSummaryErrorMessage(): void {
     this.summaryErrors = null;
+    this.validationErrors = [];
   }
 }

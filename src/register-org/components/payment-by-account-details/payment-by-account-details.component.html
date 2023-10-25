@@ -2,9 +2,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
-      <xuilib-hmcts-error-summary *ngIf="summaryErrors"
-        [errorMessages]="validationErrors"
-        [header]="'There is a problem'">
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'">
       </xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">

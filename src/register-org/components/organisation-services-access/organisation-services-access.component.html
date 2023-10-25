@@ -19,7 +19,7 @@
             <div class="govuk-hint">
               You must select at least one option
             </div>
-            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': noServicesError}">
+            <div [ngClass]="{'govuk-form-group--error': noServicesError}">
               <div *ngIf="noServicesError" class="govuk-error-message">
                 <span class="govuk-visually-hidden">Error:</span> {{noServicesError}}
               </div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="govuk-checkboxes__conditional"
                   [ngClass]="{'govuk-checkboxes__conditional--hidden': !showOtherServicesInput}">
-                  <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': otherServicesError}">
+                  <div [ngClass]="{'govuk-form-group--error': otherServicesError}">
                     <label class="govuk-label" for="other-services">
                       Please enter the HMCTS service you are wishing to access
                     </label>

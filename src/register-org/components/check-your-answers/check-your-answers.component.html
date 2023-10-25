@@ -2,7 +2,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
-      <xuilib-hmcts-error-summary [errorMessages]="getErrorMessages()" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <h1 class="govuk-heading-l">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
 
@@ -199,7 +199,7 @@
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Confirm your registration details</h2>
       <p>Ensure that:</p>
       <ul class="govuk-list govuk-list--bullet">
-        <li>your personal and organisation detils are correct</li>
+        <li>your personal and organisation details are correct</li>
         <li>you have used your registered office address and not a personal or home address</li>
         <li>you are creating an account for your organisation for the first time</li>
         <li>you are authorised to register an account on behalf of your organisation</li>
@@ -220,7 +220,7 @@
           </div>
           <div class="govuk-checkboxes__item">
               <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
-              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions" (change)="termsAndConditionsChange()">
+              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
               <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
                 You have read and understood the
                 <a href="javascript:void(0)" target="_blank"
@@ -228,12 +228,10 @@
                 and are eligible for an account to manage your organisation and cases
               </label>
           </div>
-          <div class="govuk-body govuk-!-margin-top-6">
-            <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="submit">Confirm and submit</button>
+          <div class="govuk-!-margin-top-6">
+            <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="button">Confirm and submit</button>
           </div>
-          <div>
-            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
-          </div>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>
       </div>
     </div>

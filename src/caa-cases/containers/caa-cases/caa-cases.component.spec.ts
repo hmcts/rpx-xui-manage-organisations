@@ -164,7 +164,6 @@ describe('CaaCasesComponent', () => {
   });
 
   it('should load data from store error', () => {
-    //spyOn(store, 'dispatch').and.returnValue(of({}));
     spyOn(store, 'pipe').and.returnValue(of({}));
     const httpErrorResponse = new HttpErrorResponse({ error: 'unassigned cases error' });
     component.casesError$ = of(httpErrorResponse);

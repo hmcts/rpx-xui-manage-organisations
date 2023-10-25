@@ -78,7 +78,7 @@ describe('OrganisationComponent', () => {
   };
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe');//.and.returnValue(of(mockOrganisationDetails));
+    pipeSpy = spyOn(storeMock, 'pipe');
     featureToggleServiceMock.getValue.and.returnValue(of(true));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');

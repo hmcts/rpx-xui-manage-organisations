@@ -137,7 +137,7 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account">
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account-details">
               Change<span class="govuk-visually-hidden">PBA number(s)</span>
             </a>
           </dd>
@@ -220,7 +220,7 @@
           </div>
           <div class="govuk-checkboxes__item">
               <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
-              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions" (change)="termsAndConditionsChange($event)">
+              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions" (change)="termsAndConditionsChange()">
               <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
                 You have read and understood the
                 <a href="javascript:void(0)" target="_blank"

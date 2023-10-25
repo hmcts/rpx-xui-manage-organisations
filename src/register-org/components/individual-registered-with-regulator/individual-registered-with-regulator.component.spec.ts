@@ -23,6 +23,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     hasPBA: null,
     contactDetails: null,
     hasIndividualRegisteredWithRegulator: null,
+    individualRegulators: [],
     services: [],
     address: null,
     organisationType: null,
@@ -103,6 +104,7 @@ describe('IndividualRegisteredWithRegulatorComponent', () => {
     component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.setFormControlValues();
     component.onContinue();
+    expect(component.registrationData.individualRegulators.length).toEqual(0);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 

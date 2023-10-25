@@ -69,6 +69,6 @@ describe('CheckYourAnswersComponent', () => {
   it('should back link navigate to the individual registered with the regulator page', () => {
     component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator', true]);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
   });
 });

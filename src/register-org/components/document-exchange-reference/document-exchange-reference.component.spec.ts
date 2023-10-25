@@ -81,7 +81,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(scrollIntoViewSpy).toHaveBeenCalled();
   });
 
-  fit('should navigate to document exchange details page', () => {
+  it('should navigate to document exchange details page', () => {
     component.registrationData.hasDxReference = null;
     component.dxFormGroup.get('documentExchange').setValue('yes');
     component.onContinue();
@@ -89,7 +89,7 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
   });
 
-  fit('should navigate to regulatory organisation type page', () => {
+  it('should navigate to regulatory organisation type page', () => {
     component.registrationData = registrationData;
     component.registrationData.hasDxReference = true;
     component.registrationData.dxExchange = 'DX Exchange';

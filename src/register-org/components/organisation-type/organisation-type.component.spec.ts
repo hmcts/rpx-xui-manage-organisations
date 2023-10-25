@@ -144,8 +144,10 @@ describe('OrganisationTypeComponent', () => {
   it('should display other organisation types dropdown when other radio option is selected', () => {
     nativeElement.querySelector('#OTHER').click();
     fixture.detectChanges();
-    expect(nativeElement.querySelector('#other-organisation-type')).toBeDefined();
-    expect(nativeElement.querySelector('#other-organisation-detail')).toBeDefined();
+    if (!component.registrationData.otherOrganisationType) {
+      expect(nativeElement.querySelector('#other-organisation-type').value).toBe('0: none');
+      expect(nativeElement.querySelector('#other-organisation-detail').value).toBe('');
+    }
   });
 
   it('should return validation error for other org with type selected and empty details', () => {

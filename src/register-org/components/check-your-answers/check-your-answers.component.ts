@@ -56,7 +56,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public onBack(): void {
     this.registrationData.hasIndividualRegisteredWithRegulator
       ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true])
-      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator', true]);
+      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
   }
 
   public onSubmitData(): void {
@@ -85,7 +85,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     return this.cyaFormGroup.valid;
   }
 
-  public termsAndConditionsChange(event: any): void {
+  public termsAndConditionsChange(): void {
     this.validateForm();
   }
 

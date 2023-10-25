@@ -2307,16 +2307,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-route-expected-feature-2":
-  version: 1.9.0-route-expected-feature-2
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-route-expected-feature-2"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-register-other-gds-review":
+  version: 1.9.0-register-other-gds-review
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-register-other-gds-review"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 6408bf39a6fb459bc624022d4b964e1d034e3d35980a3b602606a9483234981774d12713903b876ebe5bdbc920ff8b68c4ba3d11aa210b3c07219cb1d10d02b8
+  checksum: a44c0864a99601e16a668e8e81dd7ccb678fcff734d4ba2ead31c8864c021853d80c9f2d00c22f468059ab1db323914ed02e10b126db25fb10b3e30b098eabeb
   languageName: node
   linkType: hard
 
@@ -20387,7 +20387,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-route-expected-feature-2
+    "@hmcts/rpx-xui-common-lib": 1.9.0-register-other-gds-review
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

@@ -81,9 +81,9 @@ describe('ValidationService', () => {
   }));
 
   it('should at least one checkbox to be checked validation', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
-      checkboxTest1: new FormControl<unknown>('checkboxTest1'),
-      checkboxTest2: new FormControl<unknown>('checkboxTest2')
+    const formGroup = new FormGroup<any>({
+      checkboxTest1: new FormControl('checkboxTest1'),
+      checkboxTest2: new FormControl('checkboxTest2')
     });
     const validationIdentifier = 'isAnyCheckboxChecked';
     const checkboxes = [

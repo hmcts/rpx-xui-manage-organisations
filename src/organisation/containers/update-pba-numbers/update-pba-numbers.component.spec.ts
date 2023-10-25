@@ -68,7 +68,7 @@ describe('UpdatePbaNumbersComponent', () => {
         params: of({})
       }
     };
-    pipeSpy = spyOn(storeMock, 'pipe');//.and.returnValue(of(mockOrganisationDetails));
+    pipeSpy = spyOn(storeMock, 'pipe');
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 

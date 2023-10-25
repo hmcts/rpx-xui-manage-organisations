@@ -58,7 +58,7 @@ describe('PbaNumbersFormComponent', () => {
   let fixture: ComponentFixture<PbaNumbersFormComponent>;
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe');//.and.returnValue(of(mockOrganisationDetails));
+    pipeSpy = spyOn(storeMock, 'pipe');
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({

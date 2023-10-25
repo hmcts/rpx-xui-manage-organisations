@@ -182,7 +182,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.formGroup.get('address').get('country').updateValueAndValidity();
     this.formGroup.get('address').get('postCode').updateValueAndValidity();
     this.formGroup.setErrors(null);
-    // this.formGroup.get('address').get('country').patchValue(isInternational ? '' : 'UK' as unknown);
+    this.formGroup.get('address').get('country').patchValue(isInternational ? '' : 'UK');
   }
 
   public onAddressSelectable(addressSelectable: boolean): void {

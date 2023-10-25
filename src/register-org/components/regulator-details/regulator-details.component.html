@@ -68,7 +68,7 @@
                       Remove
                     </button>
 
-                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-form-group govuk-!-margin-top-4"
+                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-body govuk-!-margin-top-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('regulator-name' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
                         Enter the name of the professional body or regulator
@@ -83,7 +83,7 @@
                     </div>
 
                     <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')"
-                      class="govuk-form-group govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+                      class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
                         Enter your organisation's registration number

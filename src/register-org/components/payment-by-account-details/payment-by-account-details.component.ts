@@ -13,15 +13,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
   public pbaDetailsFormGroup: FormGroup;
   public validationErrors: { id: string, message: string }[] = [];
-
-  public summaryErrors: {
-    header: string;
-    isFromValid: boolean;
-    items: {
-      id: string;
-      message: any;
-    }[]
-  };
+  public displayErrorBanner = false;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -37,21 +29,6 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       pbaNumbers: this.fb.array([])
     });
     this.hydratePbaFormFromExistingPendingAddPbas();
-    this.pbaDetailsFormGroup.valueChanges.subscribe((value) => {
-      if (!value) {
-        return;
-      }
-
-      if (this.pbaDetailsFormGroup.invalid) {
-        this.generateSummaryErrorMessage();
-      } else {
-        this.clearSummaryErrorMessage();
-
-        if (!value.pbaNumbers) {
-          return;
-        }
-      }
-    });
     if (this.registrationData.pbaNumbers?.length === 0) {
       this.onAddNewPBANumber();
     }
@@ -104,8 +81,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   private newPbaNumber(value: string = ''): FormGroup {
     return this.fb.group({
       pbaNumber: new FormControl(value, {
-        validators: this.getPbaNumberValidators(),
-        updateOn: 'blur'
+        validators: this.getPbaNumberValidators()
       })
     });
   }
@@ -123,15 +99,15 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   private getPBANumbersCustomValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
       if (control.value && isNaN(Number(control.value.substring(3)))) {
-        return { error: 'Enter a valid PBA number' };
+        return { error: PbaErrorMessage.GENERIC_ERROR_MESSAGE };
       }
       return null;
     };
   }
 
   private isFormValid(): boolean {
-    this.refreshValidation();
     if (!this.pbaDetailsFormGroup.valid) {
+      this.generateSummaryErrorMessage();
       return false;
     }
     return true;
@@ -148,49 +124,28 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   private generateSummaryErrorMessage(): void {
-    const items = this.pbaNumbers.controls.map((control: AbstractControl, index: number) => {
-      if (control.valid) {
-        return {
-          id: `pba-number-${index}`,
-          message: ''
-        };
-      }
-
-      const controlErrors = control.get('pbaNumber').errors;
-      if (!controlErrors) {
-        return;
-      }
-
-      let message: string = PbaErrorMessage.GENERIC_ERROR_MESSAGE;
-      if (controlErrors.unique) {
-        message = PbaErrorMessage.UNIQUE_ERROR_MESSAGE;
-      } else if (controlErrors.noneOf) {
-        message = PbaErrorMessage.EXISTING_PBA_NUMBER;
-      }
-
-      return {
+    this.validationErrors = [];
+    for (let index = 0; index < this.pbaNumbers.controls.length; index++) {
+      const control: AbstractControl = this.pbaNumbers.controls[index];
+      this.validationErrors.push({
         id: `pba-number-${index}`,
-        message
-      };
-    }).filter((i) => i);
-
-    if (items.length === 0) {
-      this.clearSummaryErrorMessage();
-      return;
+        message: this.getValidationError(control)
+      });
     }
-
-    if (items.filter((item) => item.message !== '')?.length > 0) {
-      this.summaryErrors = {
-        isFromValid: false,
-        header: 'There is a problem',
-        items
-      };
-      this.validationErrors = this.summaryErrors.items.filter((item) => item.message !== '');
-    }
+    this.displayErrorBanner = this.validationErrors?.filter((error) => error.message !== '').length > 0;
   }
 
-  private clearSummaryErrorMessage(): void {
-    this.summaryErrors = null;
-    this.validationErrors = [];
+  private getValidationError(control: AbstractControl): string {
+    const controlErrors = control.get('pbaNumber').errors;
+    if (control.valid || !controlErrors) {
+      return '';
+    }
+    if (controlErrors?.unique) {
+      return PbaErrorMessage.UNIQUE_ERROR_MESSAGE;
+    }
+    if (controlErrors?.noneOf) {
+      return PbaErrorMessage.EXISTING_PBA_NUMBER;
+    }
+    return PbaErrorMessage.GENERIC_ERROR_MESSAGE;
   }
 }

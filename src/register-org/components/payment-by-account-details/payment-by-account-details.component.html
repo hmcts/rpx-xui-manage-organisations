@@ -2,7 +2,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
-      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'">
+      <xuilib-hmcts-error-summary *ngIf="displayErrorBanner" [errorMessages]="validationErrors" [header]="'There is a problem'">
       </xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">
@@ -12,13 +12,13 @@
       <form [formGroup]="pbaDetailsFormGroup">
         <div id="pba-numbers-container" formArrayName="pbaNumbers">
           <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i = index">
-            <div [ngClass]="{'govuk-form-group--error': summaryErrors?.items[i]?.message?.length > 0}">
+            <div [ngClass]="{'govuk-form-group--error': validationErrors[i]?.message?.length > 0}">
               <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
                 <label class="govuk-label govuk-!-font-weight-bold" for="pba-number-{{i}}">
                   PBA number (Optional)
                 </label>
-                <p class="govuk-error-message" *ngIf="summaryErrors?.items[i]?.message?.length > 0">
-                  <span class="govuk-visually-hidden">Error:</span>{{summaryErrors?.items[i]?.message}}
+                <p class="govuk-error-message" *ngIf="validationErrors[i]?.message?.length > 0">
+                  <span class="govuk-visually-hidden">Error:</span>{{validationErrors[i]?.message}}
                 </p>
                 <input class="govuk-input govuk-input--width-20" id="pba-number-{{i}}" type="text"
                   name="pbaNumber" formControlName="pbaNumber">

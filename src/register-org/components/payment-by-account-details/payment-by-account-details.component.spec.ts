@@ -67,7 +67,7 @@ describe('PaymentByAccountDetailsComponent', () => {
     component.onAddNewPBANumber();
     component.pbaNumbers.controls[4].get('pbaNumber').setValue('PBA1234567');
     component.onContinue();
-    const actualErrors = component.summaryErrors.items.filter((item) => item.message !== '');
+    const actualErrors = component.validationErrors.filter((item) => item.message !== '');
     expect(actualErrors.length).toEqual(4);
   });
 

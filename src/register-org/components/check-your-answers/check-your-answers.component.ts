@@ -53,11 +53,12 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       this.registerOrgService.postRegistration().subscribe(() => {
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
       },
-      (() => {
-        this.validationErrors.push({
-          id: 'confirm-terms-and-conditions',
-          message: this.apiErrorMessage
-        });
+      ((errorResponse) => {
+        const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
+        if (errorResponse && errorResponse.status === 400 && errorResponse.error?.errorDescription) {
+          returnedError.message = errorResponse.error.errorDescription;
+        }
+        this.validationErrors.push(returnedError);
       }));
     }
   }

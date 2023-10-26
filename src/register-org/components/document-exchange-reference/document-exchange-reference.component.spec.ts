@@ -72,7 +72,7 @@ describe('DocumentExchangeReferenceComponent', () => {
       }
     };
     const errorMessages = [{
-      message: 'Please select at least one option',
+      message: 'Please select an option',
       id: 'document-exchange-yes'
     }];
     component.dxFormGroup.get('documentExchange').setValue(null);

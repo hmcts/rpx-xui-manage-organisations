@@ -77,7 +77,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   private isFormValid(): boolean {
     if (this.dxFormGroup.invalid) {
       this.dxErrors = [{
-        message: 'Please select at least one option',
+        message: 'Please select an option',
         id: 'document-exchange-yes'
       }];
       this.errorPresent = true;

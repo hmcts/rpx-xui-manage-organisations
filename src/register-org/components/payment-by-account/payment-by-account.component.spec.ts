@@ -95,15 +95,22 @@ describe('PaymentByAccountComponent', () => {
   });
 
   it('should continue button navigate to payment by account details page', () => {
+    component.registrationData.hasPBA = false;
     component.pbaFormGroup.get('pba').setValue('yes');
     component.onContinue();
+    expect(component.registrationData.hasPBA).toEqual(true);
     expect(component.validationErrors.length).toEqual(0);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account-details']);
   });
 
   it('should continue button navigate to contact details page', () => {
+    component.registrationData = registrationData;
+    component.registrationData.hasPBA = true;
+    component.registrationData.pbaNumbers = ['PBA1234567', 'PBA1234568'];
     component.pbaFormGroup.get('pba').setValue('no');
     component.onContinue();
+    expect(component.registrationData.hasPBA).toEqual(false);
+    expect(component.registrationData.pbaNumbers.length).toEqual(0);
     expect(component.validationErrors.length).toEqual(0);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });

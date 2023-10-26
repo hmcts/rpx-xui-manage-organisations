@@ -81,6 +81,27 @@ describe('DocumentExchangeReferenceComponent', () => {
     expect(scrollIntoViewSpy).toHaveBeenCalled();
   });
 
+  it('should navigate to document exchange details page', () => {
+    component.registrationData.hasDxReference = null;
+    component.dxFormGroup.get('documentExchange').setValue('yes');
+    component.onContinue();
+    expect(component.registrationData.hasDxReference).toEqual(true);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
+  });
+
+  it('should navigate to regulatory organisation type page', () => {
+    component.registrationData = registrationData;
+    component.registrationData.hasDxReference = true;
+    component.registrationData.dxExchange = 'DX Exchange';
+    component.registrationData.dxNumber = '12345';
+    component.dxFormGroup.get('documentExchange').setValue('no');
+    component.onContinue();
+    expect(component.registrationData.hasDxReference).toEqual(false);
+    expect(component.registrationData.dxNumber).toBeNull();
+    expect(component.registrationData.dxExchange).toBeNull();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'regulatory-organisation-type']);
+  });
+
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();

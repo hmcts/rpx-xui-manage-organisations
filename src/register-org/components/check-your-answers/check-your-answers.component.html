@@ -127,7 +127,7 @@
         </div>
       </dl>
 
-      <dl class="govuk-summary-list" *ngIf="registrationData.hasPBA">
+      <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">PBA number(s)</dt>
           <dd class="govuk-summary-list__value">
@@ -137,7 +137,7 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account-details">
+              [routerLink]="pbaUrl">
               Change<span class="govuk-visually-hidden">PBA number(s)</span>
             </a>
           </dd>

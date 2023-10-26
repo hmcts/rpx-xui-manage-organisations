@@ -11,21 +11,24 @@ describe('CheckYourAnswersComponent', () => {
   let component: CheckYourAnswersComponent;
   let fixture: ComponentFixture<CheckYourAnswersComponent>;
   let router: Router;
-  let mockRegisterOrgService: RegisterOrgService;
+  let registerOrgService: RegisterOrgService;
 
   const registrationData: RegistrationData = {
-    pbaNumbers: [],
     companyName: 'Minstry of Justice',
     companyHouseNumber: '11223344',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
+    hasPBA: true,
+    pbaNumbers: [
+      'PBA1234567',
+      'PBA1234568'
+    ],
     services: [
       'AAA7',
       'ABA3'
     ],
     otherServices: 'test service',
-    hasPBA: null,
     contactDetails: {
       firstName: 'John',
       lastName: 'Davis',
@@ -53,10 +56,11 @@ describe('CheckYourAnswersComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckYourAnswersComponent);
     component = fixture.componentInstance;
-    component.registrationData = registrationData;
     router = TestBed.inject(Router);
-    mockRegisterOrgService = TestBed.inject(RegisterOrgService);
+    registerOrgService = TestBed.inject(RegisterOrgService);
     spyOn(router, 'navigate');
+    registerOrgService = TestBed.inject(RegisterOrgService);
+    spyOn(registerOrgService, 'getRegistrationData').and.returnValue(registrationData);
     fixture.detectChanges();
   });
 
@@ -74,7 +78,7 @@ describe('CheckYourAnswersComponent', () => {
   });
 
   it('should display error message banner for api error', () => {
-    spyOn(mockRegisterOrgService, 'postRegistration').and.returnValue(throwError('error'));
+    spyOn(registerOrgService, 'postRegistration').and.returnValue(throwError('error'));
     component.cyaFormGroup.get('confirmTermsAndConditions').setValue(true);
     component.onSubmitData();
     expect(component.validationErrors).toEqual([{ id: 'confirm-terms-and-conditions', message: 'Sorry, there is a problem with the service. Try again later' }]);
@@ -90,6 +94,18 @@ describe('CheckYourAnswersComponent', () => {
     component.registrationData.hasIndividualRegisteredWithRegulator = false;
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
+  });
+
+  it('should set the payment by account url to be the yes or no page', () => {
+    component.registrationData.hasPBA = false;
+    component.ngOnInit();
+    expect(component.pbaUrl).toEqual('/register-org-new/payment-by-account');
+  });
+
+  it('should set the payment by account url to be the details page', () => {
+    component.registrationData.hasPBA = true;
+    component.ngOnInit();
+    expect(component.pbaUrl).toEqual('/register-org-new/payment-by-account-details');
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {

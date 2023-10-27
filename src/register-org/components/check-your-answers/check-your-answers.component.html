@@ -95,9 +95,21 @@
         </div>
       </dl>
 
-      <dl class="govuk-summary-list" *ngIf="registrationData.dxNumber">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">DX reference</dt>
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border': registrationData.hasDxReference}">
+          <dt class="govuk-summary-list__key">Do you have a document exchange reference for your main office?</dt>
+          <dd class="govuk-summary-list__value">
+            {{ registrationData.hasDxReference ? 'Yes' : 'No'}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference">
+              Change<span class="govuk-visually-hidden">DX reference</span>
+            </a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row" *ngIf="registrationData.hasDxReference">
+          <dt class="govuk-summary-list__key">What's the DX reference for this office?</dt>
           <dd class="govuk-summary-list__value">
             {{registrationData.dxNumber}}<span *ngIf="registrationData.dxExchange">, {{registrationData.dxExchange}}</span>
           </dd>
@@ -128,8 +140,20 @@
       </dl>
 
       <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">PBA number(s)</dt>
+        <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border' : registrationData.hasPBA}">
+          <dt class="govuk-summary-list__key">Does your organisation have a payment by account number?</dt>
+          <dd class="govuk-summary-list__value">
+            {{ registrationData.hasPBA ? 'Yes' : 'No'}}
+          </dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account">
+              Change<span class="govuk-visually-hidden">Organisation PBA</span>
+            </a>
+          </dd>
+        </div>
+        <div class="govuk-summary-list__row" *ngIf="registrationData.hasPBA">
+          <dt class="govuk-summary-list__key">What PBA numbers does your organisation use?</dt>
           <dd class="govuk-summary-list__value">
             <div *ngFor="let pbaNumber of registrationData.pbaNumbers">
               {{pbaNumber}}
@@ -137,7 +161,7 @@
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link" href="javascript:void(0)"
-              [routerLink]="pbaUrl">
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account-details">
               Change<span class="govuk-visually-hidden">PBA number(s)</span>
             </a>
           </dd>
@@ -191,7 +215,7 @@
         </dl>
       </div>
 
-      <app-regulator-list *ngIf="registrationData.individualRegulators?.length"
+      <app-regulator-list [hasIndividualRegulator]="registrationData.hasIndividualRegisteredWithRegulator"
         [regulatorType]="regulatorType.Individual"
         [regulators]="registrationData.individualRegulators">
       </app-regulator-list>

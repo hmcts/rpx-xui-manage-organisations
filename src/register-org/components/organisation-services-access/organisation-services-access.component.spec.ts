@@ -78,7 +78,8 @@ describe('OrganisationServicesAccessComponent', () => {
     fixture.detectChanges();
     const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Damages' };
     component.onContinue();
-    expect(component.validationErrors[0]).toEqual(error);
+    expect(component.noServicesError).toEqual(OrganisationServicesMessage.NO_ORG_SERVICES);
+    expect(component.validationErrors.length).toEqual(1);
     expect(router.navigate).not.toHaveBeenCalled();
   });
 

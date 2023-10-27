@@ -56,7 +56,6 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
 
   public onContinue(): void {
     if (this.isFormValid()) {
-      this.services = [];
       // Set corresponding registration data
       this.registrationData.services = this.selectedServices.filter((service) => service !== 'NONE');
 

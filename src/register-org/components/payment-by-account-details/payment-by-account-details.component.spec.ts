@@ -59,7 +59,7 @@ describe('PaymentByAccountDetailsComponent', () => {
   it('should fail validation for invalid pba numbers', () => {
     component.pbaNumbers.controls[0].get('pbaNumber').setValue('PBA1234');
     component.onAddNewPBANumber();
-    component.pbaNumbers.controls[1].get('pbaNumber').setValue('1111111');
+    component.pbaNumbers.controls[1].get('pbaNumber').setValue('11111111');
     component.onAddNewPBANumber();
     component.pbaNumbers.controls[2].get('pbaNumber').setValue('PBANUMBERS');
     component.onAddNewPBANumber();

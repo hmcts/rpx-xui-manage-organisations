@@ -45,9 +45,10 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   public onContinue(): void {
+    this.formatPbaNumbers();
     if (this.isFormValid()) {
       const pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.filter((pba) => pba.pbaNumber !== '');
-      this.registrationData.pbaNumbers = pbaNumbers.map((pba) => pba.pbaNumber && pba.pbaNumber.length === 7 ? `PBA${pba.pbaNumber}` : pba.pbaNumber);
+      this.registrationData.pbaNumbers = pbaNumbers.map((pba) => pba.pbaNumber);
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }
   }
@@ -103,6 +104,18 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       }
       return null;
     };
+  }
+
+  private formatPbaNumbers(): void {
+    this.pbaNumbers.controls.forEach((pba) => {
+      let pbaNumber = pba.get('pbaNumber').value.toUpperCase();
+      if (pbaNumber.length > 0) {
+        if (!pbaNumber.startsWith('PBA')) {
+          pbaNumber = `PBA${pbaNumber}`;
+        }
+      }
+      pba.get('pbaNumber').setValue(pbaNumber);
+    });
   }
 
   private isFormValid(): boolean {

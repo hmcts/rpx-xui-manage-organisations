@@ -9,6 +9,7 @@ import { RegisterOrgService } from '../../../services/register-org.service';
 export class RegulatorListComponent {
   @Input() regulatorType: string;
   @Input() regulators: Regulator[];
+  @Input() hasIndividualRegulator: boolean = false;
 
   public registerOrgNewRoute: string;
   public regulatorTypeEnum = RegulatorType;

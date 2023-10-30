@@ -1,4 +1,4 @@
-@fullFunctional @AAT_only @functional_debug
+@fullFunctional @AAT_only 
 Feature: Register Organization
 
   Background:

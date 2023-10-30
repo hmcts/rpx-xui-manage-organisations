@@ -17,7 +17,6 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public regulatoryType = RegulatoryType;
   public services: string[] = [];
   public validationErrors: { id: string, message: string }[] = [];
-  public pbaUrl: string;
   public readonly errorMessage = 'Please select checkbox to confirm you have read and understood the terms and conditions';
   public readonly apiErrorMessage = 'Sorry, there is a problem with the service. Try again later';
 

@@ -32,10 +32,6 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
-    this.pbaUrl = this.registrationData.hasPBA
-      ? `/${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}/payment-by-account-details`
-      : `/${this.registerOrgService.REGISTER_ORG_NEW_ROUTE}/payment-by-account`;
-
     this.registrationData.services?.forEach((thisService) => {
       const service = ORGANISATION_SERVICES.find((service) => service.key === thisService.key).value;
       this.services.push(service);

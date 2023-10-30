@@ -74,9 +74,9 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should set the error message and stay on the page', () => {
     component.selectedServices = [];
+    component.showOtherServicesInput = false;
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
-    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'Damages' };
     component.onContinue();
     expect(component.noServicesError).toEqual(OrganisationServicesMessage.NO_ORG_SERVICES);
     expect(component.validationErrors.length).toEqual(1);

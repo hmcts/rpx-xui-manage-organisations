@@ -58,7 +58,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     switch (value) {
       case (RegulatoryType.Other): {
         formGroup.addControl('regulatorName', new FormControl(formGroup.value.regulatorName, Validators.required));
-        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber, Validators.required));
+        if (formGroup.get('organisationRegistrationNumber')) {
+          formGroup.get('organisationRegistrationNumber').reset();
+        } else {
+          formGroup.addControl('organisationRegistrationNumber', new FormControl(null, Validators.required));
+        }
         break;
       }
       case (RegulatoryType.NotApplicable): {
@@ -68,7 +72,12 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
       default: {
         formGroup.removeControl('regulatorName');
-        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber, Validators.required));
+        if (formGroup.get('organisationRegistrationNumber')) {
+          formGroup.get('organisationRegistrationNumber').reset();
+        } else {
+          formGroup.addControl('organisationRegistrationNumber', new FormControl(null, Validators.required));
+        }
+        break;
       }
     }
   }

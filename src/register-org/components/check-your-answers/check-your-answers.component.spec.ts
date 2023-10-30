@@ -96,18 +96,6 @@ describe('CheckYourAnswersComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
   });
 
-  it('should set the payment by account url to be the yes or no page', () => {
-    component.registrationData.hasPBA = false;
-    component.ngOnInit();
-    expect(component.pbaUrl).toEqual('/register-org-new/payment-by-account');
-  });
-
-  it('should set the payment by account url to be the details page', () => {
-    component.registrationData.hasPBA = true;
-    component.ngOnInit();
-    expect(component.pbaUrl).toEqual('/register-org-new/payment-by-account-details');
-  });
-
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();

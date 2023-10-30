@@ -17,13 +17,12 @@
         </legend>
         <hr>
         <div class="govuk-body govuk-!-margin-top-6">
-          <p *ngIf="regulatorType === regulatorTypeEnum.Individual">
-            Give as much detail as you can on the regulator or professional body that are you personally registered with.
+          <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as you can on the 
+            regulator or professional body that are you personally registered with.
           </p>
-          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-            Give as much detail as you can on the regulator or professional body your organisation is registered with.
-            <br/>
-            HMCTS needs to gather this information as it is required to gain access to some of our services.
+          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">Give as much detail as you can on the 
+            regulator or professional body your organisation is registered with.
+            <br/>HMCTS needs to gather this information as it is required to gain access to some of our services.
           </p>
           <form [formGroup]="regulatorDetailsFormGroup">
             <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': validationErrors.length}">

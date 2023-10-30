@@ -12,3 +12,9 @@ export enum OrganisationServicesMessage {
   NO_ORG_SERVICES = 'Please select at least one service',
   OTHER_SERVICES = 'Enter one or more services'
 }
+
+export enum PbaErrorMessage {
+  GENERIC_ERROR_MESSAGE = 'Enter a valid PBA number',
+  EXISTING_PBA_NUMBER = 'This PBA number is already associated to your organisation',
+  UNIQUE_ERROR_MESSAGE = 'You have entered this PBA number more than once'
+}

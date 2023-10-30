@@ -60,7 +60,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       },
       ((errorResponse) => {
         const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
-        if (errorResponse && errorResponse.status === 400 && errorResponse.error?.errorDescription) {
+        if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
           returnedError.message = errorResponse.error.errorDescription;
         }
         this.validationErrors.push(returnedError);

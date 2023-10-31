@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
@@ -12,6 +12,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './check-your-answers.component.html'
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
+  @ViewChild('mainContent') public mainContentElement: ElementRef;
+
   public cyaFormGroup: FormGroup;
   public regulatorType = RegulatorType;
   public regulatoryType = RegulatoryType;
@@ -59,6 +61,7 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
           returnedError.message = errorResponse.error.errorDescription;
         }
         this.validationErrors.push(returnedError);
+        this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }));
     }
   }

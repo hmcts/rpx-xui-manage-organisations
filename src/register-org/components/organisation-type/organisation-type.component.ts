@@ -52,7 +52,7 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
 
       const otherTypes = orgTypes.find((orgType) => orgType.key === 'OTHER').child_nodes;
       this.otherOrganisationTypes = otherTypes;
-    }, (error) => this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'service-down']));
+    }, () => this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'service-down']));
   }
 
   public onContinue(): void {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
@@ -12,6 +12,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './check-your-answers.component.html'
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
+  @ViewChild('mainContent') public mainContentElement: ElementRef;
+
   public cyaFormGroup: FormGroup;
   public regulatorType = RegulatorType;
   public regulatoryType = RegulatoryType;
@@ -53,11 +55,13 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       this.registerOrgService.postRegistration().subscribe(() => {
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
       },
-      (() => {
-        this.validationErrors.push({
-          id: 'confirm-terms-and-conditions',
-          message: this.apiErrorMessage
-        });
+      ((errorResponse) => {
+        const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
+        if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
+          returnedError.message = errorResponse.error.errorDescription;
+        }
+        this.validationErrors.push(returnedError);
+        this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }));
     }
   }

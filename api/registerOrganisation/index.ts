@@ -67,7 +67,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
 
     res.send(response.data);
   } catch (error) {
-    if (error.status === 400 && error.data?.errorDescription) {
+    if (error.status === 400 && error.data?.errorMessage) {
       res.status(400).send(error.data);
     } else {
       next(error);

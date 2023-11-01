@@ -140,6 +140,24 @@ async function waitForElement(el) {
 
   });
 
+Given(/^I am logged in with ROO user targetting ON$/, async function () {
+  // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+  // await loginPage.password.sendKeys(config.config.townleyPassword);
+  // // browser.sleep(SHORT_DELAY);
+  // await loginPage.signinBtn.click();
+  await loginattemptCheckAndRelogin('xui_mo_roo_on@mailinator.com', 'Welcome01', THIS_EXPR);
+
+});
+
+Given(/^I am logged in with ROO user targetting OFF$/, async function () {
+  // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+  // await loginPage.password.sendKeys(config.config.townleyPassword);
+  // // browser.sleep(SHORT_DELAY);
+  // await loginPage.signinBtn.click();
+  await loginattemptCheckAndRelogin('xui_mo_roo_off@mailinator.com', 'Welcome01', THIS_EXPR);
+
+});
+
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;
     this.attach('Login user : ' + global.testorg_rw_superuser_email);

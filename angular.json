@@ -15,7 +15,7 @@
           "options": {
             "allowedCommonJsDependencies": [
               "class-transformer",
-              "rx-polling",
+              "rx-polling-hmcts",
               "util",
               "@edium/fsm",
               "applicationinsights-js",

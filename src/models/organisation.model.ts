@@ -1,3 +1,4 @@
+import { Regulator } from '../register-org/models';
 import { PBANumberModel } from './pbaNumber.model';
 
 export interface DxAddress {
@@ -33,4 +34,7 @@ export interface OrganisationDetails {
   pendingAddPaymentAccount: PBANumberModel[];
   pendingRemovePaymentAccount: PBANumberModel[];
   response?: any;
+  organisationType?: string;
+  companyRegistrationNumber?: string;
+  regulators?: Regulator[];
 }

@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -32,6 +32,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
+    private route: ActivatedRoute,
     public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
   ) {
@@ -137,12 +138,12 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     );
   }
 
-  public onContinueClicked(): void {
+  public onContinue(): void {
     if (this.validateForm()) {
       // Set corresponding registration data
       this.setRegulatorData();
       this.regulatorType === RegulatorType.Individual
-        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'true'])
+        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE])
         : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }
@@ -152,9 +153,19 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.regulatorType === RegulatorType.Individual
-      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator'])
-      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+    if (this.route.snapshot?.params?.backLinkTriggeredFromCYA) {
+      // Back link triggered from CYA page
+      if (this.regulatorType === RegulatorType.Individual) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+      } else {
+        this.registrationData.hasDxReference
+          ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
+          : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+      }
+    } else {
+      // Change link triggered from CYA page
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    }
   }
 
   public fieldHasErrorMessage(fieldId: string): boolean {

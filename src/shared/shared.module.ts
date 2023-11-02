@@ -47,7 +47,8 @@ import { MonitoringService } from './services/monitoring.service';
     ReactiveFormsModule,
     SuccessIconComponent,
     SuccessNotificationComponent,
-    WarningIconComponent
+    WarningIconComponent,
+    HmctsErrorSummaryComponent
   ],
   providers: [
     {

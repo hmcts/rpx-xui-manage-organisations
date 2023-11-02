@@ -1,5 +1,6 @@
 import { PBANumberModel } from 'src/models/pbaNumber.model';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../models';
+import { Regulator } from '../../register-org/models';
 import { OrgManagerConstants } from '../organisation-constants';
 
 const containsItems = (obj: object, arrayProperty: string): boolean => {
@@ -16,6 +17,24 @@ const utils = {
   getDxAddress: (contactInformation: Partial<OrganisationContactInformation>): DxAddress => {
     if (containsItems(contactInformation, 'dxAddress')) {
       return contactInformation.dxAddress[0];
+    }
+    return null;
+  },
+  getCompanyRegistrationNumber: (organisationDetails: Partial<OrganisationDetails>): string => {
+    if (containsItems(organisationDetails, 'companyRegistrationNumber')) {
+      return organisationDetails.companyRegistrationNumber;
+    }
+    return null;
+  },
+  getOrganisationType: (organisationDetails: Partial<OrganisationDetails>): string => {
+    if (containsItems(organisationDetails, 'organisationType')) {
+      return organisationDetails.organisationType;
+    }
+    return null;
+  },
+  getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] => {
+    if (containsItems(organisationDetails, 'regulators')) {
+      return organisationDetails.regulators;
     }
     return null;
   },

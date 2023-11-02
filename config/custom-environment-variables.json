@@ -1,6 +1,7 @@
 {
     "environment": "NODE_CONFIG_ENV",
     "appInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+    "previewLDKey": "PREVIEW_LD_KEY",
     "cookies": {
         "token": "COOKIE_TOKEN",
         "userId": "COOKIE_USER_ID"

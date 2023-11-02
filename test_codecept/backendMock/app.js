@@ -14,7 +14,7 @@ const healthRoutes = require('./services/health/routes')
 const sessionRoutes = require('./services/session/routes')
 const refDataRoutes = require('./services/refData/routes')
 const ccdRoutes = require('./services/ccd/routes')
-
+const acseAssignmentsRoutes = require('./services/caseAssignments/routes')
 const userApiData = require('./services/userApiData');
 class MockApp {
 
@@ -70,6 +70,7 @@ class MockApp {
         app.use('/health', healthRoutes)
         app.use('/refdata/external/v1', refDataRoutes)
         app.use('/ccd', ccdRoutes)
+        app.use('/case-assignments', acseAssignmentsRoutes )
 
 
         // await this.stopServer();

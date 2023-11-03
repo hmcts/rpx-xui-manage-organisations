@@ -12,7 +12,7 @@ import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => { },
+  pipe: () => <unknown>{ },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   dispatch: () => { }
 };
@@ -78,7 +78,7 @@ describe('OrganisationComponent', () => {
   };
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe');
+    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
     featureToggleServiceMock.getValue.and.returnValue(of(true));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');

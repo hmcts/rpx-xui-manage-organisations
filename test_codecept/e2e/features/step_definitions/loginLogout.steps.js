@@ -12,7 +12,6 @@ const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsC
 
 const HeaderPage = require('../pageObjects/headerPage');
 const browser = require('../../../codeceptCommon/browser');
-// const { THIS_EXPR } = require('@angular/compiler/src/output/output_ast');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {

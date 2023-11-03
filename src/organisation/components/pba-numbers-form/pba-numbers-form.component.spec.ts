@@ -13,7 +13,7 @@ import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => { },
+  pipe: () => <unknown>{ },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   dispatch: () => { }
 };
@@ -58,7 +58,7 @@ describe('PbaNumbersFormComponent', () => {
   let fixture: ComponentFixture<PbaNumbersFormComponent>;
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe');
+    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({

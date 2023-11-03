@@ -29,13 +29,15 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
     ],
     orgType: requestBody.organisationType.key,
     orgAttributes: [
-      ...requestBody.services,
-      {
-        key: 'otherServices',
-        value: requestBody.otherServices
-      }
+      ...requestBody.services.filter((service) => service.key !== undefined)
     ]
   };
+  if (requestBody.otherServices && requestBody.otherServices !== '') {
+    request.orgAttributes.push({
+      key: 'otherServices',
+      value: requestBody.otherServices
+    });
+  }
   return request;
 }
 
@@ -73,6 +75,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
     const response = await axiosInstance.post(url, registerRequest, options);
     res.send(response.data);
   } catch (error) {
+    // console.log(error)
     next(error);
   }
 }

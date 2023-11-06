@@ -205,7 +205,6 @@
     "protractor-multiple-cucumber-html-reporter-plugin": "1.8.0",
     "protractor-screenshot-utils": "^1.0.5",
     "rest-assured": "^0.1.0",
-    "sass": "^1.66.1",
     "should": "13.2.3",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.3.0",

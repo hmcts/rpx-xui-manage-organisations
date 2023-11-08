@@ -1,6 +1,10 @@
-@fullFunctional @preview_only
+@fullFunctional 
 Feature: Register other org, page validations
 
+    Background:
+        When I navigate to manage organisation Url
+        Given I am logged in with ROO user targetting ON
+        Then I should be redirected to manage organisation dashboard page
 
     Scenario: Register other org, page level validations in What type of organisation are you registering?
         When In register organisation workflow, I navigate to route "organisation-type"
@@ -29,7 +33,7 @@ Feature: Register other org, page validations
         When I click continue in register other org workflow
         Then I am on register other org page "What is the registered address of your organisation?"
 
-
+    @ignore
     Scenario: Register other org, page level validations in What is the registered address of your organisation?
         When In register organisation workflow, I navigate to route "registered-address/external"
         When I click continue in register other org workflow

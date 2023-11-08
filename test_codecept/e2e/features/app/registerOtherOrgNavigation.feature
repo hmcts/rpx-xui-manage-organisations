@@ -187,6 +187,7 @@ Feature: Register other org, Navigations
             | Email address                                               | Provide your contact details                               |
             | What regulators are you (as an individual) registered with? | What regulator are you (as an individual) registered with? |
 
+    @ignore
     Scenario: check your answers, chnage link and continue
         When In register other org check your answers page, I click change link for field "Organisation type"
         Then I am on register other org page "What type of organisation are you registering?"

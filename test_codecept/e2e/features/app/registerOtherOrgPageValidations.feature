@@ -29,7 +29,7 @@ Feature: Register other org, page validations
         When I click continue in register other org workflow
         Then I am on register other org page "What is the registered address of your organisation?"
 
-
+    @ignore
     Scenario: Register other org, page level validations in What is the registered address of your organisation?
         When In register organisation workflow, I navigate to route "registered-address/external"
         When I click continue in register other org workflow

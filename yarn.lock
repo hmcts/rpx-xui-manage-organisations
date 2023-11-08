@@ -7856,7 +7856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"codeceptjs-cucumber-json-reporter@npm:^1.0.11":
+"codeceptjs-cucumber-json-reporter@npm:^1.0.14":
   version: 1.0.14
   resolution: "codeceptjs-cucumber-json-reporter@npm:1.0.14"
   dependencies:
@@ -7866,7 +7866,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"codeceptjs@npm:^3.5.5":
+"codeceptjs@npm:3.5.6":
   version: 3.5.6
   resolution: "codeceptjs@npm:3.5.6"
   dependencies:
@@ -18724,8 +18724,8 @@ __metadata:
     chai: ^4.3.10
     chai-as-promised: 7.1.1
     class-transformer: ^0.2.3
-    codeceptjs: ^3.5.5
-    codeceptjs-cucumber-json-reporter: ^1.0.11
+    codeceptjs: 3.5.6
+    codeceptjs-cucumber-json-reporter: ^1.0.14
     codelyzer: ^5.1.2
     config: ^3.2.5
     connect-redis: ^4.0.4

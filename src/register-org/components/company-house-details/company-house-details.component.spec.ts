@@ -51,10 +51,22 @@ describe('CompanyHouseDetailsComponent', () => {
 
   it('should set the error message if company number is invalid', () => {
     const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
+    component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
     expect(component.companyNumberError).toEqual(companyNumberError);
     expect(component.validationErrors.length).toEqual(1);
+  });
+
+  it('should set the error message if company name is null and company number is invalid', () => {
+    const companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
+    const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
+    component.companyHouseFormGroup.get('companyName').setValue(null);
+    component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
+    component.onContinue();
+    expect(component.companyNameError).toEqual(companyNameError);
+    expect(component.companyNumberError).toEqual(companyNumberError);
+    expect(component.validationErrors.length).toEqual(2);
   });
 
   it('should navigate the next page if values are correct', () => {

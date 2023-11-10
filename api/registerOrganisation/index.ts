@@ -27,8 +27,17 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         dxAddress: getDx(requestBody)
       }
     ],
-    orgType: requestBody.organisationType.key
+    orgType: requestBody.organisationType.key,
+    orgAttributes: [
+      ...requestBody.services.filter((service) => service.key !== undefined)
+    ]
   };
+  if (requestBody.otherServices && requestBody.otherServices !== '') {
+    request.orgAttributes.push({
+      key: 'otherServices',
+      value: requestBody.otherServices
+    });
+  }
   return request;
 }
 

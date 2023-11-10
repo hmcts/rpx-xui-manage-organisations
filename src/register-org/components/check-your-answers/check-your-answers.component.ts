@@ -34,9 +34,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
-
-    this.registrationData.services?.forEach((serviceKey) => {
-      const service = ORGANISATION_SERVICES.find((service) => service.key === serviceKey).value;
+    this.registrationData.services?.forEach((thisService) => {
+      const service = ORGANISATION_SERVICES.find((service) => service.key === thisService.key).value;
       this.services.push(service);
     });
     if (this.registrationData.otherServices) {

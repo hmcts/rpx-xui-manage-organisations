@@ -34,9 +34,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
-
-    this.registrationData.services?.forEach((serviceKey) => {
-      const service = ORGANISATION_SERVICES.find((service) => service.key === serviceKey).value;
+    this.registrationData.services?.forEach((thisService) => {
+      const service = ORGANISATION_SERVICES.find((service) => service.key === thisService.key).value;
       this.services.push(service);
     });
     if (this.registrationData.otherServices) {
@@ -57,8 +56,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       },
       ((errorResponse) => {
         const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
-        if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
-          returnedError.message = errorResponse.error.errorDescription;
+        if (errorResponse?.status === 400 && errorResponse.error?.errorMessage) {
+          returnedError.message = errorResponse.error.errorMessage;
         }
         this.validationErrors.push(returnedError);
         this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });

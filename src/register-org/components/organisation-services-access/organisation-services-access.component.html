@@ -25,7 +25,7 @@
               </div>
               <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item" *ngFor="let service of services">
-                  <input class="govuk-checkboxes__input" [id]="service.key" type="checkbox" [value]="service.key"
+                  <input class="govuk-checkboxes__input" [id]="service.value" type="checkbox" [value]="service.key"
                     name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
                   <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
                     {{service.value}}
@@ -49,8 +49,8 @@
         </div>
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

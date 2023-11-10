@@ -246,16 +246,16 @@
               <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
               name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
               <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
-                You have read and understood the
+                You have read, understood and will abide by the
                 <a href="javascript:void(0)" target="_blank"
                   routerLink="/terms-and-conditions">terms and conditions</a>
                 and are eligible for an account to manage your organisation and cases
               </label>
           </div>
-          <div class="govuk-!-margin-top-6">
+          <div class="govuk-button-group">
             <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="button">Confirm and submit</button>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </div>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>
       </div>
     </div>

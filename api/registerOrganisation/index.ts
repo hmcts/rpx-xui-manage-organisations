@@ -27,8 +27,17 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         dxAddress: getDx(requestBody)
       }
     ],
-    orgType: requestBody.organisationType.key
+    orgType: requestBody.organisationType.key,
+    orgAttributes: [
+      ...requestBody.services.filter((service) => service.key !== undefined)
+    ]
   };
+  if (requestBody.otherServices && requestBody.otherServices !== '') {
+    request.orgAttributes.push({
+      key: 'otherServices',
+      value: requestBody.otherServices
+    });
+  }
   return request;
 }
 
@@ -67,7 +76,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
 
     res.send(response.data);
   } catch (error) {
-    if (error.status === 400 && error.data?.errorDescription) {
+    if (error.status === 400 && error.data?.errorMessage) {
       res.status(400).send(error.data);
     } else {
       next(error);

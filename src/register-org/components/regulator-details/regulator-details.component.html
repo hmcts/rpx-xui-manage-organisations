@@ -22,6 +22,8 @@
           </p>
           <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">Give as much detail as
             you can on the regulator or professional body your organisation is registered with.
+            Only add registrations that apply to your organisation. If you have personal regulatory
+            or professional body memberships you can add these later.
           </p>
           <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">HMCTS needs to gather this
             information as it is required to gain access to some of our services.
@@ -87,10 +89,10 @@
                       class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
-                        Enter your organisation's registration number
+                        Enter your organisation's registration reference
                       </label>
                       <div *ngIf="fieldHasErrorMessage('organisation-registration-number' + i)" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER}}
+                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE}}
                       </div>
                       <input class="govuk-input govuk-!-width-two-thirds"
                         [ngClass]="{'govuk-input--error': fieldHasErrorMessage('organisation-registration-number' + i)}"

@@ -65,7 +65,7 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    nativeElement.querySelector('#AAA7').click();
+    nativeElement.querySelector('#Damages').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -74,6 +74,7 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should set the error message and stay on the page', () => {
     component.selectedServices = [];
+    component.showOtherServicesInput = false;
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
     component.onContinue();

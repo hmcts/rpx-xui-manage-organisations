@@ -5,8 +5,8 @@
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
+        <legend>
+          <h1 class="govuk-heading-xl">
             <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
               What regulator are you (as an individual) registered with?
             </span>
@@ -15,7 +15,7 @@
             </span>
           </h1>
         </legend>
-        <hr>
+        <hr class="govuk-!-margin-top-0">
         <div class="govuk-body govuk-!-margin-top-6">
           <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as
             you can on the regulator or professional body that are you personally registered with.

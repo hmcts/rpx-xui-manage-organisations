@@ -2339,16 +2339,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-postcode-style-edit-2":
-  version: 1.9.0-postcode-style-edit-2
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-postcode-style-edit-2"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-inline-errors":
+  version: 1.9.0-address-inline-errors
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-inline-errors"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 5143f095290d35e8d298c57240fd7f96c31079e6ba8cc9cb6465eea6a0c93969b2c95947e0ccf62a23c690c51df0e3fc50be2c0f1393adafba3cb6ee83884be3
+  checksum: b27165fd468d292f46ca25162906b80140ecf853ad1b782d41e9d57052673387a9d1562d7f4d12be39ae8af15cf494a9cfd2bf7fee68f21e4ab5ad01bc26d3dc
   languageName: node
   linkType: hard
 
@@ -20201,7 +20201,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-postcode-style-edit-2
+    "@hmcts/rpx-xui-common-lib": 1.9.0-address-inline-errors
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

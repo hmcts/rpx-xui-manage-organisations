@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import * as fromServices from './services';
 
 import { HttpClientModule } from '@angular/common/http';
+import { AddressService, ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { HmctsFormBuilderModule } from './containers/hmcts-form-builder/src/lib/hmcts-form-builder.module';
 import { effects, reducers } from './store';
 
@@ -23,6 +24,7 @@ import { effects, reducers } from './store';
   imports: [
     CommonModule,
     HttpClientModule,
+    ExuiCommonLibModule,
     HmctsFormBuilderModule,
     registerRouting,
     SharedModule,
@@ -32,7 +34,7 @@ import { effects, reducers } from './store';
   ],
   exports: [...fromContainers.containers, ...fromComponent.components],
   declarations: [...fromContainers.containers, ...fromComponent.components],
-  providers: [...fromServices.services]
+  providers: [AddressService, ...fromServices.services]
 })
 
 /**

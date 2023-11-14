@@ -14,13 +14,13 @@
             <p class="govuk-error-message" *ngIf="organisationTypeErrors.length > 0 && !showOtherOrganisationTypes">
               <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
             </p>
-            <fieldset class="govuk-fieldset">
+            <fieldset class="govuk-fieldset" aria-describedby="organisation-types">
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                 <h1 class="govuk-fieldset__heading">
                   Select the type of organisation
                 </h1>
               </legend>
-              <div class="govuk-hint">
+              <div id="organisation-types" class="govuk-hint">
                 Select the type of organisation you are registering. If you are not sure, select 'Other'.
               </div>
               <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">

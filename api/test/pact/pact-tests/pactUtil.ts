@@ -129,3 +129,14 @@ export async function getDetails(idamUrl: string, token: string = null): Promise
   const response = await axios.get(`${idamUrl}/details`, axiosConfig);
   return response.data;
 }
+
+export async function getUsers(taskUrl: string): Promise<AxiosResponse<any>> {
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json',
+      'ServiceAuthorization': 'serviceAuthToken',
+      'Authorization': 'Bearer some-access-token'
+    }
+  };
+  return axios.get(taskUrl, axiosConfig);
+}

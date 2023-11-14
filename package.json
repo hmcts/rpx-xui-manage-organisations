@@ -85,7 +85,7 @@
     "@ngrx/store": "^11.1.1",
     "@ngrx/store-devtools": "^11.1.1",
     "@nicky-lenaers/ngx-scroll-to": "^9.0.0",
-    "@pact-foundation/pact": "^9.2.0",
+    "@pact-foundation/pact": "^9.11.1",
     "@pact-foundation/pact-node": "^10.9.7",
     "@rxweb/reactive-form-validators": "2.1.2",
     "@types/crypto-js": "^3.1.43",

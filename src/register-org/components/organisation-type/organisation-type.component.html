@@ -8,7 +8,7 @@
         What type of organisation are you registering?
       </h1>
       <hr>
-      <div class="govuk-body govuk-!-margin-top-6">
+      <div class="govuk-body govuk-!-margin-top-4">
         <form [formGroup]="organisationTypeFormGroup">
           <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && !showOtherOrganisationTypes}">
             <p class="govuk-error-message" *ngIf="organisationTypeErrors.length > 0 && !showOtherOrganisationTypes">

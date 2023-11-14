@@ -5,39 +5,40 @@
       <xuilib-hmcts-error-summary [errorMessages]="dxErrors" [header]="'There is a problem'">
       </xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
-      <h1 class="govuk-heading-xl">
-        Do you have a document exchange reference for your main office?
-      </h1>
-      <hr>
       <form [formGroup]="dxFormGroup">
         <div class="govuk-form-group">
-          <div id="document-exchange-hint" class="govuk-hint">
-            Document Exchange (DX) is a service that enables solicitors to move large amounts of paperwork between one
-            another.
-          </div>
-          <div [ngClass]="{'govuk-form-group--error': errorPresent}">
-            <p class="govuk-error-message" *ngIf="errorPresent">
-              <span class="govuk-visually-hidden">Error:</span>{{dxErrors[0].message}}
-            </p>
-            <div class="govuk-radios" data-module="govuk-radios">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="yes" id="document-exchange-yes"
-                  name="documentExchange" formControlName="documentExchange">
-                <label class="govuk-label govuk-radios__label" for="document-exchange-yes">
-                  Yes
-                </label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" type="radio" value="no" id="document-exchange-no"
-                  name="documentExchange" formControlName="documentExchange">
-                <label class="govuk-label govuk-radios__label" for="document-exchange-no">
-                  No
-                </label>
+          <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+              Do you have a document exchange reference for your main office?
+            </legend>
+            <hr class="govuk-!-margin-top-0">
+            <div id="document-exchange-hint" class="govuk-hint govuk-!-margin-top-4">
+              Document Exchange (DX) is a service that enables solicitors to move large amounts of paperwork between one
+              another.
+            </div>
+            <div [ngClass]="{'govuk-form-group--error': errorPresent}">
+              <p class="govuk-error-message" *ngIf="errorPresent">
+                <span class="govuk-visually-hidden">Error:</span>{{dxErrors[0].message}}
+              </p>
+              <div class="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio" value="yes" id="document-exchange-yes"
+                    name="documentExchange" formControlName="documentExchange">
+                  <label class="govuk-label govuk-radios__label" for="document-exchange-yes">
+                    Yes
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio" value="no" id="document-exchange-no"
+                    name="documentExchange" formControlName="documentExchange">
+                  <label class="govuk-label govuk-radios__label" for="document-exchange-no">
+                    No
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
+          </fieldset>
         </div>
-
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
             Continue

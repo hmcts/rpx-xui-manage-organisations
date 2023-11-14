@@ -6,7 +6,10 @@ export default {
     idamWeb: 'https://idam-web-public.ithc.platform.hmcts.net',
     idamApi: 'https://idam-api.ithc.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal',
-    rdProfessionalApi: 'http://rd-professional-api-ithc.service.core-compute-ithc.internal'
+    rdProfessionalApi: 'http://rd-professional-api-ithc.service.core-compute-ithc.internal',
+    prd: {
+      commondataApi: 'http://rd-commondata-api-ithc.service.core-compute-ithc.internal'
+    }
   },
   health: {
     ccdDataApi: 'http://ccd-data-store-api-demo.service.core-compute-demo.internal/health',
@@ -14,7 +17,10 @@ export default {
     idamWeb: 'https://idam-web-public.ithc.platform.hmcts.net/health',
     idamApi: 'https://idam-api.ithc.platform.hmcts.net/health',
     s2s: 'http://rpe-service-auth-provider-ithc.service.core-compute-ithc.internal/health',
-    rdProfessionalApi: 'http://rd-professional-api-ithc.service.core-compute-ithc.internal/health'
+    rdProfessionalApi: 'http://rd-professional-api-ithc.service.core-compute-ithc.internal/health',
+    prd: {
+      commondataApi: 'http://rd-commondata-api-ithc.service.core-compute-ithc.internal'
+    }
   },
   useProxy: false,
   secureCookie: false,

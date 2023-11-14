@@ -1,12 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { CookieService, FeatureToggleService, FeatureUser, GoogleAnalyticsService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
-import { select, Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { LoggerService } from '../../../shared/services/logger.service';
-
 import { AppConstants } from '../../../app/app.constants';
-import { EnvironmentConfig, ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 import { HeadersService } from '../../../shared/services/headers.service';
+import { LoggerService } from '../../../shared/services/logger.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public cookieName;
   public isCookieBannerVisible: boolean = false;
   private cookieBannerEnabledSubscription: Subscription;
+  private pageTitleSubscription: Subscription;
 
   private cookieBannerEnabled: boolean = false;
   constructor(
@@ -52,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly idleService: ManageSessionServices,
     private readonly loggerService: LoggerService,
     private readonly cookieService: CookieService,
+    private titleService: Title
   ) {}
 
   public ngOnInit(): void {
@@ -73,6 +75,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.store.dispatch(new fromRoot.SetPageTitle(rootState.state.url));
       }
     });
+
+    this.pageTitleSubscription = this.pageTitle$.subscribe((title) => {
+      this.titleService.setTitle(title? title : 'Manage organisation');
+    });
+
     if (this.headersService.isAuthenticated()) {
       this.userService.getUserDetails().subscribe((user) => {
         const featureUser: FeatureUser = {
@@ -86,6 +93,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.userRoles = featureUser.custom.roles;
         this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
       });
+    } else {
+      this.featureService.initialize({ anonymous: true }, this.environmentConfig.launchDarklyClientId);
     }
 
     this.addIdleServiceListener();
@@ -95,9 +104,8 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.cookieBannerEnabledSubscription) {
-      this.cookieBannerEnabledSubscription.unsubscribe();
-    }
+    this.cookieBannerEnabledSubscription?.unsubscribe();
+    this.pageTitleSubscription?.unsubscribe();
   }
 
   public handleCookieBannerFeatureToggle(): void {

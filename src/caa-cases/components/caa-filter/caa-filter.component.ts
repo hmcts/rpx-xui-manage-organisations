@@ -1,16 +1,17 @@
 import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { catchError, debounceTime, switchMap, tap } from 'rxjs/operators';
 import { CaaCasesUtil } from '../../../caa-cases/util/caa-cases.util';
+import { ErrorMessage } from '../../../shared/models/error-message.model';
 import {
   CaaCasesFilterErrorMessage,
   CaaCasesFilterHeading,
   CaaCasesFilterType,
   CaaCasesPageType
 } from '../../models/caa-cases.enum';
-import { CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
+import { CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 
 @Component({
   selector: 'app-caa-filter',

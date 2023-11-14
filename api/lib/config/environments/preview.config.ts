@@ -11,12 +11,6 @@ export default {
       commondataApi: 'http://rd-commondata-api-aat.service.core-compute-aat.internal'
     }
   },
-  secrets: {
-    rpx: {
-      'system-user-name': 'xui_mo_system_user@mailinator.com',
-      'system-user-password': 'Welcome01'
-    }
-  },
   health: {
     ccdDataApi: 'http://ccd-data-store-api-aat.service.core-compute-aat.internal/health',
     ccdDefApi: 'http://ccd-definition-store-api-aat.service.core-compute-aat.internal/health',

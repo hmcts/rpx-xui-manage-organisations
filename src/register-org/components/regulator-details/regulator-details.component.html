@@ -18,12 +18,10 @@
         <hr>
         <div class="govuk-body govuk-!-margin-top-6">
           <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as
-            you can on the regulator or professional body that you are personally registered with.
+            you can on the regulator or professional body that are you personally registered with.
           </p>
           <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">Give as much detail as
             you can on the regulator or professional body your organisation is registered with.
-            Only add registrations that apply to your organisation. If you have personal regulatory
-            or professional body memberships you can add these later.
           </p>
           <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">HMCTS needs to gather this
             information as it is required to gain access to some of our services.
@@ -116,8 +114,8 @@
             </div>
             <div class="govuk-button-group">
               <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-              <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
             </div>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </form>
         </div>
       </fieldset>

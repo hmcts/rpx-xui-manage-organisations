@@ -254,6 +254,25 @@ describe('RegulatorDetailsComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });
 
+  it('should changing the regulator type clear the organisation registration number field', () => {
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
+    const selectElement0: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
+    selectElement0.selectedIndex = 0;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    const registrationNumberElement = nativeElement.querySelector('#organisation-registration-number0');
+    registrationNumberElement.value = '123';
+    registrationNumberElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    selectElement0.selectedIndex = 0;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(registrationNumberElement.value).toEqual('');
+  });
+
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
     spyOn(component, 'onContinue').and.callThrough();
     component.validationErrors = [];
@@ -487,14 +506,14 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the individual registered with regulator page', () => {
-    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
     component.regulatorType = RegulatorType.Individual;
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
   });
 
   it('should back link navigate to the document exchange reference details page', () => {
-    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.hasDxReference = true;
     component.onBack();
@@ -502,7 +521,7 @@ describe('RegulatorDetailsComponent', () => {
   });
 
   it('should back link navigate to the document exchange reference page', () => {
-    mockRoute.snapshot.params.backLinkTriggeredFromCYA = true;
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.hasDxReference = false;
     component.onBack();
@@ -511,6 +530,7 @@ describe('RegulatorDetailsComponent', () => {
 
   it('should back link navigate to the check your answers page', () => {
     mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.previousUrl = 'check-your-answers';
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });

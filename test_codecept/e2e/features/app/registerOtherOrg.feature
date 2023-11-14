@@ -1,7 +1,12 @@
-@fullFunctional @preview_only
+@fullFunctional
 Feature: Register other org, registration
 
     Scenario: register other org workflow with all optional values
+
+        When I navigate to manage organisation Url
+        Given I am logged in with ROO user targetting ON
+        Then I should be redirected to manage organisation dashboard page
+
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
         Then In register other org page "Apply for an organisation to manage civil, family and tribunal cases", I validate fields displayed
@@ -126,7 +131,7 @@ Feature: Register other org, registration
             | Organisation address                                        | auto building,auto addr 2,auto addr 3,auto city,auto country,SW1V 3BZ,UK |
             | DX reference                                                | DX12345, HAYES (MIDDLESEX)                                               |
             | Service to access                                           | Divorce,Damages                                                          |
-            | PBA number(s)                                               | PBA1234567,PBA7654321                                                    |
+            | What PBA numbers does your organisation use?                | PBA1234567,PBA7654321                                                    |
             | Regulatory organisation type                                | Other: test name ref: test number                                        |
             | First name(s)                                               | auto test fn                                                             |
             | Last name                                                   | auto test ln                                                             |
@@ -135,6 +140,10 @@ Feature: Register other org, registration
 
 
     Scenario: register other org workflow with minimum values
+        When I navigate to manage organisation Url
+        Given I am logged in with ROO user targetting ON
+        Then I should be redirected to manage organisation dashboard page
+
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
         Then In register other org page "Apply for an organisation to manage civil, family and tribunal cases", I validate fields displayed

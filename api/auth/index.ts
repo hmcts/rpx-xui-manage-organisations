@@ -21,7 +21,9 @@ import {
   SERVICES_IDAM_ISS_URL,
   SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICE_S2S_PATH,
-  SESSION_SECRET
+  SESSION_SECRET,
+  SYSTEM_USER_NAME,
+  SYSTEM_USER_PASSWORD
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
@@ -86,8 +88,8 @@ export const getXuiNodeMiddleware = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const ccdUrl = getConfigValue(SERVICES_CCD_COMPONENT_API_PATH);
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
-  const userName = 'xui_mo_system_user@mailinator.com';
-  const password = 'Welcome01';
+  const userName = getConfigValue(SYSTEM_USER_NAME);
+  const password = getConfigValue(SYSTEM_USER_PASSWORD);
 
   const routeCredential = {
     password,

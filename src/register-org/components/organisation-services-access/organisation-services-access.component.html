@@ -14,10 +14,10 @@
             </legend>
             <hr>
             <div class="govuk-label govuk-!-font-weight-bold">
-              Select services to access
+              Please indicate the services you are looking to access
             </div>
             <div class="govuk-hint">
-              You must select at least one option
+              You must select at least one option. This will not impact access to any of the services listed as long as you're eligible to do so
             </div>
             <div [ngClass]="{'govuk-form-group--error': noServicesError}">
               <div *ngIf="noServicesError" class="govuk-error-message">
@@ -25,7 +25,7 @@
               </div>
               <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item" *ngFor="let service of services">
-                  <input class="govuk-checkboxes__input" [id]="service.key" type="checkbox" [value]="service.key"
+                  <input class="govuk-checkboxes__input" [id]="service.value" type="checkbox" [value]="service.key"
                     name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
                   <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
                     {{service.value}}
@@ -49,8 +49,8 @@
         </div>
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

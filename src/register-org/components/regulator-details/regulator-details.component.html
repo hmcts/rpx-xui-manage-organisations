@@ -16,7 +16,7 @@
         <hr class="govuk-!-margin-top-0">
         <div id="regulator-details" class="govuk-body govuk-!-margin-top-4">
           <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as
-            you can on the regulator or professional body that you are personally registered with.
+            you can on the regulator or professional body that are you personally registered with.
           </p>
           <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">Give as much detail as
             you can on the regulator or professional body your organisation is registered with.
@@ -86,14 +86,14 @@
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
                         <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
-                          Enter your individual registration number
+                          Enter your individual registration reference
                         </span>
                         <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-                          Enter your organisation's registration number
+                          Enter your organisation's registration reference
                         </span>
                       </label>
                       <div *ngIf="fieldHasErrorMessage('organisation-registration-number' + i)" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER}}
+                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE}}
                       </div>
                       <input class="govuk-input govuk-!-width-two-thirds"
                         [ngClass]="{'govuk-input--error': fieldHasErrorMessage('organisation-registration-number' + i)}"
@@ -112,8 +112,8 @@
             </div>
             <div class="govuk-button-group">
               <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-              <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
             </div>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </form>
         </div>
       </fieldset>

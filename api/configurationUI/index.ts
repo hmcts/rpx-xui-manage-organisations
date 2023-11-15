@@ -6,7 +6,6 @@ import {
   LAUNCH_DARKLY_CLIENT_ID,
   LINKS_MANAGE_CASES_LINK,
   LINKS_MANAGE_ORG_LINK,
-  PREVIEW_LD_KEY,
   PROTOCOL,
   SERVICE_S2S_PATH,
   SERVICES_FEE_AND_PAY_API_PATH,
@@ -25,7 +24,7 @@ router.get('/', configurationUIRoute);
  */
 export async function configurationUIRoute(req, res): Promise<void> {
   const environment = process && process.env && process.env.PUI_ENV;
-  const launchDarklyClientId = environment !== 'preview' ? getConfigValue(LAUNCH_DARKLY_CLIENT_ID) : getConfigValue(PREVIEW_LD_KEY);
+  const launchDarklyClientId = getConfigValue(LAUNCH_DARKLY_CLIENT_ID);
   res.status(200).send({
     feeAndPayApiPath: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),

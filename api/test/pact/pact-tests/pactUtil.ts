@@ -130,6 +130,16 @@ export async function getDetails(idamUrl: string, token: string = null): Promise
   return response.data;
 }
 
+export async function postS2SLease(S2SUrl: string, payload: any): Promise<any> {
+  const axiosConfig = {
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'ServiceAuthorization': 'ServiceAuthToken'
+    }
+  };
+  return await axios.post(S2SUrl, payload, axiosConfig);
+}
+
 export async function getUsers(taskUrl: string): Promise<AxiosResponse<any>> {
   const axiosConfig = {
     headers: {

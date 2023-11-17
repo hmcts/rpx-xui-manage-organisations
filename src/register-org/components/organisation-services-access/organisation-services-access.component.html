@@ -6,17 +6,15 @@
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="servicesFormGroup">
         <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">
-                Which services will your organisation need to access?
-              </h1>
+          <fieldset class="govuk-fieldset" aria-describedby="service-selection-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+              Which services will your organisation need to access?
             </legend>
-            <hr>
-            <div class="govuk-label govuk-!-font-weight-bold">
+            <hr class="govuk-!-margin-top-0">
+            <div class="govuk-label govuk-!-font-weight-bold govuk-!-margin-top-4">
               Please indicate the services you are looking to access
             </div>
-            <div class="govuk-hint">
+            <div class="govuk-hint" id="service-selection-hint">
               You must select at least one option. This will not impact access to any of the services listed as long as you're eligible to do so
             </div>
             <div [ngClass]="{'govuk-form-group--error': noServicesError}">

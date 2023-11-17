@@ -4,19 +4,17 @@
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
-            <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
-              What regulator are you (as an individual) registered with?
-            </span>
-            <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-              Who is your organisation registered with?
-            </span>
-          </h1>
+      <fieldset class="govuk-fieldset" aria-describedby="regulator-details">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+            What regulator are you (as an individual) registered with?
+          </span>
+          <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+            Who is your organisation registered with?
+          </span>
         </legend>
-        <hr>
-        <div class="govuk-body govuk-!-margin-top-6">
+        <hr class="govuk-!-margin-top-0">
+        <div id="regulator-details" class="govuk-body govuk-!-margin-top-4">
           <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as
             you can on the regulator or professional body that are you personally registered with.
           </p>

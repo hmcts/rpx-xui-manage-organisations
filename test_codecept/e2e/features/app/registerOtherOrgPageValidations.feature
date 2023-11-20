@@ -1,4 +1,4 @@
-@fullFunctional @ignore
+@fullFunctional 
 Feature: Register other org, page validations
 
     Background:

@@ -1,4 +1,4 @@
-@fullFunctional @ignore
+@fullFunctional
 Feature: Register other org, registration
 
     Scenario: register other org workflow with all optional values

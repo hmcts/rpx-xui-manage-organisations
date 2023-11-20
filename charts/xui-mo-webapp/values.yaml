@@ -84,6 +84,8 @@ nodejs:
         - name: mo-webapp-redis6-connection-string
           alias: mo-webapp-redis-connection-string
         - launch-darkly-client-id
+        - system-user-name
+        - system-user-password
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

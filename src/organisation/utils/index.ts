@@ -27,14 +27,19 @@ const utils = {
     return null;
   },
   getOrganisationType: (organisationDetails: Partial<OrganisationDetails>): string => {
-    if (containsItems(organisationDetails, 'organisationType')) {
-      return organisationDetails.organisationType;
+    if (containsItems(organisationDetails, 'orgType')) {
+      return organisationDetails.orgType;
     }
     return null;
   },
   getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] => {
-    if (containsItems(organisationDetails, 'regulators')) {
-      return organisationDetails.regulators;
+    if (containsItems(organisationDetails, 'orgAttributes') && organisationDetails.orgAttributes.find((orgAttribute) => orgAttribute.key.includes('regulator'))) {
+      const regulatorAttributes = organisationDetails.orgAttributes.filter((orgAttribute) => orgAttribute.key.includes('regulator'));
+      const regulators = [];
+      for (let i = 0; i < regulatorAttributes.length; i++) {
+        regulators.push(JSON.parse(regulatorAttributes[i].value));
+      }
+      return regulators;
     }
     return null;
   },

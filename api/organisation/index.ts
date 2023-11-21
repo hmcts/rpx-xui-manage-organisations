@@ -7,7 +7,7 @@ import { OrganisationUser } from '../interfaces/organisationPayload';
 export async function handleOrganisationRoute(req: Request, res: Response) {
   try {
     const response = await req.http.get(
-      `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
+      `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v2/organisations`
     );
     res.send(response.data);
   } catch (error) {
@@ -21,7 +21,24 @@ export async function handleOrganisationRoute(req: Request, res: Response) {
 }
 
 export function getOrganisationDetails(req: Request, url: string): Promise<AxiosResponse> {
-  return req.http.get(`${url}/refdata/external/v1/organisations`);
+  return req.http.get(`${url}/refdata/external/v2/organisations`);
+}
+
+// delete next two functions after register org feature not necessary
+export async function handleOrganisationV1Route(req: Request, res: Response) {
+  try {
+    const response = await req.http.get(
+      `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
+    );
+    res.send(response.data);
+  } catch (error) {
+    const errReport = {
+      apiError: error.data.message,
+      apiStatusCode: error.status,
+      message: 'Organisation route error'
+    };
+    res.status(errReport.apiStatusCode).send(errReport);
+  }
 }
 
 export async function handleOrganisationUsersRoute(req: Request, res: Response, next: NextFunction) {
@@ -41,6 +58,8 @@ function getFilteredUsers(users: OrganisationUser []): OrganisationUser [] {
 }
 
 export const router = Router({ mergeParams: true });
+
+router.get('/v1', handleOrganisationV1Route);
 
 router.get('', handleOrganisationRoute);
 

@@ -58,14 +58,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org-new',
-    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule),
-    canActivate: [FeatureToggleGuard],
-    data: {
-      title: 'Register Organisation',
-      needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
-      expectFeatureEnabled: true,
-      featureDisabledRedirect: '/register-org/register'
-    }
+    loadChildren: () => import('../register-org/register-org.module').then((m) => m.RegisterOrgModule)
   },
   {
     path: 'accept-terms-and-conditions',

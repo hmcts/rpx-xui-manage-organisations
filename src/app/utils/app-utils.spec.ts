@@ -1,4 +1,4 @@
-import { LovRefDataModel } from 'src/shared/models/lovRefData.model';
+import { LovRefDataModel } from '../../shared/models/lovRefData.model';
 import { propsExist } from '../../../api/lib/objectUtilities';
 import { AppConstants } from '../app.constants';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';

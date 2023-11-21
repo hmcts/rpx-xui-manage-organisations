@@ -3,7 +3,7 @@
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <h1 class="govuk-heading-l">Check your answers before you register</h1>
+      <h1 class="govuk-heading-xl">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
 
       <div *ngIf="registrationData.otherOrganisationType">
@@ -252,10 +252,10 @@
                 and are eligible for an account to manage your organisation and cases
               </label>
           </div>
-          <div class="govuk-button-group">
+          <div class="govuk-!-margin-top-6">
             <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="button">Confirm and submit</button>
-            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </div>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { RegistrationData, RegistrationRequest } from '../models/registrationData';
-import { generateS2sToken } from '../lib/s2sTokenGeneration';
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH, SERVICE_S2S_PATH } from '../configuration/references';
 import { http } from '../lib/http';
+import { generateS2sToken } from '../lib/s2sTokenGeneration';
+import { RegistrationData, RegistrationRequest } from '../models/registrationData';
 
 export function mapRequestObject(requestBody: RegistrationData): RegistrationRequest {
   const request: RegistrationRequest = {
@@ -92,7 +92,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
 
     res.send(response.data);
   } catch (error) {
-    if (error.status === 400 && error.data?.errorMessage) {
+    if (error.status === 400 && error.data?.errorDescription) {
       res.status(400).send(error.data);
     } else {
       next(error);

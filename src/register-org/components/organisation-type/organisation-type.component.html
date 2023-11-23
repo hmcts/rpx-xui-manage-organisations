@@ -8,20 +8,20 @@
         What type of organisation are you registering?
       </h1>
       <hr>
-      <div class="govuk-body govuk-!-margin-top-6">
+      <div class="govuk-body govuk-!-margin-top-4">
         <form [formGroup]="organisationTypeFormGroup">
           <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && !showOtherOrganisationTypes}">
             <p class="govuk-error-message" *ngIf="organisationTypeErrors.length > 0 && !showOtherOrganisationTypes">
               <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
             </p>
-            <fieldset class="govuk-fieldset">
+            <fieldset class="govuk-fieldset" aria-describedby="organisation-types">
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                 <h1 class="govuk-fieldset__heading">
                   Select the type of organisation
                 </h1>
               </legend>
-              <div class="govuk-hint">
-                Select the type of company you are registering. If you are not sure, select 'other'.
+              <div id="organisation-types" class="govuk-hint">
+                Select the type of organisation you are registering. If you are not sure, select 'Other'.
               </div>
               <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
                 <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes">
@@ -70,8 +70,8 @@
           </div>
           <div class="govuk-button-group">
             <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </div>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>
       </div>
     </div>

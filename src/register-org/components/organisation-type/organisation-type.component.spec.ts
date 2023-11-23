@@ -92,6 +92,19 @@ describe('OrganisationTypeComponent', () => {
           value_en: 'Education'
         }
       ]
+    },
+    {
+      active_flag: 'Y',
+      category_key: 'OrgType',
+      child_nodes: null,
+      hint_text_cy: '',
+      hint_text_en: '',
+      key: 'Education',
+      lov_order: null,
+      parent_category: '',
+      parent_key: '',
+      value_cy: '',
+      value_en: 'Education'
     }
   ];
 
@@ -144,8 +157,10 @@ describe('OrganisationTypeComponent', () => {
   it('should display other organisation types dropdown when other radio option is selected', () => {
     nativeElement.querySelector('#OTHER').click();
     fixture.detectChanges();
-    expect(nativeElement.querySelector('#other-organisation-type')).toBeDefined();
-    expect(nativeElement.querySelector('#other-organisation-detail')).toBeDefined();
+    if (!component.registrationData.otherOrganisationType) {
+      expect(nativeElement.querySelector('#other-organisation-type').value).toBe('0: none');
+      expect(nativeElement.querySelector('#other-organisation-detail').value).toBe('');
+    }
   });
 
   it('should return validation error for other org with type selected and empty details', () => {
@@ -228,5 +243,11 @@ describe('OrganisationTypeComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should set other as last option', () => {
+    component.ngOnInit();
+    const lastIndex = component.organisationTypes.length;
+    expect(component.organisationTypes[lastIndex-1].key).toEqual('OTHER');
   });
 });

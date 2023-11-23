@@ -44,6 +44,7 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
       } else {
         // Set corresponding registration data
         this.registrationData.hasPBA = false;
+        this.registrationData.pbaNumbers = [];
         // Navigate to collect contact details
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
       }

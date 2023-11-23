@@ -69,6 +69,9 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
   public onContinue(): void {
     if (this.isFormValid()) {
       this.registrationData.address = this.formGroup.get('address').value;
+      if (this.registrationData.address.postCode === '') {
+        this.registrationData.address.postCode = null;
+      }
       this.registrationData.inInternationalMode = this.startedInternational;
 
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);

@@ -32,13 +32,14 @@ const utils = {
     }
     return null;
   },
+  // note: this does not get invdividual regulators as no display requirement for them
   getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] => {
     if (containsItems(organisationDetails, 'orgAttributes') && organisationDetails.orgAttributes.find((orgAttribute) => orgAttribute.key.includes('regulator'))) {
       const regulatorAttributes = organisationDetails.orgAttributes.filter((orgAttribute) => orgAttribute.key.includes('regulator'));
       const regulators = [];
-      for (let i = 0; i < regulatorAttributes.length; i++) {
-        regulators.push(JSON.parse(regulatorAttributes[i].value));
-      }
+      regulatorAttributes.map((regAttribute) => {
+        regulators.push(JSON.parse(regAttribute.value));
+      })
       return regulators;
     }
     return null;

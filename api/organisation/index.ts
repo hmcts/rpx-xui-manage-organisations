@@ -4,19 +4,14 @@ import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { OrganisationUser } from '../interfaces/organisationPayload';
 
-export async function handleOrganisationRoute(req: Request, res: Response) {
+export async function handleOrganisationRoute(req: Request, res: Response, next: NextFunction) {
   try {
     const response = await req.http.get(
       `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v2/organisations`
     );
     res.send(response.data);
   } catch (error) {
-    const errReport = {
-      apiError: error.data.message,
-      apiStatusCode: error.status,
-      message: 'Organisation route error'
-    };
-    res.status(errReport.apiStatusCode).send(errReport);
+    next(error);
   }
 }
 
@@ -25,19 +20,14 @@ export function getOrganisationDetails(req: Request, url: string): Promise<Axios
 }
 
 // delete next two functions after register org feature not necessary
-export async function handleOrganisationV1Route(req: Request, res: Response) {
+export async function handleOrganisationV1Route(req: Request, res: Response, next: NextFunction) {
   try {
     const response = await req.http.get(
       `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
     );
     res.send(response.data);
   } catch (error) {
-    const errReport = {
-      apiError: error.data.message,
-      apiStatusCode: error.status,
-      message: 'Organisation route error'
-    };
-    res.status(errReport.apiStatusCode).send(errReport);
+    next(error);
   }
 }
 

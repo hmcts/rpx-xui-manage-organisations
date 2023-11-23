@@ -39,20 +39,24 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
     });
   }
   if (requestBody.regulators && requestBody.regulators.length > 0) {
-    for (let i = 0; i < requestBody.regulators.length; i++) {
+    let regIndex = 0;
+    requestBody.regulators.map((regulator) => {
       request.orgAttributes.push({
-        key: `regulators-${i}`,
-        value: JSON.stringify(requestBody.regulators[i])
+        key: `regulators-${regIndex}`,
+        value: JSON.stringify(regulator)
       });
-    }
+      regIndex++;
+    })
   }
   if (requestBody.individualRegulators && requestBody.individualRegulators.length > 0) {
-    for (let i = 0; i < requestBody.individualRegulators.length; i++) {
+    let iRegIndex = 0;
+    requestBody.individualRegulators.map((iRegulator) => {
       request.orgAttributes.push({
-        key: `individualRegulators-${i}`,
-        value: JSON.stringify(requestBody.individualRegulators[i])
+        key: `regulators-${iRegIndex}`,
+        value: JSON.stringify(iRegulator)
       });
-    }
+      iRegIndex++;
+    })
   }
   return request;
 }

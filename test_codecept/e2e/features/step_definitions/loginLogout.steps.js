@@ -130,20 +130,41 @@ Given(/^I am logged into manage organisation to invite users$/, async function (
   // browser.sleep(LONG_DELAY);
 });
 
-Given(/^I am logged into Townley Services Org$/, async function () {
+  Given(/^I am logged into Townley Services Org$/, async function () {
+    // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+    // await loginPage.password.sendKeys(config.config.townleyPassword);
+    // // browser.sleep(SHORT_DELAY);
+    // await loginPage.signinBtn.click();
+    const world = this;
+    await loginattemptCheckAndRelogin(config.config.townleyUser, config.config.townleyPassword, world);
+
+});
+
+Given(/^I am logged in with ROO user targetting ON$/, async function () {
   // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
   // await loginPage.password.sendKeys(config.config.townleyPassword);
   // // browser.sleep(SHORT_DELAY);
   // await loginPage.signinBtn.click();
-  await loginattemptCheckAndRelogin(config.config.townleyUser, config.config.townleyPassword, null);
+  const world = this;
+  await loginattemptCheckAndRelogin('xui_mo_roo_on@mailinator.com', 'Welcome01', world);
 
 });
 
-Given('I am logged into manage organisation with test org user', async function () {
+Given(/^I am logged in with ROO user targetting OFF$/, async function () {
+  // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+  // await loginPage.password.sendKeys(config.config.townleyPassword);
+  // // browser.sleep(SHORT_DELAY);
+  // await loginPage.signinBtn.click();
   const world = this;
-  this.attach('Login user : ' + global.testorg_rw_superuser_email);
-  console.log('Login user : ' + global.testorg_rw_superuser_email);
-  await loginattemptCheckAndRelogin(global.testorg_rw_superuser_email, 'Monday01', world);
+  await loginattemptCheckAndRelogin('xui_mo_roo_off@mailinator.com', 'Welcome01', world);
+
+});
+
+  Given('I am logged into manage organisation with test org user', async function(){
+    const world = this;
+    this.attach('Login user : ' + global.testorg_rw_superuser_email);
+    console.log('Login user : ' + global.testorg_rw_superuser_email);
+    await loginattemptCheckAndRelogin(global.testorg_rw_superuser_email, 'Monday01', world);
 
   const tandcfeatureToggle = await acceptTermsAndConditionsPage.isFeatureToggleEnabled(this);
   if (tandcfeatureToggle) {

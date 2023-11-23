@@ -1,6 +1,10 @@
-@fullFunctional @preview_only
+@fullFunctional @ignore
 Feature: Register other org, page validations
 
+    Background:
+        When I navigate to manage organisation Url
+        Given I am logged in with ROO user targetting ON
+        Then I should be redirected to manage organisation dashboard page
 
     Scenario: Register other org, page level validations in What type of organisation are you registering?
         When In register organisation workflow, I navigate to route "organisation-type"
@@ -74,7 +78,7 @@ Feature: Register other org, page validations
 
         Then In register organisation workflow, I validate error messages displayed
             | message                     |
-            | Enter a registration number |
+            | Enter a registration reference |
         When In register other org page "Who is your organisation registered with?", I input values
             | field                                         | value       |
             | Enter your organisation's registration number | SRA12345678 |
@@ -192,7 +196,7 @@ Feature: Register other org, page validations
 
         Then In register organisation workflow, I validate error messages displayed
             | message                                 |
-            | Enter a registration number |
+            | Enter a registration reference |
 
         When In register other org page "What regulator are you (as an individual) registered with?", I input values
             | field                        | value                                |

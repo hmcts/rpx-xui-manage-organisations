@@ -23,7 +23,7 @@ export type RegistrationData = {
     hasDxReference: boolean;
     dxNumber?: string;
     dxExchange?: string;
-    services: string[];
+    services: {key: string, value: string}[];
     otherServices?: string;
     hasPBA: boolean;
     contactDetails: ContactDetails;
@@ -72,10 +72,5 @@ export type RegistrationRequest = {
       }
     ],
     orgType: string,
-    orgAttributes?: [
-      {
-        key: string,
-        value: string
-      }
-    ]
+    orgAttributes?: {key: string, value: string}[]
 }

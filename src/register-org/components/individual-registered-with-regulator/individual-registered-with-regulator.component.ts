@@ -42,6 +42,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
       } else {
         // Set corresponding registration data
         this.registrationData.hasIndividualRegisteredWithRegulator = false;
+        this.registrationData.individualRegulators = [];
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
       }
     }

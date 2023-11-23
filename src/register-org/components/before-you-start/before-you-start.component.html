@@ -1,32 +1,17 @@
 <main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1" #mainContent>
-  <ng-container *ngIf="beforeYouStartError">
-    <div class="govuk-error-summary govuk-!-margin-top-4" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <li>
-            <a href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/before-you-start#{{beforeYouStartError.fieldId}}">
-              {{beforeYouStartError.description}}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </ng-container>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <xuilib-hmcts-error-summary [errorMessages]="beforeYouStartErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <h1 class="govuk-heading-xl">
         Apply for an organisation to manage civil, family and tribunal cases
       </h1>
       <hr>
       <br>
-      <p class="govuk-body">
-        MyHMCTS is a service for submitting and managing applications. It can be used by organisations and legal professionals.
+      <p class="govuk-body">MyHMCTS is a service for submitting and managing applications.
+        It can be used by organisations and legal professionals.
       </p>
-      <p class="govuk-body">
-        If you are not sure if your organisation will be able to use this service, see the <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
+      <p class="govuk-body">If you are not sure if your organisation will be able to use this service, see the
+        <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
       </p>
       <div class="govuk-body">
         <p>By registering, you will:</p>
@@ -36,17 +21,16 @@
         </ul>
       </div>
       <h3 class="govuk-heading-m">Before you start</h3>
-      <p class="govuk-body">
-        MyHMCTS is a service for organisations and legal professionals. Do not use this service if you are a member of the public making an application on your own behalf.
+      <p class="govuk-body">MyHMCTS is a service for organisations and legal professionals.
+        Do not use this service if you are a member of the public making an application on your own behalf.
       </p>
-      <p class="govuk-body">
-        Make sure the information you give us is complete and accurate. If there are any errors in the application, HMCTS will reject it and you will need to start again.
+      <p class="govuk-body">Make sure the information you give us is complete and accurate.
+        If there are any errors in the application, HMCTS will reject it and you will need to start again.
       </p>
-      <p class="govuk-body">
-        Check if your organisation already has an account. If so, ask your organisation's MyHMCTS administrator to give you access.
+      <p class="govuk-body">Check if your organisation already has an account.
+        If so, ask your organisation's MyHMCTS administrator to give you access.
       </p>
-      <p class="govuk-body">
-        Do not create an additional account for your organisation unless you need to keep parts of your business separate.
+      <p class="govuk-body">Do not create an additional account for your organisation unless you need to keep parts of your business separate.
       </p>
       <div class="govuk-body">
         <p>You will not be able to:</p>
@@ -58,9 +42,9 @@
       </div>
       <div class="govuk-body govuk-!-margin-top-6">
         <form [formGroup]="beforeYouStartForm">
-          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': beforeYouStartError}">
-            <p class="govuk-error-message" *ngIf="beforeYouStartError">
-              <span class="govuk-visually-hidden">Error:</span>{{beforeYouStartError.description}}
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorPresent}">
+            <p class="govuk-error-message" *ngIf="errorPresent">
+              <span class="govuk-visually-hidden">Error:</span>{{beforeYouStartErrors[0].message}}
             </p>
             <div class="govuk-checkboxes" data-module="govuk-checkboxes">
               <div class="govuk-checkboxes__item">

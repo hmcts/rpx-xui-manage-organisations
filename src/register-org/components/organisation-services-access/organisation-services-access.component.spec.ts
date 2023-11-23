@@ -61,11 +61,11 @@ describe('OrganisationServicesAccessComponent', () => {
       }
     } as any);
     component.onBack();
-    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'regulatory-organisation-type']);
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    nativeElement.querySelector('#AAA7').click();
+    nativeElement.querySelector('#Damages').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
@@ -74,11 +74,12 @@ describe('OrganisationServicesAccessComponent', () => {
 
   it('should set the error message and stay on the page', () => {
     component.selectedServices = [];
+    component.showOtherServicesInput = false;
     component.services.forEach((s) => s.selected = false);
     fixture.detectChanges();
-    const error = { message: OrganisationServicesMessage.NO_ORG_SERVICES, id: 'AAA7' };
     component.onContinue();
-    expect(component.validationErrors[0]).toEqual(error);
+    expect(component.noServicesError).toEqual(OrganisationServicesMessage.NO_ORG_SERVICES);
+    expect(component.validationErrors.length).toEqual(1);
     expect(router.navigate).not.toHaveBeenCalled();
   });
 

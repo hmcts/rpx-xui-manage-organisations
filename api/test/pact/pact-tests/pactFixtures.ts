@@ -122,3 +122,25 @@ export interface InviteUserResponse {
 export interface OrganisationCreatedResponse {
   organisationIdentifier: string;
 }
+
+export interface S2SResponse {
+  token?: string;
+}
+
+export interface UserResponse {
+  organisationIdentifier: string;
+  users: User[]
+}
+
+export interface User {
+  userIdentifier: string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  idamStatus: string,
+  roles: [
+    string
+  ],
+  idamStatusCode: string,
+  idamMessage: string
+}

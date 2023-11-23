@@ -1,4 +1,4 @@
-import { PBANumberModel } from 'src/models/pbaNumber.model';
+import { PBANumberModel } from '../../models/pbaNumber.model';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../models';
 import { Regulator } from '../../register-org/models';
 import { OrgManagerConstants } from '../organisation-constants';
@@ -39,7 +39,7 @@ const utils = {
       const regulators = [];
       regulatorAttributes.map((regAttribute) => {
         regulators.push(JSON.parse(regAttribute.value));
-      })
+      });
       return regulators;
     }
     return null;

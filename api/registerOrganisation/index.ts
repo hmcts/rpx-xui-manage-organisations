@@ -46,7 +46,7 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         value: JSON.stringify(regulator)
       });
       regIndex++;
-    })
+    });
   }
   if (requestBody.individualRegulators && requestBody.individualRegulators.length > 0) {
     let iRegIndex = 0;
@@ -56,7 +56,7 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         value: JSON.stringify(iRegulator)
       });
       iRegIndex++;
-    })
+    });
   }
   return request;
 }

@@ -7,14 +7,12 @@
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="dxFormGroup">
         <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">
-                Do you have a document exchange reference for your main office?
-              </h1>
+          <fieldset class="govuk-fieldset" aria-describedby="document-exchange-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+              Do you have a document exchange reference for your main office?
             </legend>
-            <hr>
-            <div id="document-exchange-hint" class="govuk-hint">
+            <hr class="govuk-!-margin-top-0">
+            <div id="document-exchange-hint" class="govuk-hint govuk-!-margin-top-4">
               Document Exchange (DX) is a service that enables solicitors to move large amounts of paperwork between one
               another.
             </div>
@@ -41,14 +39,12 @@
             </div>
           </fieldset>
         </div>
-
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

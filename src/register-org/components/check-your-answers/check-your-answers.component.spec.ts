@@ -25,8 +25,8 @@ describe('CheckYourAnswersComponent', () => {
       'PBA1234568'
     ],
     services: [
-      'AAA7',
-      'ABA3'
+      { key: 'AAA7', value: 'Damages' },
+      { key: 'ABA3', value: 'Divorce' }
     ],
     otherServices: 'test service',
     contactDetails: {

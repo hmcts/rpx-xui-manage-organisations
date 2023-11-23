@@ -10,7 +10,7 @@
       </h1>
       <hr>
       <form [formGroup]="pbaDetailsFormGroup">
-        <div id="pba-numbers-container" formArrayName="pbaNumbers">
+        <div class="govuk-!-margin-top-4" id="pba-numbers-container" formArrayName="pbaNumbers">
           <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i = index">
             <div [ngClass]="{'govuk-form-group--error': validationErrors[i]?.message?.length > 0}">
               <div class="govuk-!-margin-bottom-6" [formGroupName]="i">
@@ -39,8 +39,8 @@
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

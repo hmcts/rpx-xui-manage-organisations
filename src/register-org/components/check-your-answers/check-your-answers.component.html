@@ -3,7 +3,7 @@
     <div class="govuk-grid-column-two-thirds">
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
-      <h1 class="govuk-heading-l">Check your answers before you register</h1>
+      <h1 class="govuk-heading-xl">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
 
       <div *ngIf="registrationData.otherOrganisationType">
@@ -246,7 +246,7 @@
               <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
               name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
               <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
-                You have read and understood the
+                You have read, understood and will abide by the
                 <a href="javascript:void(0)" target="_blank"
                   routerLink="/terms-and-conditions">terms and conditions</a>
                 and are eligible for an account to manage your organisation and cases

@@ -78,7 +78,7 @@ Feature: Register other org, page validations
 
         Then In register organisation workflow, I validate error messages displayed
             | message                     |
-            | Enter a registration number |
+            | Enter a registration reference |
         When In register other org page "Who is your organisation registered with?", I input values
             | field                                         | value       |
             | Enter your organisation's registration number | SRA12345678 |
@@ -196,7 +196,7 @@ Feature: Register other org, page validations
 
         Then In register organisation workflow, I validate error messages displayed
             | message                                 |
-            | Enter a registration number |
+            | Enter a registration reference |
 
         When In register other org page "What regulator are you (as an individual) registered with?", I input values
             | field                        | value                                |

@@ -259,7 +259,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       if (formGroup.get('organisationRegistrationNumber') && formGroup.get('organisationRegistrationNumber').errors) {
         this.validationErrors.push({
           id: `organisation-registration-number${index}`,
-          message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
+          message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE
         });
       }
 

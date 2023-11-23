@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   public cancelRegistrationJourney(): void {
-    const confirmed = window.confirm('Cancel would erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
+    const confirmed = window.confirm('Cancel will erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
     if (confirmed) {
       this.isRegistrationJourneyCancelled = true;
       this.registerOrgService.removeRegistrationData();

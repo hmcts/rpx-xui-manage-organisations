@@ -47,6 +47,12 @@ Feature: invite user workflow
     When I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then I should be display the validation error
 
+@fullFunctional 
+  Scenario: invite user validation workflow
+    When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
+      | Permission   |
+    Then I should be display the validation error
+
   @fullFunctional
   Scenario: back button workflow
     When I click on back button

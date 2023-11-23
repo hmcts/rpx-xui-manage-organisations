@@ -157,10 +157,10 @@ describe('Users Reducer', () => {
 
   it('LOAD_USER_DETAILS action should load user details', () => {
     const { initialState } = fromUsers;
-    const userIdentifier = 'dummy';
+    const userIdentifier = { fullName: 'dummy' };
     const action = new fromUserActions.LoadUserDetails(userIdentifier);
     const state = fromUsers.reducer(initialState, action);
-    expect(state.userDetails).toBeDefined();
+    expect(state.userDetails.fullName).toBe('dummy');
   });
 
   it('LOAD_USER_DETAILS_SUCCESS action should load user details successfully', () => {

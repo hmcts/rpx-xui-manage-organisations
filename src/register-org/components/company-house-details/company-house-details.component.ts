@@ -58,7 +58,8 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
 
   private validateForm(): boolean {
     this.validationErrors = [];
-
+    this.companyNameError = null;
+    this.companyNumberError = null;
     if (this.companyHouseFormGroup.invalid) {
       if (this.companyHouseFormGroup.get('companyName').invalid) {
         this.companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };

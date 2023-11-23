@@ -67,7 +67,6 @@ describe('HmctsGlobalHeaderComponent', () => {
     component.headerTitle = { ...component.headerTitle, hideBranding: false };
     fixture.detectChanges();
     const headerTitle = fixture.debugElement.nativeElement.querySelector('.govuk-header__logotype-text');
-    expect(headerTitle).toBeDefined();
     expect(headerTitle).not.toBeNull();
     expect(headerTitle.textContent).toContain('MyHMCTS');
     expect(component.headerTitle.hideBranding).toBeFalsy();

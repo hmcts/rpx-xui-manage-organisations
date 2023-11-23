@@ -6,8 +6,7 @@
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">Provide your contact details</h1>
       <hr>
-      <p class="govuk-body">
-        HMCTS will use these details to register you as your organisation's MyHMCTS administrator.
+      <p class="govuk-body govuk-!-margin-top-4">HMCTS will use these details to register you as your organisation's MyHMCTS administrator.
         See the <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
       </p>
       <form [formGroup]="contactDetailsFormGroup">
@@ -43,8 +42,8 @@
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

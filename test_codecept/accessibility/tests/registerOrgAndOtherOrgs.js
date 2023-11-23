@@ -50,7 +50,7 @@ describe('Regsiter other orgs', function () {
             await pa11ytest(this, actions);
         });
     })
-   
+
 
 });
 

@@ -3,6 +3,7 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
 import { Router } from '@angular/router';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 import { RegisterComponent } from '../../containers/register/register-org.component';
+import { PbaErrorMessage } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
@@ -11,14 +12,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 })
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
   public pbaDetailsFormGroup: FormGroup;
-  public summaryErrors: {
-    header: string;
-    isFromValid: boolean;
-    items: {
-      id: string;
-      message: any;
-    }[]
-  };
+  public validationErrors: { id: string, message: string }[] = [];
+  public displayErrorBanner = false;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -34,22 +29,7 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       pbaNumbers: this.fb.array([])
     });
     this.hydratePbaFormFromExistingPendingAddPbas();
-    this.pbaDetailsFormGroup.valueChanges.subscribe((value) => {
-      if (!value) {
-        return;
-      }
-
-      if (this.pbaDetailsFormGroup.invalid) {
-        this.generateSummaryErrorMessage();
-      } else {
-        this.clearSummaryErrorMessage();
-
-        if (!value.pbaNumbers) {
-          return;
-        }
-      }
-    });
-    if (this.registrationData.pbaNumbers && this.registrationData.pbaNumbers.length === 0) {
+    if (this.registrationData.pbaNumbers?.length === 0) {
       this.onAddNewPBANumber();
     }
   }
@@ -65,8 +45,10 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   public onContinue(): void {
+    this.formatPbaNumbers();
     if (this.isFormValid()) {
-      this.registrationData.pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.map((pba) => pba.pbaNumber && pba.pbaNumber.length === 7 ? `PBA${pba.pbaNumber}` : pba.pbaNumber);
+      const pbaNumbers = this.pbaDetailsFormGroup.value.pbaNumbers.filter((pba) => pba.pbaNumber !== '');
+      this.registrationData.pbaNumbers = pbaNumbers.map((pba) => pba.pbaNumber);
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
     }
   }
@@ -82,10 +64,6 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
 
   public onCancel(): void {
     this.cancelRegistrationJourney();
-  }
-
-  public setFormControlValues(): void {
-    // TODO: Functionality ticket will follow
   }
 
   public get pbaNumbers(): FormArray {
@@ -104,16 +82,15 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   private newPbaNumber(value: string = ''): FormGroup {
     return this.fb.group({
       pbaNumber: new FormControl(value, {
-        validators: this.getPbaNumberValidators(),
-        updateOn: 'blur'
+        validators: this.getPbaNumberValidators()
       })
     });
   }
 
   private getPbaNumberValidators(): ValidatorFn[] {
-    // TODO: To be used in the functionality ticket if required
     return [
-      Validators.minLength(7),
+      Validators.pattern(/(PBA\w*)/i),
+      Validators.minLength(10),
       Validators.maxLength(10),
       this.getPBANumbersCustomValidator(),
       RxwebValidators.unique()
@@ -121,23 +98,29 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   private getPBANumbersCustomValidator(): ValidatorFn {
-    // TODO: To be used in the functionality ticket if required
     return (control: AbstractControl): { [key: string]: any } => {
-      if (control.value.length === 10 && control.value) {
-        if (isNaN(Number(control.value.substring(3)))) {
-          return { error: 'Enter a valid PBA number' };
-        } else if (control.value.substring(0, 3).toUpperCase() !== 'PBA') {
-          return { error: 'Enter a valid PBA number' };
-        }
-      } else if (control.value.length === 7 && isNaN(Number(control.value))) {
-        return { error: 'Enter a valid PBA number' };
+      if (control.value && isNaN(Number(control.value.substring(3)))) {
+        return { error: PbaErrorMessage.GENERIC_ERROR_MESSAGE };
       }
       return null;
     };
   }
 
+  private formatPbaNumbers(): void {
+    this.pbaNumbers.controls.forEach((pba) => {
+      let pbaNumber = pba.get('pbaNumber').value.toUpperCase();
+      if (pbaNumber.length > 0) {
+        if (!pbaNumber.startsWith('PBA')) {
+          pbaNumber = `PBA${pbaNumber}`;
+        }
+      }
+      pba.get('pbaNumber').setValue(pbaNumber);
+    });
+  }
+
   private isFormValid(): boolean {
     if (!this.pbaDetailsFormGroup.valid) {
+      this.generateSummaryErrorMessage();
       return false;
     }
     return true;
@@ -154,50 +137,28 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
   }
 
   private generateSummaryErrorMessage(): void {
-    const genericErrorMessage = 'Enter a valid PBA number';
-    const existingPbaNumber = 'This PBA number is already associated to your organisation';
-    const uniqueErrorMessage = 'You have entered this PBA number more than once';
-
-    const items = this.pbaNumbers.controls
-      .map((control: AbstractControl, index: number) => {
-        if (control.valid) {
-          return;
-        }
-
-        const controlErrors = control.get('pbaNumber').errors;
-
-        if (!controlErrors) {
-          return;
-        }
-
-        let message: string = genericErrorMessage;
-
-        if (controlErrors.unique) {
-          message = uniqueErrorMessage;
-        } else if (controlErrors.noneOf) {
-          message = existingPbaNumber;
-        }
-
-        return {
-          id: `pba-number-input${index}`,
-          message
-        };
-      })
-      .filter((i) => i);
-
-    if (items.length === 0) {
-      this.clearSummaryErrorMessage();
-      return;
+    this.validationErrors = [];
+    for (let index = 0; index < this.pbaNumbers.controls.length; index++) {
+      const control: AbstractControl = this.pbaNumbers.controls[index];
+      this.validationErrors.push({
+        id: `pba-number-${index}`,
+        message: this.getValidationError(control)
+      });
     }
-
-    this.summaryErrors = {
-      isFromValid: false,
-      header: 'There is a problem',
-      items
-    };
+    this.displayErrorBanner = this.validationErrors?.filter((error) => error.message !== '').length > 0;
   }
 
-  private clearSummaryErrorMessage(): void {
-    this.summaryErrors = null;
+  private getValidationError(control: AbstractControl): string {
+    const controlErrors = control.get('pbaNumber').errors;
+    if (control.valid || !controlErrors) {
+      return '';
+    }
+    if (controlErrors?.unique) {
+      return PbaErrorMessage.UNIQUE_ERROR_MESSAGE;
+    }
+    if (controlErrors?.noneOf) {
+      return PbaErrorMessage.EXISTING_PBA_NUMBER;
+    }
+    return PbaErrorMessage.GENERIC_ERROR_MESSAGE;
   }
 }

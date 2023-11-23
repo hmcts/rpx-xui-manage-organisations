@@ -12,7 +12,6 @@ const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsC
 
 const HeaderPage = require('../pageObjects/headerPage');
 const browser = require('../../../codeceptCommon/browser');
-const { THIS_EXPR } = require('@angular/compiler/src/output/output_ast');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
@@ -136,9 +135,30 @@ async function waitForElement(el) {
     // await loginPage.password.sendKeys(config.config.townleyPassword);
     // // browser.sleep(SHORT_DELAY);
     // await loginPage.signinBtn.click();
-    await loginattemptCheckAndRelogin(config.config.townleyUser, config.config.townleyPassword, THIS_EXPR);
+    const world = this;
+    await loginattemptCheckAndRelogin(config.config.townleyUser, config.config.townleyPassword, world);
 
   });
+
+Given(/^I am logged in with ROO user targetting ON$/, async function () {
+  // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+  // await loginPage.password.sendKeys(config.config.townleyPassword);
+  // // browser.sleep(SHORT_DELAY);
+  // await loginPage.signinBtn.click();
+  const world = this;
+  await loginattemptCheckAndRelogin('xui_mo_roo_on@mailinator.com', 'Welcome01', world);
+
+});
+
+Given(/^I am logged in with ROO user targetting OFF$/, async function () {
+  // await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+  // await loginPage.password.sendKeys(config.config.townleyPassword);
+  // // browser.sleep(SHORT_DELAY);
+  // await loginPage.signinBtn.click();
+  const world = this;
+  await loginattemptCheckAndRelogin('xui_mo_roo_off@mailinator.com', 'Welcome01', world);
+
+});
 
   Given('I am logged into manage organisation with test org user', async function(){
     const world = this;

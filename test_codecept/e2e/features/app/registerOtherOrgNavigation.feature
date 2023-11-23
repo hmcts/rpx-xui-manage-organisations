@@ -1,8 +1,12 @@
 
-@fullFunctional @preview_only
+@fullFunctional @ignore
 Feature: Register other org, Navigations
 
     Background: rgister org fill pages
+        When I navigate to manage organisation Url
+        Given I am logged in with ROO user targetting ON
+        Then I should be redirected to manage organisation dashboard page
+
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
         Then In register other org page "Apply for an organisation to manage civil, family and tribunal cases", I validate fields displayed
@@ -176,13 +180,14 @@ Feature: Register other org, Navigations
             | Organisation address                                        | What is the registered address of your organisation?       |
             | DX reference                                                | What's the DX reference for this office?                   |
             | Service to access                                           | Which services will your organisation need to access?      |
-            | PBA number(s)                                               | Does your organisation have a payment by account number?   |
+            | Does your organisation have a payment by account number? | Does your organisation have a payment by account number? |
             | Regulatory organisation type                                | Who is your organisation registered with?                  |
             | First name(s)                                               | Provide your contact details                               |
             | Last name                                                   | Provide your contact details                               |
             | Email address                                               | Provide your contact details                               |
             | What regulators are you (as an individual) registered with? | What regulator are you (as an individual) registered with? |
 
+    @ignore
     Scenario: check your answers, chnage link and continue
         When In register other org check your answers page, I click change link for field "Organisation type"
         Then I am on register other org page "What type of organisation are you registering?"

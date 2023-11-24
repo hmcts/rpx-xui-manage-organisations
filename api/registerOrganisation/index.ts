@@ -38,24 +38,20 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
       value: requestBody.otherServices
     });
   }
-  if (requestBody.regulators && requestBody.regulators.length > 0) {
-    let regIndex = 0;
-    requestBody.regulators.map((regulator) => {
+  if (requestBody.regulators?.length > 0) {
+    requestBody.regulators.map((regulator, index) => {
       request.orgAttributes.push({
-        key: `regulators-${regIndex}`,
+        key: `regulators-${index}`,
         value: JSON.stringify(regulator)
       });
-      regIndex++;
     });
   }
-  if (requestBody.individualRegulators && requestBody.individualRegulators.length > 0) {
-    let iRegIndex = 0;
-    requestBody.individualRegulators.map((iRegulator) => {
+  if (requestBody.individualRegulators?.length > 0) {
+    requestBody.individualRegulators.map((iRegulator, index) => {
       request.orgAttributes.push({
-        key: `regulators-${iRegIndex}`,
+        key: `individualRegulators-${index}`,
         value: JSON.stringify(iRegulator)
       });
-      iRegIndex++;
     });
   }
   return request;

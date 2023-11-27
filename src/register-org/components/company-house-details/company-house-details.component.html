@@ -1,0 +1,48 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
+      <span class="govuk-caption-xl">Register an organisation</span>
+      <h1 class="govuk-heading-xl">What is your organisation name and Companies House number?</h1>
+      <hr>
+      <p class="govuk-hint">If your organisation is registered with Companies House,
+        add the organisation name and Companies House number as they appear in the
+        <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
+          information register</a>.
+      </p>
+      <form [formGroup]="companyHouseFormGroup">
+        <div class="govuk-form-group" #companyName [ngClass]="{'govuk-form-group--error': companyNameError}">
+          <label class="govuk-label govuk-!-font-weight-bold" for="company-name">
+            Enter the name of the organisation
+          </label>
+          <p class="govuk-error-message" *ngIf="companyNameError">
+            <span class="govuk-visually-hidden">Error:</span>{{ companyNameError.message }}
+          </p>
+          <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName">
+        </div>
+
+        <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': companyNumberError}">
+          <label class="govuk-label govuk-!-font-weight-bold" for="company-house-number">
+            Enter the 8-digit Companies House Number (optional)
+          </label>
+          <div id="company-house-number-hint" class="govuk-hint">
+            This helps HMCTS to verify your organisation on our system
+          </div>
+          <p class="govuk-error-message" *ngIf="companyNumberError">
+            <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.message }}
+          </p>
+          <input class="govuk-input" id="company-house-number" name="companyHouseNumber" type="text"
+            formControlName="companyHouseNumber" aria-describedby="company-house-number-hint">
+        </div>
+
+        <div class="govuk-button-group">
+          <button class="govuk-button" data-module="govuk-button" (click)="onContinue()">
+            Continue
+          </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

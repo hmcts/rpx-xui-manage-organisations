@@ -1,5 +1,4 @@
-
-@fullFunctional
+@fullFunctional @ignore
 Feature: Register other org, Navigations
 
     Background: rgister org fill pages

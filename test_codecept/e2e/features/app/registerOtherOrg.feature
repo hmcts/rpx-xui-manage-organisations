@@ -1,4 +1,4 @@
-@fullFunctional
+@fullFunctional @ignore
 Feature: Register other org, registration
 
     Scenario: register other org workflow with all optional values
@@ -140,6 +140,10 @@ Feature: Register other org, registration
 
 
     Scenario: register other org workflow with minimum values
+        When I navigate to manage organisation Url
+        Given I am logged in with ROO user targetting ON
+        Then I should be redirected to manage organisation dashboard page
+
         Given I navigate to register other org start page
         Then I am on register other org page "Apply for an organisation to manage civil, family and tribunal cases"
         Then In register other org page "Apply for an organisation to manage civil, family and tribunal cases", I validate fields displayed

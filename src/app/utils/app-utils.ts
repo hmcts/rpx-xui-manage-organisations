@@ -2,6 +2,7 @@
  * Contains static stateless utility methods for the App
  */
 import { formatDate } from '@angular/common';
+import { LovRefDataModel } from '../../shared/models/lovRefData.model';
 import { AppConstants } from '../app.constants';
 import { NavItemModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
@@ -258,5 +259,32 @@ export class AppUtils {
       }
     }
     return -1;
+  }
+
+  public static setOtherAsLastOption(items: LovRefDataModel[], other: LovRefDataModel = null): LovRefDataModel[] {
+    // To set Other option as the last option
+    const index = items.findIndex((o) => o.key.toUpperCase() === 'OTHER');
+    if (index > 0) {
+      items.push(items.splice(index, 1)[0]);
+    } else {
+      if (!other) {
+        other = {
+          active_flag: '',
+          category_key: '',
+          hint_text_cy: '',
+          hint_text_en: '',
+          key: 'OTHER',
+          lov_order: null,
+          parent_category: '',
+          parent_key: '',
+          value_cy: '',
+          value_en: 'Other',
+          child_nodes: null
+        };
+      }
+      items.push(other);
+    }
+
+    return items;
   }
 }

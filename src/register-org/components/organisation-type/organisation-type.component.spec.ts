@@ -92,6 +92,19 @@ describe('OrganisationTypeComponent', () => {
           value_en: 'Education'
         }
       ]
+    },
+    {
+      active_flag: 'Y',
+      category_key: 'OrgType',
+      child_nodes: null,
+      hint_text_cy: '',
+      hint_text_en: '',
+      key: 'Education',
+      lov_order: null,
+      parent_category: '',
+      parent_key: '',
+      value_cy: '',
+      value_en: 'Education'
     }
   ];
 
@@ -230,5 +243,11 @@ describe('OrganisationTypeComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should set other as last option', () => {
+    component.ngOnInit();
+    const lastIndex = component.organisationTypes.length;
+    expect(component.organisationTypes[lastIndex-1].key).toEqual('OTHER');
   });
 });

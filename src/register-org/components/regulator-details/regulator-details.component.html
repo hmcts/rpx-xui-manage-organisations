@@ -4,29 +4,28 @@
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
-      <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-          <h1 class="govuk-fieldset__heading">
-            <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
-              What regulator are you (as an individual) registered with?
-            </span>
-            <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-              Who is your organisation registered with?
-            </span>
-          </h1>
+      <fieldset class="govuk-fieldset" aria-describedby="regulator-details">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+            What regulator are you (as an individual) registered with?
+          </span>
+          <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+            Who is your organisation registered with?
+          </span>
         </legend>
-        <hr>
-        <div class="govuk-body govuk-!-margin-top-6">
-          <p *ngIf="regulatorType === regulatorTypeEnum.Individual">
-            Give as much detail as you can on the regulator or professional body that are you personally registered with.
+        <hr class="govuk-!-margin-top-0">
+        <div id="regulator-details" class="govuk-body govuk-!-margin-top-4">
+          <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as
+            you can on the regulator or professional body that are you personally registered with.
           </p>
-          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-            Give as much detail as you can on the regulator or professional body your organisation is registered with.
-            <br/>
-            HMCTS needs to gather this information as it is required to gain access to some of our services.
+          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">Give as much detail as
+            you can on the regulator or professional body your organisation is registered with.
+          </p>
+          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">HMCTS needs to gather this
+            information as it is required to gain access to some of our services.
           </p>
           <form [formGroup]="regulatorDetailsFormGroup">
-            <div class="govuk-form-group">
+            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': validationErrors.length}">
               <ng-container formArrayName="regulators">
                 <div *ngFor="let _ of regulators.controls; index as i"
                   class="govuk-!-margin-bottom-6"
@@ -86,10 +85,15 @@
                       class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
-                        Enter your organisation's registration number
+                        <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+                          Enter your individual registration reference
+                        </span>
+                        <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+                          Enter your organisation's registration reference
+                        </span>
                       </label>
                       <div *ngIf="fieldHasErrorMessage('organisation-registration-number' + i)" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER}}
+                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE}}
                       </div>
                       <input class="govuk-input govuk-!-width-two-thirds"
                         [ngClass]="{'govuk-input--error': fieldHasErrorMessage('organisation-registration-number' + i)}"

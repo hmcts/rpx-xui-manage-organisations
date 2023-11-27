@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { RegistrationData, RegistrationRequest } from '../models/registrationData';
-import { generateS2sToken } from '../lib/s2sTokenGeneration';
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH, SERVICE_S2S_PATH } from '../configuration/references';
 import { http } from '../lib/http';
+import { generateS2sToken } from '../lib/s2sTokenGeneration';
+import { RegistrationData, RegistrationRequest } from '../models/registrationData';
 
 export function mapRequestObject(requestBody: RegistrationData): RegistrationRequest {
   const request: RegistrationRequest = {
@@ -27,8 +27,17 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         dxAddress: getDx(requestBody)
       }
     ],
-    orgType: requestBody.organisationType.key
+    orgType: requestBody.organisationType.key,
+    orgAttributes: [
+      ...requestBody.services.filter((service) => service.key !== undefined)
+    ]
   };
+  if (requestBody.otherServices && requestBody.otherServices !== '') {
+    request.orgAttributes.push({
+      key: 'otherServices',
+      value: requestBody.otherServices
+    });
+  }
   return request;
 }
 
@@ -64,9 +73,14 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
   try {
     const registerRequest = mapRequestObject(registerPayload);
     const response = await axiosInstance.post(url, registerRequest, options);
+
     res.send(response.data);
   } catch (error) {
-    next(error);
+    if (error.status === 400 && error.data?.errorDescription) {
+      res.status(400).send(error.data);
+    } else {
+      next(error);
+    }
   }
 }
 

@@ -15,7 +15,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   public readonly SERVICE_NOT_LISTED = 'ServiceNotListed';
   public servicesFormGroup: FormGroup;
   public services: OrganisationService[];
-  public selectedServices: string[] = [];
+  public selectedServices: OrganisationService[];
   public validationErrors: { id: string, message: string }[] = [];
   public noServicesError: string;
   public otherServicesError: string;
@@ -46,19 +46,18 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
 
   public onServicesSelectionChange(event: any): void {
     if (event.target.checked) {
-      this.selectedServices.push(event.target.value);
+      this.selectedServices.push({ key: event.target.value, value: event.target.id });
     } else {
-      const serviceIndex = this.selectedServices.findIndex((service) => service === event.target.value);
+      const serviceIndex = this.selectedServices.findIndex((service) => service.key === event.target.value);
       this.selectedServices.splice(serviceIndex, 1);
     }
-    this.showOtherServicesInput = this.selectedServices.includes('NONE');
+    this.showOtherServicesInput = this.selectedServices.filter((service) => service.key === 'NONE').length > 0;
   }
 
   public onContinue(): void {
     if (this.isFormValid()) {
-      this.services = [];
       // Set corresponding registration data
-      this.registrationData.services = this.selectedServices.filter((service) => service !== 'NONE');
+      this.registrationData.services = this.selectedServices.filter((service) => service.key && service.key !== 'NONE');
 
       this.registrationData.otherServices = this.showOtherServicesInput
         ? this.servicesFormGroup.get('otherServices').value
@@ -85,11 +84,11 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
   private setFormControlValues(): void {
     this.selectedServices = this.registrationData.services;
     this.services.forEach((service) => {
-      service.selected = this.selectedServices.includes(service.key);
+      service.selected = this.selectedServices.find((thisService) => thisService.key === service.key) !== undefined;
     });
     if (this.registrationData.otherServices) {
       this.showOtherServicesInput = true;
-      this.selectedServices.push('NONE');
+      this.selectedServices.push({ key: 'NONE', value: '' });
       this.services.find((service) => service.key === 'NONE').selected = true;
       this.servicesFormGroup.get('otherServices').setValue(this.registrationData.otherServices);
     }
@@ -101,7 +100,7 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
     this.otherServicesError = null;
     if (!this.selectedServices.length && !this.showOtherServicesInput) {
       this.validationErrors.push({
-        id: this.services[0].key,
+        id: this.services[0].value,
         message: OrganisationServicesMessage.NO_ORG_SERVICES
       });
       this.noServicesError = OrganisationServicesMessage.NO_ORG_SERVICES;

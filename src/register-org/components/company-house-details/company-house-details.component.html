@@ -4,13 +4,12 @@
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
-      <h1 class="govuk-heading-xl">What is your company name and Companies House number?</h1>
+      <h1 class="govuk-heading-xl">What is your organisation name and Companies House number?</h1>
       <hr>
-      <p class="govuk-hint">
-        If your company is registered with Companies House,
-        add the company name and number as they appear in the
+      <p class="govuk-hint">If your organisation is registered with Companies House,
+        add the organisation name and Companies House number as they appear in the
         <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
-          information register</a>
+          information register</a>.
       </p>
       <form [formGroup]="companyHouseFormGroup">
         <div class="govuk-form-group" #companyName [ngClass]="{'govuk-form-group--error': companyNameError}">
@@ -28,7 +27,7 @@
             Enter the 8-digit Companies House Number (optional)
           </label>
           <div id="company-house-number-hint" class="govuk-hint">
-            This helps HMCTS to verify your company on our System
+            This helps HMCTS to verify your organisation on our system
           </div>
           <p class="govuk-error-message" *ngIf="companyNumberError">
             <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.message }}
@@ -41,9 +40,8 @@
           <button class="govuk-button" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

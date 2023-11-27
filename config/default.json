@@ -1,5 +1,6 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
+  "previewLDKey": "5de6610b23ce5408280f2268",
   "stub": false,
   "appInsightsInstrumentationKey": "",
   "secrets": {
@@ -25,6 +26,9 @@
   "loginRoleMatcher": "^pui-.*-manager$",
   "protocol": "https",
   "services": {
+    "ccd": {
+      "componentApi": "https://gateway-ccd.prod.platform.hmcts.net"
+    },
     "idamApi": "https://idam-api.platform.hmcts.net",
     "idamWeb": "https://hmcts-access.service.gov.uk",
     "rdProfessionalApi": "http://rd-professional-api-prod.service.core-compute-prod.internal",
@@ -35,6 +39,9 @@
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal",
     "role_assignment": {
       "roleApi": "http://am-role-assignment-service-prod.service.core-compute-prod.internal"
+    },
+    "prd": {
+      "commondataApi": "http://rd-commondata-api-prod.service.core-compute-prod.internal"
     }
   },
   "sessionSecret": ["mo-topSecret1","secretSauce"],

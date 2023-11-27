@@ -1,5 +1,5 @@
 
-@functional_debug
+
 Feature: Unassigned cases tab
 
     Scenario: page validation

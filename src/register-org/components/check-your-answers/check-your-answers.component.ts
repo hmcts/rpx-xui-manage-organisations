@@ -1,25 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { RegisterComponent } from '../../../register-org/containers';
+import { ORGANISATION_TYPES_REF_DATA } from '../../__mocks__';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
-import { ORGANISATION_TYPES_REF_DATA } from 'src/register-org/__mocks__';
 
 @Component({
   selector: 'app-check-your-answers',
   templateUrl: './check-your-answers.component.html'
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
+  @ViewChild('mainContent') public mainContentElement: ElementRef;
+
   public cyaFormGroup: FormGroup;
   public regulatorType = RegulatorType;
   public regulatoryType = RegulatoryType;
   public services: string[] = [];
   public validationErrors: { id: string, message: string }[] = [];
-  public apiErrors: {id: string, message: string}[] = [];
   public readonly errorMessage = 'Please select checkbox to confirm you have read and understood the terms and conditions';
+  public readonly apiErrorMessage = 'Sorry, there is a problem with the service. Try again later';
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -33,24 +34,13 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
     this.cyaFormGroup = new FormGroup({
       confirmTermsAndConditions: new FormControl(null, [Validators.required, this.getCustomValidationForTermsAndConditions()])
     });
-
-    this.registrationData.services?.forEach((serviceKey) => {
-      const service = ORGANISATION_SERVICES.find((service) => service.key === serviceKey).value;
+    this.registrationData.services?.forEach((thisService) => {
+      const service = ORGANISATION_SERVICES.find((service) => service.key === thisService.key).value;
       this.services.push(service);
     });
     if (this.registrationData.otherServices) {
       this.services.push(`Other: ${this.registrationData.otherServices}`);
     }
-  }
-
-  private getCustomValidationForTermsAndConditions(): ValidatorFn {
-    // TODO: To be used in the functionality ticket if required
-    return (control: AbstractControl): { [key: string]: any } => {
-      if (!control.value) {
-        return { error: this.errorMessage };
-      }
-      return null;
-    };
   }
 
   public onBack(): void {
@@ -64,33 +54,15 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       this.registerOrgService.postRegistration().subscribe(() => {
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
       },
-      ((errorResponse: HttpErrorResponse) => {
-        this.apiErrors.push({
-          id: 'confirmTermsAndConditions',
-          message: errorResponse.error.message
-        });
+      ((errorResponse) => {
+        const returnedError = { id: 'confirm-terms-and-conditions', message: this.apiErrorMessage };
+        if (errorResponse?.status === 400 && errorResponse.error?.errorDescription) {
+          returnedError.message = errorResponse.error.errorDescription;
+        }
+        this.validationErrors.push(returnedError);
+        this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }));
     }
-  }
-
-  private validateForm(): boolean {
-    this.validationErrors = [];
-    this.apiErrors = [];
-    if (!this.cyaFormGroup.valid) {
-      this.validationErrors.push({
-        id: 'confirmTermsAndConditions',
-        message: this.errorMessage
-      });
-    }
-    return this.cyaFormGroup.valid;
-  }
-
-  public termsAndConditionsChange(): void {
-    this.validateForm();
-  }
-
-  public getErrorMessages(): { id: string; message: string;}[] {
-    return this.apiErrors;
   }
 
   public getOrganisationType(organisationType: string): string {
@@ -100,5 +72,26 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public onCancel(): void {
     this.cancelRegistrationJourney();
+  }
+
+  private validateForm(): boolean {
+    this.validationErrors = [];
+    if (!this.cyaFormGroup.valid) {
+      this.validationErrors.push({
+        id: 'confirm-terms-and-conditions',
+        message: this.errorMessage
+      });
+    }
+    return this.cyaFormGroup.valid;
+  }
+
+  private getCustomValidationForTermsAndConditions(): ValidatorFn {
+    // TODO: To be used in the functionality ticket if required
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return { error: this.errorMessage };
+      }
+      return null;
+    };
   }
 }

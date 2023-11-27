@@ -1,3 +1,4 @@
+import { LovRefDataModel } from '../../shared/models/lovRefData.model';
 import { propsExist } from '../../../api/lib/objectUtilities';
 import { AppConstants } from '../app.constants';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
@@ -426,5 +427,69 @@ describe('AppUtils', () => {
     const predicate = (element: any) => element.hasOwnProperty('input');
     const result = AppUtils.findLastIndex(htmlComponentArray2, predicate);
     expect(result).toEqual(-1);
+  });
+
+  describe('setOtherAsLastOption', () => {
+    let itmes: LovRefDataModel[];
+    let other: LovRefDataModel;
+
+    beforeEach(() => {
+      itmes = [
+        {
+          active_flag: 'Y',
+          category_key: 'Org',
+          child_nodes: null,
+          hint_text_cy: '',
+          hint_text_en: '',
+          key: 'DEFENCE',
+          lov_order: null,
+          parent_category: '',
+          parent_key: '',
+          value_cy: '',
+          value_en: 'Defence'
+        },
+        {
+          active_flag: 'Y',
+          category_key: 'Org',
+          child_nodes: null,
+          hint_text_cy: '',
+          hint_text_en: '',
+          key: 'CHARITY',
+          lov_order: null,
+          parent_category: '',
+          parent_key: '',
+          value_cy: '',
+          value_en: 'Charity'
+        }
+      ];
+
+      other = {
+        active_flag: '',
+        category_key: '',
+        hint_text_cy: '',
+        hint_text_en: '',
+        key: 'OTHER',
+        lov_order: null,
+        parent_category: '',
+        parent_key: '',
+        value_cy: '',
+        value_en: 'Other',
+        child_nodes: null
+      };
+    });
+
+    it('should set Other as last option if not available in the input list', () => {
+      const itemsWithOther = AppUtils.setOtherAsLastOption(itmes);
+      itmes.push(other);
+      expect(itemsWithOther).toEqual(itmes);
+      expect(itemsWithOther[itemsWithOther.length - 1]).toEqual(other);
+    });
+
+    it('should move other to the last position if it is available in the input list', () => {
+      itmes.splice(1, 0, other);
+      const itemsWithOther = AppUtils.setOtherAsLastOption(itmes);
+      expect(itemsWithOther).toBe(itmes);
+      expect(itemsWithOther[itemsWithOther.length - 1]).toEqual(other);
+    });
   });
 });

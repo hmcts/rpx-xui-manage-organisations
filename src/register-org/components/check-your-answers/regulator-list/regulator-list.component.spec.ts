@@ -86,10 +86,8 @@ describe('RegulatorListComponent', () => {
     component.regulators = individualRegulators;
     fixture.detectChanges();
     const columnHeadingElement = nativeElement.querySelector('.govuk-summary-list__key') as HTMLElement;
-    expect(columnHeadingElement.innerText).toContain('What regulators are you (as an individual) registered with?');
+    expect(columnHeadingElement.innerText).toContain('Are you (as an individual) registered with a regulator?');
     const columnValueElement = nativeElement.querySelector('.govuk-summary-list__value') as HTMLElement;
-    expect(columnValueElement.innerText).toContain('Other: qwerty ref: 12345');
-    expect(columnValueElement.innerText).toContain('OISC ref: 76843');
-    expect(columnValueElement.innerText).toContain('NA');
+    expect(columnValueElement.innerText).toContain('No');
   });
 });

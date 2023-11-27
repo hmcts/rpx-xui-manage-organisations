@@ -45,6 +45,8 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
       } else {
         // Set corresponding registration data
         this.registrationData.hasDxReference = false;
+        this.registrationData.dxNumber = null;
+        this.registrationData.dxExchange = null;
         // Navigate to office address page
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'regulatory-organisation-type']);
       }
@@ -77,7 +79,7 @@ export class DocumentExchangeReferenceComponent extends RegisterComponent implem
   private isFormValid(): boolean {
     if (this.dxFormGroup.invalid) {
       this.dxErrors = [{
-        message: 'Please select at least one option',
+        message: 'Please select an option',
         id: 'document-exchange-yes'
       }];
       this.errorPresent = true;

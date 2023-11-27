@@ -254,6 +254,25 @@ describe('RegulatorDetailsComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });
 
+  it('should changing the regulator type clear the organisation registration number field', () => {
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
+    const selectElement0: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
+    selectElement0.selectedIndex = 0;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    const registrationNumberElement = nativeElement.querySelector('#organisation-registration-number0');
+    registrationNumberElement.value = '123';
+    registrationNumberElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    selectElement0.selectedIndex = 0;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(registrationNumberElement.value).toEqual('');
+  });
+
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
     spyOn(component, 'onContinue').and.callThrough();
     component.validationErrors = [];
@@ -280,7 +299,7 @@ describe('RegulatorDetailsComponent', () => {
     });
     expect(component.validationErrors[1]).toEqual({
       id: 'organisation-registration-number0',
-      message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
+      message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE
     });
     expect(router.navigate).not.toHaveBeenCalled();
   });
@@ -330,7 +349,7 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
+    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE, id: 'organisation-registration-number0' };
     component.onContinue();
     expect(component.validationErrors[0]).toEqual(registrationNumberError);
   });
@@ -344,10 +363,10 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const reglatorNameError = { message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, id: 'regulator-name0' };
-    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
+    const regulatorNameError = { message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, id: 'regulator-name0' };
+    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE, id: 'organisation-registration-number0' };
     component.onContinue();
-    expect(component.validationErrors[0]).toEqual(reglatorNameError);
+    expect(component.validationErrors[0]).toEqual(regulatorNameError);
     expect(component.validationErrors[1]).toEqual(registrationNumberError);
   });
 

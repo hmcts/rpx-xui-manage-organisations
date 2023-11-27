@@ -47,15 +47,28 @@ describe('CompanyHouseDetailsComponent', () => {
     component.onContinue();
     expect(component.validationErrors.length).toEqual(1);
     expect(component.companyNameError).toEqual(companyNameError);
+    expect(component.validationErrors.length).toEqual(1);
   });
 
   it('should set the error message if company number is invalid', () => {
     const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
-    component.companyHouseFormGroup.get('companyName').setValue('Ministry of Justice');
+    component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
     expect(component.validationErrors.length).toEqual(1);
     expect(component.companyNumberError).toEqual(companyNumberError);
+    expect(component.validationErrors.length).toEqual(1);
+  });
+
+  it('should set the error message if company name is null and company number is invalid', () => {
+    const companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
+    const companyNumberError = { id: 'company-house-number', message: CompanyHouseDetailsMessage.INVALID_COMPANY_NUMBER };
+    component.companyHouseFormGroup.get('companyName').setValue(null);
+    component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
+    component.onContinue();
+    expect(component.companyNameError).toEqual(companyNameError);
+    expect(component.companyNumberError).toEqual(companyNumberError);
+    expect(component.validationErrors.length).toEqual(2);
   });
 
   it('should navigate the next page if values are correct', () => {
@@ -67,6 +80,9 @@ describe('CompanyHouseDetailsComponent', () => {
     expect(component.companyNumberError).toBeNull();
     expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
+    expect(component.companyNameError).toBeNull();
+    expect(component.companyNumberError).toBeNull();
+    expect(component.validationErrors.length).toEqual(0);
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'external']);
   });
 

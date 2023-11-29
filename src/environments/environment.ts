@@ -16,9 +16,9 @@ export const environment = {
     idam: {
       idamApiUrl: 'https://idam-api.platform.hmcts.net',
       idamClientID: 'xuimowebapp',
-      idamLoginUrl: 'https://hmcts-access.service.gov.uk',
+      idamLoginUrl: 'https://idam-web-public.aat.platform.hmcts.net',
       indexUrl: '/',
       oauthCallbackUrl: 'oauth2/callback'
     }
   }
-};
+}

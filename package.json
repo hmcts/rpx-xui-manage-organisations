@@ -10,6 +10,7 @@
     "clean": "rm -f -r node_modules && rm -f yarn.lock",
     "build:ng": "ng build",
     "build:node": "cd api && yarn build",
+    "config:aat": "REMOTE_ENV=aat NODE_CONFIG_ENV=development node ./setup/setup-secrets.js",
     "e2e": "ng e2e",
     "fortifyScan": "./test/java/gradlew -p test/java fortifyScan",
     "lint": "yarn lint:ng && yarn lint:node",

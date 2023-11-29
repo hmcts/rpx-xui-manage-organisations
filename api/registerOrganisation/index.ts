@@ -38,6 +38,22 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
       value: requestBody.otherServices
     });
   }
+  if (requestBody.regulators?.length > 0) {
+    requestBody.regulators.map((regulator, index) => {
+      request.orgAttributes.push({
+        key: `regulators-${index}`,
+        value: JSON.stringify(regulator)
+      });
+    });
+  }
+  if (requestBody.individualRegulators?.length > 0) {
+    requestBody.individualRegulators.map((iRegulator, index) => {
+      request.orgAttributes.push({
+        key: `individualRegulators-${index}`,
+        value: JSON.stringify(iRegulator)
+      });
+    });
+  }
   return request;
 }
 

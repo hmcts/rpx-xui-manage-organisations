@@ -15,7 +15,7 @@ import { utils } from '../../utils';
   templateUrl: './organisation.component.html'
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
-  public organisationDetails: Partial<OrganisationDetails>;
+  public organisationDetails: OrganisationDetails;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
   public organisationPaymentAccount: PBANumberModel[];
@@ -53,9 +53,10 @@ export class OrganisationComponent implements OnInit, OnDestroy {
         this.organisationContactInformation = utils.getContactInformation(organisationDetails);
         this.organisationPaymentAccount = utils.getPaymentAccount(organisationDetails);
         this.organisationPendingPaymentAccount = utils.getPendingPaymentAccount(organisationDetails);
+        this.organisationType = utils.getOrganisationType(organisationDetails);
+        this.regulators = utils.getRegulators(organisationDetails);
         this.organisationDxAddress = utils.getDxAddress(this.organisationContactInformation);
         this.organisationDetails = organisationDetails;
-
         this.canShowChangePbaNumbersLink();
       });
   }

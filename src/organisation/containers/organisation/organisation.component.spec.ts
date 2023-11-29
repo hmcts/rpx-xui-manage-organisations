@@ -74,7 +74,8 @@ describe('OrganisationComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingPaymentAccount: undefined,
-    pendingAddPaymentAccount: undefined
+    pendingAddPaymentAccount: undefined,
+    pendingRemovePaymentAccount: undefined
   };
 
   beforeEach(() => {

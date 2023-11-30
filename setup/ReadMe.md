@@ -8,7 +8,7 @@
 
 > Do not forget to run `nvm use` to set the correct node version for the project.
 > And then install the dependencies with `yarn install`.
- 
+
 ## Getting the configuration
 
 Open a terminal at the root level of the repository and run the following command:

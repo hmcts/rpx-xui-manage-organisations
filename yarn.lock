@@ -2328,7 +2328,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/properties-volume@npm:0.0.13, @hmcts/rpx-xui-common-lib@npm:1.9.1-prerelese-accessibility-updates":
+"@hmcts/properties-volume@npm:0.0.13":
   version: 1.9.1-prerelese-accessibility-updates
   resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.1-prerelese-accessibility-updates"
   dependencies:
@@ -2338,6 +2338,19 @@ __metadata:
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
   checksum: 21a51c695e98d1a880d4f05c2d42a9c8bdd30db86a6754d57181b30f27d16e758d065035506d6f461a7078e3838aee794e9c7870efb822413153de01f7028720
+  languageName: node
+  linkType: hard
+
+"@hmcts/rpx-xui-common-lib@npm:1.9.9-pre-relese-accessibility-updated":
+  version: 1.9.9-pre-relese-accessibility-updated
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.9-pre-relese-accessibility-updated"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    launchdarkly-js-client-sdk: ^2.15.2
+    ngx-pagination: ^3.2.1
+    rpx-xui-translation: ^0.1.1
+  checksum: 8c95229075a5f0ecd144da5b7abf6eef29dc7b7ca32c2ffe668777da1309cc709c8f366c8b6f74d2c51c4a2b8aa8dceddfb2421cb801c7c39c48efc14ec1138d
   languageName: node
   linkType: hard
 
@@ -20180,7 +20193,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.1-prerelese-accessibility-updates
+    "@hmcts/rpx-xui-common-lib": 1.9.9-pre-relese-accessibility-updated
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

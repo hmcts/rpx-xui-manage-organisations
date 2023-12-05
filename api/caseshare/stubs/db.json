@@ -3,60 +3,140 @@
     {
       "orgId": "o111111",
       "orgName": "Woodford solicitors ltd.",
+      "organisationStatus": "ACTIVE",
+      "organisationProfileIds": [
+        "SOLICITOR_PROFILE"
+      ],
       "users": [
         {
           "idamId": "u111111",
           "firstName": "Joe",
           "lastName": "Elliott",
-          "email": "joe.elliott@woodford.com"
+          "email": "joe.elliott@woodford.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         },
         {
           "idamId": "u222222",
           "firstName": "Steve",
           "lastName": "Harrison",
-          "email": "steve.harrison@woodford.com"
+          "email": "steve.harrison@woodford.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         },
         {
           "idamId": "u333333",
           "firstName": "James",
           "lastName": "Priest",
-          "email": "james.priest@woodford.com"
+          "email": "james.priest@woodford.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         },
         {
           "idamId": "u444444",
           "firstName": "Shaun",
           "lastName": "Coldwell",
-          "email": "shaun.coldwell@woodford.com"
+          "email": "shaun.coldwell@woodford.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         }
       ]
     },
     {
       "orgId": "o222222",
       "orgName": "Lamb brooks solicitors ltd.",
+      "organisationStatus": "ACTIVE",
+      "organisationProfileIds": [
+        "SOLICITOR_PROFILE"
+      ],
       "users": [
         {
           "idamId": "u555555",
           "firstName": "Anne",
           "lastName": "Deller",
-          "email": "anne.deller@lambbrooks.com"
+          "email": "anne.deller@lambbrooks.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         },
         {
           "idamId": "u666666",
           "firstName": "Kate",
           "lastName": "Grant",
-          "email": "kate.grant@lambbrooks.com"
+          "email": "kate.grant@lambbrooks.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         },
         {
           "idamId": "u777777",
           "firstName": "Nick",
           "lastName": "Rodrigues",
-          "email": "nick.rodrigues@lambbrooks.com"
+          "email": "nick.rodrigues@lambbrooks.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         },
         {
           "idamId": "u888888",
           "firstName": "Joel",
           "lastName": "Molloy",
-          "email": "joel.molloy@lambbrooks.com"
+          "email": "joel.molloy@lambbrooks.com",
+          "lastUpdated" : "2023-12-01T12:11:46.667Z",
+          "accessTypes": [
+            {
+              "jurisdictionId": "12345",
+              "organisationProfileId": "12345",
+              "accessTypeId": "1234",
+              "enabled": "true"              
+            }
+          ]
         }
       ]
     }

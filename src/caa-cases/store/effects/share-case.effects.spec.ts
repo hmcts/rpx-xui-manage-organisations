@@ -25,6 +25,7 @@ import {
 } from '../actions';
 import * as shareCases from '../reducers/share-case.reducer';
 import * as fromShareCaseEffects from './share-case.effects';
+import { SharedCase, UserDetails } from '@hmcts/rpx-xui-common-lib';
 
 describe('Share Case Effects', () => {
   let actions$;
@@ -175,18 +176,22 @@ describe('Share Case Effects', () => {
 
   describe('loadOrgUsers$', () => {
     it('should load organisation users', () => {
-      const returnPayload = [
+      const returnPayload: UserDetails[] = [
         {
           idamId: 'U111111',
           firstName: 'James',
           lastName: 'Priest',
-          email: 'james.priest@test.com'
+          email: 'james.priest@test.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         },
         {
           idamId: 'U222222',
           firstName: 'Shaun',
           lastName: 'Godard',
-          email: 'shaun.godard@test.com'
+          email: 'shaun.godard@test.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }];
       caseShareServiceMock.getUsersFromOrg.and.returnValue(of(returnPayload));
       const action = new LoadUserFromOrgForCase();
@@ -199,14 +204,16 @@ describe('Share Case Effects', () => {
 
   describe('assignUsersToAssignedCases$', () => {
     it('should assign users with assigned cases', () => {
-      const requestPayload = [
+      const requestPayload: SharedCase[] = [
         {
           caseId: '1', caseTitle: 'James123', caseTypeId: 'type1', sharedWith: [
             {
               idamId: 'U111111',
               firstName: 'James',
               lastName: 'Priest',
-              email: 'james.priest@test.com'
+              email: 'james.priest@test.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             }]
         },
         {
@@ -215,7 +222,9 @@ describe('Share Case Effects', () => {
               idamId: 'U222222',
               firstName: 'Shaun',
               lastName: 'Godard',
-              email: 'shaun.godard@test.com'
+              email: 'shaun.godard@test.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             }]
         }];
       const returnPayload = [
@@ -232,14 +241,16 @@ describe('Share Case Effects', () => {
 
   describe('assignUsersToUnassignedCases$', () => {
     it('should assign users with unassigned cases', () => {
-      const requestPayload = [
+      const requestPayload:SharedCase[] = [
         {
           caseId: '1', caseTitle: 'James123', caseTypeId: 'type1', sharedWith: [
             {
               idamId: 'U111111',
               firstName: 'James',
               lastName: 'Priest',
-              email: 'james.priest@test.com'
+              email: 'james.priest@test.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             }]
         },
         {
@@ -248,7 +259,9 @@ describe('Share Case Effects', () => {
               idamId: 'U222222',
               firstName: 'Shaun',
               lastName: 'Godard',
-              email: 'shaun.godard@test.com'
+              email: 'shaun.godard@test.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             }]
         }];
       const returnPayload = [

@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import { FeatureToggleService, SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
@@ -50,7 +50,9 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
+          email: 'kate.grant@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }]
     }]);
     fixture.detectChanges();
@@ -61,7 +63,7 @@ describe('CaseShareCompleteComponent', () => {
   });
 
   it('should check if pending', () => {
-    const sharedCases = [{
+    const sharedCases: SharedCase[] = [{
       caseId: '9417373995765133',
       caseTitle: 'Sam Green Vs Williams Lee',
       sharedWith: [
@@ -69,14 +71,18 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
+          email: 'kate.grant@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }],
       pendingUnshares: [
         {
           idamId: 'u777777',
           firstName: 'Nick',
           lastName: 'Rodrigues',
-          email: 'nick.rodrigues@lambbrooks.com'
+          email: 'nick.rodrigues@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }]
     }];
     component.isLoading = true;
@@ -85,7 +91,7 @@ describe('CaseShareCompleteComponent', () => {
   });
 
   it('should check if complete', () => {
-    const sharedCases = [{
+    const sharedCases: SharedCase[] = [{
       caseId: '9417373995765133',
       caseTitle: 'Sam Green Vs Williams Lee',
       sharedWith: [
@@ -93,7 +99,9 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
+          email: 'kate.grant@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }]
     }];
     component.isLoading = true;
@@ -102,7 +110,7 @@ describe('CaseShareCompleteComponent', () => {
   });
 
   it('should user access block', () => {
-    const case1 = {
+    const case1:SharedCase = {
       caseId: '9417373995765133',
       caseTitle: 'Sam Green Vs Williams Lee',
       sharedWith: [
@@ -110,10 +118,12 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
+          email: 'kate.grant@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }]
     };
-    const case2 = {
+    const case2:SharedCase = {
       caseId: '9417373995765133',
       caseTitle: 'Sam Green Vs Williams Lee',
       pendingShares: [
@@ -121,10 +131,12 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
+          email: 'kate.grant@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }]
     };
-    const case3 = {
+    const case3: SharedCase = {
       caseId: '9417373995765133',
       caseTitle: 'Sam Green Vs Williams Lee',
       pendingUnshares: [
@@ -132,7 +144,9 @@ describe('CaseShareCompleteComponent', () => {
           idamId: 'u666666',
           firstName: 'Kate',
           lastName: 'Grant',
-          email: 'kate.grant@lambbrooks.com'
+          email: 'kate.grant@lambbrooks.com',
+          lastUpdated: new Date(),
+          accessTypes: []
         }]
     };
     expect(component.showUserAccessBlock(case1)).toBeFalsy();

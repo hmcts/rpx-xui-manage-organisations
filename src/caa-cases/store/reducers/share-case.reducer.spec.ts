@@ -219,7 +219,7 @@ describe('Share case reducer', () => {
     });
 
     it('should sort users', () => {
-      const sharedCases = [
+      const sharedCases: SharedCase[] = [
         {
           caseId: '9417373995765131',
           caseTitle: 'Neha Vs Sanjet',
@@ -228,13 +228,17 @@ describe('Share case reducer', () => {
               idamId: 'u444444',
               firstName: 'Shaun',
               lastName: 'Coldwell',
-              email: 'shaun.coldwell@woodford.com'
+              email: 'shaun.coldwell@woodford.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             },
             {
               idamId: 'u333333',
               firstName: 'James',
               lastName: 'Priest',
-              email: 'james.priest@woodford.com'
+              email: 'james.priest@woodford.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             }
           ]
         },
@@ -246,13 +250,17 @@ describe('Share case reducer', () => {
               idamId: 'u666666',
               firstName: 'Kate',
               lastName: 'Grant',
-              email: 'kate.grant@lambbrooks.com'
+              email: 'kate.grant@lambbrooks.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             },
             {
               idamId: 'u888888',
               firstName: 'Joel',
               lastName: 'Molloy',
-              email: 'joel.molloy@lambbrooks.com'
+              email: 'joel.molloy@lambbrooks.com',
+              lastUpdated: new Date(),
+              accessTypes: []
             }
           ]
         }

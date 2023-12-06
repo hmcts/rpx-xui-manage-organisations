@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppConstants } from '../../../app/app.constants';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
@@ -20,6 +20,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';
 
   private orgTypes: LovRefDataModel[];
+  private orgTypeSubscription: Subscription;
   public organisationDetails: OrganisationDetails;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
@@ -48,7 +49,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isFeatureEnabled$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
 
-    this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).subscribe((orgTypes) => {
+    this.orgTypeSubscription = this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).subscribe((orgTypes) => {
       this.orgTypes = orgTypes;
       this.setOrgTypeDescription();
     });
@@ -57,6 +58,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.untiDestroy.next();
     this.untiDestroy.complete();
+    if (this.orgTypeSubscription) {
+      this.orgTypeSubscription.unsubscribe();
+    }
   }
 
   public getOrganisationDetailsFromStore(): void {

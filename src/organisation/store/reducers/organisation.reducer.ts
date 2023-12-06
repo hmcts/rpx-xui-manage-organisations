@@ -125,6 +125,16 @@ export function reducer(
       }
       return state;
 
+    case fromOrganisation.ORGANISATION_UPDATE_PROFILE_IDS:
+      debugger;
+      return {
+        ...state,
+        organisationDetails: {
+          ...state.organisationDetails,
+          organisationProfileIds: action.payload
+        }
+      };
+
     default:
       return state;
   }

@@ -3,5 +3,13 @@ export interface PRDRawUserModel {
   email: string
   firstName: string
   idamStatus: string
-  lastName: string
+  lastName: string,
+  accessTypes?: PRDRawAccessTypeModel[]
+}
+
+export interface PRDRawAccessTypeModel {
+  jurisdicationId: string
+  organisationProfileId: string
+  accessTypeId: string
+  enabled: boolean
 }

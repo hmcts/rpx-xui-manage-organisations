@@ -20,7 +20,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';
 
   private orgTypes: LovRefDataModel[];
-  private orgTypeSubscription: Subscription;
+  public orgTypeSubscription: Subscription;
   public organisationDetails: OrganisationDetails;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;

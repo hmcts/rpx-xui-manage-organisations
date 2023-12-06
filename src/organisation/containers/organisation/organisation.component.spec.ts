@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
@@ -248,6 +248,23 @@ describe('OrganisationComponent', () => {
       component.organisationType = 'OTHER-LAW';
       fixture.detectChanges();
       component.orgTypeDescription = 'Law';
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe from observables when subscribed', () => {
+      component.orgTypeSubscription = new Observable().subscribe();
+      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
+      component.ngOnDestroy();
+      expect(componentOrgTypeSubscriptionUnsubscribeSpy).toHaveBeenCalled();
+    });
+
+    it('should not unsubscribe from observables when not subscribed', () => {
+      component.orgTypeSubscription = new Observable().subscribe();
+      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
+      component.orgTypeSubscription = undefined;
+      component.ngOnDestroy();
+      expect(componentOrgTypeSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
     });
   });
 });

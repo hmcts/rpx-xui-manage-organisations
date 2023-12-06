@@ -1,17 +1,23 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { User } from '@hmcts/rpx-xui-common-lib';
-import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from "@angular/core";
+import { User } from "@hmcts/rpx-xui-common-lib";
+import { select, Store } from "@ngrx/store";
+import { Observable, Subscription } from "rxjs";
 // TODO: The below is an odd way to import.
-import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import { UsersService } from '../../../users/services';
+import { GovukTableColumnConfig } from "../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component";
+import { UsersService } from "../../../users/services";
 
-import * as fromStore from '../../store';
+import * as fromStore from "../../store";
 
 @Component({
-  selector: 'app-prd-users-component',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: "app-prd-users-component",
+  templateUrl: "./users.component.html",
+  styleUrls: ["./users.component.scss"],
 })
 export class UsersComponent implements OnInit, OnDestroy {
   @Output() public paginationEvent = new EventEmitter<number>();
@@ -45,9 +51,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public getAllUsers(): Subscription {
-    return this.usersService.getAllUsersList().subscribe(((allUserList) => {
+    return this.usersService.getAllUsersList().subscribe((allUserList) => {
       this.pageTotalSize = allUserList.users.length;
-    }));
+    });
   }
 
   public pageChange(pageNumber: number): void {

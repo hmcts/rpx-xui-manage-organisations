@@ -6,6 +6,7 @@ import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
 import { LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import * as orgActions from '../../../organisation/store/actions';
 import * as fromUsersEffects from './users.effects';
 
 describe('Users Effects', () => {
@@ -44,40 +45,44 @@ describe('Users Effects', () => {
 
   describe('loadUsers$', () => {
     it('should return a collection from loadUsers$ - LoadUsersSuccess', waitForAsync(() => {
-      const payload = { users: [{ payload: 'something' }] };
+      const payload = { users: [{ payload: 'something', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
-      const completion = new LoadUsersSuccess({
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const loadUserSuccessActionCompletion = new LoadUsersSuccess({
         users: [
           {
             payload: 'something',
             fullName: 'undefined undefined',
             routerLink: 'user/undefined',
-            routerLinkTitle: 'User details for undefined undefined with id undefined'
+            routerLinkTitle: 'User details for undefined undefined with id undefined',
+            accessTypes: [{ organisationProfileId: 'orgProfileId' }]
           }
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
       expect(effects.loadUsers$).toBeObservable(expected);
     }));
 
     it('should return a collection from loadUsers$ when status pending - LoadUsersSuccess', waitForAsync(() => {
-      const payload = { users: [{ idamStatus: 'PENDING' }] };
+      const payload = { users: [{ idamStatus: 'PENDING', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
-      const completion = new LoadUsersSuccess({
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const loadUserSuccessActionCompletion = new LoadUsersSuccess({
         users: [
           {
             idamStatus: 'PENDING',
             fullName: 'undefined undefined',
             routerLink: 'user/undefined',
-            routerLinkTitle: 'User details for undefined undefined with id undefined'
+            routerLinkTitle: 'User details for undefined undefined with id undefined',
+            accessTypes: [{ organisationProfileId: 'orgProfileId' }]
           }
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
       expect(effects.loadUsers$).toBeObservable(expected);
     }));
   });

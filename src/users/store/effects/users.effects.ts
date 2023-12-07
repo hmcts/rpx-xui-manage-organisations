@@ -35,7 +35,6 @@ export class UsersEffects {
             });
 
             organisationProfileIds = [...new Set(organisationProfileIds)];
-            debugger;
             return [
               new orgActions.OrganisationUpdateUpdateProfileIds(organisationProfileIds),
               new usersActions.LoadUsersSuccess({ users: amendedUsers })

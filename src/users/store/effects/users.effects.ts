@@ -31,6 +31,7 @@ export class UsersEffects {
               user.routerLink = `user/${user.userIdentifier}`;
               user.routerLinkTitle = `User details for ${fullName} with id ${user.userIdentifier}`;
               amendedUsers.push(user);
+              user.accessTypes = user.accessTypes || [];
               organisationProfileIds = [...organisationProfileIds, ...user.accessTypes.map((accessType) => accessType.organisationProfileId)];
             });
 

@@ -27,7 +27,7 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         dxAddress: getDx(requestBody)
       }
     ],
-    orgType: requestBody.organisationType.key,
+    orgType: requestBody.otherOrganisationType ? requestBody.otherOrganisationType.key : requestBody.organisationType.key,
     orgAttributes: [
       ...requestBody.services.filter((service) => service.key !== undefined)
     ]

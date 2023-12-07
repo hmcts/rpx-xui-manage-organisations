@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AppConstants } from '../../../app/app.constants';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { Regulator, RegulatorType, RegulatoryType } from '../../../register-org/models';
-import { AppConstants } from '../../../app/app.constants';
+import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
+import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import * as fromAuthStore from '../../../user-profile/store';
 import * as fromStore from '../../store';
 import { utils } from '../../utils';
@@ -15,6 +17,10 @@ import { utils } from '../../utils';
   templateUrl: './organisation.component.html'
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
+  public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';
+
+  private orgTypes: LovRefDataModel[];
+  public orgTypeSubscription: Subscription;
   public organisationDetails: OrganisationDetails;
   public organisationContactInformation: OrganisationContactInformation;
   public organisationDxAddress: DxAddress;
@@ -25,6 +31,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   public regulatoryTypeEnum = RegulatoryType;
   public companyRegistrationNumber: string;
   public organisationType: string;
+  public orgTypeDescription: string;
   public regulators: Regulator[];
   public isFeatureEnabled$: Observable<boolean>;
 
@@ -33,6 +40,7 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   constructor(
     private readonly orgStore: Store<fromStore.OrganisationState>,
     private readonly authStore: Store<fromAuthStore.AuthState>,
+    private readonly lovRefDataService: LovRefDataService,
     private readonly featureToggleService: FeatureToggleService
   ) {
     this.getOrganisationDetailsFromStore();
@@ -40,11 +48,19 @@ export class OrganisationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isFeatureEnabled$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
+
+    this.orgTypeSubscription = this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).subscribe((orgTypes) => {
+      this.orgTypes = orgTypes;
+      this.setOrgTypeDescription();
+    });
   }
 
   public ngOnDestroy(): void {
     this.untiDestroy.next();
     this.untiDestroy.complete();
+    if (this.orgTypeSubscription) {
+      this.orgTypeSubscription.unsubscribe();
+    }
   }
 
   public getOrganisationDetailsFromStore(): void {
@@ -66,5 +82,15 @@ export class OrganisationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.untiDestroy)).subscribe((userIsPuiFinanceManager: boolean) => {
         this.showChangePbaNumberLink = userIsPuiFinanceManager;
       });
+  }
+
+  private setOrgTypeDescription(): void {
+    const nonOtherOrgType = this.orgTypes.find((orgType) => orgType.key === this.organisationType);
+    this.orgTypeDescription = nonOtherOrgType ? nonOtherOrgType.value_en : `Other: ${this.getOrgTypeOther()}`;
+  }
+
+  private getOrgTypeOther(): string {
+    const otherOrgTypes = this.orgTypes.find((orgType) => orgType.key === 'OTHER');
+    return otherOrgTypes.child_nodes.find((orgType) => orgType.key === this.organisationType).value_en;
   }
 }

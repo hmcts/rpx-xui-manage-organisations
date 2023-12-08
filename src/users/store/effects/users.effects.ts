@@ -70,15 +70,23 @@ export class UsersEffects {
       ofType(usersActions.LOAD_ALL_USERS_NO_ROLE_DATA),
       switchMap(() => {
         return this.usersService.getAllUsersList().pipe(
-          map((userDetails) => {
+          concatMap((userDetails) => {
             const amendedUsers = [];
+            let organisationProfileIds = [];
             userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
               const user = element;
               user.fullName = fullName;
               amendedUsers.push(user);
+              user.accessTypes = user.accessTypes || [];
+              organisationProfileIds = [...organisationProfileIds, ...user.accessTypes.map((accessType) => accessType.organisationProfileId)];
             });
-            return new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers });
+
+            organisationProfileIds = [...new Set(organisationProfileIds)];
+            return [
+              new orgActions.OrganisationUpdateUpdateProfileIds(organisationProfileIds),
+              new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers })
+            ];
           }),
           catchError((error) => {
             this.loggerService.error(error.message);

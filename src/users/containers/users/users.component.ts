@@ -46,36 +46,15 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public loadUsers(pageNumber: number): void {
-    // this.store.dispatch(new fromStore.LoadUsers(pageNumber));
-    // this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
+    this.store.dispatch(new fromStore.LoadUsers(pageNumber));
+    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 
   public getAllUsers(): Subscription {
-    return this.usersService
-      .getAllUsersList()
-      .pipe(
-        tap((allUserList) => {
-          this.pageTotalSize = allUserList.users.length;
-        }),
-        map((allUsersList) => {
-          this.tableUsersData$ = of(
-            allUsersList.users.map((user) => {
-              const newUser: User = {
-                email: user.email,
-                fullName: `${user.firstName} ${user.lastName}`,
-                routerLink: `user/${user.userIdentifier}`,
-                routerLinkTitle: `User details for ${user.fullName} with id ${user.userIdentifier}`,
-                status: user.idamStatus
-              };
-              user.routerLink = `user/${user.userIdentifier}`;
-              user.routerLinkTitle = `User details for ${user.fullName} with id ${user.userIdentifier}`;
-              return newUser;
-            })
-          );
-        })
-      )
-      .subscribe();
+    return this.usersService.getAllUsersList().subscribe((allUserList) => {
+      this.pageTotalSize = allUserList.users.length;
+    });
   }
 
   public pageChange(pageNumber: number): void {

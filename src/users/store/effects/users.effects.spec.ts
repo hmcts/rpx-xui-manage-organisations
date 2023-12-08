@@ -150,19 +150,21 @@ describe('Users Effects', () => {
 
   describe('loadAllUsersNoRoleData$', () => {
     it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
-      const payload = { users: [{ payload: 'something' }] };
+      const payload = { users: [{ payload: 'something', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));
       const action = new LoadAllUsersNoRoleData();
-      const completion = new LoadAllUsersNoRoleDataSuccess({
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
         users: [
           {
             payload: 'something',
-            fullName: 'undefined undefined'
+            fullName: 'undefined undefined',
+            accessTypes: [{ organisationProfileId: 'orgProfileId' }]
           }
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
     }));
   });

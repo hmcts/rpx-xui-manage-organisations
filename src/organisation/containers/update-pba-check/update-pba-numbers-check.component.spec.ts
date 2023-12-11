@@ -142,15 +142,16 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     });
   });
 
-  describe('when there is a pending PBA to add', () => {
-    const ADD_NUMBER = 'test1';
-    const MOCK_PENDING_ADD: OrganisationDetails = getMockOrganisation([{ pbaNumber: ADD_NUMBER }], []);
+  // TODO: remove this if we don't need it because empty describes are not allowed and causes test run to fail
+  // xdescribe('when there is a pending PBA to add', () => {
+  //   const ADD_NUMBER = 'test1';
+  //   const MOCK_PENDING_ADD: OrganisationDetails = getMockOrganisation([{ pbaNumber: ADD_NUMBER }], []);
 
-    beforeEach(() => {
-      pipeSpy.and.returnValue(of(MOCK_PENDING_ADD));
-      fixture.detectChanges();
-    });
-  });
+  //   beforeEach(() => {
+  //     pipeSpy.and.returnValue(of(MOCK_PENDING_ADD));
+  //     fixture.detectChanges();
+  //   });
+  // });
 
   xdescribe('when there is a pending PBA to remove', () => {
     const REMOVE_NUMBER = 'test';

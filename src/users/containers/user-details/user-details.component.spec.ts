@@ -34,7 +34,8 @@ describe('User Details Component', () => {
 
   describe('getDependencyObservables', () => {
     it('should return Observable', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      routerStoreSpyObject.pipe.and.returnValue(of({}));
+      userStoreSpyObject.pipe.and.returnValue(of());
       component.getDependencyObservables(routerStoreSpyObject, userStoreSpyObject).subscribe(([route, users]) => {
         expect(users).toBe(false);
       });

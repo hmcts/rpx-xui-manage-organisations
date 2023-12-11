@@ -19,6 +19,7 @@ import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/ca
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
+import { ROUTES as AppRoutes} from 'src/app/app.routes';
 
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
@@ -52,7 +53,7 @@ describe('CaaCasesComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(AppRoutes),
         HttpClientTestingModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

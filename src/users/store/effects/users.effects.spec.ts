@@ -45,10 +45,10 @@ describe('Users Effects', () => {
 
   describe('loadUsers$', () => {
     it('should return a collection from loadUsers$ - LoadUsersSuccess', waitForAsync(() => {
-      const payload = { users: [{ payload: 'something', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
+      const payload = { users: [{ payload: 'something' }] };
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
-      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
       const loadUserSuccessActionCompletion = new LoadUsersSuccess({
         users: [
           {
@@ -56,7 +56,7 @@ describe('Users Effects', () => {
             fullName: 'undefined undefined',
             routerLink: 'user/undefined',
             routerLinkTitle: 'User details for undefined undefined with id undefined',
-            accessTypes: [{ organisationProfileId: 'orgProfileId' }]
+            accessTypes: []
           }
         ]
       });
@@ -66,10 +66,10 @@ describe('Users Effects', () => {
     }));
 
     it('should return a collection from loadUsers$ when status pending - LoadUsersSuccess', waitForAsync(() => {
-      const payload = { users: [{ idamStatus: 'PENDING', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
+      const payload = { users: [{ idamStatus: 'PENDING' }] };
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
-      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
       const loadUserSuccessActionCompletion = new LoadUsersSuccess({
         users: [
           {
@@ -77,7 +77,7 @@ describe('Users Effects', () => {
             fullName: 'undefined undefined',
             routerLink: 'user/undefined',
             routerLinkTitle: 'User details for undefined undefined with id undefined',
-            accessTypes: [{ organisationProfileId: 'orgProfileId' }]
+            accessTypes: []
           }
         ]
       });
@@ -86,6 +86,27 @@ describe('Users Effects', () => {
       expect(effects.loadUsers$).toBeObservable(expected);
     }));
   });
+
+  it('should return a collection from loadUsers$ with accessTypes - LoadUsersSuccess', waitForAsync(() => {
+    const payload = { users: [{ payload: 'something', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
+    usersServiceMock.getListOfUsers.and.returnValue(of(payload));
+    const action = new LoadUsers();
+    const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+    const loadUserSuccessActionCompletion = new LoadUsersSuccess({
+      users: [
+        {
+          payload: 'something',
+          fullName: 'undefined undefined',
+          routerLink: 'user/undefined',
+          routerLinkTitle: 'User details for undefined undefined with id undefined',
+          accessTypes: [{ organisationProfileId: 'orgProfileId' }]
+        }
+      ]
+    });
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
+    expect(effects.loadUsers$).toBeObservable(expected);
+  }));
 
   describe('loadUsers$ error', () => {
     it('should return LoadUsersFail', waitForAsync(() => {
@@ -150,6 +171,25 @@ describe('Users Effects', () => {
 
   describe('loadAllUsersNoRoleData$', () => {
     it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+      const payload = { users: [{ payload: 'something' }] };
+      usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+      const action = new LoadAllUsersNoRoleData();
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
+      const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
+        users: [
+          {
+            payload: 'something',
+            fullName: 'undefined undefined',
+            accessTypes: []
+          }
+        ]
+      });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
+      expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+    }));
+
+    it('should return a collection from loadAllUsersNoRoleData$ with accessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
       const payload = { users: [{ payload: 'something', accessTypes: [{ organisationProfileId: 'orgProfileId' }] }] };
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));
       const action = new LoadAllUsersNoRoleData();

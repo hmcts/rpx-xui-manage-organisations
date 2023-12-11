@@ -29,6 +29,8 @@ export function reducer(
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const paymentAccount: PBANumberModel[] = [];
+      // if the users are loaded before organisation, the profile ids will be added since this is not provided by the GET operation
+      action.payload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds };
       action.payload.paymentAccount.forEach((pba) => {
         let pbaNumberModel: PBANumberModel;
         if (typeof pba === 'string') {
@@ -126,13 +128,28 @@ export function reducer(
       return state;
 
     case fromOrganisation.ORGANISATION_UPDATE_PROFILE_IDS:
+      let profileIds: string[] = [];
+      if (state.organisationDetails?.organisationProfileIds){
+        profileIds = state.organisationDetails?.organisationProfileIds ?? [];
+      }
+      profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
+      // if(!state.organisationDetails){
+      //   return {
+      //     ...state,
+      //     organisationDetails: {
+      //       ...state.organisationDetails,
+      //       organisationProfileIds: action.payload
+      //     }
+      //   };
+      // } else {
       return {
         ...state,
         organisationDetails: {
           ...state.organisationDetails,
-          organisationProfileIds: [...new Set([...state.organisationDetails.organisationProfileIds ?? [], ...action.payload])]
+          organisationProfileIds: profileIds
         }
       };
+      //  }
 
     default:
       return state;

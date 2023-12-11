@@ -133,15 +133,6 @@ export function reducer(
         profileIds = state.organisationDetails?.organisationProfileIds ?? [];
       }
       profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
-      // if(!state.organisationDetails){
-      //   return {
-      //     ...state,
-      //     organisationDetails: {
-      //       ...state.organisationDetails,
-      //       organisationProfileIds: action.payload
-      //     }
-      //   };
-      // } else {
       return {
         ...state,
         organisationDetails: {

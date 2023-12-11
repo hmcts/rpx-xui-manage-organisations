@@ -31,14 +31,14 @@ export class UsersComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     // Call to usersService.getAllUsersList() is required to set pageTotalSize for pagination purposes
     this.allUsersList$ = this.getAllUsers();
-    this.loadUsers(this.currentPageNumber - 1);
+    this.loadUsers();
   }
 
   public inviteNewUser(): void {
     this.store.dispatch(new fromStore.InviteNewUser());
   }
 
-  public loadUsers(pageNumber: number): void {
+  public loadUsers(): void {
     this.store.dispatch(new fromStore.LoadAllUsersNoRoleData());
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
@@ -52,7 +52,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public pageChange(pageNumber: number): void {
     this.currentPageNumber = pageNumber;
-    this.loadUsers(pageNumber - 1);
+    this.loadUsers();
   }
 
   public ngOnDestroy(): void {

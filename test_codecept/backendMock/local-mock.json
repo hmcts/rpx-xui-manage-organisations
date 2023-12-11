@@ -1,0 +1,46 @@
+{
+    "protocol": "http",
+    "iss": "https://forgerock-am.service.core-compute-idam-aat.internal:8443/openam/oauth2/realms/root/realms/hmcts",
+    "stub": false,
+    "services": {
+        "idamApi": "https://idam-api.aat.platform.hmcts.net",
+        "idamWeb": "https://idam-web-public.aat.platform.hmcts.net",
+        "rdProfessionalApi": "http://localhost:8080",
+        "feeAndPayApi": "http://localhost:8080",
+        "s2s": "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
+        "termsAndConditions": "http://localhost:8080",
+        "ccdDataApi": "http://localhost:8080",
+        "caseAssignmentApi": "http://localhost:8080"
+    },
+    "secrets": {
+        "rpx": {
+            "appinsights-instrumentationkey-mo": "TESTVAR",
+            "mo-s2s-client-secret": "FHYQN3ZQ3BF66XWR",
+            "xui-oauth2-token": "yB71mnPeypP3HlcN",
+            "mo-webapp-redis-connection-string": "redis://localhost:6379",
+            "google-analytics-key": "TEST_KEY",
+            "launch-darkly-client-id": "5de6610b23ce5408280f2268",
+            "system-user-name": "xui_mo_system_user@mailinator.com",
+            "system-user-password": "Welcome01"
+        }
+    },
+    "feature": {
+        "appInsightsEnabled": false,
+        "proxyEnabled": false,
+        "secureCookieEnabled": false,
+        "termsAndConditionsEnabled": false,
+        "helmetEnabled": true,
+        "redisEnabled": false,
+        "oidcEnabled": false
+    },
+    "redis": {
+        "prefix": "activity:",
+        "ttl": 86400
+    },
+    "links": {
+        "manageCaseLink": "https://xui-webapp-aat.service.core-compute-aat.internal/cases",
+        "manageOrgLink": "https://xui-mo-webapp-aat.service.core-compute-aat.internal/"
+    },
+    "userTimeoutInSeconds": 660,
+    "caseTypes": "FinancialRemedyConsentedRespondent,DIVORCE_XUI,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit"
+}

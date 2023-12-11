@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { FeatureToggleGuard } from '@hmcts/rpx-xui-common-lib';
-import { AppConstants } from './app.constants';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
 import { AuthGuard } from '../user-profile/guards/auth.guard';
+import { AppConstants } from './app.constants';
 import { AccessibilityComponent, CookiePolicyComponent, GetHelpComponent, PrivacyPolicyComponent, ServiceDownComponent, SignedOutComponent, TermsAndConditionsComponent } from './components';
+import { TermsAndConditionsRegisterOtherOrgComponent } from './components/terms-and-conditions-register-other-org/terms-and-conditions-register-other-org.component';
 import { RedirectComponent } from './containers/redirect/redirect.component';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 
@@ -46,7 +47,14 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
-    loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)
+    loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule),
+    canActivate: [FeatureToggleGuard],
+    data: {
+      title: 'Register Organisation',
+      needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      expectFeatureEnabled: false,
+      featureDisabledRedirect: '/register-org-new/register'
+    }
   },
   {
     path: 'register-org-new',
@@ -55,6 +63,7 @@ export const ROUTES: Routes = [
     data: {
       title: 'Register Organisation',
       needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      expectFeatureEnabled: true,
       featureDisabledRedirect: '/register-org/register'
     }
   },
@@ -83,6 +92,10 @@ export const ROUTES: Routes = [
   {
     path: 'terms-and-conditions',
     component: TermsAndConditionsComponent
+  },
+  {
+    path: 'terms-and-conditions-register-other-org',
+    component: TermsAndConditionsRegisterOtherOrgComponent
   },
   {
     path: 'accessibility',

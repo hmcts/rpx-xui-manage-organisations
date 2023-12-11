@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,8 +12,13 @@ import { RegisterOrgService } from '../../services/register-org.service';
   templateUrl: './before-you-start.component.html'
 })
 export class BeforeYouStartComponent extends RegisterComponent implements OnInit, OnDestroy {
+  @ViewChild('mainContent') public mainContentElement: ElementRef;
+
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
+  public beforeYouStartForm: FormGroup;
+  public beforeYouStartErrors: { id: string, message: string }[] = [];
+  public errorPresent = false;
 
   constructor(
     public readonly router: Router,
@@ -27,6 +33,10 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
     this.manageOrgLink$ = this.environmentService.config$.pipe(map((config) => config.manageOrgLink));
 
     super.ngOnInit();
+
+    this.beforeYouStartForm = new FormGroup({
+      confirmedOrganisationAccount: new FormControl(null, Validators.required)
+    });
   }
 
   public ngOnDestroy(): void {
@@ -34,6 +44,22 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   }
 
   public onStart(): void {
-    this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'company-house-details']);
+    if (this.isFormValid()) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-type']);
+    }
+  }
+
+  private isFormValid(): boolean {
+    if (this.beforeYouStartForm.invalid ||
+      !this.beforeYouStartForm.get('confirmedOrganisationAccount').value) {
+      this.beforeYouStartErrors = [{
+        message: 'Please select the checkbox',
+        id: 'confirmed-organisation-account'
+      }];
+      this.errorPresent = true;
+      this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      return false;
+    }
+    return true;
   }
 }

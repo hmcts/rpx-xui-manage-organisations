@@ -1,63 +1,66 @@
-<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="organisationTypeErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">
         What type of organisation are you registering?
       </h1>
       <hr>
-      <div class="govuk-body govuk-!-margin-top-6">
+      <div class="govuk-body govuk-!-margin-top-4">
         <form [formGroup]="organisationTypeFormGroup">
-          <div class="govuk-form-group">
-            <fieldset class="govuk-fieldset">
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && !showOtherOrganisationTypes}">
+            <p class="govuk-error-message" *ngIf="organisationTypeErrors.length > 0 && !showOtherOrganisationTypes">
+              <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
+            </p>
+            <fieldset class="govuk-fieldset" aria-describedby="organisation-types">
               <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                 <h1 class="govuk-fieldset__heading">
                   Select the type of organisation
                 </h1>
               </legend>
-              <div class="govuk-hint">
-                Select the type of company you are registering. If you are not sure, select 'other'.
+              <div id="organisation-types" class="govuk-hint">
+                Select the type of organisation you are registering. If you are not sure, select 'Other'.
               </div>
-              <div class="govuk-radios" data-module="govuk-radios">
-                <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes$ | async">
+              <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes">
                   <input class="govuk-radios__input" type="radio"
                     [id]="organisationType.key" name="organisationType" [value]="organisationType.key" formControlName="organisationType"
-                    (click)="canShowOtherOrganisationTypes(false)">
+                    (click)="canShowOtherOrganisationTypes(organisationType.key === 'OTHER')">
                   <label class="govuk-label govuk-radios__label" [for]="organisationType.key">
                     {{organisationType.value_en}}
-                  </label>
-                </div>
-                <div class="govuk-radios__item">
-                  <input class="govuk-radios__input" type="radio"
-                    id="other" name="organisationType" value="other" formControlName="organisationType"
-                    data-aria-controls="other-organisation-type-container"
-                    (click)="canShowOtherOrganisationTypes(true)">
-                  <label class="govuk-label govuk-radios__label" for="other">
-                    Other
                   </label>
                 </div>
                 <div class="govuk-radios__conditional"
                   [ngClass]="{'govuk-radios__conditional--hidden': showOtherOrganisationTypes === false }"
                   id="other-organisation-type-container">
-                  <div class="govuk-form-group">
-                    <div class="govuk-form-group">
+                  <div >
+                    <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
                         Select another type of organisation
                       </label>
+                      <div *ngIf="otherOrgTypeErrors" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{ otherOrgTypeErrors.message }}
+                      </div>
                       <select class="govuk-select govuk-!-width-two-thirds"
+                        [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
                         id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
                         <option [ngValue]="'none'" disabled>--Select a value--</option>
-                        <option *ngFor="let otherOrganisationType of otherOrganisationTypes$ | async" [ngValue]="otherOrganisationType.key">
+                        <option *ngFor="let otherOrganisationType of otherOrganisationTypes" [ngValue]="otherOrganisationType.key">
                           {{otherOrganisationType.value_en}}
                         </option>
                       </select>
                     </div>
-                    <div class="govuk-form-group">
+                    <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
                         Enter details
                       </label>
+                      <div *ngIf="otherOrgDetailsErrors" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{ otherOrgDetailsErrors.message }}
+                      </div>
                       <input class="govuk-input govuk-!-width-two-thirds" type="text"
+                        [ngClass]="{'govuk-input--error': otherOrgDetailsErrors}"
                         id="other-organisation-detail" name="otherOrganisationDetail" formControlName="otherOrganisationDetail">
                     </div>
                   </div>
@@ -66,9 +69,9 @@
             </fieldset>
           </div>
           <div class="govuk-button-group">
-            <button class="govuk-button govuk-button--primary">Continue</button>
+            <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
           </div>
-          <a class="govuk-link" href="javascript:void(0)">Cancel</a>
         </form>
       </div>
     </div>

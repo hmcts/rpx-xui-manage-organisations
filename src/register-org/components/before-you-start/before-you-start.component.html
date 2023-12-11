@@ -1,16 +1,17 @@
-<main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1">
+<main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      <xuilib-hmcts-error-summary [errorMessages]="beforeYouStartErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <h1 class="govuk-heading-xl">
         Apply for an organisation to manage civil, family and tribunal cases
       </h1>
       <hr>
       <br>
-      <p class="govuk-body">
-        MyHMCTS is a service for submitting and managing applications. It can be used by organisations and legal professionals.
+      <p class="govuk-body">MyHMCTS is a service for submitting and managing applications.
+        It can be used by organisations and legal professionals.
       </p>
-      <p class="govuk-body">
-        If you are not sure if your organisation will be able to use this service, see the <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
+      <p class="govuk-body">If you are not sure if your organisation will be able to use this service, see the
+        <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
       </p>
       <div class="govuk-body">
         <p>By registering, you will:</p>
@@ -20,17 +21,16 @@
         </ul>
       </div>
       <h3 class="govuk-heading-m">Before you start</h3>
-      <p class="govuk-body">
-        MyHMCTS is a service for organisations and legal professionals. Do not use this service if you are a member of the public making an application on your own behalf.
+      <p class="govuk-body">MyHMCTS is a service for organisations and legal professionals.
+        Do not use this service if you are a member of the public making an application on your own behalf.
       </p>
-      <p class="govuk-body">
-        Make sure the information you give us is complete and accurate. If there are any errors in the application, HMCTS will reject it and you will need to start again.
+      <p class="govuk-body">Make sure the information you give us is complete and accurate.
+        If there are any errors in the application, HMCTS will reject it and you will need to start again.
       </p>
-      <p class="govuk-body">
-        Check if your organisation already has an account. If so, ask your organisation's MyHMCTS administrator to give you access.
+      <p class="govuk-body">Check if your organisation already has an account.
+        If so, ask your organisation's MyHMCTS administrator to give you access.
       </p>
-      <p class="govuk-body">
-        Do not create an additional account for your organisation unless you need to keep parts of your business separate.
+      <p class="govuk-body">Do not create an additional account for your organisation unless you need to keep parts of your business separate.
       </p>
       <div class="govuk-body">
         <p>You will not be able to:</p>
@@ -41,12 +41,19 @@
         </ul>
       </div>
       <div class="govuk-body govuk-!-margin-top-6">
-        <form>
-          <div class="govuk-checkboxes__item">
-            <input class="govuk-checkboxes__input" type="checkbox" id="confirmed-organisation-account" name="confirmedOrganisationAccount" formControlName="confirmedOrganisationAccount">
-            <label class="govuk-label govuk-checkboxes__label" for="confirmed-organisation-account">
-              I've checked whether my organisation already has an account
-            </label>
+        <form [formGroup]="beforeYouStartForm">
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorPresent}">
+            <p class="govuk-error-message" *ngIf="errorPresent">
+              <span class="govuk-visually-hidden">Error:</span>{{beforeYouStartErrors[0].message}}
+            </p>
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" type="checkbox" id="confirmed-organisation-account" name="confirmedOrganisationAccount" formControlName="confirmedOrganisationAccount">
+                <label class="govuk-label govuk-checkboxes__label" for="confirmed-organisation-account">
+                  I've checked whether my organisation already has an account
+                </label>
+              </div>
+            </div>
           </div>
           <div class="govuk-body govuk-!-margin-top-6">
             <button class="govuk-button govuk-buton--primary" (click)="onStart()">Start</button>

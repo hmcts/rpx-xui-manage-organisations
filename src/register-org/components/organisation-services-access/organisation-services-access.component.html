@@ -1,38 +1,54 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:history.back()">Back</a>
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="servicesFormGroup">
         <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">
-                which services will your organisation need to access?
-              </h1>
+          <fieldset class="govuk-fieldset" aria-describedby="service-selection-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+              Which services will your organisation need to access?
             </legend>
-            <hr>
-            <div class="govuk-label govuk-!-font-weight-bold">
-              Select services to access
+            <hr class="govuk-!-margin-top-0">
+            <div class="govuk-label govuk-!-font-weight-bold govuk-!-margin-top-4">
+              Please indicate the services you are looking to access
             </div>
-            <div class="govuk-hint">
-              You must select at least one option
+            <div class="govuk-hint" id="service-selection-hint">
+              You must select at least one option. This will not impact access to any of the services listed as long as you're eligible to do so.
             </div>
-            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-              <div class="govuk-checkboxes__item" *ngFor="let service of services">
-                <input class="govuk-checkboxes__input" [id]="service.key" type="checkbox" [value]="service.value_en"
-                  name="services" formControlName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
-                <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
-                  {{service.value_en}}
-                </label>
+            <div [ngClass]="{'govuk-form-group--error': noServicesError}">
+              <div *ngIf="noServicesError" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{noServicesError}}
+              </div>
+              <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item" *ngFor="let service of services">
+                  <input class="govuk-checkboxes__input" [id]="service.value" type="checkbox" [value]="service.key"
+                    name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
+                  <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
+                    {{service.value}}
+                  </label>
+                </div>
+                <div class="govuk-checkboxes__conditional"
+                  [ngClass]="{'govuk-checkboxes__conditional--hidden': !showOtherServicesInput}">
+                  <div [ngClass]="{'govuk-form-group--error': otherServicesError}">
+                    <label class="govuk-label" for="other-services">
+                      Please enter the HMCTS service you are wishing to access
+                    </label>
+                    <div class="govuk-error-message" *ngIf="otherServicesError">
+                      <span class="govuk-visually-hidden">Error:</span> {{otherServicesError}}
+                    </div>
+                    <input class="govuk-input" id="other-services" name="other-services" formControlName="otherServices" type="text">
+                  </div>
+                </div>
               </div>
             </div>
           </fieldset>
         </div>
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-        <a class="govuk-link" href="javascript:void(0)">Cancel</a>
       </form>
     </div>
   </div>

@@ -19,7 +19,7 @@ import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/ca
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
-import { ROUTES as AppRoutes} from 'src/app/app.routes';
+import { ROUTES as AppRoutes } from 'src/app/app.routes';
 
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;

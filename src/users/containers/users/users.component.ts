@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public loadUsers(pageNumber: number): void {
-    this.store.dispatch(new fromStore.LoadUsers(pageNumber));
+    this.store.dispatch(new fromStore.LoadAllUsersNoRoleData());
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }

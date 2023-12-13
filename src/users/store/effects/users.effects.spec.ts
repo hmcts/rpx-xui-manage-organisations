@@ -180,6 +180,8 @@ describe('Users Effects', () => {
           {
             payload: 'something',
             fullName: 'undefined undefined',
+            routerLink: 'user/undefined',
+            routerLinkTitle: 'User details for undefined undefined with id undefined',
             accessTypes: []
           }
         ]
@@ -199,6 +201,8 @@ describe('Users Effects', () => {
           {
             payload: 'something',
             fullName: 'undefined undefined',
+            routerLink: 'user/undefined',
+            routerLinkTitle: 'User details for undefined undefined with id undefined',
             accessTypes: [{ organisationProfileId: 'orgProfileId' }]
           }
         ]

@@ -36,7 +36,8 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "sourceMap": true
           },
           "configurations": {
             "production": {
@@ -100,9 +101,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
-            "include": [
-              "**/src/**/*.spec.ts"
-            ],
             "styles": [
               "src/styles.scss"
             ],
@@ -115,7 +113,8 @@
             "codeCoverageExclude": [
               "projects/**/*",
               "src/style-guide/**/*"
-            ]
+            ],
+            "sourceMap": true
           }
         },
         "lint": {

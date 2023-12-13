@@ -142,16 +142,6 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     });
   });
 
-  describe('when there is a pending PBA to add', () => {
-    const ADD_NUMBER = 'test1';
-    const MOCK_PENDING_ADD: OrganisationDetails = getMockOrganisation([{ pbaNumber: ADD_NUMBER }], []);
-
-    beforeEach(() => {
-      pipeSpy.and.returnValue(of(MOCK_PENDING_ADD));
-      fixture.detectChanges();
-    });
-  });
-
   xdescribe('when there is a pending PBA to remove', () => {
     const REMOVE_NUMBER = 'test';
     const MOCK_PENDING_REMOVE: OrganisationDetails = getMockOrganisation([], [{ pbaNumber: REMOVE_NUMBER }]);

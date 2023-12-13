@@ -12,18 +12,6 @@ export async function handleAllUserListRoute(req: Request, res: Response) {
     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
     const response = await req.http.get(getRefdataAllUserListUrl(rdProfessionalApiPath));
     logger.info('response::', response.data);
-
-    response.data.users.forEach((user: any) => {
-      user.accessTypes = [
-        {
-          jurisdictionId: '12345',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          accessTypeId: '1234',
-          enabled: 'true'
-        }
-      ];
-    });
-
     res.send(response.data);
   } catch (error) {
     logger.error('error', error);

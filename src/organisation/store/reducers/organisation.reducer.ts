@@ -140,7 +140,6 @@ export function reducer(
           organisationProfileIds: profileIds
         }
       };
-      //  }
 
     default:
       return state;

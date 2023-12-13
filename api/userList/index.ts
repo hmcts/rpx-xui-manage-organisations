@@ -20,18 +20,6 @@ export async function handleUserListRoute(req: Request, res: Response) {
     logger.info(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
     const response = await req.http.get(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
 
-    // TODO: remove this before merging, short term fix to prove mapping works
-    response.data.users.forEach((user: any) => {
-      user.accessTypes = [
-        {
-          jurisdictionId: '12345',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          accessTypeId: '1234',
-          enabled: 'true'
-        }
-      ];
-    });
-
     logger.info('response:', response.data);
     res.send(response.data);
   } catch (error) {

@@ -44,8 +44,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     const isFeatureEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
 
+    // TODO: subscribe to the new invite user flow feature toggle
     isFeatureEnabled$.subscribe((isFeatureEnabled) => {
-      this.editPermissionRouter = isFeatureEnabled ? 'editpermission' : '';
+      this.editPermissionRouter = isFeatureEnabled ? 'manage' : '';
     });
 
     this.setSuspendViewFunctions();

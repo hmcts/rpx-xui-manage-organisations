@@ -152,7 +152,9 @@ describe('Users Effects', () => {
         users: [
           {
             payload: 'something',
-            fullName: 'undefined undefined'
+            fullName: 'undefined undefined',
+            routerLink: 'user/undefined',
+            routerLinkTitle: 'User details for undefined undefined with id undefined'
           }
         ]
       });

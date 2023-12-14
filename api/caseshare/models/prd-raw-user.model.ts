@@ -3,8 +3,7 @@ export interface PRDRawUserModel {
   email: string
   firstName: string
   idamStatus: string
-  lastName: string,
-  accessTypes?: PRDRawAccessTypeModel[]
+  lastName: string
 }
 
 export interface PRDRawAccessTypeModel {

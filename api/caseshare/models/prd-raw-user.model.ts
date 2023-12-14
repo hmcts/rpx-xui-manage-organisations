@@ -5,10 +5,3 @@ export interface PRDRawUserModel {
   idamStatus: string
   lastName: string
 }
-
-export interface PRDRawAccessTypeModel {
-  jurisdicationId: string
-  organisationProfileId: string
-  accessTypeId: string
-  enabled: boolean
-}

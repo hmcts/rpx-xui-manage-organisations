@@ -2339,16 +2339,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:1.9.0-register-org-address-styling-fixes-v2":
-  version: 1.9.0-register-org-address-styling-fixes-v2
-  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-register-org-address-styling-fixes-v2"
+"@hmcts/rpx-xui-common-lib@npm:1.9.0-address-error-fix":
+  version: 1.9.0-address-error-fix
+  resolution: "@hmcts/rpx-xui-common-lib@npm:1.9.0-address-error-fix"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: b3d26b5999c821b95e281b29582afc788bfd65e3594f4e3adddf4d54d5a6b1579ce302d1c67f226c6da2ddbf431db5762b4252b3d4b8250383f5d280524367d2
+  checksum: b2658a1d56be7d9383c09d2caa16e960281fb3729a4b9f82b0ba42edcd6b6377566b004762a61dc13ded29efae94d5556c5f1ca41fd715e94950ef126825d249
   languageName: node
   linkType: hard
 
@@ -20201,7 +20201,7 @@ __metadata:
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 1.9.0-register-org-address-styling-fixes-v2
+    "@hmcts/rpx-xui-common-lib": 1.9.0-address-error-fix
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

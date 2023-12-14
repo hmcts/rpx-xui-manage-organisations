@@ -45,4 +45,10 @@ export class UsersService {
       .get<any>(`/api/user-details?userId=${userId}`)
       .pipe(catchError((error: any) => throwError(error.json())));
   }
+
+  public retriveAccessType(organisationProfileIds: Array<string>): Observable<any> {
+    return this.http
+      .post<any>('/api/retrieve-access-types', organisationProfileIds)
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
 }

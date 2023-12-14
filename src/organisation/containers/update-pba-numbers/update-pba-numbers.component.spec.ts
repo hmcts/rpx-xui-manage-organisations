@@ -47,6 +47,9 @@ describe('UpdatePbaNumbersComponent', () => {
   const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
+    organisationProfileIds: [
+      'SOLICITOR_PROFILE'
+    ],
     contactInformation: [contactInformation],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',

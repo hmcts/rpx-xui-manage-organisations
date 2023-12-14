@@ -62,6 +62,9 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     return {
       name: 'Luke Solicitors',
       organisationIdentifier: 'HAUN33E',
+      organisationProfileIds: [
+        'SOLICITOR_PROFILE'
+      ],
       contactInformation: [MOCK_CONTACT_INFORMATION],
       pendingPaymentAccount: [],
       status: 'ACTIVE',

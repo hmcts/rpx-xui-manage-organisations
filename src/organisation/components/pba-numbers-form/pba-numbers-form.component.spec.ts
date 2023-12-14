@@ -26,6 +26,9 @@ let dispatchSpy: jasmine.Spy;
 const mockOrganisationDetails: OrganisationDetails = {
   name: 'A Firm',
   organisationIdentifier: 'A111111',
+  organisationProfileIds: [
+    'SOLICITOR_PROFILE'
+  ],
   contactInformation: [{
     addressLine1: '123 Street',
     addressLine2: 'A Town',

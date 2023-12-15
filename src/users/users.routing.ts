@@ -8,6 +8,7 @@ import { InviteUserComponent } from './containers/invite-user/invite-user.compon
 import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.guard';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import { UsersModule } from './users.module';
+import { FeatureToggleOdgInviteUserFlowGuard, featureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd-invite-user-flow.guard';
 
 export const ROUTES: Routes = [
   {
@@ -40,8 +41,9 @@ export const ROUTES: Routes = [
   },
   {
     path: 'user/:userId/manage',
-    component: ManageUserComponent
-    // canActivate: [FeatureToggleNewInviteUserFlowGuard] // TODO: Create a guard when the feature toggle is ready
+    component: ManageUserComponent,
+    canActivate: [featureToggleOdgInviteUserFlowGuard] // TODO: confirm if I should stick to the deprecated CanActivate guard or functional guard
+    // canActivate: [FeatureToggleOdgInviteUserFlowGuard]
   }
 ];
 

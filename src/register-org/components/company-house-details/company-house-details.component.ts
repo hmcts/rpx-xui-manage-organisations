@@ -12,8 +12,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class CompanyHouseDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public validationErrors: { id: string, message: string }[] = [];
   public companyHouseFormGroup: FormGroup;
-  public companyNameError: { id: string, message: string } = null;
-  public companyNumberError: { id: string, message: string } = null;
+  public companyNameError = null;
+  public companyNumberError = null;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,

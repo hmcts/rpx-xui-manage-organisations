@@ -37,6 +37,4 @@ export interface OrganisationDetails {
   organisationType?: string;
   companyRegistrationNumber?: string;
   regulators?: Regulator[];
-  orgType?: string;
-  orgAttributes?: {key: string, value: string}[];
 }

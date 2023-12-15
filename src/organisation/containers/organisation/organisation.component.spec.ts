@@ -3,11 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
-import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
@@ -33,7 +32,6 @@ let dispatchSpy: jasmine.Spy;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let userIsPuiFinanceManager: boolean;
 
-const lovRefDataServiceMock = jasmine.createSpyObj('LovRefDataService', ['getListOfValues']);
 const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
 describe('OrganisationComponent', () => {
@@ -57,27 +55,6 @@ describe('OrganisationComponent', () => {
     dxAddress: [dxAddress]
   };
 
-  const mockOrgTypes = [
-    {
-      category_key: 'OrgType',
-      key: 'BARR',
-      value_en: 'Barrister'
-    },
-    {
-      category_key: 'OrgType',
-      key: 'OTHER',
-      value_en: 'Other',
-      child_nodes: [{
-        key: 'OTHER-HEALTH',
-        value_en: 'Medicine'
-      },
-      {
-        key: 'OTHER-LAW',
-        value_en: 'Law'
-      }]
-    }
-  ];
-
   /**
    * Mock organisation data is representative of data returned from the Node layer.
    */
@@ -97,14 +74,12 @@ describe('OrganisationComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingPaymentAccount: undefined,
-    pendingAddPaymentAccount: undefined,
-    pendingRemovePaymentAccount: undefined
+    pendingAddPaymentAccount: undefined
   };
 
   beforeEach(() => {
     pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
     featureToggleServiceMock.getValue.and.returnValue(of(true));
-    lovRefDataServiceMock.getListOfValues.and.returnValue(of(mockOrgTypes));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
@@ -125,10 +100,6 @@ describe('OrganisationComponent', () => {
         {
           provide: Store,
           useValue: storeMock
-        },
-        {
-          provide: LovRefDataService,
-          useValue: lovRefDataServiceMock
         },
         {
           provide: FeatureToggleService,
@@ -239,32 +210,17 @@ describe('OrganisationComponent', () => {
 
   describe('organisation type visibility', () => {
     it('should display organisation type', () => {
-      component.organisationType = 'BARR';
+      component.organisationType = 'IT & communications';
       fixture.detectChanges();
-      component.orgTypeDescription = 'Barrister';
+      const organisationTypeEl = fixture.debugElement.nativeElement.querySelector('#organisation-type') as HTMLElement;
+      expect(organisationTypeEl.textContent).toContain('IT & communications');
     });
 
-    it('should display other organisation type', () => {
-      component.organisationType = 'OTHER-LAW';
+    it('should not display organisation type', () => {
+      component.organisationType = '';
       fixture.detectChanges();
-      component.orgTypeDescription = 'Law';
-    });
-  });
-
-  describe('ngOnDestroy', () => {
-    it('should unsubscribe from observables when subscribed', () => {
-      component.orgTypeSubscription = new Observable().subscribe();
-      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
-      component.ngOnDestroy();
-      expect(componentOrgTypeSubscriptionUnsubscribeSpy).toHaveBeenCalled();
-    });
-
-    it('should not unsubscribe from observables when not subscribed', () => {
-      component.orgTypeSubscription = new Observable().subscribe();
-      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
-      component.orgTypeSubscription = undefined;
-      component.ngOnDestroy();
-      expect(componentOrgTypeSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
+      const organisationTypeEl = fixture.debugElement.nativeElement.querySelector('#organisation-type') as HTMLElement;
+      expect(organisationTypeEl).toBeNull();
     });
   });
 });

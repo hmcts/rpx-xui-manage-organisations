@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { throwError } from 'rxjs';
-import { LoggerService } from '../../../shared/services/logger.service';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { CheckYourAnswersComponent } from './check-your-answers.component';
@@ -13,9 +12,6 @@ describe('CheckYourAnswersComponent', () => {
   let fixture: ComponentFixture<CheckYourAnswersComponent>;
   let router: Router;
   let registerOrgService: RegisterOrgService;
-  const mockLoggerService = {
-    info: jasmine.createSpy('info')
-  };
 
   const registrationData: RegistrationData = {
     companyName: 'Minstry of Justice',
@@ -53,9 +49,6 @@ describe('CheckYourAnswersComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule
-      ],
-      providers: [
-        { provide: LoggerService, useValue: mockLoggerService }
       ]
     }).compileComponents();
   });
@@ -66,6 +59,7 @@ describe('CheckYourAnswersComponent', () => {
     router = TestBed.inject(Router);
     registerOrgService = TestBed.inject(RegisterOrgService);
     spyOn(router, 'navigate');
+    registerOrgService = TestBed.inject(RegisterOrgService);
     spyOn(registerOrgService, 'getRegistrationData').and.returnValue(registrationData);
     fixture.detectChanges();
   });

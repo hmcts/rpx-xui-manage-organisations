@@ -29,7 +29,7 @@ export type RegistrationData = {
     contactDetails: ContactDetails;
     address: AddressModel;
     organisationType: OrganisationType;
-    otherOrganisationType?: OrganisationType;
+    otherOrganisationType?: string;
     otherOrganisationDetail?: string;
     regulatorRegisteredWith: string;
     inInternationalMode: boolean;

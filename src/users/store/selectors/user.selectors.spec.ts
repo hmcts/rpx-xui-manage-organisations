@@ -1,3 +1,4 @@
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { UserState } from '../reducers';
 import { UsersListState } from '../reducers/users.reducer';
 import { editUserFailureSelector, getGetSingleUser, getUserState } from './user.selectors';

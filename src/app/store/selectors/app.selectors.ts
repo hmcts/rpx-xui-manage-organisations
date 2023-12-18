@@ -60,7 +60,8 @@ export const getCaaMenuItemsFeatureIsEnabled = createSelector(
 
 export const getOgdInviteUserFlowFeature = createSelector(
   getFeatureFlag,
-  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.odgInviteUserFlow)
+  (featureFlags) =>
+    featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.ogdInviteUserFlow)
 );
 
 export const getOgdInviteUserFlowFeatureIsEnabled = createSelector(

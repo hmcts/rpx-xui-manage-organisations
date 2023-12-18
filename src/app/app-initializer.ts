@@ -11,7 +11,7 @@ export function initApplication(store: Store<fromApp.State>): VoidFunction {
       AppConstants.FEATURE_NAMES.editUserPermissions,
       AppConstants.FEATURE_NAMES.caaMenuItems,
       AppConstants.FEATURE_NAMES.newRegisterOrg,
-      AppConstants.FEATURE_NAMES.odgInviteUserFlow]));
+      AppConstants.FEATURE_NAMES.ogdInviteUserFlow]));
 
     store.pipe(
       select(fromSelectors.getAppState),

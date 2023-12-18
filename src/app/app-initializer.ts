@@ -10,7 +10,8 @@ export function initApplication(store: Store<fromApp.State>): VoidFunction {
     store.dispatch(new fromApp.LoadFeatureToggleConfig([AppConstants.FEATURE_NAMES.feeAccount,
       AppConstants.FEATURE_NAMES.editUserPermissions,
       AppConstants.FEATURE_NAMES.caaMenuItems,
-      AppConstants.FEATURE_NAMES.newRegisterOrg]));
+      AppConstants.FEATURE_NAMES.newRegisterOrg,
+      AppConstants.FEATURE_NAMES.ogdInviteUserFlow]));
 
     store.pipe(
       select(fromSelectors.getAppState),

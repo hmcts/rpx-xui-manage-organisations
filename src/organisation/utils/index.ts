@@ -1,4 +1,4 @@
-import { PBANumberModel } from '../../models/pbaNumber.model';
+import { PBANumberModel } from 'src/models/pbaNumber.model';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../models';
 import { Regulator } from '../../register-org/models';
 import { OrgManagerConstants } from '../organisation-constants';
@@ -27,20 +27,14 @@ const utils = {
     return null;
   },
   getOrganisationType: (organisationDetails: Partial<OrganisationDetails>): string => {
-    if (containsItems(organisationDetails, 'orgType')) {
-      return organisationDetails.orgType;
+    if (containsItems(organisationDetails, 'organisationType')) {
+      return organisationDetails.organisationType;
     }
     return null;
   },
-  // note: this does not get invdividual regulators as no display requirement for them
   getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] => {
-    if (containsItems(organisationDetails, 'orgAttributes') && organisationDetails.orgAttributes.find((orgAttribute) => orgAttribute.key.includes('regulator'))) {
-      const regulatorAttributes = organisationDetails.orgAttributes.filter((orgAttribute) => orgAttribute.key.includes('regulator'));
-      const regulators = [];
-      regulatorAttributes.map((regAttribute) => {
-        regulators.push(JSON.parse(regAttribute.value));
-      });
-      return regulators;
+    if (containsItems(organisationDetails, 'regulators')) {
+      return organisationDetails.regulators;
     }
     return null;
   },

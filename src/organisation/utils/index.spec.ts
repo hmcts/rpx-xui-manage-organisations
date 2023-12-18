@@ -116,7 +116,7 @@ describe('organisation.utils', () => {
 
     it('should return organisation type', () => {
       const organisationDetails = {
-        orgType: 'IT & communications'
+        organisationType: 'IT & communications'
       };
       expect(utils.getOrganisationType(organisationDetails)).toEqual('IT & communications');
     });
@@ -132,21 +132,19 @@ describe('organisation.utils', () => {
 
     it('should return regulators', () => {
       const organisationDetails = {
-        orgAttributes: [
+        regulators: [
           {
-            key: 'regulators-0',
-            value: JSON.stringify({ regulatorType: 'Solicitor Regulation Authority (SRA)', organisationRegistrationNumber: '11223344' })
+            regulatorType: 'Solicitor Regulation Authority (SRA)',
+            organisationRegistrationNumber: '11223344'
           },
           {
-            key: 'regulators-1',
-            value: JSON.stringify({ regulatorType: 'Other',
-              regulatorName: 'Other regulatory organisation',
-              organisationRegistrationNumber: '12341234' })
+            regulatorType: 'Other',
+            regulatorName: 'Other regulatory organisation',
+            organisationRegistrationNumber: '12341234'
           },
           {
-            key: 'regulators-1',
-            value: JSON.stringify({ regulatorType: 'Charted Institute of Legal Executives',
-              organisationRegistrationNumber: '43214321' })
+            regulatorType: 'Charted Institute of Legal Executives',
+            organisationRegistrationNumber: '43214321'
           }
         ]
       };

@@ -23,32 +23,23 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // dispatch event to load user
     // select user from store
-
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
       this.backUrl = this.getBackurl(this.userId);
     });
-    // combineLatest([
-    //   this.routerStore.pipe(select(fromRoot.getRouterState)),
-    //   this.userStore.pipe(select(fromStore.getGetUserLoaded))
-    // ]).pipe(takeUntil(this.onDestory$)).subscribe(([route, isUserLoaded]) => {
-    //   this.userId = route.state.params.userId;
-    //   this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
-    //   this.backUrl = this.getBackurl(this.userId);
-    // });
 
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
     });
   }
 
-  public getBackurl(userId: string): string {
-    return `/users/user/${userId}`;
-  }
-
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  private getBackurl(userId: string): string {
+    return `/users/user/${userId}`;
   }
 }

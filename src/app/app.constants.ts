@@ -8,7 +8,8 @@ const featureNames = {
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',
   caaMenuItems: 'mo-caa-menu-items',
-  newRegisterOrg: 'mo-new-register-org'
+  newRegisterOrg: 'mo-new-register-org',
+  ogdInviteUserFlow: 'ogd-invite-user-flow'
 };
 
 const navItemsArray: NavItemModel[] = [

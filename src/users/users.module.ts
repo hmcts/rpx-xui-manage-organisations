@@ -20,6 +20,7 @@ import * as fromComponents from './components';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
+import { OrganisationAccessPermissionsComponent } from './components/organisation-access-permissions/organisation-access-permissions.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,7 @@ import * as fromServices from './services';
     ExuiCommonLibModule
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components, OrganisationAccessPermissionsComponent],
   providers: [...fromServices.services, InviteUserSuccessGuard]
 })
 

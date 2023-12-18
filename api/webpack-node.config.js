@@ -31,7 +31,7 @@ module.exports = {
     new webpack.DefinePlugin({ 'global.GENTLY': false })
   ],
   output: {
-    path: path.resolve(__dirname, '../dist/rpa-pui-manager/api'),
+    path: path.resolve(__dirname, '../dist/rpx-xui-manage-organisations/api'),
     filename: 'server.bundle.js'
   },
   resolve: {

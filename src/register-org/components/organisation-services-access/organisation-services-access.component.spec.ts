@@ -49,7 +49,7 @@ describe('OrganisationServicesAccessComponent', () => {
       previousNavigation: {
         finalUrl: '/check-your-answers'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
@@ -59,7 +59,7 @@ describe('OrganisationServicesAccessComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'regulatory-organisation-type']);
   });

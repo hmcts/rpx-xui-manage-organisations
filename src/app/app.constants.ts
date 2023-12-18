@@ -9,7 +9,7 @@ const featureNames = {
   removeUserFromCase: 'remove-user-from-case-mo',
   caaMenuItems: 'mo-caa-menu-items',
   newRegisterOrg: 'mo-new-register-org',
-  odgInviteUserFlow: 'ogd-invite-user-flow'
+  ogdInviteUserFlow: 'ogd-invite-user-flow'
 };
 
 const navItemsArray: NavItemModel[] = [

@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { iif, Observable, of, Subject, Subscription } from 'rxjs';
+import { map, switchMap, takeUntil } from 'rxjs/operators';
 import { AppConstants } from '../../../app/app.constants';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumberModel } from '../../../models';
 import { Regulator, RegulatorType, RegulatoryType } from '../../../register-org/models';
@@ -47,12 +47,18 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isFeatureEnabled$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
-
-    this.orgTypeSubscription = this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).subscribe((orgTypes) => {
-      this.orgTypes = orgTypes;
-      this.setOrgTypeDescription();
-    });
+    this.isFeatureEnabled$ = this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false).pipe(
+      switchMap((newRegisterOrg) => {
+        return iif(() => newRegisterOrg, this.lovRefDataService.getListOfValues(this.CATEGORY_ORGANISATION_TYPE, true).pipe(
+          map((orgTypes) => {
+            this.orgTypes = orgTypes;
+            this.setOrgTypeDescription();
+            return newRegisterOrg;
+          })
+        ),     
+        of(newRegisterOrg))
+      })
+    );
   }
 
   public ngOnDestroy(): void {
@@ -85,6 +91,9 @@ export class OrganisationComponent implements OnInit, OnDestroy {
   }
 
   private setOrgTypeDescription(): void {
+    if (!this.organisationType) {
+      return;
+    }
     const nonOtherOrgType = this.orgTypes.find((orgType) => orgType.key === this.organisationType);
     this.orgTypeDescription = nonOtherOrgType ? nonOtherOrgType.value_en : `Other: ${this.getOrgTypeOther()}`;
   }

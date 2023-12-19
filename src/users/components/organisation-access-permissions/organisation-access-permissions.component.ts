@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-organisation-access-permissions',
   templateUrl: './organisation-access-permissions.component.html',
-  styleUrls: ['./organisation-access-permissions.component.scss']
+  styleUrls: ['./organisation-access-permissions.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
   jurisdictionsExample = `
@@ -18,10 +19,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
                 {
                     "organisationProfileId": "SOLICITOR_PROFILE",
                     "accessTypeId": "10",
-                    "accessMandatory": false,
-                    "accessDefault": false,
+                    "accessMandatory": true,
+                    "accessDefault": true,
                     "display": true,
-                    "description": "Can access all cases in the organisation",
+                    "description": "Should be checked because of the access default and disabled because it's mandatory",
                     "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
                     "displayOrder": 6,
                     "roles": [
@@ -81,7 +82,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
                   "accessMandatory": false,
                   "accessDefault": false,
                   "display": true,
-                  "description": "Can access all cases in the organisation",
+                  "description": "This was is a pre-existing selection as true",
                   "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
                   "displayOrder": 10,
                   "roles": [
@@ -108,20 +109,23 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   ]
   `;
 
-  jurisdictions: TempJurisdicationModel[] = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
-  userAccessTypes = JSON.parse(this.userAccessTypesExample) as UserAccessType[];
+  @Output() public selectedPermissionsChanged = new EventEmitter<JurisdictionPermissionViewModel[]>();
 
-  permissions: JurisdictionPermissionViewModel[];
-  jurisdictionPermissionsForm: FormGroup<AccessForm>;
+  public jurisdictions: TempJurisdicationModel[] = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
+  public userAccessTypes = JSON.parse(this.userAccessTypesExample) as UserAccessType[];
+
+  public permissions: JurisdictionPermissionViewModel[];
+  public jurisdictionPermissionsForm: FormGroup<AccessForm>;
 
   private onDestory$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,) {
     this.permissions = this.createPermissionsViewModel();
+    this.selectedPermissionsChanged.emit(this.permissions);
   }
 
   ngOnInit(): void {
-    this.createForm();
+    this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
   }
 
@@ -136,32 +140,45 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   private subscribeToAccessTypesChanges() {
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
-      jurisdictionGroup.controls.accessTypes.valueChanges.pipe(takeUntil(this.onDestory$)).subscribe((value) => {
-        const jurisdictionId = jurisdictionGroup.controls.jurisdictionId.value;
-        value.forEach((accessType) => {
-          this.updatePermissions(jurisdictionId, accessType.accessTypeId, accessType.enabled);
-        });
-        console.log(this.permissions);
+      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestory$)).subscribe((permissions) => {
+        this.selectedPermissionsChanged.emit(permissions);
+        console.log(permissions);
       });
     });
   }
 
-  private updatePermissions(jurisdictionId: string, accessTypeId: string, enabled: boolean) {
+  private createPermissionChangeObservableForGroup(jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>): Observable<JurisdictionPermissionViewModel[]>{
+    return jurisdictionGroup.controls.accessTypes.valueChanges.pipe(
+      map((value) => {
+        const jurisdictionId = jurisdictionGroup.controls.jurisdictionId.value;
+        value.forEach((accessType) => {
+          this.updatePermissionsWithCurrentSelection(jurisdictionId, accessType.accessTypeId, accessType.enabled);
+        });
+        return this.permissions;
+      }),
+      shareReplay(1));
+  }
+
+  private updatePermissionsWithCurrentSelection(jurisdictionId: string, accessTypeId: string, enabled: boolean) {
     const jurisdictionPermissions = this.permissions.find((permission) => permission.jurisdictionId === jurisdictionId);
     if (jurisdictionPermissions) {
       const permissionAccessType = jurisdictionPermissions.accessTypes.find((pa) => pa.accessTypeId === accessTypeId);
       if (permissionAccessType) {
         permissionAccessType.enabled = enabled;
       }
+      if (permissionAccessType.accessMandatory){
+        permissionAccessType.enabled = true;
+      }
     }
   }
 
-  private createForm() {
+  private createFormAndPopulate() {
     this.jurisdictionPermissionsForm = this.fb.nonNullable.group<AccessForm>({
       jurisdictions: this.fb.nonNullable.array<FormGroup<JurisdictionPermissionViewModelForm>>([])
     });
 
     this.populateFormWithExistingAccess(this.permissions);
+    this.cdRef.markForCheck();
   }
 
   private populateFormWithExistingAccess(permissions: JurisdictionPermissionViewModel[]) {
@@ -170,7 +187,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
         const validation = accessType.accessMandatory ? [Validators.required] : [];
         return this.fb.nonNullable.group<AccessTypePermissionViewModelForm>({
           accessTypeId: new FormControl(accessType.accessTypeId, Validators.required),
-          enabled: new FormControl({ value: accessType.enabled, disabled: !accessType.display }, validation),
+          enabled: new FormControl({ value: accessType.enabled, disabled: !accessType.display || accessType.accessMandatory }, validation),
           display: new FormControl(accessType.display),
           description: new FormControl(accessType.description)
         });

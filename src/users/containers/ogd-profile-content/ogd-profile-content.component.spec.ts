@@ -8,9 +8,9 @@ describe('OgdProfileContentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OgdProfileContentComponent ]
+      declarations: [OgdProfileContentComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(OgdProfileContentComponent);
     component = fixture.componentInstance;

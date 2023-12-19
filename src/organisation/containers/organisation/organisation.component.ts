@@ -55,8 +55,8 @@ export class OrganisationComponent implements OnInit, OnDestroy {
             this.setOrgTypeDescription();
             return newRegisterOrg;
           })
-        ),     
-        of(newRegisterOrg))
+        ),
+        of(newRegisterOrg));
       })
     );
   }

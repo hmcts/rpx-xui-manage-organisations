@@ -8,9 +8,9 @@ describe('SolicitorProfileContentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SolicitorProfileContentComponent ]
+      declarations: [SolicitorProfileContentComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SolicitorProfileContentComponent);
     component = fixture.componentInstance;

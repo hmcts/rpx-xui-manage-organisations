@@ -38,6 +38,8 @@
                     [checked]="accesssType.enabled"
                     formControlName="enabled"
                     type="checkbox"
+                    [attr.aria-disabled]="accesssType.mandatory ? 'true' : 'false'"
+                    
                   />
                   <label
                     class="govuk-label govuk-checkboxes__label"

@@ -6,7 +6,6 @@ import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-organisation-access-permissions',
   templateUrl: './organisation-access-permissions.component.html',
-  styleUrls: ['./organisation-access-permissions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
@@ -218,7 +217,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
           accessTypeId: new FormControl(accessType.accessTypeId, Validators.required),
           enabled: new FormControl({ value: accessType.enabled, disabled: !accessType.display || accessType.accessMandatory }, validation),
           display: new FormControl(accessType.display),
-          description: new FormControl(accessType.description)
+          description: new FormControl(accessType.description),
+          mandatory: new FormControl(accessType.accessMandatory)
         });
       });
       const jurisdictionPermissionFG = this.fb.nonNullable.group<JurisdictionPermissionViewModelForm>({
@@ -250,7 +250,7 @@ export interface TempAccessTypeModel {
   displayOrder: number;
 }
 
-interface JurisdictionPermissionViewModel {
+export interface JurisdictionPermissionViewModel {
   jurisdictionId: string;
   jurisdictionName: string;
   accessTypes: AccessTypePermissionViewModel[];
@@ -278,4 +278,5 @@ interface AccessTypePermissionViewModelForm{
   enabled: FormControl<boolean>;
   display: FormControl<boolean>;
   description: FormControl<string>;
+  mandatory: FormControl<boolean>;
 }

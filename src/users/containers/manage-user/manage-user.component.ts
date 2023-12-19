@@ -6,6 +6,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import { User } from '@hmcts/rpx-xui-common-lib';
+import { JurisdictionPermissionViewModel } from 'src/users/components/organisation-access-permissions/organisation-access-permissions.component';
 
 @Component({
   selector: 'app-manage-user',
@@ -37,6 +38,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  updateSelectedOrganisationPermissions($event: JurisdictionPermissionViewModel[]) {
+    throw new Error('Method not implemented.');
   }
 
   private getBackurl(userId: string): string {

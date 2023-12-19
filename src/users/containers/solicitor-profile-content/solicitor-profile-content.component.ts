@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-solicitor-profile-content',
-  templateUrl: './solicitor-profile-content.component.html',
-  styleUrls: ['./solicitor-profile-content.component.scss']
+  templateUrl: './solicitor-profile-content.component.html'
 })
 export class SolicitorProfileContentComponent {
 

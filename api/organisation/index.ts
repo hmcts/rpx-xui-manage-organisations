@@ -16,7 +16,9 @@ export async function handleOrganisationRoute(req: Request, res: Response, next:
 }
 
 export function getOrganisationDetails(req: Request, url: string): Promise<AxiosResponse> {
-  return req.http.get(`${url}/refdata/external/v2/organisations`);
+  // set to v1 as feature toggling on this would be difficult
+  // only necessary for auth to get org id so setting to v1 until v2 in wide use on PROD
+  return req.http.get(`${url}/refdata/external/v1/organisations`);
 }
 
 // delete next two functions after register org feature not necessary

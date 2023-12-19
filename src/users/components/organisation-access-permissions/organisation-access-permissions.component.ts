@@ -122,10 +122,6 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.createForm();
-    this.jurisdictionPermissionsForm.valueChanges.pipe(takeUntil(this.onDestory$)).subscribe((value) => {
-      console.log(value);
-    });
-
     this.subscribeToAccessTypesChanges();
   }
 
@@ -142,18 +138,22 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
       jurisdictionGroup.controls.accessTypes.valueChanges.pipe(takeUntil(this.onDestory$)).subscribe((value) => {
         const jurisdictionId = jurisdictionGroup.controls.jurisdictionId.value;
-        const jurisdictionPermissions = this.permissions.find((permission) => permission.jurisdictionId === jurisdictionId);
-        if (jurisdictionPermissions) {
-          value.forEach((accessType) => {
-            const permissionAccessType = jurisdictionPermissions.accessTypes.find((pa) => pa.accessTypeId === accessType.accessTypeId);
-            if (permissionAccessType) {
-              permissionAccessType.enabled = accessType.enabled;
-            }
-          });
-        }
+        value.forEach((accessType) => {
+          this.updatePermissions(jurisdictionId, accessType.accessTypeId, accessType.enabled);
+        });
         console.log(this.permissions);
       });
     });
+  }
+
+  private updatePermissions(jurisdictionId: string, accessTypeId: string, enabled: boolean) {
+    const jurisdictionPermissions = this.permissions.find((permission) => permission.jurisdictionId === jurisdictionId);
+    if (jurisdictionPermissions) {
+      const permissionAccessType = jurisdictionPermissions.accessTypes.find((pa) => pa.accessTypeId === accessTypeId);
+      if (permissionAccessType) {
+        permissionAccessType.enabled = enabled;
+      }
+    }
   }
 
   private createForm() {

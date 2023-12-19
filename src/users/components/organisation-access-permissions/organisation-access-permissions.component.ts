@@ -112,7 +112,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   @Output() public selectedPermissionsChanged = new EventEmitter<JurisdictionPermissionViewModel[]>();
 
   public jurisdictions: TempJurisdicationModel[] = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
-  public userAccessTypes = JSON.parse(this.userAccessTypesExample) as UserAccessType[];
+  public userAccessTypes: UserAccessType[] = JSON.parse(this.userAccessTypesExample) as UserAccessType[];
 
   public permissions: JurisdictionPermissionViewModel[];
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
@@ -120,11 +120,11 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   private onDestory$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,) {
-    this.permissions = this.createPermissionsViewModel();
-    this.selectedPermissionsChanged.emit(this.permissions);
   }
 
   ngOnInit(): void {
+    this.permissions = this.createPermissionsViewModel();
+    this.selectedPermissionsChanged.emit(this.permissions);
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
   }
@@ -136,6 +136,35 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   get jurisdictionsFormArray(): FormArray<FormGroup<JurisdictionPermissionViewModelForm>> {
     return this.jurisdictionPermissionsForm.controls.jurisdictions;
+  }
+
+  public createPermissionsViewModel() : JurisdictionPermissionViewModel[] {
+    return this.jurisdictions.map((jurisdiction) => {
+      const accessTypes = jurisdiction.accessTypes
+        .sort((a, b) => a.displayOrder - b.displayOrder)
+        .filter((accessType) => accessType.display)
+        .map((accessType) => {
+          const accessTypePermissionViewModel:AccessTypePermissionViewModel = {
+            accessTypeId: accessType.accessTypeId,
+            enabled: accessType.accessDefault,
+            display: accessType.display,
+            description: accessType.description,
+            accessMandatory: accessType.accessMandatory
+          };
+          const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionid);
+          if (userAccessType) {
+            accessTypePermissionViewModel.enabled = userAccessType.enabled;
+          }
+          return accessTypePermissionViewModel;
+        });
+
+      const permission:JurisdictionPermissionViewModel = {
+        jurisdictionId: jurisdiction.jurisdictionid,
+        jurisdictionName: jurisdiction.jurisdictionName,
+        accessTypes: accessTypes
+      };
+      return permission;
+    });
   }
 
   private subscribeToAccessTypesChanges() {
@@ -202,43 +231,15 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     const permissionFormArray = this.fb.nonNullable.array<FormGroup<JurisdictionPermissionViewModelForm>>(permissionFGs);
     this.jurisdictionPermissionsForm.controls.jurisdictions = permissionFormArray;
   }
-
-  private createPermissionsViewModel() : JurisdictionPermissionViewModel[] {
-    return this.jurisdictions.map((jurisdiction) => {
-      const accessTypes = jurisdiction.accessTypes
-        .filter((accessType) => accessType.display)
-        .map((accessType) => {
-          const accessTypePermissionViewModel:AccessTypePermissionViewModel = {
-            accessTypeId: accessType.accessTypeId,
-            enabled: accessType.accessDefault,
-            display: accessType.display,
-            description: accessType.description,
-            accessMandatory: accessType.accessMandatory
-          };
-          const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionid);
-          if (userAccessType) {
-            accessTypePermissionViewModel.enabled = userAccessType.enabled;
-          }
-          return accessTypePermissionViewModel;
-        });
-
-      const permission:JurisdictionPermissionViewModel = {
-        jurisdictionId: jurisdiction.jurisdictionid,
-        jurisdictionName: jurisdiction.jurisdictionName,
-        accessTypes: accessTypes
-      };
-      return permission;
-    });
-  }
 }
 
-class TempJurisdicationModel {
+export interface TempJurisdicationModel {
   jurisdictionid: string;
   jurisdictionName: string;
   accessTypes: TempAccessTypeModel[];
 }
 
-class TempAccessTypeModel {
+export interface TempAccessTypeModel {
   organisationProfileId: string;
   accessTypeId: string;
   accessMandatory: boolean;
@@ -247,15 +248,8 @@ class TempAccessTypeModel {
   description: string;
   hint: string;
   displayOrder: number;
-  roles: TempRoleModel[];
 }
 
-class TempRoleModel {
-  caseTypeId: string;
-  organisationalRoleName: string;
-  groupRoleName: string;
-  caseGroupIdTemplate: string;
-}
 interface JurisdictionPermissionViewModel {
   jurisdictionId: string;
   jurisdictionName: string;

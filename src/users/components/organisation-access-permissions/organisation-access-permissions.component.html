@@ -51,31 +51,34 @@
         </fieldset>
 
         <!-- The access type available -->
-        <div class="govuk-form-group">
+        <div class="govuk-form-group" [formGroupName]="i">
           <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-            <ng-container
-              *ngFor="
-                let accesssType of jurisdiction.value.accessTypes;
-                let j = index
-              "
-            >
-              <div class="govuk-checkboxes__item" *ngIf="accesssType.display">
-                <input
-                  class="govuk-checkboxes__input"
-                  [id]="accesssType.accessTypeId"
-                  [value]="accesssType.accessTypeId"
-                  [name]="accesssType.description"
-                  [checked]="accesssType.enabled"
-                  type="checkbox"
-                />
-                <label
-                  class="govuk-label govuk-checkboxes__label"
-                  [for]="accesssType.accessTypeId"
-                >
-                  {{ accesssType.description }}
-                </label>
-              </div>
-            </ng-container>
+            <div formArrayName="accessTypes">
+              <ng-container
+                *ngFor="
+                  let accesssType of jurisdiction.value.accessTypes;
+                  let j = index
+                "
+              >
+                <div class="govuk-checkboxes__item" [formGroupName]="j">
+                  <input
+                    class="govuk-checkboxes__input"
+                    [id]="accesssType.accessTypeId"
+                    [value]="accesssType.accessTypeId"
+                    [name]="accesssType.description"
+                    [checked]="accesssType.enabled"
+                    formControlName="enabled"
+                    type="checkbox"
+                  />
+                  <label
+                    class="govuk-label govuk-checkboxes__label"
+                    [for]="accesssType.accessTypeId"
+                  >
+                    {{ accesssType.description }}
+                  </label>
+                </div>
+              </ng-container>
+            </div>
           </div>
         </div>
       </ng-container>

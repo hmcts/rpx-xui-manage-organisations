@@ -5,9 +5,11 @@ import { InviteUserComponent } from './invite-user/invite-user.component';
 import { ManageUserComponent } from './manage-user/manage-user.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UsersComponent } from './users/users.component';
+import { SolicitorProfileContentComponent } from './solicitor-profile-content/solicitor-profile-content.component';
+import { OgdProfileContentComponent } from './ogd-profile-content/ogd-profile-content.component';
 
 export const containers: any[] = [UsersComponent, InviteUserComponent, InviteUserSuccessComponent, UserDetailsComponent,
-  EditUserPermissionComponent, EditUserPermissionsFailureComponent, ManageUserComponent];
+  EditUserPermissionComponent, EditUserPermissionsFailureComponent, ManageUserComponent, SolicitorProfileContentComponent, OgdProfileContentComponent];
 
 export * from './users/users.component';
 export * from './invite-user/invite-user.component';
@@ -16,3 +18,5 @@ export * from './user-details/user-details.component';
 export * from './edit-user-permissions/edit-user-permission.component';
 export * from './edit-user-permissions-failure/edit-user-permissions-failure.component';
 export * from './manage-user/manage-user.component';
+export * from './solicitor-profile-content/solicitor-profile-content.component';
+export * from './ogd-profile-content/ogd-profile-content.component';

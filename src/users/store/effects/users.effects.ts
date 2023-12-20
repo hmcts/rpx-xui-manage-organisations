@@ -6,6 +6,7 @@ import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
 import * as usersActions from '../actions';
+import { userInfo } from 'os';
 
 @Injectable()
 export class UsersEffects {
@@ -132,4 +133,16 @@ export class UsersEffects {
       map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
     )
   );
+
+  public getAccessTypes$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(usersActions.LOAD_ACCESS_TYPES),
+    switchMap((action: any) => {
+      return this.usersService.retrieveAccessType(action.payload).pipe(
+        map(() => new usersActions.LoadAccessTypesSuccess(action.payload)),
+        catchError((error) => of(new usersActions.LoadAccessTypesFail(error)))
+      );
+    })
+  )
+);
 }

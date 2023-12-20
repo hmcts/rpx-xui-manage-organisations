@@ -42,3 +42,8 @@ export const getUserDetails = createSelector(
   getUserState,
   fromUsers.getUserDetails
 );
+
+export const getAccessTypes = createSelector(
+  getUserState,
+  fromUsers.getAccessTypes
+);

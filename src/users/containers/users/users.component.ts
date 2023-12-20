@@ -22,6 +22,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public currentPageNumber: number = 1;
   public pageTotalSize: number;
   public allUsersList$: Subscription;
+  public accessTypes$: Observable<string[]>;
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
@@ -42,7 +43,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.LoadUsers(pageNumber));
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
-    this.usersService.retriveAccessType(['1']).subscribe((accessTypes) => {
+    this.accessTypes$ = this.store.dispatch(select(fromStore.getAccessTypes))
+    this.usersService.retrieveAccessType(['1']).subscribe((accessTypes) => {
       console.log(accessTypes);
     })
   }

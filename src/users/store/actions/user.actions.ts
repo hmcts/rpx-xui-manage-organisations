@@ -22,6 +22,9 @@ export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
 export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
 export const INVITE_NEW_USER = '[User] Invite New User';
 export const REINVITE_PENDING_USER = '[User] Reinvite Pending User';
+export const LOAD_ACCESS_TYPES = '[User] Load Access Types';
+export const LOAD_ACCESS_TYPES_SUCCESS = '[User] Load Access Types Success';
+export const LOAD_ACCESS_TYPES_FAIL = '[User] Load Access Types Fail';
 
 export class LoadUsers {
   public readonly type = LOAD_USERS;
@@ -122,6 +125,21 @@ export class ReinvitePendingUser {
   constructor(public payload: any) {}
 }
 
+export class LoadAccessTypes {
+  public readonly type = LOAD_ACCESS_TYPES;
+  constructor(public payload?: any) {}
+}
+
+export class LoadAccessTypesSuccess implements Action {
+  public readonly type = LOAD_ACCESS_TYPES_SUCCESS;
+  constructor(public payload: any) {} 
+}
+
+export class LoadAccessTypesFail implements Action {
+  public readonly type = LOAD_ACCESS_TYPES_FAIL;
+  constructor(public payload: any) {}
+}
+
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
@@ -142,4 +160,7 @@ export type UserActions =
   | SuspendUserFail
   | EditUserServerError
   | ReinvitePendingUser
-  | InviteNewUser;
+  | InviteNewUser
+  | LoadAccessTypes
+  | LoadAccessTypesSuccess
+  | LoadAccessTypesFail;

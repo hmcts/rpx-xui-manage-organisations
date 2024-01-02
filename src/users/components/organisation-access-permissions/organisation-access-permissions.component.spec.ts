@@ -5,7 +5,6 @@ import { TempJurisdicationModel } from './organisation-access-permissions.compon
 import { ReactiveFormsModule } from '@angular/forms';
 
 fdescribe('OrganisationAccessPermissionsComponent', () => {
-  // TODO: neaten up test data
   const knownJurisdictions:TempJurisdicationModel[] = [
     {
       jurisdictionid: '5',

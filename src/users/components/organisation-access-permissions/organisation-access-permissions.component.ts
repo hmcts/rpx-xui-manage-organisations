@@ -9,6 +9,7 @@ import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
+  // todo: remove this when we have the real data
   jurisdictionsExample = `
   [
         {
@@ -108,6 +109,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   ]
   `;
 
+  // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
   @Output() public selectedPermissionsChanged = new EventEmitter<JurisdictionPermissionViewModel[]>();
 
   public jurisdictions: TempJurisdicationModel[] = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];

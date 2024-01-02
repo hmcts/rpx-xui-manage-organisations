@@ -34,8 +34,9 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.loadUsers();
-    // TODO: ensure feature toggle name is added.
+    // ogd-invite-user-flow
     this.searchFiltersEnabled$ = this.featureToggleService.getValue('', true);
+    this.loadUsers();
   }
 
   public inviteNewUser(): void {
@@ -56,6 +57,13 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public handleFilterUpdates(event){
     this.filterValues = event;
+    this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
+    this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
+  }
+
+  public pageChange(pageNumber: number): void {
+    this.currentPageNumber = pageNumber;
+    this.loadUsers();
   }
 
   public ngOnDestroy(): void {

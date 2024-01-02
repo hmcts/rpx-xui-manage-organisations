@@ -1,0 +1,75 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { StaticUserPermissionsComponent } from './static-user-permissions.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
+import { of } from 'rxjs';
+import { GovUiModule } from 'projects/gov-ui/src/public_api';
+
+describe('StaticUserPermissionsComponent', () => {
+  const knownUser: User = {
+    id: '123',
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john@doe.com',
+    roles: [
+      'pui-case-manager',
+      'pui-finance-manager',
+      'pui-organisation-manager',
+      'pui-caa'
+    ],
+    manageCases: 'Yes',
+    manageUsers: 'No',
+    manageOrganisations: 'Yes',
+    managePayments: 'Yes'
+  };
+  let component: StaticUserPermissionsComponent;
+  let fixture: ComponentFixture<StaticUserPermissionsComponent>;
+  let featureToggleServiceSpy: jasmine.SpyObj<FeatureToggleService>;
+
+  beforeEach(async () => {
+    featureToggleServiceSpy = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
+    featureToggleServiceSpy.getValue.withArgs('mo-grant-case-access-admin', false).and.returnValue(of(true));
+    featureToggleServiceSpy.getValue.withArgs('mo-grant-manage-fee-accounts', false).and.returnValue(of(true));
+
+    await TestBed.configureTestingModule({
+      declarations: [StaticUserPermissionsComponent],
+      imports: [ReactiveFormsModule, GovUiModule],
+      providers: [{ provide: FeatureToggleService, useValue: featureToggleServiceSpy }]
+    })
+      .compileComponents();
+
+    fixture = TestBed.createComponent(StaticUserPermissionsComponent);
+    component = fixture.componentInstance;
+    component.user = knownUser;
+    fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    component.ngOnDestroy();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+    expect(component.permissions).toBeTruthy();
+    expect(component.permissions.isPuiCaseManager).toBeTrue();
+    expect(component.permissions.isPuiUserManager).toBeFalse();
+    expect(component.permissions.isPuiFinanceManager).toBeTrue();
+    expect(component.permissions.isPuiOrganisationManager).toBeTrue();
+    expect(component.permissions.isCaseAccessAdmin).toBeTrue();
+  });
+
+  it('should emit permissions when form is updated', () => {
+    // arrange
+    const spy = spyOn(component.selectedPermissionsChanged, 'emit');
+    fixture.detectChanges();
+
+    // act
+    const inputElement = fixture.nativeElement.querySelector('[id="isPuiUserManager"]');
+    inputElement.click();
+
+    // assert
+    expect(component.permissions.isPuiUserManager).toBeTrue();
+    expect(spy).toHaveBeenCalledWith(component.permissions);
+  });
+});

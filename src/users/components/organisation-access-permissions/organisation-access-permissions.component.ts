@@ -60,7 +60,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
                   "display": true,
                   "description": "Just an extra",
                   "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                  "displayOrder": 2,
+                  "displayOrder": 3,
                   "roles": [
                       {
                           "caseTypeId": "38459",
@@ -118,6 +118,9 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   public permissions: JurisdictionPermissionViewModel[];
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
 
+  public hasSolicitorProfile: boolean;
+  public hasOgdProfile: boolean;
+
   private onDestory$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,) {
@@ -125,6 +128,11 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.permissions = this.createPermissionsViewModel();
+
+    const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
+    this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
+    this.hasOgdProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId.startsWith('OGD_'));
+
     this.selectedPermissionsChanged.emit(this.permissions);
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();

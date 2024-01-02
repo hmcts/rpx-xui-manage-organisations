@@ -1,3 +1,10 @@
+<h2 class="govuk-heading-l">Case management and access</h2>
+<!-- Display if OrganisationProfileId = 'SOLICITOR_PROFILE' -->
+<app-solicitor-profile-content
+  *ngIf="hasSolicitorProfile"
+></app-solicitor-profile-content>
+<!-- Display if OrganisationProfileId LIKE 'OGD_*' -->
+<app-ogd-profile-content *ngIf="hasOgdProfile"></app-ogd-profile-content>
 <div class="govuk-form-group">
   <form
     *ngIf="jurisdictionPermissionsForm"
@@ -38,8 +45,9 @@
                     [checked]="accesssType.enabled"
                     formControlName="enabled"
                     type="checkbox"
-                    [attr.aria-disabled]="accesssType.mandatory ? 'true' : 'false'"
-                    
+                    [attr.aria-disabled]="
+                      accesssType.mandatory ? 'true' : 'false'
+                    "
                   />
                   <label
                     class="govuk-label govuk-checkboxes__label"

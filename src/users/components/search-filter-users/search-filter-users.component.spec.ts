@@ -1,5 +1,3 @@
-// search-filter-users.component.spec.ts
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchFilterUserComponent } from './search-filter-users.component';
 import { FormControl, FormGroup } from '@angular/forms';

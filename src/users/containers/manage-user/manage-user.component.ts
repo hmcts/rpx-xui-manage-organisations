@@ -5,9 +5,8 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
-import { User } from '@hmcts/rpx-xui-common-lib';
-import { JurisdictionPermissionViewModel } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
-import { UserPermissionViewModel } from '../../components/static-user-permissions/static-user-permissions.component';
+import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { BasicAccessTypes } from '../../components/static-user-permissions/static-user-permissions.component';
 
 @Component({
   selector: 'app-manage-user',
@@ -47,12 +46,12 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.onDestory$.complete();
   }
 
-  onSelectedOrganisationPermissions($event: JurisdictionPermissionViewModel[]) {
-    this.updatedUser = { ...this.user, jurisdictions: $event };
-    console.log('updatedUser', this.updatedUser);
+  onSelectedOrganisationPermissions($event: UserAccessType[]) {
+    console.log('updatedUser', $event);
+    // todo need to map to new / removed roles
   }
 
-  onSelectedUserPermissionsChange($event: UserPermissionViewModel) {
+  onSelectedUserPermissionsChange($event: BasicAccessTypes) {
     this.updatedUser = { ...this.user, ...$event };
     console.log('updatedUser', this.updatedUser);
   }

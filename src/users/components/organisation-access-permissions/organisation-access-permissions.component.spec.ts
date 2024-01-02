@@ -3,6 +3,7 @@ import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
 import { TempJurisdicationModel } from './organisation-access-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OgdProfileContentComponent, SolicitorProfileContentComponent } from 'src/users/containers';
 
 describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:TempJurisdicationModel[] = [
@@ -69,7 +70,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrganisationAccessPermissionsComponent],
+      declarations: [OrganisationAccessPermissionsComponent, SolicitorProfileContentComponent, OgdProfileContentComponent],
       imports: [ReactiveFormsModule]
     })
       .compileComponents();
@@ -136,6 +137,6 @@ describe('OrganisationAccessPermissionsComponent', () => {
 
     // assert
     expect(component.permissions[0].accessTypes.find((at) => at.accessTypeId === '4').enabled).toBe(false);
-    expect(component.selectedPermissionsChanged.emit).toHaveBeenCalledWith(component.permissions);
+    expect(component.selectedPermissionsChanged.emit).toHaveBeenCalledWith(component.mapPermissionsToUserAccessTypes());
   });
 });

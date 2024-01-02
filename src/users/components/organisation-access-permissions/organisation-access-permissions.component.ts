@@ -110,7 +110,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   `;
 
   // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
-  @Output() public selectedPermissionsChanged = new EventEmitter<JurisdictionPermissionViewModel[]>();
+  @Output() public selectedPermissionsChanged = new EventEmitter<UserAccessType[]>();
 
   public jurisdictions: TempJurisdicationModel[] = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
   public userAccessTypes: UserAccessType[] = JSON.parse(this.userAccessTypesExample) as UserAccessType[];
@@ -133,7 +133,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
     this.hasOgdProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId.startsWith('OGD_'));
 
-    this.selectedPermissionsChanged.emit(this.permissions);
+    this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
   }
@@ -176,13 +176,32 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     });
   }
 
+  public mapPermissionsToUserAccessTypes() {
+    const accessTypes = this.permissions.reduce((acc, permission) => {
+      const orgProfileId = this.jurisdictions[0].accessTypes[0].organisationProfileId;
+      const mappedAccessTypes = permission.accessTypes.map((accessType) => {
+        return {
+          jurisdictionId: permission.jurisdictionId,
+          organisationProfileId: orgProfileId,
+          accessTypeId: accessType.accessTypeId,
+          enabled: accessType.enabled
+        } as UserAccessType;
+      });
+      return acc.concat(mappedAccessTypes);
+    }, []);
+    return accessTypes;
+  }
+
   private subscribeToAccessTypesChanges() {
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
-      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestory$)).subscribe((permissions) => {
-        this.selectedPermissionsChanged.emit(permissions);
-        console.log(permissions);
+      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestory$)).subscribe(() => {
+        this.publishCurrentPermissions();
       });
     });
+  }
+
+  private publishCurrentPermissions() {
+    this.selectedPermissionsChanged.emit(this.mapPermissionsToUserAccessTypes());
   }
 
   private createPermissionChangeObservableForGroup(jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>): Observable<JurisdictionPermissionViewModel[]>{
@@ -260,7 +279,7 @@ export interface TempAccessTypeModel {
   displayOrder: number;
 }
 
-export interface JurisdictionPermissionViewModel {
+interface JurisdictionPermissionViewModel {
   jurisdictionId: string;
   jurisdictionName: string;
   accessTypes: AccessTypePermissionViewModel[];

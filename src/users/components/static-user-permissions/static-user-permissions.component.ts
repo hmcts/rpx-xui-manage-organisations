@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject } from 'rxjs';
@@ -18,10 +11,10 @@ import { User } from '@hmcts/rpx-xui-common-lib';
 export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
   @Input() public user: User;
 
-  @Output() public selectedPermissionsChanged = new EventEmitter<UserPermissionViewModel>();
+  @Output() public selectedPermissionsChanged = new EventEmitter<BasicAccessTypes>();
 
   public permissionsForm: FormGroup<AccessForm>;
-  public permissions: UserPermissionViewModel;
+  public permissions: BasicAccessTypes;
 
   public grantCaseAccessAdmin$: Observable<boolean>;
   public grantFinanceManager$: Observable<boolean>;
@@ -74,7 +67,7 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createPermissionsViewModelFromInput(): UserPermissionViewModel {
+  private createPermissionsViewModelFromInput(): BasicAccessTypes {
     return {
       isPuiCaseManager: this.user?.manageCases === 'Yes',
       isPuiUserManager: this.user?.manageUsers === 'Yes',
@@ -84,7 +77,7 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
     };
   }
 
-  private createPermissionsViewModelFromForm(): UserPermissionViewModel {
+  private createPermissionsViewModelFromForm(): BasicAccessTypes {
     return {
       isPuiCaseManager: this.permissions.isPuiCaseManager,
       isPuiUserManager: this.permissions.isPuiUserManager,
@@ -95,7 +88,7 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
   }
 }
 
-export interface UserPermissionViewModel {
+export interface BasicAccessTypes {
   isPuiCaseManager: boolean;
   isPuiUserManager: boolean;
   isPuiOrganisationManager: boolean;

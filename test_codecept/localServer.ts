@@ -15,15 +15,15 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname);
 
-app.use(express.static(path.join(__dirname, '../dist/rpa-pui-manager', 'assets'), { index: false }));
-app.use(express.static(path.join(__dirname, '../dist/rpa-pui-manager'), { index: false }));
+app.use(express.static(path.join(__dirname, '../dist/rpx-xui-manage-organisations', 'assets'), { index: false }));
+app.use(express.static(path.join(__dirname, '../dist/rpx-xui-manage-organisations'), { index: false }));
 
 /**
  * Used on server.ts only but should be fine to lift and shift to local.ts
  */
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
-    res.render('../dist/rpa-pui-manager/index', {
+    res.render('../dist/rpx-xui-manage-organisations/index', {
         providers: [{ provide: 'REQUEST', useValue: req }, { provide: 'RESPONSE', useValue: res }],
         req,
         res

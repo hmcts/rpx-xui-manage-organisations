@@ -14,7 +14,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 export class RegisteredAddressComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;
 
-  public formGroup = new FormGroup({});
+  public formGroup = new FormGroup<any>({});
   public startedInternational = false;
   public addressChosen = false;
   public headingText = POSTCODE_HEADING;

@@ -34,8 +34,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.loadUsers();
-    // ogd-invite-user-flow
-    this.searchFiltersEnabled$ = this.featureToggleService.getValue('', true);
+    this.searchFiltersEnabled$ = this.featureToggleService.getValue('ogd-invite-user-flow', true);
     this.loadUsers();
   }
 

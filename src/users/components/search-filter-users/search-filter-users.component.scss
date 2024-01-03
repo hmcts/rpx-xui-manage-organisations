@@ -1,10 +1,14 @@
-::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible{
+::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible{
     border-left: 2px solid black;
     border-right: 2px solid black;
     border-bottom: 2px solid black;
 }
 
-.mat-option {
+::ng-deep .mdc-menu-surface.mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible{
+    padding: 0;
+}
+
+.mat-mdc-option {
     padding: 5px;
     margin: 0;
     background: white;

@@ -6,6 +6,8 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import { User } from '@hmcts/rpx-xui-common-lib';
+import { BasicAccessTypes } from '../../components/standard-user-permissions/standard-user-permissions.component';
+import { CaseManagementPermissions } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
 
 @Component({
   selector: 'app-manage-user',
@@ -16,8 +18,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public userId: string;
   public user$: Observable<User>;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
-
+  public user: User;
   private onDestory$ = new Subject<void>();
+  private updatedUser: User;
+
   constructor(private readonly actions$: Actions, private readonly routerStore: Store<fromRoot.State>, private readonly userStore: Store<fromStore.UserState>) {}
 
   ngOnInit(): void {
@@ -29,6 +33,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       this.backUrl = this.getBackurl(this.userId);
     });
 
+    this.user$.pipe(takeUntil(this.onDestory$)).subscribe((user) => {
+      this.user = user;
+    });
+
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
     });
@@ -37,6 +45,29 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
+    // todo: when $event.manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
+    this.updatedUser = { ...this.user, accessTypes: $event.userAccessTypes };
+  }
+
+  onStandardUserPermissionsChange($event: BasicAccessTypes) {
+    // todo: map each property to their respective role
+    const roles: string[] = [];
+    if ($event.isPuiUserManager) {
+      roles.push('pui-user-manager');
+    }
+    if ($event.isPuiFinanceManager) {
+      roles.push('pui-finance-manager');
+    }
+    if ($event.isPuiOrganisationManager) {
+      roles.push('pui-organisation-manager');
+    }
+    if ($event.isCaseAccessAdmin) {
+      roles.push('pui-case-manager');
+    }
+    this.updatedUser = { ...this.user, roles };
   }
 
   private getBackurl(userId: string): string {

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchFilterUserComponent } from './search-filter-users.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { PrdUser } from 'src/users/models/prd-users.model';
 
 describe('SearchFilterUserComponent', () => {
   let component: SearchFilterUserComponent;
@@ -36,7 +37,7 @@ describe('SearchFilterUserComponent', () => {
   it('should emit filter values', () => {
     const filterParams = { name: 'John Doe', email: 'john@example.com', status: 'active' };
     spyOn(component.filterValues, 'emit');
-    component.nameFilterControl.setValue({ firstName: 'John', lastName: 'Doe', email: 'john@example.com' });
+    component.nameFilterControl.setValue({ firstName: 'John', lastName: 'Doe', email: 'john@example.com' } as PrdUser);
     component.statusFilterControl.setValue('active');
     component.formatFiltersAndEmit();
     expect(component.filterValues.emit).toHaveBeenCalledWith(filterParams);

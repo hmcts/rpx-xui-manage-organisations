@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { PrdUser } from 'src/users/models/prd-users.model';
 
 interface User {
   firstName: string;
@@ -20,14 +21,14 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
 
   filteredJudicialUsers$: Observable<User[]>;
   searchFilterUserForm: FormGroup;
-  nameFilterControl: FormControl;
-  statusFilterControl: FormControl;
+  nameFilterControl: FormControl<string | PrdUser>;
+  statusFilterControl: FormControl<string>;
   subscriptions$ = new Subject<void>();
   minSearchCharacters = 3;
   statusFilterConfig: any;
   emitReset = false;
   noResults = false;
-  searchTerm = '';
+  searchTerm: string = '';
   showAutocomplete = false;
   judicialUserSelected = false;
 
@@ -45,7 +46,7 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
       takeUntil(this.subscriptions$),
       tap(() => this.showAutocomplete = false),
       debounceTime(300),
-      tap((searchTerm) => this.searchTerm = searchTerm),
+      tap((searchTerm: string) => this.searchTerm = searchTerm),
       filter((searchTerm) => searchTerm?.length >= this.minSearchCharacters),
       switchMap((searchTerm) => this.filterJudicialUsers(searchTerm).pipe(
         tap((judicialUsers) => {
@@ -62,7 +63,7 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
   }
 
   public formatFiltersAndEmit(){
-    const nameFilterValue = this.nameFilterControl.value;
+    const nameFilterValue = this.nameFilterControl.value as PrdUser;
     const statusFilterValue = this.statusFilterControl.value;
     const filterParams = {
       name: nameFilterValue ? `${nameFilterValue.firstName} ${nameFilterValue.lastName}`.trim() : '',
@@ -136,9 +137,6 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
   }
 
   public onBlur(event: any): void {
-    if (event.relatedTarget?.role !== 'option' && !this.judicialUserSelected) {
-      this.nameFilterControl.setValue('');
-    }
     if (!this.nameFilterControl.value) {
       this.nameFilterControl.setValue('');
       this.formatFiltersAndEmit();

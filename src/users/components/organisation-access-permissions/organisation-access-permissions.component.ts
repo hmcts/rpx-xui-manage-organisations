@@ -128,7 +128,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
         "caseworker-publiclaw",
         "caseworker-publiclaw-solicitor",
         "pui-caa",
-        "pui-case-managersss",
+        "pui-case-manager",
         "pui-finance-manager",
         "pui-organisation-manager",
         "pui-user-manager"
@@ -209,7 +209,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
             enabled: accessType.accessDefault,
             display: accessType.display,
             description: accessType.description,
-            accessMandatory: accessType.accessMandatory
+            accessMandatory: accessType.accessMandatory,
+            hint: accessType.hint
           };
           const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionid);
           if (userAccessType) {
@@ -309,6 +310,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
           enabled: new FormControl({ value: accessType.enabled, disabled: !accessType.display || accessType.accessMandatory }, validation),
           display: new FormControl(accessType.display),
           description: new FormControl(accessType.description),
+          hint: new FormControl(accessType.hint),
           mandatory: new FormControl(accessType.accessMandatory)
         });
       });
@@ -357,6 +359,7 @@ interface AccessTypePermissionViewModel {
   display: boolean;
   accessMandatory: boolean;
   description: string;
+  hint: string;
 }
 
 interface AccessForm {
@@ -375,5 +378,6 @@ interface AccessTypePermissionViewModelForm{
   enabled: FormControl<boolean>;
   display: FormControl<boolean>;
   description: FormControl<string>;
+  hint: FormControl<string>;
   mandatory: FormControl<boolean>;
 }

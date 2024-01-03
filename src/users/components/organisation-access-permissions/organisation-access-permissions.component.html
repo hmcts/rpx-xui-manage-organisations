@@ -25,7 +25,7 @@
       <app-ogd-profile-content *ngIf="hasOgdProfile"></app-ogd-profile-content>
     </ng-container>
 
-    <div formArrayName="jurisdictions" *ngIf="enableCaseManagement">
+    <div formArrayName="jurisdictions" *ngIf="enableCaseManagement" class="govuk-!-margin-left-4">
       <ng-container
         *ngFor="
           let jurisdiction of jurisdictionsFormArray.controls;
@@ -70,6 +70,12 @@
                   >
                     {{ accesssType.description }}
                   </label>
+                  <span
+                    [id]="accesssType.accessTypeId + '-item-hint'"
+                    class="govuk-hint govuk-checkboxes__hint"
+                  >
+                    {{ accesssType.hint }}
+                  </span>
                 </div>
               </ng-container>
             </div>

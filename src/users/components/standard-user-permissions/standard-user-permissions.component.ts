@@ -5,10 +5,10 @@ import { Observable, Subject } from 'rxjs';
 import { User } from '@hmcts/rpx-xui-common-lib';
 
 @Component({
-  selector: 'app-static-user-permissions',
-  templateUrl: './static-user-permissions.component.html'
+  selector: 'app-standard-user-permissions',
+  templateUrl: './standard-user-permissions.component.html'
 })
-export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
+export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   @Input() public user: User;
 
   @Output() public selectedPermissionsChanged = new EventEmitter<BasicAccessTypes>();
@@ -48,7 +48,6 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
 
   createFormAndPopulate() {
     this.permissionsForm = this.fb.nonNullable.group<AccessForm>({
-      isPuiCaseManager: new FormControl<boolean>(this.permissions.isPuiCaseManager),
       isPuiUserManager: new FormControl<boolean>(this.permissions.isPuiUserManager),
       isPuiOrganisationManager: new FormControl<boolean>(this.permissions.isPuiOrganisationManager),
       isPuiFinanceManager: new FormControl<boolean>(this.permissions.isPuiFinanceManager),
@@ -58,7 +57,6 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
 
   private subscribeToAccessTypesChanges() {
     this.permissionsForm.valueChanges.subscribe((permissions) => {
-      this.permissions.isPuiCaseManager = permissions.isPuiCaseManager;
       this.permissions.isPuiUserManager = permissions.isPuiUserManager;
       this.permissions.isPuiOrganisationManager = permissions.isPuiOrganisationManager;
       this.permissions.isPuiFinanceManager = permissions.isPuiFinanceManager;
@@ -69,7 +67,6 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
 
   private createPermissionsViewModelFromInput(): BasicAccessTypes {
     return {
-      isPuiCaseManager: this.user?.manageCases === 'Yes',
       isPuiUserManager: this.user?.manageUsers === 'Yes',
       isPuiOrganisationManager: this.user?.manageOrganisations === 'Yes',
       isPuiFinanceManager: this.user?.managePayments === 'Yes',
@@ -79,7 +76,6 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
 
   private createPermissionsViewModelFromForm(): BasicAccessTypes {
     return {
-      isPuiCaseManager: this.permissions.isPuiCaseManager,
       isPuiUserManager: this.permissions.isPuiUserManager,
       isPuiOrganisationManager: this.permissions.isPuiOrganisationManager,
       isPuiFinanceManager: this.permissions.isPuiFinanceManager,
@@ -89,7 +85,6 @@ export class StaticUserPermissionsComponent implements OnInit, OnDestroy {
 }
 
 export interface BasicAccessTypes {
-  isPuiCaseManager: boolean;
   isPuiUserManager: boolean;
   isPuiOrganisationManager: boolean;
   isPuiFinanceManager: boolean;
@@ -97,7 +92,6 @@ export interface BasicAccessTypes {
 }
 
 interface AccessForm {
-  isPuiCaseManager: FormControl<boolean>;
   isPuiUserManager: FormControl<boolean>;
   isPuiOrganisationManager: FormControl<boolean>;
   isPuiFinanceManager: FormControl<boolean>;

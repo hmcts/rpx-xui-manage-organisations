@@ -5,10 +5,12 @@
 >
 </app-hmcts-main-wrapper>
 
-<app-static-user-permissions
+<app-standard-user-permissions
   [user]="this.user"
-  (selectedPermissionsChanged)="onSelectedUserPermissionsChange($event)"
-></app-static-user-permissions>
+  (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
+></app-standard-user-permissions>
 <app-organisation-access-permissions
-  (selectedPermissionsChanged)="onSelectedOrganisationPermissions($event)"
+  (selectedPermissionsChanged)="
+    onSelectedCaseManagamentPermissionsChange($event)
+  "
 ></app-organisation-access-permissions>

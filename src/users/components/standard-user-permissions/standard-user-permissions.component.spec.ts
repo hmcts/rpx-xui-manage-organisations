@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StaticUserPermissionsComponent } from './static-user-permissions.component';
+import { StandardUserPermissionsComponent } from './standard-user-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
 import { of } from 'rxjs';
@@ -23,8 +23,8 @@ describe('StaticUserPermissionsComponent', () => {
     manageOrganisations: 'Yes',
     managePayments: 'Yes'
   };
-  let component: StaticUserPermissionsComponent;
-  let fixture: ComponentFixture<StaticUserPermissionsComponent>;
+  let component: StandardUserPermissionsComponent;
+  let fixture: ComponentFixture<StandardUserPermissionsComponent>;
   let featureToggleServiceSpy: jasmine.SpyObj<FeatureToggleService>;
 
   beforeEach(async () => {
@@ -33,13 +33,13 @@ describe('StaticUserPermissionsComponent', () => {
     featureToggleServiceSpy.getValue.withArgs('mo-grant-manage-fee-accounts', false).and.returnValue(of(true));
 
     await TestBed.configureTestingModule({
-      declarations: [StaticUserPermissionsComponent],
+      declarations: [StandardUserPermissionsComponent],
       imports: [ReactiveFormsModule, GovUiModule],
       providers: [{ provide: FeatureToggleService, useValue: featureToggleServiceSpy }]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(StaticUserPermissionsComponent);
+    fixture = TestBed.createComponent(StandardUserPermissionsComponent);
     component = fixture.componentInstance;
     component.user = knownUser;
     fixture.detectChanges();
@@ -52,7 +52,6 @@ describe('StaticUserPermissionsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(component.permissions).toBeTruthy();
-    expect(component.permissions.isPuiCaseManager).toBeTrue();
     expect(component.permissions.isPuiUserManager).toBeFalse();
     expect(component.permissions.isPuiFinanceManager).toBeTrue();
     expect(component.permissions.isPuiOrganisationManager).toBeTrue();

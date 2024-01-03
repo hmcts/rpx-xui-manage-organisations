@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
 
 @Component({
@@ -109,26 +109,74 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   ]
   `;
 
-  // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
-  @Output() public selectedPermissionsChanged = new EventEmitter<UserAccessType[]>();
+  userExample = `
+  {
+    "email": "probate.aat.manage.org2@gmail.com",
+    "orgId": "GCXGCY1",
+    "roles": [
+        "caseworker",
+        "caseworker-civil",
+        "caseworker-civil-solicitor",
+        "caseworker-divorce",
+        "caseworker-divorce-financialremedy",
+        "caseworker-divorce-financialremedy-solicitor",
+        "caseworker-divorce-solicitor",
+        "caseworker-ia",
+        "caseworker-ia-legalrep-solicitor",
+        "caseworker-probate",
+        "caseworker-probate-solicitor",
+        "caseworker-publiclaw",
+        "caseworker-publiclaw-solicitor",
+        "pui-caa",
+        "pui-case-managersss",
+        "pui-finance-manager",
+        "pui-organisation-manager",
+        "pui-user-manager"
+    ],
+    "sessionTimeout": {
+        "idleModalDisplayTime": 10,
+        "pattern": ".",
+        "totalIdleTime": 50
+    },
+    "userId": "cf2daba2-7418-4a52-bcb4-cae11501f25f",
+    "accessTypes": [
+      {
+        "jurisdictionId": "5",
+        "organisationProfileId": "SOLICITOR_PROFILE",
+        "accessTypeId": "34",
+        "enabled": true
+      }
+    ]
+  }
+  `;
 
-  public jurisdictions: TempJurisdicationModel[] = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
-  public userAccessTypes: UserAccessType[] = JSON.parse(this.userAccessTypesExample) as UserAccessType[];
+  // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
+  @Input() public jurisdictions: TempJurisdicationModel[];
+  @Input() user: User;
+
+  @Output() public selectedPermissionsChanged = new EventEmitter<CaseManagementPermissions>();
 
   public permissions: JurisdictionPermissionViewModel[];
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
 
   public hasSolicitorProfile: boolean;
   public hasOgdProfile: boolean;
+  public enableCaseManagement: boolean;
 
+  private userAccessTypes: UserAccessType[];
   private onDestory$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef,) {
+  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
+    // TODO: remove this when we have the real data
+    this.jurisdictions = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
+    this.user = JSON.parse(this.userExample) as User;
   }
 
   ngOnInit(): void {
-    this.permissions = this.createPermissionsViewModel();
+    this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager');
+    this.userAccessTypes = this.user?.accessTypes ?? [];
 
+    this.permissions = this.createPermissionsViewModel();
     const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
     this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
     this.hasOgdProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId.startsWith('OGD_'));
@@ -148,6 +196,9 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   public createPermissionsViewModel() : JurisdictionPermissionViewModel[] {
+    if (!this.jurisdictions){
+      return [];
+    }
     return this.jurisdictions.map((jurisdiction) => {
       const accessTypes = jurisdiction.accessTypes
         .sort((a, b) => a.displayOrder - b.displayOrder)
@@ -177,6 +228,9 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   public mapPermissionsToUserAccessTypes() {
+    if (!this.enableCaseManagement){
+      return [];
+    }
     const accessTypes = this.permissions.reduce((acc, permission) => {
       const orgProfileId = this.jurisdictions[0].accessTypes[0].organisationProfileId;
       const mappedAccessTypes = permission.accessTypes.map((accessType) => {
@@ -193,6 +247,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   private subscribeToAccessTypesChanges() {
+    this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges.pipe(takeUntil(this.onDestory$)).subscribe((enableCaseManagement) => {
+      this.enableCaseManagement = enableCaseManagement;
+      this.publishCurrentPermissions();
+    });
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
       this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestory$)).subscribe(() => {
         this.publishCurrentPermissions();
@@ -201,7 +259,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   private publishCurrentPermissions() {
-    this.selectedPermissionsChanged.emit(this.mapPermissionsToUserAccessTypes());
+    this.selectedPermissionsChanged.emit({
+      manageCases: this.enableCaseManagement,
+      userAccessTypes: this.mapPermissionsToUserAccessTypes()
+    });
   }
 
   private createPermissionChangeObservableForGroup(jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>): Observable<JurisdictionPermissionViewModel[]>{
@@ -231,6 +292,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   private createFormAndPopulate() {
     this.jurisdictionPermissionsForm = this.fb.nonNullable.group<AccessForm>({
+      enableCaseManagement: this.fb.nonNullable.control<boolean>(this.enableCaseManagement),
       jurisdictions: this.fb.nonNullable.array<FormGroup<JurisdictionPermissionViewModelForm>>([])
     });
 
@@ -279,6 +341,11 @@ export interface TempAccessTypeModel {
   displayOrder: number;
 }
 
+export interface CaseManagementPermissions {
+  manageCases: boolean;
+  userAccessTypes: UserAccessType[];
+}
+
 interface JurisdictionPermissionViewModel {
   jurisdictionId: string;
   jurisdictionName: string;
@@ -293,6 +360,7 @@ interface AccessTypePermissionViewModel {
 }
 
 interface AccessForm {
+  enableCaseManagement: FormControl<boolean>;
   jurisdictions: FormArray<FormGroup<JurisdictionPermissionViewModelForm>>;
 }
 

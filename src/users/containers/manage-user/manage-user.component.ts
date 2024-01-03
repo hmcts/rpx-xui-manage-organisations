@@ -5,8 +5,9 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
-import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { BasicAccessTypes } from '../../components/static-user-permissions/static-user-permissions.component';
+import { User } from '@hmcts/rpx-xui-common-lib';
+import { BasicAccessTypes } from '../../components/standard-user-permissions/standard-user-permissions.component';
+import { CaseManagementPermissions } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
 
 @Component({
   selector: 'app-manage-user',
@@ -46,14 +47,27 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.onDestory$.complete();
   }
 
-  onSelectedOrganisationPermissions($event: UserAccessType[]) {
-    console.log('updatedUser', $event);
-    // todo need to map to new / removed roles
+  onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
+    // todo: when $event.manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
+    this.updatedUser = { ...this.user, accessTypes: $event.userAccessTypes };
   }
 
-  onSelectedUserPermissionsChange($event: BasicAccessTypes) {
-    this.updatedUser = { ...this.user, ...$event };
-    console.log('updatedUser', this.updatedUser);
+  onStandardUserPermissionsChange($event: BasicAccessTypes) {
+    // todo: map each property to their respective role
+    const roles: string[] = [];
+    if ($event.isPuiUserManager) {
+      roles.push('pui-user-manager');
+    }
+    if ($event.isPuiFinanceManager) {
+      roles.push('pui-finance-manager');
+    }
+    if ($event.isPuiOrganisationManager) {
+      roles.push('pui-organisation-manager');
+    }
+    if ($event.isCaseAccessAdmin) {
+      roles.push('pui-case-manager');
+    }
+    this.updatedUser = { ...this.user, roles };
   }
 
   private getBackurl(userId: string): string {

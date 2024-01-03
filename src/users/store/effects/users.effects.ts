@@ -6,7 +6,6 @@ import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
 import * as usersActions from '../actions';
-import { userInfo } from 'os';
 
 @Injectable()
 export class UsersEffects {

@@ -1,9 +1,31 @@
+<h2 class="govuk-heading-l">Case management and access</h2>
 <div class="govuk-form-group">
   <form
     *ngIf="jurisdictionPermissionsForm"
     [formGroup]="jurisdictionPermissionsForm"
   >
-    <div formArrayName="jurisdictions">
+    <lib-gov-checkbox
+      [group]="jurisdictionPermissionsForm"
+      [config]="{
+        value: 'enableCaseManagement',
+        label: 'Manage cases for your organisation',
+        name: 'enableCaseManagement',
+        hint: 'This provides the user with access to submat and manage claims.',
+        hiddenLabelContext:
+          'This provides the user with access to submat and manage claims '
+      }"
+    >
+    </lib-gov-checkbox>
+
+    <ng-container *ngIf="enableCaseManagement">
+      <app-solicitor-profile-content
+        *ngIf="hasSolicitorProfile"
+      ></app-solicitor-profile-content>
+      <!-- Display if OrganisationProfileId LIKE 'OGD_*' -->
+      <app-ogd-profile-content *ngIf="hasOgdProfile"></app-ogd-profile-content>
+    </ng-container>
+
+    <div formArrayName="jurisdictions" *ngIf="enableCaseManagement" class="govuk-!-margin-left-4">
       <ng-container
         *ngFor="
           let jurisdiction of jurisdictionsFormArray.controls;
@@ -38,8 +60,9 @@
                     [checked]="accesssType.enabled"
                     formControlName="enabled"
                     type="checkbox"
-                    [attr.aria-disabled]="accesssType.mandatory ? 'true' : 'false'"
-                    
+                    [attr.aria-disabled]="
+                      accesssType.mandatory ? 'true' : 'false'
+                    "
                   />
                   <label
                     class="govuk-label govuk-checkboxes__label"
@@ -47,6 +70,12 @@
                   >
                     {{ accesssType.description }}
                   </label>
+                  <span
+                    [id]="accesssType.accessTypeId + '-item-hint'"
+                    class="govuk-hint govuk-checkboxes__hint"
+                  >
+                    {{ accesssType.hint }}
+                  </span>
                 </div>
               </ng-container>
             </div>

@@ -1,10 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
+import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { CaseManagementPermissions, OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
 import { TempJurisdicationModel } from './organisation-access-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { OgdProfileContentComponent, SolicitorProfileContentComponent } from 'src/users/containers';
+import { GovUiModule } from 'projects/gov-ui/src/public_api';
 
-fdescribe('OrganisationAccessPermissionsComponent', () => {
+describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:TempJurisdicationModel[] = [
     {
       jurisdictionid: '5',
@@ -64,13 +66,27 @@ fdescribe('OrganisationAccessPermissionsComponent', () => {
 
   ];
 
+  const userWithCaseManagerRole: User = {
+    email: 'john@doe.com',
+    fullName: 'John Doe',
+    accessTypes: knownExistingUserAccessType,
+    roles: ['pui-case-manager']
+  };
+
+  const userWithoutCaseManagerRole: User = {
+    email: 'john@doe.com',
+    fullName: 'John Doe',
+    accessTypes: [],
+    roles: []
+  };
+
   let component: OrganisationAccessPermissionsComponent;
   let fixture: ComponentFixture<OrganisationAccessPermissionsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrganisationAccessPermissionsComponent],
-      imports: [ReactiveFormsModule]
+      declarations: [OrganisationAccessPermissionsComponent, SolicitorProfileContentComponent, OgdProfileContentComponent],
+      imports: [ReactiveFormsModule, GovUiModule]
     })
       .compileComponents();
 
@@ -82,60 +98,106 @@ fdescribe('OrganisationAccessPermissionsComponent', () => {
     component.ngOnDestroy();
   });
 
-  it('should create', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
+  describe('User with case manager role', () => {
+    beforeEach(() => {
+      component.jurisdictions = knownJurisdictions;
+      component.user = userWithCaseManagerRole;
+    });
 
-    expect(component).toBeTruthy();
-    expect(component.permissions).toBeTruthy();
-    expect(component.jurisdictionPermissionsForm).toBeTruthy();
+    it('should create', () => {
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(component).toBeTruthy();
+      expect(component.permissions).toBeTruthy();
+      expect(component.jurisdictionPermissionsForm).toBeTruthy();
+    });
+
+    it('should setup permissions model from org and user models', () => {
+      // act
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      // assert
+      const jurisdiction = component.permissions[0];
+      // assert simple properties
+      expect(jurisdiction.jurisdictionName).toBe('Family Public Law');
+      expect(jurisdiction.jurisdictionId).toBe('5');
+      // should filter hidden access types
+      expect(jurisdiction.accessTypes.length).toBe(3);
+      // check order
+      expect(jurisdiction.accessTypes[0].accessTypeId).toBe('3');
+      expect(jurisdiction.accessTypes[1].accessTypeId).toBe('1');
+      expect(jurisdiction.accessTypes[2].accessTypeId).toBe('4');
+      // check enabled
+      expect(jurisdiction.accessTypes[0].enabled).toBe(true);
+      expect(jurisdiction.accessTypes[1].enabled).toBe(false);
+      expect(jurisdiction.accessTypes[2].enabled).toBe(true); // mandatory must be enabled
+    });
+
+    it('should emit permissions model when form is updated', () => {
+      // arrange
+      spyOn(component.selectedPermissionsChanged, 'emit');
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      // act
+      const jurisdiction = component.permissions[0];
+      expect(jurisdiction.accessTypes[2].accessTypeId).withContext('access type with id 4 exists').toBe('4');
+      expect(jurisdiction.accessTypes[2].enabled).withContext('access type with id 4 is enabled').toBe(true);
+      expect(fixture.debugElement.nativeElement.innerHTML).toContain('id="4"');
+      const inputElement = fixture.nativeElement.querySelector('[id="4"]');
+      inputElement.click();
+
+      // assert
+      expect(component.permissions[0].accessTypes.find((at) => at.accessTypeId === '4').enabled).toBe(false);
+      expect(component.selectedPermissionsChanged.emit).toHaveBeenCalledWith({
+        manageCases: true,
+        userAccessTypes: component.mapPermissionsToUserAccessTypes()
+      } as CaseManagementPermissions);
+    });
   });
 
-  it('should setup permissions model from org and user models', () => {
-    // arrange
-    component.jurisdictions = knownJurisdictions;
-    component.userAccessTypes = knownExistingUserAccessType;
+  describe('User without case manager role', () => {
+    beforeEach(() => {
+      component.jurisdictions = knownJurisdictions;
+      component.user = userWithoutCaseManagerRole;
+    });
 
-    // act
-    component.ngOnInit();
-    fixture.detectChanges();
+    it('should set up with no access types', () => {
+      // arrange
+      spyOn(component.selectedPermissionsChanged, 'emit');
+      component.ngOnInit();
+      fixture.detectChanges();
 
-    // assert
-    const jurisdiction = component.permissions[0];
-    // assert simple properties
-    expect(jurisdiction.jurisdictionName).toBe('Family Public Law');
-    expect(jurisdiction.jurisdictionId).toBe('5');
-    // should filter hidden access types
-    expect(jurisdiction.accessTypes.length).toBe(3);
-    // check order
-    expect(jurisdiction.accessTypes[0].accessTypeId).toBe('3');
-    expect(jurisdiction.accessTypes[1].accessTypeId).toBe('1');
-    expect(jurisdiction.accessTypes[2].accessTypeId).toBe('4');
-    // check enabled
-    expect(jurisdiction.accessTypes[0].enabled).toBe(true);
-    expect(jurisdiction.accessTypes[1].enabled).toBe(false);
-    expect(jurisdiction.accessTypes[2].enabled).toBe(true); // mandatory must be enabled
-  });
+      // assert
+      expect(component).toBeTruthy();
+      expect(component.permissions).toBeTruthy();
+      expect(component.jurisdictionPermissionsForm).toBeTruthy();
+      expect(component.selectedPermissionsChanged.emit).toHaveBeenCalledWith({
+        manageCases: false,
+        userAccessTypes: []
+      } as CaseManagementPermissions);
+      const inputElement = fixture.nativeElement.querySelector('[id="4"]');
+      expect(inputElement).toBeNull();
+    });
 
-  it('should emit permissions model when form is updated', () => {
-    // arrange
-    spyOn(component.selectedPermissionsChanged, 'emit');
+    it('should display access types when case manager role is selected', () => {
+      // arrange
+      spyOn(component.selectedPermissionsChanged, 'emit');
+      component.ngOnInit();
+      fixture.detectChanges();
 
-    component.jurisdictions = knownJurisdictions;
-    component.userAccessTypes = knownExistingUserAccessType;
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    // act
-    const jurisdiction = component.permissions[0];
-    expect(jurisdiction.accessTypes[2].accessTypeId).withContext('access type with id 4 exists').toBe('4');
-    expect(jurisdiction.accessTypes[2].enabled).withContext('access type with id 4 is enabled').toBe(true);
-    expect(fixture.debugElement.nativeElement.innerHTML).toContain('id="4"');
-    const inputElement = fixture.nativeElement.querySelector('[id="4"]');
-    inputElement.click();
-
-    // assert
-    expect(component.permissions[0].accessTypes.find((at) => at.accessTypeId === '4').enabled).toBe(false);
-    expect(component.selectedPermissionsChanged.emit).toHaveBeenCalledWith(component.permissions);
+      // act
+      const caseManageRoleCheckbox = fixture.nativeElement.querySelector('[id="enableCaseManagement"]');
+      caseManageRoleCheckbox.click();
+      expect(component.selectedPermissionsChanged.emit).toHaveBeenCalledWith({
+        manageCases: true,
+        userAccessTypes: component.mapPermissionsToUserAccessTypes()
+      } as CaseManagementPermissions);
+      fixture.detectChanges();
+      const accessTypeCheckbox = fixture.nativeElement.querySelector('[id="4"]');
+      expect(accessTypeCheckbox).not.toBeNull();
+    });
   });
 });

@@ -43,10 +43,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new fromStore.LoadUsers(pageNumber));
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
-    this.accessTypes$ = this.store.dispatch(select(fromStore.getAccessTypes))
-    this.usersService.retrieveAccessType(['1']).subscribe((accessTypes) => {
-      console.log(accessTypes);
-    })
+    this.store.dispatch(select(fromStore.getAccessTypes))
+    this.accessTypes$ = this.store.pipe(select(fromStore.getAccessTypes));
   }
 
   public getAllUsers(): Subscription {

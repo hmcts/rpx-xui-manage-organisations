@@ -127,7 +127,7 @@ export class ReinvitePendingUser {
 
 export class LoadAccessTypes {
   public readonly type = LOAD_ACCESS_TYPES;
-  constructor(public payload?: any) {}
+  constructor(public payload?: string[]) {}
 }
 
 export class LoadAccessTypesSuccess implements Action {

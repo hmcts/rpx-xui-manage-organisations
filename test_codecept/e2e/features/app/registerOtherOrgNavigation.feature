@@ -1,4 +1,3 @@
-
 @fullFunctional @ignore
 Feature: Register other org, Navigations
 

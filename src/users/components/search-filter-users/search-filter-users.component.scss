@@ -8,6 +8,10 @@
     padding: 0;
 }
 
+::ng-deep .hmcts-pagination__link{
+    color: #1d70b8;
+}
+
 .mat-mdc-option {
     padding: 5px;
     margin: 0;

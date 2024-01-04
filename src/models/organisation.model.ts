@@ -39,3 +39,20 @@ export interface OrganisationDetails {
   companyRegistrationNumber?: string;
   regulators?: Regulator[];
 }
+
+export interface Jurisdiction {
+  jurisdictionid: string;
+  jurisdictionName: string;
+  accessTypes: OrganisationAccessType[];
+}
+
+export interface OrganisationAccessType {
+  organisationProfileId: string;
+  accessTypeId: string;
+  accessMandatory: boolean;
+  accessDefault: boolean;
+  display: boolean;
+  description: string;
+  hint: string;
+  displayOrder: number;
+}

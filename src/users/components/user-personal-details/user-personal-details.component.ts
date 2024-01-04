@@ -58,6 +58,11 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
         this.errors.lastName = this.getErrorForControl('lastName');
         this.errors.email = this.getErrorForControl('email');
       }
+      this.personalDetailsChanged.emit({
+        email: null,
+        firstName: null,
+        lastName: null
+      });
     });
   }
 

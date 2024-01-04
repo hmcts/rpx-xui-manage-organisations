@@ -4,14 +4,16 @@
   [title]="'Manage user'"
 >
   <app-user-personal-details
-    [user]="this.user"
+    [user]="user"
     (personalDetailsChanged)="onPersonalDetailsChange($event)"
   ></app-user-personal-details>
   <app-standard-user-permissions
-    [user]="this.user"
+    [user]="user"
     (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
   ></app-standard-user-permissions>
   <app-organisation-access-permissions
+    [jurisdictions]="jurisdictions"
+    [user]="user"
     (selectedPermissionsChanged)="
       onSelectedCaseManagamentPermissionsChange($event)
     "

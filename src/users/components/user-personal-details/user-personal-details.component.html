@@ -18,10 +18,8 @@
         }"
         [group]="personalDetailForm"
         [errorMessage]="{
-          isInvalid: this.personalDetailForm.controls.firstName.invalid,
-          messages: getErrorAsText(
-            this.personalDetailForm.controls.firstName.errors
-          )
+          isInvalid: errors.firstName.length > 0,
+          messages: errors.firstName
         }"
       >
       </xuilib-gov-uk-input>
@@ -42,10 +40,8 @@
         }"
         [group]="personalDetailForm"
         [errorMessage]="{
-          isInvalid: this.personalDetailForm.controls.lastName.invalid,
-          messages: getErrorAsText(
-            this.personalDetailForm.controls.lastName.errors
-          )
+          isInvalid: errors.lastName.length > 0,
+          messages: errors.lastName
         }"
       >
       </xuilib-gov-uk-input>
@@ -67,10 +63,8 @@
         }"
         [group]="personalDetailForm"
         [errorMessage]="{
-          isInvalid: this.personalDetailForm.controls.email.invalid,
-          messages: getErrorAsText(
-            this.personalDetailForm.controls.email.errors
-          )
+          isInvalid: errors.email.length > 0,
+          messages: errors.email
         }"
       >
       </xuilib-gov-uk-input>

@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { CaseManagementPermissions, OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
+import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
 import { TempJurisdicationModel } from './organisation-access-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OgdProfileContentComponent, SolicitorProfileContentComponent } from 'src/users/containers';
 import { GovUiModule } from 'projects/gov-ui/src/public_api';
+import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 
 describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:TempJurisdicationModel[] = [

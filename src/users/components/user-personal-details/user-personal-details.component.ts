@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { Subject } from 'rxjs';
+import { PersonalDetails } from '../../models/personal-details.model';
 
 @Component({
   selector: 'app-user-personal-details',
@@ -24,6 +25,11 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
   public personalDetailForm: FormGroup<PersonalDetailsForm>;
   // edit mode is currently read only
   public inviteMode: boolean;
+  public errors: {firstName: string[], lastName: string[], email: string[]} = {
+    firstName: [],
+    lastName: [],
+    email: []
+  };
 
   private _existingUser: UserDetails;
 
@@ -47,8 +53,20 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
           email: personalDetails.email,
           firstName: personalDetails.firstName,
           lastName: personalDetails.lastName });
+      } else {
+        this.errors.firstName = this.getErrorForControl('firstName');
+        this.errors.lastName = this.getErrorForControl('lastName');
+        this.errors.email = this.getErrorForControl('email');
       }
     });
+  }
+
+  getErrorForControl(controlName: string){
+    if (!this.personalDetailForm.controls[controlName].dirty){
+      return [];
+    }
+    const errors = this.personalDetailForm.controls[controlName].errors;
+    return this.getErrorAsText(errors);
   }
 
   getErrorAsText(errors: ValidationErrors): string[] {
@@ -69,12 +87,6 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
     this.onDestory$.next();
     this.onDestory$.complete();
   }
-}
-
-export interface PersonalDetails {
-  firstName: string;
-  lastName: string;
-  email: string;
 }
 
 interface PersonalDetailsForm {

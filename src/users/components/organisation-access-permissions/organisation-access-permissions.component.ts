@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
+import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -341,11 +342,6 @@ export interface TempAccessTypeModel {
   description: string;
   hint: string;
   displayOrder: number;
-}
-
-export interface CaseManagementPermissions {
-  manageCases: boolean;
-  userAccessTypes: UserAccessType[];
 }
 
 interface JurisdictionPermissionViewModel {

@@ -6,9 +6,9 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import { User } from '@hmcts/rpx-xui-common-lib';
-import { BasicAccessTypes } from '../../components/standard-user-permissions/standard-user-permissions.component';
-import { CaseManagementPermissions } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
-import { PersonalDetails } from 'src/users/components';
+import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
+import { BasicAccessTypes } from '../../models/basic-access-types.model';
+import { PersonalDetails } from '../../models/personal-details.model';
 
 @Component({
   selector: 'app-manage-user',
@@ -35,7 +35,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     this.user$.pipe(takeUntil(this.onDestory$)).subscribe((user) => {
-      console.log('user', user);
       this.user = user;
     });
 

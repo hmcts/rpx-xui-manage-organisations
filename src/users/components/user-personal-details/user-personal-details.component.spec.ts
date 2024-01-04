@@ -4,7 +4,6 @@ import { UserPersonalDetailsComponent } from './user-personal-details.component'
 import { ExuiCommonLibModule, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RpxTranslationService } from 'rpx-xui-translation';
-import { first } from 'rxjs-compat/operator/first';
 
 fdescribe('UserPersonalDetailsComponent', () => {
   const knownUser: UserDetails = {
@@ -69,6 +68,8 @@ fdescribe('UserPersonalDetailsComponent', () => {
     });
 
     it('should setup component as editable', () => {
+      const spy = spyOn(component.personalDetailsChanged, 'emit');
+
       expect(component).toBeTruthy();
       expect(component.user).toBeFalsy();
       expect(component.inviteMode).toBeTrue();
@@ -80,14 +81,23 @@ fdescribe('UserPersonalDetailsComponent', () => {
 
       const firstNameElement = fixture.nativeElement.querySelector('[id="firstName"]') as HTMLInputElement;
       firstNameElement.value = 'John';
+      firstNameElement.dispatchEvent(new Event('input'));
 
       expect(component.personalDetailForm.controls.firstName.value).toBe('John');
 
       const lastNameElement = fixture.nativeElement.querySelector('[id="lastName"]');
       lastNameElement.value = 'Doe';
+      lastNameElement.dispatchEvent(new Event('input'));
 
       const emailElement = fixture.nativeElement.querySelector('[id="email"]');
       emailElement.value = 'john@doe.com';
+      emailElement.dispatchEvent(new Event('input'));
+
+      expect(spy).toHaveBeenCalledWith({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@doe.com'
+      });
     });
   });
 });

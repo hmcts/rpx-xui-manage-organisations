@@ -5,7 +5,7 @@ import { ExuiCommonLibModule, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RpxTranslationService } from 'rpx-xui-translation';
 
-fdescribe('UserPersonalDetailsComponent', () => {
+describe('UserPersonalDetailsComponent', () => {
   const knownUser: UserDetails = {
     firstName: 'John',
     lastName: 'Doe',

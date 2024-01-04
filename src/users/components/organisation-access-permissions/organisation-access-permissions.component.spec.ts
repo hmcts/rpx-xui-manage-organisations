@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { ExuiCommonLibModule, User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
 import { TempJurisdicationModel } from './organisation-access-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OgdProfileContentComponent, SolicitorProfileContentComponent } from 'src/users/containers';
-import { GovUiModule } from 'projects/gov-ui/src/public_api';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
+import { RpxTranslationService } from 'rpx-xui-translation';
 
 describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:TempJurisdicationModel[] = [
@@ -83,11 +83,13 @@ describe('OrganisationAccessPermissionsComponent', () => {
 
   let component: OrganisationAccessPermissionsComponent;
   let fixture: ComponentFixture<OrganisationAccessPermissionsComponent>;
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganisationAccessPermissionsComponent, SolicitorProfileContentComponent, OgdProfileContentComponent],
-      imports: [ReactiveFormsModule, GovUiModule]
+      imports: [ReactiveFormsModule, ExuiCommonLibModule],
+      providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
     })
       .compileComponents();
 

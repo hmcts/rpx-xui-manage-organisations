@@ -23,6 +23,12 @@ import * as fromServices from './services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RpxTranslationModule } from 'rpx-xui-translation';
+import { OgdDwpProfileContentComponent } from './containers/ogd-dwp-profile-content/ogd-dwp-profile-content.component';
+import { OgdHoProfileContentComponent } from './containers/ogd-ho-profile-content/ogd-ho-profile-content.component';
+import { OgdHmrcProfileContentComponent } from './containers/ogd-hmrc-profile-content/ogd-hmrc-profile-content.component';
+import { OgdCicaProfileContentComponent } from './containers/ogd-cica-profile-content/ogd-cica-profile-content.component';
+import { OgdCafcassEnProfileContentComponent } from './containers/ogd-cafcass-en-profile-content/ogd-cafcass-en-profile-content.component';
+import { OgdCafcassCyProfileContentComponent } from './containers/ogd-cafcass-cy-profile-content/ogd-cafcass-cy-profile-content.component';
 
 @NgModule({
   imports: [
@@ -39,7 +45,7 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
     RpxTranslationModule.forChild()
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components, OgdDwpProfileContentComponent, OgdHoProfileContentComponent, OgdHmrcProfileContentComponent, OgdCicaProfileContentComponent, OgdCafcassEnProfileContentComponent, OgdCafcassCyProfileContentComponent],
   providers: [...fromServices.services, InviteUserSuccessGuard]
 })
 

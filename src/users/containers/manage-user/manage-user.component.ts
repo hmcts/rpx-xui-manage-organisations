@@ -8,6 +8,7 @@ import * as fromStore from '../../store';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { BasicAccessTypes } from '../../components/standard-user-permissions/standard-user-permissions.component';
 import { CaseManagementPermissions } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
+import { PersonalDetails } from 'src/users/components';
 
 @Component({
   selector: 'app-manage-user',
@@ -34,6 +35,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     this.user$.pipe(takeUntil(this.onDestory$)).subscribe((user) => {
+      console.log('user', user);
       this.user = user;
     });
 
@@ -45,6 +47,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  onPersonalDetailsChange($event: PersonalDetails){
+    this.updatedUser = { ...this.user, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
   }
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {

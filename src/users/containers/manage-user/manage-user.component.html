@@ -3,15 +3,17 @@
   [backLink]="backUrl"
   [title]="'Manage user'"
 >
+  <app-user-personal-details
+    [user]="this.user"
+    (personalDetailsChanged)="onPersonalDetailsChange($event)"
+  ></app-user-personal-details>
+  <app-standard-user-permissions
+    [user]="this.user"
+    (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
+  ></app-standard-user-permissions>
+  <app-organisation-access-permissions
+    (selectedPermissionsChanged)="
+      onSelectedCaseManagamentPermissionsChange($event)
+    "
+  ></app-organisation-access-permissions>
 </app-hmcts-main-wrapper>
-
-<app-user-personal-details></app-user-personal-details>
-<app-standard-user-permissions
-  [user]="this.user"
-  (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
-></app-standard-user-permissions>
-<app-organisation-access-permissions
-  (selectedPermissionsChanged)="
-    onSelectedCaseManagamentPermissionsChange($event)
-  "
-></app-organisation-access-permissions>

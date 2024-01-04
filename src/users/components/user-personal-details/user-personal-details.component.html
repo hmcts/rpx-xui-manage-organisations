@@ -1,51 +1,103 @@
 <h2 class="govuk-heading-l">User Details</h2>
 
-<!-- only display this when no user is provided-->
-<lib-gov-label
-  [config]="{
-    isPageHeading: true,
-    label: 'Add details of the user you want to invite'
-  }"
-></lib-gov-label>
+<ng-container *ngIf="inviteMode; else readOnlyTemplate">
+  <form *ngIf="personalDetailForm" [formGroup]="personalDetailForm">
+    <xuilib-gov-uk-form-group-wrapper
+      [group]="'personalDetailForm'"
+      [config]="{
+        key: 'firstName'
+      }"
+    >
+      <xuilib-gov-uk-input
+        [config]="{
+          label: 'First name',
+          hint: 'Include all middle names',
+          name: 'firstName',
+          id: 'firstName',
+          type: 'text',
+        }"
+        [group]="personalDetailForm"
+        [errorMessage]="{
+          isInvalid: this.personalDetailForm.controls.firstName.invalid,
+          messages: getErrorAsText(
+            this.personalDetailForm.controls.firstName.errors
+          )
+        }"
+      >
+      </xuilib-gov-uk-input>
+    </xuilib-gov-uk-form-group-wrapper>
 
-<form *ngIf="personalDetailForm" [formGroup]="personalDetailForm">
-  <div class="govuk-form-group">
-    <xuilib-gov-uk-input
+    <xuilib-gov-uk-form-group-wrapper
+      [group]="'personalDetailForm'"
       [config]="{
-        label: 'First name',
-        hint: 'Include all middle names',
-        name: 'firstName',
-        id: 'firstName',
-        type: 'text'
+        key: 'lastName'
       }"
-      [group]="personalDetailForm"
     >
-    </xuilib-gov-uk-input>
-  </div>
+      <xuilib-gov-uk-input
+        [config]="{
+          label: 'Last name',
+          name: 'lastName',
+          id: 'lastName',
+          type: 'text'
+        }"
+        [group]="personalDetailForm"
+        [errorMessage]="{
+          isInvalid: this.personalDetailForm.controls.lastName.invalid,
+          messages: getErrorAsText(
+            this.personalDetailForm.controls.lastName.errors
+          )
+        }"
+      >
+      </xuilib-gov-uk-input>
+    </xuilib-gov-uk-form-group-wrapper>
 
-  <div class="govuk-form-group">
-    <xuilib-gov-uk-input
+    <xuilib-gov-uk-form-group-wrapper
+      [group]="'personalDetailForm'"
       [config]="{
-        label: 'Last name',
-        name: 'lastName',
-        id: 'lastName',
-        type: 'text'
+        key: 'email'
       }"
-      [group]="personalDetailForm"
     >
-    </xuilib-gov-uk-input>
+      <xuilib-gov-uk-input
+        [config]="{
+          label: 'Email address',
+          hint: 'Only use work / business addresses',
+          name: 'email',
+          id: 'email',
+          type: 'email'
+        }"
+        [group]="personalDetailForm"
+        [errorMessage]="{
+          isInvalid: this.personalDetailForm.controls.email.invalid,
+          messages: getErrorAsText(
+            this.personalDetailForm.controls.email.errors
+          )
+        }"
+      >
+      </xuilib-gov-uk-input>
+    </xuilib-gov-uk-form-group-wrapper>
+  </form>
+</ng-container>
+<ng-template #readOnlyTemplate>
+  <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
+    <div class="govuk-grid-row">
+      <label class="govuk-label govuk-label--m" for="firstName"
+        ><span>First name</span></label
+      >
+      <p id="firstName" class="govuk-body">{{ user.firstName }}</p>
+    </div>
+
+    <div class="govuk-grid-row">
+      <label class="govuk-label govuk-label--m" for="lastName"
+        ><span>Last name</span></label
+      >
+      <p id="lastName" class="govuk-body">{{ user.lastName }}</p>
+    </div>
+
+    <div class="govuk-grid-row">
+      <label class="govuk-label govuk-label--m" for="email"
+        ><span>Email address</span></label
+      >
+      <p id="email" class="govuk-body">{{ user.email }}</p>
+    </div>
   </div>
-  <div class="govuk-form-group">
-    <xuilib-gov-uk-input
-      [config]="{
-        label: 'Email address',
-        hint: 'Only use work / business addresses',
-        name: 'email',
-        id: 'email',
-        type: 'email'
-      }"
-      [group]="personalDetailForm"
-    >
-    </xuilib-gov-uk-input>
-  </div>
-</form>
+</ng-template>

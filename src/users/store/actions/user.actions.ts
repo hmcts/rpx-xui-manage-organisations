@@ -23,7 +23,6 @@ export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
 export const INVITE_NEW_USER = '[User] Invite New User';
 export const REINVITE_PENDING_USER = '[User] Reinvite Pending User';
 
-
 export class LoadUsers {
   public readonly type = LOAD_USERS;
   constructor(public payload?: any) {}
@@ -122,7 +121,6 @@ export class ReinvitePendingUser {
   public readonly type = REINVITE_PENDING_USER;
   constructor(public payload: any) {}
 }
-
 
 export type UserActions =
   | LoadUsers

@@ -18,7 +18,7 @@ export const initialState: UsersListState = {
   loading: false,
   reinvitePendingUser: null,
   editUserFailure: false,
-  userDetails: null,
+  userDetails: null
 };
 
 export function reducer(

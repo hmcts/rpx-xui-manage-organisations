@@ -132,5 +132,4 @@ export class UsersEffects {
       map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
     )
   );
-
 }

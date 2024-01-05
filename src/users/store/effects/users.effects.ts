@@ -133,15 +133,4 @@ export class UsersEffects {
     )
   );
 
-  public getAccessTypes$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(usersActions.LOAD_ACCESS_TYPES),
-    switchMap((action: any) => {
-      return this.usersService.retrieveAccessType(action.payload).pipe(
-        map(() => new usersActions.LoadAccessTypesSuccess(action.payload)),
-        catchError((error) => of(new usersActions.LoadAccessTypesFail(error)))
-      );
-    })
-  )
-);
 }

@@ -42,4 +42,3 @@ export const getUserDetails = createSelector(
   getUserState,
   fromUsers.getUserDetails
 );
-

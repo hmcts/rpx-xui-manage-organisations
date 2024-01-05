@@ -1,22 +1,31 @@
+import { PrdUser } from 'src/users/models/prd-users.model';
 import * as fromUserActions from '../actions/user.actions';
 import * as fromUsers from './users.reducer';
 
-const mockUserList = [
+const mockUserList: PrdUser[] = [
   {
     firstName: 'Test1firstname',
     lastName: 'Test1lastname',
+    fullName: 'Test1firstname Test1lastname',
+    routerLink: 'user/userId1',
+    routerLinkTitle: 'User details for Test1firstname Test1lastname with id userId1',
     email: 'somthing1@something',
     idamStatus: 'active',
     userIdentifier: 'userId1',
-    roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager', 'pui-finance-manager']
+    roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager', 'pui-finance-manager'],
+    accessTypes: []
   },
   {
     firstName: 'Test2fggftfirstname',
     lastName: 'Test2gfgtlastname',
+    fullName: 'Test2fggftfirstname Test2gfgtlastname',
+    routerLink: 'user/userId2',
+    routerLinkTitle: 'User details for Test2fggftfirstname Test2gfgtlastname with id userId2',
     email: 'somthing2@somffgething',
     idamStatus: 'active',
     userIdentifier: 'userId2',
-    roles: ['pui-organisation-manager', 'pui-user-manager']
+    roles: ['pui-organisation-manager', 'pui-user-manager'],
+    accessTypes: []
   }
 ];
 
@@ -24,6 +33,9 @@ const resultUserList = [
   {
     firstName: 'Test1firstname',
     lastName: 'Test1lastname',
+    fullName: 'Test1firstname Test1lastname',
+    routerLink: 'user/userId1',
+    routerLinkTitle: 'User details for Test1firstname Test1lastname with id userId1',
     email: 'somthing1@something',
     idamStatus: 'active',
     userIdentifier: 'userId1',
@@ -33,11 +45,15 @@ const resultUserList = [
     manageOrganisations: 'Yes',
     manageUsers: 'Yes',
     manageCases: 'Yes',
-    managePayments: 'Yes'
+    managePayments: 'Yes',
+    accessTypes: []
   },
   {
     firstName: 'Test2fggftfirstname',
     lastName: 'Test2gfgtlastname',
+    fullName: 'Test2fggftfirstname Test2gfgtlastname',
+    routerLink: 'user/userId2',
+    routerLinkTitle: 'User details for Test2fggftfirstname Test2gfgtlastname with id userId2',
     email: 'somthing2@somffgething',
     idamStatus: 'active',
     userIdentifier: 'userId2',
@@ -47,7 +63,8 @@ const resultUserList = [
     manageOrganisations: 'Yes',
     manageUsers: 'Yes',
     manageCases: 'No',
-    managePayments: 'No'
+    managePayments: 'No',
+    accessTypes: []
   }
 ];
 

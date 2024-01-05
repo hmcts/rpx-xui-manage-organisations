@@ -4,9 +4,9 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 // TODO: The below is an odd way to import.
 import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import { UsersService } from '../../../users/services';
-
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import * as fromStore from '../../store';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-prd-users-component',
@@ -22,37 +22,46 @@ export class UsersComponent implements OnInit, OnDestroy {
   public currentPageNumber: number = 1;
   public pageTotalSize: number;
   public allUsersList$: Subscription;
+  public filterValues: string = '';
+  public userList: Array<object>;
+
+  public searchFiltersEnabled$: Observable<boolean>;
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
-    private readonly usersService: UsersService
+    public readonly featureToggleService: FeatureToggleService
   ) {}
 
   public ngOnInit(): void {
-    // Call to usersService.getAllUsersList() is required to set pageTotalSize for pagination purposes
-    this.allUsersList$ = this.getAllUsers();
-    this.loadUsers(this.currentPageNumber - 1);
+    this.searchFiltersEnabled$ = this.featureToggleService.getValue('ogd-invite-user-flow', true);
+    this.loadUsers();
   }
 
   public inviteNewUser(): void {
     this.store.dispatch(new fromStore.InviteNewUser());
   }
 
-  public loadUsers(pageNumber: number): void {
-    this.store.dispatch(new fromStore.LoadUsers(pageNumber));
+  public loadUsers(): void {
+    this.store.dispatch(new fromStore.LoadAllUsersNoRoleData());
+    this.tableUsersData$ = this.store.pipe(
+      select(fromStore.getGetUserList),
+      map((users) => {
+        this.pageTotalSize = users.length;
+        return users;
+      })
+    );
+    this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
+  }
+
+  public handleFilterUpdates(event){
+    this.filterValues = event;
     this.tableUsersData$ = this.store.pipe(select(fromStore.getGetUserList));
     this.isLoading$ = this.store.pipe(select(fromStore.getGetUserLoading));
   }
 
-  public getAllUsers(): Subscription {
-    return this.usersService.getAllUsersList().subscribe(((allUserList) => {
-      this.pageTotalSize = allUserList.users.length;
-    }));
-  }
-
   public pageChange(pageNumber: number): void {
     this.currentPageNumber = pageNumber;
-    this.loadUsers(pageNumber - 1);
+    this.loadUsers();
   }
 
   public ngOnDestroy(): void {

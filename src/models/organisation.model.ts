@@ -20,6 +20,7 @@ export interface OrganisationContactInformation {
 export interface OrganisationDetails {
   name: string;
   organisationIdentifier: string;
+  organisationProfileIds: string[];
   contactInformation: OrganisationContactInformation[];
   status: string;
   sraId: string;

@@ -45,5 +45,4 @@ export class UsersService {
       .get<any>(`/api/user-details?userId=${userId}`)
       .pipe(catchError((error: any) => throwError(error.json())));
   }
-
 }

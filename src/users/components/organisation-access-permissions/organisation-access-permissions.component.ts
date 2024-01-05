@@ -20,7 +20,12 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
 
   public hasSolicitorProfile: boolean;
-  public hasOgdProfile: boolean;
+  public hasOgdDwpProfile: boolean;
+  public hasOgdHomeOfficeProfile: boolean;
+  public hasOgdHmrcProfile: boolean;
+  public hasOgdCicaProfile: boolean;
+  public hasOgdCafcassEnglishProfile: boolean;
+  public hasOgdCafcassWelshProfile: boolean;
   public enableCaseManagement: boolean;
 
   private userAccessTypes: UserAccessType[];
@@ -34,13 +39,23 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     this.userAccessTypes = this.user?.accessTypes ?? [];
 
     this.permissions = this.createPermissionsViewModel();
-    const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
-    this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
-    this.hasOgdProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId.startsWith('OGD_'));
+    this.getOrganisationProfileType();
 
     this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
+  }
+
+  // TODO: confirm if an org can only have one profile id, if so pull it from the redux store from parent container component and provide as an input
+  private getOrganisationProfileType() {
+    const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
+    this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
+    this.hasOgdDwpProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_DWP_PROFILE');
+    this.hasOgdHomeOfficeProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_HO_PROFILE');
+    this.hasOgdHmrcProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_HMRC_PROFILE');
+    this.hasOgdCicaProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_CICA_PROFILE');
+    this.hasOgdCafcassEnglishProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_CAFCASS_PROFILE_ENGLAND');
+    this.hasOgdCafcassWelshProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_CAFCASS_PROFILE_CYMRU');
   }
 
   ngOnDestroy(): void {

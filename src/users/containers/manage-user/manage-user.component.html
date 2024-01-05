@@ -1,0 +1,16 @@
+<app-hmcts-main-wrapper
+  [summaryErrors]="summaryErrors"
+  [backLink]="backUrl"
+  [title]="'Manage user'"
+>
+</app-hmcts-main-wrapper>
+
+<app-standard-user-permissions
+  [user]="this.user"
+  (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
+></app-standard-user-permissions>
+<app-organisation-access-permissions
+  (selectedPermissionsChanged)="
+    onSelectedCaseManagamentPermissionsChange($event)
+  "
+></app-organisation-access-permissions>

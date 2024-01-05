@@ -15,6 +15,8 @@ export const ORGANISATION_UPDATE_PBAS = '[Organisation] Organisation Update PBAs
 export const ORGANISATION_UPDATE_PBA_RESPONSE = '[Organisation] Organisation Update PBAs Response';
 export const ORGANISATION_UPDATE_PBA_ERROR = '[Organisation] Organisation Update PBAs Error';
 export const ORGANISATION_UPDATE_PBA_ERROR_RESET = '[Organisation] Organisation Update PBAs Error Reset';
+
+export const ORGANISATION_UPDATE_PROFILE_IDS = '[Organisation] Organisation Update Profile Ids';
 export const LOAD_ORGANISATION_ACCESS_TYPES = '[Organisation] Load Organisation Access Types';
 export const LOAD_ORGANISATION_ACCESS_TYPES_SUCCESS = '[Organisation] Load Organisation Access Types Success';
 export const LOAD_ORGANISATION_ACCESS_TYPES_FAIL = '[Organisation] Load Organisation Access Types Fail';
@@ -63,6 +65,11 @@ export class OrganisationUpdatePBAErrorReset implements Action {
   constructor(public payload: any) {}
 }
 
+export class OrganisationUpdateUpdateProfileIds implements Action {
+  public readonly type = ORGANISATION_UPDATE_PROFILE_IDS;
+  constructor(public payload: string[]) {}
+}
+
 export class LoadOrganisationAccessTypes {
   public readonly type = LOAD_ORGANISATION_ACCESS_TYPES;
   constructor(public payload?: string[]) {}
@@ -88,6 +95,7 @@ export type organisationActions =
   | OrganisationUpdatePBAResponse
   | OrganisationUpdatePBAError
   | OrganisationUpdatePBAErrorReset
+  | OrganisationUpdateUpdateProfileIds
   | LoadOrganisationAccessTypes
   | LoadOrganisationAccessTypesSuccess
   | LoadOrganisationAccessTypesFail;

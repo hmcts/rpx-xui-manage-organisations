@@ -6,7 +6,9 @@ import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
 import { LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import * as orgActions from '../../../organisation/store/actions';
 import * as fromUsersEffects from './users.effects';
+import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
 
 describe('Users Effects', () => {
   let actions$;
@@ -44,43 +46,100 @@ describe('Users Effects', () => {
 
   describe('loadUsers$', () => {
     it('should return a collection from loadUsers$ - LoadUsersSuccess', waitForAsync(() => {
-      const payload = { users: [{ payload: 'something' }] };
+      const prdUser: RawPrdUser = {
+        email: 'madeup@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'Active',
+        userIdentifier: '123'
+      };
+      const payload:RawPrdUsersList = {
+        organisationIdentifier: 'ABC123',
+        users: [prdUser]
+      };
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
-      const completion = new LoadUsersSuccess({
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
+      const loadUserSuccessActionCompletion = new LoadUsersSuccess({
         users: [
           {
-            payload: 'something',
-            fullName: 'undefined undefined',
-            routerLink: 'user/undefined',
-            routerLinkTitle: 'User details for undefined undefined with id undefined'
+            ...prdUser,
+            fullName: 'John Doe',
+            routerLink: `user/${prdUser.userIdentifier}`,
+            routerLinkTitle: 'User details for John Doe with id 123',
+            accessTypes: []
           }
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
       expect(effects.loadUsers$).toBeObservable(expected);
     }));
 
     it('should return a collection from loadUsers$ when status pending - LoadUsersSuccess', waitForAsync(() => {
-      const payload = { users: [{ idamStatus: 'PENDING' }] };
+      const prdUser: RawPrdUser = {
+        email: 'madeup@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'PENDING',
+        userIdentifier: '123'
+      };
+      const payload:RawPrdUsersList = {
+        organisationIdentifier: 'ABC123',
+        users: [prdUser]
+      };
       usersServiceMock.getListOfUsers.and.returnValue(of(payload));
       const action = new LoadUsers();
-      const completion = new LoadUsersSuccess({
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
+      const loadUserSuccessActionCompletion = new LoadUsersSuccess({
         users: [
           {
+            ...prdUser,
             idamStatus: 'PENDING',
-            fullName: 'undefined undefined',
-            routerLink: 'user/undefined',
-            routerLinkTitle: 'User details for undefined undefined with id undefined'
+            fullName: 'John Doe',
+            routerLink: `user/${prdUser.userIdentifier}`,
+            routerLinkTitle: 'User details for John Doe with id 123',
+            accessTypes: []
           }
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
       expect(effects.loadUsers$).toBeObservable(expected);
     }));
   });
+
+  it('should return a collection from loadUsers$ with accessTypes - LoadUsersSuccess', waitForAsync(() => {
+    const prdUser: RawPrdUser = {
+      email: 'madeup@test.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      idamStatus: 'PENDING',
+      userIdentifier: '123',
+      accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+    };
+    const payload:RawPrdUsersList = {
+      organisationIdentifier: 'ABC123',
+      users: [prdUser]
+    };
+    usersServiceMock.getListOfUsers.and.returnValue(of(payload));
+    const action = new LoadUsers();
+    const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+    const loadUserSuccessActionCompletion = new LoadUsersSuccess({
+      users: [
+        {
+          ...prdUser,
+          fullName: 'John Doe',
+          routerLink: `user/${prdUser.userIdentifier}`,
+          routerLinkTitle: 'User details for John Doe with id 123',
+          accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+        }
+      ]
+    });
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
+    expect(effects.loadUsers$).toBeObservable(expected);
+  }));
 
   describe('loadUsers$ error', () => {
     it('should return LoadUsersFail', waitForAsync(() => {
@@ -145,19 +204,65 @@ describe('Users Effects', () => {
 
   describe('loadAllUsersNoRoleData$', () => {
     it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
-      const payload = { users: [{ payload: 'something' }] };
+      const prdUser: RawPrdUserLite = {
+        email: 'madeup@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'ACTIVE',
+        userIdentifier: '123'
+      };
+      const payload : RawPrdUserListWithoutRoles = {
+        organisationIdentifier: 'ABC123',
+        users: [prdUser]
+      };
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));
       const action = new LoadAllUsersNoRoleData();
-      const completion = new LoadAllUsersNoRoleDataSuccess({
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
+      const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
         users: [
           {
-            payload: 'something',
-            fullName: 'undefined undefined'
+            ...prdUser,
+            fullName: 'John Doe',
+            routerLink: `user/${prdUser.userIdentifier}`,
+            routerLinkTitle: 'User details for John Doe with id 123',
+            accessTypes: []
           }
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
+      expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+    }));
+
+    it('should return a collection from loadAllUsersNoRoleData$ with accessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+      const prdUser: RawPrdUserLite = {
+        email: 'madeup@test.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'ACTIVE',
+        userIdentifier: '123',
+        accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+      };
+      const payload : RawPrdUserListWithoutRoles = {
+        organisationIdentifier: 'ABC123',
+        users: [prdUser]
+      };
+      usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+      const action = new LoadAllUsersNoRoleData();
+      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
+        users: [
+          {
+            ...prdUser,
+            fullName: 'John Doe',
+            routerLink: `user/${prdUser.userIdentifier}`,
+            routerLinkTitle: 'User details for John Doe with id 123',
+            accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+          }
+        ]
+      });
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
     }));
   });

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
@@ -19,6 +19,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public isLoading$: Observable<boolean>;
   public user: any;
 
+  private onDestory$ = new Subject<void>();
   public userSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
@@ -42,11 +43,19 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.user$ = new Observable();
 
-    const isFeatureEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+    const getEditUserFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+    const getOgdInviteUserFlowFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled));
 
-    isFeatureEnabled$.subscribe((isFeatureEnabled) => {
-      this.editPermissionRouter = isFeatureEnabled ? 'editpermission' : '';
-    });
+    combineLatest([getEditUserFeatureIsEnabled$, getOgdInviteUserFlowFeatureIsEnabled$])
+      .pipe(takeUntil(this.onDestory$))
+      .subscribe(([isEditUserFeatureEnabled, isOgdInviteUserFlowFeatureEnabled]) => {
+        this.editPermissionRouter = '';
+        if (isOgdInviteUserFlowFeatureEnabled) {
+          this.editPermissionRouter = 'manage';
+        } else if (isEditUserFeatureEnabled){
+          this.editPermissionRouter = 'editpermission';
+        }
+      });
 
     this.setSuspendViewFunctions();
 
@@ -58,7 +67,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.user$ = this.userStore.pipe(select(fromStore.getUserDetails));
 
-    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isFeatureEnabled$));
+    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, getEditUserFeatureIsEnabled$));
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
       this.hideSuspendView();
@@ -70,6 +79,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.onDestory$.next();
+    this.onDestory$.complete();
+
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

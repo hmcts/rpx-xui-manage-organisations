@@ -23,7 +23,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   public pageTotalSize: number;
   public allUsersList$: Subscription;
 
-
   constructor(
     private readonly store: Store<fromStore.UserState>,
     private readonly usersService: UsersService

@@ -76,7 +76,7 @@ export async function handleRetriveAccessTypes(req: Request, res: Response) {
         ]
     }
 
-    res.json(dummyAccessTypes)
+    res.json(dummyAccessTypes.jurisdictions)
 }
 
 export const router = Router({ mergeParams: true });

@@ -10,7 +10,6 @@ export interface UsersListState {
   reinvitePendingUser: User;
   editUserFailure: boolean;
   userDetails: User;
-  accessTypes: Array <String>;
 }
 
 export const initialState: UsersListState = {
@@ -20,7 +19,6 @@ export const initialState: UsersListState = {
   reinvitePendingUser: null,
   editUserFailure: false,
   userDetails: null,
-  accessTypes: []
 };
 
 export function reducer(
@@ -178,22 +176,6 @@ export function reducer(
       };
     }
 
-    case fromUsers.LOAD_ACCESS_TYPES:
-    case fromUsers.LOAD_ACCESS_TYPES_SUCCESS: {
-      return {
-        ...state,
-        accessTypes: action.payload
-      };
-    }
-
-    case fromUsers.LOAD_ACCESS_TYPES_FAIL: {
-      return {
-        ...state,
-        loading: true,
-        loaded: false
-      };
-    }
-
     default:
       return state;
   }
@@ -205,4 +187,3 @@ export const getUsersLoaded = (state: UsersListState) => state.loaded;
 export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;
 export const getUserDetails = (state: UsersListState) => state.userDetails;
-export const getAccessTypes = (state: UsersListState) => state.accessTypes;

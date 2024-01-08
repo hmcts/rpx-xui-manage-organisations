@@ -6,7 +6,6 @@ import { ManageUserComponent } from './manage-user/manage-user.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { UsersComponent } from './users/users.component';
 
-
 export const containers: any[] = [
   UsersComponent,
   InviteUserComponent,

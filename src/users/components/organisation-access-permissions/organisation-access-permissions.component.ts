@@ -12,6 +12,7 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
   // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
   @Input() public jurisdictions: TempJurisdicationModel[];
+  @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
 
   @Output() public selectedPermissionsChanged = new EventEmitter<CaseManagementPermissions>();
@@ -48,14 +49,13 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   // TODO: confirm if an org can only have one profile id, if so pull it from the redux store from parent container component and provide as an input
   private getOrganisationProfileType() {
-    const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
-    this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
-    this.hasOgdDwpProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_DWP_PROFILE');
-    this.hasOgdHomeOfficeProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_HO_PROFILE');
-    this.hasOgdHmrcProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_HMRC_PROFILE');
-    this.hasOgdCicaProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_CICA_PROFILE');
-    this.hasOgdCafcassEnglishProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_CAFCASS_PROFILE_ENGLAND');
-    this.hasOgdCafcassWelshProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'OGD_CAFCASS_PROFILE_CYMRU');
+    this.hasSolicitorProfile = this.organisationProfileIds.includes('SOLICITOR_PROFILE');
+    this.hasOgdDwpProfile = this.organisationProfileIds.includes('OGD_DWP_PROFILE');
+    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes('OGD_HO_PROFILE');
+    this.hasOgdHmrcProfile = this.organisationProfileIds.includes('OGD_HMRC_PROFILE');
+    this.hasOgdCicaProfile = this.organisationProfileIds.includes('OGD_CICA_PROFILE');
+    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_ENGLAND');
+    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_CYMRU');
   }
 
   ngOnDestroy(): void {

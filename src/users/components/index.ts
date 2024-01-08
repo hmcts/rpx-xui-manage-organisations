@@ -13,7 +13,6 @@ import { OgdHmrcProfileContentComponent } from './ogd-hmrc-profile-content/ogd-h
 import { OgdHoProfileContentComponent } from './ogd-ho-profile-content/ogd-ho-profile-content.component';
 import { SolicitorProfileContentComponent } from './solicitor-profile-content/solicitor-profile-content.component';
 
-
 export const components: any[] = [
   InviteUserFormComponent,
   InviteUserPermissionComponent,

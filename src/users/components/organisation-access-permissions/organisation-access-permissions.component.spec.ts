@@ -3,9 +3,18 @@ import { ExuiCommonLibModule, User, UserAccessType } from '@hmcts/rpx-xui-common
 import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
 import { TempJurisdicationModel } from './organisation-access-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { OgdProfileContentComponent, SolicitorProfileContentComponent } from 'src/users/containers';
-import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { RpxTranslationService } from 'rpx-xui-translation';
+import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
+import {
+  StandardUserPermissionsComponent,
+  SolicitorProfileContentComponent,
+  OgdDwpProfileContentComponent,
+  OgdHoProfileContentComponent,
+  OgdHmrcProfileContentComponent,
+  OgdCicaProfileContentComponent,
+  OgdCafcassEnProfileContentComponent,
+  OgdCafcassCyProfileContentComponent
+} from '../../components';
 
 describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:TempJurisdicationModel[] = [
@@ -87,7 +96,14 @@ describe('OrganisationAccessPermissionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrganisationAccessPermissionsComponent, SolicitorProfileContentComponent, OgdProfileContentComponent],
+      declarations: [OrganisationAccessPermissionsComponent, StandardUserPermissionsComponent,
+        SolicitorProfileContentComponent,
+        OgdDwpProfileContentComponent,
+        OgdHoProfileContentComponent,
+        OgdHmrcProfileContentComponent,
+        OgdCicaProfileContentComponent,
+        OgdCafcassEnProfileContentComponent,
+        OgdCafcassCyProfileContentComponent],
       imports: [ReactiveFormsModule, ExuiCommonLibModule],
       providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
     })

@@ -47,8 +47,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     this.subscribeToAccessTypesChanges();
   }
 
-  // TODO: confirm if an org can only have one profile id, if so pull it from the redux store from parent container component and provide as an input
   private getOrganisationProfileType() {
+    // current assumption and implementation is that an organisation can only have one profile type
     this.hasSolicitorProfile = this.organisationProfileIds.includes('SOLICITOR_PROFILE');
     this.hasOgdDwpProfile = this.organisationProfileIds.includes('OGD_DWP_PROFILE');
     this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes('OGD_HO_PROFILE');

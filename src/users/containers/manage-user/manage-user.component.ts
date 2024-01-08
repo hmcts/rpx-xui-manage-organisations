@@ -14,6 +14,7 @@ import { PersonalDetails } from '../../models/personal-details.model';
 import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
 import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
 import { OrganisationDetails } from 'src/models';
+import { LoggerService } from 'src/shared/services/logger.service';
 
 @Component({
   selector: 'app-manage-user',
@@ -37,7 +38,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   constructor(private readonly actions$: Actions,
     private readonly routerStore: Store<fromRoot.State>,
     private readonly userStore: Store<fromStore.UserState>,
-    private readonly orgStore: Store<fromOrgStore.OrganisationState>) {}
+    private readonly orgStore: Store<fromOrgStore.OrganisationState>,
+    private loggerService: LoggerService) {}
 
   ngOnInit(): void {
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
@@ -49,9 +51,11 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
     combineLatest([this.user$, this.organisation$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation]) => {
       // TODO this is temporary until access types are returned by the API. used to test the population of the form
-      user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
       organisation = { ...organisation, organisationProfileIds: ['SOLICITOR_PROFILE'] };
-      this.user = user;
+      if (user){
+        user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
+        this.user = user;
+      }
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
     });
 
@@ -66,16 +70,24 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onPersonalDetailsChange($event: PersonalDetails){
-    this.updatedUser = { ...this.user, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
+    this.updatedUser = { ...this.updatedUser, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
+    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
-    // todo: when $event.manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
-    this.updatedUser = { ...this.user, accessTypes: $event.userAccessTypes };
+    // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
+    const caseAdminRole = 'pui-caa';
+    if ($event.manageCases){
+      this.updatedUser = { ...this.updatedUser, roles: [...this.updatedUser.roles, caseAdminRole] };
+    } else {
+      this.updatedUser = { ...this.updatedUser, roles: this.updatedUser.roles.filter((role: string) => role !== caseAdminRole) };
+    }
+    // when manageCases is false then the roles property is an empty array, which will clear all the access types
+    this.updatedUser = { ...this.updatedUser, accessTypes: $event.userAccessTypes };
+    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    // todo: map each property to their respective role
     const roles: string[] = [];
     if ($event.isPuiUserManager) {
       roles.push('pui-user-manager');
@@ -89,10 +101,11 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     if ($event.isCaseAccessAdmin) {
       roles.push('pui-case-manager');
     }
-    this.updatedUser = { ...this.user, roles };
+    this.updatedUser = { ...this.updatedUser, roles };
+    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   private getBackurl(userId: string): string {
-    return `/users/user/${userId}`;
+    return !!userId ? `/users/user/${userId}` : '/users';
   }
 }

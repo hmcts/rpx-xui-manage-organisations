@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject } from 'rxjs';
 import { User } from '@hmcts/rpx-xui-common-lib';
+import { BasicAccessTypes } from '../../models/basic-access-types.model';
 
 @Component({
   selector: 'app-standard-user-permissions',
@@ -82,13 +83,6 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
       isCaseAccessAdmin: this.permissions.isCaseAccessAdmin
     };
   }
-}
-
-export interface BasicAccessTypes {
-  isPuiUserManager: boolean;
-  isPuiOrganisationManager: boolean;
-  isPuiFinanceManager: boolean;
-  isCaseAccessAdmin: boolean;
 }
 
 interface AccessForm {

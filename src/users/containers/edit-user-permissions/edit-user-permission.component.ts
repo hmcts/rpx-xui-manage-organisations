@@ -150,9 +150,13 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     const permissions = UserRolesUtil.mapPermissions(value);
     const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
     const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
-    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
+
+    // BJ-TODO: Make sure the changes to the params on the below method hasn't affected tests
+
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted);
+
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
-      this.userStore.dispatch(new fromStore.EditUser({ editUserRolesObj, userId: this.userId }));
+      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
     } else {
       this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
         header: this.errorMessages.header };

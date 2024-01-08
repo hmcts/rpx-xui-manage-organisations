@@ -91,6 +91,8 @@ describe('UserPersonalDetailsComponent', () => {
 
       const emailElement = fixture.nativeElement.querySelector('[id="email"]');
       emailElement.value = 'john@doe.com';
+      // need to simluate all fields being touched
+      component.personalDetailForm.markAllAsTouched();
       emailElement.dispatchEvent(new Event('input'));
 
       expect(spy).toHaveBeenCalledWith({

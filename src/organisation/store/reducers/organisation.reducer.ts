@@ -65,8 +65,7 @@ export function reducer(
         loading: false,
         loaded: true,
         organisationJurisdications: action.payload
-      }
-      
+      };
     }
 
     case fromOrganisation.LOAD_ORGANISATION_ACCESS_TYPES_FAIL: {

@@ -23,60 +23,60 @@ export async function handleRetriveAccessTypes(req: Request, res: Response) {
 //     };
 //     res.status(status).send(errReport);
 //   }
-    const dummyAccessTypes = {
-        "jurisdictions": [
-            {
-                "jurisdictionid": "6",
-                "jurisdictionName": "BEFTA_JURISDICTION_1",
-                "accessTypes": [
-                    {
-                        "organisationProfileId": "SOLICITOR_PROFILE",
-                        "accessTypeId": "default",
-                        "accessMandatory": false,
-                        "accessDefault": false,
-                        "display": false,
-                        "description": "Description for the BEFTA Master Jurisdiction Access Type.",
-                        "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                        "displayOrder": 10,
-                        "roles": [
-                            {
-                                "caseTypeId": "38459",
-                                "organisationalRoleName": "rolename",
-                                "groupRoleName": "groupname",
-                                "caseGroupIdTemplate": "CIVIL:all:CIVIL:AS1:$ORGID$"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "jurisdictionid": "6",
-                "jurisdictionName": "BEFTA_JURISDICTION_1",
-                "accessTypes": [
-                    {
-                        "organisationProfileId": "SOLICITOR_PROFILE",
-                        "accessTypeId": "default",
-                        "accessMandatory": true,
-                        "accessDefault": true,
-                        "display": true,
-                        "description": "Description for the BEFTA Master Jurisdiction Access Type.",
-                        "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                        "displayOrder": 20,
-                        "roles": [
-                            {
-                                "caseTypeId": "38458",
-                                "organisationalRoleName": "rolename",
-                                "groupRoleName": "groupname",
-                                "caseGroupIdTemplate": "CIVIL:all:CIVIL:AS1:$ORGID$"
-                            }
-                        ]
-                    }
-                ]
-            }
+  const dummyAccessTypes = {
+    'jurisdictions': [
+      {
+        'jurisdictionid': '6',
+        'jurisdictionName': 'BEFTA_JURISDICTION_1',
+        'accessTypes': [
+          {
+            'organisationProfileId': 'SOLICITOR_PROFILE',
+            'accessTypeId': 'default',
+            'accessMandatory': false,
+            'accessDefault': false,
+            'display': false,
+            'description': 'Description for the BEFTA Master Jurisdiction Access Type.',
+            'hint': 'Hint  for the BEFTA Master Jurisdiction Access Type.',
+            'displayOrder': 10,
+            'roles': [
+              {
+                'caseTypeId': '38459',
+                'organisationalRoleName': 'rolename',
+                'groupRoleName': 'groupname',
+                'caseGroupIdTemplate': 'CIVIL:all:CIVIL:AS1:$ORGID$'
+              }
+            ]
+          }
         ]
-    }
+      },
+      {
+        'jurisdictionid': '6',
+        'jurisdictionName': 'BEFTA_JURISDICTION_1',
+        'accessTypes': [
+          {
+            'organisationProfileId': 'SOLICITOR_PROFILE',
+            'accessTypeId': 'default',
+            'accessMandatory': true,
+            'accessDefault': true,
+            'display': true,
+            'description': 'Description for the BEFTA Master Jurisdiction Access Type.',
+            'hint': 'Hint  for the BEFTA Master Jurisdiction Access Type.',
+            'displayOrder': 20,
+            'roles': [
+              {
+                'caseTypeId': '38458',
+                'organisationalRoleName': 'rolename',
+                'groupRoleName': 'groupname',
+                'caseGroupIdTemplate': 'CIVIL:all:CIVIL:AS1:$ORGID$'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
 
-    res.json(dummyAccessTypes.jurisdictions)
+  res.json(dummyAccessTypes.jurisdictions);
 }
 
 export const router = Router({ mergeParams: true });

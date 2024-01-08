@@ -32,16 +32,15 @@ export class OrganisationEffects {
     );
 
   public getAccessTypes$ = createEffect(() =>
-  this.actions$.pipe(
-    ofType(organisationActions.LOAD_ORGANISATION_ACCESS_TYPES),
-    switchMap((action: LoadOrganisationAccessTypes) => {
-      return this.organisationService.retrieveAccessType(action.payload).pipe(
-        map((jurisdictions) => new organisationActions.LoadOrganisationAccessTypesSuccess(jurisdictions)),
-        catchError((error) => of(new organisationActions.LoadOrganisationAccessTypesFail(error)))
-      );
-    })
-  )
-);
+    this.actions$.pipe(
+      ofType(organisationActions.LOAD_ORGANISATION_ACCESS_TYPES),
+      switchMap((action: LoadOrganisationAccessTypes) => {
+        return this.organisationService.retrieveAccessType(action.payload).pipe(
+          map((jurisdictions) => new organisationActions.LoadOrganisationAccessTypesSuccess(jurisdictions)),
+          catchError((error) => of(new organisationActions.LoadOrganisationAccessTypesFail(error)))
+        );
+      })
+    )
+  );
 }
-
 

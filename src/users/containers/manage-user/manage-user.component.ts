@@ -5,7 +5,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
-import * as fromOrgStore from '../../../organisation/store'
+import * as fromOrgStore from '../../../organisation/store';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { BasicAccessTypes } from '../../components/standard-user-permissions/standard-user-permissions.component';
 import { CaseManagementPermissions } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
@@ -25,7 +25,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   private onDestory$ = new Subject<void>();
   private updatedUser: User;
 
-  constructor(private readonly actions$: Actions, private readonly routerStore: Store<fromRoot.State>, private readonly userStore: Store<fromStore.UserState>, 
+  constructor(private readonly actions$: Actions, private readonly routerStore: Store<fromRoot.State>, private readonly userStore: Store<fromStore.UserState>,
     private readonly orgStore: Store<fromOrgStore.OrganisationState>) {}
 
   ngOnInit(): void {

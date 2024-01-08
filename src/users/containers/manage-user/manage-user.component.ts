@@ -5,9 +5,13 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
-import { User } from '@hmcts/rpx-xui-common-lib';
-import { BasicAccessTypes } from '../../components/standard-user-permissions/standard-user-permissions.component';
-import { CaseManagementPermissions } from '../../components/organisation-access-permissions/organisation-access-permissions.component';
+import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
+import { BasicAccessTypes } from '../../models/basic-access-types.model';
+import { PersonalDetails } from '../../models/personal-details.model';
+
+import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
+import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
 
 @Component({
   selector: 'app-manage-user',
@@ -19,14 +23,16 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public user$: Observable<User>;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
   public user: User;
+
+  // TODO: remove this when the GA-62 is complete and replace with selector
+  public jurisdictions = JSON.parse(jurisdictionsExample) as Jurisdiction[];
+
   private onDestory$ = new Subject<void>();
   private updatedUser: User;
 
   constructor(private readonly actions$: Actions, private readonly routerStore: Store<fromRoot.State>, private readonly userStore: Store<fromStore.UserState>) {}
 
   ngOnInit(): void {
-    // dispatch event to load user
-    // select user from store
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
@@ -34,6 +40,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     this.user$.pipe(takeUntil(this.onDestory$)).subscribe((user) => {
+      // TODO this is temporary until access types are returned by the API. used to test the population of the form
+      user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
       this.user = user;
     });
 
@@ -45,6 +53,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  onPersonalDetailsChange($event: PersonalDetails){
+    this.updatedUser = { ...this.user, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
   }
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {

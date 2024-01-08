@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StandardUserPermissionsComponent } from './standard-user-permissions.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
+import { ExuiCommonLibModule, FeatureToggleService, User } from '@hmcts/rpx-xui-common-lib';
 import { of } from 'rxjs';
-import { GovUiModule } from 'projects/gov-ui/src/public_api';
+import { RpxTranslationService } from 'rpx-xui-translation';
 
 describe('StaticUserPermissionsComponent', () => {
   const knownUser: User = {
@@ -26,6 +26,7 @@ describe('StaticUserPermissionsComponent', () => {
   let component: StandardUserPermissionsComponent;
   let fixture: ComponentFixture<StandardUserPermissionsComponent>;
   let featureToggleServiceSpy: jasmine.SpyObj<FeatureToggleService>;
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   beforeEach(async () => {
     featureToggleServiceSpy = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
@@ -34,8 +35,11 @@ describe('StaticUserPermissionsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [StandardUserPermissionsComponent],
-      imports: [ReactiveFormsModule, GovUiModule],
-      providers: [{ provide: FeatureToggleService, useValue: featureToggleServiceSpy }]
+      imports: [ReactiveFormsModule, ExuiCommonLibModule],
+      providers: [
+        { provide: FeatureToggleService, useValue: featureToggleServiceSpy },
+        { provide: RpxTranslationService, useValue: translationMockService }
+      ]
     })
       .compileComponents();
 

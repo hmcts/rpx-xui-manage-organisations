@@ -1,3 +1,4 @@
+import { EditUserModel } from 'src/user-profile/models/editUser.model';
 import { AppConstants } from '../../../app/app.constants';
 import { AppUtils } from '../../../app/utils/app-utils';
 
@@ -36,14 +37,17 @@ export class UserRolesUtil {
     return roles;
   }
 
-  public static mapEditUserRoles(user: any, rolesAdd: any[], rolesDelete: any[]): any {
+  // BJ-TODO: Create new method with new edit user model
+  public static mapEditUserRoles(user: any, userId: string, rolesAdd: any[], rolesDelete: any[]): EditUserModel {
     return {
+      id: userId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
       idamStatus: user.idamStatus,
       rolesAdd,
-      rolesDelete
+      rolesDelete,
+      accessTypes: [] // BJ-TODO: Move access types to param
     };
   }
 

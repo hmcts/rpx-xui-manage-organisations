@@ -4,20 +4,20 @@
     *ngIf="jurisdictionPermissionsForm"
     [formGroup]="jurisdictionPermissionsForm"
   >
-    <lib-gov-checkbox
+    <xuilib-gov-checkbox
       [group]="jurisdictionPermissionsForm"
       [config]="{
         value: 'enableCaseManagement',
         label: 'Manage cases for your organisation',
         name: 'enableCaseManagement',
-        hint: 'This provides the user with access to submat and manage claims.',
+        hint: 'This provides the user with access to submit and manage claims.',
         hiddenLabelContext:
-          'This provides the user with access to submat and manage claims '
+          'This provides the user with access to submit and manage claims'
       }"
     >
-    </lib-gov-checkbox>
+    </xuilib-gov-checkbox>
 
-    <ng-container *ngIf="enableCaseManagement">
+    <ng-container>
       <app-solicitor-profile-content
         *ngIf="hasSolicitorProfile"
       ></app-solicitor-profile-content>
@@ -25,7 +25,11 @@
       <app-ogd-profile-content *ngIf="hasOgdProfile"></app-ogd-profile-content>
     </ng-container>
 
-    <div formArrayName="jurisdictions" *ngIf="enableCaseManagement" class="govuk-!-margin-left-4">
+    <div
+      formArrayName="jurisdictions"
+      *ngIf="enableCaseManagement"
+      class="govuk-!-margin-left-4"
+    >
       <ng-container
         *ngFor="
           let jurisdiction of jurisdictionsFormArray.controls;

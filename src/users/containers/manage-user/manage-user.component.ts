@@ -105,6 +105,22 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
+  onSubmit() {
+    if (this.userId) {
+      this.updateUser();
+    } else {
+      this.inviteUser();
+    }
+  }
+
+  private inviteUser() {
+    // TODO: implement
+  }
+
+  private updateUser() {
+    // TODO: implement
+  }
+
   private getBackurl(userId: string): string {
     return !!userId ? `/users/user/${userId}` : '/users';
   }

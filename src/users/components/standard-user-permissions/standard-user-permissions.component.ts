@@ -68,9 +68,9 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
 
   private createPermissionsViewModelFromInput(): BasicAccessTypes {
     return {
-      isPuiUserManager: this.user?.manageUsers === 'Yes',
-      isPuiOrganisationManager: this.user?.manageOrganisations === 'Yes',
-      isPuiFinanceManager: this.user?.managePayments === 'Yes',
+      isPuiUserManager: this.user?.roles?.includes('pui-user-manager'),
+      isPuiOrganisationManager: this.user?.roles?.includes('pui-organisation-manager'),
+      isPuiFinanceManager: this.user?.roles?.includes('pui-finance-manager'),
       isCaseAccessAdmin: this.user?.roles?.includes('pui-caa')
     };
   }

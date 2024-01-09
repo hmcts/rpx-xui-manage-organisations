@@ -1,0 +1,18 @@
+::ng-deep .govuk-accordion {
+  border: none;
+  margin: 0px;
+  border-bottom: 0px !important;
+}
+
+.govuk-accordion__section-header {
+  border-top: 0px !important;
+}
+
+.govuk-accordion__section-heading {
+  line-height: 0;
+  height: 0;
+}
+
+::ng-deep .js-enabled .govuk-accordion__controls {
+  display: none !important;
+}

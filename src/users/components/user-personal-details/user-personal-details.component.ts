@@ -48,6 +48,10 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
       lastName: this.fb.nonNullable.control<string>({ value: this._existingUser?.lastName, disabled: !this.inviteMode }, [Validators.required])
     });
     this.personalDetailForm.valueChanges.subscribe((personalDetails) => {
+      if (this.personalDetailForm.untouched) {
+        // wait until the whole form is complete before emitting
+        return;
+      }
       if (this.personalDetailForm.valid) {
         this.personalDetailsChanged.emit({
           email: personalDetails.email,
@@ -57,12 +61,12 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
         this.errors.firstName = this.getErrorForControl('firstName');
         this.errors.lastName = this.getErrorForControl('lastName');
         this.errors.email = this.getErrorForControl('email');
+        this.personalDetailsChanged.emit({
+          email: null,
+          firstName: null,
+          lastName: null
+        });
       }
-      this.personalDetailsChanged.emit({
-        email: null,
-        firstName: null,
-        lastName: null
-      });
     });
   }
 

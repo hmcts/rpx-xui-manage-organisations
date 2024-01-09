@@ -194,19 +194,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-material-components/datetime-picker@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@angular-material-components/datetime-picker@npm:6.0.0"
+"@angular-material-components/datetime-picker@npm:6.0.3":
+  version: 6.0.3
+  resolution: "@angular-material-components/datetime-picker@npm:6.0.3"
   dependencies:
     tslib: ^2.1.0
   peerDependencies:
-    "@angular/cdk": ^12.1.0
-    "@angular/common": ^12.1.0
-    "@angular/core": ^12.1.0
-    "@angular/forms": ^12.1.0
-    "@angular/material": ^12.1.0
-    "@angular/platform-browser": ^12.1.0
-  checksum: 966d96c7d47c51ebc7d65c39f799918d4a7eb11206d61086157222d7098c49b3b8cabe104ead9694dc5d50333a0cdb0cb2c07266d6f9d6cefa8035f14df8644b
+    "@angular/cdk": ^12.0.1
+    "@angular/common": ^12.0.0
+    "@angular/core": ^12.0.0
+    "@angular/forms": ^12.0.0
+    "@angular/material": ^12.0.1
+    "@angular/platform-browser": ^12.0.0
+  checksum: 55239260766277a75a8783b95b9d31d58a827c618cfda597d4f034ab882468c03d03f7c8c7e92b28dbc64b462aeb88c02567a00e61f9968e089f1c0b3bc1e9df
   languageName: node
   linkType: hard
 
@@ -20180,7 +20180,7 @@ __metadata:
   resolution: "rpa-pui-manager@workspace:."
   dependencies:
     "@angular-devkit/build-angular": ~0.1102.19
-    "@angular-material-components/datetime-picker": 6.0.0
+    "@angular-material-components/datetime-picker": 6.0.3
     "@angular-material-components/moment-adapter": 6.0.0
     "@angular/animations": ^11.2.14
     "@angular/cdk": ^11.2.13

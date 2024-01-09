@@ -58,7 +58,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-material-components/datetime-picker": "6.0.0",
+    "@angular-material-components/datetime-picker": "6.0.3",
     "@angular-material-components/moment-adapter": "6.0.0",
     "@angular/animations": "^11.2.14",
     "@angular/cdk": "^11.2.13",

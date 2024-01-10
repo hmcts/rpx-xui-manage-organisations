@@ -84,6 +84,7 @@ describe('OrganisationComponent', () => {
   const mockOrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
+    organisationProfileIds: ['test'],
     contactInformation: [
       contactInformation
     ],

@@ -3,14 +3,33 @@
   [backLink]="backUrl"
   [title]="'Manage user'"
 >
-</app-hmcts-main-wrapper>
+  <app-user-personal-details
+    [user]="user"
+    (personalDetailsChanged)="onPersonalDetailsChange($event)"
+  ></app-user-personal-details>
+  <app-standard-user-permissions
+    [user]="user"
+    (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
+  ></app-standard-user-permissions>
+  <app-organisation-access-permissions
+    [jurisdictions]="jurisdictions"
+    [user]="user"
+    [organisationProfileIds]="organisationProfileIds"
+    (selectedPermissionsChanged)="
+      onSelectedCaseManagamentPermissionsChange($event)
+    "
+  ></app-organisation-access-permissions>
 
-<app-standard-user-permissions
-  [user]="this.user"
-  (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
-></app-standard-user-permissions>
-<app-organisation-access-permissions
-  (selectedPermissionsChanged)="
-    onSelectedCaseManagamentPermissionsChange($event)
-  "
-></app-organisation-access-permissions>
+  <div class="govuk-button-group">
+    <button
+      type="button"
+      data-prevent-double-click="true"
+      class="govuk-button"
+      data-module="govuk-button"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+    <a class="govuk-link" [routerLink]="backUrl">Cancel</a>
+  </div>
+</app-hmcts-main-wrapper>

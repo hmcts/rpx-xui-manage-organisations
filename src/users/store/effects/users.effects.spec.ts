@@ -1,12 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MemoizedSelector } from '@ngrx/store';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
-import { LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import { InviteNewUser, LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
 import * as orgActions from '../../../organisation/store/actions';
+import * as fromRoot from '../../../app/store';
 import * as fromUsersEffects from './users.effects';
 import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
 
@@ -18,6 +21,8 @@ describe('Users Effects', () => {
   ]);
   let loggerService: LoggerService;
 
+  let mockGetOgdInviteUserFlowFeatureIsEnabledSelector: MemoizedSelector<fromRoot.State, boolean>;
+  let mockRootStore: MockStore<fromRoot.State>;
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
   beforeEach(waitForAsync(() => {
@@ -33,16 +38,22 @@ describe('Users Effects', () => {
           useValue: mockedLoggerService
         },
         fromUsersEffects.UsersEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideMockStore()
       ]
     });
 
     effects = TestBed.inject(fromUsersEffects.UsersEffects);
     loggerService = TestBed.inject(LoggerService);
-
+    mockRootStore = TestBed.inject(MockStore);
+    mockGetOgdInviteUserFlowFeatureIsEnabledSelector = mockRootStore.overrideSelector(fromRoot.getOgdInviteUserFlowFeatureIsEnabled, false);
     initTestScheduler();
     addMatchers();
   }));
+
+  afterEach(() => {
+    mockRootStore.resetSelectors();
+  });
 
   describe('loadUsers$', () => {
     it('should return a collection from loadUsers$ - LoadUsersSuccess', waitForAsync(() => {
@@ -199,6 +210,30 @@ describe('Users Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadUserDetails$).toBeObservable(expected);
+    });
+  });
+
+  describe('inviteNewUser$', () => {
+    describe('inviteNewUser$ - OgdInviteUserFlowFeature disabled', () => {
+      it('should return a Go object with the path to users/invite-user', () => {
+        mockGetOgdInviteUserFlowFeatureIsEnabledSelector.setResult(false);
+        const action = new InviteNewUser();
+        const completion = new fromRoot.Go({ path: ['users/invite-user'] });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+        expect(effects.inviteNewUser$).toBeObservable(expected);
+      });
+    });
+
+    describe('inviteNewUser$ - OgdInviteUserFlowFeature enabled', () => {
+      it('should return a Go object with the path to users/manage', () => {
+        mockGetOgdInviteUserFlowFeatureIsEnabledSelector.setResult(true);
+        const action = new InviteNewUser();
+        const completion = new fromRoot.Go({ path: ['users/manage'] });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', { b: completion });
+        expect(effects.inviteNewUser$).toBeObservable(expected);
+      });
     });
   });
 

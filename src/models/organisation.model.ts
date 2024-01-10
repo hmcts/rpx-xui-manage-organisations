@@ -41,7 +41,7 @@ export interface OrganisationDetails {
 }
 
 export interface Jurisdiction {
-  jurisdictionid: string;
+  jurisdictionId: string;
   jurisdictionName: string;
   accessTypes: OrganisationAccessType[];
 }

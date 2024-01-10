@@ -4,28 +4,55 @@
     *ngIf="jurisdictionPermissionsForm"
     [formGroup]="jurisdictionPermissionsForm"
   >
-    <lib-gov-checkbox
+    <xuilib-gov-checkbox
       [group]="jurisdictionPermissionsForm"
       [config]="{
         value: 'enableCaseManagement',
         label: 'Manage cases for your organisation',
         name: 'enableCaseManagement',
-        hint: 'This provides the user with access to submat and manage claims.',
+        hint: 'This provides the user with access to submit and manage claims.',
         hiddenLabelContext:
-          'This provides the user with access to submat and manage claims '
+          'This provides the user with access to submit and manage claims'
       }"
     >
-    </lib-gov-checkbox>
+    </xuilib-gov-checkbox>
 
-    <ng-container *ngIf="enableCaseManagement">
-      <app-solicitor-profile-content
-        *ngIf="hasSolicitorProfile"
-      ></app-solicitor-profile-content>
-      <!-- Display if OrganisationProfileId LIKE 'OGD_*' -->
-      <app-ogd-profile-content *ngIf="hasOgdProfile"></app-ogd-profile-content>
+    <ng-container>
+      <div id="supporting-content" class="govuk-!-margin-top-4 govuk-!-margin-left-8">
+        <app-solicitor-profile-content
+          *ngIf="hasSolicitorProfile"
+        ></app-solicitor-profile-content>
+
+        <app-ogd-cafcass-cy-profile-content
+          *ngIf="hasCafcassCyProfile"
+        ></app-ogd-cafcass-cy-profile-content>
+
+        <app-ogd-cafcass-en-profile-content
+          *ngIf="hasOgdCafcassEnglishProfile"
+        ></app-ogd-cafcass-en-profile-content>
+
+        <app-ogd-cica-profile-content *ngIf="hasOgdCicaProfile">
+        </app-ogd-cica-profile-content>
+
+        <app-ogd-dwp-profile-content
+          *ngIf="hasOgdDwpProfile"
+        ></app-ogd-dwp-profile-content>
+
+        <app-ogd-hmrc-profile-content
+          *ngIf="hasOgdHmrcProfile"
+        ></app-ogd-hmrc-profile-content>
+
+        <app-ogd-ho-profile-content
+          *ngIf="hasOgdHomeOfficeProfile"
+        ></app-ogd-ho-profile-content>
+      </div>
     </ng-container>
 
-    <div formArrayName="jurisdictions" *ngIf="enableCaseManagement" class="govuk-!-margin-left-4">
+    <div
+      formArrayName="jurisdictions"
+      *ngIf="enableCaseManagement"
+      class="govuk-!-margin-left-4"
+    >
       <ng-container
         *ngFor="
           let jurisdiction of jurisdictionsFormArray.controls;

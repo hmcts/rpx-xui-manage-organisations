@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, In
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
+import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -9,149 +10,9 @@ import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
-  // todo: remove this when we have the real data
-  jurisdictionsExample = `
-  [
-        {
-            "jurisdictionid": "6",
-            "jurisdictionName": "Civil",
-            "accessTypes": [
-                {
-                    "organisationProfileId": "SOLICITOR_PROFILE",
-                    "accessTypeId": "10",
-                    "accessMandatory": true,
-                    "accessDefault": true,
-                    "display": true,
-                    "description": "Should be checked because of the access default and disabled because it's mandatory",
-                    "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                    "displayOrder": 6,
-                    "roles": [
-                        {
-                            "caseTypeId": "38459",
-                            "organisationalRoleName": "rolename",
-                            "groupRoleName": "groupname",
-                            "caseGroupIdTemplate": "CIVIL:all:CIVIL:AS1:$ORGID$"
-                        }
-                    ]
-                },
-                {
-                  "organisationProfileId": "SOLICITOR_PROFILE",
-                  "accessTypeId": "22",
-                  "accessMandatory": false,
-                  "accessDefault": false,
-                  "display": false,
-                  "description": "Should not be visible",
-                  "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                  "displayOrder": 2,
-                  "roles": [
-                      {
-                          "caseTypeId": "38459",
-                          "organisationalRoleName": "rolename",
-                          "groupRoleName": "groupname",
-                          "caseGroupIdTemplate": "CIVIL:all:CIVIL:AS1:$ORGID$"
-                      }
-                  ]
-                },
-                {
-                  "organisationProfileId": "SOLICITOR_PROFILE",
-                  "accessTypeId": "101",
-                  "accessMandatory": false,
-                  "accessDefault": false,
-                  "display": true,
-                  "description": "Just an extra",
-                  "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                  "displayOrder": 3,
-                  "roles": [
-                      {
-                          "caseTypeId": "38459",
-                          "organisationalRoleName": "rolename",
-                          "groupRoleName": "groupname",
-                          "caseGroupIdTemplate": "CIVIL:all:CIVIL:AS1:$ORGID$"
-                      }
-                  ]
-                }
-            ]
-        },
-        {
-          "jurisdictionid": "5",
-          "jurisdictionName": "Family Public Law",
-          "accessTypes": [
-              {
-                  "organisationProfileId": "SOLICITOR_PROFILE",
-                  "accessTypeId": "34",
-                  "accessMandatory": false,
-                  "accessDefault": false,
-                  "display": true,
-                  "description": "This was is a pre-existing selection as true",
-                  "hint": "Hint  for the BEFTA Master Jurisdiction Access Type.",
-                  "displayOrder": 10,
-                  "roles": [
-                      {
-                          "caseTypeId": "38459",
-                          "organisationalRoleName": "rolename",
-                          "groupRoleName": "groupname",
-                          "caseGroupIdTemplate": "CIVIL:all:CIVIL:AS1:$ORGID$"
-                      }
-                  ]
-              }
-          ]
-      }
-    ]`;
-
-  userAccessTypesExample = `
-  [
-    {
-      "jurisdictionId": "5",
-      "organisationProfileId": "SOLICITOR_PROFILE",
-      "accessTypeId": "34",
-      "enabled": true
-    }
-  ]
-  `;
-
-  userExample = `
-  {
-    "email": "probate.aat.manage.org2@gmail.com",
-    "orgId": "GCXGCY1",
-    "roles": [
-        "caseworker",
-        "caseworker-civil",
-        "caseworker-civil-solicitor",
-        "caseworker-divorce",
-        "caseworker-divorce-financialremedy",
-        "caseworker-divorce-financialremedy-solicitor",
-        "caseworker-divorce-solicitor",
-        "caseworker-ia",
-        "caseworker-ia-legalrep-solicitor",
-        "caseworker-probate",
-        "caseworker-probate-solicitor",
-        "caseworker-publiclaw",
-        "caseworker-publiclaw-solicitor",
-        "pui-caa",
-        "pui-case-manager",
-        "pui-finance-manager",
-        "pui-organisation-manager",
-        "pui-user-manager"
-    ],
-    "sessionTimeout": {
-        "idleModalDisplayTime": 10,
-        "pattern": ".",
-        "totalIdleTime": 50
-    },
-    "userId": "cf2daba2-7418-4a52-bcb4-cae11501f25f",
-    "accessTypes": [
-      {
-        "jurisdictionId": "5",
-        "organisationProfileId": "SOLICITOR_PROFILE",
-        "accessTypeId": "34",
-        "enabled": true
-      }
-    ]
-  }
-  `;
-
   // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
   @Input() public jurisdictions: TempJurisdicationModel[];
+  @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
 
   @Output() public selectedPermissionsChanged = new EventEmitter<CaseManagementPermissions>();
@@ -160,16 +21,18 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
 
   public hasSolicitorProfile: boolean;
-  public hasOgdProfile: boolean;
+  public hasOgdDwpProfile: boolean;
+  public hasOgdHomeOfficeProfile: boolean;
+  public hasOgdHmrcProfile: boolean;
+  public hasOgdCicaProfile: boolean;
+  public hasOgdCafcassEnglishProfile: boolean;
+  public hasOgdCafcassWelshProfile: boolean;
   public enableCaseManagement: boolean;
 
   private userAccessTypes: UserAccessType[];
   private onDestory$ = new Subject<void>();
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
-    // TODO: remove this when we have the real data
-    this.jurisdictions = JSON.parse(this.jurisdictionsExample) as TempJurisdicationModel[];
-    this.user = JSON.parse(this.userExample) as User;
   }
 
   ngOnInit(): void {
@@ -177,13 +40,22 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     this.userAccessTypes = this.user?.accessTypes ?? [];
 
     this.permissions = this.createPermissionsViewModel();
-    const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
-    this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
-    this.hasOgdProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId.startsWith('OGD_'));
+    this.getOrganisationProfileType();
 
     this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
+  }
+
+  private getOrganisationProfileType() {
+    // current assumption and implementation is that an organisation can only have one profile type
+    this.hasSolicitorProfile = this.organisationProfileIds.includes('SOLICITOR_PROFILE');
+    this.hasOgdDwpProfile = this.organisationProfileIds.includes('OGD_DWP_PROFILE');
+    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes('OGD_HO_PROFILE');
+    this.hasOgdHmrcProfile = this.organisationProfileIds.includes('OGD_HMRC_PROFILE');
+    this.hasOgdCicaProfile = this.organisationProfileIds.includes('OGD_CICA_PROFILE');
+    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_ENGLAND');
+    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_CYMRU');
   }
 
   ngOnDestroy(): void {
@@ -341,11 +213,6 @@ export interface TempAccessTypeModel {
   description: string;
   hint: string;
   displayOrder: number;
-}
-
-export interface CaseManagementPermissions {
-  manageCases: boolean;
-  userAccessTypes: UserAccessType[];
 }
 
 interface JurisdictionPermissionViewModel {

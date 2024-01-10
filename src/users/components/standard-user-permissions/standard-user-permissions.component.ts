@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject } from 'rxjs';
 import { User } from '@hmcts/rpx-xui-common-lib';
+import { BasicAccessTypes } from '../../models/basic-access-types.model';
 
 @Component({
   selector: 'app-standard-user-permissions',
@@ -67,9 +68,9 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
 
   private createPermissionsViewModelFromInput(): BasicAccessTypes {
     return {
-      isPuiUserManager: this.user?.manageUsers === 'Yes',
-      isPuiOrganisationManager: this.user?.manageOrganisations === 'Yes',
-      isPuiFinanceManager: this.user?.managePayments === 'Yes',
+      isPuiUserManager: this.user?.roles?.includes('pui-user-manager'),
+      isPuiOrganisationManager: this.user?.roles?.includes('pui-organisation-manager'),
+      isPuiFinanceManager: this.user?.roles?.includes('pui-finance-manager'),
       isCaseAccessAdmin: this.user?.roles?.includes('pui-caa')
     };
   }
@@ -82,13 +83,6 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
       isCaseAccessAdmin: this.permissions.isCaseAccessAdmin
     };
   }
-}
-
-export interface BasicAccessTypes {
-  isPuiUserManager: boolean;
-  isPuiOrganisationManager: boolean;
-  isPuiFinanceManager: boolean;
-  isCaseAccessAdmin: boolean;
 }
 
 interface AccessForm {

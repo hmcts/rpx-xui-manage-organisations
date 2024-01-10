@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap, take } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
 import * as usersActions from '../actions';
 import * as orgActions from '../../../organisation/store/actions';
 import { PrdUser } from 'src/users/models/prd-users.model';
+import { Store, select } from '@ngrx/store';
 
 @Injectable()
 export class UsersEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly usersService: UsersService,
-    private readonly loggerService: LoggerService
+    private readonly loggerService: LoggerService,
+    private readonly appStore: Store<fromRoot.State>,
   ) {}
 
   public loadUsers$ = createEffect(() =>
@@ -168,14 +170,37 @@ export class UsersEffects {
   public inviteNewUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.INVITE_NEW_USER),
-      map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
+      switchMap(() => {
+        return this.appStore.pipe(
+          select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
+          take(1),
+          map((isEnabled) => {
+            console.log('isEnabled', isEnabled);
+            if (isEnabled) {
+              return new fromRoot.Go({ path: ['users/manage'] });
+            }
+            return new fromRoot.Go({ path: ['users/invite-user'] });
+          })
+        );
+      })
     )
   );
 
   public reinviteUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.REINVITE_PENDING_USER),
-      map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
+      switchMap(() => {
+        return this.appStore.pipe(
+          select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
+          take(1),
+          map((isEnabled) => {
+            if (isEnabled) {
+              return new fromRoot.Go({ path: ['users/manage'] });
+            }
+            return new fromRoot.Go({ path: ['users/invite-user'] });
+          })
+        );
+      })
     )
   );
 }

@@ -113,7 +113,8 @@ export function reducer(
     case fromUsers.INVITE_NEW_USER: {
       return {
         ...state,
-        reinvitePendingUser: null
+        reinvitePendingUser: null,
+        userDetails: null
       };
     }
 

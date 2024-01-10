@@ -20,6 +20,9 @@ export const ORGANISATION_UPDATE_PROFILE_IDS = '[Organisation] Organisation Upda
 export const LOAD_ORGANISATION_ACCESS_TYPES = '[Organisation] Load Organisation Access Types';
 export const LOAD_ORGANISATION_ACCESS_TYPES_SUCCESS = '[Organisation] Load Organisation Access Types Success';
 export const LOAD_ORGANISATION_ACCESS_TYPES_FAIL = '[Organisation] Load Organisation Access Types Fail';
+export const LOAD_ORGANISATION_ACCESS_TYPES_FAIL_WITH_400 = '[Organisation] Load Organisation Access Types Fail with 400';
+export const LOAD_ORGANISATION_ACCESS_TYPES_FAIL_WITH_401 = '[Organisation] Load Organisation Access Types Fail with 401';
+export const LOAD_ORGANISATION_ACCESS_TYPES_FAIL_WITH_5xx = '[Organisation] Load Organisation Access Types Fail with 5xx';
 
 export class LoadOrganisation {
   public readonly type = LOAD_ORGANISATION;
@@ -85,6 +88,21 @@ export class LoadOrganisationAccessTypesFail implements Action {
   constructor(public payload: any) {}
 }
 
+export class LoadOrganisationAccessTypesFailWith400 implements Action {
+  public readonly type = LOAD_ORGANISATION_ACCESS_TYPES_FAIL_WITH_400;
+  constructor(public payload: any) {}
+}
+
+export class LoadOrganisationAccessTypesFailWith401 implements Action {
+  public readonly type = LOAD_ORGANISATION_ACCESS_TYPES_FAIL_WITH_401;
+  constructor(public payload: any) {}
+}
+
+export class LoadOrganisationAccessTypesFailWith5xx implements Action {
+  public readonly type = LOAD_ORGANISATION_ACCESS_TYPES_FAIL_WITH_5xx;
+  constructor(public payload: any) {}
+}
+
 export type organisationActions =
   | LoadOrganisation
   | LoadOrganisationSuccess
@@ -98,4 +116,7 @@ export type organisationActions =
   | OrganisationUpdateUpdateProfileIds
   | LoadOrganisationAccessTypes
   | LoadOrganisationAccessTypesSuccess
+  | LoadOrganisationAccessTypesFailWith400
+  | LoadOrganisationAccessTypesFailWith401
+  | LoadOrganisationAccessTypesFailWith5xx
   | LoadOrganisationAccessTypesFail;

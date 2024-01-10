@@ -23,7 +23,6 @@ import { LoggerService } from 'src/shared/services/logger.service';
 export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
-  public user$: Observable<User>;
   public organisationAccessTypes$: Observable<Jurisdiction[]>;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
   public user: User;

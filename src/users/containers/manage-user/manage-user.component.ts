@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
+import * as fromOrgStore from '../../../organisation/store';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { BasicAccessTypes } from '../../models/basic-access-types.model';
@@ -12,6 +13,9 @@ import { PersonalDetails } from '../../models/personal-details.model';
 
 import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
 import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
+import { OrganisationDetails } from 'src/models';
+import { LoggerService } from 'src/shared/services/logger.service';
+
 // import { UserRolesUtil } from '../utils/user-roles-util';
 
 @Component({
@@ -21,29 +25,40 @@ import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
 export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
-  public user$: Observable<User>;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
   public user: User;
 
   // TODO: remove this when the GA-62 is complete and replace with selector
   public jurisdictions = JSON.parse(jurisdictionsExample) as Jurisdiction[];
+  public organisationProfileIds:string[];
 
-  private onDestory$ = new Subject<void>();
+  private user$: Observable<User>;
+  private organisation$: Observable<OrganisationDetails>;
   private updatedUser: User;
+  private onDestory$ = new Subject<void>();
 
-  constructor(private readonly actions$: Actions, private readonly routerStore: Store<fromRoot.State>, private readonly userStore: Store<fromStore.UserState>) {}
+  constructor(private readonly actions$: Actions,
+    private readonly routerStore: Store<fromRoot.State>,
+    private readonly userStore: Store<fromStore.UserState>,
+    private readonly orgStore: Store<fromOrgStore.OrganisationState>,
+    private loggerService: LoggerService) {}
 
   ngOnInit(): void {
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
+      this.organisation$ = this.orgStore.pipe(select(fromOrgStore.getOrganisationSel));
       this.backUrl = this.getBackurl(this.userId);
     });
 
-    this.user$.pipe(takeUntil(this.onDestory$)).subscribe((user) => {
+    combineLatest([this.user$, this.organisation$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation]) => {
       // TODO this is temporary until access types are returned by the API. used to test the population of the form
-      user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
-      this.user = user;
+      organisation = { ...organisation, organisationProfileIds: ['SOLICITOR_PROFILE'] };
+      if (user){
+        user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
+        this.user = user;
+      }
+      this.organisationProfileIds = organisation.organisationProfileIds ?? [];
     });
 
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
@@ -76,16 +91,24 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onPersonalDetailsChange($event: PersonalDetails){
-    this.updatedUser = { ...this.user, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
+    this.updatedUser = { ...this.updatedUser, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
+    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
-    // todo: when $event.manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
-    this.updatedUser = { ...this.user, accessTypes: $event.userAccessTypes };
+    // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
+    const caseAdminRole = 'pui-caa';
+    if ($event.manageCases){
+      this.updatedUser = { ...this.updatedUser, roles: [...this.updatedUser.roles, caseAdminRole] };
+    } else {
+      this.updatedUser = { ...this.updatedUser, roles: this.updatedUser.roles.filter((role: string) => role !== caseAdminRole) };
+    }
+    // when manageCases is false then the roles property is an empty array, which will clear all the access types
+    this.updatedUser = { ...this.updatedUser, accessTypes: $event.userAccessTypes };
+    this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    // todo: map each property to their respective role
     const roles: string[] = [];
     if ($event.isPuiUserManager) {
       roles.push('pui-user-manager');
@@ -99,10 +122,27 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     if ($event.isCaseAccessAdmin) {
       roles.push('pui-case-manager');
     }
-    this.updatedUser = { ...this.user, roles };
+    this.updatedUser = { ...this.updatedUser, roles };
+    this.loggerService.debug('updatedUser', this.updatedUser);
+  }
+
+  onSubmit() {
+    if (this.userId) {
+      this.updateUser();
+    } else {
+      this.inviteUser();
+    }
+  }
+
+  private inviteUser() {
+    // TODO: implement
+  }
+
+  private updateUser() {
+    // TODO: implement
   }
 
   private getBackurl(userId: string): string {
-    return `/users/user/${userId}`;
+    return !!userId ? `/users/user/${userId}` : '/users';
   }
 }

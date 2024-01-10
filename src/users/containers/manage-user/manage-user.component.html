@@ -14,8 +14,22 @@
   <app-organisation-access-permissions
     [jurisdictions]="jurisdictions"
     [user]="user"
+    [organisationProfileIds]="organisationProfileIds"
     (selectedPermissionsChanged)="
       onSelectedCaseManagamentPermissionsChange($event)
     "
   ></app-organisation-access-permissions>
+
+  <div class="govuk-button-group">
+    <button
+      type="button"
+      data-prevent-double-click="true"
+      class="govuk-button"
+      data-module="govuk-button"
+      (click)="onSubmit()"
+    >
+      Submit
+    </button>
+    <a class="govuk-link" [routerLink]="backUrl">Cancel</a>
+  </div>
 </app-hmcts-main-wrapper>

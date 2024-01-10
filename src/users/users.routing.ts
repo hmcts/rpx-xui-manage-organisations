@@ -43,6 +43,11 @@ export const ROUTES: Routes = [
     path: 'user/:userId/manage',
     component: ManageUserComponent,
     canActivate: [featureToggleOdgInviteUserFlowGuard]
+  },
+  {
+    path: 'manage',
+    component: ManageUserComponent,
+    canActivate: [featureToggleOdgInviteUserFlowGuard]
   }
 ];
 

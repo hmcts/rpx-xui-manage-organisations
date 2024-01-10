@@ -12,6 +12,7 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
   // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
   @Input() public jurisdictions: TempJurisdicationModel[];
+  @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
 
   @Output() public selectedPermissionsChanged = new EventEmitter<CaseManagementPermissions>();
@@ -20,7 +21,12 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
 
   public hasSolicitorProfile: boolean;
-  public hasOgdProfile: boolean;
+  public hasOgdDwpProfile: boolean;
+  public hasOgdHomeOfficeProfile: boolean;
+  public hasOgdHmrcProfile: boolean;
+  public hasOgdCicaProfile: boolean;
+  public hasOgdCafcassEnglishProfile: boolean;
+  public hasOgdCafcassWelshProfile: boolean;
   public enableCaseManagement: boolean;
 
   private userAccessTypes: UserAccessType[];
@@ -34,13 +40,22 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     this.userAccessTypes = this.user?.accessTypes ?? [];
 
     this.permissions = this.createPermissionsViewModel();
-    const allAccessTypes = this.jurisdictions.reduce((acc, jurisdiction) => acc.concat(jurisdiction.accessTypes), []);
-    this.hasSolicitorProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId === 'SOLICITOR_PROFILE');
-    this.hasOgdProfile = allAccessTypes.some((accessType) => accessType.organisationProfileId.startsWith('OGD_'));
+    this.getOrganisationProfileType();
 
     this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
+  }
+
+  private getOrganisationProfileType() {
+    // current assumption and implementation is that an organisation can only have one profile type
+    this.hasSolicitorProfile = this.organisationProfileIds.includes('SOLICITOR_PROFILE');
+    this.hasOgdDwpProfile = this.organisationProfileIds.includes('OGD_DWP_PROFILE');
+    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes('OGD_HO_PROFILE');
+    this.hasOgdHmrcProfile = this.organisationProfileIds.includes('OGD_HMRC_PROFILE');
+    this.hasOgdCicaProfile = this.organisationProfileIds.includes('OGD_CICA_PROFILE');
+    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_ENGLAND');
+    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_CYMRU');
   }
 
   ngOnDestroy(): void {

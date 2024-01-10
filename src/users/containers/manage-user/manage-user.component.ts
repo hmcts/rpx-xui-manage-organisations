@@ -12,6 +12,7 @@ import { PersonalDetails } from '../../models/personal-details.model';
 
 import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
 import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
+// import { UserRolesUtil } from '../utils/user-roles-util';
 
 @Component({
   selector: 'app-manage-user',
@@ -53,6 +54,25 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  public onSubmit(): void {
+/*     // BJ-TODO: Add check here to see if there are any access types to submit
+    const { value } = this.editUserForm;
+    const permissions = UserRolesUtil.mapPermissions(value);
+    const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
+    const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
+    // BJ-TODO: Add access types to 'mapEditUserRoles' method
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted);
+    // BJ-TODO: Change IF statement to include access types as a potential change
+    if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
+      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
+    } else {
+      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
+        header: this.summaryErrors.header };
+      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
+      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
+    } */
   }
 
   onPersonalDetailsChange($event: PersonalDetails){

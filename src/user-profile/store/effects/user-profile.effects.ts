@@ -84,21 +84,21 @@ export class UserProfileEffects {
           map((response) => {
             if (UserRolesUtil.doesRoleAdditionExist(response)) {
               if (response.roleAdditionResponse.idamStatusCode !== '201') {
-                return new usersActions.EditUserFailure(user.userId);
+                return new usersActions.EditUserFailure(user.id);
               }
             }
 
             if (UserRolesUtil.doesRoleDeletionExist(response)) {
               if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
-                return new usersActions.EditUserFailure(user.userId);
+                return new usersActions.EditUserFailure(user.id);
               }
             }
 
-            return new usersActions.EditUserSuccess(user.userId);
+            return new usersActions.EditUserSuccess(user.id);
           }),
           catchError((error) => {
             this.loggerService.error(error);
-            return of(new usersActions.EditUserServerError({ userId: user.userId, errorCode: error.apiStatusCode }));
+            return of(new usersActions.EditUserServerError({ userId: user.id, errorCode: error.apiStatusCode }));
           })
         );
       })

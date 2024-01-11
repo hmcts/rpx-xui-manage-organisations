@@ -4,10 +4,12 @@
   [title]="'Manage user'"
 >
   <app-user-personal-details
+    #userPersonalDetails
     [user]="user"
     (personalDetailsChanged)="onPersonalDetailsChange($event)"
   ></app-user-personal-details>
   <app-standard-user-permissions
+    #standardPermission
     [user]="user"
     (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
   ></app-standard-user-permissions>

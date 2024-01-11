@@ -172,4 +172,4 @@ export function reducer(
 export const getOrganisation = (state: OrganisationState) => state.organisationDetails;
 export const getOrganisationLoaded = (state: OrganisationState) => state.loaded;
 export const getOrganisationError = (state: OrganisationState) => state.error;
-export const getOrganisationAccessTypes = (state: OrganisationState) => state.error;
+export const getOrganisationAccessTypes = (state: OrganisationState) => state.organisationJurisdications;

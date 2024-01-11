@@ -12,8 +12,7 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
 
 import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
-import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
-import { OrganisationDetails } from 'src/models';
+import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
 
 @Component({

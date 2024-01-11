@@ -49,13 +49,15 @@ export class OrganisationEffects {
   );
 
   public static getErrorAction(error: ApiError): Action {
+    const errorCode = error.apiStatusCode;
+    if (errorCode >= 500 && errorCode <= 599){
+      return new organisationActions.LoadOrganisationAccessTypesFailWith5xx(error);
+    }
     switch (error.apiStatusCode) {
       case 400:
         return new organisationActions.LoadOrganisationAccessTypesFailWith400(error);
       case 401:
         return new organisationActions.LoadOrganisationAccessTypesFailWith401(error);
-      case 500:
-        return new organisationActions.LoadOrganisationAccessTypesFailWith5xx(error);
       default:
         return new organisationActions.LoadOrganisationAccessTypesFail(error);
     }

@@ -16,6 +16,7 @@ export const EDIT_USER_SUCCESS = '[User] Edit User Success';
 export const EDIT_USER_FAILURE = '[User] Edit User Failure';
 export const EDIT_USER_FAILURE_RESET = '[User] Edit User Failure Reset';
 export const EDIT_USER_SERVER_ERROR = '[User] Edit User Server Error';
+export const REFRESH_USER = '[User] Refresh User';
 export const LOAD_USER_DETAILS = '[UserDetails] Load User Details';
 export const LOAD_USER_DETAILS_SUCCESS = '[UserDetails] Load User Details Success';
 export const SUSPEND_USER = '[User] Suspend User';
@@ -123,6 +124,11 @@ export class ReinvitePendingUser {
   constructor(public payload: any) {}
 }
 
+export class RefreshUser {
+  public readonly type = REFRESH_USER;
+  constructor(public idamId: string) {}
+}
+
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
@@ -143,4 +149,5 @@ export type UserActions =
   | SuspendUserFail
   | EditUserServerError
   | ReinvitePendingUser
-  | InviteNewUser;
+  | InviteNewUser
+  | RefreshUser;

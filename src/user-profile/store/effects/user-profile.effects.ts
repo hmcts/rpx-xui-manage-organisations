@@ -139,4 +139,12 @@ export class UserProfileEffects {
         new usersActions.LoadAllUsers()
       ])
     );
+
+  @Effect({ dispatch: false })
+  public refreshUser$ =
+      this.actions$.pipe(
+        ofType(usersActions.REFRESH_USER),
+        switchMap((payload: usersActions.RefreshUser) => this.userService.refreshUser(payload.idamId)
+        )
+      );
 }

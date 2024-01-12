@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, Effect, createEffect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { OrganisationService } from '../../services';
 import * as organisationActions from '../actions';
+import { LoadOrganisationAccessTypes } from '../actions';
+import { ApiError } from 'src/organisation/models/apiError.model';
 
 @Injectable()
 export class OrganisationEffects {
@@ -29,4 +32,34 @@ export class OrganisationEffects {
         );
       })
     );
+
+  public getAccessTypes$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(organisationActions.LOAD_ORGANISATION_ACCESS_TYPES),
+      switchMap((action: LoadOrganisationAccessTypes) => {
+        return this.organisationService.retrieveAccessType(action.payload).pipe(
+          map((jurisdictions) => new organisationActions.LoadOrganisationAccessTypesSuccess(jurisdictions)),
+          catchError((error) => {
+            this.loggerService.error(error.message);
+            return of(new organisationActions.LoadOrganisationAccessTypesFail(error));
+          })
+        );
+      })
+    )
+  );
+
+  public static getErrorAction(error: ApiError): Action {
+    const errorCode = error.apiStatusCode;
+    if (errorCode >= 500 && errorCode <= 599){
+      return new organisationActions.LoadOrganisationAccessTypesFailWith5xx(error);
+    }
+    switch (error.apiStatusCode) {
+      case 400:
+        return new organisationActions.LoadOrganisationAccessTypesFailWith400(error);
+      case 401:
+        return new organisationActions.LoadOrganisationAccessTypesFailWith401(error);
+      default:
+        return new organisationActions.LoadOrganisationAccessTypesFail(error);
+    }
+  }
 }

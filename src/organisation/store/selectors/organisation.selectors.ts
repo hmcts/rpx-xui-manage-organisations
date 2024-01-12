@@ -23,3 +23,8 @@ export const getOrganisationError = createSelector(
   fromOrganisation.getOrganisationError
 );
 
+export const getAccessTypes = createSelector(
+  getOrganisationState,
+  fromOrganisation.getOrganisationAccessTypes
+);
+

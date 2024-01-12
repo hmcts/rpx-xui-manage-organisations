@@ -12,8 +12,7 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
 
 import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
-import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
-import { OrganisationDetails } from 'src/models';
+import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
 
@@ -27,6 +26,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   public backUrl: string;
   public userId: string;
+  public organisationAccessTypes$: Observable<Jurisdiction[]>;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
   public user: User;
 
@@ -46,6 +46,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     private loggerService: LoggerService) {}
 
   ngOnInit(): void {
+    this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));

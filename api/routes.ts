@@ -24,6 +24,7 @@ import userDetailsRouter from './user';
 import getUserDetails from './user-details';
 import getUserList from './userList';
 import refreshUser from './refresh-user';
+import retriveAccessTypes from './retrieveAccessTypes';
 
 const router = Router({ mergeParams: true });
 
@@ -59,4 +60,5 @@ router.use('/caseshare', caseShareRouter);
 router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);
 router.use('/user-details', getUserDetails);
+router.use('/retrieve-access-types', retriveAccessTypes);
 export default router;

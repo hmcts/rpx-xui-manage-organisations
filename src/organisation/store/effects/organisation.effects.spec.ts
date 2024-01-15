@@ -60,6 +60,9 @@ describe('Organisation Effects', () => {
       const payload: OrganisationDetails = {
         name: 'a@b.com',
         organisationIdentifier: 'A111111',
+        organisationProfileIds: [
+          'SOLICITOR_PROFILE'
+        ],
         contactInformation: [{
           addressLine1: '10  oxford street',
           addressLine2: 'A Town',

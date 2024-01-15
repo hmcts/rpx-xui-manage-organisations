@@ -13,7 +13,7 @@ import { OrganisationModule } from './organisation.module';
 
 export const ROUTES: Routes = [
   {
-    path: '',
+    path: 'organisation',
     component: OrganisationComponent,
     canActivate: [
       OrganisationGuard,

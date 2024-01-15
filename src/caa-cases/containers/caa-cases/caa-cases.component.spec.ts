@@ -19,6 +19,7 @@ import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/ca
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
+import { ROUTES as AppRoutes } from 'src/app/app.routes';
 
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
@@ -52,7 +53,7 @@ describe('CaaCasesComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        RouterTestingModule,
+        RouterTestingModule.withRoutes(AppRoutes),
         HttpClientTestingModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -121,7 +122,6 @@ describe('CaaCasesComponent', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
     const storeSelectMock = spyOn(store, 'select');
-    storeDispatchMock.and.returnValue(of({}));
     storePipeMock.and.returnValue(of({}));
     storeSelectMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -146,7 +146,6 @@ describe('CaaCasesComponent', () => {
   it('should load case data only when case type is set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
-    storeDispatchMock.and.returnValue(of({}));
     storePipeMock.and.returnValue(of({}));
     component.currentCaseType = 'FinancialRemedyConsented';
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -158,7 +157,6 @@ describe('CaaCasesComponent', () => {
   it('should not load case data only when case type is not set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
-    storeDispatchMock.and.returnValue(of({}));
     storePipeMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.loadDataFromStore();
@@ -167,7 +165,6 @@ describe('CaaCasesComponent', () => {
   });
 
   it('should load data from store error', () => {
-    spyOn(store, 'dispatch').and.returnValue(of({}));
     spyOn(store, 'pipe').and.returnValue(of({}));
     const httpErrorResponse = new HttpErrorResponse({ error: 'unassigned cases error' });
     component.casesError$ = of(httpErrorResponse);

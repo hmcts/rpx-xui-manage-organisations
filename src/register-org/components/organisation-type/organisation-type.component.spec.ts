@@ -224,7 +224,7 @@ describe('OrganisationTypeComponent', () => {
       previousNavigation: {
         finalUrl: '/check-your-answers'
       }
-    });
+    } as any);
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
@@ -234,7 +234,7 @@ describe('OrganisationTypeComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new']);
   });

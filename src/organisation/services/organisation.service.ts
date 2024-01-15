@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Jurisdiction } from 'src/models';
 
 export const ENVIRONMENT = {
   orgUri: '/api/organisation'
@@ -29,5 +30,11 @@ export class OrganisationService {
     // return an observable with a user-facing error message
     return throwError(
       'error please try again later.');
+  }
+
+  public retrieveAccessType(organisationProfileIds: string[]): Observable<Jurisdiction[]> {
+    return this.http
+      .post<Jurisdiction[]>('/api/retrieve-access-types', organisationProfileIds)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

@@ -39,7 +39,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   private user$: Observable<User>;
   private organisation$: Observable<OrganisationDetails>;
-  private updatedUser: User;
+  public updatedUser: User;
   private onDestory$ = new Subject<void>();
 
   constructor(private readonly actions$: Actions,
@@ -169,7 +169,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  private inviteUser(): void {
+  inviteUser(): void {
     let value:any = {
       ...this.updatedUser
     };
@@ -180,7 +180,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       ...value,
       resendInvite: this.resendInvite
     };
-    console.log(value);
     this.userStore.dispatch(new fromStore.SendInviteUser(value));
   }
 
@@ -193,7 +192,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   public handleError(store: Store<any>, errorNumber: number): void {
-    console.log('handling error' + errorNumber);
     const globalError = this.getGlobalError(errorNumber);
     if (globalError) {
       store.dispatch(new fromRoot.AddGlobalError(globalError));

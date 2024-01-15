@@ -1,5 +1,16 @@
 <h2 class="govuk-heading-l">Administrator access permissions</h2>
-<div class="govuk-form-group">
+<div
+  class="govuk-form-group"
+  [class.govuk-form-group--error]="errors.basicPermissions.length > 0"
+>
+  <p
+    *ngIf="errors.basicPermissions.length > 0"
+    id="basic-permissions-error"
+    class="govuk-error-message"
+  >
+    <span class="govuk-visually-hidden">Error:</span> You must select at least
+    one action
+  </p>
   <form *ngIf="permissionsForm" [formGroup]="permissionsForm">
     <xuilib-gov-checkbox
       id="checkbox-grant-case-access-admin"

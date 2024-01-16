@@ -7,8 +7,12 @@ export class EditUserModel {
     public firstName: string,
     public lastName: string,
     public idamStatus: string,
-    public rolesAdd: string[],
-    public rolesDelete: string[],
+    public rolesAdd: RoleChange[],
+    public rolesDelete: RoleChange[],
     public accessTypes: UserAccessType[]
   ) {}
+}
+
+export interface RoleChange {
+  name: string
 }

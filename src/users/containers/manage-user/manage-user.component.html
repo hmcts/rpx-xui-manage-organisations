@@ -1,7 +1,8 @@
 <app-hmcts-main-wrapper
-  [summaryErrors]="summaryErrors"
+  [summaryErrors]="combinedErrors$ | async"
   [backLink]="backUrl"
   [title]="'Manage user'"
+  [showWarningMessage]="showWarningMessage"
 >
   <app-user-personal-details
     #userPersonalDetails

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
@@ -29,9 +29,17 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
   public organisationAccessTypes$: Observable<Jurisdiction[]>;
-  public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
+  public summaryErrorsSubject = new Subject<{ isFromValid: boolean; items: { id: string; message: any; }[]; header: string }>();
+  public summaryErrors$ = this.summaryErrorsSubject.asObservable();
+  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
   public user: User;
+  public showWarningMessage: boolean = false;
   public resendInvite: boolean = false;
+  public combinedErrors$: Observable<{
+    isFromValid: boolean;
+    items: { id: string; message: any; }[];
+    header: string;
+  }>;
 
   // TODO: remove this when the GA-62 is complete and replace with selector
   public jurisdictions = JSON.parse(jurisdictionsExample) as Jurisdiction[];
@@ -50,6 +58,19 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
+    this.errorsArray$ = this.userStore.pipe(select(fromStore.getGetInviteUserErrorsArray));
+    this.combinedErrors$ = combineLatest([
+      this.summaryErrors$,
+      this.errorsArray$
+    ]).pipe(
+      map(([summaryErrors, errorsArray]) => {
+        return {
+          isFromValid: summaryErrors.isFromValid && errorsArray.isFromValid,
+          items: [...summaryErrors.items, ...errorsArray.items],
+          header: summaryErrors.header
+        };
+      })
+    );
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
@@ -62,6 +83,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       organisation = { ...organisation, organisationProfileIds: ['SOLICITOR_PROFILE'] };
       if (user){
         user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
+        this.resendInvite = user.status === 'Pending';
         this.user = user;
       }
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
@@ -72,26 +94,20 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     if (!this.userId){
-      console.log('setting up invite subscriptions.');
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400), takeUntil(this.onDestory$)).subscribe(() => {
         this.handleError(this.userStore, 400);
-        console.log('1');
       });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_404), takeUntil(this.onDestory$)).subscribe(() => {
         this.handleError(this.userStore, 404);
-        console.log('2');
       });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestory$)).subscribe(() => {
         this.handleError(this.userStore, 500);
-        console.log('3');
       });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestory$)).subscribe(() => {
-      // this.showWarningMessage = true;
-        console.log('4');
+        this.showWarningMessage = true;
       });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_409), takeUntil(this.onDestory$)).subscribe(() => {
-      // this.showWarningMessage = true;
-        console.log('5');
+        this.showWarningMessage = true;
       });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL), takeUntil(this.onDestory$)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
@@ -141,6 +157,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.showWarningMessage = false;
     this.userPersonalDetails.personalDetailForm.markAllAsTouched();
     this.userPersonalDetails.updateCurrentErrors();
     this.standardPermission.permissionsForm.markAllAsTouched();
@@ -156,16 +173,18 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
     }
 
-    this.summaryErrors = {
+    this.summaryErrorsSubject.next({
       isFromValid: this.userPersonalDetails.personalDetailForm.valid && this.standardPermission.permissionsForm.valid,
       items: errorItems,
       header: 'There is a problem'
-    };
+    });
 
-    if (this.userId) {
-      this.updateUser();
-    } else {
-      this.inviteUser();
+    if (this.userPersonalDetails.personalDetailForm.valid && this.standardPermission.permissionsForm.valid){
+      if (this.userId) {
+        this.updateUser();
+      } else {
+        this.inviteUser();
+      }
     }
   }
 
@@ -200,7 +219,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   public getGlobalError(error: number): GlobalError {
-    console.log(error);
     const errorMessages = this.getErrorMessages(error);
     const globalError = {
       header: this.getErrorHeader(error),

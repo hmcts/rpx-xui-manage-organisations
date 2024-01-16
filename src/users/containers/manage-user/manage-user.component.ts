@@ -16,7 +16,7 @@ import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
 import { OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
 
-// import { UserRolesUtil } from '../utils/user-roles-util';
+import { UserRolesUtil } from '../utils/user-roles-util';
 
 @Component({
   selector: 'app-manage-user',
@@ -26,6 +26,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
+  public permissionErrors: { isInvalid: boolean; messages: string[] };
   public user: User;
 
   // TODO: remove this when the GA-62 is complete and replace with selector
@@ -71,25 +72,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.onDestory$.complete();
   }
 
-  public onSubmit(): void {
-/*     // BJ-TODO: Add check here to see if there are any access types to submit
-    const { value } = this.editUserForm;
-    const permissions = UserRolesUtil.mapPermissions(value);
-    const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
-    const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
-    // BJ-TODO: Add access types to 'mapEditUserRoles' method
-    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted);
-    // BJ-TODO: Change IF statement to include access types as a potential change
-    if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
-      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
-    } else {
-      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
-        header: this.summaryErrors.header };
-      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
-      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
-    } */
-  }
-
   onPersonalDetailsChange($event: PersonalDetails){
     this.updatedUser = { ...this.updatedUser, firstName: $event.firstName, lastName: $event.lastName, email: $event.email };
     this.loggerService.debug('updatedUser', this.updatedUser);
@@ -98,32 +80,45 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
     // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
     const caseAdminRole = 'pui-caa';
+    let updatedRoles: string[];
     if ($event.manageCases){
-      this.updatedUser = { ...this.updatedUser, roles: [...this.updatedUser.roles, caseAdminRole] };
+      updatedRoles = [...this.updatedUser.roles ?? [], caseAdminRole];
     } else {
-      this.updatedUser = { ...this.updatedUser, roles: this.updatedUser.roles.filter((role: string) => role !== caseAdminRole) };
+      updatedRoles = this.updatedUser.roles.filter((role: string) => role !== caseAdminRole);
     }
+    this.updatedUser = { ...this.updatedUser, roles: [...new Set(updatedRoles)] };
     // when manageCases is false then the roles property is an empty array, which will clear all the access types
     this.updatedUser = { ...this.updatedUser, accessTypes: $event.userAccessTypes };
+    console.log('updated user', this.updatedUser);
     this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    const roles: string[] = [];
-    if ($event.isPuiUserManager) {
-      roles.push('pui-user-manager');
+    let roles: string[] = this.user.roles ?? [];
+
+    roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
+    roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);
+    roles = this.updateStandardPermission(roles, 'pui-organisation-manager', $event.isPuiOrganisationManager);
+    roles = this.updateStandardPermission(roles, 'pui-case-manager', $event.isCaseAccessAdmin);
+
+    // CAA role now comes from access types component
+    if (this.updatedUser?.roles?.includes('pui-caa')) {
+      roles.push('pui-caa');
     }
-    if ($event.isPuiFinanceManager) {
-      roles.push('pui-finance-manager');
-    }
-    if ($event.isPuiOrganisationManager) {
-      roles.push('pui-organisation-manager');
-    }
-    if ($event.isCaseAccessAdmin) {
-      roles.push('pui-case-manager');
-    }
-    this.updatedUser = { ...this.updatedUser, roles };
+
+    this.updatedUser = { ...this.updatedUser, roles: [...new Set(roles)] };
+    console.log('updated user', this.updatedUser);
     this.loggerService.debug('updatedUser', this.updatedUser);
+  }
+
+  private updateStandardPermission(currentRoles: string[], roleName: string, enabled: boolean) {
+    if (enabled) {
+      currentRoles.push(roleName);
+    } else {
+      currentRoles = currentRoles.filter((value) => value !== roleName);
+    }
+
+    return currentRoles;
   }
 
   onSubmit() {
@@ -139,7 +134,23 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   private updateUser() {
-    // TODO: implement
+    const permissions = this.updatedUser.roles;
+    const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
+    const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.accessTypes);
+
+    console.log('ACCESS TYPES:');
+    console.log(this.updatedUser.accessTypes);
+    console.log(editUserRolesObj);
+
+    if (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.accessTypes, this.updatedUser.accessTypes)) {
+      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
+    } else {
+      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
+        header: this.summaryErrors.header };
+      this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
+      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
+    }
   }
 
   private getBackurl(userId: string): string {

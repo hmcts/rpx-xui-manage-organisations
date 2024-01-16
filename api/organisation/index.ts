@@ -4,24 +4,33 @@ import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { OrganisationUser } from '../interfaces/organisationPayload';
 
-export async function handleOrganisationRoute(req: Request, res: Response) {
+export async function handleOrganisationRoute(req: Request, res: Response, next: NextFunction) {
+  try {
+    const response = await req.http.get(
+      `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v2/organisations`
+    );
+    res.send(response.data);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export function getOrganisationDetails(req: Request, url: string): Promise<AxiosResponse> {
+  // set to v1 as feature toggling on this would be difficult
+  // only necessary for auth to get org id so setting to v1 until v2 in wide use on PROD
+  return req.http.get(`${url}/refdata/external/v1/organisations`);
+}
+
+// delete next two functions after register org feature not necessary
+export async function handleOrganisationV1Route(req: Request, res: Response, next: NextFunction) {
   try {
     const response = await req.http.get(
       `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v1/organisations`
     );
     res.send(response.data);
   } catch (error) {
-    const errReport = {
-      apiError: error.data.message,
-      apiStatusCode: error.status,
-      message: 'Organisation route error'
-    };
-    res.status(errReport.apiStatusCode).send(errReport);
+    next(error);
   }
-}
-
-export function getOrganisationDetails(req: Request, url: string): Promise<AxiosResponse> {
-  return req.http.get(`${url}/refdata/external/v1/organisations`);
 }
 
 export async function handleOrganisationUsersRoute(req: Request, res: Response, next: NextFunction) {
@@ -41,6 +50,8 @@ function getFilteredUsers(users: OrganisationUser []): OrganisationUser [] {
 }
 
 export const router = Router({ mergeParams: true });
+
+router.get('/v1', handleOrganisationV1Route);
 
 router.get('', handleOrganisationRoute);
 

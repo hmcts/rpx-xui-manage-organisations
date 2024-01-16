@@ -62,15 +62,12 @@ const config = {
   params: {
     serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
     targetEnv: argv.env || 'local',
-    // username: process.env.TEST_EMAIL,
-    // password: process.env.TEST_PASSWORD,
-    username: 'sscs4jui@mailnesia.com ',
-    password: 'Monday01',
-    fr_judge_username: process.env.FR_EMAIL,
-    fr_judge_password: process.env.FR_PASSWORD,
-    sscs_username: process.env.SSCS_EMAIL,
-    sscs_password: process.env.SSCS_PASSWORD
-
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD,
+    username_rw: process.env.TEST_USER2_EMAIL,
+    password_rw: process.env.TEST_USER2_PASSWORD,
+    townleyUser: process.env.TEST_TOWNLEY_EMAIL,
+    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD
   },
   directConnect: true,
   // seleniumAddress: 'http://localhost:4444/wd/hub',

@@ -149,8 +149,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   private updateUser() {
     // TODO: implement
-    // dispatch router event to go to updated-user-success
-    this.routerStore.dispatch(new fromRoot.Go({ path: ['users/updated-user-success'] }));
   }
 
   private getBackurl(userId: string): string {

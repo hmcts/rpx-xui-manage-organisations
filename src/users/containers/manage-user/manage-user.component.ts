@@ -89,7 +89,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(updatedRoles)] };
     // when manageCases is false then the roles property is an empty array, which will clear all the access types
     this.updatedUser = { ...this.updatedUser, accessTypes: $event.userAccessTypes };
-    console.log('updated user', this.updatedUser);
     this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
@@ -135,8 +134,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   private updateUser() {
     const permissions = this.updatedUser.roles;
-    const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
-    const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
+    const rolesAdded = [...new Set(UserRolesUtil.getRolesAdded(this.user, permissions))];
+    const rolesDeleted = [...new Set(UserRolesUtil.getRolesDeleted(this.user, permissions))];
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.accessTypes);
 
     console.log('ACCESS TYPES:');
@@ -147,7 +146,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
     } else {
       this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
-        header: this.summaryErrors.header };
+        header: 'There is a problem' };
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
       return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }

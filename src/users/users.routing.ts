@@ -33,7 +33,7 @@ export const ROUTES: Routes = [
   {
     path: 'updated-user-success',
     component: UserUpdatedSuccessComponent,
-    // canActivate: [featureToggleOdgInviteUserFlowGuard]
+    canActivate: [featureToggleOdgInviteUserFlowGuard]
   },
   {
     path: 'user/:userId/editpermission-failure',

@@ -15,7 +15,7 @@ import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
 import { EditUserModel } from 'src/user-profile/models/editUser.model';
 
-describe('ManageUserComponent', () => {
+fdescribe('ManageUserComponent', () => {
   let component: ManageUserComponent;
   let fixture: ComponentFixture<ManageUserComponent>;
   let mockRouterStore: MockStore<fromRoot.State>;
@@ -116,72 +116,10 @@ describe('ManageUserComponent', () => {
     }));
   });
 
-  fdescribe('Update User', () => {
-    const userWithAccessTypes: User = {
-      email: 'john_AT@doe.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      idamStatus: 'Active',
-      idamStatusCode: 'A',
-      roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
-      id: '123',
-      accessTypes: [{
-        accessTypeId: '10',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: true
-      },
-      {
-        accessTypeId: '101',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: false
-      }]
-    };
-
-    const userWithUpdatedRoles: EditUserModel = {
-      email: 'john_AT@doe.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      idamStatus: 'Active',
-      rolesAdd: [{ name: 'pui-finance-manager' }],
-      rolesDelete: [{ name: 'pui-user-manager' }],
-      id: '123',
-      accessTypes: [{
-        accessTypeId: '10',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: true
-      },
-      {
-        accessTypeId: '101',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: false
-      }]
-    };
-
-    const userWithUpdatedAccessTypes: EditUserModel = {
-      email: 'john_AT@doe.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      idamStatus: 'Active',
-      rolesAdd: [],
-      rolesDelete: [],
-      id: '123',
-      accessTypes: [{
-        accessTypeId: '10',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: false
-      },
-      {
-        accessTypeId: '101',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: true
-      }]
-    };
+  describe('Update User', () => {
+    let userWithAccessTypes: User;
+    let userWithUpdatedRoles: EditUserModel;
+    let userWithUpdatedAccessTypes: EditUserModel;
 
     const accessTypesUpdated: UserAccessType[] = [{
       accessTypeId: '10',
@@ -197,6 +135,72 @@ describe('ManageUserComponent', () => {
     }];
 
     beforeEach(() => {
+      userWithAccessTypes = {
+        email: 'john_AT@doe.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'Active',
+        idamStatusCode: 'A',
+        roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
+        id: '123',
+        accessTypes: [{
+          accessTypeId: '10',
+          jurisdictionId: '6',
+          organisationProfileId: 'SOLICITOR_PROFILE',
+          enabled: true
+        },
+        {
+          accessTypeId: '101',
+          jurisdictionId: '6',
+          organisationProfileId: 'SOLICITOR_PROFILE',
+          enabled: false
+        }]
+      };
+
+      userWithUpdatedRoles = {
+        email: 'john_AT@doe.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'Active',
+        rolesAdd: [{ name: 'pui-finance-manager' }],
+        rolesDelete: [{ name: 'pui-user-manager' }],
+        id: '123',
+        accessTypes: [{
+          accessTypeId: '10',
+          jurisdictionId: '6',
+          organisationProfileId: 'SOLICITOR_PROFILE',
+          enabled: true
+        },
+        {
+          accessTypeId: '101',
+          jurisdictionId: '6',
+          organisationProfileId: 'SOLICITOR_PROFILE',
+          enabled: false
+        }]
+      };
+
+      userWithUpdatedAccessTypes = {
+        email: 'john_AT@doe.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        idamStatus: 'Active',
+        rolesAdd: [],
+        rolesDelete: [],
+        id: '123',
+        accessTypes: [{
+          accessTypeId: '10',
+          jurisdictionId: '6',
+          organisationProfileId: 'SOLICITOR_PROFILE',
+          enabled: false
+        },
+        {
+          accessTypeId: '101',
+          jurisdictionId: '6',
+          organisationProfileId: 'SOLICITOR_PROFILE',
+          enabled: true
+        }]
+      };
+
       const fixture = TestBed.createComponent(ManageUserComponent);
       component = fixture.componentInstance;
       mockUserStore = TestBed.inject(MockStore);
@@ -209,13 +213,7 @@ describe('ManageUserComponent', () => {
       component.user = userWithAccessTypes;
     });
 
-    afterEach(() => {
-      mockUserStore.resetSelectors();
-      fixture.destroy();
-    });
-
     it('should save updated user details with new roles', fakeAsync(() => {
-      console.log('New Roles Started');
       const dispatchSpy = spyOn(mockUserStore, 'dispatch');
 
       component.onPersonalDetailsChange({
@@ -241,12 +239,9 @@ describe('ManageUserComponent', () => {
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedRoles));
-
-      tick();
     }));
 
     it('should save updated user details with new access types', fakeAsync(() => {
-      console.log('Access Types Started');
       const dispatchSpy = spyOn(mockUserStore, 'dispatch');
 
       component.onPersonalDetailsChange({
@@ -272,12 +267,9 @@ describe('ManageUserComponent', () => {
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedAccessTypes));
-
-      tick();
     }));
 
     it('should fail to update due to no changes', fakeAsync(() => {
-      console.log('No Changes Started');
       const dispatchSpy = spyOn(mockUserStore, 'dispatch');
 
       component.onPersonalDetailsChange({
@@ -303,8 +295,6 @@ describe('ManageUserComponent', () => {
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
-
-      tick();
     }));
   });
 });

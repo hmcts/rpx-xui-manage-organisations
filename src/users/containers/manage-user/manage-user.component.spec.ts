@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 
 import { ManageUserComponent } from './manage-user.component';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -118,7 +118,7 @@ describe('ManageUserComponent', () => {
 
   fdescribe('Update User', () => {
     const userWithAccessTypes: User = {
-      email: 'john@doe.com',
+      email: 'john_AT@doe.com',
       firstName: 'John',
       lastName: 'Doe',
       idamStatus: 'Active',
@@ -126,20 +126,21 @@ describe('ManageUserComponent', () => {
       roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
       id: '123',
       accessTypes: [{
-        accessTypeId: '101',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: false
-      },
-      {
         accessTypeId: '10',
         jurisdictionId: '6',
         organisationProfileId: 'SOLICITOR_PROFILE',
         enabled: true
+      },
+      {
+        accessTypeId: '101',
+        jurisdictionId: '6',
+        organisationProfileId: 'SOLICITOR_PROFILE',
+        enabled: false
       }]
     };
+
     const userWithUpdatedRoles: EditUserModel = {
-      email: 'john@doe.com',
+      email: 'john_AT@doe.com',
       firstName: 'John',
       lastName: 'Doe',
       idamStatus: 'Active',
@@ -147,21 +148,21 @@ describe('ManageUserComponent', () => {
       rolesDelete: [{ name: 'pui-user-manager' }],
       id: '123',
       accessTypes: [{
-        accessTypeId: '101',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: false
-      },
-      {
         accessTypeId: '10',
         jurisdictionId: '6',
         organisationProfileId: 'SOLICITOR_PROFILE',
         enabled: true
+      },
+      {
+        accessTypeId: '101',
+        jurisdictionId: '6',
+        organisationProfileId: 'SOLICITOR_PROFILE',
+        enabled: false
       }]
     };
-    /*
+
     const userWithUpdatedAccessTypes: EditUserModel = {
-      email: 'john@doe.com',
+      email: 'john_AT@doe.com',
       firstName: 'John',
       lastName: 'Doe',
       idamStatus: 'Active',
@@ -169,38 +170,54 @@ describe('ManageUserComponent', () => {
       rolesDelete: [],
       id: '123',
       accessTypes: [{
-        accessTypeId: '101',
-        jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
-        enabled: true
-      },
-      {
         accessTypeId: '10',
         jurisdictionId: '6',
         organisationProfileId: 'SOLICITOR_PROFILE',
         enabled: false
+      },
+      {
+        accessTypeId: '101',
+        jurisdictionId: '6',
+        organisationProfileId: 'SOLICITOR_PROFILE',
+        enabled: true
       }]
     };
+
     const accessTypesUpdated: UserAccessType[] = [{
-      accessTypeId: '101',
-      jurisdictionId: '6',
-      organisationProfileId: 'SOLICITOR_PROFILE',
-      enabled: true
-    },
-    {
       accessTypeId: '10',
       jurisdictionId: '6',
       organisationProfileId: 'SOLICITOR_PROFILE',
       enabled: false
+    },
+    {
+      accessTypeId: '101',
+      jurisdictionId: '6',
+      organisationProfileId: 'SOLICITOR_PROFILE',
+      enabled: true
     }];
-    */
 
     beforeEach(() => {
+      const fixture = TestBed.createComponent(ManageUserComponent);
+      component = fixture.componentInstance;
+      mockUserStore = TestBed.inject(MockStore);
+      fixture.detectChanges();
+
+      mockGetRouterState.setResult(defaultRouterStateUrl);
       mockGetSingleUserSelector.setResult(userWithAccessTypes);
+
       component.userId = userWithAccessTypes.id;
       component.user = userWithAccessTypes;
     });
+
+    afterEach(() => {
+      mockUserStore.resetSelectors();
+      fixture.destroy();
+    });
+
     it('should save updated user details with new roles', fakeAsync(() => {
+      console.log('New Roles Started');
+      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+
       component.onPersonalDetailsChange({
         email: userWithAccessTypes.email,
         firstName: userWithAccessTypes.firstName,
@@ -220,15 +237,18 @@ describe('ManageUserComponent', () => {
       });
 
       expect(component).toBeTruthy();
-      flushMicrotasks();
       expect(component.backUrl).toBe('/users/user/123');
 
-      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedRoles));
+
+      tick();
     }));
-    /*
+
     it('should save updated user details with new access types', fakeAsync(() => {
+      console.log('Access Types Started');
+      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+
       component.onPersonalDetailsChange({
         email: userWithAccessTypes.email,
         firstName: userWithAccessTypes.firstName,
@@ -248,12 +268,43 @@ describe('ManageUserComponent', () => {
       });
 
       expect(component).toBeTruthy();
-      flushMicrotasks();
       expect(component.backUrl).toBe('/users/user/123');
 
-      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedAccessTypes));
-    })); */
+
+      tick();
+    }));
+
+    it('should fail to update due to no changes', fakeAsync(() => {
+      console.log('No Changes Started');
+      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+
+      component.onPersonalDetailsChange({
+        email: userWithAccessTypes.email,
+        firstName: userWithAccessTypes.firstName,
+        lastName: userWithAccessTypes.lastName
+      });
+
+      component.onSelectedCaseManagamentPermissionsChange({
+        manageCases: true,
+        userAccessTypes: userWithAccessTypes.accessTypes
+      });
+
+      component.onStandardUserPermissionsChange({
+        isCaseAccessAdmin: true,
+        isPuiFinanceManager: false,
+        isPuiOrganisationManager: false,
+        isPuiUserManager: true
+      });
+
+      expect(component).toBeTruthy();
+      expect(component.backUrl).toBe('/users/user/123');
+
+      component.onSubmit();
+      expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
+
+      tick();
+    }));
   });
 });

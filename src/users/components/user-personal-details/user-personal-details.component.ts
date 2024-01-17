@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { Subject } from 'rxjs';
 import { PersonalDetails } from '../../models/personal-details.model';
@@ -48,19 +48,21 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
       lastName: this.fb.nonNullable.control<string>({ value: this._existingUser?.lastName, disabled: !this.inviteMode }, [Validators.required])
     });
     this.personalDetailForm.valueChanges.subscribe((personalDetails) => {
+      if (this.personalDetailForm.invalid){
+        this.updateCurrentErrors();
+      }
+
       if (this.personalDetailForm.untouched) {
         // wait until the whole form is complete before emitting
         return;
       }
+
       if (this.personalDetailForm.valid) {
         this.personalDetailsChanged.emit({
           email: personalDetails.email,
           firstName: personalDetails.firstName,
           lastName: personalDetails.lastName });
       } else {
-        this.errors.firstName = this.getErrorForControl('firstName');
-        this.errors.lastName = this.getErrorForControl('lastName');
-        this.errors.email = this.getErrorForControl('email');
         this.personalDetailsChanged.emit({
           email: null,
           firstName: null,
@@ -70,26 +72,21 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  getErrorForControl(controlName: string){
-    if (!this.personalDetailForm.controls[controlName].dirty){
+  updateCurrentErrors(){
+    this.errors.firstName = this.getErrorForControl('firstName', 'Enter first name');
+    this.errors.lastName = this.getErrorForControl('lastName', 'Enter last name');
+    this.errors.email = this.getErrorForControl('email', 'Enter a valid email address');
+  }
+
+  getErrorForControl(controlName: string, defaultMessage: string){
+    if (!this.personalDetailForm.controls[controlName].touched){
       return [];
     }
     const errors = this.personalDetailForm.controls[controlName].errors;
-    return this.getErrorAsText(errors);
-  }
-
-  getErrorAsText(errors: ValidationErrors): string[] {
-    return Object.keys(errors || {}).map((key) => {
-      switch (key) {
-        case 'required':
-          return 'This field is required.';
-        case 'email':
-          return 'Please enter a valid email address.';
-        // Add more cases for other validation errors as needed
-        default:
-          return 'Unknown error.';
-      }
-    });
+    if (errors){
+      return [defaultMessage];
+    }
+    return [];
   }
 
   ngOnDestroy(): void {

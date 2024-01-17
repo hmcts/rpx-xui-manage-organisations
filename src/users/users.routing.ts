@@ -2,7 +2,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
-import { EditUserPermissionComponent, EditUserPermissionsFailureComponent, UserDetailsComponent, UsersComponent, ManageUserComponent } from './containers';
+import { EditUserPermissionComponent, EditUserPermissionsFailureComponent, UserDetailsComponent, UsersComponent, ManageUserComponent, UserUpdatedSuccessComponent } from './containers';
 import { InviteUserSuccessComponent } from './containers/invite-user-success/invite-user-success.component';
 import { InviteUserComponent } from './containers/invite-user/invite-user.component';
 import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.guard';
@@ -29,6 +29,11 @@ export const ROUTES: Routes = [
     path: 'invite-user-success',
     component: InviteUserSuccessComponent,
     canActivate: [InviteUserSuccessGuard]
+  },
+  {
+    path: 'updated-user-success',
+    component: UserUpdatedSuccessComponent,
+    canActivate: [featureToggleOdgInviteUserFlowGuard]
   },
   {
     path: 'user/:userId/editpermission-failure',

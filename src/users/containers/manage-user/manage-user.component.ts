@@ -106,7 +106,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     }
 
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(roles)] };
-    console.log('updated user', this.updatedUser);
     this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
@@ -137,10 +136,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const rolesAdded = [...new Set(UserRolesUtil.getRolesAdded(this.user, permissions))];
     const rolesDeleted = [...new Set(UserRolesUtil.getRolesDeleted(this.user, permissions))];
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.accessTypes);
-
-    console.log('ACCESS TYPES:');
-    console.log(this.updatedUser.accessTypes);
-    console.log(editUserRolesObj);
 
     if (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.accessTypes, this.updatedUser.accessTypes)) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));

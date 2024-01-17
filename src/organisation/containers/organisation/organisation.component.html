@@ -46,7 +46,7 @@
     <dl id="organisation-type" class="govuk-summary-list" *ngIf="organisationType">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Organisation type</dt>
-        <dd class="govuk-summary-list__value">{{organisationType}}</dd>
+        <dd class="govuk-summary-list__value">{{orgTypeDescription}}</dd>
       </div>
     </dl>
 
@@ -54,13 +54,13 @@
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">PBA numbers</dt>
-        <dd *ngIf="organisationPaymentAccount.length"
+        <dd *ngIf="organisationPaymentAccount?.length"
           class="govuk-summary-list__value">
           <div *ngFor="let pba of organisationPaymentAccount">
             {{pba.pbaNumber}}
           </div>
         </dd>
-        <dd *ngIf="showChangePbaNumberLink && organisationPaymentAccount.length"
+        <dd *ngIf="showChangePbaNumberLink && organisationPaymentAccount?.length"
           class="govuk-summary-list__actions">
           <a class="govuk-link" href="javascript:void(0)"
             id="change-pba-account-numbers__link"
@@ -68,7 +68,7 @@
             Change<span class="govuk-visually-hidden">PBA numbers</span>
           </a>
         </dd>
-        <dd *ngIf="!organisationPaymentAccount.length"
+        <dd *ngIf="!organisationPaymentAccount?.length"
           class="govuk-summary-list__value">
           No PBA accounts registered
         </dd>

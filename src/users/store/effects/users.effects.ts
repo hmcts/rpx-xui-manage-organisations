@@ -112,6 +112,9 @@ export class UsersEffects {
               new orgActions.OrganisationUpdateUpdateProfileIds(
                 organisationProfileIds
               ),
+              new orgActions.LoadOrganisationAccessTypes(
+                organisationProfileIds
+              ),
               new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers })
             ];
           }),

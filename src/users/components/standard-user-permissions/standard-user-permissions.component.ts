@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors } from '@angular/forms';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject } from 'rxjs';
 import { User } from '@hmcts/rpx-xui-common-lib';
@@ -16,6 +16,9 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
 
   public permissionsForm: FormGroup<AccessForm>;
   public permissions: BasicAccessTypes;
+  public errors: {basicPermissions: string[]} = {
+    basicPermissions: []
+  };
 
   public grantCaseAccessAdmin$: Observable<boolean>;
   public grantFinanceManager$: Observable<boolean>;
@@ -53,7 +56,15 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
       isPuiOrganisationManager: new FormControl<boolean>(this.permissions.isPuiOrganisationManager),
       isPuiFinanceManager: new FormControl<boolean>(this.permissions.isPuiFinanceManager),
       isCaseAccessAdmin: new FormControl<boolean>(this.permissions.isCaseAccessAdmin)
-    });
+    }, { validators: atLeastOneTrueValidator });
+  }
+
+  updateCurrentErrors(){
+    if (this.permissionsForm.errors?.atLeastOneTrue){
+      this.errors.basicPermissions = ['Select at least one permission'];
+    } else {
+      this.errors.basicPermissions = [];
+    }
   }
 
   private subscribeToAccessTypesChanges() {
@@ -63,6 +74,7 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
       this.permissions.isPuiFinanceManager = permissions.isPuiFinanceManager;
       this.permissions.isCaseAccessAdmin = permissions.isCaseAccessAdmin;
       this.selectedPermissionsChanged.emit(this.createPermissionsViewModelFromForm());
+      this.updateCurrentErrors();
     });
   }
 
@@ -90,4 +102,12 @@ interface AccessForm {
   isPuiOrganisationManager: FormControl<boolean>;
   isPuiFinanceManager: FormControl<boolean>;
   isCaseAccessAdmin: FormControl<boolean>;
+}
+
+function atLeastOneTrueValidator(group: FormGroup): ValidationErrors | null {
+  const controls = Object.values(group.controls);
+  if (controls.some((control) => control.value === true)) {
+    return null; // return null if at least one control is true
+  }
+  return { atLeastOneTrue: true }; // return error if none are true
 }

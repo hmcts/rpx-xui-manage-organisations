@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Jurisdiction } from 'src/models';
 
 export const ENVIRONMENT = {
   orgUri: '/api/organisation'
@@ -11,8 +12,8 @@ export const ENVIRONMENT = {
 export class OrganisationService {
   constructor(private readonly http: HttpClient) {}
 
-  public fetchOrganisation(): Observable<any> {
-    return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
+  public fetchOrganisation(registerOrgFeature: boolean): Observable<any> {
+    return registerOrgFeature ? this.http.get<any>(`${ENVIRONMENT.orgUri}`) : this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -29,5 +30,11 @@ export class OrganisationService {
     // return an observable with a user-facing error message
     return throwError(
       'error please try again later.');
+  }
+
+  public retrieveAccessType(organisationProfileIds: string[]): Observable<Jurisdiction[]> {
+    return this.http
+      .post<Jurisdiction[]>('/api/retrieve-access-types', organisationProfileIds)
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

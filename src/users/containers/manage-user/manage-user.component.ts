@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
@@ -12,9 +12,9 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
 
 import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
-import { Jurisdiction } from '@hmcts/ccd-case-ui-toolkit';
-import { OrganisationDetails } from 'src/models';
+import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
+import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
 
@@ -23,8 +23,12 @@ import { UserRolesUtil } from '../utils/user-roles-util';
   templateUrl: './manage-user.component.html'
 })
 export class ManageUserComponent implements OnInit, OnDestroy {
+  @ViewChild('userPersonalDetails')userPersonalDetails: UserPersonalDetailsComponent;
+  @ViewChild('standardPermission')standardPermission: StandardUserPermissionsComponent;
+
   public backUrl: string;
   public userId: string;
+  public organisationAccessTypes$: Observable<Jurisdiction[]>;
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
   public permissionErrors: { isInvalid: boolean; messages: string[] };
   public user: User;
@@ -45,6 +49,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     private loggerService: LoggerService) {}
 
   ngOnInit(): void {
+    this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
@@ -120,6 +125,31 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.userPersonalDetails.personalDetailForm.markAllAsTouched();
+    this.userPersonalDetails.updateCurrentErrors();
+    this.standardPermission.permissionsForm.markAllAsTouched();
+    this.standardPermission.updateCurrentErrors();
+
+    const errorItems: {id: string; message: string[];}[] = [];
+    Object.keys(this.userPersonalDetails.errors).forEach((key) => {
+      if (this.userPersonalDetails.errors[key].length > 0) {
+        errorItems.push({ id: key, message: this.userPersonalDetails.errors[key] });
+      }
+    });
+    if (this.standardPermission.errors.basicPermissions.length > 0){
+      errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
+    }
+
+    this.summaryErrors = {
+      isFromValid: this.userPersonalDetails.personalDetailForm.valid && this.standardPermission.permissionsForm.valid,
+      items: errorItems,
+      header: 'There is a problem'
+    };
+
+    if (errorItems.length > 0){
+      return;
+    }
+
     if (this.userId) {
       this.updateUser();
     } else {

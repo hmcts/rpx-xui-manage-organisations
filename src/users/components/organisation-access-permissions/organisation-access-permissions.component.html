@@ -18,7 +18,10 @@
     </xuilib-gov-checkbox>
 
     <ng-container>
-      <div id="supporting-content" class="govuk-!-margin-top-4 govuk-!-margin-left-8">
+      <div
+        id="supporting-content"
+        class="govuk-!-margin-top-4 govuk-!-margin-left-8"
+      >
         <app-solicitor-profile-content
           *ngIf="hasSolicitorProfile"
         ></app-solicitor-profile-content>
@@ -87,9 +90,13 @@
                     [checked]="accesssType.enabled"
                     formControlName="enabled"
                     type="checkbox"
+                    [attr.aria-describedby]="
+                      accesssType.accessTypeId + '-item-hint'
+                    "
                     [attr.aria-disabled]="
                       accesssType.mandatory ? 'true' : 'false'
                     "
+                    [title]="accesssType.mandatory ? '' : ''"
                   />
                   <label
                     class="govuk-label govuk-checkboxes__label"
@@ -102,6 +109,12 @@
                     class="govuk-hint govuk-checkboxes__hint"
                   >
                     {{ accesssType.hint }}
+                    <span
+                      *ngIf="accesssType.mandatory"
+                      class="govuk-visually-hidden"
+                      >This checkbox is disabled because this role is
+                      mandatory.</span
+                    >
                   </span>
                 </div>
               </ng-container>

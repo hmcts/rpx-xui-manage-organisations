@@ -253,6 +253,7 @@ describe('Users Effects', () => {
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));
       const action = new LoadAllUsersNoRoleData();
       const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
+      const orgLoadOrgAccessTypesCompletion = new orgActions.LoadOrganisationAccessTypes([]);
       const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
         users: [
           {
@@ -265,7 +266,7 @@ describe('Users Effects', () => {
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
+      const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
     }));
 
@@ -285,6 +286,7 @@ describe('Users Effects', () => {
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));
       const action = new LoadAllUsersNoRoleData();
       const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+      const orgLoadOrgAccessTypesCompletion = new orgActions.LoadOrganisationAccessTypes(['orgProfileId']);
       const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
         users: [
           {
@@ -297,7 +299,7 @@ describe('Users Effects', () => {
         ]
       });
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: orgUpdateProfileIdsActionCompletion, c: loadUserSuccessActionCompletion });
+      const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
     }));
   });

@@ -100,9 +100,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const caseAdminRole = 'pui-caa';
     let updatedRoles: string[];
     if ($event.manageCases){
-      updatedRoles = [...this.updatedUser.roles ?? [], caseAdminRole];
+      updatedRoles = [...this.updatedUser?.roles ?? [], caseAdminRole];
     } else {
-      updatedRoles = this.updatedUser.roles.filter((role: string) => role !== caseAdminRole);
+      updatedRoles = this.updatedUser?.roles?.filter((role: string) => role !== caseAdminRole) ?? [];
     }
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(updatedRoles)] };
     // when manageCases is false then the roles property is an empty array, which will clear all the access types
@@ -129,7 +129,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   private updateStandardPermission(currentRoles: string[], roleName: string, enabled: boolean) {
     if (enabled) {
-      currentRoles.push(roleName);
+      currentRoles = [...currentRoles, roleName];
     } else {
       currentRoles = currentRoles.filter((value) => value !== roleName);
     }

@@ -24,7 +24,18 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
       caaCasesFilterValue = roleAssignmentResponse.map((x) => x.attributes.caseId);
     }
 
-    const payload = getRequestBody(req.session.auth.orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
+    const orgId = req.session.auth.orgId;
+
+    if (!orgId || orgId === '') {
+      // send error if organisation ID not present
+      const errReport = {
+        errorMessage: 'Cannot get organisation ID',
+        apiStatusCode: 400
+      };
+      res.status(errReport.apiStatusCode).send(errReport);
+    }
+
+    const payload = getRequestBody(orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
 
     const response = await req.http.post(path, payload);
     const caaCases = mapCcdCases(caseTypeId, response.data);

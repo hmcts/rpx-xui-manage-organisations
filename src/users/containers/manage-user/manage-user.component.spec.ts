@@ -14,6 +14,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
 import { AppConstants } from 'src/app/app.constants';
+import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
 
 describe('ManageUserComponent', () => {
   let component: ManageUserComponent;
@@ -22,6 +23,7 @@ describe('ManageUserComponent', () => {
   let mockUserStore: MockStore<fromStore.UserState>;
   let mockOrganisationStore: MockStore<fromOrgStore.OrganisationState>;
   let mockedLoggerService = jasmine.createSpyObj('LoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
   let actions$: Observable<any>;
 
   let defaultUser: User;
@@ -39,9 +41,10 @@ describe('ManageUserComponent', () => {
         {
           provide: LoggerService,
           useValue: mockedLoggerService
-        }
+        },
+        { provide: RpxTranslationService, useValue: translationMockService }
       ],
-      declarations: [ManageUserComponent],
+      declarations: [ManageUserComponent, RpxTranslatePipe],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();

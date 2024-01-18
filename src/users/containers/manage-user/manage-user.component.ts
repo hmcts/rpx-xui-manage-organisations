@@ -17,6 +17,7 @@ import { LoggerService } from 'src/shared/services/logger.service';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
+import { editUserFailureSelector } from '../../store';
 
 @Component({
   selector: 'app-manage-user',
@@ -68,7 +69,19 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
-      this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
+      this.routerStore.dispatch(new fromRoot.Go({ path: ['users/updated-user-success'] }));
+    });
+
+    this.actions$.pipe(ofType(fromStore.EDIT_USER_SERVER_ERROR)).subscribe(() => {
+      this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
+    });
+
+    this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
+      if (editUserFailure) {
+        // BJ-TODO: Work out what this path should be
+        // Error messages for 501 errors will need to be passed through and displayed? See GA-24
+        this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
+      }
     });
   }
 

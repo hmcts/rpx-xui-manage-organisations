@@ -19,7 +19,7 @@ import { StandardUserPermissionsComponent } from 'src/users/components/standard-
 import { UserPersonalDetailsComponent } from 'src/users/components/user-personal-details/user-personal-details.component';
 import { AsyncPipe } from '@angular/common';
 
-fdescribe('ManageUserComponent', () => {
+describe('ManageUserComponent', () => {
   let component: ManageUserComponent;
   let fixture: ComponentFixture<ManageUserComponent>;
   let mockRouterStore: MockStore<fromRoot.State>;

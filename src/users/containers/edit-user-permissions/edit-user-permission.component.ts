@@ -150,9 +150,6 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     const permissions = UserRolesUtil.mapPermissions(value);
     const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
     const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
-
-    // BJ-TODO: Make sure the changes to the params on the below method hasn't affected tests
-
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted);
 
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {

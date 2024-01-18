@@ -33,6 +33,19 @@
         </dl>
       </div>
 
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dt class="govuk-summary-list__key">Organisation name</dt>
+          <dd class="govuk-summary-list__value">{{ registrationData.companyName }}</dd>
+          <dd class="govuk-summary-list__actions">
+            <a class="govuk-link" href="javascript:void(0)"
+              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
+              Change<span class="govuk-visually-hidden">Organisation name</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+
       <dl *ngIf="registrationData.organisationType && registrationData.organisationType.key !== 'OTHER'"
         class="govuk-summary-list">
         <div class="govuk-summary-list__row">
@@ -42,19 +55,6 @@
             <a class="govuk-link" href="javascript:void(0)"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
               Change<span class="govuk-visually-hidden">Organisation type</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
-
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Organisation name</dt>
-          <dd class="govuk-summary-list__value">{{ registrationData.companyName }}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
-              Change<span class="govuk-visually-hidden">Organisation name</span>
             </a>
           </dd>
         </div>

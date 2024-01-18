@@ -28,10 +28,16 @@
       data-prevent-double-click="true"
       class="govuk-button"
       data-module="govuk-button"
+      aria-label="Submit"
       (click)="onSubmit()"
     >
       Submit
     </button>
-    <a class="govuk-link" [routerLink]="backUrl">Cancel</a>
+    <a class="govuk-link" [routerLink]="backUrl"
+      >Cancel
+      <span class="govuk-visually-hidden">{{
+        "and go back" | rpxTranslate
+      }}</span></a
+    >
   </div>
 </app-hmcts-main-wrapper>

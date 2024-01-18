@@ -132,6 +132,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       header: 'There is a problem'
     };
 
+    if (errorItems.length > 0){
+      return;
+    }
+
     if (this.userId) {
       this.updateUser();
     } else {

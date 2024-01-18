@@ -93,7 +93,8 @@ export class UserProfileEffects {
                 return new usersActions.EditUserFailure(user.id);
               }
             }
-
+            // BJ-TODO: Need to handle 501 errors being returned
+            // Two different messages being returned depending on error - See GA-24
             return new usersActions.EditUserSuccess(user.id);
           }),
           catchError((error) => {

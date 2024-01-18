@@ -144,6 +144,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   private inviteUser() {
+    this.userStore.dispatch(new fromStore.RefreshUserFail(new Error('Could not refresh user')));
     // TODO: implement
   }
 

@@ -11,7 +11,7 @@ export class UserService {
   constructor(private readonly http: HttpClient) {}
 
   public editUserPermissions(editUser): Observable<any> {
-    return this.http.put(`/api/editUserPermissions/users/${editUser.userId}`, editUser.editUserRolesObj);
+    return this.http.put(`/api/editUserPermissions/users/${editUser.id}`, editUser);
   }
 
   public getUserDetails(): Observable<UserInterface> {

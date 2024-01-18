@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
 
 import { ManageUserComponent } from './manage-user.component';
 import { provideMockActions } from '@ngrx/effects/testing';

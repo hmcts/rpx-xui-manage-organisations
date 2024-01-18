@@ -38,9 +38,9 @@ export class UserRolesUtil {
     return roles;
   }
 
-  public static mapEditUserRoles(user: any, userId: string, rolesAdd: any[], rolesDelete: any[], accessTypes: UserAccessType[] = []): EditUserModel {
+  public static mapEditUserRoles(user: any, rolesAdd: any[], rolesDelete: any[], accessTypes: UserAccessType[] = []): EditUserModel {
     return {
-      id: userId,
+      id: user.userIdentifier,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,

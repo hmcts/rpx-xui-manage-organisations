@@ -179,6 +179,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       header: 'There is a problem'
     });
 
+    if (errorItems.length > 0){
+      return;
+    }
+
     if (this.userPersonalDetails.personalDetailForm.valid && this.standardPermission.permissionsForm.valid){
       if (this.userId) {
         this.updateUser();
@@ -188,7 +192,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  inviteUser(): void {
+  public inviteUser(): void {
     let value:any = {
       ...this.updatedUser
     };

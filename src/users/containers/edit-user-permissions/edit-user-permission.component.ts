@@ -150,7 +150,7 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     const permissions = UserRolesUtil.mapPermissions(value);
     const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
     const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
-    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted);
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
 
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));

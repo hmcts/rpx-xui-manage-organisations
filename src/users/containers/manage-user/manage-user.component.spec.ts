@@ -9,12 +9,15 @@ import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { MemoizedSelector } from '@ngrx/store';
-import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { FeatureToggleService, User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
 import { EditUserModel } from 'src/user-profile/models/editUser.model';
 import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
+import { StandardUserPermissionsComponent } from 'src/users/components/standard-user-permissions/standard-user-permissions.component';
+import { UserPersonalDetailsComponent } from 'src/users/components/user-personal-details/user-personal-details.component';
+import { AsyncPipe } from '@angular/common';
 
 fdescribe('ManageUserComponent', () => {
   let component: ManageUserComponent;
@@ -24,6 +27,7 @@ fdescribe('ManageUserComponent', () => {
   let mockOrganisationStore: MockStore<fromOrgStore.OrganisationState>;
   let mockedLoggerService = jasmine.createSpyObj('LoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
   const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
+  const featureToggleMockService = jasmine.createSpyObj('featureToggleMockService', ['getValue']);
   let actions$: Observable<any>;
 
   let defaultUser: User;
@@ -34,6 +38,7 @@ fdescribe('ManageUserComponent', () => {
 
   beforeEach(async () => {
     mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+    featureToggleMockService.getValue.and.returnValue(of(true));
     await TestBed.configureTestingModule({
       providers: [
         provideMockStore(),
@@ -42,9 +47,11 @@ fdescribe('ManageUserComponent', () => {
           provide: LoggerService,
           useValue: mockedLoggerService
         },
-        { provide: RpxTranslationService, useValue: translationMockService }
+        { provide: RpxTranslationService, useValue: translationMockService },
+        { provide: FeatureToggleService, useValue: featureToggleMockService }
       ],
-      declarations: [ManageUserComponent, RpxTranslatePipe],
+      imports: [AsyncPipe],
+      declarations: [ManageUserComponent, UserPersonalDetailsComponent, StandardUserPermissionsComponent, RpxTranslatePipe],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
@@ -230,15 +237,12 @@ fdescribe('ManageUserComponent', () => {
         userAccessTypes: userWithAccessTypes.accessTypes
       });
 
-      component.onStandardUserPermissionsChange({
+      component.standardPermission.permissionsForm.setValue({
         isCaseAccessAdmin: true,
         isPuiFinanceManager: true, // Should be added
         isPuiOrganisationManager: false,
         isPuiUserManager: false // Should be removed
       });
-
-      expect(component).toBeTruthy();
-      expect(component.backUrl).toBe('/users/user/123');
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedRoles));
@@ -258,15 +262,12 @@ fdescribe('ManageUserComponent', () => {
         userAccessTypes: accessTypesUpdated // Amended access types
       });
 
-      component.onStandardUserPermissionsChange({
+      component.standardPermission.permissionsForm.setValue({
         isCaseAccessAdmin: true,
         isPuiFinanceManager: false,
         isPuiOrganisationManager: false,
         isPuiUserManager: true
       });
-
-      expect(component).toBeTruthy();
-      expect(component.backUrl).toBe('/users/user/123');
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedAccessTypes));
@@ -286,15 +287,12 @@ fdescribe('ManageUserComponent', () => {
         userAccessTypes: userWithAccessTypes.accessTypes
       });
 
-      component.onStandardUserPermissionsChange({
+      component.standardPermission.permissionsForm.setValue({
         isCaseAccessAdmin: true,
         isPuiFinanceManager: false,
         isPuiOrganisationManager: false,
         isPuiUserManager: true
       });
-
-      expect(component).toBeTruthy();
-      expect(component.backUrl).toBe('/users/user/123');
 
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));

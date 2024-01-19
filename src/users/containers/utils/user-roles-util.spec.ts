@@ -45,7 +45,7 @@ describe('UserRolesUtil class ', () => {
       idamStatus: 'idam',
       roles: ['permission1', 'permission2']
     };
-    const userEditObj = UserRolesUtil.mapEditUserRoles(user, '123', ['permission3', 'permission4'], ['permission1', 'permission2']);
+    const userEditObj = UserRolesUtil.mapEditUserRoles(user, ['permission3', 'permission4'], ['permission1', 'permission2']);
     expect(userEditObj).toEqual({
       id: '123',
       email: 'email',

@@ -80,12 +80,15 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
         this.userAccessTypes = [];
         if (isFeatureEnabled) {
-          const accessTypes: UserAccessType[] = user?.accessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
+          const enabledUserAccessTypes: UserAccessType[] = user?.accessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
           const orgAccessTypes: OrganisationAccessType[] = organisationAccessTypes.map((x) => x.accessTypes).reduce((acc, x) => acc.concat(x), []);
-          for (const ac of accessTypes) {
-            const orgAc = orgAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
-            if (orgAc) {
-              this.userAccessTypes.push(orgAc.description);
+          for (const ac of orgAccessTypes) {
+            if (ac.accessMandatory) {
+              this.userAccessTypes.push(ac.description);
+            }
+            const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
+            if (foundUserAc) {
+              this.userAccessTypes.push(ac.description);
             }
           }
         }

@@ -67,6 +67,18 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
     });
+
+    this.actions$.pipe(ofType(fromStore.REFRESH_USER_FAIL)).subscribe(() => {
+      this.summaryErrors = {
+        isFromValid: false,
+        items: [
+          {
+            id: null,
+            message: 'There was a problem refreshing the user. Please wait for the batch process for changes to be made.'
+          }
+        ],
+        header: 'There was a problem' };
+    });
   }
 
   ngOnDestroy(): void {

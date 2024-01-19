@@ -12,7 +12,7 @@
     "ccdDataApi": "http://ccd-data-store-api-${env}.service.core-compute-${env}.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-${env}.service.core-compute-${env}.internal",
     "role_assignment": {
-      "roleApi": "http://am-role-assignment-service-prod.service.core-compute-prod.internal"
+      "roleApi": "http://am-role-assignment-service-${env}.service.core-compute-${env}.internal"
     }
   },
   "secrets": {

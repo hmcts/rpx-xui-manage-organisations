@@ -22,12 +22,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'update-pba-numbers',
-    component: UpdatePbaNumbersComponent,
-    data: { role: 'pui-finance-manager' },
-    canActivate: [
-      OrganisationGuard,
-      UserRoleGuard
-    ]
+    component: UpdatePbaNumbersComponent
   },
   {
     path: 'update-pba-numbers-check',

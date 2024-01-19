@@ -1,3 +1,4 @@
+import { EditUserModel } from '../models/editUser.model';
 import { UserService } from './user.service';
 
 describe('User service', () => {
@@ -10,8 +11,18 @@ describe('User service', () => {
 
   it('editUser Permissions', () => {
     const userService = new UserService(mockHttpService);
-    const editUser = { userId: '123', editUserRolesObj: {} };
+    const editUser: EditUserModel = {
+      id: '123',
+      email: 'john@doe.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      idamStatus: 'Active',
+      rolesAdd: [],
+      rolesDelete: [],
+      accessTypes: []
+    };
+
     userService.editUserPermissions(editUser);
-    expect(mockHttpService.put).toHaveBeenCalledWith('/api/editUserPermissions/users/123', {});
+    expect(mockHttpService.put).toHaveBeenCalledWith('/api/editUserPermissions/users/123', editUser);
   });
 });

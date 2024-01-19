@@ -1,5 +1,6 @@
 // load login form
 import { Action } from '@ngrx/store';
+import { EditUserModel } from 'src/user-profile/models/editUser.model';
 import { PrdUser } from 'src/users/models/prd-users.model';
 
 export const LOAD_USERS = '[User] Load Users';
@@ -70,7 +71,7 @@ export class LoadAllUsersNoRoleDataFail implements Action {
 
 export class EditUser implements Action {
   public readonly type = EDIT_USER;
-  constructor(public payload: any) {}
+  constructor(public payload: EditUserModel) {}
 }
 
 export class EditUserSuccess implements Action {

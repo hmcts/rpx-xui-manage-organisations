@@ -1,4 +1,4 @@
-import { EditUserModel } from 'src/user-profile/models/editUser.model';
+import { EditUserModel, RoleChange } from 'src/user-profile/models/editUser.model';
 import { AppConstants } from '../../../app/app.constants';
 import { AppUtils } from '../../../app/utils/app-utils';
 import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
@@ -38,9 +38,9 @@ export class UserRolesUtil {
     return roles;
   }
 
-  public static mapEditUserRoles(user: any, rolesAdd: any[], rolesDelete: any[], accessTypes: UserAccessType[] = []): EditUserModel {
+  public static mapEditUserRoles(user: any, userId: string, rolesAdd: RoleChange[], rolesDelete: RoleChange[], accessTypes: UserAccessType[] = []): EditUserModel {
     return {
-      id: user.userIdentifier,
+      id: userId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,

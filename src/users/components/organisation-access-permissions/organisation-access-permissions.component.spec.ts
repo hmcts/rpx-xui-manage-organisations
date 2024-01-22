@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ExuiCommonLibModule, User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationAccessPermissionsComponent } from './organisation-access-permissions.component';
-import { TempJurisdicationModel } from './organisation-access-permissions.component';
+import { Jurisdiction } from 'src/models';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RpxTranslationService } from 'rpx-xui-translation';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
@@ -17,9 +17,9 @@ import {
 } from '../../components';
 
 describe('OrganisationAccessPermissionsComponent', () => {
-  const knownJurisdictions:TempJurisdicationModel[] = [
+  const knownJurisdictions:Jurisdiction[] = [
     {
-      jurisdictionid: '5',
+      jurisdictionId: '5',
       jurisdictionName: 'Family Public Law',
       accessTypes: [
         {

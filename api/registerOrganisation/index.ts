@@ -27,7 +27,7 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         dxAddress: getDx(requestBody)
       }
     ],
-    orgType: requestBody.organisationType.key,
+    orgType: requestBody.otherOrganisationType ? requestBody.otherOrganisationType.key : requestBody.organisationType.key,
     orgAttributes: [
       ...requestBody.services.filter((service) => service.key !== undefined)
     ]
@@ -36,6 +36,22 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
     request.orgAttributes.push({
       key: 'otherServices',
       value: requestBody.otherServices
+    });
+  }
+  if (requestBody.regulators?.length > 0) {
+    requestBody.regulators.map((regulator, index) => {
+      request.orgAttributes.push({
+        key: `regulators-${index}`,
+        value: JSON.stringify(regulator)
+      });
+    });
+  }
+  if (requestBody.individualRegulators?.length > 0) {
+    requestBody.individualRegulators.map((iRegulator, index) => {
+      request.orgAttributes.push({
+        key: `individualRegulators-${index}`,
+        value: JSON.stringify(iRegulator)
+      });
     });
   }
   return request;

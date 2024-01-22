@@ -3,8 +3,8 @@
   "iss": "https://forgerock-am.service.core-compute-idam-${env}.internal:8443/openam/oauth2/realms/root/realms/hmcts",
   "stub": false,
   "services": {
-    "idamApi": "https://idam-api.aat.platform.hmcts.net",
-    "idamWeb": "https://idam-web-public.aat.platform.hmcts.net",
+    "idamApi": "https://idam-api.${env}.platform.hmcts.net",
+    "idamWeb": "https://idam-web-public.${env}.platform.hmcts.net",
     "rdProfessionalApi": "http://rd-professional-api-${env}.service.core-compute-${env}.internal",
     "feeAndPayApi": "http://payment-api-${env}.service.core-compute-${env}.internal",
     "s2s": "http://rpe-service-auth-provider-${env}.service.core-compute-${env}.internal",

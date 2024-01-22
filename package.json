@@ -79,7 +79,7 @@
     "@hmcts/media-viewer": "2.10.1-RC.1",
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "2.0.6-pre-release-display-access-types-for-user-details",
+    "@hmcts/rpx-xui-common-lib": "2.0.8",
     "@hmcts/rpx-xui-node-lib": "2.27.1",
     "@ng-idle/core": "^10.0.0",
     "@ng-idle/keepalive": "^10.0.0",

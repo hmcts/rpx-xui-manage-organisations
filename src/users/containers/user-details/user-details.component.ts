@@ -77,7 +77,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     combineLatest([organisationAccessTypes$, this.user$, getOgdInviteUserFlowFeatureIsEnabled$])
       .pipe(takeUntil(this.onDestory$))
       .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
-        user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
         this.userAccessTypes = [];
         if (isFeatureEnabled) {
           const enabledUserAccessTypes: UserAccessType[] = user?.accessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];

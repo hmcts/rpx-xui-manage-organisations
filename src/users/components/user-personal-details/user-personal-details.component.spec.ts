@@ -11,7 +11,6 @@ describe('UserPersonalDetailsComponent', () => {
     lastName: 'Doe',
     email: 'john@doe.com',
     idamId: '123',
-    accessTypes: [],
     caseRoles: null
   };
 

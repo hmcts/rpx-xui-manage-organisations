@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
+import { Jurisdiction } from 'src/models';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -10,8 +11,7 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
-  // todo: remove above when we have the real data and remove the JSON Parse below when real data is ready
-  @Input() public jurisdictions: TempJurisdicationModel[];
+  @Input() public jurisdictions: Jurisdiction[];
   @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
 
@@ -72,7 +72,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
       return [];
     }
     return this.jurisdictions.map((jurisdiction) => {
-      const accessTypes = jurisdiction.accessTypes
+      // make a non-readonly copy of the access types so that we can sort them
+      const accessTypes = [...jurisdiction.accessTypes]
         .sort((a, b) => a.displayOrder - b.displayOrder)
         .filter((accessType) => accessType.display)
         .map((accessType) => {
@@ -84,7 +85,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
             accessMandatory: accessType.accessMandatory,
             hint: accessType.hint
           };
-          const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionid);
+          const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionId);
           if (userAccessType) {
             accessTypePermissionViewModel.enabled = userAccessType.enabled;
           }
@@ -92,7 +93,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
         });
 
       const permission:JurisdictionPermissionViewModel = {
-        jurisdictionId: jurisdiction.jurisdictionid,
+        jurisdictionId: jurisdiction.jurisdictionId,
         jurisdictionName: jurisdiction.jurisdictionName,
         accessTypes: accessTypes
       };
@@ -196,23 +197,6 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     const permissionFormArray = this.fb.nonNullable.array<FormGroup<JurisdictionPermissionViewModelForm>>(permissionFGs);
     this.jurisdictionPermissionsForm.controls.jurisdictions = permissionFormArray;
   }
-}
-
-export interface TempJurisdicationModel {
-  jurisdictionid: string;
-  jurisdictionName: string;
-  accessTypes: TempAccessTypeModel[];
-}
-
-export interface TempAccessTypeModel {
-  organisationProfileId: string;
-  accessTypeId: string;
-  accessMandatory: boolean;
-  accessDefault: boolean;
-  display: boolean;
-  description: string;
-  hint: string;
-  displayOrder: number;
 }
 
 interface JurisdictionPermissionViewModel {

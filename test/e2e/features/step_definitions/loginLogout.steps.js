@@ -125,7 +125,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     // browser.sleep(LONG_DELAY);
     const world = this;
 
-    await loginattemptCheckAndRelogin('autotest_readonly_superuser@mailinator.com', 'Monday01', world);
+    await loginattemptCheckAndRelogin(process.env.TEST_USER1_EMAIL, process.env.TEST_USER1_PASSWORD, world);
 
     // browser.sleep(LONG_DELAY);
   });

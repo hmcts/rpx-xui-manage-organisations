@@ -23,6 +23,7 @@ import getTermsAndConditions from './termsAndConditions';
 import userDetailsRouter from './user';
 import getUserDetails from './user-details';
 import getUserList from './userList';
+import refreshUser from './refresh-user';
 import retriveAccessTypes from './retrieveAccessTypes';
 
 const router = Router({ mergeParams: true });
@@ -41,6 +42,7 @@ router.use('/accounts', accountsRouter);
 router.use('/user', userDetailsRouter);
 router.use('/healthCheck', healthCheck);
 router.use('/inviteUser', inviteUser);
+router.use('/refresh-user', refreshUser);
 router.use('/allUserList', getAllUserList);
 router.use('/allUserListWithoutRoles', getAllUserListWithoutRoles);
 router.use('/userList', getUserList);

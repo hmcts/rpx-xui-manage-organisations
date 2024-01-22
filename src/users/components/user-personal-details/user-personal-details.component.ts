@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { Subject } from 'rxjs';
 import { PersonalDetails } from '../../models/personal-details.model';

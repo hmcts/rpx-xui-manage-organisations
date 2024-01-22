@@ -10,8 +10,6 @@ import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
 import { OrganisationAccessType } from 'src/models';
 
-import { userAccessTypesExample } from '../manage-user/temp-data';
-
 @Component({
   selector: 'app-prd-user-details-component',
   templateUrl: './user-details.component.html',

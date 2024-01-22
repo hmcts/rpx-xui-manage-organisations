@@ -38,6 +38,7 @@ describe('UserRolesUtil class ', () => {
   });
 
   it('should mapEditUserRoles', () => {
+    const userId = '123';
     const user = {
       email: 'email',
       lastName: 'last',
@@ -45,13 +46,25 @@ describe('UserRolesUtil class ', () => {
       idamStatus: 'idam',
       roles: ['permission1', 'permission2']
     };
-    const userEditObj = UserRolesUtil.mapEditUserRoles(user, ['permission3', 'permission4'], ['permission1', 'permission2']);
-    expect(userEditObj).toEqual({ email: 'email',
+    const rolesAdd = [
+      { name: 'permission3' },
+      { name: 'permission4' }
+    ];
+    const rolesDelete = [
+      { name: 'permission1' },
+      { name: 'permission2' }
+    ];
+    const userEditObj = UserRolesUtil.mapEditUserRoles(user, userId, rolesAdd, rolesDelete);
+
+    expect(userEditObj).toEqual({
+      id: '123',
+      email: 'email',
       lastName: 'last',
       firstName: 'first',
       idamStatus: 'idam',
-      rolesAdd: ['permission3', 'permission4'],
-      rolesDelete: ['permission1', 'permission2']
+      rolesAdd: [{ name: 'permission3' }, { name: 'permission4' }],
+      rolesDelete: [{ name: 'permission1' }, { name: 'permission2' }],
+      accessTypes: []
     }
     );
   });

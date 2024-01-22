@@ -84,21 +84,22 @@ export class UserProfileEffects {
           map((response) => {
             if (UserRolesUtil.doesRoleAdditionExist(response)) {
               if (response.roleAdditionResponse.idamStatusCode !== '201') {
-                return new usersActions.EditUserFailure(user.userId);
+                return new usersActions.EditUserFailure(user.id);
               }
             }
 
             if (UserRolesUtil.doesRoleDeletionExist(response)) {
               if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
-                return new usersActions.EditUserFailure(user.userId);
+                return new usersActions.EditUserFailure(user.id);
               }
             }
-
-            return new usersActions.EditUserSuccess(user.userId);
+            // BJ-TODO: Need to handle 501 errors being returned
+            // Two different messages being returned depending on error - See GA-24
+            return new usersActions.EditUserSuccess(user.id);
           }),
           catchError((error) => {
             this.loggerService.error(error);
-            return of(new usersActions.EditUserServerError({ userId: user.userId, errorCode: error.apiStatusCode }));
+            return of(new usersActions.EditUserServerError({ userId: user.id, errorCode: error.apiStatusCode }));
           })
         );
       })
@@ -139,4 +140,19 @@ export class UserProfileEffects {
         new usersActions.LoadAllUsers()
       ])
     );
+
+  @Effect({ dispatch: false })
+  public refreshUser$ =
+      this.actions$.pipe(
+        ofType(usersActions.REFRESH_USER),
+        switchMap((payload: usersActions.RefreshUser) => {
+          return this.userService.refreshUser(payload.idamId).pipe(
+            catchError((error) => {
+              this.loggerService.error(error);
+              return of(new usersActions.RefreshUserFail(error));
+            })
+          );
+        }
+        )
+      );
 }

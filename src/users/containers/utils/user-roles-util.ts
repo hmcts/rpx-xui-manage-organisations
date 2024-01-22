@@ -1,5 +1,7 @@
+import { EditUserModel, RoleChange } from 'src/user-profile/models/editUser.model';
 import { AppConstants } from '../../../app/app.constants';
 import { AppUtils } from '../../../app/utils/app-utils';
+import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
 
 export class UserRolesUtil {
   public static getRolesAdded(user: any, permissions: string[]): any[] {
@@ -36,14 +38,16 @@ export class UserRolesUtil {
     return roles;
   }
 
-  public static mapEditUserRoles(user: any, rolesAdd: any[], rolesDelete: any[]): any {
+  public static mapEditUserRoles(user: any, userId: string, rolesAdd: RoleChange[], rolesDelete: RoleChange[], accessTypes: UserAccessType[] = []): EditUserModel {
     return {
+      id: userId,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
       idamStatus: user.idamStatus,
       rolesAdd,
-      rolesDelete
+      rolesDelete,
+      accessTypes: accessTypes
     };
   }
 
@@ -123,5 +127,13 @@ export class UserRolesUtil {
       rolesTobeAdded.push({ name: role });
     });
     return rolesTobeAdded;
+  }
+
+  public static accessTypesMatch(accessTypes: UserAccessType[], updatedAccessTypes: UserAccessType[]) : boolean {
+    accessTypes.sort((a, b) => a.accessTypeId.localeCompare(b.accessTypeId));
+    updatedAccessTypes.sort((a, b) => a.accessTypeId.localeCompare(b.accessTypeId));
+    const accessTypesJson = JSON.stringify(accessTypes);
+    const updatedAccessTypesJson = JSON.stringify(updatedAccessTypes);
+    return accessTypesJson === updatedAccessTypesJson;
   }
 }

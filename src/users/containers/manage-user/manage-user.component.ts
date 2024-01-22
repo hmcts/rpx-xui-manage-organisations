@@ -11,7 +11,6 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
 import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
 
-import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
 import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
@@ -34,8 +33,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public permissionErrors: { isInvalid: boolean; messages: string[] };
   public user: User;
 
-  // TODO: remove this when the GA-62 is complete and replace with selector
-  public jurisdictions = JSON.parse(jurisdictionsExample) as Jurisdiction[];
+  public jurisdictions:Jurisdiction[] = [];
   public organisationProfileIds:string[];
 
   private user$: Observable<User>;
@@ -58,14 +56,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       this.backUrl = this.getBackurl(this.userId);
     });
 
-    combineLatest([this.user$, this.organisation$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation]) => {
-      // TODO this is temporary until access types are returned by the API. used to test the population of the form
-      organisation = { ...organisation, organisationProfileIds: ['SOLICITOR_PROFILE'] };
-      if (user){
-        user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
-        this.user = user;
-      }
+    combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation, organisationAccessTypes]) => {
+      this.user = user;
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
+      this.jurisdictions = organisationAccessTypes;
     });
 
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {

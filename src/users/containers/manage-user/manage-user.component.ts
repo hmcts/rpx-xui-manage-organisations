@@ -117,7 +117,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    let roles: string[] = this.user.roles ?? [];
+    let roles: string[] = this.user?.roles ?? [];
 
     roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
     roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);

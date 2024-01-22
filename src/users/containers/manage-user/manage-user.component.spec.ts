@@ -14,6 +14,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
 import { AppConstants } from 'src/app/app.constants';
+import { InviteUserService } from 'src/users/services';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { OrganisationService } from 'src/organisation/services/organisation.service';
 
 describe('ManageUserComponent', () => {
   let component: ManageUserComponent;
@@ -30,6 +33,8 @@ describe('ManageUserComponent', () => {
   let mockGetSingleUserSelector: MemoizedSelector<fromStore.UserState, User>;
   let mockGetRouterState;
 
+  let inviteUserSvc: InviteUserService;
+
   beforeEach(async () => {
     mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
     await TestBed.configureTestingModule({
@@ -39,7 +44,11 @@ describe('ManageUserComponent', () => {
         {
           provide: LoggerService,
           useValue: mockedLoggerService
-        }
+        },
+        InviteUserService,
+        HttpClient,
+        HttpHandler,
+        OrganisationService
       ],
       declarations: [ManageUserComponent],
       schemas: [NO_ERRORS_SCHEMA]
@@ -51,6 +60,7 @@ describe('ManageUserComponent', () => {
     mockRouterStore = TestBed.inject(MockStore);
     mockUserStore = TestBed.inject(MockStore);
     mockOrganisationStore = TestBed.inject(MockStore);
+    inviteUserSvc = TestBed.inject(InviteUserService);
 
     defaultRouterStateUrl = {
       state: {
@@ -128,6 +138,29 @@ describe('ManageUserComponent', () => {
 
       component.inviteUser();
 
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+
+    it('should dispatch SendInviteUser action with correct payload', () => {
+      const value: any = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@doe.com',
+        roles: ['pui-case-manager', 'pui-caa'],
+        resendInvite: false
+      };
+      component.updatedUser = value;
+      const comparedUserSelection = {
+        ...value,
+        roles: [...value.roles, ...AppConstants.CCD_ROLES],
+        resendInvite: value.resendInvite
+      };
+      const compareAccessTypesSpy = spyOn(inviteUserSvc, 'compareAccessTypes')
+        .and.returnValue(of(comparedUserSelection));
+      const spy = spyOn(mockUserStore, 'dispatch');
+      const action = new fromStore.SendInviteUser(comparedUserSelection);
+      component.inviteUser();
+      expect(compareAccessTypesSpy).toHaveBeenCalledWith(comparedUserSelection, []);
       expect(spy).toHaveBeenCalledWith(action);
     });
 

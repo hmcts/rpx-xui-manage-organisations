@@ -6,7 +6,7 @@ import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
-import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
@@ -149,18 +149,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.standardPermission.permissionsForm.markAllAsTouched();
     this.standardPermission.updateCurrentErrors();
 
-    const errorItems: {id: string; message: string[];}[] = [];
-    Object.keys(this.userPersonalDetails.errors).forEach((key) => {
-      if (this.userPersonalDetails.errors[key].length > 0) {
-        errorItems.push({ id: key, message: this.userPersonalDetails.errors[key] });
-      }
-    });
-    if (this.standardPermission.errors.basicPermissions.length > 0){
-      errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
-    }
-
+    const errorItems = this.getFormErrors();
     this.summaryErrors = {
-      isFromValid: this.userPersonalDetails.personalDetailForm.valid && this.standardPermission.permissionsForm.valid,
+      isFromValid: errorItems.length === 0,
       items: errorItems,
       header: 'There is a problem'
     };
@@ -174,6 +165,27 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     } else {
       this.inviteUser();
     }
+  }
+
+  private getFormErrors() {
+    this.userPersonalDetails.personalDetailForm.markAllAsTouched();
+    this.userPersonalDetails.updateCurrentErrors();
+    this.standardPermission.permissionsForm.markAllAsTouched();
+    this.standardPermission.updateCurrentErrors();
+
+    const errorItems: {id: string; message: string[];}[] = [];
+    if (!this.userId){
+      Object.keys(this.userPersonalDetails.errors).forEach((key) => {
+        if (this.userPersonalDetails.errors[key].length > 0) {
+          errorItems.push({ id: key, message: this.userPersonalDetails.errors[key] });
+        }
+      });
+    }
+    if (this.standardPermission.errors.basicPermissions.length > 0){
+      errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
+    }
+
+    return errorItems;
   }
 
   private inviteUser() {

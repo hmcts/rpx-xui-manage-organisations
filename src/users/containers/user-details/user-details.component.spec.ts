@@ -6,19 +6,21 @@ describe('User Details Component', () => {
   let component: UserDetailsComponent;
   let userStoreSpyObject;
   let routerStoreSpyObject;
+  let orgStoreSpyObject;
   let actionsObject;
   let activeRoute;
 
   beforeEach(() => {
     userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
     routerStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
+    orgStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
     actionsObject = jasmine.createSpyObj('Actions', ['pipe']);
     activeRoute = {
       snapshot: {
         params: of({})
       }
     };
-    component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject, activeRoute);
+    component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, orgStoreSpyObject, actionsObject, activeRoute);
   });
 
   describe('ngOnInit', () => {
@@ -26,6 +28,7 @@ describe('User Details Component', () => {
       actionsObject.pipe.and.callFake(() => of({}));
       routerStoreSpyObject.pipe.and.returnValue(of({}));
       userStoreSpyObject.pipe.and.returnValue(of({}));
+      orgStoreSpyObject.pipe.and.returnValue(of({}));
       component.ngOnInit();
       expect(component.userSubscription).toBeTruthy();
       expect(component.suspendSuccessSubscription).toBeTruthy();

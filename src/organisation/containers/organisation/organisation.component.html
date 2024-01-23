@@ -54,15 +54,12 @@
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">PBA numbers</dt>
-        <dd *ngIf="organisationPaymentAccount?.length"
-          class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value">
           <div *ngFor="let pba of organisationPaymentAccount">
             {{pba.pbaNumber}}
           </div>
-        </dd>
-        <dd *ngIf="!organisationPaymentAccount?.length"
-          class="govuk-summary-list__value">
-          No PBA accounts registered
+          <br/>
+          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending approval)</div>
         </dd>
         <dd *ngIf="showChangePbaNumberLink"
         class="govuk-summary-list__actions">

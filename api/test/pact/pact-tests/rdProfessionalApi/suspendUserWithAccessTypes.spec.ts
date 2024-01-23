@@ -41,7 +41,7 @@ describe('RD Professional API', () => {
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
-        state: 'Professional User exists for modification with identifier 123456',
+        state: 'Professional User exists for modification of user access types with identifier 123456',
         uponReceiving: 'a request to update the roles of that user',
         withRequest: {
           method: 'PUT',

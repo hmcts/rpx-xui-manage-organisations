@@ -19,12 +19,12 @@ describe('RD Professional API', () => {
           'name': 'superuser'
         }
       ],
-      "userAccessTypes": [
+      'userAccessTypes': [
         {
-          "jurisdictionId": "jurisdictionId1",
-          "organisationProfileId": "organisationProfileId1",
-          "accessTypeId": "accessTypeId1",
-          "enabled": true
+          'jurisdictionId': 'jurisdictionId1',
+          'organisationProfileId': 'organisationProfileId1',
+          'accessTypeId': 'accessTypeId1',
+          'enabled': true
         }
       ]
     };

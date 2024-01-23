@@ -1,3 +1,4 @@
+import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
 export interface UserListApiModel {
     id?: number;
     firstName: string;
@@ -5,4 +6,5 @@ export interface UserListApiModel {
     email: string;
     permissions: string[];
     resendInvite: boolean;
+    accessTypes?: Array<UserAccessType> ;
 }

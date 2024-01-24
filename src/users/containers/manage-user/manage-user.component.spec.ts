@@ -307,6 +307,7 @@ describe('ManageUserComponent', () => {
         email: 'john@doe.com',
         roles: ['pui-case-manager']
       };
+      component.user = defaultUser;
       component.updatedUser = updatedUser;
       component.resendInvite = true;
 

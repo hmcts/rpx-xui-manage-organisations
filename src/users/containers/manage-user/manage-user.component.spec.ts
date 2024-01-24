@@ -13,6 +13,7 @@ import { FeatureToggleService, User, UserAccessType } from '@hmcts/rpx-xui-commo
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
+import { AppConstants } from 'src/app/app.constants';
 import { EditUserModel } from 'src/user-profile/models/editUser.model';
 import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
 import { StandardUserPermissionsComponent } from 'src/users/components/standard-user-permissions/standard-user-permissions.component';
@@ -101,7 +102,6 @@ describe('ManageUserComponent', () => {
     mockGetRouterState = mockRouterStore.overrideSelector(fromRoot.getRouterState, defaultRouterStateUrl);
     mockGetSingleUserSelector = mockUserStore.overrideSelector(fromStore.getGetSingleUser, of(defaultUser));
     mockOrganisationStore.overrideSelector(fromOrgStore.getOrganisationSel, defaultOrganisationState);
-
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -297,5 +297,111 @@ describe('ManageUserComponent', () => {
       component.onSubmit();
       expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }));
+  });
+
+  describe('inviteUser', () => {
+    it('should dispatch SendInviteUser action with correct payload', () => {
+      const updatedUser: any = {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@doe.com',
+        roles: ['pui-case-manager']
+      };
+      component.updatedUser = updatedUser;
+      component.resendInvite = true;
+
+      const expectedPayload = {
+        ...updatedUser,
+        roles: [...updatedUser.roles, ...AppConstants.CCD_ROLES],
+        resendInvite: component.resendInvite
+      };
+
+      const action = new fromStore.SendInviteUser(expectedPayload);
+      const spy = spyOn(mockUserStore, 'dispatch');
+
+      component.inviteUser();
+
+      expect(spy).toHaveBeenCalledWith(action);
+    });
+
+    it('should dispatch AddGlobalError and Go actions when globalError is present', () => {
+      const errorNumber = 400;
+      const expectedGlobalError = component.getGlobalError(errorNumber);
+      const spyStoreDispatch = spyOn(mockUserStore, 'dispatch');
+
+      component.handleError(mockUserStore, errorNumber);
+
+      expect(spyStoreDispatch).toHaveBeenCalledWith(new fromRoot.AddGlobalError(expectedGlobalError));
+      expect(spyStoreDispatch).toHaveBeenCalledWith(new fromRoot.Go({ path: ['service-down'] }));
+    });
+
+    it('should return correct global error object for error 400', () => {
+      const error = 400;
+      const expectedGlobalError = {
+        header: 'Sorry, there is a problem',
+        errors: [{
+          bodyText: 'to check the status of the user',
+          urlText: 'Refresh and go back',
+          url: '/users'
+        }]
+      };
+      const globalError = component.getGlobalError(error);
+      expect(globalError).toEqual(expectedGlobalError);
+    });
+
+    it('should return correct global error object for error 404', () => {
+      const error = 404;
+      const expectedGlobalError = {
+        header: 'Sorry, there is a problem with this account',
+        errors: [{
+          bodyText: 'to reactivate this account',
+          urlText: 'Get help',
+          url: '/get-help',
+          newTab: true
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }]
+      };
+      const globalError = component.getGlobalError(error);
+      expect(globalError).toEqual(expectedGlobalError);
+    });
+
+    it('should return correct global error object for error 500', () => {
+      const error = 500;
+      const expectedGlobalError = {
+        header: 'Sorry, there is a problem with the service',
+        errors: [{
+          bodyText: 'Try again later.',
+          urlText: null,
+          url: null
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }]
+      };
+      const globalError = component.getGlobalError(error);
+      expect(globalError).toEqual(expectedGlobalError);
+    });
+
+    it('should return undefined for an unknown error code', () => {
+      const error = 999;
+      const expectedGlobalError = {
+        header: 'Sorry, there is a problem with the service',
+        errors: [{
+          bodyText: 'Try again later.',
+          urlText: null,
+          url: null
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }]
+      };
+      const globalError = component.getGlobalError(error);
+      expect(globalError).toEqual(expectedGlobalError);
+    });
   });
 });

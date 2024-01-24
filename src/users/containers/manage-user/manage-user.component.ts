@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
@@ -13,6 +13,8 @@ import { PersonalDetails } from '../../models/personal-details.model';
 
 import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
+import { AppConstants } from '../../../app/app.constants';
+import { GlobalError } from '../../../app/store/reducers/app.reducer';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
@@ -29,16 +31,25 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
   public organisationAccessTypes$: Observable<Jurisdiction[]>;
-  public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
+  public summaryErrorsSubject = new Subject<{ isFromValid: boolean; items: { id: string; message: any; }[]; header: string }>();
+  public summaryErrors$ = this.summaryErrorsSubject.asObservable();
+  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
   public permissionErrors: { isInvalid: boolean; messages: string[] };
   public user: User;
+  public showWarningMessage: boolean = false;
+  public resendInvite: boolean = false;
+  public combinedErrors$: Observable<{
+    isFromValid: boolean;
+    items: { id: string; message: any; }[];
+    header: string;
+  }>;
 
   public jurisdictions:Jurisdiction[] = [];
   public organisationProfileIds:string[];
 
   private user$: Observable<User>;
   private organisation$: Observable<OrganisationDetails>;
-  private updatedUser: User;
+  public updatedUser: User;
   private onDestory$ = new Subject<void>();
 
   constructor(private readonly actions$: Actions,
@@ -49,6 +60,19 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
+    this.errorsArray$ = this.userStore.pipe(select(fromStore.getGetInviteUserErrorsArray));
+    this.combinedErrors$ = combineLatest([
+      this.summaryErrors$,
+      this.errorsArray$
+    ]).pipe(
+      map(([summaryErrors, errorsArray]) => {
+        return {
+          isFromValid: summaryErrors.isFromValid && errorsArray.isFromValid,
+          items: [...summaryErrors.items, ...errorsArray.items],
+          header: summaryErrors.header
+        };
+      })
+    );
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
@@ -59,6 +83,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation, organisationAccessTypes]) => {
       this.user = user;
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
+      this.resendInvite = user.status === 'Pending';
       this.jurisdictions = organisationAccessTypes;
     });
 
@@ -79,7 +104,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     this.actions$.pipe(ofType(fromStore.REFRESH_USER_FAIL)).subscribe(() => {
-      this.summaryErrors = {
+      this.summaryErrorsSubject.next({
         isFromValid: false,
         items: [
           {
@@ -87,8 +112,29 @@ export class ManageUserComponent implements OnInit, OnDestroy {
             message: 'There was a problem refreshing the user. Please wait for the batch process for changes to be made.'
           }
         ],
-        header: 'There was a problem' };
+        header: 'There was a problem' });
     });
+
+    if (!this.userId){
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 400);
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_404), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 404);
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 500);
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestory$)).subscribe(() => {
+        this.showWarningMessage = true;
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_409), takeUntil(this.onDestory$)).subscribe(() => {
+        this.showWarningMessage = true;
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL), takeUntil(this.onDestory$)).subscribe(() => {
+        this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -144,17 +190,18 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.showWarningMessage = false;
     this.userPersonalDetails.personalDetailForm.markAllAsTouched();
     this.userPersonalDetails.updateCurrentErrors();
     this.standardPermission.permissionsForm.markAllAsTouched();
     this.standardPermission.updateCurrentErrors();
 
     const errorItems = this.getFormErrors();
-    this.summaryErrors = {
+    this.summaryErrorsSubject.next({
       isFromValid: errorItems.length === 0,
       items: errorItems,
       header: 'There is a problem'
-    };
+    });
 
     if (errorItems.length > 0){
       return;
@@ -188,8 +235,18 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     return errorItems;
   }
 
-  private inviteUser() {
-    // TODO: implement
+  public inviteUser(): void {
+    let value:any = {
+      ...this.updatedUser
+    };
+    if (value.roles.includes('pui-case-manager')) {
+      value.roles = [...value.roles, ...AppConstants.CCD_ROLES];
+    }
+    value = {
+      ...value,
+      resendInvite: this.resendInvite
+    };
+    this.userStore.dispatch(new fromStore.SendInviteUser(value));
   }
 
   private updateUser() {
@@ -202,7 +259,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     if (hasChanges) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
     } else {
-      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' };
+      this.summaryErrorsSubject.next({ isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' });
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
       return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }
@@ -210,5 +267,67 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   private getBackurl(userId: string): string {
     return !!userId ? `/users/user/${userId}` : '/users';
+  }
+
+  public handleError(store: Store<any>, errorNumber: number): void {
+    const globalError = this.getGlobalError(errorNumber);
+    if (globalError) {
+      store.dispatch(new fromRoot.AddGlobalError(globalError));
+      store.dispatch(new fromRoot.Go({ path: ['service-down'] }));
+    }
+  }
+
+  public getGlobalError(error: number): GlobalError {
+    const errorMessages = this.getErrorMessages(error);
+    const globalError = {
+      header: this.getErrorHeader(error),
+      errors: errorMessages
+    };
+    return globalError;
+  }
+
+  private getErrorMessages(error: number) {
+    switch (error) {
+      case 400:
+        return [{
+          bodyText: 'to check the status of the user',
+          urlText: 'Refresh and go back',
+          url: '/users'
+        }];
+      case 404:
+        return [{
+          bodyText: 'to reactivate this account',
+          urlText: 'Get help',
+          url: '/get-help',
+          newTab: true
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }];
+      case 500:
+      default:
+        return [{
+          bodyText: 'Try again later.',
+          urlText: null,
+          url: null
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }];
+    }
+  }
+
+  private getErrorHeader(error: number): string {
+    switch (error) {
+      case 400:
+        return 'Sorry, there is a problem';
+      case 404:
+        return 'Sorry, there is a problem with this account';
+      case 500:
+      default:
+        return 'Sorry, there is a problem with the service';
+    }
   }
 }

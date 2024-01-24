@@ -125,6 +125,13 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
         item.lastName.toLowerCase().includes(searchStr) ||
         fullName.includes(searchStr)
       );
+    }).sort((a, b) => {
+      const fullNameA = `${a.firstName} ${a.lastName}`.toLowerCase();
+      const fullNameB = `${b.firstName} ${b.lastName}`.toLowerCase();
+      if (fullNameA === fullNameB) {
+        return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
+      }
+      return fullNameA.localeCompare(fullNameB);
     }));
   }
 

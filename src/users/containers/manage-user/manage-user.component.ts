@@ -83,7 +83,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation, organisationAccessTypes]) => {
       this.user = user;
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
-      this.resendInvite = user.status === 'Pending';
+      this.resendInvite = user?.status === 'Pending';
       this.jurisdictions = organisationAccessTypes;
     });
 
@@ -207,7 +207,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.userId) {
+    if (this.userId && !this.resendInvite) {
       this.updateUser();
     } else {
       this.inviteUser();
@@ -236,16 +236,20 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   public inviteUser(): void {
-    let value:any = {
-      ...this.updatedUser
+    const value:any = {
+      ...this.updatedUser,
+      resendInvite: this.resendInvite
     };
     if (value.roles.includes('pui-case-manager')) {
       value.roles = [...value.roles, ...AppConstants.CCD_ROLES];
     }
-    value = {
-      ...value,
-      resendInvite: this.resendInvite
-    };
+    if (this.resendInvite) {
+      Object.assign(value, {
+        email: this.user.email,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName
+      });
+    }
     this.userStore.dispatch(new fromStore.SendInviteUser(value));
   }
 

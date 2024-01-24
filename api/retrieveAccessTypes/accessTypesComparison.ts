@@ -45,8 +45,6 @@ export function processAccessTypes(currentAccessTypes, userAccessTypeOptions) {
     }
   });
 
-  console.log(processedAccessTypes);
-
   return {
     ...userAccessTypeOptions,
     accessTypes: processedAccessTypes

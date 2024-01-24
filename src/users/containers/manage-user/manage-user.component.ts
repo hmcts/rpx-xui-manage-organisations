@@ -182,11 +182,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       ...value,
       resendInvite: this.resendInvite
     };
-    console.log(`values pre comparison: ${JSON.stringify(value)}`);
     // Check if the user has selected GA options - dont need to compare the access types if they aren posting any
     if (value.roles.includes('pui-caa')) {
       this.inviteUserSvc.compareAccessTypes(value, []).subscribe((comparedUserSelection) => {
-        console.log(`values post comparison: ${JSON.stringify(comparedUserSelection)}`);
         this.userStore.dispatch(new fromStore.SendInviteUser(comparedUserSelection));
       });
     } else {

@@ -1,8 +1,12 @@
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
+import { Store } from '@ngrx/store';
+import * as fromOrgStore from '../../../organisation/store';
+import { Jurisdiction } from 'src/models';
+import { OrganisationState } from '../../../organisation/store';
 
-describe('User Details Component', () => {
+fdescribe('User Details Component', () => {
   let component: UserDetailsComponent;
   let userStoreSpyObject;
   let routerStoreSpyObject;
@@ -13,7 +17,16 @@ describe('User Details Component', () => {
   beforeEach(() => {
     userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
     routerStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
-    orgStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
+    orgStoreSpyObject = jasmine.createSpyObj<Store<fromOrgStore.OrganisationState>>('Store', ['pipe', 'select', 'dispatch']);
+
+    orgStoreSpyObject.pipe.and.callFake(() => {
+      return of({ organisation: { organisationJurisdications: [] } } as OrganisationState);
+    });
+
+    orgStoreSpyObject.pipe.and.callFake(() => {
+      return of(([] as Jurisdiction[]));
+    });
+
     actionsObject = jasmine.createSpyObj('Actions', ['pipe']);
     activeRoute = {
       snapshot: {
@@ -28,7 +41,6 @@ describe('User Details Component', () => {
       actionsObject.pipe.and.callFake(() => of({}));
       routerStoreSpyObject.pipe.and.returnValue(of({}));
       userStoreSpyObject.pipe.and.returnValue(of({}));
-      orgStoreSpyObject.pipe.and.returnValue(of({}));
       component.ngOnInit();
       expect(component.userSubscription).toBeTruthy();
       expect(component.suspendSuccessSubscription).toBeTruthy();

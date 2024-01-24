@@ -12,6 +12,7 @@ const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsC
 
 const HeaderPage = require('../pageObjects/headerPage');
 const browser = require('../../../codeceptCommon/browser');
+const reportLogger = require('../../../codeceptCommon/reportLogger.js');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
@@ -116,7 +117,7 @@ Given(/^I am logged into manage organisation with ManageOrg user details$/, asyn
   // browser.sleep(LONG_DELAY);
   const world = this;
 
-  await loginattemptCheckAndRelogin('autotest_readonly_superuser@mailinator.com', 'Monday01', world);
+    await loginattemptCheckAndRelogin(process.env.TEST_USER1_EMAIL, process.env.TEST_USER1_PASSWORD, world);
 
   // browser.sleep(LONG_DELAY);
 });
@@ -242,7 +243,9 @@ Then('I see login to MC with invited user is {string}', async function (loginSta
 });
 
 
-async function loginWithCredentials(username, password, world) {
+
+async function loginWithCredentials(username, password, world){
+  reportLogger.AddMessage(`Login user: ${username}`)
   await browserWaits.waitForElement(loginPage.emailAddress);
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);

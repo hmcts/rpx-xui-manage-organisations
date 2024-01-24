@@ -4,9 +4,10 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 // TODO: The below is an odd way to import.
 import { GovukTableColumnConfig } from '../../../../projects/gov-ui/src/lib/components/govuk-table/govuk-table.component';
-import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
+import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import { map } from 'rxjs/operators';
+import { AppConstants } from 'src/app/app.constants';
 
 @Component({
   selector: 'app-prd-users-component',
@@ -24,17 +25,17 @@ export class UsersComponent implements OnInit, OnDestroy {
   public allUsersList$: Subscription;
   public filterValues: string = '';
   public userList: Array<object>;
-
   public searchFiltersEnabled$: Observable<boolean>;
+  public ogdFeatureToggleName: string = AppConstants.FEATURE_NAMES.ogdInviteUserFlow;
 
   constructor(
     private readonly store: Store<fromStore.UserState>,
-    public readonly featureToggleService: FeatureToggleService
+    private readonly routerStore: Store<fromRoot.State>,
   ) {}
 
   public ngOnInit(): void {
-    this.searchFiltersEnabled$ = this.featureToggleService.getValue('ogd-invite-user-flow', false);
     this.loadUsers();
+    this.searchFiltersEnabled$ = this.routerStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled));
   }
 
   public inviteNewUser(): void {

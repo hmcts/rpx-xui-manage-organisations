@@ -43,7 +43,7 @@ export class LoggerService implements ILoggerService {
   public debug(message: any, ...additional: any[]): void {
     const formattedMessage = this.getMessage(message);
     this.ngxLogger.debug(formattedMessage, additional);
-    this.monitoringService.logEvent(message);
+    this.monitoringService.logEvent(message, additional);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

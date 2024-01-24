@@ -6,7 +6,7 @@ import * as fromOrgStore from '../../../organisation/store';
 import { Jurisdiction } from 'src/models';
 import { OrganisationState } from '../../../organisation/store';
 
-fdescribe('User Details Component', () => {
+describe('User Details Component', () => {
   let component: UserDetailsComponent;
   let userStoreSpyObject;
   let routerStoreSpyObject;

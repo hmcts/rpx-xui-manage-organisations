@@ -124,6 +124,7 @@
     "http-proxy-middleware": "1.1.x",
     "isomorphic-fetch": "^3.0.0",
     "json-stringify-safe": "^5.0.1",
+    "json5": "^2.2.3",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "launchdarkly-js-client-sdk": "^2.15.2",

@@ -18649,6 +18649,7 @@ __metadata:
     jasmine-marbles: ^0.9.2
     jasmine-spec-reporter: ~7.0.0
     json-stringify-safe: ^5.0.1
+    json5: ^2.2.3
     jsonwebtoken: ^8.5.1
     jwt-decode: ^2.2.0
     karma: ~6.4.2

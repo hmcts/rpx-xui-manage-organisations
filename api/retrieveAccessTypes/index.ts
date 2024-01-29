@@ -43,7 +43,7 @@ export async function compareAccessTypes(req: Request, res: Response) {
     const comparedUserSelections = processAccessTypes(payload.orgAccessTypes, payload.userSelections);
     res.json(comparedUserSelections);
   } catch (error) {
-    console.error('Error in compareAccessTypes:', error);
+    logger.error('Error in compareAccessTypes:', error);
     res.status(500).json({ error: 'An error occurred while processing your request.' });
   }
 }

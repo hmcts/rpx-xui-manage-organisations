@@ -245,7 +245,6 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     if (value.roles.includes('pui-case-manager')) {
       value.roles = [...value.roles, ...AppConstants.CCD_ROLES];
     }
-    console.log(`UPDATE INVITE THE USER IS SET TO: ${JSON.stringify(this.user)}`);
     if (this.resendInvite) {
       Object.assign(value, {
         email: this.user.email,
@@ -253,8 +252,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         lastName: this.user.lastName
       });
     }
-    // Check if the user has selected GA options - dont need to compare the access types if they aren posting any
+    // Check if the user has selected GA options - dont need to compare the access types if they arent posting with GA role
     if (value.roles.includes('pui-caa')) {
+      // TODO: provide the organisationProfileIds in param 2
       this.inviteUserSvc.compareAccessTypes(value, []).subscribe((comparedUserSelection) => {
         this.userStore.dispatch(new fromStore.SendInviteUser(comparedUserSelection));
       });

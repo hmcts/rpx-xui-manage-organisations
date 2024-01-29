@@ -1,9 +1,9 @@
 // Function to compare the users accessType selections with the most recently obtained ones
-export function processAccessTypes(currentAccessTypes, userAccessTypeOptions) {
+export function processAccessTypes(currentOrganisationAccessTypes, userAccessTypeOptions) {
   const processedAccessTypes = [];
 
   const accessTypesMap = new Map();
-  currentAccessTypes.forEach((jurisdiction) => {
+  currentOrganisationAccessTypes.forEach((jurisdiction) => {
     jurisdiction.accessTypes.forEach((accessType) => {
       const key = `${jurisdiction.jurisdictionid}-${accessType.organisationProfileId}-${accessType.accessTypeId}`;
       accessTypesMap.set(key, accessType);

@@ -8,6 +8,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  idamStatus: string;
 }
 
 @Component({
@@ -79,7 +80,7 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
       config: {
         hint: '',
         id: 'statusFilter',
-        label: 'Filter by',
+        label: 'Filter by status',
         classes: 'govuk-label--m',
         isHeading: true
       },
@@ -118,13 +119,16 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
     return of(this.usersList.filter((item) => {
       const searchStr = searchTerm.toLowerCase();
       const fullName = `${item.firstName} ${item.lastName}`.toLowerCase();
+      const statusOption = this.statusFilterControl.value.toUpperCase();
 
-      return (
-        item.email.toLowerCase().includes(searchStr) ||
-        item.firstName.toLowerCase().includes(searchStr) ||
-        item.lastName.toLowerCase().includes(searchStr) ||
-        fullName.includes(searchStr)
-      );
+      const isSearchMatch = item.email.toLowerCase().includes(searchStr) ||
+                            item.firstName.toLowerCase().includes(searchStr) ||
+                            item.lastName.toLowerCase().includes(searchStr) ||
+                            fullName.includes(searchStr);
+
+      const isStatusMatch = statusOption === 'ALL' || item.idamStatus === statusOption;
+
+      return isSearchMatch && isStatusMatch;
     }));
   }
 

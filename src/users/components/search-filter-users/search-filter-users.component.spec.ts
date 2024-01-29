@@ -45,8 +45,8 @@ describe('SearchFilterUserComponent', () => {
 
   it('should filter judicial users based on search term', () => {
     const usersList = [
-      { firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
-      { firstName: 'Jane', lastName: 'Doe', email: 'jane@example.com' }
+      { firstName: 'John', lastName: 'Doe', email: 'john@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'Jane', lastName: 'Doe', email: 'jane@example.com', idamStatus: 'ACTIVE' }
     ];
     component.usersList = usersList;
     const searchTerm = 'john';

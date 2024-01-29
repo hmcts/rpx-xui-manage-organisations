@@ -8113,7 +8113,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"config@npm:^3.2.5":
+"config@npm:^3.3.10":
   version: 3.3.10
   resolution: "config@npm:3.3.10"
   dependencies:
@@ -18618,7 +18618,7 @@ __metadata:
     codeceptjs: 3.5.6
     codeceptjs-cucumber-json-reporter: ^1.0.14
     codelyzer: ^5.1.2
-    config: ^3.2.5
+    config: ^3.3.10
     connect-redis: ^4.0.4
     cookie-parser: ^1.4.4
     core-js: ^2.5.4

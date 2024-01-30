@@ -34,6 +34,8 @@ class DriverManager{
 
     async setCookies(cookies){
         for(const cookie of cookies){
+            cookie['path'] = '/';
+            cookie['domain'] = 'localhost'
             await getActor().setCookie(cookie)
         }
     }

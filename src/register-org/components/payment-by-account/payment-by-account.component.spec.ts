@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { PaymentByAccountComponent } from './payment-by-account.component';
 
 describe('PaymentByAccountComponent', () => {
@@ -11,11 +11,13 @@ describe('PaymentByAccountComponent', () => {
   let fixture: ComponentFixture<PaymentByAccountComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    pbaNumbers: [],
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -26,7 +28,8 @@ describe('PaymentByAccountComponent', () => {
     address: null,
     organisationType: null,
     regulators: [],
-    regulatorRegisteredWith: null
+    regulatorRegisteredWith: null,
+    inInternationalMode: null
   };
 
   beforeEach(async () => {
@@ -92,20 +95,42 @@ describe('PaymentByAccountComponent', () => {
   });
 
   it('should continue button navigate to payment by account details page', () => {
+    component.registrationData.hasPBA = false;
     component.pbaFormGroup.get('pba').setValue('yes');
     component.onContinue();
+    expect(component.registrationData.hasPBA).toEqual(true);
     expect(component.validationErrors.length).toEqual(0);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'payment-by-account-details']);
   });
 
   it('should continue button navigate to contact details page', () => {
+    component.registrationData = registrationData;
+    component.registrationData.hasPBA = true;
+    component.registrationData.pbaNumbers = ['PBA1234567', 'PBA1234568'];
     component.pbaFormGroup.get('pba').setValue('no');
     component.onContinue();
+    expect(component.registrationData.hasPBA).toEqual(false);
+    expect(component.registrationData.pbaNumbers.length).toEqual(0);
     expect(component.validationErrors.length).toEqual(0);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'contact-details']);
   });
 
-  it('should back button navigate to organisation services access page', () => {
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    } as any);
+    component.onBack();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the organisation services access page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    } as any);
     component.onBack();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
   });

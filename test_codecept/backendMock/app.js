@@ -14,7 +14,8 @@ const healthRoutes = require('./services/health/routes')
 const sessionRoutes = require('./services/session/routes')
 const refDataRoutes = require('./services/refData/routes')
 const ccdRoutes = require('./services/ccd/routes')
-
+const rdCommonDataRoutes = require('./services/rdCommondata/routes')
+const acseAssignmentsRoutes = require('./services/caseAssignments/routes')
 const userApiData = require('./services/userApiData');
 class MockApp {
 
@@ -27,7 +28,7 @@ class MockApp {
 
 
     init(clientPortStart) {
-      
+
     }
 
 
@@ -52,7 +53,7 @@ class MockApp {
 
         app.use(bodyParser.json());
         app.use(cookieParser());
-        app.use(express.json({ type: '*/*' })); 
+        app.use(express.json({ type: '*/*' }));
 
         app.use((req,res,next) => {
             // console.log(`${req.method} : ${req.url}`);
@@ -69,7 +70,9 @@ class MockApp {
 
         app.use('/health', healthRoutes)
         app.use('/refdata/external/v1', refDataRoutes)
+        app.use('/refdata/commondata/lov', rdCommonDataRoutes )
         app.use('/ccd', ccdRoutes)
+        app.use('/case-assignments', acseAssignmentsRoutes )
 
 
         // await this.stopServer();

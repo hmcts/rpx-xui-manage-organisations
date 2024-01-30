@@ -84,3 +84,10 @@ export const PACT_CONSUMER_VERSION = 'pact.consumerVersion';
 export const PACT_BRANCH_NAME = 'pact.branchName';
 export const PACT_BROKER_USERNAME = 'pact.brokerUsername';
 export const PACT_BROKER_PASSWORD = 'pact.brokerPassword';
+
+// LD PREVIEW KEY
+export const PREVIEW_LD_KEY = 'previewLDKey';
+
+// System user
+export const SYSTEM_USER_NAME = 'secrets.rpx.system-user-name';
+export const SYSTEM_USER_PASSWORD = 'secrets.rpx.system-user-password';

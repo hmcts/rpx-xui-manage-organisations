@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { RegisterComponent } from './register-org.component';
 
@@ -18,11 +18,13 @@ describe('RegisterComponent', () => {
   mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   const registrationData = {
-    name: '',
+    companyName: '',
+    companyHouseNumber: null,
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -30,10 +32,8 @@ describe('RegisterComponent', () => {
     hasPBA: null,
     contactDetails: null,
     hasIndividualRegisteredWithRegulator: null,
-    companyHouseNumber: null,
     address: null,
     organisationType: null,
-    organisationNumber: null,
     regulators: [],
     regulatorRegisteredWith: null
   } as RegistrationData;

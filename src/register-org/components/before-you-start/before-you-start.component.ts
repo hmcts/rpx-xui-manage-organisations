@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
@@ -18,7 +17,8 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   public manageCaseLink$: Observable<string>;
   public manageOrgLink$: Observable<string>;
   public beforeYouStartForm: FormGroup;
-  public beforeYouStartError: ErrorMessage;
+  public beforeYouStartErrors: { id: string, message: string }[] = [];
+  public errorPresent = false;
 
   constructor(
     public readonly router: Router,
@@ -52,11 +52,11 @@ export class BeforeYouStartComponent extends RegisterComponent implements OnInit
   private isFormValid(): boolean {
     if (this.beforeYouStartForm.invalid ||
       !this.beforeYouStartForm.get('confirmedOrganisationAccount').value) {
-      this.beforeYouStartError = {
-        description: 'Please select the checkbox',
-        title: '',
-        fieldId: 'confirmed-organisation-account'
-      };
+      this.beforeYouStartErrors = [{
+        message: 'Please select the checkbox',
+        id: 'confirmed-organisation-account'
+      }];
+      this.errorPresent = true;
       this.mainContentElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { Navigation, Router } from '@angular/router';
+import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/index';
 
 @Component({
@@ -9,12 +9,18 @@ import { RegisterOrgService } from '../../services/index';
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {
-  constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService) {}
-
   private isRegistrationJourneyCancelled = false;
-
+  private routerCurrentNavigation: Navigation;
   public registrationData: RegistrationData;
+
+  constructor(public readonly router: Router,
+    public readonly registerOrgService: RegisterOrgService) {
+    this.routerCurrentNavigation = this.router.getCurrentNavigation();
+  }
+
+  public get currentNavigation(): Navigation {
+    return this.routerCurrentNavigation;
+  }
 
   public ngOnInit(): void {
     this.initialiseRegistrationJourney();
@@ -31,7 +37,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   public cancelRegistrationJourney(): void {
-    const confirmed = window.confirm('Cancel would erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
+    const confirmed = window.confirm('Cancel will erase all the data you have entered and exit from the registration journey. Are you sure you want to continue?');
     if (confirmed) {
       this.isRegistrationJourneyCancelled = true;
       this.registerOrgService.removeRegistrationData();

@@ -14,7 +14,7 @@ describe('PbaNumberInputComponent', () => {
 
   let component: PbaNumberInputComponent;
   let fixture: ComponentFixture<PbaNumberInputComponent>;
-  const rpxTranslateMock = jasmine.createSpyObj('RpxTranslationService', ['getTranslation']);
+  const rpxTranslateMock = jasmine.createSpyObj('RpxTranslationService', ['getTranslation$']);
 
   beforeEach(() => {
     group = new FormGroup({

@@ -19,7 +19,9 @@
             "xui-oauth2-token": "***REMOVED***",
             "mo-webapp-redis-connection-string": "redis://localhost:6379",
             "google-analytics-key": "TEST_KEY",
-            "launch-darkly-client-id": "5de6610b23ce5408280f2268"
+            "launch-darkly-client-id": "5de6610b23ce5408280f2268",
+            "system-user-name": "xui_mo_system_user@mailinator.com",
+            "system-user-password": "Welcome01"
         }
     },
     "feature": {

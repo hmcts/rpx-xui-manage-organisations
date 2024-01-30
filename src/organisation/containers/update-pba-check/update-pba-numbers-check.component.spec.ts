@@ -62,6 +62,9 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     return {
       name: 'Luke Solicitors',
       organisationIdentifier: 'HAUN33E',
+      organisationProfileIds: [
+        'SOLICITOR_PROFILE'
+      ],
       contactInformation: [MOCK_CONTACT_INFORMATION],
       pendingPaymentAccount: [],
       status: 'ACTIVE',
@@ -139,16 +142,6 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     it('should navigate away', () => {
       expect(routerMock.navigateCalls.length).toEqual(1);
       expect(routerMock.navigateCalls[0].commands).toEqual(['/organisation/update-pba-numbers']);
-    });
-  });
-
-  describe('when there is a pending PBA to add', () => {
-    const ADD_NUMBER = 'test1';
-    const MOCK_PENDING_ADD: OrganisationDetails = getMockOrganisation([{ pbaNumber: ADD_NUMBER }], []);
-
-    beforeEach(() => {
-      pipeSpy.and.returnValue(of(MOCK_PENDING_ADD));
-      fixture.detectChanges();
     });
   });
 

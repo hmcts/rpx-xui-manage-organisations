@@ -7,16 +7,13 @@ import { GetHelpComponent } from '..';
 describe('GetHelpComponent', () => {
   let component: GetHelpComponent;
   let fixture: ComponentFixture<GetHelpComponent>;
-  const rpxTranslateMock = jasmine.createSpyObj('rpxTranslationService', ['getTranslation']);
+  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [GetHelpComponent, ContactDetailsComponent, RpxTranslatePipe],
-      providers: [{
-        provide: RpxTranslationService,
-        useValue: rpxTranslateMock
-      }]
+      providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
     })
       .compileComponents();
   }));

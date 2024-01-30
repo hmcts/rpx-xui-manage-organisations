@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import {
@@ -18,27 +18,34 @@ describe('RegulatorDetailsComponent', () => {
   let component: RegulatorDetailsComponent;
   let fixture: ComponentFixture<RegulatorDetailsComponent>;
   let mockLovRefDataService: any;
+  let router: Router;
   let nativeElement: any;
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+
+  const mockRoute = {
+    snapshot: {
+      params: {
+        backLinkTriggeredFromCYA: true
+      }
+    }
   };
 
   const registrationData: RegistrationData = {
-    name: '',
+    pbaNumbers: [],
+    companyName: '',
+    companyHouseNumber: null,
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
     services: [],
     hasPBA: null,
     contactDetails: null,
-    companyHouseNumber: null,
     address: null,
     organisationType: null,
-    organisationNumber: null,
     regulators: [],
     regulatorRegisteredWith: null,
     hasIndividualRegisteredWithRegulator: null,
-    individualRegulators: []
+    individualRegulators: [],
+    inInternationalMode: null
   };
 
   const organisationTypes = [
@@ -57,7 +64,7 @@ describe('RegulatorDetailsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
-          provide: Router, useValue: mockRouter
+          provide: ActivatedRoute, useValue: mockRoute
         },
         {
           provide: LovRefDataService, useValue: mockLovRefDataService
@@ -73,6 +80,8 @@ describe('RegulatorDetailsComponent', () => {
     nativeElement = fixture.debugElement.nativeElement;
     component.registrationData = registrationData;
     spyOn(component, 'onOptionSelected').and.callThrough();
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -101,8 +110,8 @@ describe('RegulatorDetailsComponent', () => {
     selectElement.selectedIndex = 1;
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('SRA');
-    expect(component.onOptionSelected).toHaveBeenCalledWith('SRA', 0);
+    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('Solicitor Regulation Authority');
+    expect(component.onOptionSelected).toHaveBeenCalledWith('Solicitor Regulation Authority', 0);
     expect(component.regulators.controls[0].get('regulatorName')).toBeFalsy();
     expect(component.regulators.controls[0].get('organisationRegistrationNumber')).toBeTruthy();
     expect(nativeElement.querySelector('#regulator-name0')).toBeFalsy();
@@ -137,7 +146,7 @@ describe('RegulatorDetailsComponent', () => {
     selectElement.selectedIndex = 4;
     selectElement.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('NA');
+    expect(component.regulators.controls[0].get('regulatorType').value).toEqual('Not Applicable');
   });
 
   it('should add a new regulator entry when the "Add another regulator" button is clicked', () => {
@@ -239,15 +248,33 @@ describe('RegulatorDetailsComponent', () => {
     selectElement1.selectedIndex = 4;
     selectElement1.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.registrationData.regulators.length).toEqual(1);
     expect(component.registrationData.regulators[0].regulatorType).toEqual(RegulatoryType.NotApplicable);
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-services-access']);
+  });
+
+  it('should changing the regulator type clear the organisation registration number field', () => {
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.regulators = [];
+    component.setFormControlValues();
+    fixture.detectChanges();
+    const selectElement0: HTMLSelectElement = nativeElement.querySelector('#regulator-type0');
+    selectElement0.selectedIndex = 0;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    const registrationNumberElement = nativeElement.querySelector('#organisation-registration-number0');
+    registrationNumberElement.value = '123';
+    registrationNumberElement.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    selectElement0.selectedIndex = 0;
+    selectElement0.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(registrationNumberElement.value).toEqual('');
   });
 
   it('should validate the form on clicking "Continue" and not persist data or navigate to next page if validation fails', () => {
-    mockRouter.navigate.calls.reset();
-    spyOn(component, 'onContinueClicked').and.callThrough();
+    spyOn(component, 'onContinue').and.callThrough();
     component.validationErrors = [];
     component.registrationData.regulators = [];
     component.setFormControlValues();
@@ -264,7 +291,7 @@ describe('RegulatorDetailsComponent', () => {
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     continueButton.click();
     fixture.detectChanges();
-    expect(component.onContinueClicked).toHaveBeenCalled();
+    expect(component.onContinue).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(3);
     expect(component.validationErrors[0]).toEqual({
       id: 'regulator-name0',
@@ -272,13 +299,13 @@ describe('RegulatorDetailsComponent', () => {
     });
     expect(component.validationErrors[1]).toEqual({
       id: 'organisation-registration-number0',
-      message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
+      message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE
     });
-    expect(mockRouter.navigate).not.toHaveBeenCalled();
+    expect(router.navigate).not.toHaveBeenCalled();
   });
 
   it('should validate the form on clicking "Continue" and persist data and navigate to next page if validation succeeds', () => {
-    spyOn(component, 'onContinueClicked').and.callThrough();
+    spyOn(component, 'onContinue').and.callThrough();
     component.registrationData.regulators = [];
     component.setFormControlValues();
     fixture.detectChanges();
@@ -309,9 +336,9 @@ describe('RegulatorDetailsComponent', () => {
     const continueButton = nativeElement.querySelector('.govuk-button--primary');
     continueButton.click();
     fixture.detectChanges();
-    expect(component.onContinueClicked).toHaveBeenCalled();
+    expect(component.onContinue).toHaveBeenCalled();
     expect(component.validationErrors.length).toBe(0);
-    expect(mockRouter.navigate).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalled();
   });
 
   it('should set the error message if regulator name is empty for a known regulator type', () => {
@@ -322,8 +349,8 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
-    component.onContinueClicked();
+    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE, id: 'organisation-registration-number0' };
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(registrationNumberError);
   });
 
@@ -336,21 +363,21 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    const reglatorNameError = { message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, id: 'regulator-name0' };
-    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER, id: 'organisation-registration-number0' };
-    component.onContinueClicked();
-    expect(component.validationErrors[0]).toEqual(reglatorNameError);
+    const regulatorNameError = { message: RegulatoryOrganisationTypeMessage.NO_REGULATOR_NAME, id: 'regulator-name0' };
+    const registrationNumberError = { message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE, id: 'organisation-registration-number0' };
+    component.onContinue();
+    expect(component.validationErrors[0]).toEqual(regulatorNameError);
     expect(component.validationErrors[1]).toEqual(registrationNumberError);
   });
 
   it('should not set the error message if regulator type is NA', () => {
     component.regulatorType = RegulatorType.Organisation;
     component.registrationData.regulators = [{
-      regulatorType: 'NA'
+      regulatorType: 'Not Applicable'
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -362,7 +389,7 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -375,7 +402,7 @@ describe('RegulatorDetailsComponent', () => {
     }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -392,7 +419,7 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -410,7 +437,7 @@ describe('RegulatorDetailsComponent', () => {
     component.setFormControlValues();
     fixture.detectChanges();
     const duplicateError = { message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, id: 'regulator-type0' };
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
 
@@ -430,7 +457,7 @@ describe('RegulatorDetailsComponent', () => {
     component.setFormControlValues();
     fixture.detectChanges();
     const duplicateError = { message: RegulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_BANNER, id: 'regulator-type0' };
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors[0]).toEqual(duplicateError);
   });
 
@@ -449,7 +476,7 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -468,7 +495,7 @@ describe('RegulatorDetailsComponent', () => {
       }];
     component.setFormControlValues();
     fixture.detectChanges();
-    component.onContinueClicked();
+    component.onContinue();
     expect(component.validationErrors.length).toEqual(0);
   });
 
@@ -476,5 +503,35 @@ describe('RegulatorDetailsComponent', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the individual registered with regulator page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.regulatorType = RegulatorType.Individual;
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'individual-registered-with-regulator']);
+  });
+
+  it('should back link navigate to the document exchange reference details page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.hasDxReference = true;
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
+  });
+
+  it('should back link navigate to the document exchange reference page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.regulatorType = RegulatorType.Organisation;
+    component.registrationData.hasDxReference = false;
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference']);
+  });
+
+  it('should back link navigate to the check your answers page', () => {
+    mockRoute.snapshot.params.backLinkTriggeredFromCYA = false;
+    component.previousUrl = 'check-your-answers';
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
 });

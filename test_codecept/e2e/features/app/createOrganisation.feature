@@ -1,10 +1,14 @@
-@fullFunctional
+@fullFunctional 
 Feature: Register Organization
 
   Background:
     # When I navigate to manage organisation Url
 #    Given I am logged into manage organisation with SSCS judge details
 #    Then I should be redirected to manage organisation dashboard page
+    When I navigate to manage organisation Url
+    Given I am logged in with ROO user targetting OFF
+    Then I should be redirected to manage organisation dashboard page
+
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
 

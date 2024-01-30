@@ -12,6 +12,9 @@ class HeaderPage {
     this.user = element(by.xpath('//*[contains(@class, \'hmcts-primary-navigation__link\') and text() = \'Users\']'));
     this.feeAccounts = element(by.xpath('//*[contains(@class, \'hmcts-primary-navigation__link\') and text() = \'Fee Accounts\']'));
 
+    this.unassigedCasesTab = element(by.xpath('//*[contains(@class, \'hmcts-primary-navigation__link\') and text() = \'Unassigned cases\']'));
+    this.assignedCasesTab = element(by.xpath('//*[contains(@class, \'hmcts-primary-navigation__link\') and text() = \'Assigned cases\']'));
+
     this.inviteUser = element(by.css('[class=\'govuk-button hmcts-page-heading__button\']'));
     this.back = element(by.xpath('//a[contains(text(),\'Back\')]'));
     this.signOut = element(by.xpath('//a[contains(text(),\'Sign out\')]'));
@@ -72,6 +75,28 @@ class HeaderPage {
     });
     await BrowserWaits.waitForElement(this.organisation);
     await this.clickHeaderTab(this.organisation);
+    // browser.sleep(AMAZING_DELAY);
+  }
+
+  async clickUnassignedCases() {
+    await BrowserWaits.waitForCondition(async () => {
+      const isSpinnerPresent = await this.spinner.isPresent();
+      console.log('Spinner present status : ' + isSpinnerPresent);
+      return !isSpinnerPresent;
+    });
+    await BrowserWaits.waitForElement(this.unassigedCasesTab);
+    await this.clickHeaderTab(this.unassigedCasesTab);
+    // browser.sleep(AMAZING_DELAY);
+  }
+
+  async clickAssignedCases() {
+    await BrowserWaits.waitForCondition(async () => {
+      const isSpinnerPresent = await this.spinner.isPresent();
+      console.log('Spinner present status : ' + isSpinnerPresent);
+      return !isSpinnerPresent;
+    });
+    await BrowserWaits.waitForElement(this.assignedCasesTab);
+    await this.clickHeaderTab(this.assignedCasesTab);
     // browser.sleep(AMAZING_DELAY);
   }
 

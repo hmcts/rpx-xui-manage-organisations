@@ -27,14 +27,15 @@ describe('User Details Component', () => {
       routerStoreSpyObject.pipe.and.returnValue(of({}));
       userStoreSpyObject.pipe.and.returnValue(of({}));
       component.ngOnInit();
-      expect(component.userSubscription).toBeDefined();
-      expect(component.suspendSuccessSubscription).toBeDefined();
+      expect(component.userSubscription).toBeTruthy();
+      expect(component.suspendSuccessSubscription).toBeTruthy();
     });
   });
 
   describe('getDependencyObservables', () => {
     it('should return Observable', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      routerStoreSpyObject.pipe.and.returnValue(of({}));
+      userStoreSpyObject.pipe.and.returnValue(of());
       component.getDependencyObservables(routerStoreSpyObject, userStoreSpyObject).subscribe(([route, users]) => {
         expect(users).toBe(false);
       });
@@ -72,7 +73,14 @@ describe('User Details Component', () => {
   describe('handleUserSubscription', () => {
     it('should set actionButtons when user is Active', () => {
       component.handleUserSubscription({ status: 'Active' }, of(true));
-      expect(component.actionButtons).toBeDefined();
+      const mockButtons = [
+        {
+          name: 'Suspend account',
+          class: 'hmcts-button--secondary',
+          action: undefined
+        }
+      ];
+      expect(component.actionButtons).toEqual(mockButtons);
     });
 
     it('should not set actionButtons when user is Suspended', () => {

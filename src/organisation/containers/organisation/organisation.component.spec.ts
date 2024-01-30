@@ -1,26 +1,28 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { combineReducers, Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
+import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import * as fromOrgStore from '../../../users/store';
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => <unknown>{ },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 const authStoreMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => { },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -30,6 +32,9 @@ let dispatchSpy: jasmine.Spy;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let userIsPuiFinanceManager: boolean;
+
+const lovRefDataServiceMock = jasmine.createSpyObj('LovRefDataService', ['getListOfValues']);
+const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
 
 describe('OrganisationComponent', () => {
   let component: OrganisationComponent;
@@ -52,12 +57,34 @@ describe('OrganisationComponent', () => {
     dxAddress: [dxAddress]
   };
 
+  const mockOrgTypes = [
+    {
+      category_key: 'OrgType',
+      key: 'BARR',
+      value_en: 'Barrister'
+    },
+    {
+      category_key: 'OrgType',
+      key: 'OTHER',
+      value_en: 'Other',
+      child_nodes: [{
+        key: 'OTHER-HEALTH',
+        value_en: 'Medicine'
+      },
+      {
+        key: 'OTHER-LAW',
+        value_en: 'Law'
+      }]
+    }
+  ];
+
   /**
    * Mock organisation data is representative of data returned from the Node layer.
    */
   const mockOrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
+    organisationProfileIds: ['test'],
     contactInformation: [
       contactInformation
     ],
@@ -71,11 +98,14 @@ describe('OrganisationComponent', () => {
     },
     paymentAccount: [{ pbaNumber: 'test' }],
     pendingPaymentAccount: undefined,
-    pendingAddPaymentAccount: undefined
+    pendingAddPaymentAccount: undefined,
+    pendingRemovePaymentAccount: undefined
   };
 
   beforeEach(() => {
     pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
+    featureToggleServiceMock.getValue.and.returnValue(of(true));
+    lovRefDataServiceMock.getListOfValues.and.returnValue(of(mockOrgTypes));
 
     dispatchSpy = spyOn(storeMock, 'dispatch');
 
@@ -96,6 +126,14 @@ describe('OrganisationComponent', () => {
         {
           provide: Store,
           useValue: storeMock
+        },
+        {
+          provide: LovRefDataService,
+          useValue: lovRefDataServiceMock
+        },
+        {
+          provide: FeatureToggleService,
+          useValue: featureToggleServiceMock
         },
         OrganisationComponent
       ]
@@ -151,6 +189,83 @@ describe('OrganisationComponent', () => {
       component.canShowChangePbaNumbersLink();
 
       expect(component.showChangePbaNumberLink).toBeTruthy();
+    });
+  });
+
+  describe('company registration number visibility', () => {
+    it('should display company registration number', () => {
+      component.companyRegistrationNumber = '12345678';
+      fixture.detectChanges();
+      const companyRegistrationNumberEl = fixture.debugElement.nativeElement.querySelector('#company-registration-number') as HTMLElement;
+      expect(companyRegistrationNumberEl.textContent).toContain('12345678');
+    });
+
+    it('should not display company registration number', () => {
+      component.companyRegistrationNumber = '';
+      fixture.detectChanges();
+      const companyRegistrationNumberEl = fixture.debugElement.nativeElement.querySelector('#company-registration-number') as HTMLElement;
+      expect(companyRegistrationNumberEl).toBeNull();
+    });
+  });
+
+  describe('organisation regulators visibility', () => {
+    it('should display organisation regulators', () => {
+      component.regulators = [
+        {
+          regulatorType: 'Solicitor Regulation Authority (SRA)',
+          organisationRegistrationNumber: '11223344'
+        },
+        {
+          regulatorType: 'Other',
+          regulatorName: 'Other regulatory organisation',
+          organisationRegistrationNumber: '12341234'
+        },
+        {
+          regulatorType: 'Charted Institute of Legal Executives',
+          organisationRegistrationNumber: '43214321'
+        }
+      ];
+      fixture.detectChanges();
+      const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
+      expect(regulatorsEl.textContent).toContain('Solicitor Regulation Authority (SRA)');
+    });
+
+    it('should not display organisation regulators', () => {
+      component.regulators = null;
+      fixture.detectChanges();
+      const regulatorsEl = fixture.debugElement.nativeElement.querySelector('#regulators') as HTMLElement;
+      expect(regulatorsEl).toBeNull();
+    });
+  });
+
+  describe('organisation type visibility', () => {
+    it('should display organisation type', () => {
+      component.organisationType = 'BARR';
+      fixture.detectChanges();
+      component.orgTypeDescription = 'Barrister';
+    });
+
+    it('should display other organisation type', () => {
+      component.organisationType = 'OTHER-LAW';
+      fixture.detectChanges();
+      component.orgTypeDescription = 'Law';
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe from observables when subscribed', () => {
+      component.orgTypeSubscription = new Observable().subscribe();
+      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
+      component.ngOnDestroy();
+      expect(componentOrgTypeSubscriptionUnsubscribeSpy).toHaveBeenCalled();
+    });
+
+    it('should not unsubscribe from observables when not subscribed', () => {
+      component.orgTypeSubscription = new Observable().subscribe();
+      const componentOrgTypeSubscriptionUnsubscribeSpy = spyOn(component.orgTypeSubscription, 'unsubscribe');
+      component.orgTypeSubscription = undefined;
+      component.ngOnDestroy();
+      expect(componentOrgTypeSubscriptionUnsubscribeSpy).not.toHaveBeenCalled();
     });
   });
 });

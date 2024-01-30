@@ -1,5 +1,6 @@
-import { PBANumberModel } from 'src/models/pbaNumber.model';
+import { PBANumberModel } from '../../models/pbaNumber.model';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../models';
+import { Regulator } from '../../register-org/models';
 import { OrgManagerConstants } from '../organisation-constants';
 
 const containsItems = (obj: object, arrayProperty: string): boolean => {
@@ -16,6 +17,30 @@ const utils = {
   getDxAddress: (contactInformation: Partial<OrganisationContactInformation>): DxAddress => {
     if (containsItems(contactInformation, 'dxAddress')) {
       return contactInformation.dxAddress[0];
+    }
+    return null;
+  },
+  getCompanyRegistrationNumber: (organisationDetails: Partial<OrganisationDetails>): string => {
+    if (containsItems(organisationDetails, 'companyRegistrationNumber')) {
+      return organisationDetails.companyRegistrationNumber;
+    }
+    return null;
+  },
+  getOrganisationType: (organisationDetails: Partial<OrganisationDetails>): string => {
+    if (containsItems(organisationDetails, 'orgType')) {
+      return organisationDetails.orgType;
+    }
+    return null;
+  },
+  // note: this does not get invdividual regulators as no display requirement for them
+  getRegulators: (organisationDetails: Partial<OrganisationDetails>): Regulator[] => {
+    if (containsItems(organisationDetails, 'orgAttributes') && organisationDetails.orgAttributes.find((orgAttribute) => orgAttribute.key.includes('regulator'))) {
+      const regulatorAttributes = organisationDetails.orgAttributes.filter((orgAttribute) => orgAttribute.key.includes('regulator'));
+      const regulators = [];
+      regulatorAttributes.map((regAttribute) => {
+        regulators.push(JSON.parse(regAttribute.value));
+      });
+      return regulators;
     }
     return null;
   },

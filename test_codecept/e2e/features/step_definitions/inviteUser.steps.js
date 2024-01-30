@@ -60,7 +60,7 @@ const { Error } = require('globalthis/implementation');
 
     await browserWaits.waitForElement(inviteUserPage.userInvitaionConfirmation)
     await browserWaits.retryWithActionCallback(async () => {
-      expect(await inviteUserPage.amOnUserConfirmationPage()).to.be.true;
+      expect(await inviteUserPage.userInvitaionConfirmation.getText()).to.include('You\'ve invited');
 
     })
   });
@@ -124,6 +124,7 @@ const { Error } = require('globalthis/implementation');
   });
 
   Then(/^I click on a Active User$/, async function () {
+    await inviteUserPage.findNextActiveUser();
     await browserWaits.waitForElement(inviteUserPage.activeUser)
     await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
     await inviteUserPage.activeUser.click();

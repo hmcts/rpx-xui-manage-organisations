@@ -30,9 +30,8 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
 
     expect(component.message).toEqual(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[200]);
     const wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
-    expect(wrapper).toBeDefined();
+    expect(wrapper).toBeTruthy();
     const message = fixture.nativeElement.querySelector('.hmcts-banner__message');
-    expect(message).toBeDefined();
     expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[200]);
   });
 
@@ -43,9 +42,8 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
 
     expect(component.message).toEqual(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
     const wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
-    expect(wrapper).toBeDefined();
+    expect(wrapper).toBeTruthy();
     const message = fixture.nativeElement.querySelector('.hmcts-banner__message');
-    expect(message).toBeDefined();
     expect(message.textContent).toContain(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
   });
 
@@ -67,7 +65,7 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
     // Should display an appropriate message.
     expect(component.message).toEqual(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
     let wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
-    expect(wrapper).toBeDefined();
+    expect(wrapper).toBeTruthy();
 
     component.response = null;
     fixture.detectChanges();
@@ -84,13 +82,13 @@ describe('organisation.PbaSuccessSummaryComponent', () => {
 
     expect(component.message).toEqual(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
     let wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
-    expect(wrapper).toBeDefined();
+    expect(wrapper).toBeTruthy();
 
     component.response = RESPONSE;
     fixture.detectChanges();
 
     expect(component.message).toEqual(PbaSuccessSummaryComponent.SUCCESS_MESSAGES[202]);
     wrapper = fixture.nativeElement.querySelector('.hmcts-banner--success');
-    expect(wrapper).toBeDefined();
+    expect(wrapper).toBeTruthy();
   });
 });

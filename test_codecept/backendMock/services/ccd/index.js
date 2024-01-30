@@ -8,17 +8,22 @@ class CCD{
     }
 
     getCaseTypes(){
+        caseData['case_type_id'] = 'Asylum'
         return {
-            "total": 0, "cases": [], "case_types_results": [
-                { case_type_id: 'Asylum', total: 1 }
+            "total": 0, "cases": [caseData, caseData], "case_types_results": [
+                { case_type_id: 'Asylum', total: 1 },
+                { case_type_id: 'Immigration', total: 1 }
             ]
         };
     }
 
     getCases(){
+        const case1 = getCaseData({ caseId: '1234567812345671', ethosCaseReference:'6042070/2023'});
+        const case2 = getCaseData({ caseId: '1234567812345672', ethosCaseReference: '6042071/2023' });;
+       
         return {
             headers: caseDataColumnConfigs,
-            cases: [caseData, caseData]
+            cases: [case1, case2]
         }
        
     }
@@ -27,18 +32,23 @@ class CCD{
 
 module.exports = new CCD();
 
-const caseData = {
-    fields: {
-        "[CASE_REFERENCE]": "1688031324640947",
-        "ethosCaseReference": "6042070/2023",
-        "claimant": "Grayson Becker",
-        "respondent": "Mrs Test Auto",
-        "[STATE]": "Accepted",
-        "case_id": "1688031324640947",
-        "caseType": "ET_EnglandWales"
+
+function getCaseData(data){
+    return {
+        fields: {
+            "[CASE_REFERENCE]": data && data.caseId ? data.caseId : '1234567812345678',
+            "ethosCaseReference": data && data.ethosCaseReference ? data.ethosCaseReference : "6042070/2023",
+            "claimant": "Grayson Becker",
+            "respondent": "Mrs Test Auto",
+            "[STATE]": "Accepted",
+            "case_id": data && data.caseId ? data.caseId : '1234567812345678',
+            "caseType": "ET_EnglandWales"
+        },
+        case_id: data.caseId
+
     }
-   
 }
+
 
 
 const caseDataColumnConfigs = [
@@ -577,3 +587,79 @@ const lovRefData = [
         "child_nodes": null
     }
 ]
+
+
+
+
+const caseData = {
+    "id": 123456712345671,
+    "jurisdiction": "PUBLICLAW",
+    "state": "Open",
+    "version": null,
+    "case_type_id": "CARE_SUPERVISION_EPO",
+    "created_date": "2023-10-03T12:00:46.471",
+    "last_modified": "2023-10-03T12:00:49.434",
+    "last_state_modified_date": "2023-10-03T12:00:46.471",
+    "security_classification": "PUBLIC",
+    "case_data": {},
+    "data_classification": {
+        "westLondonDFJCourt": "PUBLIC",
+        "caseManagementLocation": {
+            "classification": "PUBLIC",
+            "value": {
+                "baseLocation": "PUBLIC",
+                "region": "PUBLIC"
+            }
+        },
+        "dfjArea": "PUBLIC",
+        "taskList": "PUBLIC",
+        "isLocalAuthority": "PUBLIC",
+        "caseLocalAuthorityName": "PUBLIC",
+        "caseLocalAuthority": "PUBLIC",
+        "court": {
+            "classification": "PUBLIC",
+            "value": {
+                "epimmsId": "PUBLIC",
+                "code": "PUBLIC",
+                "regionId": "PUBLIC",
+                "name": "PUBLIC",
+                "dateTransferred": "PUBLIC",
+                "region": "PUBLIC",
+                "email": "PUBLIC"
+            }
+        },
+        "caseNameHmctsInternal": "PUBLIC",
+        "SearchCriteria": {
+            "classification": "PUBLIC",
+            "value": {}
+        },
+        "representativeType": "PUBLIC",
+        "caseManagementCategory": "PUBLIC",
+        "relatingLA": "PUBLIC",
+        "caseName": "PUBLIC",
+        "outsourcingPolicy": {
+            "classification": "PUBLIC",
+            "value": {
+                "OrgPolicyCaseAssignedRole": "PUBLIC",
+                "Organisation": {
+                    "classification": "PUBLIC",
+                    "value": {
+                        "OrganisationID": "PUBLIC",
+                        "OrganisationName": "PUBLIC"
+                    }
+                }
+            }
+        }
+    },
+    "supplementary_data": {
+        "orgs_assigned_users": {
+            "HAUN33E": 1
+        },
+        "HMCTSServiceId": "ABA3"
+    },
+    "after_submit_callback_response": null,
+    "callback_response_status_code": null,
+    "callback_response_status": null,
+    "delete_draft_response_status_code": null,
+    "delete_draft_response_status": null
+}

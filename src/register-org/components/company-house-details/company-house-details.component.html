@@ -1,32 +1,15 @@
-<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
-  <ng-container *ngIf="this.validationErrors.length">
-    <div class="govuk-error-summary govuk-!-margin-top-4" aria-labelledby="error-summary-title" role="alert"
-      tabindex="-1" data-module="govuk-error-summary">
-      <h2 class="govuk-error-summary__title" id="error-summary-title" #errorSummaryTitleElement>
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <li *ngFor="let error of validationErrors">
-            <a href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details#{{error.fieldId}}">
-              {{error.description}}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </ng-container>
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">Back</a>
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
-      <h1 class="govuk-heading-xl">What is your company name and Companies House number?</h1>
+      <h1 class="govuk-heading-xl">What is your organisation name and Companies House number?</h1>
       <hr>
-      <p class="govuk-body">
-        If your company is registered with Companies House,
-        add the company name and number as they appear in the
+      <p class="govuk-hint">If your organisation is registered with Companies House,
+        add the organisation name and Companies House number as they appear in the
         <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
-          information register</a>
+          information register</a>.
       </p>
       <form [formGroup]="companyHouseFormGroup">
         <div class="govuk-form-group" #companyName [ngClass]="{'govuk-form-group--error': companyNameError}">
@@ -34,7 +17,7 @@
             Enter the name of the organisation
           </label>
           <p class="govuk-error-message" *ngIf="companyNameError">
-            <span class="govuk-visually-hidden">Error:</span> {{ companyNameError.description }}
+            <span class="govuk-visually-hidden">Error:</span>{{ companyNameError.message }}
           </p>
           <input class="govuk-input" id="company-name" name="companyName" type="text" formControlName="companyName">
         </div>
@@ -44,10 +27,10 @@
             Enter the 8-digit Companies House Number (optional)
           </label>
           <div id="company-house-number-hint" class="govuk-hint">
-            This helps HMCTS to verify your company on our System
+            This helps HMCTS to verify your organisation on our system
           </div>
           <p class="govuk-error-message" *ngIf="companyNumberError">
-            <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.description }}
+            <span class="govuk-visually-hidden">Error:</span> {{ companyNumberError.message }}
           </p>
           <input class="govuk-input" id="company-house-number" name="companyHouseNumber" type="text"
             formControlName="companyHouseNumber" aria-describedby="company-house-number-hint">
@@ -57,9 +40,8 @@
           <button class="govuk-button" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

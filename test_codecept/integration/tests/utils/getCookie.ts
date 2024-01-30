@@ -17,7 +17,9 @@ export async function authenticateAndGetCookies(url) {
   }
   const browser = await puppeteer.launch(getPuppeteerLaunchOptions(url));
 
+  console.log(`Browser launched...url:${url});`);
   const page = await browser.newPage();
+  console.log('Page created...');
   await page.goto(url);
   console.log('Loading...');
 

@@ -18,7 +18,7 @@ class InviteUserPage{
     this.manageCaaCheckbox = element(by.css('#pui-caa'));
     this.manageFeeAccountsCheckbox = element(by.css('#pui-finance-manager'));
 
-
+    this.nextPageLink = element(by.css('li[class="hmcts-pagination__item hmcts-pagination__item--next"] a[class="hmcts-pagination__link"]'));
 
     this.failure_error_heading = element(by.css('#error-summary-title'));
     this.back = element(by.xpath('//a[contains(text(),\'Back\')]'));
@@ -61,6 +61,17 @@ class InviteUserPage{
       throw Error(`Invalid or unrecognised user permission ${permission}`);
     }
 
+  }
+
+
+  async findNextActiveUser(){
+    let activeUserVisible = await this.activeUser.isDisplayed();
+
+    while (!activeUserVisible) {
+      console.log('Unable to find an active user, clicking next page link');
+      await this.nextPageLink.click();
+      activeUserVisible = await this.activeUser.isDisplayed();
+    }
   }
 
   /**

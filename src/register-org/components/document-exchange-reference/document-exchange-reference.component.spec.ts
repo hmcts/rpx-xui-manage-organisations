@@ -1,16 +1,18 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
-import { RegistrationData } from '../../models/registrationdata.model';
+import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
 
 describe('DocumentExchangeReferenceComponent', () => {
   let component: DocumentExchangeReferenceComponent;
   let fixture: ComponentFixture<DocumentExchangeReferenceComponent>;
+  let router: Router;
 
   const registrationData: RegistrationData = {
-    name: '',
+    pbaNumbers: [],
+    companyName: '',
     hasDxReference: null,
     dxNumber: null,
     dxExchange: null,
@@ -21,19 +23,26 @@ describe('DocumentExchangeReferenceComponent', () => {
     address: null,
     organisationType: null,
     regulators: [],
-    regulatorRegisteredWith: null
+    regulatorRegisteredWith: null,
+    inInternationalMode: null
   };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule]
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      providers: []
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocumentExchangeReferenceComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     fixture.detectChanges();
   });
 
@@ -62,20 +71,60 @@ describe('DocumentExchangeReferenceComponent', () => {
         scrollIntoView: scrollIntoViewSpy
       }
     };
-    const errorMessage: ErrorMessage = {
-      description: 'Please select at least one option',
-      title: '',
-      fieldId: 'document-exchange-yes'
-    };
+    const errorMessages = [{
+      message: 'Please select an option',
+      id: 'document-exchange-yes'
+    }];
     component.dxFormGroup.get('documentExchange').setValue(null);
     component.onContinue();
-    expect(component.dxError).toEqual(errorMessage);
+    expect(component.dxErrors).toEqual(errorMessages);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
+  });
+
+  it('should navigate to document exchange details page', () => {
+    component.registrationData.hasDxReference = null;
+    component.dxFormGroup.get('documentExchange').setValue('yes');
+    component.onContinue();
+    expect(component.registrationData.hasDxReference).toEqual(true);
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'document-exchange-reference-details']);
+  });
+
+  it('should navigate to regulatory organisation type page', () => {
+    component.registrationData = registrationData;
+    component.registrationData.hasDxReference = true;
+    component.registrationData.dxExchange = 'DX Exchange';
+    component.registrationData.dxNumber = '12345';
+    component.dxFormGroup.get('documentExchange').setValue('no');
+    component.onContinue();
+    expect(component.registrationData.hasDxReference).toEqual(false);
+    expect(component.registrationData.dxNumber).toBeNull();
+    expect(component.registrationData.dxExchange).toBeNull();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'regulatory-organisation-type']);
   });
 
   it('should invoke the cancel registration journey when clicked on cancel link', () => {
     spyOn(component, 'cancelRegistrationJourney');
     component.onCancel();
     expect(component.cancelRegistrationJourney).toHaveBeenCalled();
+  });
+
+  it('should back link navigate to the check your answers page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/check-your-answers'
+      }
+    } as any);
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
+  });
+
+  it('should back link navigate to the registered address page', () => {
+    spyOnProperty(component, 'currentNavigation', 'get').and.returnValue({
+      previousNavigation: {
+        finalUrl: '/something-else'
+      }
+    } as any);
+    component.onBack();
+    expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'internal']);
   });
 });

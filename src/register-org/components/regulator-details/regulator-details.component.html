@@ -4,45 +4,44 @@
       <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
-      <h1 class="govuk-heading-xl">
-        <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
-          What regulator are you (as an individual) registered with?
-        </span>
-        <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-          Who is your organisation registered with?
-        </span>
-      </h1>
-      <hr>
-      <div class="govuk-body govuk-!-margin-top-6">
-        <p *ngIf="regulatorType === regulatorTypeEnum.Individual">
-          Give as much detail as you can on the regulator or professional body that are you personally registered with.
-        </p>
-        <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-          Give as much detail as you can on the regulator or professional body your organisation is registered with.
-          <br/>
-          HMCTS needs to gather this information as it is required to gain access to some of our services.
-        </p>
-        <form [formGroup]="regulatorDetailsFormGroup">
-          <div class="govuk-form-group">
-            <ng-container formArrayName="regulators">
-              <div *ngFor="let _ of regulators.controls; index as i"
-                class="govuk-!-margin-bottom-6"
-                [ngClass]="{'govuk-form-group--error': duplicatesIndex?.length}">
-                <ng-container [formGroupName]="i">
-                  <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
-                    <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_INLINE}}
-                  </div>
-                  <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                      <h1 class="govuk-fieldset__heading">
-                        <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
-                          Select the type of regulator
-                        </span>
-                        <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
-                          Select the type of regulatory organisation
-                        </span>
-                      </h1>
-                    </legend>
+      <fieldset class="govuk-fieldset" aria-describedby="regulator-details">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+          <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+            What regulator are you (as an individual) registered with?
+          </span>
+          <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+            Who is your organisation registered with?
+          </span>
+        </legend>
+        <hr class="govuk-!-margin-top-0">
+        <div id="regulator-details" class="govuk-body govuk-!-margin-top-4">
+          <p *ngIf="regulatorType === regulatorTypeEnum.Individual">Give as much detail as
+            you can on the regulator or professional body that are you personally registered with.
+          </p>
+          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">Give as much detail as
+            you can on the regulator or professional body your organisation is registered with.
+          </p>
+          <p *ngIf="regulatorType === regulatorTypeEnum.Organisation">HMCTS needs to gather this
+            information as it is required to gain access to some of our services.
+          </p>
+          <form [formGroup]="regulatorDetailsFormGroup">
+            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': validationErrors.length}">
+              <ng-container formArrayName="regulators">
+                <div *ngFor="let _ of regulators.controls; index as i"
+                  class="govuk-!-margin-bottom-6"
+                  [ngClass]="{'govuk-form-group--error': duplicatesIndex?.length}">
+                  <ng-container [formGroupName]="i">
+                    <div *ngIf="duplicateErrorMessage(i)" class="govuk-error-message">
+                      <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.DUPLICATE_REGULATOR_INLINE}}
+                    </div>
+                    <label class="govuk-!-font-weight-bold govuk-!-font-size-19" [for]="'regulator-type' + i">
+                      <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+                        Select the type of regulator
+                      </span>
+                      <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+                        Select the type of regulatory organisation
+                      </span>
+                    </label>
                     <div class="govuk-hint">
                       For example Solicitor Regulation Authority (SRA) number
                     </div>
@@ -59,7 +58,7 @@
                       (change)="onOptionSelected($event.target.value, i)">
                       <option [ngValue]="SELECT_A_VALUE" disabled>--Select a value--</option>
                       <option *ngFor="let regulatorType of regulatorTypes$ | async"
-                        [value]="regulatorType.id">
+                        [value]="regulatorType.name">
                         {{regulatorType.name}}
                       </option>
                     </select>
@@ -68,7 +67,7 @@
                       Remove
                     </button>
 
-                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-form-group govuk-!-margin-top-4"
+                    <div *ngIf="regulators.controls[i].get('regulatorName')" class="govuk-body govuk-!-margin-top-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('regulator-name' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'regulator-name' + i">
                         Enter the name of the professional body or regulator
@@ -83,36 +82,41 @@
                     </div>
 
                     <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')"
-                      class="govuk-form-group govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+                      class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
                       <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
-                        Enter your organisation's registration number
+                        <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
+                          Enter your individual registration reference
+                        </span>
+                        <span *ngIf="regulatorType === regulatorTypeEnum.Organisation">
+                          Enter your organisation's registration reference
+                        </span>
                       </label>
                       <div *ngIf="fieldHasErrorMessage('organisation-registration-number' + i)" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER}}
+                        <span class="govuk-visually-hidden">Error:</span> {{regulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE}}
                       </div>
                       <input class="govuk-input govuk-!-width-two-thirds"
                         [ngClass]="{'govuk-input--error': fieldHasErrorMessage('organisation-registration-number' + i)}"
                         type="text" [id]="'organisation-registration-number' + i"
                         name="organisationRegistrationNumber" formControlName="organisationRegistrationNumber">
                     </div>
-                  </fieldset>
-                </ng-container>
+                  </ng-container>
+                </div>
+              </ng-container>
+              <div *ngIf="showAddRegulatorButton()" class="govuk-!-margin-top-4">
+                <button type="button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4" id="add-another-regulator"
+                  (click)="onAddNewBtnClicked()">
+                  Add another regulator
+                </button>
               </div>
-            </ng-container>
-            <div *ngIf="showAddRegulatorButton()" class="govuk-!-margin-top-4">
-              <button type="button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4" id="add-another-regulator"
-                (click)="onAddNewBtnClicked()">
-                Add another regulator
-              </button>
             </div>
-          </div>
-          <div class="govuk-button-group">
-            <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinueClicked()">Continue</button>
-          </div>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
-        </form>
-      </div>
+            <div class="govuk-button-group">
+              <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+            </div>
+            <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+          </form>
+        </div>
+      </fieldset>
     </div>
   </div>
 </main>

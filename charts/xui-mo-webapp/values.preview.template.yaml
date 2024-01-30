@@ -15,17 +15,19 @@ nodejs:
     #SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
     #S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
     #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
+    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
 
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    LAUNCH_DARKLY_CLIENT_ID: ${PREVIEW_LD_KEY}
     PUI_ENV: preview
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland
   keyVaults:
     rpx:
       secrets:
@@ -34,6 +36,8 @@ nodejs:
         - appinsights-instrumentationkey-mo
         - google-analytics-key
         - launch-darkly-client-id
+        - system-user-name
+        - system-user-password
   autoscaling:
     enabled: false
 redis:

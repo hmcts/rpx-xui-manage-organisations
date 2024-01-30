@@ -6,14 +6,12 @@
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="pbaFormGroup">
         <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="changed-name-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">
-                Does your organisation have a payment by account number?
-              </h1>
+          <fieldset class="govuk-fieldset" aria-describedby="pba-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+              Does your organisation have a payment by account number?
             </legend>
-            <hr>
-            <div id="pba-hint" class="govuk-body govuk-!-margin-top-4">
+            <hr class="govuk-!-margin-top-0">
+            <div id="pba-hint" class="govuk-hint govuk-!-margin-top-4">
               Payment by account (PBA) is a credit service for organisations who frequently bring proceedings to HMCTS.
               It enables monthly invoicing for court fees.
             </div>
@@ -44,8 +42,8 @@
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </div>
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
       </form>
     </div>
   </div>

@@ -10,9 +10,9 @@ import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => <unknown>{},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,6 +47,9 @@ describe('UpdatePbaNumbersComponent', () => {
   const mockOrganisationDetails: OrganisationDetails = {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
+    organisationProfileIds: [
+      'SOLICITOR_PROFILE'
+    ],
     contactInformation: [contactInformation],
     status: 'ACTIVE',
     sraId: 'SRA1298455554',

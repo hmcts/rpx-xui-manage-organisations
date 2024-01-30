@@ -16,11 +16,6 @@ export const ROUTES: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'organisation',
-    canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
-    loadChildren: () => import('../organisation/organisation.module').then((m) => m.OrganisationModule)
-  },
-  {
     path: 'users',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
     loadChildren: () => import('../users/users.module').then((m) => m.UsersModule)
@@ -47,7 +42,14 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register-org',
-    loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule)
+    loadChildren: () => import('../register/register.module').then((m) => m.RegisterModule),
+    canActivate: [FeatureToggleGuard],
+    data: {
+      title: 'Register Organisation',
+      needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      expectFeatureEnabled: false,
+      featureDisabledRedirect: '/register-org-new/register'
+    }
   },
   {
     path: 'register-org-new',
@@ -56,6 +58,7 @@ export const ROUTES: Routes = [
     data: {
       title: 'Register Organisation',
       needsFeaturesEnabled: [AppConstants.FEATURE_NAMES.newRegisterOrg],
+      expectFeatureEnabled: true,
       featureDisabledRedirect: '/register-org/register'
     }
   },

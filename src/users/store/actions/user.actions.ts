@@ -1,5 +1,6 @@
 // load login form
 import { Action } from '@ngrx/store';
+import { PrdUser } from 'src/users/models/prd-users.model';
 
 export const LOAD_USERS = '[User] Load Users';
 export const LOAD_USERS_SUCCESS = '[User] Load Users Success';
@@ -57,7 +58,7 @@ export class LoadAllUsersNoRoleData {
 
 export class LoadAllUsersNoRoleDataSuccess implements Action {
   public readonly type = LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: {users: PrdUser[]}) {}
 }
 
 export class LoadAllUsersNoRoleDataFail implements Action {

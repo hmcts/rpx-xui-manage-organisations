@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { User } from '@hmcts/rpx-xui-common-lib';

@@ -37,6 +37,6 @@ describe('AppRedirectComponent', () => {
   });
 
   it('should have redirect property ', () => {
-    expect(app.redirected).toBeDefined();
+    expect(app.redirected).toBe(false);
   });
 });

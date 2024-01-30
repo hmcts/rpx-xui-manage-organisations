@@ -30,10 +30,9 @@ async function waitForElement(el) {
   Then('I am on Register organisation start page', async function () {
     await createOrganisationObject.waitForStartRegisterPage();
     await expect(createOrganisationObject.start_button.isDisplayed(), 'Create Organisation START button not present').to.eventually.be.true;
-    await expect(createOrganisationObject.start_button.getText(), 'Start button text not mathing with expected')
+    await expect(await createOrganisationObject.start_button.getText(), 'Start button text not mathing with expected')
       .to
-      .eventually
-      .equal('Start');
+      .includes('Start');
   });
 
   Then(/^I land on register organisation page and continue$/, async function () {
@@ -46,7 +45,7 @@ async function waitForElement(el) {
         await expect(createOrganisationObject.start_button.getText())
           .to
           .eventually
-          .equal('Start');
+          .include('Start');
         await createOrganisationObject.start_button.click();
         await createOrganisationObject.waitForPage("What's the name of your organisation?");
 
@@ -140,10 +139,9 @@ async function waitForElement(el) {
     // await waitForElement('govuk-heading-l');
 
     await expect(createOrganisationObject.submit_button.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.submit_button.getText())
+    await expect(await createOrganisationObject.submit_button.getText())
       .to
-      .eventually
-      .equal('Confirm and submit details');
+      .includes('Confirm and submit details');
     await createOrganisationObject.submit_button.click();
   });
 
@@ -151,10 +149,9 @@ async function waitForElement(el) {
     // browser.sleep(MID_DELAY);
     await createOrganisationObject.waitForSubmission();
     await expect(createOrganisationObject.org_success_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.org_success_heading.getText())
+    await expect(await createOrganisationObject.org_success_heading.getText())
       .to
-      .eventually
-      .equal('Registration details submitted');
+      .includes('Registration details submitted');
   });
 
   When(/^I am not entered Organization name$/, async function () {
@@ -165,10 +162,9 @@ async function waitForElement(el) {
 
   Then(/^I should be display organization error$/, async function () {
     await expect(createOrganisationObject.org_failure_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.org_failure_error_heading.getText())
+    await expect(await createOrganisationObject.org_failure_error_heading.getText())
       .to
-      .eventually
-      .equal('There is a problem');
+      .includes('There is a problem');
   });
 
   When(/^I am not entered the Office Address details$/, async function () {
@@ -180,10 +176,9 @@ async function waitForElement(el) {
   });
   Then(/^I should be display Office Address error$/, async function () {
     await expect(createOrganisationObject.off_address_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.off_address_error_heading.getText())
+    await expect(await createOrganisationObject.off_address_error_heading.getText())
       .to
-      .eventually
-      .equal('There is a problem');
+      .includes('There is a problem');
   });
 
   When(/^I am not entered SRA number$/, async function () {
@@ -196,10 +191,9 @@ async function waitForElement(el) {
 
   Then(/^I should be display SRA error$/, async function () {
     await createOrganisationObject.waitForPage('Enter your organisation SRA ID');
-    await expect(createOrganisationObject.sra_error_heading.getText())
+    await expect(await createOrganisationObject.sra_error_heading.getText())
       .to
-      .eventually
-      .equal('There is a problem');
+      .includes('There is a problem');
   });
 
   When(/^I am not entered the email address$/, async function () {
@@ -211,10 +205,9 @@ async function waitForElement(el) {
 
   Then(/^I should be display email error$/, async function () {
     await expect(createOrganisationObject.email_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.email_error_heading.getText())
+    await expect(await createOrganisationObject.email_error_heading.getText())
       .to
-      .eventually
-      .equal('There is a problem');
+      .includes('There is a problem');
   });
 
   When(/^I Enter the invalid PBA1 and PBA2 details$/, async function () {
@@ -227,10 +220,9 @@ async function waitForElement(el) {
 
   Then(/^I should be display PBA error$/, async function () {
     await expect(createOrganisationObject.pba_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.pba_error_heading.getText())
+    await expect(await createOrganisationObject.pba_error_heading.getText())
       .to
-      .eventually
-      .equal('There is a problem');
+      .includes('There is a problem');
   });
 
   When(/^I am not entered the firstName and lastName$/, async function () {
@@ -243,10 +235,9 @@ async function waitForElement(el) {
 
   Then(/^I should be display firstName and lastName error$/, async function () {
     await expect(createOrganisationObject.name_error_heading.isDisplayed()).to.eventually.be.true;
-    await expect(createOrganisationObject.name_error_heading.getText())
+    await expect(await createOrganisationObject.name_error_heading.getText())
       .to
-      .eventually
-      .equal('There is a problem');
+      .includes('There is a problem');
   });
 
   When('I am on page {string} in registration step', async function (page) {
@@ -265,10 +256,9 @@ async function waitForElement(el) {
       be.true;
   });
 
-  Then('I see manage org link under already registered account header', function () {
-    expect(createOrganisationObject.isManageOrgLinkPresent()).to
-      .eventually.
-      be.true;
+  Then('I see manage org link under already registered account header', async function () {
+    expect(await createOrganisationObject.isManageOrgLinkPresent()).to
+      .be.true;
   });
 
   Then('I click and validate MC link opens in new tab', async function () {

@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegisterComponent } from '../../containers/register/register-org.component';
@@ -29,9 +29,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public regulatorTypeEnum = RegulatorType;
   public validationErrors: { id: string, message: string }[] = [];
   public duplicatesIndex: number[];
+  public previousUrl: string;
 
   constructor(
     private readonly lovRefDataService: LovRefDataService,
+    private route: ActivatedRoute,
     public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
   ) {
@@ -41,6 +43,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   public ngOnInit(): void {
     super.ngOnInit();
     this.regulatorTypes$ = this.lovRefDataService.getRegulatoryOrganisationTypes();
+    this.previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
     this.setFormControlValues();
   }
 
@@ -55,7 +58,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     switch (value) {
       case (RegulatoryType.Other): {
         formGroup.addControl('regulatorName', new FormControl(formGroup.value.regulatorName, Validators.required));
-        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber, Validators.required));
+        if (formGroup.get('organisationRegistrationNumber')) {
+          formGroup.get('organisationRegistrationNumber').reset();
+        } else {
+          formGroup.addControl('organisationRegistrationNumber', new FormControl(null, Validators.required));
+        }
         break;
       }
       case (RegulatoryType.NotApplicable): {
@@ -65,7 +72,12 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
       default: {
         formGroup.removeControl('regulatorName');
-        formGroup.addControl('organisationRegistrationNumber', new FormControl(formGroup.value.organisationRegistrationNumber, Validators.required));
+        if (formGroup.get('organisationRegistrationNumber')) {
+          formGroup.get('organisationRegistrationNumber').reset();
+        } else {
+          formGroup.addControl('organisationRegistrationNumber', new FormControl(null, Validators.required));
+        }
+        break;
       }
     }
   }
@@ -137,12 +149,12 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     );
   }
 
-  public onContinueClicked(): void {
+  public onContinue(): void {
     if (this.validateForm()) {
       // Set corresponding registration data
       this.setRegulatorData();
       this.regulatorType === RegulatorType.Individual
-        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'check-your-answers', 'true'])
+        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE])
         : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }
@@ -152,9 +164,31 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.regulatorType === RegulatorType.Individual
-      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator'])
-      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+    if (this.route.snapshot?.params?.backLinkTriggeredFromCYA) {
+      // Back link clicked on CYA page
+      // Navigate to individual regulators yes or no screen
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    } else {
+      if (this.previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+        // Change link clicked on CYA page
+        // Navigate to CYA page
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      } else {
+        // Normal registration journey
+        if (this.regulatorType === RegulatorType.Individual) {
+          // Currently displayed screen is individual regulator details
+          // Navigate to individual regulators yes or no screen
+          this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+        } else {
+          // Currently displayed screen is organisation regulator details
+          // Navigate to document exchange reference details screen if document exchange details were already entered
+          // Else, navigate to document exchange reference yes or no screen
+          this.registrationData.hasDxReference
+            ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
+            : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+        }
+      }
+    }
   }
 
   public fieldHasErrorMessage(fieldId: string): boolean {
@@ -225,7 +259,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       if (formGroup.get('organisationRegistrationNumber') && formGroup.get('organisationRegistrationNumber').errors) {
         this.validationErrors.push({
           id: `organisation-registration-number${index}`,
-          message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_NUMBER
+          message: RegulatoryOrganisationTypeMessage.NO_REGISTRATION_REFERENCE
         });
       }
 

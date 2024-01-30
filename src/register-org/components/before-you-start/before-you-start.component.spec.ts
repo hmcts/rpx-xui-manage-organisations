@@ -2,7 +2,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { BeforeYouStartComponent } from './before-you-start.component';
 
@@ -11,7 +10,8 @@ describe('BeforeYouStartComponent', () => {
   let fixture: ComponentFixture<BeforeYouStartComponent>;
 
   const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+    navigate: jasmine.createSpy('navigate'),
+    getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
   };
 
   beforeEach(async () => {
@@ -52,14 +52,13 @@ describe('BeforeYouStartComponent', () => {
         scrollIntoView: scrollIntoViewSpy
       }
     };
-    const errorMessage: ErrorMessage = {
-      description: 'Please select the checkbox',
-      title: '',
-      fieldId: 'confirmed-organisation-account'
-    };
+    const errorMessages = [{
+      message: 'Please select the checkbox',
+      id: 'confirmed-organisation-account'
+    }];
     component.beforeYouStartForm.get('confirmedOrganisationAccount').setValue(null);
     component.onStart();
-    expect(component.beforeYouStartError).toEqual(errorMessage);
+    expect(component.beforeYouStartErrors).toEqual(errorMessages);
     expect(scrollIntoViewSpy).toHaveBeenCalled();
   });
 });

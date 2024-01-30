@@ -16,7 +16,8 @@ describe('Share case reducer', () => {
       };
       const action = new fromActions.AddShareAssignedCases(payload);
       const state = fromReducer.shareCasesReducer(initialState, action);
-      expect(state).toBeDefined();
+      const mockState = { shareAssignedCases: [], shareUnassignedCases: [], loading: false, error: undefined, users: [] };
+      expect(state).toEqual(mockState);
     });
 
     it('should load state when navigate to share assigned case', () => {

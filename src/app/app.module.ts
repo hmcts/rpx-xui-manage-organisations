@@ -44,6 +44,7 @@ import { HealthCheckService } from '../shared/services/health-check.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
+import { OrganisationModule } from 'src/organisation/organisation.module';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -70,6 +71,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     UserProfileModule,
+    OrganisationModule,
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({ logOnly: true }) : [],
     LoggerModule.forRoot({

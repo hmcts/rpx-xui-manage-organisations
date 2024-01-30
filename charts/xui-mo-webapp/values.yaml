@@ -8,7 +8,6 @@ redis:
     enabled: false
 
 nodejs:
-  aadIdentityName: xui
   applicationPort: 3000
   cpuRequests: 250m
   cpuLimits: 2000m
@@ -60,7 +59,7 @@ nodejs:
     # IDAM_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     # S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
 
-    SERVICES_CCD_COMPONENT_API: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
+    SERVICES_CCD_COMPONENT_API: https://gateway-ccd.{{ .Values.global.environment }}.platform.hmcts.net
     IDAM_API_SERVICE: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     IDAM_WEB_SERVICE: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net
     RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
@@ -85,6 +84,8 @@ nodejs:
         - name: mo-webapp-redis6-connection-string
           alias: mo-webapp-redis-connection-string
         - launch-darkly-client-id
+        - system-user-name
+        - system-user-password
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

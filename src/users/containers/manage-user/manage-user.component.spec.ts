@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed, fakeAsync, flushMicrotasks } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flushMicrotasks
+} from '@angular/core/testing';
 
 import { ManageUserComponent } from './manage-user.component';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -99,9 +104,18 @@ describe('ManageUserComponent', () => {
       pendingRemovePaymentAccount: []
     };
 
-    mockGetRouterState = mockRouterStore.overrideSelector(fromRoot.getRouterState, defaultRouterStateUrl);
-    mockGetSingleUserSelector = mockUserStore.overrideSelector(fromStore.getGetSingleUser, of(defaultUser));
-    mockOrganisationStore.overrideSelector(fromOrgStore.getOrganisationSel, defaultOrganisationState);
+    mockGetRouterState = mockRouterStore.overrideSelector(
+      fromRoot.getRouterState,
+      defaultRouterStateUrl
+    );
+    mockGetSingleUserSelector = mockUserStore.overrideSelector(
+      fromStore.getGetSingleUser,
+      of(defaultUser)
+    );
+    mockOrganisationStore.overrideSelector(
+      fromOrgStore.getOrganisationSel,
+      defaultOrganisationState
+    );
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -131,18 +145,20 @@ describe('ManageUserComponent', () => {
     let userWithUpdatedRoles: EditUserModel;
     let userWithUpdatedAccessTypes: EditUserModel;
 
-    const accessTypesUpdated: UserAccessType[] = [{
-      accessTypeId: '10',
-      jurisdictionId: '6',
-      organisationProfileId: 'SOLICITOR_PROFILE',
-      enabled: false
-    },
-    {
-      accessTypeId: '101',
-      jurisdictionId: '6',
-      organisationProfileId: 'SOLICITOR_PROFILE',
-      enabled: true
-    }];
+    const accessTypesUpdated: UserAccessType[] = [
+      {
+        accessTypeId: '10',
+        jurisdictionId: '6',
+        organisationProfileId: 'SOLICITOR_PROFILE',
+        enabled: false
+      },
+      {
+        accessTypeId: '101',
+        jurisdictionId: '6',
+        organisationProfileId: 'SOLICITOR_PROFILE',
+        enabled: true
+      }
+    ];
 
     beforeEach(() => {
       userWithAccessTypes = {
@@ -153,18 +169,20 @@ describe('ManageUserComponent', () => {
         idamStatusCode: 'A',
         roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
         id: '123',
-        accessTypes: [{
-          accessTypeId: '10',
-          jurisdictionId: '6',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          enabled: true
-        },
-        {
-          accessTypeId: '101',
-          jurisdictionId: '6',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          enabled: false
-        }]
+        userAccessTypes: [
+          {
+            accessTypeId: '10',
+            jurisdictionId: '6',
+            organisationProfileId: 'SOLICITOR_PROFILE',
+            enabled: true
+          },
+          {
+            accessTypeId: '101',
+            jurisdictionId: '6',
+            organisationProfileId: 'SOLICITOR_PROFILE',
+            enabled: false
+          }
+        ]
       };
 
       userWithUpdatedRoles = {
@@ -175,18 +193,20 @@ describe('ManageUserComponent', () => {
         rolesAdd: [{ name: 'pui-finance-manager' }],
         rolesDelete: [{ name: 'pui-user-manager' }],
         id: '123',
-        accessTypes: [{
-          accessTypeId: '10',
-          jurisdictionId: '6',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          enabled: true
-        },
-        {
-          accessTypeId: '101',
-          jurisdictionId: '6',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          enabled: false
-        }]
+        userAccessTypes: [
+          {
+            accessTypeId: '10',
+            jurisdictionId: '6',
+            organisationProfileId: 'SOLICITOR_PROFILE',
+            enabled: true
+          },
+          {
+            accessTypeId: '101',
+            jurisdictionId: '6',
+            organisationProfileId: 'SOLICITOR_PROFILE',
+            enabled: false
+          }
+        ]
       };
 
       userWithUpdatedAccessTypes = {
@@ -197,18 +217,20 @@ describe('ManageUserComponent', () => {
         rolesAdd: [],
         rolesDelete: [],
         id: '123',
-        accessTypes: [{
-          accessTypeId: '10',
-          jurisdictionId: '6',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          enabled: false
-        },
-        {
-          accessTypeId: '101',
-          jurisdictionId: '6',
-          organisationProfileId: 'SOLICITOR_PROFILE',
-          enabled: true
-        }]
+        userAccessTypes: [
+          {
+            accessTypeId: '10',
+            jurisdictionId: '6',
+            organisationProfileId: 'SOLICITOR_PROFILE',
+            enabled: false
+          },
+          {
+            accessTypeId: '101',
+            jurisdictionId: '6',
+            organisationProfileId: 'SOLICITOR_PROFILE',
+            enabled: true
+          }
+        ]
       };
 
       const fixture = TestBed.createComponent(ManageUserComponent);
@@ -234,7 +256,7 @@ describe('ManageUserComponent', () => {
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: userWithAccessTypes.accessTypes
+        userAccessTypes: userWithAccessTypes.userAccessTypes
       });
 
       component.standardPermission.permissionsForm.setValue({
@@ -245,7 +267,9 @@ describe('ManageUserComponent', () => {
       });
 
       component.onSubmit();
-      expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedRoles));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new fromStore.EditUser(userWithUpdatedRoles)
+      );
     }));
 
     it('should save updated user details with new access types', fakeAsync(() => {
@@ -270,7 +294,9 @@ describe('ManageUserComponent', () => {
       });
 
       component.onSubmit();
-      expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUser(userWithUpdatedAccessTypes));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new fromStore.EditUser(userWithUpdatedAccessTypes)
+      );
     }));
 
     it('should fail to update due to no changes', fakeAsync(() => {
@@ -284,7 +310,7 @@ describe('ManageUserComponent', () => {
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: userWithAccessTypes.accessTypes
+        userAccessTypes: userWithAccessTypes.userAccessTypes
       });
 
       component.standardPermission.permissionsForm.setValue({
@@ -295,7 +321,11 @@ describe('ManageUserComponent', () => {
       });
 
       component.onSubmit();
-      expect(dispatchSpy).toHaveBeenCalledWith(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        new fromStore.EditUserFailure(
+          'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
+        )
+      );
     }));
   });
 
@@ -332,19 +362,25 @@ describe('ManageUserComponent', () => {
 
       component.handleError(mockUserStore, errorNumber);
 
-      expect(spyStoreDispatch).toHaveBeenCalledWith(new fromRoot.AddGlobalError(expectedGlobalError));
-      expect(spyStoreDispatch).toHaveBeenCalledWith(new fromRoot.Go({ path: ['service-down'] }));
+      expect(spyStoreDispatch).toHaveBeenCalledWith(
+        new fromRoot.AddGlobalError(expectedGlobalError)
+      );
+      expect(spyStoreDispatch).toHaveBeenCalledWith(
+        new fromRoot.Go({ path: ['service-down'] })
+      );
     });
 
     it('should return correct global error object for error 400', () => {
       const error = 400;
       const expectedGlobalError = {
         header: 'Sorry, there is a problem',
-        errors: [{
-          bodyText: 'to check the status of the user',
-          urlText: 'Refresh and go back',
-          url: '/users'
-        }]
+        errors: [
+          {
+            bodyText: 'to check the status of the user',
+            urlText: 'Refresh and go back',
+            url: '/users'
+          }
+        ]
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);
@@ -354,16 +390,19 @@ describe('ManageUserComponent', () => {
       const error = 404;
       const expectedGlobalError = {
         header: 'Sorry, there is a problem with this account',
-        errors: [{
-          bodyText: 'to reactivate this account',
-          urlText: 'Get help',
-          url: '/get-help',
-          newTab: true
-        }, {
-          bodyText: null,
-          urlText: 'Go back to manage users',
-          url: '/users'
-        }]
+        errors: [
+          {
+            bodyText: 'to reactivate this account',
+            urlText: 'Get help',
+            url: '/get-help',
+            newTab: true
+          },
+          {
+            bodyText: null,
+            urlText: 'Go back to manage users',
+            url: '/users'
+          }
+        ]
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);
@@ -373,15 +412,18 @@ describe('ManageUserComponent', () => {
       const error = 500;
       const expectedGlobalError = {
         header: 'Sorry, there is a problem with the service',
-        errors: [{
-          bodyText: 'Try again later.',
-          urlText: null,
-          url: null
-        }, {
-          bodyText: null,
-          urlText: 'Go back to manage users',
-          url: '/users'
-        }]
+        errors: [
+          {
+            bodyText: 'Try again later.',
+            urlText: null,
+            url: null
+          },
+          {
+            bodyText: null,
+            urlText: 'Go back to manage users',
+            url: '/users'
+          }
+        ]
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);
@@ -391,15 +433,18 @@ describe('ManageUserComponent', () => {
       const error = 999;
       const expectedGlobalError = {
         header: 'Sorry, there is a problem with the service',
-        errors: [{
-          bodyText: 'Try again later.',
-          urlText: null,
-          url: null
-        }, {
-          bodyText: null,
-          urlText: 'Go back to manage users',
-          url: '/users'
-        }]
+        errors: [
+          {
+            bodyText: 'Try again later.',
+            urlText: null,
+            url: null
+          },
+          {
+            bodyText: null,
+            urlText: 'Go back to manage users',
+            url: '/users'
+          }
+        ]
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);

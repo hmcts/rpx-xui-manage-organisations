@@ -77,7 +77,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
         this.userAccessTypes = [];
         if (isFeatureEnabled) {
-          const enabledUserAccessTypes: UserAccessType[] = user?.accessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
+          const enabledUserAccessTypes: UserAccessType[] = user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
           const orgAccessTypes: OrganisationAccessType[] = organisationAccessTypes.map((x) => x.accessTypes).reduce((acc, x) => acc.concat(x), []);
           for (const ac of orgAccessTypes) {
             if (ac.accessMandatory) {

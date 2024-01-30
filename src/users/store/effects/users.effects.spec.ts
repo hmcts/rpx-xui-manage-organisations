@@ -78,7 +78,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: []
+            userAccessTypes: []
           }
         ]
       });
@@ -110,7 +110,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: []
+            userAccessTypes: []
           }
         ]
       });
@@ -120,14 +120,14 @@ describe('Users Effects', () => {
     }));
   });
 
-  it('should return a collection from loadUsers$ with accessTypes - LoadUsersSuccess', waitForAsync(() => {
+  it('should return a collection from loadUsers$ with userAccessTypes - LoadUsersSuccess', waitForAsync(() => {
     const prdUser: RawPrdUser = {
       email: 'madeup@test.com',
       firstName: 'John',
       lastName: 'Doe',
       idamStatus: 'PENDING',
       userIdentifier: '123',
-      accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+      userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
     };
     const payload:RawPrdUsersList = {
       organisationIdentifier: 'ABC123',
@@ -143,7 +143,7 @@ describe('Users Effects', () => {
           fullName: 'John Doe',
           routerLink: `user/${prdUser.userIdentifier}`,
           routerLinkTitle: 'User details for John Doe with id 123',
-          accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
         }
       ]
     });
@@ -261,7 +261,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: []
+            userAccessTypes: []
           }
         ]
       });
@@ -270,14 +270,14 @@ describe('Users Effects', () => {
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
     }));
 
-    it('should return a collection from loadAllUsersNoRoleData$ with accessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+    it('should return a collection from loadAllUsersNoRoleData$ with userAccessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
       const prdUser: RawPrdUserLite = {
         email: 'madeup@test.com',
         firstName: 'John',
         lastName: 'Doe',
         idamStatus: 'ACTIVE',
         userIdentifier: '123',
-        accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+        userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
       };
       const payload : RawPrdUserListWithoutRoles = {
         organisationIdentifier: 'ABC123',
@@ -294,7 +294,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+            userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
           }
         ]
       });

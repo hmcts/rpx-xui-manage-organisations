@@ -57,6 +57,59 @@ describe('SearchFilterUserComponent', () => {
     });
   });
 
+  it('should filter judicial users based on search term and return list in alphabetical order', () => {
+    const usersList = [
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com' },
+      { firstName: 'John', lastName: 'Doer', email: 'johnDoer@example.com' },
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com' },
+      { firstName: 'John', lastName: 'Cat', email: 'johnCat@example.com' },
+      { firstName: 'Jerry', lastName: 'Cat', email: 'jerryCat@example.com' },
+      { firstName: 'Johan', lastName: 'Doe', email: 'johanDoe@example.com' }
+    ];
+    const orderedList = [
+      { firstName: 'Johan', lastName: 'Doe', email: 'johanDoe@example.com' },
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com' },
+      { firstName: 'John', lastName: 'Cat', email: 'johnCat@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com' },
+      { firstName: 'John', lastName: 'Doer', email: 'johnDoer@example.com' }
+    ];
+
+    component.usersList = usersList;
+    const searchTerm = 'joh';
+    const filteredUsers$ = component.filterJudicialUsers(searchTerm);
+    filteredUsers$.subscribe((filteredUsers) => {
+      expect(filteredUsers.length).toEqual(5);
+      expect(filteredUsers).toEqual(orderedList);
+    });
+  });
+
+  it('should filter judicial users based on search term and return list in alphabetical order based on email', () => {
+    const usersList = [
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe3@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe1@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe4@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe2@example.com' },
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com' }
+    ];
+    const orderedList = [
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe1@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe2@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe3@example.com' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe4@example.com' }
+    ];
+
+    component.usersList = usersList;
+    const searchTerm = 'joh';
+    const filteredUsers$ = component.filterJudicialUsers(searchTerm);
+    filteredUsers$.subscribe((filteredUsers) => {
+      expect(filteredUsers.length).toEqual(6);
+      expect(filteredUsers).toEqual(orderedList);
+    });
+  });
+
   it('should handle selection change and emit filter values', () => {
     const event = { isUserInput: true, source: { value: { firstName: 'John', lastName: 'Doe', email: 'john@example.com' } } };
     spyOn(component.filterValues, 'emit');

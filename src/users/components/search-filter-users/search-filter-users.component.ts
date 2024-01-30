@@ -129,6 +129,13 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
       const isStatusMatch = statusOption === 'ALL' || item.idamStatus === statusOption;
 
       return isSearchMatch && isStatusMatch;
+    }).sort((a, b) => {
+      const fullNameA = `${a.firstName} ${a.lastName}`.toLowerCase();
+      const fullNameB = `${b.firstName} ${b.lastName}`.toLowerCase();
+      if (fullNameA === fullNameB) {
+        return a.email.toLowerCase().localeCompare(b.email.toLowerCase());
+      }
+      return fullNameA.localeCompare(fullNameB);
     }));
   }
 

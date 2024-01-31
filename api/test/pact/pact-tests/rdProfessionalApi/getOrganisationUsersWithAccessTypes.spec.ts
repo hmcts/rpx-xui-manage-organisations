@@ -1,93 +1,93 @@
 import { expect } from 'chai';
-import {Organisation, OrganisationWithUsers, SuspendUserReponseDto} from '../pactFixtures';
-import {getOrganisationDetails, suspendUser} from '../pactUtil';
+import { OrganisationWithUsers } from '../pactFixtures';
+import { getOrganisationDetails } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
 import { Matchers } from '@pact-foundation/pact';
-const { somethingLike, eachLike} = Matchers;
+const { somethingLike, eachLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
 
 describe('RD Professional API', () => {
   describe('Get all users for organistion', async () => {
-      before(async () => {
-        await pactSetUp.provider.setup();
-        const interaction = {
-          state: 'Professional User exists for get Organisation with user access types with identifier HM2OHHS',
-          uponReceiving: 'A request for from a logged in user of that organisation',
-          withRequest: {
-            method: 'GET',
-            path: '/refdata/external/v1/organisations',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer some-access-token',
-              'ServiceAuthorization': 'serviceAuthToken'
-            }
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              'Content-type': 'application/json'
-            },
-            body:
-            organisationResponse
-
+    before(async () => {
+      await pactSetUp.provider.setup();
+      const interaction = {
+        state: 'Professional User exists for get Organisation with user access types with identifier HM2OHHS',
+        uponReceiving: 'A request for from a logged in user of that organisation',
+        withRequest: {
+          method: 'GET',
+          path: '/refdata/external/v1/organisations',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer some-access-token',
+            'ServiceAuthorization': 'serviceAuthToken'
           }
-        };
-        // @ts-ignore
-        pactSetUp.provider.addInteraction(interaction);
-      });
+        },
+        willRespondWith: {
+          status: 200,
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body:
+          organisationResponse
 
-      it('returns the correct response', async () => {
-        const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users`;
-
-        const resp = getOrganisationDetails(taskUrl);
-
-        resp.then((response) => {
-          const responseDto: OrganisationWithUsers = <OrganisationWithUsers> response.data;
-          assertResponse(responseDto);
-        }).then(() => {
-          pactSetUp.provider.verify();
-          pactSetUp.provider.finalize();
-        }).finally(() => {
-          pactSetUp.provider.verify();
-          pactSetUp.provider.finalize();
-        });
-      });
-
-      function assertResponse(dto: OrganisationWithUsers): void {
-        // eslint-disable-next-line no-unused-expressions
-        expect(dto).to.be.not.null;
-        expect(dto.organisationIdentifier).to.equal('K100');
-        expect(dto.organisationStatus).to.equal('ACTIVE');
-        expect(dto.organisationProfileIds).to.contain('SOLICITOR_PROFILE');
-      }
-
-      const organisationResponse =
-        {
-          organisationIdentifier: somethingLike('K100'),
-          organisationStatus: somethingLike('ACTIVE'),
-          organisationProfileIds: somethingLike('SOLICITOR_PROFILE'),
-          users: somethingLike({
-            userIdentifier: somethingLike(''),
-            firstName: somethingLike(''),
-            lastName: somethingLike(''),
-            email: somethingLike(''),
-            idamStatus: somethingLike(''),
-            lastUpdated: somethingLike(''),
-            roles: [
-              somethingLike('pui-user-manager'),
-            ],
-            idamStatusCode: somethingLike('200'),
-            idamMessage: somethingLike('11 OK'),
-            userAccessTypes: [
-              {
-                jurisdictionId: somethingLike('12345'),
-                organisationProfileId: somethingLike('12345'),
-                accessTypeId: somethingLike('1234'),
-                enabled: somethingLike('true')
-              }
-            ]
-          }),
-        };
+        }
+      };
+      // @ts-ignore
+      pactSetUp.provider.addInteraction(interaction);
     });
+
+    it('returns the correct response', async () => {
+      const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users`;
+
+      const resp = getOrganisationDetails(taskUrl);
+
+      resp.then((response) => {
+        const responseDto: OrganisationWithUsers = <OrganisationWithUsers> response.data;
+        assertResponse(responseDto);
+      }).then(() => {
+        pactSetUp.provider.verify();
+        pactSetUp.provider.finalize();
+      }).finally(() => {
+        pactSetUp.provider.verify();
+        pactSetUp.provider.finalize();
+      });
+    });
+
+    function assertResponse(dto: OrganisationWithUsers): void {
+      // eslint-disable-next-line no-unused-expressions
+      expect(dto).to.be.not.null;
+      expect(dto.organisationIdentifier).to.equal('K100');
+      expect(dto.organisationStatus).to.equal('ACTIVE');
+      expect(dto.organisationProfileIds).to.contain('SOLICITOR_PROFILE');
+    }
+
+    const organisationResponse =
+      {
+        organisationIdentifier: somethingLike('K100'),
+        organisationStatus: somethingLike('ACTIVE'),
+        organisationProfileIds: somethingLike('SOLICITOR_PROFILE'),
+        users: somethingLike({
+          userIdentifier: somethingLike(''),
+          firstName: somethingLike(''),
+          lastName: somethingLike(''),
+          email: somethingLike(''),
+          idamStatus: somethingLike(''),
+          lastUpdated: somethingLike(''),
+          roles: [
+            somethingLike('pui-user-manager')
+          ],
+          idamStatusCode: somethingLike('200'),
+          idamMessage: somethingLike('11 OK'),
+          userAccessTypes: [
+            {
+              jurisdictionId: somethingLike('12345'),
+              organisationProfileId: somethingLike('12345'),
+              accessTypeId: somethingLike('1234'),
+              enabled: somethingLike('true')
+            }
+          ]
+        })
+      };
   });
+});

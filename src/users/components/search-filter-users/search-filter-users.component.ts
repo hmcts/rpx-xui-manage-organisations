@@ -165,9 +165,13 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
     }
   }
 
-  public onBlur(event: any): void {
+  public onBlur(event: FocusEvent): void {
+    const isStringValue = typeof this.nameFilterControl.value === 'string';
+    const shouldFormatAndEmit = isStringValue && event.relatedTarget !== null;
     if (!this.nameFilterControl.value) {
       this.nameFilterControl.setValue('');
+    }
+    if (shouldFormatAndEmit || !this.nameFilterControl.value) {
       this.formatFiltersAndEmit();
     }
   }

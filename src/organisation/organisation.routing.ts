@@ -21,7 +21,7 @@ export const ROUTES: Routes = [
     ]
   },
   {
-    path: 'update-pba-numbers',
+    path: 'organisation/update-pba-numbers',
     component: UpdatePbaNumbersComponent,
     data: { role: 'pui-finance-manager' },
     canActivate: [
@@ -30,7 +30,7 @@ export const ROUTES: Routes = [
     ]
   },
   {
-    path: 'update-pba-numbers-check',
+    path: 'organisation/update-pba-numbers-check',
     component: UpdatePbaNumbersCheckComponent,
     data: { role: 'pui-finance-manager' },
     canActivate: [

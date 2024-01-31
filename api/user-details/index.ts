@@ -14,8 +14,8 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
     logger.info('User Details API Link: ', apiUrl);
     const response = await req.http.get(apiUrl);
     const updated = response.data.users.map((user) => {
-      if (Object.keys(user).indexOf('accessTypes') === -1) {
-        return { ...user, accessTypes: JSON.parse(userAccessTypesExample) };
+      if (Object.keys(user).indexOf('userAccessTypes') === -1) {
+        return { ...user, userAccessTypes: JSON.parse(userAccessTypesExample) };
       }
       return user;
     });

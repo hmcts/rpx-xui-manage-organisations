@@ -4,7 +4,7 @@ import { getOrganisationDetails } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
 import { Matchers } from '@pact-foundation/pact';
-const { somethingLike, eachLike } = Matchers;
+const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
 
 describe('RD Professional API', () => {

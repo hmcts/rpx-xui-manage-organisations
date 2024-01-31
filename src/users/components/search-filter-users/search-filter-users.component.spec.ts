@@ -59,19 +59,19 @@ describe('SearchFilterUserComponent', () => {
 
   it('should filter judicial users based on search term and return list in alphabetical order', () => {
     const usersList = [
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doer', email: 'johnDoer@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Cat', email: 'johnCat@example.com', idamStatus: '123' },
-      { firstName: 'Jerry', lastName: 'Cat', email: 'jerryCat@example.com', idamStatus: '123' },
-      { firstName: 'Johan', lastName: 'Doe', email: 'johanDoe@example.com', idamStatus: '123' }
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doer', email: 'johnDoer@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Cat', email: 'johnCat@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'Jerry', lastName: 'Cat', email: 'jerryCat@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'Johan', lastName: 'Doe', email: 'johanDoe@example.com', idamStatus: 'ACTIVE' }
     ];
     const orderedList = [
-      { firstName: 'Johan', lastName: 'Doe', email: 'johanDoe@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Cat', email: 'johnCat@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doer', email: 'johnDoer@example.com', idamStatus: '123' }
+      { firstName: 'Johan', lastName: 'Doe', email: 'johanDoe@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Cat', email: 'johnCat@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doer', email: 'johnDoer@example.com', idamStatus: 'ACTIVE' }
     ];
 
     component.usersList = usersList;
@@ -85,20 +85,20 @@ describe('SearchFilterUserComponent', () => {
 
   it('should filter judicial users based on search term and return list in alphabetical order based on email', () => {
     const usersList = [
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe3@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe1@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe4@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe2@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: '123' }
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe3@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe1@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe4@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe2@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: 'ACTIVE' }
     ];
     const orderedList = [
-      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe1@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe2@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe3@example.com', idamStatus: '123' },
-      { firstName: 'John', lastName: 'Doe', email: 'johnDoe4@example.com', idamStatus: '123' }
+      { firstName: 'John', lastName: 'Asd', email: 'johnAsd@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe1@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe2@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe3@example.com', idamStatus: 'ACTIVE' },
+      { firstName: 'John', lastName: 'Doe', email: 'johnDoe4@example.com', idamStatus: 'ACTIVE' }
     ];
 
     component.usersList = usersList;

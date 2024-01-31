@@ -8,7 +8,7 @@ const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExternalUsers', port: 8000 });
 
 describe('RD Professional API', () => {
-  describe('Suspend A User With Access Types', async () => {
+  describe('Update A User With Access Types', async () => {
     const mockRequest = {
       'email': 'Joe.bloggs@mailnesia.com',
       'firstName': 'Joe',

@@ -82,6 +82,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
             for (const ac of jurisdiction.accessTypes){
               if (ac.accessMandatory) {
                 this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+                continue;
               }
               const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
               if (foundUserAc) {

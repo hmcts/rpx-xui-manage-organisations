@@ -19,10 +19,13 @@ const windowMock: Window = { gtag: () => {} } as any;
 
 const featureMock: FeatureToggleService = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  initialize: () => {},
+  initialize: () => { },
   isEnabled: () => of(true),
   getValue: () => of(),
-  getValueOnce: () => of()
+  getValueOnce: () => of(),
+  getValueSync: function <R>(feature: string, defaultValue: R): R {
+    throw new Error('Function not implemented.');
+  }
 };
 
 const idleServiceMock = {

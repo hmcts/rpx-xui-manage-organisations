@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subject, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, combineLatest, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { PrdUser } from 'src/users/models/prd-users.model';
 
 interface User {
@@ -43,16 +43,28 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
     this.statusFilterControl = this.searchFilterUserForm.get('statusFilter') as FormControl;
     this.statusFilterConfig = this.initialiseSearchFilters();
 
-    this.filteredJudicialUsers$ = this.nameFilterControl.valueChanges.pipe(
+    this.filteredJudicialUsers$ = combineLatest([
+      this.nameFilterControl.valueChanges.pipe(
+        startWith(''),
+        debounceTime(300),
+        tap((searchTerm: string) => {
+          this.searchTerm = searchTerm;
+          this.showAutocomplete = searchTerm.length >= this.minSearchCharacters;
+        }),
+        filter((searchTerm) => searchTerm.length >= this.minSearchCharacters)
+      ),
+      this.statusFilterControl.valueChanges.pipe(
+        startWith(null),
+        distinctUntilChanged()
+      )
+    ]).pipe(
       takeUntil(this.subscriptions$),
-      tap(() => this.showAutocomplete = false),
-      debounceTime(300),
-      tap((searchTerm: string) => this.searchTerm = searchTerm),
-      filter((searchTerm) => searchTerm?.length >= this.minSearchCharacters),
-      switchMap((searchTerm) => this.filterJudicialUsers(searchTerm).pipe(
+      switchMap(([searchTerm, _]) => this.filterJudicialUsers(searchTerm).pipe(
         tap((judicialUsers) => {
-          this.showAutocomplete = true;
           this.noResults = judicialUsers.length === 0;
+          if (searchTerm.length >= this.minSearchCharacters) {
+            this.showAutocomplete = true;
+          }
         })
       ))
     );
@@ -60,15 +72,21 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
     this.statusFilterControl.valueChanges.pipe(
       distinctUntilChanged(),
       takeUntil(this.subscriptions$)
-    ).subscribe(() => this.formatFiltersAndEmit());
+    ).subscribe(() => {
+      this.formatFiltersAndEmit();
+    });
   }
 
-  public formatFiltersAndEmit(){
-    const nameFilterValue = this.nameFilterControl.value as PrdUser;
-    const statusFilterValue = this.statusFilterControl.value;
+  public formatFiltersAndEmit() {
+    const { value: nameFilterValue } = this.nameFilterControl as any;
+    const { value: statusFilterValue } = this.statusFilterControl;
+    const name = nameFilterValue && typeof nameFilterValue === 'object'
+      ? `${nameFilterValue.firstName || ''} ${nameFilterValue.lastName || ''}`.trim()
+      : '';
+    const email = nameFilterValue.email || '';
     const filterParams = {
-      name: nameFilterValue ? `${nameFilterValue.firstName} ${nameFilterValue.lastName}`.trim() : '',
-      email: nameFilterValue ? nameFilterValue.email : '',
+      name,
+      email,
       status: statusFilterValue !== 'all' ? statusFilterValue : ''
     };
     this.filterValues.emit(filterParams);

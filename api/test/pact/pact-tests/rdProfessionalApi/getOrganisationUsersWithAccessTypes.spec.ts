@@ -16,7 +16,7 @@ describe('RD Professional API', () => {
         uponReceiving: 'A request for from a logged in user of that organisation',
         withRequest: {
           method: 'GET',
-          path: '/refdata/external/v1/organisations',
+          path: '/refdata/external/v1/organisations/users',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer some-access-token',

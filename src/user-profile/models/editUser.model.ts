@@ -9,7 +9,7 @@ export class EditUserModel {
     public idamStatus: string,
     public rolesAdd: RoleChange[],
     public rolesDelete: RoleChange[],
-    public accessTypes: UserAccessType[]
+    public userAccessTypes: UserAccessType[]
   ) {}
 }
 

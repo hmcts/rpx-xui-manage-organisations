@@ -153,7 +153,7 @@ describe('ManageUserComponent', () => {
         idamStatusCode: 'A',
         roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
         id: '123',
-        accessTypes: [{
+        userAccessTypes: [{
           accessTypeId: '10',
           jurisdictionId: '6',
           organisationProfileId: 'SOLICITOR_PROFILE',
@@ -175,7 +175,7 @@ describe('ManageUserComponent', () => {
         rolesAdd: [{ name: 'pui-finance-manager' }],
         rolesDelete: [{ name: 'pui-user-manager' }],
         id: '123',
-        accessTypes: [{
+        userAccessTypes: [{
           accessTypeId: '10',
           jurisdictionId: '6',
           organisationProfileId: 'SOLICITOR_PROFILE',
@@ -197,7 +197,7 @@ describe('ManageUserComponent', () => {
         rolesAdd: [],
         rolesDelete: [],
         id: '123',
-        accessTypes: [{
+        userAccessTypes: [{
           accessTypeId: '10',
           jurisdictionId: '6',
           organisationProfileId: 'SOLICITOR_PROFILE',
@@ -234,7 +234,7 @@ describe('ManageUserComponent', () => {
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: userWithAccessTypes.accessTypes
+        userAccessTypes: userWithAccessTypes.userAccessTypes
       });
 
       component.standardPermission.permissionsForm.setValue({
@@ -284,7 +284,7 @@ describe('ManageUserComponent', () => {
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: userWithAccessTypes.accessTypes
+        userAccessTypes: userWithAccessTypes.userAccessTypes
       });
 
       component.standardPermission.permissionsForm.setValue({

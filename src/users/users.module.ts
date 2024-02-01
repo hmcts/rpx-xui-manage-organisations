@@ -23,6 +23,7 @@ import * as fromServices from './services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RpxTranslationModule } from 'rpx-xui-translation';
+import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,8 @@ import { RpxTranslationModule } from 'rpx-xui-translation';
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [
     ...fromContainers.containers,
-    ...fromComponents.components
+    ...fromComponents.components,
+    ManageUserFailureComponent
   ],
   providers: [...fromServices.services, InviteUserSuccessGuard]
 })

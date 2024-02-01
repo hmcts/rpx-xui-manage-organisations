@@ -119,7 +119,7 @@ describe('SearchFilterUserComponent', () => {
   });
 
   it('should handle blur event and emit filter values', () => {
-    const event = { relatedTarget: { role: 'option' } };
+    const event = { relatedTarget: { role: 'option' } } as any;
     spyOn(component.filterValues, 'emit');
     component.onBlur(event);
     expect(component.nameFilterControl.value).toEqual('');

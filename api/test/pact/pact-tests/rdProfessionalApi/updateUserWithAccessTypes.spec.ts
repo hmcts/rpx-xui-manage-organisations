@@ -10,10 +10,10 @@ const pactSetUp = new PactTestSetup({ provider: 'referenceData_professionalExter
 describe('RD Professional API', () => {
   describe('Update A User With Access Types', async () => {
     const mockRequest = {
-      'email': 'Joe.bloggs@mailnesia.com',
+      'email': 'Joe.bloggs1@mailnesia.com',
       'firstName': 'Joe',
       'lastName': 'Bloggs',
-      'idamStatus': 'active',
+      'idamStatus': 'ACTIVE',
       'rolesAdd': [
         {
           'name': 'superuser'
@@ -36,13 +36,13 @@ describe('RD Professional API', () => {
       }
     };
 
-    const requestPath = '/refdata/external/v1/organisations/users/123456';
+    const requestPath = '/refdata/external/v1/organisations/users/234567';
 
     before(async () => {
       await pactSetUp.provider.setup();
       const interaction = {
-        state: 'Professional User exists for modification of user access types with identifier 123456',
-        uponReceiving: 'a request to update the roles of that user',
+        state: 'Professional User exists for modification of user access types with identifier 234567',
+        uponReceiving: 'a request to update the roles and access types of that user',
         withRequest: {
           method: 'PUT',
           headers: {
@@ -67,7 +67,7 @@ describe('RD Professional API', () => {
 
     it('returns the correct response', async () => {
       // call the pactUtil's method which Calls The Downstream API directly without going through the Service Class.
-      const userId = '123456';
+      const userId = '234567';
       const taskUrl: string = `${pactSetUp.provider.mockService.baseUrl}/refdata/external/v1/organisations/users/` + userId;
 
       const resp = suspendUser(taskUrl, mockRequest as any);

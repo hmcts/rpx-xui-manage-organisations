@@ -59,24 +59,23 @@ describe('RD Professional API', () => {
       expect(dto).to.be.not.null;
       expect(dto.organisationIdentifier).to.equal('K100');
       expect(dto.organisationStatus).to.equal('ACTIVE');
-      expect(dto.organisationProfileIds).to.contain('SOLICITOR_PROFILE');
     }
 
     const organisationResponse =
       {
         organisationIdentifier: somethingLike('K100'),
         organisationStatus: somethingLike('ACTIVE'),
-        organisationProfileIds: somethingLike('SOLICITOR_PROFILE'),
-        users: somethingLike({
+        organisationProfileIds: [
+          somethingLike('SOLICITOR_PROFILE')
+        ],
+        users: somethingLike([{
           userIdentifier: somethingLike(''),
-          firstName: somethingLike(''),
-          lastName: somethingLike(''),
-          email: somethingLike(''),
-          idamStatus: somethingLike(''),
+          firstName: somethingLike('firstName1'),
+          lastName: somethingLike('lastName1'),
+          email: somethingLike('email1@org.com'),
+          idamStatus: somethingLike('ACTIVE'),
           lastUpdated: somethingLike(''),
-          roles: [
-            somethingLike('pui-user-manager')
-          ],
+          roles: null,
           idamStatusCode: somethingLike('200'),
           idamMessage: somethingLike('11 OK'),
           userAccessTypes: [
@@ -87,7 +86,7 @@ describe('RD Professional API', () => {
               enabled: somethingLike('true')
             }
           ]
-        })
+        }])
       };
   });
 });

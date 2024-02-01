@@ -13,7 +13,7 @@ const mockUserList: PrdUser[] = [
     idamStatus: 'active',
     userIdentifier: 'userId1',
     roles: ['pui-organisation-manager', 'pui-user-manager', 'pui-case-manager', 'pui-finance-manager'],
-    accessTypes: []
+    userAccessTypes: []
   },
   {
     firstName: 'Test2fggftfirstname',
@@ -25,7 +25,7 @@ const mockUserList: PrdUser[] = [
     idamStatus: 'active',
     userIdentifier: 'userId2',
     roles: ['pui-organisation-manager', 'pui-user-manager'],
-    accessTypes: []
+    userAccessTypes: []
   }
 ];
 
@@ -46,7 +46,7 @@ const resultUserList = [
     manageUsers: 'Yes',
     manageCases: 'Yes',
     managePayments: 'Yes',
-    accessTypes: []
+    userAccessTypes: []
   },
   {
     firstName: 'Test2fggftfirstname',
@@ -64,7 +64,7 @@ const resultUserList = [
     manageUsers: 'Yes',
     manageCases: 'No',
     managePayments: 'No',
-    accessTypes: []
+    userAccessTypes: []
   }
 ];
 

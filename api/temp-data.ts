@@ -1,7 +1,7 @@
 export const jurisdictionsExample = `
   [
         {
-            "jurisdictionid": "6",
+            "jurisdictionId": "6",
             "jurisdictionName": "Civil",
             "accessTypes": [
                 {
@@ -61,7 +61,7 @@ export const jurisdictionsExample = `
             ]
         },
         {
-          "jurisdictionid": "5",
+          "jurisdictionId": "5",
           "jurisdictionName": "Family Public Law",
           "accessTypes": [
               {

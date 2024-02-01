@@ -14,5 +14,5 @@ export class EditUserModel {
 }
 
 export interface RoleChange {
-  name: string
+  name: string;
 }

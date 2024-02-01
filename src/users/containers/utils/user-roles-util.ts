@@ -1,4 +1,7 @@
-import { EditUserModel, RoleChange } from 'src/user-profile/models/editUser.model';
+import {
+  EditUserModel,
+  RoleChange
+} from 'src/user-profile/models/editUser.model';
 import { AppConstants } from '../../../app/app.constants';
 import { AppUtils } from '../../../app/utils/app-utils';
 import { UserAccessType } from '@hmcts/rpx-xui-common-lib';
@@ -12,7 +15,10 @@ export class UserRolesUtil {
           name: permission
         });
         if (permission === 'pui-case-manager') {
-          const ccdRolesTobeAdded = UserRolesUtil.GetRolesToBeAddedForUser(user, AppConstants.CCD_ROLES);
+          const ccdRolesTobeAdded = UserRolesUtil.GetRolesToBeAddedForUser(
+            user,
+            AppConstants.CCD_ROLES
+          );
           ccdRolesTobeAdded.forEach((newRole) => roles.push(newRole));
         }
       }
@@ -24,12 +30,18 @@ export class UserRolesUtil {
     const roles = [];
     if (user.roles) {
       user.roles.forEach((permission) => {
-        if (!permissions.includes(permission) && !AppConstants.CCD_ROLES.includes(permission)) {
+        if (
+          !permissions.includes(permission) &&
+          !AppConstants.CCD_ROLES.includes(permission)
+        ) {
           roles.push({
             name: permission
           });
           if (permission === 'pui-case-manager') {
-            const ccdRolesTobeRemoved = UserRolesUtil.GetRemovableRolesForUser(user, AppConstants.CCD_ROLES);
+            const ccdRolesTobeRemoved = UserRolesUtil.GetRemovableRolesForUser(
+              user,
+              AppConstants.CCD_ROLES
+            );
             ccdRolesTobeRemoved.forEach((newRole) => roles.push(newRole));
           }
         }
@@ -38,7 +50,13 @@ export class UserRolesUtil {
     return roles;
   }
 
-  public static mapEditUserRoles(user: any, userId: string, rolesAdd: RoleChange[], rolesDelete: RoleChange[], userAccessTypes: UserAccessType[] = []): EditUserModel {
+  public static mapEditUserRoles(
+    user: any,
+    userId: string,
+    rolesAdd: RoleChange[],
+    rolesDelete: RoleChange[],
+    userAccessTypes: UserAccessType[] = []
+  ): EditUserModel {
     return {
       id: userId,
       email: user.email,
@@ -67,7 +85,10 @@ export class UserRolesUtil {
    * @param response - the response object from PRD.
    */
   public static doesRoleAdditionExist(response) {
-    return AppUtils.propsExist(response, ['roleAdditionResponse', 'idamStatusCode']);
+    return AppUtils.propsExist(response, [
+      'roleAdditionResponse',
+      'idamStatusCode'
+    ]);
   }
 
   /**
@@ -76,7 +97,10 @@ export class UserRolesUtil {
    * @param response - the response object from PRD.
    */
   public static doesRoleDeletionExist(response) {
-    return response.roleDeletionResponse && AppUtils.propsExist(response, ['roleDeletionResponse']);
+    return (
+      response.roleDeletionResponse &&
+      AppUtils.propsExist(response, ['roleDeletionResponse'])
+    );
   }
 
   /**
@@ -129,9 +153,14 @@ export class UserRolesUtil {
     return rolesTobeAdded;
   }
 
-  public static accessTypesMatch(accessTypes: UserAccessType[], updatedAccessTypes: UserAccessType[]) : boolean {
+  public static accessTypesMatch(
+    accessTypes: UserAccessType[],
+    updatedAccessTypes: UserAccessType[]
+  ): boolean {
     accessTypes.sort((a, b) => a.accessTypeId.localeCompare(b.accessTypeId));
-    updatedAccessTypes.sort((a, b) => a.accessTypeId.localeCompare(b.accessTypeId));
+    updatedAccessTypes.sort((a, b) =>
+      a.accessTypeId.localeCompare(b.accessTypeId)
+    );
     const accessTypesJson = JSON.stringify(accessTypes);
     const updatedAccessTypesJson = JSON.stringify(updatedAccessTypes);
     return accessTypesJson === updatedAccessTypesJson;

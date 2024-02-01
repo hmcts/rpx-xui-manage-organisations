@@ -130,14 +130,18 @@ export class UserProfileEffects {
       })
     );
 
-  @Effect()
-  public confirmEditUser$ = this.actions$.pipe(
-      ofType(usersActions.EDIT_USER_SUCCESS),
-      map((user: any) => {
-        return user.payload; // this is the userId
-      }),
-      switchMap(() => [
-        new usersActions.LoadAllUsers()
-      ])
-    );
+  @Effect({ dispatch: false })
+  public refreshUser$ =
+      this.actions$.pipe(
+        ofType(usersActions.REFRESH_USER),
+        switchMap((payload: usersActions.RefreshUser) => {
+          return this.userService.refreshUser(payload.idamId).pipe(
+            catchError((error) => {
+              this.loggerService.error(error);
+              return of(new usersActions.RefreshUserFail(error));
+            })
+          );
+        }
+        )
+      );
 }

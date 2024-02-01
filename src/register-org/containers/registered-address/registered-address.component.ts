@@ -198,7 +198,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
       return;
     }
     const givenAddress = this.formGroup.get('address').value;
-    givenAddress.postCode && givenAddress.postCode !== '' ? this.setFormGroup(givenAddress) : this.setFormGroup();
+    givenAddress && givenAddress.postCode && givenAddress.postCode !== '' ? this.setFormGroup(givenAddress) : this.setFormGroup();
   }
 
   private setFormGroup(givenAddress?: AddressModel) {

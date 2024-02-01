@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subject, combineLatest, takeUntil } from 'rxjs';
+import { Observable, Subject, combineLatest, map, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
-import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
+import { User } from '@hmcts/rpx-xui-common-lib';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { BasicAccessTypes } from '../../models/basic-access-types.model';
 import { PersonalDetails } from '../../models/personal-details.model';
 
-import { jurisdictionsExample, userAccessTypesExample } from './temp-data';
 import { Jurisdiction, OrganisationDetails } from 'src/models';
 import { LoggerService } from 'src/shared/services/logger.service';
+import { AppConstants } from '../../../app/app.constants';
+import { GlobalError } from '../../../app/store/reducers/app.reducer';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
@@ -30,17 +31,25 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   public backUrl: string;
   public userId: string;
   public organisationAccessTypes$: Observable<Jurisdiction[]>;
-  public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
+  public summaryErrorsSubject = new Subject<{ isFromValid: boolean; items: { id: string; message: any; }[]; header: string }>();
+  public summaryErrors$ = this.summaryErrorsSubject.asObservable();
+  public errorsArray$: Observable<{ isFromValid: boolean; items: { id: string; message: any; } []}>;
   public permissionErrors: { isInvalid: boolean; messages: string[] };
   public user: User;
+  public showWarningMessage: boolean = false;
+  public resendInvite: boolean = false;
+  public combinedErrors$: Observable<{
+    isFromValid: boolean;
+    items: { id: string; message: any; }[];
+    header: string;
+  }>;
 
-  // TODO: remove this when the GA-62 is complete and replace with selector
-  public jurisdictions = JSON.parse(jurisdictionsExample) as Jurisdiction[];
+  public jurisdictions:Jurisdiction[] = [];
   public organisationProfileIds:string[];
 
   private user$: Observable<User>;
   private organisation$: Observable<OrganisationDetails>;
-  private updatedUser: User;
+  public updatedUser: User;
   private onDestory$ = new Subject<void>();
 
   constructor(private readonly actions$: Actions,
@@ -51,6 +60,19 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
+    this.errorsArray$ = this.userStore.pipe(select(fromStore.getGetInviteUserErrorsArray));
+    this.combinedErrors$ = combineLatest([
+      this.summaryErrors$,
+      this.errorsArray$
+    ]).pipe(
+      map(([summaryErrors, errorsArray]) => {
+        return {
+          isFromValid: summaryErrors.isFromValid && errorsArray.isFromValid,
+          items: [...summaryErrors.items, ...errorsArray.items],
+          header: summaryErrors.header
+        };
+      })
+    );
     this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
@@ -58,14 +80,11 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       this.backUrl = this.getBackurl(this.userId);
     });
 
-    combineLatest([this.user$, this.organisation$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation]) => {
-      // TODO this is temporary until access types are returned by the API. used to test the population of the form
-      organisation = { ...organisation, organisationProfileIds: ['SOLICITOR_PROFILE'] };
-      if (user){
-        user = { ...user, accessTypes: JSON.parse(userAccessTypesExample) as UserAccessType };
-        this.user = user;
-      }
+    combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation, organisationAccessTypes]) => {
+      this.user = user;
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
+      this.resendInvite = user?.status === 'Pending';
+      this.jurisdictions = organisationAccessTypes;
     });
 
     this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
@@ -83,6 +102,39 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
       }
     });
+
+    this.actions$.pipe(ofType(fromStore.REFRESH_USER_FAIL)).subscribe(() => {
+      this.summaryErrorsSubject.next({
+        isFromValid: false,
+        items: [
+          {
+            id: null,
+            message: 'There was a problem refreshing the user. Please wait for the batch process for changes to be made.'
+          }
+        ],
+        header: 'There was a problem' });
+    });
+
+    if (!this.userId){
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 400);
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_404), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 404);
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 500);
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestory$)).subscribe(() => {
+        this.showWarningMessage = true;
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_409), takeUntil(this.onDestory$)).subscribe(() => {
+        this.showWarningMessage = true;
+      });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL), takeUntil(this.onDestory$)).subscribe(() => {
+        this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -106,12 +158,12 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     }
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(updatedRoles)] };
     // when manageCases is false then the roles property is an empty array, which will clear all the access types
-    this.updatedUser = { ...this.updatedUser, accessTypes: $event.userAccessTypes };
+    this.updatedUser = { ...this.updatedUser, userAccessTypes: $event.userAccessTypes };
     this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
-    let roles: string[] = this.user.roles ?? [];
+    let roles: string[] = this.user?.roles ?? [];
 
     roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
     roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);
@@ -138,53 +190,80 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.showWarningMessage = false;
     this.userPersonalDetails.personalDetailForm.markAllAsTouched();
     this.userPersonalDetails.updateCurrentErrors();
     this.standardPermission.permissionsForm.markAllAsTouched();
     this.standardPermission.updateCurrentErrors();
 
-    const errorItems: {id: string; message: string[];}[] = [];
-    Object.keys(this.userPersonalDetails.errors).forEach((key) => {
-      if (this.userPersonalDetails.errors[key].length > 0) {
-        errorItems.push({ id: key, message: this.userPersonalDetails.errors[key] });
-      }
-    });
-    if (this.standardPermission.errors.basicPermissions.length > 0){
-      errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
-    }
-
-    this.summaryErrors = {
-      isFromValid: this.userPersonalDetails.personalDetailForm.valid && this.standardPermission.permissionsForm.valid,
+    const errorItems = this.getFormErrors();
+    this.summaryErrorsSubject.next({
+      isFromValid: errorItems.length === 0,
       items: errorItems,
       header: 'There is a problem'
-    };
+    });
 
     if (errorItems.length > 0){
       return;
     }
 
-    if (this.userId) {
+    if (this.userId && !this.resendInvite) {
       this.updateUser();
     } else {
       this.inviteUser();
     }
   }
 
-  private inviteUser() {
-    // TODO: implement
+  private getFormErrors() {
+    this.userPersonalDetails.personalDetailForm.markAllAsTouched();
+    this.userPersonalDetails.updateCurrentErrors();
+    this.standardPermission.permissionsForm.markAllAsTouched();
+    this.standardPermission.updateCurrentErrors();
+
+    const errorItems: {id: string; message: string[];}[] = [];
+    if (!this.userId){
+      Object.keys(this.userPersonalDetails.errors).forEach((key) => {
+        if (this.userPersonalDetails.errors[key].length > 0) {
+          errorItems.push({ id: key, message: this.userPersonalDetails.errors[key] });
+        }
+      });
+    }
+    if (this.standardPermission.errors.basicPermissions.length > 0){
+      errorItems.push({ id: 'isCaseAccessAdmin', message: this.standardPermission.errors.basicPermissions });
+    }
+
+    return errorItems;
+  }
+
+  public inviteUser(): void {
+    const value:any = {
+      ...this.updatedUser,
+      resendInvite: this.resendInvite
+    };
+    if (value.roles.includes('pui-case-manager')) {
+      value.roles = [...value.roles, ...AppConstants.CCD_ROLES];
+    }
+    if (this.resendInvite) {
+      Object.assign(value, {
+        email: this.user.email,
+        firstName: this.user.firstName,
+        lastName: this.user.lastName
+      });
+    }
+    this.userStore.dispatch(new fromStore.SendInviteUser(value));
   }
 
   private updateUser() {
     const permissions = this.updatedUser.roles;
     const rolesAdded = [...new Set(UserRolesUtil.getRolesAdded(this.user, permissions))];
     const rolesDeleted = [...new Set(UserRolesUtil.getRolesDeleted(this.user, permissions))];
-    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.accessTypes);
-    const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.accessTypes, this.updatedUser.accessTypes));
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.userAccessTypes);
+    const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes));
 
     if (hasChanges) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
     } else {
-      this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' };
+      this.summaryErrorsSubject.next({ isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' });
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
       return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }
@@ -192,5 +271,67 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   private getBackurl(userId: string): string {
     return !!userId ? `/users/user/${userId}` : '/users';
+  }
+
+  public handleError(store: Store<any>, errorNumber: number): void {
+    const globalError = this.getGlobalError(errorNumber);
+    if (globalError) {
+      store.dispatch(new fromRoot.AddGlobalError(globalError));
+      store.dispatch(new fromRoot.Go({ path: ['service-down'] }));
+    }
+  }
+
+  public getGlobalError(error: number): GlobalError {
+    const errorMessages = this.getErrorMessages(error);
+    const globalError = {
+      header: this.getErrorHeader(error),
+      errors: errorMessages
+    };
+    return globalError;
+  }
+
+  private getErrorMessages(error: number) {
+    switch (error) {
+      case 400:
+        return [{
+          bodyText: 'to check the status of the user',
+          urlText: 'Refresh and go back',
+          url: '/users'
+        }];
+      case 404:
+        return [{
+          bodyText: 'to reactivate this account',
+          urlText: 'Get help',
+          url: '/get-help',
+          newTab: true
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }];
+      case 500:
+      default:
+        return [{
+          bodyText: 'Try again later.',
+          urlText: null,
+          url: null
+        }, {
+          bodyText: null,
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }];
+    }
+  }
+
+  private getErrorHeader(error: number): string {
+    switch (error) {
+      case 400:
+        return 'Sorry, there is a problem';
+      case 404:
+        return 'Sorry, there is a problem with this account';
+      case 500:
+      default:
+        return 'Sorry, there is a problem with the service';
+    }
   }
 }

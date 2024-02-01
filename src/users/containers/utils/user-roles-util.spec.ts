@@ -64,7 +64,7 @@ describe('UserRolesUtil class ', () => {
       idamStatus: 'idam',
       rolesAdd: [{ name: 'permission3' }, { name: 'permission4' }],
       rolesDelete: [{ name: 'permission1' }, { name: 'permission2' }],
-      accessTypes: []
+      userAccessTypes: []
     }
     );
   });

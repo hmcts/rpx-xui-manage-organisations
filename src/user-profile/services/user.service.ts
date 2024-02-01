@@ -18,4 +18,8 @@ export class UserService {
   public getUserDetails(): Observable<UserInterface> {
     return this.http.get<UserInterface>('/api/user/details');
   }
+
+  public refreshUser(idamId: string) {
+    return this.http.post('/api/refresh-user', { idamId });
+  }
 }

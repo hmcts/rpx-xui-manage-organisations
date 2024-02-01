@@ -3,6 +3,7 @@ import * as log4jui from '../lib/log4jui';
 import { Request, Response, Router } from 'express';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import { getConfigValue } from '../configuration';
+import { userAccessTypesExample } from '../temp-data';
 
 const logger = log4jui.getLogger('user-details');
 
@@ -12,6 +13,13 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
     const apiUrl = getRefdataUserDetailsUrl(rdProfessionalApiPath, req.query.userId as string);
     logger.info('User Details API Link: ', apiUrl);
     const response = await req.http.get(apiUrl);
+    const updated = response.data.users.map((user) => {
+      if (Object.keys(user).indexOf('userAccessTypes') === -1) {
+        return { ...user, userAccessTypes: JSON.parse(userAccessTypesExample) };
+      }
+      return user;
+    });
+    response.data = { ...response.data, users: updated };
     res.send(response.data);
   } catch (error) {
     logger.error('error', error);

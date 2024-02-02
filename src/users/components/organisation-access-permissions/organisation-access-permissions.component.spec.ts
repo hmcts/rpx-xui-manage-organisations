@@ -79,14 +79,14 @@ describe('OrganisationAccessPermissionsComponent', () => {
   const userWithCaseManagerRole: User = {
     email: 'john@doe.com',
     fullName: 'John Doe',
-    accessTypes: knownExistingUserAccessType,
+    userAccessTypes: knownExistingUserAccessType,
     roles: ['pui-case-manager']
   };
 
   const userWithoutCaseManagerRole: User = {
     email: 'john@doe.com',
     fullName: 'John Doe',
-    accessTypes: [],
+    userAccessTypes: [],
     roles: []
   };
 

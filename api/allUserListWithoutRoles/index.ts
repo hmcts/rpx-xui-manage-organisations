@@ -13,8 +13,8 @@ export async function handleAllUserListRoute(req: Request, res: Response) {
     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
     const response = await req.http.get(getRefdataAllUserListUrl(rdProfessionalApiPath));
     const updated = response.data.users.map((user) => {
-      if (Object.keys(user).indexOf('accessTypes') === -1) {
-        return { ...user, accessTypes: JSON.parse(userAccessTypesExample) };
+      if (Object.keys(user).indexOf('userAccessTypes') === -1) {
+        return { ...user, userAccessTypes: JSON.parse(userAccessTypesExample) };
       }
       return user;
     });

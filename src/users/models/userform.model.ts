@@ -6,5 +6,5 @@ export interface UserListApiModel {
     email: string;
     permissions: string[];
     resendInvite: boolean;
-    accessTypes?: Array<UserAccessType> ;
+    userAccessTypes?: Array<UserAccessType> ;
 }

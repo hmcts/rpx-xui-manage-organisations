@@ -29,19 +29,19 @@ export class UsersEffects {
             let organisationProfileIds = [];
             userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
-              const accessTypes = element?.accessTypes || [];
+              const accessTypes = element?.userAccessTypes || [];
               const user: PrdUser = {
                 ...element,
                 fullName: `${element.firstName} ${element.lastName}`,
                 routerLink: `user/${element.userIdentifier}`,
                 routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
-                accessTypes: accessTypes
+                userAccessTypes: accessTypes
               };
               amendedUsers.push(user);
-              user.accessTypes = user?.accessTypes || [];
+              user.userAccessTypes = user?.userAccessTypes || [];
               organisationProfileIds = [
                 ...organisationProfileIds,
-                ...user.accessTypes.map(
+                ...user.userAccessTypes.map(
                   (accessType) => accessType.organisationProfileId
                 )
               ];
@@ -89,19 +89,19 @@ export class UsersEffects {
             let organisationProfileIds = [];
             userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
-              const accessTypes = element?.accessTypes || [];
+              const accessTypes = element?.userAccessTypes || [];
               const user: PrdUser = {
                 ...element,
                 fullName: `${element.firstName} ${element.lastName}`,
                 routerLink: `user/${element.userIdentifier}`,
                 routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
-                accessTypes: accessTypes
+                userAccessTypes: accessTypes
               };
               amendedUsers.push(user);
-              user.accessTypes = user?.accessTypes || [];
+              user.userAccessTypes = user?.userAccessTypes || [];
               organisationProfileIds = [
                 ...organisationProfileIds,
-                ...user.accessTypes.map(
+                ...user.userAccessTypes.map(
                   (accessType) => accessType.organisationProfileId
                 )
               ];

@@ -60,7 +60,7 @@ describe('Get Internal Organisation Details from RDProfessionalAPI ', () => {
       expect(dto).to.be.not.null;
       expect(dto.moreAvailable).to.equal('false');
       expect(dto.organisations[0].lastUpdated).to.be.not.null;
-      expect(dto.organisations[0].organisationProfileIds).to.('SOLICITOR_PROFILE');
+      expect(dto.organisations[0].organisationProfileIds).to.equal('SOLICITOR_PROFILE');
     }
 
     const organisationInternalResponse =

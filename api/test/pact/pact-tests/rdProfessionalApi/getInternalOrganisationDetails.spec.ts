@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import {Organisation, OrganisationInternal, OrganisationInternalResponse} from '../pactFixtures';
+import { OrganisationInternalResponse } from '../pactFixtures';
 import { getOrganisationDetails } from '../pactUtil';
 import { PactTestSetup } from '../settings/provider.mock';
 
 const { Matchers } = require('@pact-foundation/pact');
-const { somethingLike, eachLike } = Matchers;
+const { somethingLike } = Matchers;
 const pactSetUp = new PactTestSetup({ provider: 'referenceData_organisationalInternal', port: 9292 });
 
 describe('Get Internal Organisation Details from RDProfessionalAPI ', () => {
@@ -60,7 +60,7 @@ describe('Get Internal Organisation Details from RDProfessionalAPI ', () => {
       expect(dto).to.be.not.null;
       expect(dto.moreAvailable).to.equal('false');
       expect(dto.organisations[0].lastUpdated).to.be.not.null;
-      expect(dto.organisations[0].organisationProfileIds).to.equal('SOLICITOR_PROFILE');
+      expect(dto.organisations[0].organisationProfileIds).to.('SOLICITOR_PROFILE');
     }
 
     const organisationInternalResponse =
@@ -86,6 +86,6 @@ describe('Get Internal Organisation Details from RDProfessionalAPI ', () => {
           }
         ],
         moreAvailable: somethingLike(false)
-      }
+      };
   });
 });

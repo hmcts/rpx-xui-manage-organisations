@@ -59,7 +59,7 @@ describe('Get Internal Organisation Details from RDProfessionalAPI ', () => {
       // eslint-disable-next-line no-unused-expressions
       expect(dto).to.be.not.null;
       expect(dto.moreAvailable).to.equal('false');
-      expect(dto.organisations[0].lastUpdated).to.be.not.null;
+      expect(dto.organisations[0].lastUpdated).to.be.not.equal(null);
       expect(dto.organisations[0].organisationProfileIds).to.equal('SOLICITOR_PROFILE');
     }
 

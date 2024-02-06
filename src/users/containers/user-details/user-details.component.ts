@@ -8,7 +8,6 @@ import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
-import { OrganisationAccessType } from 'src/models';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -46,6 +45,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.user$ = new Observable();
+    // We need to call this dispatch to check if the required information is available,
+    // if the user refreshes on this page, this function will retrieve the accessTypes and userList
+    this.userStore.dispatch(new fromStore.CheckUserListLoaded());
 
     const organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
     const getEditUserFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));

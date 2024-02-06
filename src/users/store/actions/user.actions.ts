@@ -26,7 +26,11 @@ export const SUSPEND_USER_SUCCESS = '[User] Suspend User Success';
 export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
 export const INVITE_NEW_USER = '[User] Invite New User';
 export const REINVITE_PENDING_USER = '[User] Reinvite Pending User';
+export const CHECK_USER_LIST_LOADED = '[User] Check user list loaded';
 
+export class CheckUserListLoaded implements Action{
+  public readonly type = CHECK_USER_LIST_LOADED;
+}
 export class LoadUsers {
   public readonly type = LOAD_USERS;
   constructor(public payload?: any) {}
@@ -157,4 +161,5 @@ export type UserActions =
   | EditUserServerError
   | ReinvitePendingUser
   | InviteNewUser
-  | RefreshUser;
+  | RefreshUser
+  | CheckUserListLoaded;

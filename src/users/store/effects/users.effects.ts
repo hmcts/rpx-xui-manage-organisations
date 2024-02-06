@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, concatMap, map, switchMap, take } from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap, take } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
@@ -9,6 +9,7 @@ import * as usersActions from '../actions';
 import * as orgActions from '../../../organisation/store/actions';
 import { PrdUser } from 'src/users/models/prd-users.model';
 import { Store, select } from '@ngrx/store';
+import * as usersSelectors from '../selectors/user.selectors';
 
 @Injectable()
 export class UsersEffects {
@@ -18,6 +19,15 @@ export class UsersEffects {
     private readonly loggerService: LoggerService,
     private readonly appStore: Store<fromRoot.State>,
   ) {}
+
+  checkAndLoadUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(usersActions.CHECK_USER_LIST_LOADED),
+      switchMap(() => this.appStore.pipe(select(usersSelectors.getLoadUserListNeeded))),
+      filter((loadUserListNeeded) => loadUserListNeeded),
+      map(() => new usersActions.LoadAllUsersNoRoleData())
+    )
+  );
 
   public loadUsers$ = createEffect(() =>
     this.actions$.pipe(

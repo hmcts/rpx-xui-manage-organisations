@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ManageUserFailureComponent } from './manage-user-failure.component';
+import { provideMockStore } from '@ngrx/store/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ManageUserFailureComponent', () => {
   let component: ManageUserFailureComponent;
@@ -8,6 +9,10 @@ describe('ManageUserFailureComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [
+        provideMockStore()
+      ],
+      imports: [RouterTestingModule],
       declarations: [ManageUserFailureComponent]
     })
       .compileComponents();

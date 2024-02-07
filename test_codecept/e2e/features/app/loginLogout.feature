@@ -4,7 +4,7 @@ Feature: Login
   Background:
     When I navigate to manage organisation Url
     
-@preview_only @ignore
+@preview_only
   Scenario: login and log out from manage organisation as ManageOrg user
     Given I am logged into Townley Services Org
     Then I should be redirected to manage organisation dashboard page

@@ -34,7 +34,7 @@ export class OrganisationService {
 
   public retrieveAccessType(organisationProfileIds: string[]): Observable<Jurisdiction[]> {
     return this.http
-      .post<Jurisdiction[]>('/api/retrieve-access-types', organisationProfileIds)
+      .post<Jurisdiction[]>('/api/retrieve-access-types', { organisationProfileIds: organisationProfileIds })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

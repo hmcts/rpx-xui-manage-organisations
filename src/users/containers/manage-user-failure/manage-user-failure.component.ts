@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { EditUserFailureReset } from 'src/users/store';
 import { UserState } from 'src/users/store/reducers';
 
 @Component({
@@ -17,9 +18,7 @@ export class ManageUserFailureComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    // BJ-TODO: Do I need to create an equivelent edit user failure state somewhere?
-    // Check this with Shaed
-    //this.userStore.dispatch(new EditUserFailureReset());
+    this.userStore.dispatch(new EditUserFailureReset());
 
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId');

@@ -16,6 +16,7 @@ import { LoggerService } from 'src/shared/services/logger.service';
 import { AppConstants } from '../../../app/app.constants';
 import { GlobalError } from '../../../app/store/reducers/app.reducer';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
+import { InviteUserService } from 'src/users/services';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
 import { editUserFailureSelector } from '../../store';
@@ -56,7 +57,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     private readonly routerStore: Store<fromRoot.State>,
     private readonly userStore: Store<fromStore.UserState>,
     private readonly orgStore: Store<fromOrgStore.OrganisationState>,
-    private loggerService: LoggerService) {}
+    private loggerService: LoggerService,
+    private inviteUserSvc: InviteUserService) {}
 
   ngOnInit(): void {
     this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
@@ -250,7 +252,15 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         lastName: this.user.lastName
       });
     }
-    this.userStore.dispatch(new fromStore.SendInviteUser(value));
+    // Check if the user has selected GA options - dont need to compare the access types if they arent posting with GA role
+    if (value.roles.includes('pui-caa')) {
+      // TODO: provide the organisationProfileIds in param 2
+      this.inviteUserSvc.compareAccessTypes(value, []).subscribe((comparedUserSelection) => {
+        this.userStore.dispatch(new fromStore.SendInviteUser(comparedUserSelection));
+      });
+    } else {
+      this.userStore.dispatch(new fromStore.SendInviteUser(value));
+    }
   }
 
   private updateUser() {

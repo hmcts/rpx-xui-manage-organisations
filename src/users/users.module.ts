@@ -42,8 +42,7 @@ import { ManageUserFailureComponent } from './containers/manage-user-failure/man
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [
     ...fromContainers.containers,
-    ...fromComponents.components,
-    ManageUserFailureComponent
+    ...fromComponents.components
   ],
   providers: [...fromServices.services, InviteUserSuccessGuard]
 })

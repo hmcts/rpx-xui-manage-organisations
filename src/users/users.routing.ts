@@ -9,6 +9,7 @@ import { FeatureToggleEditUserGuard } from './guards/feature-toggle-edit-user.gu
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import { UsersModule } from './users.module';
 import { featureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd-invite-user-flow.guard';
+import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 export const ROUTES: Routes = [
   {
@@ -38,6 +39,10 @@ export const ROUTES: Routes = [
   {
     path: 'user/:userId/editpermission-failure',
     component: EditUserPermissionsFailureComponent
+  },
+  {
+    path: 'user/:userId/manage-user-failure',
+    component: ManageUserFailureComponent
   },
   {
     path: 'user/:userId/editpermission',

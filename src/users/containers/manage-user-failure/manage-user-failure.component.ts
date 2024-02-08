@@ -22,9 +22,8 @@ export class ManageUserFailureComponent implements OnInit {
 
     this.route.paramMap.subscribe((params) => {
       this.userId = params.get('userId');
+      this.editUserUrl = this.getEditUserPermissionsLink(this.userId);
     });
-
-    this.editUserUrl = this.getEditUserPermissionsLink(this.userId);
   }
 
   public getEditUserPermissionsLink(userId: string): string {

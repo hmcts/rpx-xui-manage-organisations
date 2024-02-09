@@ -97,6 +97,25 @@ export interface Organisation {
   superUser: SuperUser;
 }
 
+export interface OrganisationInternal {
+  companyNumber: string;
+  companyUrl: string;
+  name: string;
+  organisationIdentifier: string;
+  sraId: string;
+  sraRegulated: boolean;
+  status: string;
+  contactInformation: ContactInformation[];
+  superUser: SuperUser;
+  lastUpdated: string,
+  organisationProfileIds: string[]
+}
+
+export interface OrganisationInternalResponse {
+  moreAvailable: boolean;
+  organisations: OrganisationInternal[]
+}
+
 export interface SuspendUserReponseDto {
   roleAdditionResponse?: RoleResponse;
   roleDeletionResponse?: RoleDeletionResponse[];

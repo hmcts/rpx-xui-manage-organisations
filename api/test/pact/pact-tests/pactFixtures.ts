@@ -97,6 +97,33 @@ export interface Organisation {
   superUser: SuperUser;
 }
 
+export interface OrganisationWithUsers {
+  organisationIdentifier: string,
+  organisationStatus: string,
+  organisationProfileIds: string[],
+  users: [
+    {
+      userIdentifier: string,
+      firstName: string,
+      lastName: string,
+      email: string,
+      idamStatus: string,
+      roles: string[];
+      idamStatusCode: string,
+      idamMessage: string,
+      lastUpdated: string,
+      userAccessTypes: UserAccessType[]
+    }
+  ]
+}
+
+export interface UserAccessType {
+      jurisdictionId: string,
+      organisationProfileId: string,
+      accessTypeId: string,
+      enabled: boolean
+}
+
 export interface SuspendUserReponseDto {
   roleAdditionResponse?: RoleResponse;
   roleDeletionResponse?: RoleDeletionResponse[];

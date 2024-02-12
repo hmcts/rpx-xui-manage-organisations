@@ -22,6 +22,7 @@ const featureMock: FeatureToggleService = {
   initialize: () => {},
   isEnabled: () => of(true),
   getValue: () => of(),
+  getValueSync: () => null,
   getValueOnce: () => of()
 };
 

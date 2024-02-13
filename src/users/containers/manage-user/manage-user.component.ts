@@ -254,8 +254,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     }
     // Check if the user has selected GA options - dont need to compare the access types if they arent posting with GA role
     if (value.roles.includes('pui-caa')) {
-      // TODO: provide the organisationProfileIds in param 2
-      this.inviteUserSvc.compareAccessTypes(value, []).subscribe((comparedUserSelection) => {
+      this.inviteUserSvc.compareAccessTypes(value, this.organisationProfileIds).subscribe((comparedUserSelection) => {
         this.userStore.dispatch(new fromStore.SendInviteUser(comparedUserSelection));
       });
     } else {

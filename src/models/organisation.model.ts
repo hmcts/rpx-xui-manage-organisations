@@ -48,6 +48,10 @@ export interface Jurisdiction {
   accessTypes: OrganisationAccessType[];
 }
 
+export interface JurisdictionResponse {
+  jurisdictions: Jurisdiction[]
+}
+
 export interface OrganisationAccessType {
   organisationProfileId: string;
   accessTypeId: string;

@@ -8,7 +8,6 @@ import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
-import { OrganisationAccessType } from 'src/models';
 
 @Component({
   selector: 'app-prd-user-details-component',

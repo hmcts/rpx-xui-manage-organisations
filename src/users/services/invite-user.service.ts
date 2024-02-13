@@ -22,7 +22,7 @@ export class InviteUserService {
       switchMap((accessTypes) => {
         const reqBody = {
           'userSelections': userSelections,
-          'orgAccessTypes': accessTypes
+          'orgAccessTypes': accessTypes.jurisdictions
         };
         return this.http.post<any>('/api/retrieve-access-types/compare', reqBody);
       })

@@ -14,8 +14,8 @@ export async function handleRetriveAccessTypes(req: Request, res: Response) {
     const url = `${ccdDataStore}/retrieve-access-types`;
     logger.info('RETRIEVE ACCESS TYPES: request URL:: ', url);
     const response = await req.http.post(url, payload);
-    logger.info('response::', response.data.jurisdictions);
-    res.send(response.data.jurisdictions);
+    logger.info('response::', response.data);
+    res.send(response.data);
   } catch (error) {
     logger.error(error);
     const status = exists(error, 'status') ? error.status : 500;

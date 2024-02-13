@@ -2550,16 +2550,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.10":
-  version: 2.0.10
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.10"
+"@hmcts/rpx-xui-common-lib@npm:2.0.16":
+  version: 2.0.16
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.16"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 67279767d814cb9916b0d5af16fa55d96792d5b69ed1096c146889533da39e7a5c7f59dfad0a1c35f062e06c8ab4aeecf1c9117311dae2031c5425a6a52ce68d
+  checksum: e53f9947cc67802ad536de011e1e7f66c3fae9e9f77b33d3f0337ea44d9d22a367ce421326a70985a9a90cb72497fab8190dad883d192290589230d47e787e03
   languageName: node
   linkType: hard
 
@@ -18678,7 +18678,7 @@ __metadata:
     "@hmcts/media-viewer": 2.10.1-RC.1
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.10
+    "@hmcts/rpx-xui-common-lib": 2.0.16
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0

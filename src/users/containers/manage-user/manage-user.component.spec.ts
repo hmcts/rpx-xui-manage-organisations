@@ -18,8 +18,8 @@ import { FeatureToggleService, User, UserAccessType } from '@hmcts/rpx-xui-commo
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
-import { AppConstants } from 'src/app/app.constants';
-import { InviteUserService } from 'src/users/services';
+import { AppConstants } from '../../../app/app.constants';
+import { InviteUserService } from '../../../users/services';
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { OrganisationService } from 'src/organisation/services/organisation.service';
 import { EditUserModel } from 'src/user-profile/models/editUser.model';
@@ -44,6 +44,7 @@ describe('ManageUserComponent', () => {
   let defaultRouterStateUrl;
   let mockGetSingleUserSelector: MemoizedSelector<fromStore.UserState, User>;
   let mockGetRouterState;
+  let organisationProfileIds: string[];
 
   let inviteUserSvc: InviteUserService;
 
@@ -97,7 +98,7 @@ describe('ManageUserComponent', () => {
     };
     defaultOrganisationState = {
       name: 'Organisation Name',
-      organisationProfileIds: ['SOLICITOR_PROFILE'],
+      organisationProfileIds: [AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE],
       organisationIdentifier: '123',
       status: 'ACTIVE',
       sraId: 'sraId',
@@ -113,6 +114,8 @@ describe('ManageUserComponent', () => {
       pendingAddPaymentAccount: [],
       pendingRemovePaymentAccount: []
     };
+
+    organisationProfileIds = [];
 
     mockGetRouterState = mockRouterStore.overrideSelector(
       fromRoot.getRouterState,
@@ -159,13 +162,13 @@ describe('ManageUserComponent', () => {
       {
         accessTypeId: '10',
         jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
+        organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
         enabled: false
       },
       {
         accessTypeId: '101',
         jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
+        organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
         enabled: true
       }
     ];
@@ -183,13 +186,13 @@ describe('ManageUserComponent', () => {
           {
             accessTypeId: '10',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: true
           },
           {
             accessTypeId: '101',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: false
           }
         ]
@@ -207,13 +210,13 @@ describe('ManageUserComponent', () => {
           {
             accessTypeId: '10',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: true
           },
           {
             accessTypeId: '101',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: false
           }
         ]
@@ -231,13 +234,13 @@ describe('ManageUserComponent', () => {
           {
             accessTypeId: '10',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: false
           },
           {
             accessTypeId: '101',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: true
           }
         ]
@@ -366,7 +369,7 @@ describe('ManageUserComponent', () => {
       expect(spy).toHaveBeenCalledWith(action);
     });
 
-    it('should dispatch SendInviteUser action with correct payload', () => {
+    it('should dispatch SendInviteUser action with correct payload and compareAccessTypes', () => {
       const value: any = {
         firstName: 'John',
         lastName: 'Doe',
@@ -374,6 +377,7 @@ describe('ManageUserComponent', () => {
         roles: ['pui-case-manager', 'pui-caa'],
         resendInvite: false
       };
+      component.organisationProfileIds = organisationProfileIds;
       component.updatedUser = value;
       const comparedUserSelection = {
         ...value,

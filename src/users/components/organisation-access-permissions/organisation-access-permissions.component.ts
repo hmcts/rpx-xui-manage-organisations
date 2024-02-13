@@ -4,6 +4,7 @@ import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { Jurisdiction } from 'src/models';
+import { AppConstants } from '../../../app/app.constants';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -31,6 +32,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   private userAccessTypes: UserAccessType[];
   private onDestory$ = new Subject<void>();
+  private ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
   }
@@ -49,13 +51,13 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   private getOrganisationProfileType() {
     // current assumption and implementation is that an organisation can only have one profile type
-    this.hasSolicitorProfile = this.organisationProfileIds.includes('SOLICITOR_PROFILE');
-    this.hasOgdDwpProfile = this.organisationProfileIds.includes('OGD_DWP_PROFILE');
-    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes('OGD_HO_PROFILE');
-    this.hasOgdHmrcProfile = this.organisationProfileIds.includes('OGD_HMRC_PROFILE');
-    this.hasOgdCicaProfile = this.organisationProfileIds.includes('OGD_CICA_PROFILE');
-    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_ENGLAND');
-    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes('OGD_CAFCASS_PROFILE_CYMRU');
+    this.hasSolicitorProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.SOLICITOR_PROFILE);
+    this.hasOgdDwpProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_DWP_PROFILE);
+    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_HO_PROFILE);
+    this.hasOgdHmrcProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_HMRC_PROFILE);
+    this.hasOgdCicaProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CICA_PROFILE);
+    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CAFCASS_PROFILE_ENGLAND);
+    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CAFCASS_PROFILE_CYMRU);
   }
 
   ngOnDestroy(): void {

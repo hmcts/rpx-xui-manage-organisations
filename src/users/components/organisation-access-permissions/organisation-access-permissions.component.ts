@@ -37,7 +37,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   ngOnInit(): void {
     this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager');
-    this.userAccessTypes = this.user?.accessTypes ?? [];
+    this.userAccessTypes = this.user?.userAccessTypes ?? [];
 
     this.permissions = this.createPermissionsViewModel();
     this.getOrganisationProfileType();

@@ -2,7 +2,10 @@ import { EditUserModel } from '../models/editUser.model';
 import { UserService } from './user.service';
 
 describe('User service', () => {
-  const mockHttpService = jasmine.createSpyObj('mockHttpService', ['put', 'get']);
+  const mockHttpService = jasmine.createSpyObj('mockHttpService', [
+    'put',
+    'get'
+  ]);
 
   it('should be Truthy', () => {
     const userService = new UserService(mockHttpService);
@@ -19,10 +22,13 @@ describe('User service', () => {
       idamStatus: 'Active',
       rolesAdd: [],
       rolesDelete: [],
-      accessTypes: []
+      userAccessTypes: []
     };
 
     userService.editUserPermissions(editUser);
-    expect(mockHttpService.put).toHaveBeenCalledWith('/api/editUserPermissions/users/123', editUser);
+    expect(mockHttpService.put).toHaveBeenCalledWith(
+      '/api/editUserPermissions/users/123',
+      editUser
+    );
   });
 });

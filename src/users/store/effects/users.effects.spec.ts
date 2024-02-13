@@ -7,10 +7,11 @@ import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
-import { InviteNewUser, LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import { CheckUserListLoaded, InviteNewUser, LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
 import * as orgActions from '../../../organisation/store/actions';
 import * as fromRoot from '../../../app/store';
 import * as fromUsersEffects from './users.effects';
+import * as usersSelectors from '../selectors/user.selectors';
 import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
 
 describe('Users Effects', () => {
@@ -78,7 +79,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: []
+            userAccessTypes: []
           }
         ]
       });
@@ -110,7 +111,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: []
+            userAccessTypes: []
           }
         ]
       });
@@ -120,14 +121,14 @@ describe('Users Effects', () => {
     }));
   });
 
-  it('should return a collection from loadUsers$ with accessTypes - LoadUsersSuccess', waitForAsync(() => {
+  it('should return a collection from loadUsers$ with userAccessTypes - LoadUsersSuccess', waitForAsync(() => {
     const prdUser: RawPrdUser = {
       email: 'madeup@test.com',
       firstName: 'John',
       lastName: 'Doe',
       idamStatus: 'PENDING',
       userIdentifier: '123',
-      accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+      userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
     };
     const payload:RawPrdUsersList = {
       organisationIdentifier: 'ABC123',
@@ -143,7 +144,7 @@ describe('Users Effects', () => {
           fullName: 'John Doe',
           routerLink: `user/${prdUser.userIdentifier}`,
           routerLinkTitle: 'User details for John Doe with id 123',
-          accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
         }
       ]
     });
@@ -261,7 +262,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: []
+            userAccessTypes: []
           }
         ]
       });
@@ -270,14 +271,14 @@ describe('Users Effects', () => {
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
     }));
 
-    it('should return a collection from loadAllUsersNoRoleData$ with accessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+    it('should return a collection from loadAllUsersNoRoleData$ with userAccessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
       const prdUser: RawPrdUserLite = {
         email: 'madeup@test.com',
         firstName: 'John',
         lastName: 'Doe',
         idamStatus: 'ACTIVE',
         userIdentifier: '123',
-        accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+        userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
       };
       const payload : RawPrdUserListWithoutRoles = {
         organisationIdentifier: 'ABC123',
@@ -294,7 +295,7 @@ describe('Users Effects', () => {
             fullName: 'John Doe',
             routerLink: `user/${prdUser.userIdentifier}`,
             routerLinkTitle: 'User details for John Doe with id 123',
-            accessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+            userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
           }
         ]
       });
@@ -313,6 +314,30 @@ describe('Users Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
       expect(loggerService.error).toHaveBeenCalled();
+    }));
+  });
+
+  describe('checkAndLoadUsers$', () => {
+    it('should dispatch LoadAllUsersNoRoleData if loading users list is needed', waitForAsync(() => {
+      const action = new CheckUserListLoaded();
+      const completion = new LoadAllUsersNoRoleData();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      // Mocking the selector to return true for getLoadUserListNeeded
+      const mockGetLoadUserListNeededSelector = mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, true);
+
+      expect(effects.checkAndLoadUsers$).toBeObservable(expected);
+    }));
+
+    it('should not dispatch LoadAllUsersNoRoleData if loading users list is not needed', waitForAsync(() => {
+      const action = new CheckUserListLoaded();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('', {});
+
+      // Mocking the selector to return false for getLoadUserListNeeded
+      const mockGetLoadUserListNeededSelector = mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, false);
+
+      expect(effects.checkAndLoadUsers$).toBeObservable(expected);
     }));
   });
 });

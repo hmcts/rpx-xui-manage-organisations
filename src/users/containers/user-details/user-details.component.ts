@@ -8,7 +8,6 @@ import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
-import { OrganisationAccessType } from 'src/models';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -46,6 +45,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.user$ = new Observable();
+    // We need to call this dispatch to check if the required information is available,
+    // if the user refreshes on this page, this function will retrieve the accessTypes and userList
+    this.userStore.dispatch(new fromStore.CheckUserListLoaded());
 
     const organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
     const getEditUserFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
@@ -78,14 +80,16 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
         this.userAccessTypes = [];
         if (isFeatureEnabled) {
           const enabledUserAccessTypes: UserAccessType[] = user?.accessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
-          const orgAccessTypes: OrganisationAccessType[] = organisationAccessTypes.map((x) => x.accessTypes).reduce((acc, x) => acc.concat(x), []);
-          for (const ac of orgAccessTypes) {
-            if (ac.accessMandatory) {
-              this.userAccessTypes.push(ac.description);
-            }
-            const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
-            if (foundUserAc) {
-              this.userAccessTypes.push(ac.description);
+          for (const jurisdiction of organisationAccessTypes){
+            for (const ac of jurisdiction.accessTypes){
+              if (ac.accessMandatory) {
+                this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+                continue;
+              }
+              const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
+              if (foundUserAc) {
+                this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+              }
             }
           }
         }

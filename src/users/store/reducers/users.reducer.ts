@@ -10,6 +10,7 @@ export interface UsersListState {
   reinvitePendingUser: User;
   editUserFailure: boolean;
   userDetails: User;
+  loadUserListNeeded?: boolean;
 }
 
 export const initialState: UsersListState = {
@@ -18,7 +19,8 @@ export const initialState: UsersListState = {
   loading: false,
   reinvitePendingUser: null,
   editUserFailure: false,
-  userDetails: null
+  userDetails: null,
+  loadUserListNeeded: false
 };
 
 export function reducer(
@@ -26,6 +28,14 @@ export function reducer(
   action: fromUsers.UserActions
 ): UsersListState {
   switch (action.type) {
+    case fromUsers.CHECK_USER_LIST_LOADED: {
+      const isUserListEmpty = state.userList.length === 0;
+      return {
+        ...state,
+        loadUserListNeeded: isUserListEmpty
+      };
+    }
+
     case fromUsers.LOAD_USERS:
     case fromUsers.LOAD_ALL_USERS_NO_ROLE_DATA: {
       const userList = [];
@@ -188,3 +198,4 @@ export const getUsersLoaded = (state: UsersListState) => state.loaded;
 export const getReinvitePendingUser = (state: UsersListState) => state.reinvitePendingUser;
 export const getEditUserFailure = (state: UsersListState) => state.editUserFailure;
 export const getUserDetails = (state: UsersListState) => state.userDetails;
+export const getLoadUserListNeeded = (state: UsersListState) => state.loadUserListNeeded;

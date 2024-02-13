@@ -220,5 +220,18 @@ describe('Users Reducer', () => {
 
     expect(state.userList).toEqual([]);
   });
+
+  it('CHECK_USER_LIST_LOADED action should update loadUserListNeeded based on userList emptiness', () => {
+    const { initialState } = fromUsers;
+    let state = fromUsers.reducer(initialState, new fromUserActions.CheckUserListLoaded());
+
+    expect(state.loadUserListNeeded).toEqual(true);
+
+    const action = new fromUserActions.LoadUsersSuccess({ users: mockUserList });
+    state = fromUsers.reducer(state, action);
+    state = fromUsers.reducer(state, new fromUserActions.CheckUserListLoaded());
+
+    expect(state.loadUserListNeeded).toEqual(false);
+  });
 });
 

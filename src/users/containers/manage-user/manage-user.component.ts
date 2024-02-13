@@ -99,9 +99,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
     this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
       if (editUserFailure) {
-        // BJ-TODO: Work out what this path should be
-        // Error messages for 501 errors will need to be passed through and displayed? See GA-24
-        this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
+        this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/manage-user-failure`] }));
       }
     });
 
@@ -160,7 +158,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     }
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(updatedRoles)] };
     // when manageCases is false then the roles property is an empty array, which will clear all the access types
-    this.updatedUser = { ...this.updatedUser, accessTypes: $event.userAccessTypes };
+    this.updatedUser = { ...this.updatedUser, userAccessTypes: $event.userAccessTypes };
     this.loggerService.debug('updatedUser', this.updatedUser);
   }
 
@@ -267,8 +265,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const permissions = this.updatedUser.roles;
     const rolesAdded = [...new Set(UserRolesUtil.getRolesAdded(this.user, permissions))];
     const rolesDeleted = [...new Set(UserRolesUtil.getRolesDeleted(this.user, permissions))];
-    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.accessTypes);
-    const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.accessTypes, this.updatedUser.accessTypes));
+    const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.userAccessTypes);
+    const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes));
 
     if (hasChanges) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));

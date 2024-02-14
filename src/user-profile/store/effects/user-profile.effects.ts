@@ -74,6 +74,8 @@ export class UserProfileEffects {
    * If PRD does not return a 201 or 204, then we show a permissions updated failure page. The permissions update failure
    * page allows the logged in User to retry editing permissions by showing them a link taking them back to the
    * Edit Permissions page.
+   *
+   * Additionally, a 500 status code is now returned within the statusUpdateResponse object if the API fails to update the user's access types.
    */
   @Effect()
   public editUser$ = this.actions$.pipe(
@@ -93,8 +95,12 @@ export class UserProfileEffects {
                 return new usersActions.EditUserFailure(user.id);
               }
             }
-            // BJ-TODO: Need to handle 501 errors being returned
-            // Two different messages being returned depending on error - See GA-24
+
+            // Changes to access types populate the statusUpdateResponse object with a 500 if API fails
+            if (response.statusUpdateResponse !== null && response.statusUpdateResponse.idamStatusCode === '500') {
+              return new usersActions.EditUserFailure(user.id);
+            }
+
             return new usersActions.EditUserSuccess(user.id);
           }),
           catchError((error) => {

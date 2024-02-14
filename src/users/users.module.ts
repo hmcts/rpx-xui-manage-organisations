@@ -23,6 +23,7 @@ import * as fromServices from './services';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RpxTranslationModule } from 'rpx-xui-translation';
+import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 @NgModule({
   imports: [

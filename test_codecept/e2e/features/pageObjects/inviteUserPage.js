@@ -65,16 +65,20 @@ class InviteUserPage{
 
 
   async findNextActiveUser(){
+    await BrowserWaits.waitForElement(this.nextPageLink)
     let activeUserVisible = await this.activeUser.isDisplayed();
-
+   
     while (!activeUserVisible) {
       console.log('Unable to find an active user, clicking next page link');
+    
+      await this.nextPageLink.click();
       await BrowserWaits.retryWithActionCallback(async () => {
         await BrowserWaits.waitForElement(this.nextPageLink)
       })
-      await this.nextPageLink.click();
       activeUserVisible = await this.activeUser.isDisplayed();
-    }
+    } 
+
+
   }
 
   /**

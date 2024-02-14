@@ -12,6 +12,6 @@ suite('Manage Org -> Get Organisation User details', function() {
       response.data.users[0].firstName.should.be.eql('Jason');
       response.data.users[0].lastName.should.be.eql('Lee');
       // response.data.users[0].email.should.be.eql('xuiapitestuser@mailnesia.com');
-      response.data.users[0].idamStatus.should.be.eql('PENDING');
+      response.data.users[0].idamStatus.should.be.eql('ACTIVE');
     }));
 });

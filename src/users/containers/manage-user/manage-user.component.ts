@@ -99,9 +99,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
     this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
       if (editUserFailure) {
-        // BJ-TODO: Work out what this path should be
-        // Error messages for 501 errors will need to be passed through and displayed? See GA-24
-        this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
+        this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/manage-user-failure`] }));
       }
     });
 

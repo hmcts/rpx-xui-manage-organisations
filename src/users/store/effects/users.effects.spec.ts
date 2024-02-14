@@ -7,10 +7,11 @@ import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services/users.service';
-import { InviteNewUser, LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
+import { CheckUserListLoaded, InviteNewUser, LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleDataSuccess, LoadUserDetails, LoadUserDetailsSuccess, LoadUsers, LoadUsersFail, LoadUsersSuccess, SuspendUser, SuspendUserFail, SuspendUserSuccess } from '../actions/user.actions';
 import * as orgActions from '../../../organisation/store/actions';
 import * as fromRoot from '../../../app/store';
 import * as fromUsersEffects from './users.effects';
+import * as usersSelectors from '../selectors/user.selectors';
 import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
 
 describe('Users Effects', () => {
@@ -315,6 +316,30 @@ describe('Users Effects', () => {
       const expected = cold('-b', { b: completion });
       expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
       expect(loggerService.error).toHaveBeenCalled();
+    }));
+  });
+
+  describe('checkAndLoadUsers$', () => {
+    it('should dispatch LoadAllUsersNoRoleData if loading users list is needed', waitForAsync(() => {
+      const action = new CheckUserListLoaded();
+      const completion = new LoadAllUsersNoRoleData();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      // Mocking the selector to return true for getLoadUserListNeeded
+      const mockGetLoadUserListNeededSelector = mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, true);
+
+      expect(effects.checkAndLoadUsers$).toBeObservable(expected);
+    }));
+
+    it('should not dispatch LoadAllUsersNoRoleData if loading users list is not needed', waitForAsync(() => {
+      const action = new CheckUserListLoaded();
+      actions$ = hot('-a', { a: action });
+      const expected = cold('', {});
+
+      // Mocking the selector to return false for getLoadUserListNeeded
+      const mockGetLoadUserListNeededSelector = mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, false);
+
+      expect(effects.checkAndLoadUsers$).toBeObservable(expected);
     }));
   });
 });

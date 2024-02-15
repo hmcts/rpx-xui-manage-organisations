@@ -69,6 +69,9 @@ class InviteUserPage{
 
     while (!activeUserVisible) {
       console.log('Unable to find an active user, clicking next page link');
+      await BrowserWaits.retryWithActionCallback(async () => {
+        await BrowserWaits.waitForElement(this.nextPageLink)
+      })
       await this.nextPageLink.click();
       activeUserVisible = await this.activeUser.isDisplayed();
     }

@@ -10,7 +10,7 @@ const idamlogin = require('../../util/idamLogin')
 const mockClient = require('../../../backendMock/client/index')
 
 async function mockLoginWithRoles(roles) {
-    idamlogin.withCredentials('lukesuperuserxui_new@mailnesia.com', 'Monday01')
+    idamlogin.withCredentials('lukesuperuserxui@mailnesia.com', 'Monday01')
 
 
     await browser.get('http://localhost:3000/get-help');
@@ -20,7 +20,7 @@ async function mockLoginWithRoles(roles) {
         await idamlogin.do();
         userDetails = idamlogin.userDetailsResponse.details.data;
         const sessionUserName = userDetails ? userDetails.email : '';
-        if (sessionUserName !== 'lukesuperuserxui_new@mailnesia.com') {
+        if (sessionUserName !== 'lukesuperuserxui@mailnesia.com') {
             throw new Error('session not updated with user, retrying');
         }
 

@@ -65,6 +65,7 @@ class InviteUserPage{
 
 
   async findNextActiveUser(){
+    await BrowserWaits.waitForElement(this.nextPageLink);
     let activeUserVisible = await this.activeUser.isDisplayed();
 
     while (!activeUserVisible) {
@@ -72,7 +73,6 @@ class InviteUserPage{
       await BrowserWaits.retryWithActionCallback(async () => {
         await BrowserWaits.waitForElement(this.nextPageLink)
       })
-      await this.nextPageLink.click();
       activeUserVisible = await this.activeUser.isDisplayed();
     }
   }

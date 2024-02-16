@@ -8,11 +8,9 @@ suite('Manage Org -> Get Organisation User details', function() {
     // console.log('response', response.headers.get('cache-control'))
     .then((response) => {
       response.status.should.be.eql(200);
-      const user = response.data.users.filter((idamUser) => idamUser.email ==='probate.aat.manage.org2@gmail.com');
-      console.log('Response...', response);
-      console.log('User...', user);
-      // user[0].lastName.should.be.eql('Org2');
-      // user[0].firstName.should.be.eql('Probate');
-      // user[0].idamStatus.should.be.eql('ACTIVE');
+      const user = response.data.users.filter((idamUser) => idamUser.email ==='xuiapiorganisation@mailnesia.com');
+      user[0].lastName.should.be.eql('Lee');
+      user[0].firstName.should.be.eql('Jason');
+      user[0].idamStatus.should.be.eql('ACTIVE');
     }));
 });

@@ -79,3 +79,4 @@ stryker.log
 !.yarn/sdks
 !.yarn/versions
 /api/.yarn/cache/
+localTestEnv.sh

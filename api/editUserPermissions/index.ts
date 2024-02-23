@@ -30,6 +30,26 @@ async function inviteUserRoute(req: Request, res: Response) {
   }
 }
 
+export async function ogdEditUserRoute(req: Request) {
+  let ogdErrReport: ErrorReport;
+  if (!req.params.userId) {
+    ogdErrReport = getErrorReport('UserId is missing', '400', 'User Permissions route error');
+    return (ogdErrReport);
+  }
+  const payload = req.body;
+  try {
+    const response = await req.http.put(getEditPermissionsUrl(getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH), req.params.userId), payload);
+    logger.info('response::', response.data);
+
+    return (response.data);
+  } catch (error) {
+    logger.info('error', error);
+    const ogdEditStatus = error.status ? error.status : 500;
+    ogdErrReport = getErrorReport(getErrorMessage(error), ogdEditStatus, getErrorMessage(error));
+    return (ogdErrReport);
+  }
+}
+
 function getErrorMessage(error: any): string {
   return error && error.data ? error.data.message : '';
 }

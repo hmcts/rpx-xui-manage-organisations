@@ -125,6 +125,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestory$)).subscribe(() => {
         this.handleError(this.userStore, 500);
       });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_422), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 422);
+      });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestory$)).subscribe(() => {
         this.showWarningMessage = true;
       });
@@ -250,14 +253,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         lastName: this.user.lastName
       });
     }
-    // Check if the user has selected GA options - dont need to compare the access types if they arent posting with GA role
-    if (value.roles.includes('pui-caa')) {
-      this.inviteUserSvc.compareAccessTypes(value, this.organisationProfileIds).subscribe((comparedUserSelection) => {
-        this.userStore.dispatch(new fromStore.SendInviteUser(comparedUserSelection));
-      });
-    } else {
-      this.userStore.dispatch(new fromStore.SendInviteUser(value));
-    }
+    this.userStore.dispatch(new fromStore.SendInviteUser(value, this.organisationProfileIds));
   }
 
   private updateUser() {
@@ -268,7 +264,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes));
 
     if (hasChanges) {
-      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
+      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj, this.organisationProfileIds));
     } else {
       this.summaryErrorsSubject.next({ isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' });
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
@@ -316,6 +312,16 @@ export class ManageUserComponent implements OnInit, OnDestroy {
           urlText: 'Go back to manage users',
           url: '/users'
         }];
+      case 422:
+        return [{
+          bodyText: 'User has been create but roles have not been refreshed.',
+          urlText: null,
+          url: null
+        }, {
+          bodyText: '',
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }];
       case 500:
       default:
         return [{
@@ -336,6 +342,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         return 'Sorry, there is a problem';
       case 404:
         return 'Sorry, there is a problem with this account';
+      case 422:
+        return 'Sorry, there is a problem';
       case 500:
       default:
         return 'Sorry, there is a problem with the service';

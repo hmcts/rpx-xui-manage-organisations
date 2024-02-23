@@ -1,30 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as fromRoot from '../../../src/app/store';
+import { Store, select } from '@ngrx/store';
 
 import { Observable, switchMap } from 'rxjs';
 import { UserListApiModel } from '../models/userform.model';
-import { OrganisationService } from '../../organisation/services/organisation.service';
 
 @Injectable()
 export class InviteUserService {
   constructor(
     private readonly http: HttpClient,
-    private readonly orgService: OrganisationService
+    private readonly rootStore: Store<fromRoot.State>,
   ) {}
 
   // TODO add type when server returns someting.
-  public inviteUser(data): Observable<any> {
-    return this.http.post<UserListApiModel>('api/inviteUser', data);
-  }
-
-  public compareAccessTypes(userSelections, profileIds) {
-    return this.orgService.retrieveAccessType(profileIds).pipe(
-      switchMap((accessTypes) => {
-        const reqBody = {
-          'userSelections': userSelections,
-          'orgAccessTypes': accessTypes.jurisdictions
-        };
-        return this.http.post<any>('/api/retrieve-access-types/compare', reqBody);
+  public inviteUser(data): Observable<UserListApiModel> {
+    return this.rootStore.pipe(
+      select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
+      switchMap((ogdEnabled) => {
+        const inviteUrl = ogdEnabled ? '/api/ogd-flow/invite' : '/api/inviteUser';
+        return this.http.post<UserListApiModel>(inviteUrl, data);
       })
     );
   }

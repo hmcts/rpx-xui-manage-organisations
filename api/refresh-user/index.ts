@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Request, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_CCD_DATA_STORE_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
@@ -6,7 +6,7 @@ import { exists, valueOrNull } from '../lib/util';
 
 const logger = log4jui.getLogger('refresh-user');
 
-export async function refreshUser(req: Request, res: Response) {
+export async function refreshUser(req: Request) {
   const payload = req.body;
   try {
     // TODO: get the correct url
@@ -17,7 +17,7 @@ export async function refreshUser(req: Request, res: Response) {
     // const response = await req.http.post(reqUrl, payload);
     // logger.info('response::', response.data);
     // res.send(response.data);
-    return res.send({ status: 'success' });
+    return {};
   } catch (error) {
     logger.error('error', error);
     const status = exists(error, 'status') ? error.status : 500;
@@ -26,7 +26,7 @@ export async function refreshUser(req: Request, res: Response) {
       apiStatusCode: status,
       message: valueOrNull(error, 'data.errorDescription')
     };
-    res.status(status).send(errReport);
+    return (errReport);
   }
 }
 

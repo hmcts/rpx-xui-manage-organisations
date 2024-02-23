@@ -75,7 +75,7 @@ export class LoadAllUsersNoRoleDataFail implements Action {
 
 export class EditUser implements Action {
   public readonly type = EDIT_USER;
-  constructor(public payload: EditUserModel) {}
+  constructor(public payload: EditUserModel, public orgProfileIds?: string[]) {}
 }
 
 export class EditUserSuccess implements Action {
@@ -130,16 +130,6 @@ export class ReinvitePendingUser {
   constructor(public payload: any) {}
 }
 
-export class RefreshUser {
-  public readonly type = REFRESH_USER;
-  constructor(public idamId: string) {}
-}
-
-export class RefreshUserFail {
-  public readonly type = REFRESH_USER_FAIL;
-  constructor(public error: Error) {}
-}
-
 export type UserActions =
   | LoadUsers
   | LoadUsersSuccess
@@ -161,5 +151,4 @@ export type UserActions =
   | EditUserServerError
   | ReinvitePendingUser
   | InviteNewUser
-  | RefreshUser
   | CheckUserListLoaded;

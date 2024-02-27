@@ -25,6 +25,7 @@ import getUserDetails from './user-details';
 import getUserList from './userList';
 import refreshUser from './refresh-user';
 import retriveAccessTypes from './retrieveAccessTypes';
+import ogdInvite from './ogd';
 
 const router = Router({ mergeParams: true });
 
@@ -61,4 +62,5 @@ router.use('/pba', pbaRouter);
 router.use('/register-org', registerRouter);
 router.use('/user-details', getUserDetails);
 router.use('/retrieve-access-types', retriveAccessTypes);
+router.use('/ogd-flow', ogdInvite);
 export default router;

@@ -15,6 +15,7 @@ import {
   OgdCafcassEnProfileContentComponent,
   OgdCafcassCyProfileContentComponent
 } from '../../components';
+import { AppConstants } from '../../../app/app.constants';
 
 describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:Jurisdiction[] = [
@@ -23,7 +24,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
       jurisdictionName: 'Family Public Law',
       accessTypes: [
         {
-          organisationProfileId: 'SOLICITOR_PROFILE',
+          organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
           accessTypeId: '1',
           accessMandatory: false,
           accessDefault: false,
@@ -33,7 +34,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
           displayOrder: 3
         },
         {
-          organisationProfileId: 'SOLICITOR_PROFILE',
+          organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
           accessTypeId: '2',
           accessMandatory: false,
           accessDefault: false,
@@ -43,7 +44,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
           displayOrder: 2
         },
         {
-          organisationProfileId: 'SOLICITOR_PROFILE',
+          organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
           accessTypeId: '3',
           accessMandatory: false,
           accessDefault: false,
@@ -53,7 +54,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
           displayOrder: 1
         },
         {
-          organisationProfileId: 'SOLICITOR_PROFILE',
+          organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
           accessTypeId: '4',
           accessMandatory: false,
           accessDefault: true,
@@ -71,7 +72,7 @@ describe('OrganisationAccessPermissionsComponent', () => {
       jurisdictionId: '5',
       accessTypeId: '3',
       enabled: true,
-      organisationProfileId: 'SOLICITOR_PROFILE'
+      organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
     }
 
   ];

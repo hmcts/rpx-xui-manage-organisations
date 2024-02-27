@@ -80,9 +80,10 @@ export class UserProfileEffects {
   @Effect()
   public editUser$ = this.actions$.pipe(
       ofType(usersActions.EDIT_USER),
-      map((action: usersActions.EditUser) => action.payload),
-      switchMap((user) => {
-        return this.userService.editUserPermissions(user).pipe(
+      switchMap(({ payload, orgProfileIds }: usersActions.EditUser) => {
+        const user = payload;
+        const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
+        return this.userService.editUserPermissions(reqBody).pipe(
           map((response) => {
             if (UserRolesUtil.doesRoleAdditionExist(response)) {
               if (response.roleAdditionResponse.idamStatusCode !== '201') {
@@ -135,19 +136,4 @@ export class UserProfileEffects {
         );
       })
     );
-
-  @Effect({ dispatch: false })
-  public refreshUser$ =
-      this.actions$.pipe(
-        ofType(usersActions.REFRESH_USER),
-        switchMap((payload: usersActions.RefreshUser) => {
-          return this.userService.refreshUser(payload.idamId).pipe(
-            catchError((error) => {
-              this.loggerService.error(error);
-              return of(new usersActions.RefreshUserFail(error));
-            })
-          );
-        }
-        )
-      );
 }

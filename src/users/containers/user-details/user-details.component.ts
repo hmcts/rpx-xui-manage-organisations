@@ -79,16 +79,18 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
       .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
         this.userAccessTypes = [];
         if (isFeatureEnabled) {
-          const enabledUserAccessTypes: UserAccessType[] = user?.accessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
+          const enabledUserAccessTypes: UserAccessType[] = user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
           for (const jurisdiction of organisationAccessTypes){
             for (const ac of jurisdiction.accessTypes){
               if (ac.accessMandatory) {
                 this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
                 continue;
               }
-              const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
-              if (foundUserAc) {
-                this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+              if (ac.display){
+                const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
+                if (foundUserAc) {
+                  this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+                }
               }
             }
           }

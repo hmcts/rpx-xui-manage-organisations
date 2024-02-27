@@ -157,12 +157,14 @@ export class UserRolesUtil {
     accessTypes: UserAccessType[],
     updatedAccessTypes: UserAccessType[]
   ): boolean {
-    accessTypes.sort((a, b) => a.accessTypeId.localeCompare(b.accessTypeId));
-    updatedAccessTypes.sort((a, b) =>
+    const sortedAccessTypes = [...accessTypes].sort((a, b) =>
       a.accessTypeId.localeCompare(b.accessTypeId)
     );
-    const accessTypesJson = JSON.stringify(accessTypes);
-    const updatedAccessTypesJson = JSON.stringify(updatedAccessTypes);
+    const sortedUpdatedAccessTypes = [...updatedAccessTypes].sort((a, b) =>
+      a.accessTypeId.localeCompare(b.accessTypeId)
+    );
+    const accessTypesJson = JSON.stringify(sortedAccessTypes);
+    const updatedAccessTypesJson = JSON.stringify(sortedUpdatedAccessTypes);
     return accessTypesJson === updatedAccessTypesJson;
   }
 }

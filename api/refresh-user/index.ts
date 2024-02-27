@@ -1,23 +1,21 @@
-import { Request, Response, Router } from 'express';
+import { Request, Router } from 'express';
 import { getConfigValue } from '../configuration';
-import { SERVICES_CCD_DATA_STORE_API_PATH } from '../configuration/references';
+import { SERVICES_ROLE_ASSIGNMENT_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
 import { exists, valueOrNull } from '../lib/util';
 
 const logger = log4jui.getLogger('refresh-user');
 
-export async function refreshUser(req: Request, res: Response) {
+export async function refreshUser(req: Request) {
   const payload = req.body;
   try {
-    // TODO: get the correct url
-    const serviceApiBasePath = getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH);
-    const reqUrl = `${serviceApiBasePath}/refdata/external/v1/organisations/users/refresh`;
+    const serviceApiBasePath = getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH);
+    const reqUrl = `${serviceApiBasePath}/am/role-mapping/professional/refresh`;
     logger.info('REFRESH USER: request URL:: ', reqUrl);
     logger.info('REFRESH USER: payload:: ', payload);
-    // const response = await req.http.post(reqUrl, payload);
-    // logger.info('response::', response.data);
-    // res.send(response.data);
-    return res.send({ status: 'success' });
+    const response = await req.http.post(reqUrl, payload);
+    logger.info('response::', response.data);
+    return response.data;
   } catch (error) {
     logger.error('error', error);
     const status = exists(error, 'status') ? error.status : 500;
@@ -26,7 +24,7 @@ export async function refreshUser(req: Request, res: Response) {
       apiStatusCode: status,
       message: valueOrNull(error, 'data.errorDescription')
     };
-    res.status(status).send(errReport);
+    return (errReport);
   }
 }
 

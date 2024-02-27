@@ -7,6 +7,7 @@ import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models';
 import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
+import { AppConstants } from '../../../app/app.constants';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -48,7 +49,7 @@ describe('UpdatePbaNumbersComponent', () => {
     name: 'Luke Solicitors',
     organisationIdentifier: 'HAUN33E',
     organisationProfileIds: [
-      'SOLICITOR_PROFILE'
+      AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
     ],
     contactInformation: [contactInformation],
     status: 'ACTIVE',

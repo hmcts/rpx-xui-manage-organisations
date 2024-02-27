@@ -249,6 +249,7 @@ describe('Users Effects', () => {
       };
       const payload : RawPrdUserListWithoutRoles = {
         organisationIdentifier: 'ABC123',
+        organisationProfileIds: [],
         users: [prdUser]
       };
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));
@@ -282,6 +283,7 @@ describe('Users Effects', () => {
       };
       const payload : RawPrdUserListWithoutRoles = {
         organisationIdentifier: 'ABC123',
+        organisationProfileIds: ['orgProfileId'],
         users: [prdUser]
       };
       usersServiceMock.getAllUsersList.and.returnValue(of(payload));

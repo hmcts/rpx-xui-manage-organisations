@@ -18,7 +18,10 @@ import { FeatureToggleService, User, UserAccessType } from '@hmcts/rpx-xui-commo
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { LoggerService } from 'src/shared/services/logger.service';
 import { OrganisationDetails } from 'src/models';
-import { AppConstants } from 'src/app/app.constants';
+import { AppConstants } from '../../../app/app.constants';
+import { InviteUserService } from '../../../users/services';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { OrganisationService } from 'src/organisation/services/organisation.service';
 import { EditUserModel } from 'src/user-profile/models/editUser.model';
 import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
 import { StandardUserPermissionsComponent } from 'src/users/components/standard-user-permissions/standard-user-permissions.component';
@@ -41,6 +44,7 @@ describe('ManageUserComponent', () => {
   let defaultRouterStateUrl;
   let mockGetSingleUserSelector: MemoizedSelector<fromStore.UserState, User>;
   let mockGetRouterState;
+  let organisationProfileIds: string[];
 
   beforeEach(async () => {
     mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
@@ -53,6 +57,10 @@ describe('ManageUserComponent', () => {
           provide: LoggerService,
           useValue: mockedLoggerService
         },
+        InviteUserService,
+        HttpClient,
+        HttpHandler,
+        OrganisationService,
         { provide: RpxTranslationService, useValue: translationMockService },
         { provide: FeatureToggleService, useValue: featureToggleMockService }
       ],
@@ -87,7 +95,7 @@ describe('ManageUserComponent', () => {
     };
     defaultOrganisationState = {
       name: 'Organisation Name',
-      organisationProfileIds: ['SOLICITOR_PROFILE'],
+      organisationProfileIds: [AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE],
       organisationIdentifier: '123',
       status: 'ACTIVE',
       sraId: 'sraId',
@@ -103,6 +111,8 @@ describe('ManageUserComponent', () => {
       pendingAddPaymentAccount: [],
       pendingRemovePaymentAccount: []
     };
+
+    organisationProfileIds = [];
 
     mockGetRouterState = mockRouterStore.overrideSelector(
       fromRoot.getRouterState,
@@ -149,13 +159,13 @@ describe('ManageUserComponent', () => {
       {
         accessTypeId: '10',
         jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
+        organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
         enabled: false
       },
       {
         accessTypeId: '101',
         jurisdictionId: '6',
-        organisationProfileId: 'SOLICITOR_PROFILE',
+        organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
         enabled: true
       }
     ];
@@ -173,13 +183,13 @@ describe('ManageUserComponent', () => {
           {
             accessTypeId: '10',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: true
           },
           {
             accessTypeId: '101',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: false
           }
         ]
@@ -197,13 +207,13 @@ describe('ManageUserComponent', () => {
           {
             accessTypeId: '10',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: true
           },
           {
             accessTypeId: '101',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: false
           }
         ]
@@ -221,13 +231,13 @@ describe('ManageUserComponent', () => {
           {
             accessTypeId: '10',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: false
           },
           {
             accessTypeId: '101',
             jurisdictionId: '6',
-            organisationProfileId: 'SOLICITOR_PROFILE',
+            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
             enabled: true
           }
         ]
@@ -339,7 +349,9 @@ describe('ManageUserComponent', () => {
       };
       component.user = defaultUser;
       component.updatedUser = updatedUser;
+      component.user = defaultUser;
       component.resendInvite = true;
+      component.organisationProfileIds = organisationProfileIds;
 
       const expectedPayload = {
         ...updatedUser,
@@ -347,7 +359,7 @@ describe('ManageUserComponent', () => {
         resendInvite: component.resendInvite
       };
 
-      const action = new fromStore.SendInviteUser(expectedPayload);
+      const action = new fromStore.SendInviteUser(expectedPayload, []);
       const spy = spyOn(mockUserStore, 'dispatch');
 
       component.inviteUser();

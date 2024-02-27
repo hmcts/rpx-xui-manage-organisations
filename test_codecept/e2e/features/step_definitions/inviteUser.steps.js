@@ -124,14 +124,21 @@ const { Error } = require('globalthis/implementation');
   });
 
   Then(/^I click on a Active User$/, async function () {
-    await inviteUserPage.findNextActiveUser();
+    await inviteUserPage.findNextActiveUserBySearch();
     await browserWaits.waitForElement(inviteUserPage.activeUser)
     await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
     await inviteUserPage.activeUser.click();
   });
 
+Then(/^I click on a Active User by using Active filter$/, async function () {
+  await inviteUserPage.findNextActiveUserBySearchFilter();
+  await browserWaits.waitForElement(inviteUserPage.activeUser)
+  await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
+  await inviteUserPage.activeUser.click();
+});
+
   Then(/^I see change link and suspend button$/, async function () {
-    
+
     await browserWaits.waitForElement(inviteUserPage.userDetailsComponent);
     await browserWaits.waitForElement(inviteUserPage.changeLink);
     await browserWaits.waitForElement(inviteUserPage.suspendButton);

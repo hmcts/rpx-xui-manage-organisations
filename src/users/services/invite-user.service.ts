@@ -13,7 +13,6 @@ export class InviteUserService {
     private readonly rootStore: Store<fromRoot.State>,
   ) {}
 
-  // TODO add type when server returns someting.
   public inviteUser(data): Observable<UserListApiModel> {
     return this.rootStore.pipe(
       select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
-import { SERVICES_CCD_DATA_STORE_API_PATH } from '../configuration/references';
+import { SERVICES_CCD_DEFINITION_STORE_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
 import { exists, valueOrNull } from '../lib/util';
 import { processAccessTypes } from './accessTypesComparison';
@@ -9,8 +9,8 @@ const logger = log4jui.getLogger('retrive-access-types');
 
 async function fetchAccessTypes(req: Request, payload: any): Promise<any> {
   try {
-    const ccdDataStore = getConfigValue(SERVICES_CCD_DATA_STORE_API_PATH);
-    const url = `${ccdDataStore}/retrieve-access-types`;
+    const ccdDefinitionStore = getConfigValue(SERVICES_CCD_DEFINITION_STORE_API_PATH);
+    const url = `${ccdDefinitionStore}/retrieve-access-types`;
     logger.info('RETRIEVE ACCESS TYPES: request URL:: ', url);
     const response = await req.http.post(url, payload);
     return response.data;

@@ -13,7 +13,8 @@ import {
   OgdHmrcProfileContentComponent,
   OgdCicaProfileContentComponent,
   OgdCafcassEnProfileContentComponent,
-  OgdCafcassCyProfileContentComponent
+  OgdCafcassCyProfileContentComponent,
+  JurisdictionAccessOptionsComponent
 } from '../../components';
 import { AppConstants } from '../../../app/app.constants';
 
@@ -104,7 +105,8 @@ describe('OrganisationAccessPermissionsComponent', () => {
         OgdHmrcProfileContentComponent,
         OgdCicaProfileContentComponent,
         OgdCafcassEnProfileContentComponent,
-        OgdCafcassCyProfileContentComponent],
+        OgdCafcassCyProfileContentComponent,
+        JurisdictionAccessOptionsComponent],
       imports: [ReactiveFormsModule, ExuiCommonLibModule],
       providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
     })

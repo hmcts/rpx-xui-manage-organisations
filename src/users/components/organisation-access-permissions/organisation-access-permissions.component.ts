@@ -1,17 +1,19 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { Jurisdiction } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
+import { Accordion } from 'govuk-frontend';
 
 @Component({
   selector: 'app-organisation-access-permissions',
   templateUrl: './organisation-access-permissions.component.html',
+  styleUrls: ['./organisation-access-permissions.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy {
+export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public jurisdictions: Jurisdiction[];
   @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
@@ -33,6 +35,14 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   private userAccessTypes: UserAccessType[];
   private onDestory$ = new Subject<void>();
   private ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
+
+  private accordianConfig = {
+    i18n: {
+      showSection: 'See additional types of access',
+      hideSection: 'Hide additional types of access'
+    },
+    rememberExpanded: false
+  };
 
   constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
   }
@@ -63,6 +73,11 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   ngOnDestroy(): void {
     this.onDestory$.next();
     this.onDestory$.complete();
+  }
+
+  ngAfterViewInit(): void{
+    const accordion1 = document.getElementById('org-access-accordion');
+    new Accordion(accordion1, this.accordianConfig).init();
   }
 
   get jurisdictionsFormArray(): FormArray<FormGroup<JurisdictionPermissionViewModelForm>> {

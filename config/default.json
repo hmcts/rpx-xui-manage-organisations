@@ -36,6 +36,7 @@
     "feeAndPayApi": "https://payment-api-prod.service.core-compute-prod.internal",
     "termsAndConditions": "http://xui-terms-and-conditions-aat.service.core-compute-aat.internal",
     "ccdDataApi": "http://ccd-data-store-api-prod.service.core-compute-prod.internal",
+    "ccdDefinitionApi": "http://ccd-definition-store-api-prod.service.core-compute-prod.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal",
     "role_assignment": {
       "roleApi": "http://am-role-assignment-service-prod.service.core-compute-prod.internal"

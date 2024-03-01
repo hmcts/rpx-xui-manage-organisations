@@ -34,7 +34,7 @@ export async function ogdEditUserRoute(req: Request) {
   let ogdErrReport: ErrorReport;
   if (!req.params.userId) {
     ogdErrReport = getErrorReport('UserId is missing', '400', 'User Permissions route error');
-    return (ogdErrReport);
+    throw (ogdErrReport);
   }
   const payload = req.body;
   try {
@@ -46,7 +46,7 @@ export async function ogdEditUserRoute(req: Request) {
     logger.info('error', error);
     const ogdEditStatus = error.status ? error.status : 500;
     ogdErrReport = getErrorReport(getErrorMessage(error), ogdEditStatus, getErrorMessage(error));
-    return (ogdErrReport);
+    throw (ogdErrReport);
   }
 }
 

@@ -1,73 +1,73 @@
-<h2 class="govuk-heading-l">Administrator access permissions</h2>
-<div
-  class="govuk-form-group"
-  [class.govuk-form-group--error]="errors.basicPermissions.length > 0"
->
-  <p
-    *ngIf="errors.basicPermissions.length > 0"
-    id="basic-permissions-error"
-    class="govuk-error-message"
+<div class="govuk-!-margin-top-8">
+  <h1 class="govuk-heading-m">Administrator access permissions</h1>
+  <div
+    class="govuk-form-group"
+    [class.govuk-form-group--error]="errors.basicPermissions.length > 0"
   >
-    <span class="govuk-visually-hidden">Error:</span> You must select at least
-    one action
-  </p>
-  <form *ngIf="permissionsForm" [formGroup]="permissionsForm">
-    <xuilib-gov-checkbox
-      id="checkbox-grant-case-access-admin"
-      *ngIf="grantCaseAccessAdmin$ | async"
-      [group]="permissionsForm"
-      [isChecked]="isCaseAccessAdmin"
-      [config]="{
-        value: 'isCaseAccessAdmin',
-        label: 'Case access administrator',
-        name: 'roles',
-        hint: 'Manage case access for all users within your organisation.
-      You can assign this role to any user in your organisation. However, your service might not currently support this role.
-      You will receive further guidance once it becomes available.',
-        hiddenLabelContext: 'Permit users to '
-      }"
+    <p
+      *ngIf="errors.basicPermissions.length > 0"
+      id="basic-permissions-error"
+      class="govuk-error-message"
     >
-    </xuilib-gov-checkbox>
-    <xuilib-gov-checkbox
-      [group]="permissionsForm"
-      [isChecked]="isPuiOrganisationManager"
-      [config]="{
-        value: 'isPuiOrganisationManager',
-        label: 'Manage organisation',
-        name: 'roles',
-        hint: 'View the organisation name and address.',
-        hiddenLabelContext: 'Permit users to '
-      }"
-    >
-    </xuilib-gov-checkbox>
-
-    <div class="govuk-form-group">
+      <span class="govuk-visually-hidden">Error:</span> You must select at least
+      one action
+    </p>
+    <form *ngIf="permissionsForm" [formGroup]="permissionsForm">
+      <xuilib-gov-checkbox
+        id="checkbox-grant-case-access-admin"
+        *ngIf="grantCaseAccessAdmin$ | async"
+        [group]="permissionsForm"
+        [isChecked]="isCaseAccessAdmin"
+        [config]="{
+          value: 'isCaseAccessAdmin',
+          label: 'Case access administrator',
+          name: 'roles',
+          hint: 'This allows the user to manage access to cases within your organisation',
+          hiddenLabelContext: 'This allows the user to manage access to cases within your organisation'
+        }"
+      >
+      </xuilib-gov-checkbox>
       <xuilib-gov-checkbox
         [group]="permissionsForm"
-        [isChecked]="isPuiUserManager"
+        [isChecked]="isPuiOrganisationManager"
         [config]="{
-          value: 'isPuiUserManager',
-          label: 'Manage user',
+          value: 'isPuiOrganisationManager',
+          label: 'Manage organisation',
           name: 'roles',
-          hint: 'Invite users.',
-          hiddenLabelContext: 'Permit users to '
+          hint: 'This user can view and manage some details of your organisations MyHMCTS account details',
+          hiddenLabelContext: 'This user can view and manage some details of your organisations MyHMCTS account details'
         }"
       >
       </xuilib-gov-checkbox>
 
-      <xuilib-gov-checkbox
-        id="checkbox-grant-finance-manager"
-        *ngIf="grantFinanceManager$ | async"
-        [group]="permissionsForm"
-        [isChecked]="isPuiFinanceManager"
-        [config]="{
-          value: 'isPuiFinanceManager',
-          label: 'Manage fee accounts',
-          name: 'roles',
-          hint: 'View payments, account balances, available credit and transactions.'
-        }"
-      >
-      </xuilib-gov-checkbox>
-    </div>
-  </form>
+      <div class="govuk-form-group">
+        <xuilib-gov-checkbox
+          [group]="permissionsForm"
+          [isChecked]="isPuiUserManager"
+          [config]="{
+            value: 'isPuiUserManager',
+            label: 'Manage user',
+            name: 'roles',
+            hint: 'This provides the user with access to invite others from your organisation with a MyHMCTS account, and also allow the user to manage existing users MyHMCTS access',
+            hiddenLabelContext: 'This provides the user with access to invite others from your organisation with a MyHMCTS account, and also allow the user to manage existing users MyHMCTS access'
+          }"
+        >
+        </xuilib-gov-checkbox>
+
+        <xuilib-gov-checkbox
+          id="checkbox-grant-finance-manager"
+          *ngIf="grantFinanceManager$ | async"
+          [group]="permissionsForm"
+          [isChecked]="isPuiFinanceManager"
+          [config]="{
+            value: 'isPuiFinanceManager',
+            label: 'Manage fee accounts',
+            name: 'roles',
+            hint: 'This provides the user with access to view payments, balances, available credit and transactions'
+          }"
+        >
+        </xuilib-gov-checkbox>
+      </div>
+    </form>
+  </div>
 </div>

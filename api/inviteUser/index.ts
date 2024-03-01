@@ -48,7 +48,7 @@ export async function inviteUserRouteOGD(req: Request) {
       apiStatusCode: ogdStatus,
       message: valueOrNull(error, 'data.errorDescription')
     };
-    return (ogdErrReport);
+    throw (ogdErrReport);
   }
 }
 export default router;

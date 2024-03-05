@@ -1,4 +1,5 @@
-<h2 class="govuk-heading-l">User Details</h2>
+<h1 class="govuk-heading-m">User Details</h1>
+<p *ngIf="inviteMode" class="govuk-caption-m">Add details of the user you want to invite</p>
 
 <ng-container *ngIf="inviteMode; else readOnlyTemplate">
   <form *ngIf="personalDetailForm" [formGroup]="personalDetailForm">

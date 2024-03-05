@@ -1,0 +1,25 @@
+::ng-deep .govuk-accordion {
+    margin: 0px;
+    border-bottom: 0px !important;
+  }
+  
+  .govuk-accordion__section-button {
+    border-top: 0px !important;
+  }
+  
+  ::ng-deep .js-enabled .govuk-accordion__controls {
+    display: none !important;
+  }
+
+  ::ng-deep .hidden {
+    display: none;
+  }
+
+  ::ng-deep .js-enabled .govuk-accordion__section-button:hover{
+    background: none;
+  }
+
+  ::ng-deep .govuk-warning-text__icon{
+    background: white;
+    color: black;
+  }

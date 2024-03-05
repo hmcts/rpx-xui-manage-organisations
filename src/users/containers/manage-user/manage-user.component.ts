@@ -152,7 +152,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
     // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
-    const caseAdminRole = 'pui-caa';
+    const caseAdminRole = 'pui-case-manager';
     let updatedRoles: string[];
     if ($event.manageCases){
       updatedRoles = [...this.updatedUser?.roles ?? [], caseAdminRole];
@@ -167,16 +167,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
     let roles: string[] = this.user?.roles ?? [];
-
     roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
     roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);
     roles = this.updateStandardPermission(roles, 'pui-organisation-manager', $event.isPuiOrganisationManager);
-    roles = this.updateStandardPermission(roles, 'pui-case-manager', $event.isCaseAccessAdmin);
-
-    // CAA role now comes from access types component
-    if (this.updatedUser?.roles?.includes('pui-caa')) {
-      roles.push('pui-caa');
-    }
+    roles = this.updateStandardPermission(roles, 'pui-caa', $event.isCaseAccessAdmin);
 
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(roles)] };
     this.loggerService.debug('updatedUser', this.updatedUser);

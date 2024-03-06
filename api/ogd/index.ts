@@ -19,7 +19,7 @@ export async function ogdInvite(req: Request, res: Response) {
     const operationResult = await inviteUserRouteOGD(req);
     const userId = operationResult.userIdentifier;
     req.body = { userId };
-    //await refreshUser(req);
+    await refreshUser(req);
     res.send(operationResult);
   } catch (error) {
     logger.error('ogdInvite:: Error ', error);
@@ -36,7 +36,7 @@ export async function ogdUpdate(req: Request, res: Response) {
     req.body = { ...userPayload, ...compareResult };
     const operationResult = await ogdEditUserRoute(req);
     req.body = { userId };
-    //await refreshUser(req);
+    await refreshUser(req);
     res.send(operationResult);
   } catch (error) {
     logger.error('ogdUpdate:: Error ', error);

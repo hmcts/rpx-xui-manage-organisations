@@ -9,7 +9,7 @@ function loginLogoutObjects() {
   this.password = element(by.css('[id=\'password\']'));
   this.signinTitle= element(by.xpath('//h1[@class=\'heading-large\']'));
   //this.signinTitle = element(by.css("h1"));
-  this.signinBtn = element(by.css('input.button'));
+  this.signinBtn = element(by.css('button[type=submit]')); //element(by.css('input.button'));
   this.signOutlink = element(by.xpath('//a[@class=\'hmcts-header__navigation-link\']'));
   this.failure_error_heading = element(by.css('[id=\'validation-error-summary-heading\']'));
   this.dashboard_header= element(by.css('a.hmcts-header__link'));

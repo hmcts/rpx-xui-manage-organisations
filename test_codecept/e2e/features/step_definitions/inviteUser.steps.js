@@ -4,6 +4,7 @@ const ViewUserPage = require('../pageObjects/viewUserPage.js');
 const InviteUserPage = require('../pageObjects/inviteUserPage.js');
 const TestData = require('../../utils/TestData.js');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
+const ogdToggle = require('../../support/launchDarkly').ogdToggle;
 
 Dropdown = require('../pageObjects/webdriver-components/dropdown.js');
 TextField = require('../pageObjects/webdriver-components/textField.js');
@@ -31,6 +32,9 @@ const { Error } = require('globalthis/implementation');
 
   When(/^I navigate to invite user page$/, async function () {
     const inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/invite-user' : '/users/invite-user';
+    if(ogdToggle) {
+      inviteUserPage = config.config.baseUrl.endsWith('/') ? 'users/manage' : '/users/manage';
+    }
     await browser.get(config.config.baseUrl + inviteUserPath);
     await inviteUserPage.waitForPage();
   });

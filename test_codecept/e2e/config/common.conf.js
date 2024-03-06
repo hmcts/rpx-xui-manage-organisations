@@ -32,8 +32,9 @@ const config = {
     password: process.env.TEST_USER1_PASSWORD,
     username_rw: process.env.TEST_USER2_EMAIL,
     password_rw: process.env.TEST_USER2_PASSWORD,
-    townleyUser: process.env.TEST_TOWNLEY_EMAIL,
-    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD
+    townleyUser: 'befta.org.1@gmail.com', //process.env.TEST_TOWNLEY_EMAIL,
+    townleyPassword: 'Pa55word11', //process.env.TEST_TOWNLEY_PASSWORD,
+    launchDarklyClientId: process.env.LAUNCH_DARKLY_CLIENT_ID
   },
   twoFactorAuthEnabled: false,
   termsAndConditionsEnabled: true

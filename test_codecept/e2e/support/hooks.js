@@ -1,4 +1,5 @@
 'use strict';
+
 const Cucumber = require('cucumber');
 const { defineSupportCode } = require('cucumber');
 const fs = require('fs');
@@ -15,6 +16,7 @@ const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
 const { Given, When, Then } = require('cucumber');
 const CucumberReportLogger = require('./reportLogger');
+const ogdFeature = require('../support/launchDarkly').ogdFeature;
 
 // defineSupportCode(function({After }) {
 //     registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {
@@ -93,12 +95,19 @@ const CucumberReportLogger = require('./reportLogger');
 
 defineSupportCode(({ Before, After }) => {
   Before(function (scenario, done){
+    console.warn('Before Scenario ===================');
     const world = this;
     CucumberReportLogger.setScenarioWorld(world);
+    console.warn('Scenario Tags: ', scenario.pickle.tags);
+    const hasOgdFeatureTag = scenario.pickle.tags.some(tag => tag.name === '@ogdFeature');
+    if (hasOgdFeatureTag && ogdFeature){
+      console.warn('Ogd Feature is enabled and ogd Tag is present');
+    }
     done();
   });
 
   After(function(scenario, done) {
+    console.warn('After Scenario ===================');
     const world = this;
     if (scenario.result.status === 'failed') {
       screenShotUtils.takeScreenshot().then((stream) => {

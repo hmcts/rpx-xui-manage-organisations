@@ -1,4 +1,4 @@
-@fullFunctional
+@fullFunctional @functional_debug
 Feature: invite user workflow
 
   Background:
@@ -10,13 +10,13 @@ Feature: invite user workflow
     When I navigate to invite user page
     Then I should be on display invite user page
 
-
+  @ogdFeature
   Scenario: invite user workflow
     When I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then user should be created successfuly
 
 
-
+  @ogdFeature
   Scenario: invited use with Manage Org and Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       |Permission|
@@ -25,6 +25,7 @@ Feature: invite user workflow
       | Manage Cases |
     Then user should be created successfuly
 
+  @ogdFeature
   Scenario: Invite user with Manage Org permission
 
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
@@ -34,7 +35,7 @@ Feature: invite user workflow
     Then user should be created successfuly
 
 
-
+  @ogdFeature
   Scenario: invited use with Manage Users permission
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission          |
@@ -42,18 +43,18 @@ Feature: invite user workflow
     # | Manage fee accounts |
     Then user should be created successfuly
 
-  @fullFunctional
+  @fullFunctional @ogdFeature
   Scenario: invite user validation workflow
     When I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button
     Then I should be display the validation error
 
-@fullFunctional 
+  @fullFunctional @ogdFeature
   Scenario: invite user validation workflow
     When I enter mandatory fields firstname,lastname,emailaddress with permissions and click on send invitation button
       | Permission   |
     Then I should be display the validation error
 
-  @fullFunctional
+  @fullFunctional @ogdFeature
   Scenario: back button workflow
     When I click on back button
     Then I should be on display the user details

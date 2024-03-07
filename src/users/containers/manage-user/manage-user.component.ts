@@ -193,18 +193,15 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     this.userPersonalDetails.updateCurrentErrors();
     this.standardPermission.permissionsForm.markAllAsTouched();
     this.standardPermission.updateCurrentErrors();
-
     const errorItems = this.getFormErrors();
     this.summaryErrorsSubject.next({
       isFromValid: errorItems.length === 0,
       items: errorItems,
       header: 'There is a problem'
     });
-
     if (errorItems.length > 0){
       return;
     }
-
     if (this.userId && !this.resendInvite) {
       this.updateUser();
     } else {
@@ -257,13 +254,11 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const rolesDeleted = [...new Set(UserRolesUtil.getRolesDeleted(this.user, permissions))];
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, this.userId, rolesAdded, rolesDeleted, this.updatedUser.userAccessTypes);
     const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes));
-
     if (hasChanges) {
       this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj, this.organisationProfileIds));
     } else {
       this.summaryErrorsSubject.next({ isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' });
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
-      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
     }
   }
 

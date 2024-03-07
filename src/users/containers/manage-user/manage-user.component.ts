@@ -61,6 +61,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     private inviteUserSvc: InviteUserService) {}
 
   ngOnInit(): void {
+    this.userStore.dispatch(new fromStore.CheckUserListLoaded());
     this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
     this.errorsArray$ = this.userStore.pipe(select(fromStore.getGetInviteUserErrorsArray));
     this.combinedErrors$ = combineLatest([
@@ -84,7 +85,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
     combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation, organisationAccessTypes]) => {
       this.user = user;
-      this.organisationProfileIds = organisation.organisationProfileIds ?? [];
+      this.organisationProfileIds = organisation?.organisationProfileIds ?? [];
       this.resendInvite = user?.status === 'Pending';
       this.jurisdictions = organisationAccessTypes;
     });

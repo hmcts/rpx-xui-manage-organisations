@@ -13,10 +13,9 @@ export async function refreshUser(req: Request) {
     const reqUrl = `${serviceApiBasePath}/am/role-mapping/professional/refresh`;
     logger.info('REFRESH USER: request URL:: ', reqUrl);
     logger.info('REFRESH USER: payload:: ', payload);
-    // const response = await req.http.post(reqUrl, payload);
-    // logger.info('response::', response.data);
-    // return response.data;
-    return ({});
+    const response = await req.http.post(reqUrl, payload);
+    logger.info('response::', response.data);
+    return response.data;
   } catch (error) {
     logger.error('error', error);
     const status = exists(error, 'status') ? error.status : 500;

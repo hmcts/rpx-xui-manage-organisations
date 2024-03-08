@@ -10,10 +10,10 @@ export async function refreshUser(req: Request) {
   const payload = req.body;
   try {
     const serviceApiBasePath = getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH);
-    const reqUrl = `${serviceApiBasePath}/am/role-mapping/professional/refresh`;
+    const userId = payload.userId;
+    const reqUrl = `${serviceApiBasePath}/am/role-mapping/professional/refresh?userId=${userId}`;
     logger.info('REFRESH USER: request URL:: ', reqUrl);
-    logger.info('REFRESH USER: payload:: ', payload);
-    const response = await req.http.post(reqUrl, payload);
+    const response = await req.http.post(reqUrl);
     logger.info('response::', response.data);
     return response.data;
   } catch (error) {

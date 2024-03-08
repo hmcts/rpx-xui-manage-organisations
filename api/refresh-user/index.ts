@@ -11,7 +11,7 @@ export async function refreshUser(req: Request) {
   try {
     const serviceApiBasePath = getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH);
     const userId = payload.userId;
-    const reqUrl = `${serviceApiBasePath}/am/role-mapping/professional/refresh/${userId}`;
+    const reqUrl = `${serviceApiBasePath}/am/role-mapping/professional/refresh?userId=${userId}`;
     logger.info('REFRESH USER: request URL:: ', reqUrl);
     const response = await req.http.post(reqUrl);
     logger.info('response::', response.data);

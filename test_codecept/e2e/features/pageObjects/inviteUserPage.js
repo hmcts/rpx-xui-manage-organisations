@@ -10,13 +10,14 @@ class InviteUserPage{
     this.firstName = element(by.css('#firstName'));
     this.lastName = element(by.css('#lastName'));
     this.emailAddress = element(by.css('#email'));
-    this.sendInvitationButton = element(by.css('button[type=submit]'));
 
-    this.manageCasesCheckbox = element(by.css('#roles'));
-    this.manageUserCheckbox = element(by.css('#pui-user-manager'));
-    this.manageOrgCheckbox = element(by.css('#pui-organisation-manager'));
-    this.manageCaaCheckbox = element(by.css('#pui-caa'));
-    this.manageFeeAccountsCheckbox = element(by.css('#pui-finance-manager'));
+    this.manageUserCheckbox = element(by.css('#isPuiUserManager'));
+    this.manageOrgCheckbox = element(by.css('#isPuiOrganisationManager'));
+    this.manageCaaCheckbox = element(by.css('#isCaseAccessAdmin'));
+    this.manageFeeAccountsCheckbox = element(by.css('#isPuiFinanceManager'));
+    this.manageCasesCheckbox = element(by.css('#enableCaseManagement'));
+
+    this.sendInvitationButton = element(by.css('#saveUserBtn'));
 
     this.nextPageLink = element(by.xpath('//a[contains(text(), "Next")]'));
 
@@ -50,9 +51,7 @@ class InviteUserPage{
   async selectPermission(permission, isSelect){
 
     const normalizedPermission = permission.toLowerCase();
-    if (normalizedPermission.includes('manage cases')){
-      await this.manageCasesCheckbox.click()
-    } else if (normalizedPermission.includes('manage users')){
+     if (normalizedPermission.includes('manage users')){
       await this.manageUserCheckbox.click()
     } else if (normalizedPermission.includes('manage organisation')) {
       await this.manageOrgCheckbox.click()
@@ -60,7 +59,9 @@ class InviteUserPage{
       await this.manageCaaCheckbox.click()
     } else if (normalizedPermission.includes('fee accounts')) {
       await this.manageFeeAccountsCheckbox.click()
-    }else{
+    } else if (normalizedPermission.includes('manage cases')){
+      await this.manageCasesCheckbox.click()
+    } else{
       throw Error(`Invalid or unrecognised user permission ${permission}`);
     }
 
@@ -70,14 +71,14 @@ class InviteUserPage{
   async findNextActiveUser(){
     await BrowserWaits.waitForElement(this.nextPageLink);
     let activeUserVisible = await this.activeUser.isDisplayed();
-   
+
     while (!activeUserVisible) {
       console.log('Unable to find an active user, clicking next page link');
       await BrowserWaits.retryWithActionCallback(async () => {
         await BrowserWaits.waitForElement(this.nextPageLink)
       })
       activeUserVisible = await this.activeUser.isDisplayed();
-    } 
+    }
 
 
   }
@@ -142,7 +143,7 @@ class InviteUserPage{
 
   async amOnPage(){
     const header = await this.getPageHeader();
-    return header === 'Invite user';
+    return header === 'Manage user';
   }
 
   async amOnUserConfirmationPage(){

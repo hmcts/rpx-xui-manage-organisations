@@ -44,6 +44,7 @@ logger.info(environmentCheckText());
 if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled');
   app.use(helmet(getConfigValue(HELMET)));
+  app.disable('X-Powered-By');
 }
 
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));

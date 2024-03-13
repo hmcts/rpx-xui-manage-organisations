@@ -3,10 +3,10 @@
 
 const LDClient = require('@launchdarkly/node-server-sdk');
 const config = require('../config/common.conf');
-//config.config.launchDarklyClientId
-const client = LDClient.init('***REMOVED***');
 
-let ogdFeature; 
+const client = LDClient.init(config.config.config.launchDarklySDKKey);
+
+let ogdFeature;
 
 //await client.waitUntilReady();
 //export const ogdToggle = client.variation('ogd-invite-user-flow', false);

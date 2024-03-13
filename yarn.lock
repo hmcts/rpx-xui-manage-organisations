@@ -2462,12 +2462,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.0.2":
-  version: 7.0.2
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.0.2"
+"@hmcts/ccd-case-ui-toolkit@npm:7.0.21-media-viewer-update":
+  version: 7.0.21-media-viewer-update
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.0.21-media-viewer-update"
   dependencies:
     tslib: ^2.3.0
-  checksum: f2b7265ed82a867c4481bffbf970acf7d2737c59616b0c9ae1661bbbb9e78438a7ec6166cac4c486a9b687bcfcc1c0512b163dbaeb8b216f5444f0239112f6cb
+  checksum: 8feb120704d88a6da0b597fefe5746abdeb1432825491464ff3dd7ed6316bb97b4df18a4f6d80887dc07ad98a41bfc188a85700a105805c7962962fb951dd1cf
   languageName: node
   linkType: hard
 
@@ -2490,9 +2490,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:2.10.1-RC.1":
-  version: 2.10.1-RC.1
-  resolution: "@hmcts/media-viewer@npm:2.10.1-RC.1"
+"@hmcts/media-viewer@npm:3.0.3":
+  version: 3.0.3
+  resolution: "@hmcts/media-viewer@npm:3.0.3"
   dependencies:
     "@circlon/angular-tree-component": ^11.0.4
     "@swimlane/ngx-datatable": ^20.0.0
@@ -2513,7 +2513,7 @@ __metadata:
     "@ngrx/router-store": ^15.0.0
     "@ngrx/store": ^15.0.0
     "@ngrx/store-devtools": ^15.0.0
-  checksum: a5e13ac71d38010ae27b3fa98f4267d64156eb759d50b59365d4b79d60369987e1209bd1e247fdba1b76170bb8bb093738b99a99167274d60f729c6e7d3f65f7
+  checksum: e73fba16a5e631ea220eb57c69d1b2b922c4abdf6a7432cc19b3d6313cfc90c2356c64dd987f44822b20aa6e513d178d2df2c0198e9941c8d17bfd986decd2a2
   languageName: node
   linkType: hard
 
@@ -14561,6 +14561,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lz-string@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "lz-string@npm:1.5.0"
+  bin:
+    lz-string: bin/bin.js
+  checksum: 1ee98b4580246fd90dd54da6e346fb1caefcf05f677c686d9af237a157fdea3fd7c83a4bc58f858cd5b10a34d27afe0fdcbd0505a47e0590726a873dc8b8f65d
+  languageName: node
+  linkType: hard
+
 "magic-string@npm:0.29.0":
   version: 0.29.0
   resolution: "magic-string@npm:0.29.0"
@@ -18672,10 +18681,10 @@ __metadata:
     "@angular/router": ^15.2.9
     "@circlon/angular-tree-component": ^11.0.4
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 7.0.2
+    "@hmcts/ccd-case-ui-toolkit": 7.0.21-media-viewer-update
     "@hmcts/ccpay-web-component": 6.0.2
     "@hmcts/frontend": 0.0.50-alpha
-    "@hmcts/media-viewer": 2.10.1-RC.1
+    "@hmcts/media-viewer": 3.0.3
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.16
@@ -18768,6 +18777,7 @@ __metadata:
     karma-spec-reporter: 0.0.34
     launchdarkly-js-client-sdk: ^2.15.2
     log4js: ^3.0.6
+    lz-string: ^1.5.0
     mocha: ^8.1.1
     mochawesome: 3.1.1
     moment-timezone: ^0.5.28

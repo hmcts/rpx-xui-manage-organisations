@@ -54,7 +54,7 @@ const navItemsArray: NavItemModel[] = [
   },
   {
     text: 'Cases',
-    href: '/cases',
+    href: '/cases/all',
     orderId: 6,
     active: false,
     featureToggle: {

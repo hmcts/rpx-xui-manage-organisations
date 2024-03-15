@@ -15,7 +15,6 @@
     (selectedPermissionsChanged)="onStandardUserPermissionsChange($event)"
   ></app-standard-user-permissions>
   <app-organisation-access-permissions
-    *ngIf="jurisdictions?.length > 0"
     [jurisdictions]="jurisdictions"
     [user]="user"
     [organisationProfileIds]="organisationProfileIds"

@@ -37,19 +37,10 @@
       </ng-container>
       <app-cases-filter
         [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
+        [sessionStateValue]="sessionStateValue"
         (selectedFilter)="onSelectedFilter($event)"
         (emitErrorMessages)="onErrorMessages($event)"
       ></app-cases-filter>
-      <app-caa-filter
-        [caaCasesPageType]="'assigned-cases'"
-        [selectedFilterType]="selectedFilterType"
-        [sessionStateValue]="sessionStateValue"
-        [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
-        (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
-        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
-        (emitErrorMessages)="onErrorMessages($event)"
-      >
-      </app-caa-filter>
     </div>
   </div>
 </main>

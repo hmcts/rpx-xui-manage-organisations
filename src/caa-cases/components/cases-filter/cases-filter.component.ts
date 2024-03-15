@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, catchError, debounceTime, of, switchMap, tap } from 'rxjs';
 import { CaaCasesFilterErrorMessage, CaaCasesFilterType } from 'src/caa-cases/models/caa-cases.enum';
+import { CaaCasesSessionStateValue } from 'src/caa-cases/models/caa-cases.model';
 import { SelectedCaseFilter } from 'src/caa-cases/models/selected-case-filter.model';
 import { CaaCasesUtil } from 'src/caa-cases/util/caa-cases.util';
 import { ErrorMessage } from 'src/shared/models/error-message.model';
@@ -12,8 +13,9 @@ import { ErrorMessage } from 'src/shared/models/error-message.model';
   templateUrl: './cases-filter.component.html',
   styleUrls: ['./cases-filter.component.scss']
 })
-export class CasesFilterComponent implements OnInit{
+export class CasesFilterComponent implements OnInit, OnChanges{
   @Input() public selectedOrganisationUsers: User[];
+  @Input() public sessionStateValue: CaaCasesSessionStateValue;
 
   @Output() public selectedFilter = new EventEmitter<SelectedCaseFilter>();
   @Output() public emitErrorMessages = new EventEmitter<ErrorMessage[]>();
@@ -27,8 +29,8 @@ export class CasesFilterComponent implements OnInit{
 
   public filteredAndGroupedUsers = new Map<string, User[]>();
 
-  public caaCasesFilterType = CaaCasesFilterType;
-  public selectedFilterType: CaaCasesFilterType;
+  public caaCasesFilterType = CaaCasesFilterType; // used in the template
+  public selectedFilterType = CaaCasesFilterType.None;
 
   public errorMessages: ErrorMessage[];
 
@@ -39,6 +41,17 @@ export class CasesFilterComponent implements OnInit{
 
   ngOnInit(): void {
     this.createForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.selectedOrganisationUsers &&
+      changes.selectedOrganisationUsers.currentValue &&
+      changes.selectedOrganisationUsers.currentValue.length > 0) {
+      this.filterSelectedOrganisationUsers().subscribe((filteredAndGroupedUsers) => {
+        this.filteredAndGroupedUsers = filteredAndGroupedUsers;
+      });
+      this.populateFormFromSessionState();
+    }
   }
 
   createForm() {
@@ -66,6 +79,28 @@ export class CasesFilterComponent implements OnInit{
     ).subscribe((filteredAndGroupedUsers: Map<string, User[]>) => {
       this.filteredAndGroupedUsers = filteredAndGroupedUsers;
     });
+  }
+
+  public populateFormFromSessionState(): void {
+    if (this.sessionStateValue) {
+      const filterOptionValue = this.sessionStateValue.filterType as CaaCasesFilterType;
+      this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
+
+      this.selectFilterOption(filterOptionValue);
+      if (filterOptionValue === CaaCasesFilterType.AssigneeName) {
+        const assigneePersonValue = this.sessionStateValue.assigneeName;
+        const user = this.selectedOrganisationUsers.find((user) => user.userIdentifier === assigneePersonValue);
+
+        this.form.controls.assigneePerson.setValue(this.getDisplayName(user), { emitEvent: false, onlySelf: true });
+      }
+
+      if (filterOptionValue === CaaCasesFilterType.CaseReferenceNumber) {
+        const caseReferenceNumberValue = this.sessionStateValue.caseReferenceNumber;
+        this.form.controls.caseReferenceNumber.setValue(caseReferenceNumberValue, { emitEvent: false, onlySelf: true });
+      }
+
+      this.form.markAsDirty();
+    }
   }
 
   public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
@@ -109,11 +144,11 @@ export class CasesFilterComponent implements OnInit{
   }
 
   public onReset(): void {
-    this.form.reset();
+    this.form.reset({ filterOption: CaaCasesFilterType.None, assigneePerson: '', caseReferenceNumber: '' });
     this.selectedFilter.emit({ filterType: this.selectedFilterType, filterValue: '' });
   }
 
-  public onSelectionChange(selectedUser: User) {
+  public onUserSelectionChange(selectedUser: User) {
     this.form.controls.assigneePerson.clearValidators();
     this.form.controls.assigneePerson.updateValueAndValidity();
     this.form.controls.assigneePerson.setValue(this.getDisplayName(selectedUser), { emitEvent: false, onlySelf: true });

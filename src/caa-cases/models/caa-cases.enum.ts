@@ -14,7 +14,9 @@ export enum CaaCasesFilterType {
   AllAssignees = 'all-assignees',
   AssigneeName = 'assignee-name',
   CaseReferenceNumber = 'case-reference-number',
-  None = 'none'
+  NewCasesToAccept = 'new-cases-to-accept',
+  UnassignedCases = 'unassigned-cases',
+  None = 'none',
 }
 
 export enum CaaCasesPageTitle {

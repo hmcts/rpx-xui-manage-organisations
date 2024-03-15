@@ -9,6 +9,8 @@ import { OrganisationDetails } from 'src/models/organisation.model';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorMessage } from 'src/shared/models/error-message.model';
+import { User } from '@hmcts/rpx-xui-common-lib';
+import { SelectedCaseFilter } from 'src/caa-cases/models/selected-case-filter.model';
 
 @Component({
   selector: 'app-cases',
@@ -17,10 +19,11 @@ import { ErrorMessage } from 'src/shared/models/error-message.model';
 })
 export class CasesComponent implements OnInit {
   public selectedOrganisation$: Observable<OrganisationDetails>;
+  public selectedOrganisationUsers$: Observable<User[]>;
 
   public pageTitle = 'Cases';
   public showFilterSection = false;
-  public errorMessages: ErrorMessage[];
+  public errorMessages: ErrorMessage[] = [];
 
   constructor(private readonly caaCasesStore: Store<caaCasesStore.CaaCasesState>,
     private readonly organisationStore: Store<organisationStore.OrganisationState>,
@@ -33,6 +36,21 @@ export class CasesComponent implements OnInit {
     // Load selected organisation details from store
     this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
     this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
+
+    // Load users of selected organisation from store
+    this.userStore.dispatch(new userStore.LoadAllUsersNoRoleData());
+    this.selectedOrganisationUsers$ = this.userStore.pipe(select(userStore.getGetUserList));
+  }
+
+  public onSelectedFilter(selectedFilter: SelectedCaseFilter): void {
+    console.log('Selected filter:', selectedFilter);
+    // todo: update session state (i.e. remove or store)
+
+    // load cases types based on fileter and value
+  }
+
+  public onErrorMessages(errorMessages: ErrorMessage[]): void {
+    this.errorMessages = errorMessages;
   }
 
   public toggleFilterSection(): void {

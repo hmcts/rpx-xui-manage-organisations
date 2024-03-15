@@ -143,7 +143,7 @@
     "pdfjs-dist": "2.5.207",
     "pegjs": "^0.10.0",
     "playwright": "^1.18",
-    "puppeteer": "^21.3.8",
+    "puppeteer": "^22.4.1",
     "redis": "^3.0.2",
     "rpx-xui-translation": "1.0.2",
     "rx-polling-hmcts": "^1.1.1",

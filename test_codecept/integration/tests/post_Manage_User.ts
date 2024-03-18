@@ -26,7 +26,7 @@ suite('Manage Org -> POST Manage User', function() {
           organisationProfileId: 'SOLICITOR_PROFILE',
           enabled: false
         }
-      ]}
+      ] }
   };
 
   test('POST Manage User', () => generatePOSTAPIRequest('PUT', `/api/ogd-flow/update/${payload.userPayload.id}`, payload)

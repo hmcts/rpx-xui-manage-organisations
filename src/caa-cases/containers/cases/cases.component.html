@@ -42,5 +42,15 @@
         (emitErrorMessages)="onErrorMessages($event)"
       ></app-cases-filter>
     </div>
+    <app-cases-results-table
+      [allCaseTypes]="allCaseTypes"
+      [casesConfig]="casesConfig"
+      [cases]="cases"
+      [paginationPageSize]="paginationPageSize"
+      [shareAssignedCases$]="shareAssignedCases$"
+      [shareUnassignedCases$]="shareUnassignedCases$"
+      (caseSelected)="onCaseSelected($event)"
+      (pageChanged)="onPageChanged($event)"
+    ></app-cases-results-table>
   </div>
 </main>

@@ -96,7 +96,7 @@ export class UsersEffects {
         return this.usersService.getAllUsersList().pipe(
           concatMap((userDetails) => {
             const amendedUsers: PrdUser[] = [];
-            let organisationProfileIds = [];
+            const organisationProfileIds = userDetails.organisationProfileIds;
             userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
               const accessTypes = element?.userAccessTypes || [];
@@ -109,15 +109,7 @@ export class UsersEffects {
               };
               amendedUsers.push(user);
               user.userAccessTypes = user?.userAccessTypes || [];
-              organisationProfileIds = [
-                ...organisationProfileIds,
-                ...user.userAccessTypes.map(
-                  (accessType) => accessType.organisationProfileId
-                )
-              ];
             });
-
-            organisationProfileIds = [...new Set(organisationProfileIds)];
             return [
               new orgActions.OrganisationUpdateUpdateProfileIds(
                 organisationProfileIds

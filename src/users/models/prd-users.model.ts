@@ -7,6 +7,7 @@ export interface RawPrdUsersList {
 
 export interface RawPrdUserListWithoutRoles {
   organisationIdentifier: string;
+  organisationProfileIds?: string[];
   users: RawPrdUserLite[];
 }
 

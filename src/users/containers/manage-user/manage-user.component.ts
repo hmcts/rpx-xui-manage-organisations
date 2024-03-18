@@ -16,6 +16,7 @@ import { LoggerService } from 'src/shared/services/logger.service';
 import { AppConstants } from '../../../app/app.constants';
 import { GlobalError } from '../../../app/store/reducers/app.reducer';
 import { StandardUserPermissionsComponent, UserPersonalDetailsComponent } from 'src/users/components';
+import { InviteUserService } from 'src/users/services';
 
 import { UserRolesUtil } from '../utils/user-roles-util';
 import { editUserFailureSelector } from '../../store';
@@ -56,7 +57,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     private readonly routerStore: Store<fromRoot.State>,
     private readonly userStore: Store<fromStore.UserState>,
     private readonly orgStore: Store<fromOrgStore.OrganisationState>,
-    private loggerService: LoggerService) {}
+    private loggerService: LoggerService,
+    private inviteUserSvc: InviteUserService) {}
 
   ngOnInit(): void {
     this.organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
@@ -123,6 +125,9 @@ export class ManageUserComponent implements OnInit, OnDestroy {
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestory$)).subscribe(() => {
         this.handleError(this.userStore, 500);
       });
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_422), takeUntil(this.onDestory$)).subscribe(() => {
+        this.handleError(this.userStore, 422);
+      });
       this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestory$)).subscribe(() => {
         this.showWarningMessage = true;
       });
@@ -147,7 +152,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   onSelectedCaseManagamentPermissionsChange($event: CaseManagementPermissions) {
     // when manageCases is true, add add the pui-case-manager roles field to the user else remove it from the roles field
-    const caseAdminRole = 'pui-caa';
+    const caseAdminRole = 'pui-case-manager';
     let updatedRoles: string[];
     if ($event.manageCases){
       updatedRoles = [...this.updatedUser?.roles ?? [], caseAdminRole];
@@ -162,16 +167,10 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
   onStandardUserPermissionsChange($event: BasicAccessTypes) {
     let roles: string[] = this.user?.roles ?? [];
-
     roles = this.updateStandardPermission(roles, 'pui-user-manager', $event.isPuiUserManager);
     roles = this.updateStandardPermission(roles, 'pui-finance-manager', $event.isPuiFinanceManager);
     roles = this.updateStandardPermission(roles, 'pui-organisation-manager', $event.isPuiOrganisationManager);
-    roles = this.updateStandardPermission(roles, 'pui-case-manager', $event.isCaseAccessAdmin);
-
-    // CAA role now comes from access types component
-    if (this.updatedUser?.roles?.includes('pui-caa')) {
-      roles.push('pui-caa');
-    }
+    roles = this.updateStandardPermission(roles, 'pui-caa', $event.isCaseAccessAdmin);
 
     this.updatedUser = { ...this.updatedUser, roles: [...new Set(roles)] };
     this.loggerService.debug('updatedUser', this.updatedUser);
@@ -248,7 +247,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         lastName: this.user.lastName
       });
     }
-    this.userStore.dispatch(new fromStore.SendInviteUser(value));
+    this.userStore.dispatch(new fromStore.SendInviteUser(value, this.organisationProfileIds));
   }
 
   private updateUser() {
@@ -259,7 +258,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     const hasChanges = (rolesAdded.length > 0 || rolesDeleted.length > 0 || !UserRolesUtil.accessTypesMatch(this.user.userAccessTypes, this.updatedUser.userAccessTypes));
 
     if (hasChanges) {
-      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj));
+      this.userStore.dispatch(new fromStore.EditUser(editUserRolesObj, this.organisationProfileIds));
     } else {
       this.summaryErrorsSubject.next({ isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }], header: 'There is a problem' });
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
@@ -307,6 +306,16 @@ export class ManageUserComponent implements OnInit, OnDestroy {
           urlText: 'Go back to manage users',
           url: '/users'
         }];
+      case 422:
+        return [{
+          bodyText: 'User has been create but roles have not been refreshed.',
+          urlText: null,
+          url: null
+        }, {
+          bodyText: '',
+          urlText: 'Go back to manage users',
+          url: '/users'
+        }];
       case 500:
       default:
         return [{
@@ -327,6 +336,8 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         return 'Sorry, there is a problem';
       case 404:
         return 'Sorry, there is a problem with this account';
+      case 422:
+        return 'Sorry, there is a problem';
       case 500:
       default:
         return 'Sorry, there is a problem with the service';

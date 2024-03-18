@@ -1,39 +1,56 @@
 import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
-import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
+import { SERVICES_CCD_DEFINITION_STORE_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
 import { exists, valueOrNull } from '../lib/util';
-import { getRefdataAllUserListUrl } from '../refdataAllUserListUrlUtil';
-import { jurisdictionsExample } from '../temp-data';
+import { processAccessTypes } from './accessTypesComparison';
 
 const logger = log4jui.getLogger('retrive-access-types');
 
-export async function handleRetriveAccessTypes(req: Request, res: Response) {
-  const payload = req.body;
-  //   try {
-  //     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-  //     const url = `${rdProfessionalApiPath}/retrieve-access-types`;
-  //     logger.info('INVITE USER: request URL:: ', url);
-  //     logger.info('INVITE USER: payload:: ', payload);
-  //     const response = await req.http.post(url, payload);
-  //     logger.info('response::', response.data);
-  //     res.send(response.data);
-  //   } catch (error) {
-  //     logger.error('error', error);
-  //     const status = exists(error, 'status') ? error.status : 500;
-  //     const errReport = {
-  //       apiError: valueOrNull(error, 'data.errorMessage'),
-  //       apiStatusCode: status,
-  //       message: valueOrNull(error, 'data.errorDescription')
-  //     };
-  //     res.status(status).send(errReport);
-  //   }
+async function fetchAccessTypes(req: Request, payload: any): Promise<any> {
+  try {
+    const ccdDefinitionStore = getConfigValue(SERVICES_CCD_DEFINITION_STORE_API_PATH);
+    const url = `${ccdDefinitionStore}/retrieve-access-types`;
+    logger.info('RETRIEVE ACCESS TYPES: request URL:: ', url);
+    const response = await req.http.post(url, payload);
+    return response.data;
+  } catch (error) {
+    logger.error(error);
+    throw error;
+  }
+}
 
-  res.json(JSON.parse(jurisdictionsExample));
+export async function handleRetrieveAccessTypes(req: Request, res: Response) {
+  const payload = req.body;
+  try {
+    const data = await fetchAccessTypes(req, payload);
+    res.send(data);
+  } catch (error) {
+    const status = exists(error, 'status') ? error.status : 500;
+    const errReport = {
+      apiError: valueOrNull(error, 'data.errorMessage'),
+      apiStatusCode: status,
+      message: valueOrNull(error, 'data.errorDescription')
+    };
+    res.status(status).send(errReport);
+  }
+}
+
+export async function compareAccessTypes(req: Request) {
+  try {
+    const orgIdPayload = { organisationProfileIds: req.body.orgIdsPayload };
+    const userAccessTypesPayload = req.body.userPayload;
+    const accessTypes = await fetchAccessTypes(req, orgIdPayload);
+    const comparedUserSelections = processAccessTypes(accessTypes.jurisdictions, userAccessTypesPayload);
+    return (comparedUserSelections);
+  } catch (error) {
+    logger.error('Error in compareAccessTypes:', error);
+    return ({ error: 'An error occurred while processing your request.' });
+  }
 }
 
 export const router = Router({ mergeParams: true });
 
-router.post('/', handleRetriveAccessTypes);
-
+router.post('/', handleRetrieveAccessTypes);
+router.post('/compare', compareAccessTypes);
 export default router;

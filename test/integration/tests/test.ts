@@ -19,9 +19,9 @@ const mocha = new Mocha({
 });
 
 mocha.addFile('test/integration/tests/get_Organisation_Details.ts');
+mocha.addFile('test/integration/tests/get_Organisation_User_Details.ts');
 mocha.addFile('test/integration/tests/post_Invite_User.ts');
 //mocha.addFile('test/integration/tests/post_Manage_User.ts');
-mocha.addFile('test/integration/tests/get_Organisation_User_Details.ts');
 mocha.addFile('test/integration/tests/post_register_org.ts');
 mocha.addFile('test/integration/tests/post_ReInvite_User.ts');
 mocha.run((failures) => {

@@ -3,7 +3,7 @@ import { RpxLanguage, RpxTranslationService } from 'rpx-xui-translation';
 import { SessionStorageService } from 'src/shared/services/session-storage.service';
 
 @Component({
-  selector: 'exui-phase-banner',
+  selector: 'app-phase-banner',
   templateUrl: './phase-banner.component.html'
 })
 export class PhaseBannerComponent {

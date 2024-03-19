@@ -29,7 +29,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   public orgProfileType: string;
 
   private userAccessTypes: UserAccessType[];
-  private onDestory$ = new Subject<void>();
+  private onDestroy$ = new Subject<void>();
 
   private accordianConfig = {
     i18n: {
@@ -57,8 +57,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-    this.onDestory$.next();
-    this.onDestory$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   ngAfterViewInit(): void{
@@ -124,12 +124,12 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   private subscribeToAccessTypesChanges() {
-    this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges.pipe(takeUntil(this.onDestory$)).subscribe((enableCaseManagement) => {
+    this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((enableCaseManagement) => {
       this.enableCaseManagement = enableCaseManagement;
       this.publishCurrentPermissions();
     });
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
-      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestory$)).subscribe(() => {
+      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
         this.publishCurrentPermissions();
       });
     });

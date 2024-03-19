@@ -8,6 +8,7 @@ const featureNames = {
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',
   caaMenuItems: 'mo-caa-menu-items',
+  welshLanguage: 'welsh-language',
   newRegisterOrg: 'mo-new-register-org'
 };
 

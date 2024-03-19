@@ -1,5 +1,4 @@
 <header>
-  <app-phase-banner type="beta"></app-phase-banner>
     <app-hmcts-global-header
       [userLoggedIn]="isUserLoggedIn$ | async"
       [showHeaderItems]="showHeaderItems$ | async"
@@ -14,5 +13,5 @@
       [items]="navItems?.navItems"
       [isBrandedHeader]="isBrandedHeader"
     ></app-hmcts-primary-navigation>
-    
+    <app-phase-banner type="beta"></app-phase-banner>
 </header>

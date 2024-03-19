@@ -51,7 +51,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   private user$: Observable<User>;
   private organisation$: Observable<OrganisationDetails>;
   public updatedUser: User;
-  private onDestory$ = new Subject<void>();
+  private onDestroy$ = new Subject<void>();
 
   constructor(private readonly actions$: Actions,
     private readonly routerStore: Store<fromRoot.State>,
@@ -75,14 +75,14 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         };
       })
     );
-    this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestory$)).subscribe((route) => {
+    this.routerStore.pipe(select(fromRoot.getRouterState)).pipe(takeUntil(this.onDestroy$)).subscribe((route) => {
       this.userId = route.state.params.userId;
       this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
       this.organisation$ = this.orgStore.pipe(select(fromOrgStore.getOrganisationSel));
       this.backUrl = this.getBackurl(this.userId);
     });
 
-    combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestory$)).subscribe(([user, organisation, organisationAccessTypes]) => {
+    combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestroy$)).subscribe(([user, organisation, organisationAccessTypes]) => {
       this.user = user;
       this.organisationProfileIds = organisation.organisationProfileIds ?? [];
       this.resendInvite = user?.status === 'Pending';
@@ -116,33 +116,33 @@ export class ManageUserComponent implements OnInit, OnDestroy {
     });
 
     if (!this.userId){
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_400), takeUntil(this.onDestroy$)).subscribe(() => {
         this.handleError(this.userStore, 400);
       });
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_404), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_404), takeUntil(this.onDestroy$)).subscribe(() => {
         this.handleError(this.userStore, 404);
       });
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_500), takeUntil(this.onDestroy$)).subscribe(() => {
         this.handleError(this.userStore, 500);
       });
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_422), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_422), takeUntil(this.onDestroy$)).subscribe(() => {
         this.handleError(this.userStore, 422);
       });
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_429), takeUntil(this.onDestroy$)).subscribe(() => {
         this.showWarningMessage = true;
       });
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_409), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL_WITH_409), takeUntil(this.onDestroy$)).subscribe(() => {
         this.showWarningMessage = true;
       });
-      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL), takeUntil(this.onDestory$)).subscribe(() => {
+      this.actions$.pipe(ofType(fromStore.INVITE_USER_FAIL), takeUntil(this.onDestroy$)).subscribe(() => {
         this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
       });
     }
   }
 
   ngOnDestroy(): void {
-    this.onDestory$.next();
-    this.onDestory$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onPersonalDetailsChange($event: PersonalDetails){

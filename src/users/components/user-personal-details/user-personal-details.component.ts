@@ -33,7 +33,7 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
 
   private _existingUser: UserDetails;
 
-  private onDestory$ = new Subject<void>();
+  private onDestroy$ = new Subject<void>();
   constructor(private fb: FormBuilder) {
   }
 
@@ -90,8 +90,8 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestory$.next();
-    this.onDestory$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }
 

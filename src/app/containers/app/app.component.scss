@@ -27,3 +27,14 @@ body .govuk-width-container,
   display: none;
   visibility: hidden;
 }
+
+.govuk-phase-banner .language {
+  float: right;
+}
+
+.govuk-notification-banner__header .close {
+  float: right;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}

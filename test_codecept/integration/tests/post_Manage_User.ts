@@ -12,7 +12,7 @@ suite('Manage Org -> POST Manage User', function() {
       idamStatus: 'Active',
       idamStatusCode: 'A',
       roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
-      id: '123',
+      id: 'b5a4ad13-4e6a-4b1b-9c41-29ed273744a3',
       userAccessTypes: [
         {
           accessTypeId: '10',

@@ -308,7 +308,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
         }];
       case 422:
         return [{
-          bodyText: 'User has been create but roles have not been refreshed.',
+          bodyText: 'User has been created but roles have not been refreshed.',
           urlText: null,
           url: null
         }, {
@@ -333,9 +333,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
   private getErrorHeader(error: number): string {
     switch (error) {
       case 400:
-        return 'Sorry, there is a problem';
       case 404:
-        return 'Sorry, there is a problem with this account';
       case 422:
         return 'Sorry, there is a problem';
       case 500:

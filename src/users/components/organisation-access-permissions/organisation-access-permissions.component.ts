@@ -6,6 +6,7 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
 import { Jurisdiction } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
 import { Accordion } from 'govuk-frontend';
+import { OrganisationProfileService } from 'src/users/services/org-profiles.service';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -22,19 +23,13 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   public permissions: JurisdictionPermissionViewModel[];
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
+  public ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
 
-  public hasSolicitorProfile: boolean;
-  public hasOgdDwpProfile: boolean;
-  public hasOgdHomeOfficeProfile: boolean;
-  public hasOgdHmrcProfile: boolean;
-  public hasOgdCicaProfile: boolean;
-  public hasOgdCafcassEnglishProfile: boolean;
-  public hasOgdCafcassWelshProfile: boolean;
   public enableCaseManagement: boolean;
+  public orgProfileType: string;
 
   private userAccessTypes: UserAccessType[];
   private onDestory$ = new Subject<void>();
-  private ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
 
   private accordianConfig = {
     i18n: {
@@ -44,30 +39,21 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     rememberExpanded: false
   };
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
-  }
+  constructor(
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef,
+    private orgProfileService: OrganisationProfileService
+  ) {}
 
   ngOnInit(): void {
     this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager');
     this.userAccessTypes = this.user?.userAccessTypes ?? [];
-
+    this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
     this.permissions = this.createPermissionsViewModel();
-    this.getOrganisationProfileType();
 
     this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
-  }
-
-  private getOrganisationProfileType() {
-    // current assumption and implementation is that an organisation can only have one profile type
-    this.hasSolicitorProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.SOLICITOR_PROFILE);
-    this.hasOgdDwpProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_DWP_PROFILE);
-    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_HO_PROFILE);
-    this.hasOgdHmrcProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_HMRC_PROFILE);
-    this.hasOgdCicaProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CICA_PROFILE);
-    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CAFCASS_PROFILE_ENGLAND);
-    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CAFCASS_PROFILE_CYMRU);
   }
 
   ngOnDestroy(): void {

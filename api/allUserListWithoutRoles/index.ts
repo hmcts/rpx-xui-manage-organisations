@@ -11,7 +11,6 @@ export async function handleAllUserListRoute(req: Request, res: Response) {
   try {
     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
     const response = await req.http.get(getRefdataAllUserListUrl(rdProfessionalApiPath));
-    logger.info('response::', JSON.stringify(response.data));
     res.send(response.data);
   } catch (error) {
     logger.error('error', error);

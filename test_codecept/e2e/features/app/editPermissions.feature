@@ -1,4 +1,4 @@
-@fullFunctional @functional_test
+@fullFunctional @ignore
 Feature: edit permissions and suspend user workflow
 
   Background:

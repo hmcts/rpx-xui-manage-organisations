@@ -34,8 +34,7 @@ export async function ogdUpdate(req: Request, res: Response) {
     const userId = req.params.userId;
     const compareResult = await compareAccessTypes(req);
     req.body = { ...userPayload, ...compareResult };
-    // BJ-TODO: Check if this has been tested since Josh made the change. I believe rd-prof-api only expects the userPayload.
-    const operationResult = await ogdEditUserRoute(req.body.userPayload);
+    const operationResult = await ogdEditUserRoute(req);
     req.body = { userId };
     await refreshUser(req);
     res.send(operationResult);

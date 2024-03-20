@@ -10,7 +10,9 @@ import applicationServer from '../localServer'
 
 var spawn = require('child_process').spawn;
 const backendMockApp = require('../backendMock/app');
-const statsReporter = require('./statsReporter')
+const statsReporter = require('./statsReporter');
+const { setDefaultResultOrder } = require('dns');
+setDefaultResultOrder('ipv4first');
 
 let appWithMockBackend = null;
 const testType = process.env.TEST_TYPE

@@ -36,6 +36,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
 
   public form: FormGroup<CasesFilterForm>;
   public showAutocomplete: boolean = false;
+  public filterApplied: boolean = false;
 
   public constructor(private formBuilder: FormBuilder) {}
 
@@ -87,7 +88,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
       this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
 
       this.selectFilterOption(filterOptionValue);
-      if (filterOptionValue === CaaCasesFilterType.AssigneeName) {
+      if (filterOptionValue === CaaCasesFilterType.CasesAssignedToAUser) {
         const assigneePersonValue = this.sessionStateValue.assigneeName;
         const user = this.selectedOrganisationUsers.find((user) => user.userIdentifier === assigneePersonValue);
 
@@ -98,8 +99,9 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         const caseReferenceNumberValue = this.sessionStateValue.caseReferenceNumber;
         this.form.controls.caseReferenceNumber.setValue(caseReferenceNumberValue, { emitEvent: false, onlySelf: true });
       }
-
+      this.filterApplied = true;
       this.form.markAsDirty();
+      this.onSearch();
     }
   }
 
@@ -128,7 +130,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         filterValue = this.form.controls.caseReferenceNumber.value;
       }
 
-      if (this.form.controls.filterOption.value === CaaCasesFilterType.AssigneeName) {
+      if (this.form.controls.filterOption.value === CaaCasesFilterType.CasesAssignedToAUser) {
         const selectedUser = this.form.controls.assigneePerson.value;
         const fullName = selectedUser.split(' - ')[0];
         const email = selectedUser.split(' - ')[1];
@@ -139,6 +141,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         filterType: this.selectedFilterType,
         filterValue: filterValue
       };
+      this.filterApplied = true;
       this.selectedFilter.emit(selectedFilter);
     }
   }
@@ -146,6 +149,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
   public onReset(): void {
     this.form.reset({ filterOption: CaaCasesFilterType.None, assigneePerson: '', caseReferenceNumber: '' });
     this.selectedFilter.emit({ filterType: this.selectedFilterType, filterValue: '' });
+    this.filterApplied = false;
   }
 
   public onUserSelectionChange(selectedUser: User) {
@@ -161,7 +165,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
   private validateForm(): boolean {
     let isValid = true;
     this.errorMessages = [];
-    if (this.form.controls.filterOption.value === CaaCasesFilterType.AssigneeName) {
+    if (this.form.controls.filterOption.value === CaaCasesFilterType.CasesAssignedToAUser) {
       this.form.controls.assigneePerson.updateValueAndValidity({ emitEvent: false, onlySelf: true }); // ensure validation is run even if the field is empty
       if (this.form.controls.assigneePerson.invalid) {
         this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: 'assigneePerson' });
@@ -186,13 +190,13 @@ export class CasesFilterComponent implements OnInit, OnChanges{
     this.form.controls.assigneePerson.reset();
     this.form.controls.caseReferenceNumber.reset();
     switch (value) {
-      case CaaCasesFilterType.AssigneeName:
+      case CaaCasesFilterType.CasesAssignedToAUser:
         this.form.controls.assigneePerson.setValidators([Validators.required, CaaCasesUtil.assigneeNameValidator2()]);
         break;
       case CaaCasesFilterType.CaseReferenceNumber:
         this.form.controls.caseReferenceNumber.setValidators([Validators.required, CaaCasesUtil.caseReferenceValidator()]);
         break;
-      case CaaCasesFilterType.AllAssignees:
+      case CaaCasesFilterType.AllAssignedCases:
       case CaaCasesFilterType.NewCasesToAccept:
       case CaaCasesFilterType.UnassignedCases:
         break;

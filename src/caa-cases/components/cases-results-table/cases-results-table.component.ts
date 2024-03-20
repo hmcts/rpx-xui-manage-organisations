@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
-import { SharedCase, SubNavigation } from '@hmcts/rpx-xui-common-lib';
+import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
@@ -40,12 +40,12 @@ export class CasesResultsTableComponent {
     }
   }
 
-  @Input() shareAssignedCases$: Observable<SharedCase[]>;
-  @Input() shareUnassignedCases$: Observable<SharedCase[]>;
   @Input() paginationPageSize: number = 25;
+  @Input() shareButtonText = 'Share case';
 
   @Output() public caseSelected = new EventEmitter<any[]>();
   @Output() public pageChanged = new EventEmitter<number>();
+  @Output() public shareButtonClicked = new EventEmitter<void>();
 
   // Needed for the tab group
   public navItems: any[];
@@ -56,6 +56,7 @@ export class CasesResultsTableComponent {
 
   public casesError$: Observable<HttpErrorResponse>;
   public noCasesFoundMessage = '';
+  public enableShareButton = false;
 
   public selectedCases: any[] = [];
   public selectedAssignedCases: any[] = [];
@@ -70,31 +71,11 @@ export class CasesResultsTableComponent {
 
   }
 
-  private fixCurrentTab(items: any): void {
-    this.navItems = items;
-    if (items && items.length > 0) {
-      this.totalCases = items[0].total ? items[0].total : 0;
-      this.setTabItems(items[0].text);
-    } else {
-      this.totalCases = 0;
-      // this.noCasesFoundMessage = this.getNoCasesFoundMessage();
-    }
-  }
-
-  private setTabItems(tabName: string, fromTabChangedEvent?: boolean): void {
-    this.resetPaginationParameters();
-    // if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-    //   this.store.pipe(select(fromStore.getAllUnassignedCases));
-    // } else {
-    //   this.store.pipe(select(fromStore.getAllAssignedCases));
-    // }
-    // this.shareAssignedCases$ = this.store.pipe(select(fromStore.getShareAssignedCaseListState));
-    // this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
-    this.currentCaseType = tabName;
-    if (!fromTabChangedEvent && this.tabGroup) {
-      this.tabGroup.selectedIndex = 0;
-    }
-    // this.loadDataFromStore();
+  public tabChanged(event: { tab: { textLabel: string }}): void {
+    this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
+      ? this.navItems.find((data) => data.text === event.tab.textLabel).total
+      : 0;
+    this.setTabItems(event.tab.textLabel, true);
   }
 
   public resetPaginationParameters(): void {
@@ -129,6 +110,7 @@ export class CasesResultsTableComponent {
 
   public onCaseSelection(selectedCases: any[]): void {
     this.caseSelected.emit(selectedCases);
+    this.enableShareButton = selectedCases.length > 0;
   }
 
   public onPaginationHandler(pageNo: number): void {
@@ -136,14 +118,38 @@ export class CasesResultsTableComponent {
     this.pageChanged.emit(pageNo);
   }
 
-  public shareAssignedCaseSubmit(): void {
-    // TODO: emit this action
-  }
-
-  public shareUnassignedCaseSubmit(): void {
+  public onShareButtonClicked(): void {
     // this.store.dispatch(new fromStore.AddShareUnassignedCases({
     //   sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
     // }));
     // TODO: emit this action
+    this.shareButtonClicked.emit();
+  }
+
+  private fixCurrentTab(items: any): void {
+    this.navItems = items;
+    if (items && items.length > 0) {
+      this.totalCases = items[0].total ? items[0].total : 0;
+      this.setTabItems(items[0].text);
+    } else {
+      this.totalCases = 0;
+      // this.noCasesFoundMessage = this.getNoCasesFoundMessage();
+    }
+  }
+
+  private setTabItems(tabName: string, fromTabChangedEvent?: boolean): void {
+    this.resetPaginationParameters();
+    // if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
+    //   this.store.pipe(select(fromStore.getAllUnassignedCases));
+    // } else {
+    //   this.store.pipe(select(fromStore.getAllAssignedCases));
+    // }
+    // this.shareAssignedCases$ = this.store.pipe(select(fromStore.getShareAssignedCaseListState));
+    // this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
+    this.currentCaseType = tabName;
+    if (!fromTabChangedEvent && this.tabGroup) {
+      this.tabGroup.selectedIndex = 0;
+    }
+    // this.loadDataFromStore();
   }
 }

@@ -36,6 +36,15 @@ export const ROUTES: Routes = [
     ]
   },
   {
+    path: 'all/case-share',
+    component: CaseShareComponent,
+    canActivate: [
+      AuthGuard,
+      FeatureToggleAccountGuard,
+      RoleGuard
+    ]
+  },
+  {
     path: 'case-share-confirm/:pageType',
     component: CaseShareConfirmComponent,
     canActivate: [

@@ -30,32 +30,17 @@
           manage case sharing for.
         </p>
 
-        <!-- *ngIf="caaCasesPageType === caaCasesPageTypeLookup.AssignedCases" -->
-        <!-- <button
-          [disabled]="(shareAssignedCases$ | async)?.length === 0"
-          id="btn-share-assigned-case-button"
-          class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
-          data-module="govuk-button"
-          type="button"
-          aria-haspopup="true"
-          aria-expanded="false"
-          (click)="shareAssignedCaseSubmit()"
-        >
-          Manage case sharing
-        </button> -->
-
-        <!-- *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases" -->
         <button
-          [disabled]="(shareUnassignedCases$ | async)?.length === 0"
+          [disabled]="!enableShareButton"
           id="btn-share-unassigned-case-button"
           class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
           data-module="govuk-button"
           type="button"
           aria-haspopup="true"
           aria-expanded="false"
-          (click)="shareUnassignedCaseSubmit()"
+          (click)="onShareButtonClicked()"
         >
-          Share case
+          {{ shareButtonText }}
         </button>
       </div>
       <ccd-case-list

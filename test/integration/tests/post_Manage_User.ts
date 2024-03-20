@@ -32,7 +32,7 @@ suite('Manage Org -> POST Manage User', function() {
   test('POST Manage User', () => generatePOSTAPIRequest('PUT', `/api/ogd-flow/update/${payload.userPayload.id}`, payload)
   // console.log('response', response.headers.get('cache-control'))
     .then((response) => {
+      console.log('RESPONSE: ', response);
       response.status.should.be.eql(200);
-      console.log(response);
     }));
 });

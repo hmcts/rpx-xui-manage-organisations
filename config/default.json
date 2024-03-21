@@ -39,7 +39,8 @@
     "ccdDefinitionApi": "http://ccd-definition-store-api-prod.service.core-compute-prod.internal",
     "caseAssignmentApi": "http://aac-manage-case-assignment-prod.service.core-compute-prod.internal",
     "role_assignment": {
-      "roleApi": "http://am-role-assignment-service-prod.service.core-compute-prod.internal"
+      "roleApi": "http://am-role-assignment-service-prod.service.core-compute-prod.internal",
+      "roleMappingApi": "http://am-org-role-mapping-service-prod.service.core-compute-prod.internal"
     },
     "prd": {
       "commondataApi": "http://rd-commondata-api-prod.service.core-compute-prod.internal"

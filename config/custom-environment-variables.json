@@ -36,8 +36,9 @@
         "ccdDefinitionApi": "SERVICES_CCD_DEFINITION_STORE_API",
         "caseAssignmentApi": "SERVICES_MCA_PROXY_API",
         "role_assignment": {
-          "roleApi": "SERVICES_ROLE_ASSIGNMENT_API"
-        },
+          "roleApi": "SERVICES_ROLE_ASSIGNMENT_API",
+          "roleMappingApi": "SERVICES_ROLE_ASSIGNMENT_MAPPING_API"
+    },
         "prd": {
           "commondataApi": "SERVICES_PRD_COMMONDATA_API"
         }

@@ -1,4 +1,4 @@
-@fullFunctional @ignore
+@fullFunctional
 Feature: invite user workflow
 
   Background:

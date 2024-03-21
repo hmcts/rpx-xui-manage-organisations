@@ -1,4 +1,4 @@
-@fullFunctional @ignore
+@fullFunctional
 Feature: edit permissions and suspend user workflow
 
   Background:

@@ -38,6 +38,7 @@ class InviteUserPage{
     this.searchResult = element(by.css('#townley\\.winchester\\@mailnesia\\.com > span'));
     this.searchFilter = element(by.css('#statusFilter'));
     this.clickOut = element(by.css('#content > div.hmcts-page-heading.govuk-row > div.hmcts-page-heading__actions-wrapper.govuk-grid-column-full.govuk-\\!-padding-0'));
+    this.successMessage = element(by.css('#confirmationHeader'));
   }
 
   /**

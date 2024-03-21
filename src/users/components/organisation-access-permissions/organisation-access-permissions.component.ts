@@ -86,7 +86,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
             display: accessType.display,
             description: accessType.description,
             accessMandatory: accessType.accessMandatory,
-            hint: accessType.hint
+            hint: accessType.hint,
+            accessDefault: accessType.accessDefault
           };
           const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionId);
           if (userAccessType) {
@@ -181,9 +182,11 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     const permissionFGs = permissions.map((permission) => {
       const accessTypesFGs = permission.accessTypes.map((accessType) => {
         const validation = accessType.accessMandatory ? [Validators.required] : [];
+        // cater to edge case where existing access type is changed to mandatory, ignore user selection and set to accessDefault value
+        const accessTypeEnabledState = accessType.accessMandatory ? accessType.accessDefault : accessType.enabled;
         return this.fb.nonNullable.group<AccessTypePermissionViewModelForm>({
           accessTypeId: new FormControl(accessType.accessTypeId, Validators.required),
-          enabled: new FormControl({ value: accessType.enabled, disabled: !accessType.display || accessType.accessMandatory }, validation),
+          enabled: new FormControl({ value: accessTypeEnabledState, disabled: !accessType.display || accessType.accessMandatory }, validation),
           display: new FormControl(accessType.display),
           description: new FormControl(accessType.description),
           hint: new FormControl(accessType.hint),
@@ -214,6 +217,7 @@ interface AccessTypePermissionViewModel {
   accessMandatory: boolean;
   description: string;
   hint: string;
+  accessDefault: boolean;
 }
 
 interface AccessForm {

@@ -85,10 +85,7 @@ export class UserRolesUtil {
    * @param response - the response object from PRD.
    */
   public static doesRoleAdditionExist(response) {
-    return AppUtils.propsExist(response, [
-      'roleAdditionResponse',
-      'idamStatusCode'
-    ]);
+    return AppUtils.propsExist(response, ['roleAdditionResponse', 'idamStatusCode']);
   }
 
   /**
@@ -97,10 +94,7 @@ export class UserRolesUtil {
    * @param response - the response object from PRD.
    */
   public static doesRoleDeletionExist(response) {
-    return (
-      response.roleDeletionResponse &&
-      AppUtils.propsExist(response, ['roleDeletionResponse'])
-    );
+    return response.roleDeletionResponse && AppUtils.propsExist(response, ['roleDeletionResponse']);
   }
 
   /**

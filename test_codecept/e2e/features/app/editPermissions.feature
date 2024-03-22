@@ -28,22 +28,22 @@ Feature: edit permissions and suspend user workflow
     Then I see the suspend user page
 
   # TEST 3: This test can replace test 1 once the 'OGD Beta Users' Launch Darkly Segment is amended to serve 'Enabled'
-  @Flaky @Ignore
-  Scenario: Verify the Edit permission and Suspend User showing for Active Users
-    When I click on user button
-    Then I should be on display the user details
-    Then I click on a Active User
-    Then I see change link and suspend button
+  # @Flaky
+  # Scenario: Verify the Edit permission and Suspend User showing for Active Users
+  #   When I click on user button
+  #   Then I should be on display the user details
+  #   Then I click on a Active User
+  #   Then I see change link and suspend button
 
   # TEST 4: This test can replace TEST 2 once the 'OGD Beta Users' Launch Darkly Segment is amended to serve 'Enabled'
-  @Flaky @Ignore
-  Scenario: Change the permissions for Active Users
-    When I click on user button
-    Then I should be on display the user details
-    Then I click on a Active User by using Active filter
-    Then I see change link and suspend button
-    Then I click the suspend button
-    Then I see the suspend user page
+  # @Flaky
+  # Scenario: Change the permissions for Active Users
+  #   When I click on user button
+  #   Then I should be on display the user details
+  #   Then I click on a Active User by using Active filter
+  #   Then I see change link and suspend button
+  #   Then I click the suspend button
+  #   Then I see the suspend user page
 
   # TEST 5: This test has never been enabled on the pipeline
   # @all

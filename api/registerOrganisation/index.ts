@@ -94,7 +94,7 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
   } catch (error) {
     if (error.status === 400 && error.data?.errorDescription) {
       error.data.errorDescription = securePbaNumberErrorMessage(error.data?.errorMessage) ? 'Registration cannot be completed' : error.data.errorDescription;
-  
+
       res.status(400).send(error.data);
     } else {
       next(error);

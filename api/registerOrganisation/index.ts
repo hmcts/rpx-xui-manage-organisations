@@ -93,6 +93,8 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
     res.send(response.data);
   } catch (error) {
     if (error.status === 400 && error.data?.errorDescription) {
+      error.data.errorDescription = securePbaNumberErrorMessage(error.data?.errorMessage) ? 'Registration cannot be completed' : error.data.errorDescription;
+  
       res.status(400).send(error.data);
     } else {
       next(error);
@@ -108,3 +110,7 @@ function convertEmptyStringToNull(term: string): string {
   return term === '' ? null : term;
 }
 
+function securePbaNumberErrorMessage(data: string): boolean {
+  const pbaNumberErrorMessage = '6 : PBA_NUMBER Invalid or already exists';
+  return data.toLowerCase() === pbaNumberErrorMessage.toLowerCase();
+}

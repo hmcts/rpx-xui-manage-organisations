@@ -177,7 +177,6 @@ export class UsersEffects {
           select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
           take(1),
           map((isEnabled) => {
-            console.log('isEnabled', isEnabled);
             if (isEnabled) {
               return new fromRoot.Go({ path: ['users/manage'] });
             }

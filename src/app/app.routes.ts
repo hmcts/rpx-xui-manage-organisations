@@ -28,7 +28,7 @@ export const ROUTES: Routes = [
   {
     path: 'cases',
     canActivate: [AuthGuard, HealthCheckGuard],
-    loadChildren: () => import('../caa-cases/caa-cases.module').then((m) => m.CaaCasesModule)
+    loadChildren: () => import('../cases/cases.module').then((m) => m.CaaCasesModule)
   },
   {
     path: 'unassigned-cases',

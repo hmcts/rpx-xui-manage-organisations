@@ -48,38 +48,33 @@ class InviteUserPage{
   }
 
   async selectPermission(permission, isSelect){
-
     const normalizedPermission = permission.toLowerCase();
     if (normalizedPermission.includes('manage cases')){
-      await this.manageCasesCheckbox.click()
+      await this.manageCasesCheckbox.click();
     } else if (normalizedPermission.includes('manage users')){
-      await this.manageUserCheckbox.click()
+      await this.manageUserCheckbox.click();
     } else if (normalizedPermission.includes('manage organisation')) {
-      await this.manageOrgCheckbox.click()
+      await this.manageOrgCheckbox.click();
     } else if (normalizedPermission.includes('case access')) {
-      await this.manageCaaCheckbox.click()
+      await this.manageCaaCheckbox.click();
     } else if (normalizedPermission.includes('fee accounts')) {
-      await this.manageFeeAccountsCheckbox.click()
-    }else{
+      await this.manageFeeAccountsCheckbox.click();
+    } else {
       throw Error(`Invalid or unrecognised user permission ${permission}`);
     }
-
   }
-
 
   async findNextActiveUser(){
     await BrowserWaits.waitForElement(this.nextPageLink);
     let activeUserVisible = await this.activeUser.isDisplayed();
-   
+
     while (!activeUserVisible) {
       console.log('Unable to find an active user, clicking next page link');
       await BrowserWaits.retryWithActionCallback(async () => {
-        await BrowserWaits.waitForElement(this.nextPageLink)
-      })
+        await BrowserWaits.waitForElement(this.nextPageLink);
+      });
       activeUserVisible = await this.activeUser.isDisplayed();
-    } 
-
-
+    }
   }
 
   async findNextActiveUserBySearch(){
@@ -103,6 +98,7 @@ class InviteUserPage{
       activeUserVisible = await this.activeUser.isDisplayed();
     }
   }
+
   /**
    * Enter random text into the Text field
    * @returns EUIStringField Object

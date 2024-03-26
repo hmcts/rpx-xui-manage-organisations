@@ -1,8 +1,21 @@
+<a href="#" class="govuk-back-link">Back</a>
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <span class="govuk-caption-xl">{{
+    (selectedOrganisation$ | async)?.name
+  }}</span>
+  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+
 <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
         <h1 class="govuk-fieldset__heading">
           You are accepting new cases into your organisation. 
+
+          You do not need to assign cases to users if they have 'Access all cases in the organisation'
+          enabled for that case type.
+
+          if users do not have access to all cases in the organisation, you must assign this case to at
+          least one user.
         </h1>
       </legend>
       <div class="govuk-radios" data-module="govuk-radios">
@@ -20,4 +33,11 @@
         </div>
       </div>
     </fieldset>
+    <div class="govuk-button-group">
+      <button type="submit" class="govuk-button" data-module="govuk-button">
+        Continue
+      </button>
+      <a class="govuk-link" href="#">Cancel</a>
+    </div>
   </div>
+</main>

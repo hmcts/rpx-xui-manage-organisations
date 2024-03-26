@@ -7,7 +7,8 @@ Feature: invite user workflow
     Given I am logged into Townley Services Org
 
     Then I should be redirected to manage organisation dashboard page
-    When I navigate to invite user page
+    When I click on user button
+    When I click on invite user button
     Then I should be on display invite user page
 
 

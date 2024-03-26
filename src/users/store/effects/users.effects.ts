@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap, take } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { UsersService } from '../../services';
 import * as usersActions from '../actions';
 import * as orgActions from '../../../organisation/store/actions';
 import { PrdUser } from 'src/users/models/prd-users.model';
+import { Store, select } from '@ngrx/store';
+import * as usersSelectors from '../selectors/user.selectors';
 
 @Injectable()
 export class UsersEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly usersService: UsersService,
-    private readonly loggerService: LoggerService
+    private readonly loggerService: LoggerService,
+    private readonly appStore: Store<fromRoot.State>,
   ) {}
+
+  checkAndLoadUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(usersActions.CHECK_USER_LIST_LOADED),
+      switchMap(() => this.appStore.pipe(select(usersSelectors.getLoadUserListNeeded))),
+      filter((loadUserListNeeded) => loadUserListNeeded),
+      map(() => new usersActions.LoadAllUsersNoRoleData())
+    )
+  );
 
   public loadUsers$ = createEffect(() =>
     this.actions$.pipe(
@@ -27,19 +39,19 @@ export class UsersEffects {
             let organisationProfileIds = [];
             userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
-              const accessTypes = element?.accessTypes || [];
+              const accessTypes = element?.userAccessTypes || [];
               const user: PrdUser = {
                 ...element,
                 fullName: `${element.firstName} ${element.lastName}`,
                 routerLink: `user/${element.userIdentifier}`,
                 routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
-                accessTypes: accessTypes
+                userAccessTypes: accessTypes
               };
               amendedUsers.push(user);
-              user.accessTypes = user?.accessTypes || [];
+              user.userAccessTypes = user?.userAccessTypes || [];
               organisationProfileIds = [
                 ...organisationProfileIds,
-                ...user.accessTypes.map(
+                ...user.userAccessTypes.map(
                   (accessType) => accessType.organisationProfileId
                 )
               ];
@@ -84,30 +96,25 @@ export class UsersEffects {
         return this.usersService.getAllUsersList().pipe(
           concatMap((userDetails) => {
             const amendedUsers: PrdUser[] = [];
-            let organisationProfileIds = [];
+            const organisationProfileIds = userDetails.organisationProfileIds;
             userDetails.users.forEach((element) => {
               const fullName = `${element.firstName} ${element.lastName}`;
-              const accessTypes = element?.accessTypes || [];
+              const accessTypes = element?.userAccessTypes || [];
               const user: PrdUser = {
                 ...element,
                 fullName: `${element.firstName} ${element.lastName}`,
                 routerLink: `user/${element.userIdentifier}`,
                 routerLinkTitle: `User details for ${fullName} with id ${element.userIdentifier}`,
-                accessTypes: accessTypes
+                userAccessTypes: accessTypes
               };
               amendedUsers.push(user);
-              user.accessTypes = user?.accessTypes || [];
-              organisationProfileIds = [
-                ...organisationProfileIds,
-                ...user.accessTypes.map(
-                  (accessType) => accessType.organisationProfileId
-                )
-              ];
+              user.userAccessTypes = user?.userAccessTypes || [];
             });
-
-            organisationProfileIds = [...new Set(organisationProfileIds)];
             return [
               new orgActions.OrganisationUpdateUpdateProfileIds(
+                organisationProfileIds
+              ),
+              new orgActions.LoadOrganisationAccessTypes(
                 organisationProfileIds
               ),
               new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers })
@@ -165,14 +172,37 @@ export class UsersEffects {
   public inviteNewUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.INVITE_NEW_USER),
-      map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
+      switchMap(() => {
+        return this.appStore.pipe(
+          select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
+          take(1),
+          map((isEnabled) => {
+            console.log('isEnabled', isEnabled);
+            if (isEnabled) {
+              return new fromRoot.Go({ path: ['users/manage'] });
+            }
+            return new fromRoot.Go({ path: ['users/invite-user'] });
+          })
+        );
+      })
     )
   );
 
   public reinviteUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.REINVITE_PENDING_USER),
-      map(() => new fromRoot.Go({ path: ['users/invite-user'] }))
+      switchMap(() => {
+        return this.appStore.pipe(
+          select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled),
+          take(1),
+          map((isEnabled) => {
+            if (isEnabled) {
+              return new fromRoot.Go({ path: ['users/manage'] });
+            }
+            return new fromRoot.Go({ path: ['users/invite-user'] });
+          })
+        );
+      })
     )
   );
 }

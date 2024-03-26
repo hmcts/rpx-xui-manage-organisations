@@ -20,6 +20,10 @@ import * as fromComponents from './components';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { RpxTranslationModule } from 'rpx-xui-translation';
+import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 @NgModule({
   imports: [
@@ -30,15 +34,20 @@ import * as fromServices from './services';
     StoreModule.forFeature('users', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule
+    ExuiCommonLibModule,
+    MatAutocompleteModule,
+    NgxPaginationModule,
+    RpxTranslationModule.forChild()
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [
+    ...fromContainers.containers,
+    ...fromComponents.components
+  ],
   providers: [...fromServices.services, InviteUserSuccessGuard]
 })
 
 /**
  * Entry point to UsersModule
  */
-
 export class UsersModule {}

@@ -1,24 +1,39 @@
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { Observable, of } from 'rxjs';
 import { UserDetailsComponent } from './user-details.component';
+import { Store } from '@ngrx/store';
+import * as fromOrgStore from '../../../organisation/store';
+import { Jurisdiction } from 'src/models';
+import { OrganisationState } from '../../../organisation/store';
 
 describe('User Details Component', () => {
   let component: UserDetailsComponent;
   let userStoreSpyObject;
   let routerStoreSpyObject;
+  let orgStoreSpyObject;
   let actionsObject;
   let activeRoute;
 
   beforeEach(() => {
     userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
     routerStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
+    orgStoreSpyObject = jasmine.createSpyObj<Store<fromOrgStore.OrganisationState>>('Store', ['pipe', 'select', 'dispatch']);
+
+    orgStoreSpyObject.pipe.and.callFake(() => {
+      return of({ organisation: { organisationJurisdications: [] } } as OrganisationState);
+    });
+
+    orgStoreSpyObject.pipe.and.callFake(() => {
+      return of(([] as Jurisdiction[]));
+    });
+
     actionsObject = jasmine.createSpyObj('Actions', ['pipe']);
     activeRoute = {
       snapshot: {
         params: of({})
       }
     };
-    component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, actionsObject, activeRoute);
+    component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, orgStoreSpyObject, actionsObject, activeRoute);
   });
 
   describe('ngOnInit', () => {

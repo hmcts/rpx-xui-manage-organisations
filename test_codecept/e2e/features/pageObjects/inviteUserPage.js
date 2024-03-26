@@ -11,14 +11,14 @@ class InviteUserPage{
     this.lastName = element(by.css('#lastName'));
     this.emailAddress = element(by.css('#email'));
     this.sendInvitationButton = element(by.css('button[type=submit]'));
-    
+
     this.manageCasesCheckbox = element(by.css('#roles'));
     this.manageUserCheckbox = element(by.css('#pui-user-manager'));
     this.manageOrgCheckbox = element(by.css('#pui-organisation-manager'));
     this.manageCaaCheckbox = element(by.css('#pui-caa'));
     this.manageFeeAccountsCheckbox = element(by.css('#pui-finance-manager'));
 
-    this.nextPageLink = element(by.css('li[class="hmcts-pagination__item hmcts-pagination__item--next"] a[class="hmcts-pagination__link"]'));
+    this.nextPageLink = element(by.xpath('//a[contains(text(), "Next")]'));
 
     this.failure_error_heading = element(by.css('#error-summary-title'));
     this.back = element(by.xpath('//a[contains(text(),\'Back\')]'));
@@ -32,8 +32,11 @@ class InviteUserPage{
     this.suspendButton = element(by.css('a.hmcts-button--secondary'));
     this.editUserText = element(by.css('.govuk-heading-xl'));
     this.suspendUserText = element(by.css('.govuk-heading-xl'));
-
-    this.userDetailsComponent = $('xuilib-user-details')
+    this.userDetailsComponent = $('xuilib-user-details');
+    this.searchBox = element(by.css('#content > div.hmcts-page-heading.govuk-row > div.hmcts-page-heading__actions-wrapper.govuk-grid-column-full.govuk-\\!-padding-0 > app-search-filter-users > div > div > input'));
+    this.searchResult = element(by.css('#townley\\.winchester\\@mailnesia\\.com > span'));
+    this.searchFilter = element(by.css('#statusFilter'));
+    this.clickOut = element(by.css('#content > div.hmcts-page-heading.govuk-row > div.hmcts-page-heading__actions-wrapper.govuk-grid-column-full.govuk-\\!-padding-0'));
   }
 
   /**
@@ -45,7 +48,7 @@ class InviteUserPage{
   }
 
   async selectPermission(permission, isSelect){
-    
+
     const normalizedPermission = permission.toLowerCase();
     if (normalizedPermission.includes('manage cases')){
       await this.manageCasesCheckbox.click()
@@ -79,6 +82,27 @@ class InviteUserPage{
 
   }
 
+  async findNextActiveUserBySearch(){
+    let activeUserVisible = await this.activeUser.isDisplayed();
+
+    while (!activeUserVisible) {
+      await this.searchBox.click();
+      await this.searchBox.sendKeys('townley.winchester@mailnesia.com');
+      await this.searchResult.click();
+      activeUserVisible = await this.activeUser.isDisplayed();
+    }
+  }
+
+  async findNextActiveUserBySearchFilter(){
+    let activeUserVisible = await this.activeUser.isDisplayed();
+
+    while (!activeUserVisible) {
+      await this.searchFilter.select('Active');
+      await this.searchBox.click();
+      await this.clickOut.click();
+      activeUserVisible = await this.activeUser.isDisplayed();
+    }
+  }
   /**
    * Enter random text into the Text field
    * @returns EUIStringField Object

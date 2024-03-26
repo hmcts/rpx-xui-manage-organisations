@@ -19,6 +19,7 @@ import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
+import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.guard';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { effects, reducers } from './store';
   ],
   exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers, ...fromComponents.components],
-  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
+  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 

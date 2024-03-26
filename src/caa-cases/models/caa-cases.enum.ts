@@ -11,10 +11,12 @@ export enum CaaCasesShowHideFilterButtonText {
 }
 
 export enum CaaCasesFilterType {
-  AllAssignees = 'all-assignees',
-  AssigneeName = 'assignee-name',
+  AllAssignedCases = 'all-assignees',
+  CasesAssignedToAUser = 'assignee-name',
   CaseReferenceNumber = 'case-reference-number',
-  None = 'none'
+  NewCasesToAccept = 'new-cases-to-accept', // new enum
+  UnassignedCases = 'unassigned-cases', // new enum
+  None = 'none',
 }
 
 export enum CaaCasesPageTitle {

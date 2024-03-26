@@ -68,7 +68,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
         if (value === this.caaCasesFilterType.CaseReferenceNumber) {
           this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
         }
-        if (value === this.caaCasesFilterType.AssigneeName) {
+        if (value === this.caaCasesFilterType.CasesAssignedToAUser) {
           this.caaFormGroup.get(this.assigneePersonFormControl).setValidators(CaaCasesUtil.assigneeNameValidator());
         }
         this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
@@ -145,7 +145,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
         selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;
       } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         switch (this.selectedFilterType) {
-          case CaaCasesFilterType.AssigneeName:
+          case CaaCasesFilterType.CasesAssignedToAUser:
             const selectedUser = this.caaFormGroup.get(this.assigneePersonFormControl).value;
             const fullName = selectedUser.split(' - ')[0];
             const email = selectedUser.split(' - ')[1];

@@ -8,36 +8,46 @@
 <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <h1 class="govuk-fieldset__heading">
-          You are accepting new cases into your organisation. 
+        <p class="govuk-fieldset__body">
+          You are accepting new cases into your organisation.<br><br>
 
           You do not need to assign cases to users if they have 'Access all cases in the organisation'
-          enabled for that case type.
+          enabled for that case type.<br><br>
 
           if users do not have access to all cases in the organisation, you must assign this case to at
           least one user.
-        </h1>
+        </p>
       </legend>
-      <div class="govuk-radios" data-module="govuk-radios">
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="whereDoYouLive" name="whereDoYouLive" type="radio" value="england">
-          <label class="govuk-label govuk-radios__label" for="whereDoYouLive">
-            Accept these cases without assigning them to anyone.
-          </label>
-        </div>
-        <div class="govuk-radios__item">
-          <input class="govuk-radios__input" id="whereDoYouLive-2" name="whereDoYouLive" type="radio" value="scotland">
-          <label class="govuk-label govuk-radios__label" for="whereDoYouLive-2">
-            Accept these cases and assign them to one or more users in your organisation. 
-          </label>
-        </div>
-      </div>
+        <xuilib-gov-radio
+        id="accept-cases-without-assigning"
+        [group]="permissionsForm"
+        [config]="{
+          label: 'Accept these cases without assigning them to anyone.',
+          name: 'notAssigning',
+          hint: 'Choose this option if you have given your users \'Access to all cases in the organisation\'',
+          hiddenLabelContext: 'Choose this option if you have given your users Access to all cases in the organisation'
+        }"
+      >
+      </xuilib-gov-radio>
+      <xuilib-gov-radio
+      id="accept-cases-with-assigning"
+      [group]="permissionsForm"
+      [config]="{
+        label: 'Accept these cases and assign them to one or more users in your organisation.',
+        name: 'assigning',
+        hint: 'Choose this option if you have not given your users \'Access to all cases in the organisation\'',
+        hiddenLabelContext: 'Choose this option if you have not given your users Access to all cases in the organisation'
+      }"
+    >
+    </xuilib-gov-radio>
     </fieldset>
     <div class="govuk-button-group">
-      <button type="submit" class="govuk-button" data-module="govuk-button">
+      <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">
         Continue
       </button>
-      <a class="govuk-link" href="#">Cancel</a>
+      <button type="cancel" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+        Cancel
+      </button>
     </div>
   </div>
 </main>

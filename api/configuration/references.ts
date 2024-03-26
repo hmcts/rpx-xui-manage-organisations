@@ -39,6 +39,7 @@ export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi';
 export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi';
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions';
 
+export const SERVICES_CCD_DEFINITION_STORE_API_PATH = 'services.ccdDefinitionApi';
 export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi';
 export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi';
 export const SERVICES_IDAM_ISS_URL = 'iss';

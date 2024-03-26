@@ -26,6 +26,11 @@ export const ROUTES: Routes = [
     loadChildren: () => import('../fee-accounts/fee-accounts.module').then((m) => m.FeeAccountsModule)
   },
   {
+    path: 'cases',
+    canActivate: [AuthGuard, HealthCheckGuard],
+    loadChildren: () => import('../caa-cases/caa-cases.module').then((m) => m.CaaCasesModule)
+  },
+  {
     path: 'unassigned-cases',
     canActivate: [AuthGuard, HealthCheckGuard],
     loadChildren: () => import('../caa-cases/caa-cases.module').then((m) => m.CaaCasesModule)

@@ -239,72 +239,149 @@ describe('Users Effects', () => {
   });
 
   describe('loadAllUsersNoRoleData$', () => {
-    it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
-      const prdUser: RawPrdUserLite = {
-        email: 'madeup@test.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        idamStatus: 'ACTIVE',
-        userIdentifier: '123'
-      };
-      const payload : RawPrdUserListWithoutRoles = {
-        organisationIdentifier: 'ABC123',
-        organisationProfileIds: [],
-        users: [prdUser]
-      };
-      usersServiceMock.getAllUsersList.and.returnValue(of(payload));
-      const action = new LoadAllUsersNoRoleData();
-      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
-      const orgLoadOrgAccessTypesCompletion = new orgActions.LoadOrganisationAccessTypes([]);
-      const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
-        users: [
-          {
-            ...prdUser,
-            fullName: 'John Doe',
-            routerLink: `user/${prdUser.userIdentifier}`,
-            routerLinkTitle: 'User details for John Doe with id 123',
-            userAccessTypes: []
-          }
-        ]
+    describe('OGD feature flag is enabled', () => {
+      beforeEach(() => {
+        mockGetOgdInviteUserFlowFeatureIsEnabledSelector.setResult(true);
       });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
-      expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
-    }));
 
-    it('should return a collection from loadAllUsersNoRoleData$ with userAccessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
-      const prdUser: RawPrdUserLite = {
-        email: 'madeup@test.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        idamStatus: 'ACTIVE',
-        userIdentifier: '123',
-        userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
-      };
-      const payload : RawPrdUserListWithoutRoles = {
-        organisationIdentifier: 'ABC123',
-        organisationProfileIds: ['orgProfileId'],
-        users: [prdUser]
-      };
-      usersServiceMock.getAllUsersList.and.returnValue(of(payload));
-      const action = new LoadAllUsersNoRoleData();
-      const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
-      const orgLoadOrgAccessTypesCompletion = new orgActions.LoadOrganisationAccessTypes(['orgProfileId']);
-      const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
-        users: [
-          {
-            ...prdUser,
-            fullName: 'John Doe',
-            routerLink: `user/${prdUser.userIdentifier}`,
-            routerLinkTitle: 'User details for John Doe with id 123',
-            userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
-          }
-        ]
+      it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+        const prdUser: RawPrdUserLite = {
+          email: 'madeup@test.com',
+          firstName: 'John',
+          lastName: 'Doe',
+          idamStatus: 'ACTIVE',
+          userIdentifier: '123'
+        };
+        const payload : RawPrdUserListWithoutRoles = {
+          organisationIdentifier: 'ABC123',
+          organisationProfileIds: [],
+          users: [prdUser]
+        };
+        usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+        const action = new LoadAllUsersNoRoleData();
+        const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds([]);
+        const orgLoadOrgAccessTypesCompletion = new orgActions.LoadOrganisationAccessTypes([]);
+        const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
+          users: [
+            {
+              ...prdUser,
+              fullName: 'John Doe',
+              routerLink: `user/${prdUser.userIdentifier}`,
+              routerLinkTitle: 'User details for John Doe with id 123',
+              userAccessTypes: []
+            }
+          ]
+        });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
+        expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+      }));
+
+      it('should return a collection from loadAllUsersNoRoleData$ with userAccessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+        const prdUser: RawPrdUserLite = {
+          email: 'madeup@test.com',
+          firstName: 'John',
+          lastName: 'Doe',
+          idamStatus: 'ACTIVE',
+          userIdentifier: '123',
+          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+        };
+        const payload : RawPrdUserListWithoutRoles = {
+          organisationIdentifier: 'ABC123',
+          organisationProfileIds: ['orgProfileId'],
+          users: [prdUser]
+        };
+        usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+        const action = new LoadAllUsersNoRoleData();
+        const orgUpdateProfileIdsActionCompletion = new orgActions.OrganisationUpdateUpdateProfileIds(['orgProfileId']);
+        const orgLoadOrgAccessTypesCompletion = new orgActions.LoadOrganisationAccessTypes(['orgProfileId']);
+        const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
+          users: [
+            {
+              ...prdUser,
+              fullName: 'John Doe',
+              routerLink: `user/${prdUser.userIdentifier}`,
+              routerLinkTitle: 'User details for John Doe with id 123',
+              userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+            }
+          ]
+        });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
+        expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+      }));
+    });
+
+    describe('OGD feature flag is disabled', () => {
+      beforeEach(() => {
+        mockGetOgdInviteUserFlowFeatureIsEnabledSelector.setResult(false);
       });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', { b: orgUpdateProfileIdsActionCompletion, c: orgLoadOrgAccessTypesCompletion, d: loadUserSuccessActionCompletion });
-      expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
-    }));
+
+      it('should return a collection from loadAllUsersNoRoleData$ - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+        const prdUser: RawPrdUserLite = {
+          email: 'madeup@test.com',
+          firstName: 'John',
+          lastName: 'Doe',
+          idamStatus: 'ACTIVE',
+          userIdentifier: '123'
+        };
+        const payload : RawPrdUserListWithoutRoles = {
+          organisationIdentifier: 'ABC123',
+          organisationProfileIds: [],
+          users: [prdUser]
+        };
+        usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+        const action = new LoadAllUsersNoRoleData();
+        
+        const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
+          users: [
+            {
+              ...prdUser,
+              fullName: 'John Doe',
+              routerLink: `user/${prdUser.userIdentifier}`,
+              routerLinkTitle: 'User details for John Doe with id 123',
+              userAccessTypes: []
+            }
+          ]
+        });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-(b)', { b: loadUserSuccessActionCompletion });
+        expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+      }));
+
+      it('should return a collection from loadAllUsersNoRoleData$ with userAccessTypes - LoadAllUsersNoRoleDataSuccess', waitForAsync(() => {
+        const prdUser: RawPrdUserLite = {
+          email: 'madeup@test.com',
+          firstName: 'John',
+          lastName: 'Doe',
+          idamStatus: 'ACTIVE',
+          userIdentifier: '123',
+          userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+        };
+        const payload : RawPrdUserListWithoutRoles = {
+          organisationIdentifier: 'ABC123',
+          organisationProfileIds: ['orgProfileId'],
+          users: [prdUser]
+        };
+        usersServiceMock.getAllUsersList.and.returnValue(of(payload));
+        const action = new LoadAllUsersNoRoleData();
+        
+        const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
+          users: [
+            {
+              ...prdUser,
+              fullName: 'John Doe',
+              routerLink: `user/${prdUser.userIdentifier}`,
+              routerLinkTitle: 'User details for John Doe with id 123',
+              userAccessTypes: [{ organisationProfileId: 'orgProfileId', accessTypeId: '1234', enabled: true, jurisdictionId: '1234' }]
+            }
+          ]
+        });
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-(b)', { b: loadUserSuccessActionCompletion });
+        expect(effects.loadAllUsersNoRoleData$).toBeObservable(expected);
+      }));
+    });
   });
 
   describe('loadAllUsersNoRoleData$ error', () => {

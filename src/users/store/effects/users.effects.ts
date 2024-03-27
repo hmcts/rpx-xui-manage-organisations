@@ -92,7 +92,8 @@ export class UsersEffects {
   public loadAllUsersNoRoleData$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.LOAD_ALL_USERS_NO_ROLE_DATA),
-      switchMap(() => {
+      switchMap(() => this.appStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled))),
+      switchMap((featureEnabled:boolean) => {
         return this.usersService.getAllUsersList().pipe(
           concatMap((userDetails) => {
             const amendedUsers: PrdUser[] = [];
@@ -110,13 +111,18 @@ export class UsersEffects {
               amendedUsers.push(user);
               user.userAccessTypes = user?.userAccessTypes || [];
             });
+            if (featureEnabled){
+              return [
+                new orgActions.OrganisationUpdateUpdateProfileIds(
+                  organisationProfileIds
+                ),
+                new orgActions.LoadOrganisationAccessTypes(
+                  organisationProfileIds
+                ),
+                new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers })
+              ];
+            }
             return [
-              new orgActions.OrganisationUpdateUpdateProfileIds(
-                organisationProfileIds
-              ),
-              new orgActions.LoadOrganisationAccessTypes(
-                organisationProfileIds
-              ),
               new usersActions.LoadAllUsersNoRoleDataSuccess({ users: amendedUsers })
             ];
           }),

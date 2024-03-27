@@ -1,18 +1,8 @@
 <div [formGroup]="jurisdictions">
   <ng-container *ngFor="
-          let jurisdiction of jurisdictions.controls;
-          let i = index
-        ">
-    <!-- The jurisdiction name
-    <fieldset class="govuk-fieldset">
-      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-        <h1 class="govuk-fieldset__heading govuk-label--m">
-          {{ jurisdiction.value.jurisdictionName }}
-        </h1>
-      </legend>
-    </fieldset> -->
-
-    <!-- The access type available -->
+            let jurisdiction of jurisdictions.controls;
+            let i = index
+          ">
     <div class="govuk-form-group" [formGroupName]="i">
       <div class="govuk-checkboxes" data-module="govuk-checkboxes">
         <div formArrayName="accessTypes">

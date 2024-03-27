@@ -23,7 +23,7 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   public grantCaseAccessAdmin$: Observable<boolean>;
   public grantFinanceManager$: Observable<boolean>;
 
-  private onDestory$ = new Subject<void>();
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -46,8 +46,8 @@ export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestory$.next();
-    this.onDestory$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   createFormAndPopulate() {

@@ -45,6 +45,7 @@ export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi';
 export const SERVICES_IDAM_ISS_URL = 'iss';
 
 export const SERVICES_ROLE_ASSIGNMENT_API_PATH = 'services.role_assignment.roleApi';
+export const SERVICES_ROLE_ASSIGNMENT_MAPPING_API_PATH = 'services.role_assignment.roleMappingApi';
 
 export const SERVICES_PRD_COMMONDATA_API = 'services.prd.commondataApi';
 

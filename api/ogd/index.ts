@@ -12,7 +12,7 @@ export async function ogdInvite(req: Request, res: Response) {
   try {
     logger.info('ogdInvite:: Invite Request received');
     const userPayload = req.body.userPayload;
-    if (userPayload.roles.includes('pui-caa')) {
+    if (userPayload.roles.includes('pui-case-manager')) {
       const compareResult = await compareAccessTypes(req);
       req.body.userPayload = { ...userPayload, ...compareResult };
     }
@@ -32,8 +32,12 @@ export async function ogdUpdate(req: Request, res: Response) {
     logger.info('ogdUpdate:: Edit User Request received');
     const userPayload = req.body.userPayload;
     const userId = req.params.userId;
-    const compareResult = await compareAccessTypes(req);
-    req.body = { ...userPayload, ...compareResult };
+    if (userPayload.userAccessTypes.length > 0) {
+      const compareResult = await compareAccessTypes(req);
+      req.body = { ...userPayload, ...compareResult };
+    } else {
+      req.body = userPayload;
+    }
     const operationResult = await ogdEditUserRoute(req);
     req.body = { userId };
     await refreshUser(req);

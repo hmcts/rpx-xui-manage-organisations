@@ -6,6 +6,7 @@ import { CaseManagementPermissions } from '../../models/case-management-permissi
 import { Jurisdiction } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
 import { Accordion } from 'govuk-frontend';
+import { OrganisationProfileService } from 'src/users/services/org-profiles.service';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -22,19 +23,13 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   public permissions: JurisdictionPermissionViewModel[];
   public jurisdictionPermissionsForm: FormGroup<AccessForm>;
+  public ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
 
-  public hasSolicitorProfile: boolean;
-  public hasOgdDwpProfile: boolean;
-  public hasOgdHomeOfficeProfile: boolean;
-  public hasOgdHmrcProfile: boolean;
-  public hasOgdCicaProfile: boolean;
-  public hasOgdCafcassEnglishProfile: boolean;
-  public hasOgdCafcassWelshProfile: boolean;
-  public enableCaseManagement: boolean = false;
+  public enableCaseManagement: boolean;
+  public orgProfileType: string;
 
   private userAccessTypes: UserAccessType[];
-  private onDestory$ = new Subject<void>();
-  private ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
+  private onDestroy$ = new Subject<void>();
 
   private accordianConfig = {
     i18n: {
@@ -44,19 +39,26 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     rememberExpanded: false
   };
 
-  constructor(private fb: FormBuilder, private cdRef: ChangeDetectorRef) {
-  }
+  constructor(
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef,
+    private orgProfileService: OrganisationProfileService
+  ) {}
 
   ngOnInit(): void {
     this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager');
     this.userAccessTypes = this.user?.userAccessTypes ?? [];
     this.initializeComponent();
+
+    this.publishCurrentPermissions();
+    this.createFormAndPopulate();
+    this.subscribeToAccessTypesChanges();
   }
 
   // If the user reloads on the invite page it doesnt handle the loading of data without the below block
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.organisationProfileIds) {
-      this.getOrganisationProfileType();
+      this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
     }
     if (changes.jurisdictions) {
       this.initAccordion();
@@ -66,25 +68,15 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
 
   private initializeComponent(): void {
     this.permissions = this.createPermissionsViewModel();
+    this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
     this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
   }
 
-  private getOrganisationProfileType() {
-    // current assumption and implementation is that an organisation can only have one profile type
-    this.hasSolicitorProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.SOLICITOR_PROFILE);
-    this.hasOgdDwpProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_DWP_PROFILE);
-    this.hasOgdHomeOfficeProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_HO_PROFILE);
-    this.hasOgdHmrcProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_HMRC_PROFILE);
-    this.hasOgdCicaProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CICA_PROFILE);
-    this.hasOgdCafcassEnglishProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CAFCASS_PROFILE_ENGLAND);
-    this.hasOgdCafcassWelshProfile = this.organisationProfileIds.includes(this.ogdProfileTypes.OGD_CAFCASS_PROFILE_CYMRU);
-  }
-
   ngOnDestroy(): void {
-    this.onDestory$.next();
-    this.onDestory$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   ngAfterViewInit(): void{
@@ -116,7 +108,8 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
             display: accessType.display,
             description: accessType.description,
             accessMandatory: accessType.accessMandatory,
-            hint: accessType.hint
+            hint: accessType.hint,
+            accessDefault: accessType.accessDefault
           };
           const userAccessType = this.userAccessTypes?.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionId);
           if (userAccessType) {
@@ -154,12 +147,12 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   private subscribeToAccessTypesChanges() {
-    this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges.pipe(takeUntil(this.onDestory$)).subscribe((enableCaseManagement) => {
+    this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((enableCaseManagement) => {
       this.enableCaseManagement = enableCaseManagement;
       this.publishCurrentPermissions();
     });
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
-      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestory$)).subscribe(() => {
+      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
         this.publishCurrentPermissions();
       });
     });
@@ -211,9 +204,11 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
     const permissionFGs = permissions.map((permission) => {
       const accessTypesFGs = permission.accessTypes.map((accessType) => {
         const validation = accessType.accessMandatory ? [Validators.required] : [];
+        // cater to edge case where existing access type is changed to mandatory, ignore user selection and set to accessDefault value
+        const accessTypeEnabledState = accessType.accessMandatory ? accessType.accessDefault : accessType.enabled;
         return this.fb.nonNullable.group<AccessTypePermissionViewModelForm>({
           accessTypeId: new FormControl(accessType.accessTypeId, Validators.required),
-          enabled: new FormControl({ value: accessType.enabled, disabled: !accessType.display || accessType.accessMandatory }, validation),
+          enabled: new FormControl({ value: accessTypeEnabledState, disabled: !accessType.display || accessType.accessMandatory }, validation),
           display: new FormControl(accessType.display),
           description: new FormControl(accessType.description),
           hint: new FormControl(accessType.hint),
@@ -244,6 +239,7 @@ interface AccessTypePermissionViewModel {
   accessMandatory: boolean;
   description: string;
   hint: string;
+  accessDefault: boolean;
 }
 
 interface AccessForm {

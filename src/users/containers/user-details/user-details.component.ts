@@ -21,7 +21,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public user: any;
   public userAccessTypes: string[] = [];
 
-  private onDestory$ = new Subject<void>();
+  private onDestroy$ = new Subject<void>();
   public userSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
@@ -54,7 +54,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     const getOgdInviteUserFlowFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled));
 
     combineLatest([getEditUserFeatureIsEnabled$, getOgdInviteUserFlowFeatureIsEnabled$])
-      .pipe(takeUntil(this.onDestory$))
+      .pipe(takeUntil(this.onDestroy$))
       .subscribe(([isEditUserFeatureEnabled, isOgdInviteUserFlowFeatureEnabled]) => {
         this.editPermissionRouter = '';
         if (isOgdInviteUserFlowFeatureEnabled) {
@@ -75,10 +75,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     this.user$ = this.userStore.pipe(select(fromStore.getUserDetails));
 
     combineLatest([organisationAccessTypes$, this.user$, getOgdInviteUserFlowFeatureIsEnabled$])
-      .pipe(takeUntil(this.onDestory$))
+      .pipe(takeUntil(this.onDestroy$))
       .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
         this.userAccessTypes = [];
-        if (isFeatureEnabled) {
+        if (isFeatureEnabled && user?.roles?.includes('pui-case-manager')) {
           const enabledUserAccessTypes: UserAccessType[] = user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
           for (const jurisdiction of organisationAccessTypes){
             for (const ac of jurisdiction.accessTypes){
@@ -109,8 +109,8 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.onDestory$.next();
-    this.onDestory$.complete();
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
 
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();

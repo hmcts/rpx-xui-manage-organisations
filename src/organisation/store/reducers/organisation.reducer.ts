@@ -63,7 +63,6 @@ export function reducer(
       return {
         ...state,
         loading: false,
-        loaded: true,
         organisationJurisdications: action.payload
       };
     }

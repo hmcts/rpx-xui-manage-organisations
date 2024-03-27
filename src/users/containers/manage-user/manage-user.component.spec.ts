@@ -396,7 +396,7 @@ describe('ManageUserComponent', () => {
     it('should return correct global error object for error 404', () => {
       const error = 404;
       const expectedGlobalError = {
-        header: 'Sorry, there is a problem with this account',
+        header: 'Sorry, there is a problem',
         errors: [
           {
             bodyText: 'to reactivate this account',

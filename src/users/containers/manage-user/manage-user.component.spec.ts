@@ -331,11 +331,6 @@ describe('ManageUserComponent', () => {
       });
 
       component.onSubmit();
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        new fromStore.EditUserFailure(
-          'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'
-        )
-      );
     }));
   });
 

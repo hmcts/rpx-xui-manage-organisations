@@ -154,7 +154,9 @@ export function reducer(
       if (state.organisationDetails?.organisationProfileIds){
         profileIds = state.organisationDetails?.organisationProfileIds ?? [];
       }
-      profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
+      if (action.payload){
+        profileIds = [...new Set([...profileIds ?? [], ...action.payload])];
+      }
       return {
         ...state,
         organisationDetails: {

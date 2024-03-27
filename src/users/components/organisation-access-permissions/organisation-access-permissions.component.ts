@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
@@ -15,7 +15,7 @@ import { OrganisationProfileService } from 'src/users/services/org-profiles.serv
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @Input() public jurisdictions: Jurisdiction[];
+  @Input() public jurisdictions: Jurisdiction[] = [];
   @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
 
@@ -48,9 +48,27 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   ngOnInit(): void {
     this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager');
     this.userAccessTypes = this.user?.userAccessTypes ?? [];
-    this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
-    this.permissions = this.createPermissionsViewModel();
+    this.initializeComponent();
 
+    this.publishCurrentPermissions();
+    this.createFormAndPopulate();
+    this.subscribeToAccessTypesChanges();
+  }
+
+  // If the user reloads on the invite page it doesnt handle the loading of data without the below block
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.organisationProfileIds) {
+      this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
+    }
+    if (changes.jurisdictions) {
+      this.initAccordion();
+      this.initializeComponent();
+    }
+  }
+
+  private initializeComponent(): void {
+    this.permissions = this.createPermissionsViewModel();
+    this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
     this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
@@ -62,6 +80,10 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   ngAfterViewInit(): void{
+    this.initAccordion();
+  }
+
+  initAccordion(){
     const accordion1 = document.getElementById('org-access-accordion');
     new Accordion(accordion1, this.accordianConfig).init();
   }
@@ -89,7 +111,7 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
             hint: accessType.hint,
             accessDefault: accessType.accessDefault
           };
-          const userAccessType = this.userAccessTypes.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionId);
+          const userAccessType = this.userAccessTypes?.find((ua) => ua.accessTypeId === accessType.accessTypeId && ua.jurisdictionId === jurisdiction.jurisdictionId);
           if (userAccessType) {
             accessTypePermissionViewModel.enabled = userAccessType.enabled;
           }

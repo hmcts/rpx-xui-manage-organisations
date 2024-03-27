@@ -43,21 +43,45 @@ describe('Invite User Effects', () => {
   }));
 
   describe('saveUser$', () => {
-    it('should return a collection from user details - InviteUserSuccess', waitForAsync(() => {
-      const payload = { payload: 'something' };
-      inviteUsersServiceMock.inviteUser.and.returnValue(of(payload));
-      const requestPayload = {
+    it('should handle dynamic payload correctly - InviteUserSuccess', waitForAsync(() => {
+      const userRequestPayload = {
         firstName: 'Captain',
         lastName: 'Caveman',
         email: 'thecap@cave.com',
         permissions: ['god'],
         resendInvite: false
       };
-      const action = new fromUsersActions.SendInviteUser(requestPayload);
-      const completion = new fromUsersActions.InviteUserSuccess({ payload: 'something', userEmail: 'thecap@cave.com' });
+      const orgProfileIdPayload = [
+        'Solicitor_Profile'
+      ];
+      const mockUserDetails = { id: 'user123', name: 'Captain Caveman' };
+      inviteUsersServiceMock.inviteUser.and.returnValue(of(mockUserDetails));
+      const action = new fromUsersActions.SendInviteUser(userRequestPayload, orgProfileIdPayload);
+      const completion = new fromUsersActions.InviteUserSuccess({ ...mockUserDetails, userEmail: 'thecap@cave.com' });
+
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
+
       expect(effects.saveUser$).toBeObservable(expected);
+    }));
+
+    it('should handle payload without orgProfileIds - InviteUserSuccess', waitForAsync(() => {
+      const requestPayloadWithoutOrgIds = {
+        firstName: 'Captain',
+        lastName: 'Caveman',
+        email: 'thecap@cave.com',
+        permissions: ['god'],
+        resendInvite: false
+      };
+      const mockUserDetailsWithoutOrgIds = { id: 'user123', name: 'Captain Caveman' };
+      inviteUsersServiceMock.inviteUser.and.returnValue(of(mockUserDetailsWithoutOrgIds));
+      const actionWithoutOrgIds = new fromUsersActions.SendInviteUser(requestPayloadWithoutOrgIds);
+      const completionWithoutOrgIds = new fromUsersActions.InviteUserSuccess({ ...mockUserDetailsWithoutOrgIds, userEmail: 'thecap@cave.com' });
+
+      actions$ = hot('-a', { a: actionWithoutOrgIds });
+      const expectedWithoutOrgIds = cold('-b', { b: completionWithoutOrgIds });
+
+      expect(effects.saveUser$).toBeObservable(expectedWithoutOrgIds);
     }));
   });
 
@@ -139,6 +163,17 @@ describe('Invite User Effects', () => {
 
       const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
       expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_409);
+    });
+
+    it('should return 422 Action', () => {
+      const error = {
+        apiError: '',
+        apiStatusCode: 422,
+        message: ''
+      };
+
+      const action = fromUsersEffects.InviteUserEffects.getErrorAction(error);
+      expect(action.type).toEqual(fromUsersActions.INVITE_USER_FAIL_WITH_422);
     });
   });
 

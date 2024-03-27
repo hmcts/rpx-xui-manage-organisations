@@ -41,3 +41,24 @@ export interface OrganisationDetails {
   orgType?: string;
   orgAttributes?: {key: string, value: string}[];
 }
+
+export interface Jurisdiction {
+  jurisdictionId: string;
+  jurisdictionName: string;
+  accessTypes: OrganisationAccessType[];
+}
+
+export interface JurisdictionResponse {
+  jurisdictions: Jurisdiction[]
+}
+
+export interface OrganisationAccessType {
+  organisationProfileId: string;
+  accessTypeId: string;
+  accessMandatory: boolean;
+  accessDefault: boolean;
+  display: boolean;
+  description: string;
+  hint: string;
+  displayOrder: number;
+}

@@ -37,7 +37,7 @@ defineSupportCode(function ({ And, But, Given, Then, When }) {
   });
 
   When(/^I navigate to invite user page$/, async function () {
-    const inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/invite-user' : '/users/invite-user';
+    const inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/manage' : '/users/manage';
     await browser.driver.get(config.config.baseUrl + inviteUserPath);
     await inviteUserPage.waitForPage();
   });

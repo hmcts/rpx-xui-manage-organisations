@@ -5,6 +5,7 @@ import * as organisationStore from '../../../organisation/store';
 import { OrganisationDetails } from 'src/models/organisation.model';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exui-case-share',
@@ -19,7 +20,8 @@ export class AcceptCasesComponent implements OnInit {
 
   constructor(
         private readonly organisationStore: Store<organisationStore.OrganisationState>,
-        private fb: FormBuilder,){
+        private fb: FormBuilder,
+        private readonly router: Router){
   }
 
   public ngOnInit(): void {
@@ -31,6 +33,10 @@ export class AcceptCasesComponent implements OnInit {
     this.permissionsForm = this.fb.group({
       assignmentType: ['notAssigning']
     });
+  }
+
+  public goBack(){
+    this.router.navigate(['/cases']);
   }
 }
 

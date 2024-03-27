@@ -2,41 +2,59 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  flushMicrotasks
-} from '@angular/core/testing';
+  flushMicrotasks,
+} from "@angular/core/testing";
 
-import { ManageUserComponent } from './manage-user.component';
-import { provideMockActions } from '@ngrx/effects/testing';
-import { Observable, of } from 'rxjs';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { ManageUserComponent } from "./manage-user.component";
+import { provideMockActions } from "@ngrx/effects/testing";
+import { Observable, of } from "rxjs";
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 
-import * as fromRoot from '../../../app/store';
-import * as fromStore from '../../store';
-import * as fromOrgStore from '../../../organisation/store';
-import { MemoizedSelector } from '@ngrx/store';
-import { FeatureToggleService, User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { LoggerService } from 'src/shared/services/logger.service';
-import { OrganisationDetails } from 'src/models';
-import { AppConstants } from '../../../app/app.constants';
-import { InviteUserService } from '../../../users/services';
-import { HttpClient, HttpHandler } from '@angular/common/http';
-import { OrganisationService } from 'src/organisation/services/organisation.service';
-import { EditUserModel } from 'src/user-profile/models/editUser.model';
-import { RpxTranslatePipe, RpxTranslationService } from 'rpx-xui-translation';
-import { StandardUserPermissionsComponent } from 'src/users/components/standard-user-permissions/standard-user-permissions.component';
-import { UserPersonalDetailsComponent } from 'src/users/components/user-personal-details/user-personal-details.component';
-import { AsyncPipe } from '@angular/common';
+import * as fromRoot from "../../../app/store";
+import * as fromStore from "../../store";
+import * as fromOrgStore from "../../../organisation/store";
+import { MemoizedSelector } from "@ngrx/store";
+import {
+  FeatureToggleService,
+  User,
+  UserAccessType,
+} from "@hmcts/rpx-xui-common-lib";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { LoggerService } from "src/shared/services/logger.service";
+import { OrganisationDetails } from "src/models";
+import { AppConstants } from "../../../app/app.constants";
+import { InviteUserService } from "../../../users/services";
+import { HttpClient, HttpHandler } from "@angular/common/http";
+import { OrganisationService } from "src/organisation/services/organisation.service";
+import { EditUserModel } from "src/user-profile/models/editUser.model";
+import { RpxTranslatePipe, RpxTranslationService } from "rpx-xui-translation";
+import { StandardUserPermissionsComponent } from "src/users/components/standard-user-permissions/standard-user-permissions.component";
+import { UserPersonalDetailsComponent } from "src/users/components/user-personal-details/user-personal-details.component";
+import { AsyncPipe } from "@angular/common";
 
-describe('ManageUserComponent', () => {
+describe("ManageUserComponent", () => {
   let component: ManageUserComponent;
   let fixture: ComponentFixture<ManageUserComponent>;
   let mockRouterStore: MockStore<fromRoot.State>;
   let mockUserStore: MockStore<fromStore.UserState>;
   let mockOrganisationStore: MockStore<fromOrgStore.OrganisationState>;
-  let mockedLoggerService = jasmine.createSpyObj('LoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
-  const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
-  const featureToggleMockService = jasmine.createSpyObj('featureToggleMockService', ['getValue']);
+  let mockedLoggerService = jasmine.createSpyObj("LoggerService", [
+    "trace",
+    "info",
+    "debug",
+    "log",
+    "warn",
+    "error",
+    "fatal",
+  ]);
+  const translationMockService = jasmine.createSpyObj(
+    "translationMockService",
+    ["translate", "getTranslation$"]
+  );
+  const featureToggleMockService = jasmine.createSpyObj(
+    "featureToggleMockService",
+    ["getValue"]
+  );
   let actions$: Observable<any>;
 
   let defaultUser: User;
@@ -47,7 +65,15 @@ describe('ManageUserComponent', () => {
   let organisationProfileIds: string[];
 
   beforeEach(async () => {
-    mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+    mockedLoggerService = jasmine.createSpyObj("mockedLoggerService", [
+      "trace",
+      "info",
+      "debug",
+      "log",
+      "warn",
+      "error",
+      "fatal",
+    ]);
     featureToggleMockService.getValue.and.returnValue(of(true));
     await TestBed.configureTestingModule({
       providers: [
@@ -55,20 +81,24 @@ describe('ManageUserComponent', () => {
         provideMockActions(() => actions$),
         {
           provide: LoggerService,
-          useValue: mockedLoggerService
+          useValue: mockedLoggerService,
         },
         InviteUserService,
         HttpClient,
         HttpHandler,
         OrganisationService,
         { provide: RpxTranslationService, useValue: translationMockService },
-        { provide: FeatureToggleService, useValue: featureToggleMockService }
+        { provide: FeatureToggleService, useValue: featureToggleMockService },
       ],
       imports: [AsyncPipe],
-      declarations: [ManageUserComponent, UserPersonalDetailsComponent, StandardUserPermissionsComponent, RpxTranslatePipe],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      declarations: [
+        ManageUserComponent,
+        UserPersonalDetailsComponent,
+        StandardUserPermissionsComponent,
+        RpxTranslatePipe,
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ManageUserComponent);
 
@@ -78,38 +108,40 @@ describe('ManageUserComponent', () => {
 
     defaultRouterStateUrl = {
       state: {
-        params: { userId: '123' },
-        url: '',
-        queryParams: {}
+        params: { userId: "123" },
+        url: "",
+        queryParams: {},
       },
-      navigationId: 0
+      navigationId: 0,
     };
     defaultUser = {
-      email: 'john@doe.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      idamStatus: 'Active',
-      idamStatusCode: 'A',
-      roles: ['pui-case-manager', 'pui-user-manager'],
-      id: '123'
+      email: "john@doe.com",
+      firstName: "John",
+      lastName: "Doe",
+      idamStatus: "Active",
+      idamStatusCode: "A",
+      roles: ["pui-case-manager", "pui-user-manager"],
+      id: "123",
     };
     defaultOrganisationState = {
-      name: 'Organisation Name',
-      organisationProfileIds: [AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE],
-      organisationIdentifier: '123',
-      status: 'ACTIVE',
-      sraId: 'sraId',
+      name: "Organisation Name",
+      organisationProfileIds: [
+        AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+      ],
+      organisationIdentifier: "123",
+      status: "ACTIVE",
+      sraId: "sraId",
       sraRegulated: true,
       superUser: {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@doe.com'
+        firstName: "John",
+        lastName: "Doe",
+        email: "john@doe.com",
       },
       contactInformation: [], // Add this line
       paymentAccount: [],
       pendingPaymentAccount: [],
       pendingAddPaymentAccount: [],
-      pendingRemovePaymentAccount: []
+      pendingRemovePaymentAccount: [],
     };
 
     organisationProfileIds = [];
@@ -137,110 +169,116 @@ describe('ManageUserComponent', () => {
     mockOrganisationStore.resetSelectors();
   });
 
-  describe('ngOnInit - user id found in route', () => {
+  describe("ngOnInit - user id found in route", () => {
     beforeEach(() => {
       mockGetRouterState.setResult(defaultRouterStateUrl);
       mockGetSingleUserSelector.setResult(defaultUser);
     });
 
-    it('should retrieve user and setup subscribers', fakeAsync(() => {
+    it("should retrieve user and setup subscribers", fakeAsync(() => {
       expect(component).toBeTruthy();
       flushMicrotasks();
-      expect(component.backUrl).toBe('/users/user/123');
+      expect(component.backUrl).toBe("/users/user/123");
     }));
   });
 
-  describe('Update User', () => {
+  describe("Update User", () => {
     let userWithAccessTypes: User;
     let userWithUpdatedRoles: EditUserModel;
     let userWithUpdatedAccessTypes: EditUserModel;
 
     const accessTypesUpdated: UserAccessType[] = [
       {
-        accessTypeId: '10',
-        jurisdictionId: '6',
+        accessTypeId: "10",
+        jurisdictionId: "6",
         organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-        enabled: false
+        enabled: false,
       },
       {
-        accessTypeId: '101',
-        jurisdictionId: '6',
+        accessTypeId: "101",
+        jurisdictionId: "6",
         organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-        enabled: true
-      }
+        enabled: true,
+      },
     ];
 
     beforeEach(() => {
       userWithAccessTypes = {
-        email: 'john_AT@doe.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        idamStatus: 'Active',
-        idamStatusCode: 'A',
-        roles: ['pui-case-manager', 'pui-user-manager', 'pui-caa'],
-        id: '123',
+        email: "john_AT@doe.com",
+        firstName: "John",
+        lastName: "Doe",
+        idamStatus: "Active",
+        idamStatusCode: "A",
+        roles: ["pui-case-manager", "pui-user-manager", "pui-caa"],
+        id: "123",
         userAccessTypes: [
           {
-            accessTypeId: '10',
-            jurisdictionId: '6',
-            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-            enabled: true
+            accessTypeId: "10",
+            jurisdictionId: "6",
+            organisationProfileId:
+              AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+            enabled: true,
           },
           {
-            accessTypeId: '101',
-            jurisdictionId: '6',
-            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-            enabled: false
-          }
-        ]
+            accessTypeId: "101",
+            jurisdictionId: "6",
+            organisationProfileId:
+              AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+            enabled: false,
+          },
+        ],
       };
 
       userWithUpdatedRoles = {
-        email: 'john_AT@doe.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        idamStatus: 'Active',
-        rolesAdd: [{ name: 'pui-finance-manager' }],
-        rolesDelete: [{ name: 'pui-user-manager' }],
-        id: '123',
+        email: "john_AT@doe.com",
+        firstName: "John",
+        lastName: "Doe",
+        idamStatus: "Active",
+        rolesAdd: [{ name: "pui-finance-manager" }],
+        rolesDelete: [{ name: "pui-user-manager" }],
+        id: "123",
         userAccessTypes: [
           {
-            accessTypeId: '10',
-            jurisdictionId: '6',
-            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-            enabled: true
+            accessTypeId: "10",
+            jurisdictionId: "6",
+            organisationProfileId:
+              AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+            enabled: true,
           },
           {
-            accessTypeId: '101',
-            jurisdictionId: '6',
-            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-            enabled: false
-          }
-        ]
+            accessTypeId: "101",
+            jurisdictionId: "6",
+            organisationProfileId:
+              AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+            enabled: false,
+          },
+        ],
       };
 
       userWithUpdatedAccessTypes = {
-        email: 'john_AT@doe.com',
-        firstName: 'John',
-        lastName: 'Doe',
-        idamStatus: 'Active',
+        email: "john_AT@doe.com",
+        firstName: "John",
+        lastName: "Doe",
+        idamStatus: "Active",
         rolesAdd: [],
         rolesDelete: [],
-        id: '123',
+        id: "123",
         userAccessTypes: [
           {
-            accessTypeId: '10',
-            jurisdictionId: '6',
-            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-            enabled: false
+            accessTypeId: "10",
+            jurisdictionId: "6",
+            organisationProfileId:
+              AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+            enabled: false,
           },
           {
-            accessTypeId: '101',
-            jurisdictionId: '6',
-            organisationProfileId: AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
-            enabled: true
-          }
-        ]
+            accessTypeId: "101",
+            jurisdictionId: "6",
+            organisationProfileId:
+              AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE,
+            enabled: true,
+          },
+        ],
       };
 
       const fixture = TestBed.createComponent(ManageUserComponent);
@@ -255,25 +293,25 @@ describe('ManageUserComponent', () => {
       component.user = userWithAccessTypes;
     });
 
-    it('should save updated user details with new roles', fakeAsync(() => {
-      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+    it("should save updated user details with new roles", fakeAsync(() => {
+      const dispatchSpy = spyOn(mockUserStore, "dispatch");
 
       component.onPersonalDetailsChange({
         email: userWithAccessTypes.email,
         firstName: userWithAccessTypes.firstName,
-        lastName: userWithAccessTypes.lastName
+        lastName: userWithAccessTypes.lastName,
       });
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: userWithAccessTypes.userAccessTypes
+        userAccessTypes: userWithAccessTypes.userAccessTypes,
       });
 
       component.standardPermission.permissionsForm.setValue({
         isCaseAccessAdmin: true,
         isPuiFinanceManager: true, // Should be added
         isPuiOrganisationManager: false,
-        isPuiUserManager: false // Should be removed
+        isPuiUserManager: false, // Should be removed
       });
 
       component.onSubmit();
@@ -282,25 +320,25 @@ describe('ManageUserComponent', () => {
       );
     }));
 
-    it('should save updated user details with new access types', fakeAsync(() => {
-      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
+    it("should save updated user details with new access types", fakeAsync(() => {
+      const dispatchSpy = spyOn(mockUserStore, "dispatch");
 
       component.onPersonalDetailsChange({
         email: userWithAccessTypes.email,
         firstName: userWithAccessTypes.firstName,
-        lastName: userWithAccessTypes.lastName
+        lastName: userWithAccessTypes.lastName,
       });
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: accessTypesUpdated // Amended access types
+        userAccessTypes: accessTypesUpdated, // Amended access types
       });
 
       component.standardPermission.permissionsForm.setValue({
         isCaseAccessAdmin: true,
         isPuiFinanceManager: false,
         isPuiOrganisationManager: false,
-        isPuiUserManager: true
+        isPuiUserManager: true,
       });
 
       component.onSubmit();
@@ -309,38 +347,36 @@ describe('ManageUserComponent', () => {
       );
     }));
 
-    it('should fail to update due to no changes', fakeAsync(() => {
-      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
-
+    it("should fail to update due to no changes", fakeAsync(() => {
       component.onPersonalDetailsChange({
         email: userWithAccessTypes.email,
         firstName: userWithAccessTypes.firstName,
-        lastName: userWithAccessTypes.lastName
+        lastName: userWithAccessTypes.lastName,
       });
 
       component.onSelectedCaseManagamentPermissionsChange({
         manageCases: true,
-        userAccessTypes: userWithAccessTypes.userAccessTypes
+        userAccessTypes: userWithAccessTypes.userAccessTypes,
       });
 
       component.standardPermission.permissionsForm.setValue({
         isCaseAccessAdmin: true,
         isPuiFinanceManager: false,
         isPuiOrganisationManager: false,
-        isPuiUserManager: true
+        isPuiUserManager: true,
       });
 
       component.onSubmit();
     }));
   });
 
-  describe('inviteUser', () => {
-    it('should dispatch SendInviteUser action with correct payload', () => {
+  describe("inviteUser", () => {
+    it("should dispatch SendInviteUser action with correct payload", () => {
       const updatedUser: any = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@doe.com',
-        roles: ['pui-case-manager']
+        firstName: "John",
+        lastName: "Doe",
+        email: "john@doe.com",
+        roles: ["pui-case-manager"],
       };
       component.user = defaultUser;
       component.updatedUser = updatedUser;
@@ -351,21 +387,21 @@ describe('ManageUserComponent', () => {
       const expectedPayload = {
         ...updatedUser,
         roles: [...updatedUser.roles, ...AppConstants.CCD_ROLES],
-        resendInvite: component.resendInvite
+        resendInvite: component.resendInvite,
       };
 
       const action = new fromStore.SendInviteUser(expectedPayload, []);
-      const spy = spyOn(mockUserStore, 'dispatch');
+      const spy = spyOn(mockUserStore, "dispatch");
 
       component.inviteUser();
 
       expect(spy).toHaveBeenCalledWith(action);
     });
 
-    it('should dispatch AddGlobalError and Go actions when globalError is present', () => {
+    it("should dispatch AddGlobalError and Go actions when globalError is present", () => {
       const errorNumber = 400;
       const expectedGlobalError = component.getGlobalError(errorNumber);
-      const spyStoreDispatch = spyOn(mockUserStore, 'dispatch');
+      const spyStoreDispatch = spyOn(mockUserStore, "dispatch");
 
       component.handleError(mockUserStore, errorNumber);
 
@@ -373,85 +409,85 @@ describe('ManageUserComponent', () => {
         new fromRoot.AddGlobalError(expectedGlobalError)
       );
       expect(spyStoreDispatch).toHaveBeenCalledWith(
-        new fromRoot.Go({ path: ['service-down'] })
+        new fromRoot.Go({ path: ["service-down"] })
       );
     });
 
-    it('should return correct global error object for error 400', () => {
+    it("should return correct global error object for error 400", () => {
       const error = 400;
       const expectedGlobalError = {
-        header: 'Sorry, there is a problem',
+        header: "Sorry, there is a problem",
         errors: [
           {
-            bodyText: 'to check the status of the user',
-            urlText: 'Refresh and go back',
-            url: '/users'
-          }
-        ]
+            bodyText: "to check the status of the user",
+            urlText: "Refresh and go back",
+            url: "/users",
+          },
+        ],
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);
     });
 
-    it('should return correct global error object for error 404', () => {
+    it("should return correct global error object for error 404", () => {
       const error = 404;
       const expectedGlobalError = {
-        header: 'Sorry, there is a problem',
+        header: "Sorry, there is a problem",
         errors: [
           {
-            bodyText: 'to reactivate this account',
-            urlText: 'Get help',
-            url: '/get-help',
-            newTab: true
+            bodyText: "to reactivate this account",
+            urlText: "Get help",
+            url: "/get-help",
+            newTab: true,
           },
           {
             bodyText: null,
-            urlText: 'Go back to manage users',
-            url: '/users'
-          }
-        ]
+            urlText: "Go back to manage users",
+            url: "/users",
+          },
+        ],
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);
     });
 
-    it('should return correct global error object for error 500', () => {
+    it("should return correct global error object for error 500", () => {
       const error = 500;
       const expectedGlobalError = {
-        header: 'Sorry, there is a problem with the service',
+        header: "Sorry, there is a problem with the service",
         errors: [
           {
-            bodyText: 'Try again later.',
+            bodyText: "Try again later.",
             urlText: null,
-            url: null
+            url: null,
           },
           {
             bodyText: null,
-            urlText: 'Go back to manage users',
-            url: '/users'
-          }
-        ]
+            urlText: "Go back to manage users",
+            url: "/users",
+          },
+        ],
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);
     });
 
-    it('should return undefined for an unknown error code', () => {
+    it("should return undefined for an unknown error code", () => {
       const error = 999;
       const expectedGlobalError = {
-        header: 'Sorry, there is a problem with the service',
+        header: "Sorry, there is a problem with the service",
         errors: [
           {
-            bodyText: 'Try again later.',
+            bodyText: "Try again later.",
             urlText: null,
-            url: null
+            url: null,
           },
           {
             bodyText: null,
-            urlText: 'Go back to manage users',
-            url: '/users'
-          }
-        ]
+            urlText: "Go back to manage users",
+            url: "/users",
+          },
+        ],
       };
       const globalError = component.getGlobalError(error);
       expect(globalError).toEqual(expectedGlobalError);

@@ -310,8 +310,6 @@ describe('ManageUserComponent', () => {
     }));
 
     it('should fail to update due to no changes', fakeAsync(() => {
-      const dispatchSpy = spyOn(mockUserStore, 'dispatch');
-
       component.onPersonalDetailsChange({
         email: userWithAccessTypes.email,
         firstName: userWithAccessTypes.firstName,

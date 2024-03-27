@@ -28,10 +28,9 @@ export class AcceptCasesComponent implements OnInit {
     this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
     this.pageTitle = 'Accept <case_type> cases';
 
-    this.permissionsForm = this.fb.nonNullable.group<any>({
-      notAssigning: new FormControl<boolean>(false),
-      assigning: new FormControl<boolean>(true)
-    }, {});
+    this.permissionsForm = this.fb.group({
+      assignmentType: ['notAssigning']
+    });
   }
 }
 

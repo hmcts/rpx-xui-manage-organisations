@@ -18,28 +18,30 @@
           least one user.
         </p>
       </legend>
-        <xuilib-gov-radio
-        id="accept-cases-without-assigning"
-        [group]="permissionsForm"
-        [config]="{
-          label: 'Accept these cases without assigning them to anyone.',
-          name: 'notAssigning',
-          hint: 'Choose this option if you have given your users \'Access to all cases in the organisation\'',
-          hiddenLabelContext: 'Choose this option if you have given your users Access to all cases in the organisation'
-        }"
-      >
-      </xuilib-gov-radio>
-      <xuilib-gov-radio
-      id="accept-cases-with-assigning"
-      [group]="permissionsForm"
-      [config]="{
-        label: 'Accept these cases and assign them to one or more users in your organisation.',
-        name: 'assigning',
-        hint: 'Choose this option if you have not given your users \'Access to all cases in the organisation\'',
-        hiddenLabelContext: 'Choose this option if you have not given your users Access to all cases in the organisation'
-      }"
-    >
-    </xuilib-gov-radio>
+      <form [formGroup]="permissionsForm">
+        <div class="govuk-radios" data-module="govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" type="radio" id="assign-without-users"
+              name="assignmentType" formControlName="assignmentType" value="notAssigning">
+            <label class="govuk-label govuk-radios__label" for="assign-without-users">
+              Accept these cases without assigning them to anyone.
+            </label>
+            <div id="assign-without-users-hint" class="govuk-hint govuk-radios__hint">
+              Choose this option if you have given your users 'Access to all cases in the organisation'
+            </div>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" type="radio" id="assign-with-users"
+              name="assignmentType" formControlName="assignmentType" value="assigning">
+            <label class="govuk-label govuk-radios__label" for="assign-with-users">
+              Accept these cases and assign them to one or more users in your organisation.
+            </label>
+            <div id="assign-with-users-hint" class="govuk-hint govuk-radios__hint">
+              Choose this option if you have not given your users 'Access to all cases in the organisation'
+            </div>
+          </div>
+        </div>
+      </form>
     </fieldset>
     <div class="govuk-button-group">
       <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button">

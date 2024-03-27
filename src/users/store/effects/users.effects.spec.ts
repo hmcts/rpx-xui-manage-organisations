@@ -332,7 +332,7 @@ describe('Users Effects', () => {
         };
         usersServiceMock.getAllUsersList.and.returnValue(of(payload));
         const action = new LoadAllUsersNoRoleData();
-        
+
         const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
           users: [
             {
@@ -365,7 +365,7 @@ describe('Users Effects', () => {
         };
         usersServiceMock.getAllUsersList.and.returnValue(of(payload));
         const action = new LoadAllUsersNoRoleData();
-        
+
         const loadUserSuccessActionCompletion = new LoadAllUsersNoRoleDataSuccess({
           users: [
             {
@@ -403,7 +403,7 @@ describe('Users Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       // Mocking the selector to return true for getLoadUserListNeeded
-      const mockGetLoadUserListNeededSelector = mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, true);
+      mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, true);
 
       expect(effects.checkAndLoadUsers$).toBeObservable(expected);
     }));
@@ -414,7 +414,7 @@ describe('Users Effects', () => {
       const expected = cold('', {});
 
       // Mocking the selector to return false for getLoadUserListNeeded
-      const mockGetLoadUserListNeededSelector = mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, false);
+      mockRootStore.overrideSelector(usersSelectors.getLoadUserListNeeded, false);
 
       expect(effects.checkAndLoadUsers$).toBeObservable(expected);
     }));

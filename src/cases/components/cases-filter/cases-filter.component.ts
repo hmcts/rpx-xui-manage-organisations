@@ -63,6 +63,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
     });
 
     this.form.controls.filterOption.valueChanges.subscribe((value: CaaCasesFilterType) => {
+      this.filterApplied = false;
       this.selectFilterOption(value);
       this.handleOnFilterOptionChange(value);
     });

@@ -46,21 +46,13 @@ export class CaseShareComponent implements OnInit {
       // is via the Unassigned Cases or Assigned Cases page
       const url = router.state.url.substring(0, router.state.url.indexOf('/', 1));
       // Set backLink and confirmLink only if the URL is either "/unassigned-cases" or "/assigned-cases"
-      if (url === '/unassigned-cases' || url === '/assigned-cases') {
-        this.backLink = `${url}`;
-        this.confirmLink = `${url}/case-share-confirm/${this.pageType}`;
-      }
-      if (url === '/unassigned-cases') {
-        this.fnTitle = 'Share a case';
-        this.title = 'Add recipient';
-        this.addUserLabel = 'Enter email address';
-        this.showRemoveUsers = false;
-      } else if (url === '/assigned-cases') {
-        this.fnTitle = 'Manage case sharing';
-        this.title = 'Manage shared access to a case';
-        this.addUserLabel = 'Add people to share access to the selected cases';
-        this.showRemoveUsers = true;
-      }
+      this.backLink = '/cases';
+      this.confirmLink = `${url}/case-share-confirm/${this.pageType}`;
+
+      this.fnTitle = 'Action a case';
+      this.title = 'Manage case assignments';
+      this.addUserLabel = 'Add people to share cases to the selected cases';
+      this.showRemoveUsers = true;
 
       this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
         ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))

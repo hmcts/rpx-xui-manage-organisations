@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
@@ -22,8 +22,8 @@ export class UserProfileEffects {
     private readonly acceptTcService: AcceptTcService
   ) {}
 
-  @Effect()
-  public getUser$ = this.actions$.pipe(
+  
+  public getUser$ = createEffect(() => this.actions$.pipe(
       ofType(AuthActionTypes.GET_USER_DETAILS),
       switchMap(() => {
         return this.userService.getUserDetails()
@@ -37,10 +37,10 @@ export class UserProfileEffects {
             })
           );
       })
-    );
+    ));
 
-  @Effect()
-  public getUserFail$ = this.actions$.pipe(
+  
+  public getUserFail$ = createEffect(() => this.actions$.pipe(
       ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
       map((actions: authActions.GetUserDetailsFailure) => actions.payload),
       map((error) => {
@@ -61,7 +61,7 @@ export class UserProfileEffects {
         };
         return new authActions.GetUserDetailsSuccess(hadCodedUser);
       })
-    );
+    ));
 
   /**
    * Edit User Effect
@@ -75,8 +75,8 @@ export class UserProfileEffects {
    * page allows the logged in User to retry editing permissions by showing them a link taking them back to the
    * Edit Permissions page.
    */
-  @Effect()
-  public editUser$ = this.actions$.pipe(
+  
+  public editUser$ = createEffect(() => this.actions$.pipe(
       ofType(usersActions.EDIT_USER),
       map((action: usersActions.EditUser) => action.payload),
       switchMap((user) => {
@@ -102,10 +102,10 @@ export class UserProfileEffects {
           })
         );
       })
-    );
+    ));
 
-  @Effect()
-  public loadHasAccepted$ = this.actions$.pipe(
+  
+  public loadHasAccepted$ = createEffect(() => this.actions$.pipe(
       ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
       switchMap((action: any) => {
         return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
@@ -113,10 +113,10 @@ export class UserProfileEffects {
           catchError((error) => of(new authActions.LoadHasAcceptedTCFail(error)))
         );
       })
-    );
+    ));
 
-  @Effect()
-  public acceptTandC$ = this.actions$.pipe(
+  
+  public acceptTandC$ = createEffect(() => this.actions$.pipe(
       ofType(AuthActionTypes.ACCEPT_T_AND_C),
       map((action: authActions.AcceptTandC) => action.payload),
       switchMap((userData) => {
@@ -127,10 +127,10 @@ export class UserProfileEffects {
           catchError((error) => of(new authActions.AcceptTandCFail(error)))
         );
       })
-    );
+    ));
 
-  @Effect()
-  public confirmEditUser$ = this.actions$.pipe(
+  
+  public confirmEditUser$ = createEffect(() => this.actions$.pipe(
       ofType(usersActions.EDIT_USER_SUCCESS),
       map((user: any) => {
         return user.payload; // this is the userId
@@ -138,5 +138,5 @@ export class UserProfileEffects {
       switchMap(() => [
         new usersActions.LoadAllUsers()
       ])
-    );
+    ));
 }

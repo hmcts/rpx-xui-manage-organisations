@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -15,8 +15,8 @@ export class SingleFeeAccountEffects {
     private readonly loggerService: LoggerService
   ) {}
 
-  @Effect()
-  public loadSingleFeeAccount$ = this.actions$.pipe(
+  
+  public loadSingleFeeAccount$ = createEffect(() => this.actions$.pipe(
       ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT),
       switchMap(() => {
         this.loggerService.log('LOAD_SINGLE_FEE_ACCOUNT ::: data is');
@@ -31,10 +31,10 @@ export class SingleFeeAccountEffects {
           })
         );
       })
-    );
+    ));
 
-  @Effect()
-  public loadSingleFeeAccountTransactions$ = this.actions$.pipe(
+  
+  public loadSingleFeeAccountTransactions$ = createEffect(() => this.actions$.pipe(
       ofType(singleFeeAccountActions.LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS),
       switchMap((data: { payload: string, type: string}) => {
         this.loggerService.log('data is LOAD_SINGLE_FEE_ACCOUNT_TRANSACTIONS');
@@ -49,5 +49,5 @@ export class SingleFeeAccountEffects {
           })
         );
       })
-    );
+    ));
 }

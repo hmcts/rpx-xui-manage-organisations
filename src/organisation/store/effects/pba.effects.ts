@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
@@ -20,8 +20,8 @@ export class PBAEffects {
     private readonly loggerService: LoggerService
   ) {}
 
-  @Effect()
-  public updatePBAs$ = this.actions$.pipe(
+  
+  public updatePBAs$ = createEffect(() => this.actions$.pipe(
       ofType(organisationActions.ORGANISATION_UPDATE_PBAS),
       map((action: organisationActions.OrganisationUpdatePBAs) => action.payload),
       switchMap((payload) => {
@@ -55,11 +55,11 @@ export class PBAEffects {
           })
         );
       })
-    );
+    ));
 
-  @Effect({ dispatch: false })
-  public updatePBAsAndNavigate$ = this.actions$.pipe(
+  
+  public updatePBAsAndNavigate$ = createEffect(() => this.actions$.pipe(
       ofType(organisationActions.ORGANISATION_UPDATE_PBA_RESPONSE),
       tap(() => this.router.navigate(['/organisation']))
-    );
+    ), { dispatch: false });
 }

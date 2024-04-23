@@ -4151,55 +4151,55 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngrx/effects@npm:^11.1.1":
-  version: 11.1.1
-  resolution: "@ngrx/effects@npm:11.1.1"
+"@ngrx/effects@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "@ngrx/effects@npm:16.3.0"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/core": ^11.0.0
-    "@ngrx/store": 11.1.1
-    rxjs: ^6.5.3
-  checksum: ec66a6e6b3ca6c07fb2f38a9e847025007d83bed168b9ac77d34eec5aa15a0a09f3fec83094dd7bffb8105708ac735619e4e5c9772c0f733562f1d379e8274e8
+    "@angular/core": ^16.0.0
+    "@ngrx/store": 16.3.0
+    rxjs: ^6.5.3 || ^7.5.0
+  checksum: 2774395929c91dfc0c289542d7960bbee61feed4305548af579b4ecb68da0f433356fd4b2a812856872d448410e7a2d7ec9a3c31bf14c57e31d45a13f2ddaed8
   languageName: node
   linkType: hard
 
-"@ngrx/router-store@npm:^15.2.1":
-  version: 15.4.0
-  resolution: "@ngrx/router-store@npm:15.4.0"
+"@ngrx/router-store@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "@ngrx/router-store@npm:16.3.0"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/common": ^15.0.0
-    "@angular/core": ^15.0.0
-    "@angular/router": ^15.0.0
-    "@ngrx/store": 15.4.0
+    "@angular/common": ^16.0.0
+    "@angular/core": ^16.0.0
+    "@angular/router": ^16.0.0
+    "@ngrx/store": 16.3.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: 0172e7aa16530e5c811df9a820a9ffbf9a12b873768239b3c0e67b1b29cfc995d1c32643eeb1e730a9752214094ed3aa428f008679fd16e31bde96c2bb268ba7
+  checksum: 1c5180fbab7c95ec131d4e16770b85f5e564dfa27cd819f45688274e81fa4d0e4ae8de95bc7e3a885156ac5747deb123a5a213b48043b1e7b49621b0897cfd32
   languageName: node
   linkType: hard
 
-"@ngrx/store-devtools@npm:^15.2.1":
-  version: 15.4.0
-  resolution: "@ngrx/store-devtools@npm:15.4.0"
+"@ngrx/store-devtools@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "@ngrx/store-devtools@npm:16.3.0"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
-    "@ngrx/store": 15.4.0
+    "@ngrx/store": 16.3.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: cce09394386de064a7c2bfd02792b38888da231567f4ff4584cc0920a33f2a6b3055db6ea543b78b1113ff844e628976dc8f92d90fdfcb22fcf2839dfbc1585d
+  checksum: 05d978457e0dfa5fd3da574d2a79e4a7df3ce63e1cbc19e2741199bc4bebc782e9cf1d8ea02a9fc3540f56e0921f05a66b7dbc7b8bd1b84c8c81cb50a98b0b5f
   languageName: node
   linkType: hard
 
-"@ngrx/store@npm:^15.2.1":
-  version: 15.4.0
-  resolution: "@ngrx/store@npm:15.4.0"
+"@ngrx/store@npm:^16.3.0":
+  version: 16.3.0
+  resolution: "@ngrx/store@npm:16.3.0"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
-    "@angular/core": ^15.0.0
+    "@angular/core": ^16.0.0
     rxjs: ^6.5.3 || ^7.5.0
-  checksum: 444ab9c3da0f69fda6c09a92d50de5b828b3dce221abb4167aecbac3a120102ccbd64d3060c173b0db21b29632b850646a4d9d977a15c65d45a244f2352b3c5e
+  checksum: e31319f2e072a8145bb5093a38a1f6bfc4b723286128ca46bb1e571c7efe25114bc7c6ca8b96c7544030f28847bf1c116880aa8f32af9e8a8659e0083fb9fbc0
   languageName: node
   linkType: hard
 
@@ -18693,10 +18693,10 @@ __metadata:
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0
-    "@ngrx/effects": ^11.1.1
-    "@ngrx/router-store": ^15.2.1
-    "@ngrx/store": ^15.2.1
-    "@ngrx/store-devtools": ^15.2.1
+    "@ngrx/effects": ^16.3.0
+    "@ngrx/router-store": ^16.3.0
+    "@ngrx/store": ^16.3.0
+    "@ngrx/store-devtools": ^16.3.0
     "@nicky-lenaers/ngx-scroll-to": ^14.0.0
     "@pact-foundation/pact": ^9.2.0
     "@pact-foundation/pact-node": ^10.9.7

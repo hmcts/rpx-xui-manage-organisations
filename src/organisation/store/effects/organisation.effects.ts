@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { AppConstants } from '../../../app/app.constants';
@@ -18,8 +18,8 @@ export class OrganisationEffects {
     private readonly featureToggleService: FeatureToggleService
   ) {}
 
-  @Effect()
-  public loadOrganisation$ = this.actions$.pipe(
+  
+  public loadOrganisation$ = createEffect(() => this.actions$.pipe(
       ofType(organisationActions.LOAD_ORGANISATION),
       switchMap(() => {
         return this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
@@ -34,5 +34,5 @@ export class OrganisationEffects {
           })
         );
       })
-    );
+    ));
 }

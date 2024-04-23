@@ -25,79 +25,73 @@ export class AppEffects {
     private readonly featureToggleService: FeatureToggleService
   ) {}
 
-  
   public updateTitle$ = createEffect(() => this.actions$.pipe(
-      ofType(usersActions.UPDATE_ERROR_MESSAGES),
-      map(() => {
-        return new appActions.SetPageTitleErrors();
-      })
-    ));
+    ofType(usersActions.UPDATE_ERROR_MESSAGES),
+    map(() => {
+      return new appActions.SetPageTitleErrors();
+    })
+  ));
 
-  
   public setUserRoles$ = createEffect(() => this.actions$.pipe(
-      ofType(fromUserProfile.AuthActionTypes.GET_USER_DETAILS_SUCCESS),
-      map((actions: fromUserProfile.GetUserDetailsSuccess) => actions.payload.roles),
-      map((roles) => {
-        return new appActions.SetUserRoles(roles);
-      })
-    ));
+    ofType(fromUserProfile.AuthActionTypes.GET_USER_DETAILS_SUCCESS),
+    map((actions: fromUserProfile.GetUserDetailsSuccess) => actions.payload.roles),
+    map((roles) => {
+      return new appActions.SetUserRoles(roles);
+    })
+  ));
 
-  
   public logout$ = createEffect(() => this.actions$.pipe(
-      ofType(appActions.LOGOUT),
-      map(() => {
-        this.authService.signOut();
-      })
-    ), { dispatch: false });
+    ofType(appActions.LOGOUT),
+    map(() => {
+      this.authService.signOut();
+    })
+  ), { dispatch: false });
 
-  
   public loadJuridictions$ = createEffect(() => this.actions$.pipe(
-      ofType(appActions.LOAD_JURISDICTIONS_GLOBAL),
-      switchMap(() => {
-        return this.jurisdictionService.getJurisdictions().pipe(
-          map((jurisdictions) => new appActions.LoadJurisdictionsSuccess(jurisdictions)),
-          catchError((error) => {
-            this.loggerService.error(error.message);
-            return of(new appActions.LoadJurisdictionsFail(error));
-          })
-        );
-      })
-    ));
+    ofType(appActions.LOAD_JURISDICTIONS_GLOBAL),
+    switchMap(() => {
+      return this.jurisdictionService.getJurisdictions().pipe(
+        map((jurisdictions) => new appActions.LoadJurisdictionsSuccess(jurisdictions)),
+        catchError((error) => {
+          this.loggerService.error(error.message);
+          return of(new appActions.LoadJurisdictionsFail(error));
+        })
+      );
+    })
+  ));
 
-  
   public loadTermsConditions$ = createEffect(() => this.actions$.pipe(
-      ofType(appActions.LOAD_TERMS_CONDITIONS),
-      switchMap(() => {
-        return this.termsService.getTermsConditions().pipe(
-          map((doc) => new appActions.LoadTermsConditionsSuccess(doc)),
-          catchError(() => of(new appActions.Go({ path: ['/service-down'] })))
-        );
-      })
-    ));
+    ofType(appActions.LOAD_TERMS_CONDITIONS),
+    switchMap(() => {
+      return this.termsService.getTermsConditions().pipe(
+        map((doc) => new appActions.LoadTermsConditionsSuccess(doc)),
+        catchError(() => of(new appActions.Go({ path: ['/service-down'] })))
+      );
+    })
+  ));
 
-  
   public featureToggleConfig = createEffect(() => this.actions$.pipe(
-      ofType(appActions.LOAD_FEATURE_TOGGLE_CONFIG),
-      map((action: appActions.LoadFeatureToggleConfig) => action.payload),
-      switchMap((featureNames: string[]) => {
-        return combineLatest(this.getObservable(featureNames)).pipe(
-          map((feature) => this.getFeaturesPayload(feature, featureNames))
-        );
-      }
-      )
-    ));
+    ofType(appActions.LOAD_FEATURE_TOGGLE_CONFIG),
+    map((action: appActions.LoadFeatureToggleConfig) => action.payload),
+    switchMap((featureNames: string[]) => {
+      return combineLatest(this.getObservable(featureNames)).pipe(
+        map((feature) => this.getFeaturesPayload(feature, featureNames))
+      );
+    }
+    )
+  ));
 
   /**
    * Note that this function is soon to be deprecated within the next two weeks, hence the lack of unit testing
    * around this.
    */
-  
+
   public idleSignout = createEffect(() => this.actions$.pipe(
-      ofType(appActions.IDLE_USER_SIGNOUT),
-      map(() => {
-        this.authService.logOutAndRedirect();
-      })
-    ));
+    ofType(appActions.IDLE_USER_SIGNOUT),
+    map(() => {
+      this.authService.logOutAndRedirect();
+    })
+  ), { dispatch: false });
 
   public getFeaturesPayload(features: boolean[], featureNames: string[]): appActions.LoadFeatureToggleConfigSuccess {
     const result: AppFeatureFlag[] = features.map((isEnabled, i) => {

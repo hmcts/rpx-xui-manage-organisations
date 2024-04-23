@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
@@ -14,7 +14,7 @@ import { GetUserDetails } from '../store/actions';
 import { userLoaded } from '../store/selectors';
 
 @Injectable()
-export class UserGuard implements CanActivate {
+export class UserGuard  {
   constructor(private readonly store: Store<fromAuth.AuthState>) {}
 
   public canActivate(): Observable<boolean> {

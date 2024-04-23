@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
@@ -14,7 +14,7 @@ import { LoadSingleFeeAccount } from '../store/actions/single-fee-account.action
 import { pbaAccountSummaryLoaded } from '../store/selectors/single-fee-account.selectors';
 
 @Injectable()
-export class AccountSummaryGuard implements CanActivate {
+export class AccountSummaryGuard  {
   constructor(private readonly store: Store<fromFeature.FeeAccountsState>) {}
 
   public canActivate(): Observable<boolean> {

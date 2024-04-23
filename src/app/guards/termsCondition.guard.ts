@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import * as fromRoot from '../../app/store';
 import * as fromUserProfile from '../../user-profile/store';
 
 @Injectable()
-export class TermsConditionGuard implements CanActivate {
+export class TermsConditionGuard  {
   constructor(
     private readonly store: Store<fromRoot.State>,
     private readonly termsAndConditionsService: TermsConditionsService

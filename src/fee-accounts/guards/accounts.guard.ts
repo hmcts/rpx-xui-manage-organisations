@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import * as fromStore from '../../organisation/store';
 
 @Injectable()
-export class AccountsGuard implements CanActivate {
+export class AccountsGuard  {
   constructor(private readonly store: Store<fromStore.OrganisationState>) {}
 
   public canActivate(): Observable<boolean> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import * as fromRoot from '../../app/store';
 import * as fromStore from '../store';
 
 @Injectable()
-export class InviteUserSuccessGuard implements CanActivate {
+export class InviteUserSuccessGuard  {
   constructor(
         private readonly store: Store<fromStore.UserState>
   ) {}

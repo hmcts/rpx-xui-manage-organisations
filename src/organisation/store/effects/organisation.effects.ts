@@ -18,21 +18,20 @@ export class OrganisationEffects {
     private readonly featureToggleService: FeatureToggleService
   ) {}
 
-  
   public loadOrganisation$ = createEffect(() => this.actions$.pipe(
-      ofType(organisationActions.LOAD_ORGANISATION),
-      switchMap(() => {
-        return this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
-      }),
-      switchMap((newRegisterOrg) => {
-        return this.organisationService.fetchOrganisation(newRegisterOrg).pipe(
-          take(1),
-          map((orgDetails) => new organisationActions.LoadOrganisationSuccess(orgDetails)),
-          catchError((error) => {
-            this.loggerService.error(error.message);
-            return of(new organisationActions.LoadOrganisationFail(error));
-          })
-        );
-      })
-    ));
+    ofType(organisationActions.LOAD_ORGANISATION),
+    switchMap(() => {
+      return this.featureToggleService.getValue(AppConstants.FEATURE_NAMES.newRegisterOrg, false);
+    }),
+    switchMap((newRegisterOrg) => {
+      return this.organisationService.fetchOrganisation(newRegisterOrg).pipe(
+        take(1),
+        map((orgDetails) => new organisationActions.LoadOrganisationSuccess(orgDetails)),
+        catchError((error) => {
+          this.loggerService.error(error.message);
+          return of(new organisationActions.LoadOrganisationFail(error));
+        })
+      );
+    })
+  ));
 }

@@ -7,7 +7,7 @@ import * as fromRoot from '../../app/store';
 import * as fromStore from '../store';
 
 @Injectable()
-export class InviteUserSuccessGuard  {
+export class InviteUserSuccessGuard {
   constructor(
         private readonly store: Store<fromStore.UserState>
   ) {}

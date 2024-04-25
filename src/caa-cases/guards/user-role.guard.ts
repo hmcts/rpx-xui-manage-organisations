@@ -6,7 +6,7 @@ import * as fromStore from '../../organisation/store';
 import * as fromUserProfile from '../../user-profile/store';
 
 @Injectable()
-export class RoleGuard  {
+export class RoleGuard {
   constructor(private readonly store: Store<fromStore.OrganisationState>) {}
 
   public canActivate(): Observable<boolean> {

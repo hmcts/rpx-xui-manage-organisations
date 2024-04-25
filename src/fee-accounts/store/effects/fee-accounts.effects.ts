@@ -14,18 +14,17 @@ export class FeeAccountsEffects {
     private readonly loggerService: LoggerService
   ) {}
 
-  
   public loadFeeAccounts$ = createEffect(() => this.actions$.pipe(
-      ofType(feeAccountsActions.LOAD_FEE_ACCOUNTS),
-      switchMap((payload: any) => {
-        return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(
-          map((feeAccountsDetails) => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
-          catchError((errorResponse) => {
-            this.loggerService.error(errorResponse);
-            return errorResponse.status === 404 ? of(new feeAccountsActions.LoadFeeOneOrMoreAccountsFail(errorResponse.error)) :
-              of(new feeAccountsActions.LoadFeeAccountsFail(errorResponse));
-          })
-        );
-      })
-    ));
+    ofType(feeAccountsActions.LOAD_FEE_ACCOUNTS),
+    switchMap((payload: any) => {
+      return this.feeAccountsService.fetchFeeAccounts(payload.paymentAccounts).pipe(
+        map((feeAccountsDetails) => new feeAccountsActions.LoadFeeAccountsSuccess(feeAccountsDetails)),
+        catchError((errorResponse) => {
+          this.loggerService.error(errorResponse);
+          return errorResponse.status === 404 ? of(new feeAccountsActions.LoadFeeOneOrMoreAccountsFail(errorResponse.error)) :
+            of(new feeAccountsActions.LoadFeeAccountsFail(errorResponse));
+        })
+      );
+    })
+  ));
 }

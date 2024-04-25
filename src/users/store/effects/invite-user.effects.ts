@@ -17,34 +17,32 @@ export class InviteUserEffects {
     private readonly loggerService: LoggerService
   ) {}
 
-  
   public saveUser$ = createEffect(() => this.actions$.pipe(
-      ofType(usersActions.SEND_INVITE_USER),
-      map((action: usersActions.SendInviteUser) => action.payload),
-      switchMap((inviteUserFormData) => {
-        const userEmail = (inviteUserFormData as any).email;
-        return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
-          map((userDetails) => {
-            const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(inviteUserFormData.resendInvite);
-            this.loggerService.info(userInvitedLoggerMessage);
-            return new usersActions.InviteUserSuccess({ ...userDetails, userEmail });
-          }),
-          catchError((errorReport) => {
-            this.loggerService.error(errorReport.message);
-            const action = InviteUserEffects.getErrorAction(errorReport.error);
-            return of(action);
-          })
-        );
-      })
-    ));
+    ofType(usersActions.SEND_INVITE_USER),
+    map((action: usersActions.SendInviteUser) => action.payload),
+    switchMap((inviteUserFormData) => {
+      const userEmail = (inviteUserFormData as any).email;
+      return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
+        map((userDetails) => {
+          const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(inviteUserFormData.resendInvite);
+          this.loggerService.info(userInvitedLoggerMessage);
+          return new usersActions.InviteUserSuccess({ ...userDetails, userEmail });
+        }),
+        catchError((errorReport) => {
+          this.loggerService.error(errorReport.message);
+          const action = InviteUserEffects.getErrorAction(errorReport.error);
+          return of(action);
+        })
+      );
+    })
+  ));
 
-  
   public confirmUser$ = createEffect(() => this.actions$.pipe(
-      ofType(usersActions.INVITE_USER_SUCCESS),
-      map(() => {
-        return new fromRoot.Go({ path: ['users/invite-user-success'] });
-      })
-    ));
+    ofType(usersActions.INVITE_USER_SUCCESS),
+    map(() => {
+      return new fromRoot.Go({ path: ['users/invite-user-success'] });
+    })
+  ));
 
   public static getUserInviteLoggerMessage(resendInvite: boolean) {
     return resendInvite ? 'User Re-Invited' : 'User Invited';

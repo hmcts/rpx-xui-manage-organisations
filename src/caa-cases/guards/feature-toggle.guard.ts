@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import * as fromRoot from '../../app/store';
 
 @Injectable()
-export class FeatureToggleAccountGuard  {
+export class FeatureToggleAccountGuard {
   constructor(private readonly appStore: Store<fromRoot.State>) {}
 
   public canActivate(): Observable<boolean> {

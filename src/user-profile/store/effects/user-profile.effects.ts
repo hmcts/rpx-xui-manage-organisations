@@ -22,46 +22,44 @@ export class UserProfileEffects {
     private readonly acceptTcService: AcceptTcService
   ) {}
 
-  
   public getUser$ = createEffect(() => this.actions$.pipe(
-      ofType(AuthActionTypes.GET_USER_DETAILS),
-      switchMap(() => {
-        return this.userService.getUserDetails()
-          .pipe(
-            map((userDetails: UserInterface) => {
-              return new authActions.GetUserDetailsSuccess(userDetails);
-            }),
-            catchError((error: HttpErrorResponse) => {
-              this.loggerService.error(error.message);
-              return of(new authActions.GetUserDetailsFailure(error));
-            })
-          );
-      })
-    ));
+    ofType(AuthActionTypes.GET_USER_DETAILS),
+    switchMap(() => {
+      return this.userService.getUserDetails()
+        .pipe(
+          map((userDetails: UserInterface) => {
+            return new authActions.GetUserDetailsSuccess(userDetails);
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.loggerService.error(error.message);
+            return of(new authActions.GetUserDetailsFailure(error));
+          })
+        );
+    })
+  ));
 
-  
   public getUserFail$ = createEffect(() => this.actions$.pipe(
-      ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
-      map((actions: authActions.GetUserDetailsFailure) => actions.payload),
-      map((error) => {
+    ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
+    map((actions: authActions.GetUserDetailsFailure) => actions.payload),
+    map((error) => {
       // TODO remove this when figure out why permissions are not returned by node on AAT
-        if (error) {
-          console.log(error);
-        }
-        console.log('_________no user details returned__________');
-        const hadCodedUser = {
-          email: 'hardcoded@user.com',
-          orgId: '12345',
-          roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager', 'pui-organisation-manager'],
-          sessionTimeout: {
-            idleModalDisplayTime: 10,
-            totalIdleTime: 50
-          },
-          userId: '1'
-        };
-        return new authActions.GetUserDetailsSuccess(hadCodedUser);
-      })
-    ));
+      if (error) {
+        console.log(error);
+      }
+      console.log('_________no user details returned__________');
+      const hadCodedUser = {
+        email: 'hardcoded@user.com',
+        orgId: '12345',
+        roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager', 'pui-organisation-manager'],
+        sessionTimeout: {
+          idleModalDisplayTime: 10,
+          totalIdleTime: 50
+        },
+        userId: '1'
+      };
+      return new authActions.GetUserDetailsSuccess(hadCodedUser);
+    })
+  ));
 
   /**
    * Edit User Effect
@@ -75,68 +73,65 @@ export class UserProfileEffects {
    * page allows the logged in User to retry editing permissions by showing them a link taking them back to the
    * Edit Permissions page.
    */
-  
+
   public editUser$ = createEffect(() => this.actions$.pipe(
-      ofType(usersActions.EDIT_USER),
-      map((action: usersActions.EditUser) => action.payload),
-      switchMap((user) => {
-        return this.userService.editUserPermissions(user).pipe(
-          map((response) => {
-            if (UserRolesUtil.doesRoleAdditionExist(response)) {
-              if (response.roleAdditionResponse.idamStatusCode !== '201') {
-                return new usersActions.EditUserFailure(user.userId);
-              }
+    ofType(usersActions.EDIT_USER),
+    map((action: usersActions.EditUser) => action.payload),
+    switchMap((user) => {
+      return this.userService.editUserPermissions(user).pipe(
+        map((response) => {
+          if (UserRolesUtil.doesRoleAdditionExist(response)) {
+            if (response.roleAdditionResponse.idamStatusCode !== '201') {
+              return new usersActions.EditUserFailure(user.userId);
             }
+          }
 
-            if (UserRolesUtil.doesRoleDeletionExist(response)) {
-              if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
-                return new usersActions.EditUserFailure(user.userId);
-              }
+          if (UserRolesUtil.doesRoleDeletionExist(response)) {
+            if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
+              return new usersActions.EditUserFailure(user.userId);
             }
+          }
 
-            return new usersActions.EditUserSuccess(user.userId);
-          }),
-          catchError((error) => {
-            this.loggerService.error(error);
-            return of(new usersActions.EditUserServerError({ userId: user.userId, errorCode: error.apiStatusCode }));
-          })
-        );
-      })
-    ));
+          return new usersActions.EditUserSuccess(user.userId);
+        }),
+        catchError((error) => {
+          this.loggerService.error(error);
+          return of(new usersActions.EditUserServerError({ userId: user.userId, errorCode: error.apiStatusCode }));
+        })
+      );
+    })
+  ));
 
-  
   public loadHasAccepted$ = createEffect(() => this.actions$.pipe(
-      ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
-      switchMap((action: any) => {
-        return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
-          map((tcDetails) => new authActions.LoadHasAcceptedTCSuccess(tcDetails.toString())),
-          catchError((error) => of(new authActions.LoadHasAcceptedTCFail(error)))
-        );
-      })
-    ));
+    ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
+    switchMap((action: any) => {
+      return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
+        map((tcDetails) => new authActions.LoadHasAcceptedTCSuccess(tcDetails.toString())),
+        catchError((error) => of(new authActions.LoadHasAcceptedTCFail(error)))
+      );
+    })
+  ));
 
-  
   public acceptTandC$ = createEffect(() => this.actions$.pipe(
-      ofType(AuthActionTypes.ACCEPT_T_AND_C),
-      map((action: authActions.AcceptTandC) => action.payload),
-      switchMap((userData) => {
-        return this.acceptTcService.acceptTandC(userData).pipe(
-          map((tcDetails) => {
-            return new authActions.AcceptTandCSuccess(tcDetails);
-          }),
-          catchError((error) => of(new authActions.AcceptTandCFail(error)))
-        );
-      })
-    ));
+    ofType(AuthActionTypes.ACCEPT_T_AND_C),
+    map((action: authActions.AcceptTandC) => action.payload),
+    switchMap((userData) => {
+      return this.acceptTcService.acceptTandC(userData).pipe(
+        map((tcDetails) => {
+          return new authActions.AcceptTandCSuccess(tcDetails);
+        }),
+        catchError((error) => of(new authActions.AcceptTandCFail(error)))
+      );
+    })
+  ));
 
-  
   public confirmEditUser$ = createEffect(() => this.actions$.pipe(
-      ofType(usersActions.EDIT_USER_SUCCESS),
-      map((user: any) => {
-        return user.payload; // this is the userId
-      }),
-      switchMap(() => [
-        new usersActions.LoadAllUsers()
-      ])
-    ));
+    ofType(usersActions.EDIT_USER_SUCCESS),
+    map((user: any) => {
+      return user.payload; // this is the userId
+    }),
+    switchMap(() => [
+      new usersActions.LoadAllUsers()
+    ])
+  ));
 }

@@ -8,7 +8,7 @@ import * as fromRoot from '../../app/store';
 import * as fromAuthStore from '../../user-profile/store/index';
 
 @Injectable()
-export class UserRoleGuard  {
+export class UserRoleGuard {
   constructor(private readonly store: Store<fromAuthStore.AuthState>) {}
 
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {

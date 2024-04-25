@@ -7,7 +7,7 @@ import * as fromRoot from '../../app/store';
 import * as fromUserProfile from '../../user-profile/store';
 
 @Injectable()
-export class AcceptTermsAndConditionGuard  {
+export class AcceptTermsAndConditionGuard {
   constructor(
     private readonly store: Store<fromRoot.State>,
   ) {}

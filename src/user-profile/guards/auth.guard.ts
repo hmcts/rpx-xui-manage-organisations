@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import * as fromStore from '../store';
 
 @Injectable()
-export class AuthGuard  {
+export class AuthGuard {
   constructor(
     private readonly store: Store<fromStore.AuthState>,
     public authService: AuthService

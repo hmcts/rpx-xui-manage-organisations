@@ -6,7 +6,7 @@ import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
 import * as fromStore from '../../organisation/store';
 
 @Injectable()
-export class AccountsGuard  {
+export class AccountsGuard {
   constructor(private readonly store: Store<fromStore.OrganisationState>) {}
 
   public canActivate(): Observable<boolean> {

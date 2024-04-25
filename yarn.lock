@@ -4127,15 +4127,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ng-idle/core@npm:^11.0.3":
-  version: 11.1.0
-  resolution: "@ng-idle/core@npm:11.1.0"
+"@ng-idle/core@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@ng-idle/core@npm:14.0.0"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     "@angular/common": ">=9.0.0"
     "@angular/core": ">=9.0.0"
-  checksum: 51f3fd617580ed3f7ea0b82f03825c7758b9589346717249282804bd720c53577f79441fc1fc33590f5879e7aad74a8cb813b301a8f85faf1106a90855fdce64
+  checksum: 2e67c0ebee0bb2e74f655a72580b968a3d05f3684932cdc5efd13e877dd9653bd666097707bf20c27a79af5c959d9d5462d37f34bc516a581a46267000999c27
   languageName: node
   linkType: hard
 
@@ -15956,13 +15956,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-pagination@npm:^3.2.1":
-  version: 3.3.1
-  resolution: "ngx-pagination@npm:3.3.1"
+"ngx-pagination@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "ngx-pagination@npm:6.0.3"
+  dependencies:
+    tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ">=2.3.1"
-    "@angular/core": ">=2.3.1"
-  checksum: d7f7f2aaa3fb997ea27e13eecb4616bae06586214c9ba70973dcdb6378c4b25a96bf638673903853535c63f68cca03434ac79f07160f1849d6a0154c96a6cdb0
+    "@angular/common": ">=13.0.0"
+    "@angular/core": ">=13.0.0"
+  checksum: 058b0feb63b54153ad124de33477ef35b6195316d1897facf91c38a49a88d6938cacd956713aa1ca8e6b645647bbca950d0fe07262b318e34813fb9c092abca6
   languageName: node
   linkType: hard
 
@@ -18703,7 +18705,7 @@ __metadata:
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.17
     "@hmcts/rpx-xui-node-lib": 2.27.1
-    "@ng-idle/core": ^11.0.3
+    "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0
     "@ngrx/router-store": ^17.2.0
@@ -18802,7 +18804,7 @@ __metadata:
     ngx-cookie-service: ^17.0.0
     ngx-logger: ^5.0.12
     ngx-md: ^12.0.0
-    ngx-pagination: ^3.2.1
+    ngx-pagination: ^6.0.3
     node-fetch: ^2.6.1
     node-html-parser: ^6.1.5
     node-http-proxy-json: ^0.1.9

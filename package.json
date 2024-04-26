@@ -173,7 +173,7 @@
     "@types/express-session": "^1.17.0",
     "@types/jasmine": "~4.3.5",
     "@types/jasminewd2": "~2.0.3",
-    "@types/mocha": "^5.2.5",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^18.17.0",
     "@types/redis": "^2.8.16",
     "@types/session-file-store": "^1.2.1",

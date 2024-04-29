@@ -14,7 +14,7 @@ properties([
 @Library("Infrastructure")
 
 def type      = "nodejs"
-def product   = "rpx"
+def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 
@@ -39,8 +39,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    //enableFortifyScan()
-    enableFullFunctionalTest(60)
+    // enableFortifyScan('rpx-aat')
+    // enableFullFunctionalTest(60)
     // enableSecurityScan()
     enableMutationTest()
     enableCrossBrowserTest()

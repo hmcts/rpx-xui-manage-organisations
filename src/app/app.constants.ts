@@ -7,7 +7,8 @@ const featureNames = {
   feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',
-  caaMenuItems: 'mo-caa-menu-items'
+  caaMenuItems: 'mo-caa-menu-items',
+  newRegisterOrg: 'mo-new-register-org'
 };
 
 const navItemsArray: NavItemModel[] = [

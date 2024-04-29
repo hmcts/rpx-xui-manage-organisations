@@ -27,8 +27,10 @@ import {
   SERVICES_IDAM_WEB,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_ROLE_ASSIGNMENT_API_PATH,
+  SERVICES_PRD_COMMONDATA_API,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
-  SESSION_SECRET
+  SESSION_SECRET,
+  SERVICES_CCD_COMPONENT_API_PATH
 } from './references';
 
 export const uiConfig = () => {
@@ -58,11 +60,15 @@ export const uiConfig = () => {
     protocol: getConfigValue(PROTOCOL),
     secureCookie: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
     services: {
+      ccdGatewayUrl: getConfigValue(SERVICES_CCD_COMPONENT_API_PATH),
       feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
       idamApi: getConfigValue(SERVICES_IDAM_API_PATH),
       idamWeb: getConfigValue(SERVICES_IDAM_WEB),
       rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
       roleAssignmentApi: getConfigValue(SERVICES_ROLE_ASSIGNMENT_API_PATH),
+      prd: {
+        commondataApi: getConfigValue(SERVICES_PRD_COMMONDATA_API)
+      },
       s2s: getConfigValue(SERVICE_S2S_PATH),
       termsAndConditions: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH)
     } as EnvironmentConfigServices,

@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, '..'), { index: false }));
  */
 app.use('/*', (req, res) => {
   console.time(`GET: ${req.originalUrl}`);
+  res.set('Cache-Control', 'no-store, s-maxage=0, max-age=0, must-revalidate, proxy-revalidate');
   res.render('../index', {
     providers: [{ provide: 'REQUEST', useValue: req }, { provide: 'RESPONSE', useValue: res }],
     req,

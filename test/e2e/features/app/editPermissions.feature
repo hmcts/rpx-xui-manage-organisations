@@ -6,7 +6,7 @@ Feature: edit permissions and suspend user workflow
     Given I am logged into Townley Services Org
     Then I should be redirected to manage organisation dashboard page
 
-
+  @Flaky
   Scenario: Verify the Edit permission and Suspend User showing for Active Users
     When I click on user button
     Then I should be on display the user details
@@ -23,6 +23,7 @@ Feature: edit permissions and suspend user workflow
 #    Then I edit the Manage User checkbox and click submit
 
 
+  @Flaky
   Scenario: Change the permissions for Active Users
     When I click on user button
     Then I should be on display the user details

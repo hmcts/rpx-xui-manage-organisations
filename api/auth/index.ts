@@ -1,6 +1,5 @@
 import { AUTH, AuthOptions, xuiNode } from '@hmcts/rpx-xui-node-lib';
 import { NextFunction, Request, Response } from 'express';
-import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getConfigValue, showFeature } from '../configuration';
 import {
   COOKIE_TOKEN,
@@ -13,18 +12,22 @@ import {
   MICROSERVICE,
   NOW,
   OAUTH_CALLBACK_URL,
+  REDISCLOUD_URL,
   REDIS_KEY_PREFIX,
   REDIS_TTL,
-  REDISCLOUD_URL,
   S2S_SECRET,
-  SERVICE_S2S_PATH,
+  SERVICES_CCD_COMPONENT_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_ISS_URL,
   SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
-  SESSION_SECRET
+  SERVICE_S2S_PATH,
+  SESSION_SECRET,
+  SYSTEM_USER_NAME,
+  SYSTEM_USER_PASSWORD
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
+import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getOrganisationDetails } from '../organisation';
 
 const logger = log4jui.getLogger('auth');
@@ -82,7 +85,21 @@ export const getXuiNodeMiddleware = () => {
   const issuerUrl = getConfigValue(SERVICES_IDAM_ISS_URL);
   const idamApiPath = getConfigValue(SERVICES_IDAM_API_PATH);
   const s2sSecret = getConfigValue(S2S_SECRET);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const ccdUrl = getConfigValue(SERVICES_CCD_COMPONENT_API_PATH);
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
+  const userName = getConfigValue(SYSTEM_USER_NAME);
+  const password = getConfigValue(SYSTEM_USER_PASSWORD);
+
+  const routeCredential = {
+    password,
+    routes: [
+      '/external/addresses',
+      '/external/getLovRefData'
+    ],
+    scope: 'openid profile roles manage-user create-user',
+    userName
+  };
 
   // TODO: we can move these out into proper config at some point to tidy up even further
   const options: AuthOptions = {
@@ -95,6 +112,7 @@ export const getXuiNodeMiddleware = () => {
     issuerURL: issuerUrl,
     logoutURL: idamApiPath,
     responseTypes: ['code'],
+    routeCredential,
     scope: 'profile openid roles manage-user create-user manage-roles',
     sessionKey: 'xui-mo-webapp',
     tokenEndpointAuthMethod: 'client_secret_post',

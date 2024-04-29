@@ -1,15 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
-import { select, Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CaaCasesService } from '../../../caa-cases/services';
 import { OrganisationDetails } from '../../../models';
 import * as fromOrganisationStore from '../../../organisation/store';
+import { ErrorMessage } from '../../../shared/models/error-message.model';
 import * as fromUserStore from '../../../users/store';
 import * as converters from '../../converters/case-converter';
 import {
@@ -19,7 +20,7 @@ import {
   CaaCasesPageType,
   CaaCasesShowHideFilterButtonText
 } from '../../models/caa-cases.enum';
-import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue, ErrorMessage } from '../../models/caa-cases.model';
+import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
 
 @Component({

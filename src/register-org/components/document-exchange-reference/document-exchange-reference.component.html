@@ -1,0 +1,51 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <xuilib-hmcts-error-summary [errorMessages]="dxErrors" [header]="'There is a problem'">
+      </xuilib-hmcts-error-summary>
+      <span class="govuk-caption-xl">Register an organisation</span>
+      <form [formGroup]="dxFormGroup">
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="document-exchange-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl govuk-!-margin-bottom-8">
+              Do you have a document exchange reference for your main office?
+            </legend>
+            <hr class="govuk-!-margin-top-0">
+            <div id="document-exchange-hint" class="govuk-hint govuk-!-margin-top-4">
+              Document Exchange (DX) is a service that enables solicitors to move large amounts of paperwork between one
+              another.
+            </div>
+            <div [ngClass]="{'govuk-form-group--error': errorPresent}">
+              <p class="govuk-error-message" *ngIf="errorPresent">
+                <span class="govuk-visually-hidden">Error:</span>{{dxErrors[0].message}}
+              </p>
+              <div class="govuk-radios" data-module="govuk-radios">
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio" value="yes" id="document-exchange-yes"
+                    name="documentExchange" formControlName="documentExchange">
+                  <label class="govuk-label govuk-radios__label" for="document-exchange-yes">
+                    Yes
+                  </label>
+                </div>
+                <div class="govuk-radios__item">
+                  <input class="govuk-radios__input" type="radio" value="no" id="document-exchange-no"
+                    name="documentExchange" formControlName="documentExchange">
+                  <label class="govuk-label govuk-radios__label" for="document-exchange-no">
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="govuk-button-group">
+          <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
+            Continue
+          </button>
+          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

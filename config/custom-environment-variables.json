@@ -1,6 +1,7 @@
 {
     "environment": "NODE_CONFIG_ENV",
     "appInsightsInstrumentationKey": "APPINSIGHTS_INSTRUMENTATIONKEY",
+    "previewLDKey": "PREVIEW_LD_KEY",
     "cookies": {
         "token": "COOKIE_TOKEN",
         "userId": "COOKIE_USER_ID"
@@ -22,6 +23,9 @@
     "loginRoleMatcher": "LOGIN_ROLE_MATCHER",
     "protocol": "PROTOCOL",
     "services": {
+        "ccd": {
+          "componentApi": "SERVICES_CCD_COMPONENT_API"
+        },
         "idamApi": "IDAM_API_SERVICE",
         "idamWeb": "IDAM_WEB_SERVICE",
         "rdProfessionalApi": "RD_PROFESSIONAL_API_SERVICE",
@@ -32,6 +36,9 @@
         "caseAssignmentApi": "SERVICES_MCA_PROXY_API",
         "role_assignment": {
           "roleApi": "SERVICES_ROLE_ASSIGNMENT_API"
+        },
+        "prd": {
+          "commondataApi": "SERVICES_PRD_COMMONDATA_API"
         }
     },
     "links": {
@@ -50,7 +57,9 @@
         "xui-oauth2-token": "IDAM_SECRET",
         "mo-webapp-redis-connection-string": "REDISCLOUD_URL",
         "google-analytics-key": "GOOGLE_ANALYTICS_KEY",
-        "launch-darkly-client-id": "LAUNCH_DARKLY_CLIENT_ID"
+        "launch-darkly-client-id": "LAUNCH_DARKLY_CLIENT_ID",
+        "system-user-name": "SYSTEM_USER_NAME",
+        "system-user-password": "SYSTEM_USER_PASSWORD"
       }
     },
     "feature": {

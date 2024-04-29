@@ -1,0 +1,491 @@
+
+
+const express = require('express')
+
+const router = express.Router({ mergeParams: true });
+const service = require('./index')
+
+
+
+router.get('/categories/OrgType', (req, res) => {
+    res.send({ list_of_values: lovRefData_OrgTypes })
+});
+
+
+
+
+const lovRefData_OrgTypes = [
+    {
+        "category_key": "OrgType",
+        "key": "BARR",
+        "value_en": "Barrister",
+        "value_cy": "",
+        "hint_text_en": "",
+        "hint_text_cy": "",
+        "lov_order": null,
+        "parent_category": "",
+        "parent_key": "",
+        "active_flag": "Y",
+        "child_nodes": null
+    },
+    {
+        "category_key": "OrgType",
+        "key": "GOVT",
+        "value_en": "Government Organisation",
+        "value_cy": "",
+        "hint_text_en": "",
+        "hint_text_cy": "",
+        "lov_order": null,
+        "parent_category": "",
+        "parent_key": "",
+        "active_flag": "Y",
+        "child_nodes": null
+    },
+    {
+        "category_key": "OrgType",
+        "key": "SOLICITOR",
+        "value_en": "Solicitor",
+        "value_cy": "",
+        "hint_text_en": "",
+        "hint_text_cy": "",
+        "lov_order": null,
+        "parent_category": "",
+        "parent_key": "",
+        "active_flag": "Y",
+        "child_nodes": null
+    },
+    {
+        "category_key": "OrgType",
+        "key": "LOCALAUTH",
+        "value_en": "Local Authority",
+        "value_cy": "",
+        "hint_text_en": "",
+        "hint_text_cy": "",
+        "lov_order": null,
+        "parent_category": "",
+        "parent_key": "",
+        "active_flag": "Y",
+        "child_nodes": null
+    },
+    {
+        "category_key": "OrgType",
+        "key": "OTHER",
+        "value_en": "Other",
+        "value_cy": "",
+        "hint_text_en": "",
+        "hint_text_cy": "",
+        "lov_order": null,
+        "parent_category": "",
+        "parent_key": "",
+        "active_flag": "Y",
+        "child_nodes": [
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ACCOUNT",
+                "value_en": "Accountancy, banking and finance",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-PUBDEF",
+                "value_en": "Public sector & defence",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ENV",
+                "value_en": "Environment and agriculture",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-RETAIL",
+                "value_en": "Retail & wholesale",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-HEALTH",
+                "value_en": "Healthcare",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-PROP",
+                "value_en": "Property and construction",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-EDU",
+                "value_en": "Education",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-BUSI",
+                "value_en": "Business, consulting and management",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ADMIN",
+                "value_en": "Admin and support",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-MARK",
+                "value_en": "Marketing, advertising and PR",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-NFP",
+                "value_en": "Not for profit",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-TRANSP",
+                "value_en": "Transport and logistics",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ACCOM",
+                "value_en": "Accommodation & food",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-SOCIAL",
+                "value_en": "Social care",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-SCIENCE",
+                "value_en": "Science and pharmaceuticals",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ENERGY",
+                "value_en": "Energy and utilities",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ENGG",
+                "value_en": "Engineering and manufacturing",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-CHARITY",
+                "value_en": "Charity and voluntary work",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-MINING",
+                "value_en": "Mining and quarrying",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-PUBADM",
+                "value_en": "Public services and administration",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-LAW",
+                "value_en": "Law enforcement and security",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-MEDIA",
+                "value_en": "Media and internet",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-HOSP",
+                "value_en": "Hospitality and events management",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-FIN",
+                "value_en": "Financial services",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-LEISURE",
+                "value_en": "Leisure, sport and tourism",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-REC",
+                "value_en": "Recruitment and HR",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-CREATI",
+                "value_en": "Creative arts and design",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-SALES",
+                "value_en": "Sales",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-ITCOMM",
+                "value_en": "IT & communications",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            },
+            {
+                "category_key": "OrgSubType",
+                "key": "OTHER-REALT",
+                "value_en": "Real estate activities",
+                "value_cy": "",
+                "hint_text_en": "",
+                "hint_text_cy": "",
+                "lov_order": null,
+                "parent_category": "OrgType",
+                "parent_key": "OTHER",
+                "active_flag": "Y",
+                "child_nodes": null
+            }
+        ]
+    },
+    {
+        "category_key": "OrgType",
+        "key": "PROBPRAC",
+        "value_en": "Probate Practitioner",
+        "value_cy": "",
+        "hint_text_en": "",
+        "hint_text_cy": "",
+        "lov_order": null,
+        "parent_category": "",
+        "parent_key": "",
+        "active_flag": "Y",
+        "child_nodes": null
+    }
+]
+
+
+module.exports =  router;
+

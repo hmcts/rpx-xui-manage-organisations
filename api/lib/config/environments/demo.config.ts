@@ -6,7 +6,10 @@ export default {
     idamApi: 'https://idam-api.demo.platform.hmcts.net',
     s2s: 'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
     rdProfessionalApi: 'http://rd-professional-api-demo.service.core-compute-demo.internal',
-    feeAndPayApi: 'http://payment-api-demo.service.core-compute-demo.internal'
+    feeAndPayApi: 'http://payment-api-demo.service.core-compute-demo.internal',
+    prd: {
+      commondataApi: 'http://rd-commondata-api-demo.service.core-compute-demo.internal'
+    }
   },
   health: {
     ccdDataApi: 'http://ccd-data-store-api-demo.service.core-compute-demo.internal/health',
@@ -15,8 +18,10 @@ export default {
     idamApi: 'https://idam-api.demo.platform.hmcts.net/health',
     s2s: 'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal/health',
     rdProfessionalApi: 'http://rd-professional-api-demo.service.core-compute-demo.internal/health',
-    feeAndPayApi: 'http://payment-api-demo.service.core-compute-demo.internal/health'
-
+    feeAndPayApi: 'http://payment-api-demo.service.core-compute-demo.internal/health',
+    prd: {
+      commondataApi: 'http://rd-commondata-api-demo.service.core-compute-demo.internal'
+    }
   },
   useProxy: false,
   secureCookie: false,

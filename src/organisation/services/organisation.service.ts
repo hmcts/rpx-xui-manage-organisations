@@ -11,8 +11,8 @@ export const ENVIRONMENT = {
 export class OrganisationService {
   constructor(private readonly http: HttpClient) {}
 
-  public fetchOrganisation(): Observable<any> {
-    return this.http.get<any>(`${ENVIRONMENT.orgUri}`);
+  public fetchOrganisation(registerOrgFeature: boolean): Observable<any> {
+    return registerOrgFeature ? this.http.get<any>(`${ENVIRONMENT.orgUri}`) : this.http.get<any>(`${ENVIRONMENT.orgUri}/v1`);
   }
 
   private handleError(error: HttpErrorResponse) {

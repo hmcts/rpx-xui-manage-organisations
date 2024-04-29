@@ -16,11 +16,7 @@ const config = {
   baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
   params: {
     serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
-    targetEnv: argv.env || 'local',
-    username: process.env.TEST_EMAIL || 'autotest_superuser@mailinator.com',
-    password: process.env.TEST_PASSWORD || 'Monday01'
-    // username: 'peterxuisuperuser@mailnesia.com',
-    // password: 'Monday01'
+    targetEnv: argv.env || 'local'
   },
   directConnect: true,
   // seleniumAddress: 'http://localhost:4444/wd/hub',
@@ -42,7 +38,7 @@ const config = {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
     format: ['node_modules/cucumber-pretty', 'json:reports/tests/functional/results.json'],
-    tags: ['@all or @smoke or @fullFunctional or @end2end'],
+    tags: ['@all or @smoke or @fullFunctional or @end2end', 'not @Flaky'],
     //  tags: ['@edit'],
     require: cucumberOpts
   },

@@ -1,5 +1,6 @@
- @crossbrowser
+@crossbrowser
 Feature: view organisation workflow
+  @Flaky
   Scenario: view organisation workflow
     When I navigate to manage organisation Url
     Given I am logged into manage organisation with ManageOrg user details

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule, RxwebValidators } from '@rxweb/reactive-form-validators';
+import { RpxTranslationService } from 'rpx-xui-translation';
 
 import { PbaNumberInputComponent } from './pba-number-input.component';
 
@@ -13,6 +14,7 @@ describe('PbaNumberInputComponent', () => {
 
   let component: PbaNumberInputComponent;
   let fixture: ComponentFixture<PbaNumberInputComponent>;
+  const rpxTranslateMock = jasmine.createSpyObj('RpxTranslationService', ['getTranslation$']);
 
   beforeEach(() => {
     group = new FormGroup({
@@ -34,6 +36,10 @@ describe('PbaNumberInputComponent', () => {
         RxReactiveFormsModule
       ],
       declarations: [PbaNumberInputComponent],
+      providers: [{
+        provide: RpxTranslationService,
+        useValue: rpxTranslateMock
+      }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
 

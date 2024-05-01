@@ -2896,16 +2896,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.17":
-  version: 2.0.17
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.17"
+"@hmcts/rpx-xui-common-lib@npm:2.0.18-angular-upgrade-17":
+  version: 2.0.18-angular-upgrade-17
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.18-angular-upgrade-17"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 466932865ac93ac66d86c3b11f5338a4803ee58fe7fc5705f186b1f92d8136295a41d120f3e65382c6a9393d5eb0183001004d83222042864599023998279a0a
+  checksum: da0b44e4b6754adb2bb62821b39fb3f44d1ee8c898286f9c6c594b7a9169bbc75eec7c0492d33accbe3fbfa1b9135ce9fcc8f422846dc9ec6f0892fa11748df2
   languageName: node
   linkType: hard
 
@@ -18479,7 +18479,7 @@ __metadata:
     "@hmcts/media-viewer": 2.10.1-RC.1
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.17
+    "@hmcts/rpx-xui-common-lib": 2.0.18-angular-upgrade-17
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
@@ -18600,7 +18600,7 @@ __metadata:
     puppeteer: ^22.4.1
     redis: ^3.0.2
     rest-assured: ^0.1.0
-    rpx-xui-translation: 1.0.2
+    rpx-xui-translation: 1.0.3-angular-upgrade-17-rc
     rx-polling-hmcts: ^1.1.1
     rxjs: ^7.8.1
     rxjs-compat: ^6.4.0
@@ -18629,9 +18629,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.0.2":
-  version: 1.0.2
-  resolution: "rpx-xui-translation@npm:1.0.2"
+"rpx-xui-translation@npm:1.0.3-angular-upgrade-17-rc":
+  version: 1.0.3-angular-upgrade-17-rc
+  resolution: "rpx-xui-translation@npm:1.0.3-angular-upgrade-17-rc"
   dependencies:
     dexie: ^3.2.2
     luxon: ^2.4.0
@@ -18639,7 +18639,7 @@ __metadata:
   peerDependencies:
     "@angular/common": ^15.2.9
     "@angular/core": ^15.2.9
-  checksum: 305f4ae1d935de2f4d0874637a61863c1b5478872d335653f6986776fc274de9ebfe3728c04c8a386ff8b4d36fa1de8e444d000ad42f2a914bab3fb5989f28bc
+  checksum: 430fc54d0d96a5f216047afd4c48d4ac69b9fb0f85708e690d07edb05cb4b999110fc6767151730a71fed0b32107f7d51d98eba249a943820934aea059d7cea9
   languageName: node
   linkType: hard
 

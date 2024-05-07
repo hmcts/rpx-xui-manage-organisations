@@ -4198,12 +4198,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rxweb/reactive-form-validators@npm:2.1.2":
-  version: 2.1.2
-  resolution: "@rxweb/reactive-form-validators@npm:2.1.2"
+"@rxweb/reactive-form-validators@npm:2.1.8":
+  version: 2.1.8
+  resolution: "@rxweb/reactive-form-validators@npm:2.1.8"
   dependencies:
-    tslib: ^1.9.0
-  checksum: 0945a8fe0465323e6e7285bd2f8ebc3b408189a305ee5ac22dcc186d813a5d8fabf1dd0a5148d685e5cdef781fc1ed9a258fb9fcae0750a74fc00c8fe8a5825f
+    tslib: 2.2.0
+  checksum: b5c0b7dd9afc438e40902591830de46a53b0d5465959110bc4c5134d50b304f2311f245734ea97f1cff58d3e6c0fa55df6321fe32afc9e603a1188ce223c9edc
   languageName: node
   linkType: hard
 
@@ -18724,7 +18724,7 @@ __metadata:
     "@nicky-lenaers/ngx-scroll-to": ^14.0.0
     "@pact-foundation/pact": ^9.2.0
     "@pact-foundation/pact-node": ^10.9.7
-    "@rxweb/reactive-form-validators": 2.1.2
+    "@rxweb/reactive-form-validators": 2.1.8
     "@stryker-mutator/api": ^3.0.1
     "@stryker-mutator/core": ^3.0.1
     "@stryker-mutator/html-reporter": ^3.0.1
@@ -20952,6 +20952,13 @@ __metadata:
     strip-bom: ^3.0.0
     strip-json-comments: ^2.0.0
   checksum: 8bce05e93c673defd56d93d83d4055e49651d3947c076339c4bc15d47b7eb5029bed194087e568764213a2e4bf45c477ba9f4da16adfd92cd901af7c09e4517e
+  languageName: node
+  linkType: hard
+
+"tslib@npm:2.2.0":
+  version: 2.2.0
+  resolution: "tslib@npm:2.2.0"
+  checksum: a48c9639f7496fa701ea8ffe0561070fcb44c104a59632f7f845c0af00825c99b6373575ec59b2b5cdbfd7505875086dbe5dc83312304d8979f22ce571218ca3
   languageName: node
   linkType: hard
 

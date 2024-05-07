@@ -90,7 +90,7 @@
     "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "@pact-foundation/pact": "^9.2.0",
     "@pact-foundation/pact-node": "^10.9.7",
-    "@rxweb/reactive-form-validators": "2.1.2",
+    "@rxweb/reactive-form-validators": "2.1.8",
     "@swimlane/ngx-datatable": "^20.0.0",
     "@types/crypto-js": "^3.1.43",
     "@types/faker": "^4.1.12",

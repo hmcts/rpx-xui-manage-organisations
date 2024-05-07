@@ -2,6 +2,7 @@
  * Contains static stateless utility methods for the App
  */
 import { formatDate } from '@angular/common';
+import { LovRefDataModel } from '../../shared/models/lovRefData.model';
 import { AppConstants } from '../app.constants';
 import { NavItemModel } from '../models/nav-items.model';
 import { AppFeatureFlag } from '../store/reducers/app.reducer';
@@ -76,59 +77,102 @@ export class AppUtils {
     return is24Hour ? formatDate(date, 'HH:mm', 'en-UK') : formatDate(date, 'h:mm a', 'en-UK').toLowerCase();
   }
 
-  public static setPageTitle(url): string {
+  public static setPageTitle(url: string): string {
     /**
      * it sets correct page titles based on the url.
      */
+    if (url.indexOf('register-org') !== -1 || url.indexOf('register-org-new') !== -1) {
+      return AppUtils.getPageTitleForRegisterOrganisation(url);
+    }
     if (url.indexOf('invite-user') !== -1) {
       return 'Invite user - Manage organisation';
     }
     if (url.indexOf('profile') !== -1) {
       return 'Profile - Manage organisation';
     }
-    if (url.indexOf('users') !== -1) {
-      return 'Users - Manage organisation';
-    }
-    if (url.indexOf('organisation-name') !== -1) {
-      return 'Organisation name - Register organisation';
-    }
-    if (url.indexOf('organisation-address') !== -1) {
-      return 'Organisation address - Register organisation';
-    }
-    if (url.indexOf('organisation-pba') !== -1) {
-      return 'PBA - Register organisation';
-    }
-    if (url.indexOf('have-dx') !== -1) {
-      return 'DX - Register organisation';
-    }
-    if (url.indexOf('organisation-dx') !== -1) {
-      return 'DX reference - Register organisation';
-    }
-    if (url.indexOf('haveSra') !== -1) {
-      return 'SRA - Register organisation';
-    }
-    if (url.indexOf('sraNumber') !== -1) {
-      return 'SRA number - Register organisation';
-    }
-    if (url.indexOf('name') !== -1) {
-      return 'Name - Register organisation';
-    }
-    if (url.indexOf('email-address') !== -1) {
-      return 'Email - Register organisation';
-    }
-    if (url.indexOf('check') !== -1) {
-      return 'Check answers - Register organisation';
-    }
     if (url.indexOf('organisation') !== -1) {
       return 'Organisation details - Manage organisation';
     }
-    if (url.indexOf('register-org/register') !== -1) {
-      return 'Register - Register organisation';
+    if (url.indexOf('users') !== -1) {
+      return 'Users - Manage organisation';
     }
-    if (url.indexOf('register-org/confirmation') !== -1) {
-      return 'Confirmation - Register organisation';
+    if (url.indexOf('unassigned-cases') !== -1) {
+      return 'Unassigned cases - Manage organisation';
+    }
+    if (url.indexOf('assigned-cases') !== -1) {
+      return 'Assigned cases - Manage organisation';
     }
     return 'Manage organisation';
+  }
+
+  public static getPageTitleForRegisterOrganisation(url: string): string {
+    if (url.indexOf('register-org-new/register') !== -1) {
+      return 'Register - Register organisation';
+    }
+    if (url.indexOf('register-org-new/organisation-type') !== -1) {
+      return 'Organisation type - Register organisation';
+    }
+    if (url.indexOf('register-org-new/company-house-details') !== -1) {
+      return 'Company house details - Register organisation';
+    }
+    if (url.indexOf('register-org-new/registered-address') !== -1) {
+      return 'Registered address - Register organisation';
+    }
+    if (url.indexOf('register-org-new/document-exchange-reference') !== -1) {
+      return 'Document exchange reference - Register organisation';
+    }
+    if (url.indexOf('register-org-new/regulatory-organisation-type') !== -1) {
+      return 'Organisation regulators - Register organisation';
+    }
+    if (url.indexOf('register-org-new/organisation-services-access') !== -1) {
+      return 'Services to access - Register organisation';
+    }
+    if (url.indexOf('register-org-new/payment-by-account') !== -1) {
+      return 'Payment by account - Register organisation';
+    }
+    if (url.indexOf('register-org-new/contact-details') !== -1) {
+      return 'Contact details - Register organisation';
+    }
+    if (url.indexOf('register-org-new/individual-registered-with-regulator') !== -1) {
+      return 'Individual regulators - Register organisation';
+    }
+    if (url.indexOf('register-org-new/check-your-answers') !== -1) {
+      return 'Check your answers - Register organisation';
+    }
+    if (url.indexOf('register-org/register/organisation-name') !== -1) {
+      return 'Organisation name - Register organisation';
+    }
+    if (url.indexOf('register-org/register/organisation-address') !== -1) {
+      return 'Organisation address - Register organisation';
+    }
+    if (url.indexOf('register-org/register/organisation-pba') !== -1) {
+      return 'PBA - Register organisation';
+    }
+    if (url.indexOf('register-org/register/organisation-have-dx') !== -1) {
+      return 'DX - Register organisation';
+    }
+    if (url.indexOf('register-org/register/organisation-dx') !== -1) {
+      return 'DX reference - Register organisation';
+    }
+    if (url.indexOf('register-org/register/haveSra') !== -1) {
+      return 'SRA - Register organisation';
+    }
+    if (url.indexOf('register-org/register/sraNumber') !== -1) {
+      return 'SRA number - Register organisation';
+    }
+    if (url.indexOf('register-org/register/name') !== -1) {
+      return 'Name - Register organisation';
+    }
+    if (url.indexOf('register-org/register/email-address') !== -1) {
+      return 'Email - Register organisation';
+    }
+    if (url.indexOf('register-org/register/check') !== -1) {
+      return 'Check answers - Register organisation';
+    }
+    if (url.indexOf('register-org/register/confirmation') !== -1) {
+      return 'Confirmation - Register organisation';
+    }
+    return 'Register - Register organisation';
   }
 
   // 04-Sep-2019 - Author U Denduluri
@@ -215,5 +259,32 @@ export class AppUtils {
       }
     }
     return -1;
+  }
+
+  public static setOtherAsLastOption(items: LovRefDataModel[], other: LovRefDataModel = null): LovRefDataModel[] {
+    // To set Other option as the last option
+    const index = items.findIndex((o) => o.key.toUpperCase() === 'OTHER');
+    if (index > 0) {
+      items.push(items.splice(index, 1)[0]);
+    } else {
+      if (!other) {
+        other = {
+          active_flag: '',
+          category_key: '',
+          hint_text_cy: '',
+          hint_text_en: '',
+          key: 'OTHER',
+          lov_order: null,
+          parent_category: '',
+          parent_key: '',
+          value_cy: '',
+          value_en: 'Other',
+          child_nodes: null
+        };
+      }
+      items.push(other);
+    }
+
+    return items;
   }
 }

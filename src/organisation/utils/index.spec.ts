@@ -90,6 +90,72 @@ describe('organisation.utils', () => {
     });
   });
 
+  describe('getCompanyRegistrationNumber', () => {
+    it('should return null if there is no company registration number', () => {
+      const organisationDetails = {
+        companyRegistrationNumber: ''
+      };
+      expect(utils.getCompanyRegistrationNumber(organisationDetails)).toBeNull();
+    });
+
+    it('should return company registration number', () => {
+      const organisationDetails = {
+        companyRegistrationNumber: '12345678'
+      };
+      expect(utils.getCompanyRegistrationNumber(organisationDetails)).toEqual('12345678');
+    });
+  });
+
+  describe('getOrganisationType', () => {
+    it('should return null if there is no organisation type', () => {
+      const organisationDetails = {
+        organisationType: ''
+      };
+      expect(utils.getOrganisationType(organisationDetails)).toBeNull();
+    });
+
+    it('should return organisation type', () => {
+      const organisationDetails = {
+        orgType: 'IT & communications'
+      };
+      expect(utils.getOrganisationType(organisationDetails)).toEqual('IT & communications');
+    });
+  });
+
+  describe('getRegulators', () => {
+    it('should return null if there are no regulators', () => {
+      const organisationDetails = {
+        regulators: []
+      };
+      expect(utils.getRegulators(organisationDetails)).toBeNull();
+    });
+
+    it('should return regulators', () => {
+      const organisationDetails = {
+        orgAttributes: [
+          {
+            key: 'regulators-0',
+            value: JSON.stringify({ regulatorType: 'Solicitor Regulation Authority (SRA)', organisationRegistrationNumber: '11223344' })
+          },
+          {
+            key: 'regulators-1',
+            value: JSON.stringify({ regulatorType: 'Other',
+              regulatorName: 'Other regulatory organisation',
+              organisationRegistrationNumber: '12341234' })
+          },
+          {
+            key: 'regulators-1',
+            value: JSON.stringify({ regulatorType: 'Charted Institute of Legal Executives',
+              organisationRegistrationNumber: '43214321' })
+          }
+        ]
+      };
+      expect(utils.getRegulators(organisationDetails)[0].regulatorType).toContain('Solicitor Regulation Authority (SRA)');
+      expect(utils.getRegulators(organisationDetails)[1].regulatorType).toContain('Other');
+      expect(utils.getRegulators(organisationDetails)[2].regulatorType).toContain('Charted Institute of Legal Executives');
+    });
+  });
+
   describe('getPaymentAccount', () => {
     it('should return null if there is no paymentAccount', () => {
       const organisationDetails = {};

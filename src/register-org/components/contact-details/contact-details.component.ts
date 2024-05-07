@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../containers/register/register-org.component';
+import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
 import { RegisterOrgService } from '../../services/register-org.service';
-import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-contact-details',
@@ -10,6 +11,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class ContactDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public contactDetailsFormGroup: FormGroup;
+  public validationErrors: { id: string, message: string }[] = [];
+  public firstNameError = null;
+  public lastNameError = null;
+  public workEmailAddressError = null;
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService,
@@ -21,9 +26,9 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
     super.ngOnInit();
 
     this.contactDetailsFormGroup = new FormGroup({
-      firstName: new FormControl(null),
-      lastName: new FormControl(null),
-      workEmailAddress: new FormControl(null)
+      firstName: new FormControl(null, Validators.required),
+      lastName: new FormControl(null, Validators.required),
+      workEmailAddress: new FormControl(null, [Validators.required, Validators.email])
     });
 
     this.setFormControlValues();
@@ -40,8 +45,23 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
         lastName: this.contactDetailsFormGroup.get('lastName').value,
         workEmailAddress: this.contactDetailsFormGroup.get('workEmailAddress').value
       };
-      // TODO: Navigate to 'Are you (as an individual) registered with a regulator' page
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
     }
+  }
+
+  public onBack(): void {
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      this.registrationData.hasPBA
+        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details'])
+        : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
+    }
+  }
+
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
   }
 
   public setFormControlValues(): void {
@@ -53,8 +73,35 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
     }
   }
 
-  public isFormValid(): boolean {
-    // TODO: Functionality ticket will follow
+  private isFormValid(): boolean {
+    this.validationErrors = [];
+    this.firstNameError = null;
+    this.lastNameError = null;
+    this.workEmailAddressError = null;
+    if (this.contactDetailsFormGroup.invalid) {
+      if (this.contactDetailsFormGroup.get('firstName').errors) {
+        this.validationErrors.push({
+          id: 'first-name',
+          message: ContactDetailsErrorMessage.FIRST_NAME
+        });
+        this.firstNameError = ContactDetailsErrorMessage.FIRST_NAME;
+      }
+      if (this.contactDetailsFormGroup.get('lastName').errors) {
+        this.validationErrors.push({
+          id: 'last-name',
+          message: ContactDetailsErrorMessage.LAST_NAME
+        });
+        this.lastNameError = ContactDetailsErrorMessage.LAST_NAME;
+      }
+      if (this.contactDetailsFormGroup.get('workEmailAddress').errors) {
+        this.validationErrors.push({
+          id: 'work-email-address',
+          message: ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS
+        });
+        this.workEmailAddressError = ContactDetailsErrorMessage.WORK_EMAIL_ADDRESS;
+      }
+      return false;
+    }
     return true;
   }
 }

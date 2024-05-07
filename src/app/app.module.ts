@@ -10,7 +10,7 @@ import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
-import { LoggerModule, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService } from 'ngx-logger';
+import { LoggerModule, NGXLogger, NGXLoggerHttpService, NGXMapperService, NgxLoggerLevel } from 'ngx-logger';
 import config from '../../api/lib/config';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
@@ -34,6 +34,7 @@ import { effects } from './store/effects';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 import { SharedModule } from 'src/shared/shared.module';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
@@ -43,6 +44,7 @@ import { HealthCheckService } from '../shared/services/health-check.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
+import { OrganisationModule } from 'src/organisation/organisation.module';
 
 export const metaReducers: MetaReducer<any>[] = !config.production
   ? [storeFreeze]
@@ -69,6 +71,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     UserProfileModule,
+    OrganisationModule,
     StoreRouterConnectingModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument({ logOnly: true }) : [],
     LoggerModule.forRoot({
@@ -79,7 +82,15 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     GovUiModule,
     ExuiCommonLibModule,
     NgIdleKeepaliveModule.forRoot(),
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    RpxTranslationModule.forRoot({
+      baseUrl: '/api/translation',
+      debounceTimeMs: 300,
+      validity: {
+        days: 1
+      },
+      testMode: false
+    })
   ],
   providers: [
     NGXLogger,

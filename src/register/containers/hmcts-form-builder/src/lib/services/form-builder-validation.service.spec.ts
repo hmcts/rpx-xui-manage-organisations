@@ -81,7 +81,7 @@ describe('ValidationService', () => {
   }));
 
   it('should at least one checkbox to be checked validation', inject([ValidationService], (service: ValidationService) => {
-    const formGroup = new FormGroup({
+    const formGroup = new FormGroup<any>({
       checkboxTest1: new FormControl('checkboxTest1'),
       checkboxTest2: new FormControl('checkboxTest2')
     });
@@ -173,7 +173,7 @@ describe('ValidationService', () => {
       ]
     };
     const isRadioValidWhenSomeOptionSelected = service.isRadioValidWhenSomeOptionSelected(formGroup, controls, validationIdentifier); expect(isRadioValidWhenSomeOptionSelected).toEqual(jasmine.any(Function));
-    formGroup.get('testRadioControl').setValue(true);
+    formGroup.get(controls.radioControl).setValue(true);
     expect(isRadioValidWhenSomeOptionSelected(formGroup)).toBe(null);
     formGroup.get('testRadioControl').setValue('testOption');
     expect(isRadioValidWhenSomeOptionSelected(formGroup)).toBe(null);

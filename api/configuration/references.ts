@@ -31,6 +31,7 @@ export const NOW = 'now';
 export const OAUTH_CALLBACK_URL = 'oauthCallbackUrl';
 export const PROTOCOL = 'protocol';
 
+export const SERVICES_CCD_COMPONENT_API_PATH = 'services.ccd.componentApi';
 export const SERVICES_IDAM_API_PATH = 'services.idamApi';
 export const SERVICES_IDAM_WEB = 'services.idamWeb';
 export const SERVICE_S2S_PATH = 'services.s2s';
@@ -83,3 +84,10 @@ export const PACT_CONSUMER_VERSION = 'pact.consumerVersion';
 export const PACT_BRANCH_NAME = 'pact.branchName';
 export const PACT_BROKER_USERNAME = 'pact.brokerUsername';
 export const PACT_BROKER_PASSWORD = 'pact.brokerPassword';
+
+// LD PREVIEW KEY
+export const PREVIEW_LD_KEY = 'previewLDKey';
+
+// System user
+export const SYSTEM_USER_NAME = 'secrets.rpx.system-user-name';
+export const SYSTEM_USER_PASSWORD = 'secrets.rpx.system-user-password';

@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ErrorMessage } from '../../../shared/models/error-message.model';
 import { RegisterComponent } from '../../containers/register/register-org.component';
 import { RegisterOrgService } from '../../services/register-org.service';
 
@@ -13,7 +12,7 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;
 
   public pbaFormGroup: FormGroup;
-  public pbaError: ErrorMessage;
+  public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService
@@ -45,9 +44,23 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
       } else {
         // Set corresponding registration data
         this.registrationData.hasPBA = false;
+        this.registrationData.pbaNumbers = [];
         // Navigate to collect contact details
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'contact-details']);
       }
+    }
+  }
+
+  public onCancel(): void {
+    this.cancelRegistrationJourney();
+  }
+
+  public onBack(): void {
+    const previousUrl = this.currentNavigation?.previousNavigation?.finalUrl?.toString();
+    if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
     }
   }
 
@@ -62,12 +75,12 @@ export class PaymentByAccountComponent extends RegisterComponent implements OnIn
   }
 
   private isFormValid(): boolean {
+    this.validationErrors = [];
     if (this.pbaFormGroup.invalid) {
-      this.pbaError = {
-        description: 'Please select at least one option',
-        title: '',
-        fieldId: 'pba-yes'
-      };
+      this.validationErrors.push({
+        id: 'pba-yes',
+        message: 'Please select an option'
+      });
       this.errorSummaryTitleElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
       return false;
     }

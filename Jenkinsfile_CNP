@@ -24,10 +24,14 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'rpx-${env}': [
-    secret('test-email', 'TEST_EMAIL'),
-    secret('test-password', 'TEST_PASSWORD'),
+    secret('test-user1-email', 'TEST_USER1_EMAIL'),
+    secret('test-user1-password', 'TEST_USER1_PASSWORD'),
+    secret('test-user2-email', 'TEST_USER2_EMAIL'),
+    secret('test-user2-password', 'TEST_USER2_PASSWORD'),
+    secret('test-townley-email', 'TEST_TOWNLEY_EMAIL'),
+    secret('test-townley-password', 'TEST_TOWNLEY_PASSWORD'),
     secret('test-api-email', 'TEST_API_EMAIL'),
-    secret('test-api-password', 'TEST_API_PASSWORD'),
+    secret('test-api-password', 'TEST_API_PASSWORD')
   ],
 //  's2s-${env}'      : [
 //    secret('microservicekey-xui-webapp', 'S2S_SECRET')
@@ -46,6 +50,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline(type, product, component) {
+    disableCleanupOfHelmReleaseOnFailure()
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()

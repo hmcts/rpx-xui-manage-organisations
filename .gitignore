@@ -27,6 +27,8 @@ api/.sessions/
 /config/local*.*
 api/.env
 
+api/.nyc_output
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
@@ -59,17 +61,22 @@ reports_json/
 .nyc_output/
 cb_reports/
 report.json
-
-
+functional-output/
+mochawesome-report/
 # Stryker - mutation tests
 .stryker-tmp/
 stryker.log
 
+.angular/cache/
+
 # Yarn
 .pnp.*
 .yarn/*
+.yarn/cache/
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+/api/.yarn/cache/
+localTestEnv.sh

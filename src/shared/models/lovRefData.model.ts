@@ -22,3 +22,8 @@ export interface LovRefDataByCategoryModel {
   categoryKey: string;
   lovDataModel: LovRefDataByServiceModel;
 }
+
+export interface RegulatoryOrganisationType {
+  name: string;
+  id: string;
+}

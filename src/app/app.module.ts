@@ -67,7 +67,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
       anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
     }),
     SharedModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(effects),
     UserProfileModule,
     OrganisationModule,

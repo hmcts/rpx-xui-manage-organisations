@@ -20,7 +20,6 @@ nodejs:
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
 
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    LAUNCH_DARKLY_CLIENT_ID: ${PREVIEW_LD_KEY}
     PUI_ENV: preview
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
@@ -35,7 +34,8 @@ nodejs:
         - xui-oauth2-token
         - appinsights-instrumentationkey-mo
         - google-analytics-key
-        - launch-darkly-client-id
+        - name: launch-darkly-client-id-preview
+          alias: launch-darkly-client-id
         - system-user-name
         - system-user-password
   autoscaling:

@@ -2652,15 +2652,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.0.2":
-  version: 6.0.2
-  resolution: "@hmcts/ccpay-web-component@npm:6.0.2"
+"@hmcts/ccpay-web-component@npm:6.2.1-beta2":
+  version: 6.2.1-beta2
+  resolution: "@hmcts/ccpay-web-component@npm:6.2.1-beta2"
   dependencies:
     tslib: ^2.3.0
   peerDependencies:
     "@angular/common": ^16.1.6
     "@angular/core": ^16.1.6
-  checksum: d0b4ed16dbc12c47d157db9c920994eeab2dc155960c03797abac9d624b182f8a68661794a2b422697eaa3710d627e2f32e93cafc64d5a58202f7a675f100cd4
+  checksum: 280c7104a886f8404ab313729c2850c7f58c3672ffea4fe16b3bc3f4d9af7702a95b93a56108164365be83fd018e4706eda8a1bc42a7cbea31eff70ebde71193
   languageName: node
   linkType: hard
 
@@ -2731,16 +2731,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.18-angular-upgrade-17":
-  version: 2.0.18-angular-upgrade-17
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.18-angular-upgrade-17"
+"@hmcts/rpx-xui-common-lib@npm:2.0.19":
+  version: 2.0.19
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.19"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: da0b44e4b6754adb2bb62821b39fb3f44d1ee8c898286f9c6c594b7a9169bbc75eec7c0492d33accbe3fbfa1b9135ce9fcc8f422846dc9ec6f0892fa11748df2
+  checksum: 68b12d353b375baa311da23ad56b7c5e0b13016fcbf931066c8ac0c065ba36dfb2a04030d78c8eed0c6546899b5e939227b7baefed525fd7f8dbc959c94e53b5
   languageName: node
   linkType: hard
 
@@ -19104,12 +19104,12 @@ __metadata:
     "@circlon/angular-tree-component": ^11.0.4
     "@edium/fsm": ^2.1.2
     "@hmcts/ccd-case-ui-toolkit": 7.0.37-angular-upgrade
-    "@hmcts/ccpay-web-component": 6.0.2
+    "@hmcts/ccpay-web-component": 6.2.1-beta2
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/media-viewer": 2.10.1-RC.1
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.18-angular-upgrade-17
+    "@hmcts/rpx-xui-common-lib": 2.0.19
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
@@ -19232,7 +19232,7 @@ __metadata:
     puppeteer: ^22.4.1
     redis: ^3.0.2
     rest-assured: ^0.1.0
-    rpx-xui-translation: 1.0.3-angular-upgrade-17-rc
+    rpx-xui-translation: 1.0.4
     rx-polling-hmcts: ^1.1.1
     rxjs: ^7.8.1
     rxjs-compat: ^6.4.0
@@ -19261,9 +19261,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.0.3-angular-upgrade-17-rc":
-  version: 1.0.3-angular-upgrade-17-rc
-  resolution: "rpx-xui-translation@npm:1.0.3-angular-upgrade-17-rc"
+"rpx-xui-translation@npm:1.0.4":
+  version: 1.0.4
+  resolution: "rpx-xui-translation@npm:1.0.4"
   dependencies:
     dexie: ^3.2.2
     luxon: ^2.4.0
@@ -19271,7 +19271,7 @@ __metadata:
   peerDependencies:
     "@angular/common": ^15.2.9
     "@angular/core": ^15.2.9
-  checksum: 430fc54d0d96a5f216047afd4c48d4ac69b9fb0f85708e690d07edb05cb4b999110fc6767151730a71fed0b32107f7d51d98eba249a943820934aea059d7cea9
+  checksum: bfa7008625ad4d7a4769b7b15d1878992625331a9740e14a398a5c8ad26731255ccfec12f3930c6a7c98c68e0fb9e426cab5a7f5abff218fb12a0c754e28242d
   languageName: node
   linkType: hard
 

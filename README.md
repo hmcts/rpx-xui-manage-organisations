@@ -154,7 +154,7 @@ DO NOT create a new .json file within /config as this increases the complexity o
 Node config selects the file within /config based on `NODE_ENV` which is always production on all environments,
 due to Reform standards, this should not change on different environments, it should always be `NODE_ENV=production`
 
-Note that I'm currently  leveraging `NODE_CONFIG_ENV` which passes in the environment as we have a database password on
+Note that I'm currently leveraging `NODE_CONFIG_ENV` which passes in the environment as we have a database password on
 the preview environment that cannot be stored within any of our configuration files, as this is an open repo,
 and the same password is being used on AAT.
 

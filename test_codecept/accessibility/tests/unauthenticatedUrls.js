@@ -19,7 +19,8 @@ describe('Pa11y tests', function () {
   });
 
   conf.unauthenticatedUrls.forEach((pageUrl) => {
-    it('Registration page url2 ' + pageUrl, async function () {
+    // Disabling these tests as old registration journey not available any more.
+    xit('Registration page url ' + pageUrl, async function () {
       await initBrowser();
       const actions = [];
       actions.push(...PallyActions.waitForPageWithCssLocator('#content'));
@@ -29,14 +30,14 @@ describe('Pa11y tests', function () {
     });
   });
 
-  it('Registration Check your Answers Page ', async function () {
+  xit('Registration Check your Answers Page ', async function () {
     await initBrowser();
     // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
     const actions = regitrationActions();
     await pa11ytest(this, actions);
   });
 
-  it('Registration Success Page ', async function () {
+  xit('Registration Success Page ', async function () {
     await initBrowser();
     // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
 
@@ -47,7 +48,7 @@ describe('Pa11y tests', function () {
     await pa11ytest(this, actions);
   });
 
-  it.skip('Registration Error Page ', async function () {
+  xit.skip('Registration Error Page ', async function () {
    
     await initBrowserr();
     const actions = regitrationActions();

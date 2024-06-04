@@ -23,7 +23,7 @@
               </div>
               <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item" *ngFor="let service of services">
-                  <input class="govuk-checkboxes__input" [id]="service.value" type="checkbox" [value]="service.key"
+                  <input class="govuk-checkboxes__input" [id]="service.value" type="checkbox" [for] [value]="service.key"
                     name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
                   <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
                     {{service.value}}

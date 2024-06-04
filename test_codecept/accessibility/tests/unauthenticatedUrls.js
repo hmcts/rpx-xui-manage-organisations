@@ -17,10 +17,9 @@ describe('Pa11y tests', function () {
     // await MockApp.stopServer();
     done();
   });
-
+  /* // Disabling these tests as old registration journey not available any more.
   conf.unauthenticatedUrls.forEach((pageUrl) => {
-    // Disabling these tests as old registration journey not available any more.
-    xit('Registration page url ' + pageUrl, async function () {
+    it('Registration page url ' + pageUrl, async function () {
       await initBrowser();
       const actions = [];
       actions.push(...PallyActions.waitForPageWithCssLocator('#content'));
@@ -30,14 +29,14 @@ describe('Pa11y tests', function () {
     });
   });
 
-  xit('Registration Check your Answers Page ', async function () {
+  it('Registration Check your Answers Page ', async function () {
     await initBrowser();
     // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
     const actions = regitrationActions();
     await pa11ytest(this, actions);
   });
 
-  xit('Registration Success Page ', async function () {
+  it('Registration Success Page ', async function () {
     await initBrowser();
     // actions.push(...PallyActions.navigateTourl(conf.baseUrl + pageUrl));
 
@@ -48,7 +47,7 @@ describe('Pa11y tests', function () {
     await pa11ytest(this, actions);
   });
 
-  xit.skip('Registration Error Page ', async function () {
+  it.skip('Registration Error Page ', async function () {
    
     await initBrowserr();
     const actions = regitrationActions();
@@ -100,6 +99,6 @@ describe('Pa11y tests', function () {
 
     actions.push(...PallyActions.waitForPageWithCssLocator('.govuk-check-your-answers'));
     return actions;
-  }
+  }*/
 });
 

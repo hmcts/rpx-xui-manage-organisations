@@ -60,7 +60,7 @@ describe('Pa11y tests', function () {
     await pa11ytest(this, actions);
   });
 
-  it('a11y test Invite user Success page', async function () {
+  it('a11y test Invite user Success page2', async function () {
     await MockApp.startServer();
 
     const actions = [];

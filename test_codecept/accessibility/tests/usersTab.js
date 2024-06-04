@@ -57,7 +57,7 @@ describe('Pa11y tests', function () {
     await pa11ytest(this, actions);
   });
 
-  it('a11y test Invite user Success page', async function () {
+  it('a11y test Invite user Success page1', async function () {
     await initBrowser();
 
     const actions = [];

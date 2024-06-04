@@ -19,7 +19,7 @@ describe('Pa11y tests', function () {
   });
 
   conf.unauthenticatedUrls.forEach((pageUrl) => {
-    it('Registration page url ' + pageUrl, async function () {
+    it('Registration page url1 ' + pageUrl, async function () {
       await MockApp.startServer();
       const actions = [];
       actions.push(...PallyActions.waitForPageWithCssLocator('#content'));

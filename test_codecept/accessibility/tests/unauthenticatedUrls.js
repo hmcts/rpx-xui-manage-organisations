@@ -19,7 +19,7 @@ describe('Pa11y tests', function () {
   });
 
   conf.unauthenticatedUrls.forEach((pageUrl) => {
-    it('Registration page url ' + pageUrl, async function () {
+    it('Registration page url2 ' + pageUrl, async function () {
       await initBrowser();
       const actions = [];
       actions.push(...PallyActions.waitForPageWithCssLocator('#content'));

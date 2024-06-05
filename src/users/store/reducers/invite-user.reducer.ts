@@ -28,7 +28,7 @@ export function reducer(
       const errorMessagesPayload = action.payload.errorMessages;
       const formErrorIsInvalid = action.payload.isInvalid;
 
-      const errorMessages = Object.keys(formErrorIsInvalid).reduce((acc, key) => {
+      const errorMessages = Object.keys(formErrorIsInvalid).filter(val =>formErrorIsInvalid[val][0] === true).reduce((acc, key) => {
         const objArr = (k): any[] => {
           return formErrorIsInvalid[k].map((item, i) => {
             return item ? errorMessagesPayload[k][i] : '';

@@ -35,7 +35,7 @@ describe('Regsiter other orgs', function () {
         { route: 'register-org-new/individual-registered-with-regulator-details', cssLocator: 'app-individual-registered-with-regulator-details' },
         { route: 'register-org-new/contact-details', cssLocator: 'app-contact-details' },
         { route: 'register-org-new/registration-submitted', cssLocator: 'app-registration-submitted' },
-        { route: 'register-org-new/check-your-answers/true', cssLocator: 'app-check-your-answers' }
+        { route: 'register-org-new/check-your-answers', cssLocator: 'app-check-your-answers' }
 
     ]
 

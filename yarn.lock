@@ -2550,16 +2550,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.16":
-  version: 2.0.16
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.16"
+"@hmcts/rpx-xui-common-lib@npm:2.0.18":
+  version: 2.0.18
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.18"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^2.15.2
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: e53f9947cc67802ad536de011e1e7f66c3fae9e9f77b33d3f0337ea44d9d22a367ce421326a70985a9a90cb72497fab8190dad883d192290589230d47e787e03
+  checksum: 4eb916c687ca453d7f03cad661de00308962a4c7cd977f35fc5b3bccfafd172c01a8852a5c4ff5309fbcda8e18a125ec123587e0510c25865b254930b18f5f28
   languageName: node
   linkType: hard
 
@@ -14210,14 +14210,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:3.2.1":
-  version: 3.2.1
-  resolution: "loader-utils@npm:3.2.1"
-  checksum: 4e3ea054cdc8be1ab1f1238f49f42fdf0483039eff920fb1d442039f3f0ad4ebd11fb8e584ccdf2cb7e3c56b3d40c1832416e6408a55651b843da288960cc792
-  languageName: node
-  linkType: hard
-
-"loader-utils@npm:^2.0.0":
+"loader-utils@npm:~2.0.3":
   version: 2.0.4
   resolution: "loader-utils@npm:2.0.4"
   dependencies:
@@ -14979,7 +14972,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.2.0, minimist@npm:^1.2.6":
+"minimist@npm:^1.2.8":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
   checksum: 75a6d645fb122dad29c06a7597bddea977258957ed88d7a6df59b5cd3fe4a527e253e9bbf2e783e4b73657f9098b96a5fe96ab8a113655d4109108577ecf85b0
@@ -18720,7 +18713,7 @@ __metadata:
     "@hmcts/media-viewer": 2.10.1-RC.1
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.16
+    "@hmcts/rpx-xui-common-lib": 2.0.18
     "@hmcts/rpx-xui-node-lib": 2.27.1
     "@ng-idle/core": ^10.0.0
     "@ng-idle/keepalive": ^10.0.0
@@ -21139,14 +21132,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typed-rest-client@npm:~1.7.1":
-  version: 1.7.3
-  resolution: "typed-rest-client@npm:1.7.3"
+"typed-rest-client@npm:^1.8.0":
+  version: 1.8.11
+  resolution: "typed-rest-client@npm:1.8.11"
   dependencies:
     qs: ^6.9.1
     tunnel: 0.0.6
-    underscore: 1.8.3
-  checksum: 89048157a2fe576c6e7abb919a1fbc176f09a209cb52e2310eb788ef9746c8c38d1c2102dc94983d18048ab84e907756c2d6917757c2573c687c1a230361c077
+    underscore: ^1.12.1
+  checksum: baba87806381cb8e686e07dc0907bbc4a7588410f13f73f5a9fe662274d1961b84d0037bf2cb3966cb288ed6146b3350edcd896c42422f7dbc06625c347f3035
   languageName: node
   linkType: hard
 
@@ -21251,14 +21244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"underscore@npm:1.8.3":
-  version: 1.8.3
-  resolution: "underscore@npm:1.8.3"
-  checksum: 46d9ea25c8b9f6f21080438f5abc1c8be3063efca5154670bf7ef6e61587660113581b258aea07ccab4045b9ab6e9293ef89103210a3491b64ef03c2d8051a36
-  languageName: node
-  linkType: hard
-
-"underscore@npm:^1.8.3":
+"underscore@npm:^1.12.1, underscore@npm:^1.8.3":
   version: 1.13.6
   resolution: "underscore@npm:1.13.6"
   checksum: d5cedd14a9d0d91dd38c1ce6169e4455bb931f0aaf354108e47bd46d3f2da7464d49b2171a5cf786d61963204a42d01ea1332a903b7342ad428deaafaf70ec36

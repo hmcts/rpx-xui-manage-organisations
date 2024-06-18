@@ -4776,10 +4776,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/crypto-js@npm:^3.1.43":
-  version: 3.1.47
-  resolution: "@types/crypto-js@npm:3.1.47"
-  checksum: fdeabd526cb3bf3a37300752a2a7313d360292a08b40c97709981ba520cf66b90b872672e32da3c5f0ad29faa8dcd22d14a8f418e24ba6a1e154acd5a123d050
+"@types/crypto-js@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "@types/crypto-js@npm:4.2.2"
+  checksum: 727daa0d2db35f0abefbab865c23213b6ee6a270e27e177939bbe4b70d1e84c2202d9fac4ea84859c4b4d49a4ee50f948f601327a39b69ec013288018ba07ca5
   languageName: node
   linkType: hard
 
@@ -8559,10 +8559,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-js@npm:^3.1.9-1":
-  version: 3.3.0
-  resolution: "crypto-js@npm:3.3.0"
-  checksum: 193923143a4784b2f974366068d96fe8280168fd3fef2bfea9551a5c3e32096f5a8fa49ff4eeb5bd0b9716d325618d38cfbe6125e359a4ef488fbca93e600824
+"crypto-js@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "crypto-js@npm:4.2.0"
+  checksum: f051666dbc077c8324777f44fbd3aaea2986f198fe85092535130d17026c7c2ccf2d23ee5b29b36f7a4a07312db2fae23c9094b644cc35f7858b1b4fcaf27774
   languageName: node
   linkType: hard
 
@@ -18735,7 +18735,7 @@ __metadata:
     "@types/applicationinsights-js": ^1.0.9
     "@types/chai": ^4.1.7
     "@types/chai-as-promised": ^7.1.2
-    "@types/crypto-js": ^3.1.43
+    "@types/crypto-js": ^4.2.2
     "@types/express": ^4.17.4
     "@types/express-session": ^1.17.0
     "@types/faker": ^4.1.12
@@ -18767,7 +18767,7 @@ __metadata:
     cookie-parser: ^1.4.4
     core-js: ^2.5.4
     cross-env: ^7.0.2
-    crypto-js: ^3.1.9-1
+    crypto-js: ^4.2.0
     cucumber: 5.1.0
     cucumber-html-report: 0.6.5
     cucumber-html-reporter: ^4.0.5

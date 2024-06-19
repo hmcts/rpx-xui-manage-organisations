@@ -10,7 +10,7 @@ import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
-import { LoggerModule, NGXLogger, NGXLoggerHttpService, NGXMapperService, NgxLoggerLevel } from 'ngx-logger';
+import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import config from '../../api/lib/config';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
@@ -94,8 +94,6 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
   ],
   providers: [
     NGXLogger,
-    NGXLoggerHttpService,
-    NGXMapperService,
     CookieService,
     GoogleAnalyticsService,
     HealthCheckGuard,

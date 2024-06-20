@@ -29,10 +29,9 @@ export function reducer(
     }
     case fromOrganisation.LOAD_ORGANISATION_SUCCESS: {
       const paymentAccount: PBANumberModel[] = [];
-      // if the users are loaded before organisation, the profile ids will be added since this is not provided by the GET operation
-      action.payload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds };
-      action.payload.paymentAccount.forEach((pba) => {
-        let pbaNumberModel: PBANumberModel;
+      const newPayload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds };
+      newPayload.paymentAccount.forEach((pba) => {
+        let pbaNumberModel: PBANumberModel = { pbaNumber: '' };
         if (typeof pba === 'string') {
           pbaNumberModel = {
             pbaNumber: pba
@@ -41,7 +40,7 @@ export function reducer(
         paymentAccount.push(pbaNumberModel);
       });
       const loadedOrgDetails = {
-        ...action.payload,
+        ...newPayload,
         paymentAccount,
         pendingAddPaymentAccount: [],
         pendingRemovePaymentAccount: []

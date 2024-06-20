@@ -1,21 +1,12 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "paths": {
-            "*": [
-                "customTypings/*"
-            ]
-        },
         "outDir": "../dist/rpx-xui-manage-organisations/api",
         "target": "es5",
         "types": [
             "node",
             "mocha",
             "rxjs"
-        ],
-        "typeRoots": [
-            "./customTypings",
-            "node_modules/@types"
         ],
         "baseUrl": ".",
         "lib": [

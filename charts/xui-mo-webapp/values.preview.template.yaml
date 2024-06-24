@@ -27,7 +27,7 @@ nodejs:
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
   keyVaults:
     rpx:
       secrets:

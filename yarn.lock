@@ -6741,7 +6741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async@npm:^3.2.4":
+"async@npm:^3.2.3, async@npm:^3.2.4":
   version: 3.2.5
   resolution: "async@npm:3.2.5"
   checksum: 5ec77f1312301dee02d62140a6b1f7ee0edd2a0f983b6fd2b0849b969f245225b990b47b8243e7b9ad16451a53e7f68e753700385b706198ced888beedba3af4
@@ -7702,7 +7702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.1.0":
+"chalk@npm:4.1.2, chalk@npm:^4.0.0, chalk@npm:^4.0.2, chalk@npm:^4.1.0":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -10104,6 +10104,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ejs@npm:^3.1.7":
+  version: 3.1.10
+  resolution: "ejs@npm:3.1.10"
+  dependencies:
+    jake: ^10.8.5
+  bin:
+    ejs: bin/cli.js
+  checksum: ce90637e9c7538663ae023b8a7a380b2ef7cc4096de70be85abf5a3b9641912dde65353211d05e24d56b1f242d71185c6d00e02cb8860701d571786d92c71f05
+  languageName: node
+  linkType: hard
+
 "electron-to-chromium@npm:^1.4.796":
   version: 1.4.807
   resolution: "electron-to-chromium@npm:1.4.807"
@@ -11353,6 +11364,15 @@ __metadata:
   version: 3.0.0
   resolution: "file-url@npm:3.0.0"
   checksum: 4724f669ee22468f23a39e37b8349a14f94dd9abda8385920db9900a2b2ae5ad90a314d85ea0089b6f45e9d0850833a6d1e41ac15a81a5618685129c6d7c7629
+  languageName: node
+  linkType: hard
+
+"filelist@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "filelist@npm:1.0.4"
+  dependencies:
+    minimatch: ^5.0.1
+  checksum: a303573b0821e17f2d5e9783688ab6fbfce5d52aaac842790ae85e704a6f5e4e3538660a63183d6453834dedf1e0f19a9dadcebfa3e926c72397694ea11f5160
   languageName: node
   linkType: hard
 
@@ -13445,6 +13465,20 @@ __metadata:
     "@pkgjs/parseargs":
       optional: true
   checksum: 350f6f311018bb175ffbe736b19c26ac0b134bb5a17a638169e89594eb0c24ab1c658ab3a2fda24ff63b3b19292e1a5ec19d2255bc526df704e8168d392bef85
+  languageName: node
+  linkType: hard
+
+"jake@npm:^10.8.5":
+  version: 10.9.1
+  resolution: "jake@npm:10.9.1"
+  dependencies:
+    async: ^3.2.3
+    chalk: ^4.0.2
+    filelist: ^1.0.4
+    minimatch: ^3.1.2
+  bin:
+    jake: bin/cli.js
+  checksum: 49659c156b8ad921af377fb782505ae3cc7e7dd8793695b782070d99b4b66d2688b4e3efb32e09252400bfe6e49a7fb393a3a0959e8e1a51dbda95bcacbb9c36
   languageName: node
   linkType: hard
 
@@ -19433,7 +19467,7 @@ __metadata:
     cucumber-html-reporter: ^4.0.5
     cucumber-pretty: 1.5.0
     dotenv-extended: ^2.7.0
-    ejs: ^2.6.1
+    ejs: ^3.1.7
     eslint: ^8.37.0
     exceljs: ^4.4.0
     exception-formatter: ^1.0.7

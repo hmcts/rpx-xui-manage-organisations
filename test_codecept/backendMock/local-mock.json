@@ -10,7 +10,10 @@
         "s2s": "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
         "termsAndConditions": "http://localhost:8080",
         "ccdDataApi": "http://localhost:8080",
-        "caseAssignmentApi": "http://localhost:8080"
+        "caseAssignmentApi": "http://localhost:8080",
+        "prd": {
+            "commondataApi": "http://localhost:8080"
+        }
     },
     "secrets": {
         "rpx": {

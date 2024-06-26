@@ -36,17 +36,6 @@ describe('Pa11y tests', function () {
     await pa11ytest(this, actions);
   });
 
-  it('a11y test Invite user server error page', async function () {
-   
-    await initBrowser();
-
-    const actions = [];
-    actions.push(...PallyActions.navigateTourl(conf.baseUrl + 'users/invite-user'));
-    actions.push(...AppActions.fillAndSubmitInviteUsers('firstname', 'lastname', 'test@test.com'));
-    actions.push(...PallyActions.waitForPageWithCssLocator('app-service-down'));
-    const result = await pa11ytest(this, actions);
-  });
-
   it('a11y test Invite user error page', async function () {
     await initBrowser();
 

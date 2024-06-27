@@ -113,14 +113,15 @@ function convertEmptyStringToNull(term: string): string {
 function securePbaNumberErrorMessage(data, errorMessage: string): string {
   const pbaNumberErrorMessage = '6 : PBA_NUMBER Invalid or already exists';
   const emailDuplicateErrorMessage = '6 : EMAIL Invalid or already exists';
+  const genericErrorMessage = "Registration cannot be completed";
 
   if (errorMessage.toLowerCase() === pbaNumberErrorMessage.toLowerCase()) {
-    return 'Registration cannot be completed';
+    return genericErrorMessage;
   }
 
   if (errorMessage.toLowerCase() === emailDuplicateErrorMessage.toLowerCase()) {
     return 'A user with this email address already exists. You should check that the email address has been entered correctly. You should also check if your organisation has already been registered. If you\'re still having problems, contact HMCTS.';
   }
 
-  return data.errorDescription;
+  return genericErrorMessage;
 }

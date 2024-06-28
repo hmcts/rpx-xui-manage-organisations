@@ -113,7 +113,7 @@ function convertEmptyStringToNull(term: string): string {
 function securePbaNumberErrorMessage(data, errorMessage: string): string {
   const pbaNumberErrorMessage = '6 : PBA_NUMBER Invalid or already exists';
   const emailDuplicateErrorMessage = '6 : EMAIL Invalid or already exists';
-  const genericErrorMessage = "Registration cannot be completed";
+  const genericErrorMessage = 'Registration cannot be completed';
 
   if (errorMessage.toLowerCase() === pbaNumberErrorMessage.toLowerCase()) {
     return genericErrorMessage;

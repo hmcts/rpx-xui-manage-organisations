@@ -84,13 +84,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.userService.getUserDetails().subscribe((user) => {
         const featureUser: FeatureUser = {
           key: user.userId,
-          custom: {
-            roles: user.roles,
-            orgId: user.orgId
-          }
+          roles: user.roles,
+          orgId: user.orgId
         };
+        console.log(user);
         this.setUserAndCheckCookie(user.userId);
-        this.userRoles = featureUser.custom.roles;
+        this.userRoles = featureUser.roles;
         this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
       });
     } else {

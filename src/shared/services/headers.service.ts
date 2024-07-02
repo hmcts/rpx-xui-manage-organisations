@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as jwtDecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie';
-import config from '../../../api/lib/config';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class HeadersService {
     private readonly cookieService: CookieService
   ) {
     this.COOKIE_KEYS = {
-      TOKEN: config.cookies.token,
-      USER: config.cookies.userId
+      TOKEN: environment.cookies.token,
+      USER: environment.cookies.userId
     };
     this.API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
   }

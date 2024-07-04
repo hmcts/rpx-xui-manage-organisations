@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { NGXLogger } from 'ngx-logger';
-import config from '../../../api/lib/config';
 import { CryptoWrapper } from './cryptoWrapper';
 import { JwtDecodeWrapper } from './jwtDecodeWrapper';
 import { MonitoringService } from './monitoring.service';
+import { environment } from 'src/environments/environment';
 
 export interface ILoggerService {
     trace(message: any, ...additional: any[]): void;
@@ -27,8 +27,8 @@ export class LoggerService implements ILoggerService {
                 private readonly cryptoWrapper: CryptoWrapper,
                 private readonly jwtDecodeWrapper: JwtDecodeWrapper) {
     this.COOKIE_KEYS = {
-      TOKEN: config.cookies.token,
-      USER: config.cookies.userId
+      TOKEN: environment.cookies.token,
+      USER: environment.cookies.userId
     };
   }
 

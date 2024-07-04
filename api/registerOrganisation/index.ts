@@ -93,6 +93,8 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
     res.send(response.data);
   } catch (error) {
     if (error.status === 400 && error.data?.errorDescription) {
+      error.data.errorDescription = securePbaNumberErrorMessage(error.data, error.data?.errorMessage);
+
       res.status(400).send(error.data);
     } else {
       next(error);
@@ -108,3 +110,18 @@ function convertEmptyStringToNull(term: string): string {
   return term === '' ? null : term;
 }
 
+function securePbaNumberErrorMessage(data, errorMessage: string): string {
+  const pbaNumberErrorMessage = '6 : PBA_NUMBER Invalid or already exists';
+  const emailDuplicateErrorMessage = '6 : EMAIL Invalid or already exists';
+  const genericErrorMessage = 'Registration cannot be completed';
+
+  if (errorMessage.toLowerCase() === pbaNumberErrorMessage.toLowerCase()) {
+    return genericErrorMessage;
+  }
+
+  if (errorMessage.toLowerCase() === emailDuplicateErrorMessage.toLowerCase()) {
+    return 'A user with this email address already exists. You should check that the email address has been entered correctly. You should also check if your organisation has already been registered. If you\'re still having problems, contact HMCTS.';
+  }
+
+  return genericErrorMessage;
+}

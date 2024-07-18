@@ -2774,22 +2774,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.20":
-  version: 2.0.20
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.20"
+"@hmcts/rpx-xui-common-lib@npm:2.0.23":
+  version: 2.0.23
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.23"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
-    launchdarkly-js-client-sdk: ^2.15.2
+    launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 94522b29ed0e95f4d7b0a35e68a6a4df072ee283c69a70bc97a6a84d31ef0296c74bd5cfa01744469c055db29fd85c3afeb76102b15218ff430dc2d24abb9e62
+  checksum: e5f24494b28cc99d6ae4cb1839a3191fb7a20a29d72ce67a7bdbc2a21854dabc6c2b5c08b7671b5538c6d68b7bb126eedc838330fc9c799483c0490754564b9b
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:3.0.0-Node18Upgrade-3":
-  version: 3.0.0-Node18Upgrade-3
-  resolution: "@hmcts/rpx-xui-node-lib@npm:3.0.0-Node18Upgrade-3"
+"@hmcts/rpx-xui-node-lib@npm:2.29.0":
+  version: 2.29.0
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.29.0"
   dependencies:
     "@hapi/joi": ^17.1.1
     axios: ^0.21.1
@@ -2800,8 +2800,8 @@ __metadata:
     deepmerge: ^4.2.2
     express: ^4.17.1
     express-session: ^1.17.0
-    jest-mock-axios: ^4.6.2
-    jest-ts-auto-mock: ^2.0.0
+    jest-mock-axios: ^4.7.3
+    jest-ts-auto-mock: ^2.1.0
     jwt-decode: ^2.2.0
     openid-client: ^3.10.0
     otplib: ^12.0.1
@@ -2811,7 +2811,7 @@ __metadata:
     session-file-store: ^1.5.0
     ts-auto-mock: ^3.5.0
     ttypescript: ^1.5.13
-  checksum: e90922322440d85a466762c8679ff39c0fb246f37a21e2e0f24f738315ca7d3b264dc8f18ecbd12c7292eb2457f18a67e82598cc71e38f5eccb99a133484073e
+  checksum: f0b71c7f6d9e4cb6318534af8184eaa0d1b6a921485811fe211dda482d7121fec136e581e8bbbe5e9fd2ae6becf2b0c5034efe1608ceba670d104f55570f52cb
   languageName: node
   linkType: hard
 
@@ -13784,7 +13784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-mock-axios@npm:^4.6.2":
+"jest-mock-axios@npm:^4.7.3":
   version: 4.7.3
   resolution: "jest-mock-axios@npm:4.7.3"
   dependencies:
@@ -13939,7 +13939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-ts-auto-mock@npm:^2.0.0":
+"jest-ts-auto-mock@npm:^2.1.0":
   version: 2.1.0
   resolution: "jest-ts-auto-mock@npm:2.1.0"
   peerDependencies:
@@ -19407,8 +19407,8 @@ __metadata:
     "@hmcts/media-viewer": 4.0.4
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.20
-    "@hmcts/rpx-xui-node-lib": 3.0.0-Node18Upgrade-3
+    "@hmcts/rpx-xui-common-lib": 2.0.23
+    "@hmcts/rpx-xui-node-lib": 2.29.0
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

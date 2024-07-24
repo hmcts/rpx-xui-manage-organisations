@@ -2774,22 +2774,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.21-message-banner-start-end-date-1":
-  version: 2.0.21-message-banner-start-end-date-1
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.21-message-banner-start-end-date-1"
+"@hmcts/rpx-xui-common-lib@npm:2.0.23":
+  version: 2.0.23
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.23"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
-    launchdarkly-js-client-sdk: ^2.15.2
+    launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 05b4939f4b6ab4fe78a896a8800c0d0d2af4eb230967e309dd828572b60ce1a14c63bd459d2df830d66de7df7cf849a08c7e5207c85b3a5df9d67f1f68245942
+  checksum: e5f24494b28cc99d6ae4cb1839a3191fb7a20a29d72ce67a7bdbc2a21854dabc6c2b5c08b7671b5538c6d68b7bb126eedc838330fc9c799483c0490754564b9b
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.27.1":
-  version: 2.27.1
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.27.1"
+"@hmcts/rpx-xui-node-lib@npm:2.29.1":
+  version: 2.29.1
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.29.1"
   dependencies:
     "@hapi/joi": ^17.1.1
     axios: ^0.21.1
@@ -2800,18 +2800,18 @@ __metadata:
     deepmerge: ^4.2.2
     express: ^4.17.1
     express-session: ^1.17.0
-    jest-mock-axios: ^4.6.2
-    jest-ts-auto-mock: ^2.0.0
+    jest-mock-axios: ^4.7.3
+    jest-ts-auto-mock: ^2.1.0
     jwt-decode: ^2.2.0
     openid-client: ^3.10.0
     otplib: ^12.0.1
     passport: ^0.4.1
     passport-oauth2: ^1.5.0
     redis: ^3.0.2
-    session-file-store: ^1.3.1
+    session-file-store: ^1.5.0
     ts-auto-mock: ^3.5.0
     ttypescript: ^1.5.13
-  checksum: 718467254982696436233f0a4cb716db8668ba70845587f56fe1314e90e4ed8afde6516dbd2918b06f78e161abd7832b8679507fb6a2e34620dcafc2c8860dd9
+  checksum: 5141eb5028710ecad936eabd48f9c0ea6de9ac716b74de08f41cf820f0ce02bdf06d7ac5a5ac3134b86df61ea782164d0be23e8b34762aca988f1caf711ea87e
   languageName: node
   linkType: hard
 
@@ -13784,7 +13784,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-mock-axios@npm:^4.6.2":
+"jest-mock-axios@npm:^4.7.3":
   version: 4.7.3
   resolution: "jest-mock-axios@npm:4.7.3"
   dependencies:
@@ -13939,7 +13939,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-ts-auto-mock@npm:^2.0.0":
+"jest-ts-auto-mock@npm:^2.1.0":
   version: 2.1.0
   resolution: "jest-ts-auto-mock@npm:2.1.0"
   peerDependencies:
@@ -19407,8 +19407,8 @@ __metadata:
     "@hmcts/media-viewer": 4.0.4
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.21-message-banner-start-end-date-1
-    "@hmcts/rpx-xui-node-lib": 2.27.1
+    "@hmcts/rpx-xui-common-lib": 2.0.23
+    "@hmcts/rpx-xui-node-lib": 2.29.1
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0
@@ -20007,7 +20007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"session-file-store@npm:^1.2.0, session-file-store@npm:^1.3.1":
+"session-file-store@npm:^1.2.0, session-file-store@npm:^1.5.0":
   version: 1.5.0
   resolution: "session-file-store@npm:1.5.0"
   dependencies:

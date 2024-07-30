@@ -56,9 +56,11 @@ withPipeline(type, product, component) {
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)
 
-   enablePactAs([
-     AppPipelineDsl.PactRoles.CONSUMER
-])
+  // ONLY FOR PR PIPELINE  TEST PURPOSE DO NOT CHECK IN
+  onPR() {
+    enablePactAs([AppPipelineDsl.PactRoles.CONSUMER])
+  }
+
 
     afterSuccess('build') {
         yarnBuilder.yarn('build')

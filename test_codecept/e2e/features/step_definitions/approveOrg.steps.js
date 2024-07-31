@@ -1,23 +1,22 @@
+import { When } from 'cucumber';
 
 const approveOrganizationService = require('../pageObjects/approveOrganizationService');
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 
-const { defineSupportCode } = require('cucumber');
+When('I approve organisation',  async function () {
+  await approveOrganizationService.init();
+  await approveOrganizationService.approveOrg(global.latestOrgCreated);
+  await approveOrganizationService.destroy();
+},);
 
-  When('I approve organisation',  async function () {
-    await approveOrganizationService.init();
-    await approveOrganizationService.approveOrg(global.latestOrgCreated);
-    await approveOrganizationService.destroy();
-  },);
-
-  When('I activate approved organisation super user',  async function () {
-    await mailinatorService.init();
-    mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
-    await mailinatorService.openRegistrationEmailForUser(global.latestOrgSuperUser);
-    await mailinatorService.completeUserRegistrationFromEmail();
-    await mailinatorService.destroy();
-  });
+When('I activate approved organisation super user',  async function () {
+  await mailinatorService.init();
+  mailinatorService.setLogger((message, isScreenshot) => logger(this, message, isScreenshot));
+  await mailinatorService.openRegistrationEmailForUser(global.latestOrgSuperUser);
+  await mailinatorService.completeUserRegistrationFromEmail();
+  await mailinatorService.destroy();
+});
 
 
 function logger(world, message, isScreenshot) {

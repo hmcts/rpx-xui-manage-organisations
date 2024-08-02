@@ -1,5 +1,5 @@
 
-import { Then } from 'cucumber'
+const { Then} = require('cucumber')
 
 const HeaderPage = require('../pageObjects/headerPage');
 const ViewUserPage = require('../pageObjects/viewUserPage.js');

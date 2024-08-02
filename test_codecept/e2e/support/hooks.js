@@ -1,5 +1,5 @@
 'use strict';
-import { Before, After } from 'cucumber';
+const { Before, After} = require('cucumber');
 
 const Cucumber = require('cucumber');
 const fs = require('fs');

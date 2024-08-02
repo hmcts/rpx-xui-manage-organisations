@@ -1,5 +1,5 @@
 'use strict';
-import { Then, When } from 'cucumber';
+const { Then, When } = require('cucumber'};
 
 const CreateOrganisationObjects = require('../pageObjects/createOrganisationObjects');
 

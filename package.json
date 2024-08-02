@@ -4,7 +4,6 @@
   "engines": {
     "node": ">=18.17.0"
   },
-  "type": "commonjs",
   "scripts": {
     "build": "yarn build:prod && yarn build:node",
     "build:prod": "ng build --configuration production",

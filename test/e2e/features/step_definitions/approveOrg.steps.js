@@ -1,4 +1,4 @@
-import { When } from 'cucumber';
+const { When } = require('cucumber');
 
 const approveOrganizationService = require('../pageObjects/approveOrganizationService');
 

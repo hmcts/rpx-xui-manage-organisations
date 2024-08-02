@@ -1,5 +1,5 @@
 'use strict';
-import { Given, When } from 'cucumber';
+const { Given, When} = require('cucumber');
 
 const CreateOrganisationObjects = require('../pageObjects/createOrganisationObjects');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');

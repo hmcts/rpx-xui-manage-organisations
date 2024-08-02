@@ -55,6 +55,8 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)
+    // temp enable to test nightly function
+    enableCrossBrowserTest()
 
    enablePactAs([
      AppPipelineDsl.PactRoles.CONSUMER
@@ -191,5 +193,14 @@ withPipeline(type, product, component) {
             reportName           : 'AAT Functional Test'
         ])
     }
-
+    afterSuccess('crossBrowserTest') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/crossbrowser/",
+            reportFiles          : 'index.html',
+            reportName           : 'XUI Manage Organisation Cross Browser Tests'
+        ])
+    }
 }

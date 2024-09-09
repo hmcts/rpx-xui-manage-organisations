@@ -2184,6 +2184,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cucumber/pretty-formatter@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "@cucumber/pretty-formatter@npm:1.0.1"
+  dependencies:
+    ansi-styles: ^5.0.0
+    cli-table3: ^0.6.0
+    figures: ^3.2.0
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    "@cucumber/cucumber": ">=7.0.0"
+    "@cucumber/messages": "*"
+  checksum: bd84ff9fcf0d0a6c8d190f5c7acec426a1ff6eb2f67c743abb8ff226768121bae482be191b9db64449df09be8aecdd93661a91ba4db708f55e3e14a7ce7dede2
+  languageName: node
+  linkType: hard
+
 "@cucumber/tag-expressions@npm:6.1.0":
   version: 6.1.0
   resolution: "@cucumber/tag-expressions@npm:6.1.0"
@@ -8145,7 +8160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cli-table3@npm:0.6.5":
+"cli-table3@npm:0.6.5, cli-table3@npm:^0.6.0":
   version: 0.6.5
   resolution: "cli-table3@npm:0.6.5"
   dependencies:
@@ -19734,6 +19749,7 @@ __metadata:
     "@angular/router": ^17.3.6
     "@circlon/angular-tree-component": ^11.0.4
     "@cucumber/cucumber": ^11.0.0
+    "@cucumber/pretty-formatter": ^1.0.1
     "@edium/fsm": ^2.1.2
     "@hmcts/ccd-case-ui-toolkit": 7.0.40
     "@hmcts/ccpay-web-component": 6.2.1
@@ -21887,7 +21903,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-dedent@npm:^2.2.0":
+"ts-dedent@npm:^2.0.0, ts-dedent@npm:^2.2.0":
   version: 2.2.0
   resolution: "ts-dedent@npm:2.2.0"
   checksum: 93ed8f7878b6d5ed3c08d99b740010eede6bccfe64bce61c5a4da06a2c17d6ddbb80a8c49c2d15251de7594a4f93ffa21dd10e7be75ef66a4dc9951b4a94e2af

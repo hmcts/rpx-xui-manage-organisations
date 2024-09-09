@@ -1,4 +1,4 @@
-const { When } = require('cucumber');
+const { When } = require('@cucumber/cucumber');
 
 const approveOrganizationService = require('../pageObjects/approveOrganizationService');
 

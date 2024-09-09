@@ -1,4 +1,4 @@
-const { Then, When} = require('cucumber');
+const { Then, When} = require('@cucumber/cucumber');
 
 const loginPage = require('../pageObjects/loginLogoutObjects');
 const HeaderPage = require('../pageObjects/headerPage');

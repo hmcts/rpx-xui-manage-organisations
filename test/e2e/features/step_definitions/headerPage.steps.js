@@ -1,4 +1,6 @@
 
+const { Then} = require('cucumber')
+
 const HeaderPage = require('../pageObjects/headerPage');
 const ViewUserPage = require('../pageObjects/viewUserPage.js');
 const InviteUserPage = require('../pageObjects/inviteUserPage.js');
@@ -12,7 +14,6 @@ const EC = protractor.ExpectedConditions;
 
 const mailinatorService = require('../pageObjects/mailinatorService');
 
-const { defineSupportCode } = require('cucumber');
 
 async function waitForElement(el) {
   await browser.wait((result) => {
@@ -20,11 +21,9 @@ async function waitForElement(el) {
   }, 600000);
 }
 
-defineSupportCode(function ({ And, But, Given, Then, When }) {
-  const headerPage = new HeaderPage();
+const headerPage = new HeaderPage();
 
-  Then('I should see navigation tab in header', async function (dataTable) {
-    await headerPage.waitForPrimaryNavigationToDisplay();
-    await headerPage.validateNavigationTabDisplayed(dataTable);
-  });
+Then('I should see navigation tab in header', async function (dataTable) {
+  await headerPage.waitForPrimaryNavigationToDisplay();
+  await headerPage.validateNavigationTabDisplayed(dataTable);
 });

@@ -2,7 +2,7 @@
 <form [formGroup]="inviteUserForm" (ngSubmit)="onSubmit()" >
 
   <xuilib-gov-uk-input
-    [config]="{label: 'First name', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text', classes: 'testClass'}"
+    [config]="{label: 'First name', hint: 'Include all middle names.', name: 'firstName', id: 'firstName', type: 'text'}"
     [errorMessage]="isInvalid.firstName"
     [group]="inviteUserForm">
   </xuilib-gov-uk-input>

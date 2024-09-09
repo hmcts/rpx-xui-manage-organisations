@@ -3,7 +3,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
-
+const cucumberPretty = require('cucumber-pretty');
 const config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),

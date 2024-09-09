@@ -32,8 +32,8 @@ export function reducer(
       // if the users are loaded before organisation, the profile ids will be added since this is not provided by the GET operation
       const newPayload = { ...action.payload, organisationProfileIds: state.organisationDetails?.organisationProfileIds };
       const newAction = { ...action, payload: newPayload };
-      newAction.payload.paymentAccount.forEach((pba) => {
-        let pbaNumberModel: PBANumberModel;
+      newPayload.paymentAccount.forEach((pba) => {
+        let pbaNumberModel: PBANumberModel = { pbaNumber: '' };
         if (typeof pba === 'string') {
           pbaNumberModel = {
             pbaNumber: pba

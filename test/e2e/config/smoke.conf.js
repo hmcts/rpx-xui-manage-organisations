@@ -89,7 +89,7 @@ const config = {
   cucumberOpts: {
     strict: true,
     // format: ['node_modules/cucumber-pretty'],
-    format: ['node_modules/@cucumber/pretty-formatter', 'json:reports_json/results.json'],
+    format: ['@cucumber/pretty-formatter', 'json:reports_json/results.json'],
     tags: ['@smoke', 'not @Flaky'],
     require: [
       '../support/timeout.js',

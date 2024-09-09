@@ -173,6 +173,17 @@ withPipeline(type, product, component) {
         ])
     }
 
+    afterSuccess('crossBrowserTest') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/crossbrowser/",
+            reportFiles          : 'index.html',
+            reportName           : 'XUI Manage Organisation Cross Browser Tests'
+        ])
+    }
+
     afterSuccess('functionalTest:aat') {
 
       publishHTML([
@@ -193,14 +204,5 @@ withPipeline(type, product, component) {
             reportName           : 'AAT Functional Test'
         ])
     }
-    afterSuccess('crossBrowserTest') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/crossbrowser/",
-            reportFiles          : 'index.html',
-            reportName           : 'XUI Manage Organisation Cross Browser Tests'
-        ])
-    }
+    
 }

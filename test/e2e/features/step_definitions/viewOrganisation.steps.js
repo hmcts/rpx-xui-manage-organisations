@@ -1,4 +1,4 @@
-const { When, Then} = require('cucumber');
+const { When, Then} = require('@cucumber/cucumber');
 
 const ViewOrganisationPage = require('../pageObjects/viewOrganisationPage.js');
 const HeaderPage = require('../pageObjects/headerPage');

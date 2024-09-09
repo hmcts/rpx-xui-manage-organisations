@@ -1,5 +1,5 @@
 'use strict';
-const { Then, When } = require('cucumber'};
+const { Then, When } = require('@cucumber/cucumber'};
 
 const CreateOrganisationObjects = require('../pageObjects/createOrganisationObjects');
 

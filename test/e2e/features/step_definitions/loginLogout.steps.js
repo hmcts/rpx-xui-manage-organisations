@@ -1,6 +1,6 @@
 'use strict';
 
-const { Given, Then, When} = require('cucumber');
+const { Given, Then, When} = require('@cucumber/cucumber');
 
 const loginPage = require('../pageObjects/loginLogoutObjects');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');

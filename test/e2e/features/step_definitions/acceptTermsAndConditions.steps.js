@@ -1,4 +1,4 @@
-const { Then, When } = require('cucumber');
+const { Then, When } = require('@cucumber/cucumber');
 
 const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 const HeaderPage = require('../pageObjects/headerPage');

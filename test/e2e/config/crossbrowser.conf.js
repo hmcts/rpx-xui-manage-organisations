@@ -3,7 +3,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
-const cucumberPretty = require('cucumber-pretty');
+const cucumberPretty = require('@cucumber/pretty-formatter');
 const config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -115,7 +115,7 @@ const config = {
 
   cucumberOpts: {
     strict: true,
-    format: ['node_modules/cucumber-pretty', 'json:cb_reports/saucelab_results.json'],
+    format: ['node_modules/@cucumber/pretty-formatter', 'json:cb_reports/saucelab_results.json'],
     require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
     tags: ['@crossbrowser', 'not @Flaky']
   },

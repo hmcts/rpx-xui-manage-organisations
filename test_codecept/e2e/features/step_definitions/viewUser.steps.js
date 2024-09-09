@@ -1,4 +1,3 @@
-const { When, Then} = require('cucumber');
 
 const ViewUserPage = require('../pageObjects/viewUserPage.js');
 const HeaderPage = require('../pageObjects/headerPage');

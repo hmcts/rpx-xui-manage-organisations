@@ -72,6 +72,7 @@
     "@angular/platform-browser-dynamic": "^17.3.6",
     "@angular/router": "^17.3.6",
     "@circlon/angular-tree-component": "^11.0.4",
+    "@cucumber/cucumber": "^11.0.0",
     "@edium/fsm": "^2.1.2",
     "@hmcts/ccd-case-ui-toolkit": "7.0.40",
     "@hmcts/ccpay-web-component": "6.2.1",

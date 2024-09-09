@@ -1,4 +1,3 @@
-const { When, Then } = require('cucumber');
 
 const loginPage = require('../pageObjects/loginLogoutObjects');
 const HeaderPage = require('../pageObjects/headerPage');

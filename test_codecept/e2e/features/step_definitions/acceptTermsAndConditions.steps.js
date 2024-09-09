@@ -1,5 +1,3 @@
-const { Then, When} = require('cucumber');
-
 const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsConfirmPage');
 const HeaderPage = require('../pageObjects/headerPage');
 

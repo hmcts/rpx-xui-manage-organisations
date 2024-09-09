@@ -13,7 +13,7 @@ async function generateMergedReport() {
 
 
     const mergedReportData = {
-        appName: 'EXUI Manage Cases a11y Test Report',
+        appName: 'EXUI Manage Org a11y Test Report',
         passed: 0,
         failed: 0,
         tests: []

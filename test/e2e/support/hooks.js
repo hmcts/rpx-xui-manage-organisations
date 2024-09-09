@@ -1,5 +1,5 @@
 'use strict';
-const { Before, After } = require('cucumber');
+const { Before, After } = require('@cucumber/cucumber');
 
 const fs = require('fs');
 const mkdirp = require('mkdirp');
@@ -13,7 +13,7 @@ const htmlReports = `${process.cwd()}/reports/html`;
 // var xmlReports = process.cwd() + "/reports/xml";
 const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
-const { Given, When, Then } = require('cucumber');
+const { Given, When, Then } = require('@cucumber/cucumber');
 const CucumberReportLogger = require('./reportLogger');
 
 //     registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {

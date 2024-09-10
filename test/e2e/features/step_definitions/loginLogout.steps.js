@@ -140,8 +140,9 @@ Given(/^I am logged into manage organisation to invite users$/, async function (
 });
 
 Given(/^I am logged into Townley Services Org$/, async function () {
-  await loginPage.emailAddress.sendKeys(process.env.TEST_TOWNLEY_EMAIL); //replace username and password
-  await loginPage.password.sendKeys(process.env.TEST_TOWNLEY_PASSWORD);
+  console.log(config.config.townleyUser)
+  await loginPage.emailAddress.sendKeys(config.config.townleyUser); //replace username and password
+  await loginPage.password.sendKeys(config.config.townleyPassword);
   // browser.sleep(SHORT_DELAY);
   await loginPage.signinBtn.click();
   browser.sleep(SHORT_DELAY);

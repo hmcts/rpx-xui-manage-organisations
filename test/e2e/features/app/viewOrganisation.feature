@@ -1,4 +1,3 @@
-@crossbrowser
 Feature: view organisation workflow
   @Flaky
   Scenario: view organisation workflow

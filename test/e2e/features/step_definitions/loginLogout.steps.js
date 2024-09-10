@@ -234,6 +234,10 @@ Then('I see login to MC with invited user is {string}', { timeout: 120 * 1000 },
 });
 
 async function loginWithCredentials(username, password, world){
+  console.log('loginWithCredentials');
+  console.log(username);
+  console.log(password);
+  console.log('loginWithCredentials');
   await browserWaits.retryForPageLoad(loginPage.emailAddress, async function (message) {
     world.attach('Retrying Login page load : ' + message);
     const stream = await browser.takeScreenshot();

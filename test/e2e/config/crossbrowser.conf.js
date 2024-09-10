@@ -119,7 +119,7 @@ const config = {
 
   cucumberOpts: {
     strict: true,
-    format: ['json:cb_reports/saucelab_results.json'],
+    format: ['@cucumber/pretty-formatter', 'json:cb_reports/saucelab_results.json'],
     require: ['../support/timeout.js', '../features/step_definitions/**/*.steps.js'],
     tags: ['@crossbrowser']
   },

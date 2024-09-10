@@ -26,7 +26,7 @@ const config = {
     username_rw: process.env.TEST_USER2_EMAIL,
     password_rw: process.env.TEST_USER2_PASSWORD,
     townleyUser: process.env.TEST_TOWNLEY_EMAIL,
-    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD,
+    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD
   },
 
   // sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API

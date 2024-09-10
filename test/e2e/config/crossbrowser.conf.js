@@ -17,12 +17,16 @@ const config = {
   specs: ['../features/**/*.feature'],
 
   baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
-
+  
   params: {
     serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
-    targetEnv: argv.env || 'local'
-    //username: process.env.TEST_EMAIL,
-    //password: process.env.TEST_PASSWORD,
+    targetEnv: argv.env || 'local',
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD,
+    username_rw: process.env.TEST_USER2_EMAIL,
+    password_rw: process.env.TEST_USER2_PASSWORD,
+    townleyUser: process.env.TEST_TOWNLEY_EMAIL,
+    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD,
   },
 
   // sauceProxy: 'http://proxyout.reform.hmcts.net:8080',  // Proxy for the REST API

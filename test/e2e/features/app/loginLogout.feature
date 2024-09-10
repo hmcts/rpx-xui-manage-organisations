@@ -27,7 +27,7 @@ Feature: Login
 
     
   Scenario: login and log out from manage organisation as ManageOrg user
-    Given I am logged into manage organisation with ManageOrg user details
+    Given I am logged into Townley Services Org
     Then I should be redirected to manage organisation dashboard page
     When I select the sign out link
     Then I should be redirected to the Idam login page

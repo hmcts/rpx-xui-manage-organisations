@@ -25,7 +25,7 @@ Feature: Login
     Then I should be redirected to the Idam login page
     Then I should see failure error summary
 
-    
+  @crossbrowser
   Scenario: login and log out from manage organisation as ManageOrg user
     Given I am logged into Townley Services Org
     Then I should be redirected to manage organisation dashboard page

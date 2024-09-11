@@ -16,11 +16,6 @@ export const ROUTES: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'organisation',
-    canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
-    loadChildren: () => import('../organisation/organisation.module').then((m) => m.OrganisationModule)
-  },
-  {
     path: 'users',
     canActivate: [AuthGuard, TermsConditionGuard, HealthCheckGuard],
     loadChildren: () => import('../users/users.module').then((m) => m.UsersModule)

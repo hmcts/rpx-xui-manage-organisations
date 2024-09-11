@@ -80,3 +80,21 @@ div.govuk-header__logo, div.hmcts-header__logo {
   background: #005ea5;
   height: 5px;
 } 
+
+.mat-option {
+  font-family: Roboto,Helvetica Neue,sans-serif;
+  font-size: 16px;
+}
+
+.mat-option.mat-active, .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled), .mat-option:hover:not(.mat-option-disabled) {
+  background: rgba(0,0,0,.04);
+}
+
+.mat-autocomplete-panel {
+  background: #fff;
+  color: rgba(0,0,0,.87);
+
+  &:not([class*=mat-elevation-z]) {
+      box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+  }
+}

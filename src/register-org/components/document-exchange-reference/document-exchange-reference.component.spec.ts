@@ -113,7 +113,7 @@ describe('DocumentExchangeReferenceComponent', () => {
       previousNavigation: {
         finalUrl: '/check-your-answers'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
@@ -123,7 +123,7 @@ describe('DocumentExchangeReferenceComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'registered-address', 'internal']);
   });

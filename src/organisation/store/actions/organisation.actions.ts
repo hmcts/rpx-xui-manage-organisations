@@ -16,6 +16,8 @@ export const ORGANISATION_UPDATE_PBA_RESPONSE = '[Organisation] Organisation Upd
 export const ORGANISATION_UPDATE_PBA_ERROR = '[Organisation] Organisation Update PBAs Error';
 export const ORGANISATION_UPDATE_PBA_ERROR_RESET = '[Organisation] Organisation Update PBAs Error Reset';
 
+export const ORGANISATION_UPDATE_PROFILE_IDS = '[Organisation] Organisation Update Profile Ids';
+
 export class LoadOrganisation {
   public readonly type = LOAD_ORGANISATION;
 }
@@ -60,6 +62,11 @@ export class OrganisationUpdatePBAErrorReset implements Action {
   constructor(public payload: any) {}
 }
 
+export class OrganisationUpdateUpdateProfileIds implements Action {
+  public readonly type = ORGANISATION_UPDATE_PROFILE_IDS;
+  constructor(public payload: string[]) {}
+}
+
 export type organisationActions =
   | LoadOrganisation
   | LoadOrganisationSuccess
@@ -69,4 +76,5 @@ export type organisationActions =
   | OrganisationUpdatePBAs
   | OrganisationUpdatePBAResponse
   | OrganisationUpdatePBAError
-  | OrganisationUpdatePBAErrorReset;
+  | OrganisationUpdatePBAErrorReset
+  | OrganisationUpdateUpdateProfileIds;

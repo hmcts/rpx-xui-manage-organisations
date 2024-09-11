@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
 import { of, throwError } from 'rxjs';
@@ -21,6 +22,10 @@ describe('Organisation Effects', () => {
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
 
+  const mockFeatureService = jasmine.createSpyObj('FeatureToggleService', [
+    'getValue'
+  ]);
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -32,6 +37,10 @@ describe('Organisation Effects', () => {
         {
           provide: LoggerService,
           useValue: mockedLoggerService
+        },
+        {
+          provide: FeatureToggleService,
+          useValue: mockFeatureService
         },
         fromOrganisationEffects.OrganisationEffects,
         provideMockActions(() => actions$)
@@ -51,6 +60,9 @@ describe('Organisation Effects', () => {
       const payload: OrganisationDetails = {
         name: 'a@b.com',
         organisationIdentifier: 'A111111',
+        organisationProfileIds: [
+          'SOLICITOR_PROFILE'
+        ],
         contactInformation: [{
           addressLine1: '10  oxford street',
           addressLine2: 'A Town',
@@ -76,6 +88,7 @@ describe('Organisation Effects', () => {
         pendingAddPaymentAccount: [],
         pendingRemovePaymentAccount: []
       };
+      mockFeatureService.getValue.and.returnValue(of(true));
       organisationServiceMock.fetchOrganisation.and.returnValue(of(payload));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationSuccess(payload);
@@ -87,6 +100,7 @@ describe('Organisation Effects', () => {
 
   describe('loadOrganisation$ error', () => {
     it('should return LoadOrganisationFail', waitForAsync(() => {
+      mockFeatureService.getValue.and.returnValue(of(true));
       organisationServiceMock.fetchOrganisation.and.returnValue(throwError(new Error()));
       const action = new LoadOrganisation();
       const completion = new LoadOrganisationFail(new Error());

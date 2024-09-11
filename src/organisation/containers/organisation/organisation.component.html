@@ -24,6 +24,7 @@
         <dd class="govuk-summary-list__value">
           <div>{{organisationContactInformation.addressLine1}}</div>
           <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}</div>
+          <div *ngIf="organisationContactInformation.addressLine3">{{organisationContactInformation.addressLine3}}</div>
           <div>{{organisationContactInformation.townCity}}</div>
           <div>{{organisationContactInformation.county}}</div>
           <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}</div>
@@ -46,7 +47,7 @@
     <dl id="organisation-type" class="govuk-summary-list" *ngIf="organisationType">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Organisation type</dt>
-        <dd class="govuk-summary-list__value">{{organisationType}}</dd>
+        <dd class="govuk-summary-list__value">{{orgTypeDescription}}</dd>
       </div>
     </dl>
 
@@ -54,24 +55,21 @@
     <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">PBA numbers</dt>
-        <dd *ngIf="organisationPaymentAccount.length"
-          class="govuk-summary-list__value">
+        <dd class="govuk-summary-list__value">
           <div *ngFor="let pba of organisationPaymentAccount">
             {{pba.pbaNumber}}
           </div>
+          <br/>
+          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending approval)</div>
         </dd>
-        <dd *ngIf="showChangePbaNumberLink && organisationPaymentAccount.length"
-          class="govuk-summary-list__actions">
-          <a class="govuk-link" href="javascript:void(0)"
-            id="change-pba-account-numbers__link"
-            routerLink="/organisation/update-pba-numbers">
-            Change<span class="govuk-visually-hidden">PBA numbers</span>
-          </a>
-        </dd>
-        <dd *ngIf="!organisationPaymentAccount.length"
-          class="govuk-summary-list__value">
-          No PBA accounts registered
-        </dd>
+        <dd *ngIf="showChangePbaNumberLink"
+        class="govuk-summary-list__actions">
+        <a class="govuk-link" href="javascript:void(0)"
+          id="change-pba-account-numbers__link"
+          routerLink="/organisation/update-pba-numbers">
+          Change<span class="govuk-visually-hidden">PBA numbers</span>
+        </a>
+      </dd>
       </div>
     </dl>
 
@@ -138,6 +136,8 @@
           <!-- Contact Information -->
           <div>{{organisationContactInformation.addressLine1}}</div>
           <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}
+          </div>
+          <div *ngIf="organisationContactInformation.addressLine3">{{organisationContactInformation.addressLine3}}
           </div>
           <div>{{organisationContactInformation.townCity}}</div>
           <div>{{organisationContactInformation.county}}</div>

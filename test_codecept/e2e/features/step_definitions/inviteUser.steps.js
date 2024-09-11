@@ -124,6 +124,7 @@ const { Error } = require('globalthis/implementation');
   });
 
   Then(/^I click on a Active User$/, async function () {
+    await inviteUserPage.findNextActiveUser();
     await browserWaits.waitForElement(inviteUserPage.activeUser)
     await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
     await inviteUserPage.activeUser.click();

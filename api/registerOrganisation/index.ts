@@ -27,7 +27,7 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
         dxAddress: getDx(requestBody)
       }
     ],
-    orgType: requestBody.organisationType.key,
+    orgType: requestBody.otherOrganisationType ? requestBody.otherOrganisationType.key : requestBody.organisationType.key,
     orgAttributes: [
       ...requestBody.services.filter((service) => service.key !== undefined)
     ]
@@ -36,6 +36,22 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
     request.orgAttributes.push({
       key: 'otherServices',
       value: requestBody.otherServices
+    });
+  }
+  if (requestBody.regulators?.length > 0) {
+    requestBody.regulators.map((regulator, index) => {
+      request.orgAttributes.push({
+        key: `regulators-${index}`,
+        value: JSON.stringify(regulator)
+      });
+    });
+  }
+  if (requestBody.individualRegulators?.length > 0) {
+    requestBody.individualRegulators.map((iRegulator, index) => {
+      request.orgAttributes.push({
+        key: `individualRegulators-${index}`,
+        value: JSON.stringify(iRegulator)
+      });
     });
   }
   return request;
@@ -77,6 +93,8 @@ export async function handleRegisterOrgRoute(req: Request, res: Response, next: 
     res.send(response.data);
   } catch (error) {
     if (error.status === 400 && error.data?.errorDescription) {
+      error.data.errorDescription = securePbaNumberErrorMessage(error.data, error.data?.errorMessage);
+
       res.status(400).send(error.data);
     } else {
       next(error);
@@ -92,3 +110,18 @@ function convertEmptyStringToNull(term: string): string {
   return term === '' ? null : term;
 }
 
+function securePbaNumberErrorMessage(data, errorMessage: string): string {
+  const pbaNumberErrorMessage = '6 : PBA_NUMBER Invalid or already exists';
+  const emailDuplicateErrorMessage = '6 : EMAIL Invalid or already exists';
+  const genericErrorMessage = 'Registration cannot be completed';
+
+  if (errorMessage.toLowerCase() === pbaNumberErrorMessage.toLowerCase()) {
+    return genericErrorMessage;
+  }
+
+  if (errorMessage.toLowerCase() === emailDuplicateErrorMessage.toLowerCase()) {
+    return 'A user with this email address already exists. You should check that the email address has been entered correctly. You should also check if your organisation has already been registered. If you\'re still having problems, contact HMCTS.';
+  }
+
+  return genericErrorMessage;
+}

@@ -128,5 +128,6 @@ withNightlyPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'XUI Manage Organisation Cross Browser Tests'
         ])
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/crossbrowser/**/*'
     }
 }

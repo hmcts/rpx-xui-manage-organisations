@@ -20,14 +20,13 @@ nodejs:
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
 
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    LAUNCH_DARKLY_CLIENT_ID: ${PREVIEW_LD_KEY}
     PUI_ENV: preview
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
     DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
   keyVaults:
     rpx:
       secrets:
@@ -35,7 +34,8 @@ nodejs:
         - xui-oauth2-token
         - appinsights-instrumentationkey-mo
         - google-analytics-key
-        - launch-darkly-client-id
+        - name: launch-darkly-client-id-preview
+          alias: launch-darkly-client-id
         - system-user-name
         - system-user-password
   autoscaling:

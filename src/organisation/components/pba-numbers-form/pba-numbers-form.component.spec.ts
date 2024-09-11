@@ -13,9 +13,9 @@ import { PbaNumbersFormComponent } from './pba-numbers-form.component';
 
 const storeMock = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  pipe: () => {},
+  pipe: () => <unknown>{ },
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  dispatch: () => {}
+  dispatch: () => { }
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,6 +26,9 @@ let dispatchSpy: jasmine.Spy;
 const mockOrganisationDetails: OrganisationDetails = {
   name: 'A Firm',
   organisationIdentifier: 'A111111',
+  organisationProfileIds: [
+    'SOLICITOR_PROFILE'
+  ],
   contactInformation: [{
     addressLine1: '123 Street',
     addressLine2: 'A Town',

@@ -1,7 +1,7 @@
 locals {
   app_full_name     = "xui-${var.component}"
   ase_name          = "core-compute-${var.env}"
-  local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env
+  local_env         = (var.env == "preview" || var.env == "spreview") ? (var.env == "preview") ? "aat" : "saat" : var.env
   shared_vault_name = "${var.shared_product_name}-${local.local_env}"
 }
 
@@ -34,23 +34,26 @@ module "redis6-cache" {
   business_area                 = "cft"
   private_endpoint_enabled      = true
   public_network_access_enabled = false
+  family                        = var.redis_family
+  capacity                      = var.redis_capacity
+  sku_name                      = var.redis_sku_name
 }
 
-resource "azurerm_application_insights" "appinsights" {
-  name                = "${local.app_full_name}-appinsights-${var.env}"
+module "application_insights" {
+  source = "git@github.com:hmcts/terraform-module-application-insights?ref=main"
+
+  env                 = var.env
+  product             = var.product
+  name                = "${local.app_full_name}-appinsights"
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
-  application_type    = var.application_type
 
-  tags = var.common_tags
+  common_tags = var.common_tags
+}
 
-  lifecycle {
-    ignore_changes = [
-      # Ignore changes to appinsights as otherwise upgrading to the Azure provider 2.x
-      # destroys and re-creates this appinsights instance
-      application_type,
-    ]
-  }
+moved {
+  from = azurerm_application_insights.appinsights
+  to   = module.application_insights.azurerm_application_insights.this
 }
 
 resource "azurerm_resource_group" "rg" {

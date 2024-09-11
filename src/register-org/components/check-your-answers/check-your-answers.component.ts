@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
+import { LoggerService } from '../../../shared/services/logger.service';
 import { ORGANISATION_TYPES_REF_DATA } from '../../__mocks__';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
 import { RegulatorType, RegulatoryType } from '../../models';
@@ -23,7 +24,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   public readonly apiErrorMessage = 'Sorry, there is a problem with the service. Try again later';
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService
+    public readonly registerOrgService: RegisterOrgService,
+    public readonly loggerService: LoggerService
   ) {
     super(router, registerOrgService);
   }
@@ -51,7 +53,8 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
 
   public onSubmitData(): void {
     if (this.validateForm()) {
-      this.registerOrgService.postRegistration().subscribe(() => {
+      this.registerOrgService.postRegistration().subscribe((response) => {
+        this.loggerService.info(`New Organisation Submitted: ${response?.organisationIdentifier}`);
         this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'registration-submitted']);
       },
       ((errorResponse) => {

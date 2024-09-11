@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 import * as fromStore from '../store';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard {
   constructor(
     private readonly store: Store<fromStore.AuthState>,
     public authService: AuthService

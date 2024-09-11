@@ -45,6 +45,7 @@ describe('CompanyHouseDetailsComponent', () => {
     const companyNameError = { id: 'company-name', message: CompanyHouseDetailsMessage.NO_ORG_NAME };
     component.companyHouseFormGroup.get('companyName').setValue(null);
     component.onContinue();
+    expect(component.validationErrors.length).toEqual(1);
     expect(component.companyNameError).toEqual(companyNameError);
     expect(component.validationErrors.length).toEqual(1);
   });
@@ -54,6 +55,7 @@ describe('CompanyHouseDetailsComponent', () => {
     component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('1234');
     component.onContinue();
+    expect(component.validationErrors.length).toEqual(1);
     expect(component.companyNumberError).toEqual(companyNumberError);
     expect(component.validationErrors.length).toEqual(1);
   });
@@ -73,6 +75,9 @@ describe('CompanyHouseDetailsComponent', () => {
     component.companyHouseFormGroup.get('companyName').setValue('Company Name');
     component.companyHouseFormGroup.get('companyHouseNumber').setValue('12345678');
     component.onContinue();
+    expect(component.validationErrors.length).toEqual(0);
+    expect(component.companyNameError).toBeNull();
+    expect(component.companyNumberError).toBeNull();
     expect(component.registrationData.companyName).toEqual('Company Name');
     expect(component.registrationData.companyHouseNumber).toEqual('12345678');
     expect(component.companyNameError).toBeNull();
@@ -86,7 +91,7 @@ describe('CompanyHouseDetailsComponent', () => {
       previousNavigation: {
         finalUrl: '/check-your-answers'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
@@ -96,7 +101,7 @@ describe('CompanyHouseDetailsComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'organisation-type']);
   });

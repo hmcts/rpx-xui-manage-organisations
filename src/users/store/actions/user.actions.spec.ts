@@ -58,7 +58,7 @@ describe('User actions', () => {
   });
 
   it('should have a LoadAllUsersNoRoleDataSuccess action, triggered on successful retrieval of the user list', () => {
-    const payload = {};
+    const payload = { users: [] };
     const action = new LoadAllUsersNoRoleDataSuccess(payload);
     expect({ ...action }).toEqual({
       type: LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS,

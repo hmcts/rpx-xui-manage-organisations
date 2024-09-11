@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -14,17 +14,16 @@ export class AcceptTcEffects {
     private readonly acceptTcService: AcceptTcService
   ) {}
 
-  @Effect()
-  public acceptTandC$ = this.actions$.pipe(
-      ofType(acceptTandCActions.ACCEPT_T_AND_C),
-      map((action: acceptTandCActions.AcceptTandC) => action.payload),
-      switchMap((userData) => {
-        return this.acceptTcService.acceptTandC(userData).pipe(
-          map((tcDetails) => {
-            return new acceptTandCActions.AcceptTandCSuccess(tcDetails);
-          }),
-          catchError(() => of(new appActions.Go({ path: ['/service-down'] })))
-        );
-      })
-    );
+  public acceptTandC$ = createEffect(() => this.actions$.pipe(
+    ofType(acceptTandCActions.ACCEPT_T_AND_C),
+    map((action: acceptTandCActions.AcceptTandC) => action.payload),
+    switchMap((userData) => {
+      return this.acceptTcService.acceptTandC(userData).pipe(
+        map((tcDetails) => {
+          return new acceptTandCActions.AcceptTandCSuccess(tcDetails);
+        }),
+        catchError(() => of(new appActions.Go({ path: ['/service-down'] })))
+      );
+    })
+  ));
 }

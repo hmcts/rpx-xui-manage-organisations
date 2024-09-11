@@ -17,10 +17,12 @@ const config = {
   params: {
     serverUrls: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
     targetEnv: argv.env || 'local',
-    username: process.env.TEST_EMAIL || 'autotest_superuser@mailinator.com',
-    password: process.env.TEST_PASSWORD || 'Monday01'
-    // username: 'peterxuisuperuser@mailnesia.com',
-    // password: 'Monday01'
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD,
+    username_rw: process.env.TEST_USER2_EMAIL,
+    password_rw: process.env.TEST_USER2_PASSWORD,
+    townleyUser: process.env.TEST_TOWNLEY_EMAIL,
+    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD
   },
   directConnect: true,
   // seleniumAddress: 'http://localhost:4444/wd/hub',

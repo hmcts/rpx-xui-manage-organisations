@@ -12,6 +12,7 @@
     "experimentalDecorators": true,
     "target": "es2015",
     "importHelpers": true,
+    "skipLibCheck": true,
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -33,11 +34,12 @@
         "dist/gov-ui/*"
       ]
     },
+    "useDefineForClassFields": false
   },
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
       "module": "commonjs"
     }
-  },
+  }
 }

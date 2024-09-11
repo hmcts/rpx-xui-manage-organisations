@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import * as fromRoot from '../../app/store';
 import * as fromAuthStore from '../../user-profile/store/index';
 
 @Injectable()
-export class UserRoleGuard implements CanActivate {
+export class UserRoleGuard {
   constructor(private readonly store: Store<fromAuthStore.AuthState>) {}
 
   public canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {

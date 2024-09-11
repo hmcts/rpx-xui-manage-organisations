@@ -85,7 +85,7 @@ module.exports = async function () {
 
     event.dispatcher.on(event.test.after, async function (test) {
         output.print(`Test ${test.state} : ${test.title}`)
-     
+
         actor().flushLogsToReport();
 
         const authCookies = idamLogin.authToken
@@ -94,7 +94,7 @@ module.exports = async function () {
             featureLogsMessage(test, `${JSON.stringify(mockSessiondataResponse.data, null, 2)}`);
             codeceptMochawesomeLog.AddJson(cookies);
         }
-       
+
 
         const cookies = idamLogin.xuiCallbackResponse;
         // featureLogsMessage(test, `\n cookies \n ${JSON.stringify(cookies, null, 2)}`);
@@ -106,7 +106,7 @@ module.exports = async function () {
 
 
     event.dispatcher.on(event.test.passed,async function (test) {
-       
+
         codeceptMochawesomeLog.AddMessage("************ Test passed")
 
     });

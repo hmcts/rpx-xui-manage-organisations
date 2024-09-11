@@ -193,7 +193,7 @@ describe('RegisteredAddressComponent', () => {
       previousNavigation: {
         finalUrl: '/check-your-answers'
       }
-    });
+    } as any);
     component.onBack(true);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
@@ -203,7 +203,7 @@ describe('RegisteredAddressComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack(true);
     expect(component.headingText).toEqual('What is the registered address of your organisation?');
     expect(component.startedInternational).toEqual(false);
@@ -216,7 +216,7 @@ describe('RegisteredAddressComponent', () => {
       previousNavigation: {
         finalUrl: '/something-else'
       }
-    });
+    } as any);
     component.onBack(false);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });
@@ -226,7 +226,7 @@ describe('RegisteredAddressComponent', () => {
       previousNavigation: {
         finalUrl: undefined
       }
-    });
+    } as any);
     component.onBack(false);
     expect(mockRouter.navigate).toHaveBeenCalledWith(['register-org-new', 'company-house-details']);
   });

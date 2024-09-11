@@ -28,12 +28,12 @@ const localConfig = [
 const config = {
   config: {
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
-    username: process.env.TEST_EMAIL || 'autotest_readonly_superuser@mailinator.com',
-    password: process.env.TEST_PASSWORD || 'Monday01',
-    username_rw: process.env.TEST_EMAIL || 'lukesuperuserxui@mailnesia.com',
-    password_rw: process.env.TEST_PASSWORD || 'Monday01',
-    townleyUser: 'townley.winchester@mailnesia.com',
-    townleyPassword: 'Monday01'
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD,
+    username_rw: process.env.TEST_USER2_EMAIL,
+    password_rw: process.env.TEST_USER2_PASSWORD,
+    townleyUser: process.env.TEST_TOWNLEY_EMAIL,
+    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD
   },
   twoFactorAuthEnabled: false,
   termsAndConditionsEnabled: true

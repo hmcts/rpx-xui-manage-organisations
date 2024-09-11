@@ -19,8 +19,8 @@ body .govuk-width-container,
   padding-left: 20px;
 }
 
-@import "~govuk-frontend/govuk/all";
-@import "~@hmcts/frontend/all";
+@import "govuk-frontend/govuk/all";
+@import "@hmcts/frontend/all";
 
 // gov uk frond-end template is not installed on this
 .js-hidden {

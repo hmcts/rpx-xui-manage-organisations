@@ -2774,16 +2774,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.23":
-  version: 2.0.23
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.23"
+"@hmcts/rpx-xui-common-lib@npm:2.0.28-presentation-img-service-banner":
+  version: 2.0.28-presentation-img-service-banner
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.28-presentation-img-service-banner"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: e5f24494b28cc99d6ae4cb1839a3191fb7a20a29d72ce67a7bdbc2a21854dabc6c2b5c08b7671b5538c6d68b7bb126eedc838330fc9c799483c0490754564b9b
+  checksum: 833b06b149d24589eccf516fb459d305675d6f5b28c52a365eeb8b9ccdfd43968eee88c0298ae10ac5d8bd7e4c11a7165006d4e19666669a6316a4ba2268d84e
   languageName: node
   linkType: hard
 
@@ -19407,7 +19407,7 @@ __metadata:
     "@hmcts/media-viewer": 4.0.4
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.23
+    "@hmcts/rpx-xui-common-lib": 2.0.28-presentation-img-service-banner
     "@hmcts/rpx-xui-node-lib": 2.29.1
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0

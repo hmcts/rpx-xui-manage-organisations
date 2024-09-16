@@ -3,7 +3,7 @@
 const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 
 function loginLogoutObjects() {
-  this.emailAddress = element(by.css('input#username'));
+  this.emailAddress = element(by.css('[id=\'username\']'));
   this.password = element(by.css('[id=\'password\']'));
   this.signinTitle= element(by.xpath('//h1[@class=\'heading-large\']'));
   //this.signinTitle = element(by.css("h1"));

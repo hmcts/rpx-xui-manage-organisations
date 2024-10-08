@@ -10097,21 +10097,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:^2.6.1":
-  version: 2.7.4
-  resolution: "ejs@npm:2.7.4"
-  checksum: a1d2bfc7d1f0b39e99ae19b20c9469a25aeddba1ffc225db098110b18d566f73772fcdcc740b108cfda7452276f67d7b64eb359f90285414c942f4ae70713371
-  languageName: node
-  linkType: hard
-
-"ejs@npm:^3.1.7":
-  version: 3.1.10
-  resolution: "ejs@npm:3.1.10"
+"ejs@npm:3.1.8":
+  version: 3.1.8
+  resolution: "ejs@npm:3.1.8"
   dependencies:
     jake: ^10.8.5
   bin:
     ejs: bin/cli.js
-  checksum: ce90637e9c7538663ae023b8a7a380b2ef7cc4096de70be85abf5a3b9641912dde65353211d05e24d56b1f242d71185c6d00e02cb8860701d571786d92c71f05
+  checksum: 1d40d198ad52e315ccf37e577bdec06e24eefdc4e3c27aafa47751a03a0c7f0ec4310254c9277a5f14763c3cd4bbacce27497332b2d87c74232b9b1defef8efc
+  languageName: node
+  linkType: hard
+
+"ejs@npm:^2.6.1":
+  version: 2.7.4
+  resolution: "ejs@npm:2.7.4"
+  checksum: a1d2bfc7d1f0b39e99ae19b20c9469a25aeddba1ffc225db098110b18d566f73772fcdcc740b108cfda7452276f67d7b64eb359f90285414c942f4ae70713371
   languageName: node
   linkType: hard
 
@@ -19467,7 +19467,7 @@ __metadata:
     cucumber-html-reporter: ^4.0.5
     cucumber-pretty: 1.5.0
     dotenv-extended: ^2.7.0
-    ejs: ^3.1.7
+    ejs: 3.1.8
     eslint: ^8.37.0
     exceljs: ^4.4.0
     exception-formatter: ^1.0.7

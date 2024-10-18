@@ -27,7 +27,13 @@ const localConfig = [
 
 const config = {
   config: {
-    baseUrl: process.env.TEST_URL || 'http://localhost:3000/'
+    baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
+    username: process.env.TEST_USER1_EMAIL,
+    password: process.env.TEST_USER1_PASSWORD,
+    username_rw: process.env.TEST_USER2_EMAIL,
+    password_rw: process.env.TEST_USER2_PASSWORD,
+    townleyUser: process.env.TEST_TOWNLEY_EMAIL,
+    townleyPassword: process.env.TEST_TOWNLEY_PASSWORD
   },
   twoFactorAuthEnabled: false,
   termsAndConditionsEnabled: true

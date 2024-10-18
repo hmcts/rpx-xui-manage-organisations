@@ -3,7 +3,7 @@ const should = require('chai').should();
 
 suite('Manage Org -> Get Organisation User details', function() {
   this.timeout(50000);
-  test('GET Manage Organisation User details', () => generateAPIRequest('GET', '/api/allUserList')
+  test('GET Manage Organisation User details', () => generateAPIRequest('GET', '/api/allUserListWithoutRoles')
  
     // console.log('response', response.headers.get('cache-control'))
     .then((response) => {

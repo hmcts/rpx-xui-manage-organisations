@@ -215,7 +215,7 @@ const environmentNames = {
   prod: 'prod'
 };
 
-const serviceMessagesFeatureToggleKey: string = 'mo-service-messages';
+const serviceMessagesFeatureToggleKey: string = 'mo-service-messages-dates';
 const serviceMessageCookie: string = 'mo_service_messages';
 
 /**

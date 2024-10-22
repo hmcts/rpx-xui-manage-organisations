@@ -33,9 +33,6 @@ def secrets = [
     secret('test-api-email', 'TEST_API_EMAIL'),
     secret('test-api-password', 'TEST_API_PASSWORD')
   ],
-//  's2s-${env}'      : [
-//    secret('microservicekey-xui-webapp', 'S2S_SECRET')
-//  ]
 ]
 
 def branchesToSync = ['demo', 'perftest', 'ithc']

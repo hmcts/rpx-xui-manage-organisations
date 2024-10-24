@@ -2836,12 +2836,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.0.40":
-  version: 7.0.40
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.0.40"
+"@hmcts/ccd-case-ui-toolkit@npm:7.0.70":
+  version: 7.0.70
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.0.70"
   dependencies:
     tslib: ^2.3.0
-  checksum: 7be8edfb42139b3840b970249dd104d9b11af0316f445518aba2ece9fa15879aa876bdc59c54ad2fa88f1bee3f0c4c265fd65c77a46eefa2e06c11d4d075232d
+  checksum: f8715ee8db96beeae4fb907e2b437d42df196039096326b5bac4265ba5d553310c3e1a2639223deaef416c122f7f0f29f05f75909bd6740f77d899f935f3ebe3
   languageName: node
   linkType: hard
 
@@ -19744,7 +19744,7 @@ __metadata:
     "@cucumber/cucumber": ^11.0.0
     "@cucumber/pretty-formatter": ^1.0.1
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 7.0.40
+    "@hmcts/ccd-case-ui-toolkit": 7.0.70
     "@hmcts/ccpay-web-component": 6.2.1
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/media-viewer": 4.0.4

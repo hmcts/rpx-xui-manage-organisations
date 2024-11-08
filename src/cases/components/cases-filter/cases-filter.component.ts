@@ -107,6 +107,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
   }
 
   public filterSelectedOrganisationUsers(searchTerm?: string | User): Observable<Map<string, User[]>> {
+    console.log('1232112321');
     const filteredUsers = searchTerm && searchTerm.length > 0
       ? typeof(searchTerm) === 'string'
         ? this.selectedOrganisationUsers.filter((user) => this.getDisplayName(user).toLowerCase().includes(searchTerm.toLowerCase()))

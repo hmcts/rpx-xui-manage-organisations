@@ -12,7 +12,8 @@ export class CaaCasesUtil {
             text: caseType.case_type_id,
             href: caseType.case_type_id,
             active: false,
-            total: caseType.total
+            total: caseType.total,
+            caseConfig: caseType.caseConfig
           });
         }
       });

@@ -23,6 +23,7 @@ export class CaaCasesEffects {
       ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
       switchMap((action: fromCaaActions.LoadAssignedCases) => {
         const payload = action.payload;
+        console.log('load assigned cases');
         return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.AssignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
           map((caaCases) => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
           catchError((error) => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))

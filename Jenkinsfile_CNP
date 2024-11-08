@@ -39,7 +39,7 @@ def secrets = [
     secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID'),
     secret('system-user-name', 'SYSTEM_USER_NAME'),
     secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
-    secret('mo-webapp-redis-connection-string', 'REDISCLOUD_URL'),
+    secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
 
   ],
 ]

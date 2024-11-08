@@ -59,3 +59,7 @@
     </div>
   </mat-tab>
 </mat-tab-group>
+{{navItems}}
+<div class="govuk-body govuk-!-margin-top-4" *ngIf="navItems.length === 0">
+  {{noCasesFoundMessage}}
+</div>

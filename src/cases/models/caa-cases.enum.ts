@@ -1,6 +1,7 @@
 export enum CaaCasesPageType {
   AssignedCases = 'assigned-cases',
-  UnassignedCases = 'unassigned-cases'
+  UnassignedCases = 'unassigned-cases',
+  NewCases = 'new-cases'
 }
 
 export enum CaaCasesShowHideFilterButtonText {
@@ -37,6 +38,7 @@ export enum CaaCasesFilterErrorMessage {
 export enum CaaCasesNoDataMessage {
   NoAssignedCases = 'There are no assigned cases available to be shared.',
   NoUnassignedCases = 'There are no unassigned cases available to be shared.',
-  AssignedCasesFilterMessage = 'Try again using a different case reference or assignee.',
-  UnassignedCasesFilterMessage = 'Try again using a different case reference.'
+  CasesFilterMessage = 'There are no assigned cases associated with this user to be shared.',
+  NoNewCases = 'There are no new cases to be shared.',
+  NoCaseIdMatches = 'There are no cases with case reference to be shared.'
 }

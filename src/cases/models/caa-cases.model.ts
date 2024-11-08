@@ -19,6 +19,10 @@ export interface CaseTypesResultsResponse {
 export interface CaseTypesResults {
   total: number;
   case_type_id: string;
+  caseConfig: {
+    new_cases: boolean;
+    group_access: boolean;
+  }
 }
 
 export interface SelectedCases {

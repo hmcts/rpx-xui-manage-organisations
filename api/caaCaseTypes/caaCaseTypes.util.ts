@@ -1,5 +1,7 @@
 import { CaaCasesPageType } from '../caaCases/enums';
 import { searchCasesString } from './caaCaseTypes.constants';
+import { getConfigValue } from '../configuration';
+import { UNASSIGNED_CASE_TYPES } from '../configuration/references';
 
 export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
@@ -67,4 +69,15 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
 
 export function getApiPath(ccdPath: string, caseTypes: string) {
   return `${ccdPath}${searchCasesString}${caseTypes}`;
+}
+
+export function addCaseConfiguration(response) {
+  const resData = response.data;
+  const unassignedCaseConfig = getConfigValue(UNASSIGNED_CASE_TYPES);
+  resData.case_types_results.forEach((caseTypeResult) => {
+    const { case_type_id } = caseTypeResult;
+    if (unassignedCaseConfig[case_type_id]) {
+      caseTypeResult.caseConfig = unassignedCaseConfig[case_type_id];
+    }
+  });
 }

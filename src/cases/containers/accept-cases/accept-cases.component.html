@@ -1,0 +1,55 @@
+<a href="#" class="govuk-back-link">Back</a>
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <span class="govuk-caption-xl">{{
+    (selectedOrganisation$ | async)?.name
+  }}</span>
+  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset govuk-!-margin-bottom-3">
+      <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <p class="govuk-fieldset__body">
+          You are accepting new cases into your organisation.
+          <br><br>
+          You do not need to assign cases to users if they have 'Access all cases in the organisation'
+          enabled for that case type.
+          <br><br>
+          If users do not have access to all cases in the organisation, you must assign this case to at
+          least one user.
+        </p>
+      </legend>
+      <form [formGroup]="permissionsForm">
+        <div class="govuk-radios" data-module="govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" type="radio" id="assign-without-users"
+              name="assignmentType" formControlName="assignmentType" value="notAssigning">
+            <label class="govuk-label govuk-radios__label" for="assign-without-users">
+              Accept these cases without assigning them to anyone.
+            </label>
+            <div id="assign-without-users-hint" class="govuk-hint govuk-radios__hint">
+              Choose this option if you have given your users 'Access to all cases in the organisation'
+            </div>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" type="radio" id="assign-with-users"
+              name="assignmentType" formControlName="assignmentType" value="assigning">
+            <label class="govuk-label govuk-radios__label" for="assign-with-users">
+              Accept these cases and assign them to one or more users in your organisation.
+            </label>
+            <div id="assign-with-users-hint" class="govuk-hint govuk-radios__hint">
+              Choose this option if you have not given your users 'Access to all cases in the organisation'
+            </div>
+          </div>
+        </div>
+      </form>
+    </fieldset>
+    <div class="govuk-button-group">
+      <button type="submit" data-prevent-double-click="true" class="govuk-button" data-module="govuk-button" (click)="continue()">
+        Continue
+      </button>
+      <button type="cancel" class="govuk-button govuk-button--secondary" data-module="govuk-button" (click)="goBack()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</main>

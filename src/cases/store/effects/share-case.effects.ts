@@ -41,7 +41,7 @@ export class ShareCaseEffects {
       map((action: shareCaseActions.AddShareUnassignedCases) => action.payload),
       map((newCases) => {
         return new shareCaseActions.AddShareUnassignedCaseGo({
-          path: [`${this.router.url}/case-share`],
+          path: this.getPathFromCaseConfig(newCases.group_access, newCases.new_cases),
           sharedCases: newCases.sharedCases
         });
       })
@@ -145,4 +145,11 @@ export class ShareCaseEffects {
       })
     )
   );
+
+  public getPathFromCaseConfig(groupAccess?: boolean, newCases?: boolean) {
+    if (groupAccess){
+      return [`${this.router.url}/accept-cases`];
+    }
+    return [`${this.router.url}/case-share`];
+  }
 }

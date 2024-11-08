@@ -6,7 +6,7 @@ import * as userStore from '../../../users/store';
 import * as caaCasesStore from '../../store';
 import { Store, select } from '@ngrx/store';
 import { OrganisationDetails } from 'src/models/organisation.model';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { ErrorMessage } from 'src/shared/models/error-message.model';
 import { SubNavigation, User } from '@hmcts/rpx-xui-common-lib';
@@ -32,6 +32,7 @@ export class CasesComponent implements OnInit {
   public showFilterSection = false;
   public errorMessages: ErrorMessage[] = [];
   public sessionStateValue: CaaCasesSessionStateValue;
+  public sessionStateKey = 'casesPage';
 
   public selectedFilterType: CaaCasesFilterType = CaaCasesFilterType.None;
   public selectedFilterValue: string = null;
@@ -55,6 +56,7 @@ export class CasesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    console.log('oninit...');
     // Retrieve session state to check and pre-populate the previous state if any
     this.retrieveSessionState();
     // if session state is found, then filter component will emit filter values to avoid double query
@@ -103,9 +105,14 @@ export class CasesComponent implements OnInit {
     this.caaCasesStore.dispatch(new caaCasesStore.LoadCaseTypes({
       caaCasesPageType: this.caaCasesPageType,
       caaCasesFilterType: this.selectedFilterType,
-      caaCasesFilterValue: this.selectedFilterValue })
-    );
-    this.caaCasesStore.pipe(select(caaCasesStore.getAllCaseTypes)).subscribe((items) => {
+      caaCasesFilterValue: this.selectedFilterValue
+    }));
+
+    this.caaCasesStore.pipe(
+      select(caaCasesStore.getAllCaseTypes),
+      take(1)
+    ).subscribe((items) => {
+      console.log(items);
       this.allCaseTypes = items;
       if (this.allCaseTypes && this.allCaseTypes.length > 0) {
         this.selectedCaseType = this.allCaseTypes[0].text;
@@ -120,6 +127,7 @@ export class CasesComponent implements OnInit {
   public loadCaseData(){
     if (this.allCaseTypes && this.allCaseTypes.length > 0) {
       if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
+        console.log('loadCaseData: loadAssignedCases');
         this.caaCasesStore.dispatch(new caaCasesStore.LoadAssignedCases({
           caseType: this.selectedCaseType,
           pageNo: this.currentPageNo,
@@ -163,15 +171,18 @@ export class CasesComponent implements OnInit {
     }
     if (selectedFilter.filterType === CaaCasesFilterType.AllAssignedCases) {
       // dispatch action to load all cases
-      this.caseResultsTableShareButtonText = 'Manage cases';
+      this.caaCasesPageType = CaaCasesPageType.AssignedCases;
+      this.caseResultsTableShareButtonText = 'Manage case sharing';
     }
     if (selectedFilter.filterType === CaaCasesFilterType.NewCasesToAccept) {
       // dispatch action to load new cases to accept
+      this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
       this.caseResultsTableShareButtonText = 'Accept cases';
     }
     if (selectedFilter.filterType === CaaCasesFilterType.UnassignedCases) {
       // dispatch action to load unassigned cases
-      this.caseResultsTableShareButtonText = 'Manage cases';
+      this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+      this.caseResultsTableShareButtonText = 'Share Case';
     }
     this.loadCaseTypes();
   }
@@ -193,7 +204,7 @@ export class CasesComponent implements OnInit {
   }
 
   public retrieveSessionState(): void {
-    this.sessionStateValue = this.service.retrieveSessionState(this.caaCasesPageType);
+    this.sessionStateValue = this.service.retrieveSessionState(this.sessionStateKey);
     if (this.sessionStateValue) {
       this.toggleFilterSection();
     }
@@ -201,7 +212,7 @@ export class CasesComponent implements OnInit {
 
   public storeSessionState(selectedFilter: SelectedCaseFilter): void {
     const sessionStateToUpdate: CaaCasesSessionState = {
-      key: this.caaCasesPageType,
+      key: this.sessionStateKey,
       value: {
         filterType: selectedFilter.filterType,
         caseReferenceNumber: selectedFilter.filterType === CaaCasesFilterType.CaseReferenceNumber ? selectedFilter.filterValue : null,
@@ -230,11 +241,23 @@ export class CasesComponent implements OnInit {
   }
 
   public onPageChanged(pageNo: number): void {
+    console.log('is the page being changed somehow?');
     this.currentPageNo = pageNo;
     this.loadCaseData();
   }
 
-  onShareButtonClicked($event: void) {
+  onShareButtonClicked($event: string) {
+    console.log(this.selectedFilterType);
+    let newCasesEnabled = false;
+    let groupAccessEnabled = false;
+    //match the caseType ($event) to any in the allCaseTypes
+    this.allCaseTypes.forEach((caseType) => {
+      const { text, caseConfig } = caseType;
+      if (text === $event && caseConfig) {
+        newCasesEnabled = caseConfig.new_cases;
+        groupAccessEnabled = caseConfig.group_access;
+      }
+    });
     // load cases types based on filter and value
     if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
       // TODO: need to handle the `new_case` flag
@@ -261,6 +284,13 @@ export class CasesComponent implements OnInit {
       // dispatch action to load new cases to accept
       // if group_access is enabled then go to accept cases page
       // else go to add recipient
+      if (groupAccessEnabled) {
+        this.caaCasesStore.dispatch(new caaCasesStore.AddShareUnassignedCases({
+          sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
+          group_access: true
+        }
+        ));
+      }
     }
     if (this.selectedFilterType === CaaCasesFilterType.UnassignedCases) {
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareUnassignedCases({

@@ -110,7 +110,9 @@ export class AddShareUnassignedCases implements Action {
     path?: any[];
     query?: object;
     extras?: NavigationExtras;
-    sharedCases: SharedCase[]
+    sharedCases: SharedCase[],
+    group_access?: boolean,
+    new_cases?: boolean
   }) {}
 }
 

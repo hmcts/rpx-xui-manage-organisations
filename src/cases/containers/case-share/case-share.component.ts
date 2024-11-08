@@ -40,6 +40,8 @@ export class CaseShareComponent implements OnInit {
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
     this.routerState$.subscribe((router) => {
+      console.log('router.state');
+      console.log(router.state);
       this.init = router.state.queryParams.init;
       this.pageType = router.state.queryParams.pageType;
       // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation
@@ -49,10 +51,17 @@ export class CaseShareComponent implements OnInit {
       this.backLink = '/cases';
       this.confirmLink = `${url}/case-share-confirm/${this.pageType}`;
 
-      this.fnTitle = 'Action a case';
-      this.title = 'Manage case assignments';
-      this.addUserLabel = 'Add people to share cases to the selected cases';
-      this.showRemoveUsers = true;
+      if (this.pageType === 'unassigned-cases') {
+        this.fnTitle = 'Share a case';
+        this.title = 'Add recipient';
+        this.addUserLabel = 'Enter email address';
+        this.showRemoveUsers = false;
+      } else if (this.pageType === 'assigned-cases') {
+        this.fnTitle = 'Manage case sharing';
+        this.title = 'Manage shared access to a case';
+        this.addUserLabel = 'Add people to share access to the selected cases';
+        this.showRemoveUsers = true;
+      }
 
       this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
         ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))

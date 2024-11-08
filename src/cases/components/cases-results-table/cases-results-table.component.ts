@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../../store';
 import { CaaCases } from 'api/caaCases/interfaces';
+import { CaaCasesNoDataMessage } from 'src/cases/models/caa-cases.enum';
 
 @Component({
   selector: 'app-cases-results-table',
@@ -41,11 +42,12 @@ export class CasesResultsTableComponent {
   }
 
   @Input() paginationPageSize: number = 25;
-  @Input() shareButtonText = 'Share case';
+  @Input() shareButtonText;
+  @Input() selectedFilterType;
 
   @Output() public caseSelected = new EventEmitter<any[]>();
   @Output() public pageChanged = new EventEmitter<number>();
-  @Output() public shareButtonClicked = new EventEmitter<void>();
+  @Output() public shareButtonClicked = new EventEmitter<string>();
 
   // Needed for the tab group
   public navItems: any[];
@@ -72,6 +74,7 @@ export class CasesResultsTableComponent {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
+    console.log(event);
     this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
       ? this.navItems.find((data) => data.text === event.tab.textLabel).total
       : 0;
@@ -123,17 +126,22 @@ export class CasesResultsTableComponent {
     //   sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
     // }));
     // TODO: emit this action
-    this.shareButtonClicked.emit();
+    this.shareButtonClicked.emit(this.currentCaseType);
   }
 
   private fixCurrentTab(items: any): void {
+    // TESTING: Add another tab to test case specific navigation
+    console.log(`test items: ${items}`);
+    if (items.length > 0){
+      items = [...items, { text: 'Asylum', href: 'Asylum', active: false, total: 3 }];
+    }
     this.navItems = items;
     if (items && items.length > 0) {
       this.totalCases = items[0].total ? items[0].total : 0;
       this.setTabItems(items[0].text);
     } else {
       this.totalCases = 0;
-      // this.noCasesFoundMessage = this.getNoCasesFoundMessage();
+      this.noCasesFoundMessage = this.getNoCasesFoundMessage();
     }
   }
 
@@ -151,5 +159,24 @@ export class CasesResultsTableComponent {
       this.tabGroup.selectedIndex = 0;
     }
     // this.loadDataFromStore();
+  }
+
+  public getNoCasesFoundMessage(): string {
+    console.log(this.navItems);
+    console.log(this.selectedFilterType);
+    switch (this.selectedFilterType){
+      case 'all-assignees':
+        return CaaCasesNoDataMessage.NoAssignedCases;
+      case 'unassigned-cases':
+        return CaaCasesNoDataMessage.NoUnassignedCases;
+      case 'assignee-name':
+        return CaaCasesNoDataMessage.CasesFilterMessage;
+      case 'new-cases-to-accept':
+        return CaaCasesNoDataMessage.NoNewCases;
+      case 'case-reference-number':
+        return CaaCasesNoDataMessage.NoCaseIdMatches;
+      default:
+        return '';
+    }
   }
 }

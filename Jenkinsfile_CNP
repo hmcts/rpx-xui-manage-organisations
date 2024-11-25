@@ -31,7 +31,16 @@ def secrets = [
     secret('test-townley-email', 'TEST_TOWNLEY_EMAIL'),
     secret('test-townley-password', 'TEST_TOWNLEY_PASSWORD'),
     secret('test-api-email', 'TEST_API_EMAIL'),
-    secret('test-api-password', 'TEST_API_PASSWORD')
+    secret('test-api-password', 'TEST_API_PASSWORD'),
+    secret('mo-s2s-client-secret', 'S2S_SECRET'),
+    secret('xui-oauth2-token', 'IDAM_SECRET'),
+    secret('appinsights-instrumentationkey-mo', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
+    secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID'),
+    secret('system-user-name', 'SYSTEM_USER_NAME'),
+    secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
+    secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
+
   ],
 ]
 

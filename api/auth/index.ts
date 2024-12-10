@@ -40,7 +40,7 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
   const cookieOptions: CookieOptions = {
     sameSite: 'none',
     secure: true
-  }
+  };
   // set browser cookie
   res.cookie(getConfigValue(COOKIE_TOKEN), accessToken, cookieOptions);
 

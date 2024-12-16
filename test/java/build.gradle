@@ -6,12 +6,6 @@ plugins {
 sourceCompatibility = 11
 targetCompatibility = 17
 
-//java {
-//  toolchain {
-//    languageVersion = JavaLanguageVersion.of(21)
-//  }
-//}
-
 // tag::repositories[]
 repositories {
     mavenLocal()
@@ -26,13 +20,14 @@ repositories {
 // tag::dependencies[]
 dependencies {
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.6.4'
+    testImplementation 'com.github.hmcts:fortify-client:1.4.3:all'
 
-    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.5', classifier: 'all', {
-        exclude group: 'commons-io', module: 'commons-io'
-        exclude group: 'org.apache.commons', module: 'commons-lang3'
-        exclude group: 'ch.qos.logback', module: 'logback-classic'
-        exclude group: 'ch.qos.logback', module: 'logback-core'
-  }
+//    testImplementation group: 'com.github.hmcts', name: 'fortify-client', version: '1.4.3', classifier: 'all', {
+//        exclude group: 'commons-io', module: 'commons-io'
+//        exclude group: 'org.apache.commons', module: 'commons-lang3'
+//        exclude group: 'ch.qos.logback', module: 'logback-classic'
+//        exclude group: 'ch.qos.logback', module: 'logback-core'
+//  }
 }
 // end::dependencies[]
 

@@ -1,5 +1,5 @@
 import { AUTH, AuthOptions, xuiNode } from '@hmcts/rpx-xui-node-lib';
-import { NextFunction, Request, Response } from 'express';
+import { CookieOptions, NextFunction, Request, Response } from 'express';
 import { getConfigValue, showFeature } from '../configuration';
 import {
   COOKIE_TOKEN,
@@ -37,8 +37,12 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
   const { userinfo } = req.session.passport.user;
 
   logger.info('Setting session and cookies');
+  const cookieOptions: CookieOptions = {
+    sameSite: 'none',
+    secure: true
+  };
   // set browser cookie
-  res.cookie(getConfigValue(COOKIE_TOKEN), accessToken);
+  res.cookie(getConfigValue(COOKIE_TOKEN), accessToken, cookieOptions);
 
   if (!req.session.auth) {
     const auth = {
@@ -124,7 +128,9 @@ export const getXuiNodeMiddleware = () => {
     cookie: {
       httpOnly: true,
       maxAge: 1800000,
-      secure: showFeature(FEATURE_SECURE_COOKIE_ENABLED)
+      secure: showFeature(FEATURE_SECURE_COOKIE_ENABLED),
+      // set as 'lax' as problems with logging in when set to 'none'
+      sameSite: 'lax'
     },
     name: 'xui-mo-webapp',
     resave: false,

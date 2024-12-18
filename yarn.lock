@@ -2935,9 +2935,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.29.6-same-site-cookie":
-  version: 2.29.6-same-site-cookie
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.29.6-same-site-cookie"
+"@hmcts/rpx-xui-node-lib@npm:2.29.7":
+  version: 2.29.7
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.29.7"
   dependencies:
     "@hapi/joi": ^17.1.1
     axios: ^1.7.7
@@ -2959,7 +2959,7 @@ __metadata:
     session-file-store: ^1.5.0
     ts-auto-mock: ^3.5.0
     ttypescript: ^1.5.13
-  checksum: 370907c51aa8588a57a8dcee39aeb0663885ddb2e6ffe4466f467728cc7d1e810148f02183749e5f45aba158d64217c5ff62a98e6ca7c37fe0996ee84a97219a
+  checksum: ee74ba405e01222145252dbe7158553788f3b5bb23b7ab2cc2f504685b58876438be1d87679e3bf969d9156ad75c18f7058314fcbe13f387908da919b618c77d
   languageName: node
   linkType: hard
 
@@ -19876,7 +19876,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.31
-    "@hmcts/rpx-xui-node-lib": 2.29.6-same-site-cookie
+    "@hmcts/rpx-xui-node-lib": 2.29.7
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

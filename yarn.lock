@@ -2935,9 +2935,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.29.6-content-security-truth":
-  version: 2.29.6-content-security-truth
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.29.6-content-security-truth"
+"@hmcts/rpx-xui-node-lib@npm:2.30.0":
+  version: 2.30.0
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.0"
   dependencies:
     "@hapi/joi": ^17.1.1
     axios: ^1.7.7
@@ -2959,7 +2959,7 @@ __metadata:
     session-file-store: ^1.5.0
     ts-auto-mock: ^3.5.0
     ttypescript: ^1.5.13
-  checksum: a40b97ef1cc1e245a1335f8e65cbbc1d0347bd5ddff213a2ea80d22aca252ac7348424767fc555a2d378e2467f2e452c70055f3643bf5cbbc6ed5d3e45dcfb92
+  checksum: 6e11009c1fd4c511780c1098da06319a7b1fa7568544d6288b904b76faaf025e9373a55a79bae013032a3ddbde412b6a71f566bfa6557f8c59b7c6c7eb1ec190
   languageName: node
   linkType: hard
 
@@ -19876,7 +19876,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.31
-    "@hmcts/rpx-xui-node-lib": 2.29.6-content-security-truth
+    "@hmcts/rpx-xui-node-lib": 2.30.0
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

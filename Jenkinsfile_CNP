@@ -7,20 +7,16 @@ properties([
         projectUrlStr: 'https://github.com/hmcts/rpx-xui-manage-organisations'
     ],
     pipelineTriggers([
-        [$class: 'GitHubPushTrigger']
+    cron('H 07 * * 1-5')
     ])
 ])
 
 @Library("Infrastructure")
 
-//To enable PACT testing on pipeline uncomment the next line
-import uk.gov.hmcts.contino.AppPipelineDsl
-
 def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
-def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'rpx-${env}': [
@@ -31,171 +27,59 @@ def secrets = [
     secret('test-townley-email', 'TEST_TOWNLEY_EMAIL'),
     secret('test-townley-password', 'TEST_TOWNLEY_PASSWORD'),
     secret('test-api-email', 'TEST_API_EMAIL'),
-    secret('test-api-password', 'TEST_API_PASSWORD'),
-    secret('mo-s2s-client-secret', 'S2S_SECRET'),
-    secret('xui-oauth2-token', 'IDAM_SECRET'),
-    secret('appinsights-instrumentationkey-mo', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
-    secret('google-analytics-key', 'GOOGLE_ANALYTICS_KEY'),
-    secret('launch-darkly-client-id', 'LAUNCH_DARKLY_CLIENT_ID'),
-    secret('system-user-name', 'SYSTEM_USER_NAME'),
-    secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
-    secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
-
+    secret('test-api-password', 'TEST_API_PASSWORD')
   ],
 ]
 
-def branchesToSync = ['demo', 'perftest', 'ithc']
-
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
-    [ $class: 'AzureKeyVaultSecret',
-      secretType: 'Secret',
-      name: secretName,
-      version: '',
-      envVariable: envVar
-    ]
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
 }
 
-withPipeline(type, product, component) {
-    disableCleanupOfHelmReleaseOnFailure()
+withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    enableAksStagingDeployment()
-    syncBranchesWithMaster(branchesToSync)
+    // enableFortifyScan('rpx-aat')
+    //enableFullFunctionalTest(120)
+    // enableSecurityScan()
+    enableCrossBrowserTest()
 
-   enablePactAs([
-     AppPipelineDsl.PactRoles.CONSUMER
-])
-
+    env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
+    afterSuccess('checkout') {sh 'yarn cache clean'}
     afterSuccess('build') {
-        yarnBuilder.yarn('build')
-    }
-
-    afterSuccess('test') {
-
-        publishHTML ( [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/coverage/node",
-            reportFiles          : "index.html",
-            reportName           : "node coverage tests"
-        ])
-
-        publishHTML ( [
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/coverage/ng",
-            reportFiles          : "index.html",
-            reportName           : "ng coverage tests"
-        ])
-
+        sh 'npm run build'
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/a11y/",
-            reportFiles          : 'Report.html',
-            reportName           : 'Manage Org a11y Test'
-        ])
-
-
-
-
-    }
-
-//    after('smoketest:demo') {
-//        publishHTML([
-//            allowMissing         : true,
-//            alwaysLinkToLastBuild: true,
-//            keepAll              : true,
-//            reportDir            : "reports/tests/smoke/",
-//            reportFiles          : 'index.html',
-//            reportName           : 'DEMO Smoke Test'
-//        ])
-//    }
-
-    afterSuccess('smoketest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Test'
-        ])
-
-           publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional",
+            reportDir            : "test/reports/lint/node/",
             reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Manage Org Smoke Test'
+            reportName           : 'node lint Report'
         ])
-    }
-
-    afterSuccess('functionalTest:preview') {
-
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'PREVIEW API Functional Test'
-      ])
-
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "test/reports/lint/ng/",
             reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Functional Test'
+            reportName           : 'ng lint Report'
         ])
     }
 
 
-    afterSuccess('smoketest:aat') {
+    afterSuccess('crossBrowserTest') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'API Smoke Test'
-        ])
-
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional",
+            reportDir            : "reports/tests/crossbrowser/",
             reportFiles          : 'index.html',
-            reportName           : 'AAT Manage Org Smoke Test'
+            reportName           : 'XUI Manage Organisation Cross Browser Tests'
         ])
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/crossbrowser/**/*'
     }
-
-    afterSuccess('functionalTest:aat') {
-
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'API Functional Test'
-      ])
-
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Functional Test'
-        ])
-    }
-    
 }

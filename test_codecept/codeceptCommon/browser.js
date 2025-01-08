@@ -2,6 +2,8 @@
 const helper = require('codeceptjs').helper;
 
 function getActor(){
+  console.log('in getActor()');
+  console.log('actor() --> ' + actor());
     return actor().retry({ retries: 3, minTimeout: 30 });
 }
 
@@ -72,13 +74,17 @@ class Browser{
     }
 
     async get(url){
+      console.log('in Browser get');
+      console.log('url --> ' + url);
+      console.log('getActor() --> ' + getActor());
+      console.log('getActor().amOnPage --> ' + getActor().amOnPage);
         await getActor().amOnPage(url);
     }
 
     async getCurrentUrl(){
         return await getActor().grabCurrentUrl()
     }
-   
+
     async refresh(){
         const url = await this.getCurrentUrl();
         await this.get(url);
@@ -91,15 +97,15 @@ class Browser{
         }catch(err){
 
         }
-        
+
     }
 
     async executeScript(fn, element){
-        return getActor().executeScript(fn, element.selector);  
+        return getActor().executeScript(fn, element.selector);
     }
 
     async getBrowserLogs(){
-        return await getActor().grabBrowserLogs();  
+        return await getActor().grabBrowserLogs();
     }
 
     async captureBrowserLogs(){
@@ -114,7 +120,7 @@ class Browser{
     async getSessionStorage(key) {
         return await getActor().executeScript((key) => {
             return window.sessionStorage[key]
-        },key); 
+        },key);
     }
 
     async getLocalStorage(key) {

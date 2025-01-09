@@ -6,7 +6,7 @@ function loginLogoutObjects() {
   console.log('in loginLogoutObjects');
   console.log('emailAddress is: ' + element(by.css('input#username')));
   this.emailAddress = element(by.css('[id=\'username\']'));
-  console.log('emailAddress is: ' + this.emailAddress.toString());
+  console.log('emailAddress value is: ' + this.emailAddress.getAttribute('value'));
   console.log('emailAddress is: ' + this.emailAddress.toString());
   console.log('password: ' + element(by.css('[id=\'password\']')));
   this.password = element(by.css('[id=\'password\']'));

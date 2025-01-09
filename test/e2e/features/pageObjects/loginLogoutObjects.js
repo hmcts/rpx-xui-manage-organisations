@@ -6,10 +6,14 @@ function loginLogoutObjects() {
   console.log('in loginLogoutObjects');
   console.log('emailAddress is: ' + element(by.css('input#username')));
   this.emailAddress = element(by.css('[id=\'username\']'));
+  console.log('emailAddress is: ' + this.emailAddress.toString());
+  console.log('emailAddress is: ' + this.emailAddress.toString());
   console.log('password: ' + element(by.css('[id=\'password\']')));
   this.password = element(by.css('[id=\'password\']'));
+  console.log('password: ' + this.password.toString());
   console.log('signinTitle: ' + element(by.css('h1.heading-large')));
   this.signinTitle= element(by.xpath('//h1[@class=\'heading-large\']'));
+  console.log('singinTitle: ' + this.signinTitle.toString());
   //this.signinTitle = element(by.css("h1"));
   console.log('signinBtn: ' + element(by.css('input.button')));
   this.signinBtn = element(by.css('input.button'));

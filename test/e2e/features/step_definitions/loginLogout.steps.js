@@ -25,14 +25,19 @@ async function waitForElement(el) {
 
 When(/^I navigate to manage organisation Url$/, { timeout: 600 * 1000 }, async function () {
   const world = this;
+  console.log('in I navigate to manage organisation Url !!!!!!!!!!!');
   await browser.driver.manage().deleteAllCookies();
   await browser.get(config.config.baseUrl);
+  console.log('browser.get(config.config.baseUrl) !!!!!!!!!!!' + config.config.baseUrl);
+  console.log('browser name !!!!!!!!!!!' + browser.browserName);
+  console.log('calling browserWaits.waitForElement(loginPage.emailAddress) !!!!!!!!!!!');
   await browserWaits.retryWithAction(loginPage.emailAddress, async function (message) {
     const stream = await browser.takeScreenshot();
     const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
     world.attach(decodedImage, 'image/png');
     await browser.get(config.config.baseUrl);
   });
+  console.log('calling browserWaits.waitForElement(loginPage.emailAddress) !!!!!!!!!!!');
   await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY, 'IDAM login page Email Address input not present');
 });
 

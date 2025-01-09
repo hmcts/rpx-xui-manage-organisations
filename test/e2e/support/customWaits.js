@@ -8,6 +8,8 @@ class BrowserWaits {
   }
 
   async waitForElement(waitelement, customWait, message) {
+    console.log('in waitForElement');
+    console.log('browser type is: ' + browser.browserName);
     await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, 'Error : ' + waitelement.locator().toString() + (message ? ' => ' + message : '_'));
   }
 
@@ -85,6 +87,7 @@ class BrowserWaits {
 
     while (retryCounter < 3) {
       try {
+        console.log('in retryWithAction, element: ' + element.value);
         await this.waitForElement(element, 15000);
         retryCounter += 3;
       } catch (err) {

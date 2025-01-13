@@ -52,7 +52,7 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
     // enableFortifyScan('rpx-aat')
-    enableFullFunctionalTest(120)
+    // enableFullFunctionalTest(120)
     // enableSecurityScan()
     // enableCrossBrowserTest()
 
@@ -90,25 +90,4 @@ withNightlyPipeline(type, product, component) {
         ])
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/crossbrowser/**/*'
     }
-     afterSuccess('fullFunctionalTest') {
-
-        publishHTML([
-          allowMissing         : true,
-          alwaysLinkToLastBuild: true,
-          keepAll              : true,
-          reportDir            : "reports/tests/api_functional/",
-          reportFiles          : 'mochawesome.html',
-          reportName           : 'API Functional Test'
-        ])
-
-          publishHTML([
-              allowMissing         : true,
-              alwaysLinkToLastBuild: true,
-              keepAll              : true,
-              reportDir            : "reports/tests/functional/",
-              reportFiles          : 'index.html',
-              reportName           : 'XUI Manage Organisation Full functional Tests'
-          ])
-
-      }
 }

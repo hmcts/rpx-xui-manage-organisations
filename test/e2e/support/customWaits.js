@@ -12,6 +12,7 @@ class BrowserWaits {
     console.log('browser type is: ' + browser.browserName);
     console.log('waitelement is: ' + waitelement.toString());
     console.log('element type of -> ' + typeof(waitelement));
+    console.log('element stringify -> ' + JSON.stringify(waitelement));
     console.log('element.locator.toString is: ' + waitelement.locator().toString());
     await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, 'Error : ' + waitelement.locator().toString() + (message ? ' => ' + message : '_'));
   }

@@ -10,6 +10,7 @@ class BrowserWaits {
   async waitForElement(waitelement, customWait, message) {
     console.log('in waitForElement');
     console.log('browser type is: ' + browser.browserName);
+    console.log('waitelement is: ' + waitelement.toString());
     await browser.wait(EC.visibilityOf(waitelement), customWait ? customWait : this.waitTime, 'Error : ' + waitelement.locator().toString() + (message ? ' => ' + message : '_'));
   }
 

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { signIn } from './helpers/login';
 
-test('validate unassigned cases tab loads', async ({ page }) => {
+test('validate users tab loads', async ({ page }) => {
   await signIn(page);
   await expect(page.getByRole('heading', { name: 'Organisation' })).toBeVisible();
   await page.getByRole('link', { name: 'Users' }).click();

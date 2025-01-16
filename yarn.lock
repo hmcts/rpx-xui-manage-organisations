@@ -19942,7 +19942,6 @@ __metadata:
     core-js: ^2.5.4
     cross-env: ^7.0.2
     crypto-js: ^4.2.0
-    csurf: ^1.11.0
     cucumber: 5.1.0
     cucumber-html-report: 0.6.5
     cucumber-html-reporter: ^4.0.5

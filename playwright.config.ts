@@ -40,14 +40,14 @@ module.exports = defineConfig({
         headless: headlessMode,
         trace: 'off'
       }
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'],
+        screenshot: 'only-on-failure',
+        headless: headlessMode,
+        trace: 'off'
+      }
     }
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'],
-    //     screenshot: 'only-on-failure',
-    //     headless: headlessMode,
-    //     trace: 'off'
-    //   }
-    // }
   ]
 });

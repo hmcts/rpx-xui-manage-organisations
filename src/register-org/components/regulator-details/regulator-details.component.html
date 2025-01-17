@@ -84,7 +84,7 @@
                     <div *ngIf="regulators.controls[i].get('organisationRegistrationNumber')"
                       class="govuk-body govuk-!-margin-top-4 govuk-!-margin-bottom-4"
                       [ngClass]="{'govuk-form-group--error': fieldHasErrorMessage('organisation-registration-number' + i)}">
-                      <label class="govuk-label govuk-!-font-weight-bold" for="'organisation-registration-number' + i">
+                      <label class="govuk-label govuk-!-font-weight-bold" [for]="'organisation-registration-number' + i">
                         <span *ngIf="regulatorType === regulatorTypeEnum.Individual">
                           Enter your individual registration reference
                         </span>

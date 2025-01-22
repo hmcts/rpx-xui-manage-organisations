@@ -1,13 +1,6 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
   "appInsightsInstrumentationKey": "AAA",
-  "secrets": {
-    "rpx": {
-      "AppInsightsInstrumentationKey": "AAA",
-      "appinsights-instrumentationkey-mo": "c1205275-6fa0-43e9-9bc8-4fbc66a3e7f8",
-      "mo-s2s-client-secret": "FHYQN3ZQ3BF66XWR"
-    }
-  },
   "indexUrl": "/",
   "logging": "trace",
   "maxLogLine": 80,

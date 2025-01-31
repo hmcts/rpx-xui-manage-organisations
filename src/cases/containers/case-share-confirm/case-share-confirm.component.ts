@@ -21,23 +21,27 @@ export class CaseShareConfirmComponent implements OnInit {
   public backLink: string;
   public changeLink: string;
   public completeLink: string;
+  public acceptCases: boolean = false;
+  private readonly acceptLinks = '/cases/accept-cases';
+  private readonly caseShareLinks = '/cases/case-share';
 
   constructor(private readonly store: Store<fromCaseList.CaaCasesState>,
               private readonly route: ActivatedRoute,
               private readonly router: Router) {
     this.url = this.router?.url;
     this.pageType = this.route.snapshot.params.pageType;
+    this.acceptCases = this.route.snapshot.queryParams.caseAccept;
   }
 
   public ngOnInit(): void {
     this.fnTitle = 'Manage case assignments';
-    this.backLink = '/cases/case-share';
-    this.changeLink = '/cases/case-share';
+    console.log(this.route.snapshot.queryParams);
+    this.backLink = this.acceptCases ? this.acceptLinks : this.caseShareLinks;
+    this.changeLink = this.acceptCases ? this.acceptLinks : this.caseShareLinks;
     this.completeLink = `/cases/case-share-complete/${this.pageType}`;
 
-    this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
-      ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
-      : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
+    this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
     this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
+    console.log('shared csese', this.shareCases);
   }
 }

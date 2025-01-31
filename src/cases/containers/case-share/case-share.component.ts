@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { getRouterState, RouterStateUrl } from '../../../app/store/reducers';
-import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
-import { LoadShareAssignedCases, LoadShareUnassignedCases, LoadUserFromOrgForCase } from '../../store/actions';
+import { LoadShareCases, LoadUserFromOrgForCase } from '../../store/actions';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
@@ -17,7 +16,8 @@ import * as fromCaseList from '../../store/reducers';
   templateUrl: './case-share.component.html',
   styleUrls: ['./case-share.component.scss']
 })
-export class CaseShareComponent implements OnInit {
+export class CaseShareComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;
   public init: boolean;
   public pageType: string;
@@ -38,67 +38,63 @@ export class CaseShareComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
+    console.log('initid the case share comp');
     this.routerState$ = this.store.pipe(select(getRouterState));
-    this.routerState$.subscribe((router) => {
-      console.log('router.state');
-      console.log(router.state);
+    this.routerState$.pipe(takeUntil(this.destroy$)).subscribe((router) => {
       this.init = router.state.queryParams.init;
       this.pageType = router.state.queryParams.pageType;
-      // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation
-      // is via the Unassigned Cases or Assigned Cases page
+      const cameFromAcceptCases = router.state.queryParams.caseAccept;
       const url = router.state.url.substring(0, router.state.url.indexOf('/', 1));
-      // Set backLink and confirmLink only if the URL is either "/unassigned-cases" or "/assigned-cases"
-      this.backLink = '/cases';
-      this.confirmLink = `${url}/case-share-confirm/${this.pageType}`;
+      if (cameFromAcceptCases) {
+        this.backLink = '/cases/accept-cases';
+      } else {
+        this.backLink = '/cases';
+      }
+      this.confirmLink = `${url}/case-share-confirm/${cameFromAcceptCases ? 'new-cases' : this.pageType}`;
 
-      if (this.pageType === 'unassigned-cases') {
-        this.fnTitle = 'Share a case';
-        this.title = 'Add recipient';
-        this.addUserLabel = 'Enter email address';
-        this.showRemoveUsers = false;
-      } else if (this.pageType === 'assigned-cases') {
-        this.fnTitle = 'Manage case sharing';
-        this.title = 'Manage shared access to a case';
-        this.addUserLabel = 'Add people to share access to the selected cases';
-        this.showRemoveUsers = true;
+      switch (this.pageType) {
+        case 'unassigned-cases':
+          this.fnTitle = 'Share a case';
+          this.title = 'Add recipient';
+          this.addUserLabel = 'Enter email address';
+          this.showRemoveUsers = false;
+          break;
+        case 'assigned-cases':
+          this.fnTitle = 'Manage case sharing';
+          this.title = 'Manage shared access to a case';
+          this.addUserLabel = 'Add people to share access to the selected cases';
+          this.showRemoveUsers = true;
+          break;
       }
 
-      this.shareCases$ = this.pageType === CaaCasesPageType.UnassignedCases
-        ? this.store.pipe(select(fromCasesFeature.getShareUnassignedCaseListState))
-        : this.store.pipe(select(fromCasesFeature.getShareAssignedCaseListState));
-      this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
+      this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
+      this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => this.shareCases = shareCases);
     });
 
     this.orgUsers$ = this.store.pipe(select(fromCasesFeature.getOrganisationUsersState));
+    this.orgUsers$.pipe(takeUntil(this.destroy$)).subscribe();
+
     if (this.init) {
-      // call api to retrieve case share users
-      if (this.pageType === CaaCasesPageType.UnassignedCases) {
-        this.store.dispatch(new LoadShareUnassignedCases(this.shareCases));
-      } else {
-        this.store.dispatch(new LoadShareAssignedCases(this.shareCases));
-      }
-      // call api to retrieve users in the same organisation
+      this.store.dispatch(new LoadShareCases(this.shareCases));
       this.store.dispatch(new LoadUserFromOrgForCase());
     }
-    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
 
-    // initialize javascript for accordion component to enable open/close button
+    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
+    this.removeUserFromCaseToggleOn$.pipe(takeUntil(this.destroy$)).subscribe();
+
     setTimeout(() => initAll(), 1000);
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   public deselect($event): void {
-    if (this.pageType === CaaCasesPageType.UnassignedCases) {
-      this.store.dispatch(new fromCasesFeature.DeleteAShareUnassignedCase($event));
-    } else {
-      this.store.dispatch(new fromCasesFeature.DeleteAShareAssignedCase($event));
-    }
+    this.store.dispatch(new fromCasesFeature.DeleteAShareCase($event));
   }
 
   public synchronizeStore($event): void {
-    if (this.pageType === CaaCasesPageType.UnassignedCases) {
-      this.store.dispatch(new fromCasesFeature.SynchronizeStateToStoreUnassignedCases($event));
-    } else {
-      this.store.dispatch(new fromCasesFeature.SynchronizeStateToStoreAssignedCases($event));
-    }
+    this.store.dispatch(new fromCasesFeature.SynchronizeStateToStoreCases($event));
   }
 }

@@ -1,5 +1,5 @@
 import { caseAssignment, caseId, caseTypeStr } from './caaCases.constants';
-import { CaaCasesPageType } from './enums';
+import { CaaCasesFilterType, CaaCasesPageType } from './enums';
 import { CaaCases, CaseHeader, CcdCase, CcdCaseData, CcdColumnConfig } from './interfaces';
 
 export function getApiPath(ccdPath: string, caseTypeId: string) {
@@ -17,11 +17,15 @@ export function mapCcdCases(caseType: string, ccdCase: CcdCase): CaaCases {
   };
 }
 
-export function getRequestBody(organisationID: string, pageNo: number, pageSize: number, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
+export function getRequestBody(organisationID: string, pageNo: number, pageSize: number, caaCasesPageType: string, caseFilterType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
+  const newCasesKey = `supplementary_data.new_case.${organisationID}`;
   const reference = 'reference.keyword';
   const caseReferenceFilter: any[] = [];
 
+  if (caseFilterType === CaaCasesFilterType.NewCasesToAccept){
+    caaCasesPageType = CaaCasesPageType.NewCasesToAccept;
+  }
   if (caaCasesFilterValue) {
     if (Array.isArray(caaCasesFilterValue)) {
       caaCasesFilterValue.forEach((caseReference) => {
@@ -56,6 +60,11 @@ export function getRequestBody(organisationID: string, pageNo: number, pageSize:
                   { range: { [organisationAssignedUsersKey]: { gt: 0 } } }
                 ]
               })
+              // ...(caaCasesPageType === CaaCasesFilterType.NewCasesToAccept && {
+              //   must: [
+              //     { range: { [newCasesKey]: { gt: 0 } } }
+              //   ]
+              // })
             }
           },
           {

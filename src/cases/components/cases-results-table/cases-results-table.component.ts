@@ -74,7 +74,6 @@ export class CasesResultsTableComponent {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
-    console.log(event);
     this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
       ? this.navItems.find((data) => data.text === event.tab.textLabel).total
       : 0;
@@ -122,19 +121,10 @@ export class CasesResultsTableComponent {
   }
 
   public onShareButtonClicked(): void {
-    // this.store.dispatch(new fromStore.AddShareUnassignedCases({
-    //   sharedCases: converters.toShareCaseConverter(this.selectedUnassignedCases, this.currentCaseType)
-    // }));
-    // TODO: emit this action
     this.shareButtonClicked.emit(this.currentCaseType);
   }
 
   private fixCurrentTab(items: any): void {
-    // TESTING: Add another tab to test case specific navigation
-    console.log(`test items: ${items}`);
-    if (items.length > 0){
-      items = [...items, { text: 'Asylum', href: 'Asylum', active: false, total: 3 }];
-    }
     this.navItems = items;
     if (items && items.length > 0) {
       this.totalCases = items[0].total ? items[0].total : 0;
@@ -147,13 +137,6 @@ export class CasesResultsTableComponent {
 
   private setTabItems(tabName: string, fromTabChangedEvent?: boolean): void {
     this.resetPaginationParameters();
-    // if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
-    //   this.store.pipe(select(fromStore.getAllUnassignedCases));
-    // } else {
-    //   this.store.pipe(select(fromStore.getAllAssignedCases));
-    // }
-    // this.shareAssignedCases$ = this.store.pipe(select(fromStore.getShareAssignedCaseListState));
-    // this.shareUnassignedCases$ = this.store.pipe(select(fromStore.getShareUnassignedCaseListState));
     this.currentCaseType = tabName;
     if (!fromTabChangedEvent && this.tabGroup) {
       this.tabGroup.selectedIndex = 0;

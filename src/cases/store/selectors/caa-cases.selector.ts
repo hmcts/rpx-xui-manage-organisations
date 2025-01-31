@@ -7,33 +7,18 @@ export const getCaaCasesState = createSelector(
   (state: fromFeature.CaaCasesState) => state.caaCases
 );
 
-export const getAllAssignedCases = createSelector(
+export const getAllCases = createSelector(
   getCaaCasesState,
-  (caaCases) => caaCases.assignedCases
+  (caaCases) => caaCases.Cases
 );
 
-export const getAllAssignedCasesError = createSelector(
+export const getAllCasesError = createSelector(
   getCaaCasesState,
-  fromFeature.getAssignedCasesError
+  fromFeature.getCasesError
 );
 
-export const getAllAssignedCaseData = createSelector(
-  getAllAssignedCases,
-  (caaCases) => caaCases ? caaCases.data : null
-);
-
-export const getAllUnassignedCases = createSelector(
-  getCaaCasesState,
-  (caaCases) => caaCases.unassignedCases
-);
-
-export const getAllUnassignedCasesError = createSelector(
-  getCaaCasesState,
-  fromFeature.getUnassignedCasesError
-);
-
-export const getAllUnassignedCaseData = createSelector(
-  getAllUnassignedCases,
+export const getAllCaseData = createSelector(
+  getAllCases,
   (caaCases) => caaCases ? caaCases.data : null
 );
 

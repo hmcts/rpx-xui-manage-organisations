@@ -9,13 +9,15 @@
             </h1>
           </div>
           <h3 class="govuk-heading-m">What happens next</h3>
-          <p id="what-happens-next-added" class="govuk-body" *ngIf="isFromAssignedCasesRoute">The people you added can now access and update the selected cases from their case list.</p>
-          <p id="what-happens-next-removed" class="govuk-body" *ngIf="isFromAssignedCasesRoute">If you removed someone from a case, they cannot access the case anymore.</p>
-          <p id="what-happens-next-shared" class="govuk-body" *ngIf="!isFromAssignedCasesRoute">If you've shared one or more cases, your colleagues will now be able to access them from their case list.</p>
+          <ng-container [ngSwitch]="pageType">
+            <p id="what-happens-next-added" class="govuk-body" *ngSwitchCase="'assigned-cases'">The people you added can now access and update the selected cases from their case list.</p>
+            <p id="what-happens-next-removed" class="govuk-body" *ngSwitchCase="'assigned-cases'">If you removed someone from a case, they cannot access the case anymore.</p>
+            <p id="what-happens-next-shared" class="govuk-body" *ngSwitchCase="'unassigned-cases'">If you've shared one or more cases, your colleagues will now be able to access them from their case list.</p>
+            <p id="what-happens-next-new-cases" class="govuk-body" *ngSwitchCase="'new-cases'">some text about new cases stuff.</p>
+          </ng-container>
           <div class="govuk-inset-text">
             <p>To continue managing case sharing for other users or case types:</p>
-            <a [routerLink]="['/assigned-cases']">Go to assigned cases list</a><br/>
-            <a [routerLink]="['/unassigned-cases']">Go to unassigned cases list</a>
+            <a [routerLink]="['/cases']">Go to cases list</a><br/>
           </div>
         </div>
       </div>

@@ -4,33 +4,25 @@ import { CaaCases, SelectedCases } from '../../models/caa-cases.model';
 import * as fromCaaActions from '../actions/caa-cases.actions';
 
 export interface CaaCasesState {
-  assignedCases: CaaCases;
-  unassignedCases: CaaCases;
+  Cases: CaaCases;
   caseTypes: SubNavigation[];
   selectedCases: SelectedCases;
-  assignedCasesLastError: HttpErrorResponse;
-  unassignedCasesLastError: HttpErrorResponse;
+  CasesLastError: HttpErrorResponse;
 }
 
 export const initialState: CaaCasesState = {
-  assignedCases: null,
-  unassignedCases: null,
+  Cases: null,
   caseTypes: [],
   selectedCases: {},
-  assignedCasesLastError: null,
-  unassignedCasesLastError: null
+  CasesLastError: null
 };
 
 export function caaCasesReducer(state = initialState, action: fromCaaActions.CaaCasesActions): CaaCasesState {
   switch (action.type) {
-    case fromCaaActions.LOAD_ASSIGNED_CASES_SUCCESS:
-      return { ...state, assignedCases: action.payload, assignedCasesLastError: null };
-    case fromCaaActions.LOAD_ASSIGNED_CASES_FAILURE:
-      return { ...state, assignedCases: { idField: '', columnConfigs: [], data: [] }, assignedCasesLastError: action.payload };
-    case fromCaaActions.LOAD_UNASSIGNED_CASES_SUCCESS:
-      return { ...state, unassignedCases: action.payload, unassignedCasesLastError: null };
-    case fromCaaActions.LOAD_UNASSIGNED_CASES_FAILURE:
-      return { ...state, unassignedCases: { idField: '', columnConfigs: [], data: [] }, unassignedCasesLastError: action.payload };
+    case fromCaaActions.LOAD_CASES_SUCCESS:
+      return { ...state, Cases: action.payload, CasesLastError: null };
+    case fromCaaActions.LOAD_CASES_FAILURE:
+      return { ...state, Cases: { idField: '', columnConfigs: [], data: [] }, CasesLastError: action.payload };
     case fromCaaActions.LOAD_CASE_TYPES_SUCCESS:
       return { ...state, caseTypes: action.payload };
     case fromCaaActions.UPDATE_SELECTION_FOR_CASE_TYPE:
@@ -42,8 +34,6 @@ export function caaCasesReducer(state = initialState, action: fromCaaActions.Caa
   }
 }
 
-export const getAssignedCases = (state: CaaCasesState) => state.assignedCases;
-export const getAssignedCasesError = (state: CaaCasesState) => state.assignedCasesLastError;
-export const getUnassignedCases = (state: CaaCasesState) => state.unassignedCases;
-export const getUnassignedCasesError = (state: CaaCasesState) => state.unassignedCasesLastError;
+export const getCases = (state: CaaCasesState) => state.Cases;
+export const getCasesError = (state: CaaCasesState) => state.CasesLastError;
 export const getCaseTypes = (state: CaaCasesState) => state.caseTypes;

@@ -47,6 +47,17 @@ export async function getCases(req: EnhancedRequest, res: Response, next: NextFu
   }
 }
 
+export async function acceptNewCases(req: EnhancedRequest, res: Response): Promise<Response> {
+  const path = `${ccdUrl}/case-users`;
+  try {
+    const casesToAccept = req.body.casesToAccept;
+    const { status, data }: {status: number, data: any} = await handlePost(path, casesToAccept, req);
+    return res.status(status).send(data);
+  } catch (err) {
+    res.status(500);
+  }
+}
+
 export async function assignCases(req: EnhancedRequest, res: Response): Promise<Response> {
   const shareCases: SharedCase[] = req.body.sharedCases.slice();
 

@@ -1,4 +1,4 @@
-<a href="#" class="govuk-back-link">Back</a>
+<a (click)="goBack()" class="govuk-back-link">Back</a>
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <span class="govuk-caption-xl">{{
     (selectedOrganisation$ | async)?.name

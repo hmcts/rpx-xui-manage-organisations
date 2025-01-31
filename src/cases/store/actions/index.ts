@@ -1,19 +1,13 @@
 import {
-  LoadAssignedCases,
-  LoadAssignedCasesFailure,
-  LoadAssignedCasesSuccess,
-  LoadUnassignedCases,
-  LoadUnassignedCasesFailure,
-  LoadUnassignedCasesSuccess
+  LoadCases,
+  LoadCasesFailure,
+  LoadCasesSuccess
 } from './caa-cases.actions';
 
 export const actions: any[] = [
-  LoadAssignedCases,
-  LoadAssignedCasesSuccess,
-  LoadAssignedCasesFailure,
-  LoadUnassignedCases,
-  LoadUnassignedCasesSuccess,
-  LoadUnassignedCasesFailure
+  LoadCases,
+  LoadCasesSuccess,
+  LoadCasesFailure
 ];
 
 export * from './caa-cases.actions';

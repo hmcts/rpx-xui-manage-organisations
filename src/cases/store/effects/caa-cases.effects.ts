@@ -18,28 +18,15 @@ export class CaaCasesEffects {
               private readonly loggerService: LoggerService) {
   }
 
-  public loadAssignedCases$ = createEffect(() =>
+  public loadCases$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(fromCaaActions.LOAD_ASSIGNED_CASES),
-      switchMap((action: fromCaaActions.LoadAssignedCases) => {
+      ofType(fromCaaActions.LOAD_CASES),
+      switchMap((action: fromCaaActions.LoadCases) => {
         const payload = action.payload;
-        console.log('load assigned cases');
-        return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.AssignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-          map((caaCases) => new fromCaaActions.LoadAssignedCasesSuccess(caaCases)),
-          catchError((error) => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.AssignedCases))
-        );
-      })
-    )
-  );
-
-  public loadUnassignedCases$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(fromCaaActions.LOAD_UNASSIGNED_CASES),
-      switchMap((action: fromCaaActions.LoadUnassignedCases) => {
-        const payload = action.payload;
-        return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, CaaCasesPageType.UnassignedCases, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
-          map((caaCases) => new fromCaaActions.LoadUnassignedCasesSuccess(caaCases)),
-          catchError((error) => CaaCasesEffects.handleError(error, this.loggerService, CaaCasesPageType.UnassignedCases))
+        const pageType = payload.caaCasesPage === CaaCasesPageType.AssignedCases ? CaaCasesPageType.AssignedCases : CaaCasesPageType.UnassignedCases;
+        return this.caaCasesService.getCaaCases(payload.caseType, payload.pageNo, payload.pageSize, pageType, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
+          map((caaCases) => new fromCaaActions.LoadCasesSuccess(caaCases)),
+          catchError((error) => CaaCasesEffects.handleError(error, this.loggerService, pageType))
         );
       })
     )
@@ -67,9 +54,7 @@ export class CaaCasesEffects {
   public static handleError(error: HttpErrorResponse, loggerService: LoggerService, caaCasesPageType: string): Observable<Action> {
     loggerService.error(error);
     return error.status === 400
-      ? caaCasesPageType === CaaCasesPageType.UnassignedCases
-        ? of(new fromCaaActions.LoadUnassignedCasesFailure(error))
-        : of(new fromCaaActions.LoadAssignedCasesFailure(error))
+      ? of(new fromCaaActions.LoadCasesFailure(error))
       : of(new fromRoot.Go({ path: ['/service-down'] }));
   }
 }

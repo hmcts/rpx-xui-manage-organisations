@@ -5,6 +5,7 @@ import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getApiPath, getRequestBody, mapCcdCases } from './caaCases.util';
 import { CaaCasesFilterType } from './enums';
 import { RoleAssignmentResponse } from './models/roleAssignmentResponse';
+import { objectContainsOnlySafeCharacters } from '../lib/util';
 
 export async function handleCaaCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string;

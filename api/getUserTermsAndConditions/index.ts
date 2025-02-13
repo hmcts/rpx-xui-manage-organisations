@@ -3,7 +3,7 @@ import { getConfigValue, showFeature } from '../configuration';
 import { FEATURE_TERMS_AND_CONDITIONS_ENABLED, SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references';
 import { GetUserAcceptTandCResponse } from '../interfaces/userAcceptTandCResponse';
 import { application } from '../lib/config/application.config';
-import { valueOrNull } from '../lib/util';
+import { containsDangerousCode, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil';
 
 /**
@@ -29,9 +29,15 @@ async function getUserTermsAndConditions(req: Request, res: Response) {
       res.status(400).send(errReport);
     }
     try {
-      const url = getUserTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), req.params.userId, application.idamClient);
-      const response = await req.http.get(url);
+      const apiUrl = getUserTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), req.params.userId, application.idamClient);
+      if (!containsDangerousCode(apiUrl)) {
+        return res.send('Invalid API link').status(400);
+      }
+      const response = await req.http.get(apiUrl);
       const userTandCResponse = response.data as GetUserAcceptTandCResponse;
+      if (!objectContainsOnlySafeCharacters(response.data)) {
+        return res.send('Invalid terms and condition data').status(400);
+      }
       res.send(userTandCResponse.accepted);
     } catch (error) {
       // we get a 404 if the user has not agreed to Terms and conditions

@@ -4,7 +4,7 @@ import * as express from 'express';
 import { getConfigValue } from '../configuration';
 import { SESSION_TIMEOUTS } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
-import { exists } from '../lib/util';
+import { exists, objectContainsOnlySafeCharacters } from '../lib/util';
 import { UserProfileModel } from './user';
 
 const logger = log4jui.getLogger('auth');
@@ -13,7 +13,9 @@ router.get('/details', handleUserRoute);
 
 function handleUserRoute(req, res) {
   const { email, orgId, roles, userId } = req.session.auth;
-
+  if (!objectContainsOnlySafeCharacters(req.session.auth)) {
+    return res.send('Invalid user data').status(400);
+  }
   const sessionTimeouts = getConfigValue(SESSION_TIMEOUTS);
   const sessionTimeout = getUserSessionTimeout(roles, sessionTimeouts);
 
@@ -27,6 +29,9 @@ function handleUserRoute(req, res) {
 
   try {
     console.log(userDetails);
+    if (!objectContainsOnlySafeCharacters(userDetails)) {
+      return res.send('Invalid user data').status(400);
+    }
     res.send(userDetails);
   } catch (error) {
     logger.info(error);

@@ -30,7 +30,7 @@ async function getUserTermsAndConditions(req: Request, res: Response) {
     }
     try {
       const apiUrl = getUserTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), req.params.userId, application.idamClient);
-      if (!containsDangerousCode(apiUrl)) {
+      if (containsDangerousCode(apiUrl)) {
         return res.send('Invalid API link').status(400);
       }
       const response = await req.http.get(apiUrl);

@@ -14,7 +14,7 @@ async function handleAddressRoute(req: Request, res: Response) {
     res.status(errReport.apiStatusCode).send(errReport);
   }
   try {
-    if (!containsDangerousCode(req.params.account)) {
+    if (containsDangerousCode(req.params.account)) {
       return res.send('Invalid account no').status(400);
     }
     const response = await req.http.get(

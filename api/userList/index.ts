@@ -19,7 +19,7 @@ export async function handleUserListRoute(req: Request, res: Response) {
     logger.info('USER LIST INFO');
     logger.info(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
     const apiUrl = getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string);
-    if (!containsDangerousCode(apiUrl)) {
+    if (containsDangerousCode(apiUrl)) {
       return res.send('Invalid API link').status(400);
     }
     const response = await req.http.get(apiUrl);

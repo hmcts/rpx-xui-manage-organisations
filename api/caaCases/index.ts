@@ -5,10 +5,13 @@ import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getApiPath, getRequestBody, mapCcdCases } from './caaCases.util';
 import { CaaCasesFilterType } from './enums';
 import { RoleAssignmentResponse } from './models/roleAssignmentResponse';
-import { objectContainsOnlySafeCharacters } from '../lib/util';
+import { objectContainsOnlySafeCharacters, containsDangerousCode } from '../lib/util';
 
 export async function handleCaaCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string;
+  if (containsDangerousCode(caseTypeId)) {
+    return res.send('Invalid caa case data').status(400);
+  }
   const caaCasesPageType = req.query.caaCasesPageType as string;
   const caaCasesFilterType = req.query.caaCasesFilterType as string;
   const path = getApiPath(getConfigValue(SERVICES_MCA_PROXY_API_PATH), caseTypeId);
@@ -39,7 +42,13 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
     const payload = getRequestBody(orgId, fromNo, size, caaCasesPageType, caaCasesFilterValue);
 
     const response = await req.http.post(path, payload);
+    if (!objectContainsOnlySafeCharacters(response.data)) {
+      return res.send('Invalid caa case data').status(400);
+    }
     const caaCases = mapCcdCases(caseTypeId, response.data);
+    if (!objectContainsOnlySafeCharacters(caaCases)) {
+      return res.send('Invalid caa case data').status(400);
+    }
     res.send(caaCases);
   } catch (error) {
     next(error);

@@ -8,7 +8,8 @@ import { containsDangerousCode, objectContainsOnlySafeCharacters } from '../lib/
 export async function handleOrganisationRoute(req: Request, res: Response, next: NextFunction) {
   try {
     const apiUrl = `${getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)}/refdata/external/v2/organisations`;
-    if (!containsDangerousCode(apiUrl)) {
+    console.log('Org apiUrl::', apiUrl);
+    if (containsDangerousCode(apiUrl)) {
       return res.send('Invalid API link').status(400);
     }
     const response = await req.http.get(apiUrl);

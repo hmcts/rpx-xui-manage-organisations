@@ -12,7 +12,7 @@ export async function handleUserDetailsRoute(req: Request, res: Response) {
     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
     const apiUrl = getRefdataUserDetailsUrl(rdProfessionalApiPath, req.query.userId as string);
     logger.info('User Details API Link: ', apiUrl);
-    if (!containsDangerousCode(apiUrl)) {
+    if (containsDangerousCode(apiUrl)) {
       return res.send('Invalid API link').status(400);
     }
     const response = await req.http.get(apiUrl);

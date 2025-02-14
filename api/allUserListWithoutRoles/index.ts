@@ -11,7 +11,7 @@ export async function handleAllUserListRoute(req: Request, res: Response) {
   try {
     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
     const apiUrl = getRefdataAllUserListUrl(rdProfessionalApiPath);
-    if (!containsDangerousCode(apiUrl)) {
+    if (containsDangerousCode(apiUrl)) {
       return res.send('Invalid API link').status(400);
     }
     const response = await req.http.get(apiUrl);

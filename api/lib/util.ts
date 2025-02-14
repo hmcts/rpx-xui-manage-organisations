@@ -75,9 +75,9 @@ export function isUserTandCPostSuccessful(postResponse: PostUserAcceptTandCRespo
 }
 
 export function arrayContainOnlySafeCharacters(values: string[]): boolean {
-  return values.every(value => 
-    (value !== null && typeof value === 'object') 
-      ? objectContainsOnlySafeCharacters(value) 
+  return values.every((value) =>
+    (value !== null && typeof value === 'object')
+      ? objectContainsOnlySafeCharacters(value)
       : !containsDangerousCode(value)
   );
 }

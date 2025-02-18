@@ -47,7 +47,7 @@ export class CasesComponent implements OnInit {
   public cases: any; // can we type this?
   public casesError$: Observable<HttpErrorResponse>;
   public caseResultsTableShareButtonText: string = 'Share cases';
-  private selectedCases: any[] = [];
+  public selectedCases: any[] = [];
 
   constructor(private readonly caaCasesStore: Store<caaCasesStore.CaaCasesState>,
     private readonly organisationStore: Store<organisationStore.OrganisationState>,

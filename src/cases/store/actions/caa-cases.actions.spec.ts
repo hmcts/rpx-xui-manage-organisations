@@ -4,67 +4,69 @@ import { CaaCases } from '../../models/caa-cases.model';
 import * as fromActions from './caa-cases.actions';
 
 describe('Caa actions', () => {
-  it('load assigned cases action', () => {
+  it('load  cases action', () => {
     const caseType = 'caseTypeId1';
     const pageNo = 1;
     const pageSize = 10;
     const caaCasesFilterType = null;
     const caaCasesFilterValue = null;
-    const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
-    const action = new fromActions.LoadAssignedCases(payload);
+    const caaCasesPage = 'assigned-cases';
+    const payload = { caseType, pageNo, pageSize, caaCasesPage, caaCasesFilterType, caaCasesFilterValue };
+    const action = new fromActions.LoadCases(payload);
     expect({ ...action }).toEqual({
       payload,
-      type: fromActions.LOAD_ASSIGNED_CASES
+      type: fromActions.LOAD_CASES
     });
   });
 
-  it('load assigned cases success action', () => {
+  it('load  cases success action', () => {
     const payload = {} as CaaCases;
-    const action = new fromActions.LoadAssignedCasesSuccess(payload);
+    const action = new fromActions.LoadCasesSuccess(payload);
     expect({ ...action }).toEqual({
       payload,
-      type: fromActions.LOAD_ASSIGNED_CASES_SUCCESS
+      type: fromActions.LOAD_CASES_SUCCESS
     });
   });
 
-  it('load assigned cases failure action', () => {
-    const payload = new HttpErrorResponse({ error: 'assigned cases error' });
-    const action = new fromActions.LoadAssignedCasesFailure(payload);
+  it('load  cases failure action', () => {
+    const payload = new HttpErrorResponse({ error: ' cases error' });
+    const action = new fromActions.LoadCasesFailure(payload);
     expect({ ...action }).toEqual({
       payload,
-      type: fromActions.LOAD_ASSIGNED_CASES_FAILURE
+      type: fromActions.LOAD_CASES_FAILURE
     });
   });
 
-  it('load unassigned cases action', () => {
+  it('load un cases action', () => {
     const caseType = 'caseTypeId1';
     const pageNo = 1;
     const pageSize = 10;
     const caaCasesFilterType = null;
     const caaCasesFilterValue = null;
-    const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
-    const action = new fromActions.LoadUnassignedCases(payload);
+    const caaCasesPage = 'assigned-cases';
+    const payload = { caseType, pageNo, pageSize, caaCasesPage, caaCasesFilterType, caaCasesFilterValue };
+    const action = new fromActions.LoadCases(payload);
     expect({ ...action }).toEqual({
       payload,
-      type: fromActions.LOAD_UNASSIGNED_CASES
+      type: fromActions.LOAD_CASES
     });
   });
 
-  it('load unassigned cases success action', () => {
+  it('load un cases success action', () => {
     const payload = {} as CaaCases;
-    const action = new fromActions.LoadUnassignedCasesSuccess(payload);
+    const action = new fromActions.LoadCasesSuccess(payload);
     expect({ ...action }).toEqual({
       payload,
-      type: fromActions.LOAD_UNASSIGNED_CASES_SUCCESS
+      type: fromActions.LOAD_CASES_SUCCESS
     });
   });
 
-  it('load unassigned cases failure action', () => {
-    const payload = new HttpErrorResponse({ error: 'unassigned cases error' });
-    const action = new fromActions.LoadUnassignedCasesFailure(payload);
+  it('load un cases failure action', () => {
+    const payload = new HttpErrorResponse({ error: 'un cases error' });
+    const action = new fromActions.LoadCasesFailure(payload);
     expect({ ...action }).toEqual({
       payload,
-      type: fromActions.LOAD_UNASSIGNED_CASES_FAILURE
+      type: fromActions.LOAD_CASES_FAILURE
     });
   });
 

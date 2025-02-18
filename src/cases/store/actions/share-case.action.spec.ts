@@ -1,92 +1,92 @@
 import * as fromCaseShare from './share-case.action';
 
 describe('Case Share Actions', () => {
-  it('NavigateToShareAssignedCases', () => {
+  it('NavigateToShareCases', () => {
     const payload = [];
-    const action = new fromCaseShare.NavigateToShareAssignedCases(payload);
+    const action = new fromCaseShare.NavigateToShareCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.NAVIGATE_TO_SHARE_ASSIGNED_CASES,
+      type: fromCaseShare.NAVIGATE_TO_SHARE_CASES,
       payload
     });
   });
 
-  it('NavigateToShareUnassignedCases', () => {
+  it('NavigateToShareCases', () => {
     const payload = [];
-    const action = new fromCaseShare.NavigateToShareUnassignedCases(payload);
+    const action = new fromCaseShare.NavigateToShareCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.NAVIGATE_TO_SHARE_UNASSIGNED_CASES,
+      type: fromCaseShare.NAVIGATE_TO_SHARE_CASES,
       payload
     });
   });
 
-  it('SynchronizeStateToStoreAssignedCases', () => {
+  it('SynchronizeStateToStoreCases', () => {
     const payload = [];
-    const action = new fromCaseShare.SynchronizeStateToStoreAssignedCases(payload);
+    const action = new fromCaseShare.SynchronizeStateToStoreCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.SYNCHRONIZE_STATE_TO_STORE_ASSIGNED_CASES,
+      type: fromCaseShare.SYNCHRONIZE_STATE_TO_STORE_CASES,
       payload
     });
   });
 
-  it('SynchronizeStateToStoreUnassignedCases', () => {
+  it('SynchronizeStateToStoreCases', () => {
     const payload = [];
-    const action = new fromCaseShare.SynchronizeStateToStoreUnassignedCases(payload);
+    const action = new fromCaseShare.SynchronizeStateToStoreCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.SYNCHRONIZE_STATE_TO_STORE_UNASSIGNED_CASES,
+      type: fromCaseShare.SYNCHRONIZE_STATE_TO_STORE_CASES,
       payload
     });
   });
 
-  it('LoadShareAssignedCases', () => {
+  it('LoadShareCases', () => {
     const payload = [];
-    const action = new fromCaseShare.LoadShareAssignedCases(payload);
+    const action = new fromCaseShare.LoadShareCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.LOAD_SHARE_ASSIGNED_CASES,
+      type: fromCaseShare.LOAD_SHARE_CASES,
       payload
     });
   });
 
-  it('LoadShareAssignedCasesSuccess', () => {
+  it('LoadShareCasesSuccess', () => {
     const payload = [];
-    const action = new fromCaseShare.LoadShareAssignedCasesSuccess(payload);
+    const action = new fromCaseShare.LoadShareCasesSuccess(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.LOAD_SHARE_ASSIGNED_CASES_SUCCESS,
+      type: fromCaseShare.LOAD_SHARE_CASES_SUCCESS,
       payload
     });
   });
 
-  it('LoadShareAssignedCaseFailure', () => {
+  it('LoadShareCaseFailure', () => {
     const payload: Error = new Error();
-    const action = new fromCaseShare.LoadShareAssignedCaseFailure(payload);
+    const action = new fromCaseShare.LoadShareCaseFailure(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.LOAD_SHARE_ASSIGNED_CASES_FAILURE,
+      type: fromCaseShare.LOAD_SHARE_CASES_FAILURE,
       payload
     });
   });
 
-  it('LoadShareUnassignedCases', () => {
+  it('LoadShareCases', () => {
     const payload = [];
-    const action = new fromCaseShare.LoadShareUnassignedCases(payload);
+    const action = new fromCaseShare.LoadShareCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.LOAD_SHARE_UNASSIGNED_CASES,
+      type: fromCaseShare.LOAD_SHARE_CASES,
       payload
     });
   });
 
-  it('LoadShareUnassignedAssignedCasesSuccess', () => {
+  it('LoadShareCasesSuccess', () => {
     const payload = [];
-    const action = new fromCaseShare.LoadShareUnassignedCasesSuccess(payload);
+    const action = new fromCaseShare.LoadShareCasesSuccess(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.LOAD_SHARE_UNASSIGNED_CASES_SUCCESS,
+      type: fromCaseShare.LOAD_SHARE_CASES_SUCCESS,
       payload
     });
   });
 
-  it('LoadShareUnassignedCaseFailure', () => {
+  it('LoadShareCaseFailure', () => {
     const payload: Error = new Error();
-    const action = new fromCaseShare.LoadShareUnassignedCaseFailure(payload);
+    const action = new fromCaseShare.LoadShareCaseFailure(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.LOAD_SHARE_UNASSIGNED_CASES_FAILURE,
+      type: fromCaseShare.LOAD_SHARE_CASES_FAILURE,
       payload
     });
   });
@@ -98,88 +98,88 @@ describe('Case Share Actions', () => {
     });
   });
 
-  it('AddShareAssignedCases', () => {
+  it('AddShareCases', () => {
     const payload = {
       sharedCases: []
     };
-    const action = new fromCaseShare.AddShareAssignedCases(payload);
+    const action = new fromCaseShare.AddShareCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.ADD_SHARE_ASSIGNED_CASES,
+      type: fromCaseShare.ADD_SHARE_CASES,
       payload
     });
   });
 
-  it('AddShareAssignedCaseGo', () => {
+  it('AddShareCaseGo', () => {
     const payload = {
       path: [],
       sharedCases: []
     };
-    const action = new fromCaseShare.AddShareAssignedCaseGo(payload);
+    const action = new fromCaseShare.AddShareCaseGo(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.ADD_SHARE_ASSIGNED_CASES_GO,
+      type: fromCaseShare.ADD_SHARE_CASES_GO,
       payload
     });
   });
 
-  it('AddShareUnassignedCases', () => {
+  it('AddShareCases', () => {
     const payload = {
       sharedCases: []
     };
-    const action = new fromCaseShare.AddShareUnassignedCases(payload);
+    const action = new fromCaseShare.AddShareCases(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.ADD_SHARE_UNASSIGNED_CASES,
+      type: fromCaseShare.ADD_SHARE_CASES,
       payload
     });
   });
 
-  it('AddShareUnassignedCaseGo', () => {
+  it('AddShareCaseGo', () => {
     const payload = {
       path: [],
       sharedCases: []
     };
-    const action = new fromCaseShare.AddShareUnassignedCaseGo(payload);
+    const action = new fromCaseShare.AddShareCaseGo(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.ADD_SHARE_UNASSIGNED_CASES_GO,
+      type: fromCaseShare.ADD_SHARE_CASES_GO,
       payload
     });
   });
 
-  it('DeleteAShareAssignedCase', () => {
+  it('DeleteAShareCase', () => {
     const payload = {
       caseId: '1'
     };
-    const action = new fromCaseShare.DeleteAShareAssignedCase(payload);
+    const action = new fromCaseShare.DeleteAShareCase(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.DELETE_A_SHARE_ASSIGNED_CASE,
+      type: fromCaseShare.DELETE_A_SHARE_CASE,
       payload
     });
   });
 
-  it('DeleteAShareUnassignedCase', () => {
+  it('DeleteAShareCase', () => {
     const payload = {
       caseId: '1'
     };
-    const action = new fromCaseShare.DeleteAShareUnassignedCase(payload);
+    const action = new fromCaseShare.DeleteAShareCase(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.DELETE_A_SHARE_UNASSIGNED_CASE,
+      type: fromCaseShare.DELETE_A_SHARE_CASE,
       payload
     });
   });
 
   it('AssignUsersToAssignedCase', () => {
     const payload = [];
-    const action = new fromCaseShare.AssignUsersToAssignedCase(payload);
+    const action = new fromCaseShare.AssignUsersToCase(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.ASSIGN_USERS_TO_ASSIGNED_CASE,
+      type: fromCaseShare.ASSIGN_USERS_TO_CASE,
       payload
     });
   });
 
-  it('AssignUsersToUnassignedCase', () => {
+  it('AssignUsersToCase', () => {
     const payload = [];
-    const action = new fromCaseShare.AssignUsersToUnassignedCase(payload);
+    const action = new fromCaseShare.AssignUsersToCase(payload);
     expect({ ...action }).toEqual({
-      type: fromCaseShare.ASSIGN_USERS_TO_UNASSIGNED_CASE,
+      type: fromCaseShare.ASSIGN_USERS_TO_CASE,
       payload
     });
   });

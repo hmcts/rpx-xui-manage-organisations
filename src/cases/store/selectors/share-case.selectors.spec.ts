@@ -4,15 +4,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { OrganisationState } from '../../../organisation/store';
 import { UserState } from '../../../users/store';
-import { CaaCasesComponent } from '../../containers';
+import { CasesComponent } from '../../containers';
 import { CaaCasesService } from '../../services';
-import { CaaCasesState, getShareAssignedCaseListState, reducers } from '../index';
+import { CaaCasesState, getShareCaseListState, reducers } from '../index';
+import { ChangeDetectorRef } from '@angular/core';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
   let organisationStore: Store<OrganisationState>;
   let userStore: Store<UserState>;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
+  let cdr: ChangeDetectorRef;
   const router: any = {};
 
   beforeEach(() => {
@@ -40,12 +42,13 @@ describe('Share case selectors', () => {
     store = TestBed.inject(Store);
     organisationStore = TestBed.inject(Store);
     userStore = TestBed.inject(Store);
+    cdr = TestBed.inject(ChangeDetectorRef);
     spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CaaCasesComponent(store, organisationStore, userStore, router, caaCasesService);
+      const caseListComponent = new CasesComponent(store, organisationStore, userStore, router, caaCasesService, cdr);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {
@@ -57,9 +60,9 @@ describe('Share case selectors', () => {
           solsSolicitorAppReference: 'Steve321'
         }
       }];
-      caseListComponent.shareAssignedCaseSubmit();
+      //caseListComponent.shareAssignedCaseSubmit();
       let result = [];
-      store.pipe(select(getShareAssignedCaseListState)).subscribe((value) => {
+      store.pipe(select(getShareCaseListState)).subscribe((value) => {
         result = value;
       });
       expect(result.length).toEqual(2);

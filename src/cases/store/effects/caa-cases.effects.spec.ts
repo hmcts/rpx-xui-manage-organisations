@@ -16,8 +16,7 @@ describe('CaaCasesEffects', () => {
   let effects: CaaCasesEffects;
   const caaCasesServiceMock = jasmine.createSpyObj('CaaCasesService', ['getCaaCases', 'getCaaCaseTypes']);
   const loggerServiceMock = jasmine.createSpyObj('LoggerService', ['error']);
-  const assignedCases = {} as CaaCases;
-  const unassignedCases = {} as CaaCases;
+  const cases = {} as CaaCases;
   const navItems = [] as NavItemModel[];
 
   beforeEach(() => {
@@ -35,23 +34,24 @@ describe('CaaCasesEffects', () => {
     addMatchers();
   });
 
-  describe('loadAssignedCases$', () => {
-    it('loadAssignedCases successful', () => {
-      caaCasesServiceMock.getCaaCases.and.returnValue(of(assignedCases));
+  describe('loadCases$', () => {
+    it('loadCases successful', () => {
+      caaCasesServiceMock.getCaaCases.and.returnValue(of(cases));
       const caseType = '';
       const pageNo = 1;
       const pageSize = 10;
       const caaCasesFilterType = null;
       const caaCasesFilterValue = null;
-      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
-      const action = new caaCasesActions.LoadAssignedCases(payload);
-      const completion = new caaCasesActions.LoadAssignedCasesSuccess(assignedCases);
+      const caaCasesPage = CaaCasesPageType.AssignedCases;
+      const payload = { caseType, pageNo, pageSize, caaCasesPage, caaCasesFilterType, caaCasesFilterValue };
+      const action = new caaCasesActions.LoadCases(payload);
+      const completion = new caaCasesActions.LoadCasesSuccess(cases);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      expect(effects.loadAssignedCases$).toBeObservable(expected);
+      expect(effects.loadCases$).toBeObservable(expected);
     });
 
-    it('loadAssignedCases error', () => {
+    it('loadCases error', () => {
       const error: HttpErrorResponse = {
         error: 'Error',
         status: 400,
@@ -69,55 +69,13 @@ describe('CaaCasesEffects', () => {
       const pageSize = 10;
       const caaCasesFilterType = null;
       const caaCasesFilterValue = null;
-      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
-      const action = new caaCasesActions.LoadAssignedCases(payload);
-      const completion = new caaCasesActions.LoadAssignedCasesFailure(error);
+      const caaCasesPage = CaaCasesPageType.AssignedCases;
+      const payload = { caseType, pageNo, pageSize, caaCasesPage, caaCasesFilterType, caaCasesFilterValue };
+      const action = new caaCasesActions.LoadCases(payload);
+      const completion = new caaCasesActions.LoadCasesFailure(error);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-      expect(effects.loadAssignedCases$).toBeObservable(expected);
-    });
-  });
-
-  describe('loadUnassignedCases$', () => {
-    it('loadUnassignedCases successful', () => {
-      caaCasesServiceMock.getCaaCases.and.returnValue(of(unassignedCases));
-      const caseType = '';
-      const pageNo = 1;
-      const pageSize = 10;
-      const caaCasesFilterType = null;
-      const caaCasesFilterValue = null;
-      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
-      const action = new caaCasesActions.LoadUnassignedCases(payload);
-      const completion = new caaCasesActions.LoadUnassignedCasesSuccess(unassignedCases);
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.loadUnassignedCases$).toBeObservable(expected);
-    });
-
-    it('loadUnassignedCases error', () => {
-      const error: HttpErrorResponse = {
-        error: 'Error',
-        status: 400,
-        message: 'Error',
-        headers: null,
-        statusText: null,
-        name: null,
-        ok: false,
-        type: null,
-        url: null
-      };
-      caaCasesServiceMock.getCaaCases.and.returnValue(throwError(error));
-      const caseType = '';
-      const pageNo = 1;
-      const pageSize = 10;
-      const caaCasesFilterType = null;
-      const caaCasesFilterValue = null;
-      const payload = { caseType, pageNo, pageSize, caaCasesFilterType, caaCasesFilterValue };
-      const action = new caaCasesActions.LoadUnassignedCases(payload);
-      const completion = new caaCasesActions.LoadUnassignedCasesFailure(error);
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.loadUnassignedCases$).toBeObservable(expected);
+      expect(effects.loadCases$).toBeObservable(expected);
     });
   });
 

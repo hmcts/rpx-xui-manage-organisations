@@ -1,6 +1,7 @@
 import { FormControl } from '@angular/forms';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { CaaCasesUtil } from './caa-cases.util';
+import { CaseTypesResultsResponse } from '../models/caa-cases.model';
 
 describe('CaaCasesUtil', () => {
   let control: FormControl;
@@ -31,7 +32,7 @@ describe('CaaCasesUtil', () => {
           case_type_id: 'FT_ComplexOrganisation'
         }
       ]
-    };
+    } as CaseTypesResultsResponse;
     const results = CaaCasesUtil.getCaaNavItems(response);
     expect(results.length).toEqual(4);
     expect(results[0].text).toEqual('FT_MasterCaseType');

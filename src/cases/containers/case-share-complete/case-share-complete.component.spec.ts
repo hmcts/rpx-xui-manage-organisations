@@ -180,7 +180,7 @@ describe('CaseShareCompleteComponent', () => {
     component.ngOnInit();
     component.completeScreenMode = 'COMPLETE';
     fixture.detectChanges();
-    expect(component.isFromAssignedCasesRoute).toBe(true);
+    expect(component.pageType).toBe('assigned-cases');
     const successTextAssignedCases1 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-added');
     expect(successTextAssignedCases1).toBeTruthy();
     expect(successTextAssignedCases1.textContent).toContain('The people you added');
@@ -197,7 +197,7 @@ describe('CaseShareCompleteComponent', () => {
     component.ngOnInit();
     component.completeScreenMode = 'COMPLETE';
     fixture.detectChanges();
-    expect(component.isFromAssignedCasesRoute).toBe(false);
+    expect(component.pageType).toBe('unassgined-cases');
     const successTextAssignedCases1 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-added');
     expect(successTextAssignedCases1).toBeNull();
     const successTextAssignedCases2 = fixture.debugElement.nativeElement.querySelector('#what-happens-next-removed');

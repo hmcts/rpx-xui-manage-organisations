@@ -3,11 +3,9 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import { reducers } from '../reducers';
 import { CaaCasesState, initialState } from '../reducers/caa-cases.reducer';
 import {
-  getAllAssignedCases,
-  getAllAssignedCasesError,
+  getAllCases,
+  getAllCasesError,
   getAllCaseTypes,
-  getAllUnassignedCases,
-  getAllUnassignedCasesError,
   getSelectedCases
 } from './caa-cases.selector';
 
@@ -27,34 +25,34 @@ describe('CaaCases selectors', () => {
 
   it('should return all assigned cases', () => {
     let result;
-    store.pipe(select(getAllAssignedCases)).subscribe((value) => {
+    store.pipe(select(getAllCases)).subscribe((value) => {
       result = value;
     });
-    expect(result).toEqual(initialState.assignedCases);
+    expect(result).toEqual(initialState.Cases);
   });
 
   it('should return all assigned cases error', () => {
     let result;
-    store.pipe(select(getAllAssignedCasesError)).subscribe((value) => {
+    store.pipe(select(getAllCasesError)).subscribe((value) => {
       result = value;
     });
-    expect(result).toEqual(initialState.assignedCasesLastError);
+    expect(result).toEqual(initialState.CasesLastError);
   });
 
   it('should return all unassigned cases', () => {
     let result;
-    store.pipe(select(getAllUnassignedCases)).subscribe((value) => {
+    store.pipe(select(getAllCases)).subscribe((value) => {
       result = value;
     });
-    expect(result).toEqual(initialState.unassignedCases);
+    expect(result).toEqual(initialState.Cases);
   });
 
   it('should return all unassigned cases error', () => {
     let result;
-    store.pipe(select(getAllUnassignedCasesError)).subscribe((value) => {
+    store.pipe(select(getAllCasesError)).subscribe((value) => {
       result = value;
     });
-    expect(result).toEqual(initialState.assignedCasesLastError);
+    expect(result).toEqual(initialState.CasesLastError);
   });
 
   it('should return all case types', () => {

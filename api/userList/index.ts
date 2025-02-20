@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
-import { containsDangerousCode, exists, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
+import { exists, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 import { getRefdataUserUrl } from '../refdataUserUrlUtil';
 
 const logger = log4jui.getLogger('user-list');
@@ -19,9 +19,6 @@ export async function handleUserListRoute(req: Request, res: Response) {
     logger.info('USER LIST INFO');
     logger.info(getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string));
     const apiUrl = getRefdataUserUrl(rdProfessionalApiPath, req.query.pageNumber as string);
-    if (containsDangerousCode(apiUrl)) {
-      return res.send('Invalid API link').status(400);
-    }
     const response = await req.http.get(apiUrl);
     logger.info('response:', response.data);
     if (!objectContainsOnlySafeCharacters(response.data)) {

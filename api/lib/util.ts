@@ -74,6 +74,7 @@ export function isUserTandCPostSuccessful(postResponse: PostUserAcceptTandCRespo
   return postResponse.userId === userId;
 }
 
+// check for the presence of dangerous code in an array of strings
 export function arrayContainOnlySafeCharacters(values: string[]): boolean {
   return values.every((value) =>
     (value !== null && typeof value === 'object')
@@ -82,6 +83,7 @@ export function arrayContainOnlySafeCharacters(values: string[]): boolean {
   );
 }
 
+// check for the presence of dangerous code in an object
 export function objectContainsOnlySafeCharacters(values: object): boolean {
   for (const key in values) {
     const inputValue = values[key];

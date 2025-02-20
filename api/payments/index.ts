@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_FEE_AND_PAY_API_PATH } from '../configuration/references';
-import { exists, objectContainsOnlySafeCharacters, containsDangerousCode, valueOrNull } from '../lib/util';
+import { exists, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 
 async function handleAddressRoute(req: Request, res: Response) {
   let errReport: any;
@@ -14,9 +14,6 @@ async function handleAddressRoute(req: Request, res: Response) {
     res.status(errReport.apiStatusCode).send(errReport);
   }
   try {
-    if (containsDangerousCode(req.params.account)) {
-      return res.send('Invalid account no').status(400);
-    }
     const response = await req.http.get(
       `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/pba-accounts/${req.params.account}/payments/`
     );

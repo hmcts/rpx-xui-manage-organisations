@@ -13,9 +13,6 @@ router.get('/details', handleUserRoute);
 
 function handleUserRoute(req, res) {
   const { email, orgId, roles, userId } = req.session.auth;
-  if (!objectContainsOnlySafeCharacters(req.session.auth)) {
-    return res.send('Invalid user data').status(400);
-  }
   const sessionTimeouts = getConfigValue(SESSION_TIMEOUTS);
   const sessionTimeout = getUserSessionTimeout(roles, sessionTimeouts);
 

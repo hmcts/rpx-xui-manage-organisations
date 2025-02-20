@@ -73,3 +73,46 @@ export function isObject(o) {
 export function isUserTandCPostSuccessful(postResponse: PostUserAcceptTandCResponse, userId: string): any {
   return postResponse.userId === userId;
 }
+
+// check for the presence of dangerous code in an array of strings
+export function arrayContainOnlySafeCharacters(values: string[]): boolean {
+  return values.every((value) =>
+    (value !== null && typeof value === 'object')
+      ? objectContainsOnlySafeCharacters(value)
+      : !containsDangerousCode(value)
+  );
+}
+
+// check for the presence of dangerous code in an object
+export function objectContainsOnlySafeCharacters(values: object): boolean {
+  for (const key in values) {
+    const inputValue = values[key];
+    if (Array.isArray(inputValue)) {
+      if (!arrayContainOnlySafeCharacters(inputValue)) {
+        return false;
+      }
+    } else if (inputValue !== null && typeof inputValue === 'object') {
+      if (!objectContainsOnlySafeCharacters(inputValue)) {
+        return false;
+      }
+    } else if (typeof inputValue === 'string' && containsDangerousCode(inputValue)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Checks if a string contains any potentially dangerous code (JavaScript, CSS, URL schemes, JSONP).
+ * @param input - The input string to be checked.
+ * @returns True if the string contains potentially dangerous code, otherwise false.
+ */
+export function containsDangerousCode(input: string): boolean {
+  // Regular expressions to detect common dangerous patterns
+  const jsPattern = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>|javascript:|on\w+=|eval\(|new Function\(|document\.cookie|<\s*iframe.*?>.*?<\s*\//i;
+  const cssPattern = /<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>|expression\(|url\(/i;
+  const urlSchemePattern = /data:|vbscript:/i;
+  const jsonPattern = /callback=|jsonp=/i;
+  return jsPattern.test(input) || cssPattern.test(input) || urlSchemePattern.test(input) || jsonPattern.test(input);
+}
+

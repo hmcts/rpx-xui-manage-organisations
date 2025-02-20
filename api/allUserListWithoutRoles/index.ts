@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { getConfigValue } from '../configuration';
 import { SERVICES_RD_PROFESSIONAL_API_PATH } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
-import { exists, valueOrNull } from '../lib/util';
+import { exists, objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 import { getRefdataAllUserListUrl } from '../refdataAllUserListUrlUtil';
 
 const logger = log4jui.getLogger('user-list');
@@ -10,7 +10,11 @@ const logger = log4jui.getLogger('user-list');
 export async function handleAllUserListRoute(req: Request, res: Response) {
   try {
     const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-    const response = await req.http.get(getRefdataAllUserListUrl(rdProfessionalApiPath));
+    const apiUrl = getRefdataAllUserListUrl(rdProfessionalApiPath);
+    const response = await req.http.get(apiUrl);
+    if (!objectContainsOnlySafeCharacters(response.data)) {
+      return res.send('Invalid user list details').status(400);
+    }
     logger.info('response::', response.data);
     res.send(response.data);
   } catch (error) {

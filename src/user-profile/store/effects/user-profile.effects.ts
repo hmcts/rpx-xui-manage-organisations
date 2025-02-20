@@ -11,6 +11,7 @@ import { UserInterface } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import * as authActions from '../actions';
 import { AuthActionTypes } from '../actions/';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
 @Injectable()
 export class UserProfileEffects {
@@ -19,7 +20,8 @@ export class UserProfileEffects {
     private readonly userService: UserService,
     private readonly loggerService: LoggerService,
     private readonly authService: UserService,
-    private readonly acceptTcService: AcceptTcService
+    private readonly acceptTcService: AcceptTcService,
+    private readonly sessionStorageService: SessionStorageService
   ) {}
 
   public getUser$ = createEffect(() => this.actions$.pipe(
@@ -28,6 +30,7 @@ export class UserProfileEffects {
       return this.userService.getUserDetails()
         .pipe(
           map((userDetails: UserInterface) => {
+            this.sessionStorageService.setItem('userDetails', JSON.stringify(userDetails));
             return new authActions.GetUserDetailsSuccess(userDetails);
           }),
           catchError((error: HttpErrorResponse) => {

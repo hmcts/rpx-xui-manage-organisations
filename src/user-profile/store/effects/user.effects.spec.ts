@@ -15,6 +15,7 @@ import {
   LoadHasAcceptedTCFail, LoadHasAcceptedTCSuccess
 } from '../actions';
 import * as fromUserEffects from './user-profile.effects';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
 describe('User Profile Effects', () => {
   let actions$;
@@ -30,6 +31,7 @@ describe('User Profile Effects', () => {
   ]);
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+  const mockedSessionStorageService = jasmine.createSpyObj('mockedSessionStorageService', ['setItem']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -46,6 +48,10 @@ describe('User Profile Effects', () => {
         {
           provide: LoggerService,
           useValue: mockedLoggerService
+        },
+        {
+          provide: SessionStorageService,
+          useValue: mockedSessionStorageService
         },
         fromUserEffects.UserProfileEffects,
         provideMockActions(() => actions$)
@@ -78,6 +84,7 @@ describe('User Profile Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.getUser$).toBeObservable(expected);
+      expect(mockedSessionStorageService.setItem).toHaveBeenCalledWith('userDetails', JSON.stringify(returnValue));
     }));
   });
 

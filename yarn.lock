@@ -2922,16 +2922,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.31":
-  version: 2.0.31
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.31"
+"@hmcts/rpx-xui-common-lib@npm:2.0.35-user-buttons":
+  version: 2.0.35-user-buttons
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.35-user-buttons"
   dependencies:
-    tslib: "npm:^2.0.0"
+    tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 3e3c4fbdf8843bfd075d3005fdd7521214faa9e4f4fd1299aeca9b90680cd3cc7b272bc5675e25fdf2c272ded9c3ff00124bcb77b45b8255b9c3ecb569ae5c84
+  checksum: a8870aabb83a47e2c01f0fdabcb1a3df09000b7205694a9519c54a1826f34e6c21852cb963363408e1172e30fb85e17b248984d73711de0b0923fe244ea4e572
   languageName: node
   linkType: hard
 
@@ -19886,7 +19886,7 @@ __metadata:
     "@hmcts/media-viewer": 4.0.4
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.31
+    "@hmcts/rpx-xui-common-lib": 2.0.35-user-buttons
     "@hmcts/rpx-xui-node-lib": 2.30.0
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0

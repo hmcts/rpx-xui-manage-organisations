@@ -14,7 +14,6 @@ import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
 import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
-import { CryptoWrapper } from '../shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { UserService } from '../user-profile/services/user.service';
@@ -105,7 +104,7 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
     FeatureToggleGuard,
     { provide: RouterStateSerializer, useClass: CustomSerializer },
     UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
-    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
+    JwtDecodeWrapper, LoggerService, JurisdictionService,
     { provide: FeatureToggleService, useClass: LaunchDarklyService },
     { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true }
   ],

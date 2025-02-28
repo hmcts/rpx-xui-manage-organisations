@@ -85,22 +85,22 @@ export class AppUtils {
       return AppUtils.getPageTitleForRegisterOrganisation(url);
     }
     if (url.indexOf('invite-user') !== -1) {
-      return 'Invite user - Manage organisation';
+      return 'Manage organisation - Invite user - GOV.UK';
     }
     if (url.indexOf('profile') !== -1) {
-      return 'Profile - Manage organisation';
+      return 'Manage organisation - Profile - GOV.UK';
     }
     if (url.indexOf('organisation') !== -1) {
-      return 'Organisation details - Manage organisation';
+      return 'Manage organisation - Organisation details - GOV.UK';
     }
     if (url.indexOf('users') !== -1) {
-      return 'Users - Manage organisation';
+      return 'Manage organisation - Users - GOV.UK';
     }
     if (url.indexOf('unassigned-cases') !== -1) {
-      return 'Unassigned cases - Manage organisation';
+      return 'Manage organisation - Unassigned cases - GOV.UK';
     }
     if (url.indexOf('assigned-cases') !== -1) {
-      return 'Assigned cases - Manage organisation';
+      return 'Manage organisation - Assigned cases - GOV.UK';
     }
     return 'Manage organisation';
   }

@@ -29,7 +29,7 @@ class InviteUserPage{
 
     this.activeUser = element(by.xpath('//tbody//tr//td[contains(text(),"Active")]/../td/a'));
     this.changeLink = element(by.xpath('//a[contains(text(),"Change")]'));
-    this.suspendButton = element(by.css('a.hmcts-button--secondary'));
+    this.suspendButton = element(by.css('button.hmcts-button--secondary'));
     this.editUserText = element(by.css('.govuk-heading-xl'));
     this.suspendUserText = element(by.css('.govuk-heading-xl'));
 

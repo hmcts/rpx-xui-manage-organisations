@@ -102,77 +102,77 @@ export class AppUtils {
     if (url.indexOf('assigned-cases') !== -1) {
       return 'Manage organisation - Assigned cases - GOV.UK';
     }
-    return 'Manage organisation';
+    return 'Manage organisation - GOV.UK';
   }
 
   public static getPageTitleForRegisterOrganisation(url: string): string {
     if (url.indexOf('register-org-new/register') !== -1) {
-      return 'Register - Register organisation';
+      return 'Register organisation - Register - GOV.UK';
     }
     if (url.indexOf('register-org-new/organisation-type') !== -1) {
-      return 'Organisation type - Register organisation';
+      return 'Register organisation - Organisation type - GOV.UK';
     }
     if (url.indexOf('register-org-new/company-house-details') !== -1) {
-      return 'Company house details - Register organisation';
+      return 'Register organisation - Company house details - GOV.UK';
     }
     if (url.indexOf('register-org-new/registered-address') !== -1) {
-      return 'Registered address - Register organisation';
+      return 'Register organisation - Registered address - GOV.UK';
     }
     if (url.indexOf('register-org-new/document-exchange-reference') !== -1) {
-      return 'Document exchange reference - Register organisation';
+      return 'Register organisation - Document exchange reference - GOV.UK';
     }
     if (url.indexOf('register-org-new/regulatory-organisation-type') !== -1) {
-      return 'Organisation regulators - Register organisation';
+      return 'Register organisation - Organisation regulators - GOV.UK';
     }
     if (url.indexOf('register-org-new/organisation-services-access') !== -1) {
-      return 'Services to access - Register organisation';
+      return 'Register organisation - Services to access - GOV.UK';
     }
     if (url.indexOf('register-org-new/payment-by-account') !== -1) {
-      return 'Payment by account - Register organisation';
+      return 'Register organisation - Payment by account - GOV.UK';
     }
     if (url.indexOf('register-org-new/contact-details') !== -1) {
-      return 'Contact details - Register organisation';
+      return 'Register organisation - Contact details - GOV.UK';
     }
     if (url.indexOf('register-org-new/individual-registered-with-regulator') !== -1) {
-      return 'Individual regulators - Register organisation';
+      return 'Register organisation - Individual regulators - GOV.UK';
     }
     if (url.indexOf('register-org-new/check-your-answers') !== -1) {
-      return 'Check your answers - Register organisation';
+      return 'Register organisation - Check your answers - GOV.UK';
     }
     if (url.indexOf('register-org/register/organisation-name') !== -1) {
-      return 'Organisation name - Register organisation';
+      return 'Register organisation - Organisation name - GOV.UK';
     }
     if (url.indexOf('register-org/register/organisation-address') !== -1) {
-      return 'Organisation address - Register organisation';
+      return 'Register organisation - Organisation address - GOV.UK';
     }
     if (url.indexOf('register-org/register/organisation-pba') !== -1) {
-      return 'PBA - Register organisation';
+      return 'Register organisation - PBA - GOV.UK';
     }
     if (url.indexOf('register-org/register/organisation-have-dx') !== -1) {
-      return 'DX - Register organisation';
+      return 'Register organisation - DX - GOV.UK';
     }
     if (url.indexOf('register-org/register/organisation-dx') !== -1) {
-      return 'DX reference - Register organisation';
+      return 'Register organisation - DX reference - GOV.UK';
     }
     if (url.indexOf('register-org/register/haveSra') !== -1) {
-      return 'SRA - Register organisation';
+      return 'Register organisation - SRA - GOV.UK';
     }
     if (url.indexOf('register-org/register/sraNumber') !== -1) {
-      return 'SRA number - Register organisation';
+      return 'Register organisation - SRA number - GOV.UK';
     }
     if (url.indexOf('register-org/register/name') !== -1) {
-      return 'Name - Register organisation';
+      return 'Register organisation - Name - GOV.UK';
     }
     if (url.indexOf('register-org/register/email-address') !== -1) {
-      return 'Email - Register organisation';
+      return 'Register organisation - Email - GOV.UK';
     }
     if (url.indexOf('register-org/register/check') !== -1) {
-      return 'Check answers - Register organisation';
+      return 'Register organisation - Check answers - GOV.UK';
     }
     if (url.indexOf('register-org/register/confirmation') !== -1) {
-      return 'Confirmation - Register organisation';
+      return 'Register organisation - Confirmation - GOV.UK';
     }
-    return 'Register - Register organisation';
+    return 'Register organisation - Register - GOV.UK';
   }
 
   // 04-Sep-2019 - Author U Denduluri

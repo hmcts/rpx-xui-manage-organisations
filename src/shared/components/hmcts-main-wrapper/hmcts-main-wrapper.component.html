@@ -14,13 +14,13 @@
     </div>
     <div class="govuk-grid-column-one-third" *ngIf="actionButtons?.length > 0">
       <div class="hmcts-page-heading__actions-wrapper">
-        <button
+        <a
           *ngFor="let actionButton of actionButtons"
           (click)="actionButton.action()"
-          tabindex="0"
+          role="button"
           draggable="false"
           class="govuk-button {{ actionButton.class }}"
-        >{{ actionButton.name }}</button>
+        >{{ actionButton.name }}</a>
       </div>
     </div>
   </div>

@@ -5,9 +5,9 @@
            <h1 class="hmcts-page-heading__title govuk-heading-xl">Users</h1>
         </div>
         <div class="hmcts-page-heading__actions-wrapper">
-           <a (click)="inviteNewUser()" role="button" draggable="false" class="govuk-button hmcts-page-heading__button">
-           Invite user
-           </a>
+            <button (click)="inviteNewUser()" (keyup.enter)="inviteNewUser()" class="govuk-button hmcts-page-heading__button">
+            Invite user
+            </button>
         </div>
      </div>
      <div class="table-right_margin">

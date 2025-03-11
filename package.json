@@ -79,7 +79,7 @@
     "@hmcts/ccd-case-ui-toolkit": "7.1.51-ongoing-accessibility-v1",
     "@hmcts/ccpay-web-component": "6.2.1",
     "@hmcts/frontend": "0.0.50-alpha",
-    "@hmcts/media-viewer": "4.0.14-ongoing-accessibility-v1"
+    "@hmcts/media-viewer": "4.0.14-ongoing-accessibility-v1",
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "2.0.38",

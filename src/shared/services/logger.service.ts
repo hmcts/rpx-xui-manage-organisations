@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie';
 import { NGXLogger } from 'ngx-logger';
-import { CryptoWrapper } from './cryptoWrapper';
-import { JwtDecodeWrapper } from './jwtDecodeWrapper';
 import { MonitoringService } from './monitoring.service';
 import { environment } from 'src/environments/environment';
+import { SessionStorageService } from '../services/session-storage.service';
+import { UserInterface } from 'src/user-profile/models/user.model';
 
 export interface ILoggerService {
     trace(message: any, ...additional: any[]): void;
@@ -23,9 +22,7 @@ export class LoggerService implements ILoggerService {
   public COOKIE_KEYS;
   constructor(private readonly monitoringService: MonitoringService,
                 private readonly ngxLogger: NGXLogger,
-                private readonly cookieService: CookieService,
-                private readonly cryptoWrapper: CryptoWrapper,
-                private readonly jwtDecodeWrapper: JwtDecodeWrapper) {
+                private readonly sessionStorageService: SessionStorageService) {
     this.COOKIE_KEYS = {
       TOKEN: environment.cookies.token,
       USER: environment.cookies.userId
@@ -84,13 +81,11 @@ export class LoggerService implements ILoggerService {
   }
 
   public getMessage(message: any): string {
-    const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-    if (jwt) {
-      const jwtData = this.jwtDecodeWrapper.decode(jwt);
-      if (jwtData) {
-        const userIdEncrypted = this.cryptoWrapper.encrypt(jwtData.sub);
-        return `User - ${userIdEncrypted.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
-      }
+    const userInfoStr = this.sessionStorageService.getItem('userDetails');
+    const userInfo: UserInterface = JSON.parse(userInfoStr);
+    if (userInfo?.userId) {
+      const userId = userInfo.userId;
+      return `User - ${userId.toString()}, Message - ${message}, Timestamp - ${Date.now()}`;
     }
     return `Message - ${message}, Timestamp - ${Date.now()}`;
   }

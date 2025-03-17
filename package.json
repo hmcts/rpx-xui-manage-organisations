@@ -136,7 +136,7 @@
     "lz-string": "^1.5.0",
     "moment-timezone": "^0.5.28",
     "mutable-div": "^1.0.0",
-    "ngx-chips": "2.1.0",
+    "ngx-chips": "^3.0.0",
     "ngx-cookie": "6.0.1",
     "ngx-cookie-service": "^17.0.0",
     "ngx-logger": "^5.0.12",

@@ -2,15 +2,18 @@
   <div class="hmcts-width-container ">
     <div class="govuk-footer__meta">
       <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">	
-          <ul class="hmcts-footer__list hmcts-footer__list--inline">	
-            <li class="hmcts-footer__list-item" *ngFor="let item of navigation.items">	
-              <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}</a>	
-            </li>	
+          <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+          <ul class="hmcts-footer__list hmcts-footer__list--inline">
+            <li class="hmcts-footer__list-item" *ngFor="let item of navigation.items">
+              <a class="govuk-footer__link" [routerLink]="item.href" [target]="item.target">{{item.text}}</a>
+            </li>
           </ul>
       </div>
       <div class="govuk-footer__meta-item">
-        <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
+        <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">
+          <img src="https://design-system.service.gov.uk/assets/images/govuk-crest.svg" alt="HMCTS logo" style="display: block;" >
+          <p>&copy; Crown copyright</p>
+        </a>
       </div>
     </div>
     </div>

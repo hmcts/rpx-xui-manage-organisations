@@ -250,7 +250,10 @@
     "@stryker-mutator/typescript": "^4.0.0",
     "typed-rest-client": "^1.8.0",
     "minimist": "^1.2.8",
-    "loader-utils": "~2.0.3"
+    "loader-utils": "~2.0.3",
+    "mem": "^4.0.0",
+    "cross-spawn": "^7.0.6",
+    "yargs-parser": "^21.1.1"
   },
   "packageManager": "yarn@3.6.4"
 }

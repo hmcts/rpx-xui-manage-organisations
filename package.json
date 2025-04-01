@@ -2,7 +2,7 @@
   "name": "rpx-xui-manage-organisations",
   "version": "4.0.2",
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=20.18.3"
   },
   "scripts": {
     "build": "yarn build:prod && yarn build:node",
@@ -215,7 +215,7 @@
     "ngrx-store-freeze": "^0.2.4",
     "node-html-parser": "^6.1.5",
     "nodemon": "^2.0.19",
-    "pa11y": "^5.3.0",
+    "pa11y": "^8.0.0",
     "pa11y-reporter-html": "^2.0.0",
     "portfinder": "^1.0.28",
     "protractor": "~7.0.0",
@@ -250,7 +250,10 @@
     "@stryker-mutator/typescript": "^4.0.0",
     "typed-rest-client": "^1.8.0",
     "minimist": "^1.2.8",
-    "loader-utils": "~2.0.3"
+    "loader-utils": "~2.0.3",
+    "mem": "^4.0.0",
+    "cross-spawn": "^7.0.6",
+    "yargs-parser": "^21.1.1"
   },
   "packageManager": "yarn@3.6.4"
 }

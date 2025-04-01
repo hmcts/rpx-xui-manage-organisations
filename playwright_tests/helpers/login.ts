@@ -1,21 +1,23 @@
 import { config } from '../config/config';
+import { expect } from '@playwright/test';
 
 export async function signIn(page: any, user: string = 'base') {
   const { username, password } = config[user];
-  await page.goto(config.baseUrl);
-  await page.waitForLoadState('domcontentloaded');
-
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
+      await page.goto(config.baseUrl);
       // Ensure fields are visible before interacting
-      await page.getByRole('textbox', { name: 'Email address' }).waitFor();
-      await page.getByRole('textbox', { name: 'Email address' }).fill(username);
-      await page.getByRole('textbox', { name: 'Password' }).fill(password);
+      await page.getByLabel('Email address').click();
+      await page.getByLabel('Email address').fill(username);
+      await page.getByLabel('Password').click();
+      await page.getByLabel('Password').fill(password);
       await page.getByRole('button', { name: 'Sign in' }).click();
 
       // Wait for navigation after login attempt
-      await page.waitForLoadState('networkidle');
-      console.log('Signed in as ' + username);
+      if (!page.url().includes('idam')) {
+        console.log('Signed in as ' + username);
+        return;
+      }
 
       console.log('First login attempt failed, retrying...');
     } catch (error) {

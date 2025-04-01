@@ -43,7 +43,7 @@ module.exports = defineConfig({
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'],
+      use: {
         screenshot: 'only-on-failure',
         headless: headlessMode,
         trace: 'off'

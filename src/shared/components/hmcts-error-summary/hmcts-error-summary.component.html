@@ -16,6 +16,9 @@
   <app-hmcts-warning-icon></app-hmcts-warning-icon>
   <div class="hmcts-banner__message">
     <span class="hmcts-banner__assistive">Warning</span>
-    <p class="govuk-body" *ngFor="let message of messages">{{ message['message'] }}</p>
+    <p class="govuk-body" *ngFor="let message of messages">
+      <span class="govuk-visually-hidden">Warning</span>
+      {{ message['message'] }}
+    </p>
   </div>
 </div>

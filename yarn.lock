@@ -2836,12 +2836,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.0.49":
-  version: 7.0.49
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.0.49"
+"@hmcts/ccd-case-ui-toolkit@npm:7.1.60":
+  version: 7.1.60
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.1.60"
   dependencies:
     tslib: ^2.3.0
-  checksum: 49d0b48af9041d519636153c6312760c91768fd44428d39c21b06f32b57273562d280e61968813cf84c1d23a8b994ef2c0f5804b6c55e16f08361b05ce2c2b9e
+  checksum: 5fdc0362da3b5b78c5ecee86ba04b8aab50fb62282e198f31bcb9cd7d8cf2c81b072bb0c9df6218ea26b500bc5e344be04e1609ed568ccd4dcf9cf73579d53b8
   languageName: node
   linkType: hard
 
@@ -2864,9 +2864,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.0.13":
-  version: 4.0.13
-  resolution: "@hmcts/media-viewer@npm:4.0.13"
+"@hmcts/media-viewer@npm:4.0.16":
+  version: 4.0.16
+  resolution: "@hmcts/media-viewer@npm:4.0.16"
   dependencies:
     "@swimlane/ngx-datatable": ^20.0.0
     mutable-div: ^2.0.0
@@ -2885,7 +2885,7 @@ __metadata:
     "@ngrx/router-store": ^17.0.0
     "@ngrx/store": ^17.0.0
     "@ngrx/store-devtools": ^17.0.0
-  checksum: b403416e4e37a5f7eb35c30236d178ecb657e501fe1d2b91c07b888a3ef6fe0a776c04a9a6dd3e29d7daca06a78c383b164cafddee3a82e1e16b80d09324b11c
+  checksum: c5de1a82dd3416076f100e8b1b71d388081ccfff21dae09532648c6f8ee3a81fb4356ff759f797f87f932e9e34611154cf3125ba087b8cdffc768ec3e4738a30
   languageName: node
   linkType: hard
 
@@ -2922,16 +2922,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.38":
-  version: 2.0.38
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.38"
+"@hmcts/rpx-xui-common-lib@npm:2.0.39":
+  version: 2.0.39
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.39"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 766e25393bad60f6b19e17a24b57e45af5265b96872820c5f5ebb9f860bea90a305abd406ae42f25e9578966c8ad6cbe11b97099a905467a1629c607688ed9dc
+  checksum: 1180742217813da52220762df7356227259877f89f8d232b2a91aaab9914474263ecd309daef15a569a3ef0244a07a8520c1c166a15d6b59e43b50e9d0cd7e70
   languageName: node
   linkType: hard
 
@@ -4634,14 +4634,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.49.1":
-  version: 1.49.1
-  resolution: "@playwright/test@npm:1.49.1"
+"@playwright/test@npm:^1.51.1":
+  version: 1.51.1
+  resolution: "@playwright/test@npm:1.51.1"
   dependencies:
-    playwright: 1.49.1
+    playwright: 1.51.1
   bin:
     playwright: cli.js
-  checksum: cdbd16df3d773dc8e522d79b4b961e25c2e1b1d4f3ec45eb711078ab5d11bca47caafe833e2be2f923328fbd012405a9ee31d9b449d184077598546a36847e69
+  checksum: c3c14f37451cc0323234e37fa559a075e5aee9f5e6ca06fa3b4a132ec6c809909b22877daca1fa48c95a1112d859346c10111e7003f44582a05100dd5385bbef
   languageName: node
   linkType: hard
 
@@ -18688,27 +18688,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.49.1":
-  version: 1.49.1
-  resolution: "playwright-core@npm:1.49.1"
+"playwright-core@npm:1.51.1":
+  version: 1.51.1
+  resolution: "playwright-core@npm:1.51.1"
   bin:
     playwright-core: cli.js
-  checksum: a940f4b10ff1de033b4b8594b5104b02849a892d9adda0d42330a872cd3d8d287ffd2b01fc33f33ccd34f8904bb8ae8220b878b62e899f3d9bcd1b0945ab45c7
+  checksum: 1eb37e22e97435a5ed6389b4caa666fbe618348861cae97e67586e20c8fed9ac3d3dc899ff3b9237d0ddfcf087d5b552b80be247e246fc45b75282f96be714bb
   languageName: node
   linkType: hard
 
-"playwright@npm:1.49.1, playwright@npm:^1.42":
-  version: 1.49.1
-  resolution: "playwright@npm:1.49.1"
+"playwright@npm:1.51.1, playwright@npm:^1.51.1":
+  version: 1.51.1
+  resolution: "playwright@npm:1.51.1"
   dependencies:
     fsevents: 2.3.2
-    playwright-core: 1.49.1
+    playwright-core: 1.51.1
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: c136d42d625e32614f90e5228a165dc8be48c5bfb52aca9210c6ff04161a409dbe42fe5ae4f05a2653f6a1b836876a04d3b0f24bcbbc053d1509c1d605b7c8d5
+  checksum: 2d78f53eed438d26df9743f98227d2e33bb5a378c8d0144a4ed75b4010c9c517d5a6ee6c1c9245ad61dc615054c5e19d2ded5a6e285e35d2bca39b05bc9c4a35
   languageName: node
   linkType: hard
 
@@ -20099,13 +20099,13 @@ __metadata:
     "@cucumber/cucumber": ^11.0.0
     "@cucumber/pretty-formatter": ^1.0.1
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 7.0.49
+    "@hmcts/ccd-case-ui-toolkit": 7.1.60
     "@hmcts/ccpay-web-component": 6.2.1
     "@hmcts/frontend": 0.0.50-alpha
-    "@hmcts/media-viewer": 4.0.13
+    "@hmcts/media-viewer": 4.0.16
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.38
+    "@hmcts/rpx-xui-common-lib": 2.0.39
     "@hmcts/rpx-xui-node-lib": 2.30.0
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
@@ -20116,7 +20116,7 @@ __metadata:
     "@nicky-lenaers/ngx-scroll-to": ^14.0.0
     "@pact-foundation/pact": ^9.2.0
     "@pact-foundation/pact-node": ^10.9.7
-    "@playwright/test": ^1.49.1
+    "@playwright/test": ^1.51.1
     "@rxweb/reactive-form-validators": 13.0.1
     "@stryker-mutator/api": ^3.0.1
     "@stryker-mutator/core": ^3.0.1
@@ -20221,7 +20221,7 @@ __metadata:
     pa11y-reporter-html: ^2.0.0
     pdfjs-dist: 2.5.207
     pegjs: ^0.10.0
-    playwright: ^1.42
+    playwright: ^1.51.1
     portfinder: ^1.0.28
     protractor: ~7.0.0
     protractor-cucumber-framework: ^9.7.0

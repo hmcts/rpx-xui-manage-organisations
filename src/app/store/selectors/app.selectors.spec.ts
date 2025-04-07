@@ -35,7 +35,7 @@ describe('App Selectors', () => {
 
       store.dispatch(new fromActions.SetPageTitle('/organisation'));
 
-      expect(result).toEqual('Organisation details - Manage organisation');
+      expect(result).toEqual('Manage organisation - Organisation details - GOV.UK');
     });
   });
 

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -8,6 +8,7 @@ import { RegistrationFormService } from '../../services/registration-form.servic
 import { LoadPageItemsSuccess } from '../actions';
 import { LoadPageItems, LoadPageItemsFail, SubmitFormData, SubmitFormDataFail, SubmitFormDataSuccess } from '../actions/registration.actions';
 import { RegistrationEffects } from './registration.effects';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Registration Effects', () => {
   let actions$;
@@ -22,20 +23,22 @@ describe('Registration Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         {
-          provide: RegistrationFormService,
-          useValue: mockedRegistrationFormService
+            provide: RegistrationFormService,
+            useValue: mockedRegistrationFormService
         },
         {
-          provide: LoggerService,
-          useValue: mockedLoggerService
+            provide: LoggerService,
+            useValue: mockedLoggerService
         },
         RegistrationEffects,
-        provideMockActions(() => actions$)
-      ]
-    });
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
 
     effects = TestBed.inject(RegistrationEffects);
     loggerService = TestBed.inject(LoggerService);

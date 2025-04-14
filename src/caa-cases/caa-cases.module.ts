@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
@@ -20,28 +20,21 @@ import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    ExuiCommonLibModule,
-    HttpClientModule,
-    SharedModule,
-    caaCasesRouting,
-    StoreModule.forFeature('org', orgReducers),
-    EffectsModule.forFeature(orgEffects),
-    StoreModule.forFeature('users', userReducers),
-    EffectsModule.forFeature(userEffects),
-    StoreModule.forFeature('caaCases', reducers),
-    EffectsModule.forFeature(effects),
-    CaseListModule,
-    MatTabsModule,
-    MatAutocompleteModule
-  ],
-  exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
-  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-})
+@NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
+    declarations: [...fromContainers.containers, ...fromComponents.components],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
+        ExuiCommonLibModule,
+        SharedModule,
+        caaCasesRouting,
+        StoreModule.forFeature('org', orgReducers),
+        EffectsModule.forFeature(orgEffects),
+        StoreModule.forFeature('users', userReducers),
+        EffectsModule.forFeature(userEffects),
+        StoreModule.forFeature('caaCases', reducers),
+        EffectsModule.forFeature(effects),
+        CaseListModule,
+        MatTabsModule,
+        MatAutocompleteModule], providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())] })
 
 export class CaaCasesModule {
 }

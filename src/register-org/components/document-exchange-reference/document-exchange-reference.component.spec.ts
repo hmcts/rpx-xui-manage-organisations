@@ -1,9 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('DocumentExchangeReferenceComponent', () => {
   let component: DocumentExchangeReferenceComponent;
@@ -29,13 +30,10 @@ describe('DocumentExchangeReferenceComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DocumentExchangeReferenceComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
-      providers: []
-    }).compileComponents();
+    declarations: [DocumentExchangeReferenceComponent],
+    imports: [RouterTestingModule],
+    providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+}).compileComponents();
   });
 
   beforeEach(() => {

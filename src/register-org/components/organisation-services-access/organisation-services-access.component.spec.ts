@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
@@ -14,15 +15,14 @@ describe('OrganisationServicesAccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrganisationServicesAccessComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
-      providers: [
-        EnvironmentService
-      ]
-    })
+    declarations: [OrganisationServicesAccessComponent],
+    imports: [RouterTestingModule],
+    providers: [
+        EnvironmentService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
   });
 

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const storeMock = {
   pipe: () => of(null),
@@ -45,28 +46,27 @@ describe('TermsAndConditionsComponent', () => {
     pipeSpy = spyOn(storeMock, 'pipe');
     dispatchSpy = spyOn(storeMock, 'dispatch');
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule
-      ],
-      declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
+    declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [RouterTestingModule],
+    providers: [
         {
-          provide: Store,
-          useValue: storeMock
+            provide: Store,
+            useValue: storeMock
         },
         TermsConditionsService,
         {
-          provide: FeatureToggleService,
-          useValue: featureToggleServiceMock
+            provide: FeatureToggleService,
+            useValue: featureToggleServiceMock
         },
         {
-          provide: Router,
-          useValue: routerMock
-        }
-      ]
-    })
+            provide: Router,
+            useValue: routerMock
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
   }));
 

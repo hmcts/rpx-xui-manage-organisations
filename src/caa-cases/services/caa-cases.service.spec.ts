@@ -1,9 +1,10 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { CaaCasesFilterType, CaaCasesPageType } from '../models/caa-cases.enum';
 import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../models/caa-cases.model';
 import { CaaCasesService } from './caa-cases.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('CaaCasesService', () => {
   let service: CaaCasesService;
@@ -30,9 +31,9 @@ describe('CaaCasesService', () => {
       }
     };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [CaaCasesService]
-    });
+    imports: [],
+    providers: [CaaCasesService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     mockHttp = jasmine.createSpyObj('http', ['post']);
     mockHttp.post.and.returnValue(of({}));
     service = new CaaCasesService(mockHttp);

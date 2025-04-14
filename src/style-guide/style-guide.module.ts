@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store';
 import { styleGuideRouting } from './style-guide.routing';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // containers
 import * as fromContainers from './containers';
@@ -13,18 +13,12 @@ import * as fromContainers from './containers';
 // containers
 import * as fromComponents from './components';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    styleGuideRouting,
-    SharedModule,
-    StoreModule.forFeature('style-guide', reducers),
-    FormsModule
-  ],
-  exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components]
-})
+@NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
+    declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
+        styleGuideRouting,
+        SharedModule,
+        StoreModule.forFeature('style-guide', reducers),
+        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to StyleGuideModule

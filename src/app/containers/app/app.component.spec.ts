@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,6 +13,7 @@ import * as fromAuth from '../../../user-profile/store';
 import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const windowMock: Window = { gtag: () => {} } as any;
@@ -48,52 +49,50 @@ describe('AppComponent', () => {
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     TestBed.configureTestingModule({
-      declarations: [
+    declarations: [
         AppComponent,
         HeaderComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        StoreModule.forRoot(
-          {
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [RouterTestingModule,
+        StoreModule.forRoot({
             ...reducers,
             userProfile: combineReducers(fromAuth.reducer)
-          }),
-        CookieModule.forRoot()
-      ],
-      providers: [
+        }),
+        CookieModule.forRoot()],
+    providers: [
         {
-          provide: windowToken,
-          useValue: windowMock
+            provide: windowToken,
+            useValue: windowMock
         },
         {
-          provide: ENVIRONMENT_CONFIG,
-          useValue: {}
+            provide: ENVIRONMENT_CONFIG,
+            useValue: {}
         },
         {
-          provide: FeatureToggleService,
-          useValue: featureMock
+            provide: FeatureToggleService,
+            useValue: featureMock
         },
         {
-          provide: ManageSessionServices,
-          useValue: idleServiceMock
+            provide: ManageSessionServices,
+            useValue: idleServiceMock
         },
         {
-          provide: CookieService,
-          useValue: cookieService
+            provide: CookieService,
+            useValue: cookieService
         },
         {
-          provide: LoggerService,
-          useValue: loggerService
+            provide: LoggerService,
+            useValue: loggerService
         },
         {
-          provide: GoogleAnalyticsService,
-          useValue: googleAnalyticsService
-        }
-      ]
-    }).compileComponents();
+            provide: GoogleAnalyticsService,
+            useValue: googleAnalyticsService
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+}).compileComponents();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
 

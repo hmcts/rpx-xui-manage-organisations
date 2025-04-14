@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -35,28 +35,30 @@ describe('User Profile Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
+    imports: [],
+    providers: [
         {
-          provide: UserService,
-          useValue: userServiceMock
+            provide: UserService,
+            useValue: userServiceMock
         },
         {
-          provide: AcceptTcService,
-          useValue: acceptTandCSrviceMock
+            provide: AcceptTcService,
+            useValue: acceptTandCSrviceMock
         },
         {
-          provide: LoggerService,
-          useValue: mockedLoggerService
+            provide: LoggerService,
+            useValue: mockedLoggerService
         },
         {
-          provide: SessionStorageService,
-          useValue: mockedSessionStorageService
+            provide: SessionStorageService,
+            useValue: mockedSessionStorageService
         },
         fromUserEffects.UserProfileEffects,
-        provideMockActions(() => actions$)
-      ]
-    });
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
 
     effects = TestBed.inject(fromUserEffects.UserProfileEffects);
     loggerService = TestBed.inject(LoggerService);

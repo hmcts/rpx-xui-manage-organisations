@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisterOrgService } from '../../services';
 import { RegisteredAddressComponent } from './registered-address.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisteredAddressComponent', () => {
   let component: RegisteredAddressComponent;
@@ -32,18 +33,15 @@ describe('RegisteredAddressComponent', () => {
     mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
     mockRegisterOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
     await TestBed.configureTestingModule({
-      declarations: [RegisteredAddressComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
+    declarations: [RegisteredAddressComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    imports: [RouterTestingModule],
+    providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
         {
-          provide: Router, useValue: mockRouter
+            provide: Router, useValue: mockRouter
         },
-        { provide: ActivatedRoute, useValue: mockRoute }]
-    })
+        { provide: ActivatedRoute, useValue: mockRoute }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+})
       .compileComponents();
   });
 

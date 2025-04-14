@@ -1,10 +1,11 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { RegisterComponent } from './register-org.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -43,16 +44,15 @@ describe('RegisterComponent', () => {
     mockRegisterOrgService.persistRegistrationData.and.callThrough();
     mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule
-      ],
-      providers: [
+    declarations: [RegisterComponent],
+    imports: [RouterTestingModule],
+    providers: [
         { provide: Router, useValue: mockRouter },
-        { provide: RegisterOrgService, useValue: mockRegisterOrgService }
-      ]
-    })
+        { provide: RegisterOrgService, useValue: mockRegisterOrgService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+})
       .compileComponents();
   });
 

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -7,6 +7,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { InviteUserService } from '../../services/invite-user.service';
 import * as fromUsersActions from '../actions/invite-user.actions';
 import * as fromUsersEffects from './invite-user.effects';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Invite User Effects', () => {
   let actions$;
@@ -20,7 +21,7 @@ describe('Invite User Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: InviteUserService,
@@ -31,7 +32,9 @@ describe('Invite User Effects', () => {
           useValue: mockedLoggerService
         },
         fromUsersEffects.InviteUserEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -8,6 +8,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { LoadFeeAccountsSuccess } from '../actions';
 import { LoadFeeAccounts, LoadFeeAccountsFail } from '../actions/fee-accounts.actions';
 import { FeeAccountsEffects } from './fee-accounts.effects';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Fee accounts Effects', () => {
   let actions$;
@@ -22,7 +23,7 @@ describe('Fee accounts Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: FeeAccountsService,
@@ -33,7 +34,9 @@ describe('Fee accounts Effects', () => {
           useValue: mockedLoggerService
         },
         FeeAccountsEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 

@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -25,6 +25,7 @@ import {
 } from '../actions';
 import * as shareCases from '../reducers/share-case.reducer';
 import * as fromShareCaseEffects from './share-case.effects';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Share Case Effects', () => {
   let actions$;
@@ -40,9 +41,7 @@ describe('Share Case Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        HttpClientTestingModule,
+      imports: [StoreModule.forRoot({}),
         RouterTestingModule],
       providers: [
         {
@@ -54,7 +53,9 @@ describe('Share Case Effects', () => {
           useValue: routerMock
         },
         fromShareCaseEffects.ShareCaseEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 

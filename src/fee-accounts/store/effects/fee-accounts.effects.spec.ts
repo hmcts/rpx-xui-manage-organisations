@@ -23,22 +23,22 @@ describe('Fee accounts Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: FeeAccountsService,
-            useValue: feeAccountsServiceMock
+          provide: FeeAccountsService,
+          useValue: feeAccountsServiceMock
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         FeeAccountsEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(FeeAccountsEffects);
     loggerService = TestBed.inject(LoggerService);

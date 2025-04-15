@@ -11,13 +11,13 @@ let httpMock: HttpTestingController;
 describe('FeeAccountsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         FeeAccountsService,
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     feeAccountsService = TestBed.inject(FeeAccountsService);
     httpMock = TestBed.inject(HttpTestingController);

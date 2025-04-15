@@ -29,26 +29,26 @@ describe('Organisation Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: OrganisationService,
-            useValue: organisationServiceMock
+          provide: OrganisationService,
+          useValue: organisationServiceMock
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         {
-            provide: FeatureToggleService,
-            useValue: mockFeatureService
+          provide: FeatureToggleService,
+          useValue: mockFeatureService
         },
         fromOrganisationEffects.OrganisationEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(OrganisationEffects);
     loggerService = TestBed.inject(LoggerService);

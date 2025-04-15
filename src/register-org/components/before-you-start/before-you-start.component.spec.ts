@@ -17,15 +17,15 @@ describe('BeforeYouStartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [BeforeYouStartComponent],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [BeforeYouStartComponent],
+      imports: [RouterTestingModule],
+      providers: [
         EnvironmentService,
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

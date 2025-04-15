@@ -10,9 +10,9 @@ import { registerRouting } from './register-org.routing';
 import * as fromServices from './services';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponent.components],
-    declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
-        ExuiCommonLibModule,
-        registerRouting,
-        SharedModule], providers: [AddressService, RpxTranslationService, RpxTranslationConfig, ...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
+    ExuiCommonLibModule,
+    registerRouting,
+    SharedModule], providers: [AddressService, RpxTranslationService, RpxTranslationConfig, ...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
 
 export class RegisterOrgModule {}

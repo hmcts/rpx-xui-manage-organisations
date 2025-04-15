@@ -8,13 +8,13 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [StoreModule.forRoot({})],
-    providers: [
+      imports: [StoreModule.forRoot({})],
+      providers: [
         AuthService,
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
   });
 
   it('should be created', inject([AuthService], (service: AuthService) => {

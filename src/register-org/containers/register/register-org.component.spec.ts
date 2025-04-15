@@ -44,15 +44,15 @@ describe('RegisterComponent', () => {
     mockRegisterOrgService.persistRegistrationData.and.callThrough();
     mockRegisterOrgService.getRegistrationData.and.returnValue(registrationData);
     await TestBed.configureTestingModule({
-    declarations: [RegisterComponent],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [RegisterComponent],
+      imports: [RouterTestingModule],
+      providers: [
         { provide: Router, useValue: mockRouter },
         { provide: RegisterOrgService, useValue: mockRegisterOrgService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

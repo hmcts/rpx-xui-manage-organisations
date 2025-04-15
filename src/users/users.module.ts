@@ -22,13 +22,13 @@ import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
-    declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
-        usersRouting,
-        SharedModule,
-        StoreModule.forFeature('users', reducers),
-        EffectsModule.forFeature(effects),
-        FormsModule,
-        ExuiCommonLibModule], providers: [...fromServices.services, InviteUserSuccessGuard, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
+    usersRouting,
+    SharedModule,
+    StoreModule.forFeature('users', reducers),
+    EffectsModule.forFeature(effects),
+    FormsModule,
+    ExuiCommonLibModule], providers: [...fromServices.services, InviteUserSuccessGuard, provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to UsersModule

@@ -25,13 +25,13 @@ const ROUTES = [
 ];
 
 @NgModule({ exports: [...fromContainers.containers],
-    declarations: [...fromContainers.containers], imports: [CommonModule,
-        RouterModule.forChild(ROUTES),
-        SharedModule,
-        StoreModule.forFeature('acceptTc', reducers),
-        EffectsModule.forFeature(effects),
-        FormsModule,
-        ExuiCommonLibModule], providers: [...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers], imports: [CommonModule,
+    RouterModule.forChild(ROUTES),
+    SharedModule,
+    StoreModule.forFeature('acceptTc', reducers),
+    EffectsModule.forFeature(effects),
+    FormsModule,
+    ExuiCommonLibModule], providers: [...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to AcceptTandC

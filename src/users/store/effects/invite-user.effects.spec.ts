@@ -21,22 +21,22 @@ describe('Invite User Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: InviteUserService,
-            useValue: inviteUsersServiceMock
+          provide: InviteUserService,
+          useValue: inviteUsersServiceMock
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         fromUsersEffects.InviteUserEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(fromUsersEffects.InviteUserEffects);
     loggerService = TestBed.inject(LoggerService);

@@ -25,22 +25,22 @@ describe('Single fee account Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: FeeAccountsService,
-            useValue: singleFeeAccountServiceMock
+          provide: FeeAccountsService,
+          useValue: singleFeeAccountServiceMock
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         fromSingleFeeAccountEffects.SingleFeeAccountEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(fromSingleFeeAccountEffects.SingleFeeAccountEffects);
     loggerService = TestBed.inject(LoggerService);

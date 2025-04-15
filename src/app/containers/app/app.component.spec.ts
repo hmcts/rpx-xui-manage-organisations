@@ -49,50 +49,50 @@ describe('AppComponent', () => {
     googleAnalyticsService = jasmine.createSpyObj('googleAnalyticsService', ['init']);
     cookieService = jasmine.createSpyObj('CookieService', ['deleteCookieByPartialMatch']);
     TestBed.configureTestingModule({
-    declarations: [
+      declarations: [
         AppComponent,
         HeaderComponent
-    ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [RouterTestingModule,
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule,
         StoreModule.forRoot({
-            ...reducers,
-            userProfile: combineReducers(fromAuth.reducer)
+          ...reducers,
+          userProfile: combineReducers(fromAuth.reducer)
         }),
         CookieModule.forRoot()],
-    providers: [
+      providers: [
         {
-            provide: windowToken,
-            useValue: windowMock
+          provide: windowToken,
+          useValue: windowMock
         },
         {
-            provide: ENVIRONMENT_CONFIG,
-            useValue: {}
+          provide: ENVIRONMENT_CONFIG,
+          useValue: {}
         },
         {
-            provide: FeatureToggleService,
-            useValue: featureMock
+          provide: FeatureToggleService,
+          useValue: featureMock
         },
         {
-            provide: ManageSessionServices,
-            useValue: idleServiceMock
+          provide: ManageSessionServices,
+          useValue: idleServiceMock
         },
         {
-            provide: CookieService,
-            useValue: cookieService
+          provide: CookieService,
+          useValue: cookieService
         },
         {
-            provide: LoggerService,
-            useValue: loggerService
+          provide: LoggerService,
+          useValue: loggerService
         },
         {
-            provide: GoogleAnalyticsService,
-            useValue: googleAnalyticsService
+          provide: GoogleAnalyticsService,
+          useValue: googleAnalyticsService
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
 

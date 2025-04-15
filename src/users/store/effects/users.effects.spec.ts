@@ -23,22 +23,22 @@ describe('Users Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: UsersService,
-            useValue: usersServiceMock
+          provide: UsersService,
+          useValue: usersServiceMock
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         fromUsersEffects.UsersEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(fromUsersEffects.UsersEffects);
     loggerService = TestBed.inject(LoggerService);

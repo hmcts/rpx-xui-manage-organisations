@@ -35,30 +35,30 @@ describe('User Profile Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: UserService,
-            useValue: userServiceMock
+          provide: UserService,
+          useValue: userServiceMock
         },
         {
-            provide: AcceptTcService,
-            useValue: acceptTandCSrviceMock
+          provide: AcceptTcService,
+          useValue: acceptTandCSrviceMock
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         {
-            provide: SessionStorageService,
-            useValue: mockedSessionStorageService
+          provide: SessionStorageService,
+          useValue: mockedSessionStorageService
         },
         fromUserEffects.UserProfileEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(fromUserEffects.UserProfileEffects);
     loggerService = TestBed.inject(LoggerService);

@@ -15,14 +15,14 @@ describe('OrganisationServicesAccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [OrganisationServicesAccessComponent],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [OrganisationServicesAccessComponent],
+      imports: [RouterTestingModule],
+      providers: [
         EnvironmentService,
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

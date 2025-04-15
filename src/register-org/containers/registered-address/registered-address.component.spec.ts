@@ -33,15 +33,15 @@ describe('RegisteredAddressComponent', () => {
     mockRegisterOrgService.REGISTER_ORG_NEW_ROUTE = 'register-org-new';
     mockRegisterOrgService.CHECK_YOUR_ANSWERS_ROUTE = 'check-your-answers';
     await TestBed.configureTestingModule({
-    declarations: [RegisteredAddressComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [RouterTestingModule],
-    providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
+      declarations: [RegisteredAddressComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule],
+      providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
         {
-            provide: Router, useValue: mockRouter
+          provide: Router, useValue: mockRouter
         },
         { provide: ActivatedRoute, useValue: mockRoute }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-})
+    })
       .compileComponents();
   });
 

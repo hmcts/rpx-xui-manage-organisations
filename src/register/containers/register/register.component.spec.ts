@@ -19,11 +19,11 @@ describe('RegisterComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    declarations: [RegisterComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [RouterTestingModule.withRoutes([])],
-    providers: [provideMockStore(), provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-})
+      declarations: [RegisterComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule.withRoutes([])],
+      providers: [provideMockStore(), provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    })
       .compileComponents();
     mockStore = TestBed.inject(Store);
     router = TestBed.inject(Router);

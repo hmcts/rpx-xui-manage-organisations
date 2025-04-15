@@ -14,11 +14,11 @@ import * as fromContainers from './containers';
 import * as fromComponents from './components';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
-    declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
-        styleGuideRouting,
-        SharedModule,
-        StoreModule.forFeature('style-guide', reducers),
-        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
+    styleGuideRouting,
+    SharedModule,
+    StoreModule.forFeature('style-guide', reducers),
+    FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to StyleGuideModule

@@ -35,15 +35,15 @@ describe('PaymentByAccountComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [PaymentByAccountComponent],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [PaymentByAccountComponent],
+      imports: [RouterTestingModule],
+      providers: [
         EnvironmentService,
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

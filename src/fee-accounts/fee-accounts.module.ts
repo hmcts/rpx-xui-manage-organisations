@@ -28,13 +28,13 @@ export const GUARDS = [FeatureToggleAccountGuard, AccountsGuard, AccountSummaryG
 export const COMPONENTS = [AccountOverviewComponent, AccountSummaryComponent, AccountTransactionsComponent];
 
 @NgModule({ exports: [...fromContainers.containers],
-    declarations: [...fromContainers.containers, ...COMPONENTS, DateFormatAtTimePipe], imports: [CommonModule,
-        feeAccountsRouting,
-        SharedModule,
-        StoreModule.forFeature('feeAccounts', reducers),
-        EffectsModule.forFeature(effects),
-        StoreModule.forFeature('org', orgReducers),
-        EffectsModule.forFeature(orgEffects)], providers: [...fromServices.services, ...GUARDS, OrganisationService, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...COMPONENTS, DateFormatAtTimePipe], imports: [CommonModule,
+    feeAccountsRouting,
+    SharedModule,
+    StoreModule.forFeature('feeAccounts', reducers),
+    EffectsModule.forFeature(effects),
+    StoreModule.forFeature('org', orgReducers),
+    EffectsModule.forFeature(orgEffects)], providers: [...fromServices.services, ...GUARDS, OrganisationService, provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to FeeAccountsModule

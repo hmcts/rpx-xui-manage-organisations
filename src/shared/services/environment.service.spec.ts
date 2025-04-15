@@ -6,9 +6,9 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 describe('EnvironmentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [EnvironmentService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
-});
+      imports: [],
+      providers: [EnvironmentService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+    });
   });
 
   it('should be created', inject([EnvironmentService], (service: EnvironmentService) => {

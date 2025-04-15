@@ -51,16 +51,16 @@ describe('CaaCasesComponent', () => {
       ]
     );
     TestBed.configureTestingModule({
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    declarations: [CaaCasesComponent],
-    imports: [StoreModule.forRoot({}),
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [CaaCasesComponent],
+      imports: [StoreModule.forRoot({}),
         RouterTestingModule.withRoutes(AppRoutes)],
-    providers: [
+      providers: [
         { provide: CaaCasesService, useValue: caaCasesService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

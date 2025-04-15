@@ -91,28 +91,28 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     pipeSpy = spyOn(storeMock, 'pipe');
     dispatchSpy = spyOn(storeMock, 'dispatch').and.callThrough();
     TestBed.configureTestingModule({
-    declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [RouterModule,
+      declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterModule,
         StoreModule.forRoot({
-            ...fromRoot.reducers,
-            feature: combineReducers(fromStore.reducers)
+          ...fromRoot.reducers,
+          feature: combineReducers(fromStore.reducers)
         })],
-    providers: [
+      providers: [
         {
-            provide: Router,
-            useValue: routerMock
+          provide: Router,
+          useValue: routerMock
         },
         {
-            provide: Store,
-            useValue: storeMock
+          provide: Store,
+          useValue: storeMock
         },
         PBAService,
         { provide: ActivatedRoute, useValue: activatedRoute },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
 
     store = TestBed.inject(Store);
 

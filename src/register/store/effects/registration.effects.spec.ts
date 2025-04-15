@@ -23,22 +23,22 @@ describe('Registration Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-    imports: [],
-    providers: [
+      imports: [],
+      providers: [
         {
-            provide: RegistrationFormService,
-            useValue: mockedRegistrationFormService
+          provide: RegistrationFormService,
+          useValue: mockedRegistrationFormService
         },
         {
-            provide: LoggerService,
-            useValue: mockedLoggerService
+          provide: LoggerService,
+          useValue: mockedLoggerService
         },
         RegistrationEffects,
         provideMockActions(() => actions$),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-});
+      ]
+    });
 
     effects = TestBed.inject(RegistrationEffects);
     loggerService = TestBed.inject(LoggerService);

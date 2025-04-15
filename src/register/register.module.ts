@@ -21,13 +21,13 @@ import { HmctsFormBuilderModule } from './containers/hmcts-form-builder/src/lib/
 import { effects, reducers } from './store';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponent.components],
-    declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
-        ExuiCommonLibModule,
-        HmctsFormBuilderModule,
-        registerRouting,
-        SharedModule,
-        StoreModule.forFeature('registration', reducers),
-        EffectsModule.forFeature(effects)], providers: [AddressService, ...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
+    ExuiCommonLibModule,
+    HmctsFormBuilderModule,
+    registerRouting,
+    SharedModule,
+    StoreModule.forFeature('registration', reducers),
+    EffectsModule.forFeature(effects)], providers: [AddressService, ...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to RegisterModule

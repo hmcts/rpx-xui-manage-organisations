@@ -46,27 +46,27 @@ describe('TermsAndConditionsComponent', () => {
     pipeSpy = spyOn(storeMock, 'pipe');
     dispatchSpy = spyOn(storeMock, 'dispatch');
     TestBed.configureTestingModule({
-    declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule],
+      providers: [
         {
-            provide: Store,
-            useValue: storeMock
+          provide: Store,
+          useValue: storeMock
         },
         TermsConditionsService,
         {
-            provide: FeatureToggleService,
-            useValue: featureToggleServiceMock
+          provide: FeatureToggleService,
+          useValue: featureToggleServiceMock
         },
         {
-            provide: Router,
-            useValue: routerMock
+          provide: Router,
+          useValue: routerMock
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   }));
 

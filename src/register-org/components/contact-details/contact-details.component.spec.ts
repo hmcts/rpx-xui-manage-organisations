@@ -37,14 +37,14 @@ describe('ContactDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [ContactDetailsComponent],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [ContactDetailsComponent],
+      imports: [RouterTestingModule],
+      providers: [
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

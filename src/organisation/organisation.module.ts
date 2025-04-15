@@ -28,19 +28,19 @@ import { OrganisationGuard } from './guards/organisation.guard';
 import { effects, reducers } from './store';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponent.components],
-    declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
-        organisationRouting,
-        SharedModule,
-        StoreModule.forFeature('org', reducers),
-        EffectsModule.forFeature(effects),
-        LoggerModule.forRoot({
-            level: NgxLoggerLevel.TRACE,
-            disableConsoleLogging: false
-        }),
-        ExuiCommonLibModule,
-        RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard,
-        { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
-        JwtDecodeWrapper, MonitoringService, LoggerService,
-        { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
+    organisationRouting,
+    SharedModule,
+    StoreModule.forFeature('org', reducers),
+    EffectsModule.forFeature(effects),
+    LoggerModule.forRoot({
+      level: NgxLoggerLevel.TRACE,
+      disableConsoleLogging: false
+    }),
+    ExuiCommonLibModule,
+    RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard,
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
+    JwtDecodeWrapper, MonitoringService, LoggerService,
+    { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withInterceptorsFromDi())] })
 
 export class OrganisationModule {}

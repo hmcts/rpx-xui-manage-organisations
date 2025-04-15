@@ -21,20 +21,20 @@ import * as fromServices from './services';
 import { effects, reducers } from './store';
 
 @NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
-    declarations: [...fromContainers.containers, ...fromComponents.components],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
-        ExuiCommonLibModule,
-        SharedModule,
-        caaCasesRouting,
-        StoreModule.forFeature('org', orgReducers),
-        EffectsModule.forFeature(orgEffects),
-        StoreModule.forFeature('users', userReducers),
-        EffectsModule.forFeature(userEffects),
-        StoreModule.forFeature('caaCases', reducers),
-        EffectsModule.forFeature(effects),
-        CaseListModule,
-        MatTabsModule,
-        MatAutocompleteModule], providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())] })
+  declarations: [...fromContainers.containers, ...fromComponents.components],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
+    ExuiCommonLibModule,
+    SharedModule,
+    caaCasesRouting,
+    StoreModule.forFeature('org', orgReducers),
+    EffectsModule.forFeature(orgEffects),
+    StoreModule.forFeature('users', userReducers),
+    EffectsModule.forFeature(userEffects),
+    StoreModule.forFeature('caaCases', reducers),
+    EffectsModule.forFeature(effects),
+    CaseListModule,
+    MatTabsModule,
+    MatAutocompleteModule], providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())] })
 
 export class CaaCasesModule {
 }

@@ -50,14 +50,14 @@ describe('CheckYourAnswersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    declarations: [CheckYourAnswersComponent],
-    imports: [RouterTestingModule],
-    providers: [
+      declarations: [CheckYourAnswersComponent],
+      imports: [RouterTestingModule],
+      providers: [
         { provide: LoggerService, useValue: mockLoggerService },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

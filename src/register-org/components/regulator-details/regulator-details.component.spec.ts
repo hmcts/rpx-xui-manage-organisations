@@ -60,20 +60,20 @@ describe('RegulatorDetailsComponent', () => {
     mockLovRefDataService = jasmine.createSpyObj('LovRefDataService', ['getRegulatoryOrganisationTypes']);
     mockLovRefDataService.getRegulatoryOrganisationTypes.and.returnValue(of(organisationTypes));
     await TestBed.configureTestingModule({
-    declarations: [RegulatorDetailsComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    imports: [ReactiveFormsModule, RouterTestingModule],
-    providers: [
+      declarations: [RegulatorDetailsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      providers: [
         {
-            provide: ActivatedRoute, useValue: mockRoute
+          provide: ActivatedRoute, useValue: mockRoute
         },
         {
-            provide: LovRefDataService, useValue: mockLovRefDataService
+          provide: LovRefDataService, useValue: mockLovRefDataService
         },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
-    ]
-})
+      ]
+    })
       .compileComponents();
   });
 

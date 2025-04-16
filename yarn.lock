@@ -2935,31 +2935,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.0":
-  version: 2.30.0
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.0"
+"@hmcts/rpx-xui-node-lib@npm:2.30.6":
+  version: 2.30.6
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.6"
   dependencies:
-    "@hapi/joi": "npm:^17.1.1"
-    axios: "npm:^1.7.7"
-    caller-path: "npm:^3.0.0"
-    connect-redis: "npm:^4.0.4"
-    csurf: "npm:^1.11.0"
-    debug: "npm:^4.3.7"
-    deepmerge: "npm:^4.2.2"
-    express: "npm:^4.20.0"
-    express-session: "npm:^1.17.0"
-    jest-mock-axios: "npm:^4.7.3"
-    jest-ts-auto-mock: "npm:^2.1.0"
-    jwt-decode: "npm:^2.2.0"
-    openid-client: "npm:^3.10.0"
-    otplib: "npm:^12.0.1"
-    passport: "npm:^0.5.3"
-    passport-oauth2: "npm:^1.5.0"
-    redis: "npm:^3.0.2"
-    session-file-store: "npm:^1.5.0"
-    ts-auto-mock: "npm:^3.5.0"
-    ttypescript: "npm:^1.5.13"
-  checksum: 6e11009c1fd4c511780c1098da06319a7b1fa7568544d6288b904b76faaf025e9373a55a79bae013032a3ddbde412b6a71f566bfa6557f8c59b7c6c7eb1ec190
+    "@hapi/joi": ^17.1.1
+    axios: ^1.7.7
+    caller-path: ^3.0.0
+    connect-redis: ^4.0.4
+    csurf: ^1.11.0
+    debug: ^4.3.7
+    deepmerge: ^4.2.2
+    express: ^4.20.0
+    express-session: ^1.17.0
+    jest-mock-axios: ^4.7.3
+    jest-ts-auto-mock: ^2.1.0
+    jwt-decode: ^2.2.0
+    openid-client: ^3.10.0
+    otplib: ^12.0.1
+    passport: ^0.5.3
+    passport-oauth2: ^1.5.0
+    redis: ^3.0.2
+    session-file-store: ^1.5.0
+    ts-auto-mock: ^3.5.0
+    ttypescript: ^1.5.13
+  checksum: 5672ce0f20990a71ccec14ceead9d2cc8c3bb1edc4e5ef3a8b1972cc00a17e9a8d024e68e4e4ef10bee28dc0e7c14a50c76d1a7160895905127eb15718237321
   languageName: node
   linkType: hard
 
@@ -20106,7 +20106,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.39
-    "@hmcts/rpx-xui-node-lib": 2.30.0
+    "@hmcts/rpx-xui-node-lib": 2.30.6
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

@@ -2935,9 +2935,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.5-node-upgrade":
-  version: 2.30.5-node-upgrade
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.5-node-upgrade"
+"@hmcts/rpx-xui-node-lib@npm:2.30.6":
+  version: 2.30.6
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.6"
   dependencies:
     "@hapi/joi": ^17.1.1
     axios: ^1.7.7
@@ -2959,7 +2959,7 @@ __metadata:
     session-file-store: ^1.5.0
     ts-auto-mock: ^3.5.0
     ttypescript: ^1.5.13
-  checksum: 755c3a074c3df6fea487e82bee228c9603811f3141a2778cebd8533bea54a77cc9aeeb2329892cd1aa301ccd8b71eeefd83379e733300fde6ca32671c925c670
+  checksum: 5672ce0f20990a71ccec14ceead9d2cc8c3bb1edc4e5ef3a8b1972cc00a17e9a8d024e68e4e4ef10bee28dc0e7c14a50c76d1a7160895905127eb15718237321
   languageName: node
   linkType: hard
 
@@ -20106,7 +20106,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.39
-    "@hmcts/rpx-xui-node-lib": 2.30.5-node-upgrade
+    "@hmcts/rpx-xui-node-lib": 2.30.6
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

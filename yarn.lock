@@ -2863,12 +2863,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.1.57-angular-upgrade-rc1":
-  version: 7.1.57-angular-upgrade-rc1
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.1.57-angular-upgrade-rc1"
+"@hmcts/ccd-case-ui-toolkit@npm:7.1.72-angular-upgrade-rc1":
+  version: 7.1.72-angular-upgrade-rc1
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.1.72-angular-upgrade-rc1"
   dependencies:
     tslib: ^2.3.0
-  checksum: 5f24b085c8c01db42a2a7b8b90d5b51f9e800c9925928e33479bf5a5933d923dcb2b7868ea0467ba1e19ae433e06205703ed297e6b7d34cbbf7d64eb35b2011f
+  checksum: 2ac9fd0571e5b981711c53d978394b1375b74d8239c7c38bcd3b942691d12bf4fa27d1dcc6c25fe673b8b81b90a18aef1a4d206212981dbce8f6387ad36473a8
   languageName: node
   linkType: hard
 
@@ -2891,9 +2891,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.0.16":
-  version: 4.0.16
-  resolution: "@hmcts/media-viewer@npm:4.0.16"
+"@hmcts/media-viewer@npm:4.0.16-angular-upgrade":
+  version: 4.0.16-angular-upgrade
+  resolution: "@hmcts/media-viewer@npm:4.0.16-angular-upgrade"
   dependencies:
     "@swimlane/ngx-datatable": ^20.0.0
     mutable-div: ^2.0.0
@@ -2912,7 +2912,7 @@ __metadata:
     "@ngrx/router-store": ^17.0.0
     "@ngrx/store": ^17.0.0
     "@ngrx/store-devtools": ^17.0.0
-  checksum: c5de1a82dd3416076f100e8b1b71d388081ccfff21dae09532648c6f8ee3a81fb4356ff759f797f87f932e9e34611154cf3125ba087b8cdffc768ec3e4738a30
+  checksum: 23247a988a2291b940e4b65674e59038e9a863df37d25417d92ec487a5c0e4cdeea7c338e8c7296ebbfa97466f3a11fac8c9675775a6db023c513d441d8c8df8
   languageName: node
   linkType: hard
 
@@ -21468,10 +21468,10 @@ __metadata:
     "@cucumber/cucumber": ^11.0.0
     "@cucumber/pretty-formatter": ^1.0.1
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 7.1.57-angular-upgrade-rc1
+    "@hmcts/ccd-case-ui-toolkit": 7.1.72-angular-upgrade-rc1
     "@hmcts/ccpay-web-component": 6.2.1
     "@hmcts/frontend": 0.0.50-alpha
-    "@hmcts/media-viewer": 4.0.16
+    "@hmcts/media-viewer": 4.0.16-angular-upgrade
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.40-angular-upgrade-rc1

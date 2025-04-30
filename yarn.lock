@@ -2836,12 +2836,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.1.60":
-  version: 7.1.60
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.1.60"
+"@hmcts/ccd-case-ui-toolkit@npm:7.1.72-ongoing-accessibility-v5":
+  version: 7.1.72-ongoing-accessibility-v5
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.1.72-ongoing-accessibility-v5"
   dependencies:
     tslib: ^2.3.0
-  checksum: 5fdc0362da3b5b78c5ecee86ba04b8aab50fb62282e198f31bcb9cd7d8cf2c81b072bb0c9df6218ea26b500bc5e344be04e1609ed568ccd4dcf9cf73579d53b8
+  checksum: 5c9e5de96d528c814441858e3119de5d2456e4683cb7047d10989737983bb440841d587b05b88c758ef107a3323abbd6d49a3a778004ed434a8b3943887aeba0
   languageName: node
   linkType: hard
 
@@ -2922,16 +2922,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.39":
-  version: 2.0.39
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.39"
+"@hmcts/rpx-xui-common-lib@npm:2.0.41-ongoing-accessibility-v1.13":
+  version: 2.0.41-ongoing-accessibility-v1.13
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.41-ongoing-accessibility-v1.13"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: 1180742217813da52220762df7356227259877f89f8d232b2a91aaab9914474263ecd309daef15a569a3ef0244a07a8520c1c166a15d6b59e43b50e9d0cd7e70
+  checksum: 76ffbd4862f1e18f299c1e618ce90cd76c320035767085ec9732bcfdba85f606269e180a57f8b8699fe2ba5ccb921d5311498a3bdf66839099b85f3a2d1da4de
   languageName: node
   linkType: hard
 
@@ -19945,13 +19945,13 @@ __metadata:
     "@cucumber/cucumber": ^11.0.0
     "@cucumber/pretty-formatter": ^1.0.1
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 7.1.60
+    "@hmcts/ccd-case-ui-toolkit": 7.1.72-ongoing-accessibility-v5
     "@hmcts/ccpay-web-component": 6.2.1
     "@hmcts/frontend": 0.0.50-alpha
     "@hmcts/media-viewer": 4.0.16
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.39
+    "@hmcts/rpx-xui-common-lib": 2.0.41-ongoing-accessibility-v1.13
     "@hmcts/rpx-xui-node-lib": 2.30.0
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0

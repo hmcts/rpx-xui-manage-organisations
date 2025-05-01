@@ -14,6 +14,7 @@ import inviteUser from './inviteUser';
 import getJurisdictions from './jurisdictions';
 import authInterceptor from './lib/middleware/auth';
 import organisationRouter from './organisation';
+import organisationTypesRouter from './organisationTypesRouter';
 import payments from './payments';
 import { router as pbaRouter } from './pbas/routes';
 import postUserTermsAndConditions from './postUserTermsAndConditions';
@@ -36,6 +37,7 @@ router.use(authInterceptor);
 
 router.use(xuiNode.authenticate);
 router.use('/organisation', organisationRouter);
+router.use('/organisationTypes', organisationTypesRouter);
 router.use('/accounts', accountsRouter);
 router.use('/user', userDetailsRouter);
 router.use('/healthCheck', healthCheck);

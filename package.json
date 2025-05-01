@@ -2,7 +2,7 @@
   "name": "rpx-xui-manage-organisations",
   "version": "4.0.2",
   "engines": {
-    "node": ">=18.17.0"
+    "node": ">=20.18.3"
   },
   "scripts": {
     "build": "yarn build:prod && yarn build:node",
@@ -34,7 +34,7 @@
     "test:coverage": "echo 'not implemented'",
     "test:coverage:ng": "ng test rpx-xui-manage-organisations --code-coverage --watch",
     "test:coverage:node": "cd api && yarn coverage",
-    "test:crossbrowser": "yarn playwright install && yarn playwright install-deps && npx playwright test -c playwright.config.ts",
+    "test:crossbrowser": "yarn playwright install --with-deps && yarn playwright install webkit && yarn playwright install firefox && npx playwright test -c playwright.config.ts",
     "test:node": "cd api && yarn test",
     "test:functional": "yarn build && node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock && yarn playwright install chromium && yarn test:api && yarn run test:xuiIntegration && yarn run test:codeceptE2E && yarn run test:a11yInTest",
     "test:functional:backup": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/functional.conf.js",
@@ -76,14 +76,14 @@
     "@cucumber/cucumber": "^11.0.0",
     "@cucumber/pretty-formatter": "^1.0.1",
     "@edium/fsm": "^2.1.2",
-    "@hmcts/ccd-case-ui-toolkit": "7.0.49",
+    "@hmcts/ccd-case-ui-toolkit": "7.1.60",
     "@hmcts/ccpay-web-component": "6.2.1",
     "@hmcts/frontend": "0.0.50-alpha",
-    "@hmcts/media-viewer": "4.0.13",
+    "@hmcts/media-viewer": "4.0.16",
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "2.0.38",
-    "@hmcts/rpx-xui-node-lib": "2.30.0",
+    "@hmcts/rpx-xui-common-lib": "2.0.41",
+    "@hmcts/rpx-xui-node-lib": "2.30.6",
     "@ng-idle/core": "^14.0.0",
     "@ng-idle/keepalive": "^14.0.0",
     "@ngrx/effects": "^17.2.0",
@@ -93,7 +93,7 @@
     "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "@pact-foundation/pact": "^9.2.0",
     "@pact-foundation/pact-node": "^10.9.7",
-    "@playwright/test": "^1.49.1",
+    "@playwright/test": "^1.51.1",
     "@rxweb/reactive-form-validators": "13.0.1",
     "@swimlane/ngx-datatable": "^20.0.0",
     "@types/crypto-js": "^4.2.2",
@@ -149,7 +149,7 @@
     "p-iteration": "^1.1.7",
     "pdfjs-dist": "2.5.207",
     "pegjs": "^0.10.0",
-    "playwright": "^1.42",
+    "playwright": "^1.51.1",
     "puppeteer": "^22.4.1",
     "redis": "^3.0.2",
     "rpx-xui-translation": "1.0.4",
@@ -215,7 +215,7 @@
     "ngrx-store-freeze": "^0.2.4",
     "node-html-parser": "^6.1.5",
     "nodemon": "^2.0.19",
-    "pa11y": "^5.3.0",
+    "pa11y": "^8.0.0",
     "pa11y-reporter-html": "^2.0.0",
     "portfinder": "^1.0.28",
     "protractor": "~7.0.0",
@@ -250,7 +250,10 @@
     "@stryker-mutator/typescript": "^4.0.0",
     "typed-rest-client": "^1.8.0",
     "minimist": "^1.2.8",
-    "loader-utils": "~2.0.3"
+    "loader-utils": "~2.0.3",
+    "mem": "^4.0.0",
+    "cross-spawn": "^7.0.6",
+    "yargs-parser": "^21.1.1"
   },
   "packageManager": "yarn@3.6.4"
 }

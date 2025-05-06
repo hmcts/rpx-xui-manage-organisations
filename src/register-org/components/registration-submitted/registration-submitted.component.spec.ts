@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { RegistrationSubmittedComponent } from './registration-submitted.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegistrationSubmittedComponent', () => {
   let component: RegistrationSubmittedComponent;
@@ -9,7 +10,8 @@ describe('RegistrationSubmittedComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegistrationSubmittedComponent],
-      imports: [HttpClientTestingModule]
+      imports: [],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     })
       .compileComponents();
   });

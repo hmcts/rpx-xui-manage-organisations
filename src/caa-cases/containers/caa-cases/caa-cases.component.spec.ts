@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
@@ -51,15 +51,14 @@ describe('CaaCasesComponent', () => {
       ]
     );
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        RouterTestingModule.withRoutes(AppRoutes),
-        HttpClientTestingModule
-      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaCasesComponent],
+      imports: [StoreModule.forRoot({}),
+        RouterTestingModule.withRoutes(AppRoutes)],
       providers: [
-        { provide: CaaCasesService, useValue: caaCasesService }
+        { provide: CaaCasesService, useValue: caaCasesService },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     }).compileComponents();
   }));

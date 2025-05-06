@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -24,21 +24,14 @@ const ROUTES = [
   }
 ];
 
-@NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
+@NgModule({ exports: [...fromContainers.containers],
+  declarations: [...fromContainers.containers], imports: [CommonModule,
     RouterModule.forChild(ROUTES),
     SharedModule,
     StoreModule.forFeature('acceptTc', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule
-  ],
-  exports: [...fromContainers.containers],
-  declarations: [...fromContainers.containers],
-  providers: [...fromServices.services]
-})
+    ExuiCommonLibModule], providers: [...fromServices.services, provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to AcceptTandC

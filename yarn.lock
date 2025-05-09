@@ -2913,9 +2913,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.3-exui-2079-rc1":
-  version: 2.30.3-exui-2079-rc1
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.3-exui-2079-rc1"
+"@hmcts/rpx-xui-node-lib@npm:2.30.6-srt-22.4.25-rc1":
+  version: 2.30.6-srt-22.4.25-rc1
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.6-srt-22.4.25-rc1"
   dependencies:
     "@dr.pogodin/csurf": ^1.14.0
     axios: ^1.7.7
@@ -2937,7 +2937,7 @@ __metadata:
     session-file-store: ^1.5.0
     ts-auto-mock: ^3.5.0
     ttypescript: ^1.5.13
-  checksum: 18a5bb18f69b38675dbba1cbf2ce81d6a995892868c3ac3f0ce6a2e489d35be25dca88878dc28d755135c54a1d18fd63868817f32635ea9d026f01ad15574ad7
+  checksum: e4b1321350bc5a69ac902a04dd1fce7444a2135f4f7608d144575e0cde502604be099ea106fe97d69222eaf86508c21afc27ca1cbb80645d18170b31759bd617
   languageName: node
   linkType: hard
 
@@ -19841,7 +19841,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.0.41
-    "@hmcts/rpx-xui-node-lib": 2.30.3-exui-2079-rc1
+    "@hmcts/rpx-xui-node-lib": 2.30.6-srt-22.4.25-rc1
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

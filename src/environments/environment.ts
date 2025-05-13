@@ -15,7 +15,7 @@ export const environment = {
   urls: {
     idam: {
       idamApiUrl: 'https://idam-api.platform.hmcts.net',
-      idamClientID: 'xuimowebapp',
+      idamClientID: 'xuimowebapp_passport_0_7',
       idamLoginUrl: 'https://hmcts-access.service.gov.uk',
       indexUrl: '/',
       oauthCallbackUrl: 'oauth2/callback'

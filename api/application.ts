@@ -85,7 +85,6 @@ export async function createApp() {
 
   if (showFeature(FEATURE_REDIS_ENABLED)) {
     xuiNode.on(SESSION.EVENT.REDIS_CLIENT_READY, (redisClient: any) => {
-      console.log('REDIS EVENT FIRED!!');
       app.locals.redisClient = redisClient;
       healthChecks.checks = {
         ...healthChecks.checks,

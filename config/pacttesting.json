@@ -4,7 +4,7 @@
   "indexUrl": "/",
   "logging": "trace",
   "maxLogLine": 80,
-  "idamClient": "xuimowebapp_passport_0_7",
+  "idamClient": "xuimowebapp",
   "microservice": "xui_webapp",
   "now": false,
   "oauthCallbackUrl": "/oauth2/callback",

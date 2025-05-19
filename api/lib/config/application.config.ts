@@ -1,5 +1,5 @@
-import { getConfigValue } from 'configuration';
-import { IDAM_CLIENT } from 'configuration/references';
+import { getConfigValue } from '../../configuration';
+import { IDAM_CLIENT } from '../../configuration/references';
 
 export const application = {
   cookies: {

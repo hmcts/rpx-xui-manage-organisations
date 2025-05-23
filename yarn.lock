@@ -2863,12 +2863,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.1.78-angular-upgrade-rc2":
-  version: 7.1.78-angular-upgrade-rc2
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.1.78-angular-upgrade-rc2"
+"@hmcts/ccd-case-ui-toolkit@npm:7.2.0":
+  version: 7.2.0
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.2.0"
   dependencies:
     tslib: ^2.3.0
-  checksum: 5d15f3eefab45768efc19eff0b47b04cdeefa8e7c477df161a8dae0c532107225a776e9138771d18697807fbbe04d7acc89ed0714b1bef092bc488e0146a7739
+  checksum: 08581c6a19bd1405b17b2e3e28308740f4eef63d65cbf6596e57cbc58ae3686bf47319302141baba4aa8cc0094df0a1c90c16cd9bb3ce24857252f8a914cf944
   languageName: node
   linkType: hard
 
@@ -2891,9 +2891,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.0.16-angular-upgrade":
-  version: 4.0.16-angular-upgrade
-  resolution: "@hmcts/media-viewer@npm:4.0.16-angular-upgrade"
+"@hmcts/media-viewer@npm:4.1.0":
+  version: 4.1.0
+  resolution: "@hmcts/media-viewer@npm:4.1.0"
   dependencies:
     "@swimlane/ngx-datatable": ^20.0.0
     mutable-div: ^2.0.0
@@ -2912,7 +2912,7 @@ __metadata:
     "@ngrx/router-store": ^17.0.0
     "@ngrx/store": ^17.0.0
     "@ngrx/store-devtools": ^17.0.0
-  checksum: 23247a988a2291b940e4b65674e59038e9a863df37d25417d92ec487a5c0e4cdeea7c338e8c7296ebbfa97466f3a11fac8c9675775a6db023c513d441d8c8df8
+  checksum: a8da72c07dce1a3caa39d2feaa18fe8df34027c7e91ad009613aa6081338cd253149e7a1af598fc96c53f1b1bb7fa28c61702ec9fa473771b58e7ccd343ace85
   languageName: node
   linkType: hard
 
@@ -2949,16 +2949,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.0.44-angular-upgrade-rc1":
-  version: 2.0.44-angular-upgrade-rc1
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.0.44-angular-upgrade-rc1"
+"@hmcts/rpx-xui-common-lib@npm:2.1.0":
+  version: 2.1.0
+  resolution: "@hmcts/rpx-xui-common-lib@npm:2.1.0"
   dependencies:
     tslib: ^2.0.0
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: ^0.1.1
-  checksum: deae3a7927b26e340eb4bd0510944f697f4eb11c65537404060df6305cd8d94838dbb2e9537844919e07e5d1b26739581415a8767de43cee3c232ac2d6a84c81
+  checksum: dba16eba25656cbdd19340c439eace0402478461eff0d3546d9fbc937e13c724e967fdb6ae196e0892422dead3e5351354baaf59c950365eaea2318c17313005
   languageName: node
   linkType: hard
 
@@ -21468,13 +21468,13 @@ __metadata:
     "@cucumber/cucumber": ^11.0.0
     "@cucumber/pretty-formatter": ^1.0.1
     "@edium/fsm": ^2.1.2
-    "@hmcts/ccd-case-ui-toolkit": 7.1.78-angular-upgrade-rc2
+    "@hmcts/ccd-case-ui-toolkit": 7.2.0
     "@hmcts/ccpay-web-component": 6.2.14
     "@hmcts/frontend": 0.0.50-alpha
-    "@hmcts/media-viewer": 4.0.16-angular-upgrade
+    "@hmcts/media-viewer": 4.1.0
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
-    "@hmcts/rpx-xui-common-lib": 2.0.44-angular-upgrade-rc1
+    "@hmcts/rpx-xui-common-lib": 2.1.0
     "@hmcts/rpx-xui-node-lib": 2.30.6
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
@@ -21599,7 +21599,7 @@ __metadata:
     puppeteer: ^22.4.1
     redis: ^3.0.2
     rest-assured: ^0.1.0
-    rpx-xui-translation: 1.0.11-upgrade-18-2
+    rpx-xui-translation: 1.1.0
     rx-polling-hmcts: ^1.1.1
     rxjs: ^7.8.1
     rxjs-compat: ^6.4.0
@@ -21628,9 +21628,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.0.11-upgrade-18-2":
-  version: 1.0.11-upgrade-18-2
-  resolution: "rpx-xui-translation@npm:1.0.11-upgrade-18-2"
+"rpx-xui-translation@npm:1.1.0":
+  version: 1.1.0
+  resolution: "rpx-xui-translation@npm:1.1.0"
   dependencies:
     dexie: ^3.2.2
     luxon: ^2.4.0
@@ -21638,7 +21638,7 @@ __metadata:
   peerDependencies:
     "@angular/common": ^18.2.13
     "@angular/core": ^18.2.13
-  checksum: b51124048a83e686cb9e666d1555fc80615fffdb46cbb9d8aab781e0c1ae67253427b31dc07d8ea91e23179350915294db37a76581894319481085499275e513
+  checksum: d262d8d4cf6ddbcfaf9ae7bc0e6308220b6359c3a2be3c9c5c0c81af0a0f52fc75ccba02a1ddc6b8fd6e099566d9a1fa39910babef6da2584b3767f804fe49a3
   languageName: node
   linkType: hard
 

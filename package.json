@@ -77,7 +77,7 @@
     "@cucumber/pretty-formatter": "^1.0.1",
     "@edium/fsm": "^2.1.2",
     "@hmcts/ccd-case-ui-toolkit": "7.2.0",
-    "@hmcts/ccpay-web-component": "6.2.14",
+    "@hmcts/ccpay-web-component": "6.2.15",
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.1.0",
     "@hmcts/nodejs-healthcheck": "1.7.0",

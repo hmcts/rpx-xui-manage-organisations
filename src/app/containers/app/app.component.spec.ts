@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -13,6 +13,7 @@ import * as fromAuth from '../../../user-profile/store';
 import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
 import { AppComponent } from './app.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const windowMock: Window = { gtag: () => {} } as any;
@@ -53,16 +54,12 @@ describe('AppComponent', () => {
         HeaderComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-        StoreModule.forRoot(
-          {
-            ...reducers,
-            userProfile: combineReducers(fromAuth.reducer)
-          }),
-        CookieModule.forRoot()
-      ],
+      imports: [RouterTestingModule,
+        StoreModule.forRoot({
+          ...reducers,
+          userProfile: combineReducers(fromAuth.reducer)
+        }),
+        CookieModule.forRoot()],
       providers: [
         {
           provide: windowToken,
@@ -91,7 +88,9 @@ describe('AppComponent', () => {
         {
           provide: GoogleAnalyticsService,
           useValue: googleAnalyticsService
-        }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     }).compileComponents();
     store = TestBed.inject(Store);

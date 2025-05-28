@@ -6385,25 +6385,25 @@ __metadata:
   linkType: hard
 
 "@types/express@npm:*":
-  version: 5.0.1
-  resolution: "@types/express@npm:5.0.1"
+  version: 5.0.2
+  resolution: "@types/express@npm:5.0.2"
   dependencies:
     "@types/body-parser": "*"
     "@types/express-serve-static-core": ^5.0.0
     "@types/serve-static": "*"
-  checksum: 189dd078679c5f748644c9dccf6b9666755d2fd37741ae5b7494129531b14d0366746a79191e1064060c2547daf7d342a02c48923730f20c8980c9ca7dfce1d2
+  checksum: c6f73c75c2b62e293e5fadcfd7de61716e3d0c0eaecda082b1921c9c8e56ddc37c530c5d4d68404794b38c7e8f5b893719ffc04c6fba2efa2fb13223bfb0346b
   languageName: node
   linkType: hard
 
 "@types/express@npm:^4.17.11, @types/express@npm:^4.17.13, @types/express@npm:^4.17.21, @types/express@npm:^4.17.4":
-  version: 4.17.21
-  resolution: "@types/express@npm:4.17.21"
+  version: 4.17.22
+  resolution: "@types/express@npm:4.17.22"
   dependencies:
     "@types/body-parser": "*"
     "@types/express-serve-static-core": ^4.17.33
     "@types/qs": "*"
     "@types/serve-static": "*"
-  checksum: fb238298630370a7392c7abdc80f495ae6c716723e114705d7e3fb67e3850b3859bbfd29391463a3fb8c0b32051847935933d99e719c0478710f8098ee7091c5
+  checksum: 977b1da93765983d823c32898c74c159f30b98341f4fd9400724f18196913fe0a07fa12eaa4efdad3cc8cf31e4036e06a16a88d43e9e1f78bbbb84365026aab0
   languageName: node
   linkType: hard
 

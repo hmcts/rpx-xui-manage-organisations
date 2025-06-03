@@ -41,6 +41,7 @@ describe('Users Effects', () => {
         },
         fromUsersEffects.UsersEffects,
         provideMockActions(() => actions$),
+        provideMockStore(),
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]

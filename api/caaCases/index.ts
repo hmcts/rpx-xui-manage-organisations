@@ -5,6 +5,7 @@ import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getApiPath, getRequestBody, mapCcdCases } from './caaCases.util';
 import { CaaCasesFilterType } from './enums';
 import { RoleAssignmentResponse } from './models/roleAssignmentResponse';
+import { objectContainsOnlySafeCharacters } from '../lib/util';
 
 export async function handleCaaCases(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caseTypeId = req.query.caseTypeId as string;
@@ -38,6 +39,9 @@ export async function handleCaaCases(req: EnhancedRequest, res: Response, next: 
     const payload = getRequestBody(orgId, fromNo, size, caaCasesPageType, caseFilterType, caaCasesFilterValue);
 
     const response = await req.http.post(path, payload);
+    if (!objectContainsOnlySafeCharacters(response.data)) {
+      return res.send('Invalid caa case data').status(400);
+    }
     const caaCases = mapCcdCases(caseTypeId, response.data);
     res.send(caaCases);
   } catch (error) {

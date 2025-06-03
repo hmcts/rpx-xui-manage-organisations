@@ -78,34 +78,33 @@ export class UserProfileEffects {
    *
    * Additionally, a 500 status code is now returned within the statusUpdateResponse object if the API fails to update the user's access types.
    */
-  public editUser$ = createEffect(() =>  this.actions$.pipe(
-      ofType(usersActions.EDIT_USER),
-      switchMap(({ payload, orgProfileIds }: usersActions.EditUser) => {
-        const user = payload;
-        const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
-        return this.userService.editUserPermissions(reqBody).pipe(
-          map((response) => {
-            if (UserRolesUtil.doesRoleAdditionExist(response)) {
-              if (response.roleAdditionResponse.idamStatusCode !== '201') {
-                return new usersActions.EditUserFailure(user.id);
-              }
-            }
-          
-
-            // Changes to access types populate the statusUpdateResponse object with a 500 if API fails
-            if (response.statusUpdateResponse !== null && response.statusUpdateResponse.idamStatusCode === '500') {
+  public editUser$ = createEffect(() => this.actions$.pipe(
+    ofType(usersActions.EDIT_USER),
+    switchMap(({ payload, orgProfileIds }: usersActions.EditUser) => {
+      const user = payload;
+      const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
+      return this.userService.editUserPermissions(reqBody).pipe(
+        map((response) => {
+          if (UserRolesUtil.doesRoleAdditionExist(response)) {
+            if (response.roleAdditionResponse.idamStatusCode !== '201') {
               return new usersActions.EditUserFailure(user.id);
             }
+          }
 
-            return new usersActions.EditUserSuccess(user.id);
-          }),
-          catchError((error) => {
-            this.loggerService.error(error);
-            return of(new usersActions.EditUserServerError({ userId: user.id, errorCode: error.apiStatusCode }));
-          })
-        );
-      })
-    )
+          // Changes to access types populate the statusUpdateResponse object with a 500 if API fails
+          if (response.statusUpdateResponse !== null && response.statusUpdateResponse.idamStatusCode === '500') {
+            return new usersActions.EditUserFailure(user.id);
+          }
+
+          return new usersActions.EditUserSuccess(user.id);
+        }),
+        catchError((error) => {
+          this.loggerService.error(error);
+          return of(new usersActions.EditUserServerError({ userId: user.id, errorCode: error.apiStatusCode }));
+        })
+      );
+    })
+  )
   );
 
   public loadHasAccepted$ = createEffect(() => this.actions$.pipe(

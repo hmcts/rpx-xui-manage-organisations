@@ -1,5 +1,5 @@
 import * as healthcheck from '@hmcts/nodejs-healthcheck';
-import { SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
+import { getContentSecurityPolicy, SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
@@ -45,6 +45,10 @@ logger.info(environmentCheckText());
 if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled');
   app.use(helmet(getConfigValue(HELMET)));
+  app.use(getContentSecurityPolicy(helmet));
+  app.use(helmet.hidePoweredBy());
+  app.disable('x-powered-by');
+  app.disable('X-Powered-By');
 }
 
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));

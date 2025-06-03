@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -13,6 +13,7 @@ import * as fromRoot from '../../../app/store';
 import * as fromUsersEffects from './users.effects';
 import * as usersSelectors from '../selectors/user.selectors';
 import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Users Effects', () => {
   let actions$;
@@ -28,7 +29,7 @@ describe('Users Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: UsersService,
@@ -40,7 +41,8 @@ describe('Users Effects', () => {
         },
         fromUsersEffects.UsersEffects,
         provideMockActions(() => actions$),
-        provideMockStore()
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 

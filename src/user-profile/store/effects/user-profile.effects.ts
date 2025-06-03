@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { UserRolesUtil } from 'src/users/containers/utils/user-roles-util';
@@ -11,6 +11,7 @@ import { UserInterface } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import * as authActions from '../actions';
 import { AuthActionTypes } from '../actions/';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
 @Injectable()
 export class UserProfileEffects {
@@ -19,49 +20,49 @@ export class UserProfileEffects {
     private readonly userService: UserService,
     private readonly loggerService: LoggerService,
     private readonly authService: UserService,
-    private readonly acceptTcService: AcceptTcService
+    private readonly acceptTcService: AcceptTcService,
+    private readonly sessionStorageService: SessionStorageService
   ) {}
 
-  @Effect()
-  public getUser$ = this.actions$.pipe(
-      ofType(AuthActionTypes.GET_USER_DETAILS),
-      switchMap(() => {
-        return this.userService.getUserDetails()
-          .pipe(
-            map((userDetails: UserInterface) => {
-              return new authActions.GetUserDetailsSuccess(userDetails);
-            }),
-            catchError((error: HttpErrorResponse) => {
-              this.loggerService.error(error.message);
-              return of(new authActions.GetUserDetailsFailure(error));
-            })
-          );
-      })
-    );
+  public getUser$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.GET_USER_DETAILS),
+    switchMap(() => {
+      return this.userService.getUserDetails()
+        .pipe(
+          map((userDetails: UserInterface) => {
+            this.sessionStorageService.setItem('userDetails', JSON.stringify(userDetails));
+            return new authActions.GetUserDetailsSuccess(userDetails);
+          }),
+          catchError((error: HttpErrorResponse) => {
+            this.loggerService.error(error.message);
+            return of(new authActions.GetUserDetailsFailure(error));
+          })
+        );
+    })
+  ));
 
-  @Effect()
-  public getUserFail$ = this.actions$.pipe(
-      ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
-      map((actions: authActions.GetUserDetailsFailure) => actions.payload),
-      map((error) => {
+  public getUserFail$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.GET_USER_DETAILS_FAIL),
+    map((actions: authActions.GetUserDetailsFailure) => actions.payload),
+    map((error) => {
       // TODO remove this when figure out why permissions are not returned by node on AAT
-        if (error) {
-          console.log(error);
-        }
-        console.log('_________no user details returned__________');
-        const hadCodedUser = {
-          email: 'hardcoded@user.com',
-          orgId: '12345',
-          roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager', 'pui-organisation-manager'],
-          sessionTimeout: {
-            idleModalDisplayTime: 10,
-            totalIdleTime: 50
-          },
-          userId: '1'
-        };
-        return new authActions.GetUserDetailsSuccess(hadCodedUser);
-      })
-    );
+      if (error) {
+        console.log(error);
+      }
+      console.log('_________no user details returned__________');
+      const hadCodedUser = {
+        email: 'hardcoded@user.com',
+        orgId: '12345',
+        roles: ['pui-case-manager', 'pui-user-manager', 'pui-finance-manager', 'pui-organisation-manager'],
+        sessionTimeout: {
+          idleModalDisplayTime: 10,
+          totalIdleTime: 50
+        },
+        userId: '1'
+      };
+      return new authActions.GetUserDetailsSuccess(hadCodedUser);
+    })
+  ));
 
   /**
    * Edit User Effect
@@ -77,8 +78,7 @@ export class UserProfileEffects {
    *
    * Additionally, a 500 status code is now returned within the statusUpdateResponse object if the API fails to update the user's access types.
    */
-  @Effect()
-  public editUser$ = this.actions$.pipe(
+  public editUser$ = createEffect(() =>  this.actions$.pipe(
       ofType(usersActions.EDIT_USER),
       switchMap(({ payload, orgProfileIds }: usersActions.EditUser) => {
         const user = payload;
@@ -90,12 +90,7 @@ export class UserProfileEffects {
                 return new usersActions.EditUserFailure(user.id);
               }
             }
-
-            if (UserRolesUtil.doesRoleDeletionExist(response)) {
-              if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
-                return new usersActions.EditUserFailure(user.id);
-              }
-            }
+          
 
             // Changes to access types populate the statusUpdateResponse object with a 500 if API fails
             if (response.statusUpdateResponse !== null && response.statusUpdateResponse.idamStatusCode === '500') {
@@ -110,30 +105,39 @@ export class UserProfileEffects {
           })
         );
       })
-    );
+    )
+  );
 
-  @Effect()
-  public loadHasAccepted$ = this.actions$.pipe(
-      ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
-      switchMap((action: any) => {
-        return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
-          map((tcDetails) => new authActions.LoadHasAcceptedTCSuccess(tcDetails.toString())),
-          catchError((error) => of(new authActions.LoadHasAcceptedTCFail(error)))
-        );
-      })
-    );
+  public loadHasAccepted$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),
+    switchMap((action: any) => {
+      return this.acceptTcService.getHasUserAccepted(action.payload).pipe(
+        map((tcDetails) => new authActions.LoadHasAcceptedTCSuccess(tcDetails.toString())),
+        catchError((error) => of(new authActions.LoadHasAcceptedTCFail(error)))
+      );
+    })
+  ));
 
-  @Effect()
-  public acceptTandC$ = this.actions$.pipe(
-      ofType(AuthActionTypes.ACCEPT_T_AND_C),
-      map((action: authActions.AcceptTandC) => action.payload),
-      switchMap((userData) => {
-        return this.acceptTcService.acceptTandC(userData).pipe(
-          map((tcDetails) => {
-            return new authActions.AcceptTandCSuccess(tcDetails);
-          }),
-          catchError((error) => of(new authActions.AcceptTandCFail(error)))
-        );
-      })
-    );
+  public acceptTandC$ = createEffect(() => this.actions$.pipe(
+    ofType(AuthActionTypes.ACCEPT_T_AND_C),
+    map((action: authActions.AcceptTandC) => action.payload),
+    switchMap((userData) => {
+      return this.acceptTcService.acceptTandC(userData).pipe(
+        map((tcDetails) => {
+          return new authActions.AcceptTandCSuccess(tcDetails);
+        }),
+        catchError((error) => of(new authActions.AcceptTandCFail(error)))
+      );
+    })
+  ));
+
+  public confirmEditUser$ = createEffect(() => this.actions$.pipe(
+    ofType(usersActions.EDIT_USER_SUCCESS),
+    map((user: any) => {
+      return user.payload; // this is the userId
+    }),
+    switchMap(() => [
+      new usersActions.LoadAllUsers()
+    ])
+  ));
 }

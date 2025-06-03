@@ -1,5 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpErrorResponse, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -15,6 +15,7 @@ import {
   LoadHasAcceptedTCFail, LoadHasAcceptedTCSuccess
 } from '../actions';
 import * as fromUserEffects from './user-profile.effects';
+import { SessionStorageService } from '../../../shared/services/session-storage.service';
 
 describe('User Profile Effects', () => {
   let actions$;
@@ -30,10 +31,11 @@ describe('User Profile Effects', () => {
   ]);
 
   const mockedLoggerService = jasmine.createSpyObj('mockedLoggerService', ['trace', 'info', 'debug', 'log', 'warn', 'error', 'fatal']);
+  const mockedSessionStorageService = jasmine.createSpyObj('mockedSessionStorageService', ['setItem']);
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: UserService,
@@ -47,8 +49,14 @@ describe('User Profile Effects', () => {
           provide: LoggerService,
           useValue: mockedLoggerService
         },
+        {
+          provide: SessionStorageService,
+          useValue: mockedSessionStorageService
+        },
         fromUserEffects.UserProfileEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 
@@ -78,6 +86,7 @@ describe('User Profile Effects', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.getUser$).toBeObservable(expected);
+      expect(mockedSessionStorageService.setItem).toHaveBeenCalledWith('userDetails', JSON.stringify(returnValue));
     }));
   });
 

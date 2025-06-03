@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -14,7 +14,6 @@ import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from '../environments/environment';
 import { EnvironmentConfig } from '../models/environmentConfig.model';
 import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
-import { CryptoWrapper } from '../shared/services/cryptoWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { UserService } from '../user-profile/services/user.service';
@@ -53,63 +52,57 @@ export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): strin
   return envConfig.launchDarklyClientId || '';
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    ...fromComponents.components,
-    ...fromContainers.containers
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    CookieModule.forRoot(),
-    RouterModule.forRoot(ROUTES, {
-      anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
-    }),
-    SharedModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot(effects),
-    UserProfileModule,
-    OrganisationModule,
-    StoreRouterConnectingModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument({ logOnly: true }) : [],
-    LoggerModule.forRoot({
-      level: NgxLoggerLevel.TRACE,
-      disableConsoleLogging: false
-    }),
-    LoaderModule,
-    GovUiModule,
-    ExuiCommonLibModule,
-    NgIdleKeepaliveModule.forRoot(),
-    NoopAnimationsModule,
-    RpxTranslationModule.forRoot({
-      baseUrl: '/api/translation',
-      debounceTimeMs: 300,
-      validity: {
-        days: 1
-      },
-      testMode: false
-    })
-  ],
-  providers: [
-    NGXLogger,
-    CookieService,
-    GoogleAnalyticsService,
-    HealthCheckGuard,
-    HealthCheckService,
-    ManageSessionServices,
-    MonitoringService,
-    TermsConditionGuard,
-    AcceptTermsAndConditionGuard,
-    FeatureToggleEditUserGuard,
-    FeatureToggleGuard,
-    { provide: RouterStateSerializer, useClass: CustomSerializer },
-    UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
-    CryptoWrapper, JwtDecodeWrapper, LoggerService, JurisdictionService,
-    { provide: FeatureToggleService, useClass: LaunchDarklyService },
-    { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true }
-  ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-})
+@NgModule({ declarations: [
+  AppComponent,
+  ...fromComponents.components,
+  ...fromContainers.containers
+],
+bootstrap: [AppComponent],
+schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
+  CookieModule.forRoot(),
+  RouterModule.forRoot(ROUTES, {
+    anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
+  }),
+  SharedModule,
+  StoreModule.forRoot(reducers, { metaReducers }),
+  EffectsModule.forRoot(effects),
+  UserProfileModule,
+  OrganisationModule,
+  StoreRouterConnectingModule.forRoot(),
+  !environment.production ? StoreDevtoolsModule.instrument({ logOnly: true }) : [],
+  LoggerModule.forRoot({
+    level: NgxLoggerLevel.TRACE,
+    disableConsoleLogging: false
+  }),
+  LoaderModule,
+  GovUiModule,
+  ExuiCommonLibModule,
+  NgIdleKeepaliveModule.forRoot(),
+  NoopAnimationsModule,
+  RpxTranslationModule.forRoot({
+    baseUrl: '/api/translation',
+    debounceTimeMs: 300,
+    validity: {
+      days: 1
+    },
+    testMode: false
+  })], providers: [
+  NGXLogger,
+  CookieService,
+  GoogleAnalyticsService,
+  HealthCheckGuard,
+  HealthCheckService,
+  ManageSessionServices,
+  MonitoringService,
+  TermsConditionGuard,
+  AcceptTermsAndConditionGuard,
+  FeatureToggleEditUserGuard,
+  FeatureToggleGuard,
+  { provide: RouterStateSerializer, useClass: CustomSerializer },
+  UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
+  JwtDecodeWrapper, LoggerService, JurisdictionService,
+  { provide: FeatureToggleService, useClass: LaunchDarklyService },
+  { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true },
+  provideHttpClient(withInterceptorsFromDi())
+] })
 export class AppModule {}

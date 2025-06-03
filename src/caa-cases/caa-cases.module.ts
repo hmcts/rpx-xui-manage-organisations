@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
 import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
@@ -22,10 +22,11 @@ import { effects, reducers } from './store';
 import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.guard';
 
 @NgModule({
-  imports: [
-    CommonModule,
+  exports: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [CommonModule,
     ExuiCommonLibModule,
-    HttpClientModule,
     SharedModule,
     caaCasesRouting,
     StoreModule.forFeature('org', orgReducers),
@@ -38,10 +39,7 @@ import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.gua
     MatTabsModule,
     MatAutocompleteModule
   ],
-  exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
-  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())],
 })
 
 export class CaaCasesModule {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -16,33 +16,32 @@ export class InviteUserEffects {
     private readonly loggerService: LoggerService
   ) {}
 
-  @Effect()
-  public saveUser$ = this.actions$.pipe(
-      ofType(usersActions.SEND_INVITE_USER),
-      switchMap(({ payload, orgProfileIds }: usersActions.SendInviteUser) => {
-        const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
-        const userEmail = payload.email;
-        return this.inviteUserSevice.inviteUser(reqBody).pipe(
-          map((userDetails) => {
-            const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(payload.resendInvite);
-            this.loggerService.info(userInvitedLoggerMessage);
-            return new usersActions.InviteUserSuccess({ ...userDetails, userEmail });
-          }),
-          catchError((errorReport) => {
-            this.loggerService.error(errorReport.message);
-            return of(InviteUserEffects.getErrorAction(errorReport.error));
-          })
-        );
-      })
-    );
+  public saveUser$ = createEffect(() => this.actions$.pipe(
+    ofType(usersActions.SEND_INVITE_USER),
+    switchMap(({ payload, orgProfileIds }: usersActions.SendInviteUser) => {
+      const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
+      const userEmail = payload.email;
+      return this.inviteUserSevice.inviteUser(reqBody).pipe(
+        map((userDetails) => {
+          const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(payload.resendInvite);
+          this.loggerService.info(userInvitedLoggerMessage);
+          return new usersActions.InviteUserSuccess({ ...userDetails, userEmail });
+        }),
+        catchError((errorReport) => {
+          this.loggerService.error(errorReport.message);
+          return of(InviteUserEffects.getErrorAction(errorReport.error));
+        })
+      );
+    })
+  )
+  );
 
-  @Effect()
-  public confirmUser$ = this.actions$.pipe(
-      ofType(usersActions.INVITE_USER_SUCCESS),
-      map(() => {
-        return new fromRoot.Go({ path: ['users/invite-user-success'] });
-      })
-    );
+  public confirmUser$ = createEffect(() => this.actions$.pipe(
+    ofType(usersActions.INVITE_USER_SUCCESS),
+    map(() => {
+      return new fromRoot.Go({ path: ['users/invite-user-success'] });
+    })
+  ));
 
   public static getUserInviteLoggerMessage(resendInvite: boolean) {
     return resendInvite ? 'User Re-Invited' : 'User Invited';

@@ -26,7 +26,7 @@
             "outputPath": "dist/rpx-xui-manage-organisations",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "preserveSymlinks": true,
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
@@ -72,12 +72,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rpx-xui-manage-organisations:build",
-            "proxyConfig": "./proxy.config.json"
+            "proxyConfig": "./proxy.config.json",
+            "buildTarget": "rpx-xui-manage-organisations:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "rpx-xui-manage-organisations:build:production"
+              "buildTarget": "rpx-xui-manage-organisations:build:production"
             }
           },
           "defaultConfiguration": ""
@@ -85,26 +85,26 @@
         "serveTest": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "rpx-xui-manage-organisations:build",
-            "proxyConfig": "./proxyTest.config.json"
+            "proxyConfig": "./proxyTest.config.json",
+            "buildTarget": "rpx-xui-manage-organisations:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "rpx-xui-manage-organisations:build:production"
+              "buildTarget": "rpx-xui-manage-organisations:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "rpx-xui-manage-organisations:build"
+            "buildTarget": "rpx-xui-manage-organisations:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [

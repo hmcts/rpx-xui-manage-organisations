@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -27,9 +27,9 @@ import { featureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd
 import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
+  exports: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
+  imports: [CommonModule,
     usersRouting,
     SharedModule,
     StoreModule.forFeature('users', reducers),
@@ -40,12 +40,7 @@ import { ManageUserFailureComponent } from './containers/manage-user-failure/man
     NgxPaginationModule,
     RpxTranslationModule.forChild()
   ],
-  exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [
-    ...fromContainers.containers,
-    ...fromComponents.components
-  ],
-  providers: [...fromServices.services, InviteUserSuccessGuard, featureToggleOdgInviteUserFlowGuard]
+  providers: [...fromServices.services, InviteUserSuccessGuard, featureToggleOdgInviteUserFlowGuard, provideHttpClient(withInterceptorsFromDi())]
 })
 
 /**

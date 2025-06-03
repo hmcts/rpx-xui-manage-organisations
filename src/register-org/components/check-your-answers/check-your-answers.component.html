@@ -227,6 +227,7 @@
         <li>you have used your registered office address and not a personal or home address</li>
         <li>you are creating an account for your organisation for the first time</li>
         <li>you are authorised to register an account on behalf of your organisation</li>
+        <li>your organisation's name is in the first line of the address if this is a shared business address</li>
       </ul>
 
       <div class="govuk-warning-text">
@@ -253,7 +254,7 @@
               </label>
           </div>
           <div class="govuk-!-margin-top-6">
-            <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="button">Confirm and submit</button>
+            <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="submit">Confirm and submit</button>
           </div>
           <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
         </form>

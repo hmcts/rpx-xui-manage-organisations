@@ -1,3 +1,4 @@
+
 const ViewUserPage = require('../pageObjects/viewUserPage.js');
 const HeaderPage = require('../pageObjects/headerPage');
 const loginPage = require('../pageObjects/loginLogoutObjects');
@@ -5,7 +6,6 @@ const loginPage = require('../pageObjects/loginLogoutObjects');
 const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../support/constants');
 const { config } = require('../../config/common.conf.js');
 
-const { defineSupportCode } = require('cucumber');
 const browserWaits = require('../../support/customWaits');
 
 const viewUserPage = new ViewUserPage();

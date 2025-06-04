@@ -9,11 +9,32 @@ dependencies:
   - name: nodejs
     version: 3.2.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
-  - name: redis
-    version: 20.11.3
-    repository: "oci://registry-1.docker.io/bitnamicharts"
-    condition: redis.enabled
+  - name: ccd
+    version: 9.2.2
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    tags:
+      - finrem-ccd-stack
+  - name: xui-webapp
+    version: ~1.0.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: xui-webapp.enabled
+  - name: xui-mo-webapp
+    version: ~1.1.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: xui-mo-webapp.enabled
+  - name: aac-manage-case-assignment
+    version: ~0.2.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: aac-manage-case-assignment.enabled
   - name: idam-pr
-    version: ~2.3.0
+    version: 2.3.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: idam-pr.enabled
+  - name: postgresql
+    version: 1.1.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: postgresql.enabled
+  - name: ccd-case-document-am-api
+    version: ~1.7.16
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: ccd-case-document-am-api.enabled

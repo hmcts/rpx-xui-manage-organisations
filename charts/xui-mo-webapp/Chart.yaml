@@ -1,40 +1,56 @@
 apiVersion: v2
 name: xui-mo-webapp
 home: https://github.com/hmcts/rpx-xui-manage-organisations
-version: 1.1.19
+version: 1.1.18
 description: Expert UI
 maintainers:
   - name: HMCTS RPX XUI
 dependencies:
+  - name: java
+    version: 5.3.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: java.enabled
   - name: nodejs
     version: 3.2.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
-  - name: ccd
-    version: 9.2.2
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    tags:
-      - finrem-ccd-stack
-  - name: xui-webapp
-    version: ~1.0.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: xui-webapp.enabled
-  - name: xui-mo-webapp
-    version: ~1.1.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: xui-mo-webapp.enabled
-  - name: aac-manage-case-assignment
-    version: ~0.2.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: aac-manage-case-assignment.enabled
+  - name: redis
+    version: 20.11.3
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: redis.enabled
   - name: idam-pr
-    version: 2.3.0
+    version: ~2.3.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: idam-pr.enabled
+  # below are used for deploying all services in preview
   - name: postgresql
     version: 1.1.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
     condition: postgresql.enabled
-  - name: ccd-case-document-am-api
-    version: ~1.7.16
+  - name: java
+    version: 5.3.0
     repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: ccd-case-document-am-api.enabled
+    condition: java.enabled
+  - name: ccd
+    version: 9.2.2
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: ccd.enabled
+  - name: xui-webapp
+    version: 1.0.30
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: xui-webapp.enabled
+  - name: aac-manage-case-assignment
+    version: ~0.2.16
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: aac-manage-case-assignment.enabled\
+  - name: am-org-role-mapping-service
+    version: 0.0.72
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: am-org-role-mapping-service.enabled
+  - name: am-role-assignment-service
+    version: 0.0.72
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: am-role-assignment-service.enabled
+  - name: rd-professional-api
+    version: ~0.0.25
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: rd-professional-api.enabled

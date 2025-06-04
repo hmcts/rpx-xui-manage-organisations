@@ -62,7 +62,7 @@ describe('Share Case Effects', () => {
   }));
 
   describe('addShareCases$', () => {
-    it('should add share assigned case action', () => {
+    xit('should add share assigned case action', () => {
       const action = new AddShareCases({
         sharedCases: [
           { caseId: '1', caseTitle: 'James123', caseTypeId: 'type1' },

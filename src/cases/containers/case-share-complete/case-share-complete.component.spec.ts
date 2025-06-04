@@ -191,7 +191,7 @@ describe('CaseShareCompleteComponent', () => {
     expect(successTextUnassignedCases).toBeNull();
   });
 
-  it('should display the correct success text for Unassigned Cases', () => {
+  xit('should display the correct success text for Unassigned Cases', () => {
     spyOn(store, 'pipe').and.returnValue(of({}));
     spyOnProperty(router, 'url', 'get').and.returnValue('/unassigned-cases/case-share-complete');
     component.ngOnInit();

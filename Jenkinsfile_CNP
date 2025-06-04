@@ -58,6 +58,9 @@ def secrets = [
     secret('idam-data-store-system-user-password','IDAM_DATA_STORE_SYSTEM_USER_PASSWORD'),
     secret('AppInsightsInstrumentationKey', 'APP_INSIGHTS_INSTRUMENTATION_KEY')
   ],
+  'am-${env}'  : [
+    secret('am-role-assignment-service-s2s-secret', 'AM_ROLE_ASSIGNMENT_SERVICE_SECRET')
+  ]
 ]
 
 def branchesToSync = ['demo', 'perftest', 'ithc']

@@ -79,6 +79,7 @@ ccd:
     ccdApiGatewayIngress: gateway-${SERVICE_FQDN}
     ccdCaseManagementWebIngress: case-management-web-${SERVICE_FQDN}
     s2sUrl: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    postgresHostname: "xui-mo-preview.postgres.database.azure.com"
     postgresSecret: postgres
     databaseNamePrefix: "pr-${CHANGE_ID}-"
 
@@ -201,7 +202,7 @@ ccd:
 
   postgresql:
     enabled: true
-    flexibleserver: "financial-remedy-preview"
+    flexibleserver: "xui-mo-preview"
     setup:
       databases:
         - name: "pr-${CHANGE_ID}-data-store"
@@ -226,7 +227,7 @@ ccd:
       - name: DATA_STORE_PASS
         value: hmcts
       - name: DATA_STORE_URL
-        value: "jdbc:postgresql://financial-remedy-preview.postgres.database.azure.com:5432/{{ .Values.global.databaseNamePrefix }}data-store?sslmode=require&stringtype=unspecified"
+        value: "jdbc:postgresql://xui-mo-preview.postgres.database.azure.com:5432/{{ .Values.global.databaseNamePrefix }}data-store?sslmode=require&stringtype=unspecified"
       - name: DATA_STORE_USER
         value: hmcts
       - name: ES_HOSTS
@@ -266,7 +267,7 @@ ccd:
       01_input.conf: |
         input  {
           jdbc {
-            jdbc_connection_string => "jdbc:postgresql://financial-remedy-preview.postgres.database.azure.com:5432/pr-${CHANGE_ID}-data-store?sslmode=require&stringtype=unspecified"
+            jdbc_connection_string => "jdbc:postgresql://xui-mo-preview.postgres.database.azure.com:5432/pr-${CHANGE_ID}-data-store?sslmode=require&stringtype=unspecified"
             jdbc_user => "hmcts"
             jdbc_password_filepath => "/etc/logstash/secrets/PASSWORD"
             jdbc_validate_connection => true

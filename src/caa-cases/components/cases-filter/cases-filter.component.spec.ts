@@ -22,7 +22,7 @@ describe('CasesFilterComponent', () => {
       ]
     );
     await TestBed.configureTestingModule({
-      declarations: [ CasesFilterComponent ],
+      declarations: [CasesFilterComponent],
       providers: [provideMockStore(),
         { provide: CaaCasesService, useValue: caaCasesService }
       ],

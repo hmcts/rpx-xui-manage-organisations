@@ -39,7 +39,7 @@ import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.gua
     MatTabsModule,
     MatAutocompleteModule
   ],
-  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())],
+  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())]
 })
 
 export class CaaCasesModule {

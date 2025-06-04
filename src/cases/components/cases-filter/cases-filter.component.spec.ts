@@ -1,16 +1,36 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CasesFilterComponent } from './cases-filter.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { provideMockStore } from '@ngrx/store/testing';
+import { CaaCasesService } from 'src/cases/services';
 
-describe('CasesFilterComponent', () => {
+describe('CasesCasesFilterComponent', () => {
   let component: CasesFilterComponent;
   let fixture: ComponentFixture<CasesFilterComponent>;
+  let caaCasesService: jasmine.SpyObj<CaaCasesService>;
 
   beforeEach(async () => {
+    caaCasesService = jasmine.createSpyObj<CaaCasesService>(
+      'caaCasesService',
+      [
+        'getCaaCases',
+        'getCaaCaseTypes',
+        'storeSessionState',
+        'retrieveSessionState',
+        'removeSessionState'
+      ]
+    );
     await TestBed.configureTestingModule({
-      declarations: [ CasesFilterComponent ]
+      declarations: [CasesFilterComponent],
+      providers: [provideMockStore(),
+        { provide: CaaCasesService, useValue: caaCasesService }
+      ],
+      imports: [
+        MatAutocompleteModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CasesFilterComponent);
     component = fixture.componentInstance;

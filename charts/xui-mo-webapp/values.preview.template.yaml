@@ -79,7 +79,6 @@ ccd:
     ccdApiGatewayIngress: gateway-${SERVICE_FQDN}
     ccdCaseManagementWebIngress: case-management-web-${SERVICE_FQDN}
     s2sUrl: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    postgresHostname: "financial-remedy-preview.postgres.database.azure.com"
     postgresSecret: postgres
     databaseNamePrefix: "pr-${CHANGE_ID}-"
 

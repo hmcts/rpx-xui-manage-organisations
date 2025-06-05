@@ -438,7 +438,7 @@ aac-manage-case-assignment:
       enabled: false
 
 em-ccdorc:
-  enabled: true
+  enabled: false
   java:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-em-ccdorc
@@ -452,7 +452,7 @@ em-ccdorc:
       APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: WARN
 
 em-stitching:
-  enabled: true
+  enabled: false
   java:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-em-stitching

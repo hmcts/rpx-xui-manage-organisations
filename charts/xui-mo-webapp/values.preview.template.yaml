@@ -17,7 +17,7 @@ java:
     enabled: true
     releaseNameOverride: ${SERVICE_NAME}-postgresql
     image:
-      registry: hmctspublic.azurecr.io
+      registry: hmctspublic.azurecr.io 
       repository: imported/bitnami/postgresql
       tag: '11.6.0'
     primary:
@@ -450,19 +450,6 @@ xui-mo-webapp:
       JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
       SERVICES_ROLE_ASSIGNMENT_API: http://xuimo-case-api-pr-${CHANGE_ID}-am-role-assignment-service
-
-xuimo-frontend:
-  enabled: true
-  nodejs:
-    registerAdditionalDns:
-      enabled: false
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-frontend
-    image: hmctspublic.azurecr.io/sptribs/frontend:latest #pr-xxxx
-    ingressHost: frontend-${SERVICE_FQDN}
-    environment:
-      CCD_URL: http://{{ .Release.Name }}-ccd-data-store-api
-      SKIP_DIV_CASE_CHECK: true
 
 aac-manage-case-assignment:
   enabled: true

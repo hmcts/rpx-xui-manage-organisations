@@ -40,6 +40,7 @@ def secrets = [
     secret('system-user-name', 'SYSTEM_USER_NAME'),
     secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
     secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
+    secret('xui-postgress-username-preview', 'XUI_POSTGRES_USERNAME_PREVIEW'),
 
   ],
   's2s-${env}' : [

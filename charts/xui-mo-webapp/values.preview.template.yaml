@@ -10,38 +10,50 @@ java:
     CASE_DOCUMENT_AM_BASEURL: http://${SERVICE_NAME}-ccd-case-document-am-api
     BUNDLING_API_URL: https://em-ccdorc-${SERVICE_FQDN}
     CITIZEN_UPDATE_CASE_STATE_ENABLED: true
-    POSTGRES_HOST: '{{ tpl .Values.global.postgresHostname $}}'
-    POSTGRES_NAME: "{{ .Values.global.databaseNamePrefix }}xuimo-case-api"
-    POSTGRES_USERNAME: ${SPTRIBS_POSTGRES_USERNAME_PREVIEW}
+    POSTGRES_HOST: '${SERVICE_NAME}-postgresql'
     POSTGRES_CONNECTION_OPTIONS: ""
 
-  keyVaults:
-    sptribs:
-      secrets:
-        - name: app-insights-instrumentation-key-preview
-          alias: app-insights-instrumentation-key
-        - name: app-insights-connection-string-preview
-          alias: app-insights-connection-string
-        - name: uk-gov-notify-api-key
-          alias: UK_GOV_NOTIFY_API_KEY_1
-        - name: s2s-case-api-secret
-          alias: S2S_SECRET
-        - name: idam-secret
-          alias: IDAM_CLIENT_SECRET
-        - name: idam-systemupdate-username
-          alias: IDAM_SYSTEM_UPDATE_USERNAME
-        - name: idam-systemupdate-password
-          alias: IDAM_SYSTEM_UPDATE_PASSWORD
-        - name: launchdarkly-sdk-key
-          alias: LAUNCH_DARKLY_SDK_KEY
+  postgresql:
+    enabled: true
+    releaseNameOverride: ${SERVICE_NAME}-postgresql
+    image:
+      registry: hmctspublic.azurecr.io
+      repository: imported/bitnami/postgresql
+      tag: '11.6.0'
+    primary:
+      persistence:
+        enabled: false
+      resources:
+        requests:
+          cpu: 25m
+      initdb:
+        scripts:
+          init.sql: |
+            CREATE DATABASE cmc WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "data-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "definition-store" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "user-profile" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "camunda" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "role_assignment" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "wa-task-management-api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "wa-case-event-handler" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+            CREATE DATABASE "wa_workflow_api" WITH OWNER = hmcts ENCODING = 'UTF-8' CONNECTION LIMIT = -1;
+    auth:
+      username: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+      postgresPassword: ${POSTGRES_PASSWORD}
   secrets:
     POSTGRES_PASSWORD:
       secretRef: postgres
       key: PASSWORD
       disabled: false
+    POSTGRES_USER:
+      secretRef: postgres
+      key: USER
+      disabled: false
 
 global:
-  postgresHostname: "xuimo-preview.postgres.database.azure.com"
+  postgresHostname: "{{ .Release.Name }}-postgresql"
   postgresSecret: postgres
   databaseNamePrefix: "pr-${CHANGE_ID}-"
 
@@ -262,7 +274,7 @@ ccd:
       01_input.conf: |
         input  {
           jdbc {
-            jdbc_connection_string => "jdbc:postgresql://xuimo-preview.postgres.database.azure.com:5432/pr-${CHANGE_ID}-data-store?sslmode-require&stringtype=unspecified"
+            jdbc_connection_string => "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/data-store?sslmode-require&stringtype=unspecified"
             jdbc_user => "hmcts"
             jdbc_password_filepath => "/etc/logstash/secrets/PASSWORD"
             jdbc_validate_connection => true

@@ -1,0 +1,35 @@
+<div [formGroup]="jurisdictions">
+  <ng-container *ngFor="
+            let jurisdiction of jurisdictions.controls;
+            let i = index
+          ">
+    <div class="govuk-form-group" [formGroupName]="i">
+      <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+        <div formArrayName="accessTypes">
+          <ng-container *ngFor="
+                  let accesssType of jurisdiction.value.accessTypes;
+                  let j = index
+                ">
+            <div class="govuk-checkboxes__item govuk-!-margin-top-5 " [formGroupName]="j">
+              <input class="govuk-checkboxes__input" [id]="accesssType.accessTypeId"
+                [value]="accesssType.accessTypeId" [name]="accesssType.description"
+                [checked]="accesssType.enabled" formControlName="enabled" type="checkbox"
+                [attr.aria-describedby]="
+                      accesssType.accessTypeId + '-item-hint'" [attr.aria-disabled]="
+                      accesssType.mandatory ? 'true' : 'false'" [title]="accesssType.mandatory ? '' : ''" />
+              <label class="govuk-label govuk-checkboxes__label" [for]="accesssType.accessTypeId">
+                Additional access: {{ accesssType.description }}
+              </label>
+              <span [id]="accesssType.accessTypeId + '-item-hint'" class="govuk-hint govuk-checkboxes__hint">
+                {{ accesssType.hint }}
+                <span *ngIf="accesssType.mandatory" class="govuk-visually-hidden">This checkbox is disabled
+                  because this role is
+                  mandatory.</span>
+              </span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

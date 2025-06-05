@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -9,6 +9,7 @@ import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumb
 import { PBAService } from '../../services/pba.service';
 import * as fromStore from '../../store';
 import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @Component({
   template: '<div>Nothing to see here. Move along, please.</div>'
@@ -90,16 +91,13 @@ describe('UpdatePbaNumbersCheckComponent', () => {
     pipeSpy = spyOn(storeMock, 'pipe');
     dispatchSpy = spyOn(storeMock, 'dispatch').and.callThrough();
     TestBed.configureTestingModule({
-      imports: [
-        RouterModule,
-        HttpClientTestingModule,
+      declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterModule,
         StoreModule.forRoot({
           ...fromRoot.reducers,
           feature: combineReducers(fromStore.reducers)
-        })
-      ],
-      declarations: [UpdatePbaNumbersCheckComponent, MockComponent],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        })],
       providers: [
         {
           provide: Router,
@@ -110,7 +108,9 @@ describe('UpdatePbaNumbersCheckComponent', () => {
           useValue: storeMock
         },
         PBAService,
-        { provide: ActivatedRoute, useValue: activatedRoute }
+        { provide: ActivatedRoute, useValue: activatedRoute },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     }).compileComponents();
 

@@ -41,6 +41,12 @@ def secrets = [
     secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
     secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
     secret('xui-postgress-username-preview', 'XUI_POSTGRES_USERNAME_PREVIEW'),
+    secret('mc-s2s-client-secret', 'S2S_SECRET'),
+    secret('mc-idam-client-secret', 'IDAM_SECRET'),
+    secret('test-email', 'TEST_EMAIL'),
+    secret('test-password', 'TEST_PASSWORD'),
+    secret('appinsights-instrumentationkey-mc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('appinsights-connection-string-mc', 'APPINSIGHTS_CONNECTION_STRING'),
 
   ],
   's2s-${env}' : [

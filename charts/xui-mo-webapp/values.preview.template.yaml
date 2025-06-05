@@ -3,7 +3,7 @@ tags:
 
 nodejs:
   # Don't modify below here
-  image: hmctspublic.azurecr.io/xui/mo-webapp:pr-1365
+  image: hmctspublic.azurecr.io/xui/mo-webapp:pr-1365-9170464-20250605135046
   ingressHost: ${SERVICE_FQDN}
   environment:
     CASE_DATA_STORE_BASEURL: http://{{ .Release.Name }}-ccd-data-store-api

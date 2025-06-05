@@ -40,8 +40,31 @@ def secrets = [
     secret('system-user-name', 'SYSTEM_USER_NAME'),
     secret('system-user-password', 'SYSTEM_USER_PASSWORD'),
     secret('mo-webapp-redis6-connection-string', 'REDISCLOUD_URL'),
+    secret('xui-postgress-username-preview', 'XUI_POSTGRES_USERNAME_PREVIEW'),
+    secret('mc-s2s-client-secret', 'S2S_SECRET'),
+    secret('mc-idam-client-secret', 'IDAM_SECRET'),
+    secret('test-email', 'TEST_EMAIL'),
+    secret('test-password', 'TEST_PASSWORD'),
+    secret('appinsights-instrumentationkey-mc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('appinsights-connection-string-mc', 'APPINSIGHTS_CONNECTION_STRING'),
 
   ],
+  's2s-${env}' : [
+    secret('microservicekey-ccd-data', 'DATA_STORE_S2S_KEY'),
+    secret('microservicekey-ccd-definition', 'DEFINITION_STORE_S2S_KEY'),
+    secret('microservicekey-ccd-gw', 'CCD_API_GATEWAY_S2S_KEY'),
+    secret('microservicekey-ccd-admin', 'ADMIN_S2S_KEY'),
+    secret('microservicekey-ccd-data', 'CCD_DATA_STORE_S2S_SECRET'),
+    secret('microservicekey-ccd-definition', 'CCD_DEFINITION_STORE_S2S_SECRET')
+  ],
+  'ccd-${env}' : [
+    secret('ccd-api-gateway-oauth2-client-secret', 'CCD_API_GATEWAY_OAUTH2_CLIENT_SECRET'),
+    secret('ccd-admin-web-oauth2-client-secret', 'ADMIN_WEB_IDAM_SECRET'),
+    secret('postcode-info-address-lookup-token', 'ADDRESS_LOOKUP_TOKEN'),
+    secret('idam-data-store-client-secret','IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET'),
+    secret('idam-data-store-system-user-username','IDAM_DATA_STORE_SYSTEM_USER_USERNAME'),
+    secret('idam-data-store-system-user-password','IDAM_DATA_STORE_SYSTEM_USER_PASSWORD'),
+  ]
 ]
 
 def branchesToSync = ['demo', 'perftest', 'ithc']

@@ -2,7 +2,6 @@ tags:
   ccd-idam-pr: true
 
 nodejs:
-  enabled: false
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}

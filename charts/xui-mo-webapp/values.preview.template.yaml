@@ -2,18 +2,47 @@ tags:
   ccd-idam-pr: true
 
 nodejs:
-  # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    MANAGE_CASE_LINK: https://webapp-${SERVICE_FQDN}/cases
-    MANAGE_ORG_LINK: https://xui-mo-${SERVICE_FQDN}
-    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
-    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
-    JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD
-    CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
-    SERVICES_ROLE_ASSIGNMENT_API: http://xui-case-api-pr-${CHANGE_ID}-am-role-assignment-service
+    # deprecate
+    #IDAM_URL: https://idam-api.aat.platform.hmcts.net
+    #S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    NODE_TLS_REJECT_UNAUTHORIZED: 0
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
+    SERVICES_CCD_COMPONENT_API: https://gateway-ccd.aat.platform.hmcts.net
+    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
+    #RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal
+    #SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
+    #S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
+    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
+    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
+    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
 
+    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    PUI_ENV: preview
+    FEATURE_SECURE_COOKIE_ENABLED: false
+    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_OIDC_ENABLED: true
+    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
+    DEBUG: xuiNode:*,-xuiNode:auth:s2s
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
+  keyVaults:
+    rpx:
+      secrets:
+        - mo-s2s-client-secret
+        - xui-oauth2-token
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - name: launch-darkly-client-id-preview
+          alias: launch-darkly-client-id
+        - system-user-name
+        - system-user-password
+  autoscaling:
+    enabled: false
 
 global:
   postgresHostname: "xui-preview.postgres.database.azure.com"

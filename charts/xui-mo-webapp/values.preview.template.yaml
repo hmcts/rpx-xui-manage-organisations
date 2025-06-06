@@ -1,48 +1,24 @@
 tags:
   ccd-idam-pr: true
 
-nodejs:
+java:
+  # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    # deprecate
-    #IDAM_URL: https://idam-api.aat.platform.hmcts.net
-    #S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    NODE_TLS_REJECT_UNAUTHORIZED: 0
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
-    SERVICES_CCD_COMPONENT_API: https://gateway-ccd.aat.platform.hmcts.net
-    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
-    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
-    #RD_PROFESSIONAL_API_SERVICE: http://rd-professional-api-aat.service.core-compute-aat.internal
-    #SERVICES_TERMS_AND_CONDITIONS_API_SERVICE: http://xui-terms-and-conditions-aat.service.core-compute-aat.internal
-    #S2S_SERVICE: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    #FEE_AND_PAY_API: https://payment-api-aat.service.core-compute-aat.internal
-    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
-    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
-    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    PUI_ENV: preview
-    FEATURE_SECURE_COOKIE_ENABLED: false
-    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
-    FEATURE_OIDC_ENABLED: true
-    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
-    DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
-  keyVaults:
-    rpx:
-      secrets:
-        - mo-s2s-client-secret
-        - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
-        - google-analytics-key
-        - name: launch-darkly-client-id-preview
-          alias: launch-darkly-client-id
-        - system-user-name
-        - system-user-password
-  autoscaling:
-    enabled: false
+    CASE_DATA_STORE_BASEURL: http://{{ .Release.Name }}-ccd-data-store-api
+    CASE_DOCUMENT_AM_BASEURL: http://${SERVICE_NAME}-ccd-case-document-am-api
+    BUNDLING_API_URL: https://em-ccdorc-${SERVICE_FQDN}
+    CITIZEN_UPDATE_CASE_STATE_ENABLED: true
+    POSTGRES_HOST: '{{ tpl .Values.global.postgresHostname $}}'
+    POSTGRES_NAME: "{{ .Values.global.databaseNamePrefix }}xui-case-api"
+    POSTGRES_USERNAME: ${XUI_POSTGRES_USERNAME_PREVIEW}
+    POSTGRES_CONNECTION_OPTIONS: ""
+  secrets:
+    POSTGRES_PASSWORD:
+      secretRef: postgres
+      key: PASSWORD
+      disabled: false
 
 global:
   postgresHostname: "xui-preview.postgres.database.azure.com"

@@ -1,17 +1,17 @@
 nodejs:
-  image: hmctspublic.azurecr.io/xui/mo-webapp:latest
+  image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
     NODE_TLS_REJECT_UNAUTHORIZED: 0
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
+    SERVICES_CCD_COMPONENT_API: https://gateway-ccd.aat.platform.hmcts.net
     IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
     IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
     SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
-    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     PUI_ENV: preview
     FEATURE_SECURE_COOKIE_ENABLED: false
@@ -31,6 +31,16 @@ nodejs:
           alias: launch-darkly-client-id
         - system-user-name
         - system-user-password
+  autoscaling:
+    enabled: false
+redis:
+  enabled: true
+idam-pr:
+  enabled: true
+  redirect_uris:
+    XUIMO:
+      - https://${SERVICE_FQDN}/oauth2/callback
+
 ccd:
   ccd:
     definitionImporter:
@@ -395,123 +405,3 @@ ccd:
                 timeout => 60
             }
         }
-
-global:
-  postgresHostname: "xui-preview.postgres.database.azure.com"
-  postgresSecret: postgres
-  databaseNamePrefix: "pr-${CHANGE_ID}-"
-  
-ccd-case-document-am-api:
-  enabled: true
-  java:
-    releaseNameOverride: ${SERVICE_NAME}-ccd-case-document-am-api
-    imagePullPolicy: Always
-    image: hmctspublic.azurecr.io/ccd/case-document-am-api:latest
-    ingressHost: ccd-case-document-am-api-${SERVICE_FQDN}
-    environment:
-      CASE_DOCUMENT_S2S_AUTHORISED_SERVICES: ccd_case_document_am_api,ccd_gw,xui_webapp,ccd_data,bulk_scan_processor,em_npa_app,dg_docassembly_api,em_stitching_api,em_ccd_orchestrator,bulk_scan_orchestrator,sptribs_case_api,sptribs_frontend
-      CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
-      LOGGING_LEVEL_UK_GOV_HMCTS_REFORM_CCD: DEBUG
-    autoscaling:
-      enabled: false
-
-xui-webapp:
-  enabled: true
-  nodejs:
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-xui-webapp
-    image: hmctspublic.azurecr.io/xui/webapp:latest
-    ingressHost: webapp-${SERVICE_FQDN}
-    devcpuRequests: 250m
-    devmemoryRequests: 1024Mi
-    devmemoryLimits: 1024Mi
-    environment:
-      SERVICES_CCD_COMPONENT_API: http://{{ .Release.Name }}-ccd-api-gw
-      SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
-      SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
-      SERVICES_CCD_CASE_ASSIGNMENT_API: http://{{ .Release.Name }}-aac-manage-case-assignment
-      FEATURE_REDIS_ENABLED: false
-      FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
-      SERVICES_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
-
-redis:
-  enabled: true
-idam-pr:
-  enabled: true
-  redirect_uris:
-    XUIMO:
-      - https://${SERVICE_FQDN}/oauth2/callback
-
-em-ccdorc:
-  enabled: false
-  java:
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-em-ccdorc
-    image: hmctspublic.azurecr.io/em/ccdorc:latest
-    ingressHost: em-ccdorc-${SERVICE_FQDN}
-    environment:
-      EM_STITCHING_API_URL: https://em-stitching-${SERVICE_FQDN}
-      CCD_DATA_API_URL: https://ccd-data-store-api-${SERVICE_FQDN}
-      CALLBACK_DOMAIN: em-ccdorc-${SERVICE_FQDN}
-      CALLBACK_HTTP_SCHEME: https
-      APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: WARN
-
-em-stitching:
-  enabled: false
-  java:
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-em-stitching
-    image: hmctspublic.azurecr.io/em/stitching:latest
-    ingressHost: em-stitching-${SERVICE_FQDN}
-    environment:
-      CDAM_URL: http://${SERVICE_NAME}-ccd-case-document-am-api
-      SPRING_DATASOURCE_HOST: '{{ tpl .Values.global.postgresHostname $}}'
-      SPRING_DATASOURCE_NAME: "pr-${CHANGE_ID}-emstitch"
-      SPRING_DATASOURCE_OPTIONS: "?ssl=disable"
-      SPRING_DATASOURCE_USERNAME: ${EM_SPRING_DATASOURCE_USERNAME_PREVIEW}
-      ENABLE_DB_MIGRATE: true
-      RUN_DB_MIGRATION_ON_STARTUP: true
-      FLYWAY_POSTGRESQL_TRANSACTIONAL_LOCK: false
-      APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: WARN
-    secrets:
-      SPRING_DATASOURCE_PASSWORD:
-        secretRef: postgres
-        key: PASSWORD
-        disabled: false
-
-aac-manage-case-assignment:
-  enabled: true
-  java:
-    disableKeyVaults: true
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-aac-manage-case-assignment
-    image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560-69236e3-20250604140236
-    ingressHost: aac-${SERVICE_FQDN}
-    environment:
-      MCA_DS_PROXY_URLS_ALLOWED_LIST: /searchCases.*,/internal/searchCases.*,/internal/cases.*
-      MCA_DEF_STORE_PROXY_URLS_ALLOWED_LIST: /api/display/challenge-questions.*
-      MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
-      CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
-      CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
-      ROLE_ASSIGNMENT_URL: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
-    autoscaling:
-      enabled: false
-
-postgresql:
-  enabled: true
-  flexibleserver: xui-preview
-  setup:
-    databases:
-      - name: "pr-${CHANGE_ID}-xui-case-api"
-      - name: "pr-${CHANGE_ID}-data-store"
-      - name: "pr-${CHANGE_ID}-definition-store"
-      - name: "pr-${CHANGE_ID}-user-profile"
-      - name: "pr-${CHANGE_ID}-role_assignment"
-      - name: "pr-${CHANGE_ID}-emstitch"
-
-servicebus:
-  enabled: false
-
-wa:
-  enabled: false

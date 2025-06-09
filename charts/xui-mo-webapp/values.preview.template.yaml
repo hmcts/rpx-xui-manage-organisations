@@ -1,43 +1,6 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-    NODE_TLS_REJECT_UNAUTHORIZED: 0
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
-    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
-    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
-    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
-    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
-    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
-    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    PUI_ENV: preview
-    FEATURE_SECURE_COOKIE_ENABLED: false
-    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
-    FEATURE_OIDC_ENABLED: true
-    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
-    DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
-  keyVaults:
-    rpx:
-      secrets:
-        - mo-s2s-client-secret
-        - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
-        - google-analytics-key
-        - name: launch-darkly-client-id-preview
-          alias: launch-darkly-client-id
-        - system-user-name
-        - system-user-password
-redis:
-  enabled: true
-idam-pr:
-  enabled: true
-  redirect_uris:
-    XUIMO:
-      - https://${SERVICE_FQDN}/oauth2/callback
 
 ccd:
   ccd:
@@ -102,7 +65,7 @@ ccd:
         IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET: ${IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET}
         IDAM_DATA_STORE_SYSTEM_USER_USERNAME: ${IDAM_DATA_STORE_SYSTEM_USER_USERNAME}
         IDAM_DATA_STORE_SYSTEM_USER_PASSWORD: ${IDAM_DATA_STORE_SYSTEM_USER_PASSWORD}
-        ROLE_ASSIGNMENT_URL: http://am-role-assignment--${CHANGE_ID}
+        ROLE_ASSIGNMENT_URL: http://am-role-assignment-${CHANGE_ID}
       secrets:
         DATA_STORE_DB_PASSWORD:
           secretRef: postgres
@@ -136,7 +99,6 @@ ccd:
   am-role-assignment-service:
     java:
       image: hmctspublic.azurecr.io/am/role-assignment-service:latest
-      ingressHost: am-role-assignment-${SERVICE_FQDN}
       disableKeyVaults: true
       environment:
         CCD_DATA_STORE_URL: http://{{ .Release.Name }}-ccd-data-store-api
@@ -149,7 +111,6 @@ ccd:
   am-org-role-mapping-service:
     java:
       image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:latest'
-      ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       environment:
         CASE_DATA_STORE_BASEURL: http://{{ .Release.Name }}-ccd-data-store-api
@@ -444,10 +405,51 @@ xui-webapp:
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: http://am-role-assignment--${CHANGE_ID}
-      SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment--${CHANGE_ID}
+      HEALTH_ROLE_ASSIGNMENT_API: http://am-role-assignment-${CHANGE_ID}
+      SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment-${CHANGE_ID}
       GLOBAL_SEARCH_SERVICES: ST_CIC
       WA_SUPPORTED_JURISDICTIONS: ST_CIC
+
+xui-mo-webapp:
+  enabled: true
+  nodejs:
+    environment:
+    NODE_TLS_REJECT_UNAUTHORIZED: 0
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
+    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
+    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
+    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
+    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
+    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
+    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    PUI_ENV: preview
+    FEATURE_SECURE_COOKIE_ENABLED: false
+    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_OIDC_ENABLED: true
+    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
+    DEBUG: xuiNode:*,-xuiNode:auth:s2s
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
+  keyVaults:
+    rpx:
+      secrets:
+        - mo-s2s-client-secret
+        - xui-oauth2-token
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - name: launch-darkly-client-id-preview
+          alias: launch-darkly-client-id
+        - system-user-name
+        - system-user-password
+redis:
+  enabled: true
+idam-pr:
+  enabled: true
+  redirect_uris:
+    XUIMO:
+      - https://${SERVICE_FQDN}/oauth2/callback
 
 aac-manage-case-assignment:
   enabled: true

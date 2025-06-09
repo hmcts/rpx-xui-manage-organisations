@@ -34,14 +34,6 @@ dependencies:
     version: 1.7.14
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
     condition: ccd-case-document-am-api.enabled
-  - name: em-ccdorc
-    version: 2.1.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: em-ccdorc.enabled
-  - name: em-stitching
-    version: 1.1.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: em-stitching.enabled
 #    Work Allocation
   - name: wa
     version: ~1.1.0

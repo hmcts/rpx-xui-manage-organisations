@@ -1,5 +1,5 @@
 nodejs:
-  image: ${IMAGE_NAME}
+  image: hmctspublic.azurecr.io/xui/mo-webapp:latest
   ingressHost: ${SERVICE_FQDN}
   environment:
     NODE_TLS_REJECT_UNAUTHORIZED: 0

@@ -1,4 +1,36 @@
-
+nodejs:
+  image: ${IMAGE_NAME}
+  ingressHost: ${SERVICE_FQDN}
+  environment:
+    NODE_TLS_REJECT_UNAUTHORIZED: 0
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
+    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
+    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
+    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
+    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
+    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
+    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    PUI_ENV: preview
+    FEATURE_SECURE_COOKIE_ENABLED: false
+    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_OIDC_ENABLED: true
+    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
+    DEBUG: xuiNode:*,-xuiNode:auth:s2s
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
+  keyVaults:
+    rpx:
+      secrets:
+        - mo-s2s-client-secret
+        - xui-oauth2-token
+        - appinsights-instrumentationkey-mo
+        - google-analytics-key
+        - name: launch-darkly-client-id-preview
+          alias: launch-darkly-client-id
+        - system-user-name
+        - system-user-password
 ccd:
   ccd:
     definitionImporter:
@@ -104,6 +136,11 @@ ccd:
         ROLE_ASSIGNMENT_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
         ROLE_ASSIGNMENT_DB_NAME: "pr-${CHANGE_ID}-role_assignment"
         ROLE_ASSIGNMENT_DB_OPTIONS: "?stringtype=unspecified&ssl=disable&gssEncMode=disable"
+      secrets:
+        APP-INSIGHTS-CONNECTION-STRING:
+          secretRef: app-insights-connection-string
+          key: bbbb
+          disabled: false
 
   am-org-role-mapping-service:
     java:
@@ -407,39 +444,6 @@ xui-webapp:
       GLOBAL_SEARCH_SERVICES: ST_CIC
       WA_SUPPORTED_JURISDICTIONS: ST_CIC
 
-nodejs:
-  image: ${IMAGE_NAME}
-  ingressHost: ${SERVICE_FQDN}
-  environment:
-    NODE_TLS_REJECT_UNAUTHORIZED: 0
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
-    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
-    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
-    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
-    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
-    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
-    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    PUI_ENV: preview
-    FEATURE_SECURE_COOKIE_ENABLED: false
-    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
-    FEATURE_OIDC_ENABLED: true
-    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
-    DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
-  keyVaults:
-    rpx:
-      secrets:
-        - mo-s2s-client-secret
-        - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
-        - google-analytics-key
-        - name: launch-darkly-client-id-preview
-          alias: launch-darkly-client-id
-        - system-user-name
-        - system-user-password
 redis:
   enabled: true
 idam-pr:

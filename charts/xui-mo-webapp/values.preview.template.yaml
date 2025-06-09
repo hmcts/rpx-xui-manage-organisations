@@ -65,7 +65,7 @@ ccd:
         IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET: ${IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET}
         IDAM_DATA_STORE_SYSTEM_USER_USERNAME: ${IDAM_DATA_STORE_SYSTEM_USER_USERNAME}
         IDAM_DATA_STORE_SYSTEM_USER_PASSWORD: ${IDAM_DATA_STORE_SYSTEM_USER_PASSWORD}
-        ROLE_ASSIGNMENT_URL: http://am-role-assignment-${CHANGE_ID}
+        ROLE_ASSIGNMENT_URL: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment
       secrets:
         DATA_STORE_DB_PASSWORD:
           secretRef: postgres
@@ -405,8 +405,8 @@ xui-webapp:
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: http://am-role-assignment-${CHANGE_ID}
-      SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment-${CHANGE_ID}
+      HEALTH_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment
+      SERVICES_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment
       GLOBAL_SEARCH_SERVICES: ST_CIC
       WA_SUPPORTED_JURISDICTIONS: ST_CIC
 
@@ -465,7 +465,7 @@ aac-manage-case-assignment:
       MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
-      ROLE_ASSIGNMENT_URL: http://am-role-assignment-${CHANGE_ID}
+      ROLE_ASSIGNMENT_URL: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment
     autoscaling:
       enabled: false
 

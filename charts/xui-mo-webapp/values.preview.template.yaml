@@ -39,6 +39,18 @@ idam-pr:
     XUIMO:
       - https://${SERVICE_FQDN}/oauth2/callback
 
+postgresql:
+  enabled: true
+  flexibleserver: xui-preview
+  setup:
+    databases:
+      - name: "pr-${CHANGE_ID}-xui-case-api"
+      - name: "pr-${CHANGE_ID}-data-store"
+      - name: "pr-${CHANGE_ID}-definition-store"
+      - name: "pr-${CHANGE_ID}-user-profile"
+      - name: "pr-${CHANGE_ID}-role_assignment"
+      - name: "pr-${CHANGE_ID}-emstitch"
+
 am-org-role-mapping-service:
   java:
     environment:
@@ -495,18 +507,6 @@ em-stitching:
         secretRef: postgres
         key: PASSWORD
         disabled: false
-
-postgresql:
-  enabled: true
-  flexibleserver: xui-preview
-  setup:
-    databases:
-      - name: "pr-${CHANGE_ID}-xui-case-api"
-      - name: "pr-${CHANGE_ID}-data-store"
-      - name: "pr-${CHANGE_ID}-definition-store"
-      - name: "pr-${CHANGE_ID}-user-profile"
-      - name: "pr-${CHANGE_ID}-role_assignment"
-      - name: "pr-${CHANGE_ID}-emstitch"
 
 servicebus:
   enabled: false

@@ -1,5 +1,5 @@
 nodejs:
-  image: hmctspublic.azurecr.io/xui/mo-webapp:latest
+  image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
     NODE_TLS_REJECT_UNAUTHORIZED: 0
@@ -102,7 +102,7 @@ ccd:
         IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET: ${IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET}
         IDAM_DATA_STORE_SYSTEM_USER_USERNAME: ${IDAM_DATA_STORE_SYSTEM_USER_USERNAME}
         IDAM_DATA_STORE_SYSTEM_USER_PASSWORD: ${IDAM_DATA_STORE_SYSTEM_USER_PASSWORD}
-        ROLE_ASSIGNMENT_URL: http://xui-case-api-pr-${CHANGE_ID}-am-role-assignment-service
+        ROLE_ASSIGNMENT_URL: http://am-role-assignment--${CHANGE_ID}
       secrets:
         DATA_STORE_DB_PASSWORD:
           secretRef: postgres
@@ -444,8 +444,8 @@ xui-webapp:
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: http://xui-case-api-pr-${CHANGE_ID}-am-role-assignment-service
-      SERVICES_ROLE_ASSIGNMENT_API: http://xui-case-api-pr-${CHANGE_ID}-am-role-assignment-service
+      HEALTH_ROLE_ASSIGNMENT_API: http://am-role-assignment--${CHANGE_ID}
+      SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment--${CHANGE_ID}
       GLOBAL_SEARCH_SERVICES: ST_CIC
       WA_SUPPORTED_JURISDICTIONS: ST_CIC
 
@@ -463,46 +463,9 @@ aac-manage-case-assignment:
       MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
-      ROLE_ASSIGNMENT_URL: http://xui-case-api-pr-${CHANGE_ID}-am-role-assignment-service
+      ROLE_ASSIGNMENT_URL: http://am-role-assignment-${CHANGE_ID}
     autoscaling:
       enabled: false
-
-em-ccdorc:
-  enabled: false
-  java:
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-em-ccdorc
-    image: hmctspublic.azurecr.io/em/ccdorc:latest
-    ingressHost: em-ccdorc-${SERVICE_FQDN}
-    environment:
-      EM_STITCHING_API_URL: https://em-stitching-${SERVICE_FQDN}
-      CCD_DATA_API_URL: https://ccd-data-store-api-${SERVICE_FQDN}
-      CALLBACK_DOMAIN: em-ccdorc-${SERVICE_FQDN}
-      CALLBACK_HTTP_SCHEME: https
-      APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: WARN
-
-em-stitching:
-  enabled: false
-  java:
-    imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}-em-stitching
-    image: hmctspublic.azurecr.io/em/stitching:latest
-    ingressHost: em-stitching-${SERVICE_FQDN}
-    environment:
-      CDAM_URL: http://${SERVICE_NAME}-ccd-case-document-am-api
-      SPRING_DATASOURCE_HOST: '{{ tpl .Values.global.postgresHostname $}}'
-      SPRING_DATASOURCE_NAME: "pr-${CHANGE_ID}-emstitch"
-      SPRING_DATASOURCE_OPTIONS: "?ssl=disable"
-      SPRING_DATASOURCE_USERNAME: ${EM_SPRING_DATASOURCE_USERNAME_PREVIEW}
-      ENABLE_DB_MIGRATE: true
-      RUN_DB_MIGRATION_ON_STARTUP: true
-      FLYWAY_POSTGRESQL_TRANSACTIONAL_LOCK: false
-      APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: WARN
-    secrets:
-      SPRING_DATASOURCE_PASSWORD:
-        secretRef: postgres
-        key: PASSWORD
-        disabled: false
 
 postgresql:
   enabled: true

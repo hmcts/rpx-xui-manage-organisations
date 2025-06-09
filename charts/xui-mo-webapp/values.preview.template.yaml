@@ -1,38 +1,7 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-    NODE_TLS_REJECT_UNAUTHORIZED: 0
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
-    SERVICES_CCD_COMPONENT_API: https://gateway-ccd.aat.platform.hmcts.net
-    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
-    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
-    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
-    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
-    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-    PUI_ENV: preview
-    FEATURE_SECURE_COOKIE_ENABLED: false
-    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
-    FEATURE_OIDC_ENABLED: true
-    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
-    DEBUG: xuiNode:*,-xuiNode:auth:s2s
-    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
-  keyVaults:
-    rpx:
-      secrets:
-        - mo-s2s-client-secret
-        - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
-        - google-analytics-key
-        - name: launch-darkly-client-id-preview
-          alias: launch-darkly-client-id
-        - system-user-name
-        - system-user-password
-  autoscaling:
-    enabled: false
+  
 redis:
   enabled: true
 idam-pr:
@@ -405,3 +374,36 @@ ccd:
                 timeout => 60
             }
         }
+  ccd-case-document-am-api:
+  enabled: true
+  java:
+    releaseNameOverride: ${SERVICE_NAME}-ccd-case-document-am-api
+    imagePullPolicy: Always
+    image: hmctspublic.azurecr.io/ccd/case-document-am-api:latest
+    ingressHost: ccd-case-document-am-api-${SERVICE_FQDN}
+    environment:
+      CASE_DOCUMENT_S2S_AUTHORISED_SERVICES: ccd_case_document_am_api,ccd_gw,xui_webapp,ccd_data,bulk_scan_processor,em_npa_app,dg_docassembly_api,em_stitching_api,em_ccd_orchestrator,bulk_scan_orchestrator,sptribs_case_api,sptribs_frontend
+      CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
+      LOGGING_LEVEL_UK_GOV_HMCTS_REFORM_CCD: DEBUG
+    autoscaling:
+      enabled: false
+
+xui-webapp:
+  enabled: true
+  nodejs:
+    imagePullPolicy: Always
+    releaseNameOverride: ${SERVICE_NAME}-xui-webapp
+    image: hmctspublic.azurecr.io/xui/webapp:latest
+    ingressHost: webapp-${SERVICE_FQDN}
+    devcpuRequests: 250m
+    devmemoryRequests: 1024Mi
+    devmemoryLimits: 1024Mi
+    environment:
+      SERVICES_CCD_COMPONENT_API: http://{{ .Release.Name }}-ccd-api-gw
+      SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+      SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
+      SERVICES_CCD_CASE_ASSIGNMENT_API: http://{{ .Release.Name }}-aac-manage-case-assignment
+      FEATURE_REDIS_ENABLED: false
+      FEATURE_APP_INSIGHTS_ENABLED: true
+      HEALTH_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
+      SERVICES_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service

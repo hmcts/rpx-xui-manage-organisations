@@ -407,30 +407,28 @@ xui-webapp:
       GLOBAL_SEARCH_SERVICES: ST_CIC
       WA_SUPPORTED_JURISDICTIONS: ST_CIC
 
-xui-mo-webapp:
-  enabled: true
-  nodejs:
-    image: ${IMAGE_NAME}
-    ingressHost: ${SERVICE_FQDN}
-    environment:
-      NODE_TLS_REJECT_UNAUTHORIZED: 0
-      S2S_SECRET: ${S2S_SECRET}
-      IDAM_SECRET: ${IDAM_SECRET}
-      IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
-      IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
-      SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
-      MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
-      MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-      SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
-      SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
-      APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
-      PUI_ENV: preview
-      FEATURE_SECURE_COOKIE_ENABLED: false
-      FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
-      FEATURE_OIDC_ENABLED: true
-      REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
-      DEBUG: xuiNode:*,-xuiNode:auth:s2s
-      CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
+nodejs:
+  image: ${IMAGE_NAME}
+  ingressHost: ${SERVICE_FQDN}
+  environment:
+    NODE_TLS_REJECT_UNAUTHORIZED: 0
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
+    IDAM_API_SERVICE: https://idam-api.aat.platform.hmcts.net
+    IDAM_WEB_SERVICE: https://idam-web-public.aat.platform.hmcts.net
+    SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
+    MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
+    MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
+    SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
+    SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    PUI_ENV: preview
+    FEATURE_SECURE_COOKIE_ENABLED: false
+    FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
+    FEATURE_OIDC_ENABLED: true
+    REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379
+    DEBUG: xuiNode:*,-xuiNode:auth:s2s
+    CASE_TYPES: CIVIL,MoneyClaimCase,DIVORCE,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,ET_EnglandWales_Multiple,ET_Scotland_Multiple
   keyVaults:
     rpx:
       secrets:
@@ -451,7 +449,7 @@ idam-pr:
       - https://${SERVICE_FQDN}/oauth2/callback
 
 em-ccdorc:
-  enabled: true
+  enabled: false
   java:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-em-ccdorc
@@ -465,7 +463,7 @@ em-ccdorc:
       APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: WARN
 
 em-stitching:
-  enabled: true
+  enabled: false
   java:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-em-stitching

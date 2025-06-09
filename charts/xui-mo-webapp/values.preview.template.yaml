@@ -430,14 +430,10 @@ xui-webapp:
       SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
       SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
       SERVICES_CCD_CASE_ASSIGNMENT_API: http://{{ .Release.Name }}-aac-manage-case-assignment
-      JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD
-      CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
       HEALTH_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
       SERVICES_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
-      GLOBAL_SEARCH_SERVICES: ST_CIC
-      WA_SUPPORTED_JURISDICTIONS: ST_CIC
 
 redis:
   enabled: true

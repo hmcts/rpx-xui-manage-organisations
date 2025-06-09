@@ -135,7 +135,8 @@ ccd:
 
   am-role-assignment-service:
     java:
-      ingressHost: role-assignment-${SERVICE_FQDN}
+      image: hmctspublic.azurecr.io/am/role-assignment-service:latest
+      ingressHost: am-role-assignment-${SERVICE_FQDN}
       disableKeyVaults: true
       environment:
         CCD_DATA_STORE_URL: http://{{ .Release.Name }}-ccd-data-store-api
@@ -147,7 +148,9 @@ ccd:
 
   am-org-role-mapping-service:
     java:
-      ingressHost: org-role-mapping-${SERVICE_FQDN}
+      image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:latest'
+      ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
+      releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       environment:
         CASE_DATA_STORE_BASEURL: http://{{ .Release.Name }}-ccd-data-store-api
         CASE_DOCUMENT_AM_BASEURL: http://${SERVICE_NAME}-ccd-case-document-am-api

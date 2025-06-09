@@ -1,3 +1,4 @@
+
 ccd:
   ccd:
     definitionImporter:
@@ -409,7 +410,8 @@ xui-webapp:
 xui-mo-webapp:
   enabled: true
   nodejs:
-    imagePullPolicy: Always
+    image: ${IMAGE_NAME}
+    ingressHost: ${SERVICE_FQDN}
     environment:
       NODE_TLS_REJECT_UNAUTHORIZED: 0
       S2S_SECRET: ${S2S_SECRET}

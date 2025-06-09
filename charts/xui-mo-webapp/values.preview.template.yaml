@@ -426,6 +426,23 @@ xui-webapp:
       HEALTH_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
       SERVICES_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
 
+
+xui-mo-webapp:
+  enabled: true
+  nodejs:
+    imagePullPolicy: Always
+    releaseNameOverride: ${SERVICE_NAME}-xui-mo-webapp
+    image: hmctspublic.azurecr.io/xui/mo-webapp:latest
+    ingressHost: xui-mo-${SERVICE_FQDN}
+    environment:
+      MANAGE_CASE_LINK: https://xui-${SERVICE_FQDN}/cases
+      MANAGE_ORG_LINK: https://xui-mo-${SERVICE_FQDN}
+      SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+      SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
+      JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD
+      CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
+
+
 postgresql:
   enabled: true
   flexibleserver: xui-preview

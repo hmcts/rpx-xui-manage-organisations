@@ -6,17 +6,10 @@ description: Expert UI
 maintainers:
   - name: HMCTS RPX XUI
 dependencies:
-  - name: nodejs
-    version: 3.2.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
   - name: redis
     version: 20.11.3
     repository: "oci://registry-1.docker.io/bitnamicharts"
     condition: redis.enabled
-  - name: idam-pr
-    version: 2.3.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: idam-pr.enabled
   - name: ccd
     version: 9.2.2
     repository: 'oci://hmctspublic.azurecr.io/helm'

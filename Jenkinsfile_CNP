@@ -45,6 +45,8 @@ def secrets = [
     secret('test-password', 'TEST_PASSWORD'),
     secret('appinsights-instrumentationkey-mc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
     secret('appinsights-connection-string-mc', 'APPINSIGHTS_CONNECTION_STRING'),
+    secret('definition-importer-email', 'DEFINITION_IMPORTER_USERNAME'),
+    secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
   ],
   's2s-${env}' : [
     secret('microservicekey-ccd-data', 'DATA_STORE_S2S_KEY'),
@@ -83,6 +85,7 @@ withPipeline(type, product, component) {
     enableFortifyScan('rpx-aat')
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)
+    enableHighLevelDataSetup()
 
    enablePactAs([
      AppPipelineDsl.PactRoles.CONSUMER
@@ -126,16 +129,13 @@ withPipeline(type, product, component) {
 
     }
 
-//    after('smoketest:demo') {
-//        publishHTML([
-//            allowMissing         : true,
-//            alwaysLinkToLastBuild: true,
-//            keepAll              : true,
-//            reportDir            : "reports/tests/smoke/",
-//            reportFiles          : 'index.html',
-//            reportName           : 'DEMO Smoke Test'
-//        ])
-//    }
+    before('smoketest:preview') {
+        env.IDAM_API_URL_BASE = "https://idam-api.platform.hmcts.net"
+        env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
+        env.DEFINITION_STORE_URL_BASE = "https://ccd-definition-store-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        // Only for preview upload the definitions via script as high level data set up relies on an existing environment
+        uploadCoreCaseDataRoles()
+    }
 
     afterSuccess('smoketest:preview') {
         publishHTML([
@@ -220,4 +220,10 @@ withPipeline(type, product, component) {
         ])
     }
 
+}
+
+def uploadCoreCaseDataDefinitions() {
+    dir("${WORKSPACE}/bin"){
+        sh "./add-ccd-role.sh"
+    }
 }

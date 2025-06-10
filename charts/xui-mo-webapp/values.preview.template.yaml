@@ -117,6 +117,7 @@ ccd:
         ROLE_ASSIGNMENT_DB_OPTIONS: "?stringtype=unspecified&ssl=disable&gssEncMode=disable"
 
   am-org-role-mapping-service:
+    enabled: true
     java:
       image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:latest'
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service

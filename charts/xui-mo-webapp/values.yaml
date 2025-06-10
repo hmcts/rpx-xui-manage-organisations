@@ -21,7 +21,7 @@ ccd-case-document-am-api:
 wa:
   enabled: false
 am-org-role-mapping-service:
-  enabled: false
+  enabled: true
 servicebus:
   enabled: false
 

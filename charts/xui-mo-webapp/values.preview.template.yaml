@@ -431,7 +431,7 @@ xui-mo-webapp:
   enabled: true
   nodejs:
     imagePullPolicy: Always
-    releaseNameOverride: ${SERVICE_NAME}
+    releaseNameOverride: ${SERVICE_NAME}-xui-mo
     image: hmctspublic.azurecr.io/xui/mo-webapp:latest
     ingressHost: ${SERVICE_FQDN}
     environment:

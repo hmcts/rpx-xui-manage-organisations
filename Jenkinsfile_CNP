@@ -45,8 +45,6 @@ def secrets = [
     secret('test-password', 'TEST_PASSWORD'),
     secret('appinsights-instrumentationkey-mc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
     secret('appinsights-connection-string-mc', 'APPINSIGHTS_CONNECTION_STRING'),
-    secret('xui-postgress-username-preview', 'XUI_POSTGRES_USERNAME_PREVIEW'),
-    secret('xui-postgress-password-preview', 'XUI_POSTGRES_PASSWORD_PREVIEW'),
   ],
   's2s-${env}' : [
     secret('microservicekey-ccd-data', 'DATA_STORE_S2S_KEY'),

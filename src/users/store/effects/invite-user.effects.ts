@@ -8,7 +8,6 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { ErrorReport } from '../../models/errorReport.model';
 import { InviteUserService } from '../../services';
 import * as usersActions from '../actions';
-
 @Injectable()
 export class InviteUserEffects {
   constructor(
@@ -19,23 +18,23 @@ export class InviteUserEffects {
 
   public saveUser$ = createEffect(() => this.actions$.pipe(
     ofType(usersActions.SEND_INVITE_USER),
-    map((action: usersActions.SendInviteUser) => action.payload),
-    switchMap((inviteUserFormData) => {
-      const userEmail = (inviteUserFormData as any).email;
-      return this.inviteUserSevice.inviteUser(inviteUserFormData).pipe(
+    switchMap(({ payload, orgProfileIds }: usersActions.SendInviteUser) => {
+      const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
+      const userEmail = payload.email;
+      return this.inviteUserSevice.inviteUser(reqBody).pipe(
         map((userDetails) => {
-          const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(inviteUserFormData.resendInvite);
+          const userInvitedLoggerMessage = InviteUserEffects.getUserInviteLoggerMessage(payload.resendInvite);
           this.loggerService.info(userInvitedLoggerMessage);
           return new usersActions.InviteUserSuccess({ ...userDetails, userEmail });
         }),
         catchError((errorReport) => {
           this.loggerService.error(errorReport.message);
-          const action = InviteUserEffects.getErrorAction(errorReport.error);
-          return of(action);
+          return of(InviteUserEffects.getErrorAction(errorReport.error));
         })
       );
     })
-  ));
+  )
+  );
 
   public confirmUser$ = createEffect(() => this.actions$.pipe(
     ofType(usersActions.INVITE_USER_SUCCESS),
@@ -60,6 +59,8 @@ export class InviteUserEffects {
         return new usersActions.InviteUserFailWith404(error);
       case 409:
         return new usersActions.InviteUserFailWith409(error);
+      case 422:
+        return new usersActions.InviteUserFailWith422(error);
       case 429:
         return new usersActions.InviteUserFailWith429(error);
       case 500:

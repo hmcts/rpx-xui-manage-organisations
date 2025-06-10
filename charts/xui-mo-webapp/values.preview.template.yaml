@@ -3,7 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   
 redis:
-  enabled: true
+  enabled: false
 idam-pr:
   enabled: true
   redirect_uris:

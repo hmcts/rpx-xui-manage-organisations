@@ -19,6 +19,7 @@ import uk.gov.hmcts.contino.AppPipelineDsl
 def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
+def vault = "rpx"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 

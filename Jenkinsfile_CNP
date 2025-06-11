@@ -46,7 +46,7 @@ def secrets = [
     secret('test-password', 'TEST_PASSWORD'),
     secret('appinsights-instrumentationkey-mc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
     secret('appinsights-connection-string-mc', 'APPINSIGHTS_CONNECTION_STRING'),
-    secret('definition-importer-email', 'DEFINITION_IMPORTER_EMAIL'),
+    secret('definition-importer-username', 'DEFINITION_IMPORTER_USERNAME'),
     secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
   ],
   's2s-${env}' : [

@@ -7,7 +7,7 @@ dir=$(dirname ${0})
 role=${1}
 classification=${2:-PUBLIC}
 
-userToken=$(${dir}/idam-user-token.sh ${DEFINITION_IMPORTER_EMAIL} ${DEFINITION_IMPORTER_PASSWORD})
+userToken=$(${dir}/idam-user-token.sh ${DEFINITION_IMPORTER_USERNAME} ${DEFINITION_IMPORTER_PASSWORD})
 serviceToken=$(${dir}/s2s-token.sh ccd_gw)
 
 echo "Creating CCD role: ${role}"

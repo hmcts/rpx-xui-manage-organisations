@@ -57,7 +57,7 @@
     "test:backendMock": "DEBUG=true nodemon test_codecept/backendMock/app --standalone",
     "test:xuiIntegrationDebug": "DEBUG=true NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration npx codeceptjs run -p pauseOnFail --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
     "test:xuiIntegration": "yarn build && node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration PARALLEL=true npx codeceptjs run-workers --suites 6 --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
-    "highLevelDataSetup": "echo './gradlew highLevelDataSetup --args=$1' > ./temp.sh && sh ./temp.sh"
+    "highLevelDataSetup": "sh ./bin/add-ccd-role.sh"
   },
   "private": true,
   "dependencies": {

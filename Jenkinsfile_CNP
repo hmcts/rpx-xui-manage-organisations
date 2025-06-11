@@ -86,7 +86,6 @@ withPipeline(type, product, component) {
     enableFortifyScan('rpx-aat')
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)
-    enableHighLevelDataSetup('rpx')
 
    enablePactAs([
      AppPipelineDsl.PactRoles.CONSUMER
@@ -223,7 +222,7 @@ withPipeline(type, product, component) {
 
 }
 
-def uploadCoreCaseDataDefinitions() {
+def uploadCoreCaseDataRoles() {
     dir("${WORKSPACE}/bin"){
         sh "./add-ccd-role.sh"
     }

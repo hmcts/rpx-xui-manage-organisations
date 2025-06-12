@@ -12,6 +12,9 @@ serviceToken=$(${dir}/s2s-token.sh ccd_gw)
 
 echo "Creating CCD role: ${role}"
 echo "posting to ${DEFINITION_STORE_URL_BASE:-http://localhost:4451}/api/user-role"
+echo "userToken: ${userToken}"
+echo "serviceToken: ${serviceToken}"
+
 
 curl --insecure --fail --show-error --silent --output /dev/null -X PUT \
   ${DEFINITION_STORE_URL_BASE:-http://localhost:4451}/api/user-role \

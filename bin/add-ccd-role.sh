@@ -2,6 +2,9 @@
 
 set -eu
 
+scriptPath=$(dirname $(realpath $0))
+echo "Script Path ${scriptPath}"
+
 dir=$(dirname $(realpath $0))
 jq -c '(.[])' ${dir}/ccd-roles.json | while read args; do
   role=$(jq -r '.role' <<< $args)

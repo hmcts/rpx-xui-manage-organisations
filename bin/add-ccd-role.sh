@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 set -eu
-dir=$(dirname ${0})
+
+dir=$(dirname $(realpath $0))
 jq -c '(.[])' ${dir}/ccd-roles.json | while read args; do
   role=$(jq -r '.role' <<< $args)
   class=$(jq -r '.security_classification' <<< $args)

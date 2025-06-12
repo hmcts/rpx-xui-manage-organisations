@@ -15,8 +15,14 @@ password=${2}
 IDAM_API_URL=${IDAM_API_URL_BASE:-http://localhost:5000}
 IDAM_URL=${IDAM_STUB_LOCALHOST:-$IDAM_API_URL}
 
-clientSecret=${OAUTH2_CLIENT_SECRET}
+clientSecret=${IDAM_SECRET}
 redirectUri=http://localhost:3001/oauth2/callback
+
+echo "username: ${username}"
+echo "password: ${password}"
+echo "IDAM_API_URL: ${IDAM_API_URL}"
+echo "IDAM_URL: ${IDAM_URL}"
+echo "clientSecret: ${clientSecret}"
 
 if [ -z "$IDAM_STUB_LOCALHOST" ]; then
   code=$(curl --insecure --fail --show-error --silent -X POST --user "${username}:${password}" "${IDAM_URL}/oauth2/authorize?redirect_uri=${redirectUri}&response_type=code&client_id=sptribs" -d "" | docker run --rm --interactive ghcr.io/jqlang/jq -r .code)

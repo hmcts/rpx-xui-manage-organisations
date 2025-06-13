@@ -393,6 +393,10 @@ am-org-role-mapping-service:
         ORG_ROLE_MAPPING_DB_USERNAME: hmcts
         ORG_ROLE_MAPPING_DB_PORT: 5432
         ORG_ROLE_MAPPING_DB_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&ssl=disable&gssEncMode=disable"
+      secrets:
+        rpx:
+         - name: xui-postgress-password-preview
+           alias: ORG_ROLE_MAPPING_DB_PASSWORD
 
 aac-manage-case-assignment:
   enabled: true

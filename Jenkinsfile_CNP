@@ -133,7 +133,7 @@ withPipeline(type, product, component) {
         env.IDAM_API_BASE_URL = "https://idam-web-public.aat.platform.hmcts.net"
         env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
         env.DEFINITION_STORE_URL_BASE = "https://ccd-definition-store-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
-        env.CCD_ADMIN_WEB_URL= "admin-web-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        env.CCD_ADMIN_WEB_URL= "https://admin-web-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
         // Only for preview upload the definitions via script as high level data set up relies on an existing environment
         sh 'chmod -R +x ./bin'
         // uploadCoreCaseDataRoles()

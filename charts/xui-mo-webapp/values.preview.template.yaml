@@ -3,7 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   
 redis:
-  enabled: true
+  enabled: false
 idam-pr:
   enabled: true
   redirect_uris:
@@ -73,7 +73,7 @@ ccd:
         IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET: ${IDAM_OAUTH2_DATA_STORE_CLIENT_SECRET}
         IDAM_DATA_STORE_SYSTEM_USER_USERNAME: ${IDAM_DATA_STORE_SYSTEM_USER_USERNAME}
         IDAM_DATA_STORE_SYSTEM_USER_PASSWORD: ${IDAM_DATA_STORE_SYSTEM_USER_PASSWORD}
-        ROLE_ASSIGNMENT_URL: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
+        ROLE_ASSIGNMENT_URL: http://am-role-assignment-service-${SERVICE_FQDN}
       secrets:
         DATA_STORE_DB_PASSWORD:
           secretRef: postgres
@@ -405,7 +405,7 @@ aac-manage-case-assignment:
       MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
-      ROLE_ASSIGNMENT_URL: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
+      ROLE_ASSIGNMENT_URL: http://am-role-assignment-service-${SERVICE_FQDN}
     autoscaling:
       enabled: false
 
@@ -426,8 +426,8 @@ xui-webapp:
       SERVICES_CCD_CASE_ASSIGNMENT_API: http://{{ .Release.Name }}-aac-manage-case-assignment
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
-      SERVICES_ROLE_ASSIGNMENT_API: http://xui-mo-webapp-pr-${CHANGE_ID}-am-role-assignment-service
+      HEALTH_ROLE_ASSIGNMENT_API: http://am-role-assignment-service-${SERVICE_FQDN}
+      SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment-service-${SERVICE_FQDN}
       JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW
 
 

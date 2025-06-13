@@ -10,6 +10,9 @@ idam-pr:
     XUIMO:
       - https://${SERVICE_FQDN}/oauth2/callback
 
+global:
+    postgresHostname: "xui-preview.postgres.database.azure.com"
+
 ccd:
   ccd:
     definitionImporter:
@@ -387,7 +390,7 @@ am-org-role-mapping-service:
         BUNDLING_API_URL: https://em-ccdorc-${SERVICE_FQDN}
         CITIZEN_UPDATE_CASE_STATE_ENABLED: true
         POSTGRES_HOST: '{{ tpl .Values.global.postgresHostname $}}'
-        POSTGRES_NAME: "{{ .Values.global.databaseNamePrefix }}xui-case-api"
+        POSTGRES_NAME: "{{ .Values.global.databaseNamePrefix }}-orm"
         POSTGRES_USERNAME: ${XUI_POSTGRES_USERNAME_PREVIEW}
         POSTGRES_CONNECTION_OPTIONS: ""
       secrets:
@@ -395,7 +398,7 @@ am-org-role-mapping-service:
           secretRef: postgres
           key: PASSWORD
           disabled: false
-          
+
 aac-manage-case-assignment:
   enabled: true
   java:

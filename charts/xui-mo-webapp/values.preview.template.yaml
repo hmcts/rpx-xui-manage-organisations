@@ -12,6 +12,9 @@ idam-pr:
 
 global:
     postgresHostname: "xui-preview.postgres.database.azure.com"
+    databaseNamePrefix: "pr-${CHANGE_ID}-"
+    postgresSecret: postgres
+
 
 ccd:
   ccd:

@@ -8,6 +8,7 @@ const featureNames = {
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',
   caaMenuItems: 'mo-caa-menu-items',
+  newCasesItems: 'mo-new-cases',
   newRegisterOrg: 'mo-new-register-org'
 };
 
@@ -50,6 +51,15 @@ const navItemsArray: NavItemModel[] = [
     featureToggle: {
       featureName: featureNames.caaMenuItems
     }
+  },
+  {
+    text: 'Cases',
+    href: '/cases',
+    orderId: 6,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.newCasesItems
+    }
   }
 ];
 
@@ -57,7 +67,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
-  'pui-caa': [navItemsArray[3], navItemsArray[4]]
+  'pui-caa': [navItemsArray[3], navItemsArray[4], navItemsArray[5]]
 };
 
 const userNav: UserNavModel = {

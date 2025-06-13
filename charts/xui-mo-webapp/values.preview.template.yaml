@@ -10,10 +10,6 @@ idam-pr:
     XUIMO:
       - https://${SERVICE_FQDN}/oauth2/callback
 
-global:
-    postgresHostname: "xui-preview.postgres.database.azure.com"
-    databaseNamePrefix: "pr-${CHANGE_ID}-"
-    postgresSecret: postgres
 
 
 ccd:
@@ -392,8 +388,8 @@ am-org-role-mapping-service:
         CASE_DOCUMENT_AM_BASEURL: http://${SERVICE_NAME}-ccd-case-document-am-api
         BUNDLING_API_URL: https://em-ccdorc-${SERVICE_FQDN}
         CITIZEN_UPDATE_CASE_STATE_ENABLED: true
-        POSTGRES_HOST: '{{ tpl .Values.global.postgresHostname $}}'
-        POSTGRES_NAME: "{{ .Values.global.databaseNamePrefix }}-orm"
+        POSTGRES_HOST: 'xui-preview.postgres.database.azure.com'
+        POSTGRES_NAME: "pr-${CHANGE_ID}--orm"
         POSTGRES_USERNAME: ${XUI_POSTGRES_USERNAME_PREVIEW}
         POSTGRES_CONNECTION_OPTIONS: ""
       secrets:

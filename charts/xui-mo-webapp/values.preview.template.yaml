@@ -381,7 +381,6 @@ am-org-role-mapping-service:
       image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:latest'
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
-      disableKeyVaults: true
       imagePullPolicy: Always
       environment:
         CASE_DATA_STORE_BASEURL: http://{{ .Release.Name }}-ccd-data-store-api
@@ -394,9 +393,10 @@ am-org-role-mapping-service:
         ORG_ROLE_MAPPING_DB_PORT: 5432
         ORG_ROLE_MAPPING_DB_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&ssl=disable&gssEncMode=disable"
       secrets:
-        rpx:
-         - name: xui-postgress-password-preview
-           alias: ORG_ROLE_MAPPING_DB_PASSWORD
+        ORG_ROLE_MAPPING_DB_PASSWORD:
+          secretRef: postgres
+          key: PASSWORD
+          disabled: false
 
 aac-manage-case-assignment:
   enabled: true

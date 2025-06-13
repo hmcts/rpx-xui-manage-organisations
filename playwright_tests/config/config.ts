@@ -8,6 +8,10 @@ export const config = {
     username: process.env.TEST_ROO_EMAIL,
     password: process.env.TEST_ROO_PASSWORD
   },
+  ga: {
+    username: process.env.DEFINITION_IMPORTER_USERNAME,
+    password: process.env.DEFINITION_IMPORTER_PASSWORD
+  },
   twoFactorAuthEnabled: false,
   termsAndConditionsEnabled: true
 };

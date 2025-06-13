@@ -105,9 +105,11 @@ ccd:
         enabled: false
 
   am-role-assignment-service:
+    enabled: true
     java:
       image: hmctspublic.azurecr.io/am/role-assignment-service:latest
       ingressHost: am-role-assignment-service-${SERVICE_FQDN}
+      releaseNameOverride: ${SERVICE_NAME}-am-role-assignment-service
       disableKeyVaults: true
       environment:
         CCD_DATA_STORE_URL: http://{{ .Release.Name }}-ccd-data-store-api

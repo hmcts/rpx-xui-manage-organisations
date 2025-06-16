@@ -226,6 +226,6 @@ withPipeline(type, product, component) {
 
 def createRoleAssignments() {
     dir("${WORKSPACE}/bin"){
-        sh "./am-add-role-assignments.sh"
+        sh "./am-add-role-assingments.sh"
     }
 }

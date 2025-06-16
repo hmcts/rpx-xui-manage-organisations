@@ -429,14 +429,15 @@ xui-webapp:
     devmemoryRequests: 1024Mi
     devmemoryLimits: 1024Mi
     environment:
-      SERVICES_CCD_COMPONENT_API: https://gateway-{{ .Release.Name }}
-      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Release.Name }}
+      SERVICES_CCD_COMPONENT_API: https://gateway-{{ .Release.Name }}.preview.platform.hmcts.net
+      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
-      SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-{{ .Release.Name }}
+      SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-{{ .Release.Name }}.preview.platform.hmcts.net
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
       HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-{{ .Release.Name }}.preview.platform.hmcts.net
+      SERVICES_ROLE_ASSIGNMENT_MAPPING_API: https://am-org-role-mapping-service-{{ .Release.Name }}.preview.platform.hmcts.net
       JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW
 
 

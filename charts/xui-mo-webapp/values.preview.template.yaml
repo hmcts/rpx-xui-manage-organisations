@@ -412,7 +412,7 @@ aac-manage-case-assignment:
       MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
-      ROLE_ASSIGNMENT_URL: http://am-role-assignment-service-${SERVICE_FQDN}
+      ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-xui-mo-webapp-pr-${.Release.Name}
     autoscaling:
       enabled: false
 
@@ -427,14 +427,14 @@ xui-webapp:
     devmemoryRequests: 1024Mi
     devmemoryLimits: 1024Mi
     environment:
-      SERVICES_CCD_COMPONENT_API: http://{{ .Release.Name }}-ccd-api-gw
-      SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
+      SERVICES_CCD_COMPONENT_API: http://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-xui-mo-webapp-pr-{{ .Release.Name }}
       SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
-      SERVICES_CCD_CASE_ASSIGNMENT_API: http://{{ .Release.Name }}-aac-manage-case-assignment
+      SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-xui-mo-webapp-pr-{{ .Release.Name }}
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: http://am-role-assignment-service-${SERVICE_FQDN}
-      SERVICES_ROLE_ASSIGNMENT_API: http://am-role-assignment-service-${SERVICE_FQDN}
+      HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-xui-mo-webapp-pr-${.Release.Name}
+      SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-xui-mo-webapp-pr-${.Release.Name}
       JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW
 
 
@@ -448,8 +448,9 @@ xui-mo-webapp:
     environment:
       MANAGE_CASE_LINK: https://xui-${SERVICE_FQDN}/cases
       MANAGE_ORG_LINK: https://xui-mo-${SERVICE_FQDN}
-      SERVICES_CCD_DATA_STORE_API: http://{{ .Release.Name }}-ccd-data-store-api
-      SERVICES_MCA_PROXY_API: http://aac-${SERVICE_FQDN}
+      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_CCD_COMPONENT_API: http://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_MCA_PROXY_API: http://aac-xui-mo-webapp-pr-{{ .Release.Name }}
       JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
 

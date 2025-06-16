@@ -414,7 +414,7 @@ aac-manage-case-assignment:
       MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
-      ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-xui-mo-webapp-pr-${.Release.Name}
+      ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-${SERVICE_FQDN}
     autoscaling:
       enabled: false
 

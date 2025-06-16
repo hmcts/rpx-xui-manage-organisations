@@ -429,14 +429,15 @@ xui-webapp:
     devmemoryRequests: 1024Mi
     devmemoryLimits: 1024Mi
     environment:
-      SERVICES_CCD_COMPONENT_API: https://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
-      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_CCD_COMPONENT_API: https://gateway-${{ .Release.Name }}
+      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-${{ .Release.Name }}
       SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
-      SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-{{ .Release.Name }}
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-xui-mo-webapp-pr-${ .Release.Name }
-      SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-xui-mo-webapp-pr-${ .Release.Name }
+      TEST: {{ .Release.Name }}
+      HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-${ .Release.Name }
+      SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-${ .Release.Name }
       JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW
 
 
@@ -450,9 +451,9 @@ xui-mo-webapp:
     environment:
       MANAGE_CASE_LINK: https://xui-${SERVICE_FQDN}/cases
       MANAGE_ORG_LINK: https://xui-mo-${SERVICE_FQDN}
-      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-xui-mo-webapp-pr-{{ .Release.Name }}
-      SERVICES_CCD_COMPONENT_API: http://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
-      SERVICES_MCA_PROXY_API: http://aac-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-xui-mo-webapp-pr-${{ .Release.Name }}
+      SERVICES_CCD_COMPONENT_API: http://gateway-xui-mo-webapp-pr-${{ .Release.Name }}
+      SERVICES_MCA_PROXY_API: http://aac-xui-mo-webapp-pr-${{ .Release.Name }}
       JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
 

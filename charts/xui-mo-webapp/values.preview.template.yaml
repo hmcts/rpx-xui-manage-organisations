@@ -435,9 +435,8 @@ xui-webapp:
       SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-{{ .Release.Name }}
       FEATURE_REDIS_ENABLED: false
       FEATURE_APP_INSIGHTS_ENABLED: true
-      TEST: {{ .Release.Name }}
-      HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-${ .Release.Name }
-      SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-${ .Release.Name }
+      HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-${{ .Release.Name }}
+      SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-${{ .Release.Name }}
       JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW
 
 

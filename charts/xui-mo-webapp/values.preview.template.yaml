@@ -429,7 +429,7 @@ xui-webapp:
     devmemoryRequests: 1024Mi
     devmemoryLimits: 1024Mi
     environment:
-      SERVICES_CCD_COMPONENT_API: http://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
+      SERVICES_CCD_COMPONENT_API: https://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
       SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-xui-mo-webapp-pr-{{ .Release.Name }}
       SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api
       SERVICES_CCD_CASE_ASSIGNMENT_API: http://aac-xui-mo-webapp-pr-{{ .Release.Name }}

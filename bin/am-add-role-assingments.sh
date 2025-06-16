@@ -2,11 +2,11 @@
 set -eu
 
 BASEDIR=$(dirname "$0")
-S2S_TOKEN=$(${BASEDIR}/utils/s2s-token.sh "am_org_role_mapping_service")
+S2S_TOKEN=$(${BASEDIR}/s2s-token.sh "am_org_role_mapping_service")
 
 export IDAM_API_BASE_URL=https://idam-api.aat.platform.hmcts.net
 
-IDAM_TOKEN=$(${BASEDIR}/utils/idam-lease-user-token.sh $IDAM_DATA_STORE_SYSTEM_USER_USERNAME $IDAM_DATA_STORE_SYSTEM_USER_PASSWORD)
+IDAM_TOKEN=$(${BASEDIR}/idam-lease-user-token.sh $IDAM_DATA_STORE_SYSTEM_USER_USERNAME $IDAM_DATA_STORE_SYSTEM_USER_PASSWORD)
 
 function send_curl_request() {
   local json_file=$1

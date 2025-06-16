@@ -27,4 +27,4 @@ function send_curl_request() {
   -d "${payload}"
 }
 
-send_curl_request "${BASEDIR}/staff-idam-ids.json" "CASEWORKER"
+send_curl_request "${BASEDIR}/role-assignments.json" "CASEWORKER"

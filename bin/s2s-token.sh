@@ -1,10 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/bash
+# usage: s2s-token.sh [microservice]
 
-set -eu
+S2S_HOST=${S2S_HOST:-http://rpe-service-auth-provider-aat.service.core-compute-aat.internal}
+MICROSERVICE=${1:-ccd_gw}
 
-microservice=${1}
-
-curl --insecure --fail --show-error --silent -X POST \
-  ${S2S_URL_BASE:-http://rpe-service-auth-provider-aat.service.core-compute-aat.internal}/testing-support/lease \
-  -H "Content-Type: application/json" \
-  -d '{"microservice": "'${microservice}'"}'
+curl --silent --location "${S2S_HOST}/testing-support/lease" \
+--header 'Content-Type: application/json' \
+--data "{ \"microservice\": \"${MICROSERVICE}\" }"

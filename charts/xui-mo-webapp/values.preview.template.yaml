@@ -443,7 +443,7 @@ xui-webapp:
       HEALTH_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_ROLE_ASSIGNMENT_MAPPING_API: https://am-org-role-mapping-service-{{ .Release.Name }}.preview.platform.hmcts.net
-      JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW
+      JURISDICTIONS: DIVORCE,PROBATE,FR,PUBLICLAW,IA,SSCS,EMPLOYMENT,HRS,CIVIL,CMC,PRIVATELAW,BEFTA_JURISDICTION_3,BEFTA_JURISDICTION_2,BEFTA_JURISDICTION_1,BEFTA_MASTER
 
 
 xui-mo-webapp:

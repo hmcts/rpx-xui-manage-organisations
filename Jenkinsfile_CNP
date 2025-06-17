@@ -134,6 +134,7 @@ withPipeline(type, product, component) {
         env.S2S_URL_BASE = "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal"
         env.DEFINITION_STORE_URL_BASE = "https://ccd-definition-store-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
         env.CCD_ADMIN_WEB_URL= "https://admin-web-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
+        env.ROLE_ASSIGNMENT_URL = "https://am-role-assignment-service-xui-mo-webapp-pr-${CHANGE_ID}.preview.platform.hmcts.net"
         // Only for preview upload the definitions via script as high level data set up relies on an existing environment
         sh 'chmod -R +x ./bin'
         createRoleAssignments()
@@ -226,6 +227,6 @@ withPipeline(type, product, component) {
 
 def createRoleAssignments() {
     dir("${WORKSPACE}/bin"){
-        sh "./am-add-role-assingments.sh"
+        // sh "./am-add-role-assingments.sh"
     }
 }

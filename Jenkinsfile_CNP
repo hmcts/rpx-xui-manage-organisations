@@ -48,6 +48,8 @@ def secrets = [
     secret('appinsights-connection-string-mc', 'APPINSIGHTS_CONNECTION_STRING'),
     secret('definition-importer-username', 'DEFINITION_IMPORTER_USERNAME'),
     secret('definition-importer-password', 'DEFINITION_IMPORTER_PASSWORD'),
+    secret('ga-username', 'GA_USERNAME'),
+    secret('ga-password', 'GA_PASSWORD'),
   ],
   's2s-${env}' : [
     secret('microservicekey-ccd-data', 'DATA_STORE_S2S_KEY'),
@@ -227,6 +229,6 @@ withPipeline(type, product, component) {
 
 def createRoleAssignments() {
     dir("${WORKSPACE}/bin"){
-        // sh "./am-add-role-assingments.sh"
+        sh "./orm-setup.sh"
     }
 }

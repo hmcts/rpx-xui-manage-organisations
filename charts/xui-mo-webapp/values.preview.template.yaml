@@ -392,6 +392,8 @@ am-org-role-mapping-service:
         ORG_ROLE_MAPPING_DB_USERNAME: hmcts
         ORG_ROLE_MAPPING_DB_PORT: 5432
         ORG_ROLE_MAPPING_DB_OPTIONS: "?stringtype=unspecified&reWriteBatchedInserts=true&ssl=disable&gssEncMode=disable"
+        TESTING_SUPPORT_ENABLED: true
+        ORM_ENV: pr
       secrets:
         ORG_ROLE_MAPPING_DB_PASSWORD:
           secretRef: postgres

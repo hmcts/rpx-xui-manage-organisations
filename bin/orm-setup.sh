@@ -13,7 +13,7 @@ function send_curl_request() {
   local user_type=$2
 
   if [[ ! -f "${json_file}" ]]; then
-    echo "File not found: ${json_file}"
+    echo "[ERROR] File not found: ${json_file}"
     return 1
   fi
 
@@ -24,12 +24,28 @@ function send_curl_request() {
   echo "[DEBUG] Sending request to URL: ${url}"
   echo "[DEBUG] Payload: ${payload}"
 
-  curl -v --silent --show-error --fail -X POST "${url}" \
+  # Make the curl request and capture the response and status code
+  HTTP_RESPONSE=$(curl --silent --show-error --write-out "HTTPSTATUS:%{http_code}" -X POST "${url}" \
     -H 'accept: application/vnd.uk.gov.hmcts.am-org-role-mapping-service.map-assignments+json;charset=UTF-8;version=1.0' \
     -H 'Content-Type: application/json' \
     -H "Authorization: Bearer ${IDAM_TOKEN}" \
     -H "ServiceAuthorization: ${S2S_TOKEN}" \
-    -d "${payload}"
+    -d "${payload}")
+
+  # Extract the body and status code
+  HTTP_BODY=$(echo "${HTTP_RESPONSE}" | sed -e 's/HTTPSTATUS:.*//g')
+  HTTP_STATUS=$(echo "${HTTP_RESPONSE}" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+
+  # Log the response body and status code
+  echo "[DEBUG] Response Body: ${HTTP_BODY}"
+  echo "[DEBUG] HTTP Status Code: ${HTTP_STATUS}"
+
+  # Handle errors
+  if [ "${HTTP_STATUS}" -ge 300 ]; then
+    echo "[ERROR] Request failed with status code ${HTTP_STATUS}"
+    echo "[ERROR] Response Body: ${HTTP_BODY}"
+    return 1
+  fi
 }
 
 send_curl_request "${BASEDIR}/role-assignments.json" "CASEWORKER"

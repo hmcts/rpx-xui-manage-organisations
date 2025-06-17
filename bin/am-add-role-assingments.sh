@@ -1,1 +1,1 @@
-./bin/add-org-role.sh "ga-juri3@mailinator.com" "P4ssW0rd1!" "PUBLIC" "Role1" '{"caseGroupId": "caseGroupId1", "primaryLocation": "765324"}' "PROFESSIONAL"
+./bin/add-org-role.sh "ga-juri3@mailinator.com" ${GA_PASSWORD} "PUBLIC" "Role1" '{"caseGroupId": "caseGroupId1", "primaryLocation": "765324"}' "PROFESSIONAL"

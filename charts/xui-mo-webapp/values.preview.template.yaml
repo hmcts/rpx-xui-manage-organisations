@@ -76,6 +76,7 @@ ccd:
         IDAM_DATA_STORE_SYSTEM_USER_USERNAME: ${IDAM_DATA_STORE_SYSTEM_USER_USERNAME}
         IDAM_DATA_STORE_SYSTEM_USER_PASSWORD: ${IDAM_DATA_STORE_SYSTEM_USER_PASSWORD}
         ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-${SERVICE_FQDN}
+        USER_PROFILE_HOST: https://ccd-user-profile-api-xui-mo-webapp-pr-1367.preview.platform.hmcts.net
       secrets:
         DATA_STORE_DB_PASSWORD:
           secretRef: postgres

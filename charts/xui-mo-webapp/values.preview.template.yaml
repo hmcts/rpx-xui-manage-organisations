@@ -35,7 +35,7 @@ ccd:
     ccdAdminWebIngress: admin-web-${SERVICE_FQDN}
     ccdApiGatewayIngress: gateway-${SERVICE_FQDN}
     ccdDataStoreUrl: http://${SERVICE_NAME}-ccd-data-store-api
-    ccdDefinitionStoreUrl: http://ccd-definition-store-${SERVICE_FQDN}
+    ccdDefinitionStoreUrl: http://${SERVICE_NAME}-ccd-definition-store
     ccdUserProfileUrl: http://${SERVICE_NAME}-ccd-user-profile-api
     postgresUsername: ${CCD_GLOBAL_POSTGRES_USERNAME_PREVIEW}
     s2sUrl: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal

@@ -8,7 +8,7 @@ PASSWORD=${2}
 IDAM_URI=${IDAM_API_BASE_URL:-http://localhost:5000}
 REDIRECT_URI=http://localhost:3000/oauth2/redirect
 CLIENT_ID="xuimowebapp"
-CLIENT_SECRET=${CCD_API_GATEWAY_IDAM_CLIENT_SECRET:-ccd_gateway_secret}
+CLIENT_SECRET=${IDAM_SECRET}
 SCOPE="openid%20profile%20roles"
 
 curl -X 'POST' \

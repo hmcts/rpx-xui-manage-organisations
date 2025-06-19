@@ -10,7 +10,7 @@ BASEDIR=$(dirname "$0")
 
 USER_TOKEN=$($BASEDIR/idam-lease-user-token.sh $USERNAME $PASSWORD)
 USER_ID=$($BASEDIR/user-id.sh $USER_TOKEN)
-SERVICE_TOKEN=$($BASEDIR/s2s-token.sh xui_webapp \
+SERVICE_TOKEN=$($BASEDIR/s2s-token.sh am_org_role_mapping_service \
                 $(docker run --rm hmctspublic.azurecr.io/imported/toolbelt/oathtool --totp -b ${S2S_SECRET:-AABBCCDDEEFFGGHH}))
 
 echo "\n\nCreating role assignment: \n User: ${USER_ID}\n Role name: ${ROLE_NAME}\n ROLE_CLASSIFICATION: ${ROLE_CLASSIFICATION}\n"
@@ -21,10 +21,9 @@ REQUEST_DATA=$(cat <<EOF
 {
   "roleRequest": {
     "assignerId": "${USER_ID}",
-    "process": "staff-organisational-role-mapping",
+    "process": "professional-organisational-role-mapping",
     "reference": "${USER_ID}/${ROLE_NAME}",
-    "replaceExisting": true,
-    "byPassOrgDroolRule": true
+    "replaceExisting": true
   },
   "requestedRoles": [
     {
@@ -45,24 +44,24 @@ EOF
 
 echo "[DEBUG] Request Data: ${REQUEST_DATA}"
 
-# Use the logged data in the curl request and log the status code
-HTTP_RESPONSE=$(curl --silent --show-error --write-out "HTTPSTATUS:%{http_code}" -X POST "${ROLE_ASSIGNMENT_URL}/am/role-assignments" \
+# Use a temporary file to store the response body
+TEMP_RESPONSE_FILE=$(mktemp)
+
+# Make the curl request and capture the response body and status code
+HTTP_STATUS=$(curl --silent --show-error --write-out "%{http_code}" -X POST "${ROLE_ASSIGNMENT_URL}/am/role-assignments" \
   -H "accept: application/vnd.uk.gov.hmcts.role-assignment-service.create-assignments+json;charset=UTF-8;version=1.0" \
   -H "Authorization: Bearer ${USER_TOKEN}" \
   -H "ServiceAuthorization: Bearer ${SERVICE_TOKEN}" \
   -H "Content-Type: application/json" \
-  -d "${REQUEST_DATA}")
+  -d "${REQUEST_DATA}" \
+  -o "${TEMP_RESPONSE_FILE}")
 
-# Extract the body and status code
-HTTP_BODY=$(echo "${HTTP_RESPONSE}" | sed -e 's/HTTPSTATUS:.*//g')
-HTTP_STATUS=$(echo "${HTTP_RESPONSE}" | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+# Read the full response body from the temporary file
+HTTP_BODY=$(cat "${TEMP_RESPONSE_FILE}")
 
 # Log the response body and status code
 echo "[DEBUG] Response Body: ${HTTP_BODY}"
 echo "[DEBUG] HTTP Status Code: ${HTTP_STATUS}"
 
-# Optionally, handle non-2xx status codes
-if [ "${HTTP_STATUS}" -ge 300 ]; then
-  echo "[ERROR] Request failed with status code ${HTTP_STATUS}"
-  exit 1
-fi
+# Clean up the temporary file
+rm -f "${TEMP_RESPONSE_FILE}"

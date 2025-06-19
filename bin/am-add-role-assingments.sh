@@ -1,1 +1,1 @@
-./bin/add-org-role.sh "ga-juri3@mailinator.com" ${GA_PASSWORD} "PUBLIC" "Role1" '{"caseGroupId": "caseGroupId1", "primaryLocation": "765324"}' "PROFESSIONAL"
+./bin/add-org-role.sh "ga-caseworker2@mailinator.com" ${GA_PASSWORD} "RESTRICTED" "Role1" '{"caseAccessGroupId": "caseGroupId1", "jurisdiction": "BEFTA_JURISDICTION_1", "caseType": "BEFTA_CASETYPE_1_1"}' "PROFESSIONAL"

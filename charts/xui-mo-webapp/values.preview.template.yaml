@@ -430,7 +430,7 @@ xui-webapp:
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-webapp
-    image: hmctspublic.azurecr.io/xui/webapp:latest
+    image: hmctspublic.azurecr.io/xui/webapp:pr-4511-cdba933-20250619134635
     ingressHost: webapp-${SERVICE_FQDN}
     devcpuRequests: 250m
     devmemoryRequests: 1024Mi

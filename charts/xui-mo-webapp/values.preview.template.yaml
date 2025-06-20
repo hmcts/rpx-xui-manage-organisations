@@ -58,7 +58,7 @@ ccd:
   ccd-data-store-api:
     java:
       imagePullPolicy: Always
-      image: hmctspublic.azurecr.io/ccd/data-store-api:pr-2578-473cec8-20250604090846
+      image: hmctspublic.azurecr.io/ccd/data-store-api:pr
       environment:
         CASE_DOCUMENT_AM_API_ATTACH_DOCUMENT_ENABLED: true
         DATA_STORE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
@@ -128,7 +128,7 @@ ccd:
   ccd-definition-store-api:
     java:
       disableKeyVaults: true
-      image: hmctspublic.azurecr.io/ccd/definition-store-api:pr-1529-ddf3e80-20250603153241
+      image: hmctspublic.azurecr.io/ccd/definition-store-api:pr-1529
       imagePullPolicy: Always
       environment:
         DEFINITION_STORE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
@@ -413,7 +413,7 @@ aac-manage-case-assignment:
     disableKeyVaults: true
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-aac-manage-case-assignment
-    image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560-69236e3-20250604140236
+    image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560
     ingressHost: aac-${SERVICE_FQDN}
     environment:
       MCA_DS_PROXY_URLS_ALLOWED_LIST: /searchCases.*,/internal/searchCases.*,/internal/cases.*
@@ -430,7 +430,7 @@ xui-webapp:
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-webapp
-    image: hmctspublic.azurecr.io/xui/webapp:pr-4511-cdba933-20250619134635
+    image: hmctspublic.azurecr.io/xui/webapp:pr-4511
     ingressHost: webapp-${SERVICE_FQDN}
     devcpuRequests: 250m
     devmemoryRequests: 1024Mi
@@ -453,7 +453,7 @@ xui-mo-webapp:
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-mo
-    image: hmctspublic.azurecr.io/xui/mo-webapp:latest
+    image: hmctspublic.azurecr.io/xui/mo-webapp:pr-1365
     ingressHost: ${SERVICE_FQDN}
     environment:
       MANAGE_CASE_LINK: https://xui-${SERVICE_FQDN}/cases

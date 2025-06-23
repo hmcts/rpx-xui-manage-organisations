@@ -410,7 +410,6 @@ am-org-role-mapping-service:
 aac-manage-case-assignment:
   enabled: true
   java:
-    disableKeyVaults: true
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-aac-manage-case-assignment
     image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560
@@ -418,7 +417,7 @@ aac-manage-case-assignment:
     environment:
       MCA_DS_PROXY_URLS_ALLOWED_LIST: /searchCases.*,/internal/searchCases.*,/internal/cases.*
       MCA_DEF_STORE_PROXY_URLS_ALLOWED_LIST: /api/display/challenge-questions.*
-      MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration
+      MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration,xuimowebapp
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
       ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-${SERVICE_FQDN}
@@ -427,6 +426,23 @@ aac-manage-case-assignment:
       IDAM_CLIENT_SECRET: ${IDAM_MCA_CLIENT_SECRET}
     autoscaling:
       enabled: false
+    keyVaults:
+      aac:
+        secrets:
+        - name: aac-manage-case-s2s-secret
+          alias: MANAGE_CASE_S2S_KEY
+        - name: idam-mca-client-secret
+          alias: IDAM_CLIENT_SECRET
+        - name: idam-mca-system-user-username
+          alias: IDAM_CAA_USERNAME
+        - name: idam-mca-system-user-password
+          alias: IDAM_CAA_PASSWORD
+        - name: idam-noc-approver-username
+          alias: IDAM_NOC_APPROVER_USERNAME
+        - name: idam-noc-approver-password
+          alias: IDAM_NOC_APPROVER_PASSWORD
+        - name: notify-mca-api-key-secret
+          alias: NOTIFY_MCA_API_KEY
 
 xui-webapp:
   enabled: true

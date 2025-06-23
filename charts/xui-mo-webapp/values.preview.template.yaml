@@ -462,6 +462,7 @@ xui-mo-webapp:
       SERVICES_CCD_COMPONENT_API: http://gateway-xui-mo-webapp-pr-{{ .Release.Name }}
       SERVICES_MCA_PROXY_API: https://aac-xui-mo-webapp-pr-{{ .Release.Name }}.preview.platform.hmcts.net
       JURISDICTIONS: ST_CIC,ST_CS,ST_MH,ST_PHL,ST_SEN,ST_DD,BEFTA_JURISDICTION_3,BEFTA_JURISDICTION_2,BEFTA_JURISDICTION_1,BEFTA_MASTER
+      SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
       CASE_TYPES: CIC,CS,MH,PHL,SEN,DD
 
 

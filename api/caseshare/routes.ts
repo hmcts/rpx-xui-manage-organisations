@@ -6,3 +6,4 @@ router.get('/users', restAPI.getUsers);
 router.get('/cases', restAPI.getCases);
 router.post('/case-assignments', restAPI.assignCasesToUsers);
 router.get('/case-assignments', restAPI.getCases);
+router.post('/case-users', restAPI.acceptNewCasesForOrg);

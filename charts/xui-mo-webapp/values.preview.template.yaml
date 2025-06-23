@@ -422,6 +422,9 @@ aac-manage-case-assignment:
       CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
       ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-${SERVICE_FQDN}
+      IDAM_CAA_USERNAME: ${IDAM_CAA_USERNAME}
+      IDAM_CAA_PASSWORD: ${IDAM_CAA_PASSWORD}
+      IDAM_CLIENT_SECRET: ${IDAM_MCA_CLIENT_SECRET}
     autoscaling:
       enabled: false
 

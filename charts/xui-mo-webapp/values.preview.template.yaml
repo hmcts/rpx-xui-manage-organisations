@@ -418,7 +418,7 @@ aac-manage-case-assignment:
       MCA_DS_PROXY_URLS_ALLOWED_LIST: /searchCases.*,/internal/searchCases.*,/internal/cases.*
       MCA_DEF_STORE_PROXY_URLS_ALLOWED_LIST: /api/display/challenge-questions.*
       MANAGE_CASE_S2S_AUTHORISED_SERVICES: xui_webapp,ccd_data,fpl_case_service,sptribs_frontend,sptribs_ccd_submission,finrem_case_orchestration,xuimowebapp
-      CCD_DATA_STORE_API_BASE_URL: http://ccd-data-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
+      CCD_DATA_STORE_API_BASE_URL: http://{{ .Release.Name }}-ccd-data-store-api
       CCD_DEFINITION_STORE_API_BASE_URL: http://${SERVICE_NAME}-ccd-definition-store-api
       ROLE_ASSIGNMENT_URL: https://am-role-assignment-service-${SERVICE_FQDN}
       IDAM_CAA_USERNAME: ${IDAM_CAA_USERNAME}

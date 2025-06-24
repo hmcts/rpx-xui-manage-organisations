@@ -62,7 +62,7 @@ ccd:
       environment:
         CASE_DOCUMENT_AM_API_ATTACH_DOCUMENT_ENABLED: true
         DATA_STORE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
-        DATA_STORE_DB_USERNAME: ${CCD_DATA_STORE_DB_USERNAME_PREVIEW}
+        DATA_STORE_DB_USERNAME: hmcts
         DATA_STORE_DB_NAME: "pr-${CHANGE_ID}-data-store"
         DATA_STORE_IDAM_KEY: ${DATA_STORE_S2S_KEY}
         DATA_STORE_DEFAULT_LOG_LEVEL: info
@@ -160,21 +160,6 @@ ccd:
         USER_PROFILE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
         IDAM_ADMIN_WEB_SERVICE_KEY: ${ADMIN_S2S_KEY}
         IDAM_OAUTH2_AW_CLIENT_SECRET: ${ADMIN_WEB_IDAM_SECRET}
-
-  importer:
-    userprofile:
-      enabled: true
-      jurisdictions:
-        - ST_CIC
-      users:
-        - st_caseworker@mailinator.com|ST_CIC|CIC|Submitted
-        - st_solicitor@mailinator.com|ST_CIC|CIC|Submitted
-        - st_super@mailinator.com|ST_CIC|CIC|Submitted
-      userProfileDatabaseHost: '{{ tpl .Values.global.postgresHostname $}}'
-      userProfileDatabasePort: 5432
-      userProfileDatabaseUser: ${CCD_USER_PROFILE_DB_USERNAME_PREVIEW}
-      userProfileDatabasePassword: ${CCD_USER_PROFILE_DB_PASSWORD_PREVIEW}
-      userProfileDatabaseName: "pr-${CHANGE_ID}-user-profile"
 
   elasticsearch:
     nameOverride: ${SERVICE_NAME}-es

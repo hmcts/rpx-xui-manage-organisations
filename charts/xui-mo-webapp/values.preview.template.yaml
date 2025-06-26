@@ -386,6 +386,7 @@ am-org-role-mapping-service:
         ROLE_ASSIGNMENT_APP_URL: https://am-role-assignment-service-{{ .Release.Name }}.preview.platform.hmcts.net
         CASE_WORKER_REF_APP_URL: http://rd-caseworker-ref-api-aat.service.core-compute-aat.internal
         JUDICIAL_REF_APP_URL: http://rd-judicial-api-aat.service.core-compute-aat.internal
+        AMQP_ENABLED: false
       secrets:
         ORG_ROLE_MAPPING_DB_PASSWORD:
           secretRef: postgres

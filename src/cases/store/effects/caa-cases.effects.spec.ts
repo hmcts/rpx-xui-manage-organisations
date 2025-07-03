@@ -86,7 +86,7 @@ describe('CaaCasesEffects', () => {
       const caaCasesFilterValue = null;
       const payload = { caaCasesPageType: CaaCasesPageType.AssignedCases, caaCasesFilterType, caaCasesFilterValue };
       const action = new caaCasesActions.LoadCaseTypes(payload);
-      const completion = new caaCasesActions.LoadCaseTypesSuccess(navItems);
+      const completion = new caaCasesActions.LoadCaseTypesSuccess(navItems, undefined);
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(effects.loadCaseTypes$).toBeObservable(expected);

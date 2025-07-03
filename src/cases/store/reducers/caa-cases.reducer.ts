@@ -8,13 +8,15 @@ export interface CaaCasesState {
   caseTypes: SubNavigation[];
   selectedCases: SelectedCases;
   CasesLastError: HttpErrorResponse;
+  casesWithSupplementary?: any[];
 }
 
 export const initialState: CaaCasesState = {
   Cases: null,
   caseTypes: [],
   selectedCases: {},
-  CasesLastError: null
+  CasesLastError: null,
+  casesWithSupplementary: []
 };
 
 export function caaCasesReducer(state = initialState, action: fromCaaActions.CaaCasesActions): CaaCasesState {
@@ -24,7 +26,7 @@ export function caaCasesReducer(state = initialState, action: fromCaaActions.Caa
     case fromCaaActions.LOAD_CASES_FAILURE:
       return { ...state, Cases: { idField: '', columnConfigs: [], data: [] }, CasesLastError: action.payload };
     case fromCaaActions.LOAD_CASE_TYPES_SUCCESS:
-      return { ...state, caseTypes: action.payload };
+      return { ...state, caseTypes: action.payload, casesWithSupplementary: action.suppData };
     case fromCaaActions.UPDATE_SELECTION_FOR_CASE_TYPE:
       const selectedCases: SelectedCases = { ...state.selectedCases };
       selectedCases[action.payload.casetype] = action.payload.cases;

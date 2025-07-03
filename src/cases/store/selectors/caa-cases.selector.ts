@@ -17,6 +17,11 @@ export const getAllCasesError = createSelector(
   fromFeature.getCasesError
 );
 
+export const getCaseDataWithSupplementary = createSelector(
+  getCaaCasesState,
+  (caaCases) => caaCases ? caaCases.casesWithSupplementary : null
+);
+
 export const getAllCaseData = createSelector(
   getAllCases,
   (caaCases) => caaCases ? caaCases.data : null

@@ -48,6 +48,8 @@ export class CasesComponent implements OnInit {
   public casesError$: Observable<HttpErrorResponse>;
   public caseResultsTableShareButtonText: string = 'Share cases';
   public selectedCases: any[] = [];
+  public orgIdentifier: string | null = null;
+  public caseDataWithSupplementary: any[];
 
   constructor(private readonly caaCasesStore: Store<caaCasesStore.CaaCasesState>,
     private readonly organisationStore: Store<organisationStore.OrganisationState>,
@@ -61,11 +63,22 @@ export class CasesComponent implements OnInit {
     // Load selected organisation details from store
     this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
     this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
+    this.selectedOrganisation$.pipe().subscribe((org) => {
+      console.log(org);
+      this.orgIdentifier = org?.organisationIdentifier;
+    });
+
+    this.caaCasesStore.pipe(
+      select(caaCasesStore.getCaseDataWithSupplementary),
+      takeUntil(this.destroy$)
+    ).subscribe((items) => {
+      this.caseDataWithSupplementary = items;
+    });
 
     // Load users of selected organisation from store
     this.userStore.dispatch(new userStore.LoadAllUsersNoRoleData());
     this.selectedOrganisationUsers$ = this.userStore.pipe(select(userStore.getGetUserList));
-
+    sessionStorage.removeItem('newCases');
     this.caaCasesStore.pipe(
       select(caaCasesStore.getAllCases),
       takeUntil(this.destroy$)
@@ -94,9 +107,14 @@ export class CasesComponent implements OnInit {
       takeUntil(this.destroy$)
     ).subscribe((items) => {
       this.allCaseTypes = items;
+      if (this.allCaseTypes && this.caaCasesPageType === CaaCasesPageType.NewCases) {
+        // if the casetype does not have a caseConfig or new_cases is false, then filter it out
+        this.allCaseTypes = this.allCaseTypes.filter(
+          (caseType) => caseType.caseConfig && caseType.caseConfig.new_cases
+        );
+      }
       if (this.allCaseTypes && this.allCaseTypes.length > 0) {
         this.selectedCaseType = this.allCaseTypes[0].text;
-        this.loadCaseData();
       }
     });
     this.populateFirstLoad();
@@ -143,20 +161,41 @@ export class CasesComponent implements OnInit {
     }
   }
 
-  public checkShareButtonText(): void {
-    if (this.cases && this.allCaseTypes){
-      const caseType = this.cases[0].caseType;
-      let caseConfig;
-      for (const caseTypeItem of this.allCaseTypes) {
-        if (caseTypeItem.text === caseType) {
-          caseConfig = caseTypeItem;
-          break;
-        }
+  public onTabChanged(tabName: string): void {
+    this.selectedCaseType = tabName;
+    this.loadCaseData();
+    this.checkShareButtonText();
+  }
+
+  public getCaseType() {
+    const caseType = this.selectedCaseType;
+    let caseTypeConfig;
+    for (const caseTypeItem of this.allCaseTypes) {
+      if (caseTypeItem.text === caseType) {
+        caseTypeConfig = caseTypeItem;
+        break;
       }
-      if (caseConfig.caseConfig.group_access) {
-        this.caseResultsTableShareButtonText = 'Accept cases';
-      } else {
-        this.caseResultsTableShareButtonText = 'Manage case sharing';
+    }
+    console.log(caseTypeConfig);
+    return caseTypeConfig;
+  }
+
+  public checkShareButtonText(): void {
+    if (this.cases && this.allCaseTypes) {
+      if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
+        const foundCase = this.caseDataWithSupplementary[0];
+        if (foundCase.supplementary_data?.new_case[this.orgIdentifier]) {
+          this.caseResultsTableShareButtonText = 'Accept cases';
+          this.caaCasesPageType = CaaCasesPageType.NewCases;
+          this.selectedFilterType = CaaCasesFilterType.NewCasesToAccept;
+        } else if (foundCase.supplementary_data?.orgs_assigned_users[this.orgIdentifier] > 0) {
+          this.caseResultsTableShareButtonText = 'Manage case sharing';
+          this.caaCasesPageType = CaaCasesPageType.AssignedCases;
+        } else {
+          this.caseResultsTableShareButtonText = 'Share Case';
+          this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
+          this.selectedFilterType = CaaCasesFilterType.UnassignedCases;
+        }
       }
       this.cdr.detectChanges();
     }
@@ -259,6 +298,7 @@ export class CasesComponent implements OnInit {
         groupAccessEnabled = caseConfig.group_access;
       }
     });
+    console.log(this.selectedCaseType, this.selectedFilterType, this.selectedCases, newCasesEnabled, groupAccessEnabled);
     // load cases types based on filter and value
     if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
       // TODO: need to handle the `new_case` flag
@@ -288,14 +328,13 @@ export class CasesComponent implements OnInit {
       // dispatch action to load new cases to accept
       // if group_access is enabled then go to accept cases page
       // else go to add recipient
-      if (groupAccessEnabled) {
-        this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
-          sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
-          caaPageType: this.caaCasesPageType,
-          group_access: true
-        }
-        ));
+      this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({
+        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType),
+        caaPageType: this.caaCasesPageType,
+        group_access: true,
+        caseTypeId: this.selectedCaseType
       }
+      ));
     }
     if (this.selectedFilterType === CaaCasesFilterType.UnassignedCases || this.selectedFilterType === 'none') {
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareCases({

@@ -52,7 +52,8 @@ export class AddShareCases implements Action {
     extras?: NavigationExtras;
     sharedCases: SharedCase[],
     group_access?: boolean,
-    caaPageType?: string
+    caaPageType?: string;
+    caseTypeId?: string;
   }) {}
 }
 
@@ -64,7 +65,8 @@ export class AddShareCaseGo implements Action {
       query?: object;
       extras?: NavigationExtras;
       sharedCases: SharedCase[];
-      caaPageType?: string
+      caaPageType?: string;
+      caseTypeId?: string;
     }
   ) {}
 }
@@ -78,7 +80,7 @@ export class DeleteAShareCase implements Action {
 }
 export class AssignUsersToCase implements Action {
   public readonly type = ASSIGN_USERS_TO_CASE;
-  constructor(public payload: SharedCase[]) {}
+  constructor(public payload: SharedCase[], public pageType?: string, public orgIdentifier?: string) {}
 }
 
 export class AssignUsersToCaseSuccess implements Action {

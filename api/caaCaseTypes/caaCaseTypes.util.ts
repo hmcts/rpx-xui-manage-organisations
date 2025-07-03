@@ -5,9 +5,9 @@ import { UNASSIGNED_CASE_TYPES } from '../configuration/references';
 
 export function getRequestBody(organisationID: string, caaCasesPageType: string, caaCasesFilterValue?: string | string[]) {
   const organisationAssignedUsersKey = `supplementary_data.orgs_assigned_users.${organisationID}`;
+  const newCasesKey = `supplementary_data.new_case.${organisationID}`;
   const reference = 'reference.keyword';
   const caseReferenceFilter: any[] = [];
-
   if (caaCasesFilterValue) {
     if (Array.isArray(caaCasesFilterValue)) {
       caaCasesFilterValue.forEach((caseReference) => {
@@ -33,14 +33,45 @@ export function getRequestBody(organisationID: string, caaCasesPageType: string,
           },
           {
             bool: {
-              ...(caaCasesPageType === CaaCasesPageType.AssignedCases && {
+              ...((caaCasesPageType === CaaCasesPageType.AssignedCases && !caaCasesFilterValue) && {
                 must: [
-                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } }
+                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } },
+                  {
+                    bool: {
+                      should: [
+                        { bool: { must_not: { exists: { field: newCasesKey } } } },
+                        { term: { [newCasesKey]: false } }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  }
                 ]
               }),
-              ...(caaCasesPageType === CaaCasesPageType.UnassignedCases && {
-                must_not: [
-                  { range: { [organisationAssignedUsersKey]: { gt: 0 } } }
+              ...((caaCasesPageType === CaaCasesPageType.UnassignedCases && !caaCasesFilterValue) && {
+                must: [
+                  {
+                    bool: {
+                      should: [
+                        { term: { [organisationAssignedUsersKey]: 0 } },
+                        { bool: { must_not: { exists: { field: organisationAssignedUsersKey } } } }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  },
+                  {
+                    bool: {
+                      should: [
+                        { term: { [newCasesKey]: false } },
+                        { bool: { must_not: { exists: { field: newCasesKey } } } }
+                      ],
+                      minimum_should_match: 1
+                    }
+                  }
+                ]
+              }),
+              ...((caaCasesPageType === CaaCasesPageType.NewCasesToAccept && !caaCasesFilterValue) && {
+                must: [
+                  { term: { [newCasesKey]: true } }
                 ]
               })
             }

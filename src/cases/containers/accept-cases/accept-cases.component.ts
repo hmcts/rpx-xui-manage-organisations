@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 
 @Component({
-  selector: 'app-exui-case-share',
+  selector: 'app-exui-case-accept',
   templateUrl: './accept-cases.component.html',
   styleUrls: ['./accept-cases.component.scss']
 })
@@ -16,7 +16,7 @@ export class AcceptCasesComponent implements OnInit {
   public permissionsForm: any;
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public pageTitle: string;
-
+  public caseType: string;
   private readonly caseShare = '/cases/case-share';
   private readonly caseShareConfirmUrl = '/cases/case-share-confirm/new-cases';
 
@@ -31,14 +31,25 @@ export class AcceptCasesComponent implements OnInit {
     // Load selected organisation details from store
     this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
     this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
-    const caseType = this.route.snapshot.queryParams.caseType;
-    this.pageTitle = `Accept ${caseType} cases`;
+    this.caseType = this.route.snapshot.queryParams.caseTypeId;
+    const newCaseSessionStorage = sessionStorage.getItem('newCases');
+    if (newCaseSessionStorage) {
+      const newCases = JSON.parse(newCaseSessionStorage);
+      this.caseType = newCases.caseTypeId;
+    }
+    this.pageTitle = `Accept ${this.caseType} cases`;
     this.permissionsForm = this.fb.group({
       assignmentType: ['notAssigning']
     });
   }
 
   public continue(){
+    const newCaseOptions = {
+      caseTypeId: this.caseType,
+      caaPageType: CaaCasesPageType.NewCases,
+      assignCases: this.permissionsForm.value.assignmentType === 'assigning' ? 'assigning' : 'notAssigning'
+    };
+    sessionStorage.setItem('newCases', JSON.stringify(newCaseOptions));
     if (this.permissionsForm.value.assignmentType === 'assigning'){
       const queryParams = { init: true, pageType: 'unassigned-cases', caseAccept: true };
       this.router.navigate([this.caseShare], { queryParams });

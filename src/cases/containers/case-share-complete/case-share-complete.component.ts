@@ -3,9 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, first } from 'rxjs/operators';
+import * as organisationStore from '../../../organisation/store';
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
+import { OrganisationDetails } from 'src/models';
+import { CaaCasesPageType } from 'src/cases/models/caa-cases.enum';
 
 @Component({
   selector: 'app-exui-case-share-complete',
@@ -13,11 +17,13 @@ import * as fromCaseList from '../../store/reducers';
   styleUrls: ['case-share-complete.component.scss']
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   public shareCases$: Observable<SharedCase[]>;
   public shareCases: SharedCase[];
   public newShareCases$: Observable<SharedCase[]>;
   public newShareCases: SharedCase[];
   public shareCaseState$: Observable<fromCasesFeature.ShareCasesState>;
+  public selectedOrganisation$: Observable<OrganisationDetails>;
   public pageType: string;
   public isLoading: boolean;
   public completeScreenMode: string;
@@ -26,6 +32,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly store: Store<fromCaseList.CaaCasesState>,
+    private readonly organisationStore: Store<organisationStore.OrganisationState>,
     private readonly featureToggleService: FeatureToggleService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
@@ -34,29 +41,51 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    const newCasesSessionStorage = sessionStorage.getItem('newCases');
+    if (newCasesSessionStorage) {
+      const newCases = JSON.parse(newCasesSessionStorage);
+      this.confirmPageType = newCases.assignCases;
+      if (this.confirmPageType === 'assigning') {
+        this.pageType = CaaCasesPageType.UnassignedCases;
+      }
+    }
     this.shareCaseState$ = this.store.pipe(select(fromCasesFeature.getCaseShareState));
-    this.shareCaseState$.subscribe((state) => this.isLoading = state.loading);
-
+    this.shareCaseState$.pipe(takeUntil(this.destroy$)).subscribe((state) => this.isLoading = state.loading);
     this.shareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
-    this.shareCases$.subscribe((shareCases) => this.shareCases = shareCases);
+    this.shareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => this.shareCases = shareCases);
+    this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
+    this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
+    // Use first() to ensure this only runs once
+    this.selectedOrganisation$.pipe(
+      first(),
+      takeUntil(this.destroy$)
+    ).subscribe((organisation) => {
+      if (organisation) {
+        const orgIdentifier = organisation?.organisationIdentifier;
+        this.store.dispatch(new fromCasesFeature.AssignUsersToCase(this.shareCases, this.pageType, orgIdentifier));
+        this.newShareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
+        this.newShareCases$.pipe(takeUntil(this.destroy$)).subscribe((shareCases) => {
+          if (this.pageType !== CaaCasesPageType.NewCases) {
+            this.completeScreenMode = this.checkIfIncomplete(shareCases);
+            this.newShareCases = shareCases;
+          }
+        });
 
-    // this.store.dispatch(new fromCasesFeature.AssignUsersToCase(this.shareCases));
-    this.newShareCases$ = this.store.pipe(select(fromCasesFeature.getShareCaseListState));
+        this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
+        this.removeUserFromCaseToggleOn$.pipe(takeUntil(this.destroy$)).subscribe();
 
-    this.newShareCases$.subscribe((shareCases) => {
-      this.completeScreenMode = this.checkIfIncomplete(shareCases);
-      this.newShareCases = shareCases;
+        this.completeScreenMode = 'COMPLETE';
+      }
     });
-
-    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
-
-    this.completeScreenMode = 'COMPLETE';
   }
 
   public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     if (this.completeScreenMode === 'COMPLETE') {
       this.store.dispatch(new fromCasesFeature.ResetCaseSelection());
     }
+    sessionStorage.removeItem('newCases');
   }
 
   public checkIfIncomplete(shareCases: SharedCase[]): string {

@@ -38,7 +38,6 @@ export class CaseShareComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    console.log('initid the case share comp');
     this.routerState$ = this.store.pipe(select(getRouterState));
     this.routerState$.pipe(takeUntil(this.destroy$)).subscribe((router) => {
       this.init = router.state.queryParams.init;
@@ -50,7 +49,11 @@ export class CaseShareComponent implements OnInit, OnDestroy {
       } else {
         this.backLink = '/cases';
       }
-      this.confirmLink = `${url}/case-share-confirm/${cameFromAcceptCases ? 'new-cases' : this.pageType}`;
+      if (cameFromAcceptCases) {
+        this.confirmLink = `${url}/case-share-confirm/new-cases`;
+      } else {
+        this.confirmLink = `${url}/case-share-confirm/${this.pageType}`;
+      }
 
       switch (this.pageType) {
         case 'unassigned-cases':

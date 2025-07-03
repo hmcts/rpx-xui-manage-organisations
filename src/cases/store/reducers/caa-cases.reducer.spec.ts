@@ -35,7 +35,7 @@ describe('CaaCases Reducer', () => {
   });
 
   it('should loadCaseTypesSuccess action set correct state', () => {
-    const action = new fromActions.LoadCaseTypesSuccess(initialState.caseTypes);
+    const action = new fromActions.LoadCaseTypesSuccess(initialState.caseTypes, []);
     const state = fromCaaCasesReducer.caaCasesReducer(initialState, action);
     expect(state.caseTypes).toBe(initialState.caseTypes);
   });

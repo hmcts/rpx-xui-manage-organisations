@@ -40,7 +40,8 @@ export class CaaCasesEffects {
         return this.caaCasesService.getCaaCaseTypes(payload.caaCasesPageType, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
           map((caaCaseTypes) => {
             const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
-            return new fromCaaActions.LoadCaseTypesSuccess(navItems);
+            const navData = caaCaseTypes.cases;
+            return new fromCaaActions.LoadCaseTypesSuccess(navItems, navData);
           }),
           catchError((error) => {
             this.loggerService.error(error);

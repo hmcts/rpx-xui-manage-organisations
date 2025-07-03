@@ -30,7 +30,8 @@ export class ShareCaseEffects {
         return new shareCaseActions.AddShareCaseGo({
           path: this.getPathFromCaseConfig(newCases.caaPageType, newCases.group_access),
           sharedCases: newCases.sharedCases,
-          caaPageType: newCases.caaPageType
+          caaPageType: newCases.caaPageType,
+          caseTypeId: newCases.caseTypeId
         });
       })
     )
@@ -40,11 +41,13 @@ export class ShareCaseEffects {
     this.actions$.pipe(
       ofType(shareCaseActions.ADD_SHARE_CASES_GO),
       map((action: shareCaseActions.AddShareCaseGo) => action.payload),
-      tap(({ path, query: queryParams, extras, sharedCases, caaPageType }) => {
+      tap(({ path, query: queryParams, extras, sharedCases, caaPageType, caseTypeId }) => {
         const thatSharedCases = sharedCases;
         const currentPageType = caaPageType === CaaCasesPageType.UnassignedCases ? CaaCasesPageType.UnassignedCases : CaaCasesPageType.AssignedCases;
-        console.log('current page type', currentPageType);
         queryParams = { init: true, pageType: currentPageType };
+        if (caseTypeId) {
+          queryParams = { ...queryParams, caseTypeId };
+        }
         return this.router.navigate(path, { queryParams, ...extras }).then(() => {
           this.store.dispatch(new shareCaseActions.NavigateToShareCases(thatSharedCases));
         });
@@ -82,9 +85,17 @@ export class ShareCaseEffects {
   public assignUsersToCases$ = createEffect(() =>
     this.actions$.pipe(
       ofType(shareCaseActions.ASSIGN_USERS_TO_CASE),
-      map((action: shareCaseActions.AssignUsersToCase) => action.payload),
-      switchMap((payload) => {
+      map((action: shareCaseActions.AssignUsersToCase) => action),
+      switchMap((action) => {
+        const payload = action.payload;
         this.payload = payload;
+        const newCaseSessionStorage = JSON.parse(sessionStorage.getItem('newCases'));
+        if (action.pageType === CaaCasesPageType.NewCases && newCaseSessionStorage?.assignCases === 'notAssigning') {
+          return this.caseShareService.acceptCaseWithoutAssignment(payload, action.orgIdentifier).pipe(
+            map((response) => new shareCaseActions.AssignUsersToCaseSuccess(response)),
+            catchError(() => of(new fromRoot.Go({ path: ['/service-down'] })))
+          );
+        }
         return this.caseShareService.assignUsersWithCases(payload).pipe(
           map((response) => new shareCaseActions.AssignUsersToCaseSuccess(response)),
           catchError(() => of(new fromRoot.Go({ path: ['/service-down'] })))

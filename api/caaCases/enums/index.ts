@@ -1,7 +1,7 @@
 export enum CaaCasesPageType {
     AssignedCases = 'assigned-cases',
     UnassignedCases = 'unassigned-cases',
-    NewCasesToAccept = 'new-cases-to-accept',
+    NewCasesToAccept = 'new-cases',
 }
 
 export enum CaaCasesFilterType {

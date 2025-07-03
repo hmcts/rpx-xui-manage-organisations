@@ -16,6 +16,8 @@
     >
       This view has not been configured for the case type.
     </div>
+    <div *ngIf="cases?.length === 0" class="govuk-body govuk-!-margin-top-2">There are no unassigned cases available to be shared.</div>
+
     <div *ngIf="cases && cases.length > 0">
       <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
         <div>

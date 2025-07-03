@@ -83,9 +83,10 @@ describe('Caa actions', () => {
 
   it('load case types success action', () => {
     const payload = [];
-    const action = new fromActions.LoadCaseTypesSuccess(payload);
+    const action = new fromActions.LoadCaseTypesSuccess(payload, []);
     expect({ ...action }).toEqual({
       payload,
+      suppData: [],
       type: fromActions.LOAD_CASE_TYPES_SUCCESS
     });
   });

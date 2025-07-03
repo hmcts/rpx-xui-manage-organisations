@@ -25,4 +25,8 @@ export class CaseShareService {
   public assignUsersWithCases(sharedCases: SharedCase[]): Observable<SharedCase[]> {
     return this.http.post<SharedCase[]>('api/caseshare/case-assignments', { sharedCases });
   }
+
+  public acceptCaseWithoutAssignment(sharedCases: SharedCase[], orgIdentifier: string): Observable<SharedCase[]> {
+    return this.http.post<SharedCase[]>('api/caseshare/case-users', { sharedCases, orgIdentifier });
+  }
 }

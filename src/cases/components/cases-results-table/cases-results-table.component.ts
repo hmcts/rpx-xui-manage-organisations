@@ -48,6 +48,7 @@ export class CasesResultsTableComponent {
   @Output() public caseSelected = new EventEmitter<any[]>();
   @Output() public pageChanged = new EventEmitter<number>();
   @Output() public shareButtonClicked = new EventEmitter<string>();
+  @Output() public tabChangedValue = new EventEmitter<string>();
 
   // Needed for the tab group
   public navItems: any[];
@@ -77,6 +78,7 @@ export class CasesResultsTableComponent {
     this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
       ? this.navItems.find((data) => data.text === event.tab.textLabel).total
       : 0;
+    this.noCasesFoundMessage = this.getNoCasesFoundMessage();
     this.setTabItems(event.tab.textLabel, true);
   }
 
@@ -138,15 +140,14 @@ export class CasesResultsTableComponent {
   private setTabItems(tabName: string, fromTabChangedEvent?: boolean): void {
     this.resetPaginationParameters();
     this.currentCaseType = tabName;
+    this.tabChangedValue.emit(this.currentCaseType);
+    this.selectedCases = [];
     if (!fromTabChangedEvent && this.tabGroup) {
       this.tabGroup.selectedIndex = 0;
     }
-    // this.loadDataFromStore();
   }
 
   public getNoCasesFoundMessage(): string {
-    console.log(this.navItems);
-    console.log(this.selectedFilterType);
     switch (this.selectedFilterType){
       case 'all-assignees':
         return CaaCasesNoDataMessage.NoAssignedCases;

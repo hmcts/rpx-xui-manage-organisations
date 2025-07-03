@@ -32,7 +32,7 @@ export class LoadCaseTypes implements Action {
 
 export class LoadCaseTypesSuccess implements Action {
   public readonly type = LOAD_CASE_TYPES_SUCCESS;
-  constructor(public payload: any[]) {}
+  constructor(public payload: any[], public suppData: any[]) {}
 }
 
 export class LoadCaseTypesFailure implements Action {

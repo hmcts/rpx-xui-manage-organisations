@@ -171,6 +171,8 @@ describe('Case Share Actions', () => {
     const action = new fromCaseShare.AssignUsersToCase(payload);
     expect({ ...action }).toEqual({
       type: fromCaseShare.ASSIGN_USERS_TO_CASE,
+      pageType: undefined,
+      orgIdentifier: undefined,
       payload
     });
   });
@@ -180,6 +182,8 @@ describe('Case Share Actions', () => {
     const action = new fromCaseShare.AssignUsersToCase(payload);
     expect({ ...action }).toEqual({
       type: fromCaseShare.ASSIGN_USERS_TO_CASE,
+      pageType: undefined,
+      orgIdentifier: undefined,
       payload
     });
   });

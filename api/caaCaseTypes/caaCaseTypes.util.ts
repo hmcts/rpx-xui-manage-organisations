@@ -102,9 +102,22 @@ export function getApiPath(ccdPath: string, caseTypes: string) {
   return `${ccdPath}${searchCasesString}${caseTypes}`;
 }
 
+function setupCaseConfig() {
+  const unassignedCaseConfig = getConfigValue(UNASSIGNED_CASE_TYPES);
+  const caseConfig = unassignedCaseConfig.split('|').reduce((acc, entry) => {
+    const [caseType, newCases, groupAccess] = entry.split(',');
+    acc[caseType] = {
+      new_cases: newCases === 'true',
+      group_access: groupAccess === 'true'
+    };
+    return acc;
+  }, {} as Record<string, { new_cases: boolean; group_access: boolean }>);
+  return caseConfig;
+}
+
 export function addCaseConfiguration(response) {
   const resData = response.data;
-  const unassignedCaseConfig = getConfigValue(UNASSIGNED_CASE_TYPES);
+  const unassignedCaseConfig = setupCaseConfig();
   resData.case_types_results.forEach((caseTypeResult) => {
     const { case_type_id } = caseTypeResult;
     if (unassignedCaseConfig[case_type_id]) {

@@ -5,7 +5,7 @@ import { RoleAssignmentResponse } from '../caaCases/models/roleAssignmentRespons
 import { getConfigValue } from '../configuration';
 import { CASE_TYPES, SERVICES_MCA_PROXY_API_PATH } from '../configuration/references';
 import { EnhancedRequest } from '../models/enhanced-request.interface';
-import { getApiPath, getRequestBody } from './caaCaseTypes.util';
+import { getApiPath, getRequestBody, addCaseConfiguration } from './caaCaseTypes.util';
 
 export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, next: NextFunction) {
   const caaCasesPageType = req.query.caaCasesPageType as string;
@@ -31,6 +31,7 @@ export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, ne
     const payload = getRequestBody(orgId, caaCasesPageType, caaCasesFilterValue);
 
     const response = await req.http.post(path, payload);
+    addCaseConfiguration(response);
     res.send(response.data);
   } catch (error) {
     res.status(500).send({

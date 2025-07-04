@@ -118,6 +118,7 @@ function setupCaseConfig() {
 export function addCaseConfiguration(response) {
   const resData = response.data;
   const unassignedCaseConfig = setupCaseConfig();
+  console.log(unassignedCaseConfig);
   resData.case_types_results.forEach((caseTypeResult) => {
     const { case_type_id } = caseTypeResult;
     if (unassignedCaseConfig[case_type_id]) {

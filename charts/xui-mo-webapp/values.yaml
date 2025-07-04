@@ -1,11 +1,32 @@
+ccd:
+  postgres:
+    enabled: false
+  elastic:
+    enabled: false
+  xui:
+    enabled: false
+
+xui-webapp:
+  enabled: false
+
+aac-manage-case-assignment:
+  enabled: false
+
+idam-pr:
+  enabled: false
+
+ccd-case-document-am-api:
+  enabled: false
+
+wa:
+  enabled: false
+am-org-role-mapping-service:
+  enabled: true
+servicebus:
+  enabled: false
+
 redis:
   enabled: false
-  architecture: standalone
-  master:
-    persistence:
-      enabled: false
-  auth:
-    enabled: false
 
 nodejs:
   applicationPort: 3000

@@ -469,6 +469,7 @@ xui-mo-webapp:
       JURISDICTIONS: BEFTA_JURISDICTION_3,BEFTA_JURISDICTION_2,BEFTA_JURISDICTION_1,BEFTA_MASTER
       SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
       CASE_TYPES: FT_NewCaseSupplementry,FT_NoCCaseType,FT_UnassignedCase
+      UNASSIGNED_CASE_TYPES: FT_NewCaseSupplementry,true,true|FT_NoCCaseType,true,false|FT_UnassignedCase,true,false
 
 
 postgresql:

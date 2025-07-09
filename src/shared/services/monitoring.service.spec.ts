@@ -2,7 +2,7 @@ import { MonitoringService, MonitorConfig } from './monitoring.service';
 import { of } from 'rxjs';
 
 describe('Monitoring service', () => {
-  const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', { get: of({ key: 'Some Value' }) });
+  const mockedHttpClient = jasmine.createSpyObj('mockedHttpClient', { get: of({ connectionString: 'InstrumentationKey=dummy' }) });
   const mockedConfig = new MonitorConfig();
 
   it('should be Truthy', () => {

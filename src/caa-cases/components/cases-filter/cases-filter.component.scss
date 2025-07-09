@@ -1,0 +1,44 @@
+@import "govuk-frontend/govuk/base";
+
+.govuk-grid-row {
+  .govuk-grid-column-one-half {
+    background-color: govuk-colour("light-grey");
+    padding-top: 20px;
+    margin-left: 15px;
+  }
+
+  #filterContainer {
+    margin-bottom: 30px;
+  }
+
+  #assignee-person {
+    width: 90%;
+  }
+
+  #case-reference-number {
+    width: 70%;
+  }
+
+  .hide-autocomplete {
+    display: none;
+  }
+}
+
+.mat-optgroup {
+  .mat-group-header {
+    font-size: 16px !important;
+    font-weight: bold !important;
+  }
+
+  .mat-option {
+    &:hover {
+      background: $govuk-focus-colour;
+    }
+    &.select-option {
+      &:hover {
+        background: govuk-colour("blue");
+        color: govuk-colour("white");
+      }
+    }
+  }
+}

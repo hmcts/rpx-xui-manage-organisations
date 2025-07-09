@@ -159,6 +159,7 @@
     "session-file-store": "^1.2.0",
     "smoothscroll-polyfill": "^0.4.3",
     "striptags": "^3.1.1",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
@@ -240,12 +241,6 @@
     "webpack-node-externals": "^1.7.2",
     "webpack-source-map-support": "^2.0.1"
   },
-  "overrides": {
-    "shelljs": "^0.10.0",
-    "marked": "^16.0.0",
-    "xlsx": "^0.18.5",
-    "mermaid": "^11.8.1"
-  },
   "resolutions": {
     "@stryker-mutator/api": "^3.0.1",
     "@stryker-mutator/core": "^3.0.1",
@@ -258,7 +253,10 @@
     "loader-utils": "~2.0.3",
     "mem": "^4.0.0",
     "cross-spawn": "^7.0.6",
-    "yargs-parser": "^21.1.1"
+    "yargs-parser": "^21.1.1",
+    "shelljs": "^0.10.0",
+    "marked": "^16.0.0",
+    "mermaid": "^11.8.1"
   },
   "packageManager": "yarn@3.6.4"
 }

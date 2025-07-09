@@ -11613,7 +11613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^3.2.5":
+"dompurify@npm:^3.2.4, dompurify@npm:^3.2.5":
   version: 3.2.6
   resolution: "dompurify@npm:3.2.6"
   dependencies:
@@ -21683,6 +21683,7 @@ __metadata:
     cucumber-html-report: 0.6.5
     cucumber-html-reporter: ^4.0.5
     cucumber-pretty: 1.5.0
+    dompurify: ^3.2.4
     dotenv-extended: ^2.7.0
     ejs: 3.1.9
     eslint: ^8.37.0
@@ -21761,6 +21762,7 @@ __metadata:
     sonar-scanner: ^3.1.0
     source-map-explorer: ^2.5.3
     striptags: ^3.1.1
+    tar-fs: ^3.0.9
     terser-webpack-plugin: ^5.3.3
     ts-loader: 9.4.4
     ts-node: 10.8.1
@@ -23383,7 +23385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar-fs@npm:^3.0.6":
+"tar-fs@npm:^3.0.6, tar-fs@npm:^3.0.9":
   version: 3.1.0
   resolution: "tar-fs@npm:3.1.0"
   dependencies:

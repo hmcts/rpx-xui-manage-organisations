@@ -11,7 +11,7 @@ export function initialiseAppInsights() {
       .setup(getConfigValue(APP_INSIGHTS_CONNECTION_STRING))
       .setAutoDependencyCorrelation(true)
       .setAutoCollectRequests(true)
-      .setAutoCollectPerformance(true)
+      .setAutoCollectPerformance(true, true)
       .setAutoCollectExceptions(true)
       .setAutoCollectDependencies(true)
       .setAutoCollectConsole(true)

@@ -19,7 +19,7 @@ nodejs:
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
 
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    APPINSIGHTS_CONNECTION_STRING: ${APPINSIGHTS_CONNECTION_STRING}
     PUI_ENV: preview
     FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
@@ -32,7 +32,7 @@ nodejs:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
+        - appinsights-connection-string-mo
         - google-analytics-key
         - name: launch-darkly-client-id-preview
           alias: launch-darkly-client-id

@@ -99,7 +99,7 @@
     "@types/crypto-js": "^4.2.2",
     "@types/faker": "^4.1.12",
     "@types/global-agent": "^2.1.0",
-    "applicationinsights": "^3.7.0",
+    "applicationinsights": "^2.9.7",
     "applicationinsights-js": "^1.0.20",
     "axios": "^1.5.1",
     "axios-mock-adapter": "^1.22.0",

@@ -4,6 +4,9 @@
   "engines": {
     "node": ">=20.18.3"
   },
+  "workspaces": [
+    "api"
+  ],
   "scripts": {
     "build": "yarn build:prod && yarn build:node",
     "build:prod": "ng build --configuration production",

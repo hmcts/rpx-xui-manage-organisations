@@ -66,7 +66,6 @@ export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled';
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled';
 export const FEATURE_REDIS_ENABLED = 'redisEnabled';
 export const FEATURE_OIDC_ENABLED = 'oidcEnabled';
-export const FEATURE_QUERY_IDAM_SERVICE_OVERRIDE = 'queryIdamServiceOverride';
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink';
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink';

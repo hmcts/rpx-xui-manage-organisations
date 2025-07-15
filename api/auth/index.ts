@@ -24,15 +24,12 @@ import {
   SESSION_SECRET,
   SYSTEM_USER_NAME,
   SYSTEM_USER_PASSWORD,
-  SERVICES_IDAM_SERVICE_OVERRIDE,
-  FEATURE_QUERY_IDAM_SERVICE_OVERRIDE
+  SERVICES_IDAM_SERVICE_OVERRIDE
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
 import { EnhancedRequest } from '../models/enhanced-request.interface';
 import { getOrganisationDetails } from '../organisation';
-import qs = require('qs');
-import axios from 'axios';
 
 const logger = log4jui.getLogger('auth');
 
@@ -85,7 +82,7 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
 
 xuiNode.on(AUTH.EVENT.AUTHENTICATE_SUCCESS, successCallback);
 
-export const getXuiNodeMiddleware = async () => {
+export const getXuiNodeMiddleware = () => {
   const idamWebUrl = getConfigValue(SERVICES_IDAM_WEB);
   const authorizationUrl = `${idamWebUrl}/login`;
   const secret = getConfigValue(IDAM_SECRET);
@@ -98,7 +95,6 @@ export const getXuiNodeMiddleware = async () => {
   const tokenUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/oauth2/token`;
   const userName = getConfigValue(SYSTEM_USER_NAME);
   const password = getConfigValue(SYSTEM_USER_PASSWORD);
-  const clientServiceDetailsUrl = `${getConfigValue(SERVICES_IDAM_API_PATH)}/api/v2/services/${idamClient}`;
 
   const routeCredential = {
     password,
@@ -177,47 +173,7 @@ export const getXuiNodeMiddleware = async () => {
     session: showFeature(FEATURE_REDIS_ENABLED) ? redisStoreOptions : fileStoreOptions
   };
 
-  const getToken = async () => {
-    const data = qs.stringify({
-      grant_type: 'client_credentials',
-      client_id: idamClient,
-      client_secret: secret,
-      scope: 'profile roles view-service-provider'
-    });
-    try {
-      const response = await axios.post(tokenUrl, data, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      });
-      return response.data.access_token;
-    } catch (error) {
-      logger.error('Error fetching token:', error);
-    }
-  };
-
-  const getClientServiceDetails = async () => {
-    try {
-      const accessToken = await getToken();
-      if (!accessToken) {
-        throw new Error('Failed to get access token');
-      }
-      const response = await axios.get(clientServiceDetailsUrl, { headers: {
-        'Authorization': `Bearer ${accessToken}`
-      } });
-      logger.info('Successfully retrieved service override from API');
-      return response.data.oauth2.issuerOverride;
-    } catch (error) {
-      logger.error('Error retrieving service override from API, falling back to config value', error);
-      return getConfigValue(SERVICES_IDAM_SERVICE_OVERRIDE);
-    }
-  };
-
   const type = showFeature(FEATURE_OIDC_ENABLED) ? 'oidc' : 'oauth2';
-  if (showFeature(FEATURE_QUERY_IDAM_SERVICE_OVERRIDE)) {
-    logger.info('Querying IDAM service override');
-    options.serviceOverride = await getClientServiceDetails();
-  }
   nodeLibOptions.auth[type] = options;
   logger._logger.info('Setting XuiNodeLib options');
   return xuiNode.configure(nodeLibOptions);

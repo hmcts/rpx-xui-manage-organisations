@@ -51,7 +51,6 @@ nodejs:
     FEATURE_HELMET_ENABLED: true
     FEATURE_REDIS_ENABLED: true
     FEATURE_OIDC_ENABLED: false
-    FEATURE_QUERY_IDAM_SERVICE_OVERRIDE: true
 
     # Redis
     REDIS_KEY_PREFIX: 'activity:'

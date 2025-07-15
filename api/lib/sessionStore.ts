@@ -2,7 +2,7 @@ import * as connectRedis from 'connect-redis';
 import * as session from 'express-session';
 import * as redis from 'redis';
 import * as sessionFileStore from 'session-file-store';
-import { createApp } from '../application';
+import { app } from '../application';
 import { getConfigValue, showFeature } from '../configuration';
 import {
   FEATURE_REDIS_ENABLED,
@@ -20,8 +20,7 @@ const fileStore = sessionFileStore(session);
 
 let store: session.Store = null;
 
-export const getRedisStore = async (): Promise<connectRedis.RedisStore> => {
-  const app = await createApp();
+export const getRedisStore = (): connectRedis.RedisStore => {
   logger.info('using RedisStore');
 
   const tlsOptions = {
@@ -54,10 +53,10 @@ export const getFileStore = (): session.Store => {
   });
 };
 
-export const getStore = async (): Promise<session.Store> => {
+export const getStore = (): session.Store => {
   if (!store) {
     if (showFeature(FEATURE_REDIS_ENABLED)) {
-      store = await getRedisStore();
+      store = getRedisStore();
     } else {
       store = getFileStore();
     }

@@ -28,7 +28,6 @@
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
     "redisEnabled": false,
-    "oidcEnabled": false,
-    "queryIdamServiceOverride": true
+    "oidcEnabled": false
   }
 }

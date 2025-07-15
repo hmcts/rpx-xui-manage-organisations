@@ -10,39 +10,36 @@
         <lib-gov-checkbox
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiCaseManager"
-          [config]="{value: 'pui-case-manager',  label: 'Manage cases', name: 'roles', hint: 'View,
-          create and progress cases.', focusOn: 'roles', hiddenLabelContext: 'Permit users to '}">
+          [config]="{value: 'pui-case-manager',  label: 'Manage Cases', name: 'roles', hint: 'Log in to Manage Cases, create, view and progress legal cases.', focusOn: 'roles', hiddenLabelContext: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiUserManager"
-          [config]="{value: 'pui-user-manager', label: 'Manage users', name: 'roles',
-          hint: 'Invite users.', hiddenLabelContext: 'Permit users to '}">
+          [config]="{value: 'pui-user-manager', label: 'Manage Users', name: 'roles',
+          hint: 'View the organisation users, update user permissions, invite new users, suspend user accounts.', hiddenLabelContext: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiOrganisationManager"
-          [config]="{value: 'pui-organisation-manager', label: 'Manage organisation', name: 'roles',
-          hint: 'View the organisation name and address.', hiddenLabelContext: 'Permit users to '}">
+          [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
+          hint: 'View the registered organisation details.', hiddenLabelContext: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox id="checkbox-grant-case-access-admin" *ngIf="grantCaseAccessAdmin$ | async"
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isCaseAccessAdmin"
-          [config]="{value: 'pui-caa', label: 'Case access administrator', name: 'roles',
-          hint: 'Manage case access for all users within your organisation.
-          You can assign this role to any user in your organisation. However, your service might not currently support this role.
-          You will receive further guidance once it becomes available.',
+          [config]="{value: 'pui-caa', label: 'Case Access Administrator', name: 'roles',
+          hint: 'View and update case assignments which are associated with your organisation. Not all services support the assigned and unassigned cases view.',
           hiddenLabelContext: 'Permit users to '}">
         </lib-gov-checkbox>
 
         <lib-gov-checkbox id="checkbox-grant-finance-manager"  *ngIf="grantFinanceManager$ | async"
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiFinanceManager"
-          [config]="{value: 'pui-finance-manager', label: 'Manage fee accounts', name: 'roles',
-          hint: 'View payments made on individual cases. (Manage cases - service request tab)'}">
+          [config]="{value: 'pui-finance-manager', label: 'Manage Fee Accounts', name: 'roles',
+          hint: 'View and update the Payment By Account (PBA) numbers associated with your organisation. The Manage Fee Accounts permission is also required to view historic and pending financial transactions in Manage Cases.'}">
         </lib-gov-checkbox>
       </div>
 

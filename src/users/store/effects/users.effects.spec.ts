@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -9,6 +9,7 @@ import { LoadAllUsersNoRoleData, LoadAllUsersNoRoleDataFail, LoadAllUsersNoRoleD
 import * as orgActions from '../../../organisation/store/actions';
 import * as fromUsersEffects from './users.effects';
 import { RawPrdUser, RawPrdUserListWithoutRoles, RawPrdUserLite, RawPrdUsersList } from 'src/users/models/prd-users.model';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Users Effects', () => {
   let actions$;
@@ -22,7 +23,7 @@ describe('Users Effects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [],
       providers: [
         {
           provide: UsersService,
@@ -33,7 +34,9 @@ describe('Users Effects', () => {
           useValue: mockedLoggerService
         },
         fromUsersEffects.UsersEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     });
 

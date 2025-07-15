@@ -29,7 +29,7 @@ nodejs:
     MO_NO_PROXY: localhost
     PORT: 3000
     NOW: false
-    IDAM_CLIENT: xuimowebapp_passport_0_7
+    IDAM_CLIENT: xuimowebapp
     OAUTH_CALLBACK_URL: /oauth2/callback
     MAX_LOG_LINE: 80
     EXCEPTION_OPTIONS_MAX_LINES: 1

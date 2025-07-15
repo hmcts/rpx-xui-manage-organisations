@@ -94,10 +94,6 @@
       "oidcEnabled": {
         "__name": "FEATURE_OIDC_ENABLED",
         "__format": "json"
-      },
-      "queryIdamServiceOverride": {
-      "__name": "FEATURE_QUERY_IDAM_SERVICE_OVERRIDE",
-      "__format": "json"
       }
     },
     "helmet": {

@@ -252,7 +252,6 @@
     "@stryker-mutator/typescript": "^4.0.0",
     "axios": "^1.8.2",
     "cross-spawn": "^7.0.6",
-    "got": "^11.8.6",
     "loader-utils": "~2.0.3",
     "mem": "^4.0.0",
     "mermaid": "^11.0.0",

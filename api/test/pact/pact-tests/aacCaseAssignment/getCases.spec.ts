@@ -17,7 +17,9 @@ describe('Get cases from acc ', () => {
         withRequest: {
           method: 'GET',
           path: '/case-assignments',
-          query: 'case_ids=[123456789]',
+          query: {
+            case_ids: '[123456789]'
+          },
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer some-access-token',

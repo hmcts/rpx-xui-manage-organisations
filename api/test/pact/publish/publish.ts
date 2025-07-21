@@ -31,7 +31,8 @@ const publish = async (): Promise<void> => {
       pactFilesOrDirs: [
         path.resolve(__dirname, '../pacts/')
       ],
-      tags: [pactTag]
+      tags: [pactTag],
+      branch: pactTag
     };
 
     await pact.publishPacts(opts);

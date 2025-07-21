@@ -15,7 +15,7 @@ export class PactTestSetup {
       port: this.port,
       log: path.resolve(process.cwd(), 'api/test/pact/logs', 'mockserver-integration.log'),
       dir: path.resolve(process.cwd(), 'api/test/pact/pacts'),
-      spec: 2,
+      spec: 3,
       consumer: 'xui_manageOrg',
       provider: config.provider,
       pactfileWriteMode: 'merge'

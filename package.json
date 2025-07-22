@@ -257,7 +257,8 @@
     "yargs-parser": "^21.1.1",
     "shelljs": "^0.10.0",
     "marked": "^16.0.0",
-    "mermaid": "^11.8.1"
+    "mermaid": "^11.8.1",
+    "form-data": "^4.0.0"
   },
   "packageManager": "yarn@3.6.4"
 }

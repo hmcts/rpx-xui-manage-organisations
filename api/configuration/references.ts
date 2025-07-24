@@ -77,6 +77,7 @@ export const REDIS_KEY_PREFIX = 'redis.prefix';
 export const SESSION_TIMEOUTS = 'sessionTimeouts';
 
 export const CASE_TYPES = 'caseTypes';
+export const UNASSIGNED_CASE_TYPES = 'unassignedCaseTypes';
 
 // PACT
 export const PACT_BROKER_URL = 'pact.brokerUrl';

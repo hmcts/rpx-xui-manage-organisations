@@ -120,7 +120,7 @@
     "express-session": "^1.15.6",
     "faker": "^4.1.0",
     "file-saver": "^2.0.2",
-    "form-data": "^2.5.1",
+    "form-data": "^4.0.4",
     "git-rev-sync": "^2.0.0",
     "global-agent": "^2.1.8",
     "govuk-frontend": "4.7.0",
@@ -257,7 +257,8 @@
     "yargs-parser": "^21.1.1",
     "shelljs": "^0.10.0",
     "marked": "^16.0.0",
-    "mermaid": "^11.8.1"
+    "mermaid": "^11.8.1",
+    "form-data": "^4.0.4"
   },
   "packageManager": "yarn@3.6.4"
 }

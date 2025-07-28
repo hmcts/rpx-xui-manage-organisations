@@ -35,3 +35,10 @@ export async function assignCasesToUsers(req: EnhancedRequest, res: Response) {
   }
   return realAPI.assignCases(req, res);
 }
+
+export async function acceptNewCasesForOrg(req: EnhancedRequest, res: Response) {
+  // if (stub) {
+  //   return stubAPI.acceptNewCases(req, res);
+  // }
+  return realAPI.acceptNewCases(req, res);
+}

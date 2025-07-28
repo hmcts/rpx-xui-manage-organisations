@@ -458,7 +458,7 @@ xui-mo-webapp:
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-mo
-    image: hmctspublic.azurecr.io/xui/mo-webapp:pr-1365
+    image: hmctspublic.azurecr.io/xui/mo-webapp:pr-1384
     ingressHost: ${SERVICE_FQDN}
     environment:
       MANAGE_CASE_LINK: https://xui-${SERVICE_FQDN}/cases

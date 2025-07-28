@@ -10,6 +10,7 @@ import { LoggerService } from '../../../shared/services/logger.service';
 import { OrganisationService } from '../../services';
 import { LoadOrganisation, LoadOrganisationFail, LoadOrganisationSuccess } from '../actions';
 import * as fromOrganisationEffects from './organisation.effects';
+import { AppConstants } from '../../../app/app.constants';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Organisation Effects', () => {
@@ -64,7 +65,7 @@ describe('Organisation Effects', () => {
         name: 'a@b.com',
         organisationIdentifier: 'A111111',
         organisationProfileIds: [
-          'SOLICITOR_PROFILE'
+          AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
         ],
         contactInformation: [{
           addressLine1: '10  oxford street',

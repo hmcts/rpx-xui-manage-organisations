@@ -6,6 +6,7 @@
 >
   <xuilib-user-details *ngIf="!(isLoading$ | async) else isLoading"
     [user]="user"
+    [enabledAccessTypes]="userAccessTypes"
     [editPermissionRouterLink]="editPermissionRouter"
     [showEditLink]="isInactive(user?.status)"
     [showHelpLink]="isSuspended(user?.status)"

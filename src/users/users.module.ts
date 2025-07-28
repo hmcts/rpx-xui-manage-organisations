@@ -20,18 +20,30 @@ import * as fromComponents from './components';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { RpxTranslationModule } from 'rpx-xui-translation';
+import { featureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd-invite-user-flow.guard';
+import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
-@NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
+@NgModule({
+  exports: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components],
+  imports: [CommonModule,
     usersRouting,
     SharedModule,
     StoreModule.forFeature('users', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule], providers: [...fromServices.services, InviteUserSuccessGuard, provideHttpClient(withInterceptorsFromDi())] })
+    ExuiCommonLibModule,
+    MatAutocompleteModule,
+    NgxPaginationModule,
+    RpxTranslationModule.forChild()
+  ],
+  providers: [...fromServices.services, InviteUserSuccessGuard, featureToggleOdgInviteUserFlowGuard, provideHttpClient(withInterceptorsFromDi())]
+})
 
 /**
  * Entry point to UsersModule
  */
-
 export class UsersModule {}

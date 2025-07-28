@@ -17,6 +17,8 @@ const ccdRoutes = require('./services/ccd/routes')
 const rdCommonDataRoutes = require('./services/rdCommondata/routes')
 const acseAssignmentsRoutes = require('./services/caseAssignments/routes')
 const userApiData = require('./services/userApiData');
+
+const retrieveAccessTypesRoutes = require('./services/accessTypes/routes')
 class MockApp {
 
     constructor() {
@@ -73,6 +75,8 @@ class MockApp {
         app.use('/refdata/commondata/lov', rdCommonDataRoutes )
         app.use('/ccd', ccdRoutes)
         app.use('/case-assignments', acseAssignmentsRoutes )
+
+        app.use('/retrieve-access-types',retrieveAccessTypesRoutes )
 
 
         // await this.stopServer();

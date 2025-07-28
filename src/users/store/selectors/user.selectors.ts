@@ -42,3 +42,8 @@ export const getUserDetails = createSelector(
   getUserState,
   fromUsers.getUserDetails
 );
+
+export const getLoadUserListNeeded = createSelector(
+  getUserState,
+  fromUsers.getLoadUserListNeeded
+);

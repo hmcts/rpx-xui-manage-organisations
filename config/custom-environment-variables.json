@@ -50,6 +50,7 @@
       "__format": "json"
     },
     "caseTypes": "CASE_TYPES",
+    "unassignedCaseTypes": "UNASSIGNED_CASE_TYPES",
     "secrets": {
       "rpx": {
         "appinsights-instrumentationkey-mo": "APPINSIGHTS_INSTRUMENTATIONKEY",

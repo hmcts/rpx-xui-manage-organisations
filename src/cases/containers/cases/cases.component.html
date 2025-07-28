@@ -1,0 +1,73 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <span class="govuk-caption-xl">{{
+    (selectedOrganisation$ | async)?.name
+  }}</span>
+  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+
+  <div>
+    <button
+      type="submit"
+      class="govuk-button govuk-button--secondary"
+      (click)="toggleFilterSection()"
+    >
+      {{ showFilterSection ? "Hide cases filter" : "Show cases filter" }}
+    </button>
+    <div *ngIf="showFilterSection">
+      <ng-container *ngIf="this.errorMessages.length > 0">
+        <div
+          class="govuk-error-summary"
+          aria-labelledby="error-summary-title"
+          role="alert"
+          tabindex="-1"
+          data-module="govuk-error-summary"
+        >
+          <h2 class="govuk-error-summary__title" id="error-summary-title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li *ngFor="let errorMessage of errorMessages">
+                <a href="cases/all#{{ errorMessage.fieldId }}">{{
+                  errorMessage.description
+                }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ng-container>
+      <app-cases-filter
+        [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
+        [sessionStateValue]="sessionStateValue"
+        (selectedFilter)="onSelectedFilter($event)"
+        (emitErrorMessages)="onErrorMessages($event)"
+      ></app-cases-filter>
+    </div>
+    <div class="govuk-grid-row govuk-!-margin-top-5">
+        <govuk-grid-column-full>
+          <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-visually-hidden">Warning</span>
+              The tabs below list all of your organisation's cases which are not assigned to any users. You can assign
+              cases to users by selecting 'Manage cases'.
+              <br aria-hidden="true" /><br aria-hidden="true" />
+              You do not need to assigned cases to users if they have 'Access all cases in the organisation' enabled for
+              that case type.
+            </strong>
+          </div>
+        </govuk-grid-column-full>
+      </div>
+    <app-cases-results-table
+      [allCaseTypes]="allCaseTypes"
+      [casesConfig]="casesConfig"
+      [cases]="cases"
+      [paginationPageSize]="paginationPageSize"
+      [shareButtonText]="caseResultsTableShareButtonText"
+      [selectedFilterType]="selectedFilterType"
+      (caseSelected)="onCaseSelected($event)"
+      (pageChanged)="onPageChanged($event)"
+      (shareButtonClicked)="onShareButtonClicked($event)"
+      (tabChangedValue)="onTabChanged($event)"
+    ></app-cases-results-table>
+  </div>
+</main>

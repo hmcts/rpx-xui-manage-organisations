@@ -1,0 +1,67 @@
+<mat-tab-group
+  #tabGroup
+  animationDuration="0ms"
+  (selectedTabChange)="tabChanged($event)"
+  *ngIf="navItems && navItems.length > 0"
+>
+  <mat-tab
+    *ngFor="let navItem of navItems; let last = last"
+    [id]="navItem.id"
+    [label]="navItem.text"
+  >
+    <div
+      id="cases-error"
+      class="govuk-!-margin-top-7"
+      *ngIf="casesError$ | async"
+    >
+      This view has not been configured for the case type.
+    </div>
+    <div *ngIf="cases?.length === 0" class="govuk-body govuk-!-margin-top-2">There are no unassigned cases available to be shared.</div>
+
+    <div *ngIf="cases && cases.length > 0">
+      <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
+        <div>
+          <p class="govuk-body">
+            Showing <strong>{{ getFirstResult() }}</strong> to
+            <strong>{{ getLastResult() }}</strong> of
+            <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases
+          </p>
+        </div>
+        <p class="govuk-body">
+          Select any <strong>{{ currentCaseType }}</strong> cases you want to
+          manage case sharing for.
+        </p>
+
+        <button
+          [disabled]="!enableShareButton"
+          id="btn-share-unassigned-case-button"
+          class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+          data-module="govuk-button"
+          type="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+          (click)="onShareButtonClicked()"
+        >
+          {{ shareButtonText }}
+        </button>
+      </div>
+      <ccd-case-list
+        *ngIf="cases.length > 0 && tableConfig"
+        [cases]="cases"
+        [selectedCases]="selectedCases"
+        [tableConfig]="tableConfig"
+        [selectionEnabled]="true"
+        (selection)="onCaseSelection($event)"
+        (pageChange)="onPaginationHandler($event)"
+        [currentPageNo]="currentPageNo"
+        [totalResultsCount]="totalCases"
+        [pageSize]="paginationPageSize"
+      >
+      </ccd-case-list>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<div class="govuk-body govuk-!-margin-top-4" *ngIf="navItems.length === 0">
+  {{noCasesFoundMessage}}
+</div>

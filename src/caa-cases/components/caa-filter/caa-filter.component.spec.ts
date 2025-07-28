@@ -67,8 +67,8 @@ describe('CaaFilterComponent', () => {
 
   it('should set selected filter type', () => {
     spyOn(component.emitSelectedFilterType, 'emit');
-    component.selectFilterOption(CaaCasesFilterType.AssigneeName);
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
+    component.selectFilterOption(CaaCasesFilterType.CasesAssignedToAUser);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CasesAssignedToAUser);
     expect(component.emitSelectedFilterType.emit).toHaveBeenCalledWith(component.selectedFilterType);
   });
 
@@ -337,7 +337,7 @@ describe('CaaFilterComponent', () => {
     // trigger the validation and set form validity
     let radioButton = nativeElement.querySelector('#caa-filter-assignee-name');
     radioButton.click();
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CasesAssignedToAUser);
     let textInput = nativeElement.querySelector('#assignee-person');
     textInput.value = 'Andy Test - andy@test.com';
     textInput.dispatchEvent(new Event('input'));
@@ -354,7 +354,7 @@ describe('CaaFilterComponent', () => {
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
     radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
     radioButton.click();
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignedCases);
     component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });

@@ -1,0 +1,94 @@
+<h1 class="govuk-heading-m">User Details</h1>
+<p *ngIf="inviteMode" class="govuk-caption-m">Add details of the user you want to invite</p>
+
+<ng-container *ngIf="inviteMode; else readOnlyTemplate">
+  <form *ngIf="personalDetailForm" [formGroup]="personalDetailForm">
+    <xuilib-gov-uk-form-group-wrapper
+      [group]="'personalDetailForm'"
+      [config]="{
+        key: 'firstName'
+      }"
+    >
+      <xuilib-gov-uk-input
+        [config]="{
+          label: 'First name',
+          hint: 'Include all middle names',
+          name: 'firstName',
+          id: 'firstName',
+          type: 'text',
+        }"
+        [group]="personalDetailForm"
+        [errorMessage]="{
+          isInvalid: errors.firstName.length > 0,
+          messages: errors.firstName
+        }"
+      >
+      </xuilib-gov-uk-input>
+    </xuilib-gov-uk-form-group-wrapper>
+
+    <xuilib-gov-uk-form-group-wrapper
+      [group]="'personalDetailForm'"
+      [config]="{
+        key: 'lastName'
+      }"
+    >
+      <xuilib-gov-uk-input
+        [config]="{
+          label: 'Last name',
+          name: 'lastName',
+          id: 'lastName',
+          type: 'text'
+        }"
+        [group]="personalDetailForm"
+        [errorMessage]="{
+          isInvalid: errors.lastName.length > 0,
+          messages: errors.lastName
+        }"
+      >
+      </xuilib-gov-uk-input>
+    </xuilib-gov-uk-form-group-wrapper>
+
+    <xuilib-gov-uk-form-group-wrapper
+      [group]="'personalDetailForm'"
+      [config]="{
+        key: 'email'
+      }"
+    >
+      <xuilib-gov-uk-input
+        [config]="{
+          label: 'Email address',
+          hint: 'Only use work / business addresses',
+          name: 'email',
+          id: 'email',
+          type: 'email'
+        }"
+        [group]="personalDetailForm"
+        [errorMessage]="{
+          isInvalid: errors.email.length > 0,
+          messages: errors.email
+        }"
+      >
+      </xuilib-gov-uk-input>
+    </xuilib-gov-uk-form-group-wrapper>
+  </form>
+</ng-container>
+<ng-template #readOnlyTemplate>
+  <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
+    <div class="govuk-grid-row">
+      <label class="govuk-label govuk-label--m"><span>First name</span></label>
+      <p id="firstName" class="govuk-body">{{ user.firstName }}</p>
+    </div>
+
+    <div class="govuk-grid-row">
+      <label class="govuk-label govuk-label--m"><span>Last name</span></label>
+      <p id="lastName" class="govuk-body">{{ user.lastName }}</p>
+    </div>
+
+    <div class="govuk-grid-row">
+      <label class="govuk-label govuk-label--m"
+        ><span>Email address</span></label
+      >
+      <p id="email" class="govuk-body">{{ user.email }}</p>
+    </div>
+  </div>
+</ng-template>

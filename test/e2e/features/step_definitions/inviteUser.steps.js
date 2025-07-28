@@ -36,11 +36,11 @@ When(/^I click on invite user button$/, async function () {
   // browser.sleep(LONG_DELAY);
 });
 
-When(/^I navigate to invite user page$/, async function () {
-  const inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/invite-user' : '/users/invite-user';
-  await browser.driver.get(config.config.baseUrl + inviteUserPath);
-  await inviteUserPage.waitForPage();
-});
+  When(/^I navigate to invite user page$/, async function () {
+    const inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/manage' : '/users/manage';
+    await browser.driver.get(config.config.baseUrl + inviteUserPath);
+    await inviteUserPage.waitForPage();
+  });
 
 Then(/^I should be on display invite user page$/, async function () {
   // browser.sleep(AMAZING_DELAY);;

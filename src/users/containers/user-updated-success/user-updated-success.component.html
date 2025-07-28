@@ -1,0 +1,30 @@
+<div class="govuk-width-container">
+  <main
+    class="govuk-main-wrapper govuk-main-wrapper"
+    id="main-content"
+    role="main"
+  >
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-panel govuk-panel--confirmation">
+          <h1 id="confirmationHeader" class="govuk-panel__title">
+            {{ "User account updated" | rpxTranslate }}
+          </h1>
+          <div id="confirmationBody" class="govuk-panel__body">
+            {{ (this.user$ | async).email }}
+          </div>
+        </div>
+        <p class="govuk-body">
+          Changes to this account have been saved. These changes will be applied
+          immediately however the user may need to log out and back in to their
+          account for the changes to take effect.
+        </p>
+        <p class="govuk-body">
+          <span text
+            ><a [routerLink]="['/users']">Go back to manage users</a></span
+          >
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

@@ -371,6 +371,10 @@ am-org-role-mapping-service:
       ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
       imagePullPolicy: Always
       environment:
+        devmemoryRequests: 1024Mi
+        devcpuRequests: 250m
+        devmemoryLimits: 2048Mi
+        devcpuLimits: 1500m
         CASE_DATA_STORE_BASEURL: http://{{ .Release.Name }}-ccd-data-store-api
         CASE_DOCUMENT_AM_BASEURL: http://${SERVICE_NAME}-ccd-case-document-am-api
         BUNDLING_API_URL: https://em-ccdorc-${SERVICE_FQDN}

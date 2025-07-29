@@ -110,7 +110,7 @@ ccd:
   am-role-assignment-service:
     enabled: true
     java:
-      image: hmctspublic.azurecr.io/am/role-assignment-service:pr-2542
+      image: hmctspublic.azurecr.io/am/role-assignment-service:latest
       ingressHost: am-role-assignment-service-${SERVICE_FQDN}
       releaseNameOverride: ${SERVICE_NAME}-am-role-assignment-service
       imagePullPolicy: Always
@@ -366,7 +366,7 @@ ccd:
 am-org-role-mapping-service:
     enabled: true
     java:
-      image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:pr-2397'
+      image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:pr-1769'
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
       imagePullPolicy: Always

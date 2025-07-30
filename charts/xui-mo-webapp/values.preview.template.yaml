@@ -468,14 +468,14 @@ xui-mo-webapp:
     environment:
       MANAGE_CASE_LINK: https://xui-${SERVICE_FQDN}/cases
       MANAGE_ORG_LINK: https://xui-mo-${SERVICE_FQDN}
-      SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
+      SERVICES_CCD_DATA_STORE_API: https://ccd-data-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_CCD_COMPONENT_API: http://gateway-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_MCA_PROXY_API: https://aac-{{ .Release.Name }}.preview.platform.hmcts.net
       JURISDICTIONS: BEFTA_JURISDICTION_3,BEFTA_JURISDICTION_2,BEFTA_JURISDICTION_1,BEFTA_MASTER
       SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
       CASE_TYPES: FT_NewCaseSupplementry,FT_NoCCaseType,FT_UnassignedCase
       UNASSIGNED_CASE_TYPES: FT_NewCaseSupplementry,true,true|FT_NoCCaseType,true,false|FT_UnassignedCase,true,false
-      SERVICES_CCD_DEFINITION_STORE_API: http://ccd-definition-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
+      SERVICES_CCD_DEFINITION_STORE_API: https://ccd-definition-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_ROLE_ASSIGNMENT_MAPPING_API: http://am-org-role-mapping-service-{{ .Release.Name }}.preview.platform.hmcts.net
 
 

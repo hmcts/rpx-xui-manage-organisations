@@ -11,7 +11,7 @@ describe('CaaCasesService', () => {
   let mockSessionStorage: any;
   let mockHttp: any;
   const sessionStateValue: CaaCasesSessionStateValue = {
-    filterType: CaaCasesFilterType.AssigneeName,
+    filterType: CaaCasesFilterType.CasesAssignedToAUser,
     caseReferenceNumber: null,
     assigneeName: 'assignee123'
   };

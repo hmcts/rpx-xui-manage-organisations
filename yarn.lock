@@ -19814,13 +19814,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pdfjs-dist@npm:2.5.207":
-  version: 2.5.207
-  resolution: "pdfjs-dist@npm:2.5.207"
-  checksum: 253c7f44e7412d96b373162928b4ab820a4c1589e684c8cb8beb6306ffd62416402006edbe4a817789cb3f2f25ac21f217478aa335bb18bf66ca94d8fe65186e
-  languageName: node
-  linkType: hard
-
 "pdfjs-dist@npm:^4.10.38":
   version: 4.10.38
   resolution: "pdfjs-dist@npm:4.10.38"
@@ -21671,7 +21664,6 @@ __metadata:
     p-iteration: ^1.1.7
     pa11y: ^8.0.0
     pa11y-reporter-html: ^2.0.0
-    pdfjs-dist: 2.5.207
     pegjs: ^0.10.0
     playwright: ^1.51.1
     portfinder: ^1.0.28

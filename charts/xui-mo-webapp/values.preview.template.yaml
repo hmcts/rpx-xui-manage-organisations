@@ -402,7 +402,7 @@ aac-manage-case-assignment:
   java:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-aac-manage-case-assignment
-    image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560-d8234d3-20250729104546
+    image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560-c5f2813-20250804183119
     ingressHost: aac-${SERVICE_FQDN}
     environment:
       MCA_DS_PROXY_URLS_ALLOWED_LIST: /searchCases.*,/internal/searchCases.*,/internal/cases.*

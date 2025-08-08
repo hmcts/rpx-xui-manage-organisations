@@ -1,11 +1,15 @@
 import { config } from '../config/config';
 import { expect } from '@playwright/test';
 
-export async function signIn(page: any, user: string = 'base') {
+export async function signIn(page: any, user: string = 'base', urlOverride?: string) {
   const { username, password } = config[user];
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      await page.goto(config.baseUrl);
+      if (urlOverride) {
+        await page.goto(urlOverride);
+      } else {
+        await page.goto(config.baseUrl);
+      }
       // Ensure fields are visible before interacting
       await page.getByLabel('Email address').click();
       await page.getByLabel('Email address').fill(username);

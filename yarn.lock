@@ -3052,9 +3052,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.8":
-  version: 2.30.8
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.8"
+"@hmcts/rpx-xui-node-lib@npm:2.30.9":
+  version: 2.30.9
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.9"
   dependencies:
     "@dr.pogodin/csurf": ^1.14.0
     axios: ^1.7.7
@@ -3074,7 +3074,7 @@ __metadata:
     passport-oauth2: ^1.8.0
     redis: ^3.0.2
     session-file-store: ^1.5.0
-  checksum: 92765f7a86e8239b63a50bf5aa9849b51b36d4fe50257337983c5bf09d3bcf4247e8bbf738d2ad20f4f3b3adcaa66ca1a28032aa7fe6114ee52775d53b7c4a81
+  checksum: 5e2ab72fe296e3da00302dfa5318dd031423f27b7e22c63c27bacdebb358d4db8e4188ef1eebd0d2e19bd0fd6f631ce47886243efc3749aabf18d65a511644c8
   languageName: node
   linkType: hard
 
@@ -21305,7 +21305,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.1.1
-    "@hmcts/rpx-xui-node-lib": 2.30.8
+    "@hmcts/rpx-xui-node-lib": 2.30.9
     "@ng-idle/core": ^14.0.0
     "@ng-idle/keepalive": ^14.0.0
     "@ngrx/effects": ^17.2.0

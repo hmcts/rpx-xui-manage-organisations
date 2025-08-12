@@ -10,7 +10,7 @@ import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareCompleteComponent } from './case-share-complete.component';
 
-describe('CaseShareCompleteComponent', () => {
+describe('CaaCaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 

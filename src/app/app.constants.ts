@@ -8,7 +8,9 @@ const featureNames = {
   editUserPermissions: 'edit-permissions',
   removeUserFromCase: 'remove-user-from-case-mo',
   caaMenuItems: 'mo-caa-menu-items',
-  newRegisterOrg: 'mo-new-register-org'
+  newCasesItems: 'mo-new-cases',
+  newRegisterOrg: 'mo-new-register-org',
+  ogdInviteUserFlow: 'ogd-invite-user-flow'
 };
 
 const navItemsArray: NavItemModel[] = [
@@ -50,6 +52,15 @@ const navItemsArray: NavItemModel[] = [
     featureToggle: {
       featureName: featureNames.caaMenuItems
     }
+  },
+  {
+    text: 'Cases',
+    href: '/cases',
+    orderId: 6,
+    active: false,
+    featureToggle: {
+      featureName: featureNames.newCasesItems
+    }
   }
 ];
 
@@ -57,7 +68,7 @@ const roleBasedNav = {
   'pui-organisation-manager': navItemsArray[0],
   'pui-user-manager': navItemsArray[1],
   'pui-finance-manager': navItemsArray[2],
-  'pui-caa': [navItemsArray[3], navItemsArray[4]]
+  'pui-caa': [navItemsArray[3], navItemsArray[4], navItemsArray[5]]
 };
 
 const userNav: UserNavModel = {
@@ -213,6 +224,16 @@ const environmentNames = {
 const serviceMessagesFeatureToggleKey: string = 'mo-service-messages-dates';
 const serviceMessageCookie: string = 'mo_service_messages';
 
+const ogdProfileTypes = {
+  OGD_DWP_PROFILE: 'OGD_DWP_PROFILE',
+  SOLICITOR_PROFILE: 'SOLICITOR_PROFILE',
+  OGD_HO_PROFILE: 'OGD_HO_PROFILE',
+  OGD_HMRC_PROFILE: 'OGD_HMRC_PROFILE',
+  OGD_CICA_PROFILE: 'OGD_CICA_PROFILE',
+  OGD_CAFCASS_PROFILE_ENGLAND: 'OGD_CAFCASS_PROFILE_ENGLAND',
+  OGD_CAFCASS_PROFILE_CYMRU: 'OGD_CAFCASS_PROFILE_CYMRU'
+};
+
 /**
  * Place to keep app constants.
  * Nice to have: The constants should also be injected into state to have single source of truth.
@@ -235,4 +256,5 @@ export class AppConstants {
   public static FEATURE_NAMES = featureNames;
   public static SERVICE_MESSAGES_FEATURE_TOGGLE_KEY = serviceMessagesFeatureToggleKey;
   public static SERVICE_MESSAGE_COOKIE = serviceMessageCookie;
+  public static OGD_PROFILE_TYPES = ogdProfileTypes;
 }

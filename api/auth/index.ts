@@ -23,7 +23,8 @@ import {
   SERVICE_S2S_PATH,
   SESSION_SECRET,
   SYSTEM_USER_NAME,
-  SYSTEM_USER_PASSWORD
+  SYSTEM_USER_PASSWORD,
+  SERVICES_IDAM_SERVICE_OVERRIDE
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
@@ -121,7 +122,8 @@ export const getXuiNodeMiddleware = () => {
     sessionKey: 'xui-mo-webapp',
     tokenEndpointAuthMethod: 'client_secret_post',
     tokenURL: tokenUrl,
-    useRoutes: true
+    useRoutes: true,
+    serviceOverride: getConfigValue(SERVICES_IDAM_SERVICE_OVERRIDE)
   };
 
   const baseStoreOptions = {

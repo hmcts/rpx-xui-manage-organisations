@@ -39,10 +39,6 @@
         },
         "prd": {
           "commondataApi": "SERVICES_PRD_COMMONDATA_API"
-        },
-        "serviceOverride": {
-          "__name": "SERVICES_IDAM_SERVICE_OVERRIDE",
-          "__format": "json"
         }
     },
     "links": {

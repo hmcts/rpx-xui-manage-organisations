@@ -42,8 +42,7 @@
     },
     "prd": {
       "commondataApi": "http://rd-commondata-api-prod.service.core-compute-prod.internal"
-    },
-    "serviceOverride": true
+    }
   },
   "sessionSecret": ["mo-topSecret1","secretSauce"],
   "jurisdictions": ["SSCS", "DIVORCE", "PROBATE", "PUBLICLAW", "IA", "EMPLOYMENT"],

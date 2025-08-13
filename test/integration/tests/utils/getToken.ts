@@ -8,7 +8,7 @@ const tokenUrl = 'https://idam-api.aat.platform.hmcts.net';
 const idamApi = 'https://idam-api.aat.platform.hmcts.net';
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA';
 const baseUrl = 'https://manage-org.aat.platform.hmcts.net';
-const idamClient = getConfigValue(IDAM_CLIENT);
+const idamClient = 'xuimowebapp';
 
 export async function getOauth2Token() {
   const redirectUri = `${baseUrl}/oauth2/callback`;

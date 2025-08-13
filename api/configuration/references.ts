@@ -33,7 +33,6 @@ export const PROTOCOL = 'protocol';
 
 export const SERVICES_CCD_COMPONENT_API_PATH = 'services.ccd.componentApi';
 export const SERVICES_IDAM_API_PATH = 'services.idamApi';
-export const SERVICES_IDAM_SERVICE_OVERRIDE = 'services.serviceOverride';
 export const SERVICES_IDAM_WEB = 'services.idamWeb';
 export const SERVICE_S2S_PATH = 'services.s2s';
 export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi';

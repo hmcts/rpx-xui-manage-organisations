@@ -2995,9 +2995,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.1.0":
-  version: 4.1.0
-  resolution: "@hmcts/media-viewer@npm:4.1.0"
+"@hmcts/media-viewer@npm:4.1.3":
+  version: 4.1.3
+  resolution: "@hmcts/media-viewer@npm:4.1.3"
   dependencies:
     "@swimlane/ngx-datatable": ^20.0.0
     mutable-div: ^2.0.0
@@ -3016,7 +3016,7 @@ __metadata:
     "@ngrx/router-store": ^17.0.0
     "@ngrx/store": ^17.0.0
     "@ngrx/store-devtools": ^17.0.0
-  checksum: a8da72c07dce1a3caa39d2feaa18fe8df34027c7e91ad009613aa6081338cd253149e7a1af598fc96c53f1b1bb7fa28c61702ec9fa473771b58e7ccd343ace85
+  checksum: 3472f44a9f35f0a8a4553cee93d45c07a5ebea1799eadb46cce3a643a85268f30150fe1660ee910739962d576922678d738efd1cef61a9e1575ade89706c6896
   languageName: node
   linkType: hard
 
@@ -21553,7 +21553,7 @@ __metadata:
     "@hmcts/ccd-case-ui-toolkit": 7.2.0
     "@hmcts/ccpay-web-component": 6.2.15
     "@hmcts/frontend": 0.0.50-alpha
-    "@hmcts/media-viewer": 4.1.0
+    "@hmcts/media-viewer": 4.1.3
     "@hmcts/nodejs-healthcheck": 1.7.0
     "@hmcts/properties-volume": 0.0.13
     "@hmcts/rpx-xui-common-lib": 2.1.1

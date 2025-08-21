@@ -151,7 +151,6 @@
     "node-http-proxy-json": "^0.1.9",
     "otp": "^0.1.3",
     "p-iteration": "^1.1.7",
-    "pdfjs-dist": "2.5.207",
     "pegjs": "^0.10.0",
     "playwright": "^1.51.1",
     "puppeteer": "^22.4.1",

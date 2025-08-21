@@ -6,7 +6,7 @@ import getRegulatoryOrganisationTypesRouter from './organisationTypesRouter';
 import getLovRefDataRouter from './prd/lov';
 
 // TODO: rename from prdRouter
-import getappInsightsInstrumentationKey from './monitoring-tools';
+import getAppInsightsConnectionString from './monitoring-tools';
 import prdRouter from './register-org';
 import registerOrgRouter from './registerOrganisation';
 import addressRouter from './addresses';
@@ -27,7 +27,7 @@ const router = Router({ mergeParams: true });
  */
 router.use('/register-org', prdRouter);
 router.use('/register-org-new', registerOrgRouter);
-router.use('/monitoring-tools', getappInsightsInstrumentationKey);
+router.use('/monitoring-tools', getAppInsightsConnectionString);
 router.use('/addresses', addressRouter);
 
 // TODO: Discuss which method we use across all projects to send the

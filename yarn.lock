@@ -2976,15 +2976,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.2.15":
-  version: 6.2.15
-  resolution: "@hmcts/ccpay-web-component@npm:6.2.15"
+"@hmcts/ccpay-web-component@npm:6.2.18":
+  version: 6.2.18
+  resolution: "@hmcts/ccpay-web-component@npm:6.2.18"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
     "@angular/common": ^18.2.13
     "@angular/core": ^18.2.13
-  checksum: 10/8937f29e5f3fdb34502ec8cf2bd3a2474255dcb3015e0812c3c0b4c126a938a395496ad65ff63082dc949b20cbca2546371f52cd0b02987844910156ef978990
+  checksum: 10/faaf9f1bd721c591aa0c9acd9186dd46b7431a906bb2d608a8f5ec92b2233d25d326cf6d8822d93a9c281e162d91e21cd5e6a0118eb4c44b5ea8b676f6fffa82
   languageName: node
   linkType: hard
 
@@ -21600,7 +21600,7 @@ __metadata:
     "@cucumber/pretty-formatter": "npm:^1.0.1"
     "@edium/fsm": "npm:^2.1.2"
     "@hmcts/ccd-case-ui-toolkit": "npm:7.2.0"
-    "@hmcts/ccpay-web-component": "npm:6.2.15"
+    "@hmcts/ccpay-web-component": "npm:6.2.18"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.1.0"
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"

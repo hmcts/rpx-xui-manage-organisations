@@ -15,7 +15,8 @@ $govuk-compatibility-govukfrontendtoolkit: true;
 
 
 
-div.govuk-prose-scope, p {
+div.govuk-prose-scope,
+p {
   white-space: pre-wrap;
 }
 
@@ -29,7 +30,8 @@ td.govuk-table__cell {
   margin-bottom: 10px;
 }
 
-div.govuk-header__logo, div.hmcts-header__logo {
+div.govuk-header__logo,
+div.hmcts-header__logo {
   width: 23.33%;
 }
 
@@ -70,31 +72,81 @@ div.govuk-header__logo, div.hmcts-header__logo {
   line-height: 1.31579;
   color: #005ea5;
 }
+
 .mat-tab-label-active {
   text-decoration: none;
   color: #0b0c0c;
   filter: contrast(100%);
 }
+
 /* ink bar style */
-.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
   background: #005ea5;
   height: 5px;
-} 
+}
 
 .mat-option {
-  font-family: Roboto,Helvetica Neue,sans-serif;
+  font-family: Roboto, Helvetica Neue, sans-serif;
   font-size: 16px;
 }
 
-.mat-option.mat-active, .mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled), .mat-option:hover:not(.mat-option-disabled) {
-  background: rgba(0,0,0,.04);
+.mat-option.mat-active,
+.mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled),
+.mat-option:focus:not(.mat-option-disabled),
+.mat-option:hover:not(.mat-option-disabled) {
+  background: rgba(0, 0, 0, .04);
 }
 
 .mat-autocomplete-panel {
   background: #fff;
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, .87);
 
   &:not([class*=mat-elevation-z]) {
-      box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
+  }
+}
+
+.govuk-js-link {
+  @extend .govuk-link; // copies colour, underline, font
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+
+  // :link / :visited only match <a>, so repeat the colours
+  color: govuk-colour("blue");
+
+  &:hover {
+    color: govuk-colour("dark-blue");
+  }
+
+  &:focus {
+    @include govuk-focused-text;
+  }
+}
+
+.govuk-js-back-link {
+  background: none;
+  border: none;
+  color: #1d70b8;
+  /* GOV.UK blue */
+  font-family: "GDS Transport", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    color: #003078;
+  }
+
+  &:focus {
+    outline: 3px solid #fd0;
+    /* GOV.UK yellow focus ring */
+    outline-offset: 0;
   }
 }

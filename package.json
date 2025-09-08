@@ -51,7 +51,7 @@
     "test:ngIntegrationMockEnv": "node -e 'require(`./test/nodeMock/availablePortFinder.js`).configureTestProxyPort()'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
-    "test:smoke": "node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock TEST_TYPE=smoke npx codeceptjs run --plugins cucumberJsonReporter --plugins retryFailedStep --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
+    "test:smoke": "yarn playwright install chromium && TEST_TYPE=smoke npx codeceptjs run --plugins retryFailedStep,cucumberJsonReporter --config ./test_codecept/codeceptCommon/codecept.conf.ts --features --grep @smoke --reporter mochawesome",
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
     "test-pact": "NODE_PATH=. NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
@@ -59,7 +59,8 @@
     "test:codeceptE2E": "TEST_TYPE=e2e npx codeceptjs run-workers --suites 6 --plugins cucumberJsonReporter --plugins retryFailedStep --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
     "test:backendMock": "DEBUG=true nodemon test_codecept/backendMock/app --standalone",
     "test:xuiIntegrationDebug": "DEBUG=true NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration npx codeceptjs run -p pauseOnFail --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
-    "test:xuiIntegration": "yarn build && node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration PARALLEL=true npx codeceptjs run-workers --suites 6 --config ./test_codecept/codeceptCommon/codecept.conf.ts --features"
+    "test:xuiIntegration": "yarn build && node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration PARALLEL=true npx codeceptjs run-workers --suites 6 --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
+    "patch:static": "node ./test_codecept/scripts/patchBuild.js"
   },
   "private": true,
   "dependencies": {
@@ -196,7 +197,7 @@
     "codeceptjs": "3.5.6",
     "codeceptjs-cucumber-json-reporter": "^1.0.14",
     "codelyzer": "^5.1.2",
-    "cross-env": "^7.0.2",
+    "cross-env": "^10.0.0",
     "cucumber": "5.1.0",
     "cucumber-html-report": "0.6.5",
     "cucumber-html-reporter": "^4.0.5",
@@ -232,6 +233,7 @@
     "sinon-express-mock": "^2.1.0",
     "sonar-scanner": "^3.1.0",
     "source-map-explorer": "^2.5.3",
+    "start-server-and-test": "^2.0.13",
     "terser-webpack-plugin": "^5.3.3",
     "ts-loader": "9.4.4",
     "ts-node": "10.8.1",

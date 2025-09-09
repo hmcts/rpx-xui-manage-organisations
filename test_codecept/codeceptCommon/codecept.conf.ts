@@ -221,9 +221,27 @@ exports.config = {
 
 
 async function exitWithStatus() {
-  const status = 'PASS'
-  process.exit(status === 'PASS' ? 0 : 1)
-
+  // Check for failed tests by reading the generated report
+  let status = 'PASS';
+  try {
+    const reportPath = path.join(functional_output_dir, 'cucumber_output.json');
+    if (fs.existsSync(reportPath)) {
+      const reportData = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
+      let failed = 0;
+      for (const feature of reportData) {
+        for (const scenario of feature.elements) {
+          if (scenario.steps.some((step: any) => step.result.status === 'failed')) {
+            failed++;
+          }
+        }
+      }
+      status = failed > 0 ? 'FAIL' : 'PASS';
+    }
+  } catch (err) {
+    console.error('Error checking test results:', err);
+    status = 'FAIL';
+  }
+  process.exit(status === 'PASS' ? 0 : 1);
 }
 
 async function setup(){

@@ -47,7 +47,7 @@
     "test:mutation": "echo 'not implemented'",
     "test:mutation:fix": "NODE_ENV=development npx nyc stryker run stryker.node.conf.js ",
     "test:ng": "ng test rpx-xui-manage-organisations",
-    "test:ngIntegration": "yarn test:ngIntegrationMockEnv && ng e2e --protractorConfig=./test/ngIntegration/config/protractor.conf.js",
+    "test:ngIntegration": "yarn test:ngIntegrationMockEnv && ng e2e --protractorConfig=./test/ngIntegration/config/protractor.conf.js || exit 1",
     "test:ngIntegrationMockEnv": "node -e 'require(`./test/nodeMock/availablePortFinder.js`).configureTestProxyPort()'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",

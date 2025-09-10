@@ -261,6 +261,7 @@
     "marked": "^16.0.0",
     "mermaid": "^11.8.1",
     "form-data": "^4.0.4",
+    "tough-cookie": "^6.0.0",
     "semver": "^7.6.0"
   },
   "packageManager": "yarn@4.9.2"

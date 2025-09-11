@@ -51,7 +51,7 @@
     "test:ngIntegrationMockEnv": "node -e 'require(`./test/nodeMock/availablePortFinder.js`).configureTestProxyPort()'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
-    "test:smoke": "node ./test_codecept/backendMock/configCopy.js && NODE_CONFIG_ENV=mock TEST_TYPE=smoke npx codeceptjs run --plugins cucumberJsonReporter --plugins retryFailedStep --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
+    "test:smoke": "yarn playwright install chromium && TEST_TYPE=smoke npx codeceptjs run --plugins retryFailedStep,cucumberJsonReporter --config ./test_codecept/codeceptCommon/codecept.conf.ts --features --grep @smoke --reporter mochawesome",
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
     "test-pact": "NODE_PATH=. NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",

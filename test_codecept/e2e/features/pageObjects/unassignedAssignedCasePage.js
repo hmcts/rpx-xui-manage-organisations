@@ -86,7 +86,7 @@ class UnassignedAssignedCasesPage{
   }
 
   async selectCase(caseid){
-    const ele = element(by.xpath(`//th//input[contains(@id,'${caseid}')]`))
+    const ele = element(by.xpath(`//*[@id="select-${caseid}"]`))
     await ele.click()
   }
 

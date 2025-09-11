@@ -43,14 +43,14 @@ describe('errorHandler', () => {
         }
       }
     };
-    errorHandler.default(err, req, res, next);
+    errorHandler.default(err, req, res);
     // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['config', 'headers'])).to.be.false;
   });
 
   it('should return default response', () => {
     const err = {};
-    errorHandler.default(err, req, res, next);
+    errorHandler.default(err, req, res);
     expect(res.status).to.have.been.calledWith(500);
     expect(res.send).to.have.been.calledWith({ message: 'Internal Server Error' });
   });
@@ -62,7 +62,7 @@ describe('errorHandler', () => {
         test: 'dummy'
       }
     };
-    errorHandler.default(err, req, res, next);
+    errorHandler.default(err, req, res);
     expect(res.status).to.have.been.calledWith(404);
     expect(res.send).to.have.been.calledWith({ test: 'dummy' });
   });
@@ -74,7 +74,7 @@ describe('errorHandler', () => {
         }
       }
     };
-    errorHandler.default(err, req, res, next);
+    errorHandler.default(err, req, res);
     // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['request', '_header'])).to.be.false;
   });

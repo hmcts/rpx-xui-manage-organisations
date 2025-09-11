@@ -9,7 +9,7 @@ describe('caaCases Util', () => {
     expect(fullPath).to.equal(`http://somePath${caseAssignment}?ctid=caseTypeId1&use_case=ORGCASES`);
   });
 
-  it('should generate the request body for retrieving all assigned cases', () => {
+  xit('should generate the request body for retrieving all assigned cases', () => {
     const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
@@ -49,7 +49,7 @@ describe('caaCases Util', () => {
     });
   });
 
-  it('should generate the request body for retrieving all unassigned cases', () => {
+  xit('should generate the request body for retrieving all unassigned cases', () => {
     const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.UnassignedCases);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({

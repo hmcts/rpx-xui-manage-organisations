@@ -23,14 +23,36 @@ describe('Payload builder', () => {
     townOrCity: 'town field'
   };
 
-  const organisationPayload = {
+  // Extend the payload type to include optional properties used in tests
+  type TestContactInformation = {
+    addressLine1: string;
+    addressLine2: string;
+    county: string;
+    postcode: string;
+    townCity: string;
+    dxAddress?: { dxNumber: string | null; dxExchange: string | null }[];
+  };
+  type TestOrganisationPayload = {
+    contactInformation: TestContactInformation[];
+    name: string;
+    superUser: {
+      email: string;
+      firstName: string;
+      lastName: string;
+    };
+    sraId?: string;
+    paymentAccount?: string[];
+  };
+
+  const organisationPayload: TestOrganisationPayload = {
     contactInformation: [
       {
         addressLine1: '45',
         addressLine2: 'Bridge Park',
         county: 'Co. Antrim',
         postcode: 'BT35ZAN',
-        townCity: 'Lisburn'
+        townCity: 'Lisburn',
+        dxAddress: [{ dxNumber: null, dxExchange: null }]
       }
     ],
     name: 'Organisation Limited',
@@ -38,7 +60,9 @@ describe('Payload builder', () => {
       email: 'testuser@gmail.com',
       firstName: 'Mary',
       lastName: 'Murphy'
-    }
+    },
+    sraId: undefined,
+    paymentAccount: undefined
   };
 
   it('Should take the stored organisation name and set it on the payload.', () => {

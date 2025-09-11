@@ -18,6 +18,7 @@ describe('organisation index', () => {
   const req = mockReq();
   req.http = http(req);
   const res = mockRes();
+  const next = sinon.stub();
 
   beforeEach(() => {
     sinon.stub(configuration, 'getConfigValue').returns('apiPath');
@@ -35,7 +36,7 @@ describe('organisation index', () => {
     sinon.stub(req.http, 'get').resolves(mockAxiosResponse as AxiosResponse);
 
     // Test the function and check expectations
-    await handleOrganisationRoute(req, res);
+  await handleOrganisationRoute(req, res, next);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH);
     expect(req.http.get).to.be.calledWith('apiPath/refdata/external/v1/organisations');
     expect(res.send).to.be.calledWith('test');
@@ -60,7 +61,7 @@ describe('organisation index', () => {
     };
 
     // Test the function and check expectations
-    await handleOrganisationRoute(req, res);
+  await handleOrganisationRoute(req, res, next);
     expect(res.status).to.be.calledWith(errorCode);
     expect(res.send).to.be.calledWith(errorReport);
   });

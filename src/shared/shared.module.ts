@@ -8,7 +8,6 @@ import { AcceptTermsAndConditionGuard } from 'src/accept-tc/guards/acceptTermsAn
 import { FeatureToggleEditUserGuard } from 'src/users/guards/feature-toggle-edit-user.guard';
 
 import { TermsConditionGuard } from '../app/guards/termsCondition.guard';
-import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { HmctsErrorSummaryComponent } from './components/hmcts-error-summary/hmcts-error-summary.component';
 import { HmctsMainWrapperComponent } from './components/hmcts-main-wrapper/hmcts-main-wrapper.component';
 import { SuccessIconComponent } from './components/icons/success-icon.component';
@@ -62,7 +61,6 @@ import { MonitoringService } from './services/monitoring.service';
       multi: true
     },
     HeadersService,
-    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
     MonitoringService,
     UserRoleGuard,
     HealthCheckGuard,

@@ -79,7 +79,7 @@ nodejs:
       secrets:
         - mo-s2s-client-secret
         - xui-oauth2-token
-        - appinsights-instrumentationkey-mo
+        - appinsights-connection-string-mo
         - google-analytics-key
         - name: mo-webapp-redis6-connection-string
           alias: mo-webapp-redis-connection-string

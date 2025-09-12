@@ -18,26 +18,26 @@
                 <div class="govuk-radios" data-module="govuk-radios">
                   <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="caa-filter-all-assignees" [name]="caaFilterFormControl" type="radio"
-                      [checked]="selectedFilterType === caaCasesFilterType.AllAssignees"
-                      value="{{caaCasesFilterType.AllAssignees}}"
+                      [checked]="selectedFilterType === caaCasesFilterType.AllAssignedCases"
+                      value="{{caaCasesFilterType.AllAssignedCases}}"
                       [formControlName]="caaFilterFormControl"
-                      (click)="selectFilterOption(caaCasesFilterType.AllAssignees)">
+                      (click)="selectFilterOption(caaCasesFilterType.AllAssignedCases)">
                     <label class="govuk-label govuk-radios__label" for="caa-filter-all-assignees">
                       All assignees
                     </label>
                   </div>
                   <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="caa-filter-assignee-name" [name]="caaFilterFormControl" type="radio"
-                      [checked]="selectedFilterType === caaCasesFilterType.AssigneeName"
-                      value="{{caaCasesFilterType.AssigneeName}}"
+                      [checked]="selectedFilterType === caaCasesFilterType.CasesAssignedToAUser"
+                      value="{{caaCasesFilterType.CasesAssignedToAUser}}"
                       [formControlName]="caaFilterFormControl"
                       data-aria-controls="conditional-assignee-person"
-                      (click)="selectFilterOption(caaCasesFilterType.AssigneeName)">
+                      (click)="selectFilterOption(caaCasesFilterType.CasesAssignedToAUser)">
                     <label class="govuk-label govuk-radios__label" for="caa-filter-assignee-name">
                       Assignee name
                     </label>
                   </div>
-                  <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.AssigneeName}"
+                  <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.CasesAssignedToAUser}"
                     id="conditional-assignee-person">
                     <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': assigneeNameErrorMessage.length > 0}">
                       <label class="govuk-label" for="assignee-person">

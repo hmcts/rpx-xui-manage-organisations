@@ -19,10 +19,13 @@ import { FeatureToggleAccountGuard } from './guards/feature-toggle.guard';
 import { RoleGuard } from './guards/user-role.guard';
 import * as fromServices from './services';
 import { effects, reducers } from './store';
+import { NewCaseFeatureToggleGuard } from './guards/new-cases-feature-toggle.guard';
 
-@NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
+@NgModule({
+  exports: [...fromContainers.containers, ...fromComponents.components],
   declarations: [...fromContainers.containers, ...fromComponents.components],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [CommonModule,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [CommonModule,
     ExuiCommonLibModule,
     SharedModule,
     caaCasesRouting,
@@ -34,7 +37,10 @@ import { effects, reducers } from './store';
     EffectsModule.forFeature(effects),
     CaseListModule,
     MatTabsModule,
-    MatAutocompleteModule], providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())] })
+    MatAutocompleteModule
+  ],
+  providers: [...fromServices.services, OrganisationService, PBAService, UsersService, InviteUserService, FeatureToggleAccountGuard, NewCaseFeatureToggleGuard, RoleGuard, provideHttpClient(withInterceptorsFromDi())]
+})
 
 export class CaaCasesModule {
 }

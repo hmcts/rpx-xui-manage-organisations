@@ -7,6 +7,7 @@ export interface RawPrdUsersList {
 
 export interface RawPrdUserListWithoutRoles {
   organisationIdentifier: string;
+  organisationProfileIds?: string[];
   users: RawPrdUserLite[];
 }
 
@@ -16,7 +17,7 @@ export interface RawPrdUserLite {
   firstName: string;
   lastName: string;
   idamStatus: string;
-  accessTypes?: UserAccessType[];
+  userAccessTypes?: UserAccessType[];
 }
 
 export interface RawPrdUser extends RawPrdUserLite {
@@ -35,7 +36,7 @@ export interface PrdUser {
     fullName: string;
     routerLink: string;
     routerLinkTitle: string;
-    accessTypes: UserAccessType[];
+    userAccessTypes: UserAccessType[];
     roles?: string[];
     status?: string;
     selected?: boolean;

@@ -23,6 +23,7 @@ import { HeadersService } from './services/headers.service';
 import { HealthCheckService } from './services/health-check.service';
 import { HttpIntercepterServer } from './services/http-interceptor.service';
 import { MonitoringService } from './services/monitoring.service';
+import { RpxTranslationModule } from 'rpx-xui-translation';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MonitoringService } from './services/monitoring.service';
     RouterModule,
     CommonModule,
     GovUiModule,
-    LoaderModule
+    LoaderModule,
+    RpxTranslationModule.forChild()
   ],
   exports: [
     GovUiModule,

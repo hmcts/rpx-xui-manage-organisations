@@ -30,6 +30,14 @@ Then('In share case page, I see case with id {string} listed', async function(ca
 Then('In share case page, I validate users for case id {string}', async function (caseId, datatable) {
     const datatablehashes = datatable.parse().hashes();
 
+        const button = await element(by.xpath(`//*[@id="govuk-accordion__section-${caseId}"]/div[1]/div[3]/div/button/span[3]/span/span[2]`));
+        if (await button.isDisplayed()) {
+            const buttonText = await button.getText();
+            if (buttonText.trim().toLowerCase() === 'show') {
+                await button.click();
+            }
+        }
+
     const caseObj = shareACasePage.getCaseToSharePageObject(caseId)
     for (const row of datatablehashes){
         const name = row.Name;

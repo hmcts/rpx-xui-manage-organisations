@@ -10187,7 +10187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colors@npm:1.4.0, colors@npm:^1.0.3, colors@npm:^1.1.2, colors@npm:^1.3.2":
+"colors@npm:1.4.0, colors@npm:^1.0.3, colors@npm:^1.1.2, colors@npm:^1.3.3":
   version: 1.4.0
   resolution: "colors@npm:1.4.0"
   checksum: 10/90b2d5465159813a3983ea72ca8cff75f784824ad70f2cc2b32c233e95bcfbcda101ebc6d6766bc50f57263792629bfb4f1f8a4dfbd1d240f229fc7f69b785fc
@@ -10858,16 +10858,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cucumber-pretty@npm:1.5.0":
-  version: 1.5.0
-  resolution: "cucumber-pretty@npm:1.5.0"
+"cucumber-pretty@npm:1.5.2":
+  version: 1.5.2
+  resolution: "cucumber-pretty@npm:1.5.2"
   dependencies:
     cli-table3: "npm:^0.5.1"
-    colors: "npm:^1.3.2"
-    figures: "npm:^2.0.0"
+    colors: "npm:^1.3.3"
+    figures: "npm:^3.0.0"
   peerDependencies:
     cucumber: ">=3.0.0"
-  checksum: 10/c18f735fd22677e71285913e508929ad7f7cf0741d9ac2b30019588c45482b461c230f5a3a992e63589fa6a7c7feafc36cfa80ffb2eb4093f4b7835f3f3d66aa
+  checksum: 10/a3f2acc0263218c04534abd44c9572ba4874196c9a45b50b75f9739a2da1381df6ac9f722b28e837e30d77ac24514317c18b0dc339fe40ee0523a0e32f48d634
   languageName: node
   linkType: hard
 
@@ -21981,7 +21981,7 @@ __metadata:
     cucumber: "npm:5.1.0"
     cucumber-html-report: "npm:0.6.5"
     cucumber-html-reporter: "npm:^4.0.5"
-    cucumber-pretty: "npm:1.5.0"
+    cucumber-pretty: "npm:1.5.2"
     dompurify: "npm:^3.2.4"
     dotenv-extended: "npm:^2.7.0"
     ejs: "npm:3.1.9"

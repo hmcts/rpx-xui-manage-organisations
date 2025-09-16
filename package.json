@@ -167,7 +167,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.18",
-    "@angular/cli": "^18.2.18",
+    "@angular/cli": "^20.3.1",
     "@angular/compiler-cli": "^18.2.13",
     "@angular/language-service": "^18.2.13",
     "@stryker-mutator/api": "^3.0.1",
@@ -237,7 +237,7 @@
     "ts-node": "10.8.1",
     "ts-node-dev": "^2.0.0-0",
     "tslib": "^2.6.1",
-    "typescript": "~5.4.5",
+    "typescript": "^5.6",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.4.0",
     "webpack-dev-server": "^4.9.4",

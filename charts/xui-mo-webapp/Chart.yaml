@@ -1,19 +1,42 @@
 apiVersion: v2
 name: xui-mo-webapp
 home: https://github.com/hmcts/rpx-xui-manage-organisations
-version: 1.1.20
+version: 1.1.21
 description: Expert UI
 maintainers:
   - name: HMCTS RPX XUI
 dependencies:
-  - name: nodejs
-    version: 3.2.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
   - name: redis
     version: 20.11.3
     repository: "oci://registry-1.docker.io/bitnamicharts"
     condition: redis.enabled
-  - name: idam-pr
-    version: ~2.3.0
+  - name: ccd
+    version: 9.2.2
     repository: 'oci://hmctspublic.azurecr.io/helm'
-    condition: idam-pr.enabled
+    tags:
+      - ccd-idam-pr
+  - name: xui-webapp
+    version: ~1.0.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: xui-webapp.enabled
+  - name: xui-mo-webapp
+    version: ~1.1.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: xui-mo-webapp.enabled
+  - name: aac-manage-case-assignment
+    version: ~0.2.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: aac-manage-case-assignment.enabled
+  - name: ccd-case-document-am-api
+    version: 1.7.14
+    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    condition: ccd-case-document-am-api.enabled
+#    Work Allocation
+  - name: postgresql
+    version: ~1.1.0
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: postgresql.enabled
+  - name: am-org-role-mapping-service
+    version: ~0.0.66
+    repository: 'oci://hmctspublic.azurecr.io/helm'
+    condition: am-org-role-mapping-service.enabled

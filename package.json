@@ -105,7 +105,7 @@
     "@types/global-agent": "^2.1.0",
     "applicationinsights": "^2.9.7",
     "applicationinsights-js": "^1.0.20",
-    "axios": "^1.10.0",
+    "axios": "^1.12.1",
     "axios-mock-adapter": "^1.22.0",
     "base-64": "^0.1.0",
     "body-parser": "^1.19.0",
@@ -145,7 +145,7 @@
     "ngx-cookie": "6.0.1",
     "ngx-cookie-service": "^17.0.0",
     "ngx-logger": "^5.0.12",
-    "ngx-markdown": "^17.2.1",
+    "ngx-markdown": "^18.1.0",
     "ngx-md": "^12.0.0",
     "ngx-pagination": "^6.0.3",
     "node-fetch": "^2.6.1",
@@ -263,7 +263,8 @@
     "form-data": "^4.0.4",
     "xml2js": "^0.6.2",
     "tough-cookie": "^6.0.0",
-    "semver": "^7.6.0"
+    "semver": "^7.6.0",
+    "axios": "1.12.1"
   },
   "packageManager": "yarn@4.9.2"
 }

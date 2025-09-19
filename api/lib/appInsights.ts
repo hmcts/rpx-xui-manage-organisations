@@ -1,17 +1,17 @@
 import * as applicationinsights from 'applicationinsights';
 import { getConfigValue, hasConfigValue, showFeature } from '../configuration';
-import { APP_INSIGHTS_KEY, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references';
+import { APP_INSIGHTS_CONNECTION_STRING, FEATURE_APP_INSIGHTS_ENABLED } from '../configuration/references';
 
 export let client;
 
 export function initialiseAppInsights() {
-  // Check the APP_INSIGHTS_KEY config value is present before trying to initialise the App Insights client
-  if (hasConfigValue(APP_INSIGHTS_KEY)) {
+  // Check the APP_INSIGHTS_CONNECTION_STRING config value is present before trying to initialise the App Insights client
+  if (hasConfigValue(APP_INSIGHTS_CONNECTION_STRING)) {
     applicationinsights
-      .setup(getConfigValue(APP_INSIGHTS_KEY))
+      .setup(getConfigValue(APP_INSIGHTS_CONNECTION_STRING))
       .setAutoDependencyCorrelation(true)
       .setAutoCollectRequests(true)
-      .setAutoCollectPerformance(true)
+      .setAutoCollectPerformance(true, true)
       .setAutoCollectExceptions(true)
       .setAutoCollectDependencies(true)
       .setAutoCollectConsole(true)
@@ -23,7 +23,7 @@ export function initialiseAppInsights() {
     client.context.tags[client.context.keys.cloudRole] = 'xui-mo';
     client.trackTrace({ message: 'App Insights activated' });
   } else {
-    console.error(`App Insights not activated: Key "${APP_INSIGHTS_KEY}" is not defined!`);
+    console.error(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
   }
 }
 

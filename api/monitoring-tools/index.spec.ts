@@ -4,8 +4,8 @@ import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
-import { APP_INSIGHTS_KEY } from '../configuration/references';
-import { handleInstrumentationKeyRoute } from './index';
+import { APP_INSIGHTS_CONNECTION_STRING } from '../configuration/references';
+import { handleConnectionStringRoute } from './index';
 
 chai.use(sinonChai);
 
@@ -41,9 +41,9 @@ describe('monitoring-tools index', () => {
 
   it('should send an HTTP response with the App Insights key value', async () => {
     // Test the function and check expectations
-    await handleInstrumentationKeyRoute(req, res);
-    expect(configuration.getConfigValue).to.be.calledWith(APP_INSIGHTS_KEY);
-    expect(res.send).to.be.calledWith({ key: 'abc123' });
+    await handleConnectionStringRoute(req, res);
+    expect(configuration.getConfigValue).to.be.calledWith(APP_INSIGHTS_CONNECTION_STRING);
+    expect(res.send).to.be.calledWith({ connectionString: 'abc123' });
   });
 
   /**
@@ -59,11 +59,11 @@ describe('monitoring-tools index', () => {
     const errorReport = {
       apiError: { ...error },
       apiStatusCode: errorCode,
-      message: 'Instrumentation key route error'
+      message: 'Connection String route error'
     };
 
     // Test the function and check expectations
-    await handleInstrumentationKeyRoute(req, res);
+    await handleConnectionStringRoute(req, res);
     expect(res.send).to.be.calledWith(errorReport);
     expect(res.status).to.be.calledWith(errorCode);
   });

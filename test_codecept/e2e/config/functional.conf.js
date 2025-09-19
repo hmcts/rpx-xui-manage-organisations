@@ -5,14 +5,11 @@ chai.use(chaiAsPromised);
 const { localConfig, jenkinsConfig, cucumberOpts } = require('./common.conf');
 const minimist = require('minimist');
 
-const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
-
 const argv = minimist(process.argv.slice(2));
 const cap = (argv.local) ? localConfig : jenkinsConfig;
 
 const config = {
   framework: 'custom',
-  frameworkPath: require.resolve('protractor-cucumber-framework'),
   baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
   specs: ['../features/**/*.feature'],
   params: {
@@ -41,20 +38,7 @@ const config = {
     tags: ['@all or @fullFunctional', 'not @Flaky'],
     // tags: ['@all or @smoke or @fullFunctional or @end2end'],
     require: cucumberOpts
-  },
-
-  plugins: [
-    {
-      package: 'protractor-multiple-cucumber-html-reporter-plugin',
-      options: {
-        automaticallyGenerateReport: true,
-        removeExistingJsonReportFile: true,
-        reportName: 'XUI Functional Tests',
-        jsonDir: 'functional-output/tests/functional',
-        reportPath: 'functional-output/tests/functional'
-      }
-    }
-  ]
+  }
 };
 
 exports.config = config;

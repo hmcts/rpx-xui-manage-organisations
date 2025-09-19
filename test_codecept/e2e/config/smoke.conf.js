@@ -3,7 +3,6 @@ const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
 
 chai.use(chaiAsPromised);
-const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
 
 const argv = minimist(process.argv.slice(2));
 
@@ -48,7 +47,6 @@ const cap = (argv.local) ? localConfig : jenkinsConfig;
 
 const config = {
   framework: 'custom',
-  frameworkPath: require.resolve('protractor-cucumber-framework'),
   specs: ['../features/**/*.feature'],
   // specs: [
   //   '../features/**/caseFile.feature',
@@ -96,21 +94,7 @@ const config = {
       '../support/*.js',
       '../features/step_definitions/**/*.steps.js'
     ]
-  },
-
-  plugins: [
-    {
-      package: 'protractor-multiple-cucumber-html-reporter-plugin',
-      options: {
-        automaticallyGenerateReport: true,
-        removeExistingJsonReportFile: true,
-        reportName: 'EXUI Smoke Tests',
-        // openReportInBrowser: true,
-        jsonDir: 'reports/smoke_tests/functional',
-        reportPath: 'reports/smoke_tests/functional'
-      }
-    }
-  ]
+  }
 
 };
 

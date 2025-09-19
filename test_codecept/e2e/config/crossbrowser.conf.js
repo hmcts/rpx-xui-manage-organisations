@@ -6,7 +6,6 @@ const argv = minimist(process.argv.slice(2));
 
 const config = {
   framework: 'custom',
-  frameworkPath: require.resolve('protractor-cucumber-framework'),
 
   sauceSeleniumAddress: 'ondemand.eu-central-1.saucelabs.com:443/wd/hub',
 
@@ -119,20 +118,6 @@ const config = {
     require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
     tags: ['@crossbrowser', 'not @Flaky']
   },
-
-  plugins: [
-    {
-      package: 'protractor-multiple-cucumber-html-reporter-plugin',
-      options: {
-        automaticallyGenerateReport: true,
-        removeExistingJsonReportFile: true,
-        reportName: 'XUI MO CrossBrowser Tests',
-        jsonDir: 'reports/tests/crossbrowser',
-        reportPath: 'reports/tests/crossbrowser'
-
-      }
-    }
-  ],
   onPrepare() {
     const caps = browser.getCapabilities();
     browser.manage()

@@ -1,5 +1,5 @@
 
-const report = require("multiple-cucumber-html-reporter");
+const report = require("cucumber-html-reporter");
 // const { merge } = require('mochawesome-merge')
 // const marge = require('mochawesome-report-generator')
 const fs = require('fs')
@@ -25,8 +25,8 @@ console.log(`testType : ${testType}`)
 console.log(`parallel : ${parallel}`)
 console.log(`headless : ${!head}`)
 
-
-let pipelineBranch = (process.env.TEST_URL.includes('pr-') || process.env.TEST_URL.includes('localhost')) ? "preview" : "master";
+const TEST_URL = process.env.TEST_URL ? process.env.TEST_URL : 'http://localhost:3000';
+let pipelineBranch = (TEST_URL.includes('pr-') || TEST_URL.includes('localhost')) ? "preview" : "master";
 let features = ''
 if (testType === 'e2e' || testType === 'smoke'){
   features = `../e2e/features/app/**/*.feature`
@@ -44,7 +44,6 @@ if (testType === 'e2e' || testType === 'smoke'){
 
 const functional_output_dir = path.resolve(`${__dirname}/../../functional-output/tests/codecept-${testType}`)
 
-const cucumber_functional_output_dir = path.resolve(`${__dirname}/../../functional-output/tests/cucumber-codecept-${testType}`)
 
 const tags = process.env.DEBUG ? 'functional_debug' : 'fullFunctional'
 
@@ -100,19 +99,13 @@ exports.config = {
     //   }
     // },
     Playwright: {
-      url: "https://manage-case.aat.platform.hmcts.net",
+      url: TEST_URL,
       restart: false,
       show: head ? true : false,
       waitForNavigation: "domcontentloaded",
       waitForAction: 500,
       browser: 'chromium'
     }
-    // WebDriver:{
-    //   url: 'https://manage-case.aat.platform.hmcts.net/',
-    //   browser: 'chrome',
-    //   show: true,
-
-    // }
   },
   "mocha": {
     // reporter: 'mochawesome',
@@ -179,7 +172,7 @@ exports.config = {
       enabled: true,               // if false, pass --plugins cucumberJsonReporter
       attachScreenshots: true,     // true by default
       attachComments: true,        // true by default
-      outputFile: cucumber_functional_output_dir + '/cucumberOutput/',     // cucumber_output.json by default
+      outputFile: functional_output_dir + '/cucumberOutput/',     // cucumber_output.json by default
       uniqueFileNames: true,      // if true outputFile is ignored in favor of unique file names in the format of `cucumber_output_<UUID>.json`.  Useful for parallel test execution
       includeExampleValues: false, // if true incorporate actual values from Examples table along with variable placeholder when writing steps to the report
       timeMultiplier: 1000000,     // Used when calculating duration of individual BDD steps.  Defaults to nanoseconds
@@ -282,28 +275,15 @@ async function mochawesomeGenerateReport(){
   return report.stats.failures > 0 ? 'FAIL' : 'PASS';
 }
 
-async function generateCucumberReport(){
-  await new Promise((resolve,reject) => {
-    setTimeout(() => {
-        cucumberReportUpdateEmbeddings();
-        resolve(true)
-    }, 2000);
+async function generateCucumberReport() {
+  const jsonDir = functional_output_dir; // <-- existing folder
+  report.generate({
+    theme: 'bootstrap',
+    jsonDir,
+    output: path.join(jsonDir, 'cucumber_report.html'),
+    reportSuiteAsScenarios: true,
+    launchReport: false,
   });
-   report.generate({
-      jsonDir: functional_output_dir + '',
-      reportPath: functional_output_dir + '',
-      metadata: {
-        browser: {
-          name: "chrome",
-          version: "60",
-        },
-        device: "Local test machine",
-        platform: {
-          name: "ubuntu",
-          version: "16.04",
-        },
-      }
-    });
 }
 
 async function cucumberReportUpdateEmbeddings() {

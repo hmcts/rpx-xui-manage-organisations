@@ -127,7 +127,7 @@ Note that this is connected into the application via the following pieces of cod
     rpx:
       secrets:
         - postgresql-admin-pw
-        - appinsights-instrumentationkey-tc
+        - appinsights-connection-string-mo
 ```
 
 which in turn uses `propertiesVolume.addTo()`
@@ -163,7 +163,7 @@ Note about secrets ie.
     rpx:
       secrets:
         - postgresql-admin-pw
-        - appinsights-instrumentationkey-tc
+        - appinsights-connection-string-mo
  ```   
 are set within the values.yaml and there should be NO REFERENCE to them within any /config/*.json file.
 

@@ -11,8 +11,8 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 * @prop config - adding configuration
 * */
 @Component({
-  selector: 'lib-gov-uk-input',
-  template: `
+    selector: 'lib-gov-uk-input',
+    template: `
     <div class="govuk-form-group" [formGroup]="group"
          [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
 
@@ -28,7 +28,8 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
              [attr.aria-invalid]="errorMessage?.isInvalid"
              [formControlName]="config.name" [attr.aria-describedby]='setDescribedBy()'>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkInputComponent implements OnInit {
   @Input() public errorMessage: {isInvalid: boolean; mesages: string[] };

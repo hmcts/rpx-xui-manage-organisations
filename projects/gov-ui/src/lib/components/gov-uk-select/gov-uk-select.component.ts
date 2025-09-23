@@ -6,8 +6,8 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 * dropdown input.
 * */
 @Component({
-  selector: 'lib-gov-select',
-  template: `
+    selector: 'lib-gov-select',
+    template: `
     <div class="govuk-form-group" [formGroup]="group"
          [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
       <lib-gov-label [config]="config"></lib-gov-label>
@@ -20,7 +20,8 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
         <option value="{{item.value}}" *ngFor="let item of items">{{item.label}}</option>
       </select>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkSelectComponent {
   constructor () {}

@@ -4,8 +4,9 @@ import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-invite-permission-form',
-  templateUrl: './invite-user-permission.component.html'
+    selector: 'app-invite-permission-form',
+    templateUrl: './invite-user-permission.component.html',
+    standalone: false
 })
 
 export class InviteUserPermissionComponent implements OnInit {

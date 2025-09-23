@@ -8,8 +8,9 @@ import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges } fro
   Component is also responsible for scrolling. Up and Down the page when user click on links
 */
 @Component({
-  selector: 'app-hmcts-error-summary',
-  templateUrl: './hmcts-error-summary.component.html'
+    selector: 'app-hmcts-error-summary',
+    templateUrl: './hmcts-error-summary.component.html',
+    standalone: false
 })
 export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
   @Input() public set errorMessages(value: object[]) {

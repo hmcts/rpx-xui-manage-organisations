@@ -6,8 +6,9 @@ import { Component, OnInit } from '@angular/core';
 * */
 
 @Component({
-  selector: 'app-sign-out',
-  templateUrl: './signed-out.component.html'
+    selector: 'app-sign-out',
+    templateUrl: './signed-out.component.html',
+    standalone: false
 })
 export class SignedOutComponent implements OnInit {
   public redirectUrl: string;

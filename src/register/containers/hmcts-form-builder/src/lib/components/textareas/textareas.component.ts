@@ -3,8 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-  selector: 'app-textareas',
-  templateUrl: './textareas.component.html'
+    selector: 'app-textareas',
+    templateUrl: './textareas.component.html',
+    standalone: false
 })
 /**
  * TextareasComponent

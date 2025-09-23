@@ -5,7 +5,8 @@ import { AppUtils } from '../../../../../../src/app/utils/app-utils';
 @Component({
     selector: 'app-govuk-table',
     templateUrl: './govuk-table.component.html',
-    styleUrls: ['./govuk-table.component.scss']
+    styleUrls: ['./govuk-table.component.scss'],
+    standalone: false
 })
 export class GovukTableComponent {
 

@@ -11,8 +11,8 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
 * @prop config - adding configuration
 * */
 @Component({
-  selector: 'lib-gov-uk-file-upload',
-  template: `
+    selector: 'lib-gov-uk-file-upload',
+    template: `
     <div class="govuk-form-group" [formGroup]="group"
          [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
 
@@ -32,7 +32,8 @@ import { HtmlTemplatesHelper } from '../../util/helpers/html-templates.helper';
              [attr.aria-describedby]="setDescribedBy()"
              type="file">
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkFileUploadComponent implements OnInit {
   @Input() public errorMessage;

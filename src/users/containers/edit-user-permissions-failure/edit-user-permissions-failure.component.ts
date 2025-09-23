@@ -6,8 +6,9 @@ import { EditUserFailureReset } from '../../store/actions';
 import { UserState } from '../../store/reducers';
 
 @Component({
-  selector: 'app-edit-user-permissions-failure',
-  templateUrl: './edit-user-permissions-failure.component.html'
+    selector: 'app-edit-user-permissions-failure',
+    templateUrl: './edit-user-permissions-failure.component.html',
+    standalone: false
 })
 export class EditUserPermissionsFailureComponent implements OnInit {
   public userId: string;

@@ -8,8 +8,8 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
 * @param: errors - array of error stings
 * */
 @Component({
-  selector: 'lib-gov-uk-radios',
-  template: `
+    selector: 'lib-gov-uk-radios',
+    template: `
     <lib-gov-uk-form-group-wrapper
       [error]="errors"
       [config]="options.config"
@@ -23,7 +23,8 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
         </lib-gov-radio>
       </div>
     </lib-gov-uk-form-group-wrapper>
-  `
+  `,
+    standalone: false
 })
 export class GovUkRadiosComponent {
 

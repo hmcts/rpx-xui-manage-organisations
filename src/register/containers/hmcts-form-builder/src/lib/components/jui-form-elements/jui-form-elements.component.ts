@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-jui-form-elements',
-  templateUrl: './jui-form-elements.component.html'
+    selector: 'app-jui-form-elements',
+    templateUrl: './jui-form-elements.component.html',
+    standalone: false
 })
 export class JuiFormElementsComponent {
   @Input() public group: FormGroup;

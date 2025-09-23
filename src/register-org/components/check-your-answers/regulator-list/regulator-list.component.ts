@@ -3,8 +3,9 @@ import { Regulator, RegulatorType, RegulatoryType } from '../../../models';
 import { RegisterOrgService } from '../../../services/register-org.service';
 
 @Component({
-  selector: 'app-regulator-list',
-  templateUrl: './regulator-list.component.html'
+    selector: 'app-regulator-list',
+    templateUrl: './regulator-list.component.html',
+    standalone: false
 })
 export class RegulatorListComponent {
   @Input() regulatorType: string;

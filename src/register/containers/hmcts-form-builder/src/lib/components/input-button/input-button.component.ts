@@ -6,9 +6,10 @@ import * as fromStore from '../../../../../../store';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-  selector: 'app-input-button',
-  templateUrl: './input-button.component.html',
-  styleUrls: ['./input-button.component.scss']
+    selector: 'app-input-button',
+    templateUrl: './input-button.component.html',
+    styleUrls: ['./input-button.component.scss'],
+    standalone: false
 })
 export class InputButtonComponent implements OnInit {
   @Input() public group: FormGroup;

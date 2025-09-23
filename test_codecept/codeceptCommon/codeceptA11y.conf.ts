@@ -159,7 +159,6 @@ exports.config = {
             await teardown()
         }
 
-        // process.exit(0)
     }
 }
 

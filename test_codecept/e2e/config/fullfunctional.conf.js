@@ -40,8 +40,7 @@ const config = {
 
   cucumberOpts: {
     strict: true,
-    // format: ['node_modules/cucumber-pretty'],
-    format: ['node_modules/cucumber-pretty', 'json:reports/tests/functional/results.json'],
+    format: ['json:reports/tests/functional/results.json'],
     tags: ['@all or @smoke or @fullFunctional or @end2end', 'not @Flaky'],
     //  tags: ['@edit'],
     require: cucumberOpts

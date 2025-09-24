@@ -14,10 +14,10 @@ import {
 import { CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 
 @Component({
-    selector: 'app-caa-filter',
-    templateUrl: './caa-filter.component.html',
-    styleUrls: ['./caa-filter.component.scss'],
-    standalone: false
+  selector: 'app-caa-filter',
+  templateUrl: './caa-filter.component.html',
+  styleUrls: ['./caa-filter.component.scss'],
+  standalone: false
 })
 export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   @Input() public selectedFilterType: string;

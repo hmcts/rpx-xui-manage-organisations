@@ -103,9 +103,9 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
   JwtDecodeWrapper, LoggerService, JurisdictionService,
   { provide: FeatureToggleService, useClass: LaunchDarklyService },
   provideAppInitializer(() => {
-        const initializerFn = (initApplication)(inject(Store), inject(EnvironmentService));
-        return initializerFn();
-      }),
+    const initializerFn = (initApplication)(inject(Store), inject(EnvironmentService));
+    return initializerFn();
+  }),
   provideHttpClient(withInterceptorsFromDi())
 ] })
 export class AppModule {}

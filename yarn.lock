@@ -206,35 +206,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-material-components/datetime-picker@npm:15.0.0":
-  version: 15.0.0
-  resolution: "@angular-material-components/datetime-picker@npm:15.0.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/cdk": ^15.0.1
-    "@angular/common": ^15.0.1
-    "@angular/core": ^15.0.1
-    "@angular/forms": ^15.0.1
-    "@angular/material": ^15.0.1
-    "@angular/platform-browser": ^15.0.1
-  checksum: 10/b60eb4cb912a8350b795e1feebb8c94c94f0f9d26fbf1bdb1383ef3d842fbe9570b936bc67e532426b5b567184d991d83e039e0c0327dff1ebb21de40293c0d1
-  languageName: node
-  linkType: hard
-
-"@angular-material-components/moment-adapter@npm:15.0.0":
-  version: 15.0.0
-  resolution: "@angular-material-components/moment-adapter@npm:15.0.0"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ^15.0.1
-    "@angular/core": ^15.0.1
-    moment: ^2.18.1
-  checksum: 10/7403d308d0ad8c02f4690d6578952fac8d3fb2e84583025ca4f0dcbebdb07dc8c9758cf4c422505b860a6b25b7e7e834ad3374eaeebb0642cb6f9deb2bcaf082
-  languageName: node
-  linkType: hard
-
 "@angular/animations@npm:19":
   version: 19.2.15
   resolution: "@angular/animations@npm:19.2.15"
@@ -20691,8 +20662,6 @@ __metadata:
   resolution: "rpx-xui-manage-organisations@workspace:."
   dependencies:
     "@angular-devkit/build-angular": "npm:19"
-    "@angular-material-components/datetime-picker": "npm:15.0.0"
-    "@angular-material-components/moment-adapter": "npm:15.0.0"
     "@angular/animations": "npm:19"
     "@angular/cdk": "npm:19"
     "@angular/cli": "npm:19.2.15"

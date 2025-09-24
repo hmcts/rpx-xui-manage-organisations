@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
+import { MatAutocompleteModule as MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTabsModule as MatTabsModule } from '@angular/material/tabs';
 import { CaseListModule } from '@hmcts/ccd-case-ui-toolkit';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EffectsModule } from '@ngrx/effects';

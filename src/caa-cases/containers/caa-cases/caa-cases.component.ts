@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatTabGroup as MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { User } from '@hmcts/rpx-xui-common-lib';
@@ -24,9 +24,9 @@ import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../..
 import * as fromStore from '../../store';
 
 @Component({
-    selector: 'app-caa-cases-component',
-    templateUrl: './caa-cases.component.html',
-    standalone: false
+  selector: 'app-caa-cases-component',
+  templateUrl: './caa-cases.component.html',
+  standalone: false
 })
 export class CaaCasesComponent implements OnInit {
   public cases$: Observable<any>;

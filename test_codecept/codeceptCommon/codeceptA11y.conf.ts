@@ -1,5 +1,5 @@
 
-const report = require("multiple-cucumber-html-reporter");
+const report = require("cucumber-html-reporter");
 // const { merge } = require('mochawesome-merge')
 // const marge = require('mochawesome-report-generator')
 
@@ -159,7 +159,6 @@ exports.config = {
             await teardown()
         }
 
-        // process.exit(0)
     }
 }
 

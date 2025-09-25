@@ -25,7 +25,6 @@ const CucumberReportLogger = require('./reportLogger');
 //
 //             origFn.call(browser.driver.controlFlow(), function () {
 //                 //increase or reduce time value, its in millisecond
-//                 return protractor.promise.delayed(300);
 //             });
 //
 //             return origFn.apply(browser.driver.controlFlow(), args);

@@ -42,7 +42,6 @@ describe('errorHandler', () => {
       }
     };
     errorHandler.default(err, req, res);
-    // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['config', 'headers'])).to.be.false;
   });
 
@@ -73,7 +72,6 @@ describe('errorHandler', () => {
       }
     };
     errorHandler.default(err, req, res);
-    // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['request', '_header'])).to.be.false;
   });
 });

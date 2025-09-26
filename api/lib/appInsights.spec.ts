@@ -51,7 +51,6 @@ describe('appInsights', () => {
     expect(applicationinsights.Configuration.setAutoDependencyCorrelation).to.be.calledWith(true);
     expect(applicationinsights.Configuration.setSendLiveMetrics).to.be.calledWith(true);
     expect(applicationinsights.Configuration.setUseDiskRetryCaching).to.be.calledWith(true);
-    // eslint-disable-next-line no-unused-expressions
     expect(applicationinsights.Configuration.start).to.be.called;
     expect(applicationinsights.TelemetryClient.prototype.trackTrace).to.be.calledWith({ message: 'App Insights activated' });
   });
@@ -61,13 +60,9 @@ describe('appInsights', () => {
     const consoleSpy = sinon.spy(console, 'error');
     appInsights.initialiseAppInsights();
     expect(configuration.hasConfigValue).to.be.calledWith(APP_INSIGHTS_CONNECTION_STRING);
-    // eslint-disable-next-line no-unused-expressions
     expect(configuration.getConfigValue).not.to.be.called;
-    // eslint-disable-next-line no-unused-expressions
     expect(applicationinsights.setup).not.to.be.called;
-    // eslint-disable-next-line no-unused-expressions
     expect(applicationinsights.Configuration.start).not.to.be.called;
-    // eslint-disable-next-line no-unused-expressions
     expect(applicationinsights.TelemetryClient.prototype.trackTrace).not.to.be.called;
     expect(consoleSpy).to.be.calledWith(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
   });
@@ -75,7 +70,6 @@ describe('appInsights', () => {
   it('should reset the AppInsights client if it has been initialised', () => {
     appInsights.initialiseAppInsights();
     appInsights.resetAppInsights();
-    // eslint-disable-next-line no-unused-expressions
     expect(appInsights.client).to.be.null;
   });
 
@@ -85,7 +79,6 @@ describe('appInsights', () => {
     // The AppInsights client won't exist the second time around
     appInsights.resetAppInsights();
 
-    // eslint-disable-next-line no-unused-expressions
     expect(appInsights.client).to.not.exist;
   });
 });

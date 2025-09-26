@@ -23,28 +23,7 @@ describe('Payload builder', () => {
     townOrCity: 'town field'
   };
 
-  // Extend the payload type to include optional properties used in tests
-  type TestContactInformation = {
-    addressLine1: string;
-    addressLine2: string;
-    county: string;
-    postcode: string;
-    townCity: string;
-    dxAddress?: { dxNumber: string | null; dxExchange: string | null }[];
-  };
-  type TestOrganisationPayload = {
-    contactInformation: TestContactInformation[];
-    name: string;
-    superUser: {
-      email: string;
-      firstName: string;
-      lastName: string;
-    };
-    sraId?: string;
-    paymentAccount?: string[];
-  };
-
-  const organisationPayload: TestOrganisationPayload = {
+  const organisationPayload = {
     contactInformation: [
       {
         addressLine1: '45',

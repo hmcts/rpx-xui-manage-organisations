@@ -69,7 +69,7 @@ describe('appInsights', () => {
     expect(applicationinsights.Configuration.start).not.to.be.called;
     // eslint-disable-next-line no-unused-expressions
     expect(applicationinsights.TelemetryClient.prototype.trackTrace).not.to.be.called;
-    expect(consoleSpy).to.be.calledWith(`App Insights not activated: Connection String "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
+    expect(consoleSpy).to.be.calledWith(`App Insights not activated: connection string "${APP_INSIGHTS_CONNECTION_STRING}" is not defined!`);
   });
 
   it('should reset the AppInsights client if it has been initialised', () => {

@@ -36,7 +36,7 @@ describe('organisation index', () => {
     sinon.stub(req.http, 'get').resolves(mockAxiosResponse as AxiosResponse);
 
     // Test the function and check expectations
-  await handleOrganisationRoute(req, res, next);
+    await handleOrganisationRoute(req, res, next);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH);
     expect(req.http.get).to.be.calledWith('apiPath/refdata/external/v2/organisations');
     expect(res.send).to.be.calledWith('test');

@@ -11,14 +11,12 @@ chai.use(sinonChai);
 import * as errorHandler from './error.handler';
 
 describe('errorHandler', () => {
-  let next;
   let sandbox;
   let req;
   let res;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    next = sandbox.spy();
     res = mockRes();
     req = mockReq({
       cookies: [],

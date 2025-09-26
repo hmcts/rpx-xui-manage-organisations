@@ -75,8 +75,6 @@ describe('getRegulatoryOrganisationTypes', () => {
 
       expect(next).to.have.been.calledOnceWith(error);
     });
-
-
   });
 
   describe('response data', () => {

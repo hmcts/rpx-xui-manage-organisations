@@ -2,7 +2,8 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
 import * as sinonChai from 'sinon-chai';
-import { NextFunction, Response } from 'express';
+import { NextFunction } from 'express';
+import { mockReq, mockRes } from 'sinon-express-mock';
 import { EnhancedRequest } from '../lib/models';
 import { organisationTypes } from './mockOrganisationTypes';
 import { getRegulatoryOrganisationTypes } from './index';
@@ -11,26 +12,14 @@ chai.use(sinonChai);
 
 describe('getRegulatoryOrganisationTypes', () => {
   let req: EnhancedRequest;
-  let res: Response;
+  let res: any;
   let next: NextFunction;
   let sandbox: sinon.SinonSandbox;
 
-  const createMockResponse = (): Response => {
-    const mockRes = {
-      status: sandbox.stub().returnsThis(),
-      send: sandbox.stub().returnsThis()
-    } as unknown as Response;
-    return mockRes;
-  };
-
-  const createMockRequest = (): EnhancedRequest => {
-    return {} as EnhancedRequest;
-  };
-
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    req = createMockRequest();
-    res = createMockResponse();
+    req = mockReq();
+    res = mockRes();
     next = sandbox.spy() as NextFunction;
   });
 

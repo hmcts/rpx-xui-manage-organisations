@@ -9,7 +9,7 @@ describe('caaCases Util', () => {
     expect(fullPath).to.equal(`http://somePath${caseAssignment}?ctid=caseTypeId1&use_case=ORGCASES`);
   });
 
-  xit('should generate the request body for retrieving all assigned cases', () => {
+  it('should generate the request body for retrieving all assigned cases', () => {
     const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.AssignedCases);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
@@ -36,6 +36,9 @@ describe('caaCases Util', () => {
                   }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -49,7 +52,7 @@ describe('caaCases Util', () => {
     });
   });
 
-  xit('should generate the request body for retrieving all unassigned cases', () => {
+  it('should generate the request body for retrieving all unassigned cases', () => {
     const requestBody = getRequestBody('GCXGCY1', 0, 10, CaaCasesPageType.UnassignedCases);
     // Use the "eql" assertion because the test is *not* for strict equality (which is what "equal" asserts)
     expect(requestBody).to.eql({
@@ -76,6 +79,9 @@ describe('caaCases Util', () => {
                   }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -118,13 +124,15 @@ describe('caaCases Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }
@@ -167,13 +175,15 @@ describe('caaCases Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }

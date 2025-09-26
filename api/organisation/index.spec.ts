@@ -38,7 +38,7 @@ describe('organisation index', () => {
     // Test the function and check expectations
   await handleOrganisationRoute(req, res, next);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH);
-    expect(req.http.get).to.be.calledWith('apiPath/refdata/external/v1/organisations');
+    expect(req.http.get).to.be.calledWith('apiPath/refdata/external/v2/organisations');
     expect(res.send).to.be.calledWith('test');
   });
 
@@ -54,16 +54,9 @@ describe('organisation index', () => {
     };
     sinon.stub(req.http, 'get').throws(error);
 
-    const errorReport = {
-      apiError: errorMessage,
-      apiStatusCode: errorCode,
-      message: 'Organisation route error'
-    };
-
     // Test the function and check expectations
-  await handleOrganisationRoute(req, res, next);
-    expect(res.status).to.be.calledWith(errorCode);
-    expect(res.send).to.be.calledWith(errorReport);
+    await handleOrganisationRoute(req, res, next);
+    expect(next).to.be.calledWith(error);
   });
 
   it('should get the Organisation details', () => {

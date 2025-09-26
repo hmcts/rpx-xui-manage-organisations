@@ -25,12 +25,9 @@ const authStoreMock = {
   dispatch: () => { }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let userIsPuiFinanceManager: boolean;
 
 const lovRefDataServiceMock = jasmine.createSpyObj('LovRefDataService', ['getListOfValues']);

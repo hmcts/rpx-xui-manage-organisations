@@ -18,9 +18,7 @@ describe('getRegulatoryOrganisationTypes', () => {
   const createMockResponse = (): Response => {
     const mockRes = {
       status: sandbox.stub().returnsThis(),
-      send: sandbox.stub().returnsThis(),
-      json: sandbox.stub().returnsThis(),
-      end: sandbox.stub().returnsThis()
+      send: sandbox.stub().returnsThis()
     } as unknown as Response;
     return mockRes;
   };

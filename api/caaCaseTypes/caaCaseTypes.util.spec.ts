@@ -31,6 +31,9 @@ describe('caaCaseTypes Util', () => {
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -66,6 +69,9 @@ describe('caaCaseTypes Util', () => {
                   { range: { 'supplementary_data.orgs_assigned_users.GCXGCY1': { gt: 0 } } }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -103,13 +109,15 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }
@@ -147,13 +155,15 @@ describe('caaCaseTypes Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }

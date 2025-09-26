@@ -27,7 +27,6 @@ describe('FieldsetComponent', () => {
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
     let component: FieldsetComponent;
     let fixture: ComponentFixture<FieldsetComponent>;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let element: DebugElement;
 
     beforeEach(waitForAsync(() => {

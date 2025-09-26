@@ -18,9 +18,7 @@ const storeMock = {
   dispatch: () => { }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
 const mockOrganisationDetails: OrganisationDetails = {

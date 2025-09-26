@@ -8,7 +8,6 @@ import { RemoveHostDirective } from './remove-host.directive';
 class TestComponent {}
 
 describe('RemoveHostDirective', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let component: TestComponent;
   let fixture: ComponentFixture<TestComponent>;
 

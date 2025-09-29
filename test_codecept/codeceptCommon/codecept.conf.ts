@@ -179,6 +179,12 @@ async function generateCucumberReport() {
   const jsonDir = functional_output_dir;
   const reportFile = path.join(jsonDir, 'cucumber_report.html');
   await waitForStableJson(jsonDir, 800, 30000);
+  const hasJson = fs.existsSync(jsonDir) &&
+    fs.readdirSync(jsonDir).some(f => /^cucumber_output.*\.json$/.test(f));
+  if (!hasJson) {
+    console.warn(`⚠️  No JSON files found in '${jsonDir}'. No HTML report will be created.`);
+    return { skipped: true };
+  }
   report.generate({
     theme: 'bootstrap',
     jsonDir,

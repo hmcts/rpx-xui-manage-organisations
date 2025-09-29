@@ -366,7 +366,7 @@ ccd:
 am-org-role-mapping-service:
     enabled: true
     java:
-      image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:pr-1769'
+      image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:pr-1737'
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
       imagePullPolicy: Always

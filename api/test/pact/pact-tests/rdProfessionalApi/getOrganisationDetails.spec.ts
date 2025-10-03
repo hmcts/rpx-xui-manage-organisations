@@ -55,7 +55,6 @@ describe('Get Organisation Details from RDProfessionalAPI ', () => {
     });
 
     function assertResponse(dto: Organisation): void {
-      // eslint-disable-next-line no-unused-expressions
       expect(dto).to.be.not.null;
       for (const element of dto.contactInformation) {
         expect(element.addressLine1).to.equal('addressLine1');

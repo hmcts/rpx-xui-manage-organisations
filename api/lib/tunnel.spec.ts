@@ -41,7 +41,6 @@ describe('tunnel', () => {
   it('should not setup the proxy', () => {
     showFeatureStub.withArgs(FEATURE_PROXY_ENABLED).returns(false);
     tunnel.init();
-    // eslint-disable-next-line no-unused-expressions
     expect(spiedLogger.info).not.to.be.called;
   });
 

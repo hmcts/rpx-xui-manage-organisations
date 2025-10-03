@@ -104,7 +104,6 @@ describe('log4jui', () => {
 
       // Can't use calledWith and pass in an Error instance because the error stacks will be different, so just
       // check the error message passed in is as expected
-      // eslint-disable-next-line no-unused-expressions
       expect(appInsights.client.trackException).to.be.called;
       const errorArg = appInsights.client.trackException.args[0][0];
       assert.equal(errorArg.exception.message, '[ERROR] test - message');
@@ -146,9 +145,7 @@ describe('log4jui', () => {
       const logger = log4jui.getLogger('test');
       logger.trackRequest({});
 
-      // eslint-disable-next-line no-unused-expressions
       expect(appInsights.client).to.be.null;
-      // eslint-disable-next-line no-unused-expressions
       expect(applicationinsights.TelemetryClient.prototype.trackRequest).not.to.be.called;
     });
   });

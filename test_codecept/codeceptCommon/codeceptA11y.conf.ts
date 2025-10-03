@@ -16,6 +16,7 @@ const testType = 'a11y'
 const parallel = process.env.PARALLEL ? process.env.PARALLEL.includes('y') : false
 const head = process.env.HEAD
 
+const TEST_URL = process.env.TEST_URL || 'http://localhost:3000';
 
 
 const functional_output_dir = path.resolve(`${__dirname}/../../functional-output/tests/codecept-a11y`)
@@ -34,7 +35,7 @@ exports.config = {
             "uniqueScreenshotNames": "true"
         },
         Puppeteer: {
-            url: 'https://manage-case.aat.platform.hmcts.net/',
+            url: TEST_URL,
             show: true,
             waitForNavigation: ['domcontentloaded'],
             restart: true,

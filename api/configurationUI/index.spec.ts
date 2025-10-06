@@ -56,7 +56,8 @@ describe('configurationUI index', () => {
       rdProfessionalApiPath: undefined,
       s2sPath: undefined,
       servicesIdamApiPath: undefined,
-      servicesTandCPath: undefined
+      servicesTandCPath: undefined,
+      envrionment: 'LOCAL'
     });
   });
 });

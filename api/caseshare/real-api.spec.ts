@@ -85,9 +85,7 @@ describe('real-api', () => {
       handlePostStub.returns(Promise.resolve(mockAxiosPostResponse));
       handleDeleteStub.returns(Promise.resolve(mockAxiosDeleteResponse));
       await assignCases(req, res);
-      // eslint-disable-next-line no-unused-expressions
       expect(handlePostStub).to.have.been.called;
-      // eslint-disable-next-line no-unused-expressions
       expect(handleDeleteStub).to.have.been.called;
       expect(res.status).to.have.been.calledWith(201);
       expect(res.send).to.have.been.calledWith([
@@ -113,9 +111,7 @@ describe('real-api', () => {
       handlePostStub.returns(Promise.reject(mockAxiosPostResponse as AxiosResponse));
       handleDeleteStub.returns(Promise.resolve(mockAxiosDeleteResponse as AxiosResponse));
       await assignCases(req, res);
-      // eslint-disable-next-line no-unused-expressions
       expect(handlePostStub).to.have.been.called;
-      // eslint-disable-next-line no-unused-expressions
       expect(handleDeleteStub).not.to.have.been.called;
       expect(res.status).to.have.been.calledWith(500);
       expect(res.send).to.have.been.calledWith(['{request: {"assignee_id":"aaaa2222","case_id":"1111222233334444","case_type_id":"Test"}, response: {undefined undefined}}']);
@@ -125,9 +121,7 @@ describe('real-api', () => {
       handlePostStub.returns(Promise.resolve(mockAxiosPostResponse as AxiosResponse));
       handleDeleteStub.returns(Promise.reject(mockAxiosDeleteResponse as AxiosResponse));
       await assignCases(req, res);
-      // eslint-disable-next-line no-unused-expressions
       expect(handlePostStub).to.have.been.called;
-      // eslint-disable-next-line no-unused-expressions
       expect(handleDeleteStub).to.have.been.called;
       expect(res.status).to.have.been.calledWith(500);
       expect(res.send).to.have.been.calledWith(['{request: {"assignee_id":"aaaa1111","case_id":"1111222233334444","case_type_id":"Test"}, response: {undefined undefined}}']);

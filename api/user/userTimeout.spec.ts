@@ -9,22 +9,18 @@ describe('userTimeout', () => {
   describe('isRoleMatch()', () => {
     it('should return true if there is a match of the User\'s role to the Session Timeout regex pattern so' +
       'that the App knows that we need to have a specified Session Timeout for that user role.', () => {
-      // eslint-disable-next-line no-unused-expressions
       expect(isRoleMatch('pui-case-manager', 'case-')).to.be.true;
     });
 
     it('should return true if there is a partial match of the User\'s role to the Session Timeout regex pattern.', () => {
-      // eslint-disable-next-line no-unused-expressions
       expect(isRoleMatch('pui-case-manager', 'pui')).to.be.true;
     });
 
     it('should return false if there is no match of the User\'s role to the Session Timeout regex pattern.', () => {
-      // eslint-disable-next-line no-unused-expressions
       expect(isRoleMatch('pui-case-manager', 'dwp-')).to.be.false;
     });
 
     it('should return true for a wildcard regex pattern, note that this pattern acts as our configurable DEFAULT.', () => {
-      // eslint-disable-next-line no-unused-expressions
       expect(isRoleMatch('pui', '.')).to.be.true;
     });
   });
@@ -40,7 +36,6 @@ describe('userTimeout', () => {
         'pui-finance-manager'
       ];
 
-      // eslint-disable-next-line no-unused-expressions
       expect(anyRolesMatch(roles, 'user-manager')).to.be.true;
     });
 
@@ -51,7 +46,6 @@ describe('userTimeout', () => {
         'pui-finance-manager'
       ];
 
-      // eslint-disable-next-line no-unused-expressions
       expect(anyRolesMatch(roles, '.')).to.be.true;
     });
 
@@ -62,7 +56,6 @@ describe('userTimeout', () => {
         'pui-finance-manager'
       ];
 
-      // eslint-disable-next-line no-unused-expressions
       expect(anyRolesMatch(roles, 'dwp')).to.be.false;
     });
   });

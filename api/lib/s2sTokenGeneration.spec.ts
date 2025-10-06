@@ -18,7 +18,6 @@ chai.use(chaiAsPromised);
 
 describe('s2sTokenGeneration', () => {
   let otpStub: sinon.SinonStub;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let loggerErrorSpy: sinon.SinonSpy;
   let loggerInfoSpy: sinon.SinonSpy;
   let fakeAxiosInstance: AxiosInstance;

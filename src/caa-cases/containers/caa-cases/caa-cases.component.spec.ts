@@ -25,7 +25,6 @@ describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
   let fixture: ComponentFixture<CaaCasesComponent>;
   let store: Store<fromStore.CaaCasesState>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let organisationStore: Store<fromOrganisationStore.OrganisationState>;
   let router: Router;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;

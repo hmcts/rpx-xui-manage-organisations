@@ -18,7 +18,8 @@ import {
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_MCA_PROXY_API_PATH,
   SERVICES_RD_PROFESSIONAL_API_PATH,
-  SERVICES_TERMS_AND_CONDITIONS_API_PATH, SESSION_SECRET
+  SERVICES_TERMS_AND_CONDITIONS_API_PATH, SESSION_SECRET,
+  SERVICES_PRD_COMMONDATA_API
 } from './configuration/references';
 import * as log4jui from './lib/log4jui';
 import * as tunnel from './lib/tunnel';
@@ -80,8 +81,8 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
 
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));
 
-app.use(getXuiNodeMiddleware());
 tunnel.init();
+app.use(getXuiNodeMiddleware());
 
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));

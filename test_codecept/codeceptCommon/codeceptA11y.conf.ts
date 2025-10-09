@@ -166,10 +166,12 @@ exports.config = {
 
 
 async function setup() {
-  const backendMockApp = require('../backendMock/app');
-  const applicationServer = require('../localServer').default;
-  await backendMockApp.startServer();
-  await applicationServer.start();
+  if (!externalServers) {
+    const backendMockApp = require('../backendMock/app');
+    const applicationServer = require('../localServer').default;
+    await backendMockApp.startServer();
+    await applicationServer.start();
+  }
 }
 
 async function teardown() {

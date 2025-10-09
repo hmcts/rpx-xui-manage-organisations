@@ -7,8 +7,8 @@ import { Component, Input } from '@angular/core';
 * displaying errorMessage messages
 * */
 @Component({
-  selector: 'lib-gov-uk-date',
-  template: `
+    selector: 'lib-gov-uk-date',
+    template: `
     <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}" [formGroup]="formGroup">
       <lib-gov-uk-fieldset
         [config]="{legend: 'Date component', classes: 'govuk-label--m', id: config.id, hint: ' For example, 12 11 2007'}"
@@ -59,7 +59,8 @@ import { Component, Input } from '@angular/core';
           </div>
         </div>
       </lib-gov-uk-fieldset>
-    </div>`
+    </div>`,
+    standalone: false
 })
 export class GovUkDateComponent {
   @Input() config: { id: string };

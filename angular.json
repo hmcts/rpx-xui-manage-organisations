@@ -11,7 +11,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "class-transformer",
@@ -22,9 +22,10 @@
               "jwt-decode"
             ],
             "aot": true,
-            "outputPath": "dist/rpx-xui-manage-organisations",
+            "outputPath": {
+              "base": "dist/rpx-xui-manage-organisations"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "preserveSymlinks": true,
             "tsConfig": "src/tsconfig.app.json",
@@ -36,7 +37,8 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "sourceMap": true
+            "sourceMap": true,
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -57,9 +59,7 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },

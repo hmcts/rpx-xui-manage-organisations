@@ -9,9 +9,10 @@ import * as fromStore from '../../store';
 import * as organisationActions from '../../store/actions';
 
 @Component({
-  selector: 'app-prd-update-pba-numbers-check-component',
-  templateUrl: './update-pba-numbers-check.component.html',
-  styleUrls: ['./update-pba-numbers-check.component.scss']
+    selector: 'app-prd-update-pba-numbers-check-component',
+    templateUrl: './update-pba-numbers-check.component.html',
+    styleUrls: ['./update-pba-numbers-check.component.scss'],
+    standalone: false
 })
 export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
   public readonly title: string = 'Check your PBA accounts';

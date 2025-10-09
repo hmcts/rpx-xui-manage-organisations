@@ -7,8 +7,8 @@ import { FormGroup } from '@angular/forms';
 *
 * */
 @Component({
-  selector: 'lib-gov-radio',
-  template: `
+    selector: 'lib-gov-radio',
+    template: `
     <div class="govuk-radios__item" [formGroup]="group">
       <input [className]="'govuk-radios__input ' + config.classes"
              [id]="config.id"
@@ -18,7 +18,8 @@ import { FormGroup } from '@angular/forms';
              [formControl]="group.controls[config.name]">
       <lib-gov-label appRemoveHost [config]="config"></lib-gov-label>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkRadioComponent implements OnInit {
   @Input() public group: FormGroup;

@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { CookieService, ExuiCommonLibModule, FeatureToggleGuard, FeatureToggleService, GoogleAnalyticsService, LaunchDarklyService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
@@ -37,7 +37,6 @@ import { SharedModule } from 'src/shared/shared.module';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
-import { EnvironmentService } from '../shared/services/environment.service';
 import { HealthCheckService } from '../shared/services/health-check.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
@@ -102,7 +101,12 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
   UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
   JwtDecodeWrapper, LoggerService, JurisdictionService,
   { provide: FeatureToggleService, useClass: LaunchDarklyService },
-  { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true },
+  // Application initializer: obtain Store via DI injection utility and pass to initApplication, which returns a function we invoke.
+  provideAppInitializer(() => {
+    const store = inject(Store);
+    const initializerFn = initApplication(store);
+    return initializerFn();
+  }),
   provideHttpClient(withInterceptorsFromDi())
 ] })
 export class AppModule {}

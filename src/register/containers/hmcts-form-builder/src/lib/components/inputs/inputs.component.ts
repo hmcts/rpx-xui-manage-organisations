@@ -3,8 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-  selector: 'app-inputs',
-  templateUrl: './inputs.component.html'
+    selector: 'app-inputs',
+    templateUrl: './inputs.component.html',
+    standalone: false
 })
 export class InputsComponent {
   @Input() group: FormGroup;

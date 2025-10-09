@@ -14,8 +14,9 @@ import {
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-  selector: 'app-regulator-details',
-  templateUrl: './regulator-details.component.html'
+    selector: 'app-regulator-details',
+    templateUrl: './regulator-details.component.html',
+    standalone: false
 })
 export class RegulatorDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public readonly SELECT_A_VALUE = 'none';

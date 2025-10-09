@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
  */
 
 @Component({
-  selector: 'app-submitted-confirmation',
-  template: `
+    selector: 'app-submitted-confirmation',
+    template: `
   <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
@@ -25,6 +25,7 @@ import { Component } from '@angular/core';
       </div>
     </div>
   </main>
-  `
+  `,
+    standalone: false
 })
 export class SubmittedConfirmationComponent {}

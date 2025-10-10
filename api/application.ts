@@ -1,11 +1,11 @@
+import * as healthcheck from '@hmcts/nodejs-healthcheck';
+import { csp, SECURITY_POLICY, SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import { existsSync, readFileSync } from 'fs';
 import helmet from 'helmet';
 import * as path from 'path';
-import * as healthcheck from '@hmcts/nodejs-healthcheck';
-import { csp, SECURITY_POLICY, SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
 import { attach, getXuiNodeMiddleware } from './auth';
 import { environmentCheckText, getConfigValue, getEnvironment, showFeature } from './configuration';
 import { ERROR_NODE_CONFIG_ENV } from './configuration/constants';
@@ -18,8 +18,7 @@ import {
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_MCA_PROXY_API_PATH,
   SERVICES_RD_PROFESSIONAL_API_PATH,
-  SERVICES_TERMS_AND_CONDITIONS_API_PATH, SESSION_SECRET,
-  SERVICES_PRD_COMMONDATA_API
+  SERVICES_TERMS_AND_CONDITIONS_API_PATH, SESSION_SECRET
 } from './configuration/references';
 import * as log4jui from './lib/log4jui';
 import * as tunnel from './lib/tunnel';

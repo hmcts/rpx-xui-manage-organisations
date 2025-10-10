@@ -24,8 +24,6 @@ const COUNTER_FILE = path.join(LOCK_DIR, 'counter');
 const OWNER_PIDFILE = path.join(LOCK_DIR, 'owner.pid');
 const KEEP_SSR_ALIVE = process.env.KEEP_SSR_ALIVE === 'true';
 
-const IS_A11Y = (process.env.TEST_TYPE === 'a11y' || process.env.A11Y_MODE === 'true');
-
 let ssr = null;
 
 /* ── fs helpers ─────────────────────────────────────────────── */

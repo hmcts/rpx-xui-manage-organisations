@@ -4,15 +4,14 @@ const report = require("cucumber-html-reporter");
 // const marge = require('mochawesome-report-generator')
 const fs = require('fs')
 const path = require('path')
-
 const global = require('./globals')
-import applicationServer from '../localServer'
 
 var spawn = require('child_process').spawn;
-const backendMockApp = require('../backendMock/app');
 const statsReporter = require('./statsReporter');
 const { setDefaultResultOrder } = require('dns');
 setDefaultResultOrder('ipv4first');
+
+const externalServers = process.env.EXTERNAL_SERVERS === 'true';
 
 let appWithMockBackend = null;
 const testType = process.env.TEST_TYPE
@@ -25,12 +24,17 @@ console.log(`testType : ${testType}`)
 console.log(`parallel : ${parallel}`)
 console.log(`headless : ${!head}`)
 
-const TEST_URL = process.env.TEST_URL ? process.env.TEST_URL : 'http://localhost:3000';
-let pipelineBranch = (TEST_URL.includes('pr-') || TEST_URL.includes('localhost')) ? "preview" : "master";
+
+const TEST_URL = process.env.TEST_URL || '';
+const pipelineBranch = externalServers //   running against localhost
+  ? 'local' //   value won’t be used later
+  : (TEST_URL.includes('pr-') || TEST_URL.includes('manage-org.aat.platform.hmcts.net')
+    ? 'preview'
+    : 'master');
 let features = ''
 if (testType === 'e2e' || testType === 'smoke') {
   features = `../e2e/features/app/**/*.feature`
-} else if (testType === 'ngIntegration' && pipelineBranch === 'preview') {
+} else if (testType === 'ngIntegration' && (pipelineBranch === 'preview' || pipelineBranch === 'local')) {
   features = `../ngIntegration/tests/features/**/*.feature`
 
 } else if (testType === 'ngIntegration' && pipelineBranch === 'master') {
@@ -69,7 +73,8 @@ exports.config = {
       "uniqueScreenshotNames": "true"
     },
     Playwright: {
-      url: TEST_URL,
+      url: externalServers ? (process.env.WEB_BASE_URL || 'http://localhost:3000')
+        : TEST_URL,
       restart: false,
       show: head ? true : false,
       waitForNavigation: "domcontentloaded",
@@ -158,7 +163,9 @@ async function exitWithStatus() {
 
 async function setup() {
 
-  if (!debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+  if (!externalServers && !debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+    const backendMockApp = require('../backendMock/app');
+    const applicationServer = require('../localServer').default;
     await backendMockApp.startServer(debugMode);
     await applicationServer.start()
   }
@@ -166,7 +173,9 @@ async function setup() {
 }
 
 async function teardown() {
-  if (!debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+  if (!externalServers && !debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+    const backendMockApp = require('../backendMock/app');
+    const applicationServer = require('../localServer').default;
     await backendMockApp.stopServer();
     await applicationServer.stop()
   }

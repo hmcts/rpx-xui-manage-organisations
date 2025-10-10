@@ -2,9 +2,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <!-- go back to previous page if not on international page, reset page otherwise -->
-      <a *ngIf="!startedInternational && !addressChosen" class="govuk-back-link" href="javascript:void(0)" (click)="onBack(false)">Back</a>
-      <a *ngIf="startedInternational || addressChosen" class="govuk-back-link"
-        href="javascript:void(0)" (click)="onBack(true)">Back</a>
+      <button *ngIf="!startedInternational && !addressChosen" class="govuk-js-back-link" (click)="onBack(false)">Back</button>
+      <button *ngIf="startedInternational || addressChosen" class="govuk-js-back-link"
+        (click)="onBack(true)">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="addressErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">{{headingText}}</h1>
@@ -29,7 +29,7 @@
           <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
         </div>
     </div>
   </div>

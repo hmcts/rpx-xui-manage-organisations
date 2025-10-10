@@ -1,27 +1,28 @@
 {
-    "/api/*": {
-        "target": "http://localhost:3001",
-        "secure": false,
-        "logLevel": "debug"
-    },
-    "/auth/*": {
-        "target": "http://localhost:3001",
-        "secure": false,
-        "logLevel": "debug"
-    },
-    "/external/*": {
-        "target": "http://localhost:3001",
-        "secure": false,
-        "logLevel": "debug"
-    },
-    "/health": {
-        "target": "http://localhost:3001",
-        "secure": false,
-        "logLevel": "debug"
-    },
-    "/oauth2/callback": {
-        "target": "http://localhost:3001",
-        "secure": false,
-        "logLevel": "debug"
-    }
+  "/api": {
+      "target": "http://localhost:3002",
+      "secure": false,
+      "logLevel": "debug"
+  },
+  "/auth": {
+    "target": "http://localhost:3002",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/external": {
+    "target": "http://localhost:3002",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/health": {
+    "target": "http://localhost:3002",
+    "secure": false,
+    "logLevel": "debug"
+  },
+  "/oauth2/callback": {
+      "target": "http://localhost:3002",
+      "secure": false,
+      "logLevel": "debug"
+  }
 }
+

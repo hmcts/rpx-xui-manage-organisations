@@ -6,7 +6,7 @@
       {{ hasIndividualRegulator ? 'Yes' : 'No'}}
     </dd>
     <dd class="govuk-summary-list__actions">
-      <a class="govuk-link" href="javascript:void(0)"
+      <a class="govuk-link"
         routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/individual-registered-with-regulator">
         Change<span class="govuk-visually-hidden">Individual regulator</span>
       </a>
@@ -39,12 +39,12 @@
     </dd>
     <dd class="govuk-summary-list__actions">
       <a *ngIf="regulatorType === regulatorTypeEnum.Individual"
-        class="govuk-link" href="javascript:void(0)"
+        class="govuk-link"
         routerLink="/{{registerOrgNewRoute}}/individual-registered-with-regulator-details">
         Change<span class="govuk-visually-hidden">What regulators are you (as an individual) registered with?</span>
       </a>
       <a *ngIf="regulatorType === regulatorTypeEnum.Organisation"
-        class="govuk-link" href="javascript:void(0)"
+        class="govuk-link"
         routerLink="/{{registerOrgNewRoute}}/regulatory-organisation-type">
         Change<span class="govuk-visually-hidden">Regulatory organisation type</span>
       </a>

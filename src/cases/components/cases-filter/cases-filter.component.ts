@@ -62,6 +62,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
       assigneePerson: this.formBuilder.control(''),
       caseReferenceNumber: this.formBuilder.control('')
     });
+    this.populateFormFromSessionState();
 
     this.form.controls.filterOption.valueChanges
       .pipe(takeUntil(this.destroy$))
@@ -97,6 +98,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
 
   public populateFormFromSessionState(): void {
     if (this.sessionStateValue) {
+      console.log('Populating form from session state:', this.sessionStateValue);
       const filterOptionValue = this.sessionStateValue.filterType as CaaCasesFilterType;
       this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
 

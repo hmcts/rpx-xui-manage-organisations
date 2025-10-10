@@ -43,7 +43,7 @@ export async function ogdUpdate(req: Request, res: Response) {
     await refreshUser(req);
     res.send(operationResult);
   } catch (error) {
-    logger.error('ogdUpdate:: Error ', error);
+    logger.error('ogdUpdate:: Error ', JSON.stringify(error));
     res.status(error.apiStatusCode || 500).json(error);
   }
 }

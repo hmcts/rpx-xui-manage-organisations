@@ -204,6 +204,7 @@ export class CasesComponent implements OnInit {
   public onSelectedFilter(selectedFilter: SelectedCaseFilter): void {
     this.selectedFilterType = selectedFilter.filterType;
     this.selectedFilterValue = selectedFilter.filterValue;
+    this.storeSessionState(selectedFilter);
 
     if (selectedFilter.filterType === CaaCasesFilterType.None) {
       this.removeSessionState(this.caaCasesPageType);
@@ -255,6 +256,7 @@ export class CasesComponent implements OnInit {
 
   public retrieveSessionState(): void {
     this.sessionStateValue = this.service.retrieveSessionState(this.sessionStateKey);
+    console.log(this.sessionStateValue);
     if (this.sessionStateValue) {
       this.toggleFilterSection();
     }

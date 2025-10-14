@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/models';
+import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib';
 
 @Component({
     selector: 'app-prd-pba-number-input-component',

@@ -1,11 +1,17 @@
-<nav *ngIf="isUserLoggedIn" class="hmcts-primary-navigation" [attr.aria-label]="label">
-  <div class="hmcts-primary-navigation__container">
-    <div class="govuk-header__logo" *ngIf="isBrandedHeader"></div>
-    <ul class="hmcts-primary-navigation__list">
-      <li class="hmcts-primary-navigation__item"  *ngFor="let item of items">
-          <a class="hmcts-primary-navigation__link" routerLinkActive #rla="routerLinkActive" [attr.aria-current]="item.active || rla.isActive ? true: null" [routerLink]="item.href">{{item.text}}</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+@if (isUserLoggedIn) {
+  <nav class="hmcts-primary-navigation" [attr.aria-label]="label">
+    <div class="hmcts-primary-navigation__container">
+      @if (isBrandedHeader) {
+        <div class="govuk-header__logo"></div>
+      }
+      <ul class="hmcts-primary-navigation__list">
+        @for (item of items; track item) {
+          <li class="hmcts-primary-navigation__item" >
+            <a class="hmcts-primary-navigation__link" routerLinkActive #rla="routerLinkActive" [attr.aria-current]="item.active || rla.isActive ? true: null" [routerLink]="item.href">{{item.text}}</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </nav>
+}
 

@@ -1,27 +1,37 @@
-<a *ngIf="backLink && !backAction" [routerLink]="backLink" class="govuk-back-link">Back</a>
-<a *ngIf="!backLink && backAction" (click)="backAction()" class="govuk-back-link">Back</a>
+@if (backLink && !backAction) {
+  <a [routerLink]="backLink" class="govuk-back-link">Back</a>
+}
+@if (!backLink && backAction) {
+  <a (click)="backAction()" class="govuk-back-link">Back</a>
+}
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <app-hmcts-error-summary
-        *ngIf="summaryErrors && !summaryErrors.isFromValid"
-        [errorMessages]="summaryErrors.items"
-        [header]="summaryErrors.header"
-        [showWarningMessage]="showWarningMessage">
-      </app-hmcts-error-summary>
-      <h1 *ngIf="title" class="govuk-heading-xl">{{title}}</h1>
+      @if (summaryErrors && !summaryErrors.isFromValid) {
+        <app-hmcts-error-summary
+          [errorMessages]="summaryErrors.items"
+          [header]="summaryErrors.header"
+          [showWarningMessage]="showWarningMessage">
+        </app-hmcts-error-summary>
+      }
+      @if (title) {
+        <h1 class="govuk-heading-xl">{{title}}</h1>
+      }
       <ng-content></ng-content>
     </div>
-    <div class="govuk-grid-column-one-third" *ngIf="actionButtons?.length > 0">
-      <div class="hmcts-page-heading__actions-wrapper">
-        <button
-          *ngFor="let actionButton of actionButtons"
-          (click)="actionButton.action()"
-          tabindex="0"
-          draggable="false"
-          class="govuk-button {{ actionButton.class }}"
-        >{{ actionButton.name }}</button>
+    @if (actionButtons?.length > 0) {
+      <div class="govuk-grid-column-one-third">
+        <div class="hmcts-page-heading__actions-wrapper">
+          @for (actionButton of actionButtons; track actionButton) {
+            <button
+              (click)="actionButton.action()"
+              tabindex="0"
+              draggable="false"
+              class="govuk-button {{ actionButton.class }}"
+            >{{ actionButton.name }}</button>
+          }
+        </div>
       </div>
-    </div>
+    }
   </div>
 </main>

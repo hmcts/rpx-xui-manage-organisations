@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+
+import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges, DOCUMENT } from '@angular/core';
 
 /*
   Error Summary component

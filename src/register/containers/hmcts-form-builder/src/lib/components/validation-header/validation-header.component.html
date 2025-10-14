@@ -1,21 +1,22 @@
 <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
-     data-module="error-summary">
-    <h2 class="govuk-error-summary__title" id="error-summary-title">
-        There is a problem
-    </h2>
-    <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-            <li *ngFor="let validationHeaderErrorMessage of validationHeaderErrorMessages">
-                <ng-container *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_CONTROL) &&
-                                        !isFormControlValid(formGroup, validationHeaderErrorMessage.controlId)">
-                    <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
-                </ng-container>
-                <ng-container
-                        *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_GROUP) &&
-                                isFormGroupInvalid(formGroup, validationHeaderErrorMessage.validationErrorId)">
-                    <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
-                </ng-container>
-            </li>
-        </ul>
-    </div>
+  data-module="error-summary">
+  <h2 class="govuk-error-summary__title" id="error-summary-title">
+    There is a problem
+  </h2>
+  <div class="govuk-error-summary__body">
+    <ul class="govuk-list govuk-error-summary__list">
+      @for (validationHeaderErrorMessage of validationHeaderErrorMessages; track validationHeaderErrorMessage) {
+        <li>
+          @if (isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_CONTROL) &&
+            !isFormControlValid(formGroup, validationHeaderErrorMessage.controlId)) {
+            <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
+          }
+          @if (isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_GROUP) &&
+            isFormGroupInvalid(formGroup, validationHeaderErrorMessage.validationErrorId)) {
+            <a href="#" (click)="scrollToElement(validationHeaderErrorMessage.controlId)">{{validationHeaderErrorMessage.text}}</a>
+          }
+        </li>
+      }
+    </ul>
+  </div>
 </div>

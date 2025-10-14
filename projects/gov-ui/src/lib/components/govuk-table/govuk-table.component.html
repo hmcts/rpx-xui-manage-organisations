@@ -1,29 +1,47 @@
 <table class="{{'govuk-table ' + classes}}" role="presentation">
-    <caption class="govuk-table__caption">{{caption}}</caption>
-    <thead class="govuk-table__head" >
+  <caption class="govuk-table__caption">{{caption}}</caption>
+  <thead class="govuk-table__head" >
     <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="col" *ngFor="let h of columnConfig">{{h.header}}</th>
+      @for (h of columnConfig; track h) {
+        <th class="govuk-table__header" scope="col">{{h.header}}</th>
+      }
     </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-    <tr data-selector="table-row" class="govuk-table__row" *ngFor="let r of rows">
-        <ng-container *ngFor="let col of columnConfig; first as isFirst">
-            <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader">
-                <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
-                <ng-container *ngIf="col.type === 'link' && r.routerLink">
-                    <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
-                </ng-container>
+  </thead>
+  <tbody class="govuk-table__body">
+    @for (r of rows; track r) {
+      <tr data-selector="table-row" class="govuk-table__row">
+        @for (col of columnConfig; track col; let isFirst = $first) {
+          @if (isFirst && firstCellIsHeader) {
+            <th data-selector="table-header" class="govuk-table__header" scope="row" >
+              @if (!col.type || col.type === 'text' || !r.routerLink) {
+                {{r[col.key]}}
+              }
+              @if (col.type === 'link' && r.routerLink) {
+                <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+              }
             </th>
-            <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">
-                <ng-container *ngIf="col.type === 'link' && r.routerLink">
-                    <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
-                </ng-container>
-                <ng-container *ngIf="col.type === 'money'">-{{ r[col.key] | currency:'GBP' }}</ng-container>
-                <ng-container *ngIf="col.type === 'date'">{{formatDate(r[col.key])}}</ng-container>
-                <ng-container *ngIf="col.type === 'dateAtTime'">{{formatDateAtTime(r[col.key])}}</ng-container>
-                <ng-container *ngIf="!col.type || col.type === 'text' || !r.routerLink">{{r[col.key]}}</ng-container>
+          }
+          @if (!(isFirst && firstCellIsHeader)) {
+            <td data-selector="table-cell" class="govuk-table__cell" >
+              @if (col.type === 'link' && r.routerLink) {
+                <a class="govuk-link" [routerLink]="r.routerLink">{{r[col.key]}}</a>
+              }
+              @if (col.type === 'money') {
+                -{{ r[col.key] | currency:'GBP' }}
+              }
+              @if (col.type === 'date') {
+                {{formatDate(r[col.key])}}
+              }
+              @if (col.type === 'dateAtTime') {
+                {{formatDateAtTime(r[col.key])}}
+              }
+              @if (!col.type || col.type === 'text' || !r.routerLink) {
+                {{r[col.key]}}
+              }
             </td>
-        </ng-container>
-    </tr>
-    </tbody>
+          }
+        }
+      </tr>
+    }
+  </tbody>
 </table>

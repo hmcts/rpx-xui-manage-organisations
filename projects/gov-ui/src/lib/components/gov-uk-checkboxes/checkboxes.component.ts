@@ -15,13 +15,15 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
       [config]="options.config"
       [group]="options.key">
       <div class="govuk-checkboxes">
-        <lib-gov-checkbox *ngFor="let item of options.items"
-          [group]="item.group"
-          [config]="item.config">
-        </lib-gov-checkbox>
+        @for (item of options.items; track item) {
+          <lib-gov-checkbox
+            [group]="item.group"
+            [config]="item.config">
+          </lib-gov-checkbox>
+        }
       </div>
     </lib-gov-uk-form-group-wrapper>
-  `,
+    `,
     standalone: false
 })
 export class CheckboxesComponent {

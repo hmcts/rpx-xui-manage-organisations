@@ -5,50 +5,60 @@
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
 
-        <p *ngIf="noAccountsAdded">No PBA accounts added.</p>
+        @if (noAccountsAdded) {
+          <p>No PBA accounts added.</p>
+        }
 
         <table class="govuk-table">
           <tbody class="govuk-table__body">
-            <tr class="govuk-table__row" *ngFor="let pba of currentPaymentAccounts">
-              <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
-              <td class="govuk-table__cell">
-                <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
-                  aria-label="Remove PBA account number"
+            @for (pba of currentPaymentAccounts; track pba) {
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
+                <td class="govuk-table__cell">
+                  <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
+                    aria-label="Remove PBA account number"
                   (click)="onRemoveExistingPaymentByAccountNumberClicked(pba)">Remove</a>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            }
           </tbody>
         </table>
 
-        <table class="govuk-table" *ngIf="organisationDetails.pendingRemovePaymentAccount.length > 0">
-          <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-              <th class="govuk-table__header" colspan="2">To be removed</th>
-            </tr>
-          </thead>
-          <tbody class="govuk-table__body">
-            <tr class="govuk-table__row" *ngFor="let pba of organisationDetails.pendingRemovePaymentAccount">
-              <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
-              <td class="govuk-table__cell">
-                <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
-                  aria-label="Remove PBA account number"
-                  (click)="onCancelRemoveExistingPaymentByAccountNumberClicked(pba)">Cancel</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        @if (organisationDetails.pendingRemovePaymentAccount.length > 0) {
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header" colspan="2">To be removed</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              @for (pba of organisationDetails.pendingRemovePaymentAccount; track pba) {
+                <tr class="govuk-table__row">
+                  <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
+                  <td class="govuk-table__cell">
+                    <a class="govuk-link fright" id="remove-pba-account-number__link" [routerLink]=""
+                      aria-label="Remove PBA account number"
+                    (click)="onCancelRemoveExistingPaymentByAccountNumberClicked(pba)">Cancel</a>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
         <form [formGroup]="pbaFormGroup" id="new-pba-form">
           <div formArrayName="pbaNumbers">
-            <div *ngFor="let pbaNumberCtrl of pbaNumbers.controls; let i=index">
-              <div [formGroupName]="i">
-                <button type="button" class="govuk-button hmcts-button--secondary fright"
-                  (click)="onRemoveNewPbaNumberClicked(i)">
-                  Remove
-                </button>
-                <app-prd-pba-number-input-component [id]="'pba-number-input' + i" [group]="pbaNumberCtrl">
-                </app-prd-pba-number-input-component>
+            @for (pbaNumberCtrl of pbaNumbers.controls; track pbaNumberCtrl; let i = $index) {
+              <div>
+                <div [formGroupName]="i">
+                  <button type="button" class="govuk-button hmcts-button--secondary fright"
+                    (click)="onRemoveNewPbaNumberClicked(i)">
+                    Remove
+                  </button>
+                  <app-prd-pba-number-input-component [id]="'pba-number-input' + i" [group]="pbaNumberCtrl">
+                  </app-prd-pba-number-input-component>
+                </div>
               </div>
-            </div>
+            }
           </div>
         </form>
       </div>

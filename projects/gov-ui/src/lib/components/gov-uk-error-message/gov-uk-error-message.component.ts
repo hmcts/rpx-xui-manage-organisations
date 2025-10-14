@@ -8,10 +8,12 @@ import {Component, Directive, Input} from '@angular/core';
 @Component({
     selector: ' lib-gov-uk-error-message',
     template: `
-    <span class="govuk-error-message" [id]="config.id + '-error'" *ngFor="let message of errorMessage?.messages">
-      <span class="govuk-visually-hidden">Error:</span>{{message}}
-    </span>
-  `,
+    @for (message of errorMessage?.messages; track message) {
+      <span class="govuk-error-message" [id]="config.id + '-error'">
+        <span class="govuk-visually-hidden">Error:</span>{{message}}
+      </span>
+    }
+    `,
     standalone: false
 })
 export class GovUkErrorMessageComponent {

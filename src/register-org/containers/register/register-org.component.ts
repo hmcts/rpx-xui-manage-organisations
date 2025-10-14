@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
-    this.routerCurrentNavigation = this.router.getCurrentNavigation();
+    this.routerCurrentNavigation = this.router.currentNavigation();
   }
 
   public get currentNavigation(): Navigation {

@@ -8,19 +8,28 @@ import {Component, Input} from '@angular/core';
 * */
 @Component({
     selector: 'lib-gov-label',
-    template: `<h1 *ngIf="config.isPageHeading else noHeading">
-          <label *ngIf="config.label" [class]="config.classes + ' govuk-label'" [for]="config.id">
-            <span *ngIf="config.hiddenLabelContext" class="govuk-visually-hidden">{{config.hiddenLabelContext}}</span>
-            {{config.label}}
-          </label>
-        </h1>
-        <ng-template #noHeading>
-          <label *ngIf="config.label" [class]="config.classes + ' govuk-label'" [for]="config.id">
-            <span *ngIf="config.hiddenLabelContext" class="govuk-visually-hidden">{{config.hiddenLabelContext}}</span>
-            {{config.label}}
-          </label>
-        </ng-template>
-  `,
+    template: `@if (config.isPageHeading) {
+  <h1>
+    @if (config.label) {
+      <label [class]="config.classes + ' govuk-label'" [for]="config.id">
+        @if (config.hiddenLabelContext) {
+          <span class="govuk-visually-hidden">{{config.hiddenLabelContext}}</span>
+        }
+        {{config.label}}
+      </label>
+    }
+  </h1>
+} @else {
+  @if (config.label) {
+    <label [class]="config.classes + ' govuk-label'" [for]="config.id">
+      @if (config.hiddenLabelContext) {
+        <span class="govuk-visually-hidden">{{config.hiddenLabelContext}}</span>
+      }
+      {{config.label}}
+    </label>
+  }
+}
+`,
     standalone: false
 })
 export class GovUkLabelComponent {

@@ -38,7 +38,8 @@ describe('InputButtonComponent', () => {
         DatePipe]
     })
       .compileComponents();
-    mockStore = TestBed.inject(Store);
+  // Use MockStore to access testing helpers and correct typing
+  mockStore = TestBed.inject(MockStore);
   }));
 
   beforeEach(() => {

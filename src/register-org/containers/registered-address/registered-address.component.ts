@@ -171,7 +171,11 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.addressChosen = false;
     this.headingText = INTERNATIONAL_HEADING;
     this.addressErrors = [];
-    this.addressExists() ? this.setExistingFormGroup() : this.setAddressFormGroup();
+    if (this.addressExists()) {
+      this.setExistingFormGroup();
+    } else {
+      this.setAddressFormGroup();
+    }
   }
 
   public onResetSubmission(): void {
@@ -199,7 +203,11 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
       return;
     }
     const givenAddress = this.formGroup.get('address').value;
-    givenAddress && givenAddress.postCode && givenAddress.postCode !== '' ? this.setFormGroup(givenAddress) : this.setFormGroup();
+    if (givenAddress && givenAddress.postCode && givenAddress.postCode !== '') {
+      this.setFormGroup(givenAddress);
+    } else {
+      this.setFormGroup();
+    }
   }
 
   private setFormGroup(givenAddress?: AddressModel) {

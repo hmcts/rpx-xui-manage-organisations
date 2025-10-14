@@ -17,7 +17,7 @@ export class PrivacyPolicyComponent implements OnInit {
       try {
         document.querySelector(`#${fragment}`).scrollIntoView();
         // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch {}
     });
   }
 
@@ -30,7 +30,7 @@ export class PrivacyPolicyComponent implements OnInit {
       try {
         document.querySelector(`#${fragment}`).scrollIntoView();
         // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch {}
     });
   }
 }

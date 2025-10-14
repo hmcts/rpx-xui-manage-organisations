@@ -154,9 +154,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     if (this.validateForm()) {
       // Set corresponding registration data
       this.setRegulatorData();
-      this.regulatorType === RegulatorType.Individual
-        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE])
-        : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+      if (this.regulatorType === RegulatorType.Individual) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      } else {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+      }
     }
   }
 
@@ -184,9 +186,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
           // Currently displayed screen is organisation regulator details
           // Navigate to document exchange reference details screen if document exchange details were already entered
           // Else, navigate to document exchange reference yes or no screen
-          this.registrationData.hasDxReference
-            ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
-            : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+          if (this.registrationData.hasDxReference) {
+            this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
+          } else {
+            this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+          }
         }
       }
     }

@@ -16,6 +16,15 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   root: true,
+  // Ignore plain JS config / asset files from type-aware linting to avoid parserOptions.project errors
+  ignorePatterns: [
+    'karma.conf.js',
+    'src/karma.conf.js',
+    'stryker.node.conf.js',
+    'api/stryker.node.conf.js',
+    'src/assets/**/*',
+    'src/app/assets/**/*'
+  ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',

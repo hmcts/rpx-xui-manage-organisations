@@ -2871,24 +2871,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.2.0":
-  version: 7.2.0
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.2.0"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.1-angular-20":
+  version: 7.3.1-angular-20
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.1-angular-20"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/c0d2ac4250ab46b2567b196d87ed90ee39fd47157df0032c91dc873fd0c5944a863f00cb8f90fa28095684aab6d5758fe5f982c856c57aea30d228bdf2a3f7e7
+  checksum: 10/78aafdc88923fca2d95d58787b1dc592d84dbc264262c848200fe563f536ac8efaee99b5b0b0b79208ac7c632ef72809ad3a8ea5626d28848657f7616e96cd2c
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.2.15":
-  version: 6.2.15
-  resolution: "@hmcts/ccpay-web-component@npm:6.2.15"
+"@hmcts/ccpay-web-component@npm:6.5.0-cme-779-prerelease":
+  version: 6.5.0-cme-779-prerelease
+  resolution: "@hmcts/ccpay-web-component@npm:6.5.0-cme-779-prerelease"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
     "@angular/common": ^18.2.13
     "@angular/core": ^18.2.13
-  checksum: 10/8937f29e5f3fdb34502ec8cf2bd3a2474255dcb3015e0812c3c0b4c126a938a395496ad65ff63082dc949b20cbca2546371f52cd0b02987844910156ef978990
+  checksum: 10/694d4ecc21d660584c344ce08004a21b18e97fdb0819d17d2eaaa57ed24ceae03bb0002c932283d2d47db684f3913ad6949beef5e3e77ceb8bfcbd3fba288421
   languageName: node
   linkType: hard
 
@@ -2899,9 +2899,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.1.0":
-  version: 4.1.0
-  resolution: "@hmcts/media-viewer@npm:4.1.0"
+"@hmcts/media-viewer@npm:4.1.8-cme-776-angular-20":
+  version: 4.1.8-cme-776-angular-20
+  resolution: "@hmcts/media-viewer@npm:4.1.8-cme-776-angular-20"
   dependencies:
     "@swimlane/ngx-datatable": "npm:^20.0.0"
     mutable-div: "npm:^2.0.0"
@@ -2910,17 +2910,17 @@ __metadata:
     tslib: "npm:^2.3.0"
     uuid: "npm:^11.0.3"
   peerDependencies:
-    "@angular/animations": ^17.3.8
-    "@angular/common": ^17.3.8
-    "@angular/core": ^17.3.8
-    "@angular/forms": ^17.3.8
+    "@angular/animations": ^20.0.0
+    "@angular/common": ^20.0.0
+    "@angular/core": ^20.0.0
+    "@angular/forms": ^20.0.0
     "@angular/material": ^17.3.8
-    "@angular/platform-browser": ^17.3.8
+    "@angular/platform-browser": ^20.0.0
     "@ngrx/effects": ^17.0.0
     "@ngrx/router-store": ^17.0.0
     "@ngrx/store": ^17.0.0
     "@ngrx/store-devtools": ^17.0.0
-  checksum: 10/9208f09ae86e77e6c29ce38b1d47b4b14d9aaa81efed3ce6e58b525ea7cd67cb895ff2ddf1e32b5080fb49e5464217cbb316eca043e741c416219a47c579ec5a
+  checksum: 10/093c752b74c14b257c825d664b5a84e3e8871c57d054815b68399c6dc8d95b8eba7e33fdf08547064ebf7761cead8d1079c1a32200afd335aef01792bd3f9cb2
   languageName: node
   linkType: hard
 
@@ -2957,16 +2957,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:2.1.1":
-  version: 2.1.1
-  resolution: "@hmcts/rpx-xui-common-lib@npm:2.1.1"
+"@hmcts/rpx-xui-common-lib@npm:3.1.3-cme-778-prerelease":
+  version: 3.1.3-cme-778-prerelease
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.1.3-cme-778-prerelease"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
-    rpx-xui-translation: ^0.1.1
-  checksum: 10/156a0ae1a6be6f913b9f6ece08c83a2be483393f20f6155dea8f357b5258bc011cad7539fb7f1c0d4bd13780c7f2314d05f586e1bdc3c70a97462d0518bc0c00
+    rpx-xui-translation: 1.1.2-CME-780-9
+  checksum: 10/f544fa65b983ff4a5fcb97f216c99b967dfefd2f62b44cfca92114ffbe60bfb3503cfffc349a6b557d84d60a5e3ac32a9a71ad4c3f7ea4303e108fa4464bae75
   languageName: node
   linkType: hard
 
@@ -20981,13 +20981,13 @@ __metadata:
     "@angular/router": "npm:^19.2.15"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.2.0"
-    "@hmcts/ccpay-web-component": "npm:6.2.15"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.1-angular-20"
+    "@hmcts/ccpay-web-component": "npm:6.5.0-cme-779-prerelease"
     "@hmcts/frontend": "npm:0.0.50-alpha"
-    "@hmcts/media-viewer": "npm:4.1.0"
+    "@hmcts/media-viewer": "npm:4.1.8-cme-776-angular-20"
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:2.1.1"
+    "@hmcts/rpx-xui-common-lib": "npm:3.1.3-cme-778-prerelease"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.6"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^14.0.0"
@@ -21125,7 +21125,7 @@ __metadata:
     ts-node: "npm:10.8.1"
     ts-node-dev: "npm:^2.0.0-0"
     tslib: "npm:^2.6.1"
-    typescript: "npm:~5.6.0"
+    typescript: "npm:5.8.3"
     webpack: "npm:^5.73.0"
     webpack-cli: "npm:^4.4.0"
     webpack-dev-server: "npm:^4.9.4"
@@ -23323,23 +23323,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.6.0":
-  version: 5.6.3
-  resolution: "typescript@npm:5.6.3"
+"typescript@npm:5.8.3":
+  version: 5.8.3
+  resolution: "typescript@npm:5.8.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/c328e418e124b500908781d9f7b9b93cf08b66bf5936d94332b463822eea2f4e62973bfb3b8a745fdc038785cb66cf59d1092bac3ec2ac6a3e5854687f7833f1
+  checksum: 10/65c40944c51b513b0172c6710ee62e951b70af6f75d5a5da745cb7fab132c09ae27ffdf7838996e3ed603bb015dadd099006658046941bd0ba30340cc563ae92
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A~5.6.0#optional!builtin<compat/typescript>":
-  version: 5.6.3
-  resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
+"typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>":
+  version: 5.8.3
+  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10/00504c01ee42d470c23495426af07512e25e6546bce7e24572e72a9ca2e6b2e9bea63de4286c3cfea644874da1467dcfca23f4f98f7caf20f8b03c0213bb6837
+  checksum: 10/b9b1e73dabac5dc730c041325dbd9c99467c1b0d239f1b74ec3b90d831384af3e2ba973946232df670519147eb51a2c20f6f96163cea2b359f03de1e2091cc4f
   languageName: node
   linkType: hard
 

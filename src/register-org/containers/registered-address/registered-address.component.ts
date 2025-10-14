@@ -8,9 +8,9 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-    selector: 'app-registered-address',
-    templateUrl: './registered-address.component.html',
-    standalone: false
+  selector: 'app-registered-address',
+  templateUrl: './registered-address.component.html',
+  standalone: false
 })
 export class RegisteredAddressComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;

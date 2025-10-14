@@ -12,10 +12,10 @@ import * as fromUserProfile from '../../user-profile/store';
  * absorbs Terms and Condition dumb component
  */
 @Component({
-    selector: 'app-accept-terms-conditions-wrapper',
-    templateUrl: './accept-tc-wrapper.component.html',
-    styleUrls: ['./accept-tc-wrapper.component.scss'],
-    standalone: false
+  selector: 'app-accept-terms-conditions-wrapper',
+  templateUrl: './accept-tc-wrapper.component.html',
+  styleUrls: ['./accept-tc-wrapper.component.scss'],
+  standalone: false
 })
 export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
   private subscription: Subscription;

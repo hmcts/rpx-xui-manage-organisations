@@ -6,9 +6,9 @@ import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-    selector: 'app-contact-details',
-    templateUrl: './contact-details.component.html',
-    standalone: false
+  selector: 'app-contact-details',
+  templateUrl: './contact-details.component.html',
+  standalone: false
 })
 export class ContactDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public contactDetailsFormGroup: FormGroup;

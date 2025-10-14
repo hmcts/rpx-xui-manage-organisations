@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'app-fieldset',
-    templateUrl: './fieldset.component.html',
-    standalone: false
+  selector: 'app-fieldset',
+  templateUrl: './fieldset.component.html',
+  standalone: false
 })
 export class FieldsetComponent {
     @Input() classes;

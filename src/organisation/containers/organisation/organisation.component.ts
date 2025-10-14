@@ -13,9 +13,9 @@ import * as fromStore from '../../store';
 import { utils } from '../../utils';
 
 @Component({
-    selector: 'app-prd-organisation-component',
-    templateUrl: './organisation.component.html',
-    standalone: false
+  selector: 'app-prd-organisation-component',
+  templateUrl: './organisation.component.html',
+  standalone: false
 })
 export class OrganisationComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_ORGANISATION_TYPE = 'OrgType';

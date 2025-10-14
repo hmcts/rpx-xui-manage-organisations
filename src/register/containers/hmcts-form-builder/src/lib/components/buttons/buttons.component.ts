@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-    selector: 'app-buttons',
-    templateUrl: './buttons.component.html',
-    standalone: false
+  selector: 'app-buttons',
+  templateUrl: './buttons.component.html',
+  standalone: false
 })
 export class ButtonsComponent implements OnInit {
   @Input() public idPrefix = 'btn';

@@ -6,9 +6,9 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-    selector: 'app-company-house-details',
-    templateUrl: './company-house-details.component.html',
-    standalone: false
+  selector: 'app-company-house-details',
+  templateUrl: './company-house-details.component.html',
+  standalone: false
 })
 export class CompanyHouseDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public validationErrors: { id: string, message: string }[] = [];

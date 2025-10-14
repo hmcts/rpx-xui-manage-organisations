@@ -5,15 +5,15 @@ import { FieldsetComponent } from './fieldset.component';
 
 describe('FieldsetComponent', () => {
     @Component({
-    selector: 'app-host-dummy-component',
-    template: `<app-fieldset
+      selector: 'app-host-dummy-component',
+      template: `<app-fieldset
             [classes]="classes"
             [validate]="validate"
             [group]="group"
             [data]="data"
         ></app-fieldset>`,
-    standalone: false
-})
+      standalone: false
+    })
   class TestDummyHostComponent {
       classes = '';
       validate = '';

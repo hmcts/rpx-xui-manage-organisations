@@ -12,8 +12,8 @@ import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.compo
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @Component({
-    template: '<div>Nothing to see here. Move along, please.</div>',
-    standalone: false
+  template: '<div>Nothing to see here. Move along, please.</div>',
+  standalone: false
 })
 class MockComponent {}
 

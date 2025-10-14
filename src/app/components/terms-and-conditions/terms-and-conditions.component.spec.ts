@@ -24,7 +24,7 @@ describe('TermsAndConditionsComponent', () => {
     selector: 'app-exui-app-host-dummy-component',
     template: '<exui-terms-and-conditions></exui-terms-and-conditions>',
     standalone: false
-})
+  })
   class TestDummyHostComponent {
     @ViewChild(TermsAndConditionsComponent, { static: true })
     public footerComponent: TermsAndConditionsComponent;

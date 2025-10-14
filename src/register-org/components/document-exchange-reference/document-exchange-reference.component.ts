@@ -5,9 +5,9 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-    selector: 'app-document-exchange-reference',
-    templateUrl: './document-exchange-reference.component.html',
-    standalone: false
+  selector: 'app-document-exchange-reference',
+  templateUrl: './document-exchange-reference.component.html',
+  standalone: false
 })
 export class DocumentExchangeReferenceComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;

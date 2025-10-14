@@ -5,9 +5,9 @@ import { RegisterComponent } from '../../containers/register/register-org.compon
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-    selector: 'app-individual-registered-with-regulator',
-    templateUrl: './individual-registered-with-regulator.component.html',
-    standalone: false
+  selector: 'app-individual-registered-with-regulator',
+  templateUrl: './individual-registered-with-regulator.component.html',
+  standalone: false
 })
 export class IndividualRegisteredWithRegulatorComponent extends RegisterComponent implements OnInit, OnDestroy {
   public registeredWithRegulatorFormGroup: FormGroup;

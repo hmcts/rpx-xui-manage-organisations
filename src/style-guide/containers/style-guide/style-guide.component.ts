@@ -15,9 +15,9 @@ import * as fromStore from '../../store';
 * */
 
 @Component({
-    selector: 'app-prd-user-form-component',
-    templateUrl: './style-guide.component.html',
-    standalone: false
+  selector: 'app-prd-user-form-component',
+  templateUrl: './style-guide.component.html',
+  standalone: false
 })
 export class StyleGuideComponent implements OnInit {
   public styleGuideForm: FormGroup;

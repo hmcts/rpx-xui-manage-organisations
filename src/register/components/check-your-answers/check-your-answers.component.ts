@@ -10,9 +10,9 @@ import * as fromStore from '../../store';
  */
 
 @Component({
-    selector: 'app-check-your-answers',
-    templateUrl: './check-your-answers.component.html',
-    standalone: false
+  selector: 'app-check-your-answers',
+  templateUrl: './check-your-answers.component.html',
+  standalone: false
 })
 export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(

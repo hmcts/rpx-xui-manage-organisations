@@ -8,10 +8,10 @@ import { SingleAccountSummary } from '../../../fee-accounts/models/single-accoun
 import * as fromfeatureStore from '../../store';
 
 @Component({
-    selector: 'app-account-transactions',
-    templateUrl: './account-transactions.component.html',
-    styleUrls: ['./account-transactions.component.scss'],
-    standalone: false
+  selector: 'app-account-transactions',
+  templateUrl: './account-transactions.component.html',
+  styleUrls: ['./account-transactions.component.scss'],
+  standalone: false
 })
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public backUrl: string;

@@ -8,9 +8,9 @@ import { AppConstants } from '../../app.constants';
 import * as fromRoot from '../../store';
 
 @Component({
-    selector: 'app-terms-and-conditions',
-    templateUrl: './terms-and-conditions.component.html',
-    standalone: false
+  selector: 'app-terms-and-conditions',
+  templateUrl: './terms-and-conditions.component.html',
+  standalone: false
 })
 export class TermsAndConditionsComponent implements OnInit, OnDestroy {
   private readonly ROUTE_TERMS_AND_CONDITIONS_REGISTER_OTHER_ORG = 'terms-and-conditions-register-other-org';

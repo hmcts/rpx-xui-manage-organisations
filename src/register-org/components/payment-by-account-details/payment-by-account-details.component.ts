@@ -7,9 +7,9 @@ import { PbaErrorMessage } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-    selector: 'app-payment-by-account-details',
-    templateUrl: './payment-by-account-details.component.html',
-    standalone: false
+  selector: 'app-payment-by-account-details',
+  templateUrl: './payment-by-account-details.component.html',
+  standalone: false
 })
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
   public pbaDetailsFormGroup: FormGroup;

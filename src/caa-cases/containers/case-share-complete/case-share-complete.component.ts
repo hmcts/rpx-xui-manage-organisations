@@ -9,10 +9,10 @@ import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
-    selector: 'app-exui-case-share-complete',
-    templateUrl: './case-share-complete.component.html',
-    styleUrls: ['case-share-complete.component.scss'],
-    standalone: false
+  selector: 'app-exui-case-share-complete',
+  templateUrl: './case-share-complete.component.html',
+  styleUrls: ['case-share-complete.component.scss'],
+  standalone: false
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   public shareCases$: Observable<SharedCase[]>;

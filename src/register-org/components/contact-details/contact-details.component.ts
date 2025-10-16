@@ -18,7 +18,7 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
   public workEmailAddressError = null;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
   }

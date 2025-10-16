@@ -7944,7 +7944,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:8.10.0, acorn@npm:^8.1.0, acorn@npm:^8.4.1, acorn@npm:^8.8.1, acorn@npm:^8.9.0":
+"acorn@npm:8.10.0, acorn@npm:^8.1.0, acorn@npm:^8.4.1, acorn@npm:^8.8.1":
   version: 8.10.0
   resolution: "acorn@npm:8.10.0"
   bin:
@@ -7953,7 +7953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.11.0, acorn@npm:^8.14.0, acorn@npm:^8.15.0":
+"acorn@npm:^8.11.0, acorn@npm:^8.14.0, acorn@npm:^8.15.0, acorn@npm:^8.9.0":
   version: 8.15.0
   resolution: "acorn@npm:8.15.0"
   bin:
@@ -11278,13 +11278,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"deep-freeze-strict@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "deep-freeze-strict@npm:1.1.1"
-  checksum: 10/06e7a740391a09f97c2ff25c8b5fa2caccbab8de0b53db3d40f6aa49c0955366444304044cde3a9a5e7c95e973961ff9d8d05e225e208d69bbefacc38b41097d
-  languageName: node
-  linkType: hard
-
 "deep-is@npm:^0.1.3, deep-is@npm:~0.1.3":
   version: 0.1.4
   resolution: "deep-is@npm:0.1.4"
@@ -12315,7 +12308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.37.0":
+"eslint@npm:^8.57.0":
   version: 8.57.1
   resolution: "eslint@npm:8.57.1"
   dependencies:
@@ -18089,17 +18082,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngrx-store-freeze@npm:^0.2.4":
-  version: 0.2.4
-  resolution: "ngrx-store-freeze@npm:0.2.4"
-  dependencies:
-    deep-freeze-strict: "npm:^1.1.1"
-  peerDependencies:
-    "@ngrx/store": ">=4.0.0"
-  checksum: 10/55e211176c7c80a14523ad122cf006d5dedbf4b643a53fd60124eb73f86a018ade047fabcdc566eba7a13a14677b8442f56da6759e8563f7f5b8eaf36f169ddb
-  languageName: node
-  linkType: hard
-
 "ngx-chips@npm:^3.0.0":
   version: 3.0.0
   resolution: "ngx-chips@npm:3.0.0"
@@ -20953,7 +20935,7 @@ __metadata:
     dompurify: "npm:^3.2.4"
     dotenv-extended: "npm:^2.7.0"
     ejs: "npm:3.1.9"
-    eslint: "npm:^8.37.0"
+    eslint: "npm:^8.57.0"
     exceljs: "npm:^4.4.0"
     exception-formatter: "npm:^1.0.7"
     express: "npm:^4.16.4"
@@ -20989,7 +20971,6 @@ __metadata:
     moment-timezone: "npm:^0.5.28"
     mutable-div: "npm:^1.0.0"
     ng-packagr: "npm:^20.3.0"
-    ngrx-store-freeze: "npm:^0.2.4"
     ngx-chips: "npm:^3.0.0"
     ngx-cookie: "npm:6.0.1"
     ngx-cookie-service: "npm:^17.0.0"

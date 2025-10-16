@@ -12,7 +12,9 @@ module.exports = {
       './src/tsconfig.spec.json',
       './api/tsconfig.json'
     ],
-    tsconfigRootDir: __dirname
+    tsconfigRootDir: __dirname,
+    // Performance optimizations
+    createDefaultProgram: true
   },
   plugins: ['@typescript-eslint'],
   root: true,

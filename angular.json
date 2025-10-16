@@ -115,22 +115,6 @@
             ],
             "sourceMap": true
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "**/api/**",
-              "**/src/style-guide/**/*",
-              "**/projects/**",
-              "**/hmcts-form-builder/**"
-            ]
-          }
         }
       }
     },
@@ -138,15 +122,6 @@
       "root": "e2e/",
       "projectType": "application",
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
       }
     },
     "gov-ui": {
@@ -174,18 +149,6 @@
             "main": "projects/gov-ui/src/test.ts",
             "tsConfig": "projects/gov-ui/tsconfig.spec.json",
             "karmaConfig": "projects/gov-ui/karma.conf.js"
-          }
-        },
-        "lintx": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/gov-ui/tsconfig.lib.json",
-              "projects/gov-ui/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }

@@ -17,7 +17,7 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
   public companyNumberError: { id: string, message: string } = null;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
   }

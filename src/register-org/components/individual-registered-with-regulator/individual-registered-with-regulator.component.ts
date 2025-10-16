@@ -14,7 +14,7 @@ export class IndividualRegisteredWithRegulatorComponent extends RegisterComponen
   public validationErrors: { id: string, message: string }[] = [];
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
   }

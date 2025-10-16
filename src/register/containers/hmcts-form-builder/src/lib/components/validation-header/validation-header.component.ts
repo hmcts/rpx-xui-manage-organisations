@@ -3,8 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-  selector: 'app-validation-header',
-  templateUrl: './validation-header.component.html'
+    selector: 'app-validation-header',
+    templateUrl: './validation-header.component.html',
+    standalone: false
 })
 /**
  * ValidationHeaderComponent

@@ -10,8 +10,9 @@ import { OrgTypeMessageEnum } from '../../models/organisation-type.enum';
 import { RegisterOrgService } from '../../services';
 
 @Component({
-  selector: 'app-organisation-type',
-  templateUrl: './organisation-type.component.html'
+    selector: 'app-organisation-type',
+    templateUrl: './organisation-type.component.html',
+    standalone: false
 })
 export class OrganisationTypeComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;

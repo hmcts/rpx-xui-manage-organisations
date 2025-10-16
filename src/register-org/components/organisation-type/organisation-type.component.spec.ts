@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { LovRefDataModel } from '../../../shared/models/lovRefData.model';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegistrationData } from '../../models';
@@ -115,7 +116,7 @@ describe('OrganisationTypeComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [OrganisationTypeComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, ExuiCommonLibModule],
       providers: [
         { provide: LovRefDataService, useValue: mockLovRefDataService },
         { provide: Router, useValue: mockRouter },

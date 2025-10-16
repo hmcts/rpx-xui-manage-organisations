@@ -9,8 +9,9 @@ import { RegulatorType, RegulatoryType } from '../../models';
 import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
-  selector: 'app-check-your-answers',
-  templateUrl: './check-your-answers.component.html'
+    selector: 'app-check-your-answers',
+    templateUrl: './check-your-answers.component.html',
+    standalone: false
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
   @ViewChild('mainContent') public mainContentElement: ElementRef;

@@ -1,7 +1,10 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
@@ -16,7 +19,8 @@ describe('OrganisationServicesAccessComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrganisationServicesAccessComponent],
-      imports: [RouterTestingModule],
+      schemas: [NO_ERRORS_SCHEMA],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
         provideHttpClient(withInterceptorsFromDi()),

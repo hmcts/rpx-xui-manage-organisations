@@ -52,8 +52,12 @@ describe('CaaCasesComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaCasesComponent],
-      imports: [StoreModule.forRoot({}),
-        RouterTestingModule.withRoutes(AppRoutes)],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('caaCases', fromStore.reducers),
+        StoreModule.forFeature('org', fromOrganisationStore.reducers),
+        RouterTestingModule.withRoutes(AppRoutes)
+      ],
       providers: [
         { provide: CaaCasesService, useValue: caaCasesService },
         provideHttpClient(withInterceptorsFromDi()),

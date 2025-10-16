@@ -4,7 +4,7 @@ import * as fromFeature from '../reducers';
 
 export const getCaseShareState = createSelector(
   fromFeature.getRootCaaCases,
-  (state: fromFeature.CaaCasesState) => state.caseShare
+  (state: fromFeature.CaaCasesState) => state?.caseShare
 );
 
 export const getShareAssignedCaseListState = createSelector(

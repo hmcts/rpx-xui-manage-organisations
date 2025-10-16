@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -20,7 +21,7 @@ describe('PaymentByAccountDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [PaymentByAccountDetailsComponent],
       imports: [RouterTestingModule,
-        ReactiveFormsModule],
+        ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
         { provide: Router, useValue: mockRouter },

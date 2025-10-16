@@ -1,7 +1,9 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
 import { RegistrationData } from '../../models/registration-data.model';
 import { ContactDetailsComponent } from './contact-details.component';
@@ -38,7 +40,7 @@ describe('ContactDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ContactDetailsComponent],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),

@@ -63,8 +63,8 @@ export function reducer(
 }
 export const getAuthState = createFeatureSelector<AuthState>('userProfile');
 
-export const isAuthenticated = (state: AuthState) => state.isAuthenticated;
-export const getUserConfig = (state: AuthState) => state.user;
-export const isUserLoaded = (state: AuthState) => state.loaded;
-export const isUserLoading = (state: AuthState) => state.loading;
-export const gethasUserAcceptedTC = (state: AuthState) => state.tAndC;
+export const isAuthenticated = (state: AuthState) => state?.isAuthenticated;
+export const getUserConfig = (state: AuthState) => state?.user;
+export const isUserLoaded = (state: AuthState) => state?.loaded;
+export const isUserLoading = (state: AuthState) => state?.loading;
+export const gethasUserAcceptedTC = (state: AuthState) => state?.tAndC;

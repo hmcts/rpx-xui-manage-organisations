@@ -5,7 +5,7 @@ import * as fromOrganisation from '../reducers/organisation.reducer';
 
 export const getOrganisationState = createSelector(
   fromFeature.getRootOrgState,
-  (state: fromFeature.OrganisationState) => state.organisation
+  (state: fromFeature.OrganisationState) => state?.organisation
 );
 
 export const getOrganisationSel = createSelector(

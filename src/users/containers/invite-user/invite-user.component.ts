@@ -16,8 +16,9 @@ import * as fromStore from '../../store';
 * It holds the state
 * */
 @Component({
-  selector: 'app-prd-invite-user-component',
-  templateUrl: './invite-user.component.html'
+    selector: 'app-prd-invite-user-component',
+    templateUrl: './invite-user.component.html',
+    standalone: false
 })
 export class InviteUserComponent implements OnInit, OnDestroy {
   public inviteUserForm: FormGroup;

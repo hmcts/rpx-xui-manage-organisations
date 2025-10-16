@@ -4,8 +4,9 @@ import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services/index';
 
 @Component({
-  selector: 'app-prd-register-component',
-  templateUrl: './register-org.component.html'
+    selector: 'app-prd-register-component',
+    templateUrl: './register-org.component.html',
+    standalone: false
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {

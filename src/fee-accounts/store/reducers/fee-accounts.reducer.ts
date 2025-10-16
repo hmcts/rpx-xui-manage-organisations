@@ -95,8 +95,8 @@ export function reducer(
   return state;
 }
 
-export const getFeeAccounts = (state: FeeAccountsState) => state.feeAccounts;
-export const getFeeAccountsLoading = (state: FeeAccountsState) => state.loading;
-export const getFeeAccountsLoaded = (state: FeeAccountsState) => state.loaded;
-export const getOneOrMoreAccountMissingLoaded = (state: FeeAccountsState) => state.oneOrMoreAccountMissing;
-export const getFeeAccountErrorMessages = (state: FeeAccountsState) => state.errorMessages;
+export const getFeeAccounts = (state: FeeAccountsState) => state?.feeAccounts;
+export const getFeeAccountsLoading = (state: FeeAccountsState) => state?.loading;
+export const getFeeAccountsLoaded = (state: FeeAccountsState) => state?.loaded;
+export const getOneOrMoreAccountMissingLoaded = (state: FeeAccountsState) => state?.oneOrMoreAccountMissing;
+export const getFeeAccountErrorMessages = (state: FeeAccountsState) => state?.errorMessages;

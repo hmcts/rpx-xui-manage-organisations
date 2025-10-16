@@ -1,12 +1,15 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { throwError } from 'rxjs';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { RegistrationData } from '../../models/registration-data.model';
 import { RegisterOrgService } from '../../services';
 import { CheckYourAnswersComponent } from './check-your-answers.component';
+import { RegulatorListComponent } from './regulator-list/regulator-list.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('CheckYourAnswersComponent', () => {
@@ -50,8 +53,8 @@ describe('CheckYourAnswersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CheckYourAnswersComponent],
-      imports: [RouterTestingModule],
+      declarations: [CheckYourAnswersComponent, RegulatorListComponent],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         { provide: LoggerService, useValue: mockLoggerService },
         provideHttpClient(withInterceptorsFromDi()),

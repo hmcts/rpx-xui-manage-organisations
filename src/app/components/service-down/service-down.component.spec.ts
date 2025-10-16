@@ -26,7 +26,7 @@ describe('ServiceDownComponent', () => {
         provideMockStore({ initialState })
       ]
     }).compileComponents();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store) as MockStore<fromAppStore.State>;
     dispatchSpy = spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ServiceDownComponent);
     component = fixture.componentInstance;

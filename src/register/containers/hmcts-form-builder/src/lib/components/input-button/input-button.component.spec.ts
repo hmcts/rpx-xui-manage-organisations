@@ -38,7 +38,7 @@ describe('InputButtonComponent', () => {
         DatePipe]
     })
       .compileComponents();
-    mockStore = TestBed.get(Store);
+    mockStore = TestBed.inject(Store) as MockStore<State>;
   }));
 
   beforeEach(() => {

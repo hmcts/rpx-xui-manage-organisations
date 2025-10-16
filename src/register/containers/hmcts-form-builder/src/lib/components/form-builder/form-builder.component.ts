@@ -11,8 +11,9 @@ import { FormsService } from '../../services/form-builder.service';
  */
 
 @Component({
-  selector: 'app-form-builder',
-  templateUrl: './form-builder.component.html'
+    selector: 'app-form-builder',
+    templateUrl: './form-builder.component.html',
+    standalone: false
 })
 
 export class FormBuilderComponent implements OnChanges {

@@ -1,9 +1,10 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AddressMessageEnum } from '@hmcts/rpx-xui-common-lib';
+import { AddressMessageEnum, AddressService, ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { INTERNATIONAL_HEADING, POSTCODE_HEADING } from '../../constants/register-org-constants';
 import { RegisterOrgService } from '../../services';
 import { RegisteredAddressComponent } from './registered-address.component';
@@ -35,12 +36,15 @@ describe('RegisteredAddressComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [RegisteredAddressComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [{ provide: RegisterOrgService, useValue: mockRegisterOrgService },
         {
           provide: Router, useValue: mockRouter
         },
-        { provide: ActivatedRoute, useValue: mockRoute }, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+        { provide: ActivatedRoute, useValue: mockRoute },
+        AddressService,
+        provideHttpClient(withInterceptorsFromDi()), 
+        provideHttpClientTesting()]
     })
       .compileComponents();
   });

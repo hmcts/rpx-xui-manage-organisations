@@ -1,5 +1,4 @@
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
+import { SharedCase, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import * as ShareCasesActions from '../actions/share-case.action';
 
 export interface ShareCasesState {
@@ -245,6 +244,6 @@ export function sortedUserInCases(pendingSortedCases: SharedCase[]): SharedCase[
   return cases;
 }
 
-export const getShareAssignedCases = (state: ShareCasesState) => state.shareAssignedCases;
-export const getShareUnassignedCases = (state: ShareCasesState) => state.shareUnassignedCases;
-export const getOrganisationUsers = (state: ShareCasesState) => state.users;
+export const getShareAssignedCases = (state: ShareCasesState) => state?.shareAssignedCases;
+export const getShareUnassignedCases = (state: ShareCasesState) => state?.shareUnassignedCases;
+export const getOrganisationUsers = (state: ShareCasesState) => state?.users;

@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { RpxTranslationConfig, RpxTranslationService } from 'rpx-xui-translation';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import {
   RegistrationData,
   RegulatorType,
@@ -62,7 +64,7 @@ describe('RegulatorDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [RegulatorDetailsComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, ExuiCommonLibModule],
       providers: [
         {
           provide: ActivatedRoute, useValue: mockRoute
@@ -70,6 +72,8 @@ describe('RegulatorDetailsComponent', () => {
         {
           provide: LovRefDataService, useValue: mockLovRefDataService
         },
+        RpxTranslationService,
+        RpxTranslationConfig,
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]

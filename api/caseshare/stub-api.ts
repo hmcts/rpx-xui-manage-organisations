@@ -1,5 +1,4 @@
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
+import { SharedCase, UserDetails } from '@hmcts/rpx-xui-common-lib';
 import { plainToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { DataBaseModel } from './models/data-base.model';

@@ -8,8 +8,9 @@ import { Payment } from '../../models/pba-transactions';
  */
 
 @Component({
-  selector: 'app-prd-transactions-component',
-  templateUrl: './transactions.component.html'
+    selector: 'app-prd-transactions-component',
+    templateUrl: './transactions.component.html',
+    standalone: false
 })
 export class TransactionsComponent implements OnChanges {
   @Input() public transactions = Array<Payment>();

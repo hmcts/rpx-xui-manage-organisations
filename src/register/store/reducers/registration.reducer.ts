@@ -349,11 +349,11 @@ export function reducer(
   }
 }
 
-export const getRegistrationFormPages = (state: RegistrationFormState) => state.pages;
-export const getRegistrationFormPagesValues = (state: RegistrationFormState) => state.pagesValues;
-export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) => state.submitted;
-export const getRegistrationNextUrl = (state: RegistrationFormState) => state.nextUrl;
-export const getRegistrationFromLoading = (state: RegistrationFormState) => state.loading;
-export const getRegistrationErrorMessages = (state: RegistrationFormState) => state.errorMessage;
-export const getRegistrationErrorMessagesCodes = (state: RegistrationFormState) => state.errorMessageCode;
+export const getRegistrationFormPages = (state: RegistrationFormState) => state?.pages;
+export const getRegistrationFormPagesValues = (state: RegistrationFormState) => state?.pagesValues;
+export const getRegistrationFromPagesSubmitted = (state: RegistrationFormState) => state?.submitted;
+export const getRegistrationNextUrl = (state: RegistrationFormState) => state?.nextUrl;
+export const getRegistrationFromLoading = (state: RegistrationFormState) => state?.loading;
+export const getRegistrationErrorMessages = (state: RegistrationFormState) => state?.errorMessage;
+export const getRegistrationErrorMessagesCodes = (state: RegistrationFormState) => state?.errorMessageCode;
 

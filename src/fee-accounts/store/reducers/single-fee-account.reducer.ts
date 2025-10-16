@@ -60,10 +60,10 @@ export function reducer(
   return state;
 }
 
-export const getSingleFeeAccountOverview = (state: SingleFeeAccountState) => state.overview.data;
-export const getSingleFeeAccountOverviewLoading = (state: SingleFeeAccountState) => state.overview.loading;
-export const getSingleFeeAccountOverviewLoaded = (state: SingleFeeAccountState) => state.overview.loaded;
+export const getSingleFeeAccountOverview = (state: SingleFeeAccountState) => state?.overview?.data;
+export const getSingleFeeAccountOverviewLoading = (state: SingleFeeAccountState) => state?.overview?.loading;
+export const getSingleFeeAccountOverviewLoaded = (state: SingleFeeAccountState) => state?.overview?.loaded;
 
-export const getSingleFeeAccountTransactions = (state: SingleFeeAccountState) => state.transactions.data;
-export const getSingleFeeAccountTransactionsLoading = (state: SingleFeeAccountState) => state.transactions.loading;
-export const getSingleFeeAccountTransactionsLoaded = (state: SingleFeeAccountState) => state.transactions.loaded;
+export const getSingleFeeAccountTransactions = (state: SingleFeeAccountState) => state?.transactions?.data;
+export const getSingleFeeAccountTransactionsLoading = (state: SingleFeeAccountState) => state?.transactions?.loading;
+export const getSingleFeeAccountTransactionsLoaded = (state: SingleFeeAccountState) => state?.transactions?.loaded;

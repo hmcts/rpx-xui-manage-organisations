@@ -1,8 +1,11 @@
 import * as propertiesVolume from '@hmcts/properties-volume';
-import config from 'config';
+import * as configModule from 'config';
 
 import { DEVELOPMENT, HTTP } from './constants';
 import { ENVIRONMENT, PROTOCOL } from './references';
+
+// Handle both CommonJS and ES module exports - Consider uniform exports in future
+const config = (configModule as any).default || configModule;
 
 /**
  * If you are running locally you might need to set the mountPoint up as documented in the readme.

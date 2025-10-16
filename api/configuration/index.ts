@@ -1,5 +1,5 @@
 import * as propertiesVolume from '@hmcts/properties-volume';
-import * as config from 'config';
+import config from 'config';
 
 import { DEVELOPMENT, HTTP } from './constants';
 import { ENVIRONMENT, PROTOCOL } from './references';

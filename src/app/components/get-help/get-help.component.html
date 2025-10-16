@@ -16,7 +16,7 @@
         <a href="mailto:MyHMCTSsupport@justice.gov.uk">MyHMCTSsupport&#64;justice.gov.uk</a>
       </div>
       <div>Contact us for help with registering your organisation or managing your account.</div>
-      @for (help of getHelpData; track help) {
+      @for (help of getHelpData; track trackByHelpItem($index, help)) {
         <xuilib-contact-details [data]="help"></xuilib-contact-details>
       }
     </div>

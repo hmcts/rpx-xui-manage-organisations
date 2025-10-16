@@ -5,7 +5,7 @@
   </h2>
   <div class="govuk-error-summary__body">
     <ul class="govuk-list govuk-error-summary__list">
-      @for (validationHeaderErrorMessage of validationHeaderErrorMessages; track validationHeaderErrorMessage) {
+      @for (validationHeaderErrorMessage of validationHeaderErrorMessages; track trackByValidationError($index, validationHeaderErrorMessage)) {
         <li>
           @if (isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_CONTROL) &&
             !isFormControlValid(formGroup, validationHeaderErrorMessage.controlId)) {

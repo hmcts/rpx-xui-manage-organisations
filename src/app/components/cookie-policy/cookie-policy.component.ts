@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-cookie-policy',
@@ -38,5 +39,10 @@ export class CookiePolicyComponent {
 
   public cookiesByCat(category: string): {name: string, cat: string, purpose: string, expires: string}[] {
     return this.cookieDetails.filter((c) => c.cat === category);
+  }
+
+  // trackBy helper to avoid NG0956 re-render warnings
+  public trackByCookie(index: number, cookie: {name: string, cat: string}): string | number {
+    return buildIdOrIndexKey(index, cookie as any, 'name');
   }
 }

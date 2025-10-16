@@ -11,7 +11,7 @@
 
         <table class="govuk-table">
           <tbody class="govuk-table__body">
-            @for (pba of currentPaymentAccounts; track pba) {
+            @for (pba of currentPaymentAccounts; track trackByExistingPba($index, pba)) {
               <tr class="govuk-table__row">
                 <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
                 <td class="govuk-table__cell">
@@ -32,7 +32,7 @@
               </tr>
             </thead>
             <tbody class="govuk-table__body">
-              @for (pba of organisationDetails.pendingRemovePaymentAccount; track pba) {
+              @for (pba of organisationDetails.pendingRemovePaymentAccount; track trackByPendingRemovePba($index, pba)) {
                 <tr class="govuk-table__row">
                   <th class="govuk-table__header" scope="row">{{pba.pbaNumber}}</th>
                   <td class="govuk-table__cell">
@@ -47,7 +47,7 @@
         }
         <form [formGroup]="pbaFormGroup" id="new-pba-form">
           <div formArrayName="pbaNumbers">
-            @for (pbaNumberCtrl of pbaNumbers.controls; track pbaNumberCtrl; let i = $index) {
+            @for (pbaNumberCtrl of pbaNumbers.controls; track trackByPbaControl($index, pbaNumberCtrl); let i = $index) {
               <div>
                 <div [formGroupName]="i">
                   <button type="button" class="govuk-button hmcts-button--secondary fright"

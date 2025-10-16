@@ -12,6 +12,7 @@ import {
   CaaCasesPageType
 } from '../../models/caa-cases.enum';
 import { CaaCasesSessionStateValue } from '../../models/caa-cases.model';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from '../../../shared/utils/track-by.util';
 
 @Component({
   selector: 'app-caa-filter',
@@ -216,5 +217,20 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
 
     // Validation succeeded, return true
     return true;
+  }
+
+  // Defensive trackBy to ensure unique, non-empty keys in autocomplete group iteration
+  public trackByFilteredUserGroup(index: number, group: { key: string; value: any }): string | number {
+    return buildIdOrIndexKey(index, group as any, 'key');
+  }
+
+  public trackByFilteredUser(index: number, user: User): string | number {
+    return buildCompositeTrackKey(index,
+      (user as any)?.idamId,
+      (user as any)?.userIdentifier,
+      user?.email,
+      user?.fullName,
+      user ? ((user.firstName || '') + ' ' + (user.lastName || '')).trim() : ''
+    );
   }
 }

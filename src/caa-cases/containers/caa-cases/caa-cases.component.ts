@@ -22,6 +22,7 @@ import {
 } from '../../models/caa-cases.enum';
 import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
+import { buildCompositeTrackKey } from '../../../shared/utils/track-by.util';
 
 @Component({
   selector: 'app-caa-cases-component',
@@ -344,6 +345,16 @@ export class CaaCasesComponent implements OnInit {
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {
     this.errorMessages = errorMessages;
+  }
+
+  // trackBy for error messages to avoid duplicate empty fieldId collisions
+  public trackByCaaErrorMessage(index: number, error: ErrorMessage): string | number {
+    return buildCompositeTrackKey(index, error?.fieldId, error?.description);
+  }
+
+  // Defensive trackBy for nav tabs: combine id/text and append index to avoid duplicate empty keys
+  public trackByNavItem(index: number, item: any): string | number {
+    return buildCompositeTrackKey(index, item?.id, item?.text);
   }
 
   public getNoCasesFoundMessage(): string {

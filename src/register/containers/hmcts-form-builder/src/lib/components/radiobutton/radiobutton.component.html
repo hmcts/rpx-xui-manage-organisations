@@ -5,7 +5,7 @@
     }
   }
   <div [class]="classes" [formGroup]="group" id="{{control}}">
-    @for (data of items; track data; let i = $index) {
+    @for (data of items; track trackByRadioItem($index, data); let i = $index) {
       @if (data.devider) {
         <div class="govuk-radios__divider">{{data.devider}}</div>
       }
@@ -17,7 +17,7 @@
           </label>
           @if (data.list) {
             <ul [class]="'govuk-list' + data.list.classes">
-              @for (item of data.list.text; track item) {
+              @for (item of data.list.text; track trackByListItem($index, item)) {
                 <li>{{ item }}</li>
               }
             </ul>
@@ -32,7 +32,7 @@
       <div class="govuk-form-group">
         @if (data.groups && group.value[control]===data.value) {
           <div class="govuk-radios__conditional">
-            @for (subgroup of data.groups; track subgroup) {
+            @for (subgroup of data.groups; track trackBySubGroup($index, subgroup)) {
               @if (subgroup.fieldset) {
                 <app-fieldset
                   [classes]="'govuk-fieldset'"

@@ -2,7 +2,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-xl">{{currentError.header}}</h1>
-      @for (error of currentError.errors; track error) {
+      @for (error of currentError.errors; track trackByServiceDownError($index, error)) {
         <p class="govuk-body">
           @if (error.urlText) {
             <a routerLink="{{error.url}}" target="{{showErrorLinkWithNewTab(error.newTab)}}">{{error.urlText}} </a>

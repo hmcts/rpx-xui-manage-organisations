@@ -14,7 +14,7 @@
             </h2>
             <div class="govuk-error-summary__body">
               <ul class="govuk-list govuk-error-summary__list">
-                @for (errorMessage of errorMessages; track errorMessage) {
+                @for (errorMessage of errorMessages; track trackByCaaErrorMessage($index, errorMessage)) {
                   <li>
                     <a href="{{caaCasesPageType}}#{{errorMessage.fieldId}}">{{errorMessage.description}}</a>
                   </li>
@@ -59,7 +59,7 @@
       }
       @if (navItems && navItems.length > 0) {
         <mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
-          @for (navItem of navItems; track navItem; let last = $last) {
+          @for (navItem of navItems; track trackByNavItem($index, navItem); let last = $last) {
             <mat-tab [id]="navItem.id" [label]="navItem.text">
               @if ((casesError$ | async)) {
                 <div id="cases-error" class="govuk-!-margin-top-7">

@@ -144,7 +144,7 @@
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">Service to access</dt>
         <dd class="govuk-summary-list__value">
-          @for (service of services; track service) {
+          @for (service of services; track trackByService($index, service)) {
             <div>
               {{service}}
             </div>
@@ -176,7 +176,7 @@
         <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">What PBA numbers does your organisation use?</dt>
           <dd class="govuk-summary-list__value">
-            @for (pbaNumber of registrationData.pbaNumbers; track pbaNumber) {
+            @for (pbaNumber of registrationData.pbaNumbers; track trackByOrgPba($index, pbaNumber)) {
               <div>
                 {{pbaNumber}}
               </div>

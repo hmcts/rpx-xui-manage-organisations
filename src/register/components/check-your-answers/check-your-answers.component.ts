@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { select, Store } from '@ngrx/store';
 
 import { FormDataValuesModel } from '../../models/form-data-values.model';
@@ -56,5 +57,9 @@ export class CheckYourAnswersComponent implements OnInit, OnDestroy, AfterViewIn
 
   public onSubmitData(): void {
     this.submit.emit();
+  }
+
+  public trackByPbaNumber(index: number, value: string): string | number {
+    return buildIdOrIndexKey(index, { value } as any, 'value');
   }
 }

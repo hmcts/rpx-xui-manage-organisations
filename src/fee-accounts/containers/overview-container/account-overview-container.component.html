@@ -9,15 +9,15 @@
       <caption class="govuk-table__caption">{{caption}}</caption>
       <thead class="govuk-table__head" >
         <tr class="govuk-table__row">
-          @for (h of columnConfig; track h) {
+          @for (h of columnConfig; track trackByAccountOverviewHeader($index, h)) {
             <th class="govuk-table__header" scope="col">{{h.header}}</th>
           }
         </tr>
       </thead>
       <tbody class="govuk-table__body">
-        @for (r of rows; track r) {
+        @for (r of rows; track trackByAccountOverviewRow($index, r)) {
           <tr data-selector="table-row" class="govuk-table__row">
-            @for (col of columnConfig; track col; let isFirst = $first) {
+            @for (col of columnConfig; track trackByAccountOverviewHeader($index, col); let isFirst = $first) {
               @if (isFirst && firstCellIsHeader) {
                 <th data-selector="table-header" class="govuk-table__header" scope="row" >
                   @if (!col.type || col.type === 'text' || !r.routerLink) {

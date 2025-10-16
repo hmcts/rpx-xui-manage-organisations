@@ -27,7 +27,7 @@
       <div app-govuk-dl-list-item class="govuk-check-your-answers__contents">
         <ng-container question>PBA number</ng-container>
         <ng-container answer>
-          @for (PBANumber of formDataValues.PBANumbers; track PBANumber) {
+          @for (PBANumber of formDataValues.PBANumbers; track trackByPbaNumber(PBANumber, $index)) {
             <div>
               <span>{{ PBANumber }}</span><br>
             </div>

@@ -37,7 +37,7 @@
           <form [formGroup]="regulatorDetailsFormGroup">
             <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': validationErrors.length}">
               <ng-container formArrayName="regulators">
-                @for (_ of regulators.controls; track _; let i = $index) {
+                @for (_ of regulators.controls; track trackByRegulatorControl($index); let i = $index) {
                   <div
                     class="govuk-!-margin-bottom-6"
                     [ngClass]="{'govuk-form-group--error': duplicatesIndex?.length}">
@@ -78,7 +78,7 @@
                         name="regulatorType" formControlName="regulatorType"
                         (change)="onOptionSelected($event.target.value, i)">
                         <option [ngValue]="SELECT_A_VALUE" disabled>--Select a value--</option>
-                        @for (regulatorType of regulatorTypes$ | async; track regulatorType) {
+                        @for (regulatorType of regulatorTypes$ | async; track trackByRegulatorType($index, regulatorType)) {
                           <option
                             [value]="regulatorType.name">
                             {{regulatorType.name}}

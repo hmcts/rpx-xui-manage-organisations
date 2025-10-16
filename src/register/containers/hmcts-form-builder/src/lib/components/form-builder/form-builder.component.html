@@ -14,7 +14,7 @@
           {{pageItems.header}}
         </h1>
       }
-      @for (group of pageItems.groups; track group) {
+      @for (group of pageItems.groups; track trackByFormGroup($index, group)) {
         <div class="govuk-form-group">
           @if (group.fieldset) {
             <app-fieldset

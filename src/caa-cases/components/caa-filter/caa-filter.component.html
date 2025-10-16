@@ -53,10 +53,10 @@
                           [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith"
                           [ngClass]="{'govuk-input--error': assigneeNameErrorMessage.length > 0}">
                         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
-                          @for (filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue; track filteredAndGroupedUser) {
+                          @for (filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue; track trackByFilteredUserGroup($index, filteredAndGroupedUser)) {
                             <mat-optgroup>
                               <span class="mat-group-header">{{ filteredAndGroupedUser.key }}</span>
-                              @for (user of filteredAndGroupedUser.value; track user) {
+                              @for (user of filteredAndGroupedUser.value; track trackByFilteredUser($index, user)) {
                                 <mat-option
                                   [value]="user"
                                   [ngClass]="{'hide-autocomplete': !showAutocomplete}">

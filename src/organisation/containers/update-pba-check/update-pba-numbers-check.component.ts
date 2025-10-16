@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { OrganisationDetails, PBANumberModel, PendingPaymentAccount } from '../../../models';
 import { ErrorMessage } from '../../organisation-constants';
 import { PBAService } from '../../services/pba.service';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from '../../../shared/utils/track-by.util';
 import * as fromStore from '../../store';
 import * as organisationActions from '../../store/actions';
 
@@ -69,6 +70,19 @@ export class UpdatePbaNumbersCheckComponent implements OnInit, OnDestroy {
         this.errors.push(err);
       }
     });
+  }
+
+  // trackBy helpers to avoid duplicate key / identity recreation warnings
+  public trackByPbaError(index: number, error: ErrorMessage): string | number {
+    return buildCompositeTrackKey(index, (error as any)?.headerError, (error as any)?.pbaNumber);
+  }
+
+  public trackByPendingAddPba(index: number, pba: PBANumberModel): string | number {
+    return buildIdOrIndexKey(index, pba as any, 'pbaNumber');
+  }
+
+  public trackByPendingRemovePba(index: number, pba: PBANumberModel): string | number {
+    return buildIdOrIndexKey(index, pba as any, 'pbaNumber');
   }
 
   private getOrganisationDetailsFromStore(): void {

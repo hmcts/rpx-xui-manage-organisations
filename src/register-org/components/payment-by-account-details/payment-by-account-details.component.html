@@ -13,7 +13,7 @@
       <hr>
         <form [formGroup]="pbaDetailsFormGroup">
           <div class="govuk-!-margin-top-4" id="pba-numbers-container" formArrayName="pbaNumbers">
-            @for (pbaNumberCtrl of pbaNumbers.controls; track pbaNumberCtrl; let i = $index) {
+            @for (pbaNumberCtrl of pbaNumbers.controls; track trackByPbaControl($index, pbaNumberCtrl); let i = $index) {
               <div>
                 <div [ngClass]="{'govuk-form-group--error': validationErrors[i]?.message?.length > 0}">
                   <div class="govuk-!-margin-bottom-6" [formGroupName]="i">

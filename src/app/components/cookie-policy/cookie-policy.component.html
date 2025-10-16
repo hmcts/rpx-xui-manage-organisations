@@ -45,7 +45,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(GOOGLE)">
+          <tr class="govuk-table__row" scope="col" *ngFor="let cookie of cookiesByCat(GOOGLE); trackBy: trackByCookie">
             <td class="govuk-table__cell">{{cookie.name}}</td>
             <td class="govuk-table__cell">{{cookie.purpose}}</td>
             <td class="govuk-table__cell">{{cookie.cat}}</td>
@@ -64,7 +64,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (cookie of cookiesByCat(USAGE); track cookie) {
+          @for (cookie of cookiesByCat(USAGE); track trackByCookie($index, cookie)) {
             <tr class="govuk-table__row" scope="col">
               <td class="govuk-table__cell">{{cookie.name}}</td>
               <td class="govuk-table__cell">{{cookie.purpose}}</td>
@@ -88,7 +88,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (cookie of cookiesByCat(INTRO); track cookie) {
+          @for (cookie of cookiesByCat(INTRO); track trackByCookie($index, cookie)) {
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">{{cookie.name}}</td>
               <td class="govuk-table__cell">{{cookie.purpose}}</td>
@@ -113,7 +113,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (cookie of cookiesByCat(SESSION); track cookie) {
+          @for (cookie of cookiesByCat(SESSION); track trackByCookie($index, cookie)) {
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">{{cookie.name}}</td>
               <td class="govuk-table__cell">{{cookie.purpose}}</td>
@@ -136,7 +136,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (cookie of cookiesByCat(IDENTIFY); track cookie) {
+          @for (cookie of cookiesByCat(IDENTIFY); track trackByCookie($index, cookie)) {
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">{{cookie.name}}</td>
               <td class="govuk-table__cell">{{cookie.purpose}}</td>
@@ -160,7 +160,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (cookie of cookiesByCat(SECURITY); track cookie) {
+          @for (cookie of cookiesByCat(SECURITY); track trackByCookie($index, cookie)) {
             <tr class="govuk-table__row">
               <td class="govuk-table__cell">{{cookie.name}}</td>
               <td class="govuk-table__cell">{{cookie.purpose}}</td>

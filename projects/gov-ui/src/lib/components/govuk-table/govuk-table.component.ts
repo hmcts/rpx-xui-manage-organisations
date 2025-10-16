@@ -1,15 +1,15 @@
-import {formatDate} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { AppUtils } from '../../../../../../src/app/utils/app-utils';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
-    selector: 'app-govuk-table',
-    templateUrl: './govuk-table.component.html',
-    styleUrls: ['./govuk-table.component.scss'],
-    standalone: false
+  selector: 'app-govuk-table',
+  templateUrl: './govuk-table.component.html',
+  styleUrls: ['./govuk-table.component.scss'],
+  standalone: false
 })
 export class GovukTableComponent {
-
     @Input() classes = '';
 
     @Input() caption = 'Dates and amounts';
@@ -18,20 +18,29 @@ export class GovukTableComponent {
     @Input() rows;
 
     @Input() columnConfig: GovukTableColumnConfig[] = [
-        { header: 'Date', key: 'date', type: 'text' },
-        { header: 'Amount', key: 'amount' }
+      { header: 'Date', key: 'date', type: 'text' },
+      { header: 'Amount', key: 'amount' }
     ];
 
     constructor() {}
 
     public formatDate(date: Date): string {
-        return formatDate(date, 'dd/MM/yyyy', 'en-UK');
+      return formatDate(date, 'dd/MM/yyyy', 'en-UK');
     }
 
     public formatDateAtTime(date: Date): string {
-        return AppUtils.formatDateAtTime(date, false);
+      return AppUtils.formatDateAtTime(date, false);
     }
 
+    public trackByColumn(index: number, col: GovukTableColumnConfig): string | number {
+      return buildIdOrIndexKey(index, col as any, 'key', 'header');
+    }
+
+    public trackByRow(index: number, row: any): string | number {
+      // Include possible identifiers; stringify routerLink for stability
+      const routerLinkStr = row?.routerLink ? JSON.stringify(row.routerLink) : '';
+      return buildCompositeTrackKey(index, row?.id, row?.key, routerLinkStr);
+    }
 }
 
 export class GovukTableColumnConfig {

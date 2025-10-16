@@ -5,6 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
 
 import { OrganisationDetails, PBANumberModel } from '../../../models';
+import { buildIdOrIndexKey } from '../../../shared/utils/track-by.util';
 import * as fromStore from '../../store';
 
 @Component({
@@ -242,5 +243,23 @@ export class PbaNumbersFormComponent implements OnInit {
       }
       return null;
     };
+  }
+
+  // Track functions to avoid NG0956 repeated DOM churn
+  public trackByExistingPba(index: number, pba: PBANumberModel): string | number {
+    return buildIdOrIndexKey(index, pba as any, 'pbaNumber');
+  }
+
+  public trackByPendingRemovePba(index: number, pba: PBANumberModel): string | number {
+    return buildIdOrIndexKey(index, pba as any, 'pbaNumber');
+  }
+
+  public trackByPbaControl(index: number, ctrl: AbstractControl): string {
+    // Attach a stable key if not present
+    const anyCtrl = ctrl as any;
+    if (!anyCtrl.__trackKey) {
+      anyCtrl.__trackKey = `pbaCtrl_${Date.now()}_${index}`;
+    }
+    return anyCtrl.__trackKey;
   }
 }

@@ -1,5 +1,5 @@
 <fieldset [attr.validate]="validate" [class]="classes" [attr.data]="data" [attr.group]="group">
-  @for (item of data; track item) {
+  @for (item of data; track trackByFieldsetItem(item, $index)) {
     @if (item.legend) {
       <legend [class]="'govuk-fieldset__legend ' + item.legend.classes">
         <h2 class="govuk-heading-xl">

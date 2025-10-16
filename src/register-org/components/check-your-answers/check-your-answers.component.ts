@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
@@ -99,5 +100,13 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       }
       return null;
     };
+  }
+
+  public trackByService(index: number, service: string): string | number {
+    return buildIdOrIndexKey(index, { value: service } as any, 'value');
+  }
+
+  public trackByOrgPba(index: number, pba: string): string | number {
+    return buildIdOrIndexKey(index, { value: pba } as any, 'value');
   }
 }

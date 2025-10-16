@@ -5,7 +5,7 @@
     </h2>
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
-        @for (errorMessage of errorMessages; track errorMessage) {
+        @for (errorMessage of errorMessages; track trackByFeeAccountError($index, errorMessage)) {
           <li>
             <a href="#fee-error">{{ errorMessage }}</a>
           </li>

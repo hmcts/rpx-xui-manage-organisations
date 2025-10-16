@@ -1,5 +1,6 @@
 
 import { AfterViewInit, Component, Inject, Input, OnChanges, SimpleChanges, DOCUMENT } from '@angular/core';
+import { buildIdOrIndexKey } from '../../utils/track-by.util';
 
 /*
   Error Summary component
@@ -44,5 +45,10 @@ export class HmctsErrorSummaryComponent implements AfterViewInit, OnChanges {
 
   public hasElement(selector: string): boolean {
     return this.document.querySelector(`#${selector}`);
+  }
+
+  // Stable identity for messages; prefer explicit id, fallback to message text or index (index passed from template)
+  public trackByMessage(index: number, msg: any): string | number {
+    return buildIdOrIndexKey(index, msg, 'id', 'message', 'text');
   }
 }

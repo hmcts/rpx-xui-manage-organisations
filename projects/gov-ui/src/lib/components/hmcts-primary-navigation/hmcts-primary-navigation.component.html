@@ -5,7 +5,7 @@
         <div class="govuk-header__logo"></div>
       }
       <ul class="hmcts-primary-navigation__list">
-        @for (item of items; track item) {
+          @for (item of items; track trackByNavItem($index, item)) {
           <li class="hmcts-primary-navigation__item" >
             <a class="hmcts-primary-navigation__link" routerLinkActive #rla="routerLinkActive" [attr.aria-current]="item.active || rla.isActive ? true: null" [routerLink]="item.href">{{item.text}}</a>
           </li>

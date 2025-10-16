@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -309,5 +310,20 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
     });
     return this.duplicatesIndex.length > 0;
+  }
+
+  // trackBy helpers
+  public trackByRegulatorControl(index: number): string | number {
+    const fg = this.regulators?.at?.(index);
+    // Use shared composite key builder; falls back to index when all empty
+    return buildCompositeTrackKey(index,
+      fg?.get('regulatorType')?.value,
+      fg?.get('regulatorName')?.value,
+      fg?.get('organisationRegistrationNumber')?.value
+    );
+  }
+
+  public trackByRegulatorType(index: number, regulatorType: any): string | number {
+    return buildIdOrIndexKey(index, regulatorType as any, 'name', 'id');
   }
 }

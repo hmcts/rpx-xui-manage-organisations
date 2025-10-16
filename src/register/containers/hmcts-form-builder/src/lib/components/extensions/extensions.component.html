@@ -7,7 +7,7 @@
   <div class="govuk-details__text">
     {{text}}
     <ul >
-      @for (item of ul; track item) {
+      @for (item of ul; track trackByExtensionItem($index, item)) {
         <li>{{ item }}</li>
       }
     </ul>

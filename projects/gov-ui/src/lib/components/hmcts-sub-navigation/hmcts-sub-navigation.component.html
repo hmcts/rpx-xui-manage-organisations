@@ -1,6 +1,6 @@
 <nav class="hmcts-sub-navigation" attr.aria-label="{{label}}" role="navigation">
   <ul class="hmcts-sub-navigation__list">
-    @for (item of items; track item) {
+  @for (item of items; track trackBySubNavItem($index, item)) {
       <li class="hmcts-sub-navigation__item">
         <ng-container >
           <a data-selector="sub-nav-link"

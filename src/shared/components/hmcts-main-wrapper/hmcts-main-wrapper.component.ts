@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { buildCompositeTrackKey } from '../../utils/track-by.util';
 
 /*
 * Main Content wrapper
@@ -29,4 +30,8 @@ export class HmctsMainWrapperComponent {
 
   @Input() public actionButtons: { name: string, class: string, action: () => void }[];
   @Input() public showWarningMessage: boolean;
+
+  public trackByActionButton(index: number, btn: { name: string; class: string }): string | number {
+    return buildCompositeTrackKey(index, btn?.name, btn?.class);
+  }
 }

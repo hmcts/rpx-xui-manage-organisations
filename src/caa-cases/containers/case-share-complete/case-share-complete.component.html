@@ -40,7 +40,7 @@
       @if (!(removeUserFromCaseToggleOn$ | async)) {
         <p id="add-user-error" class="govuk-body">We couldn't share access to the following cases:</p>
       }
-      @for (acase of newShareCases; track acase) {
+      @for (acase of newShareCases; track trackByShareCase($index, acase)) {
         <div>
           @if (showUserAccessBlock(acase)) {
             <div>
@@ -59,7 +59,7 @@
                   </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                  @for (user of acase.pendingShares; track user) {
+                  @for (user of acase.pendingShares; track trackByPendingUser($index, user)) {
                     <tr class="govuk-table__row">
                       <td class="govuk-table__cell">{{ user.firstName + ' ' + user.lastName }}</td>
                       <td class="govuk-table__cell">{{ user.email }}</td>
@@ -68,7 +68,7 @@
                       </td>
                     </tr>
                   }
-                  @for (user of acase.pendingUnshares; track user) {
+                  @for (user of acase.pendingUnshares; track trackByPendingUser($index, user)) {
                     <tr class="govuk-table__row">
                       <td class="govuk-table__cell">{{ user.firstName + ' ' + user.lastName }}</td>
                       <td class="govuk-table__cell">{{ user.email }}</td>

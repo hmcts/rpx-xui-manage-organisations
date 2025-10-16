@@ -22,7 +22,7 @@
     @if (actionButtons?.length > 0) {
       <div class="govuk-grid-column-one-third">
         <div class="hmcts-page-heading__actions-wrapper">
-          @for (actionButton of actionButtons; track actionButton) {
+          @for (actionButton of actionButtons; track trackByActionButton($index, actionButton)) {
             <button
               (click)="actionButton.action()"
               tabindex="0"

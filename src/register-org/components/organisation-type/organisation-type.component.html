@@ -26,7 +26,7 @@
                   Select the type of organisation you are registering. If you are not sure, select 'Other'.
                 </div>
                 <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
-                  @for (organisationType of organisationTypes; track organisationType) {
+                  @for (organisationType of organisationTypes; track trackByOrgType($index, organisationType)) {
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" type="radio"
                         [id]="organisationType.key" name="organisationType" [value]="organisationType.key" formControlName="organisationType"
@@ -53,7 +53,7 @@
                           [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
                           id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
                           <option [ngValue]="'none'" disabled>--Select a value--</option>
-                          @for (otherOrganisationType of otherOrganisationTypes; track otherOrganisationType) {
+                          @for (otherOrganisationType of otherOrganisationTypes; track trackByOtherOrgType($index, otherOrganisationType)) {
                             <option [ngValue]="otherOrganisationType.key">
                               {{otherOrganisationType.value_en}}
                             </option>

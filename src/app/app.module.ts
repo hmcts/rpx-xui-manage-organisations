@@ -8,7 +8,6 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 // ngrx
 import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from '../environments/environment';
@@ -43,9 +42,8 @@ import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 import { OrganisationModule } from 'src/organisation/organisation.module';
 
-export const metaReducers: MetaReducer<any>[] = !environment.production
-  ? [storeFreeze]
-  : [];
+// storeFreeze replaced by NgRx runtimeChecks in v20+; keep metaReducers empty.
+export const metaReducers: MetaReducer<any>[] = [];
 
 export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): string {
   return envConfig.launchDarklyClientId || '';
@@ -63,7 +61,18 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
     anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
   }),
   SharedModule,
-  StoreModule.forRoot(reducers, { metaReducers }),
+  StoreModule.forRoot(reducers, {
+    metaReducers,
+    runtimeChecks: !environment.production ? {
+      strictStateImmutability: true,
+      strictActionImmutability: true,
+      // Serializability checks disabled due to existing non-serializable values (e.g. router state, complex lib objects)
+      strictStateSerializability: false,
+      strictActionSerializability: false,
+      strictActionWithinNgZone: true,
+      strictActionTypeUniqueness: true
+    } : {}
+  }),
   EffectsModule.forRoot(effects),
   UserProfileModule,
   OrganisationModule,

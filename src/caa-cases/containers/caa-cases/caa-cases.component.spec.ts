@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromOrganisationStore from '../../../organisation/store';
 import {
@@ -19,6 +19,7 @@ import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/ca
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { ROUTES as AppRoutes } from 'src/app/app.routes';
 
 describe('CaaCasesComponent', () => {
@@ -52,12 +53,14 @@ describe('CaaCasesComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaCasesComponent],
-      imports: [StoreModule.forRoot({}),
-        RouterTestingModule.withRoutes(AppRoutes)],
+      imports: [
+        RouterTestingModule.withRoutes(AppRoutes)
+      ],
       providers: [
         { provide: CaaCasesService, useValue: caaCasesService },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     }).compileComponents();
   }));

@@ -16,8 +16,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
-  // Angular Router exposes getCurrentNavigation(); currentNavigation is not an invocable function.
-  this.routerCurrentNavigation = this.router.getCurrentNavigation?.();
+    // Angular Router exposes getCurrentNavigation(); currentNavigation is not an invocable function.
+    this.routerCurrentNavigation = this.router.getCurrentNavigation?.();
   }
 
   public get currentNavigation(): Navigation {

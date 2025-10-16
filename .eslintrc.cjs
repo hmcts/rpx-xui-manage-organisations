@@ -22,6 +22,8 @@ module.exports = {
     'src/karma.conf.js',
     'stryker.node.conf.js',
     'api/stryker.node.conf.js',
+    // Ignore webpack config (plain JS) from type-aware linting
+    'api/webpack-node.config.js',
     'src/assets/**/*',
     'src/app/assets/**/*'
   ],
@@ -99,8 +101,18 @@ module.exports = {
     {
       files: ['**/*.spec.ts', '**/*.spec.js'],
       rules: { 
+        // Chai / Sinon assertion style uses expression chains (e.g. expect(x).to.be.true)
+        // Disable both the base and TS variant of unused-expressions in test specs
         'no-unused-expressions': 'off',
-        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-vars': 'off'
+      }
+    },
+    {
+      // Pact spec files legitimately use require() (Pact examples / dynamic loading)
+      files: ['api/test/pact/pact-tests/**/*.spec.ts'],
+      rules: {
+        '@typescript-eslint/no-require-imports': 'off'
       }
     }
   ]

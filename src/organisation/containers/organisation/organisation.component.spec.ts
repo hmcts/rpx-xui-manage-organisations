@@ -2,13 +2,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation } from '../../../models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
-import * as fromOrgStore from '../../../users/store';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { OrganisationComponent } from './organisation.component';
 
 const storeMock = {
@@ -36,7 +35,7 @@ const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['
 describe('OrganisationComponent', () => {
   let component: OrganisationComponent;
   let fixture: ComponentFixture<OrganisationComponent>;
-  let store: Store<fromOrgStore.UserState>;
+  let store: Store<any>;
 
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
@@ -100,30 +99,15 @@ describe('OrganisationComponent', () => {
   };
 
   beforeEach(() => {
-    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
     featureToggleServiceMock.getValue.and.returnValue(of(true));
     lovRefDataServiceMock.getListOfValues.and.returnValue(of(mockOrgTypes));
 
-    dispatchSpy = spyOn(storeMock, 'dispatch');
-
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({
-          ...fromRoot.reducers,
-          feature: combineReducers(fromOrgStore.reducers)
-        })
-      ],
+      imports: [],
       declarations: [OrganisationComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {
-          provide: Store,
-          useValue: authStoreMock
-        },
-        {
-          provide: Store,
-          useValue: storeMock
-        },
+        ...buildMockStoreProviders(),
         {
           provide: LovRefDataService,
           useValue: lovRefDataServiceMock
@@ -135,8 +119,9 @@ describe('OrganisationComponent', () => {
         OrganisationComponent
       ]
     }).compileComponents();
-
     store = TestBed.inject(Store);
+    pipeSpy = spyOn(store, 'pipe').and.returnValue(of(mockOrganisationDetails));
+    dispatchSpy = spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(OrganisationComponent);
     component = fixture.componentInstance;

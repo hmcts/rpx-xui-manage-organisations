@@ -1,12 +1,15 @@
 import * as healthcheck from '@hmcts/nodejs-healthcheck';
 import { getContentSecurityPolicy, SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
-import * as bodyParser from 'body-parser';
-import * as cookieParser from 'cookie-parser';
+import * as bodyParserModule from 'body-parser';
+import * as cookieParserModule from 'cookie-parser';
 import * as expressModule from 'express';
-import * as helmet from 'helmet';
+import * as helmetModule from 'helmet';
 
-// Handle both CommonJS and ES module exports for Express
+// Handle both CommonJS and ES module exports
 const express = (expressModule as any).default || expressModule;
+const helmet = (helmetModule as any).default || helmetModule;
+const bodyParser = (bodyParserModule as any).default || bodyParserModule;
+const cookieParser = (cookieParserModule as any).default || cookieParserModule;
 import { attach, getXuiNodeMiddleware } from './auth';
 import { environmentCheckText, getConfigValue, getEnvironment, showFeature } from './configuration';
 import { ERROR_NODE_CONFIG_ENV } from './configuration/constants';

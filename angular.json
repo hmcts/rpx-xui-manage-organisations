@@ -23,7 +23,8 @@
             ],
             "aot": true,
             "outputPath": {
-              "base": "dist/rpx-xui-manage-organisations"
+              "base": "dist/rpx-xui-manage-organisations",
+              "browser": ""
             },
             "index": "src/index.html",
             "polyfills": ["zone.js"],

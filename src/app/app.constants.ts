@@ -15,7 +15,7 @@ const featureNames = {
  */
 const STATIC_FEATURE_NAMES = {
   feeAccount: 'fee-and-accounts',
-  caaMenuItems: 'mo-caa-menu-items',
+  caaMenuItems: 'mo-caa-menu-items'
 };
 
 export const STATIC_FEATURE_FLAGS = [

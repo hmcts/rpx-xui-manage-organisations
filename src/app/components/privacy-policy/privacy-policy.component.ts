@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-privacy-policy',
-    templateUrl: './privacy-policy.component.html',
-    standalone: false
+  selector: 'app-privacy-policy',
+  templateUrl: './privacy-policy.component.html',
+  standalone: false
 })
 export class PrivacyPolicyComponent implements OnInit {
   constructor(private readonly route: ActivatedRoute) {}

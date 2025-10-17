@@ -3,10 +3,10 @@ import { AppConstants } from '../../app.constants';
 import { Helper, Navigation } from './footer.model';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.scss'],
-    standalone: false
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
+  standalone: false
 })
 export class FooterComponent {
   public helpData: Helper = AppConstants.FOOTER_DATA;

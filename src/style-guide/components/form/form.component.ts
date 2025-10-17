@@ -4,9 +4,9 @@ import { FormGroup } from '@angular/forms';
 import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-form.constants';
 
 @Component({
-    selector: 'app-form',
-    templateUrl: './form.component.html',
-    standalone: false
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  standalone: false
 })
 export class FormComponent implements OnInit {
   @Output() public submitForm = new EventEmitter();

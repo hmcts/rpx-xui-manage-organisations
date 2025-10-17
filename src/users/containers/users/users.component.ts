@@ -9,10 +9,10 @@ import { UsersService } from '../../../users/services';
 import * as fromStore from '../../store';
 
 @Component({
-    selector: 'app-prd-users-component',
-    templateUrl: './users.component.html',
-    styleUrls: ['./users.component.scss'],
-    standalone: false
+  selector: 'app-prd-users-component',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss'],
+  standalone: false
 })
 export class UsersComponent implements OnInit, OnDestroy {
   @Output() public paginationEvent = new EventEmitter<number>();

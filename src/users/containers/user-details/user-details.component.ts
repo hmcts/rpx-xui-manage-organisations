@@ -9,10 +9,10 @@ import * as fromStore from '../../store';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-prd-user-details-component',
-    templateUrl: './user-details.component.html',
-    styleUrls: ['./user-details.component.scss'],
-    standalone: false
+  selector: 'app-prd-user-details-component',
+  templateUrl: './user-details.component.html',
+  styleUrls: ['./user-details.component.scss'],
+  standalone: false
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
   public editPermissionRouter: string;

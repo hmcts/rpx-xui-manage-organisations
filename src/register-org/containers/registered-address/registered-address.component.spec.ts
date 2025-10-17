@@ -43,7 +43,7 @@ describe('RegisteredAddressComponent', () => {
         },
         { provide: ActivatedRoute, useValue: mockRoute },
         AddressService,
-        provideHttpClient(withInterceptorsFromDi()), 
+        provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()]
     })
       .compileComponents();

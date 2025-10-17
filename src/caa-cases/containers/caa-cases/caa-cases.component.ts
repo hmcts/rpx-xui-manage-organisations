@@ -24,9 +24,9 @@ import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../..
 import * as fromStore from '../../store';
 
 @Component({
-    selector: 'app-caa-cases-component',
-    templateUrl: './caa-cases.component.html',
-    standalone: false
+  selector: 'app-caa-cases-component',
+  templateUrl: './caa-cases.component.html',
+  standalone: false
 })
 export class CaaCasesComponent implements OnInit {
   public cases$: Observable<any>;

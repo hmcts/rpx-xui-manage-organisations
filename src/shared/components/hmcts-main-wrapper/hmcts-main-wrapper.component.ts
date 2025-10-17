@@ -12,10 +12,10 @@ import { Component, Input } from '@angular/core';
  * @prop back link, back action, title (title), summaryErrors (array of errors), action buttons (array of buttons)
 * */
 @Component({
-    selector: 'app-hmcts-main-wrapper',
-    templateUrl: './hmcts-main-wrapper.component.html',
-    styles: ['.govuk-back-link { cursor: pointer }'],
-    standalone: false
+  selector: 'app-hmcts-main-wrapper',
+  templateUrl: './hmcts-main-wrapper.component.html',
+  styles: ['.govuk-back-link { cursor: pointer }'],
+  standalone: false
 })
 export class HmctsMainWrapperComponent {
   @Input() public backLink: string;

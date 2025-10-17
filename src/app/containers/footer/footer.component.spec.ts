@@ -8,7 +8,7 @@ describe('FooterComponent', () => {
     selector: 'app-host-dummy-component',
     template: '<app-footer></app-footer>',
     standalone: false
-})
+  })
   class TestDummyHostComponent {
     @ViewChild(FooterComponent, { static: true })
     public footerComponent: FooterComponent;

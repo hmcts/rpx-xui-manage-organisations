@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'app-account-overview-container',
-    templateUrl: './account-overview-container.component.html',
-    standalone: false
+  selector: 'app-account-overview-container',
+  templateUrl: './account-overview-container.component.html',
+  standalone: false
 })
 export class OrganisationAccountsOverviewContainerComponent {
   @Input() public classes = '';

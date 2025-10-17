@@ -8,10 +8,10 @@ import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
-    selector: 'app-exui-case-share-confirm',
-    templateUrl: './case-share-confirm.component.html',
-    styleUrls: ['./case-share-confirm.component.scss'],
-    standalone: false
+  selector: 'app-exui-case-share-confirm',
+  templateUrl: './case-share-confirm.component.html',
+  styleUrls: ['./case-share-confirm.component.scss'],
+  standalone: false
 })
 export class CaseShareConfirmComponent implements OnInit {
   public shareCases$: Observable<SharedCase[]>;

@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-    selector: 'app-hidden-input',
-    templateUrl: './hidden-input.component.html',
-    standalone: false
+  selector: 'app-hidden-input',
+  templateUrl: './hidden-input.component.html',
+  standalone: false
 })
 export class HiddenInputComponent implements OnInit{
   @Input() public group: FormGroup;

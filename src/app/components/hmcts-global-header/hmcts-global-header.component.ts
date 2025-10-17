@@ -5,10 +5,10 @@ import { AppTitlesModel } from '../../../app/models/app-titles.model';
 import * as fromRoot from '../../store';
 
 @Component({
-    selector: 'app-hmcts-global-header',
-    templateUrl: './hmcts-global-header.component.html',
-    styleUrls: ['./hmcts-global-header.component.scss'],
-    standalone: false
+  selector: 'app-hmcts-global-header',
+  templateUrl: './hmcts-global-header.component.html',
+  styleUrls: ['./hmcts-global-header.component.scss'],
+  standalone: false
 })
 export class HmctsGlobalHeaderComponent {
     @Input() public set userLoggedIn(value) {

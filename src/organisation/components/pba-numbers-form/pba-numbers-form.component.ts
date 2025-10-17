@@ -8,9 +8,9 @@ import { OrganisationDetails, PBANumberModel } from '../../../models';
 import * as fromStore from '../../store';
 
 @Component({
-    selector: 'app-prd-pba-numbers-form-component',
-    templateUrl: './pba-numbers-form.component.html',
-    standalone: false
+  selector: 'app-prd-pba-numbers-form-component',
+  templateUrl: './pba-numbers-form.component.html',
+  standalone: false
 })
 export class PbaNumbersFormComponent implements OnInit {
   public readonly title = 'Add or remove PBA accounts';

@@ -3,9 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
 
 @Component({
-    selector: 'app-validation-error-formgroup',
-    templateUrl: './validation-error-formgroup.component.html',
-    standalone: false
+  selector: 'app-validation-error-formgroup',
+  templateUrl: './validation-error-formgroup.component.html',
+  standalone: false
 })
 
 /**

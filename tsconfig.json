@@ -39,7 +39,8 @@
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "commonjs"
+      "module": "es2022",
+      "moduleResolution": "bundler"
     }
   }
 }

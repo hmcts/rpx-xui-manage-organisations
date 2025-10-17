@@ -448,6 +448,7 @@ xui-webapp:
     devmemoryRequests: 1024Mi
     devmemoryLimits: 1024Mi
     environment:
+      DUMMY_VAR: 1
       SERVICES_CCD_COMPONENT_API: https://gateway-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_CCD_DATA_STORE_API: http://ccd-data-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
       SERVICES_DOCUMENTS_API_V2: http://${SERVICE_NAME}-ccd-case-document-am-api

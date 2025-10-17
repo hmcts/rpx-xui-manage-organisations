@@ -5,7 +5,8 @@ import { UserNavModel } from './models/user-nav.model';
 
 const featureNames = {
   editUserPermissions: 'edit-permissions',
-  newRegisterOrg: 'mo-new-register-org'
+  newRegisterOrg: 'mo-new-register-org',
+  removeUserFromCase: 'remove-user-from-case-mo'
 };
 
 /**
@@ -14,7 +15,7 @@ const featureNames = {
  */
 const STATIC_FEATURE_NAMES = {
   feeAccount: 'fee-and-accounts',
-  caaMenuItems: 'mo-caa-menu-items'
+  caaMenuItems: 'mo-caa-menu-items',
 };
 
 export const STATIC_FEATURE_FLAGS = [

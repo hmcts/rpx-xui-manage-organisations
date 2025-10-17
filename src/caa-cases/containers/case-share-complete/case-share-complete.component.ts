@@ -56,7 +56,8 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
       this.newShareCases = shareCases;
     });
 
-    this.removeUserFromCaseToggleOn$ = of(false);
+    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
+    this.removeUserFromCaseToggleOn$ = of(true);
     this.isFromAssignedCasesRoute = this.router.url.startsWith('/assigned-cases');
   }
 

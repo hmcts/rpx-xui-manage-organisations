@@ -1,5 +1,5 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-import * as Mocha from 'mocha';
+import * as MochaModule from 'mocha';
 import { config } from '../../../api/lib/config';
 import * as tunnel from '../../../api/lib/tunnel';
 
@@ -7,6 +7,8 @@ if (config.proxy) {
   tunnel.init();
 }
 
+// Handle both CommonJS and ES module exports
+const Mocha = (MochaModule as any).default || MochaModule;
 const mocha = new Mocha({
   ui: 'tdd',
   // reporter: 'spec',

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareComponent } from './case-share.component';
@@ -34,7 +34,7 @@ describe('CaseShareComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareComponent],
       providers: [
-        provideMockStore(),
+        ...buildMockStoreProviders(),
         {
           provide: FeatureToggleService,
           useValue: mockFeatureToggleService

@@ -10,7 +10,8 @@ import * as fromfeatureStore from '../../store';
 @Component({
   selector: 'app-account-transactions',
   templateUrl: './account-transactions.component.html',
-  styleUrls: ['./account-transactions.component.scss']
+  styleUrls: ['./account-transactions.component.scss'],
+  standalone: false
 })
 export class AccountTransactionsComponent implements OnInit, OnDestroy {
   public backUrl: string;

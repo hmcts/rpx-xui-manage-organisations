@@ -4,7 +4,7 @@ import { MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs'
 import { Router } from '@angular/router';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
 import { User } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CaaCasesService } from '../../../caa-cases/services';
@@ -22,10 +22,12 @@ import {
 } from '../../models/caa-cases.enum';
 import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/caa-cases.model';
 import * as fromStore from '../../store';
+import { buildCompositeTrackKey } from '../../../shared/utils/track-by.util';
 
 @Component({
   selector: 'app-caa-cases-component',
-  templateUrl: './caa-cases.component.html'
+  templateUrl: './caa-cases.component.html',
+  standalone: false
 })
 export class CaaCasesComponent implements OnInit {
   public cases$: Observable<any>;
@@ -343,6 +345,16 @@ export class CaaCasesComponent implements OnInit {
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {
     this.errorMessages = errorMessages;
+  }
+
+  // trackBy for error messages to avoid duplicate empty fieldId collisions
+  public trackByCaaErrorMessage(index: number, error: ErrorMessage): string | number {
+    return buildCompositeTrackKey(index, error?.fieldId, error?.description);
+  }
+
+  // Defensive trackBy for nav tabs: combine id/text and append index to avoid duplicate empty keys
+  public trackByNavItem(index: number, item: any): string | number {
+    return buildCompositeTrackKey(index, item?.id, item?.text);
   }
 
   public getNoCasesFoundMessage(): string {

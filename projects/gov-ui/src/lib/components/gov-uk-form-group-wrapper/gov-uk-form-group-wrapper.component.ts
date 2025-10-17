@@ -6,8 +6,8 @@ import {Component, Input} from '@angular/core';
 * and errorMessage messages
 * */
 @Component({
-  selector: 'lib-gov-uk-form-group-wrapper',
-  template: `
+    selector: 'lib-gov-uk-form-group-wrapper',
+    template: `
     <div class="govuk-form-group" [attr.formGroupName]="group" [ngClass]="{'govuk-form-group--error': (error?.isInvalid)}">
       <lib-gov-uk-fieldset
         [config]="{legend: config.legend, classes: 'govuk-label--m', id: config.key, hint: config.hint}"
@@ -20,7 +20,8 @@ import {Component, Input} from '@angular/core';
 
       </lib-gov-uk-fieldset>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkFormGroupWrapperComponent {
   constructor () {}

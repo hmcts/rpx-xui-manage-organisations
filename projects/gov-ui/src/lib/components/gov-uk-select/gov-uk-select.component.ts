@@ -6,21 +6,26 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 * dropdown input.
 * */
 @Component({
-  selector: 'lib-gov-select',
-  template: `
+    selector: 'lib-gov-select',
+    template: `
     <div class="govuk-form-group" [formGroup]="group"
-         [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
+      [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
       <lib-gov-label [config]="config"></lib-gov-label>
-      <span *ngIf="config.hint" [id]="config.id +'-hint'" class="govuk-hint">
+      @if (config.hint) {
+        <span [id]="config.id +'-hint'" class="govuk-hint">
           {{config.hint}}
-      </span>
+        </span>
+      }
       <lib-gov-uk-error-message [config]="config" [errorMessage]="errorMessage"></lib-gov-uk-error-message>
-
+    
       <select class="govuk-select" [id]="config.id" [name]="config.id" [formControlName]="config.id" [attr.aria-describedby]='setDescribedBy()'>
-        <option value="{{item.value}}" *ngFor="let item of items">{{item.label}}</option>
+        @for (item of items; track item) {
+          <option value="{{item.value}}">{{item.label}}</option>
+        }
       </select>
     </div>
-  `
+    `,
+    standalone: false
 })
 export class GovUkSelectComponent {
   constructor () {}

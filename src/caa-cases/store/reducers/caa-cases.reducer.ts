@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { SubNavigation } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/hmcts-sub-navigation/hmcts-sub-navigation.component';
+import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
 import { CaaCases, SelectedCases } from '../../models/caa-cases.model';
 import * as fromCaaActions from '../actions/caa-cases.actions';
 

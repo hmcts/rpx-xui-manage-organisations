@@ -1,47 +1,51 @@
-  <!--permissions -->
-  <ng-container [formGroup]="inviteUserForm">
-    <lib-gov-uk-form-group-wrapper
+<!--permissions -->
+<ng-container [formGroup]="inviteUserForm">
+  <lib-gov-uk-form-group-wrapper
       [config]="{hint: 'Choose at least one action the user can do. You can change this later.',
       legend: 'What user Permissions would you like to approve?', key: 'roles'}"
-      [formGroupName]="'roles'"
-      [error]="errorMessages">
+    [formGroupName]="'roles'"
+    [error]="errorMessages">
 
-      <div class="govuk-checkboxes">
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['roles']"
-          [isChecked]="isPuiCaseManager"
-          [config]="{value: 'pui-case-manager',  label: 'Manage Cases', name: 'roles', hint: 'Log in to Manage Cases, create, view and progress legal cases.', focusOn: 'roles', hiddenLabelContext: 'Permit users to '}">
-        </lib-gov-checkbox>
+    <div class="govuk-checkboxes">
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [isChecked]="isPuiCaseManager"
+        [config]="{value: 'pui-case-manager',  label: 'Manage Cases', name: 'roles', hint: 'Log in to Manage Cases, create, view and progress legal cases.', focusOn: 'roles', hiddenLabelContext: 'Permit users to '}">
+      </lib-gov-checkbox>
 
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['roles']"
-          [isChecked]="isPuiUserManager"
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [isChecked]="isPuiUserManager"
           [config]="{value: 'pui-user-manager', label: 'Manage Users', name: 'roles',
           hint: 'View the organisation users, update user permissions, invite new users, suspend user accounts.', hiddenLabelContext: 'Permit users to '}">
-        </lib-gov-checkbox>
+      </lib-gov-checkbox>
 
-        <lib-gov-checkbox
-          [group]="inviteUserForm.controls['roles']"
-          [isChecked]="isPuiOrganisationManager"
+      <lib-gov-checkbox
+        [group]="inviteUserForm.controls['roles']"
+        [isChecked]="isPuiOrganisationManager"
           [config]="{value: 'pui-organisation-manager', label: 'Manage Organisation', name: 'roles',
           hint: 'View the registered organisation details.', hiddenLabelContext: 'Permit users to '}">
-        </lib-gov-checkbox>
+      </lib-gov-checkbox>
 
-        <lib-gov-checkbox id="checkbox-grant-case-access-admin" *ngIf="grantCaseAccessAdmin$ | async"
+      @if (grantCaseAccessAdmin$ | async) {
+        <lib-gov-checkbox id="checkbox-grant-case-access-admin"
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isCaseAccessAdmin"
           [config]="{value: 'pui-caa', label: 'Case Access Administrator', name: 'roles',
           hint: 'View and update case assignments which are associated with your organisation. Not all services support the assigned and unassigned cases view.',
           hiddenLabelContext: 'Permit users to '}">
         </lib-gov-checkbox>
+      }
 
-        <lib-gov-checkbox id="checkbox-grant-finance-manager"  *ngIf="grantFinanceManager$ | async"
+      @if (grantFinanceManager$ | async) {
+        <lib-gov-checkbox id="checkbox-grant-finance-manager"
           [group]="inviteUserForm.controls['roles']"
           [isChecked]="isPuiFinanceManager"
           [config]="{value: 'pui-finance-manager', label: 'Manage Fee Accounts', name: 'roles',
           hint: 'View and update the Payment By Account (PBA) numbers associated with your organisation. The Manage Fee Accounts permission is also required to view historic and pending financial transactions in Manage Cases.'}">
         </lib-gov-checkbox>
-      </div>
+      }
+    </div>
 
-    </lib-gov-uk-form-group-wrapper>
-  </ng-container>
+  </lib-gov-uk-form-group-wrapper>
+</ng-container>

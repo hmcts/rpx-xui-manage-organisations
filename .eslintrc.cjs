@@ -22,6 +22,7 @@ module.exports = {
     '@typescript-eslint/no-extra-semi': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-require-imports': 'off',
     'array-bracket-spacing': 'error',
     'arrow-parens': ['error', 'always'],
     'arrow-spacing': 'error',
@@ -89,10 +90,16 @@ module.exports = {
   'overrides': [
     {
       files: ['**/*.spec.ts', '**/*.spec.js'],
-      rules: { 
+      rules: {
         'no-unused-expressions': 'off',
         '@typescript-eslint/no-unused-vars': 'off',
       }
+    },
+    {
+        files: ['src/assets/**/*.js'],
+        rules: {
+          '@typescript-eslint/no-unused-expressions': 'off'
+        }
     }
   ]
 };

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
@@ -57,6 +57,7 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
     });
 
     this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
+    this.removeUserFromCaseToggleOn$ = of(true);
     this.isFromAssignedCasesRoute = this.router.url.startsWith('/assigned-cases');
   }
 

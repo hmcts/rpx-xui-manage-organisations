@@ -5,7 +5,7 @@ import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.m
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { getRouterState, RouterStateUrl } from '../../../app/store/reducers';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
@@ -79,7 +79,7 @@ export class CaseShareComponent implements OnInit {
       // call api to retrieve users in the same organisation
       this.store.dispatch(new LoadUserFromOrgForCase());
     }
-    this.removeUserFromCaseToggleOn$ = this.featureToggleService.getValue('remove-user-from-case-mo', false);
+    this.removeUserFromCaseToggleOn$ = of(false);
 
     // initialize javascript for accordion component to enable open/close button
     setTimeout(() => initAll(), 1000);

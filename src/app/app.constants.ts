@@ -5,7 +5,6 @@ import { UserNavModel } from './models/user-nav.model';
 
 const featureNames = {
   editUserPermissions: 'edit-permissions',
-  removeUserFromCase: 'remove-user-from-case-mo',
   newRegisterOrg: 'mo-new-register-org'
 };
 
@@ -15,14 +14,12 @@ const featureNames = {
  */
 const STATIC_FEATURE_NAMES = {
   feeAccount: 'fee-and-accounts',
-  caaMenuItems: 'mo-caa-menu-items',
-  newRegisterOrg: 'mo-new-register-org'
+  caaMenuItems: 'mo-caa-menu-items'
 };
 
 export const STATIC_FEATURE_FLAGS = [
   { featureName: STATIC_FEATURE_NAMES.feeAccount, isEnabled: false },
-  { featureName: STATIC_FEATURE_NAMES.caaMenuItems, isEnabled: true },
-  { featureName: STATIC_FEATURE_NAMES.newRegisterOrg, isEnabled: true }
+  { featureName: STATIC_FEATURE_NAMES.caaMenuItems, isEnabled: true }
 ];
 
 const navItemsArray: NavItemModel[] = [

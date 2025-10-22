@@ -1,14 +1,150 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" http-equiv="encoding">
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manage organisation</title>
+
+  <!-- ▸ expose the per-request nonce -->
+  <meta name="csp-nonce" content="{{cspNonce}}">
+
+  <!-- ▸ MONKEY-PATCH – must run before any vendor script -->
+  <script nonce="{{cspNonce}}">
+    (() => {
+      const FLAG = '__style_nonce_patched_v2__';
+      if (window[FLAG]) return; window[FLAG] = true;
+
+      const n = document.querySelector('meta[name="csp-nonce"]')?.content;
+      if (!n) return;
+
+      // Help webpack style-loader / dynamic imports
+      try { Object.defineProperty(window, '__webpack_nonce__', { value: n, writable: false }); } catch { }
+
+      /* ---------- helpers ---------- */
+      const isEl = (x) => x && x.nodeType === 1;
+      const stampStyleEl = (el) => {
+        if (isEl(el) && el.localName === 'style' && !el.hasAttribute('nonce')) {
+          el.setAttribute('nonce', n);
+        }
+      };
+      const stampAllStyles = (root) => {
+        if (!root || !root.querySelectorAll) return;
+        root.querySelectorAll('style:not([nonce])').forEach(stampStyleEl);
+      };
+      const stampStyleInHtml = (html) =>
+        String(html).replace(/<style(?![^>]*\bnonce=)/gi, `<style nonce="${n}"`);
+
+      // Observe a root (document or shadowRoot) for any newly added <style> tags
+      const observeTree = (root) => {
+        try {
+          const mo = new MutationObserver((muts) => {
+            for (const m of muts) {
+              if (m.type === 'childList' && m.addedNodes?.length) {
+                m.addedNodes.forEach((node) => {
+                  if (isEl(node)) {
+                    if (node.localName === 'style') stampStyleEl(node);
+                    // Also scan descendants just in case a chunk of HTML was inserted
+                    stampAllStyles(node);
+                  }
+                });
+              }
+            }
+          });
+          mo.observe(root, { subtree: true, childList: true });
+        } catch { }
+        // First pass on existing nodes in this root
+        stampAllStyles(root);
+      };
+
+      // Patch attachShadow to also observe shadow roots (and stamp any existing <style>)
+      const _attachShadow = Element.prototype.attachShadow;
+      if (_attachShadow) {
+        Element.prototype.attachShadow = function (init) {
+          const sr = _attachShadow.call(this, init);
+          // For open roots we can stamp/observe directly
+          try { observeTree(sr); } catch { }
+          return sr;
+        };
+      }
+
+      /* ---------- capture originals ---------- */
+      const _Doc_createElement = Document.prototype.createElement;
+      const _El_insertAdjacentHTML = Element.prototype.insertAdjacentHTML;
+      const ihDesc = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+      const _DOM_parseFromString = DOMParser.prototype.parseFromString;
+      const _Range_createContextualFragment = Range.prototype.createContextualFragment;
+
+      /* ---------- 1) createElement: JS-created <style>/<script> ---------- */
+      Document.prototype.createElement = function (tag, opts) {
+        const el = _Doc_createElement.call(this, tag, opts);
+        const t = String(tag).toLowerCase();
+        if ((t === 'style' || t === 'script') && !el.hasAttribute('nonce')) {
+          el.setAttribute('nonce', n);
+        }
+        return el;
+      };
+
+      /* ---------- 2) insertAdjacentHTML: stamp the HTML string ---------- */
+      Element.prototype.insertAdjacentHTML = function (position, html) {
+        return _El_insertAdjacentHTML.call(this, position, stampStyleInHtml(html));
+      };
+
+      /* ---------- 3) innerHTML: stamp the HTML string ---------- */
+      if (ihDesc?.configurable && ihDesc.set) {
+        Object.defineProperty(Element.prototype, 'innerHTML', {
+          configurable: true,
+          enumerable: ihDesc.enumerable,
+          get: ihDesc.get,
+          set: function (html) {
+            ihDesc.set.call(this, stampStyleInHtml(html));
+          }
+        });
+      }
+
+      /* ---------- 4) DOMParser: post-stamp parsed docs ---------- */
+      DOMParser.prototype.parseFromString = function (str, type) {
+        const doc = _DOM_parseFromString.call(this, str, type);
+        if (type && /html/i.test(type)) stampAllStyles(doc);
+        return doc;
+      };
+
+      /* ---------- 5) Range#createContextualFragment: stamp before/after ---------- */
+      Range.prototype.createContextualFragment = function (html) {
+        // Pre-stamp any <style> in the HTML string
+        const frag = _Range_createContextualFragment.call(this, stampStyleInHtml(html));
+        // Safety: walk the fragment in case browser normalized something we missed
+        try {
+          if (frag && frag.querySelectorAll) {
+            frag.querySelectorAll('style:not([nonce])').forEach(stampStyleEl);
+          }
+        } catch { }
+        return frag;
+      };
+
+      /* ---------- 6) Global safety net for late inserts ---------- */
+      observeTree(document);
+
+      // Optional: quick console warnings for debugging (comment out in prod)
+      // new MutationObserver(muts => {
+      //   for (const m of muts) {
+      //     if (m.type === 'attributes' && /^on/i.test(m.attributeName)) {
+      //       console.warn('Inline event handler attribute blocked by CSP:', m.attributeName, m.target);
+      //     }
+      //     if (m.type === 'attributes' && m.attributeName === 'style') {
+      //       console.warn('Inline style attribute blocked by CSP:', m.target, m.target.getAttribute('style'));
+      //     }
+      //   }
+      // }).observe(document, { subtree: true, attributes: true });
+    })();
+  </script>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body class="govuk-template__body js-enabled">
   <app-root></app-root>
 </body>
+
 </html>

@@ -1,7 +1,7 @@
 <main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <button class="govuk-js-back-link" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <h1 class="govuk-heading-xl">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
@@ -13,7 +13,7 @@
               <dt class="govuk-summary-list__key">Organisation type</dt>
               <dd class="govuk-summary-list__value">Other: {{registrationData.otherOrganisationType.description}}</dd>
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="javascript:void(0)"
+                <a class="govuk-link"
                   routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
                   Change<span class="govuk-visually-hidden">Organisation type</span>
                 </a>
@@ -25,7 +25,7 @@
               <dt class="govuk-summary-list__key">Organisation details</dt>
               <dd class="govuk-summary-list__value">{{registrationData.otherOrganisationDetail}}</dd>
               <dd class="govuk-summary-list__actions">
-                <a class="govuk-link" href="javascript:void(0)"
+                <a class="govuk-link"
                   routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
                   Change<span class="govuk-visually-hidden">Organisation details</span>
                 </a>
@@ -40,7 +40,7 @@
           <dt class="govuk-summary-list__key">Organisation name</dt>
           <dd class="govuk-summary-list__value">{{ registrationData.companyName }}</dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
+            <a class="govuk-link"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
               Change<span class="govuk-visually-hidden">Organisation name</span>
             </a>
@@ -55,7 +55,7 @@
             <dt class="govuk-summary-list__key">Organisation type</dt>
             <dd class="govuk-summary-list__value">{{registrationData.organisationType.description}}</dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
+              <a class="govuk-link"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
                 Change<span class="govuk-visually-hidden">Organisation type</span>
               </a>
@@ -71,7 +71,7 @@
             <dt class="govuk-summary-list__key">Company registration number</dt>
             <dd class="govuk-summary-list__value">{{registrationData.companyHouseNumber}}</dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
+              <a class="govuk-link"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
                 Change<span class="govuk-visually-hidden">Company registration number</span>
               </a>
@@ -100,7 +100,7 @@
               <div>{{registrationData.address.country}}</div>
             </dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
+              <a class="govuk-link"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-address/internal">
                 Change<span class="govuk-visually-hidden">Organisation address</span>
               </a>
@@ -116,7 +116,7 @@
             {{ registrationData.hasDxReference ? 'Yes' : 'No'}}
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
+            <a class="govuk-link"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference">
               Change<span class="govuk-visually-hidden">DX reference</span>
             </a>
@@ -131,7 +131,7 @@
             }
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
+            <a class="govuk-link"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/document-exchange-reference-details">
               Change<span class="govuk-visually-hidden">DX number</span>
             </a>
@@ -151,7 +151,7 @@
           }
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="javascript:void(0)"
+          <a class="govuk-link"
             routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-services-access">
             Change<span class="govuk-visually-hidden">Service to access</span>
           </a>
@@ -166,7 +166,7 @@
           {{ registrationData.hasPBA ? 'Yes' : 'No'}}
         </dd>
         <dd class="govuk-summary-list__actions">
-          <a class="govuk-link" href="javascript:void(0)"
+          <a class="govuk-link"
             routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account">
             Change<span class="govuk-visually-hidden">Organisation PBA</span>
           </a>
@@ -183,7 +183,7 @@
             }
           </dd>
           <dd class="govuk-summary-list__actions">
-            <a class="govuk-link" href="javascript:void(0)"
+            <a class="govuk-link"
               routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account-details">
               Change<span class="govuk-visually-hidden">PBA number(s)</span>
             </a>
@@ -207,7 +207,7 @@
             <dt class="govuk-summary-list__key">First name(s)</dt>
             <dd class="govuk-summary-list__value">{{registrationData.contactDetails.firstName}}</dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
+              <a class="govuk-link"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
                 Change<span class="govuk-visually-hidden">First name(s)</span>
               </a>
@@ -219,7 +219,7 @@
             <dt class="govuk-summary-list__key">Last name</dt>
             <dd class="govuk-summary-list__value">{{registrationData.contactDetails.lastName}}</dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
+              <a class="govuk-link"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
                 Change<span class="govuk-visually-hidden">Last name</span>
               </a>
@@ -231,7 +231,7 @@
             <dt class="govuk-summary-list__key">Email address</dt>
             <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.workEmailAddress }}</dd>
             <dd class="govuk-summary-list__actions">
-              <a class="govuk-link" href="javascript:void(0)"
+              <a class="govuk-link"
                 routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
                 Change<span class="govuk-visually-hidden">Email address</span>
               </a>
@@ -276,7 +276,7 @@
             name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
           <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
             You have read, understood and will abide by the
-            <a href="javascript:void(0)" target="_blank"
+            <a target="_blank"
             routerLink="/terms-and-conditions">terms and conditions</a>
             and are eligible for an account to manage your organisation and cases
           </label>
@@ -284,7 +284,7 @@
         <div class="govuk-!-margin-top-6">
           <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="submit">Confirm and submit</button>
         </div>
-        <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+        <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
       </form>
     </div>
   </div>

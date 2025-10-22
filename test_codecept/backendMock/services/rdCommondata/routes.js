@@ -7,7 +7,7 @@ const service = require('./index')
 
 
 
-router.get('/categories/OrgType', (req, res) => {
+router.get('/categories', (req, res) => {
     res.send({ list_of_values: lovRefData_OrgTypes })
 });
 

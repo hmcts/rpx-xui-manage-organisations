@@ -29,6 +29,22 @@ import * as tunnel from './lib/tunnel';
 import openRoutes from './openRoutes';
 import routes from './routes';
 import { idamCheck } from './idamCheck';
+import { MO_CSP } from './interfaces/csp-config';
+
+function loadIndexHtml(): string {
+  // production build output
+  let p = path.join(__dirname, '..', 'index.html');
+  if (!existsSync(p)) {
+    // running from sources - use the template inside src/
+    p = path.join(__dirname, '..', 'src', 'index.html');
+  }
+  return readFileSync(p, 'utf8');
+}
+const indexHtmlRaw = loadIndexHtml();
+
+function injectNonce(html: string, nonce: string): string {
+  return html.replace(/{{cspNonce}}/g, nonce);
+}
 
 export const app = express();
 
@@ -49,8 +65,18 @@ logger.info(environmentCheckText());
 
 if (showFeature(FEATURE_HELMET_ENABLED)) {
   logger.info('Helmet enabled');
-  app.use(helmet(getConfigValue(HELMET)));
-  app.use(getContentSecurityPolicy(helmet));
+  const helmetConfig = getConfigValue(HELMET);
+  if (helmetConfig && typeof helmetConfig === 'object') {
+    app.use(helmet(helmetConfig)); // use the configured rules
+  } else {
+    app.use(helmet()); // fall back to Helmet defaults
+  }
+  app.use(
+    csp({
+      defaultCsp: SECURITY_POLICY,
+      ...MO_CSP
+    })
+  );
   app.use(helmet.hidePoweredBy());
   app.disable('x-powered-by');
   app.disable('X-Powered-By');
@@ -58,8 +84,8 @@ if (showFeature(FEATURE_HELMET_ENABLED)) {
 
 app.use(cookieParser(getConfigValue(SESSION_SECRET)));
 
-app.use(getXuiNodeMiddleware());
 tunnel.init();
+app.use(getXuiNodeMiddleware());
 
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
@@ -129,5 +155,25 @@ app.use('/external', openRoutes);
  *
  */
 app.use('/api', routes);
+
+// Serve /index.html through the same nonce injector
+// This is to ensure that <MC URL>/index.html works with CSP
+app.get('/index.html', (req, res) => {
+  const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
+  res
+    .type('html')
+    .set('Cache-Control', 'no-store, max-age=0')
+    .send(html);
+});
+const staticRoot = path.join(__dirname, '..');
+// runs for every incoming request in the order middleware are declared
+app.use(
+  express.static(staticRoot, { index: false })
+);
+// Catch-all handler for every URL that the static middleware didn’t serve
+app.use('/*', (req, res) => {
+  const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
+  res.type('html').set('Cache-Control', 'no-store, max-age=0').send(html);
+});
 
 new Promise(idamCheck).then(() => 'IDAM is up and running');

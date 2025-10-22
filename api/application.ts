@@ -1,15 +1,11 @@
 import * as healthcheck from '@hmcts/nodejs-healthcheck';
-import { getContentSecurityPolicy, SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
+import { csp, SECURITY_POLICY, SESSION, xuiNode } from '@hmcts/rpx-xui-node-lib';
 import * as bodyParserModule from 'body-parser';
 import * as cookieParserModule from 'cookie-parser';
 import * as expressModule from 'express';
+import { existsSync, readFileSync } from 'fs';
 import * as helmetModule from 'helmet';
-
-// Handle both CommonJS and ES module exports
-const express = (expressModule as any).default || expressModule;
-const helmet = (helmetModule as any).default || helmetModule;
-const bodyParser = (bodyParserModule as any).default || bodyParserModule;
-const cookieParser = (cookieParserModule as any).default || cookieParserModule;
+import * as path from 'path';
 import { attach, getXuiNodeMiddleware } from './auth';
 import { environmentCheckText, getConfigValue, getEnvironment, showFeature } from './configuration';
 import { ERROR_NODE_CONFIG_ENV } from './configuration/constants';
@@ -30,6 +26,12 @@ import openRoutes from './openRoutes';
 import routes from './routes';
 import { idamCheck } from './idamCheck';
 import { MO_CSP } from './interfaces/csp-config';
+
+// Handle both CommonJS and ES module exports
+const express = (expressModule as any).default || expressModule;
+const helmet = (helmetModule as any).default || helmetModule;
+const bodyParser = (bodyParserModule as any).default || bodyParserModule;
+const cookieParser = (cookieParserModule as any).default || cookieParserModule;
 
 function loadIndexHtml(): string {
   // production build output

@@ -20,31 +20,32 @@ let sessionCookies = [];
 async function initBrowser() {
   idamLogin.withCredentials('TEST_SOLICITOR@mailinator.com', 'genericPassword123')
   await idamLogin.do()
-
   testBrowser = await puppeteer.launch({
     ignoreHTTPSErrors: false,
-    headless: conf.headless,
+    headless: true,
     args: [
       '--no-sandbox',
       '--disable-dev-shm-usage',
+      '--disable-gpu'
     ],
   });
-
   page = await testBrowser.newPage();
-  // await page.goto("http://localhost:3000/");
-
   await page.goto("http://localhost:3000/get-help");
   const cookies = idamLogin.xuiCallbackResponse.details.setCookies;
   sessionCookies = cookies;
   for (let cookie of cookies) {
     await page.setCookie({ name: cookie.name, value: cookie.value })
   }
-  await page.goto("http://localhost:3000/");
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 60000 });
+
+  await Promise.all([
+    page.goto("http://localhost:3000/", { waitUntil: 'domcontentloaded', timeout: 60000 })
+  ]);
 
 }
 
 async function pa11ytest(test, actions, startUrl, roles) {
-  if (!startUrl ){
+  if (!startUrl) {
     startUrl = "http://localhost:3000"
   }
   let isTestSuccess = false;

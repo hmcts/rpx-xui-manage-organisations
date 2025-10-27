@@ -8,7 +8,7 @@ class ApproveOrganisationService{
     this.baseUrl = '';
     this.useremail = '';
     this.password = '';
-    if (process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('preview')){
+    if (!process.env.TEST_URL || process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('preview')){
       this.baseUrl = 'https://administer-orgs.aat.platform.hmcts.net';
       this.useremail = 'vmuniganti@mailnesia.com';
       this.password = 'Monday01';

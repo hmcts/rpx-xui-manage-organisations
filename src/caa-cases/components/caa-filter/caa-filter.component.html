@@ -5,113 +5,129 @@
         <div class="govuk-grid-column-one-half">
           <form class="form" [formGroup]="caaFormGroup">
             <div class="govuk-form-group">
-              <fieldset *ngIf="caaCasesPageType === caaCasesPageTypeLookup.AssignedCases" class="govuk-fieldset"
-                aria-describedby="filter-assigned-cases-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                  <h2 class="govuk-fieldset__heading">
-                    {{caaFilterHeading}}
-                  </h2>
-                </legend>
-                <div id="filter-assigned-cases-hint" class="govuk-body">
-                  Filter your organisation's assigned cases by either;
-                </div>
-                <div class="govuk-radios" data-module="govuk-radios">
-                  <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="caa-filter-all-assignees" [name]="caaFilterFormControl" type="radio"
-                      [checked]="selectedFilterType === caaCasesFilterType.AllAssignedCases"
-                      value="{{caaCasesFilterType.AllAssignedCases}}"
-                      [formControlName]="caaFilterFormControl"
-                      (click)="selectFilterOption(caaCasesFilterType.AllAssignedCases)">
-                    <label class="govuk-label govuk-radios__label" for="caa-filter-all-assignees">
-                      All assignees
-                    </label>
+              @if (caaCasesPageType === caaCasesPageTypeLookup.AssignedCases) {
+                <fieldset class="govuk-fieldset"
+                  aria-describedby="filter-assigned-cases-hint">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                    <h2 class="govuk-fieldset__heading">
+                      {{caaFilterHeading}}
+                    </h2>
+                  </legend>
+                  <div id="filter-assigned-cases-hint" class="govuk-body">
+                    Filter your organisation's assigned cases by either;
                   </div>
-                  <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="caa-filter-assignee-name" [name]="caaFilterFormControl" type="radio"
-                      [checked]="selectedFilterType === caaCasesFilterType.CasesAssignedToAUser"
-                      value="{{caaCasesFilterType.CasesAssignedToAUser}}"
-                      [formControlName]="caaFilterFormControl"
-                      data-aria-controls="conditional-assignee-person"
-                      (click)="selectFilterOption(caaCasesFilterType.CasesAssignedToAUser)">
-                    <label class="govuk-label govuk-radios__label" for="caa-filter-assignee-name">
-                      Assignee name
-                    </label>
-                  </div>
-                  <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.CasesAssignedToAUser}"
-                    id="conditional-assignee-person">
-                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': assigneeNameErrorMessage.length > 0}">
-                      <label class="govuk-label" for="assignee-person">
-                        Type the name and select an available match option
+                  <div class="govuk-radios" data-module="govuk-radios">
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="caa-filter-all-assignees" [name]="caaFilterFormControl" type="radio"
+                        [checked]="selectedFilterType === caaCasesFilterType.AllAssignees"
+                        value="{{caaCasesFilterType.AllAssignees}}"
+                        [formControlName]="caaFilterFormControl"
+                        (click)="selectFilterOption(caaCasesFilterType.AllAssignees)">
+                      <label class="govuk-label govuk-radios__label" for="caa-filter-all-assignees">
+                        All assignees
                       </label>
-                      <p id="case-reference-number-error-message" class="govuk-error-message" *ngIf="assigneeNameErrorMessage.length > 0">
-                        <span class="govuk-visually-hidden">Error:</span>{{assigneeNameErrorMessage}}
-                      </p>
-                      <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person"
-                        [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith"
-                        [ngClass]="{'govuk-input--error': assigneeNameErrorMessage.length > 0}">
-                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
-                        <mat-optgroup *ngFor="let filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue">
-                          <span class="mat-group-header">{{ filteredAndGroupedUser.key }}</span>
-                          <mat-option *ngFor="let user of filteredAndGroupedUser.value"
-                                      [value]="user"
-                                      [ngClass]="{'hide-autocomplete': !showAutocomplete}">
-                            {{ user.fullName + ' - ' + user.email }}
-                          </mat-option>
-                          <mat-option *ngIf="!filteredAndGroupedUser.value.length && showAutocomplete">No matches</mat-option>
-                        </mat-optgroup>
-                      </mat-autocomplete>
                     </div>
-                  </div>
-                  <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="caa-filter-case-reference-number" [name]="caaFilterFormControl" type="radio"
-                      [checked]="selectedFilterType === caaCasesFilterType.CaseReferenceNumber"
-                      value="{{caaCasesFilterType.CaseReferenceNumber}}"
-                      [formControlName]="caaFilterFormControl"
-                      data-aria-controls="conditional-case-reference-number"
-                      (click)="selectFilterOption(caaCasesFilterType.CaseReferenceNumber)">
-                    <label class="govuk-label govuk-radios__label" for="caa-filter-case-reference-number">
-                      Case reference number
-                    </label>
-                  </div>
-                  <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.CaseReferenceNumber}"
-                    id="conditional-case-reference-number">
-                    <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': caseReferenceNumberErrorMessage.length > 0}">
-                      <label class="govuk-label" for="case-reference-number">
-                        Enter the 16-digit case reference number
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="caa-filter-assignee-name" [name]="caaFilterFormControl" type="radio"
+                        [checked]="selectedFilterType === caaCasesFilterType.AssigneeName"
+                        value="{{caaCasesFilterType.AssigneeName}}"
+                        [formControlName]="caaFilterFormControl"
+                        data-aria-controls="conditional-assignee-person"
+                        (click)="selectFilterOption(caaCasesFilterType.AssigneeName)">
+                      <label class="govuk-label govuk-radios__label" for="caa-filter-assignee-name">
+                        Assignee name
                       </label>
-                      <p id="case-reference-number-error-message" class="govuk-error-message" *ngIf="caseReferenceNumberErrorMessage.length > 0">
-                        <span class="govuk-visually-hidden">Error:</span>{{caseReferenceNumberErrorMessage}}
-                      </p>
-                      <input class="govuk-input" [ngClass]="{'govuk-input--error': caseReferenceNumberErrorMessage.length > 0}"
+                    </div>
+                    <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.AssigneeName}"
+                      id="conditional-assignee-person">
+                      <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': assigneeNameErrorMessage.length > 0}">
+                        <label class="govuk-label" for="assignee-person">
+                          Type the name and select an available match option
+                        </label>
+                        @if (assigneeNameErrorMessage.length > 0) {
+                          <p id="case-reference-number-error-message" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span>{{assigneeNameErrorMessage}}
+                          </p>
+                        }
+                        <input class="govuk-input" [formControlName]="assigneePersonFormControl" id="assignee-person"
+                          [name]="assigneePersonFormControl" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith"
+                          [ngClass]="{'govuk-input--error': assigneeNameErrorMessage.length > 0}">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onSelectionChange($event.option.value)">
+                          @for (filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue; track trackByFilteredUserGroup($index, filteredAndGroupedUser)) {
+                            <mat-optgroup>
+                              <span class="mat-group-header">{{ filteredAndGroupedUser.key }}</span>
+                              @for (user of filteredAndGroupedUser.value; track trackByFilteredUser($index, user)) {
+                                <mat-option
+                                  [value]="user"
+                                  [ngClass]="{'hide-autocomplete': !showAutocomplete}">
+                                  {{ user.fullName + ' - ' + user.email }}
+                                </mat-option>
+                              }
+                              @if (!filteredAndGroupedUser.value.length && showAutocomplete) {
+                                <mat-option>No matches</mat-option>
+                              }
+                            </mat-optgroup>
+                          }
+                        </mat-autocomplete>
+                      </div>
+                    </div>
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="caa-filter-case-reference-number" [name]="caaFilterFormControl" type="radio"
+                        [checked]="selectedFilterType === caaCasesFilterType.CaseReferenceNumber"
+                        value="{{caaCasesFilterType.CaseReferenceNumber}}"
+                        [formControlName]="caaFilterFormControl"
+                        data-aria-controls="conditional-case-reference-number"
+                        (click)="selectFilterOption(caaCasesFilterType.CaseReferenceNumber)">
+                      <label class="govuk-label govuk-radios__label" for="caa-filter-case-reference-number">
+                        Case reference number
+                      </label>
+                    </div>
+                    <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.CaseReferenceNumber}"
+                      id="conditional-case-reference-number">
+                      <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': caseReferenceNumberErrorMessage.length > 0}">
+                        <label class="govuk-label" for="case-reference-number">
+                          Enter the 16-digit case reference number
+                        </label>
+                        @if (caseReferenceNumberErrorMessage.length > 0) {
+                          <p id="case-reference-number-error-message" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span>{{caseReferenceNumberErrorMessage}}
+                          </p>
+                        }
+                        <input class="govuk-input" [ngClass]="{'govuk-input--error': caseReferenceNumberErrorMessage.length > 0}"
                         [formControlName]="caseRefFormControl" id="case-reference-number" [name]="caseRefFormControl" type="text"
                         aria-describedby="case-reference-number-error-message">
+                      </div>
                     </div>
                   </div>
-                </div>
-              </fieldset>
-              <ng-container *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">
+                </fieldset>
+              }
+              @if (caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
                 <h2 class="govuk-heading-m">{{caaFilterHeading}}</h2>
                 <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': caseReferenceNumberErrorMessage.length > 0}">
                   <label class="govuk-label" for="case-reference-number">
                     Enter the 16-digit case reference number
                   </label>
-                  <p id="case-reference-number-error-message" class="govuk-error-message" *ngIf="caseReferenceNumberErrorMessage.length > 0">
-                    <span class="govuk-visually-hidden">Error:</span>{{caseReferenceNumberErrorMessage}}
-                  </p>
+                  @if (caseReferenceNumberErrorMessage.length > 0) {
+                    <p id="case-reference-number-error-message" class="govuk-error-message">
+                      <span class="govuk-visually-hidden">Error:</span>{{caseReferenceNumberErrorMessage}}
+                    </p>
+                  }
                   <input class="govuk-input" [ngClass]="{'govuk-input--error': caseReferenceNumberErrorMessage.length > 0}"
-                    [formControlName]="caseRefFormControl" id="case-reference-number" [name]="caseRefFormControl" type="text"
-                    aria-describedby="case-reference-number-error-message">
+                  [formControlName]="caseRefFormControl" id="case-reference-number" [name]="caseRefFormControl" type="text"
+                  aria-describedby="case-reference-number-error-message">
                 </div>
-              </ng-container>
+              }
             </div>
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
             <button class="govuk-button govuk-!-margin-right-3" (click)="onSearch()">
               Apply filter
             </button>
-            <button *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
-              class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="onReset()">
-              Reset
-            </button>
+            @if (caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
+              <button
+                class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="onReset()">
+                Reset
+              </button>
+            }
           </form>
         </div>
       </div>

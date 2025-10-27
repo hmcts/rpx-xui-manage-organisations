@@ -1,4 +1,4 @@
-@fullFunctional 
+@fullFunctional
 Feature: Register Organization
 
   Background:

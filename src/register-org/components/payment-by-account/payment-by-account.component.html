@@ -1,7 +1,7 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <button class="govuk-js-back-link" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="pbaFormGroup">
@@ -16,9 +16,11 @@
               It enables monthly invoicing for court fees.
             </div>
             <div [ngClass]="{'govuk-form-group--error': validationErrors.length}">
-              <div *ngIf="validationErrors.length" class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> Please select an option
-              </div>
+              @if (validationErrors.length) {
+                <div class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> Please select an option
+                </div>
+              }
               <div class="govuk-radios" data-module="govuk-radios">
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio" value="yes"
@@ -42,7 +44,7 @@
           <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
         </div>
       </form>
     </div>

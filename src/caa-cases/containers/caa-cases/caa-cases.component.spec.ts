@@ -5,7 +5,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TableConfig } from '@hmcts/ccd-case-ui-toolkit';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import * as fromOrganisationStore from '../../../organisation/store';
 import {
@@ -19,13 +19,13 @@ import { CaaCasesSessionState, CaaCasesSessionStateValue } from '../../models/ca
 import { CaaCasesService } from '../../services';
 import * as fromStore from '../../store';
 import { CaaCasesComponent } from './caa-cases.component';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { ROUTES as AppRoutes } from 'src/app/app.routes';
 
 describe('CaaCasesComponent', () => {
   let component: CaaCasesComponent;
   let fixture: ComponentFixture<CaaCasesComponent>;
   let store: Store<fromStore.CaaCasesState>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let organisationStore: Store<fromOrganisationStore.OrganisationState>;
   let router: Router;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
@@ -53,12 +53,14 @@ describe('CaaCasesComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaaCasesComponent],
-      imports: [StoreModule.forRoot({}),
-        RouterTestingModule.withRoutes(AppRoutes)],
+      imports: [
+        RouterTestingModule.withRoutes(AppRoutes)
+      ],
       providers: [
         { provide: CaaCasesService, useValue: caaCasesService },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting()
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     }).compileComponents();
   }));
@@ -121,6 +123,7 @@ describe('CaaCasesComponent', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
     const storeSelectMock = spyOn(store, 'select');
+    storeDispatchMock.and.returnValue(null);
     storePipeMock.and.returnValue(of({}));
     storeSelectMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -145,6 +148,7 @@ describe('CaaCasesComponent', () => {
   it('should load case data only when case type is set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
+    storeDispatchMock.and.returnValue(null);
     storePipeMock.and.returnValue(of({}));
     component.currentCaseType = 'FinancialRemedyConsented';
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
@@ -156,6 +160,7 @@ describe('CaaCasesComponent', () => {
   it('should not load case data only when case type is not set', () => {
     const storeDispatchMock = spyOn(store, 'dispatch');
     const storePipeMock = spyOn(store, 'pipe');
+    storeDispatchMock.and.returnValue(null);
     storePipeMock.and.returnValue(of({}));
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     component.loadDataFromStore();

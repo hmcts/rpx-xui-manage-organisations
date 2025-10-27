@@ -7,7 +7,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-document-exchange-reference-details',
-  templateUrl: './document-exchange-reference-details.component.html'
+  templateUrl: './document-exchange-reference-details.component.html',
+  standalone: false
 })
 export class DocumentExchangeReferenceDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;

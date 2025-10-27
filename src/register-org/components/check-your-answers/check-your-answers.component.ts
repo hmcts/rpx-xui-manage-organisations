@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterComponent } from '../../../register-org/containers';
@@ -10,7 +11,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-check-your-answers',
-  templateUrl: './check-your-answers.component.html'
+  templateUrl: './check-your-answers.component.html',
+  standalone: false
 })
 export class CheckYourAnswersComponent extends RegisterComponent implements OnInit {
   @ViewChild('mainContent') public mainContentElement: ElementRef;
@@ -46,9 +48,11 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
   }
 
   public onBack(): void {
-    this.registrationData.hasIndividualRegisteredWithRegulator
-      ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true])
-      : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    if (this.registrationData.hasIndividualRegisteredWithRegulator) {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator-details', true]);
+    } else {
+      this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'individual-registered-with-regulator']);
+    }
   }
 
   public onSubmitData(): void {
@@ -96,5 +100,13 @@ export class CheckYourAnswersComponent extends RegisterComponent implements OnIn
       }
       return null;
     };
+  }
+
+  public trackByService(index: number, service: string): string | number {
+    return buildIdOrIndexKey(index, { value: service } as any, 'value');
+  }
+
+  public trackByOrgPba(index: number, pba: string): string | number {
+    return buildIdOrIndexKey(index, { value: pba } as any, 'value');
   }
 }

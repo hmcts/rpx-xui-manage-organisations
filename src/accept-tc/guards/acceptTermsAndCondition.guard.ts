@@ -9,7 +9,7 @@ import * as fromUserProfile from '../../user-profile/store';
 @Injectable()
 export class AcceptTermsAndConditionGuard {
   constructor(
-    private readonly store: Store<fromRoot.State>,
+    private readonly store: Store<fromRoot.State>
   ) {}
 
   public canActivate(): Observable<boolean> {

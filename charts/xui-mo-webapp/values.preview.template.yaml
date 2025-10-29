@@ -394,6 +394,7 @@ am-org-role-mapping-service:
         PROFESSIONAL_REF_APP_URL: http://rd-professional-api-aat.service.core-compute-aat.internal
         AMQP_ENABLED: false
         PROFESSIONAL_SCHEDULING_ENABLED: false
+        PROFESSIONAL_REFRESH_API_ENABLED: true
       secrets:
         ORG_ROLE_MAPPING_DB_PASSWORD:
           secretRef: postgres

@@ -1,23 +1,24 @@
 <div class="hmcts-width-container">
   <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
-     <div class="hmcts-page-heading">
-        <div class="hmcts-page-heading__title-wrapper">
-           <h1 class="hmcts-page-heading__title govuk-heading-xl">Users</h1>
-        </div>
-        <div class="hmcts-page-heading__actions-wrapper">
-            <button (click)="inviteNewUser()" (keyup.enter)="inviteNewUser()" class="govuk-button hmcts-page-heading__button">
-            Invite user
-            </button>
-        </div>
-     </div>
-     <div class="table-right_margin">
-      <xuilib-user-list *ngIf="(!(isLoading$ | async) && pageTotalSize) else isLoading" [users]="tableUsersData$ | async"
-      (pageChange)="pageChange($event)" [currentPageNumber]="currentPageNumber" [pageTotalSize]="pageTotalSize">
-      </xuilib-user-list>
-     </div>
-     <ng-template #isLoading>
+    <div class="hmcts-page-heading">
+      <div class="hmcts-page-heading__title-wrapper">
+        <h1 class="hmcts-page-heading__title govuk-heading-xl">Users</h1>
+      </div>
+      <div class="hmcts-page-heading__actions-wrapper">
+        <button (click)="inviteNewUser()" (keyup.enter)="inviteNewUser()" class="govuk-button hmcts-page-heading__button">
+          Invite user
+        </button>
+      </div>
+    </div>
+    <div class="table-right_margin">
+      @if ((!(isLoading$ | async) && pageTotalSize)) {
+        <xuilib-user-list [users]="tableUsersData$ | async"
+          (pageChange)="pageChange($event)" [currentPageNumber]="currentPageNumber" [pageTotalSize]="pageTotalSize">
+        </xuilib-user-list>
+      } @else {
         <div>Loading...</div>
-     </ng-template>
+      }
+    </div>
   </main>
 </div>
 

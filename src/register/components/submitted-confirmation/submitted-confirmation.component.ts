@@ -25,6 +25,7 @@ import { Component } from '@angular/core';
       </div>
     </div>
   </main>
-  `
+  `,
+  standalone: false
 })
 export class SubmittedConfirmationComponent {}

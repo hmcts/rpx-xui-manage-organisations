@@ -11,7 +11,7 @@
       "schematics": {},
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "class-transformer",
@@ -22,9 +22,11 @@
               "jwt-decode"
             ],
             "aot": true,
-            "outputPath": "dist/rpx-xui-manage-organisations",
+            "outputPath": {
+              "base": "dist/rpx-xui-manage-organisations",
+              "browser": ""
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -38,7 +40,8 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "sourceMap": true
+            "sourceMap": true,
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -65,9 +68,7 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
+              "extractLicenses": true
             }
           }
         },
@@ -125,22 +126,6 @@
             ],
             "sourceMap": true
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "**/api/**",
-              "**/src/style-guide/**/*",
-              "**/projects/**",
-              "**/hmcts-form-builder/**"
-            ]
-          }
         }
       }
     },
@@ -148,15 +133,6 @@
       "root": "e2e/",
       "projectType": "application",
       "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
       }
     },
     "gov-ui": {
@@ -185,25 +161,35 @@
             "tsConfig": "projects/gov-ui/tsconfig.spec.json",
             "karmaConfig": "projects/gov-ui/karma.conf.js"
           }
-        },
-        "lintx": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/gov-ui/tsconfig.lib.json",
-              "projects/gov-ui/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     }
   },
   "schematics": {
     "@schematics/angular:component": {
-      "style": "scss"
+      "style": "scss",
+      "type": "component"
+    },
+    "@schematics/angular:directive": {
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   },
   "cli": {

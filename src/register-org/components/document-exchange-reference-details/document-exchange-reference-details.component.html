@@ -8,42 +8,46 @@
         What's the DX reference for this office?
       </h1>
       <hr>
-      <div class="govuk-body govuk-!-margin-top-4">
-        <form [formGroup]="dxFormGroup">
-          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': dxNumberError}">
-            <label class="govuk-label govuk-!-font-weight-bold" for="dx-number" id="dx-number-label">
-              DX number (Optional)
-            </label>
-            <div id="dx-number-hint" class="govuk-hint">
-              For example: 931NR. You do not need to include the term 'DX'
+        <div class="govuk-body govuk-!-margin-top-4">
+          <form [formGroup]="dxFormGroup">
+            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': dxNumberError}">
+              <label class="govuk-label govuk-!-font-weight-bold" for="dx-number" id="dx-number-label">
+                DX number (Optional)
+              </label>
+              <div id="dx-number-hint" class="govuk-hint">
+                For example: 931NR. You do not need to include the term 'DX'
+              </div>
+              @if (dxNumberError) {
+                <p class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> {{ dxNumberError.message }}
+                </p>
+              }
+              <input class="govuk-input" type="text"
+                id="dx-number" name="dxNumber" formControlName="dxNumber"
+                aria-describedby="dx-number-hint">
             </div>
-            <p class="govuk-error-message" *ngIf="dxNumberError">
-              <span class="govuk-visually-hidden">Error:</span> {{ dxNumberError.message }}
-            </p>
-            <input class="govuk-input" type="text"
-              id="dx-number" name="dxNumber" formControlName="dxNumber"
-              aria-describedby="dx-number-hint">
-          </div>
-          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': dxExchangeError}">
-            <label class="govuk-label govuk-!-font-weight-bold" for="dx-exchange" id="dx-exchange-label">
-              DX exchange (Optional)
-            </label>
-            <div id="dx-exchange-hint" class="govuk-hint">
-              For example: HAYES (MIDDLESEX)
+            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': dxExchangeError}">
+              <label class="govuk-label govuk-!-font-weight-bold" for="dx-exchange" id="dx-exchange-label">
+                DX exchange (Optional)
+              </label>
+              <div id="dx-exchange-hint" class="govuk-hint">
+                For example: HAYES (MIDDLESEX)
+              </div>
+              @if (dxExchangeError) {
+                <p class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> {{ dxExchangeError.message }}
+                </p>
+              }
+              <input class="govuk-input" type="text"
+                id="dx-exchange" name="dxExchange" formControlName="dxExchange"
+                aria-describedby="dx-exchange-hint">
             </div>
-            <p class="govuk-error-message" *ngIf="dxExchangeError">
-              <span class="govuk-visually-hidden">Error:</span> {{ dxExchangeError.message }}
-            </p>
-            <input class="govuk-input" type="text"
-              id="dx-exchange" name="dxExchange" formControlName="dxExchange"
-              aria-describedby="dx-exchange-hint">
-          </div>
-          <div class="govuk-button-group">
-            <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-            <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
-          </div>
-        </form>
+            <div class="govuk-button-group">
+              <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+              <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>

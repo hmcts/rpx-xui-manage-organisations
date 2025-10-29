@@ -1,7 +1,9 @@
-<div *ngIf="message" class="hmcts-banner hmcts-banner--success">
-  <app-hmcts-success-icon></app-hmcts-success-icon>
-  <div class="hmcts-banner__message">
-    <span class="hmcts-banner__assistive">Success</span>
-    {{message}}
+@if (message) {
+  <div class="hmcts-banner hmcts-banner--success">
+    <app-hmcts-success-icon></app-hmcts-success-icon>
+    <div class="hmcts-banner__message">
+      <span class="hmcts-banner__assistive">Success</span>
+      {{message}}
+    </div>
   </div>
-</div>
+}

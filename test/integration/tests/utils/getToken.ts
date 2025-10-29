@@ -13,8 +13,8 @@ const idamClient = 'xuimowebapp';
 export async function getOauth2Token() {
   const redirectUri = `${baseUrl}/oauth2/callback`;
   const urlPost = `${url}?response_type=code&client_id=${idamClient}&redirect_uri=${redirectUri}&scope=openid profile roles manage-user create-user`;
-  const userName = process.env.TEST_API_EMAIL
-  const password = process.env.TEST_API_PASSWORD
+  const userName = process.env.TEST_API_EMAIL;
+  const password = process.env.TEST_API_PASSWORD;
   const encode = base64.encode((`${userName}:${password}`));
   console.log(`THIS IS MY FIRST TEST:${encode}`);
   const otherParam = {

@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -22,7 +22,7 @@ describe('RegisterComponent', () => {
       declarations: [RegisterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [RouterTestingModule.withRoutes([])],
-      providers: [provideMockStore(), provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+      providers: [...buildMockStoreProviders(), provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
     })
       .compileComponents();
     mockStore = TestBed.inject(Store);

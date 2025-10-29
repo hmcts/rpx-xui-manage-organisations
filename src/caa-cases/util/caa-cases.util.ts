@@ -1,5 +1,5 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { SubNavigation } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/components/hmcts-sub-navigation/hmcts-sub-navigation.component';
+import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
 import { CaseTypesResultsResponse } from '../models/caa-cases.model';
 
 export class CaaCasesUtil {

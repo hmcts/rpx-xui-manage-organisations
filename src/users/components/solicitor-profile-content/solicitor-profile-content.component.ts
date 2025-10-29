@@ -4,7 +4,8 @@ import { Accordion } from 'govuk-frontend';
 @Component({
   selector: 'app-solicitor-profile-content',
   templateUrl: './solicitor-profile-content.component.html',
-  styleUrls: ['./solicitor-profile-content.component.scss']
+  styleUrls: ['./solicitor-profile-content.component.scss'],
+  standalone: false
 })
 export class SolicitorProfileContentComponent implements AfterViewInit {
   private accordianConfig = {

@@ -23,7 +23,8 @@ import { editUserFailureSelector } from '../../store';
 
 @Component({
   selector: 'app-manage-user',
-  templateUrl: './manage-user.component.html'
+  templateUrl: './manage-user.component.html',
+  standalone: false
 })
 export class ManageUserComponent implements OnInit, OnDestroy {
   @ViewChild('userPersonalDetails')userPersonalDetails: UserPersonalDetailsComponent;

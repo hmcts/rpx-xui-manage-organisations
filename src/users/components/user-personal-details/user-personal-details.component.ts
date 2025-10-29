@@ -6,7 +6,8 @@ import { PersonalDetails } from '../../models/personal-details.model';
 
 @Component({
   selector: 'app-user-personal-details',
-  templateUrl: './user-personal-details.component.html'
+  templateUrl: './user-personal-details.component.html',
+  standalone: false
 })
 export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
   public get user(): UserDetails {

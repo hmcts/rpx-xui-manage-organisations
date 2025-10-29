@@ -6,7 +6,8 @@ import * as userStore from '../../store';
 
 @Component({
   selector: 'app-user-updated-success',
-  templateUrl: './user-updated-success.component.html'
+  templateUrl: './user-updated-success.component.html',
+  standalone: false
 })
 export class UserUpdatedSuccessComponent implements OnInit, OnDestroy {
   public user$: Observable<User>;

@@ -41,9 +41,7 @@
             ],
             "scripts": [],
             "sourceMap": true,
-            "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": false,
             "optimization": false,
             "namedChunks": true,
             "browser": "src/main.ts"

@@ -7,7 +7,8 @@ import { BasicAccessTypes } from '../../models/basic-access-types.model';
 
 @Component({
   selector: 'app-standard-user-permissions',
-  templateUrl: './standard-user-permissions.component.html'
+  templateUrl: './standard-user-permissions.component.html',
+  standalone: false,
 })
 export class StandardUserPermissionsComponent implements OnInit, OnDestroy {
   @Input() public user: User;

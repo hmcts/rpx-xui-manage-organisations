@@ -1,25 +1,29 @@
-<div class="hmcts-width-container">  
+<div class="hmcts-width-container">
   <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
-    <div class="hmcts-page-heading">
-      <div class="hmcts-page-heading__title-wrapper">
+    <div class="hmcts-page-heading govuk-row">
+      <div class="hmcts-page-heading__title-wrapper govuk-grid-column-full govuk-!-padding-0">
         <h1 class="hmcts-page-heading__title govuk-heading-xl">Users</h1>
       </div>
-      <div class="hmcts-page-heading__actions-wrapper">
-        <button (click)="inviteNewUser()" (keyup.enter)="inviteNewUser()" class="govuk-button hmcts-page-heading__button">
+      <div class="hmcts-page-heading__actions-wrapper govuk-grid-column-full govuk-!-padding-0">
+        <a (click)="inviteNewUser()" role="button" draggable="false" class="govuk-button hmcts-page-heading__button"
+          [class.invite-float-right]="searchFiltersEnabled$ | async">
           Invite user
-        </button>
-        @if (searchFiltersEnabled$ | async) {
-          <app-search-filter-users [usersList]="tableUsersData$ | async" (filterValues)="handleFilterUpdates($event)"></app-search-filter-users>
+        </a>
+        @if(searchFiltersEnabled$ | async) {
+        <app-search-filter-users [usersList]="tableUsersData$ | async"
+          (filterValues)="handleFilterUpdates($event)"></app-search-filter-users>
         }
       </div>
     </div>
     <div class="table-right_margin">
-      @if ((!(isLoading$ | async) && pageTotalSize)) {
-        <xuilib-user-list [users]="tableUsersData$ | async"
-          (pageChange)="pageChange($event)" [currentPageNumber]="currentPageNumber" [pageTotalSize]="pageTotalSize">
-        </xuilib-user-list>
-      } @else {
+      @if(!(isLoading$ | async)) {
+      <app-prd-users-table *ngIf="(!(isLoading$ | async)) else isLoading" [users]="tableUsersData$ | async"
+        [filterValues]="filterValues"></app-prd-users-table>
+      }
+      @else {
+      <ng-template #isLoading>
         <div>Loading...</div>
+      </ng-template>
       }
     </div>
   </main>

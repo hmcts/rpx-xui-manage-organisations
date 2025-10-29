@@ -19,7 +19,8 @@ import * as converters from '../../converters/case-converter';
 @Component({
   selector: 'app-cases',
   templateUrl: './cases.component.html',
-  styleUrls: ['./cases.component.scss']
+  styleUrls: ['./cases.component.scss'],
+  standalone: false
 })
 export class CasesComponent implements OnInit {
   // private caaCasesPageType = 'all-cases-filter'; // todo: this will be all cases since it's a merge of both assigned and unassigned cases

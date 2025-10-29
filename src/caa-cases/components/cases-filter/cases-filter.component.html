@@ -6,9 +6,7 @@
           <form class="form" [formGroup]="form">
             <div class="govuk-form-group">
               <fieldset class="govuk-fieldset">
-                <legend
-                  class="govuk-fieldset__legend govuk-fieldset__legend--l"
-                >
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                   <h1 class="govuk-fieldset__heading">Filter cases</h1>
                 </legend>
                 <div id="filter-cases-hint" class="govuk-hint">
@@ -18,242 +16,140 @@
                 <div class="govuk-radios" data-module="govuk-radios">
                   <!-- New cases -->
                   <div class="govuk-radios__item">
-                    <input
-                      class="govuk-radios__input"
-                      id="newCasesToAccept"
-                      name="filterOption"
-                      type="radio"
-                      formControlName="filterOption"
-                      [value]="caaCasesFilterType.NewCasesToAccept"
-                    />
-                    <label
-                      class="govuk-label govuk-radios__label"
-                      for="newCasesToAccept"
-                    >
+                    <input class="govuk-radios__input" id="newCasesToAccept" name="filterOption" type="radio"
+                      formControlName="filterOption" [value]="caaCasesFilterType.NewCasesToAccept" />
+                    <label class="govuk-label govuk-radios__label" for="newCasesToAccept">
                       New cases to accept
                     </label>
                   </div>
 
                   <!-- Cases assigned to a user with conditional text field-->
                   <div class="govuk-radios__item">
-                    <input
-                      class="govuk-radios__input"
-                      id="casesAssignedToAUser"
-                      name="filterOption"
-                      type="radio"
-                      formControlName="filterOption"
-                      [value]="caaCasesFilterType.CasesAssignedToAUser"
-                    />
-                    <label
-                      class="govuk-label govuk-radios__label"
-                      for="casesAssignedToAUser"
-                    >
+                    <input class="govuk-radios__input" id="casesAssignedToAUser" name="filterOption" type="radio"
+                      formControlName="filterOption" [value]="caaCasesFilterType.CasesAssignedToAUser" />
+                    <label class="govuk-label govuk-radios__label" for="casesAssignedToAUser">
                       Cases assigned to a user
                     </label>
                   </div>
-                  <div
-                    class="govuk-radios__conditional"
-                    [ngClass]="{
+                  <div class="govuk-radios__conditional" [ngClass]="{
                       'govuk-radios__conditional--hidden':
                         selectedFilterType !== caaCasesFilterType.CasesAssignedToAUser
-                    }"
-                    id="conditional-assignee-person"
-                  >
-                    <div
-                      class="govuk-form-group"
-                      [ngClass]="{
+                    }" id="conditional-assignee-person">
+                    <div class="govuk-form-group" [ngClass]="{
                         'govuk-form-group--error':
                           form.controls.assigneePerson.invalid
-                      }"
-                    >
+                      }">
                       <label class="govuk-label" for="assignee-person">
                         Type the name and select an available match option
                       </label>
-                      <p
-                        id="case-assignee-error-message"
-                        class="govuk-error-message"
-                        *ngIf="form.controls.assigneePerson.invalid"
-                      >
+                      @if (form.controls.assigneePerson.invalid) {
+                      <p id="case-assignee-error-message" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span>
                         {{ assigneeNameErrorMessage }}
                       </p>
-                      <input
-                        class="govuk-input"
-                        formControlName="assigneePerson"
-                        id="assignee-person"
-                        name="assigneePerson"
-                        type="text"
-                        [matAutocomplete]="auto"
-                        placeholder="e.g. John Smith"
+                      }
+                      <input class="govuk-input" formControlName="assigneePerson" id="assignee-person"
+                        name="assigneePerson" type="text" [matAutocomplete]="auto" placeholder="e.g. John Smith"
                         [ngClass]="{
                           'govuk-input--error':
                             form.controls.assigneePerson.invalid
-                        }"
-                      />
-                      <mat-autocomplete
-                        autoActiveFirstOption
-                        #auto="matAutocomplete"
-                        (optionSelected)="
+                        }" />
+                      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="
                           onUserSelectionChange($event.option.value)
-                        "
-                      >
-                        <mat-optgroup
-                          *ngFor="
-                            let filteredAndGroupedUser of filteredAndGroupedUsers
-                              | keyvalue
-                          "
-                        >
+                        ">
+                        @for (filteredAndGroupedUser of filteredAndGroupedUsers | keyvalue; track filteredAndGroupedUser.key) {
+                        <mat-optgroup>
                           <span class="mat-group-header">{{
                             filteredAndGroupedUser.key
-                          }}</span>
-                          <mat-option
-                            *ngFor="let user of filteredAndGroupedUser.value"
-                            [value]="user"
-                            [ngClass]="{
-                              'hide-autocomplete': !showAutocomplete
-                            }"
-                          >
+                            }}</span>
+                          @for (user of filteredAndGroupedUser.value; track user.fullName) {
+                          <mat-option [value]="user" [ngClass]="{'hide-autocomplete': !showAutocomplete}">
                             {{ user.fullName + " - " + user.email }}
                           </mat-option>
-                          <mat-option
-                            *ngIf="
-                              !filteredAndGroupedUser.value.length &&
-                              showAutocomplete
-                            "
-                            >No matches</mat-option
-                          >
+                          }
+                          @if (!filteredAndGroupedUser.value.length && showAutocomplete) {
+                          <mat-option>No matches</mat-option>
+                          }
                         </mat-optgroup>
+                        }
                       </mat-autocomplete>
                     </div>
                   </div>
 
                   <!-- Cases not assigned to any users -->
                   <div class="govuk-radios__item">
-                    <input
-                      class="govuk-radios__input"
-                      id="casesNotAssignedToAUser"
-                      name="filterOption"
-                      type="radio"
-                      formControlName="filterOption"
-                      value="CasesNotAssignedToAUser"
-                      [value]="caaCasesFilterType.UnassignedCases"
-                    />
-                    <label
-                      class="govuk-label govuk-radios__label"
-                      for="casesNotAssignedToAUser"
-                    >
+                    <input class="govuk-radios__input" id="casesNotAssignedToAUser" name="filterOption" type="radio"
+                      formControlName="filterOption" value="CasesNotAssignedToAUser"
+                      [value]="caaCasesFilterType.UnassignedCases" />
+                    <label class="govuk-label govuk-radios__label" for="casesNotAssignedToAUser">
                       Cases not assigned to any users
                     </label>
                   </div>
 
                   <!-- All assigned cases -->
                   <div class="govuk-radios__item">
-                    <input
-                      class="govuk-radios__input"
-                      id="allAssignedCases"
-                      name="filterOption"
-                      type="radio"
-                      formControlName="filterOption"
-                      [value]="caaCasesFilterType.AllAssignedCases"
-                    />
-                    <label
-                      class="govuk-label govuk-radios__label"
-                      for="allAssignedCases"
-                    >
+                    <input class="govuk-radios__input" id="allAssignedCases" name="filterOption" type="radio"
+                      formControlName="filterOption" [value]="caaCasesFilterType.AllAssignedCases" />
+                    <label class="govuk-label govuk-radios__label" for="allAssignedCases">
                       All assigned cases
                     </label>
                   </div>
 
                   <!-- Find case by reference number with conditional text field -->
                   <div class="govuk-radios__item">
-                    <input
-                      class="govuk-radios__input"
-                      id="findCaseByReferenceNumber"
-                      name="filterOption"
-                      type="radio"
-                      formControlName="filterOption"
-                      [value]="caaCasesFilterType.CaseReferenceNumber"
-                    />
-                    <label
-                      class="govuk-label govuk-radios__label"
-                      for="findCaseByReferenceNumber"
-                    >
+                    <input class="govuk-radios__input" id="findCaseByReferenceNumber" name="filterOption" type="radio"
+                      formControlName="filterOption" [value]="caaCasesFilterType.CaseReferenceNumber" />
+                    <label class="govuk-label govuk-radios__label" for="findCaseByReferenceNumber">
                       Find case by reference number
                     </label>
                   </div>
 
-                  <div
-                    class="govuk-radios__conditional"
-                    [ngClass]="{
+                  <div class="govuk-radios__conditional" [ngClass]="{
                       'govuk-radios__conditional--hidden':
                         selectedFilterType !==
                         caaCasesFilterType.CaseReferenceNumber
-                    }"
-                    id="conditional-case-reference-number"
-                  >
-                    <div
-                      class="govuk-form-group"
-                      [ngClass]="{
+                    }" id="conditional-case-reference-number">
+                    <div class="govuk-form-group" [ngClass]="{
                         'govuk-form-group--error':
                           form.controls.caseReferenceNumber.invalid &&
                           form.controls.caseReferenceNumber.touched
-                      }"
-                    >
+                      }">
                       <label class="govuk-label" for="case-reference-number">
                         Enter the 16-digit case reference number
                       </label>
-                      <p
-                        id="case-reference-number-error-message"
-                        class="govuk-error-message"
-                        *ngIf="
-                          form.controls.caseReferenceNumber.invalid &&
-                          form.controls.caseReferenceNumber.touched
-                        "
-                      >
-                        <span class="govuk-visually-hidden">Error:</span
-                        >{{ caseReferenceNumberErrorMessage }}
+                      @if (form.controls.caseReferenceNumber.invalid && form.controls.caseReferenceNumber.touched) {
+                      <p id="case-reference-number-error-message" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span>
+                        {{ caseReferenceNumberErrorMessage }}
                       </p>
-                      <input
-                        class="govuk-input"
-                        [ngClass]="{
+                      }
+                      <input class="govuk-input" [ngClass]="{
                           'govuk-input--error':
                             form.controls.caseReferenceNumber.invalid &&
                             form.controls.caseReferenceNumber.touched
-                        }"
-                        formControlName="caseReferenceNumber"
-                        id="case-reference-number"
-                        name="caseReferenceNumber"
-                        type="text"
-                        aria-describedby="case-reference-number-error-message"
-                      />
+                        }" formControlName="caseReferenceNumber" id="case-reference-number" name="caseReferenceNumber"
+                        type="text" aria-describedby="case-reference-number-error-message" />
                     </div>
                   </div>
                 </div>
               </fieldset>
             </div>
 
-            <hr
-              class="govuk-section-break govuk-section-break--m govuk-section-break--visible"
-            />
-            <button
-              class="govuk-button govuk-!-margin-right-3"
-              (click)="onSearch()"
-            >
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+            <button class="govuk-button govuk-!-margin-right-3" (click)="onSearch()">
               Apply filter
             </button>
-            <button
-              *ngIf="!form.pristine"
-              class="govuk-button govuk-button--secondary govuk-!-margin-right-3"
-              (click)="onReset()"
-            >
+            @if (!form.pristine) {
+            <button class="govuk-button govuk-button--secondary govuk-!-margin-right-3" (click)="onReset()">
               Reset
             </button>
+            }
           </form>
 
         </div>
       </div>
-      <div class="govuk-grid-row govuk-!-margin-top-5"
-           *ngIf="selectedFilterType === caaCasesFilterType.UnassignedCases && filterApplied">
+      @if (selectedFilterType === caaCasesFilterType.UnassignedCases && filterApplied) {
+      <div class="govuk-grid-row govuk-!-margin-top-5">
         <govuk-grid-column-full>
           <div class="govuk-warning-text">
             <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -268,6 +164,7 @@
           </div>
         </govuk-grid-column-full>
       </div>
+      }
     </div>
   </div>
 </div>

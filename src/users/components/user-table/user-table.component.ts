@@ -9,7 +9,8 @@ export interface FilterValues {
 
 @Component({
   selector: 'app-prd-users-table',
-  templateUrl: './user-table.component.html'
+  templateUrl: './user-table.component.html',
+  standalone: false
 })
 
 export class UserTableComponent implements OnInit {

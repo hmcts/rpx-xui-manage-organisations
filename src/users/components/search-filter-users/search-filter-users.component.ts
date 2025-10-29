@@ -14,7 +14,8 @@ interface User {
 @Component({
   selector: 'app-search-filter-users',
   templateUrl: './search-filter-users.component.html',
-  styleUrls: ['./search-filter-users.component.scss']
+  styleUrls: ['./search-filter-users.component.scss'],
+  standalone: false
 })
 export class SearchFilterUserComponent implements OnInit, OnDestroy{
   @Output() filterValues = new EventEmitter<{ name: string; email: string; status: string }>();

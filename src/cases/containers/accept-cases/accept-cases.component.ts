@@ -10,7 +10,8 @@ import { CaaCasesPageType } from '../../models/caa-cases.enum';
 @Component({
   selector: 'app-exui-case-accept',
   templateUrl: './accept-cases.component.html',
-  styleUrls: ['./accept-cases.component.scss']
+  styleUrls: ['./accept-cases.component.scss'],
+  standalone: false
 })
 export class AcceptCasesComponent implements OnInit {
   public permissionsForm: any;

@@ -1,22 +1,14 @@
-<mat-tab-group
-  #tabGroup
-  animationDuration="0ms"
-  (selectedTabChange)="tabChanged($event)"
-  *ngIf="navItems && navItems.length > 0"
->
-  <mat-tab
-    *ngFor="let navItem of navItems; let last = last"
-    [id]="navItem.id"
-    [label]="navItem.text"
-  >
-    <div
-      id="cases-error"
-      class="govuk-!-margin-top-7"
-      *ngIf="casesError$ | async"
-    >
+@if (navItems && navItems.length > 0) {
+<mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+  @for (navItem of navItems; let last = $last; track navItem) {
+  <mat-tab [id]="navItem.id" [label]="navItem.text">
+    @if (casesError$ | async) {
+    <div id="cases-error" class="govuk-!-margin-top-7">
       This view has not been configured for the case type.
     </div>
-    <div *ngIf="cases && cases.length > 0">
+    }
+    @if (cases && cases.length > 0) {
+    <div>
       <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
         <div>
           <p class="govuk-body">
@@ -30,32 +22,22 @@
           manage case sharing for.
         </p>
 
-        <button
-          [disabled]="!enableShareButton"
-          id="btn-share-unassigned-case-button"
+        <button [disabled]="!enableShareButton" id="btn-share-unassigned-case-button"
           class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
-          data-module="govuk-button"
-          type="button"
-          aria-haspopup="true"
-          aria-expanded="false"
-          (click)="onShareButtonClicked()"
-        >
+          data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false"
+          (click)="onShareButtonClicked()">
           {{ shareButtonText }}
         </button>
       </div>
-      <ccd-case-list
-        *ngIf="cases.length > 0 && tableConfig"
-        [cases]="cases"
-        [selectedCases]="selectedCases"
-        [tableConfig]="tableConfig"
-        [selectionEnabled]="true"
-        (selection)="onCaseSelection($event)"
-        (pageChange)="onPaginationHandler($event)"
-        [currentPageNo]="currentPageNo"
-        [totalResultsCount]="totalCases"
-        [pageSize]="paginationPageSize"
-      >
+      @if (cases.length > 0 && tableConfig) {
+      <ccd-case-list [cases]="cases" [selectedCases]="selectedCases" [tableConfig]="tableConfig"
+        [selectionEnabled]="true" (selection)="onCaseSelection($event)" (pageChange)="onPaginationHandler($event)"
+        [currentPageNo]="currentPageNo" [totalResultsCount]="totalCases" [pageSize]="paginationPageSize">
       </ccd-case-list>
+      }
     </div>
+    }
   </mat-tab>
+  }
 </mat-tab-group>
+}

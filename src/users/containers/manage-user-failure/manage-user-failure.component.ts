@@ -6,7 +6,8 @@ import { UserState } from 'src/users/store/reducers';
 
 @Component({
   selector: 'app-manage-user-failure',
-  templateUrl: './manage-user-failure.component.html'
+  templateUrl: './manage-user-failure.component.html',
+  standalone: false,
 })
 export class ManageUserFailureComponent implements OnInit {
   public userId: string;

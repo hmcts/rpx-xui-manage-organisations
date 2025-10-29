@@ -13,7 +13,8 @@ import { CaaCasesNoDataMessage } from 'src/cases/models/caa-cases.enum';
 @Component({
   selector: 'app-cases-results-table',
   templateUrl: './cases-results-table.component.html',
-  styleUrls: ['./cases-results-table.component.scss']
+  styleUrls: ['./cases-results-table.component.scss'],
+  standalone: false
 })
 export class CasesResultsTableComponent {
   private _allCaseTypes: SubNavigation[];

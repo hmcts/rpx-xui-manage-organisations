@@ -2950,16 +2950,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:3.1.5-cme-778-prerelease":
-  version: 3.1.5-cme-778-prerelease
-  resolution: "@hmcts/rpx-xui-common-lib@npm:3.1.5-cme-778-prerelease"
+"@hmcts/rpx-xui-common-lib@npm:3.1.1-ga":
+  version: 3.1.1-ga
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.1.1-ga"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/c6ef95d6bc0892e3bb9b0ec5a7ed0f986189a2b1d010375d5365ee2564422bdd7998de305bfe6836fa7b0b7a446aef2c75b4b5bec349d766319b07f54548266f
+  checksum: 10/f17d9f74ecaab4d98f95d5c90a48bf18c09a159a5b4a114e54fd490370004deaab2d550341a069c3930543cb5e133b5fe38760fdaa2b51a5c2a2eaef762b2093
   languageName: node
   linkType: hard
 
@@ -21100,7 +21100,7 @@ __metadata:
     "@hmcts/media-viewer": "npm:4.1.9-cme-776-angular-20"
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:3.1.5-cme-778-prerelease"
+    "@hmcts/rpx-xui-common-lib": "npm:3.1.1-ga"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.7-csp-final-change-3"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^14.0.0"

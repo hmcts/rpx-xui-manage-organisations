@@ -1,24 +1,25 @@
-<mat-tab-group
-  #tabGroup
-  animationDuration="0ms"
-  (selectedTabChange)="tabChanged($event)"
-  *ngIf="navItems && navItems.length > 0"
->
+@if (navItems && navItems.length > 0) {
+  <mat-tab-group
+    #tabGroup
+    animationDuration="0ms"
+    (selectedTabChange)="tabChanged($event)"
+  >
+  @for (navItem of navItems; track navItem) {
   <mat-tab
-    *ngFor="let navItem of navItems; let last = last"
     [id]="navItem.id"
     [label]="navItem.text"
   >
-    <div
-      id="cases-error"
-      class="govuk-!-margin-top-7"
-      *ngIf="casesError$ | async"
-    >
-      This view has not been configured for the case type.
-    </div>
-    <div *ngIf="cases?.length === 0" class="govuk-body govuk-!-margin-top-2">There are no unassigned cases available to be shared.</div>
+    @if (casesError$ | async) {
+      <div id="cases-error" class="govuk-!-margin-top-7">
+        This view has not been configured for the case type.
+      </div>
+    }
+    @if (cases?.length === 0) {
+      <div class="govuk-body govuk-!-margin-top-2">There are no unassigned cases available to be shared.</div>
+    }
 
-    <div *ngIf="cases && cases.length > 0">
+    @if (cases && cases.length > 0) {
+      <div>
       <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
         <div>
           <p class="govuk-body">
@@ -45,23 +46,27 @@
           {{ shareButtonText }}
         </button>
       </div>
-      <ccd-case-list
-        *ngIf="cases.length > 0 && tableConfig"
-        [cases]="cases"
-        [selectedCases]="selectedCases"
-        [tableConfig]="tableConfig"
-        [selectionEnabled]="true"
-        (selection)="onCaseSelection($event)"
-        (pageChange)="onPaginationHandler($event)"
-        [currentPageNo]="currentPageNo"
-        [totalResultsCount]="totalCases"
-        [pageSize]="paginationPageSize"
-      >
-      </ccd-case-list>
+        @if (cases.length > 0 && tableConfig) {
+          <ccd-case-list
+            [cases]="cases"
+            [selectedCases]="selectedCases"
+            [tableConfig]="tableConfig"
+            [selectionEnabled]="true"
+            (selection)="onCaseSelection($event)"
+            (pageChange)="onPaginationHandler($event)"
+            [currentPageNo]="currentPageNo"
+            [totalResultsCount]="totalCases"
+            [pageSize]="paginationPageSize"
+          >
+          </ccd-case-list>
+        }
     </div>
+    }
   </mat-tab>
-</mat-tab-group>
+  }
+  </mat-tab-group>
+}
 
-<div class="govuk-body govuk-!-margin-top-4" *ngIf="navItems.length === 0">
-  {{noCasesFoundMessage}}
-</div>
+@if (navItems.length === 0) {
+  <div class="govuk-body govuk-!-margin-top-4">{{ noCasesFoundMessage }}</div>
+}

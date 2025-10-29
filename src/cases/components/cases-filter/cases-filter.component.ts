@@ -12,7 +12,8 @@ import { ErrorMessage } from 'src/shared/models/error-message.model';
 @Component({
   selector: 'app-cases-filter',
   templateUrl: './cases-filter.component.html',
-  styleUrls: ['./cases-filter.component.scss']
+  styleUrls: ['./cases-filter.component.scss'],
+  standalone: false
 })
 export class CasesFilterComponent implements OnInit, OnChanges {
   @Input() public selectedOrganisationUsers: User[];

@@ -12,7 +12,8 @@ import { OrganisationProfileService } from 'src/users/services/org-profiles.serv
   selector: 'app-organisation-access-permissions',
   templateUrl: './organisation-access-permissions.component.html',
   styleUrls: ['./organisation-access-permissions.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false
 })
 export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public jurisdictions: Jurisdiction[] = [];

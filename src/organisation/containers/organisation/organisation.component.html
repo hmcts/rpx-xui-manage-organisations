@@ -58,13 +58,13 @@
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">PBA numbers</dt>
       <dd class="govuk-summary-list__value">
-        @for (pba of organisationPaymentAccount; track trackByPba) {
+        @for (pba of organisationPaymentAccount; track pba.pbaNumber) {
         <div>
           {{pba.pbaNumber}}
         </div>
         }
         <br />
-        @for (pendingPBA of organisationPendingPaymentAccount; track trackByString) {
+        @for (pendingPBA of organisationPendingPaymentAccount; track pendingPBA) {
         <div>{{pendingPBA}} (Pending approval)</div>
         }
       </dd>
@@ -83,7 +83,7 @@
         Regulatory organisation type
       </dt>
       <dd class="govuk-summary-list__value">
-        @for (regulator of regulators; track trackByRegulator) {
+        @for (regulator of regulators; track regulator.organisationRegistrationNumber) {
         <div>
           <ng-container [ngSwitch]="regulator.regulatorType">
             <span *ngSwitchCase="regulatoryTypeEnum.Other">
@@ -155,11 +155,11 @@
         <td class="govuk-table__cell">
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-three-quarters">
-              @for(pba of organisationPaymentAccount; track trackByPba) {
+              @for(pba of organisationPaymentAccount; track pba.pbaNumber) {
               <div>{{pba.pbaNumber}}</div>
               }
               <br>
-              @for(pendingPBA of organisationPendingPaymentAccount; track trackByString) {
+              @for(pendingPBA of organisationPendingPaymentAccount; track pendingPBA) {
               <div>{{pendingPBA}}
                 (Pending approval)
               </div>

@@ -2,10 +2,29 @@
   [backLink]="backLink"
   [fnTitle]="fnTitle"
   [title]="'Check and confirm your selection'">
+  @if(acceptCases){
+  <table class="govuk-table">
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th class="govuk-table__header">Case ID</th>
+        <th class="govuk-table__header">Case Title</th>
+        <th class="govuk-table__header">Case Type ID</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+      <tr class="govuk-table__row" *ngFor="let case of shareCases">
+        <td class="govuk-table__cell">{{ case.caseId }}</td>
+        <td class="govuk-table__cell">{{ case.caseTitle }}</td>
+        <td class="govuk-table__cell">{{ case.caseTypeId }}</td>
+      </tr>
+    </tbody>
+  </table>
+  }
   <xuilib-share-case-confirm
     [shareCases$]="shareCases$"
     [changeLink]="changeLink"
     [completeLink]="completeLink"
     [acceptCases]="acceptCases">
   </xuilib-share-case-confirm>
+  
 </exui-page-wrapper>

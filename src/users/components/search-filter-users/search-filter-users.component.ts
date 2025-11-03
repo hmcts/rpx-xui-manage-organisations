@@ -60,7 +60,7 @@ export class SearchFilterUserComponent implements OnInit, OnDestroy{
       )
     ]).pipe(
       takeUntil(this.subscriptions$),
-      switchMap(([searchTerm, _]) => this.filterJudicialUsers(searchTerm).pipe(
+      switchMap(([searchTerm]) => this.filterJudicialUsers(searchTerm).pipe(
         tap((judicialUsers) => {
           this.noResults = judicialUsers.length === 0;
           if (searchTerm.length >= this.minSearchCharacters) {

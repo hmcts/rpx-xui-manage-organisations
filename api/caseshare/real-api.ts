@@ -70,7 +70,7 @@ export async function acceptNewCases(req: EnhancedRequest, res: Response): Promi
     const { status, data }: {status: number, data: any} = await handlePost(path, postData, req);
     return res.status(status).send(data);
   } catch (err) {
-    // console.log(err);
+    console.log(err);
     res.status(500);
   }
 }

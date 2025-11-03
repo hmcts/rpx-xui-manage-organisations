@@ -105,6 +105,7 @@ export class ShareCaseEffects {
   );
 
   public getPathFromCaseConfig(caaCasesPageType: string, groupAccess?: boolean, newCases?: boolean) {
+    console.log(newCases);
     if (groupAccess && caaCasesPageType === CaaCasesPageType.NewCases) {
       return [`${this.router.url}/accept-cases`];
     }

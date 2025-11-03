@@ -24,7 +24,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RpxTranslationModule } from 'rpx-xui-translation';
 import { featureToggleOdgInviteUserFlowGuard } from './guards/feature-toggle-ogd-invite-user-flow.guard';
-import { ManageUserFailureComponent } from './containers/manage-user-failure/manage-user-failure.component';
 
 @NgModule({
   exports: [...fromContainers.containers, ...fromComponents.components],

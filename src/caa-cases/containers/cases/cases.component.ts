@@ -236,6 +236,7 @@ export class CasesComponent implements OnInit {
   }
 
   onShareButtonClicked($event: void) {
+    console.log($event);
     // load cases types based on filter and value
     if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
       // TODO: need to handle the `new_case` flag

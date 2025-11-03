@@ -4,7 +4,6 @@ import { SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 

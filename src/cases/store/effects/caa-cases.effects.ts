@@ -52,8 +52,9 @@ export class CaaCasesEffects {
     )
   );
 
-  public static handleError(error: HttpErrorResponse, loggerService: LoggerService, caaCasesPageType: string): Observable<Action> {
+  public static handleError(error: HttpErrorResponse, loggerService: LoggerService, caaCasesPageType?: string): Observable<Action> {
     loggerService.error(error);
+    console.log(caaCasesPageType);
     return error.status === 400
       ? of(new fromCaaActions.LoadCasesFailure(error))
       : of(new fromRoot.Go({ path: ['/service-down'] }));

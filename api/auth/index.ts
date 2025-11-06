@@ -23,8 +23,7 @@ import {
   SERVICE_S2S_PATH,
   SESSION_SECRET,
   SYSTEM_USER_NAME,
-  SYSTEM_USER_PASSWORD,
-  SERVICES_IDAM_SERVICE_OVERRIDE
+  SYSTEM_USER_PASSWORD
 } from '../configuration/references';
 import { http } from '../lib/http';
 import * as log4jui from '../lib/log4jui';
@@ -123,7 +122,7 @@ export const getXuiNodeMiddleware = () => {
     tokenEndpointAuthMethod: 'client_secret_post',
     tokenURL: tokenUrl,
     useRoutes: true,
-    serviceOverride: getConfigValue(SERVICES_IDAM_SERVICE_OVERRIDE)
+    ssoLogoutURL: `${idamWebUrl}/o/endSession`
   };
 
   const baseStoreOptions = {

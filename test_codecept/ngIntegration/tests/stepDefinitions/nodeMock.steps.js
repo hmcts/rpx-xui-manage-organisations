@@ -1,6 +1,5 @@
 
 const BrowserWaits = require('../../../e2e/support/customWaits');
-const browserUtil = require('../../util/browserUtil');
 const CucumberReporter = require('../../../codeceptCommon/reportLogger');
 
 const reportLogger = require('../../../codeceptCommon/reportLogger');

@@ -1,6 +1,5 @@
 
 const BrowserWaits = require('../../support/customWaits');
-const { browser, $ } = require('protractor');
 
 const ShareCaseData = require('../../utils/shareCaseData');
 

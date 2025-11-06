@@ -17,7 +17,6 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 class MockComponent {}
 
 describe('UpdatePbaNumbersCheckComponent', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let pbaService: any;
   const storeMock = {
     actionsDispatched: [],
@@ -36,7 +35,6 @@ describe('UpdatePbaNumbersCheckComponent', () => {
   };
 
   let pipeSpy: jasmine.Spy;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let dispatchSpy: jasmine.Spy;
   let component: UpdatePbaNumbersCheckComponent;
   let fixture: ComponentFixture<UpdatePbaNumbersCheckComponent>;

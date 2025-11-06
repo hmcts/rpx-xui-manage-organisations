@@ -35,7 +35,6 @@ describe('Share Case Effects', () => {
     'navigate'
   ]);
   routerMock.url = '/unassigned-cases';
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let spyOnDispatchToStore = jasmine.createSpy();
   const caseShareServiceMock = jasmine.createSpyObj('CaseShareService', ['getShareCases', 'getUsersFromOrg', 'assignUsersWithCases']);
 

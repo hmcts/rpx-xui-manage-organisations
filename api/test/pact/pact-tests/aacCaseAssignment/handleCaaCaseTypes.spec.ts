@@ -104,7 +104,6 @@ describe('Handle unassigned case types ', () => {
     });
 
     function assertResponse(dto: any): void {
-      // eslint-disable-next-line no-unused-expressions
       expect(dto).to.be.not.null;
       expect(dto.total).to.equal(2);
       expect(dto.cases[0].case_id).to.equal('case 1');

@@ -36,6 +36,9 @@ describe('caaCases Util', () => {
                   }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -76,6 +79,9 @@ describe('caaCases Util', () => {
                   }
                 ]
               }
+            },
+            {
+              bool: {}
             }
           ]
         }
@@ -118,13 +124,15 @@ describe('caaCases Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }
@@ -167,13 +175,15 @@ describe('caaCases Util', () => {
               }
             },
             {
-              must: [
-                {
-                  match: {
-                    'reference.keyword': '1111222233334444'
+              bool: {
+                must: [
+                  {
+                    match: {
+                      'reference.keyword': '1111222233334444'
+                    }
                   }
-                }
-              ]
+                ]
+              }
             }
           ]
         }

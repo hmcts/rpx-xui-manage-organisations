@@ -253,8 +253,7 @@
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
     "axios": "1.12.1",
-    "jose": "^4.15.5",
-    "ejs": "^3.1.10"
+    "jose": "^4.15.5"
   },
   "packageManager": "yarn@4.9.2"
 }

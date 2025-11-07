@@ -252,7 +252,9 @@
     "xml2js": "^0.6.2",
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
-    "axios": "1.12.1"
+    "axios": "1.12.1",
+    "jose": "^4.15.5",
+    "ejs": "^3.1.10"
   },
   "packageManager": "yarn@4.9.2"
 }

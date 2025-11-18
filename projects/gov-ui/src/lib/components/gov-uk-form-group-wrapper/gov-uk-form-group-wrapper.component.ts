@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 /*
 * Gov Uk Form Group Wrapper
 * Used to wrap group form elements in html tags below such as
@@ -24,9 +24,8 @@ import {Component, Input} from '@angular/core';
 })
 export class GovUkFormGroupWrapperComponent {
   constructor () {}
-  @Input() error: {isInvalid: boolean; messages: string}; // todo add interface
+  @Input() error: { isInvalid: boolean; messages: string }; // todo add interface
   @Input() group: string;
-  @Input() config: {hint: string; legend: string, key: string, isHeading: boolean;}; // TODO create a global interface
-
+  @Input() config: { hint: string; legend: string, key: string, isHeading: boolean; }; // TODO create a global interface
 }
 

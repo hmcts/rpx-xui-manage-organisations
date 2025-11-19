@@ -1,0 +1,33 @@
+<table class="govuk-table">
+
+    <thead clas="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="col">{{ 'Name' | rpxTranslate }}</th>
+            <th class="govuk-table__header" scope="col">{{ 'Email' | rpxTranslate }}</th>
+            <th class="govuk-table__header" scope="col">{{ 'Status' | rpxTranslate }}</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        @for (u of filteredItems | paginate: { itemsPerPage: pagination.itemsPerPage, currentPage:
+        currentPage, totalItems: pagination.totalItems }; track u.email) {
+        <ng-container>
+            <tr class="govuk-table__row" data-selector="table-row">
+                <td class="govuk-table__cell" data-selector="table-cell">
+                    <a class="govuk-link" [attr.title]="u.routerLinkTitle" [routerLink]="u.routerLink"
+                        (click)="onUserClick(u)">{{ u.fullName }}</a>
+                </td>
+                <td class="govuk-table__cell" data-selector="table-cell">{{ u.email }}</td>
+                <td class="govuk-table__cell" data-selector="table-cell">{{ u.status }}</td>
+            </tr>
+        </ng-container>
+        }
+        @if (filteredItems.length == 0) {
+        <tr>
+            <td colspan="3" class="govuk-table__cell">No users matching Name/Status</td>
+        </tr>
+        }
+    </tbody>
+</table>
+@if (filteredItems.length > 1) {
+<xuilib-hmcts-pagination pageSize="50" (pageChange)="pageChange($event)"></xuilib-hmcts-pagination>
+}

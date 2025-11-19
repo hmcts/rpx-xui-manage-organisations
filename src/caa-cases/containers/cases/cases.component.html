@@ -1,0 +1,60 @@
+<main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
+  <span class="govuk-caption-xl">{{
+    (selectedOrganisation$ | async)?.name
+  }}</span>
+  <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
+
+  <div>
+    <button
+      type="submit"
+      class="govuk-button govuk-button--secondary"
+      (click)="toggleFilterSection()"
+    >
+      {{ showFilterSection ? "Hide cases filter" : "Show cases filter" }}
+    </button>
+    @if (showFilterSection) {
+      <div>
+        @if (this.errorMessages.length > 0) {
+          <div
+            class="govuk-error-summary"
+            aria-labelledby="error-summary-title"
+            role="alert"
+            tabindex="-1"
+            data-module="govuk-error-summary"
+          >
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                @for (errorMessage of errorMessages; track errorMessage.fieldId){
+                <li>
+                  <a href="cases/all#{{ errorMessage.fieldId }}">{{ errorMessage.description }}</a>
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        }
+        <app-cases-filter
+          [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
+          [sessionStateValue]="sessionStateValue"
+          (selectedFilter)="onSelectedFilter($event)"
+          (emitErrorMessages)="onErrorMessages($event)"
+        ></app-cases-filter>
+      </div>
+    }
+    @if (allCaseTypes && casesConfig && cases) {
+      <app-cases-results-table
+        [allCaseTypes]="allCaseTypes"
+        [casesConfig]="casesConfig"
+        [cases]="cases"
+        [paginationPageSize]="paginationPageSize"
+        [shareButtonText]="caseResultsTableShareButtonText"
+        (caseSelected)="onCaseSelected($event)"
+        (pageChanged)="onPageChanged($event)"
+        (shareButtonClicked)="onShareButtonClicked($event)"
+      ></app-cases-results-table>
+    }
+  </div>
+</main>

@@ -99,6 +99,15 @@ describe('AppReducer', () => {
         featureToggle: {
           featureName: AppConstants.FEATURE_NAMES.caaMenuItems
         }
+      },
+      {
+        text: 'Cases',
+        href: '/cases',
+        orderId: 6,
+        active: false,
+        featureToggle: {
+          featureName: AppConstants.FEATURE_NAMES.newCasesItems
+        }
       }
     ];
     const action = new fromAppActions.SetUserRoles(payload);

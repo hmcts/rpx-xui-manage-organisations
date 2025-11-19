@@ -10,11 +10,12 @@ const logger = log4jui.getLogger('invite-user');
 
 router.post('/', inviteUserRoute);
 
+const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
+const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
+
 export async function inviteUserRoute(req: Request, res: Response) {
   const payload = req.body;
   try {
-    const rdProfessionalApiPath = getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH);
-    const reqUrl = getRefdataUserCommonUrlUtil(rdProfessionalApiPath);
     logger.info('INVITE USER: request URL:: ', reqUrl);
     logger.info('INVITE USER: payload:: ', payload);
     const response = await req.http.post(reqUrl, payload);
@@ -29,6 +30,25 @@ export async function inviteUserRoute(req: Request, res: Response) {
       message: valueOrNull(error, 'data.errorDescription')
     };
     res.status(status).send(errReport);
+  }
+}
+
+export async function inviteUserRouteOGD(req: Request) {
+  const payload = req.body.userPayload;
+  try {
+    logger.info('INVITE USER OGD: request URL:: ', reqUrl);
+    const response = await req.http.post(reqUrl, payload);
+    logger.info('response::', response.data);
+    return (response.data);
+  } catch (error) {
+    logger.error('error', error);
+    const ogdStatus = exists(error, 'status') ? error.status : 500;
+    const ogdErrReport = {
+      apiError: valueOrNull(error, 'data.errorMessage'),
+      apiStatusCode: ogdStatus,
+      message: valueOrNull(error, 'data.errorDescription')
+    };
+    throw (ogdErrReport);
   }
 }
 export default router;

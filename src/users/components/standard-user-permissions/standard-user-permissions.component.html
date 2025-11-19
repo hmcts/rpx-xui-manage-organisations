@@ -1,0 +1,57 @@
+<div class="govuk-!-margin-top-8">
+  <h1 class="govuk-heading-m">Administrator access permissions</h1>
+  <div class="govuk-form-group" [class.govuk-form-group--error]="errors.basicPermissions.length > 0">
+    @if (errors.basicPermissions.length > 0) {
+    <p id="basic-permissions-error" class="govuk-error-message">
+      <span class="govuk-visually-hidden">Error:</span> You must select at least
+      one action
+    </p>
+    }
+    @if (permissionsForm) {
+    <form [formGroup]="permissionsForm">
+      @if (grantCaseAccessAdmin$ | async) {
+
+      <xuilib-gov-checkbox id="checkbox-grant-case-access-admin" [group]="permissionsForm"
+        [isChecked]="isCaseAccessAdmin" [config]="{
+          value: 'isCaseAccessAdmin',
+          label: 'Case access administrator',
+          name: 'roles',
+          hint: 'This allows the user to manage access to cases within your organisation',
+          hiddenLabelContext: 'This allows the user to manage access to cases within your organisation'
+        }">
+      </xuilib-gov-checkbox>
+      }
+      <xuilib-gov-checkbox [group]="permissionsForm" [isChecked]="isPuiOrganisationManager" [config]="{
+          value: 'isPuiOrganisationManager',
+          label: 'Manage organisation',
+          name: 'roles',
+          hint: 'This user can view and manage some details of your organisations MyHMCTS account details',
+          hiddenLabelContext: 'This user can view and manage some details of your organisations MyHMCTS account details'
+        }">
+      </xuilib-gov-checkbox>
+
+      <div class="govuk-form-group">
+        <xuilib-gov-checkbox [group]="permissionsForm" [isChecked]="isPuiUserManager" [config]="{
+            value: 'isPuiUserManager',
+            label: 'Manage user',
+            name: 'roles',
+            hint: 'This provides the user with access to invite others from your organisation with a MyHMCTS account, and also allow the user to manage existing users MyHMCTS access',
+            hiddenLabelContext: 'This provides the user with access to invite others from your organisation with a MyHMCTS account, and also allow the user to manage existing users MyHMCTS access'
+          }">
+        </xuilib-gov-checkbox>
+        @if (grantFinanceManager$ | async) {
+
+        <xuilib-gov-checkbox id="checkbox-grant-finance-manager" [group]="permissionsForm"
+          [isChecked]="isPuiFinanceManager" [config]="{
+            value: 'isPuiFinanceManager',
+            label: 'Manage fee accounts',
+            name: 'roles',
+            hint: 'This provides the user with access to view payments, balances, available credit and transactions'
+          }">
+        </xuilib-gov-checkbox>
+        }
+      </div>
+    </form>
+    }
+  </div>
+</div>

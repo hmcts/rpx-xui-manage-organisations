@@ -12,6 +12,7 @@ const acceptTermsAndConditionsPage = require('../pageObjects/termsAndConditionsC
 
 const HeaderPage = require('../pageObjects/headerPage');
 const browser = require('../../../codeceptCommon/browser');
+const reportLogger = require('../../../codeceptCommon/reportLogger.js');
 const headerPage = new HeaderPage();
 
 async function waitForElement(el) {
@@ -242,7 +243,9 @@ Then('I see login to MC with invited user is {string}', async function (loginSta
 });
 
 
-async function loginWithCredentials(username, password, world) {
+
+async function loginWithCredentials(username, password, world){
+  reportLogger.AddMessage(`Login user: ${username}`)
   await browserWaits.waitForElement(loginPage.emailAddress);
   await loginPage.emailAddress.sendKeys(username);
   await loginPage.password.sendKeys(password);

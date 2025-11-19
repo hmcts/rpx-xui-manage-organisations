@@ -11,7 +11,8 @@ describe('FieldsetComponent', () => {
             [validate]="validate"
             [group]="group"
             [data]="data"
-        ></app-fieldset>`
+        ></app-fieldset>`,
+      standalone: false
     })
   class TestDummyHostComponent {
       classes = '';

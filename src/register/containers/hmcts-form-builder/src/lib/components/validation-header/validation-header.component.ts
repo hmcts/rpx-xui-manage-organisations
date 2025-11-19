@@ -1,10 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ValidationService } from '../../services/form-builder-validation.service';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-validation-header',
-  templateUrl: './validation-header.component.html'
+  templateUrl: './validation-header.component.html',
+  standalone: false
 })
 /**
  * ValidationHeaderComponent
@@ -87,5 +89,9 @@ export class ValidationHeaderComponent {
       const el = document.getElementById(id);
       el.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
       return false;
+    }
+
+    public trackByValidationError(index: number, msg: any): string | number {
+      return buildIdOrIndexKey(index, msg, 'controlId', 'validationErrorId', 'text');
     }
 }

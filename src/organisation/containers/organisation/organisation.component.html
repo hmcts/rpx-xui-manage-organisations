@@ -56,11 +56,11 @@
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">PBA numbers</dt>
         <dd class="govuk-summary-list__value">
-          <div *ngFor="let pba of organisationPaymentAccount">
+          <div *ngFor="let pba of organisationPaymentAccount; trackBy: trackByPba">
             {{pba.pbaNumber}}
           </div>
           <br />
-          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}} (Pending approval)</div>
+          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount; trackBy: trackByString">{{pendingPBA}} (Pending approval)</div>
         </dd>
         <dd *ngIf="showChangePbaNumberLink" class="govuk-summary-list__actions">
           <a class="govuk-link" id="change-pba-account-numbers__link"
@@ -78,7 +78,7 @@
           Regulatory organisation type
         </dt>
         <dd class="govuk-summary-list__value">
-          <div *ngFor="let regulator of regulators">
+          <div *ngFor="let regulator of regulators; trackBy: trackByRegulator">
             <ng-container [ngSwitch]="regulator.regulatorType">
               <span *ngSwitchCase="regulatoryTypeEnum.Other">
                 {{regulator.regulatorType}}: {{regulator.regulatorName}} ref:
@@ -151,9 +151,9 @@
           <td class="govuk-table__cell">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-three-quarters">
-                <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}}</div>
+                <div *ngFor="let pba of organisationPaymentAccount; trackBy: trackByPba">{{pba.pbaNumber}}</div>
                 <br>
-                <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}} (Pending approval)
+                <div *ngFor="let pendingPBA of organisationPendingPaymentAccount; trackBy: trackByString">{{pendingPBA}} (Pending approval)
                 </div>
               </div>
               <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">

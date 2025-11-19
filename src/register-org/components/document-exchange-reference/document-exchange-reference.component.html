@@ -17,9 +17,11 @@
               another.
             </div>
             <div [ngClass]="{'govuk-form-group--error': errorPresent}">
-              <p class="govuk-error-message" *ngIf="errorPresent">
-                <span class="govuk-visually-hidden">Error:</span>{{dxErrors[0].message}}
-              </p>
+              @if (errorPresent) {
+                <p class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span>{{dxErrors[0].message}}
+                </p>
+              }
               <div class="govuk-radios" data-module="govuk-radios">
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio" value="yes" id="document-exchange-yes"

@@ -1,4 +1,5 @@
 // Task list pattern
+@use "sass:math";
 
 // Override column width for tablet and up
 .app-column-minimum {
@@ -25,11 +26,13 @@ $task-list-indent: 35px;
   @include govuk-font(24, $weight: bold);
   margin: 0;
   padding-bottom: ($govuk-gutter / 6);
+    padding-bottom: math.div($govuk-gutter, 6);
 }
 
 .app-task-list__section-number {
   display: table-cell;
   padding-right: ($govuk-gutter / 6);
+    padding-right: math.div($govuk-gutter, 6);
 
   @include govuk-media-query($from: tablet) {
     min-width: $task-list-indent;
@@ -43,7 +46,7 @@ $task-list-indent: 35px;
   padding: 0;
   margin-bottom: $govuk-gutter;
   @include govuk-media-query($from: tablet) {
-    margin-bottom: ($govuk-gutter * 2);
+     margin-bottom: ($govuk-gutter * 2);
   }
 
   @include govuk-media-query($from: tablet) {

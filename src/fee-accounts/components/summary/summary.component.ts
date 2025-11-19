@@ -8,7 +8,8 @@ import { SingleAccountSummary } from '../../models/single-account-summary';
 
 @Component({
   selector: 'app-prd-summary-component',
-  templateUrl: './summary.component.html'
+  templateUrl: './summary.component.html',
+  standalone: false
 })
 export class SummaryComponent {
   @Input() public data: SingleAccountSummary;

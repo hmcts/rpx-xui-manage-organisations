@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { buildCompositeTrackKey, buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -15,7 +16,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-regulator-details',
-  templateUrl: './regulator-details.component.html'
+  templateUrl: './regulator-details.component.html',
+  standalone: false
 })
 export class RegulatorDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public readonly SELECT_A_VALUE = 'none';
@@ -153,9 +155,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     if (this.validateForm()) {
       // Set corresponding registration data
       this.setRegulatorData();
-      this.regulatorType === RegulatorType.Individual
-        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE])
-        : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+      if (this.regulatorType === RegulatorType.Individual) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
+      } else {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'organisation-services-access']);
+      }
     }
   }
 
@@ -183,9 +187,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
           // Currently displayed screen is organisation regulator details
           // Navigate to document exchange reference details screen if document exchange details were already entered
           // Else, navigate to document exchange reference yes or no screen
-          this.registrationData.hasDxReference
-            ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details'])
-            : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+          if (this.registrationData.hasDxReference) {
+            this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference-details']);
+          } else {
+            this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'document-exchange-reference']);
+          }
         }
       }
     }
@@ -304,5 +310,20 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
     });
     return this.duplicatesIndex.length > 0;
+  }
+
+  // trackBy helpers
+  public trackByRegulatorControl(index: number): string | number {
+    const fg = this.regulators?.at?.(index);
+    // Use shared composite key builder; falls back to index when all empty
+    return buildCompositeTrackKey(index,
+      fg?.get('regulatorType')?.value,
+      fg?.get('regulatorName')?.value,
+      fg?.get('organisationRegistrationNumber')?.value
+    );
+  }
+
+  public trackByRegulatorType(index: number, regulatorType: any): string | number {
+    return buildIdOrIndexKey(index, regulatorType as any, 'name', 'id');
   }
 }

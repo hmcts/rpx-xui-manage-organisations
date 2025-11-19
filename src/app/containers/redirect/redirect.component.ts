@@ -10,7 +10,8 @@ import * as fromRoot from '../../store';
  */
 @Component({
   selector: 'app-redirect',
-  template: ''
+  template: '',
+  standalone: false
 })
 export class RedirectComponent implements OnInit, OnDestroy {
   public redirected = false;

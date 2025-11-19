@@ -6,7 +6,8 @@ import { FooterComponent } from './footer.component';
 describe('FooterComponent', () => {
   @Component({
     selector: 'app-host-dummy-component',
-    template: '<app-footer></app-footer>'
+    template: '<app-footer></app-footer>',
+    standalone: false
   })
   class TestDummyHostComponent {
     @ViewChild(FooterComponent, { static: true })

@@ -41,9 +41,6 @@
             ],
             "scripts": [],
             "sourceMap": true,
-            "extractLicenses": false,
-            "optimization": false,
-            "namedChunks": true,
             "browser": "src/main.ts"
           },
           "configurations": {

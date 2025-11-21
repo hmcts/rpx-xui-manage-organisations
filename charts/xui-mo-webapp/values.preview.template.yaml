@@ -479,7 +479,7 @@ xui-mo-webapp:
       SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
       CASE_TYPES: FT_NewCaseSupplementry,FT_NoCCaseType,FT_UnassignedCase
       UNASSIGNED_CASE_TYPES: FT_NewCaseSupplementry,true,true|FT_NoCCaseType,true,false|FT_UnassignedCase,true,false
-      SERVICES_CCD_DEFINITION_STORE_API: https://ccd-definition-store-api-{{ .Release.Name }}.preview.platform.hmcts.net
+      SERVICES_CCD_DEFINITION_STORE_API: https://ccd-definition-store-xui-mo-webapp-pr-1367.preview.platform.hmcts.net
       SERVICES_ROLE_ASSIGNMENT_MAPPING_API: http://am-org-role-mapping-service-{{ .Release.Name }}.preview.platform.hmcts.net
 
 

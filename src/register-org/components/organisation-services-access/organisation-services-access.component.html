@@ -27,7 +27,7 @@
                 @for (service of services; track trackByOrgService($index, service)) {
                   <div class="govuk-checkboxes__item">
                     <!-- id uses stable key; data-service-label exposed for readable test selectors -->
-                    <input class="govuk-checkboxes__input" [id]="service.key" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key" aria-label="service.key"
+                    <input class="govuk-checkboxes__input" [id]="service.value" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key" aria-label="service.key"
                       name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
                     <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
                       {{service.value}}

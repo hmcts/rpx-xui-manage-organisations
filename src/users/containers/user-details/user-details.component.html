@@ -7,6 +7,7 @@
     @if (!(isLoading$ | async)) {
       <xuilib-user-details
         [user]="user"
+        [enabledAccessTypes]="userAccessTypes"
         [editPermissionRouterLink]="editPermissionRouter"
         [showEditLink]="isInactive(user?.status)"
         [showHelpLink]="isSuspended(user?.status)"

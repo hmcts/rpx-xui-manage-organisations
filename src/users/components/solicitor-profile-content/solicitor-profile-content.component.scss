@@ -1,0 +1,12 @@
+::ng-deep .govuk-accordion {
+  margin: 0;
+  border-bottom: 0 !important;
+}
+
+.govuk-accordion__section-button {
+  border-top: 0 !important;
+}
+
+::ng-deep .js-enabled .govuk-accordion__controls {
+  display: none !important;
+}

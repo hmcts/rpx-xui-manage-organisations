@@ -41,6 +41,7 @@ export class CaseShareComponent implements OnInit {
   public ngOnInit(): void {
     this.routerState$ = this.store.pipe(select(getRouterState));
     this.routerState$.subscribe((router) => {
+      console.log(router.state);
       this.init = router.state.queryParams.init;
       this.pageType = router.state.queryParams.pageType;
       // Set backLink, fnTitle, title, confirmLink, addUserLabel, and showRemoveUsers depending on whether navigation

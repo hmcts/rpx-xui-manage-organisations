@@ -75,35 +75,37 @@ export class UserProfileEffects {
    * If PRD does not return a 201 or 204, then we show a permissions updated failure page. The permissions update failure
    * page allows the logged in User to retry editing permissions by showing them a link taking them back to the
    * Edit Permissions page.
+   *
+   * Additionally, a 500 status code is now returned within the statusUpdateResponse object if the API fails to update the user's access types.
    */
-
   public editUser$ = createEffect(() => this.actions$.pipe(
     ofType(usersActions.EDIT_USER),
-    map((action: usersActions.EditUser) => action.payload),
-    switchMap((user) => {
-      return this.userService.editUserPermissions(user).pipe(
+    switchMap(({ payload, orgProfileIds }: usersActions.EditUser) => {
+      const user = payload;
+      const reqBody = orgProfileIds ? { userPayload: payload, orgIdsPayload: orgProfileIds } : payload;
+      return this.userService.editUserPermissions(reqBody).pipe(
         map((response) => {
           if (UserRolesUtil.doesRoleAdditionExist(response)) {
             if (response.roleAdditionResponse.idamStatusCode !== '201') {
-              return new usersActions.EditUserFailure(user.userId);
+              return new usersActions.EditUserFailure(user.id);
             }
           }
 
-          if (UserRolesUtil.doesRoleDeletionExist(response)) {
-            if (!UserRolesUtil.checkRoleDeletionsSuccess(response.roleDeletionResponse)) {
-              return new usersActions.EditUserFailure(user.userId);
-            }
+          // Changes to access types populate the statusUpdateResponse object with a 500 if API fails
+          if (response.statusUpdateResponse !== null && response.statusUpdateResponse.idamStatusCode === '500') {
+            return new usersActions.EditUserFailure(user.id);
           }
 
-          return new usersActions.EditUserSuccess(user.userId);
+          return new usersActions.EditUserSuccess(user.id);
         }),
         catchError((error) => {
           this.loggerService.error(error);
-          return of(new usersActions.EditUserServerError({ userId: user.userId, errorCode: error.apiStatusCode }));
+          return of(new usersActions.EditUserServerError({ userId: user.id, errorCode: error.apiStatusCode }));
         })
       );
     })
-  ));
+  )
+  );
 
   public loadHasAccepted$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActionTypes.LOAD_HAS_ACCEPTED_TC),

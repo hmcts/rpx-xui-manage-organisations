@@ -33,10 +33,12 @@
         "feeAndPayApi": "FEE_AND_PAY_API",
         "termsAndConditions": "SERVICES_TERMS_AND_CONDITIONS_API_SERVICE",
         "ccdDataApi": "SERVICES_CCD_DATA_STORE_API",
+        "ccdDefinitionApi": "SERVICES_CCD_DEFINITION_STORE_API",
         "caseAssignmentApi": "SERVICES_MCA_PROXY_API",
         "role_assignment": {
-          "roleApi": "SERVICES_ROLE_ASSIGNMENT_API"
-        },
+          "roleApi": "SERVICES_ROLE_ASSIGNMENT_API",
+          "roleMappingApi": "SERVICES_ROLE_ASSIGNMENT_MAPPING_API"
+    },
         "prd": {
           "commondataApi": "SERVICES_PRD_COMMONDATA_API"
         }
@@ -50,6 +52,7 @@
       "__format": "json"
     },
     "caseTypes": "CASE_TYPES",
+    "unassignedCaseTypes": "UNASSIGNED_CASE_TYPES",
     "secrets": {
       "rpx": {
         "appinsights-connection-string-mo": "APPINSIGHTS_CONNECTION_STRING",

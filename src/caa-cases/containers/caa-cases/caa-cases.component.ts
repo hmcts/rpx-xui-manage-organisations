@@ -47,7 +47,7 @@ export class CaaCasesComponent implements OnInit {
 
   public navItems: any[];
   public currentPageNo: number;
-  public paginationPageSize: number = 25;
+  public paginationPageSize: number = 1;
   public totalCases: number = 0;
   public pageTitle: string;
   public caaCasesPageType: string;
@@ -177,7 +177,7 @@ export class CaaCasesComponent implements OnInit {
   public setSelectedFilterTypeAndValue(): void {
     this.selectedFilterType = this.caaCasesPageType === CaaCasesPageType.UnassignedCases
       ? CaaCasesFilterType.None
-      : CaaCasesFilterType.AllAssignees;
+      : CaaCasesFilterType.AllAssignedCases;
     this.selectedFilterValue = null;
   }
 
@@ -317,7 +317,7 @@ export class CaaCasesComponent implements OnInit {
         if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases && caseReferenceNumber) {
           this.selectedFilterValue = caseReferenceNumber;
         } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
-          if (this.selectedFilterType === CaaCasesFilterType.AssigneeName && assigneeName) {
+          if (this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser && assigneeName) {
             this.selectedFilterValue = assigneeName;
           } else if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber && caseReferenceNumber) {
             this.selectedFilterValue = caseReferenceNumber;
@@ -337,7 +337,7 @@ export class CaaCasesComponent implements OnInit {
       value: {
         filterType: this.selectedFilterType,
         caseReferenceNumber: this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber ? this.selectedFilterValue : caseReferenceNumber,
-        assigneeName: this.selectedFilterType === CaaCasesFilterType.AssigneeName ? this.selectedFilterValue : assigneeName
+        assigneeName: this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser ? this.selectedFilterValue : assigneeName
       }
     };
     this.service.storeSessionState(sessionStateToUpdate);
@@ -368,7 +368,7 @@ export class CaaCasesComponent implements OnInit {
       }
       // Return no cases found messages related to assigned cases
       if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
-        if (this.selectedFilterType === CaaCasesFilterType.AssigneeName || this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
+        if (this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser || this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
           return CaaCasesNoDataMessage.AssignedCasesFilterMessage;
         }
         return CaaCasesNoDataMessage.NoAssignedCases;

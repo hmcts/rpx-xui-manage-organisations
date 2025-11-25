@@ -11,15 +11,15 @@ const browserWaits = require('../../support/customWaits');
 const viewUserPage = new ViewUserPage();
 const headerPage = new HeaderPage();
 
-When(/^I click on user button$/,  async function () {
+When(/^I click on user button$/, async function () {
   // browser.sleep(LONG_DELAY);
   const world = this;
 
   await headerPage.clickUser();
 
-  await browserWaits.retryWithActionCallback( async function (message) {
+  await browserWaits.retryWithActionCallback(async function (message) {
     await browser.get(config.config.baseUrl+'/users');
-    await browserWaits.waitForElement(viewUserPage.header)
+    await browserWaits.waitForElement(viewUserPage.header);
     // await headerPage.clickUser();
   });
 
@@ -34,7 +34,7 @@ Then(/^I should be on display the user details$/, async function () {
   // browser.sleep(LONG_DELAY);
 });
 
-Then('I should see invited user is listed in users table',  async function () {
+Then('I should see invited user is listed in users table', async function () {
   await viewUserPage.validateUserWithEmailListed(global.latestInvitedUser);
 });
 

@@ -23,7 +23,8 @@ describe('User Profile Effects', () => {
   let loggerService: LoggerService;
 
   const userServiceMock = jasmine.createSpyObj('UserService', [
-    'getUserDetails'
+    'getUserDetails',
+    'editUserPermissions'
   ]);
   const acceptTandCSrviceMock = jasmine.createSpyObj('AcceptTcService', [
     'getHasUserAccepted',

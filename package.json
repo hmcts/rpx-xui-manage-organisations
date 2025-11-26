@@ -145,7 +145,6 @@
     "otp": "^0.1.3",
     "p-iteration": "^1.1.7",
     "pegjs": "^0.10.0",
-    "playwright": "^1.51.1",
     "puppeteer": "^22.4.1",
     "redis": "^3.0.2",
     "rpx-xui-translation": "1.2.0",

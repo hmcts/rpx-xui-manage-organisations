@@ -15,6 +15,7 @@ export const haveDx = {
     ],
     groups: [
       {
+        id: 'haveDxFieldset',
         fieldset: [
           {
             radios: {
@@ -42,6 +43,7 @@ export const haveDx = {
         ]
       },
       {
+        id: 'createButtonHaveDx',
         button: {
           control: 'createButton',
           value: 'Continue',

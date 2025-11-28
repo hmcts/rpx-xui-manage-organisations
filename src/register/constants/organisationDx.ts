@@ -21,6 +21,7 @@ export const organisationDx = {
     ],
     groups: [
       {
+        id: 'DXnumber',
         input: {
           label: {
             text: 'DX number (Optional)',
@@ -40,6 +41,7 @@ export const organisationDx = {
         }
       },
       {
+        id: 'DXexchange',
         input: {
           label: {
             text: 'DX exchange (Optional)',
@@ -59,6 +61,7 @@ export const organisationDx = {
         }
       },
       {
+        id: 'createButtonDx',
         button: {
           control: 'createButton',
           value: 'Continue',

@@ -21,6 +21,7 @@ export const name = {
     ],
     groups: [
       {
+        id: 'firstName',
         input: {
           label: {
             text: 'First name',
@@ -40,6 +41,7 @@ export const name = {
         }
       },
       {
+        id: 'lastName',
         input: {
           label: {
             text: 'Last name',
@@ -55,6 +57,7 @@ export const name = {
         }
       },
       {
+        id: 'createButtonName',
         button: {
           control: 'createButton',
           value: 'Continue',

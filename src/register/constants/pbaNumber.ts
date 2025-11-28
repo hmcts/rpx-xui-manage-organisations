@@ -28,6 +28,7 @@ export const pbaNumber = {
     ],
     groups: [
       {
+        id: 'PBANumber1',
         inputButton: {
           label: {
             text: 'PBA number (Optional)',
@@ -54,6 +55,7 @@ export const pbaNumber = {
         }
       },
       {
+        id: 'addAnotherPBANumber',
         button: {
           control: 'addAnotherPBANumber',
           value: 'Add another PBA number',
@@ -63,6 +65,7 @@ export const pbaNumber = {
         }
       },
       {
+        id: 'createButtonPBA',
         button: {
           control: 'createButton',
           value: 'Continue',

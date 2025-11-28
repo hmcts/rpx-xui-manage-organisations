@@ -15,6 +15,7 @@ export const organisationHaveSra = {
     ],
     groups: [
       {
+        id: 'haveSraFieldset',
         fieldset: [
           {
             radios: {
@@ -42,6 +43,7 @@ export const organisationHaveSra = {
         ]
       },
       {
+        id: 'createButtonHaveSra',
         button: {
           control: 'createButton',
           value: 'Continue',

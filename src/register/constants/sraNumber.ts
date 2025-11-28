@@ -15,12 +15,14 @@ export const sraNumber = {
     ],
     groups: [
       {
+        id: 'pageId',
         hiddenInput: {
           control: 'pageId',
           value: 'check'
         }
       },
       {
+        id: 'sraNumber',
         input: {
           label: {
             text: 'Enter your organisation SRA ID',
@@ -36,6 +38,7 @@ export const sraNumber = {
         }
       },
       {
+        id: 'createButtonSra',
         button: {
           control: 'createButton',
           value: 'Continue',

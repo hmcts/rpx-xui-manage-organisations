@@ -27,6 +27,7 @@ export const organisationAddress = {
     ],
     groups: [
       {
+        id: 'addressFieldset',
         fieldset: [
           {
             input: {
@@ -100,6 +101,7 @@ export const organisationAddress = {
         ]
       },
       {
+        id: 'createButtonAddress',
         button: {
           control: 'createButton',
           value: 'Continue',

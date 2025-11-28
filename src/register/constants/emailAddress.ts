@@ -15,6 +15,7 @@ export const emailAddress = {
     ],
     groups: [
       {
+        id: 'emailAddress',
         input: {
           hint: {
             text: 'You should use your business email address wherever possible.',
@@ -34,6 +35,7 @@ export const emailAddress = {
         }
       },
       {
+        id: 'createButtonEmail',
         button: {
           control: 'createButton',
           value: 'Continue',

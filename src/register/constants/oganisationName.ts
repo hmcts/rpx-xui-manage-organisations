@@ -15,6 +15,7 @@ export const organisationName = {
     ],
     groups: [
       {
+        id: 'orgName',
         input: {
           label: {
             text: 'what is the name of your organisation',
@@ -30,6 +31,7 @@ export const organisationName = {
         }
       },
       {
+        id: 'createButtonOrgName',
         button: {
           control: 'createButton',
           value: 'Continue',

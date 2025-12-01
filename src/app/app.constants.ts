@@ -144,11 +144,11 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     title: 'Employment Tribunal',
     badgeColour: BadgeColour.BADGE_RED,
     contactDetails: {
-      name: 'Employment Tribunals Offices and Venues - GOV.UK',
-      contactLink: 'https://www.gov.uk/guidance/employment-tribunal-offices-and-venues'
+      name: 'Find a Court or Tribunal Service - GOV.UK',
+      contactLink: 'https://www.find-court-tribunal.service.gov.uk/'
     },
-    phone: 'England and Wales: 0300 123 1024, Scotland: 0300 790 6234',
-    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
+    phone: 'England and Wales: 0300 323 0196, Scotland: 0300 790 6234',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
   }
 ];
 

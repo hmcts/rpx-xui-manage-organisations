@@ -12,7 +12,6 @@ Feature: Register Organization
     When I navigate to EUI Manage Organisation Url
     Then I land on register organisation page and continue
 
-  @ignore
   Scenario:register organization
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -32,7 +31,7 @@ Feature: Register Organization
     Then I land on the summary page and check submit
     Then I created the organisation successfully
 
-  @fullFunctional @ignore
+  @fullFunctional
   Scenario:email address validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -50,13 +49,13 @@ Feature: Register Organization
     When I am not entered the email address
     Then I should be display email error
 
-  @fullFunctional @ignore
+  @fullFunctional
   Scenario:organisation name validation
     When I am on page "What's the name of your organisation?" in registration step
     When I am not entered Organization name
     Then I should be display organization error
 
-  @fullFunctional @ignore
+  @fullFunctional
   Scenario:office address validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -64,7 +63,7 @@ Feature: Register Organization
     When I am not entered the Office Address details
     Then I should be display Office Address error
 
-  @fullFunctional @ignore
+  @fullFunctional
   Scenario:SRA validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -78,7 +77,7 @@ Feature: Register Organization
     When I am not entered SRA number
     Then I should be display SRA error
 
-  @fullFunctional @ignore
+  @fullFunctional
   Scenario:PBA validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -88,7 +87,7 @@ Feature: Register Organization
     Then I Enter the invalid PBA1 and PBA2 details
     Then I should be display PBA error
 
-  @fullFunctional @ignore
+  @fullFunctional
   Scenario:first name and last name validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name
@@ -104,7 +103,7 @@ Feature: Register Organization
     When I am not entered the firstName and lastName
     Then I should be display firstName and lastName error
 
-  @fullFunctional @all @ignore
+  @fullFunctional @all
   Scenario: Register Organisation first page Content/info for already registered org user
     When I am on page "What's the name of your organisation?" in registration step
     When I click back link in register org workflow

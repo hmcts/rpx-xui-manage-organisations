@@ -31,7 +31,7 @@ Feature: Register Organization
     Then I land on the summary page and check submit
     Then I created the organisation successfully
 
-  @fullFunctional
+  @fullFunctional 
   Scenario:email address validation
     When I am on page "What's the name of your organisation?" in registration step
     Then I Enter the Organization name

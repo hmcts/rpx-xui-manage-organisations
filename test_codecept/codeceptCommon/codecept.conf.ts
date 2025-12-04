@@ -138,7 +138,7 @@ exports.config = {
 async function exitWithStatus() {
   // Check for failed tests by reading all generated cucumber json reports
   const jsonFiles = fs.existsSync(functional_output_dir)
-    ? fs.readdirSync(functional_output_dir).filter(f => /^cucumber_output.*\\.json$/.test(f))
+    ? fs.readdirSync(functional_output_dir).filter(f => /^cucumber_output.*\.json$/.test(f))
     : [];
 
   if (!jsonFiles.length) {

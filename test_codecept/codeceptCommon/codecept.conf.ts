@@ -136,29 +136,40 @@ exports.config = {
 
 
 async function exitWithStatus() {
-  // Check for failed tests by reading the generated report
-  let status = 'PASS';
-  try {
-    const files = fs.readdirSync(functional_output_dir);
-    const reportFile = files.find(f => f.startsWith('cucumber_output') && f.endsWith('.json'));
-    const reportPath = reportFile ? path.join(functional_output_dir, reportFile) : '';
-    if (fs.existsSync(reportPath)) {
+  // Check for failed tests by reading all generated cucumber json reports
+  const jsonFiles = fs.existsSync(functional_output_dir)
+    ? fs.readdirSync(functional_output_dir).filter(f => /^cucumber_output.*\.json$/.test(f))
+    : [];
+
+  if (!jsonFiles.length) {
+    console.error(`No cucumber json files found in '${functional_output_dir}', failing build.`);
+    process.exit(1);
+  }
+
+  let failedScenarios = 0;
+  let totalScenarios = 0;
+
+  for (const file of jsonFiles) {
+    const reportPath = path.join(functional_output_dir, file);
+    try {
       const reportData = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
-      let failed = 0;
       for (const feature of reportData) {
-        for (const scenario of feature.elements) {
-          if (scenario.steps.some((step: any) => step.result.status === 'failed')) {
-            failed++;
+        for (const scenario of feature.elements || []) {
+          totalScenarios++;
+          const steps = scenario.steps || [];
+          if (steps.some((step: any) => step.result?.status === 'failed')) {
+            failedScenarios++;
           }
         }
       }
-      status = failed > 0 ? 'FAIL' : 'PASS';
+    } catch (err) {
+      console.error(`Error checking test results in '${reportPath}':`, err);
+      process.exit(1);
     }
-  } catch (err) {
-    console.error('Error checking test results:', err);
-    status = 'FAIL';
   }
-  process.exit(status === 'PASS' ? 0 : 1);
+
+  console.log(`Cucumber results: ${totalScenarios} scenario(s), ${failedScenarios} failed across ${jsonFiles.length} file(s).`);
+  process.exit(failedScenarios > 0 ? 1 : 0);
 }
 
 async function setup() {

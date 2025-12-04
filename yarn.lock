@@ -3142,9 +3142,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.7-csp-final-change-3":
-  version: 2.30.7-csp-final-change-3
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.7-csp-final-change-3"
+"@hmcts/rpx-xui-node-lib@npm:2.30.7-idam-token-fix.1":
+  version: 2.30.7-idam-token-fix.1
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.7-idam-token-fix.1"
   dependencies:
     "@hapi/joi": "npm:^17.1.1"
     axios: "npm:^1.11.0"
@@ -3166,7 +3166,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/7fe5003efdf7d3f23f5faf671df4ef35bdc4646efdafde168f180a65fcac163863e39b2abdb8b83a20314524b4b086c22ec75721e7c5cd7a518b5def2bac4e68
+  checksum: 10/14ab880d9047156cd5defea1675279ac25fc8bd0b9d2bdee7cab795bc51e45e09869e668e7fa7870cbb80422e54d93a232780bee4607a4d448253a5dd37c9208
   languageName: node
   linkType: hard
 
@@ -21862,7 +21862,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"
     "@hmcts/properties-volume": "npm:0.0.13"
     "@hmcts/rpx-xui-common-lib": "npm:3.2.1-angular-20.3.14"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-csp-final-change-3"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-idam-token-fix.1"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^14.0.0"
     "@ng-idle/keepalive": "npm:^14.0.0"

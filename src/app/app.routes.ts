@@ -78,27 +78,33 @@ export const ROUTES: Routes = [
   },
   {
     path: 'cookies',
-    component: CookiePolicyComponent
+    component: CookiePolicyComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'privacy-policy',
-    component: PrivacyPolicyComponent
+    component: PrivacyPolicyComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'terms-and-conditions',
-    component: TermsAndConditionsComponent
+    component: TermsAndConditionsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'terms-and-conditions-register-other-org',
-    component: TermsAndConditionsRegisterOtherOrgComponent
+    component: TermsAndConditionsRegisterOtherOrgComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'accessibility',
-    component: AccessibilityComponent
+    component: AccessibilityComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'get-help',
-    component: GetHelpComponent
+    component: GetHelpComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'idle-sign-out',

@@ -110,7 +110,7 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     badgeColour: BadgeColour.BADGE_BLUE,
     email: 'contactprobate@justice.gov.uk',
     phone: '0300 303 0648',
-    openingTimes: 'Monday to Friday, 9am to 1pm (excluding public holidays)tewtwetwe',
+    openingTimes: 'Monday to Friday, 9am to 1pm (excluding public holidays)',
     contactDetails: {
       name: 'Webchat',
       contactLink: 'https://www.apply-for-probate.service.gov.uk/contact-us'
@@ -138,8 +138,8 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     title: 'Financial Remedy Contested',
     badgeColour: BadgeColour.BADGE_RED,
     email: 'HMCTSFinancialRemedy@justice.gov.uk',
-    phone: '0300 303 0642',
-    openingTimes: 'Monday to Friday, 10am to 5:30pm (excluding public holidays)'
+    phone: '0300 123 5577',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
   },
   {
     title: 'Immigration and Asylum',

@@ -1,5 +1,5 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
-  <div class="govuk-grid-row">
+  <div class="govuk-grid-row xui-page-top-offset">
     <div class="govuk-grid-column-two-thirds">
       <button class="govuk-js-back-link" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
@@ -150,8 +150,8 @@
             </div>
             <div class="govuk-button-group">
               <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+              <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
             </div>
-            <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
           </form>
         </div>
       </fieldset>

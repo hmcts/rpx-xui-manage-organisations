@@ -135,6 +135,9 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   }
 
   public getDisplayName(selectedUser: User): string {
+    if (!selectedUser) {
+      return '';
+    }
     return `${selectedUser.fullName} - ${selectedUser.email}`;
   }
 

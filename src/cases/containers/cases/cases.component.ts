@@ -35,7 +35,7 @@ export class CasesComponent implements OnInit {
   public sessionStateValue: CaaCasesSessionStateValue;
   public sessionStateKey = 'casesPage';
 
-  public selectedFilterType: CaaCasesFilterType = CaaCasesFilterType.None;
+  public selectedFilterType: CaaCasesFilterType = CaaCasesFilterType.UnassignedCases;
   public selectedFilterValue: string = null;
   public selectedCaseType: string;
   private readonly destroy$ = new Subject<void>();
@@ -260,6 +260,14 @@ export class CasesComponent implements OnInit {
     console.log(this.sessionStateValue);
     if (this.sessionStateValue) {
       this.toggleFilterSection();
+    } else {
+      //if there is no session state, set default values to avoid confusion on UI
+      this.selectedFilterType = CaaCasesFilterType.UnassignedCases;
+      this.selectedFilterValue = null;
+      this.onSelectedFilter({
+        filterType: this.selectedFilterType,
+        filterValue: this.selectedFilterValue
+      });
     }
   }
 

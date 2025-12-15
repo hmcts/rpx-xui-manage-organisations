@@ -17,7 +17,12 @@ export async function handleCaaCaseTypes(req: EnhancedRequest, res: Response, ne
     if (caaCasesPageType === CaaCasesPageType.AssignedCases && caaCasesFilterType === CaaCasesFilterType.AssigneeName) {
       const roleAssignments = await handleRoleAssignments(req, next);
       const roleAssignmentResponse: RoleAssignmentResponse[] = roleAssignments && roleAssignments.data && roleAssignments.data.roleAssignmentResponse;
-      caaCasesFilterValue = roleAssignmentResponse.map((x) => x.attributes.caseId);
+      // in the unliekely event that no role assignments are found, set an array with an empty string
+      if (!roleAssignmentResponse || roleAssignmentResponse.length === 0) {
+        caaCasesFilterValue = [''];
+      } else {
+        caaCasesFilterValue = roleAssignmentResponse.map((x) => x.attributes.caseId);
+      }
     }
     const orgId = req.session.auth.orgId;
     if (!orgId || orgId === '') {

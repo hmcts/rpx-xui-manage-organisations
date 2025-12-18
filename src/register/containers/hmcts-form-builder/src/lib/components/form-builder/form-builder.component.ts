@@ -78,6 +78,11 @@ export class FormBuilderComponent implements OnChanges {
 
   // trackBy helper for groups to avoid identity churn / duplicate empty keys
   public trackByFormGroup(index: number, group: any): string | number {
+    const controlName = group?.input?.control || group?.button?.control || group?.textarea?.control || group?.radios?.control || group?.checkbox?.control;
+    if (controlName) {
+      return `${controlName}#${index}`;
+    }
+    // fallback to original logic
     return buildIdOrIndexKey(index, group, 'id', 'name', 'fieldId');
   }
 }

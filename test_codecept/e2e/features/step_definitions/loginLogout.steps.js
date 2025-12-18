@@ -22,9 +22,9 @@ When(/^I navigate to manage organisation Url$/, async function () {
   const world = this;
   await browser.driver.manage().deleteAllCookies();
   await browser.get(config.config.baseUrl);
-  await browserWaits.retryWithActionCallback(async function (message) {
-    await browser.get(config.config.baseUrl);
-  });
+  // await browserWaits.retryWithActionCallback(async function (message) {
+  //   await browser.get(config.config.baseUrl);
+  // });
   await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY, 'IDAM login page Email Address input not present');
 });
 

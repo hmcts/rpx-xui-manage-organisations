@@ -109,7 +109,7 @@
     "crypto-js": "^4.2.0",
     "dompurify": "^3.2.4",
     "dotenv-extended": "^2.7.0",
-    "ejs": "3.1.9",
+    "ejs": "^3.1.10",
     "exceljs": "^4.4.0",
     "exception-formatter": "^1.0.7",
     "express": "^4.16.4",

@@ -1,11 +1,11 @@
 header {
-    padding-bottom: 50px;
-    position: relative;
+    padding-bottom: 0;
+    position: static;
 }
 
 app-phase-banner {
-    position: absolute;
-    top: 100px;
+    position: static;
+    display: block;
     width: 100%;
 }
 

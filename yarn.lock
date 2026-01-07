@@ -3129,16 +3129,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:3.2.1-angular-20.3.14":
-  version: 3.2.1-angular-20.3.14
-  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.1-angular-20.3.14"
+"@hmcts/rpx-xui-common-lib@https://github.com/hmcts/rpx-xui-common-lib/releases/download/3.2.2-exui-3889-rc1/hmcts-rpx-xui-common-lib-3.2.2-exui-3889-rc1.tgz":
+  version: 3.2.2-exui-3889-rc1
+  resolution: "@hmcts/rpx-xui-common-lib@https://github.com/hmcts/rpx-xui-common-lib/releases/download/3.2.2-exui-3889-rc1/hmcts-rpx-xui-common-lib-3.2.2-exui-3889-rc1.tgz"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/da154e880ca72be03b959a30e0dee42d2ba8d54e30e22f1d4cb90ebd8046612a018cc1c56dd6277543c1dd37dad68450741db7cae79b59afb0e663d2c32c723c
+  checksum: 10/bcb1b42e6de53afbd952070079111915515a8d4d722658e27f49ee0ad37369481282c053c7216a29bc51d39a51132c91bc28114712262d7b709385c40cd9fb48
   languageName: node
   linkType: hard
 
@@ -5502,28 +5502,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ng-idle/core@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "@ng-idle/core@npm:14.0.0"
+"@ng-idle/core@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "@ng-idle/core@npm:16.0.0"
   dependencies:
-    tslib: "npm:^2.0.0"
+    tslib: "npm:^2.6.0"
   peerDependencies:
-    "@angular/common": ">=9.0.0"
-    "@angular/core": ">=9.0.0"
-  checksum: 10/2a59c43bcefa951221030102a6e988820582270c054e7606ee77577df621b8e9ea2ad765a4287471092084f0acb561767b9e40135136a62fdecd70d0b84e1a62
+    "@angular/common": ">=17.3.10"
+    "@angular/core": ">=17.3.10"
+  checksum: 10/c9ba420e1b2a8864fc503a3602ee1a88b65ce206e1504b319be26a6451943fa0a364d83f2e55c53eb7393e0a0d6d331e04fef10f1d8785ccda01867e24fadf82
   languageName: node
   linkType: hard
 
-"@ng-idle/keepalive@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "@ng-idle/keepalive@npm:14.0.0"
+"@ng-idle/keepalive@npm:^16.0.0":
+  version: 16.0.0
+  resolution: "@ng-idle/keepalive@npm:16.0.0"
   dependencies:
-    tslib: "npm:^2.0.0"
+    tslib: "npm:^2.6.0"
   peerDependencies:
-    "@angular/common": ">=9.0.0"
-    "@angular/core": ">=9.0.0"
-    "@ng-idle/core": ^14.0.0
-  checksum: 10/0f8cbed5dce8c7961a1e05d651c8ad31dcaf5e71e1ef2d409e85362493703c4c9edcdd5d3ce2ad3d206c1eca09e3fabb08abc888327793630a48fc1445d5f2c0
+    "@angular/common": ">=17.3.10"
+    "@angular/core": ">=17.3.10"
+    "@ng-idle/core": ^16.0.0
+  checksum: 10/8621246680737c9b4f2972498509735002a8c87311015f93974d161ef74998a3c11c0bb0d7cf007073ef8e4bd54f6615102a31f2f8f813ca04b97a5374db21ae
   languageName: node
   linkType: hard
 
@@ -21861,11 +21861,11 @@ __metadata:
     "@hmcts/media-viewer": "npm:4.2.0"
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:3.2.1-angular-20.3.14"
+    "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/3.2.2-exui-3889-rc1/hmcts-rpx-xui-common-lib-3.2.2-exui-3889-rc1.tgz"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.7-csp-final-change-3"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
-    "@ng-idle/core": "npm:^14.0.0"
-    "@ng-idle/keepalive": "npm:^14.0.0"
+    "@ng-idle/core": "npm:^16.0.0"
+    "@ng-idle/keepalive": "npm:^16.0.0"
     "@ngrx/effects": "npm:^20.0.0"
     "@ngrx/router-store": "npm:^20.0.0"
     "@ngrx/store": "npm:^20.0.0"
@@ -24071,7 +24071,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.6.1, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.7.0":
+"tslib@npm:2.8.1, tslib@npm:^2.0.0, tslib@npm:^2.0.1, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.3.0, tslib@npm:^2.4.0, tslib@npm:^2.6.0, tslib@npm:^2.6.1, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.7.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7

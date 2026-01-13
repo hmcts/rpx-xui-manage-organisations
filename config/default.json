@@ -83,9 +83,9 @@
   },
   "sessionTimeouts": [
     {
-      "idleModalDisplayTime": 10,
+      "idleModalDisplayTime": 2,
       "pattern": ".",
-      "totalIdleTime": 50
+      "totalIdleTime": 5
     }
   ],
   "pact": {

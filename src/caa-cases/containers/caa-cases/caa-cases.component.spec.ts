@@ -30,7 +30,7 @@ describe('CaaCasesComponent', () => {
   let router: Router;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
   const sessionStateValue: CaaCasesSessionStateValue = {
-    filterType: CaaCasesFilterType.CasesAssignedToAUser,
+    filterType: CaaCasesFilterType.AssigneeName,
     caseReferenceNumber: null,
     assigneeName: 'assignee123'
   };
@@ -115,7 +115,7 @@ describe('CaaCasesComponent', () => {
     expect(component.selectedFilterType).toEqual(CaaCasesFilterType.None);
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.setSelectedFilterTypeAndValue();
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignedCases);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
     expect(component.selectedFilterValue).toBeNull();
   });
 
@@ -200,12 +200,12 @@ describe('CaaCasesComponent', () => {
     component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
     expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.UnassignedCasesFilterMessage);
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
-    component.selectedFilterType = CaaCasesFilterType.AllAssignedCases;
+    component.selectedFilterType = CaaCasesFilterType.AllAssignees;
     expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.NoAssignedCases);
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.selectedFilterType = CaaCasesFilterType.CaseReferenceNumber;
     expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
-    component.selectedFilterType = CaaCasesFilterType.CasesAssignedToAUser;
+    component.selectedFilterType = CaaCasesFilterType.AssigneeName;
     expect(component.getNoCasesFoundMessage()).toEqual(CaaCasesNoDataMessage.AssignedCasesFilterMessage);
     component.totalCases = 1;
     expect(component.getNoCasesFoundMessage()).toEqual('');
@@ -234,8 +234,8 @@ describe('CaaCasesComponent', () => {
   });
 
   it('should remove session state', () => {
-    component.removeSessionState(CaaCasesFilterType.CasesAssignedToAUser);
-    expect(caaCasesService.removeSessionState).toHaveBeenCalledWith(CaaCasesFilterType.CasesAssignedToAUser);
+    component.removeSessionState(CaaCasesFilterType.AssigneeName);
+    expect(caaCasesService.removeSessionState).toHaveBeenCalledWith(CaaCasesFilterType.AssigneeName);
   });
 
   it('should retrieve session state', () => {
@@ -244,7 +244,7 @@ describe('CaaCasesComponent', () => {
     component.caaCasesPageType = CaaCasesPageType.AssignedCases;
     component.retrieveSessionState();
     expect(component.sessionStateValue).toEqual(sessionStateValue);
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CasesAssignedToAUser);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
     expect(component.selectedFilterValue).toEqual('assignee123');
     expect(component.toggleFilterSection).toHaveBeenCalled();
   });

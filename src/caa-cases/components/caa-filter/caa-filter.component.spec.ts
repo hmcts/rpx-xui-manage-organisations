@@ -62,13 +62,16 @@ describe('CaaFilterComponent', () => {
     expect(nativeElement.querySelector('#caa-filter-assignee-name')).toBeNull();
     expect(nativeElement.querySelector('#caa-filter-case-reference-number')).toBeNull();
     expect(nativeElement.querySelector('.govuk-heading-m').textContent).toContain(CaaCasesFilterHeading.UnassignedCases);
-    expect(nativeElement.querySelector('#case-reference-number')).toBeTruthy();
+    expect(nativeElement.querySelector('#case-reference-number-unassigned')).toBeTruthy();
   });
 
   it('should set selected filter type', () => {
+    component.caaCasesPageType = CaaCasesPageType.AssignedCases;
+    fixture.detectChanges();
     spyOn(component.emitSelectedFilterType, 'emit');
-    component.selectFilterOption(CaaCasesFilterType.CasesAssignedToAUser);
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CasesAssignedToAUser);
+    component.selectFilterOption(CaaCasesFilterType.AssigneeName);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
+    expect(component.caaFormGroup.get(component.caaFilterFormControl)?.value).toEqual(CaaCasesFilterType.AssigneeName);
     expect(component.emitSelectedFilterType.emit).toHaveBeenCalledWith(component.selectedFilterType);
   });
 
@@ -77,7 +80,7 @@ describe('CaaFilterComponent', () => {
     fixture.detectChanges();
     // Values need to be set using the form elements themselves, rather than directly on the FormControls, in order to
     // trigger the validation and set form validity
-    const textInput = nativeElement.querySelector('#case-reference-number');
+    const textInput = nativeElement.querySelector('#case-reference-number-unassigned');
     textInput.value = '1111-2222-3333-4444';
     textInput.dispatchEvent(new Event('input'));
     spyOn(component.emitSelectedFilterValue, 'emit');
@@ -89,7 +92,7 @@ describe('CaaFilterComponent', () => {
   it('should show a validation error for the Case Reference Number input field on the Unassigned Cases filter', () => {
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     fixture.detectChanges();
-    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number-unassigned');
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
@@ -106,7 +109,7 @@ describe('CaaFilterComponent', () => {
   it('should clear the validation error for the Case Reference Number input field on the Unassigned Cases filter', () => {
     component.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     fixture.detectChanges();
-    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number-unassigned');
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
@@ -134,7 +137,8 @@ describe('CaaFilterComponent', () => {
     fixture.detectChanges();
     const caseRefOptionRadioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     caseRefOptionRadioButton.click();
-    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    fixture.detectChanges();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number-assigned');
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
@@ -153,7 +157,8 @@ describe('CaaFilterComponent', () => {
     fixture.detectChanges();
     const caseRefOptionRadioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     caseRefOptionRadioButton.click();
-    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    fixture.detectChanges();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number-assigned');
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
@@ -181,7 +186,8 @@ describe('CaaFilterComponent', () => {
     fixture.detectChanges();
     let radioButton = nativeElement.querySelector('#caa-filter-case-reference-number');
     radioButton.click();
-    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    fixture.detectChanges();
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number-assigned');
     caseReferenceInput.value = '1111-2222-3333-444';
     caseReferenceInput.dispatchEvent(new Event('input'));
     spyOn(component.emitErrorMessages, 'emit');
@@ -299,7 +305,7 @@ describe('CaaFilterComponent', () => {
     caseRefOptionRadioButton.click();
     component.initialiseFilterValuesFromSessionState();
     fixture.detectChanges();
-    const caseReferenceInput = nativeElement.querySelector('#case-reference-number');
+    const caseReferenceInput = nativeElement.querySelector('#case-reference-number-assigned');
     expect(caseReferenceInput.value).toEqual('1111222233334444');
   });
 
@@ -337,7 +343,7 @@ describe('CaaFilterComponent', () => {
     // trigger the validation and set form validity
     let radioButton = nativeElement.querySelector('#caa-filter-assignee-name');
     radioButton.click();
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.CasesAssignedToAUser);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AssigneeName);
     let textInput = nativeElement.querySelector('#assignee-person');
     textInput.value = 'Andy Test - andy@test.com';
     textInput.dispatchEvent(new Event('input'));
@@ -354,7 +360,7 @@ describe('CaaFilterComponent', () => {
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith('1111-2222-3333-4444');
     radioButton = nativeElement.querySelector('#caa-filter-all-assignees');
     radioButton.click();
-    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignedCases);
+    expect(component.selectedFilterType).toEqual(CaaCasesFilterType.AllAssignees);
     component.onSearch();
     expect(component.emitSelectedFilterValue.emit).toHaveBeenCalledWith(null);
   });

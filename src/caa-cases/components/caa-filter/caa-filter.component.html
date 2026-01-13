@@ -19,7 +19,6 @@
                   <div class="govuk-radios" data-module="govuk-radios">
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="caa-filter-all-assignees" [name]="caaFilterFormControl" type="radio"
-                        [checked]="selectedFilterType === caaCasesFilterType.AllAssignees"
                         value="{{caaCasesFilterType.AllAssignees}}"
                         [formControlName]="caaFilterFormControl"
                         (click)="selectFilterOption(caaCasesFilterType.AllAssignees)">
@@ -29,7 +28,6 @@
                     </div>
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="caa-filter-assignee-name" [name]="caaFilterFormControl" type="radio"
-                        [checked]="selectedFilterType === caaCasesFilterType.AssigneeName"
                         value="{{caaCasesFilterType.AssigneeName}}"
                         [formControlName]="caaFilterFormControl"
                         data-aria-controls="conditional-assignee-person"
@@ -73,7 +71,6 @@
                     </div>
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="caa-filter-case-reference-number" [name]="caaFilterFormControl" type="radio"
-                        [checked]="selectedFilterType === caaCasesFilterType.CaseReferenceNumber"
                         value="{{caaCasesFilterType.CaseReferenceNumber}}"
                         [formControlName]="caaFilterFormControl"
                         data-aria-controls="conditional-case-reference-number"
@@ -85,17 +82,17 @@
                     <div class="govuk-radios__conditional" [ngClass]="{'govuk-radios__conditional--hidden': selectedFilterType !== caaCasesFilterType.CaseReferenceNumber}"
                       id="conditional-case-reference-number">
                       <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': caseReferenceNumberErrorMessage.length > 0}">
-                        <label class="govuk-label" for="case-reference-number">
+                        <label class="govuk-label" for="case-reference-number-assigned">
                           Enter the 16-digit case reference number
                         </label>
                         @if (caseReferenceNumberErrorMessage.length > 0) {
-                          <p id="case-reference-number-error-message" class="govuk-error-message">
+                          <p id="case-reference-number-error-message-assigned" class="govuk-error-message">
                             <span class="govuk-visually-hidden">Error:</span>{{caseReferenceNumberErrorMessage}}
                           </p>
                         }
                         <input class="govuk-input" [ngClass]="{'govuk-input--error': caseReferenceNumberErrorMessage.length > 0}"
-                        [formControlName]="caseRefFormControl" id="case-reference-number" [name]="caseRefFormControl" type="text"
-                        aria-describedby="case-reference-number-error-message">
+                        [formControlName]="caseRefFormControl" id="case-reference-number-assigned" [name]="caseRefFormControl" type="text"
+                        aria-describedby="case-reference-number-error-message-assigned">
                       </div>
                     </div>
                   </div>
@@ -104,17 +101,17 @@
               @if (caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
                 <h2 class="govuk-heading-m">{{caaFilterHeading}}</h2>
                 <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': caseReferenceNumberErrorMessage.length > 0}">
-                  <label class="govuk-label" for="case-reference-number">
+                  <label class="govuk-label" for="case-reference-number-unassigned">
                     Enter the 16-digit case reference number
                   </label>
                   @if (caseReferenceNumberErrorMessage.length > 0) {
-                    <p id="case-reference-number-error-message" class="govuk-error-message">
+                    <p id="case-reference-number-error-message-unassigned" class="govuk-error-message">
                       <span class="govuk-visually-hidden">Error:</span>{{caseReferenceNumberErrorMessage}}
                     </p>
                   }
                   <input class="govuk-input" [ngClass]="{'govuk-input--error': caseReferenceNumberErrorMessage.length > 0}"
-                  [formControlName]="caseRefFormControl" id="case-reference-number" [name]="caseRefFormControl" type="text"
-                  aria-describedby="case-reference-number-error-message">
+                  [formControlName]="caseRefFormControl" id="case-reference-number-unassigned" [name]="caseRefFormControl" type="text"
+                  aria-describedby="case-reference-number-error-message-unassigned">
                 </div>
               }
             </div>

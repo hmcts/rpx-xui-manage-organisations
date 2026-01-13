@@ -70,7 +70,7 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
         if (value === this.caaCasesFilterType.CaseReferenceNumber) {
           this.caaFormGroup.get(this.caseRefFormControl).setValidators(CaaCasesUtil.caseReferenceValidator());
         }
-        if (value === this.caaCasesFilterType.CasesAssignedToAUser) {
+        if (value === this.caaCasesFilterType.AssigneeName) {
           this.caaFormGroup.get(this.assigneePersonFormControl).setValidators(CaaCasesUtil.assigneeNameValidator());
         }
         this.caaFormGroup.get(this.caseRefFormControl).updateValueAndValidity();
@@ -117,6 +117,8 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
           this.caaFormGroup.get(this.assigneePersonFormControl).setValue(formattedOrganisationUser);
         }
       }
+      this.selectedFilterType = this.sessionStateValue.filterType;
+      this.caaFormGroup.get(this.caaFilterFormControl)?.setValue(this.selectedFilterType);
     }
   }
 
@@ -135,19 +137,24 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
+    console.log('selectFilterOption - caaCasesFilterType:', caaCasesFilterType);
     this.selectedFilterType = caaCasesFilterType;
+    // Update the form control value to match the selected radio button
+    this.caaFormGroup.get(this.caaFilterFormControl)?.setValue(caaCasesFilterType);
     this.emitSelectedFilterType.emit(this.selectedFilterType);
   }
 
   public onSearch(): void {
     // Validate form
+    console.log('onSearch - selectedFilterType:', this.selectedFilterType);
+    console.log('onSearch - caaCasesPageType:', this.caaCasesPageType);
     if (this.validateForm()) {
       let selectedFilterValue: string;
       if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {
         selectedFilterValue = this.caaFormGroup.get(this.caseRefFormControl).value;
       } else if (this.caaCasesPageType === CaaCasesPageType.AssignedCases) {
         switch (this.selectedFilterType) {
-          case CaaCasesFilterType.CasesAssignedToAUser:
+          case CaaCasesFilterType.AssigneeName:
             const selectedUser = this.caaFormGroup.get(this.assigneePersonFormControl).value;
             const fullName = selectedUser.split(' - ')[0];
             const email = selectedUser.split(' - ')[1];

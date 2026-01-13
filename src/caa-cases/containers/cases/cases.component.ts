@@ -82,11 +82,6 @@ export class CasesComponent implements OnInit {
         this.cases = items;
       }
     });
-    this.caaCasesStore.pipe(select(caaCasesStore.getAllAssignedCases)).subscribe((config: CaaCases) => {
-      if (config){
-        this.casesConfig = config;
-      }
-    });
     this.caaCasesStore.pipe(select(caaCasesStore.getAllAssignedCaseData)).subscribe((items) => {
       if (items){
         this.cases = items;
@@ -94,7 +89,6 @@ export class CasesComponent implements OnInit {
     });
 
     this.casesError$ = this.caaCasesStore.pipe(select(caaCasesStore.getAllUnassignedCasesError));
-    this.casesError$ = this.caaCasesStore.pipe(select(caaCasesStore.getAllAssignedCasesError));
   }
 
   /**
@@ -157,21 +151,13 @@ export class CasesComponent implements OnInit {
       // dispatch action to load case by ref number
       this.caseResultsTableShareButtonText = 'Accept and assign cases';
     }
-    if (selectedFilter.filterType === CaaCasesFilterType.CasesAssignedToAUser) {
+    if (selectedFilter.filterType === CaaCasesFilterType.AssigneeName) {
       // dispatch action to load case by assignee name
       this.caaCasesPageType = CaaCasesPageType.AssignedCases;
       this.caseResultsTableShareButtonText = 'Manage cases';
     }
-    if (selectedFilter.filterType === CaaCasesFilterType.AllAssignedCases) {
+    if (selectedFilter.filterType === CaaCasesFilterType.AllAssignees) {
       // dispatch action to load all cases
-      this.caseResultsTableShareButtonText = 'Manage cases';
-    }
-    if (selectedFilter.filterType === CaaCasesFilterType.NewCasesToAccept) {
-      // dispatch action to load new cases to accept
-      this.caseResultsTableShareButtonText = 'Accept cases';
-    }
-    if (selectedFilter.filterType === CaaCasesFilterType.UnassignedCases) {
-      // dispatch action to load unassigned cases
       this.caseResultsTableShareButtonText = 'Manage cases';
     }
     this.loadCaseTypes();
@@ -206,7 +192,7 @@ export class CasesComponent implements OnInit {
       value: {
         filterType: selectedFilter.filterType,
         caseReferenceNumber: selectedFilter.filterType === CaaCasesFilterType.CaseReferenceNumber ? selectedFilter.filterValue : null,
-        assigneeName: selectedFilter.filterType === CaaCasesFilterType.CasesAssignedToAUser ? selectedFilter.filterValue : null
+        assigneeName: selectedFilter.filterType === CaaCasesFilterType.AssigneeName ? selectedFilter.filterValue : null
       }
     };
     this.sessionStateValue = sessionStateToUpdate.value;
@@ -246,28 +232,18 @@ export class CasesComponent implements OnInit {
         sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType)
       }));
     }
-    if (this.selectedFilterType === CaaCasesFilterType.CasesAssignedToAUser) {
+    if (this.selectedFilterType === CaaCasesFilterType.AssigneeName) {
       // todo: go to manage case assignments
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareAssignedCases({
         sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType)
       }
       ));
     }
-    if (this.selectedFilterType === CaaCasesFilterType.AllAssignedCases) {
+    if (this.selectedFilterType === CaaCasesFilterType.AllAssignees) {
       this.caaCasesStore.dispatch(new caaCasesStore.AddShareAssignedCases({
         sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType)
       }
       ));
-    }
-    if (this.selectedFilterType === CaaCasesFilterType.NewCasesToAccept) {
-      // dispatch action to load new cases to accept
-      // if group_access is enabled then go to accept cases page
-      // else go to add recipient
-    }
-    if (this.selectedFilterType === CaaCasesFilterType.UnassignedCases) {
-      this.caaCasesStore.dispatch(new caaCasesStore.AddShareUnassignedCases({
-        sharedCases: converters.toShareCaseConverter(this.selectedCases, this.selectedCaseType)
-      }));
     }
   }
 }

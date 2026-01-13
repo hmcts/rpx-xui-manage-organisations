@@ -14,26 +14,18 @@
                 </div>
 
                 <div class="govuk-radios" data-module="govuk-radios">
-                  <!-- New cases -->
-                  <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="newCasesToAccept" name="filterOption" type="radio"
-                      formControlName="filterOption" [value]="caaCasesFilterType.NewCasesToAccept" />
-                    <label class="govuk-label govuk-radios__label" for="newCasesToAccept">
-                      New cases to accept
-                    </label>
-                  </div>
 
                   <!-- Cases assigned to a user with conditional text field-->
                   <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="casesAssignedToAUser" name="filterOption" type="radio"
-                      formControlName="filterOption" [value]="caaCasesFilterType.CasesAssignedToAUser" />
-                    <label class="govuk-label govuk-radios__label" for="casesAssignedToAUser">
+                    <input class="govuk-radios__input" id="AssigneeName" name="filterOption" type="radio"
+                      formControlName="filterOption" [value]="caaCasesFilterType.AssigneeName" />
+                    <label class="govuk-label govuk-radios__label" for="AssigneeName">
                       Cases assigned to a user
                     </label>
                   </div>
                   <div class="govuk-radios__conditional" [ngClass]="{
                       'govuk-radios__conditional--hidden':
-                        selectedFilterType !== caaCasesFilterType.CasesAssignedToAUser
+                        selectedFilterType !== caaCasesFilterType.AssigneeName
                     }" id="conditional-assignee-person">
                     <div class="govuk-form-group" [ngClass]="{
                         'govuk-form-group--error':
@@ -76,21 +68,11 @@
                     </div>
                   </div>
 
-                  <!-- Cases not assigned to any users -->
-                  <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="casesNotAssignedToAUser" name="filterOption" type="radio"
-                      formControlName="filterOption" value="CasesNotAssignedToAUser"
-                      [value]="caaCasesFilterType.UnassignedCases" />
-                    <label class="govuk-label govuk-radios__label" for="casesNotAssignedToAUser">
-                      Cases not assigned to any users
-                    </label>
-                  </div>
-
                   <!-- All assigned cases -->
                   <div class="govuk-radios__item">
-                    <input class="govuk-radios__input" id="allAssignedCases" name="filterOption" type="radio"
-                      formControlName="filterOption" [value]="caaCasesFilterType.AllAssignedCases" />
-                    <label class="govuk-label govuk-radios__label" for="allAssignedCases">
+                    <input class="govuk-radios__input" id="AllAssignees" name="filterOption" type="radio"
+                      formControlName="filterOption" [value]="caaCasesFilterType.AllAssignees" />
+                    <label class="govuk-label govuk-radios__label" for="AllAssignees">
                       All assigned cases
                     </label>
                   </div>
@@ -148,23 +130,6 @@
 
         </div>
       </div>
-      @if (selectedFilterType === caaCasesFilterType.UnassignedCases && filterApplied) {
-      <div class="govuk-grid-row govuk-!-margin-top-5">
-        <govuk-grid-column-full>
-          <div class="govuk-warning-text">
-            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <strong class="govuk-warning-text__text">
-              <span class="govuk-visually-hidden">Warning</span>
-              The tabs below list all of your organisation's cases which are not assigned to any users. You can assign
-              cases to users by selecting 'Manage cases'.
-              <br aria-hidden="true" /><br aria-hidden="true" />
-              You do not need to assigned cases to users if they have 'Access all cases in the organisation' enabled for
-              that case type.
-            </strong>
-          </div>
-        </govuk-grid-column-full>
-      </div>
-      }
     </div>
   </div>
 </div>

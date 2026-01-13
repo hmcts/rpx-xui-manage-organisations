@@ -89,7 +89,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
       this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
 
       this.selectFilterOption(filterOptionValue);
-      if (filterOptionValue === CaaCasesFilterType.CasesAssignedToAUser) {
+      if (filterOptionValue === CaaCasesFilterType.AssigneeName) {
         const assigneePersonValue = this.sessionStateValue.assigneeName;
         const user = this.selectedOrganisationUsers.find((user) => user.userIdentifier === assigneePersonValue);
 
@@ -100,6 +100,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         const caseReferenceNumberValue = this.sessionStateValue.caseReferenceNumber;
         this.form.controls.caseReferenceNumber.setValue(caseReferenceNumberValue, { emitEvent: false, onlySelf: true });
       }
+      this.selectedFilterType = filterOptionValue;
       this.filterApplied = true;
       this.form.markAsDirty();
       this.onSearch();
@@ -131,7 +132,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
         filterValue = this.form.controls.caseReferenceNumber.value;
       }
 
-      if (this.form.controls.filterOption.value === CaaCasesFilterType.CasesAssignedToAUser) {
+      if (this.form.controls.filterOption.value === CaaCasesFilterType.AssigneeName) {
         const selectedUser = this.form.controls.assigneePerson.value;
         const fullName = selectedUser.split(' - ')[0];
         const email = selectedUser.split(' - ')[1];
@@ -166,7 +167,7 @@ export class CasesFilterComponent implements OnInit, OnChanges{
   private validateForm(): boolean {
     let isValid = true;
     this.errorMessages = [];
-    if (this.form.controls.filterOption.value === CaaCasesFilterType.CasesAssignedToAUser) {
+    if (this.form.controls.filterOption.value === CaaCasesFilterType.AssigneeName) {
       this.form.controls.assigneePerson.updateValueAndValidity({ emitEvent: false, onlySelf: true }); // ensure validation is run even if the field is empty
       if (this.form.controls.assigneePerson.invalid) {
         this.errorMessages.push({ title: '', description: CaaCasesFilterErrorMessage.InvalidAssigneeName, fieldId: 'assigneePerson' });
@@ -191,15 +192,13 @@ export class CasesFilterComponent implements OnInit, OnChanges{
     this.form.controls.assigneePerson.reset();
     this.form.controls.caseReferenceNumber.reset();
     switch (value) {
-      case CaaCasesFilterType.CasesAssignedToAUser:
+      case CaaCasesFilterType.AssigneeName:
         this.form.controls.assigneePerson.setValidators([Validators.required, CaaCasesUtil.assigneeNameValidator2()]);
         break;
       case CaaCasesFilterType.CaseReferenceNumber:
         this.form.controls.caseReferenceNumber.setValidators([Validators.required, CaaCasesUtil.caseReferenceValidator()]);
         break;
-      case CaaCasesFilterType.AllAssignedCases:
-      case CaaCasesFilterType.NewCasesToAccept:
-      case CaaCasesFilterType.UnassignedCases:
+      case CaaCasesFilterType.AllAssignees:
         break;
     }
     this.form.updateValueAndValidity();

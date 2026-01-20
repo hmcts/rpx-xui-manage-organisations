@@ -78,7 +78,7 @@
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "3.2.1-angular-20.3.14",
-    "@hmcts/rpx-xui-node-lib": "2.30.7-csp-final-change-3",
+    "@hmcts/rpx-xui-node-lib": "https://github.com/hmcts/rpx-xui-node-lib/releases/download/v2.30.8-cve-fix-4/hmcts-rpx-xui-node-lib-2.30.8-cve-fix-4.tgz",
     "@microsoft/applicationinsights-web": "^3.3.9",
     "@ng-idle/core": "^14.0.0",
     "@ng-idle/keepalive": "^14.0.0",
@@ -254,4 +254,3 @@
   },
   "packageManager": "yarn@4.9.2"
 }
-

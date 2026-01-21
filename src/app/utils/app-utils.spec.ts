@@ -30,13 +30,13 @@ describe('AppUtils', () => {
       active: false,
       orderId: 3,
       featureToggle: {
-        featureName: AppConstants.FEATURE_NAMES.feeAccount
+        featureName: AppConstants.STATIC_FEATURE_NAMES.feeAccount
       }
     }];
 
     const featureFlag: AppFeatureFlag = {
       isEnabled: true,
-      featureName: AppConstants.FEATURE_NAMES.feeAccount
+      featureName: AppConstants.STATIC_FEATURE_NAMES.feeAccount
     };
 
     let result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);

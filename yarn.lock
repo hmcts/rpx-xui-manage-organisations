@@ -10219,13 +10219,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"circular-json@npm:^0.5.5":
-  version: 0.5.9
-  resolution: "circular-json@npm:0.5.9"
-  checksum: 10/cf25c62ed7aac15ec17a773ebf253a9a7cf608e22bc09fadc38193cb52f507ba766fbc35f849401b0b6817c0b654015a58a5c7e77f3601d2ace7b73ef840d16c
-  languageName: node
-  linkType: hard
-
 "cjs-module-lexer@npm:^1.2.2":
   version: 1.4.3
   resolution: "cjs-module-lexer@npm:1.4.3"
@@ -11697,13 +11690,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-format@npm:^1.2.0":
-  version: 1.2.0
-  resolution: "date-format@npm:1.2.0"
-  checksum: 10/992411caae4740bad8eda7c8eecf7571a4f68d0a603afc6c4b402f19b3fb4f36d1db2d8c3173d909e1be5a9ddf175bc0c28f62c1bd1cd2835d1577a2d936646e
-  languageName: node
-  linkType: hard
-
 "date-format@npm:^2.1.0":
   version: 2.1.0
   resolution: "date-format@npm:2.1.0"
@@ -11791,7 +11777,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:^3.1.0, debug@npm:^3.2.6, debug@npm:^3.2.7":
+"debug@npm:^3.2.6, debug@npm:^3.2.7":
   version: 3.2.7
   resolution: "debug@npm:3.2.7"
   dependencies:
@@ -17584,20 +17570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"log4js@npm:^3.0.6":
-  version: 3.0.6
-  resolution: "log4js@npm:3.0.6"
-  dependencies:
-    circular-json: "npm:^0.5.5"
-    date-format: "npm:^1.2.0"
-    debug: "npm:^3.1.0"
-    rfdc: "npm:^1.1.2"
-    streamroller: "npm:0.7.0"
-  checksum: 10/237f4820e585ac002640f305e03df1c612e39cec7a828768a8a38f28f4f9ff2151d9301ba54ee9481e116ea07c4b225fd9534916f3891af941d9505018331408
-  languageName: node
-  linkType: hard
-
-"log4js@npm:^6.4.1":
+"log4js@npm:^6.4.1, log4js@npm:^6.9.1":
   version: 6.9.1
   resolution: "log4js@npm:6.9.1"
   dependencies:
@@ -21069,7 +21042,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^2.0.0, readable-stream@npm:^2.0.1, readable-stream@npm:^2.0.2, readable-stream@npm:^2.0.5, readable-stream@npm:^2.2.2, readable-stream@npm:^2.3.0, readable-stream@npm:~2.3.6":
+"readable-stream@npm:^2.0.0, readable-stream@npm:^2.0.1, readable-stream@npm:^2.0.2, readable-stream@npm:^2.0.5, readable-stream@npm:^2.2.2, readable-stream@npm:~2.3.6":
   version: 2.3.8
   resolution: "readable-stream@npm:2.3.8"
   dependencies:
@@ -21542,7 +21515,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rfdc@npm:^1.1.2, rfdc@npm:^1.1.4, rfdc@npm:^1.3.0, rfdc@npm:^1.4.1":
+"rfdc@npm:^1.1.4, rfdc@npm:^1.3.0, rfdc@npm:^1.4.1":
   version: 1.4.1
   resolution: "rfdc@npm:1.4.1"
   checksum: 10/2f3d11d3d8929b4bfeefc9acb03aae90f971401de0add5ae6c5e38fec14f0405e6a4aad8fdb76344bfdd20c5193110e3750cbbd28ba86d73729d222b6cf4a729
@@ -21931,7 +21904,7 @@ __metadata:
     karma-jasmine-html-reporter: "npm:^2.1.0"
     karma-spec-reporter: "npm:0.0.34"
     launchdarkly-js-client-sdk: "npm:3.8.1"
-    log4js: "npm:^3.0.6"
+    log4js: "npm:^6.9.1"
     lz-string: "npm:^1.5.0"
     mocha: "npm:^8.1.1"
     mochawesome: "npm:3.1.1"
@@ -23131,18 +23104,6 @@ __metadata:
   dependencies:
     duplexer: "npm:~0.1.1"
   checksum: 10/844b622cfe8b9de45a6007404f613b60aaf85200ab9862299066204242f89a7c8033b1c356c998aa6cfc630f6cd9eba119ec1c6dc1f93e245982be4a847aee7d
-  languageName: node
-  linkType: hard
-
-"streamroller@npm:0.7.0":
-  version: 0.7.0
-  resolution: "streamroller@npm:0.7.0"
-  dependencies:
-    date-format: "npm:^1.2.0"
-    debug: "npm:^3.1.0"
-    mkdirp: "npm:^0.5.1"
-    readable-stream: "npm:^2.3.0"
-  checksum: 10/3f22f6914037425b1d593d2cccc793be4951e577f74ca9a757a2cbd6471995874a8c9091911a22ec318412ed8fad70b96c79587e43506996984313843ee88bc9
   languageName: node
   linkType: hard
 

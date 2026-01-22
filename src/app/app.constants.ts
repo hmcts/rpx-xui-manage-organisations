@@ -164,6 +164,34 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     },
     phone: 'England and Wales: 0300 323 0196, Scotland: 0300 790 6234',
     openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Damages Claims (online with DC in the claim number)',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'damagesclaims@justice.gov.uk',
+    phone: '0300 123 7050',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Online Civil Money Claims (with MC in the claim number)',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'contactocmc@justice.gov.uk',
+    phone: '0300 123 7050',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'N1 paper claims',
+    badgeColour: BadgeColour.BADGE_RED,
+    phone: '0300 123 1056',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Damages Claims (that have dropped offline)',
+    badgeColour: BadgeColour.BADGE_RED,
+    contactDetails: {
+      name: 'Email us based on the stage of your claim',
+      contactLink: 'https://www.find-court-tribunal.service.gov.uk/courts/civil-national-business-centre-cnbc'
+    }
   }
 ];
 

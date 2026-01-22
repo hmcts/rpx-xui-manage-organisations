@@ -10247,10 +10247,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-transformer@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "class-transformer@npm:0.2.3"
-  checksum: 10/19a84aae1d19095e8530452bc8e30f6909a95187923db518166ca6ad51fda64bdd132eda68c2e11f1a1ec2458623521d311c093816af7b714c7c0f52bb489f1a
+"class-transformer@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "class-transformer@npm:0.3.1"
+  checksum: 10/36f6289d8e48bbbf3f042e1eb8d64391e9bae2465211ac0db8a4cda64fda84275325b4d0013a0cded8f28225e199ef591cc10de3612916efc9de1e6d2ced78c1
   languageName: node
   linkType: hard
 
@@ -12325,18 +12325,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ejs@npm:3.1.9":
-  version: 3.1.9
-  resolution: "ejs@npm:3.1.9"
-  dependencies:
-    jake: "npm:^10.8.5"
-  bin:
-    ejs: bin/cli.js
-  checksum: 10/71f56d37540d2c2d71701f0116710c676f75314a3e997ef8b83515d5d4d2b111c5a72725377caeecb928671bacb84a0d38135f345904812e989847057d59f21a
-  languageName: node
-  linkType: hard
-
-"ejs@npm:^3.1.5":
+"ejs@npm:^3.1.10, ejs@npm:^3.1.5":
   version: 3.1.10
   resolution: "ejs@npm:3.1.10"
   dependencies:
@@ -21898,7 +21887,7 @@ __metadata:
     body-parser: "npm:^1.19.0"
     chai: "npm:^4.3.10"
     chai-as-promised: "npm:7.1.1"
-    class-transformer: "npm:^0.2.3"
+    class-transformer: "npm:^0.3.1"
     codeceptjs: "npm:3.5.6"
     codeceptjs-cucumber-json-reporter: "npm:^1.0.14"
     codelyzer: "npm:^5.1.2"
@@ -21912,7 +21901,7 @@ __metadata:
     cucumber-html-reporter: "npm:^7.1.1"
     dompurify: "npm:^3.2.4"
     dotenv-extended: "npm:^2.7.0"
-    ejs: "npm:3.1.9"
+    ejs: "npm:^3.1.10"
     eslint: "npm:^8.57.0"
     exceljs: "npm:^4.4.0"
     exception-formatter: "npm:^1.0.7"

@@ -14,7 +14,8 @@ describe('CheckboxComponent', () => {
             [classes]="classes"
             [labelClasses]="labelClasses"
             [validate]="validate"
-        ></app-checkbox>`
+        ></app-checkbox>`,
+      standalone: false
     })
   class TestDummyHostComponent {
       group: FormGroup;

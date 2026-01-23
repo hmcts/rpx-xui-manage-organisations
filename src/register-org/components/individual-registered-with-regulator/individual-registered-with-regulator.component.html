@@ -1,7 +1,7 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="registeredWithRegulatorFormGroup">
@@ -12,9 +12,11 @@
             </legend>
             <hr class="govuk-!-margin-top-0">
             <div id="registered-regulators" class=" govuk-!-margin-top-4" [ngClass]="{'govuk-form-group--error': validationErrors.length}">
-              <div *ngIf="validationErrors.length" class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> Please select an option
-              </div>
+              @if (validationErrors.length) {
+                <div class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> Please select an option
+                </div>
+              }
               <div class="govuk-radios" data-module="govuk-radios">
                 <div class="govuk-radios__item">
                   <input class="govuk-radios__input" type="radio" value="yes"

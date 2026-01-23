@@ -1,79 +1,89 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="organisationTypeErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">
         What type of organisation are you registering?
       </h1>
       <hr>
-      <div class="govuk-body govuk-!-margin-top-4">
-        <form [formGroup]="organisationTypeFormGroup">
-          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && !showOtherOrganisationTypes}">
-            <p class="govuk-error-message" *ngIf="organisationTypeErrors.length > 0 && !showOtherOrganisationTypes">
-              <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
-            </p>
-            <fieldset class="govuk-fieldset" aria-describedby="organisation-types">
-              <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                <h1 class="govuk-fieldset__heading">
-                  Select the type of organisation
-                </h1>
-              </legend>
-              <div id="organisation-types" class="govuk-hint">
-                Select the type of organisation you are registering. If you are not sure, select 'Other'.
-              </div>
-              <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
-                <div class="govuk-radios__item" *ngFor="let organisationType of organisationTypes">
-                  <input class="govuk-radios__input" type="radio"
-                    [id]="organisationType.key" name="organisationType" [value]="organisationType.key" formControlName="organisationType"
-                    (click)="canShowOtherOrganisationTypes(organisationType.key === 'OTHER')">
-                  <label class="govuk-label govuk-radios__label" [for]="organisationType.key">
-                    {{organisationType.value_en}}
-                  </label>
+        <div class="govuk-body govuk-!-margin-top-4">
+          <form [formGroup]="organisationTypeFormGroup">
+            <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': organisationTypeErrors.length > 0 && !showOtherOrganisationTypes}">
+              @if (organisationTypeErrors.length > 0 && !showOtherOrganisationTypes) {
+                <p class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span>{{organisationTypeErrors[0].message}}
+                </p>
+              }
+              <fieldset class="govuk-fieldset" aria-describedby="organisation-types">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                  <h1 class="govuk-fieldset__heading">
+                    Select the type of organisation
+                  </h1>
+                </legend>
+                <div id="organisation-types" class="govuk-hint">
+                  Select the type of organisation you are registering. If you are not sure, select 'Other'.
                 </div>
-                <div class="govuk-radios__conditional"
-                  [ngClass]="{'govuk-radios__conditional--hidden': showOtherOrganisationTypes === false }"
-                  id="other-organisation-type-container">
-                  <div >
-                    <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
-                      <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
-                        Select another type of organisation
+                <div class="govuk-radios" id="govuk-radios" data-module="govuk-radios">
+                  @for (organisationType of organisationTypes; track trackByOrgType($index, organisationType)) {
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" type="radio"
+                        [id]="organisationType.key" name="organisationType" [value]="organisationType.key" formControlName="organisationType"
+                        (click)="canShowOtherOrganisationTypes(organisationType.key === 'OTHER')">
+                      <label class="govuk-label govuk-radios__label" [for]="organisationType.key">
+                        {{organisationType.value_en}}
                       </label>
-                      <div *ngIf="otherOrgTypeErrors" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{ otherOrgTypeErrors.message }}
-                      </div>
-                      <select class="govuk-select govuk-!-width-two-thirds"
-                        [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
-                        id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
-                        <option [ngValue]="'none'" disabled>--Select a value--</option>
-                        <option *ngFor="let otherOrganisationType of otherOrganisationTypes" [ngValue]="otherOrganisationType.key">
-                          {{otherOrganisationType.value_en}}
-                        </option>
-                      </select>
                     </div>
-                    <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
-                      <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
-                        Enter details
-                      </label>
-                      <div *ngIf="otherOrgDetailsErrors" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> {{ otherOrgDetailsErrors.message }}
+                  }
+                  <div class="govuk-radios__conditional"
+                    [ngClass]="{'govuk-radios__conditional--hidden': showOtherOrganisationTypes === false }"
+                    id="other-organisation-type-container">
+                    <div >
+                      <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgTypeErrors}">
+                        <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-type">
+                          Select another type of organisation
+                        </label>
+                        @if (otherOrgTypeErrors) {
+                          <div class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> {{ otherOrgTypeErrors.message }}
+                          </div>
+                        }
+                        <select class="govuk-select govuk-!-width-two-thirds"
+                          [ngClass]="{'govuk-select--error': otherOrgTypeErrors}"
+                          id="other-organisation-type" name="otherOrganisationType" formControlName="otherOrganisationType">
+                          <option [ngValue]="'none'" disabled>--Select a value--</option>
+                          @for (otherOrganisationType of otherOrganisationTypes; track trackByOtherOrgType($index, otherOrganisationType)) {
+                            <option [ngValue]="otherOrganisationType.key">
+                              {{otherOrganisationType.value_en}}
+                            </option>
+                          }
+                        </select>
                       </div>
-                      <input class="govuk-input govuk-!-width-two-thirds" type="text"
-                        [ngClass]="{'govuk-input--error': otherOrgDetailsErrors}"
-                        id="other-organisation-detail" name="otherOrganisationDetail" formControlName="otherOrganisationDetail">
+                      <div class="govuk-body" [ngClass]="{'govuk-form-group--error': otherOrgDetailsErrors}">
+                        <label class="govuk-label govuk-!-font-weight-bold" for="other-organisation-detail">
+                          Enter details
+                        </label>
+                        @if (otherOrgDetailsErrors) {
+                          <div class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> {{ otherOrgDetailsErrors.message }}
+                          </div>
+                        }
+                        <input class="govuk-input govuk-!-width-two-thirds" type="text"
+                          [ngClass]="{'govuk-input--error': otherOrgDetailsErrors}"
+                          id="other-organisation-detail" name="otherOrganisationDetail" formControlName="otherOrganisationDetail">
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="govuk-button-group">
-            <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-            <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
-          </div>
-        </form>
+              </fieldset>
+            </div>
+            <div class="govuk-button-group">
+              <button type="submit" class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
+              <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>

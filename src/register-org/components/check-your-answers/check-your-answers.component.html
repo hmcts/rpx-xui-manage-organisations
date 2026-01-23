@@ -1,37 +1,39 @@
 <main id="content" class="govuk-main-wrapper govuk-!-margin-top-4" role="main" tabindex="-1" #mainContent>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <button class="govuk-js-back-link" (click)="onBack()">Back</button>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <h1 class="govuk-heading-xl">Check your answers before you register</h1>
       <h2 class="govuk-heading-m govuk-!-margin-top-8">Organisation details</h2>
 
-      <div *ngIf="registrationData.otherOrganisationType">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Organisation type</dt>
-            <dd class="govuk-summary-list__value">Other: {{registrationData.otherOrganisationType.description}}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link"
-                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
-                Change<span class="govuk-visually-hidden">Organisation type</span>
-              </a>
-            </dd>
-          </div>
-        </dl>
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dt class="govuk-summary-list__key">Organisation details</dt>
-            <dd class="govuk-summary-list__value">{{registrationData.otherOrganisationDetail}}</dd>
-            <dd class="govuk-summary-list__actions">
-              <a class="govuk-link"
-                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
-                Change<span class="govuk-visually-hidden">Organisation details</span>
-              </a>
-            </dd>
-          </div>
-        </dl>
-      </div>
+      @if (registrationData.otherOrganisationType) {
+        <div>
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Organisation type</dt>
+              <dd class="govuk-summary-list__value">Other: {{registrationData.otherOrganisationType.description}}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link"
+                  routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
+                  Change<span class="govuk-visually-hidden">Organisation type</span>
+                </a>
+              </dd>
+            </div>
+          </dl>
+          <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">Organisation details</dt>
+              <dd class="govuk-summary-list__value">{{registrationData.otherOrganisationDetail}}</dd>
+              <dd class="govuk-summary-list__actions">
+                <a class="govuk-link"
+                  routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
+                  Change<span class="govuk-visually-hidden">Organisation details</span>
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      }
 
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
@@ -46,54 +48,66 @@
         </div>
       </dl>
 
-      <dl *ngIf="registrationData.organisationType && registrationData.organisationType.key !== 'OTHER'"
-        class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Organisation type</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.organisationType.description}}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
-              Change<span class="govuk-visually-hidden">Organisation type</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+      @if (registrationData.organisationType && registrationData.organisationType.key !== 'OTHER') {
+        <dl
+          class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation type</dt>
+            <dd class="govuk-summary-list__value">{{registrationData.organisationType.description}}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link"
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-type">
+                Change<span class="govuk-visually-hidden">Organisation type</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+      }
 
-      <dl *ngIf="registrationData.companyHouseNumber"
-        class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Company registration number</dt>
-          <dd class="govuk-summary-list__value">{{registrationData.companyHouseNumber}}</dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
-              Change<span class="govuk-visually-hidden">Company registration number</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+      @if (registrationData.companyHouseNumber) {
+        <dl
+          class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Company registration number</dt>
+            <dd class="govuk-summary-list__value">{{registrationData.companyHouseNumber}}</dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link"
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/company-house-details">
+                Change<span class="govuk-visually-hidden">Company registration number</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+      }
 
-      <dl *ngIf="registrationData.address" class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Organisation address</dt>
-          <dd class="govuk-summary-list__value">
-            <div>{{registrationData.address.addressLine1}}</div>
-            <div *ngIf="registrationData.address.addressLine2">{{registrationData.address.addressLine2}}</div>
-            <div *ngIf="registrationData.address.addressLine3">{{registrationData.address.addressLine3}}</div>
-            <div>{{registrationData.address.postTown}}</div>
-            <div *ngIf="registrationData.address.county">{{registrationData.address.county}}</div>
-            <div>{{registrationData.address.postCode}}</div>
-            <div>{{registrationData.address.country}}</div>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-address/internal">
-              Change<span class="govuk-visually-hidden">Organisation address</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+      @if (registrationData.address) {
+        <dl class="govuk-summary-list">
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Organisation address</dt>
+            <dd class="govuk-summary-list__value">
+              <div>{{registrationData.address.addressLine1}}</div>
+              @if (registrationData.address.addressLine2) {
+                <div>{{registrationData.address.addressLine2}}</div>
+              }
+              @if (registrationData.address.addressLine3) {
+                <div>{{registrationData.address.addressLine3}}</div>
+              }
+              <div>{{registrationData.address.postTown}}</div>
+              @if (registrationData.address.county) {
+                <div>{{registrationData.address.county}}</div>
+              }
+              <div>{{registrationData.address.postCode}}</div>
+              <div>{{registrationData.address.country}}</div>
+            </dd>
+            <dd class="govuk-summary-list__actions">
+              <a class="govuk-link"
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/registered-address/internal">
+                Change<span class="govuk-visually-hidden">Organisation address</span>
+              </a>
+            </dd>
+          </div>
+        </dl>
+      }
 
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border': registrationData.hasDxReference}">
@@ -108,10 +122,13 @@
             </a>
           </dd>
         </div>
-        <div class="govuk-summary-list__row" *ngIf="registrationData.hasDxReference">
-          <dt class="govuk-summary-list__key">What's the DX reference for this office?</dt>
-          <dd class="govuk-summary-list__value">
-            {{registrationData.dxNumber}}<span *ngIf="registrationData.dxExchange">, {{registrationData.dxExchange}}</span>
+        @if (registrationData.hasDxReference) {
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">What's the DX reference for this office?</dt>
+            <dd class="govuk-summary-list__value">
+              {{registrationData.dxNumber}}@if (registrationData.dxExchange) {
+              <span>, {{registrationData.dxExchange}}</span>
+            }
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link"
@@ -120,44 +137,50 @@
             </a>
           </dd>
         </div>
-      </dl>
+      }
+    </dl>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row">
-          <dt class="govuk-summary-list__key">Service to access</dt>
-          <dd class="govuk-summary-list__value">
-            <div *ngFor="let service of services">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">Service to access</dt>
+        <dd class="govuk-summary-list__value">
+          @for (service of services; track trackByService($index, service)) {
+            <div>
               {{service}}
             </div>
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-services-access">
-              Change<span class="govuk-visually-hidden">Service to access</span>
-            </a>
-          </dd>
-        </div>
-      </dl>
+          }
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link"
+            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/organisation-services-access">
+            Change<span class="govuk-visually-hidden">Service to access</span>
+          </a>
+        </dd>
+      </div>
+    </dl>
 
-      <dl class="govuk-summary-list">
-        <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border' : registrationData.hasPBA}">
-          <dt class="govuk-summary-list__key">Does your organisation have a payment by account number?</dt>
-          <dd class="govuk-summary-list__value">
-            {{ registrationData.hasPBA ? 'Yes' : 'No'}}
-          </dd>
-          <dd class="govuk-summary-list__actions">
-            <a class="govuk-link"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account">
-              Change<span class="govuk-visually-hidden">Organisation PBA</span>
-            </a>
-          </dd>
-        </div>
-        <div class="govuk-summary-list__row" *ngIf="registrationData.hasPBA">
+    <dl class="govuk-summary-list">
+      <div class="govuk-summary-list__row" [ngClass]="{'govuk-summary-list__row--no-border' : registrationData.hasPBA}">
+        <dt class="govuk-summary-list__key">Does your organisation have a payment by account number?</dt>
+        <dd class="govuk-summary-list__value">
+          {{ registrationData.hasPBA ? 'Yes' : 'No'}}
+        </dd>
+        <dd class="govuk-summary-list__actions">
+          <a class="govuk-link"
+            routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/payment-by-account">
+            Change<span class="govuk-visually-hidden">Organisation PBA</span>
+          </a>
+        </dd>
+      </div>
+      @if (registrationData.hasPBA) {
+        <div class="govuk-summary-list__row">
           <dt class="govuk-summary-list__key">What PBA numbers does your organisation use?</dt>
           <dd class="govuk-summary-list__value">
-            <div *ngFor="let pbaNumber of registrationData.pbaNumbers">
-              {{pbaNumber}}
-            </div>
+            @for (pbaNumber of registrationData.pbaNumbers; track trackByOrgPba($index, pbaNumber)) {
+              <div>
+                {{pbaNumber}}
+              </div>
+            }
           </dd>
           <dd class="govuk-summary-list__actions">
             <a class="govuk-link"
@@ -166,15 +189,19 @@
             </a>
           </dd>
         </div>
-      </dl>
+      }
+    </dl>
 
-      <app-regulator-list *ngIf="registrationData.regulators?.length"
+    @if (registrationData.regulators?.length) {
+      <app-regulator-list
         [regulatorType]="regulatorType.Organisation"
         [regulators]="registrationData.regulators">
       </app-regulator-list>
+    }
 
-      <h2 class="govuk-heading-m govuk-!-margin-top-8">Administration details</h2>
-      <div *ngIf="registrationData.contactDetails">
+    <h2 class="govuk-heading-m govuk-!-margin-top-8">Administration details</h2>
+    @if (registrationData.contactDetails) {
+      <div>
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">First name(s)</dt>
@@ -187,7 +214,6 @@
             </dd>
           </div>
         </dl>
-
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Last name</dt>
@@ -200,65 +226,67 @@
             </dd>
           </div>
         </dl>
-
         <dl class="govuk-summary-list">
           <div class="govuk-summary-list__row">
             <dt class="govuk-summary-list__key">Email address</dt>
             <dd class="govuk-summary-list__value">{{ registrationData.contactDetails.workEmailAddress }}</dd>
             <dd class="govuk-summary-list__actions">
               <a class="govuk-link"
-              routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
+                routerLink="/{{registerOrgService.REGISTER_ORG_NEW_ROUTE}}/contact-details">
                 Change<span class="govuk-visually-hidden">Email address</span>
               </a>
             </dd>
           </div>
         </dl>
       </div>
+    }
 
-      <app-regulator-list [hasIndividualRegulator]="registrationData.hasIndividualRegisteredWithRegulator"
-        [regulatorType]="regulatorType.Individual"
-        [regulators]="registrationData.individualRegulators">
-      </app-regulator-list>
+    <app-regulator-list [hasIndividualRegulator]="registrationData.hasIndividualRegisteredWithRegulator"
+      [regulatorType]="regulatorType.Individual"
+      [regulators]="registrationData.individualRegulators">
+    </app-regulator-list>
 
-      <h2 class="govuk-heading-m govuk-!-margin-top-8">Confirm your registration details</h2>
-      <p>Ensure that:</p>
-      <ul class="govuk-list govuk-list--bullet">
-        <li>your personal and organisation details are correct</li>
-        <li>you have used your registered office address and not a personal or home address</li>
-        <li>you are creating an account for your organisation for the first time</li>
-        <li>you are authorised to register an account on behalf of your organisation</li>
-        <li>your organisation's name is in the first line of the address if this is a shared business address</li>
-      </ul>
+    <h2 class="govuk-heading-m govuk-!-margin-top-8">Confirm your registration details</h2>
+    <p>Ensure that:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>your personal and organisation details are correct</li>
+      <li>you have used your registered office address and not a personal or home address</li>
+      <li>you are creating an account for your organisation for the first time</li>
+      <li>you are authorised to register an account on behalf of your organisation</li>
+      <li>your organisation's name is in the first line of the address if this is a shared business address</li>
+    </ul>
 
-      <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-          <span class="govuk-warning-text__assistive">Warning</span>
-          Make sure all information is correct as your application will be rejected if it contains errors.
-        </strong>
-      </div>
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        Make sure all information is correct as your application will be rejected if it contains errors.
+      </strong>
+    </div>
 
-      <div class="govuk-body govuk-!-margin-top-6" [ngClass]="{'govuk-form-group--error': validationErrors.length>0 && !cyaFormGroup.valid}">
-        <form [formGroup]="cyaFormGroup">
-          <div *ngIf="validationErrors.length>0 && !cyaFormGroup.valid" class="govuk-error-message">
+    <div class="govuk-body govuk-!-margin-top-6" [ngClass]="{'govuk-form-group--error': validationErrors.length>0 && !cyaFormGroup.valid}">
+      <form [formGroup]="cyaFormGroup">
+        @if (validationErrors.length>0 && !cyaFormGroup.valid) {
+          <div class="govuk-error-message">
             <span class="govuk-visually-hidden">Error:</span> {{validationErrors[0].message}}
           </div>
-          <div class="govuk-checkboxes__item">
-              <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
-              name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
-              <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
-                You have read, understood and will abide by the
-                <a target="_blank"
-                  routerLink="/terms-and-conditions">terms and conditions</a>
-                and are eligible for an account to manage your organisation and cases
-              </label>
-          </div>
-          <div class="govuk-!-margin-top-6">
-            <button class="govuk-button govuk-buton--primary" (click)="onSubmitData()" type="submit">Confirm and submit</button>
-          </div>
+        }
+        <div class="govuk-checkboxes__item">
+          <input class="govuk-checkboxes__input" type="checkbox" id="confirm-terms-and-conditions"
+            name="confirmTermsAndConditions" formControlName="confirmTermsAndConditions">
+          <label class="govuk-label govuk-checkboxes__label" for="confirm-terms-and-conditions">
+            You have read, understood and will abide by the
+            <a target="_blank"
+            routerLink="/terms-and-conditions">terms and conditions</a>
+            and are eligible for an account to manage your organisation and cases
+          </label>
+        </div>
+        <div class="govuk-button-group govuk-!-margin-top-6">
+          <button class="govuk-button govuk-button--primary" (click)="onSubmitData()" type="submit">Confirm and submit</button>
           <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 </main>

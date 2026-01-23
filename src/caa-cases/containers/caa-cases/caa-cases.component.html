@@ -5,90 +5,112 @@
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
       {{ caaShowHideFilterButtonText }}
     </button>
-    <div *ngIf="caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.AssignedCasesHide || caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.UnassignedCasesHide">
-      <ng-container *ngIf="isAnyError()">
-        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
-          <h2 class="govuk-error-summary__title" id="error-summary-title">
-            There is a problem
-          </h2>
-          <div class="govuk-error-summary__body">
-            <ul class="govuk-list govuk-error-summary__list">
-              <li *ngFor="let errorMessage of errorMessages">
-                <a href="{{caaCasesPageType}}#{{errorMessage.fieldId}}">{{errorMessage.description}}</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </ng-container>
-      <app-caa-filter
-        [caaCasesPageType]="caaCasesPageType"
-        [selectedFilterType]="selectedFilterType"
-        [sessionStateValue]="sessionStateValue"
-        [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
-        (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
-        (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
-        (emitErrorMessages)="onErrorMessages($event)">
-      </app-caa-filter>
-    </div>
-    <details *ngIf="noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
-      class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" id="add-user-help" close>
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text" id="content-why-can-not-find-case">Can't find a case?
-        </span>
-      </summary>
-      <div class="govuk-details__text" id="content-reason-can-not-find-case">
-        You might not see any cases listed if either of the following apply:
-        <ul>
-          <li>your service currently doesn't allow you to search for and select a respondent solicitor</li>
-          <li>your firm isn't named as a respondent on any new digital cases</li>
-        </ul>
-      </div>
-    </details>
-    <p *ngIf="noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases">
-      You can share a case from your unassigned case list with yourself or a colleague.
-      <br>
-      Your colleague must be registered with your organisation and have access to Manage Cases.
-    </p>
-    <mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)" *ngIf="navItems && navItems.length > 0">
-      <mat-tab *ngFor="let navItem of navItems; let last = last;" [id]="navItem.id" [label]="navItem.text">
-        <div id="cases-error" class="govuk-!-margin-top-7" *ngIf="(casesError$ | async)">
-          This view has not been configured for the case type.
-        </div>
-        <div *ngIf="(cases$ | async)?.length > 0">
-          <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
-            <div>
-              <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases</p>
+    @if (caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.AssignedCasesHide || caaShowHideFilterButtonText === caaShowHideFilterButtonTextLookup.UnassignedCasesHide) {
+      <div>
+        @if (isAnyError()) {
+          <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+              There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+              <ul class="govuk-list govuk-error-summary__list">
+                @for (errorMessage of errorMessages; track trackByCaaErrorMessage($index, errorMessage)) {
+                  <li>
+                    <a href="{{caaCasesPageType}}#{{errorMessage.fieldId}}">{{errorMessage.description}}</a>
+                  </li>
+                }
+              </ul>
             </div>
-            <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
-            <button *ngIf="caaCasesPageType === caaCasesPageTypeLookup.AssignedCases"
-              [disabled]="(shareAssignedCases$ | async)?.length === 0"
-              id="btn-share-assigned-case-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
-              data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareAssignedCaseSubmit()">
-              Manage case sharing
-            </button>
-            <button *ngIf="caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases"
-              [disabled]="(shareUnassignedCases$ | async)?.length === 0"
-              id="btn-share-unassigned-case-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
-              data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareUnassignedCaseSubmit()">
-              Share case
-            </button>
           </div>
-          <ccd-case-list
-            [cases]="cases$ | async"
-            [selectedCases]="selectedCases"
-            [tableConfig]="tableConfig"
-            [selectionEnabled]="true"
-            (selection)="onCaseSelection($event)"
-            (pageChange)="onPaginationHandler($event)"
-            [currentPageNo]="currentPageNo"
-            [totalResultsCount]="totalCases"
-            [pageSize]="paginationPageSize">
-          </ccd-case-list>
+        }
+        <app-caa-filter
+          [caaCasesPageType]="caaCasesPageType"
+          [selectedFilterType]="selectedFilterType"
+          [sessionStateValue]="sessionStateValue"
+          [selectedOrganisationUsers]="selectedOrganisationUsers$ | async"
+          (emitSelectedFilterType)="onSelectedFilterTypeChanged($event)"
+          (emitSelectedFilterValue)="onSelectedFilterValueChanged($event)"
+          (emitErrorMessages)="onErrorMessages($event)">
+        </app-caa-filter>
+      </div>
+    }
+    @if (noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
+      <details
+        class="govuk-details govuk-!-margin-top-4" data-module="govuk-details" id="add-user-help" close>
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text" id="content-why-can-not-find-case">Can't find a case?
+          </span>
+        </summary>
+        <div class="govuk-details__text" id="content-reason-can-not-find-case">
+          You might not see any cases listed if either of the following apply:
+          <ul>
+            <li>your service currently doesn't allow you to search for and select a respondent solicitor</li>
+            <li>your firm isn't named as a respondent on any new digital cases</li>
+          </ul>
         </div>
-      </mat-tab>
-    </mat-tab-group>
-    <div class="govuk-body govuk-!-margin-top-4" *ngIf="noCasesFoundMessage.length > 0">
-      {{ noCasesFoundMessage }}
+      </details>
+    }
+    @if (noCasesFoundMessage.length === 0 && caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
+      <p>
+        You can share a case from your unassigned case list with yourself or a colleague.
+        <br>
+          Your colleague must be registered with your organisation and have access to Manage Cases.
+        </p>
+      }
+      @if (navItems && navItems.length > 0) {
+        <mat-tab-group #tabGroup animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+          @for (navItem of navItems; track trackByNavItem($index, navItem); let last = $last) {
+            <mat-tab [id]="navItem.id" [label]="navItem.text">
+              @if ((casesError$ | async)) {
+                <div id="cases-error" class="govuk-!-margin-top-7">
+                  This view has not been configured for the case type.
+                </div>
+              }
+              @if ((cases$ | async)?.length > 0) {
+                <div>
+                  <div class="govuk-!-margin-top-7 govuk-!-margin-bottom-2">
+                    <div>
+                      <p class="govuk-body">Showing <strong>{{ getFirstResult() }}</strong> to <strong>{{ getLastResult() }}</strong> of <strong>{{ getTotalResults() }} {{ currentCaseType }}</strong> cases</p>
+                    </div>
+                    <p class="govuk-body">Select any <strong>{{ currentCaseType }}</strong> cases you want to manage case sharing for.</p>
+                    @if (caaCasesPageType === caaCasesPageTypeLookup.AssignedCases) {
+                      <button
+                        [disabled]="(shareAssignedCases$ | async)?.length === 0"
+                        id="btn-share-assigned-case-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+                        data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareAssignedCaseSubmit()">
+                        Manage case sharing
+                      </button>
+                    }
+                    @if (caaCasesPageType === caaCasesPageTypeLookup.UnassignedCases) {
+                      <button
+                        [disabled]="(shareUnassignedCases$ | async)?.length === 0"
+                        id="btn-share-unassigned-case-button" class="govuk-button govuk-button--secondary govuk-!-margin-top-4 govuk-!-margin-bottom-4"
+                        data-module="govuk-button" type="button" aria-haspopup="true" aria-expanded="false" (click)="shareUnassignedCaseSubmit()">
+                        Share case
+                      </button>
+                    }
+                  </div>
+                  <ccd-case-list
+                    [cases]="cases$ | async"
+                    [selectedCases]="selectedCases"
+                    [tableConfig]="tableConfig"
+                    [selectionEnabled]="true"
+                    (selection)="onCaseSelection($event)"
+                    (pageChange)="onPaginationHandler($event)"
+                    [currentPageNo]="currentPageNo"
+                    [totalResultsCount]="totalCases"
+                    [pageSize]="paginationPageSize">
+                  </ccd-case-list>
+                </div>
+              }
+            </mat-tab>
+          }
+        </mat-tab-group>
+      }
+      @if (noCasesFoundMessage.length > 0) {
+        <div class="govuk-body govuk-!-margin-top-4">
+          {{ noCasesFoundMessage }}
+        </div>
+      }
     </div>
-  </div>
-</main>
+  </main>

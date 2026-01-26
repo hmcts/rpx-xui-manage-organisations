@@ -228,6 +228,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     if (regulators.findIndex((regulator) => regulator.regulatorType === RegulatoryType.NotApplicable) > -1) {
       filteredRegulators.push({ regulatorType: RegulatoryType.NotApplicable });
     }
+    this.registrationData.sraRegulated = this.isSRARegulated(filteredRegulators);
     // Set corresponding registration data
     switch (this.regulatorType) {
       case RegulatorType.Individual: {
@@ -310,6 +311,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
     });
     return this.duplicatesIndex.length > 0;
+  }
+
+  private isSRARegulated(regulators: Regulator[]): boolean {
+    const sraRegulatorFound = regulators.find((regulator) => regulator.regulatorType === 'Solicitor Regulation Authority (SRA)' && regulator.organisationRegistrationNumber);
+    return sraRegulatorFound ? true : false;
   }
 
   // trackBy helpers

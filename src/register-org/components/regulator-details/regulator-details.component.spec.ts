@@ -539,4 +539,27 @@ describe('RegulatorDetailsComponent', () => {
     component.onBack();
     expect(router.navigate).toHaveBeenCalledWith(['register-org-new', 'check-your-answers']);
   });
+
+  describe('isSRARegulated', () => {
+    it('returns true when an SRA regulator with a registration number is present', () => {
+      const regulators: any[] = [
+        { regulatorType: RegulatorDetailsComponent.sraType, organisationRegistrationNumber: 'SRA123' },
+        { regulatorType: 'Other', regulatorName: 'Test', organisationRegistrationNumber: '999' }
+      ];
+      expect((component as any).isSRARegulated(regulators)).toBeTrue();
+    });
+
+    it('returns false when SRA regulator is missing or has no registration number', () => {
+      const regulatorsWrongType: any[] = [
+        // Note: missing "(SRA)" suffix, should be false
+        { regulatorType: 'Solicitor Regulation Authority', organisationRegistrationNumber: 'SRA123' }
+      ];
+      const regulatorsNoNumber: any[] = [
+        { regulatorType: RegulatorDetailsComponent.sraType, organisationRegistrationNumber: '' }
+      ];
+
+      expect((component as any).isSRARegulated(regulatorsWrongType)).toBeFalse();
+      expect((component as any).isSRARegulated(regulatorsNoNumber)).toBeFalse();
+    });
+  });
 });

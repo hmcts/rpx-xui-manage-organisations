@@ -59,13 +59,6 @@ withPipeline(type, product, component) {
     disableCleanupOfHelmReleaseOnFailure()
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-
-    // 🔍 DEBUG:
-    if (env.S2S_SECRET) {
-        echo "S2S_SECRET length: ${env.S2S_SECRET.length()}"
-    } else {
-        echo "S2S_SECRET is NOT set in the build environment"
-    }
     enableFortifyScan('rpx-aat')
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)

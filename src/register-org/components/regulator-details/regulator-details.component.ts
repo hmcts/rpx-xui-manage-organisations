@@ -20,7 +20,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
   standalone: false
 })
 export class RegulatorDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
-  public static readonly sraType = 'Solicitor Regulation Authority (SRA)';
+  public static readonly SRA_REG_TYPE = 'Solicitor Regulation Authority (SRA)';
   public readonly SELECT_A_VALUE = 'none';
 
   @ViewChild('mainContent') public mainContentElement: ElementRef;
@@ -316,7 +316,7 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
   }
 
   private isSRARegulated(regulators: Regulator[]): boolean {
-    const sraRegulatorFound = regulators.find((regulator) => regulator.regulatorType === RegulatorDetailsComponent.sraType && regulator.organisationRegistrationNumber);
+    const sraRegulatorFound = regulators.find((regulator) => regulator.regulatorType === RegulatorDetailsComponent.SRA_REG_TYPE && regulator.organisationRegistrationNumber);
     return sraRegulatorFound ? true : false;
   }
 

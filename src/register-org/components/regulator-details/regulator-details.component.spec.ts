@@ -543,7 +543,7 @@ describe('RegulatorDetailsComponent', () => {
   describe('isSRARegulated', () => {
     it('returns true when an SRA regulator with a registration number is present', () => {
       const regulators: any[] = [
-        { regulatorType: RegulatorDetailsComponent.sraType, organisationRegistrationNumber: 'SRA123' },
+        { regulatorType: RegulatorDetailsComponent.SRA_REG_TYPE, organisationRegistrationNumber: 'SRA123' },
         { regulatorType: 'Other', regulatorName: 'Test', organisationRegistrationNumber: '999' }
       ];
       expect((component as any).isSRARegulated(regulators)).toBeTrue();
@@ -555,7 +555,7 @@ describe('RegulatorDetailsComponent', () => {
         { regulatorType: 'Solicitor Regulation Authority', organisationRegistrationNumber: 'SRA123' }
       ];
       const regulatorsNoNumber: any[] = [
-        { regulatorType: RegulatorDetailsComponent.sraType, organisationRegistrationNumber: '' }
+        { regulatorType: RegulatorDetailsComponent.SRA_REG_TYPE, organisationRegistrationNumber: '' }
       ];
 
       expect((component as any).isSRARegulated(regulatorsWrongType)).toBeFalse();

@@ -88,7 +88,6 @@
     "@ngrx/store-devtools": "^20.0.0",
     "@nicky-lenaers/ngx-scroll-to": "^14.0.0",
     "@pact-foundation/pact": "^9.2.0",
-    "@pact-foundation/pact-node": "^10.9.7",
     "@playwright/test": "^1.51.1",
     "@rxweb/reactive-form-validators": "13.0.1",
     "@swimlane/ngx-datatable": "^20.0.0",
@@ -160,7 +159,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.3.5",
-    "@angular/cli": "^20.3.9",
+    "@angular/cli": "^20.3.15",
     "@angular/compiler-cli": "^20.3.16",
     "@angular/language-service": "^20.3.16",
     "@stryker-mutator/api": "^3.0.1",
@@ -251,7 +250,8 @@
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
     "axios": "1.12.1",
-    "qs": "6.14.1"
+    "qs": "6.14.1",
+    "tar": "7.5.4"
   },
   "packageManager": "yarn@4.9.2"
 }

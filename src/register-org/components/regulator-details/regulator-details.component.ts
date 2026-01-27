@@ -229,7 +229,6 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
     if (regulators.findIndex((regulator) => regulator.regulatorType === RegulatoryType.NotApplicable) > -1) {
       filteredRegulators.push({ regulatorType: RegulatoryType.NotApplicable });
     }
-    this.registrationData.sraRegulated = this.isSRARegulated(filteredRegulators);
     // Set corresponding registration data
     switch (this.regulatorType) {
       case RegulatorType.Individual: {
@@ -237,6 +236,8 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
         break;
       }
       case RegulatorType.Organisation: {
+        // SRA Requlated is based on organisation regulators only - can be changed
+        this.registrationData.sraRegulated = this.isSRARegulated(filteredRegulators);
         this.registrationData.regulators = filteredRegulators;
         break;
       }

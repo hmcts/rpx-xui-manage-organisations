@@ -481,7 +481,7 @@ xui-mo-webapp:
       UNASSIGNED_CASE_TYPES: FT_NewCaseSupplementry,true,true|FT_NoCCaseType,true,false|FT_UnassignedCase,true,false
       SERVICES_CCD_DEFINITION_STORE_API: https://ccd-definition-store-xui-mo-webapp-pr-1367.preview.platform.hmcts.net
       SERVICES_ROLE_ASSIGNMENT_MAPPING_API: http://am-org-role-mapping-service-{{ .Release.Name }}.preview.platform.hmcts.net
-
+      SERVICES_ROLE_ASSIGNMENT_API: https://am-role-assignment-service-{{ .Release.Name }}.preview.platform.hmcts.net
 
 postgresql:
   enabled: true

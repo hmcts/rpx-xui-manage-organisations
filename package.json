@@ -251,7 +251,10 @@
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
     "axios": "1.12.1",
-    "qs": "6.14.1"
+    "qs": "6.14.1",
+    "jsdom": "^27.0.1",
+    "html-encoding-sniffer": "^6.0.0",
+    "jest-environment-jsdom": "^30.2.0"
   },
   "packageManager": "yarn@4.9.2"
 }

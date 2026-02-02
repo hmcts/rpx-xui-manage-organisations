@@ -192,6 +192,7 @@
     "cucumber-html-report": "0.6.5",
     "cucumber-html-reporter": "^7.1.1",
     "eslint": "^8.57.0",
+    "html-encoding-sniffer": "^6.0.0",
     "jasmine-core": "~5.1.0",
     "jasmine-marbles": "^0.9.2",
     "jasmine-spec-reporter": "~7.0.0",
@@ -252,10 +253,7 @@
     "semver": "^7.6.0",
     "axios": "1.12.1",
     "qs": "6.14.1",
-    "jsdom": "^27.0.1",
-    "html-encoding-sniffer": "^6.0.0",
-    "jest-environment-jsdom": "^30.2.0",
-    "tar": "7.5.7"
+    "jsdom": "^27.0.1"
   },
   "packageManager": "yarn@4.9.2"
 }

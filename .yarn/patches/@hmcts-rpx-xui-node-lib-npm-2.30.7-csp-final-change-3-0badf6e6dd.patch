@@ -1,0 +1,59 @@
+diff --git a/dist/auth/models/strategy.class.js b/dist/auth/models/strategy.class.js
+index 6454998826b03bd530e75661959cea1e24a120dc..b7c7921740bf8d59fa8b125dbf2e544aec9e1546 100644
+--- a/dist/auth/models/strategy.class.js
++++ b/dist/auth/models/strategy.class.js
+@@ -53,7 +53,7 @@ const common_1 = require("../../common");
+ const joi_1 = __importDefault(require("@hapi/joi"));
+ const URL = __importStar(require("url"));
+ const openid_client_1 = require("openid-client");
+-const csurf_1 = __importDefault(require("csurf"));
++const csrf_sync_1 = require("csrf-sync");
+ const jwt_decode_1 = __importDefault(require("jwt-decode"));
+ class Strategy extends events.EventEmitter {
+     constructor(strategyName, router, logger = (0, common_1.getLogger)('auth:strategy')) {
+@@ -457,8 +457,8 @@ class Strategy extends events.EventEmitter {
+         this.initialiseCSRF = () => {
+             if (this.options.useCSRF) {
+                 this.logger.log('initialising CSRF middleware');
+-                const csrfProtection = (0, csurf_1.default)({
+-                    value: this.getCSRFValue,
++                const { csrfSynchronisedProtection, generateToken } = (0, csrf_sync_1.csrfSync)({
++                    getTokenFromRequest: this.getCSRFValue,
+                 });
+                 // cookie options added via EXUI-986, fortify issues
+                 const cookieOptions = {
+@@ -466,10 +466,11 @@ class Strategy extends events.EventEmitter {
+                     secure: true,
+                 };
+                 /* istanbul ignore next */
+-                this.router.use(csrfProtection, (req, res, next) => {
+-                    res.cookie('XSRF-TOKEN', req.csrfToken(), cookieOptions);
++                this.router.use((req, res, next) => {
++                    res.cookie('XSRF-TOKEN', generateToken(req), cookieOptions);
+                     next();
+                 });
++                this.router.use(csrfSynchronisedProtection);
+             }
+         };
+         /**
+diff --git a/package.json b/package.json
+index 2b5a2a146a71b49ed2e8ab049c964ada3d008ef4..5d7bdb32a857ac168e5ae63a087a6869c964da06 100644
+--- a/package.json
++++ b/package.json
+@@ -52,7 +52,6 @@
+     "@semantic-release/git": "^10.0.1",
+     "@semantic-release/github": "^8.1.0",
+     "@types/connect-redis": "^0.0.23",
+-    "@types/csurf": "^1.9.36",
+     "@types/debug": "^4.1.5",
+     "@types/express": "^4.17.2",
+     "@types/express-session": "1.17.10",
+@@ -93,7 +92,7 @@
+     "axios": "^1.11.0",
+     "caller-path": "^3.0.0",
+     "connect-redis": "^4.0.4",
+-    "csurf": "^1.11.0",
++    "csrf-sync": "^4.0.3",
+     "debug": "^4.3.7",
+     "deepmerge": "^4.2.2",
+     "express": "^4.20.0",

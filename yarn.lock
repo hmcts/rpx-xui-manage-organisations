@@ -3170,6 +3170,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hmcts/rpx-xui-node-lib@patch:@hmcts/rpx-xui-node-lib@npm%3A2.30.7-csp-final-change-3#~/.yarn/patches/@hmcts-rpx-xui-node-lib-npm-2.30.7-csp-final-change-3-0badf6e6dd.patch":
+  version: 2.30.7-csp-final-change-3
+  resolution: "@hmcts/rpx-xui-node-lib@patch:@hmcts/rpx-xui-node-lib@npm%3A2.30.7-csp-final-change-3#~/.yarn/patches/@hmcts-rpx-xui-node-lib-npm-2.30.7-csp-final-change-3-0badf6e6dd.patch::version=2.30.7-csp-final-change-3&hash=9cf219"
+  dependencies:
+    "@hapi/joi": "npm:^17.1.1"
+    axios: "npm:^1.11.0"
+    caller-path: "npm:^3.0.0"
+    connect-redis: "npm:^4.0.4"
+    csurf: "npm:^1.11.0"
+    debug: "npm:^4.3.7"
+    deepmerge: "npm:^4.2.2"
+    express: "npm:^4.20.0"
+    express-session: "npm:^1.17.0"
+    jest-mock-axios: "npm:^4.8.0"
+    jest-ts-auto-mock: "npm:^2.1.0"
+    jwt-decode: "npm:^3.1.2"
+    openid-client: "npm:^3.10.0"
+    otplib: "npm:^12.0.1"
+    passport: "npm:^0.5.3"
+    passport-oauth2: "npm:^1.5.0"
+    redis: "npm:^3.0.2"
+    session-file-store: "npm:^1.5.0"
+  peerDependencies:
+    helmet: ^7.0.0
+  checksum: 10/fe7adb7b5934aa3921331eed5fd74b3bd89664048d336e1ab08948ae7587e496725094c8f3d97e4d4264c140a593226e7556333e6d7f576c6d9edc291e00933d
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.13.0":
   version: 0.13.0
   resolution: "@humanwhocodes/config-array@npm:0.13.0"
@@ -10879,13 +10907,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.4.0":
-  version: 0.4.0
-  resolution: "cookie@npm:0.4.0"
-  checksum: 10/494314fb0edfc3262e7809ba184829f3dea798800bf81c3e6ca5185083f75ba10fe37ee32a2aa5a4cd79ea1abcc1452ec47d331a4e6beaceaa30b8e6b3ec7636
-  languageName: node
-  linkType: hard
-
 "cookie@npm:0.7.1":
   version: 0.7.1
   resolution: "cookie@npm:0.7.1"
@@ -11070,17 +11091,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csrf@npm:3.1.0":
-  version: 3.1.0
-  resolution: "csrf@npm:3.1.0"
-  dependencies:
-    rndm: "npm:1.2.0"
-    tsscmp: "npm:1.0.6"
-    uid-safe: "npm:2.1.5"
-  checksum: 10/bb151ccd76203bf4d443d01c63a9122cdcc3e7c6c6213518d836c440a4a9fc05543078086e45add14c0c1e1d57592068967b8ec9cc1fa67c01a49474c988c4e9
-  languageName: node
-  linkType: hard
-
 "css-loader@npm:7.1.2":
   version: 7.1.2
   resolution: "css-loader@npm:7.1.2"
@@ -11206,15 +11216,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csurf@npm:^1.11.0":
-  version: 1.11.0
-  resolution: "csurf@npm:1.11.0"
+"csurf@npm:csrf-sync@4.0.3":
+  version: 4.0.3
+  resolution: "csrf-sync@npm:4.0.3"
   dependencies:
-    cookie: "npm:0.4.0"
-    cookie-signature: "npm:1.0.6"
-    csrf: "npm:3.1.0"
-    http-errors: "npm:~1.7.3"
-  checksum: 10/823e6f4a11a7cded7473af18f7f3605477102f154b892291e37e99f67ba00863ef299369d1facdf9603ea8946acfb8281d35f54831d5e9c8ac704d526cd9ca4e
+    http-errors: "npm:^2.0.0"
+  checksum: 10/5ebcd288498fe99e2937e3cabebc9758e1c98d952afcaed4c3df34749bf8dca420c4fc2160a3e2b2d6dff8000b09dd7f47e45deb119e82fc6374ebb639850093
   languageName: node
   linkType: hard
 
@@ -14773,19 +14780,6 @@ __metadata:
     setprototypeof: "npm:1.1.0"
     statuses: "npm:>= 1.4.0 < 2"
   checksum: 10/e48732657ea0b4a09853d2696a584fa59fa2a8c1ba692af7af3137b5491a997d7f9723f824e7e08eb6a87098532c09ce066966ddf0f9f3dd30905e52301acadb
-  languageName: node
-  linkType: hard
-
-"http-errors@npm:~1.7.3":
-  version: 1.7.3
-  resolution: "http-errors@npm:1.7.3"
-  dependencies:
-    depd: "npm:~1.1.2"
-    inherits: "npm:2.0.4"
-    setprototypeof: "npm:1.1.1"
-    statuses: "npm:>= 1.5.0 < 2"
-    toidentifier: "npm:1.0.0"
-  checksum: 10/157cb95296118e9c37034f04d5c372916db03bcb6b1097caf693fbc9cf85ac881c8cbdf892140acb7ede6cad6a1a3dbf86a8031b2b127dc47bfc0600b3fda8a0
   languageName: node
   linkType: hard
 
@@ -21555,13 +21549,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rndm@npm:1.2.0":
-  version: 1.2.0
-  resolution: "rndm@npm:1.2.0"
-  checksum: 10/ff0c54a12357267108d7de17b762869e388215e2e3c8147b5bba80d8454ee490c5fdaa40020b8b52ca52b86f13ad6171b4845dd5b7f627e5e2b6195908117c07
-  languageName: node
-  linkType: hard
-
 "roarr@npm:^2.15.3":
   version: 2.15.4
   resolution: "roarr@npm:2.15.4"
@@ -21815,7 +21802,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"
     "@hmcts/properties-volume": "npm:0.0.13"
     "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-csp-final-change-3"
+    "@hmcts/rpx-xui-node-lib": "patch:@hmcts/rpx-xui-node-lib@npm%3A2.30.7-csp-final-change-3#~/.yarn/patches/@hmcts-rpx-xui-node-lib-npm-2.30.7-csp-final-change-3-0badf6e6dd.patch"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"
@@ -22405,13 +22392,6 @@ __metadata:
   version: 1.1.0
   resolution: "setprototypeof@npm:1.1.0"
   checksum: 10/02d2564e02a260551bab3ec95358dcfde775fe61272b1b7c488de3676a4bb79f280b5668a324aebe0ec73f0d8ba408bc2d816a609ee5d93b1a7936b9d4ba1208
-  languageName: node
-  linkType: hard
-
-"setprototypeof@npm:1.1.1":
-  version: 1.1.1
-  resolution: "setprototypeof@npm:1.1.1"
-  checksum: 10/b8fcf5b4b8325ea638712ed6e62f8e0ffac69eef1390305a5331046992424e484d4d6603a18d84d4c08c3def50b9195d9e707b747aed5eec15ee66a2a6508318
   languageName: node
   linkType: hard
 
@@ -23077,7 +23057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"statuses@npm:>= 1.4.0 < 2, statuses@npm:>= 1.5.0 < 2, statuses@npm:~1.5.0":
+"statuses@npm:>= 1.4.0 < 2, statuses@npm:~1.5.0":
   version: 1.5.0
   resolution: "statuses@npm:1.5.0"
   checksum: 10/c469b9519de16a4bb19600205cffb39ee471a5f17b82589757ca7bd40a8d92ebb6ed9f98b5a540c5d302ccbc78f15dc03cc0280dd6e00df1335568a5d5758a5c
@@ -23765,13 +23745,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"toidentifier@npm:1.0.0":
-  version: 1.0.0
-  resolution: "toidentifier@npm:1.0.0"
-  checksum: 10/199e6bfca1531d49b3506cff02353d53ec987c9ee10ee272ca6484ed97f1fc10fb77c6c009079ca16d5c5be4a10378178c3cacdb41ce9ec954c3297c74c6053e
-  languageName: node
-  linkType: hard
-
 "toidentifier@npm:1.0.1, toidentifier@npm:~1.0.1":
   version: 1.0.1
   resolution: "toidentifier@npm:1.0.1"
@@ -24033,13 +24006,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsscmp@npm:1.0.6":
-  version: 1.0.6
-  resolution: "tsscmp@npm:1.0.6"
-  checksum: 10/850405080ea3ecb158e9e01bc4e87c9edb94a829d8ad8747f30ba103fcc41a287d7949ab84d7b27c36294036a2c9878f050db15b73a1a1961abfb7688b82ac53
-  languageName: node
-  linkType: hard
-
 "tuf-js@npm:^3.0.1":
   version: 3.1.0
   resolution: "tuf-js@npm:3.1.0"
@@ -24241,7 +24207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uid-safe@npm:2.1.5, uid-safe@npm:~2.1.5":
+"uid-safe@npm:~2.1.5":
   version: 2.1.5
   resolution: "uid-safe@npm:2.1.5"
   dependencies:

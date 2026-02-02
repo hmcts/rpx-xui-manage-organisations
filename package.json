@@ -78,7 +78,7 @@
     "@hmcts/nodejs-healthcheck": "1.7.0",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz",
-    "@hmcts/rpx-xui-node-lib": "2.30.7-csp-final-change-3",
+    "@hmcts/rpx-xui-node-lib": "patch:@hmcts/rpx-xui-node-lib@npm%3A2.30.7-csp-final-change-3#~/.yarn/patches/@hmcts-rpx-xui-node-lib-npm-2.30.7-csp-final-change-3-0badf6e6dd.patch",
     "@microsoft/applicationinsights-web": "^3.3.9",
     "@ng-idle/core": "^16.0.0",
     "@ng-idle/keepalive": "^16.0.0",
@@ -251,7 +251,8 @@
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
     "axios": "1.12.1",
-    "qs": "6.14.1"
+    "qs": "6.14.1",
+    "csurf": "npm:csrf-sync@4.0.3"
   },
   "packageManager": "yarn@4.9.2"
 }

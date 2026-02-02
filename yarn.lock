@@ -3242,9 +3242,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.10-trust-proxy-rc1":
-  version: 2.30.10-trust-proxy-rc1
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.10-trust-proxy-rc1"
+"@hmcts/rpx-xui-node-lib@https://github.com/hmcts/rpx-xui-node-lib/releases/download/v2.30.11-rc2/hmcts-rpx-xui-node-lib-2.30.11-rc2.tgz":
+  version: 2.30.11-rc2
+  resolution: "@hmcts/rpx-xui-node-lib@https://github.com/hmcts/rpx-xui-node-lib/releases/download/v2.30.11-rc2/hmcts-rpx-xui-node-lib-2.30.11-rc2.tgz"
   dependencies:
     "@dr.pogodin/csurf": "npm:^1.14.0"
     "@hapi/joi": "npm:^17.1.1"
@@ -3267,7 +3267,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/eeaa748304cf4d5f5e92c2d7836d8585c0bf6725605b5ff4d66834ac9178bbd5302777e48f053fdac9994bd4261720f91badb72f55ca85ae7eefddf9950b1c9f
+  checksum: 10/433f13ebb98b1393231d18c6a66092afde12f3bd8374959fa4c3762af56ae367ea9e3f207eecef2246ad647d5b1cfa6948c95943a81edf1efc4d01c60335d19f
   languageName: node
   linkType: hard
 
@@ -20989,7 +20989,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": "npm:1.7.0"
     "@hmcts/properties-volume": "npm:0.0.13"
     "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.10-trust-proxy-rc1"
+    "@hmcts/rpx-xui-node-lib": "https://github.com/hmcts/rpx-xui-node-lib/releases/download/v2.30.11-rc2/hmcts-rpx-xui-node-lib-2.30.11-rc2.tgz"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"

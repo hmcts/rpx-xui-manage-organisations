@@ -5817,9 +5817,9 @@ __metadata:
   linkType: hard
 
 "@nevware21/ts-utils@npm:>= 0.10.4 < 2.x, @nevware21/ts-utils@npm:>= 0.11.8 < 2.x, @nevware21/ts-utils@npm:>= 0.12.2 < 2.x, @nevware21/ts-utils@npm:>= 0.9.4 < 2.x":
-  version: 0.12.5
-  resolution: "@nevware21/ts-utils@npm:0.12.5"
-  checksum: 10/666b19acfc6f7ee661db17110f9c058905b664e430c5e6b52d51df39e771fe9502642a185a97bc9c7f8cf60ce691b6c4006355b6e84a5697ff6f1ea7fe063913
+  version: 0.12.6
+  resolution: "@nevware21/ts-utils@npm:0.12.6"
+  checksum: 10/023184d17326273e3a6603ff867d5d62c946c1e4b9d0cd8c8e7d183455fe2bf8f455cf190e3d5c0e3528a4fce40c6d1f4821ca9a2080ce609ab2e575b2f6ed1d
   languageName: node
   linkType: hard
 
@@ -7943,11 +7943,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:^20.19.0":
-  version: 20.19.30
-  resolution: "@types/node@npm:20.19.30"
+  version: 20.19.31
+  resolution: "@types/node@npm:20.19.31"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10/4a25e5cbcdfc61b9bf45ebbbd199a6ce26efed34bd67c45c3472654a1cf988f7b58ec7c1574ffb5b83c6a772e7eaf1ca9de94fdafc3a36ae6efb852c1f0b6fb0
+  checksum: 10/6196b4cc4429b29407dcb657dfa2624cf83460315b05a29dcf7f1b0c582da6cd941e9380eb056b77209f7cc31c118a815ed86f70dc3f3736c7d8497f0137de8a
   languageName: node
   linkType: hard
 
@@ -12121,12 +12121,12 @@ __metadata:
   linkType: hard
 
 "default-browser@npm:^5.2.1":
-  version: 5.4.0
-  resolution: "default-browser@npm:5.4.0"
+  version: 5.5.0
+  resolution: "default-browser@npm:5.5.0"
   dependencies:
     bundle-name: "npm:^4.1.0"
     default-browser-id: "npm:^5.0.0"
-  checksum: 10/cac0222ca5c9a3387d25337228689652ab33679a6566995c7194a75af7e554e91ec9ac92a70bfaa8e8089eae9f466ae99267bb38601282aade89b200f50a765c
+  checksum: 10/c5c5d84a4abd82850e98f06798a55dee87fc1064538bea00cc14c0fb2dccccbff5e9e07eeea80385fa653202d5d92509838b4239d610ddfa1c76a04a1f65e767
   languageName: node
   linkType: hard
 
@@ -12548,9 +12548,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.263":
-  version: 1.5.283
-  resolution: "electron-to-chromium@npm:1.5.283"
-  checksum: 10/3fcede119d5af48372f18c446051909c392e1f85a3823469d5ab9f40a9b1500ae9edfb4c13ff3b9d7d69b925b9a64d06eefd1d5e2d9b16066ff185eb90491158
+  version: 1.5.286
+  resolution: "electron-to-chromium@npm:1.5.286"
+  checksum: 10/530ae36571f3f737431dc1f97ab176d9ec38d78e7a14a78fff78540769ef139e9011200a886864111ee26d64e647136531ff004f368f5df8cdd755c45ad97649
   languageName: node
   linkType: hard
 
@@ -18345,17 +18345,17 @@ __metadata:
   linkType: hard
 
 "minipass-fetch@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "minipass-fetch@npm:5.0.0"
+  version: 5.0.1
+  resolution: "minipass-fetch@npm:5.0.1"
   dependencies:
     encoding: "npm:^0.1.13"
     minipass: "npm:^7.0.3"
-    minipass-sized: "npm:^1.0.3"
+    minipass-sized: "npm:^2.0.0"
     minizlib: "npm:^3.0.1"
   dependenciesMeta:
     encoding:
       optional: true
-  checksum: 10/4fb7dca630a64e6970a8211dade505bfe260d0b8d60beb348dcdfb95fe35ef91d977b29963929c9017ae0805686aa3f413107dc6bc5deac9b9e26b0b41c3b86c
+  checksum: 10/08bf0c9866e7f344bf1863ce0d99c0a6fe96b43ef5a4119e23d84a21e613a3f55ecf302adf28d9e228b4ebd50e81d5e84c397e0535089090427319379f478d94
   languageName: node
   linkType: hard
 
@@ -18377,12 +18377,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minipass-sized@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "minipass-sized@npm:1.0.3"
+"minipass-sized@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "minipass-sized@npm:2.0.0"
   dependencies:
-    minipass: "npm:^3.0.0"
-  checksum: 10/40982d8d836a52b0f37049a0a7e5d0f089637298e6d9b45df9c115d4f0520682a78258905e5c8b180fb41b593b0a82cc1361d2c74b45f7ada66334f84d1ecfdd
+    minipass: "npm:^7.1.2"
+  checksum: 10/3b89adf64ca705662f77481e278eff5ec0a57aeffb5feba7cc8843722b1e7770efc880f2a17d1d4877b2d7bf227873cd46afb4da44c0fd18088b601ea50f96bb
   languageName: node
   linkType: hard
 
@@ -21980,7 +21980,6 @@ __metadata:
     govuk_frontend_toolkit: "npm:^9.0.0"
     hammerjs: "npm:^2.0.8"
     helmet: "npm:^7.2.0"
-    html-encoding-sniffer: "npm:^6.0.0"
     http-proxy-middleware: "npm:^3.0.5"
     isomorphic-fetch: "npm:^3.0.0"
     jasmine-core: "npm:~5.1.0"

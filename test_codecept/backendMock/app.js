@@ -116,15 +116,6 @@ class MockApp {
     app.use('/ccd', ccdRoutes)
     app.use('/case-assignments', acseAssignmentsRoutes)
 
-    app.get('/external/configuration-ui/', (req, res) => {
-      res.json({
-        launchDarklyClientId: 'local-test',
-        appInsightsKey: '',
-        buildVersion: 'test-run'
-      });
-    });
-
-
     // ── serve the built UI from dist on :8080 ─────────────────────────────────
     const staticRoot = path.resolve(__dirname, '../../dist/rpx-xui-manage-organisations');
 

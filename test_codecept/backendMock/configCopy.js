@@ -163,7 +163,7 @@ async function healthOK() {
 
 /* ── tiny stub on :3000 that serves /external/configuration-ui/ ── */
 function startStub3000() {
-  const cfg = { launchDarklyClientId: '', ldStream: false, appInsightsKey: '', buildVersion: 'test-run' };
+  const cfg = { launchDarklyClientId: '', ldStream: false, appInsightsKey: '', buildVersion: 'test-run', termsAndConditionsEnabled: false };
 
   const API_PREFIXES = ['/refdata', '/api/organisation', '/ccd', '/case-assignments', '/client'];
   const PROXY_HOST = '127.0.0.1';

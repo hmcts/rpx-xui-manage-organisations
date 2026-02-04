@@ -1,7 +1,8 @@
 import { Router } from 'express';
 
-import { getConfigValue } from '../configuration';
+import { getConfigValue, showFeature } from '../configuration';
 import {
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   GOOGLE_ANALYTICS_KEY,
   LAUNCH_DARKLY_CLIENT_ID,
   LINKS_MANAGE_CASES_LINK,
@@ -41,6 +42,7 @@ export async function configurationUIRoute(req, res): Promise<void> {
     s2sPath: getConfigValue(SERVICE_S2S_PATH),
     servicesIdamApiPath: getConfigValue(SERVICES_IDAM_API_PATH),
     servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
+    termsAndConditionsEnabled: showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED),
     envrionment: environment ? environment : 'LOCAL'
   });
 }

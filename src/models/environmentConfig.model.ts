@@ -9,4 +9,5 @@ export interface EnvironmentConfig {
   protocol: string;
   googleAnalyticsKey: string;
   launchDarklyClientId?: string;
+  termsAndConditionsEnabled?: boolean;
 }

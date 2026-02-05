@@ -18,10 +18,10 @@ nodejs:
     SERVICES_PRD_COMMONDATA_API: http://rd-commondata-api-aat.service.core-compute-aat.internal
     MANAGE_CASE_LINK: https://manage-case.aat.platform.hmcts.net/cases
     MANAGE_ORG_LINK: https://manage-org.aat.platform.hmcts.net/
-    IDAM_CLIENT: XUIMOWEBAPP_passport_0_7
+
     APPINSIGHTS_CONNECTION_STRING: ${APPINSIGHTS_CONNECTION_STRING}
     PUI_ENV: preview
-    FEATURE_SECURE_COOKIE_ENABLED: true
+    FEATURE_SECURE_COOKIE_ENABLED: false
     FEATURE_TERMS_AND_CONDITIONS_ENABLED: false
     FEATURE_OIDC_ENABLED: true
     REDISCLOUD_URL: redis://${SERVICE_NAME}-redis-master:6379

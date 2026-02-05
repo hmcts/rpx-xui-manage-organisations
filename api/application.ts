@@ -117,7 +117,7 @@ if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
 
 if (showFeature(FEATURE_REDIS_ENABLED)) {
   xuiNode.on(SESSION.EVENT.REDIS_CLIENT_READY, (redisClient: any) => {
-    console.log('REDIS EVENT FIRED!!');
+    logger.debug('REDIS EVENT FIRED!!');
     app.locals.redisClient = redisClient;
     healthChecks.checks = {
       ...healthChecks.checks,

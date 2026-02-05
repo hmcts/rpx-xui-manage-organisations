@@ -121,8 +121,7 @@ export const getXuiNodeMiddleware = () => {
     sessionKey: 'xui-mo-webapp',
     tokenEndpointAuthMethod: 'client_secret_post',
     tokenURL: tokenUrl,
-    useRoutes: true,
-    ssoLogoutURL: `${idamWebUrl}/o/endSession`
+    useRoutes: true
   };
 
   const baseStoreOptions = {

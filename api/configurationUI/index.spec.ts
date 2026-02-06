@@ -5,6 +5,7 @@ import * as sinonChai from 'sinon-chai';
 import { mockReq, mockRes } from 'sinon-express-mock';
 import * as configuration from '../configuration';
 import {
+  FEATURE_TERMS_AND_CONDITIONS_ENABLED,
   GOOGLE_ANALYTICS_KEY,
   LAUNCH_DARKLY_CLIENT_ID,
   LINKS_MANAGE_CASES_LINK,
@@ -29,6 +30,7 @@ describe('configurationUI index', () => {
     stub.withArgs(LINKS_MANAGE_ORG_LINK).returns('/manage-org');
     stub.withArgs(PROTOCOL).returns('http');
     stub.withArgs(SERVICES_IDAM_WEB).returns('/idam-web');
+    sinon.stub(configuration, 'showFeature').withArgs(FEATURE_TERMS_AND_CONDITIONS_ENABLED).returns(true);
   });
 
   afterEach(() => {
@@ -44,6 +46,7 @@ describe('configurationUI index', () => {
     expect(configuration.getConfigValue).to.be.calledWith(LINKS_MANAGE_ORG_LINK);
     expect(configuration.getConfigValue).to.be.calledWith(PROTOCOL);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_IDAM_WEB);
+    expect(configuration.showFeature).to.be.calledWith(FEATURE_TERMS_AND_CONDITIONS_ENABLED);
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWith({
       googleAnalyticsKey: 'Google',
@@ -52,11 +55,15 @@ describe('configurationUI index', () => {
       manageCaseLink: '/manage-cases',
       manageOrgLink: '/manage-org',
       protocol: 'http',
+      prd: {
+        commondataApi: undefined
+      },
       feeAndPayApiPath: undefined,
       rdProfessionalApiPath: undefined,
       s2sPath: undefined,
       servicesIdamApiPath: undefined,
       servicesTandCPath: undefined,
+      termsAndConditionsEnabled: true,
       envrionment: 'LOCAL'
     });
   });

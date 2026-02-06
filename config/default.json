@@ -44,7 +44,7 @@
       "commondataApi": "http://rd-commondata-api-prod.service.core-compute-prod.internal"
     }
   },
-  "sessionSecret": ["mo-topSecret1","secretSauce"],
+  "sessionSecret": ["AAA"],
   "jurisdictions": ["SSCS", "DIVORCE", "PROBATE", "PUBLICLAW", "IA", "EMPLOYMENT"],
   "caseTypes": "CIVIL,DIVORCE,GENERALAPPLICATION,FinancialRemedyContested,FinancialRemedyMVP2,Asylum,Caveat,GrantOfRepresentation,StandingSearch,WillLodgement,CARE_SUPERVISION_EPO,Benefit,NFD,ET_EnglandWales,ET_Scotland,PRLAPPS",
   "feature": {

@@ -57,9 +57,6 @@ const healthResponse = {
         },
         "refreshScope": {
             "status": "UP"
-        },
-        "serviceAuth": {
-            "status": "UP"
         }
     },
     "groups": [

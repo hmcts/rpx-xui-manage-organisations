@@ -15,22 +15,19 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromServices from './services';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
-import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { OrganisationGuard } from './guards/organisation.guard';
 import { effects, reducers } from './store';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
+@NgModule({ exports: [...fromContainers.containers, ...fromComponent.components],
+  declarations: [...fromContainers.containers, ...fromComponent.components], imports: [CommonModule,
     organisationRouting,
     SharedModule,
     StoreModule.forFeature('org', reducers),
@@ -40,14 +37,8 @@ import { effects, reducers } from './store';
       disableConsoleLogging: false
     }),
     ExuiCommonLibModule,
-    RxReactiveFormsModule
-  ],
-  exports: [...fromContainers.containers, ...fromComponent.components],
-  declarations: [...fromContainers.containers, ...fromComponent.components],
-  providers: [...fromServices.services, OrganisationGuard,
-    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
+    RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard,
     JwtDecodeWrapper, MonitoringService, LoggerService,
-    { provide: ErrorHandler, useClass: DefaultErrorHandler }]
-})
+    { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withInterceptorsFromDi())] })
 
 export class OrganisationModule {}

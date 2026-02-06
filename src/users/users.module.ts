@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -21,21 +21,14 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { InviteUserSuccessGuard } from './guards/invite-user-success.guard';
 import * as fromServices from './services';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
+@NgModule({ exports: [...fromContainers.containers, ...fromComponents.components],
+  declarations: [...fromContainers.containers, ...fromComponents.components], imports: [CommonModule,
     usersRouting,
     SharedModule,
     StoreModule.forFeature('users', reducers),
     EffectsModule.forFeature(effects),
     FormsModule,
-    ExuiCommonLibModule
-  ],
-  exports: [...fromContainers.containers, ...fromComponents.components],
-  declarations: [...fromContainers.containers, ...fromComponents.components],
-  providers: [...fromServices.services, InviteUserSuccessGuard]
-})
+    ExuiCommonLibModule], providers: [...fromServices.services, InviteUserSuccessGuard, provideHttpClient(withInterceptorsFromDi())] })
 
 /**
  * Entry point to UsersModule

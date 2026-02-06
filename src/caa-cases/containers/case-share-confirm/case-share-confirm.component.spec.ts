@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
 import { CaseShareConfirmComponent } from './case-share-confirm.component';
@@ -12,7 +12,6 @@ describe('CaseShareConfirmComponent', () => {
   let component: CaseShareConfirmComponent;
   let fixture: ComponentFixture<CaseShareConfirmComponent>;
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: Store<CaaCasesState>;
   const mockRoute = {
     snapshot: {
@@ -31,7 +30,7 @@ describe('CaseShareConfirmComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CaseShareConfirmComponent],
       providers: [
-        provideMockStore(),
+        ...buildMockStoreProviders(),
         { provide: Router, useValue: mockRouter },
         { provide: ActivatedRoute, useValue: mockRoute }
       ]

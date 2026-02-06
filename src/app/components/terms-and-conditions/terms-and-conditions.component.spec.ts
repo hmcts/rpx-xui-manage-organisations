@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const storeMock = {
   pipe: () => of(null),
@@ -21,19 +22,18 @@ let dispatchSpy: jasmine.Spy;
 describe('TermsAndConditionsComponent', () => {
   @Component({
     selector: 'app-exui-app-host-dummy-component',
-    template: '<exui-terms-and-conditions></exui-terms-and-conditions>'
+    template: '<exui-terms-and-conditions></exui-terms-and-conditions>',
+    standalone: false
   })
   class TestDummyHostComponent {
     @ViewChild(TermsAndConditionsComponent, { static: true })
     public footerComponent: TermsAndConditionsComponent;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let testHostComponent: TestDummyHostComponent;
   let testHostFixture: ComponentFixture<TestDummyHostComponent>;
   let component: TermsAndConditionsComponent;
   let fixture: ComponentFixture<TermsAndConditionsComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
   let termsConditionsService: TermsConditionsService;
   const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
@@ -45,12 +45,9 @@ describe('TermsAndConditionsComponent', () => {
     pipeSpy = spyOn(storeMock, 'pipe');
     dispatchSpy = spyOn(storeMock, 'dispatch');
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule
-      ],
       declarations: [TermsAndConditionsComponent, TestDummyHostComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterTestingModule],
       providers: [
         {
           provide: Store,
@@ -64,7 +61,9 @@ describe('TermsAndConditionsComponent', () => {
         {
           provide: Router,
           useValue: routerMock
-        }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();

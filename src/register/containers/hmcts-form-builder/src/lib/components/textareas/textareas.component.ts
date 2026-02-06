@@ -4,7 +4,8 @@ import { ValidationService } from '../../services/form-builder-validation.servic
 
 @Component({
   selector: 'app-textareas',
-  templateUrl: './textareas.component.html'
+  templateUrl: './textareas.component.html',
+  standalone: false
 })
 /**
  * TextareasComponent

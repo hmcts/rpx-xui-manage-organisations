@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -10,6 +10,8 @@ import { LovRefDataService } from '../../../shared/services/lov-ref-data.service
 import { RegistrationData } from '../../models';
 import { OrgTypeMessageEnum } from '../../models/organisation-type.enum';
 import { OrganisationTypeComponent } from './organisation-type.component';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('OrganisationTypeComponent', () => {
   let component: OrganisationTypeComponent;
@@ -113,11 +115,14 @@ describe('OrganisationTypeComponent', () => {
     mockLovRefDataService.getListOfValues.and.returnValue(of(ORGANISATION_TYPES_REF_DATA));
     await TestBed.configureTestingModule({
       declarations: [OrganisationTypeComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, RouterTestingModule],
       providers: [
         { provide: LovRefDataService, useValue: mockLovRefDataService },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     })
       .compileComponents();

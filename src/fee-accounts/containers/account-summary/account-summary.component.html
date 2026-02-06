@@ -1,19 +1,19 @@
-  <app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
-  <div class="hmcts-page-heading">
-    <div class="hmcts-page-heading__title-wrapper">
-      <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
-        <span class="govuk-caption-xl">{{ accountName$ | async }}</span>
-        Summary
-      </h1>
-    </div>
-    <div class="hmcts-page-heading__actions-wrapper"></div>
+<app-hmcts-sub-navigation [label]="" [items]="navItems"></app-hmcts-sub-navigation>
+<div class="hmcts-page-heading">
+  <div class="hmcts-page-heading__title-wrapper">
+    <h1 class="govuk-body govuk-!-font-size-48 govuk-!-font-weight-bold">
+      <span class="govuk-caption-xl">{{ accountName$ | async }}</span>
+      Summary
+    </h1>
   </div>
+  <div class="hmcts-page-heading__actions-wrapper"></div>
+</div>
 
+@if (!(loading$ | async)) {
   <app-prd-summary-component
-    *ngIf="!(loading$ | async) else loading"
     [data]="accounts$ | async"
   ></app-prd-summary-component>
-  <ng-template #loading>
-    <div>Loading...</div>
-  </ng-template>
+} @else {
+  <div>Loading...</div>
+}
 

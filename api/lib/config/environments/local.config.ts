@@ -8,7 +8,7 @@ export default {
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal',
     feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal',
     prd: {
-      commondataApi: 'http://rd-commondata-api-demo.service.core-compute-demo.internal'
+      commondataApi: 'http://rd-commondata-api-aat.service.core-compute-aat.internal'
     }
   },
   health: {
@@ -20,7 +20,7 @@ export default {
     rdProfessionalApi: 'http://rd-professional-api-aat.service.core-compute-aat.internal/health',
     feeAndPayApi: 'http://payment-api-aat.service.core-compute-aat.internal/health',
     prd: {
-      commondataApi: 'http://rd-commondata-api-demo.service.core-compute-demo.internal'
+      commondataApi: 'http://rd-commondata-api-aat.service.core-compute-aat.internal'
     }
   },
   proxy: {

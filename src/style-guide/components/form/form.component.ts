@@ -5,7 +5,8 @@ import { StyleGuideFormConstants as CONST } from '../../constants/style-guide-fo
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html'
+  templateUrl: './form.component.html',
+  standalone: false
 })
 export class FormComponent implements OnInit {
   @Output() public submitForm = new EventEmitter();

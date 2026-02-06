@@ -8,7 +8,8 @@ import * as fromStore from '../../../organisation/store';
 @Component({
   selector: 'app-account-overview',
   templateUrl: './account-overview.component.html',
-  styleUrls: ['./account-overview.component.scss']
+  styleUrls: ['./account-overview.component.scss'],
+  standalone: false
 })
 export class AccountOverviewComponent implements OnInit, OnDestroy {
   public orgData: OrganisationDetails;

@@ -8,7 +8,8 @@ import { ValidationService } from '../../services/form-builder-validation.servic
 @Component({
   selector: 'app-input-button',
   templateUrl: './input-button.component.html',
-  styleUrls: ['./input-button.component.scss']
+  styleUrls: ['./input-button.component.scss'],
+  standalone: false
 })
 export class InputButtonComponent implements OnInit {
   @Input() public group: FormGroup;

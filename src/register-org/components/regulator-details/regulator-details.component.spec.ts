@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +13,8 @@ import {
 } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatorDetailsComponent } from './regulator-details.component';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegulatorDetailsComponent', () => {
   let component: RegulatorDetailsComponent;
@@ -60,15 +62,18 @@ describe('RegulatorDetailsComponent', () => {
     mockLovRefDataService.getRegulatoryOrganisationTypes.and.returnValue(of(organisationTypes));
     await TestBed.configureTestingModule({
       declarations: [RegulatorDetailsComponent],
-      imports: [HttpClientTestingModule, ReactiveFormsModule, RouterTestingModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, RouterTestingModule],
       providers: [
         {
           provide: ActivatedRoute, useValue: mockRoute
         },
         {
           provide: LovRefDataService, useValue: mockLovRefDataService
-        }
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+        ...buildMockStoreProviders()
       ]
     })
       .compileComponents();

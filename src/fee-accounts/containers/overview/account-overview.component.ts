@@ -13,7 +13,8 @@ import { FeeAccount } from '../../models/pba-accounts';
 
 @Component({
   selector: 'app-prd-fee-accounts-component',
-  templateUrl: './account-overview.component.html'
+  templateUrl: './account-overview.component.html',
+  standalone: false
 })
 export class OrganisationAccountsComponent implements OnInit, OnDestroy {
   public columnConfig: GovukTableColumnConfig[];

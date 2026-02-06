@@ -6,7 +6,7 @@
         "httpOnly": true,
         "path": "/"
     },
-    "csrfSecret": "aplsmD9g7StNxcoDa0tJm86D",
+    "csrfSecret": "***REMOVED***",
     "__lastAccess": 1677690526857,
     "callbackURL": "http://localhost:3000/oauth2/callback",
     "xui-webapp": {

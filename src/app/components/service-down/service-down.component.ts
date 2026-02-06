@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { buildCompositeTrackKey } from 'src/shared/utils/track-by.util';
 import { select, Store } from '@ngrx/store';
 
 import * as fromAppStore from '../../../app/store';
@@ -6,7 +7,8 @@ import { GlobalError } from '../../../app/store/reducers/app.reducer';
 
 @Component({
   selector: 'app-service-down',
-  templateUrl: './service-down.component.html'
+  templateUrl: './service-down.component.html',
+  standalone: false
 })
 export class ServiceDownComponent implements OnInit, OnDestroy {
   public currentError: GlobalError;
@@ -32,5 +34,9 @@ export class ServiceDownComponent implements OnInit, OnDestroy {
 
   public showErrorLinkWithNewTab(newTab?: boolean): string {
     return (newTab !== null && newTab === true) ? '_blank' : '_self';
+  }
+
+  public trackByServiceDownError(index: number, error: { bodyText: string; urlText?: string }): string | number {
+    return buildCompositeTrackKey(index, error?.bodyText, error?.urlText);
   }
 }

@@ -9,6 +9,9 @@
 api/.sessions/
 /test-results
 
+# linting cache
+.eslintcache
+
 # dependencies
 /node_modules
 /projects/gov-ui/node_modules

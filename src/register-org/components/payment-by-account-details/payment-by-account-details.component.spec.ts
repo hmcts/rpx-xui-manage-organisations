@@ -6,9 +6,10 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
-import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 // provideHttpClient imported above
 
 describe('PaymentByAccountDetailsComponent', () => {
@@ -18,13 +19,6 @@ describe('PaymentByAccountDetailsComponent', () => {
   const mockRouter = {
     navigate: jasmine.createSpy('navigate'),
     getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
-
-  const mockEnvironmentConfig: EnvironmentConfig = {
-    manageCaseLink: 'http://manage-case',
-    manageOrgLink: 'http://manage-org',
-    protocol: 'http',
-    googleAnalyticsKey: 'ga-key'
   };
 
   beforeEach(async () => {

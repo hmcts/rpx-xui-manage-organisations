@@ -6,10 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
-import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { RegistrationData } from '../../models/registration-data.model';
 import { PaymentByAccountComponent } from './payment-by-account.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('PaymentByAccountComponent', () => {
   let component: PaymentByAccountComponent;
@@ -18,13 +19,6 @@ describe('PaymentByAccountComponent', () => {
   const mockRouter = {
     navigate: jasmine.createSpy('navigate'),
     getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
-  };
-
-  const mockEnvironmentConfig: EnvironmentConfig = {
-    manageCaseLink: 'http://manage-case',
-    manageOrgLink: 'http://manage-org',
-    protocol: 'http',
-    googleAnalyticsKey: 'ga-key'
   };
 
   const registrationData: RegistrationData = {

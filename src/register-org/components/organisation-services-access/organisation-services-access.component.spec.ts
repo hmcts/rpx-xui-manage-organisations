@@ -7,23 +7,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
-import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 import { RegisterOrgModule } from '../../register-org.module';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
   let fixture: ComponentFixture<OrganisationServicesAccessComponent>;
   let router: Router;
   let nativeElement: any;
-
-  const mockEnvironmentConfig: EnvironmentConfig = {
-    manageCaseLink: 'http://manage-case',
-    manageOrgLink: 'http://manage-org',
-    protocol: 'http',
-    googleAnalyticsKey: 'ga-key'
-  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

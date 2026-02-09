@@ -8,6 +8,8 @@ import { buildMockStoreProviders } from '../../../register-org/testing/mock-stor
 import { of } from 'rxjs';
 import { RegisterComponent } from './register.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -22,7 +24,12 @@ describe('RegisterComponent', () => {
       declarations: [RegisterComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [RouterTestingModule.withRoutes([])],
-      providers: [...buildMockStoreProviders(), provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+      providers: [
+        ...buildMockStoreProviders(),
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+      ]
     })
       .compileComponents();
     mockStore = TestBed.inject(Store);

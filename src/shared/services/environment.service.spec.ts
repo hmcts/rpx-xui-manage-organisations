@@ -2,14 +2,14 @@ import { inject, TestBed } from '@angular/core/testing';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../models/environmentConfig.model';
 import { EnvironmentService } from './environment.service';
 
-describe('EnvironmentService', () => {
-  const mockEnvironmentConfig: EnvironmentConfig = {
-    manageCaseLink: 'http://manage-case',
-    manageOrgLink: 'http://manage-org',
-    protocol: 'http',
-    googleAnalyticsKey: 'ga-key'
-  };
+export const mockEnvironmentConfig: EnvironmentConfig = {
+  manageCaseLink: 'http://manage-case',
+  manageOrgLink: 'http://manage-org',
+  protocol: 'http',
+  googleAnalyticsKey: 'ga-key'
+};
 
+describe('EnvironmentService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],

@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 import { RegisterOrgModule } from '../../register-org.module';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
@@ -17,12 +18,21 @@ describe('OrganisationServicesAccessComponent', () => {
   let router: Router;
   let nativeElement: any;
 
+  const mockEnvironmentConfig: EnvironmentConfig = {
+    idamWeb: 'http://idam-web',
+    manageCaseLink: 'http://manage-case',
+    manageOrgLink: 'http://manage-org',
+    protocol: 'http',
+    googleAnalyticsKey: 'ga-key'
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       // RegisterOrgModule declares OrganisationServicesAccessComponent and dependencies.
       imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
         EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()

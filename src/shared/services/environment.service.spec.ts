@@ -1,13 +1,23 @@
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../models/environmentConfig.model';
 import { EnvironmentService } from './environment.service';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('EnvironmentService', () => {
+  const mockEnvironmentConfig: EnvironmentConfig = {
+    idamWeb: 'http://idam-web',
+    manageCaseLink: 'http://manage-case',
+    manageOrgLink: 'http://manage-org',
+    protocol: 'http',
+    googleAnalyticsKey: 'ga-key'
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
-      providers: [EnvironmentService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+      providers: [
+        EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }
+      ]
     });
   });
 

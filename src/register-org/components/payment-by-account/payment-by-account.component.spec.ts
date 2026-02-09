@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 import { RegistrationData } from '../../models/registration-data.model';
 import { PaymentByAccountComponent } from './payment-by-account.component';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
@@ -17,6 +18,14 @@ describe('PaymentByAccountComponent', () => {
   const mockRouter = {
     navigate: jasmine.createSpy('navigate'),
     getCurrentNavigation: jasmine.createSpy('getCurrentNavigation')
+  };
+
+  const mockEnvironmentConfig: EnvironmentConfig = {
+    idamWeb: 'http://idam-web',
+    manageCaseLink: 'http://manage-case',
+    manageOrgLink: 'http://manage-org',
+    protocol: 'http',
+    googleAnalyticsKey: 'ga-key'
   };
 
   const registrationData: RegistrationData = {
@@ -42,6 +51,7 @@ describe('PaymentByAccountComponent', () => {
       imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),

@@ -50,18 +50,10 @@ describe('configurationUI index', () => {
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWith({
       googleAnalyticsKey: 'Google',
-      idamWeb: '/idam-web',
       launchDarklyClientId: 'abc123',
       manageCaseLink: '/manage-cases',
       manageOrgLink: '/manage-org',
       protocol: 'http',
-      prd: {
-        commondataApi: undefined
-      },
-      feeAndPayApiPath: undefined,
-      rdProfessionalApiPath: undefined,
-      s2sPath: undefined,
-      servicesIdamApiPath: undefined,
       servicesTandCPath: undefined,
       termsAndConditionsEnabled: true,
       envrionment: 'LOCAL'

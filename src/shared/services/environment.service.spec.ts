@@ -4,7 +4,6 @@ import { EnvironmentService } from './environment.service';
 
 describe('EnvironmentService', () => {
   const mockEnvironmentConfig: EnvironmentConfig = {
-    idamWeb: 'http://idam-web',
     manageCaseLink: 'http://manage-case',
     manageOrgLink: 'http://manage-org',
     protocol: 'http',

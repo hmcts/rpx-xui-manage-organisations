@@ -21,7 +21,6 @@ describe('PaymentByAccountComponent', () => {
   };
 
   const mockEnvironmentConfig: EnvironmentConfig = {
-    idamWeb: 'http://idam-web',
     manageCaseLink: 'http://manage-case',
     manageOrgLink: 'http://manage-org',
     protocol: 'http',

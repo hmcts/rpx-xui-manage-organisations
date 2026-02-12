@@ -76,7 +76,7 @@
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.2.0",
     "@hmcts/nodejs-healthcheck": "1.7.0",
-    "@hmcts/properties-volume": "0.0.13",
+    "@hmcts/properties-volume": "0.0.14",
     "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz",
     "@hmcts/rpx-xui-node-lib": "2.30.7-csp-final-change-3",
     "@microsoft/applicationinsights-web": "^3.3.9",

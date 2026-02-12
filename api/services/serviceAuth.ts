@@ -49,8 +49,8 @@ export async function postS2SLease() {
       }
     }
   } as unknown as Request);
-  console.log('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV);
-  console.log('postS2SLease url:', url);
+  logger.debug('NODE_CONFIG_ENV is now:', process.env.NODE_CONFIG_ENV);
+  logger.debug('postS2SLease url:', url);
   if (process.env.NODE_CONFIG_ENV !== 'ldocker') {
     const oneTimePassword = otp({ secret: s2sSecret }).totp();
     logger.info('Generating S2S token for microservice: ', microservice);

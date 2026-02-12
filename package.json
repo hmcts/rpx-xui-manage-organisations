@@ -249,7 +249,7 @@
     "xml2js": "^0.6.2",
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
-    "axios": "1.12.1",
+    "axios": "1.13.5",
     "qs": "6.14.1",
     "html-encoding-sniffer": "^6.0.0",
     "jsdom": "^27.0.1",

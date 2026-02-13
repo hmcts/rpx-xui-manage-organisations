@@ -24475,7 +24475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typed-rest-client@npm:^1.8.0":
+"typed-rest-client@npm:^1.8.11":
   version: 1.8.11
   resolution: "typed-rest-client@npm:1.8.11"
   dependencies:

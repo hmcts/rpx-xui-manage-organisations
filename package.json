@@ -230,6 +230,7 @@
     "why-is-node-running": "^3.2.2"
   },
   "resolutions": {
+    "lodash": "^4.17.23",
     "@stryker-mutator/api": "^3.0.1",
     "@stryker-mutator/core": "^3.0.1",
     "@stryker-mutator/html-reporter": "^3.0.1",

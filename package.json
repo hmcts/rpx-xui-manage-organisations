@@ -251,6 +251,8 @@
     "semver": "^7.6.0",
     "@isaacs/brace-expansion": "^5.0.1",
     "qs": "^6.14.1",
+    "html-encoding-sniffer": "^6.0.0",
+    "jsdom": "^27.0.1",
     "tar": "^7.5.7"
   },
   "packageManager": "yarn@4.9.2"

@@ -249,8 +249,8 @@
     "xml2js": "^0.6.2",
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
-    "axios": "1.12.1",
-    "qs": "6.14.1",
+    "@isaacs/brace-expansion": "^5.0.1",
+    "qs": "^6.14.1",
     "tar": "^7.5.7"
   },
   "packageManager": "yarn@4.9.2"

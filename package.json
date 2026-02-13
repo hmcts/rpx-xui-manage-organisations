@@ -237,7 +237,7 @@
     "@stryker-mutator/karma-runner": "^3.0.1",
     "@stryker-mutator/mocha-runner": "^3.0.1",
     "@stryker-mutator/typescript": "^4.0.0",
-    "typed-rest-client": "^1.8.11",
+    "typed-rest-client": "^1.8.0",
     "minimist": "^1.2.8",
     "loader-utils": "~2.0.3",
     "mem": "^4.0.0",

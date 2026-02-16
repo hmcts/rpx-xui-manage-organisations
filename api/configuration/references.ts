@@ -51,7 +51,7 @@ export const CASE_SHARE_PERMISSIONS = 'pui-case-manager';
 
 export const LOGIN_ROLE_MATCHER = 'loginRoleMatcher';
 
-export const SESSION_SECRET = 'sessionSecret';
+export const SESSION_SECRET = 'secrets.rpx.mo-session-secret';
 
 export const LOGGING = 'logging';
 export const JURISDICTIONS = 'jurisdictions';

@@ -247,6 +247,7 @@ function startStub3000() {
       const env = {
         ...process.env,
         NODE_CONFIG_ENV: 'mock',
+        SESSION_SECRET: process.env.SESSION_SECRET || 'mock-session-secret',
         TEST_CSP_OFF: 'true',
         SSR_ALREADY_RUNNING: 'true'
       };

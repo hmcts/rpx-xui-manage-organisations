@@ -1,4 +1,5 @@
 const fs = require('fs')
+const crypto = require('crypto');
 const net = require('net');
 const http = require('http');
 const https = require('https');
@@ -247,7 +248,7 @@ function startStub3000() {
       const env = {
         ...process.env,
         NODE_CONFIG_ENV: 'mock',
-        SESSION_SECRET: process.env.SESSION_SECRET || 'mock-session-secret',
+        SESSION_SECRET: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
         TEST_CSP_OFF: 'true',
         SSR_ALREADY_RUNNING: 'true'
       };

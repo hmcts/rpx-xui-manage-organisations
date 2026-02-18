@@ -38,6 +38,7 @@ nodejs:
           alias: launch-darkly-client-id
         - system-user-name
         - system-user-password
+        - mo-session-secret
   autoscaling:
     enabled: false
 redis:

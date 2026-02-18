@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import getConfigurationUIRouter from './configurationUI';
-import getConfigValue from './configValueRouter';
 
 import getRegulatoryOrganisationTypesRouter from './organisationTypesRouter';
 import getLovRefDataRouter from './prd/lov';
@@ -32,7 +31,6 @@ router.use('/addresses', addressRouter);
 
 // TODO: Discuss which method we use across all projects to send the
 // Node configuration to the UI.
-router.use('/configuration', getConfigValue);
 router.use('/configuration-ui', getConfigurationUIRouter);
 
 router.use('/getLovRefData', getLovRefDataRouter);

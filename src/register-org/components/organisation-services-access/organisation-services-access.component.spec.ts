@@ -7,9 +7,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
 import { RegisterOrgModule } from '../../register-org.module';
 import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
@@ -23,6 +25,7 @@ describe('OrganisationServicesAccessComponent', () => {
       imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
       providers: [
         EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
         ...buildMockStoreProviders()

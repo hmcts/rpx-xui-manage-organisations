@@ -50,6 +50,7 @@ describe('configurationUI index', () => {
     expect(res.status).to.be.calledWith(200);
     expect(res.send).to.be.calledWith({
       googleAnalyticsKey: 'Google',
+      idamWeb: '/idam-web',
       launchDarklyClientId: 'abc123',
       manageCaseLink: '/manage-cases',
       manageOrgLink: '/manage-org',

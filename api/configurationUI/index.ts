@@ -8,6 +8,7 @@ import {
   LINKS_MANAGE_CASES_LINK,
   LINKS_MANAGE_ORG_LINK,
   PROTOCOL,
+  SERVICES_IDAM_WEB,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH
 } from '../configuration/references';
 
@@ -23,6 +24,7 @@ export async function configurationUIRoute(req, res): Promise<void> {
   const launchDarklyClientId = getConfigValue(LAUNCH_DARKLY_CLIENT_ID);
   res.status(200).send({
     googleAnalyticsKey: getConfigValue(GOOGLE_ANALYTICS_KEY),
+    idamWeb: getConfigValue(SERVICES_IDAM_WEB),
     launchDarklyClientId,
     manageCaseLink: getConfigValue(LINKS_MANAGE_CASES_LINK),
     manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),

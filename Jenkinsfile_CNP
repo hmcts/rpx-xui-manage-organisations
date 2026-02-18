@@ -71,7 +71,7 @@ withPipeline(type, product, component) {
         yarnBuilder.yarn('build')
     }
 
-    afterSuccess('fortify-scan') {
+    afterAlways('fortify-scan') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 

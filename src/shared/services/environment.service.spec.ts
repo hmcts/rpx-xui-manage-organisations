@@ -3,6 +3,7 @@ import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../models/environmentC
 import { EnvironmentService } from './environment.service';
 
 export const mockEnvironmentConfig: EnvironmentConfig = {
+  idamWeb: 'http://idam-web',
   manageCaseLink: 'http://manage-case',
   manageOrgLink: 'http://manage-org',
   protocol: 'http',

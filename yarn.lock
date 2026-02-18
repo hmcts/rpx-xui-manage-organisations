@@ -11788,17 +11788,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^2.4.0":
+"core-js@npm:^2.4.0, core-js@npm:^2.5.4":
   version: 2.6.12
   resolution: "core-js@npm:2.6.12"
   checksum: 10/7c624eb00a59c74c769d5d80f751f3bf1fc6201205b6562f27286ad5e00bbca1483f2f7eb0c2854b86f526ef5c7dc958b45f2ff536f8a31b8e9cb1a13a96efca
-  languageName: node
-  linkType: hard
-
-"core-js@npm:^3.39.0":
-  version: 3.48.0
-  resolution: "core-js@npm:3.48.0"
-  checksum: 10/08bb3cc9b3225b905e72370c18257a14bb5563946d9eb7496799e0ee4f13231768b980ffe98434df7dbd0f8209bd2c19519938a2fa94846b2c82c2d5aa804037
   languageName: node
   linkType: hard
 
@@ -23630,7 +23623,7 @@ __metadata:
     config: "npm:^3.2.5"
     connect-redis: "npm:^4.0.4"
     cookie-parser: "npm:^1.4.4"
-    core-js: "npm:^3.39.0"
+    core-js: "npm:^2.5.4"
     cross-env: "npm:^10.0.0"
     crypto-js: "npm:^4.2.0"
     cucumber-html-report: "npm:0.6.5"

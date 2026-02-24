@@ -9433,14 +9433,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.12.1":
-  version: 1.12.1
-  resolution: "axios@npm:1.12.1"
+"axios@npm:1.13.5":
+  version: 1.13.5
+  resolution: "axios@npm:1.13.5"
   dependencies:
-    follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.4"
+    follow-redirects: "npm:^1.15.11"
+    form-data: "npm:^4.0.5"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10/928e88cba180a48451a7872cfd7e7072f39e3e797c69960a048eae90f456d1de44ef0d7929325939140cd4d03b06fe2ee0d29f3f4d5873b4a7584cbe6d0d3080
+  checksum: 10/db726d09902565ef9a0632893530028310e2ec2b95b727114eca1b101450b00014133dfc3871cffc87983fb922bca7e4874d7e2826d1550a377a157cdf3f05b6
   languageName: node
   linkType: hard
 
@@ -14050,7 +14050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.15.6":
+"follow-redirects@npm:^1.0.0, follow-redirects@npm:^1.15.11":
   version: 1.15.11
   resolution: "follow-redirects@npm:1.15.11"
   peerDependenciesMeta:

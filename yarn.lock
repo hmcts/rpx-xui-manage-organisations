@@ -18552,9 +18552,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mochawesome@npm:3.1.1":
-  version: 3.1.1
-  resolution: "mochawesome@npm:3.1.1"
+"mochawesome@npm:3.1.2":
+  version: 3.1.2
+  resolution: "mochawesome@npm:3.1.2"
   dependencies:
     babel-runtime: "npm:^6.20.0"
     chalk: "npm:^2.3.0"
@@ -18566,7 +18566,7 @@ __metadata:
     uuid: "npm:^3.0.1"
   peerDependencies:
     mocha: "*"
-  checksum: 10/dffab1ba35d323b784d651d2ff7d1a9e77417950c419d991ea687f65f1c676cc0ce8f760bf6812d5fda036159af3434a44e949b44cd936f51f60e83481758d54
+  checksum: 10/277a7b5e928487383d9a7260d4faa9ad7e9c286ae2f715813ec3039d20041e7b7c69efcd1924e731b44cd7ca892446db1c730a5619667f0895b12d63317a74b7
   languageName: node
   linkType: hard
 
@@ -21964,7 +21964,7 @@ __metadata:
     log4js: "npm:^6.9.1"
     lz-string: "npm:^1.5.0"
     mocha: "npm:^8.1.1"
-    mochawesome: "npm:3.1.1"
+    mochawesome: "npm:3.1.2"
     moment-timezone: "npm:^0.5.28"
     mutable-div: "npm:^1.0.0"
     ng-packagr: "npm:^20.3.0"

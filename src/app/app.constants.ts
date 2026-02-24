@@ -110,26 +110,41 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     badgeColour: BadgeColour.BADGE_BLUE,
     email: 'contactprobate@justice.gov.uk',
     phone: '0300 303 0648',
-    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 9am to 1pm (excluding public holidays)',
+    contactDetails: {
+      name: 'Webchat',
+      contactLink: 'https://www.apply-for-probate.service.gov.uk/contact-us'
+    }
   },
   {
     title: 'Divorce',
     badgeColour: BadgeColour.BADGE_BLUE,
-    email: 'divorcecase@justice.gov.uk',
+    contactDetails: {
+      name: 'Contact us about applying to end a civil partnership',
+      contactLink: 'https://contact-us-about-applying-to-end-a-civil-partnership.form.service.justice.gov.uk/'
+    },
+    email: 'contactdivorce@justice.gov.uk',
     phone: '0300 303 0642',
-    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 10am to 5:30pm (excluding public holidays)'
   },
   {
-    title: 'Financial Remedy',
+    title: 'Financial Remedy Consent',
     badgeColour: BadgeColour.BADGE_RED,
     email: 'contactfinancialremedy@justice.gov.uk',
     phone: '0300 303 0642',
-    openingTimes: 'Monday to Friday, 9:30am to 5pm (excluding public holidays)'
+    openingTimes: 'Monday to Friday, 10am to 5:30pm (excluding public holidays)'
+  },
+  {
+    title: 'Financial Remedy Contested',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'HMCTSFinancialRemedy@justice.gov.uk',
+    phone: '0300 123 5577',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
   },
   {
     title: 'Immigration and Asylum',
     badgeColour: BadgeColour.BADGE_RED,
-    email: 'customer.service@justice.gov.uk',
+    email: 'contactia@justice.gov.uk',
     phone: '0300 123 1711',
     openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
   },
@@ -144,11 +159,39 @@ const getHelpDetailsData: ContactDetailsDataModel[] = [
     title: 'Employment Tribunal',
     badgeColour: BadgeColour.BADGE_RED,
     contactDetails: {
-      name: 'Employment Tribunals Offices and Venues - GOV.UK',
-      contactLink: 'https://www.gov.uk/guidance/employment-tribunal-offices-and-venues'
+      name: 'Find a Court or Tribunal Service - GOV.UK',
+      contactLink: 'https://www.find-court-tribunal.service.gov.uk/'
     },
-    phone: 'England and Wales: 0300 123 1024, Scotland: 0300 790 6234',
-    openingTimes: 'Monday to Friday, 9am to 5pm (excluding public holidays)'
+    phone: 'England and Wales: 0300 323 0196, Scotland: 0300 790 6234',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Damages Claims (online with DC in the claim number)',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'damagesclaims@justice.gov.uk',
+    phone: '0300 123 7050',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Online Civil Money Claims (with MC in the claim number)',
+    badgeColour: BadgeColour.BADGE_RED,
+    email: 'contactocmc@justice.gov.uk',
+    phone: '0300 123 7050',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'N1 paper claims',
+    badgeColour: BadgeColour.BADGE_RED,
+    phone: '0300 123 1056',
+    openingTimes: 'Monday to Friday, 8:30am to 5pm (excluding public holidays)'
+  },
+  {
+    title: 'Damages Claims (that have dropped offline)',
+    badgeColour: BadgeColour.BADGE_RED,
+    contactDetails: {
+      name: 'Email us based on the stage of your claim',
+      contactLink: 'https://www.find-court-tribunal.service.gov.uk/courts/civil-national-business-centre-cnbc'
+    }
   }
 ];
 

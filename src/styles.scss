@@ -107,6 +107,15 @@ div.hmcts-header__logo {
   }
 }
 
+.xui-page-top-offset {
+  margin-top: govuk-spacing(4);
+}
+
+.xui-back-button-margin {
+  margin-top: govuk-spacing(4);
+  margin-bottom: govuk-spacing(4);
+}
+
 .govuk-js-link {
   @extend .govuk-link; // copies colour, underline, font
   background: transparent;

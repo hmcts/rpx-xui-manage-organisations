@@ -7,6 +7,7 @@ import { UpdatePbaNumbersCheckComponent } from './containers/update-pba-check/up
 import { UpdatePbaNumbersComponent } from './containers/update-pba-numbers/update-pba-numbers.component';
 
 import { OrganisationGuard } from 'src/organisation/guards/organisation.guard';
+import { AuthGuard } from 'src/user-profile/guards/auth.guard';
 import { HealthCheckGuard } from 'src/shared/guards/health-check.guard';
 import { UserRoleGuard } from 'src/shared/guards/user-role.guard';
 import { OrganisationModule } from './organisation.module';
@@ -16,6 +17,7 @@ export const ROUTES: Routes = [
     path: 'organisation',
     component: OrganisationComponent,
     canActivate: [
+      AuthGuard,
       OrganisationGuard,
       HealthCheckGuard
     ]

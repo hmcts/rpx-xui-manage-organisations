@@ -72,7 +72,7 @@
     "@circlon/angular-tree-component": "^11.0.4",
     "@edium/fsm": "^2.1.2",
     "@hmcts/ccd-case-ui-toolkit": "7.3.1-angular-20.3.14",
-    "@hmcts/ccpay-web-component": "6.5.14",
+    "@hmcts/ccpay-web-component": "6.5.19",
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.2.0",
     "@hmcts/nodejs-healthcheck": "1.7.0",

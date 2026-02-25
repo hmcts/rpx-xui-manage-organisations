@@ -249,10 +249,9 @@
     "xml2js": "^0.6.2",
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
-    "qs": "^6.14.2",
+    "qs": "^6.14.1",
     "html-encoding-sniffer": "^6.0.0",
-    "jsdom": "^27.0.1",
-    "tar": "^7.5.8"
+    "jsdom": "^27.0.1"
   },
   "packageManager": "yarn@4.9.2"
 }

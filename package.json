@@ -252,8 +252,7 @@
     "qs": "^6.14.2",
     "html-encoding-sniffer": "^6.0.0",
     "jsdom": "^27.0.1",
-    "tar": "^7.5.8",
-    "jose": "^2.0.7"
+    "tar": "^7.5.8"
   },
   "packageManager": "yarn@4.9.2"
 }

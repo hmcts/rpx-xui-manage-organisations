@@ -11782,6 +11782,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"core-js@npm:^3.6.5":
+  version: 3.48.0
+  resolution: "core-js@npm:3.48.0"
+  checksum: 10/08bb3cc9b3225b905e72370c18257a14bb5563946d9eb7496799e0ee4f13231768b980ffe98434df7dbd0f8209bd2c19519938a2fa94846b2c82c2d5aa804037
+  languageName: node
+  linkType: hard
+
 "core-util-is@npm:1.0.2":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -15282,17 +15289,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"global-agent@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "global-agent@npm:3.0.0"
+"global-agent@npm:^2.1.8":
+  version: 2.2.0
+  resolution: "global-agent@npm:2.2.0"
   dependencies:
     boolean: "npm:^3.0.1"
+    core-js: "npm:^3.6.5"
     es6-error: "npm:^4.1.1"
     matcher: "npm:^3.0.0"
     roarr: "npm:^2.15.3"
     semver: "npm:^7.3.2"
     serialize-error: "npm:^7.0.1"
-  checksum: 10/a26d96d1d79af57a8ef957f66cef6f3889a8fa55131f0bbd72b8e1bc340a9b7ed7b627b96eaf5eb14aee08a8b4ad44395090e2cf77146e993f1d2df7abaa0a0d
+  checksum: 10/41477302d12fb95661bad6231d11ccb776de2a65e9d7451c38789c2981480ae047da79f4e47bb7a9709b2efc5ea701cf92ec68fd144acf0fcafd35428a3b2ab5
   languageName: node
   linkType: hard
 
@@ -23378,7 +23386,7 @@ __metadata:
     file-saver: "npm:^2.0.2"
     form-data: "npm:^4.0.4"
     git-rev-sync: "npm:^2.0.0"
-    global-agent: "npm:^3.0.0"
+    global-agent: "npm:^2.1.8"
     govuk-frontend: "npm:4.7.0"
     govuk_frontend_toolkit: "npm:^9.0.0"
     hammerjs: "npm:^2.0.8"

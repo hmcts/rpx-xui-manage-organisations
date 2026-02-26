@@ -75,7 +75,7 @@
     "@hmcts/ccpay-web-component": "6.5.14",
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.2.0",
-    "@hmcts/nodejs-healthcheck": "^1.7.0",
+    "@hmcts/nodejs-healthcheck": "^1.8.6",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz",
     "@hmcts/rpx-xui-node-lib": "2.30.7-csp-final-change-3",
@@ -229,7 +229,6 @@
     "why-is-node-running": "^3.2.2"
   },
   "resolutions": {
-    "lodash": "^4.17.23",
     "@stryker-mutator/api": "^3.0.1",
     "@stryker-mutator/core": "^3.0.1",
     "@stryker-mutator/html-reporter": "^3.0.1",
@@ -249,7 +248,6 @@
     "xml2js": "^0.6.2",
     "tough-cookie": "^6.0.0",
     "semver": "^7.6.0",
-    "qs": "^6.14.1",
     "html-encoding-sniffer": "^6.0.0",
     "jsdom": "^27.0.1"
   },

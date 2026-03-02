@@ -3167,12 +3167,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.1-angular-20.3.14":
-  version: 7.3.1-angular-20.3.14
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.1-angular-20.3.14"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.35":
+  version: 7.3.35
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.35"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/f64870da7e5c7bd21c08354abacb22023ecebc9a3e103620bf7d92679ea4bcae07e2ce686d74de1e7c93f36f6189f50ad4ddfd8a7700d42135b6f1ab58cfb65c
+  checksum: 10/fe76c146061876a8e363bbe65041892daa8feadc12b1ffc9effbd9d6a2b463a0550ae7593630db2892acc49114d6c00aac74bbcfef040c13f310cdad1c85fe46
   languageName: node
   linkType: hard
 
@@ -21866,7 +21866,7 @@ __metadata:
     "@angular/router": "npm:^20.3.16"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.1-angular-20.3.14"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.35"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.0"

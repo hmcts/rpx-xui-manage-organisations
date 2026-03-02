@@ -1,13 +1,15 @@
 <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-               {{title}}
-          </span>
-        </summary>
-         <div class="govuk-details__text">
-        {{text}}
-            <ul >
-              <li *ngFor="let item of ul">{{ item }}</li>
-            </ul>
-          </div>
- </details>
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      {{title}}
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    {{text}}
+    <ul >
+      @for (item of ul; track trackByExtensionItem($index, item)) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </div>
+</details>

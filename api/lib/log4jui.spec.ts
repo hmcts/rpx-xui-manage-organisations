@@ -9,7 +9,7 @@ chai.use(sinonChai);
 
 import * as log4js from 'log4js';
 import * as configuration from '../configuration';
-import { APP_INSIGHTS_KEY, LOGGING } from '../configuration/references';
+import { APP_INSIGHTS_CONNECTION_STRING, LOGGING } from '../configuration/references';
 import * as log4jui from '../lib/log4jui';
 import { isJUILogger } from '../lib/models';
 import * as appInsights from './appInsights';
@@ -19,8 +19,8 @@ describe('log4jui', () => {
   let getConfigValueStub: sinon.SinonStub;
 
   beforeEach(() => {
-    sinon.stub(configuration, 'hasConfigValue').withArgs(APP_INSIGHTS_KEY).returns(true);
-    getConfigValueStub = sinon.stub(configuration, 'getConfigValue').withArgs(APP_INSIGHTS_KEY).returns('app_insights_key');
+    sinon.stub(configuration, 'hasConfigValue').withArgs(APP_INSIGHTS_CONNECTION_STRING).returns(true);
+    getConfigValueStub = sinon.stub(configuration, 'getConfigValue').withArgs(APP_INSIGHTS_CONNECTION_STRING).returns('app_insights_connection_string');
     sinon.stub(applicationinsights.Configuration, 'start');
 
     // Stub tracking functions on the AppInsights client
@@ -104,7 +104,6 @@ describe('log4jui', () => {
 
       // Can't use calledWith and pass in an Error instance because the error stacks will be different, so just
       // check the error message passed in is as expected
-      // eslint-disable-next-line no-unused-expressions
       expect(appInsights.client.trackException).to.be.called;
       const errorArg = appInsights.client.trackException.args[0][0];
       assert.equal(errorArg.exception.message, '[ERROR] test - message');
@@ -146,9 +145,7 @@ describe('log4jui', () => {
       const logger = log4jui.getLogger('test');
       logger.trackRequest({});
 
-      // eslint-disable-next-line no-unused-expressions
       expect(appInsights.client).to.be.null;
-      // eslint-disable-next-line no-unused-expressions
       expect(applicationinsights.TelemetryClient.prototype.trackRequest).not.to.be.called;
     });
   });

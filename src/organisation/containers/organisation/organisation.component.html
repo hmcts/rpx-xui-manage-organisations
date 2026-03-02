@@ -56,20 +56,18 @@
       <div class="govuk-summary-list__row">
         <dt class="govuk-summary-list__key">PBA numbers</dt>
         <dd class="govuk-summary-list__value">
-          <div *ngFor="let pba of organisationPaymentAccount">
+          <div *ngFor="let pba of organisationPaymentAccount; trackBy: trackByPba">
             {{pba.pbaNumber}}
           </div>
-          <br/>
-          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending approval)</div>
+          <br />
+          <div *ngFor="let pendingPBA of organisationPendingPaymentAccount; trackBy: trackByString">{{pendingPBA}} (Pending approval)</div>
         </dd>
-        <dd *ngIf="showChangePbaNumberLink"
-        class="govuk-summary-list__actions">
-        <a class="govuk-link" href="javascript:void(0)"
-          id="change-pba-account-numbers__link"
-          routerLink="/organisation/update-pba-numbers">
-          Change<span class="govuk-visually-hidden">PBA numbers</span>
-        </a>
-      </dd>
+        <dd *ngIf="showChangePbaNumberLink" class="govuk-summary-list__actions">
+          <a class="govuk-link" id="change-pba-account-numbers__link"
+            routerLink="/organisation/update-pba-numbers">
+            Change<span class="govuk-visually-hidden">PBA numbers</span>
+          </a>
+        </dd>
       </div>
     </dl>
 
@@ -80,10 +78,11 @@
           Regulatory organisation type
         </dt>
         <dd class="govuk-summary-list__value">
-          <div *ngFor="let regulator of regulators">
+          <div *ngFor="let regulator of regulators; trackBy: trackByRegulator">
             <ng-container [ngSwitch]="regulator.regulatorType">
               <span *ngSwitchCase="regulatoryTypeEnum.Other">
-                {{regulator.regulatorType}}: {{regulator.regulatorName}} ref: {{regulator.organisationRegistrationNumber}}
+                {{regulator.regulatorType}}: {{regulator.regulatorName}} ref:
+                {{regulator.organisationRegistrationNumber}}
               </span>
               <span *ngSwitchCase="regulatoryTypeEnum.NotApplicable">
                 {{regulator.regulatorType}}
@@ -124,77 +123,82 @@
   <ng-container *ngIf="!(isFeatureEnabled$ | async)">
     <table class="govuk-table">
       <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">Name</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDetails.name}}</div>
-        </td>
-      </tr>
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">Address</th>
-        <td class="govuk-table__cell">
-          <!-- Contact Information -->
-          <div>{{organisationContactInformation.addressLine1}}</div>
-          <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}
-          </div>
-          <div *ngIf="organisationContactInformation.addressLine3">{{organisationContactInformation.addressLine3}}
-          </div>
-          <div>{{organisationContactInformation.townCity}}</div>
-          <div>{{organisationContactInformation.county}}</div>
-          <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}
-          </div>
-          <!-- !Contact Information -->
-        </td>
-      </tr>
-      <!-- PBA Numbers -->
-      <tr class="govuk-table__row">
-        <th class="govuk-table__header" scope="row">PBA numbers</th>
-        <td class="govuk-table__cell">
-          <div style = "float:left">
-            <div *ngFor="let pba of organisationPaymentAccount">{{pba.pbaNumber}}</div>
-              <br>
-            <div *ngFor="let pendingPBA of organisationPendingPaymentAccount">{{pendingPBA}}  (Pending approval)</div>
-          </div>
-          <a class="govuk-link fright"
-             style = "float:right"
-          routerLink="/organisation/update-pba-numbers" 
-          *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link" aria-label="Change PBA account numbers">Change</a>
-        </td>
-      </tr>
-      <!-- !PBA Numbers -->
-      <tr class="govuk-table__row" *ngIf="!organisationPaymentAccount">
-        <th class="govuk-table__header" scope="row">PBA number</th>
-        <td class="govuk-table__cell">
-          <div><p>Until you've added one or more payment by account (PBA) numbers,
-                  you won't be able to make payments when creating a case or view your transactions.</p>
-          </div>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxNumber">
-        <th class="govuk-table__header" scope="row">DX number</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDxAddress.dxNumber}}</div>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxExchange">
-        <th class="govuk-table__header" scope="row">DX exchange</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDxAddress.dxExchange}}</div>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" *ngIf="organisationDetails.superUser">
-        <th class="govuk-table__header" scope="row">Administrator</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
-          <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
-        </td>
-      </tr>
-      <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
-        <th class="govuk-table__header" scope="row">SRA ID</th>
-        <td class="govuk-table__cell">
-          <div>{{organisationDetails.sraId}}</div>
-        </td>
-      </tr>
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="row">Name</th>
+          <td class="govuk-table__cell">
+            <div>{{organisationDetails.name}}</div>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="row">Address</th>
+          <td class="govuk-table__cell">
+            <!-- Contact Information -->
+            <div>{{organisationContactInformation.addressLine1}}</div>
+            <div *ngIf="organisationContactInformation.addressLine2">{{organisationContactInformation.addressLine2}}
+            </div>
+            <div *ngIf="organisationContactInformation.addressLine3">{{organisationContactInformation.addressLine3}}
+            </div>
+            <div>{{organisationContactInformation.townCity}}</div>
+            <div>{{organisationContactInformation.county}}</div>
+            <div *ngIf="organisationContactInformation.postCode">{{organisationContactInformation.postCode}}
+            </div>
+            <!-- !Contact Information -->
+          </td>
+        </tr>
+        <!-- PBA Numbers -->
+        <tr class="govuk-table__row">
+          <th class="govuk-table__header" scope="row">PBA numbers</th>
+          <td class="govuk-table__cell">
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-three-quarters">
+                <div *ngFor="let pba of organisationPaymentAccount; trackBy: trackByPba">{{pba.pbaNumber}}</div>
+                <br>
+                <div *ngFor="let pendingPBA of organisationPendingPaymentAccount; trackBy: trackByString">{{pendingPBA}} (Pending approval)
+                </div>
+              </div>
+              <div class="govuk-grid-column-one-quarter govuk-!-text-align-right">
+                <a class="govuk-link fright" routerLink="/organisation/update-pba-numbers"
+                  *ngIf="showChangePbaNumberLink" id="change-pba-account-numbers__link"
+                  aria-label="Change PBA account numbers">Change</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <!-- !PBA Numbers -->
+        <tr class="govuk-table__row" *ngIf="!organisationPaymentAccount">
+          <th class="govuk-table__header" scope="row">PBA number</th>
+          <td class="govuk-table__cell">
+            <div>
+              <p>Until you've added one or more payment by account (PBA) numbers,
+                you won't be able to make payments when creating a case or view your transactions.</p>
+            </div>
+          </td>
+        </tr>
+        <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxNumber">
+          <th class="govuk-table__header" scope="row">DX number</th>
+          <td class="govuk-table__cell">
+            <div>{{organisationDxAddress.dxNumber}}</div>
+          </td>
+        </tr>
+        <tr class="govuk-table__row" *ngIf="organisationDxAddress && organisationDxAddress.dxExchange">
+          <th class="govuk-table__header" scope="row">DX exchange</th>
+          <td class="govuk-table__cell">
+            <div>{{organisationDxAddress.dxExchange}}</div>
+          </td>
+        </tr>
+        <tr class="govuk-table__row" *ngIf="organisationDetails.superUser">
+          <th class="govuk-table__header" scope="row">Administrator</th>
+          <td class="govuk-table__cell">
+            <div>{{organisationDetails.superUser.firstName}} {{organisationDetails.superUser.lastName}}</div>
+            <div class="govuk-caption-m govuk-!-font-size-16">{{organisationDetails.superUser.email}}</div>
+          </td>
+        </tr>
+        <tr class="govuk-table__row" *ngIf="organisationDetails.sraId">
+          <th class="govuk-table__header" scope="row">SRA ID</th>
+          <td class="govuk-table__cell">
+            <div>{{organisationDetails.sraId}}</div>
+          </td>
+        </tr>
       </tbody>
     </table>
   </ng-container>

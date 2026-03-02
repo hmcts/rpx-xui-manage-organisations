@@ -1,17 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
+import { buildCompositeTrackKey } from '../../../shared/utils/track-by.util';
 import * as fromCasesFeature from '../../store';
 import * as fromCaseList from '../../store/reducers';
 
 @Component({
   selector: 'app-exui-case-share-complete',
   templateUrl: './case-share-complete.component.html',
-  styleUrls: ['case-share-complete.component.scss']
+  styleUrls: ['case-share-complete.component.scss'],
+  standalone: false
 })
 export class CaseShareCompleteComponent implements OnInit, OnDestroy {
   public shareCases$: Observable<SharedCase[]>;
@@ -86,5 +88,15 @@ export class CaseShareCompleteComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  // Defensive trackBy helpers to avoid NG0955 duplicate empty keys while keeping identity stable
+  public trackByShareCase(index: number, aCase: SharedCase): string | number {
+    return buildCompositeTrackKey(index, aCase?.caseId, aCase?.caseTitle);
+  }
+
+  public trackByPendingUser(index: number, user: any): string | number {
+    return buildCompositeTrackKey(index, user?.idamId, user?.userIdentifier, user?.email, user?.fullName,
+      (user ? ((user.firstName || '') + ' ' + (user.lastName || '')).trim() : ''));
   }
 }

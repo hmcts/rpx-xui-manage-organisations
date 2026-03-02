@@ -10,7 +10,7 @@ import { HealthCheckService } from '../services/health-check.service';
 export class HealthCheckGuard {
   constructor(
         private readonly healthCheck: HealthCheckService,
-        private readonly store: Store<fromRoot.State>,
+        private readonly store: Store<fromRoot.State>
   ) {}
 
   public canActivate() {

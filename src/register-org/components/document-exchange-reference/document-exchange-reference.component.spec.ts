@@ -1,10 +1,14 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RegistrationData } from '../../models/registration-data.model';
 import { DocumentExchangeReferenceComponent } from './document-exchange-reference.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { buildMockStoreProviders } from '../../testing/mock-store-state';
+// provideHttpClient imported above
 
 describe('DocumentExchangeReferenceComponent', () => {
   let component: DocumentExchangeReferenceComponent;
@@ -31,8 +35,8 @@ describe('DocumentExchangeReferenceComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DocumentExchangeReferenceComponent],
-      imports: [RouterTestingModule],
-      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting(), ...buildMockStoreProviders()]
     }).compileComponents();
   });
 

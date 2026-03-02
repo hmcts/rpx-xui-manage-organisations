@@ -3,7 +3,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockStore } from '@ngrx/store/testing';
+// Path from this spec to src/register-org/testing/mock-store-state.ts
+import { buildMockStoreProviders } from '../../../../../../../register-org/testing/mock-store-state';
 import { of } from 'rxjs';
 import { State } from '../../../../../../../app/store/reducers';
 import { InputButtonComponent } from './input-button.component';
@@ -34,11 +36,12 @@ describe('InputButtonComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [ReactiveFormsModule],
       providers: [
-        provideMockStore(),
+        ...buildMockStoreProviders(),
         DatePipe]
     })
       .compileComponents();
-    mockStore = TestBed.get(Store);
+    // Use MockStore to access testing helpers and correct typing
+    mockStore = TestBed.inject(MockStore);
   }));
 
   beforeEach(() => {

@@ -12,12 +12,12 @@ import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.compo
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @Component({
-  template: '<div>Nothing to see here. Move along, please.</div>'
+  template: '<div>Nothing to see here. Move along, please.</div>',
+  standalone: false
 })
 class MockComponent {}
 
 describe('UpdatePbaNumbersCheckComponent', () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let pbaService: any;
   const storeMock = {
     actionsDispatched: [],
@@ -36,7 +36,6 @@ describe('UpdatePbaNumbersCheckComponent', () => {
   };
 
   let pipeSpy: jasmine.Spy;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let dispatchSpy: jasmine.Spy;
   let component: UpdatePbaNumbersCheckComponent;
   let fixture: ComponentFixture<UpdatePbaNumbersCheckComponent>;

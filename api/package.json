@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack-node.config.js",
-    "coverage": "cross-env TS_NODE_FILES=true npx nyc mocha -r dotenv-extended/config",
+    "coverage": "cross-env TS_NODE_FILES=true npx nyc mocha --config test/.mocharc.json -r dotenv-extended/config",
     "lint": "npx tslint --project .",
     "watch": "nodemon --watch '**/*.ts' --exec ts-node -r dotenv-extended/config --files local.ts",
     "test": "cross-env TS_NODE_FILES=true mocha -r dotenv-extended/config",

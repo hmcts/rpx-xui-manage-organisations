@@ -8,22 +8,24 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
 * @param: errors - array of error stings
 * */
 @Component({
-  selector: 'lib-gov-uk-radios',
-  template: `
+    selector: 'lib-gov-uk-radios',
+    template: `
     <lib-gov-uk-form-group-wrapper
       [error]="errors"
       [config]="options.config"
       [group]="options.key">
       <div class="govuk-radios">
-        <lib-gov-radio
-          appRemoveHost
-          *ngFor="let item of options.items"
-          [group]="options.group"
-          [config]="item.config">
-        </lib-gov-radio>
+        @for (item of options.items; track item) {
+          <lib-gov-radio
+            appRemoveHost
+            [group]="options.group"
+            [config]="item.config">
+          </lib-gov-radio>
+        }
       </div>
     </lib-gov-uk-form-group-wrapper>
-  `
+    `,
+    standalone: false
 })
 export class GovUkRadiosComponent {
 

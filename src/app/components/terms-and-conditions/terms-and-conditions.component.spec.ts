@@ -22,19 +22,18 @@ let dispatchSpy: jasmine.Spy;
 describe('TermsAndConditionsComponent', () => {
   @Component({
     selector: 'app-exui-app-host-dummy-component',
-    template: '<exui-terms-and-conditions></exui-terms-and-conditions>'
+    template: '<exui-terms-and-conditions></exui-terms-and-conditions>',
+    standalone: false
   })
   class TestDummyHostComponent {
     @ViewChild(TermsAndConditionsComponent, { static: true })
     public footerComponent: TermsAndConditionsComponent;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let testHostComponent: TestDummyHostComponent;
   let testHostFixture: ComponentFixture<TestDummyHostComponent>;
   let component: TermsAndConditionsComponent;
   let fixture: ComponentFixture<TermsAndConditionsComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let element: DebugElement;
   let termsConditionsService: TermsConditionsService;
   const featureToggleServiceMock = jasmine.createSpyObj('FeatureToggleService', ['getValue']);

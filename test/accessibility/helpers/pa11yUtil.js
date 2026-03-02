@@ -89,7 +89,7 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
 
   // await setScenarioCookie(test);
   try {
-    await initBrowser();
+    // await initBrowser();
     result = await pa11y(startUrl, {
       browser: testBrowser,
       page: page,

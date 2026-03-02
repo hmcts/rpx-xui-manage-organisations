@@ -63,7 +63,6 @@ class Button{
    * @param element to wait to be clickable
    */
   async waitForElementToBeClickable(){
-    const EC = protractor.ExpectedConditions;
 
     try {
       const elementToWait = await this._getElementFinder() 

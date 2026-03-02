@@ -30,7 +30,8 @@ describe('Payload builder', () => {
         addressLine2: 'Bridge Park',
         county: 'Co. Antrim',
         postcode: 'BT35ZAN',
-        townCity: 'Lisburn'
+        townCity: 'Lisburn',
+        dxAddress: [{ dxNumber: null, dxExchange: null }]
       }
     ],
     name: 'Organisation Limited',
@@ -38,7 +39,9 @@ describe('Payload builder', () => {
       email: 'testuser@gmail.com',
       firstName: 'Mary',
       lastName: 'Murphy'
-    }
+    },
+    sraId: undefined,
+    paymentAccount: undefined
   };
 
   it('Should take the stored organisation name and set it on the payload.', () => {

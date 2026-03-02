@@ -12,10 +12,23 @@ module.exports = {
       './src/tsconfig.spec.json',
       './api/tsconfig.json'
     ],
-    tsconfigRootDir: __dirname
+    tsconfigRootDir: __dirname,
+    // Performance optimizations
+    createDefaultProgram: true
   },
   plugins: ['@typescript-eslint'],
   root: true,
+  // Ignore plain JS config / asset files from type-aware linting to avoid parserOptions.project errors
+  ignorePatterns: [
+    'karma.conf.js',
+    'src/karma.conf.js',
+    'stryker.node.conf.js',
+    'api/stryker.node.conf.js',
+    // Ignore webpack config (plain JS) from type-aware linting
+    'api/webpack-node.config.js',
+    'src/assets/**/*',
+    'src/app/assets/**/*'
+  ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -85,5 +98,24 @@ module.exports = {
     'semi-style': ['error', 'last'],
     'space-in-parens': ['error', 'never'],
     'switch-colon-spacing': 'error'
-  }
+  },
+  'overrides': [
+    {
+      files: ['**/*.spec.ts', '**/*.spec.js'],
+      rules: { 
+        // Chai / Sinon assertion style uses expression chains (e.g. expect(x).to.be.true)
+        // Disable both the base and TS variant of unused-expressions in test specs
+        'no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-vars': 'off'
+      }
+    },
+    {
+      // Pact spec files legitimately use require() (Pact examples / dynamic loading)
+      files: ['api/test/pact/pact-tests/**/*.spec.ts'],
+      rules: {
+        '@typescript-eslint/no-require-imports': 'off'
+      }
+    }
+  ]
 };

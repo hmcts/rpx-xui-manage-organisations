@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie';
 import { environment } from 'src/environments/environment';
 

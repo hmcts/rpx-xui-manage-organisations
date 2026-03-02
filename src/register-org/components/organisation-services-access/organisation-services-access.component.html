@@ -1,7 +1,7 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <form [formGroup]="servicesFormGroup">
@@ -18,26 +18,33 @@
               You must select at least one option. This will not impact access to any of the services listed as long as you're eligible to do so.
             </div>
             <div [ngClass]="{'govuk-form-group--error': noServicesError}">
-              <div *ngIf="noServicesError" class="govuk-error-message">
-                <span class="govuk-visually-hidden">Error:</span> {{noServicesError}}
-              </div>
-              <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item" *ngFor="let service of services">
-                  <input class="govuk-checkboxes__input" [id]="service.value" type="checkbox" [for] = "service.key" [value]="service.key" aria-label="service.key"
-                    name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
-                  <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
-                    {{service.value}}
-                  </label>
+              @if (noServicesError) {
+                <div class="govuk-error-message">
+                  <span class="govuk-visually-hidden">Error:</span> {{noServicesError}}
                 </div>
+              }
+              <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                @for (service of services; track trackByOrgService($index, service)) {
+                  <div class="govuk-checkboxes__item">
+                    <!-- id uses stable key; data-service-label exposed for readable test selectors -->
+                    <input class="govuk-checkboxes__input" [id]="service.value" [attr.data-service-label]="service.value" type="checkbox" [value]="service.key" aria-label="service.key"
+                      name="services" formArrayName="services" [checked]="service.selected" (change)="onServicesSelectionChange($event)">
+                    <label class="govuk-label govuk-checkboxes__label" [for]="service.key">
+                      {{service.value}}
+                    </label>
+                  </div>
+                }
                 <div class="govuk-checkboxes__conditional"
                   [ngClass]="{'govuk-checkboxes__conditional--hidden': !showOtherServicesInput}">
                   <div [ngClass]="{'govuk-form-group--error': otherServicesError}">
                     <label class="govuk-label" for="other-services">
                       Please enter the HMCTS service you are wishing to access
                     </label>
-                    <div class="govuk-error-message" *ngIf="otherServicesError">
-                      <span class="govuk-visually-hidden">Error:</span> {{otherServicesError}}
-                    </div>
+                    @if (otherServicesError) {
+                      <div class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{otherServicesError}}
+                      </div>
+                    }
                     <input class="govuk-input" id="other-services" name="other-services" formControlName="otherServices" type="text">
                   </div>
                 </div>
@@ -47,7 +54,7 @@
         </div>
         <div class="govuk-button-group">
           <button class="govuk-button govuk-button--primary" (click)="onContinue()">Continue</button>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
         </div>
       </form>
     </div>

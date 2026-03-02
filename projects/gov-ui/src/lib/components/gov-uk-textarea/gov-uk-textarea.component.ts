@@ -9,8 +9,8 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
 * @param: errors - array of errorMessage
 * */
 @Component({
-  selector: 'lib-gov-uk-textarea',
-  template: `
+    selector: 'lib-gov-uk-textarea',
+    template: `
     <div [formGroup]="group" 
       class="govuk-form-group" [ngClass]="{'govuk-form-group--error': errorMessage?.isInvalid}">
       <lib-gov-label [config]="config"></lib-gov-label>
@@ -23,7 +23,8 @@ import {HtmlTemplatesHelper} from '../../util/helpers/html-templates.helper';
         [ngClass]="{'govuk-textarea--error': errorMessage?.isInvalid}"
         [id]="config.id" name="more-detail" [rows]="config.rows" [attr.aria-describedby]="setDescribedBy()"></textarea>
     </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkTextareaComponent {
   @Input() config: {label: string; classes: string; hint: string; key: string; rows: number, id: string};

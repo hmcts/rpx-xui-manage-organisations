@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
@@ -10,7 +10,8 @@ import * as fromCaseList from '../../store/reducers';
 @Component({
   selector: 'app-exui-case-share-confirm',
   templateUrl: './case-share-confirm.component.html',
-  styleUrls: ['./case-share-confirm.component.scss']
+  styleUrls: ['./case-share-confirm.component.scss'],
+  standalone: false
 })
 export class CaseShareConfirmComponent implements OnInit {
   public shareCases$: Observable<SharedCase[]>;

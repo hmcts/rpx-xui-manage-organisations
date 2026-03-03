@@ -20,6 +20,7 @@ import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { DefaultErrorHandler } from '../shared/errorHandler/defaultErrorHandler';
+import { AbstractAppInsights, AppInsightsWrapper } from '../shared/services/appInsightsWrapper';
 import { JwtDecodeWrapper } from '../shared/services/jwtDecodeWrapper';
 import { LoggerService } from '../shared/services/logger.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
@@ -38,6 +39,7 @@ import { effects, reducers } from './store';
     }),
     ExuiCommonLibModule,
     RxReactiveFormsModule], providers: [...fromServices.services, OrganisationGuard,
+    { provide: AbstractAppInsights, useClass: AppInsightsWrapper },
     JwtDecodeWrapper, MonitoringService, LoggerService,
     { provide: ErrorHandler, useClass: DefaultErrorHandler }, provideHttpClient(withInterceptorsFromDi())] })
 

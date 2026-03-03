@@ -4,8 +4,7 @@ import { ValidationService } from '../../services/form-builder-validation.servic
 
 @Component({
   selector: 'app-inputs',
-  templateUrl: './inputs.component.html',
-  standalone: false
+  templateUrl: './inputs.component.html'
 })
 export class InputsComponent {
   @Input() group: FormGroup;

@@ -1,14 +1,11 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { PaymentByAccountDetailsComponent } from './payment-by-account-details.component';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
-// provideHttpClient imported above
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('PaymentByAccountDetailsComponent', () => {
   let component: PaymentByAccountDetailsComponent;
@@ -22,13 +19,13 @@ describe('PaymentByAccountDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PaymentByAccountDetailsComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RouterTestingModule,
+        ReactiveFormsModule],
       providers: [
         EnvironmentService,
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-        ...buildMockStoreProviders()
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();

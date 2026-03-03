@@ -12,8 +12,7 @@ import { UserRolesUtil } from '../utils/user-roles-util';
 
 @Component({
   selector: 'app-edit-user-permission',
-  templateUrl: './edit-user-permission.component.html',
-  standalone: false
+  templateUrl: './edit-user-permission.component.html'
 })
 export class EditUserPermissionComponent implements OnInit, OnDestroy {
   public editUserForm: FormGroup;

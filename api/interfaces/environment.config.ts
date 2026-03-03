@@ -1,5 +1,5 @@
 export interface EnvironmentConfig {
-  appInsightsConnectionString: string;
+  appInsightsInstrumentationKey: string;
   configEnv: string;
   cookies: EnvironmentConfigCookies;
   exceptionOptions: EnvironmentConfigExceptionOptions;

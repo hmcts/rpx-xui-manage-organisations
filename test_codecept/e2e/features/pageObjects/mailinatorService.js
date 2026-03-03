@@ -1,5 +1,6 @@
 
 const EC = {};
+const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
 
 class MailinatorService{
   constructor(){

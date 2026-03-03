@@ -10,7 +10,6 @@ import { LovRefDataService } from '../../../shared/services/lov-ref-data.service
 import { RegistrationData } from '../../models';
 import { OrgTypeMessageEnum } from '../../models/organisation-type.enum';
 import { OrganisationTypeComponent } from './organisation-type.component';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('OrganisationTypeComponent', () => {
@@ -121,8 +120,7 @@ describe('OrganisationTypeComponent', () => {
         { provide: LovRefDataService, useValue: mockLovRefDataService },
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-        ...buildMockStoreProviders()
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();

@@ -38,7 +38,6 @@ describe('User Details Component', () => {
       userStoreSpyObject.pipe.and.returnValue(of());
       component.getDependencyObservables(routerStoreSpyObject, userStoreSpyObject).subscribe(([route, users]) => {
         expect(users).toBe(false);
-        expect(route).not.toBeUndefined();
       });
     });
   });

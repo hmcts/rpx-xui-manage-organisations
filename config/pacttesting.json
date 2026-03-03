@@ -1,6 +1,6 @@
 {
   "environment": "DEFAULT ENVIRONMENT",
-  "appInsightsConnectionString": "AAA",
+  "appInsightsInstrumentationKey": "AAA",
   "indexUrl": "/",
   "logging": "trace",
   "maxLogLine": 80,

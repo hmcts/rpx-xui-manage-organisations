@@ -4,8 +4,7 @@
 
 $jui-page-width: 1220px;
 $jui-gutter: govuk-spacing(6);
-@use "sass:math";
-$jui-gutter-half: math.div($govuk-gutter, 2);
+$jui-gutter-half: $govuk-gutter / 2;
 
 // Assets path
 $jui-assets-path : "/public/images/";

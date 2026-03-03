@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-invite-permission-form',
-  templateUrl: './invite-user-permission.component.html',
-  standalone: false
+  templateUrl: './invite-user-permission.component.html'
 })
 
 export class InviteUserPermissionComponent implements OnInit {

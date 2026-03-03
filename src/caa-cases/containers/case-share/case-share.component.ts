@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
-import { SharedCase } from '@hmcts/rpx-xui-common-lib';
-import { UserDetails } from '@hmcts/rpx-xui-common-lib';
+import { SharedCase } from '@hmcts/rpx-xui-common-lib/lib/models/case-share.model';
+import { UserDetails } from '@hmcts/rpx-xui-common-lib/lib/models/user-details.model';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 import { initAll } from 'govuk-frontend';
@@ -15,8 +15,7 @@ import * as fromCaseList from '../../store/reducers';
 @Component({
   selector: 'app-exui-case-share',
   templateUrl: './case-share.component.html',
-  styleUrls: ['./case-share.component.scss'],
-  standalone: false
+  styleUrls: ['./case-share.component.scss']
 })
 export class CaseShareComponent implements OnInit {
   public routerState$: Observable<RouterReducerState<RouterStateUrl>>;

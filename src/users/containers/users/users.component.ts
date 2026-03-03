@@ -11,8 +11,7 @@ import * as fromStore from '../../store';
 @Component({
   selector: 'app-prd-users-component',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
-  standalone: false
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
   @Output() public paginationEvent = new EventEmitter<number>();

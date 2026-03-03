@@ -3,8 +3,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-registration-submitted',
-  templateUrl: './registration-submitted.component.html',
-  standalone: false
+  templateUrl: './registration-submitted.component.html'
 })
 export class RegistrationSubmittedComponent {
   constructor(public readonly registerOrgService: RegisterOrgService) {

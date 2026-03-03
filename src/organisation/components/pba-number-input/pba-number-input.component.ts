@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib';
+import { ErrorMessagesModel } from '@hmcts/rpx-xui-common-lib/lib/gov-ui/models';
 
 @Component({
   selector: 'app-prd-pba-number-input-component',
-  templateUrl: './pba-number-input.component.html',
-  standalone: false
+  templateUrl: './pba-number-input.component.html'
 })
 export class PbaNumberInputComponent implements OnInit {
   public static PBA_GENERIC_ERROR_MESSAGE = ['There is a problem. Enter a PBA number, for example PBA1234567'];

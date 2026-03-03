@@ -18,7 +18,6 @@ describe('organisation index', () => {
   const req = mockReq();
   req.http = http(req);
   const res = mockRes();
-  const next = sinon.stub();
 
   beforeEach(() => {
     sinon.stub(configuration, 'getConfigValue').returns('apiPath');
@@ -36,9 +35,9 @@ describe('organisation index', () => {
     sinon.stub(req.http, 'get').resolves(mockAxiosResponse as AxiosResponse);
 
     // Test the function and check expectations
-    await handleOrganisationRoute(req, res, next);
+    await handleOrganisationRoute(req, res);
     expect(configuration.getConfigValue).to.be.calledWith(SERVICES_RD_PROFESSIONAL_API_PATH);
-    expect(req.http.get).to.be.calledWith('apiPath/refdata/external/v2/organisations');
+    expect(req.http.get).to.be.calledWith('apiPath/refdata/external/v1/organisations');
     expect(res.send).to.be.calledWith('test');
   });
 
@@ -54,9 +53,16 @@ describe('organisation index', () => {
     };
     sinon.stub(req.http, 'get').throws(error);
 
+    const errorReport = {
+      apiError: errorMessage,
+      apiStatusCode: errorCode,
+      message: 'Organisation route error'
+    };
+
     // Test the function and check expectations
-    await handleOrganisationRoute(req, res, next);
-    expect(next).to.be.calledWith(error);
+    await handleOrganisationRoute(req, res);
+    expect(res.status).to.be.calledWith(errorCode);
+    expect(res.send).to.be.calledWith(errorReport);
   });
 
   it('should get the Organisation details', () => {

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { RegulatorType } from '../../../../register-org/models';
 import { RegisterOrgService } from '../../../services/register-org.service';
 import { RegulatorListComponent } from './regulator-list.component';
@@ -50,7 +49,7 @@ describe('RegulatorListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RegulatorListComponent],
-      imports: [RouterTestingModule],
+      imports: [],
       providers: [{ provide: RegisterOrgService, useValue: service }]
     }).compileComponents();
   });

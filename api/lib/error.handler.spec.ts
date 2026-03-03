@@ -11,12 +11,14 @@ chai.use(sinonChai);
 import * as errorHandler from './error.handler';
 
 describe('errorHandler', () => {
+  let next;
   let sandbox;
   let req;
   let res;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox();
+    next = sandbox.spy();
     res = mockRes();
     req = mockReq({
       cookies: [],
@@ -41,13 +43,14 @@ describe('errorHandler', () => {
         }
       }
     };
-    errorHandler.default(err, req, res);
+    errorHandler.default(err, req, res, next);
+    // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['config', 'headers'])).to.be.false;
   });
 
   it('should return default response', () => {
     const err = {};
-    errorHandler.default(err, req, res);
+    errorHandler.default(err, req, res, next);
     expect(res.status).to.have.been.calledWith(500);
     expect(res.send).to.have.been.calledWith({ message: 'Internal Server Error' });
   });
@@ -59,7 +62,7 @@ describe('errorHandler', () => {
         test: 'dummy'
       }
     };
-    errorHandler.default(err, req, res);
+    errorHandler.default(err, req, res, next);
     expect(res.status).to.have.been.calledWith(404);
     expect(res.send).to.have.been.calledWith({ test: 'dummy' });
   });
@@ -71,7 +74,8 @@ describe('errorHandler', () => {
         }
       }
     };
-    errorHandler.default(err, req, res);
+    errorHandler.default(err, req, res, next);
+    // eslint-disable-next-line no-unused-expressions
     expect(propsExist(err, ['request', '_header'])).to.be.false;
   });
 });

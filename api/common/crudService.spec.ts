@@ -23,6 +23,7 @@ xdescribe('crudService', () => {
   };
 
   let sandbox;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let spy: any;
   const req = mockReq();
   const res = mockRes({

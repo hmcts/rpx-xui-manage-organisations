@@ -3,8 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-invite-user-form',
-  templateUrl: './invite-user-form.component.html',
-  standalone: false
+  templateUrl: './invite-user-form.component.html'
 })
 export class InviteUserFormComponent {
   @Output() public submitForm = new EventEmitter();

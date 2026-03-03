@@ -9,8 +9,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-before-you-start',
-  templateUrl: './before-you-start.component.html',
-  standalone: false
+  templateUrl: './before-you-start.component.html'
 })
 export class BeforeYouStartComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;

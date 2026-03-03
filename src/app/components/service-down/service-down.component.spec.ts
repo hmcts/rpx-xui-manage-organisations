@@ -26,8 +26,7 @@ describe('ServiceDownComponent', () => {
         provideMockStore({ initialState })
       ]
     }).compileComponents();
-    // Inject the MockStore provided by provideMockStore to get full MockStore API
-    store = TestBed.inject(MockStore);
+    store = TestBed.get(Store);
     dispatchSpy = spyOn(store, 'dispatch');
     fixture = TestBed.createComponent(ServiceDownComponent);
     component = fixture.componentInstance;

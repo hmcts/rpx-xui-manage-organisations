@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
       hmcts-form-builder works!
     </p>
   `,
-  styles: [],
-  standalone: false
+  styles: []
 })
 export class HmctsFormBuilderComponent {}

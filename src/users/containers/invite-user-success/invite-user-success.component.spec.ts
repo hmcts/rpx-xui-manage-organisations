@@ -9,6 +9,7 @@ import { InviteUserSuccessComponent } from './invite-user-success.component';
 describe('Invite User Success Component', () => {
   let fixture: ComponentFixture<InviteUserSuccessComponent>;
   let component: InviteUserSuccessComponent;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: Store<fromStore.UserState>;
 
   beforeEach((() => {

@@ -2,8 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-prd-pba-success',
-  templateUrl: './pba-success-summary.component.html',
-  standalone: false
+  templateUrl: './pba-success-summary.component.html'
 })
 export class PbaSuccessSummaryComponent {
   public static readonly SUCCESS_MESSAGES = {

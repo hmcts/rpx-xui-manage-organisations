@@ -14,8 +14,7 @@ describe('CheckboxComponent', () => {
             [classes]="classes"
             [labelClasses]="labelClasses"
             [validate]="validate"
-        ></app-checkbox>`,
-      standalone: false
+        ></app-checkbox>`
     })
   class TestDummyHostComponent {
       group: FormGroup;
@@ -33,6 +32,7 @@ describe('CheckboxComponent', () => {
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
     let component: CheckboxComponent;
     let fixture: ComponentFixture<CheckboxComponent>;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let element: DebugElement;
 
     beforeEach(waitForAsync(() => {

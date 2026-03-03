@@ -8,23 +8,20 @@ import {CheckboxesModel} from '../../models/checkboxesModel';
 * @param: errors - array of error stings
 * */
 @Component({
-    selector: 'lib-gov-uk-checkboxes',
-    template: `
+  selector: 'lib-gov-uk-checkboxes',
+  template: `
     <lib-gov-uk-form-group-wrapper
       [error]="errors"
       [config]="options.config"
       [group]="options.key">
       <div class="govuk-checkboxes">
-        @for (item of options.items; track item) {
-          <lib-gov-checkbox
-            [group]="item.group"
-            [config]="item.config">
-          </lib-gov-checkbox>
-        }
+        <lib-gov-checkbox *ngFor="let item of options.items"
+          [group]="item.group"
+          [config]="item.config">
+        </lib-gov-checkbox>
       </div>
     </lib-gov-uk-form-group-wrapper>
-    `,
-    standalone: false
+  `
 })
 export class CheckboxesComponent {
 

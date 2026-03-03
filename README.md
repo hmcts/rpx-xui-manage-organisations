@@ -29,6 +29,10 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
 ## Integration Documentation
 
 https://tools.hmcts.net/confluence/display/EUI/EXUI+Low+Level+Design
@@ -127,7 +131,7 @@ Note that this is connected into the application via the following pieces of cod
     rpx:
       secrets:
         - postgresql-admin-pw
-        - appinsights-connection-string-mo
+        - appinsights-instrumentationkey-tc
 ```
 
 which in turn uses `propertiesVolume.addTo()`
@@ -163,7 +167,7 @@ Note about secrets ie.
     rpx:
       secrets:
         - postgresql-admin-pw
-        - appinsights-connection-string-mo
+        - appinsights-instrumentationkey-tc
  ```   
 are set within the values.yaml and there should be NO REFERENCE to them within any /config/*.json file.
 

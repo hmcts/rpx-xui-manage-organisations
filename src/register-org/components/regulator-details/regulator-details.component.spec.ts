@@ -13,7 +13,6 @@ import {
 } from '../../../register-org/models';
 import { LovRefDataService } from '../../../shared/services/lov-ref-data.service';
 import { RegulatorDetailsComponent } from './regulator-details.component';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('RegulatorDetailsComponent', () => {
@@ -72,8 +71,7 @@ describe('RegulatorDetailsComponent', () => {
           provide: LovRefDataService, useValue: mockLovRefDataService
         },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-        ...buildMockStoreProviders()
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();

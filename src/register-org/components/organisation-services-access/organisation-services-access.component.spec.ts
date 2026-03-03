@@ -1,15 +1,11 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { OrganisationServicesMessage } from '../../../register-org/models';
 import { EnvironmentService } from '../../../shared/services/environment.service';
 import { OrganisationServicesAccessComponent } from './organisation-services-access.component';
-import { RegisterOrgModule } from '../../register-org.module';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('OrganisationServicesAccessComponent', () => {
   let component: OrganisationServicesAccessComponent;
@@ -19,13 +15,12 @@ describe('OrganisationServicesAccessComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      // RegisterOrgModule declares OrganisationServicesAccessComponent and dependencies.
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule, RegisterOrgModule],
+      declarations: [OrganisationServicesAccessComponent],
+      imports: [RouterTestingModule],
       providers: [
         EnvironmentService,
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-        ...buildMockStoreProviders()
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();
@@ -70,8 +65,7 @@ describe('OrganisationServicesAccessComponent', () => {
   });
 
   it('should not set the error message and navigate to next the page', () => {
-    // Select by data attribute (value) while id is the stable key now
-    nativeElement.querySelector('[data-service-label="Damages"]').click();
+    nativeElement.querySelector('#Damages').click();
     fixture.detectChanges();
     component.onContinue();
     expect(component.validationErrors.length).toEqual(0);

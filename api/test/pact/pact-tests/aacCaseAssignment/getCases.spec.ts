@@ -56,6 +56,7 @@ describe('Get cases from acc ', () => {
     });
 
     function assertResponse(dto: CCDRawCaseUserModel[]): void {
+      // eslint-disable-next-line no-unused-expressions
       expect(dto).to.be.not.null;
       expect(dto[0].case_id).to.equal('123456789');
       expect(dto[0].case_title).to.equal('Case 1');

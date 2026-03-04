@@ -5,8 +5,7 @@ import { Helper, Navigation } from './footer.model';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
-  standalone: false
+  styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
   public helpData: Helper = AppConstants.FOOTER_DATA;

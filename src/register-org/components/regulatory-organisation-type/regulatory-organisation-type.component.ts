@@ -3,8 +3,7 @@ import { RegulatorType } from '../../models';
 
 @Component({
   selector: 'app-regulatory-organisation-type',
-  templateUrl: './regulatory-organisation-type.component.html',
-  standalone: false
+  templateUrl: './regulatory-organisation-type.component.html'
 })
 export class RegulatoryOrganisationTypeComponent {
   public regulatorType = RegulatorType;

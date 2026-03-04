@@ -1,10 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import * as fromRoot from '../../../app/store';
 import { DxAddress, OrganisationContactInformation, OrganisationDetails } from '../../../models';
-import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
+import * as fromOrgStore from '../../../users/store';
 import { UpdatePbaNumbersComponent } from './update-pba-numbers.component';
 
 const storeMock = {
@@ -14,13 +15,15 @@ const storeMock = {
   dispatch: () => { }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let pipeSpy: jasmine.Spy;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dispatchSpy: jasmine.Spy;
 
 describe('UpdatePbaNumbersComponent', () => {
   let component: UpdatePbaNumbersComponent;
   let fixture: ComponentFixture<UpdatePbaNumbersComponent>;
-  let store: Store<any>;
+  let store: Store<fromOrgStore.UserState>;
   let activatedRoute: any;
   const dxAddress: DxAddress = {
     dxNumber: 'DX 4534234552',
@@ -68,20 +71,30 @@ describe('UpdatePbaNumbersComponent', () => {
         params: of({})
       }
     };
+    pipeSpy = spyOn(storeMock, 'pipe').and.returnValue(of(mockOrganisationDetails));
+
+    dispatchSpy = spyOn(storeMock, 'dispatch');
 
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [
+        StoreModule.forRoot({
+          ...fromRoot.reducers,
+          feature: combineReducers(fromOrgStore.reducers)
+        })
+      ],
       declarations: [UpdatePbaNumbersComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        ...buildMockStoreProviders(),
+        {
+          provide: Store,
+          useValue: storeMock
+        },
         { provide: ActivatedRoute, useValue: activatedRoute },
         UpdatePbaNumbersComponent
       ]
     }).compileComponents();
+
     store = TestBed.inject(Store);
-    pipeSpy = spyOn(store, 'pipe').and.returnValue(of(mockOrganisationDetails));
-    dispatchSpy = spyOn(store, 'dispatch');
 
     fixture = TestBed.createComponent(UpdatePbaNumbersComponent);
     component = fixture.componentInstance;

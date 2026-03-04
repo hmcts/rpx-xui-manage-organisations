@@ -26,8 +26,7 @@ class CustomRouterStateSerializer implements RouterStateSerializer<RouterStateUr
 }
 
 @Component({
-  template: '',
-  standalone: false
+  template: ''
 })
 class ListMockComponent {}
 

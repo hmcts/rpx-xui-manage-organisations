@@ -6,8 +6,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-payment-by-account',
-  templateUrl: './payment-by-account.component.html',
-  standalone: false
+  templateUrl: './payment-by-account.component.html'
 })
 export class PaymentByAccountComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('errorSummaryTitleElement') public errorSummaryTitleElement: ElementRef;

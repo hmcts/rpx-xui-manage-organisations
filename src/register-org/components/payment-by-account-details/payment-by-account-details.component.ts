@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RxwebValidators } from '@rxweb/reactive-form-validators';
@@ -9,8 +8,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-payment-by-account-details',
-  templateUrl: './payment-by-account-details.component.html',
-  standalone: false
+  templateUrl: './payment-by-account-details.component.html'
 })
 export class PaymentByAccountDetailsComponent extends RegisterComponent implements OnInit {
   public pbaDetailsFormGroup: FormGroup;
@@ -162,11 +160,5 @@ export class PaymentByAccountDetailsComponent extends RegisterComponent implemen
       return PbaErrorMessage.EXISTING_PBA_NUMBER;
     }
     return PbaErrorMessage.GENERIC_ERROR_MESSAGE;
-  }
-
-  // trackBy helpers
-  public trackByPbaControl(index: number, ctrl: AbstractControl): string | number {
-    // attempt to use current PBA value; fallback to synthetic key
-    return buildIdOrIndexKey(index, { value: ctrl?.get('pbaNumber')?.value } as any, 'value');
   }
 }

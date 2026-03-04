@@ -1,10 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { CompanyHouseDetailsMessage } from '../../../register-org/models';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
 import { RegisterOrgService } from '../../services/register-org.service';
 import { CompanyHouseDetailsComponent } from './company-house-details.component';
 
@@ -25,10 +22,9 @@ describe('CompanyHouseDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CompanyHouseDetailsComponent],
-      imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
+      imports: [RouterTestingModule],
       providers: [
-        { provide: RegisterOrgService, useValue: service },
-        ...buildMockStoreProviders()
+        { provide: RegisterOrgService, useValue: service }
       ]
     }).compileComponents();
   });

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ServiceDownComponent } from './service-down.component';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
 
 describe('ServiceDownComponent', () => {
   let component: ServiceDownComponent;
@@ -9,10 +8,7 @@ describe('ServiceDownComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ServiceDownComponent],
-      providers: [
-        ...buildMockStoreProviders()
-      ]
+      declarations: [ServiceDownComponent]
     })
       .compileComponents();
   });

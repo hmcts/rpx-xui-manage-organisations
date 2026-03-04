@@ -1,14 +1,11 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { ContactDetailsErrorMessage } from '../../models/contact-details.enum';
 import { RegistrationData } from '../../models/registration-data.model';
 import { ContactDetailsComponent } from './contact-details.component';
-import { buildMockStoreProviders } from '../../testing/mock-store-state';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('ContactDetailsComponent', () => {
   let component: ContactDetailsComponent;
@@ -41,16 +38,11 @@ describe('ContactDetailsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ContactDetailsComponent],
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        ExuiCommonLibModule
-      ],
+      imports: [RouterTestingModule],
       providers: [
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
-        provideHttpClientTesting(),
-        ...buildMockStoreProviders()
+        provideHttpClientTesting()
       ]
     })
       .compileComponents();

@@ -5,8 +5,7 @@ import { RegisterOrgService } from '../../services/index';
 
 @Component({
   selector: 'app-prd-register-component',
-  templateUrl: './register-org.component.html',
-  standalone: false
+  templateUrl: './register-org.component.html'
 })
 
 export class RegisterComponent implements OnInit, OnDestroy {
@@ -16,8 +15,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
-    // Angular Router exposes getCurrentNavigation(); currentNavigation is not an invocable function.
-    this.routerCurrentNavigation = this.router.getCurrentNavigation?.();
+    this.routerCurrentNavigation = this.router.getCurrentNavigation();
   }
 
   public get currentNavigation(): Navigation {

@@ -10,8 +10,7 @@ import * as fromfeatureStore from '../../store';
 @Component({
   selector: 'app-account-summary',
   templateUrl: './account-summary.component.html',
-  styleUrls: ['./account-summary.component.scss'],
-  standalone: false
+  styleUrls: ['./account-summary.component.scss']
 })
 export class AccountSummaryComponent implements OnInit, OnDestroy {
   public accounts$: Observable<FeeAccount[]>;

@@ -6,8 +6,7 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 * sometimes needed because of CSS dependencies
 * */
 @Directive({
-  selector: '[appRemoveHost]',
-  standalone: false
+  selector: '[appRemoveHost]'
 })
 export class RemoveHostDirective implements OnInit {
   constructor(private readonly el: ElementRef) {}

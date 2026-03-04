@@ -3,8 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-date',
-  templateUrl: './date.component.html',
-  standalone: false
+  templateUrl: './date.component.html'
 })
 export class DateComponent {
     @Input() group: FormGroup;

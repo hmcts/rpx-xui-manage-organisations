@@ -43,14 +43,14 @@ export class AppUtils {
   }
 
   public static returnNavs(router, nav) {
-    if (router && router.state && router.state.url) {
-      const url = router.state.url;
-      const isRegisterJourney = url.includes('register-org') || url.includes('register-org-new');
+    if (router && router.state && router.state.url.indexOf('register') === -1) {
       return {
-        navItems: isRegisterJourney ? [] : nav
+        navItems: nav
       };
     }
-    return { navItems: [] };
+    return {
+      navItems: []
+    };
   }
 
   public static setSetUserNavItems(state, routes) {

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { Router } from '@angular/router';
 import { OrganisationService, OrganisationServicesMessage } from '../../../register-org/models';
 import { ORGANISATION_SERVICES } from '../../constants/register-org-constants';
@@ -9,8 +8,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-organisation-services-access',
-  templateUrl: './organisation-services-access.component.html',
-  standalone: false
+  templateUrl: './organisation-services-access.component.html'
 })
 export class OrganisationServicesAccessComponent extends RegisterComponent implements OnInit, OnDestroy {
   public readonly CATEGORY_SERVICE_ACCESS = 'Service';
@@ -115,10 +113,5 @@ export class OrganisationServicesAccessComponent extends RegisterComponent imple
       this.otherServicesError = OrganisationServicesMessage.OTHER_SERVICES;
     }
     return this.validationErrors.length === 0;
-  }
-
-  // trackBy helper for services list
-  public trackByOrgService(index: number, service: OrganisationService): string | number {
-    return buildIdOrIndexKey(index, service as any, 'key', 'value');
   }
 }

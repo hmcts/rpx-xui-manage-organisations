@@ -11,8 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-prd-user-details-component',
   templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss'],
-  standalone: false
+  styleUrls: ['./user-details.component.scss']
 })
 export class UserDetailsComponent implements OnInit, OnDestroy {
   public editPermissionRouter: string;

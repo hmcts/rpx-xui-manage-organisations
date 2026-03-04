@@ -1,11 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Optional } from '@angular/core';
-import {
-  ApplicationInsights,
-  IConfig,
-  IEventTelemetry,
-  IPageViewPerformanceTelemetry
-} from '@microsoft/applicationinsights-web';
+import { AppInsights } from 'applicationinsights-js';
+import { AbstractAppInsights } from './appInsightsWrapper';
 
 export interface IMonitoringService {
   logPageView(name?: string, url?: string, properties?: any,
@@ -14,8 +10,8 @@ export interface IMonitoringService {
   logException(exception: Error);
 }
 
-export class MonitorConfig implements IConfig {
-  public connectionString?: string;
+export class MonitorConfig implements Microsoft.ApplicationInsights.IConfig {
+  public instrumentationKey?: string;
   public endpointUrl?: string;
   public emitLineDelimitedJson?: boolean;
   public accountId?: string;
@@ -53,33 +49,32 @@ export class MonitorConfig implements IConfig {
 @Injectable()
 export class MonitoringService implements IMonitoringService {
   public areCookiesEnabled: boolean = false;
-  @Optional() appInsights: ApplicationInsights;
-  @Optional() private config?: MonitorConfig;
 
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient, @Optional() private config?: MonitorConfig,
+              @Optional() private readonly appInsights?: AbstractAppInsights) {
+    if (!appInsights) {
+      appInsights = AppInsights;
+    }
+  }
 
   public logPageView(name?: string, url?: string, properties?: any,
     measurements?: any, duration?: number) {
-    const pageViewTelemetry: IPageViewPerformanceTelemetry = {
-      name, uri: url, properties, measurements, duration: duration.toString()
-    };
     this.send(() => {
-      this.appInsights.trackPageView(pageViewTelemetry);
+      this.appInsights.trackPageView(name, url, properties, measurements, duration);
     });
   }
 
   public logEvent(name: string, properties?: any, measurements?: any) {
-    const eventTelemetry: IEventTelemetry = {
-      name, properties, measurements
-    };
     this.send(() => {
-      this.appInsights.trackEvent(eventTelemetry);
+      this.appInsights.trackEvent(name, properties, measurements);
     });
   }
 
   public logException(exception: Error) {
     this.send(() => {
-      this.appInsights.trackException({ exception });
+      if (this.appInsights) {
+        this.appInsights.trackException(exception);
+      }
     });
   }
 
@@ -88,14 +83,13 @@ export class MonitoringService implements IMonitoringService {
   }
 
   private send(func: () => any): void {
-    if (this.config?.connectionString) {
+    if (this.config && this.config.instrumentationKey) {
       func();
     } else {
-      // will only get run once per login
       this.http.get('external/monitoring-tools').subscribe((it) => {
         this.config = {
           // eslint-disable-next-line dot-notation
-          connectionString: it['connectionString']
+          instrumentationKey: it['key']
         };
         if (!this.areCookiesEnabled) {
           this.config = {
@@ -105,9 +99,9 @@ export class MonitoringService implements IMonitoringService {
             enableSessionStorageBuffer: true
           };
         }
-        this.appInsights = new ApplicationInsights({ config: this.config });
-        // below is important step to utilise the app insights instance
-        this.appInsights.loadAppInsights();
+        if (!this.appInsights.config) {
+          this.appInsights.downloadAndSetup(this.config);
+        }
         func();
       });
     }

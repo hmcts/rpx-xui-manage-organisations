@@ -9,8 +9,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-registered-address',
-  templateUrl: './registered-address.component.html',
-  standalone: false
+  templateUrl: './registered-address.component.html'
 })
 export class RegisteredAddressComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;
@@ -171,11 +170,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
     this.addressChosen = false;
     this.headingText = INTERNATIONAL_HEADING;
     this.addressErrors = [];
-    if (this.addressExists()) {
-      this.setExistingFormGroup();
-    } else {
-      this.setAddressFormGroup();
-    }
+    this.addressExists() ? this.setExistingFormGroup() : this.setAddressFormGroup();
   }
 
   public onResetSubmission(): void {
@@ -203,11 +198,7 @@ export class RegisteredAddressComponent extends RegisterComponent implements OnI
       return;
     }
     const givenAddress = this.formGroup.get('address').value;
-    if (givenAddress && givenAddress.postCode && givenAddress.postCode !== '') {
-      this.setFormGroup(givenAddress);
-    } else {
-      this.setFormGroup();
-    }
+    givenAddress && givenAddress.postCode && givenAddress.postCode !== '' ? this.setFormGroup(givenAddress) : this.setFormGroup();
   }
 
   private setFormGroup(givenAddress?: AddressModel) {

@@ -22,8 +22,7 @@ import * as fromRoot from '../../store';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  standalone: false
+  encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, OnDestroy {
   public pageTitle$: Observable<string>;

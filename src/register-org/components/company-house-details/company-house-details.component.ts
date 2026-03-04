@@ -7,8 +7,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-company-house-details',
-  templateUrl: './company-house-details.component.html',
-  standalone: false
+  templateUrl: './company-house-details.component.html'
 })
 export class CompanyHouseDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public validationErrors: { id: string, message: string }[] = [];
@@ -17,7 +16,7 @@ export class CompanyHouseDetailsComponent extends RegisterComponent implements O
   public companyNumberError: { id: string, message: string } = null;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService
+    public readonly registerOrgService: RegisterOrgService,
   ) {
     super(router, registerOrgService);
   }

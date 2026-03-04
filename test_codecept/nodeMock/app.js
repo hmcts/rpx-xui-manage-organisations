@@ -1,6 +1,7 @@
 
 const express = require('express');
 const { requestMapping, configurations } = require('./reqResMapping');
+const { browser } = require('protractor');
 const port = 3001;
 
 const nodeMockAvailablePort = require('./availablePortFinder');

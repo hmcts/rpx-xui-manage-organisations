@@ -6,8 +6,7 @@ import * as fromAuth from '../../store';
 
 @Component({
   selector: 'app-prd-profile-component',
-  templateUrl: './profile.component.html',
-  standalone: false
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
   public user$: Observable<fromAuth.AuthState>;

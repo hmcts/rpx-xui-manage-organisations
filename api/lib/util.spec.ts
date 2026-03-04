@@ -169,8 +169,11 @@ describe('util', () => {
       const logger = log4jui.getLogger('util');
       const result = await asyncReturnOrError(promise, 'string', res, logger, false);
       expect(logger.error).to.have.been.calledWith('string');
+      // eslint-disable-next-line no-unused-expressions
       expect(res.status).not.to.be.called;
+      // eslint-disable-next-line no-unused-expressions
       expect(res.send).not.to.be.called;
+      // eslint-disable-next-line no-unused-expressions
       expect(result).to.be.null;
     });
 
@@ -184,6 +187,7 @@ describe('util', () => {
       expect(logger.error).to.have.been.calledWith('string');
       expect(res.status).to.be.calledWith(403);
       expect(res.send).to.be.calledWith('string');
+      // eslint-disable-next-line no-unused-expressions
       expect(result).to.be.null;
     });
 
@@ -196,6 +200,7 @@ describe('util', () => {
       expect(logger.error).to.have.been.calledWith('string');
       expect(res.status).to.be.calledWith(500);
       expect(res.send).to.be.calledWith('string');
+      // eslint-disable-next-line no-unused-expressions
       expect(result).to.be.null;
     });
   });

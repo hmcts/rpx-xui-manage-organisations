@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 
 import { ValidationService } from '../../services/form-builder-validation.service';
 import { FormsService } from '../../services/form-builder.service';
-import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 /**
  * Form Builder Wrapper
@@ -13,8 +12,7 @@ import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 
 @Component({
   selector: 'app-form-builder',
-  templateUrl: './form-builder.component.html',
-  standalone: false
+  templateUrl: './form-builder.component.html'
 })
 
 export class FormBuilderComponent implements OnChanges {
@@ -74,10 +72,5 @@ export class FormBuilderComponent implements OnChanges {
 
   public onBlur(eventId) {
     this.blurCast.emit(eventId);
-  }
-
-  // trackBy helper for groups to avoid identity churn / duplicate empty keys
-  public trackByFormGroup(index: number, group: any): string | number {
-    return buildIdOrIndexKey(index, group, 'id', 'name', 'fieldId');
   }
 }

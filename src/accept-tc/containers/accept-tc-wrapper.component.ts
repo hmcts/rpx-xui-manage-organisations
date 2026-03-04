@@ -14,8 +14,7 @@ import * as fromUserProfile from '../../user-profile/store';
 @Component({
   selector: 'app-accept-terms-conditions-wrapper',
   templateUrl: './accept-tc-wrapper.component.html',
-  styleUrls: ['./accept-tc-wrapper.component.scss'],
-  standalone: false
+  styleUrls: ['./accept-tc-wrapper.component.scss']
 })
 export class AcceptTcWrapperComponent implements OnInit, OnDestroy {
   private subscription: Subscription;

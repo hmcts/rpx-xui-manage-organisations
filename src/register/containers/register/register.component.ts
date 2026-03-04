@@ -14,8 +14,7 @@ import * as fromStore from '../../store/';
 
 @Component({
   selector: 'app-prd-register-component',
-  templateUrl: './register.component.html',
-  standalone: false
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(

@@ -7,8 +7,7 @@ import { UserState } from '../../store/reducers';
 
 @Component({
   selector: 'app-edit-user-permissions-failure',
-  templateUrl: './edit-user-permissions-failure.component.html',
-  standalone: false
+  templateUrl: './edit-user-permissions-failure.component.html'
 })
 export class EditUserPermissionsFailureComponent implements OnInit {
   public userId: string;

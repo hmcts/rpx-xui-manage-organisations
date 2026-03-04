@@ -245,27 +245,16 @@ describe('AppUtils', () => {
     expect(returnNavItems).toEqual({ navItems: 'Navigation item' });
   });
 
-  it('should hide nav items for register journeys', () => {
+  it('should return an undefined nav item array', () => {
     const routerObj = {
       state: {
-        url: 'register-org/register'
+        url: 'register'
       }
     };
 
     const nav = '';
     const returnNavItems = AppUtils.returnNavs(routerObj, nav);
     expect(returnNavItems).toEqual({ navItems: [] });
-  });
-
-  it('should show nav items for terms-and-conditions-register-other-org', () => {
-    const routerObj = {
-      state: {
-        url: 'terms-and-conditions-register-other-org'
-      }
-    };
-    const nav = 'Navigation item';
-    const returnNavItems = AppUtils.returnNavs(routerObj, nav);
-    expect(returnNavItems).toEqual({ navItems: 'Navigation item' });
   });
 
   it('should return aat environment string', () => {

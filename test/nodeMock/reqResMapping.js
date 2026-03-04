@@ -108,7 +108,7 @@ const createCaseData = (numUsers = 5) => {
 };
 
 let caseTypeNumber = 0;
-const createCases = () => {
+const createCases = (numUsers = 5) => {
   caseTypeNumber = 1;
   const cases = createCaseData(5);
   caseTypeNumber++;

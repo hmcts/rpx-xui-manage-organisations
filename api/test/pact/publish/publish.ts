@@ -1,4 +1,4 @@
-import { Publisher } from '@pact-foundation/pact';
+import pact from '@pact-foundation/pact-node';
 import * as git from 'git-rev-sync';
 import * as path from 'path';
 
@@ -34,8 +34,7 @@ const publish = async (): Promise<void> => {
       tags: [pactTag]
     };
 
-    const publisher = new Publisher(opts);
-    await publisher.publishPacts();
+    await pact.publishPacts(opts);
 
     console.log('Pact contract publishing complete!');
     console.log('');

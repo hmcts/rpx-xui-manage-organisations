@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
-import { buildMockStoreProviders } from '../../../register-org/testing/mock-store-state';
+import { provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
 import { CaaCasesPageType } from '../../models/caa-cases.enum';
 import { CaaCasesState } from '../../store/reducers';
@@ -14,6 +14,7 @@ describe('CaseShareCompleteComponent', () => {
   let component: CaseShareCompleteComponent;
   let fixture: ComponentFixture<CaseShareCompleteComponent>;
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let store: Store<CaaCasesState>;
   const mockFeatureToggleService = jasmine.createSpyObj('FeatureToggleService', ['getValue']);
   let router: Router;
@@ -31,7 +32,7 @@ describe('CaseShareCompleteComponent', () => {
       declarations: [CaseShareCompleteComponent],
       imports: [RouterTestingModule],
       providers: [
-        ...buildMockStoreProviders(),
+        provideMockStore(),
         { provide: FeatureToggleService, useValue: mockFeatureToggleService },
         { provide: ActivatedRoute, useValue: mockRoute }
       ]

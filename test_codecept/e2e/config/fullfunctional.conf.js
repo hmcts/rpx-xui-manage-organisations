@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
+const screenShotUtils = require('protractor-screenshot-utils').ProtractorScreenShotUtils;
 const { localConfig, jenkinsConfig, cucumberOpts } = require('./common.conf');
 chai.use(chaiAsPromised);
 
@@ -10,6 +11,7 @@ const cap = (argv.local) ? localConfig : jenkinsConfig;
 
 const config = {
   framework: 'custom',
+  frameworkPath: require.resolve('protractor-cucumber-framework'),
   specs: ['../features/**/*.feature'],
   baseUrl: process.env.TEST_URL || 'https://xui-mo-webapp-aat.service.core-compute-aat.internal/',
   params: {
@@ -40,11 +42,26 @@ const config = {
 
   cucumberOpts: {
     strict: true,
-    format: ['json:reports/tests/functional/results.json'],
+    // format: ['node_modules/cucumber-pretty'],
+    format: ['node_modules/cucumber-pretty', 'json:reports/tests/functional/results.json'],
     tags: ['@all or @smoke or @fullFunctional or @end2end', 'not @Flaky'],
     //  tags: ['@edit'],
     require: cucumberOpts
   },
+
+  plugins: [
+    {
+      package: 'protractor-multiple-cucumber-html-reporter-plugin',
+      options: {
+        automaticallyGenerateReport: true,
+        removeExistingJsonReportFile: true,
+        reportName: 'XUI Manage Organisation Functional Tests',
+        // openReportInBrowser: true,
+        jsonDir: 'functional-output/tests/functional',
+        reportPath: 'functional-output/tests/functional'
+      }
+    }
+  ]
 
 };
 

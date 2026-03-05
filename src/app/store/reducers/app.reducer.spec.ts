@@ -79,7 +79,7 @@ describe('AppReducer', () => {
         active: false,
         orderId: 3,
         featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.feeAccount
+          featureName: AppConstants.STATIC_FEATURE_NAMES.feeAccount
         }
       },
       {
@@ -88,7 +88,7 @@ describe('AppReducer', () => {
         active: false,
         orderId: 4,
         featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.caaMenuItems
+          featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
         }
       },
       {
@@ -97,7 +97,7 @@ describe('AppReducer', () => {
         active: false,
         orderId: 5,
         featureToggle: {
-          featureName: AppConstants.FEATURE_NAMES.caaMenuItems
+          featureName: AppConstants.STATIC_FEATURE_NAMES.caaMenuItems
         }
       }
     ];

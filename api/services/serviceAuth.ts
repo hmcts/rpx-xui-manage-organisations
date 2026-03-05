@@ -26,6 +26,7 @@ import {
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
+  SERVICES_PRD_COMMONDATA_API,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH,
   SESSION_SECRET
@@ -88,6 +89,9 @@ router.get('/health', (req, res) => {
     idamWeb: getConfigValue(SERVICES_IDAM_WEB),
     s2sPath: getConfigValue(SERVICE_S2S_PATH),
     rdProfessionalApi: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
+    prd: {
+      commondataApi: getConfigValue(SERVICES_PRD_COMMONDATA_API)
+    },
     feeAndPayApi: getConfigValue(SERVICES_FEE_AND_PAY_API_PATH),
     termsAndConditionsApi: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),
     // 4th set

@@ -4,15 +4,14 @@ const report = require("cucumber-html-reporter");
 // const marge = require('mochawesome-report-generator')
 const fs = require('fs')
 const path = require('path')
-
 const global = require('./globals')
-import applicationServer from '../localServer'
 
 var spawn = require('child_process').spawn;
-const backendMockApp = require('../backendMock/app');
 const statsReporter = require('./statsReporter');
 const { setDefaultResultOrder } = require('dns');
 setDefaultResultOrder('ipv4first');
+
+const externalServers = process.env.EXTERNAL_SERVERS === 'true';
 
 let appWithMockBackend = null;
 const testType = process.env.TEST_TYPE
@@ -25,12 +24,17 @@ console.log(`testType : ${testType}`)
 console.log(`parallel : ${parallel}`)
 console.log(`headless : ${!head}`)
 
-const TEST_URL = process.env.TEST_URL ? process.env.TEST_URL : 'http://localhost:3000';
-let pipelineBranch = (TEST_URL.includes('pr-') || TEST_URL.includes('localhost')) ? "preview" : "master";
+
+const TEST_URL = process.env.TEST_URL || '';
+const pipelineBranch = externalServers //   running against localhost
+  ? 'local' //   value won’t be used later
+  : (TEST_URL.includes('pr-') || TEST_URL.includes('manage-org.aat.platform.hmcts.net')
+    ? 'preview'
+    : 'master');
 let features = ''
 if (testType === 'e2e' || testType === 'smoke') {
   features = `../e2e/features/app/**/*.feature`
-} else if (testType === 'ngIntegration' && pipelineBranch === 'preview') {
+} else if (testType === 'ngIntegration' && (pipelineBranch === 'preview' || pipelineBranch === 'local')) {
   features = `../ngIntegration/tests/features/**/*.feature`
 
 } else if (testType === 'ngIntegration' && pipelineBranch === 'master') {
@@ -69,7 +73,8 @@ exports.config = {
       "uniqueScreenshotNames": "true"
     },
     Playwright: {
-      url: TEST_URL,
+      url: externalServers ? (process.env.WEB_BASE_URL || 'http://localhost:3000')
+        : TEST_URL,
       restart: false,
       show: head ? true : false,
       waitForNavigation: "domcontentloaded",
@@ -131,34 +136,47 @@ exports.config = {
 
 
 async function exitWithStatus() {
-  // Check for failed tests by reading the generated report
-  let status = 'PASS';
-  try {
-    const files = fs.readdirSync(functional_output_dir);
-    const reportFile = files.find(f => f.startsWith('cucumber_output') && f.endsWith('.json'));
-    const reportPath = reportFile ? path.join(functional_output_dir, reportFile) : '';
-    if (fs.existsSync(reportPath)) {
+  // Check for failed tests by reading all generated cucumber json reports
+  const jsonFiles = fs.existsSync(functional_output_dir)
+    ? fs.readdirSync(functional_output_dir).filter(f => /^cucumber_output.*\.json$/.test(f))
+    : [];
+
+  if (!jsonFiles.length) {
+    console.error(`No cucumber json files found in '${functional_output_dir}', failing build.`);
+    process.exit(1);
+  }
+
+  let failedScenarios = 0;
+  let totalScenarios = 0;
+
+  for (const file of jsonFiles) {
+    const reportPath = path.join(functional_output_dir, file);
+    try {
       const reportData = JSON.parse(fs.readFileSync(reportPath, 'utf-8'));
-      let failed = 0;
       for (const feature of reportData) {
-        for (const scenario of feature.elements) {
-          if (scenario.steps.some((step: any) => step.result.status === 'failed')) {
-            failed++;
+        for (const scenario of feature.elements || []) {
+          totalScenarios++;
+          const steps = scenario.steps || [];
+          if (steps.some((step: any) => step.result?.status === 'failed')) {
+            failedScenarios++;
           }
         }
       }
-      status = failed > 0 ? 'FAIL' : 'PASS';
+    } catch (err) {
+      console.error(`Error checking test results in '${reportPath}':`, err);
+      process.exit(1);
     }
-  } catch (err) {
-    console.error('Error checking test results:', err);
-    status = 'FAIL';
   }
-  process.exit(status === 'PASS' ? 0 : 1);
+
+  console.log(`Cucumber results: ${totalScenarios} scenario(s), ${failedScenarios} failed across ${jsonFiles.length} file(s).`);
+  process.exit(failedScenarios > 0 ? 1 : 0);
 }
 
 async function setup() {
 
-  if (!debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+  if (!externalServers && !debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+    const backendMockApp = require('../backendMock/app');
+    const applicationServer = require('../localServer').default;
     await backendMockApp.startServer(debugMode);
     await applicationServer.start()
   }
@@ -166,7 +184,9 @@ async function setup() {
 }
 
 async function teardown() {
-  if (!debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+  if (!externalServers && !debugMode && (testType === 'ngIntegration' || testType === 'a11y')) {
+    const backendMockApp = require('../backendMock/app');
+    const applicationServer = require('../localServer').default;
     await backendMockApp.stopServer();
     await applicationServer.stop()
   }

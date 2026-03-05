@@ -2,20 +2,26 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <!-- go back to previous page if not on international page, reset page otherwise -->
-      <a *ngIf="!startedInternational && !addressChosen" class="govuk-back-link" href="javascript:void(0)" (click)="onBack(false)">Back</a>
-      <a *ngIf="startedInternational || addressChosen" class="govuk-back-link"
+      @if (!startedInternational && !addressChosen) {
+        <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack(false)">Back</a>
+      }
+      @if (startedInternational || addressChosen) {
+        <a class="govuk-back-link"
         href="javascript:void(0)" (click)="onBack(true)">Back</a>
+      }
       <xuilib-hmcts-error-summary [errorMessages]="addressErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">{{headingText}}</h1>
       <hr>
-      <p class="govuk-hint" *ngIf="!startedInternational">Add the main address of your organisation.
-        If registered with Companies House,
-        add the address listed in the
-        <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
-          information register</a>.
-      </p>
-      <p class="govuk-hint">Your organisation name should be included in the first line of your address if this is a shared business address.</p>
+        @if (!startedInternational) {
+          <p class="govuk-hint">Add the main address of your organisation.
+            If registered with Companies House,
+            add the address listed in the
+            <a class="govuk-link" href="https://www.gov.uk/get-information-about-a-company" target="_blank">company
+            information register</a>.
+          </p>
+        }
+        <p class="govuk-hint">Your organisation name should be included in the first line of your address if this is a shared business address.</p>
         <xuilib-write-address-field [formGroup]="formGroup" [internationalMode]="true"
           [startedInternational]="startedInternational" [addressChosen]="addressChosen"
           [isInternational]="isInternational" [submissionAttempted]="submissionAttempted"
@@ -23,14 +29,14 @@
           (internationalModeStart)="onInternationalModeStart()"
           (ukAddressOptionSelected)="onOptionSelected($event)"
           (canSelectAddress)="onAddressSelectable($event)"
-          (resetSubmission)="onResetSubmission()"></xuilib-write-address-field>
+        (resetSubmission)="onResetSubmission()"></xuilib-write-address-field>
 
         <div class="govuk-button-group">
           <button type="submit" class="govuk-button" data-module="govuk-button" (click)="onContinue()">
             Continue
           </button>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
+          <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
         </div>
+      </div>
     </div>
-  </div>
-</main>
+  </main>

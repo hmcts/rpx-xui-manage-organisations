@@ -7,7 +7,8 @@ import * as organisationActions from '../../store/actions';
 
 @Component({
   selector: 'app-prd-update-pba-numbers-component',
-  templateUrl: './update-pba-numbers.component.html'
+  templateUrl: './update-pba-numbers.component.html',
+  standalone: false
 })
 export class UpdatePbaNumbersComponent implements OnInit {
   public organisationDetails: OrganisationDetails;

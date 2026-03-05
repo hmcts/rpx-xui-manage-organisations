@@ -9,7 +9,7 @@ class ManageCasesService {
     this.useremail = '';
     this.password = '';
     this.waitTime = 30000;
-    if (process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('preview')) {
+    if (!process.env.TEST_URL || process.env.TEST_URL.includes('aat') || process.env.TEST_URL.includes('preview')) {
       this.baseUrl = 'https://manage-case.aat.platform.hmcts.net/';
     } else if (process.env.TEST_URL.includes('demo')) {
       this.baseUrl = 'https://manage-case.demo.platform.hmcts.net/';

@@ -6,7 +6,6 @@ const router = express.Router({ mergeParams: true });
 const service = require('./index')
 
 router.get('/organisations', (req, res) => {
- 
     res.send(service.getOrganization())
 });
 

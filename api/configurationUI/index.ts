@@ -11,6 +11,7 @@ import {
   SERVICES_FEE_AND_PAY_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_WEB,
+  SERVICES_PRD_COMMONDATA_API,
   SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICES_TERMS_AND_CONDITIONS_API_PATH
 } from '../configuration/references';
@@ -34,6 +35,9 @@ export async function configurationUIRoute(req, res): Promise<void> {
     manageOrgLink: getConfigValue(LINKS_MANAGE_ORG_LINK),
     protocol: getConfigValue(PROTOCOL),
     rdProfessionalApiPath: getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH),
+    prd: {
+      commondataApi: getConfigValue(SERVICES_PRD_COMMONDATA_API)
+    },
     s2sPath: getConfigValue(SERVICE_S2S_PATH),
     servicesIdamApiPath: getConfigValue(SERVICES_IDAM_API_PATH),
     servicesTandCPath: getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH),

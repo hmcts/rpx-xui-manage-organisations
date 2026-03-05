@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule, inject, provideAppInitializer } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { CookieService, ExuiCommonLibModule, FeatureToggleGuard, FeatureToggleService, GoogleAnalyticsService, LaunchDarklyService, ManageSessionServices } from '@hmcts/rpx-xui-common-lib';
@@ -8,7 +8,6 @@ import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router
 // ngrx
 import { MetaReducer, Store, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { storeFreeze } from 'ngrx-store-freeze';
 import { CookieModule } from 'ngx-cookie';
 import { LoggerModule, NGXLogger, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from '../environments/environment';
@@ -37,16 +36,14 @@ import { SharedModule } from 'src/shared/shared.module';
 import { GovUiModule } from '../../projects/gov-ui/src/public_api';
 import { AcceptTermsAndConditionGuard } from '../accept-tc/guards/acceptTermsAndCondition.guard';
 import { HealthCheckGuard } from '../shared/guards/health-check.guard';
-import { EnvironmentService } from '../shared/services/environment.service';
 import { HealthCheckService } from '../shared/services/health-check.service';
 import { MonitoringService } from '../shared/services/monitoring.service';
 import { FeatureToggleEditUserGuard } from '../users/guards/feature-toggle-edit-user.guard';
 import { TermsConditionGuard } from './guards/termsCondition.guard';
 import { OrganisationModule } from 'src/organisation/organisation.module';
 
-export const metaReducers: MetaReducer<any>[] = !environment.production
-  ? [storeFreeze]
-  : [];
+// storeFreeze replaced by NgRx runtimeChecks in v20+; keep metaReducers empty.
+export const metaReducers: MetaReducer<any>[] = [];
 
 export function launchDarklyClientIdFactory(envConfig: EnvironmentConfig): string {
   return envConfig.launchDarklyClientId || '';
@@ -64,7 +61,18 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
     anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', onSameUrlNavigation: 'reload'
   }),
   SharedModule,
-  StoreModule.forRoot(reducers, { metaReducers }),
+  StoreModule.forRoot(reducers, {
+    metaReducers,
+    runtimeChecks: !environment.production ? {
+      strictStateImmutability: true,
+      strictActionImmutability: true,
+      // Serializability checks disabled due to existing non-serializable values (e.g. router state, complex lib objects)
+      strictStateSerializability: false,
+      strictActionSerializability: false,
+      strictActionWithinNgZone: true,
+      strictActionTypeUniqueness: true
+    } : {}
+  }),
   EffectsModule.forRoot(effects),
   UserProfileModule,
   OrganisationModule,
@@ -102,7 +110,12 @@ schemas: [CUSTOM_ELEMENTS_SCHEMA], imports: [BrowserModule,
   UserService, { provide: ErrorHandler, useClass: DefaultErrorHandler },
   JwtDecodeWrapper, LoggerService, JurisdictionService,
   { provide: FeatureToggleService, useClass: LaunchDarklyService },
-  { provide: APP_INITIALIZER, useFactory: initApplication, deps: [Store, EnvironmentService], multi: true },
+  // Application initializer: obtain Store via DI injection utility and pass to initApplication, which returns a function we invoke.
+  provideAppInitializer(() => {
+    const store = inject(Store);
+    const initializerFn = initApplication(store);
+    return initializerFn();
+  }),
   provideHttpClient(withInterceptorsFromDi())
 ] })
 export class AppModule {}

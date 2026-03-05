@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { buildIdOrIndexKey } from 'src/shared/utils/track-by.util';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -11,7 +12,8 @@ import { RegisterOrgService } from '../../services';
 
 @Component({
   selector: 'app-organisation-type',
-  templateUrl: './organisation-type.component.html'
+  templateUrl: './organisation-type.component.html',
+  standalone: false
 })
 export class OrganisationTypeComponent extends RegisterComponent implements OnInit, OnDestroy {
   @ViewChild('mainContent') public mainContentElement: ElementRef;
@@ -130,5 +132,13 @@ export class OrganisationTypeComponent extends RegisterComponent implements OnIn
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
     super.ngOnDestroy();
+  }
+
+  public trackByOrgType(index: number, orgType: LovRefDataModel): string | number {
+    return buildIdOrIndexKey(index, orgType as any, 'key', 'value_en');
+  }
+
+  public trackByOtherOrgType(index: number, orgType: LovRefDataModel): string | number {
+    return buildIdOrIndexKey(index, orgType as any, 'key', 'value_en');
   }
 }

@@ -7,8 +7,8 @@ import { FormGroup } from '@angular/forms';
 *
 * */
 @Component({
-  selector: 'lib-gov-checkbox',
-  template: `
+    selector: 'lib-gov-checkbox',
+    template: `
       <div class="govuk-checkboxes__item" [formGroup]="group">
         <input class="govuk-checkboxes__input" type="checkbox" [attr.aria-describedby]="config.hint ? config.value+'-item-hint' : null"
         [id]="config.id" [name]="config.name" [formControlName]="config.value" [checked]="isChecked">
@@ -17,7 +17,8 @@ import { FormGroup } from '@angular/forms';
           {{config.hint}}
         </span>
       </div>
-  `
+  `,
+    standalone: false
 })
 export class GovUkCheckboxComponent implements OnInit {
   constructor() {}

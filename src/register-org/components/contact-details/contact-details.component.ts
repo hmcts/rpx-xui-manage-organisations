@@ -7,7 +7,8 @@ import { RegisterOrgService } from '../../services/register-org.service';
 
 @Component({
   selector: 'app-contact-details',
-  templateUrl: './contact-details.component.html'
+  templateUrl: './contact-details.component.html',
+  standalone: false
 })
 export class ContactDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
   public contactDetailsFormGroup: FormGroup;
@@ -17,7 +18,7 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
   public workEmailAddressError = null;
 
   constructor(public readonly router: Router,
-    public readonly registerOrgService: RegisterOrgService,
+    public readonly registerOrgService: RegisterOrgService
   ) {
     super(router, registerOrgService);
   }
@@ -54,9 +55,11 @@ export class ContactDetailsComponent extends RegisterComponent implements OnInit
     if (previousUrl?.includes(this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE)) {
       this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, this.registerOrgService.CHECK_YOUR_ANSWERS_ROUTE]);
     } else {
-      this.registrationData.hasPBA
-        ? this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details'])
-        : this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
+      if (this.registrationData.hasPBA) {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account-details']);
+      } else {
+        this.router.navigate([this.registerOrgService.REGISTER_ORG_NEW_ROUTE, 'payment-by-account']);
+      }
     }
   }
 

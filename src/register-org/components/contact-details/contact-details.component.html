@@ -1,50 +1,56 @@
 <main id="content" class="govuk-main-wrapper" role="main" tabindex="-1">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <a class="govuk-back-link" href="javascript:void(0)" (click)="onBack()">Back</a>
+      <button class="govuk-js-back-link xui-back-button-margin" (click)="onBack()">Back</button>
       <xuilib-hmcts-error-summary [errorMessages]="validationErrors" [header]="'There is a problem'"></xuilib-hmcts-error-summary>
       <span class="govuk-caption-xl">Register an organisation</span>
       <h1 class="govuk-heading-xl">Provide your contact details</h1>
       <hr>
-      <p class="govuk-body govuk-!-margin-top-4">HMCTS will use these details to register you as your organisation's MyHMCTS administrator.
-        See the <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
-      </p>
-      <form [formGroup]="contactDetailsFormGroup">
-        <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': firstNameError}">
-          <label class="govuk-label govuk-!-font-weight-bold" for="first-name">
-            First name
-          </label>
-          <div class="govuk-hint">Include all middle names</div>
-          <p class="govuk-error-message" *ngIf="firstNameError">
-            <span class="govuk-visually-hidden">Error:</span> {{ firstNameError }}
-          </p>
-          <input class="govuk-input" id="first-name" type="text" name="firstName" formControlName="firstName">
-        </div>
-        <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': lastNameError}">
-          <label class="govuk-label govuk-!-font-weight-bold" for="last-name">
-            Last name
-          </label>
-          <p class="govuk-error-message" *ngIf="lastNameError">
-            <span class="govuk-visually-hidden">Error:</span> {{ lastNameError }}
-          </p>
-          <input class="govuk-input" id="last-name" type="text" name="lastName" formControlName="lastName">
-        </div>
-        <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': workEmailAddressError}">
-          <label class="govuk-label govuk-!-font-weight-bold" for="work-email-address">
-            Enter your work email address
-          </label>
-          <p class="govuk-error-message" *ngIf="workEmailAddressError">
-            <span class="govuk-visually-hidden">Error:</span> {{ workEmailAddressError }}
-          </p>
-          <input class="govuk-input" id="work-email-address" type="text" name="workEmailAddress" formControlName="workEmailAddress">
-        </div>
-        <div class="govuk-button-group">
-          <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
-            Continue
-          </button>
-          <a class="govuk-link" href="javascript:void(0)" (click)="onCancel()">Cancel</a>
-        </div>
-      </form>
+        <p class="govuk-body govuk-!-margin-top-4">HMCTS will use these details to register you as your organisation's MyHMCTS administrator.
+          See the <a class="govuk-link" href="https://www.gov.uk/guidance/register-for-myhmcts-online-case-management-for-legal-professionals" target="_blank">MyHMCTS guidance on GOV.UK</a>.
+        </p>
+        <form [formGroup]="contactDetailsFormGroup">
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': firstNameError}">
+            <label class="govuk-label govuk-!-font-weight-bold" for="first-name">
+              First name
+            </label>
+            <div class="govuk-hint">Include all middle names</div>
+            @if (firstNameError) {
+              <p class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ firstNameError }}
+              </p>
+            }
+            <input class="govuk-input" id="first-name" type="text" name="firstName" formControlName="firstName">
+          </div>
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': lastNameError}">
+            <label class="govuk-label govuk-!-font-weight-bold" for="last-name">
+              Last name
+            </label>
+            @if (lastNameError) {
+              <p class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ lastNameError }}
+              </p>
+            }
+            <input class="govuk-input" id="last-name" type="text" name="lastName" formControlName="lastName">
+          </div>
+          <div class="govuk-form-group" [ngClass]="{'govuk-form-group--error': workEmailAddressError}">
+            <label class="govuk-label govuk-!-font-weight-bold" for="work-email-address">
+              Enter your work email address
+            </label>
+            @if (workEmailAddressError) {
+              <p class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{ workEmailAddressError }}
+              </p>
+            }
+            <input class="govuk-input" id="work-email-address" type="text" name="workEmailAddress" formControlName="workEmailAddress">
+          </div>
+          <div class="govuk-button-group">
+            <button class="govuk-button govuk-button--primary" data-module="govuk-button" (click)="onContinue()">
+              Continue
+            </button>
+            <button class="govuk-js-link" (click)="onCancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-</main>
+  </main>

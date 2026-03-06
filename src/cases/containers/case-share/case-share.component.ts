@@ -58,13 +58,13 @@ export class CaseShareComponent implements OnInit, OnDestroy {
 
       switch (this.pageType) {
         case 'unassigned-cases':
-          this.fnTitle = 'Share a case';
+          this.fnTitle = 'Action a case';
           this.title = 'Add recipient';
           this.addUserLabel = 'Enter email address';
           this.showRemoveUsers = false;
           break;
         case 'assigned-cases':
-          this.fnTitle = 'Manage case sharing';
+          this.fnTitle = 'Action a case';
           this.title = 'Manage shared access to a case';
           this.addUserLabel = 'Add people to share access to the selected cases';
           this.showRemoveUsers = true;

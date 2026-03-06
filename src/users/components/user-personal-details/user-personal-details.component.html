@@ -1,9 +1,7 @@
 <h1 class="govuk-heading-m">User Details</h1>
-@if (inviteMode) {
-<p class="govuk-caption-m">Add details of the user you want to invite</p>
-}
 
 @if (inviteMode) {
+<p class="govuk-caption-m">Add details of the user you want to invite</p>
 <ng-container>
   @if (personalDetailForm) {
   <form [formGroup]="personalDetailForm">
@@ -56,8 +54,9 @@
   </form>
   }
 </ng-container>
-} @else {
-<ng-template #readOnlyTemplate>
+}
+
+@if (!inviteMode) {
   <div class="govuk-grid-column-full govuk-!-margin-bottom-4">
     <div class="govuk-grid-row">
       <label class="govuk-label govuk-label--m" for="firstName"><span>First name</span></label>
@@ -74,5 +73,4 @@
       <p id="email" class="govuk-body">{{ user.email }}</p>
     </div>
   </div>
-</ng-template>
 }

@@ -36,7 +36,7 @@ export class CaseShareConfirmComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.fnTitle = 'Manage case assignments';
+    this.fnTitle = 'Action a case';
     this.backLink = this.acceptCases ? this.acceptLinks : this.caseShareLinks;
     this.changeLink = this.acceptCases ? this.acceptLinks : this.caseShareLinks;
     this.completeLink = `/cases/case-share-complete/${this.pageType}`;

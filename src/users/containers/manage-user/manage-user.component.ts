@@ -86,6 +86,7 @@ export class ManageUserComponent implements OnInit, OnDestroy {
 
     combineLatest([this.user$, this.organisation$, this.organisationAccessTypes$]).pipe(takeUntil(this.onDestroy$)).subscribe(([user, organisation, organisationAccessTypes]) => {
       this.user = user;
+      console.log('user', this.user);
       this.organisationProfileIds = organisation?.organisationProfileIds ?? [];
       this.resendInvite = user?.status === 'Pending';
       this.jurisdictions = organisationAccessTypes;

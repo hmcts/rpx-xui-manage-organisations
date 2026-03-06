@@ -16,8 +16,10 @@ export class UserPersonalDetailsComponent implements OnInit, OnDestroy {
 
   @Input()
   public set user(value: UserDetails) {
+    console.log('setting user', value);
     this._existingUser = value;
     this.inviteMode = !value;
+    console.log('invite mode', this.inviteMode);
     this.createFormAndPopulate();
   }
 

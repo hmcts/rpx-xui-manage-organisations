@@ -15,22 +15,12 @@
 
       @if (enableCaseManagement) {
       <ng-container>
-        <div id="supporting-content" class="govuk-!-margin-top-4" [ngSwitch]="orgProfileType">
-          <app-solicitor-profile-content
-            *ngSwitchCase="ogdProfileTypes.SOLICITOR_PROFILE"></app-solicitor-profile-content>
-          <app-ogd-cafcass-cy-profile-content
-            *ngSwitchCase="ogdProfileTypes.OGD_CAFCASS_PROFILE_CYMRU"></app-ogd-cafcass-cy-profile-content>
-          <app-ogd-cafcass-en-profile-content
-            *ngSwitchCase="ogdProfileTypes.OGD_CAFCASS_PROFILE_ENGLAND"></app-ogd-cafcass-en-profile-content>
-          <app-ogd-cica-profile-content *ngSwitchCase="ogdProfileTypes.OGD_CICA_PROFILE"></app-ogd-cica-profile-content>
-          <app-ogd-dwp-profile-content *ngSwitchCase="ogdProfileTypes.OGD_DWP_PROFILE"></app-ogd-dwp-profile-content>
-          <app-ogd-hmrc-profile-content *ngSwitchCase="ogdProfileTypes.OGD_HMRC_PROFILE"></app-ogd-hmrc-profile-content>
-          <app-ogd-ho-profile-content *ngSwitchCase="ogdProfileTypes.OGD_HO_PROFILE"></app-ogd-ho-profile-content>
+        <div id="supporting-content" class="govuk-!-margin-top-4">
+          <app-solicitor-profile-content></app-solicitor-profile-content>
         </div>
       </ng-container>
       }
 
-      @if (orgProfileType == ogdProfileTypes.SOLICITOR_PROFILE) {
       <div class="govuk-accordion" data-module="govuk-accordion" id="org-access-accordion"
         [class.hidden]="!enableCaseManagement">
         <div class="govuk-accordion__section">
@@ -62,13 +52,6 @@
           </div>
         </div>
       </div>
-      }
-
-      @if (!(orgProfileType == ogdProfileTypes.SOLICITOR_PROFILE) && enableCaseManagement)
-      {
-      <app-jurisdiction-access-options
-        [jurisdictions]="this.jurisdictionPermissionsForm.controls.jurisdictions"></app-jurisdiction-access-options>
-      }
 
     </form>
     }

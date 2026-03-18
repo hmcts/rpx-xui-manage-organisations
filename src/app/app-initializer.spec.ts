@@ -4,18 +4,34 @@ import { initApplication } from './app-initializer';
 import * as fromApp from './store';
 
 describe('App initializer', () => {
-  let store: any;
+  let store: jasmine.SpyObj<Store<fromApp.State>>;
 
   beforeEach(() => {
     store = jasmine.createSpyObj<Store<fromApp.State>>('store', ['dispatch', 'pipe']);
-    store.pipe.and.callFake(() => of());
+
+    store.pipe.and.callFake(() =>
+      of(
+        { featureFlags: undefined } as any,
+        { featureFlags: { any: true } } as any
+      )
+    );
   });
 
-  it('is truthy', () => {
+  it('dispatches start/load/success and then finish when feature flags are present', async () => {
     const fn = initApplication(store);
     expect(fn).toBeTruthy();
-    fn();
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
-    expect(store.pipe).toHaveBeenCalled();
+
+    await fn(); // await the Promise returned by the initializer
+
+    expect(store.dispatch).toHaveBeenCalledTimes(4);
+
+    // (optional) assert dispatch types/order more strictly
+    const types = store.dispatch.calls.allArgs().map((args) => args[0].constructor.name);
+    expect(types).toEqual([
+      'StartAppInitilizer',
+      'LoadFeatureToggleConfig',
+      'LoadFeatureToggleConfigSuccess',
+      'FinishAppInitilizer'
+    ]);
   });
 });

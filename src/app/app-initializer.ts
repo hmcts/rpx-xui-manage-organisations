@@ -7,10 +7,13 @@ import * as fromSelectors from './store/selectors/app.selectors';
 export function initApplication(store: Store<fromApp.State>): VoidFunction {
   return () => new Promise((resolve) => {
     store.dispatch(new fromApp.StartAppInitilizer());
-    store.dispatch(new fromApp.LoadFeatureToggleConfig([AppConstants.FEATURE_NAMES.feeAccount,
+    store.dispatch(new fromApp.LoadFeatureToggleConfig([
       AppConstants.FEATURE_NAMES.editUserPermissions,
-      AppConstants.FEATURE_NAMES.caaMenuItems,
-      AppConstants.FEATURE_NAMES.newRegisterOrg]));
+      AppConstants.FEATURE_NAMES.newRegisterOrg
+    ]));
+
+    // Immediately inject static flags (your 3 hard-coded ones)
+    store.dispatch(new fromApp.LoadFeatureToggleConfigSuccess(AppConstants.STATIC_FEATURE_FLAGS));
 
     store.pipe(
       select(fromSelectors.getAppState),

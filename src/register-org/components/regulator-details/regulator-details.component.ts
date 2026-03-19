@@ -20,6 +20,7 @@ import { RegisterOrgService } from '../../services/register-org.service';
   standalone: false
 })
 export class RegulatorDetailsComponent extends RegisterComponent implements OnInit, OnDestroy {
+  public static readonly SRA_REG_TYPE = 'Solicitor Regulation Authority (SRA)';
   public readonly SELECT_A_VALUE = 'none';
 
   @ViewChild('mainContent') public mainContentElement: ElementRef;
@@ -235,6 +236,8 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
         break;
       }
       case RegulatorType.Organisation: {
+        // SRA Requlated is based on organisation regulators only - can be changed
+        this.registrationData.sraRegulated = this.isSRARegulated(filteredRegulators);
         this.registrationData.regulators = filteredRegulators;
         break;
       }
@@ -310,6 +313,11 @@ export class RegulatorDetailsComponent extends RegisterComponent implements OnIn
       }
     });
     return this.duplicatesIndex.length > 0;
+  }
+
+  private isSRARegulated(regulators: Regulator[]): boolean {
+    const sraRegulatorFound = regulators.find((regulator) => regulator.regulatorType === RegulatorDetailsComponent.SRA_REG_TYPE && regulator.organisationRegistrationNumber);
+    return sraRegulatorFound ? true : false;
   }
 
   // trackBy helpers

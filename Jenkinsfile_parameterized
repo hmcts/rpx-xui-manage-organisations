@@ -136,6 +136,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Smoke Test'
         ])
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**'
     }
 
     after('functionalTest:preview') {
@@ -158,6 +159,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportFiles          : 'index.html',
             reportName           : 'AAT Smoke Test'
         ])
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**'
     }
 
     after('functionalTest:aat') {
@@ -180,6 +182,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             reportFiles          : 'index.html',
             reportName           : 'PROD Smoke Test'
         ])
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**'
     }
 
 }

@@ -66,6 +66,7 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'],
         channel: 'chrome',
         headless: headlessMode,
+        screenshot: 'only-on-failure',
         trace: 'on-first-retry'
       }
     }

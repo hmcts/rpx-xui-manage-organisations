@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ExuiCommonLibModule } from '@hmcts/rpx-xui-common-lib';
 import { EnvironmentService } from '../../../shared/services/environment.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { BeforeYouStartComponent } from './before-you-start.component';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 
 describe('BeforeYouStartComponent', () => {
   let component: BeforeYouStartComponent;
@@ -23,6 +25,7 @@ describe('BeforeYouStartComponent', () => {
       imports: [RouterTestingModule, ReactiveFormsModule, ExuiCommonLibModule],
       providers: [
         EnvironmentService,
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         { provide: Router, useValue: mockRouter },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()

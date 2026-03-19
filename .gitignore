@@ -84,3 +84,7 @@ stryker.log
 !.yarn/versions
 /api/.yarn/cache/
 localTestEnv.sh
+PLAN.md
+TODO.md
+DECISIONS.md
+RESULT.md

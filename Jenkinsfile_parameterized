@@ -49,7 +49,10 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
   installCharts()
 
 
-    after('checkout') {sh 'yarn cache clean'}
+    after('checkout') {
+        sh 'yarn cache clean'
+        sh 'yarn test:setup:playwright-install-chromium'
+    }
 
     after('build') {
         sh 'yarn  build'
@@ -129,7 +132,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "test/reports/smoke_tests/functional/",
+            reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Smoke Test'
         ])
@@ -151,7 +154,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "test/reports/smoke_tests/functional/",
+            reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'AAT Smoke Test'
         ])
@@ -173,7 +176,7 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "test/reports/smoke_tests/functional/",
+            reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'PROD Smoke Test'
         ])

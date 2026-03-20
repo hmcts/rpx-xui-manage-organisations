@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-import { version as appVersion } from './package.json';
 import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
+const { version: appVersion } = require('./package.json');
 
 const headlessMode = process.env.HEAD !== 'true';
 export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';

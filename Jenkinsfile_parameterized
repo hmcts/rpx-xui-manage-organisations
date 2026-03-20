@@ -132,6 +132,15 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+            reportFiles          : 'xui-playwright-e2e.html',
+            reportName           : 'PREVIEW Smoke Test (Odhin)'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Smoke Test'
@@ -155,6 +164,15 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+            reportFiles          : 'xui-playwright-e2e.html',
+            reportName           : 'AAT Smoke Test (Odhin)'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'AAT Smoke Test'
@@ -174,6 +192,15 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
     }
 
     after('smoketest:prod'){
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+            reportFiles          : 'xui-playwright-e2e.html',
+            reportName           : 'PROD Smoke Test (Odhin)'
+        ])
+
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,

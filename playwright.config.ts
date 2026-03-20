@@ -1,12 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
+import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
+const { version: appVersion } = require('./package.json');
 
 const headlessMode = process.env.HEAD !== 'true';
 export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';
 const smokeSpecPattern = 'playwright_tests_new/E2E/test/smoke/smokeTest.spec.ts';
+const baseUrl = process.env.TEST_URL || 'http://localhost:3000/';
+const workerCount = resolveWorkerCount(process.env);
 
 module.exports = defineConfig({
   use: {
-    baseURL: process.env.TEST_URL || 'http://localhost:3000/'
+    baseURL: baseUrl
   },
   testDir: '.',
   testMatch: [
@@ -27,10 +31,19 @@ module.exports = defineConfig({
   reportSlowTests: null,
 
   /* Opt out of parallel tests on CI. */
-  workers: process.env.FUNCTIONAL_TESTS_WORKERS ? parseInt(process.env.FUNCTIONAL_TESTS_WORKERS, 10) : 1,
+  workers: workerCount,
 
-  reporter: [[process.env.CI ? 'dot' : 'list'],
-    ['html', { open: 'never', outputFolder: 'functional-output/tests/playwright-e2e' }]],
+  reporter: resolveReporters(
+    {
+      defaultIndexFilename: 'xui-playwright-e2e.html',
+      defaultProject: 'RPX XUI Manage Organisations',
+      defaultRelease: appVersion,
+      defaultTitle: 'RPX XUI Manage Organisations Playwright',
+      includeJunit: true,
+    },
+    baseUrl,
+    process.env,
+  ),
 
   projects: [
     {

@@ -132,11 +132,20 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+            reportFiles          : 'xui-playwright-e2e.html',
+            reportName           : 'PREVIEW Smoke Test (Odhin)'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Smoke Test'
         ])
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
     }
 
     after('functionalTest:preview') {
@@ -155,11 +164,20 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+            reportFiles          : 'xui-playwright-e2e.html',
+            reportName           : 'AAT Smoke Test (Odhin)'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'AAT Smoke Test'
         ])
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
     }
 
     after('functionalTest:aat') {
@@ -178,11 +196,20 @@ withParameterizedPipeline(type, product, component, params.ENVIRONMENT, 'sandbox
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+            reportFiles          : 'xui-playwright-e2e.html',
+            reportName           : 'PROD Smoke Test (Odhin)'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e",
             reportFiles          : 'index.html',
             reportName           : 'PROD Smoke Test'
         ])
-        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**'
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
     }
 
 }

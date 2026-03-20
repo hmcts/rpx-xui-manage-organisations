@@ -205,6 +205,7 @@
     "ng-packagr": "^20.3.0",
     "node-html-parser": "^6.1.5",
     "nodemon": "^2.0.19",
+    "odhin-reports-playwright": "patch:odhin-reports-playwright@npm%3A1.1.8#./.yarn/patches/odhin-reports-playwright-npm-1.1.8-a445ed88b7.patch",
     "pa11y": "^8.0.0",
     "pa11y-reporter-html": "^2.0.0",
     "portfinder": "^1.0.28",

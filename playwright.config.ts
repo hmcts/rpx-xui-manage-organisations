@@ -1,18 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
+import { version as appVersion } from './package.json';
+import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
 
 const headlessMode = process.env.HEAD !== 'true';
 export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';
 const smokeSpecPattern = 'playwright_tests_new/E2E/test/smoke/smokeTest.spec.ts';
-const odhinOutputFolder = process.env.PW_ODHIN_OUTPUT ?? 'functional-output/tests/playwright-e2e/odhin-report';
-const odhinIndexFilename = process.env.PW_ODHIN_INDEX ?? 'xui-playwright-e2e.html';
-const odhinTitle = process.env.PW_ODHIN_TITLE ?? 'RPX XUI Manage Organisations Playwright';
-const odhinEnvironment = process.env.PW_ODHIN_ENV ?? (process.env.CI ? 'ci' : 'local');
-const odhinProject = process.env.PW_ODHIN_PROJECT ?? 'RPX XUI Manage Organisations';
-const odhinRelease = process.env.PW_ODHIN_RELEASE ?? 'manage-org-playwright';
+const baseUrl = process.env.TEST_URL || 'http://localhost:3000/';
+const workerCount = resolveWorkerCount(process.env);
 
 module.exports = defineConfig({
   use: {
-    baseURL: process.env.TEST_URL || 'http://localhost:3000/'
+    baseURL: baseUrl
   },
   testDir: '.',
   testMatch: [
@@ -33,22 +31,19 @@ module.exports = defineConfig({
   reportSlowTests: null,
 
   /* Opt out of parallel tests on CI. */
-  workers: process.env.FUNCTIONAL_TESTS_WORKERS ? parseInt(process.env.FUNCTIONAL_TESTS_WORKERS, 10) : 1,
+  workers: workerCount,
 
-  reporter: [[process.env.CI ? 'dot' : 'list'],
-    ['html', { open: 'never', outputFolder: 'functional-output/tests/playwright-e2e' }],
-    ['odhin-reports-playwright', {
-      outputFolder: odhinOutputFolder,
-      indexFilename: odhinIndexFilename,
-      title: odhinTitle,
-      testEnvironment: odhinEnvironment,
-      project: odhinProject,
-      release: odhinRelease,
-      startServer: false,
-      consoleLog: true,
-      consoleError: true,
-      testOutput: 'only-on-failure'
-    }]],
+  reporter: resolveReporters(
+    {
+      defaultIndexFilename: 'xui-playwright-e2e.html',
+      defaultProject: 'RPX XUI Manage Organisations',
+      defaultRelease: appVersion,
+      defaultTitle: 'RPX XUI Manage Organisations Playwright',
+      includeJunit: true,
+    },
+    baseUrl,
+    process.env,
+  ),
 
   projects: [
     {

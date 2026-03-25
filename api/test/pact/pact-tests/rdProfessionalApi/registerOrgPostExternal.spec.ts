@@ -13,7 +13,7 @@ describe('Register External Organisation', () => {
       'name': 'Joe Blogg',
       'status': 'ACTIVE',
       'sraId': 'SRA100',
-      'sraRegulated': 'REGULATED',
+      'sraRegulated': true,
       'companyNumber': '465555',
       'companyUrl': 'www.theKCompany.com',
       'superUser': {

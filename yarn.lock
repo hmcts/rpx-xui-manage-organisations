@@ -3308,16 +3308,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz":
-  version: 3.2.3
-  resolution: "@hmcts/rpx-xui-common-lib@https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz"
+"@hmcts/rpx-xui-common-lib@npm:3.2.6-exui-4277":
+  version: 3.2.6-exui-4277
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.6-exui-4277"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/d39a580b8ee65ea6193a239346468d8a0c88145bfb78d9c6c639cd8072174161855bde981ad0e17a6d5616d3104325665cdd23b1060fb5d15734d495c3bea5fa
+  checksum: 10/c4811dfe2abaeb4a9ffb9cb009af21e0bc369556366508db5fe26e75431b7d20053a15694e588bc687bba56c5b18cc73906304e584699aa9ed00b8c46e6395d6
   languageName: node
   linkType: hard
 
@@ -23966,7 +23966,7 @@ __metadata:
     "@hmcts/media-viewer": "npm:4.2.15-exui-4277"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "https://github.com/hmcts/rpx-xui-common-lib/releases/download/v3.2.3/hmcts-rpx-xui-common-lib-3.2.3.tgz"
+    "@hmcts/rpx-xui-common-lib": "npm:3.2.6-exui-4277"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.7-exui-4177-tax-cve-fix"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"

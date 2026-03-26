@@ -35,7 +35,7 @@
     "test:coverage": "echo 'not implemented'",
     "test:coverage:ng": "ng test rpx-xui-manage-organisations --code-coverage --watch",
     "test:coverage:node": "cd api && yarn coverage",
-    "test:crossbrowser": "yarn playwright install --with-deps && yarn playwright install webkit && yarn playwright install firefox && npx playwright test -c playwright.config.ts",
+    "test:crossbrowser": "yarn test:setup:playwright-install-all && yarn playwright install webkit && yarn playwright install firefox && npx playwright test -c playwright.config.ts",
     "test:node": "cd api && yarn test",
     "test:functional": "yarn build && yarn test:api && yarn run test:xuiIntegration && yarn run test:codeceptE2E && yarn run test:a11yInTest",
     "test:fullfunctional": "yarn test:api && yarn run test:codeceptE2E",
@@ -45,7 +45,7 @@
     "test:ngIntegrationMockEnv": "node -e 'require(`./test/nodeMock/availablePortFinder.js`).configureTestProxyPort()'",
     "test:node:watch": "cd api && yarn test:watch",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
-    "test:smoke": "yarn playwright install chromium && TEST_TYPE=smoke npx codeceptjs run --plugins retryFailedStep,cucumberJsonReporter --config ./test_codecept/codeceptCommon/codecept.conf.ts --features --grep @smoke --reporter mochawesome",
+    "test:smoke": "npx playwright test --project=smoke",
     "test-pact": "NODE_PATH=. NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
     "test:codeceptE2EDebug": "DEBUG=true TEST_TYPE=e2e npx codeceptjs run --plugins cucumberJsonReporter --plugins retryFailedStep --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
@@ -53,7 +53,9 @@
     "test:backendMock": "DEBUG=true nodemon test_codecept/backendMock/app --standalone",
     "test:xuiIntegrationDebug": "DEBUG=true NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration npx codeceptjs run -p pauseOnFail --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",
     "test:xuiIntegration": "yarn build && yarn patch:static && cross-env EXTERNAL_SERVERS=true WEB_BASE_URL=http://localhost:3000 start-server-and-test \"node test_codecept/backendMock/configCopy.js\" http://localhost:3000/external/configuration-ui/ \"cross-env NODE_CONFIG_ENV=mock TEST_TYPE=ngIntegration PARALLEL=true npx codeceptjs run-workers --suites 8 --config ./test_codecept/codeceptCommon/codecept.conf.ts --features\"",
-    "patch:static": "node ./test_codecept/scripts/patchBuild.js"
+    "patch:static": "node ./test_codecept/scripts/patchBuild.js",
+    "test:setup:playwright-install-all": "npx playwright install --with-deps",
+    "test:setup:playwright-install-chromium": "npx playwright install chromium"
   },
   "private": true,
   "dependencies": {
@@ -203,6 +205,7 @@
     "ng-packagr": "^20.3.0",
     "node-html-parser": "^6.1.5",
     "nodemon": "^2.0.19",
+    "odhin-reports-playwright": "patch:odhin-reports-playwright@npm%3A1.1.8#./.yarn/patches/odhin-reports-playwright-npm-1.1.8-a445ed88b7.patch",
     "pa11y": "^8.0.0",
     "pa11y-reporter-html": "^2.0.0",
     "portfinder": "^1.0.28",

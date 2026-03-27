@@ -1,7 +1,7 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  
+
 redis:
   enabled: false
 idam-pr:
@@ -124,7 +124,7 @@ ccd:
         ROLE_ASSIGNMENT_DB_OPTIONS: "?stringtype=unspecified&ssl=disable&gssEncMode=disable"
         BYPASS_ORG_DROOL_RULE: true
         APPLICATION_LOGGING_LEVEL: INFO
-          
+
   ccd-definition-store-api:
     java:
       disableKeyVaults: true
@@ -366,7 +366,7 @@ ccd:
 am-org-role-mapping-service:
     enabled: true
     java:
-      image: 'hmctspublic.azurecr.io/am/org-role-mapping-service:pr-2692'
+      image: 'hmctsprod.azurecr.io/am/org-role-mapping-service:pr-2692'
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
       imagePullPolicy: Always
@@ -406,7 +406,7 @@ aac-manage-case-assignment:
   java:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-aac-manage-case-assignment
-    image: hmctspublic.azurecr.io/aac/manage-case-assignment:pr-560
+    image: hmctsprod.azurecr.io/aac/manage-case-assignment:pr-560
     ingressHost: aac-${SERVICE_FQDN}
     environment:
       MCA_DS_PROXY_URLS_ALLOWED_LIST: /searchCases.*,/internal/searchCases.*,/internal/cases.*

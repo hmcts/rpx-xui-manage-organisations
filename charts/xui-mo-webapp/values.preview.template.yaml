@@ -58,7 +58,7 @@ ccd:
   ccd-data-store-api:
     java:
       imagePullPolicy: Always
-      image: hmctspublic.azurecr.io/ccd/data-store-api:pr-2578
+      image: hmctsprod.azurecr.io/ccd/data-store-api:pr-2578
       environment:
         CASE_DOCUMENT_AM_API_ATTACH_DOCUMENT_ENABLED: true
         DATA_STORE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
@@ -128,7 +128,7 @@ ccd:
   ccd-definition-store-api:
     java:
       disableKeyVaults: true
-      image: hmctspublic.azurecr.io/ccd/definition-store-api:pr-1529
+      image: hmctsprod.azurecr.io/ccd/definition-store-api:pr-1529
       imagePullPolicy: Always
       environment:
         DEFINITION_STORE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'

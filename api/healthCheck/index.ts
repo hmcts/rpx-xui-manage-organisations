@@ -68,7 +68,7 @@ async function healthCheckRoute(req, res) {
       response = { healthState: false };
     });
 
-    logger.info('response::', response);
+    logger.debug('response:', JSON.stringify(response));
     res.send(response);
   } catch (error) {
     logger.info('error', { healthState: false });

@@ -1,4 +1,4 @@
-FROM hmctspublic.azurecr.io/base/node:20-alpine as deps
+FROM hmctspublic.azurecr.io/base/node:20-alpine as base
 LABEL maintainer = "HMCTS Expert UI <https://github.com/hmcts>"
 
 USER root
@@ -13,22 +13,15 @@ COPY --chown=hmcts:hmcts api/package.json ./api/package.json
 
 RUN yarn install --immutable
 
-FROM deps as build
+FROM base as build
 
 COPY --chown=hmcts:hmcts . .
 
 RUN yarn build
 
-FROM hmctspublic.azurecr.io/base/node:20-alpine as runtime
-LABEL maintainer = "HMCTS Expert UI <https://github.com/hmcts>"
-
+FROM base as runtime
 USER hmcts
-WORKDIR /opt/app
 
-COPY --from=deps /opt/app/node_modules ./node_modules
-COPY --from=deps /opt/app/api/node_modules ./api/node_modules
-COPY --from=build /opt/app/dist ./dist
-COPY --from=build /opt/app/package.json ./package.json
-
+COPY --from=build /opt/app ./
 EXPOSE 3000
-CMD [ "node", "./dist/rpx-xui-manage-organisations/api/server.bundle.js" ]
+CMD [ "yarn", "start" ]

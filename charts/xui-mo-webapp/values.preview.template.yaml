@@ -110,7 +110,7 @@ ccd:
   am-role-assignment-service:
     enabled: true
     java:
-      image: hmctspublic.azurecr.io/am/role-assignment-service:latest
+      image: hmctsprod.azurecr.io/am/role-assignment-service:latest
       ingressHost: am-role-assignment-service-${SERVICE_FQDN}
       releaseNameOverride: ${SERVICE_NAME}-am-role-assignment-service
       imagePullPolicy: Always
@@ -154,7 +154,7 @@ ccd:
   ccd-admin-web:
     nodejs:
       disableKeyVaults: true
-      image: hmctspublic.azurecr.io/ccd/admin-web:latest
+      image: hmctsprod.azurecr.io/ccd/admin-web:latest
       ingressHost: admin-web-${SERVICE_FQDN}
       environment:
         USER_PROFILE_DB_HOST: '{{ tpl .Values.global.postgresHostname $}}'
@@ -189,13 +189,13 @@ ccd:
       className: traefik
 
   logstash:
-    image: "hmctspublic.azurecr.io/imported/logstash/logstash"
+    image: "hmctsprod.azurecr.io/imported/logstash/logstash"
     imageTag: "7.16.1"
     imagePullPolicy: "IfNotPresent"
     logstashJavaOpts: "-Xmx1g -Xms512M"
     extraInitContainers: |
       - name: download-postgres-jdbc
-        image: hmctspublic.azurecr.io/curl:7.70.0
+        image: hmctsprod.azurecr.io/curl:7.70.0
         command: ['curl', '-L', 'https://jdbc.postgresql.org/download/postgresql-42.2.18.jar', '-o', '/logstash-lib/postgresql.jar']
         volumeMounts:
         - name: logstash-lib
@@ -354,7 +354,7 @@ ccd:
   java:
     releaseNameOverride: ${SERVICE_NAME}-ccd-case-document-am-api
     imagePullPolicy: Always
-    image: hmctspublic.azurecr.io/ccd/case-document-am-api:latest
+    image: hmctsprod.azurecr.io/ccd/case-document-am-api:latest
     ingressHost: ccd-case-document-am-api-${SERVICE_FQDN}
     environment:
       CASE_DOCUMENT_S2S_AUTHORISED_SERVICES: ccd_case_document_am_api,ccd_gw,xui_webapp,ccd_data,bulk_scan_processor,em_npa_app,dg_docassembly_api,em_stitching_api,em_ccd_orchestrator,bulk_scan_orchestrator,sptribs_case_api,sptribs_frontend
@@ -366,7 +366,7 @@ ccd:
 am-org-role-mapping-service:
     enabled: true
     java:
-      image: 'hmctsprod.azurecr.io/am/org-role-mapping-service:pr-2692'
+      image: 'hmctsprod.azurecr.io/am/org-role-mapping-service:pr-1737'
       releaseNameOverride: ${SERVICE_NAME}-am-org-role-mapping-service
       ingressHost: am-org-role-mapping-service-${SERVICE_FQDN}
       imagePullPolicy: Always
@@ -443,7 +443,7 @@ xui-webapp:
   nodejs:
     imagePullPolicy: Always
     releaseNameOverride: ${SERVICE_NAME}-xui-webapp
-    image: hmctspublic.azurecr.io/xui/webapp:latest
+    image: hmctsprod.azurecr.io/xui/webapp:latest
     ingressHost: webapp-${SERVICE_FQDN}
     devcpuRequests: 250m
     devmemoryRequests: 1024Mi

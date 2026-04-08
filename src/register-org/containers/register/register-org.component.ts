@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private isRegistrationJourneyCancelled = false;
   private routerCurrentNavigation: Navigation;
   public registrationData: RegistrationData;
-
+  test = false;
   constructor(public readonly router: Router,
     public readonly registerOrgService: RegisterOrgService) {
     // Angular Router exposes getCurrentNavigation(); currentNavigation is not an invocable function.

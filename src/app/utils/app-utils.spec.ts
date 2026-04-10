@@ -30,13 +30,13 @@ describe('AppUtils', () => {
       active: false,
       orderId: 3,
       featureToggle: {
-        featureName: AppConstants.FEATURE_NAMES.feeAccount
+        featureName: AppConstants.STATIC_FEATURE_NAMES.feeAccount
       }
     }];
 
     const featureFlag: AppFeatureFlag = {
       isEnabled: true,
-      featureName: AppConstants.FEATURE_NAMES.feeAccount
+      featureName: AppConstants.STATIC_FEATURE_NAMES.feeAccount
     };
 
     let result = AppUtils.getFeatureEnabledNavItems(navItems, [featureFlag]);
@@ -245,16 +245,27 @@ describe('AppUtils', () => {
     expect(returnNavItems).toEqual({ navItems: 'Navigation item' });
   });
 
-  it('should return an undefined nav item array', () => {
+  it('should hide nav items for register journeys', () => {
     const routerObj = {
       state: {
-        url: 'register'
+        url: 'register-org/register'
       }
     };
 
     const nav = '';
     const returnNavItems = AppUtils.returnNavs(routerObj, nav);
     expect(returnNavItems).toEqual({ navItems: [] });
+  });
+
+  it('should show nav items for terms-and-conditions-register-other-org', () => {
+    const routerObj = {
+      state: {
+        url: 'terms-and-conditions-register-other-org'
+      }
+    };
+    const nav = 'Navigation item';
+    const returnNavItems = AppUtils.returnNavs(routerObj, nav);
+    expect(returnNavItems).toEqual({ navItems: 'Navigation item' });
   });
 
   it('should return aat environment string', () => {

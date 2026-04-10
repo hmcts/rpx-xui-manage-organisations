@@ -32,7 +32,7 @@
     "test:a11yInTest": "yarn build && yarn patch:static && cross-env EXTERNAL_SERVERS=true WEB_BASE_URL=http://localhost:3000 bash -c 'node test_codecept/backendMock/configCopy.js & npx wait-on http://localhost:3000/external/configuration-ui/ && SSR_ALREADY_RUNNING=true NODE_CONFIG_ENV=mock TEST_TYPE=a11y PARALLEL=false npx codeceptjs run --config ./test_codecept/codeceptCommon/codeceptA11y.conf.ts'",
     "test:api": "ts-node ./test_codecept/integration/tests/test.ts",
     "test:can-i-deploy:consumer": "export VERSION=$(git rev-parse --short HEAD) && SSL_CERT_FILE=api/test/pact/cer/ca-bundle.crt pact-broker can-i-deploy --pacticipant 'xui_manageOrg' --version ${VERSION} --broker-base-url https://pact-broker.platform.hmcts.net",
-    "test:coverage": "echo 'not implemented'",
+    "test:coverage": "yarn test:ng",
     "test:coverage:ng": "ng test rpx-xui-manage-organisations --code-coverage --watch",
     "test:coverage:node": "cd api && yarn coverage",
     "test:crossbrowser": "yarn test:setup:playwright-install-all && yarn playwright install webkit && yarn playwright install firefox && npx playwright test -c playwright.config.ts",

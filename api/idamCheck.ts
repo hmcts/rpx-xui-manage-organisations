@@ -20,7 +20,7 @@ function getRetryConfig() {
 export const idamCheck = async (resolve, reject) => {
   const { maxWaitMs, retryIntervalMs, requestTimeoutMs } = getRetryConfig();
   const idamApiUrl = String(getConfigValue(SERVICES_IDAM_API_PATH) || '').replace(/\/$/, '');
-  const idamHealthUrl = `${idamApiUrl}/health`;
+  const idamOidcDiscoveryUrl = `${idamApiUrl}/o/.well-known/openid-configuration`;
 
   const start = Date.now();
   let attempt = 0;
@@ -28,10 +28,9 @@ export const idamCheck = async (resolve, reject) => {
   while (Date.now() - start < maxWaitMs) {
     attempt += 1;
     try {
-      // Startup gating should use /health rather than the OpenID discovery endpoint:
-      // - aligns with api/configuration/health.ts
-      // - avoids dumping large HTML bodies in logs from axios interceptors on 502s
-      const res = await axios.get(idamHealthUrl, {
+      // Startup gating uses OIDC discovery, but we call it with plain axios (no interceptors)
+      // to avoid dumping large HTML bodies in logs on 502s.
+      const res = await axios.get(idamOidcDiscoveryUrl, {
         timeout: requestTimeoutMs,
         validateStatus: () => true
       });
@@ -43,13 +42,13 @@ export const idamCheck = async (resolve, reject) => {
 
       const elapsed = Date.now() - start;
       console.warn(
-        `IDAM health check not ready (attempt ${attempt}, ${elapsed}ms elapsed) - status ${res.status}. ` +
+        `IDAM OIDC discovery not ready (attempt ${attempt}, ${elapsed}ms elapsed) - status ${res.status}. ` +
         `Retrying in ${retryIntervalMs}ms...`
       );
     } catch (err: any) {
       const elapsed = Date.now() - start;
       console.warn(
-        `IDAM health check failed (attempt ${attempt}, ${elapsed}ms elapsed)` +
+        `IDAM OIDC discovery failed (attempt ${attempt}, ${elapsed}ms elapsed)` +
         `${err?.message ? ` - ${err.message}` : ''}. Retrying in ${retryIntervalMs}ms...`
       );
     }
@@ -57,7 +56,7 @@ export const idamCheck = async (resolve, reject) => {
     await sleep(retryIntervalMs);
   }
 
-  console.error(`idam api must be up to start (timed out after ${maxWaitMs}ms): ${idamHealthUrl}`);
+  console.error(`idam api must be up to start (timed out after ${maxWaitMs}ms): ${idamOidcDiscoveryUrl}`);
   process.exit(1);
   reject(new Error('IDAM startup check timed out'));
 };

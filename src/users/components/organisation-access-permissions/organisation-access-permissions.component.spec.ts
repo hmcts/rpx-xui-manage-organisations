@@ -221,5 +221,18 @@ describe('OrganisationAccessPermissionsComponent', () => {
       const accessTypeCheckbox = fixture.nativeElement.querySelector('[id="4"]');
       expect(accessTypeCheckbox).not.toBeNull();
     });
+
+    it('should only render the accordion when case management is enabled', () => {
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('#org-access-accordion')).toBeNull();
+
+      const caseManageRoleCheckbox = fixture.nativeElement.querySelector('[id="enableCaseManagement"]');
+      caseManageRoleCheckbox.click();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('#org-access-accordion')).not.toBeNull();
+    });
   });
 });

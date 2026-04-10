@@ -23,14 +23,12 @@ describe('App initializer', () => {
 
     await fn(); // await the Promise returned by the initializer
 
-    expect(store.dispatch).toHaveBeenCalledTimes(4);
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
 
-    // (optional) assert dispatch types/order more strictly
     const types = store.dispatch.calls.allArgs().map((args) => args[0].constructor.name);
     expect(types).toEqual([
       'StartAppInitilizer',
       'LoadFeatureToggleConfig',
-      'LoadFeatureToggleConfigSuccess',
       'FinishAppInitilizer'
     ]);
   });

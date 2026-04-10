@@ -21,8 +21,8 @@
       </ng-container>
       }
 
-      <div class="govuk-accordion" data-module="govuk-accordion" id="org-access-accordion"
-        [class.hidden]="!enableCaseManagement">
+      @if (enableCaseManagement) {
+      <div class="govuk-accordion" data-module="govuk-accordion" id="org-access-accordion">
         <div class="govuk-accordion__section">
           <div class="govuk-accordion__section-header">
             <h2 class="govuk-accordion__section-heading">
@@ -52,6 +52,7 @@
           </div>
         </div>
       </div>
+      }
 
     </form>
     }

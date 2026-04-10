@@ -2,14 +2,15 @@ import { fakeAsync, tick } from '@angular/core/testing';
 import { Observable, of, Subject } from 'rxjs';
 import { featureToggleOdgInviteUserFlowGuard } from './feature-toggle-ogd-invite-user-flow.guard';
 
-const applyOperators = <T>(source$: Observable<T>, operations: Array<(input$: Observable<any>) => Observable<any>>) => {
-  return operations.reduce((stream$, operation) => operation(stream$), source$ as Observable<any>);
+const applyGuardOperators = <T>(source$: Observable<T>, operations: Array<(input$: Observable<any>) => Observable<any>>) => {
+  const [, ...guardOperators] = operations;
+  return guardOperators.reduce((stream$, operation) => operation(stream$), source$ as Observable<any>);
 };
 
 describe('featureToggleOdgInviteUserFlowGuard', () => {
   it('should allow activation when the feature becomes enabled', (done) => {
     const store = {
-      pipe: (...operations) => applyOperators(of(true), operations)
+      pipe: (...operations) => applyGuardOperators(of(true), operations)
     };
 
     const guard = new featureToggleOdgInviteUserFlowGuard(store as any);
@@ -23,7 +24,7 @@ describe('featureToggleOdgInviteUserFlowGuard', () => {
   it('should return false when the feature flag does not resolve before timeout', fakeAsync(() => {
     const source$ = new Subject<boolean>();
     const store = {
-      pipe: (...operations) => applyOperators(source$, operations)
+      pipe: (...operations) => applyGuardOperators(source$, operations)
     };
 
     const guard = new featureToggleOdgInviteUserFlowGuard(store as any);

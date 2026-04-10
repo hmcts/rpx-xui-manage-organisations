@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
-import { CaaCases, SelectedCases } from '../../models/caa-cases.model';
+import { CaaCaseTypeNavigation, CaaCases, SelectedCases } from '../../models/caa-cases.model';
 import * as fromCaaActions from '../actions/caa-cases.actions';
 
 export interface CaaCasesState {
   Cases: CaaCases;
-  caseTypes: SubNavigation[];
+  caseTypes: CaaCaseTypeNavigation[];
   selectedCases: SelectedCases;
   CasesLastError: HttpErrorResponse;
   casesWithSupplementary?: any[];

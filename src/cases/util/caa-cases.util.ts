@@ -1,10 +1,9 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
-import { CaseTypesResultsResponse } from '../models/caa-cases.model';
+import { CaaCaseTypeNavigation, CaseTypesResultsResponse } from '../models/caa-cases.model';
 
 export class CaaCasesUtil {
-  public static getCaaNavItems(response: CaseTypesResultsResponse): SubNavigation[] {
-    const result = new Array<SubNavigation>();
+  public static getCaaNavItems(response: CaseTypesResultsResponse): CaaCaseTypeNavigation[] {
+    const result = new Array<CaaCaseTypeNavigation>();
     if (response.case_types_results) {
       response.case_types_results.forEach((caseType) => {
         if (caseType.total > 0) {

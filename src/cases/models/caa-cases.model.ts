@@ -1,3 +1,5 @@
+import { SubNavigation } from '@hmcts/rpx-xui-common-lib';
+
 export interface CaaCasesColumnConfig {
   header: string;
   key: string;
@@ -22,7 +24,12 @@ export interface CaseTypesResults {
   caseConfig: {
     new_cases: boolean;
     group_access: boolean;
-  }
+  };
+}
+
+export interface CaaCaseTypeNavigation extends SubNavigation {
+  total?: number;
+  caseConfig?: CaseTypesResults['caseConfig'];
 }
 
 export interface SelectedCases {

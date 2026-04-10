@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { ErrorMessage } from 'src/shared/models/error-message.model';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { SelectedCaseFilter } from 'src/cases/models/selected-case-filter.model';
-import { CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from 'src/cases/models/caa-cases.model';
+import { CaaCaseTypeNavigation, CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from 'src/cases/models/caa-cases.model';
 import { CaaCasesFilterType, CaaCasesPageType } from 'src/cases/models/caa-cases.enum';
 import { HttpErrorResponse } from '@angular/common/http';
 import * as converters from '../../converters/case-converter';
@@ -41,7 +41,7 @@ export class CasesComponent implements OnInit {
   private readonly destroy$ = new Subject<void>();
 
   // for the results table
-  public allCaseTypes = [];
+  public allCaseTypes: CaaCaseTypeNavigation[] = [];
   public currentPageNo: number = 1;
   public paginationPageSize: number = 25;
   public casesConfig: CaaCases;

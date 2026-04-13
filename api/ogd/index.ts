@@ -1,4 +1,6 @@
 import { Request, Response, Router } from 'express';
+import { showFeature } from '../configuration';
+import { FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED } from '../configuration/references';
 import { compareAccessTypes } from '../retrieveAccessTypes';
 import { inviteUserRouteOGD } from '../inviteUser';
 import { ogdEditUserRoute } from '../editUserPermissions';
@@ -40,8 +42,9 @@ export async function ogdUpdate(req: Request, res: Response) {
     }
     const operationResult = await ogdEditUserRoute(req);
     req.body = { userId };
-    // TEMP REMOVE THE REFRESH CALL FOR TESTING, NEED TO CONSIDER IF THIS SHOULD BE LD FLAGGED
-    // await refreshUser(req);
+    if (showFeature(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED)) {
+      await refreshUser(req);
+    }
     res.send(operationResult);
   } catch (error) {
     logger.error('ogdUpdate:: Error ', JSON.stringify(error));

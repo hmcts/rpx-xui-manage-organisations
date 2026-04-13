@@ -90,6 +90,10 @@
       "oidcEnabled": {
         "__name": "FEATURE_OIDC_ENABLED",
         "__format": "json"
+      },
+      "ogdUpdateRefreshUserEnabled": {
+        "__name": "FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED",
+        "__format": "json"
       }
     },
     "helmet": {

@@ -1,0 +1,60 @@
+<div class="govuk-!-margin-top-8">
+  <h1 class="govuk-heading-m">Case management and access</h1>
+  <div class="govuk-form-group">
+    @if (jurisdictionPermissionsForm) {
+    <form [formGroup]="jurisdictionPermissionsForm">
+      <xuilib-gov-checkbox [group]="jurisdictionPermissionsForm" [config]="{
+            value: 'enableCaseManagement',
+            label: 'Manage cases for your organisation',
+            name: 'enableCaseManagement',
+            hint: 'This provides the user access to submit and manage claims on behalf of your organisation',
+            hiddenLabelContext:
+              'This provides the user access to submit and manage claims on behalf of your organisation'
+          }">
+      </xuilib-gov-checkbox>
+
+      @if (enableCaseManagement) {
+      <ng-container>
+        <div id="supporting-content" class="govuk-!-margin-top-4">
+          <app-solicitor-profile-content></app-solicitor-profile-content>
+        </div>
+      </ng-container>
+      }
+
+      @if (enableCaseManagement) {
+      <div class="govuk-accordion" data-module="govuk-accordion" id="org-access-accordion">
+        <div class="govuk-accordion__section">
+          <div class="govuk-accordion__section-header">
+            <h2 class="govuk-accordion__section-heading">
+              <span class="govuk-accordion__section-button"
+                id="accordion-with-summary-sections-heading-1 govuk-!-padding-0"></span>
+              <span class="govuk-visually-hidden">Additional access case types</span>
+            </h2>
+            <div class="govuk-accordion__section-summary govuk-body" id="accordion-with-summary-sections-summary-1">
+            </div>
+          </div>
+          <div id="accordion-with-summary-sections-content-1"
+            class="govuk-accordion__section-content govuk-!-padding-top-0"
+            aria-labelledby="accordion-with-summary-sections-summary-1">
+
+            <div class="govuk-warning-text">
+              <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+              <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                The below list contains all case types with additional access. You do not need to select additional
+                access
+                for case types that you do not use.
+              </strong>
+            </div>
+
+            <app-jurisdiction-access-options
+              [jurisdictions]="this.jurisdictionsFormArray"></app-jurisdiction-access-options>
+          </div>
+        </div>
+      </div>
+      }
+
+    </form>
+    }
+  </div>
+</div>

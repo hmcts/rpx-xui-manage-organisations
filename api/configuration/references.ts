@@ -39,11 +39,13 @@ export const SERVICES_RD_PROFESSIONAL_API_PATH = 'services.rdProfessionalApi';
 export const SERVICES_FEE_AND_PAY_API_PATH = 'services.feeAndPayApi';
 export const SERVICES_TERMS_AND_CONDITIONS_API_PATH = 'services.termsAndConditions';
 
+export const SERVICES_CCD_DEFINITION_STORE_API_PATH = 'services.ccdDefinitionApi';
 export const SERVICES_CCD_DATA_STORE_API_PATH = 'services.ccdDataApi';
 export const SERVICES_MCA_PROXY_API_PATH = 'services.caseAssignmentApi';
 export const SERVICES_IDAM_ISS_URL = 'iss';
 
 export const SERVICES_ROLE_ASSIGNMENT_API_PATH = 'services.role_assignment.roleApi';
+export const SERVICES_ROLE_ASSIGNMENT_MAPPING_API_PATH = 'services.role_assignment.roleMappingApi';
 
 export const SERVICES_PRD_COMMONDATA_API = 'services.prd.commondataApi';
 
@@ -65,6 +67,7 @@ export const FEATURE_TERMS_AND_CONDITIONS_ENABLED = 'termsAndConditionsEnabled';
 export const FEATURE_HELMET_ENABLED = 'helmetEnabled';
 export const FEATURE_REDIS_ENABLED = 'redisEnabled';
 export const FEATURE_OIDC_ENABLED = 'oidcEnabled';
+export const FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED = 'ogdUpdateRefreshUserEnabled';
 
 export const LINKS_MANAGE_CASES_LINK = 'links.manageCaseLink';
 export const LINKS_MANAGE_ORG_LINK = 'links.manageOrgLink';
@@ -77,6 +80,7 @@ export const REDIS_KEY_PREFIX = 'redis.prefix';
 export const SESSION_TIMEOUTS = 'sessionTimeouts';
 
 export const CASE_TYPES = 'caseTypes';
+export const UNASSIGNED_CASE_TYPES = 'unassignedCaseTypes';
 
 // PACT
 export const PACT_BROKER_URL = 'pact.brokerUrl';

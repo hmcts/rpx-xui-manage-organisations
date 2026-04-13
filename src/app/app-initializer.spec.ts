@@ -1,5 +1,6 @@
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
+import { AppConstants } from './app.constants';
 import { initApplication } from './app-initializer';
 import * as fromApp from './store';
 
@@ -23,14 +24,55 @@ describe('App initializer', () => {
 
     await fn(); // await the Promise returned by the initializer
 
-    expect(store.dispatch).toHaveBeenCalledTimes(4);
+    expect(store.dispatch).toHaveBeenCalledTimes(3);
 
-    // (optional) assert dispatch types/order more strictly
     const types = store.dispatch.calls.allArgs().map((args) => args[0].constructor.name);
     expect(types).toEqual([
       'StartAppInitilizer',
       'LoadFeatureToggleConfig',
-      'LoadFeatureToggleConfigSuccess',
+      'FinishAppInitilizer'
+    ]);
+  });
+
+  it('dispatches the expected feature toggle payload before finishing initialization', async () => {
+    const fn = initApplication(store);
+
+    await fn();
+
+    const loadFeatureToggleAction = store.dispatch.calls.argsFor(1)[0] as unknown as fromApp.LoadFeatureToggleConfig;
+    expect(loadFeatureToggleAction.payload).toEqual([
+      AppConstants.FEATURE_NAMES.editUserPermissions,
+      AppConstants.FEATURE_NAMES.caaMenuItems,
+      AppConstants.FEATURE_NAMES.newCasesItems,
+      AppConstants.FEATURE_NAMES.newRegisterOrg,
+      AppConstants.FEATURE_NAMES.ogdInviteUserFlow,
+      AppConstants.STATIC_FEATURE_FLAGS
+    ]);
+  });
+
+  it('does not finish initialization until feature flags are available', async () => {
+    const appState$ = new Subject<any>();
+    store.pipe.and.returnValue(appState$.asObservable());
+
+    const fn = initApplication(store);
+    const promise = fn();
+
+    appState$.next({ featureFlags: undefined });
+    await Promise.resolve();
+
+    let types = store.dispatch.calls.allArgs().map((args) => args[0].constructor.name);
+    expect(types).toEqual([
+      'StartAppInitilizer',
+      'LoadFeatureToggleConfig'
+    ]);
+
+    appState$.next({ featureFlags: { any: true } });
+    await promise;
+
+    types = store.dispatch.calls.allArgs().map((args) => args[0].constructor.name);
+    expect(types).toEqual([
+      'StartAppInitilizer',
+      'LoadFeatureToggleConfig',
       'FinishAppInitilizer'
     ]);
   });

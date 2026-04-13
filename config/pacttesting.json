@@ -32,6 +32,7 @@
     "termsAndConditionsEnabled": false,
     "helmetEnabled": true,
     "redisEnabled": false,
-    "oidcEnabled": false
+    "oidcEnabled": false,
+    "ogdUpdateRefreshUserEnabled": false
   }
 }

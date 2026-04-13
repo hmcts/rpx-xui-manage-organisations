@@ -117,6 +117,8 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
           this.caaFormGroup.get(this.assigneePersonFormControl).setValue(formattedOrganisationUser);
         }
       }
+      this.selectedFilterType = this.sessionStateValue.filterType;
+      this.caaFormGroup.get(this.caaFilterFormControl)?.setValue(this.selectedFilterType);
     }
   }
 
@@ -135,12 +137,17 @@ export class CaaFilterComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public selectFilterOption(caaCasesFilterType: string): void {
+    console.log('selectFilterOption - caaCasesFilterType:', caaCasesFilterType);
     this.selectedFilterType = caaCasesFilterType;
+    // Update the form control value to match the selected radio button
+    this.caaFormGroup.get(this.caaFilterFormControl)?.setValue(caaCasesFilterType);
     this.emitSelectedFilterType.emit(this.selectedFilterType);
   }
 
   public onSearch(): void {
     // Validate form
+    console.log('onSearch - selectedFilterType:', this.selectedFilterType);
+    console.log('onSearch - caaCasesPageType:', this.caaCasesPageType);
     if (this.validateForm()) {
       let selectedFilterValue: string;
       if (this.caaCasesPageType === CaaCasesPageType.UnassignedCases) {

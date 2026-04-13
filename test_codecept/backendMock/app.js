@@ -19,6 +19,8 @@ const rdCommonDataRoutes = require('./services/rdCommondata/routes')
 const acseAssignmentsRoutes = require('./services/caseAssignments/routes')
 const userApiData = require('./services/userApiData');
 
+const retrieveAccessTypesRoutes = require('./services/accessTypes/routes')
+
 const tolerantJson = express.json({
   type: ['application/json'],   // only when Content-Type is JSON
   strict: false,

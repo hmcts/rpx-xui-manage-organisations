@@ -141,6 +141,14 @@ describe('App Selectors', () => {
       });
     });
 
+    it('should get CAA new cases feature is enabled', () => {
+      const featureFlag: AppFeatureFlag = { featureName: 'mo-new-cases', isEnabled: true };
+      let result;
+      store.dispatch(new fromActions.LoadFeatureToggleConfig(featureFlag));
+      store.pipe(select(fromSelectors.getCaaNewCasesMenuItemsFeatureIsEnabled)).subscribe((value) => (result = value));
+      expect(result).toBeUndefined();
+    });
+
     it('should get edit user feature', () => {
       const featureFlags: AppFeatureFlag[] = [
         { featureName: 'edit-permissions', isEnabled: true },

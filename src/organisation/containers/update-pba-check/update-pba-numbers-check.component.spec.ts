@@ -9,6 +9,7 @@ import { DxAddress, OrganisationContactInformation, OrganisationDetails, PBANumb
 import { PBAService } from '../../services/pba.service';
 import * as fromStore from '../../store';
 import { UpdatePbaNumbersCheckComponent } from './update-pba-numbers-check.component';
+import { AppConstants } from '../../../app/app.constants';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 @Component({
@@ -63,7 +64,7 @@ describe('UpdatePbaNumbersCheckComponent', () => {
       name: 'Luke Solicitors',
       organisationIdentifier: 'HAUN33E',
       organisationProfileIds: [
-        'SOLICITOR_PROFILE'
+        AppConstants.OGD_PROFILE_TYPES.SOLICITOR_PROFILE
       ],
       contactInformation: [MOCK_CONTACT_INFORMATION],
       pendingPaymentAccount: [],

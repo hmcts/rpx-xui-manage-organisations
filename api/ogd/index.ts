@@ -40,7 +40,8 @@ export async function ogdUpdate(req: Request, res: Response) {
     }
     const operationResult = await ogdEditUserRoute(req);
     req.body = { userId };
-    await refreshUser(req);
+    // TEMP REMOVE THE REFRESH CALL FOR TESTING, NEED TO CONSIDER IF THIS SHOULD BE LD FLAGGED
+    // await refreshUser(req);
     res.send(operationResult);
   } catch (error) {
     logger.error('ogdUpdate:: Error ', JSON.stringify(error));

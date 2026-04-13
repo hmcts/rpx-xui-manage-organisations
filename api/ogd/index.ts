@@ -21,7 +21,9 @@ export async function ogdInvite(req: Request, res: Response) {
     const operationResult = await inviteUserRouteOGD(req);
     const userId = operationResult.userIdentifier;
     req.body = { userId };
-    await refreshUser(req);
+    if (showFeature(FEATURE_OGD_UPDATE_REFRESH_USER_ENABLED)) {
+      await refreshUser(req);
+    }
     res.send(operationResult);
   } catch (error) {
     logger.error('ogdInvite:: Error ', error);

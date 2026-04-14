@@ -3125,12 +3125,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.41-EXUI-4227-CVE-fixes":
-  version: 7.3.41-EXUI-4227-CVE-fixes
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.41-EXUI-4227-CVE-fixes"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.46":
+  version: 7.3.46
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.46"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/031283c43ed60fa78cb24fe2dfc60a91a68a83c4aff5a7870b252df6b1c72cb32a2e26b8cf9a221aaf9d133207f46b1ad3067e59c9815326e0e5ee4a6f272ccf
+  checksum: 10/9c043ad57b43473e8f7c61517afb3bc02b5130d5af1b8b156eb5bf88bf4b93bac32fd83c526bb73c80ee1796bb3551edc162861f3d48399e87512a51a8b26a9c
   languageName: node
   linkType: hard
 
@@ -3153,9 +3153,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.2.13-EXUI-4227-cve-test-2":
-  version: 4.2.13-EXUI-4227-cve-test-2
-  resolution: "@hmcts/media-viewer@npm:4.2.13-EXUI-4227-cve-test-2"
+"@hmcts/media-viewer@npm:4.2.16":
+  version: 4.2.16
+  resolution: "@hmcts/media-viewer@npm:4.2.16"
   dependencies:
     "@swimlane/ngx-datatable": "npm:^20.0.0"
     mutable-div: "npm:^2.0.0"
@@ -3174,7 +3174,7 @@ __metadata:
     "@ngrx/router-store": ^20
     "@ngrx/store": ^20
     "@ngrx/store-devtools": ^20
-  checksum: 10/f0b16d7a6fbc1685f08d04e75593d0ba3e0d9f82460839f710574cd01972aef62cb96389256ac1238212fe5677ce9f857b5dc6f5c9850093e29db8500f466b5a
+  checksum: 10/3f49d013cf857a4d07c5a59722855ac348f0eead29203575824595211ab9d4af5ef0bc77cc0366c170206ffe09e6be33b46b4d1f43392dc3ee40552695334acb
   languageName: node
   linkType: hard
 
@@ -3222,22 +3222,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:3.2.6-EXUI-4227-CVE-fixes":
-  version: 3.2.6-EXUI-4227-CVE-fixes
-  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.6-EXUI-4227-CVE-fixes"
+"@hmcts/rpx-xui-common-lib@npm:3.2.8":
+  version: 3.2.8
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.8"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/f55c756820e677834fbeb12da779d3c9705be90dfcb4a0a42e7f772f16c6946c324066b75cc3981775693b0b4c7484b6c9012b009601f8083cc1ee1c0e63e74a
+  checksum: 10/4e48b962f867ee137fca5415e6f465cc3c68ed7845a925565b423711a32e032ac8b3af39923439653f6200391f75f089ab49f795743e1ef0a11a934aafeee331
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4227-final-minor-fix":
-  version: 2.30.7-exui-4227-final-minor-fix
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4227-final-minor-fix"
+"@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4227-rel":
+  version: 2.30.7-exui-4227-rel
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4227-rel"
   dependencies:
     axios: "npm:^1.11.0"
     caller-path: "npm:^3.0.0"
@@ -3257,7 +3257,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/7c24bc6d0b3559735b441197f7e54236bf2f69f979fbb01836bef4fc97ac7ab263cbd2cc44191f83a51b1925ee31b0f9763c011661754f0bdec86cfbd1769293
+  checksum: 10/03071e6ec12975fa5673e3c1095db1ec9e2dbdee9f3039dada2b6e4ab588b8e251154c2694e1ba35a438abfdfdb57007e53a09b3a0fb540cc9abcc33809e42a3
   languageName: node
   linkType: hard
 
@@ -22568,14 +22568,14 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.41-EXUI-4227-CVE-fixes"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.46"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
-    "@hmcts/media-viewer": "npm:4.2.13-EXUI-4227-cve-test-2"
+    "@hmcts/media-viewer": "npm:4.2.16"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:3.2.6-EXUI-4227-CVE-fixes"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-exui-4227-final-minor-fix"
+    "@hmcts/rpx-xui-common-lib": "npm:3.2.8"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-exui-4227-rel"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"

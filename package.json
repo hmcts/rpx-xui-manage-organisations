@@ -78,7 +78,7 @@
     "@hmcts/frontend": "0.0.50-alpha",
     "@hmcts/media-viewer": "4.2.16",
     "@hmcts/nodejs-healthcheck": "^1.8.6",
-    "@hmcts/properties-volume": "0.0.13",
+    "@hmcts/properties-volume": "0.0.14",
     "@hmcts/rpx-xui-common-lib": "3.2.8",
     "@hmcts/rpx-xui-node-lib": "2.30.7-exui-4227-rel",
     "@microsoft/applicationinsights-web": "^3.3.9",

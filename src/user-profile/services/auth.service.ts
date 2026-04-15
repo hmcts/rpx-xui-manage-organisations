@@ -22,12 +22,12 @@ export class AuthService {
 
   public signOut() {
     const href = '/auth/logout';
-    this.sessionStorageService.removeItem(AppConstants.SERVICE_MESSAGE_COOKIE);
+    this.clearServiceMessageCookie();
     this.setWindowLocationHref(href);
   }
 
   public logOut(): Observable<any> {
-    this.sessionStorageService.removeItem(AppConstants.SERVICE_MESSAGE_COOKIE);
+    this.clearServiceMessageCookie();
     return this.httpService.get('/auth/logout?noredirect=true');
   }
 
@@ -39,5 +39,9 @@ export class AuthService {
 
   public setWindowLocationHref(href: string) {
     window.location.href = href;
+  }
+
+  private clearServiceMessageCookie(): void {
+    document.cookie = `${AppConstants.SERVICE_MESSAGE_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
   }
 }

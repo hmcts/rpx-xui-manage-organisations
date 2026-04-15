@@ -3125,12 +3125,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.46":
-  version: 7.3.46
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.46"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.46-exui-4277":
+  version: 7.3.46-exui-4277
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.46-exui-4277"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/9c043ad57b43473e8f7c61517afb3bc02b5130d5af1b8b156eb5bf88bf4b93bac32fd83c526bb73c80ee1796bb3551edc162861f3d48399e87512a51a8b26a9c
+  checksum: 10/acfd7719ec808d12d03eb212d90e244448ac849bbb2e9b9d5c8fb640920bd8910ba1a9b17a081c49e9abf6976aeaf88c9c2098348382d276d0fe344600e7ebb2
   languageName: node
   linkType: hard
 
@@ -3155,9 +3155,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/media-viewer@npm:4.2.16":
-  version: 4.2.16
-  resolution: "@hmcts/media-viewer@npm:4.2.16"
+"@hmcts/media-viewer@npm:4.2.16-exui-4277":
+  version: 4.2.16-exui-4277
+  resolution: "@hmcts/media-viewer@npm:4.2.16-exui-4277"
   dependencies:
     "@swimlane/ngx-datatable": "npm:^20.0.0"
     mutable-div: "npm:^2.0.0"
@@ -3176,7 +3176,7 @@ __metadata:
     "@ngrx/router-store": ^20
     "@ngrx/store": ^20
     "@ngrx/store-devtools": ^20
-  checksum: 10/3f49d013cf857a4d07c5a59722855ac348f0eead29203575824595211ab9d4af5ef0bc77cc0366c170206ffe09e6be33b46b4d1f43392dc3ee40552695334acb
+  checksum: 10/be577c28387fcd68db662865bbfdcc1a565eff34e95591b6bafb259bf4ee9bef527a6d173b5ed46bd1b5a7bb2ca274ddc8e949de839dee95a689f31952a4aaf3
   languageName: node
   linkType: hard
 
@@ -3224,16 +3224,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-common-lib@npm:3.2.8":
-  version: 3.2.8
-  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.8"
+"@hmcts/rpx-xui-common-lib@npm:3.2.8-exui-4227":
+  version: 3.2.8-exui-4227
+  resolution: "@hmcts/rpx-xui-common-lib@npm:3.2.8-exui-4227"
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
     launchdarkly-js-client-sdk: ^3.3.0
     ngx-pagination: ^3.2.1
     rpx-xui-translation: 1.1.2-CME-780-9
-  checksum: 10/4e48b962f867ee137fca5415e6f465cc3c68ed7845a925565b423711a32e032ac8b3af39923439653f6200391f75f089ab49f795743e1ef0a11a934aafeee331
+  checksum: 10/f6b93a0c75f8c0378f2fa5d39196e2a2a4144d6f705b3423fee85fe6199830a3bb2e80f879ab71a910a3c5fceda5ce9150a4c6ea2086b478f1223846f4df86b7
   languageName: node
   linkType: hard
 
@@ -22570,13 +22570,13 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.46"
-    "@hmcts/ccpay-web-component": "npm:6.5.14"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.46-exui-4277"
+    "@hmcts/ccpay-web-component": "npm:6.5.22"
     "@hmcts/frontend": "npm:0.0.50-alpha"
-    "@hmcts/media-viewer": "npm:4.2.16"
+    "@hmcts/media-viewer": "npm:4.2.16-exui-4277"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
     "@hmcts/properties-volume": "npm:0.0.13"
-    "@hmcts/rpx-xui-common-lib": "npm:3.2.8"
+    "@hmcts/rpx-xui-common-lib": "npm:3.2.8-exui-4227"
     "@hmcts/rpx-xui-node-lib": "npm:2.30.7-exui-4227-rel"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
@@ -22692,7 +22692,7 @@ __metadata:
     puppeteer: "npm:^22.4.1"
     redis: "npm:^3.0.2"
     rest-assured: "npm:^0.1.0"
-    rpx-xui-translation: "npm:1.2.2-exui-4277"
+    rpx-xui-translation: "npm:1.2.3-4277"
     rx-polling-hmcts: "npm:^1.1.1"
     rxjs: "npm:^7.8.1"
     rxjs-compat: "npm:^6.4.0"
@@ -22723,9 +22723,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.2.2-exui-4277":
-  version: 1.2.2-exui-4277
-  resolution: "rpx-xui-translation@npm:1.2.2-exui-4277"
+"rpx-xui-translation@npm:1.2.3-4277":
+  version: 1.2.3-4277
+  resolution: "rpx-xui-translation@npm:1.2.3-4277"
   dependencies:
     dexie: "npm:^3.2.2"
     luxon: "npm:^2.4.0"
@@ -22733,7 +22733,7 @@ __metadata:
   peerDependencies:
     "@angular/common": ^20.3.14
     "@angular/core": ^20.3.14
-  checksum: 10/b8bf75994ccf973924c6a7a094df9819603e357f7ae3bcfdeb1d54d173af38cb55dbaf941a2a8e976c4b47520af5635fbbb88c3f6eb710a75d2ea2b6e8b4da17
+  checksum: 10/51cfaf32867251b574fbd9090f970d4c7e5054fcf4b463b9739fa2e315d487ca198c0ab55e75157cea4227bc7f3b23235ad2f03c6e6779d346ec328156184c22
   languageName: node
   linkType: hard
 

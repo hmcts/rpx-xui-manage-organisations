@@ -3086,13 +3086,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
-  version: 9.3.0
-  resolution: "@hapi/hoek@npm:9.3.0"
-  checksum: 10/ad83a223787749f3873bce42bd32a9a19673765bf3edece0a427e138859ff729469e68d5fdf9ff6bbee6fb0c8e21bab61415afa4584f527cfc40b59ea1957e70
-  languageName: node
-  linkType: hard
-
 "@hapi/pinpoint@npm:^2.0.1":
   version: 2.0.1
   resolution: "@hapi/pinpoint@npm:2.0.1"
@@ -3107,15 +3100,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hapi/topo@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "@hapi/topo@npm:5.1.0"
-  dependencies:
-    "@hapi/hoek": "npm:^9.0.0"
-  checksum: 10/084bfa647015f4fd3fdd51fadb2747d09ef2f5e1443d6cbada2988b0c88494f85edf257ec606c790db146ac4e34ff57f3fcb22e3299b8e06ed5c87ba7583495c
-  languageName: node
-  linkType: hard
-
 "@hapi/topo@npm:^6.0.2":
   version: 6.0.2
   resolution: "@hapi/topo@npm:6.0.2"
@@ -3125,12 +3109,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.43-exui-4278-1":
-  version: 7.3.43-exui-4278-1
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.43-exui-4278-1"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.48":
+  version: 7.3.48
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.48"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/d42314e0ad51d11eedbe2a7f9191df6dffa0678cc855b454e8d93e9599121b0f5310bae664d7442a1643cfa3065692e72463622d21c63de41239279e2ca506c0
+  checksum: 10/f9d4f6389b6f627d935c998c08e7877b50c8658f9161ca8108370ae9fddedc035d6811b62ca5629ebea3c6227865c8ca4df90924ae7673d521e7b7520a46e0d8
   languageName: node
   linkType: hard
 
@@ -6623,29 +6607,6 @@ __metadata:
     "@angular-devkit/schematics": "npm:20.3.17"
     jsonc-parser: "npm:3.3.1"
   checksum: 10/a16777fcd0c5d252639ca403436dbeb660c6f4029e64347cccea559a34f3672c362a0dafcd33220bc23af9fdcbacc80f134130e75ff662d51fafc9ee911a9c47
-  languageName: node
-  linkType: hard
-
-"@sideway/address@npm:^4.1.5":
-  version: 4.1.5
-  resolution: "@sideway/address@npm:4.1.5"
-  dependencies:
-    "@hapi/hoek": "npm:^9.0.0"
-  checksum: 10/c4c73ac0339504f34e016d3a687118e7ddf197c1c968579572123b67b230be84caa705f0f634efdfdde7f2e07a6e0224b3c70665dc420d8bc95bf400cfc4c998
-  languageName: node
-  linkType: hard
-
-"@sideway/formula@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "@sideway/formula@npm:3.0.1"
-  checksum: 10/8d3ee7f80df4e5204b2cbe92a2a711ca89684965a5c9eb3b316b7051212d3522e332a65a0bb2a07cc708fcd1d0b27fcb30f43ff0bcd5089d7006c7160a89eefe
-  languageName: node
-  linkType: hard
-
-"@sideway/pinpoint@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@sideway/pinpoint@npm:2.0.0"
-  checksum: 10/1ed21800128b2b23280ba4c9db26c8ff6142b97a8683f17639fd7f2128aa09046461574800b30fb407afc5b663c2331795ccf3b654d4b38fa096e41a5c786bf8
   languageName: node
   linkType: hard
 
@@ -16541,19 +16502,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17":
-  version: 17.13.3
-  resolution: "joi@npm:17.13.3"
-  dependencies:
-    "@hapi/hoek": "npm:^9.3.0"
-    "@hapi/topo": "npm:^5.1.0"
-    "@sideway/address": "npm:^4.1.5"
-    "@sideway/formula": "npm:^3.0.1"
-    "@sideway/pinpoint": "npm:^2.0.0"
-  checksum: 10/4c150db0c820c3a52f4a55c82c1fc5e144a5b5f4da9ffebc7339a15469d1a447ebb427ced446efcb9709ab56bd71a06c4c67c9381bc1b9f9ae63fc7c89209bdf
-  languageName: node
-  linkType: hard
-
 "jose@npm:^1.27.1":
   version: 1.28.2
   resolution: "jose@npm:1.28.2"
@@ -22567,7 +22515,7 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.43-exui-4278-1"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"

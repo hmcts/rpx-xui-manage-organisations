@@ -185,7 +185,8 @@ export class CasesComponent implements OnInit {
     if (this.cases && this.allCaseTypes) {
       if (this.selectedFilterType === CaaCasesFilterType.CaseReferenceNumber) {
         const foundCase = this.caseDataWithSupplementary[0];
-        if (foundCase.supplementary_data?.new_case[this.orgIdentifier]) {
+        console.log(foundCase);
+        if (foundCase.supplementary_data?.new_case?.[this.orgIdentifier]) {
           this.caseResultsTableShareButtonText = 'Accept cases';
           this.caaCasesPageType = CaaCasesPageType.NewCases;
           this.selectedFilterType = CaaCasesFilterType.NewCasesToAccept;

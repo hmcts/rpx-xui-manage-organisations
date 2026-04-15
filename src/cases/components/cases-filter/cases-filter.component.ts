@@ -164,7 +164,8 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   }
 
   public onReset(): void {
-    this.form.reset({ filterOption: CaaCasesFilterType.None, assigneePerson: '', caseReferenceNumber: '' });
+    this.form.reset({ filterOption: CaaCasesFilterType.UnassignedCases, assigneePerson: '', caseReferenceNumber: '' });
+    console.log(this.selectedFilterType)
     this.selectedFilter.emit({ filterType: this.selectedFilterType, filterValue: '' });
     this.filterApplied = false;
   }

@@ -22690,7 +22690,7 @@ __metadata:
     puppeteer: "npm:^22.4.1"
     redis: "npm:^3.0.2"
     rest-assured: "npm:^0.1.0"
-    rpx-xui-translation: "npm:1.2.0-angular-20.3.14"
+    rpx-xui-translation: "npm:1.2.3"
     rx-polling-hmcts: "npm:^1.1.1"
     rxjs: "npm:^7.8.1"
     rxjs-compat: "npm:^6.4.0"
@@ -22721,9 +22721,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"rpx-xui-translation@npm:1.2.0-angular-20.3.14":
-  version: 1.2.0-angular-20.3.14
-  resolution: "rpx-xui-translation@npm:1.2.0-angular-20.3.14"
+"rpx-xui-translation@npm:1.2.3":
+  version: 1.2.3
+  resolution: "rpx-xui-translation@npm:1.2.3"
   dependencies:
     dexie: "npm:^3.2.2"
     luxon: "npm:^2.4.0"
@@ -22731,7 +22731,7 @@ __metadata:
   peerDependencies:
     "@angular/common": ^20.3.14
     "@angular/core": ^20.3.14
-  checksum: 10/6c66db44fdcbc1bcf95ff219db399b7b6e3db6832870247c63f402efe4c156ee8e8888b33dc2da991264d66598e2064adc9df9a8fbf1a4ede431193cfc705ec5
+  checksum: 10/32388e2cbee3f2872c7e16541246606e131535d37c1a9869103efcbead0589a9c45d12a027e55e070e6913174041628cb5f1e6dc7e6310f39ba6f489a311bca8
   languageName: node
   linkType: hard
 

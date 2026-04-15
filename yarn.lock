@@ -3086,6 +3086,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "@hapi/hoek@npm:9.3.0"
+  checksum: 10/ad83a223787749f3873bce42bd32a9a19673765bf3edece0a427e138859ff729469e68d5fdf9ff6bbee6fb0c8e21bab61415afa4584f527cfc40b59ea1957e70
+  languageName: node
+  linkType: hard
+
 "@hapi/pinpoint@npm:^2.0.1":
   version: 2.0.1
   resolution: "@hapi/pinpoint@npm:2.0.1"
@@ -3097,6 +3104,15 @@ __metadata:
   version: 1.1.6
   resolution: "@hapi/tlds@npm:1.1.6"
   checksum: 10/e968157b552ce7d48a2e4e6e04aebf4313b7206c837d361429aabda48ddee28370fc5d5110c38e1f3cb4df235d2bfa874f25997fe808a891af948f26c403bb97
+  languageName: node
+  linkType: hard
+
+"@hapi/topo@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@hapi/topo@npm:5.1.0"
+  dependencies:
+    "@hapi/hoek": "npm:^9.0.0"
+  checksum: 10/084bfa647015f4fd3fdd51fadb2747d09ef2f5e1443d6cbada2988b0c88494f85edf257ec606c790db146ac4e34ff57f3fcb22e3299b8e06ed5c87ba7583495c
   languageName: node
   linkType: hard
 
@@ -3219,9 +3235,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4278":
-  version: 2.30.7-exui-4278
-  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4278"
+"@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4227-rel":
+  version: 2.30.7-exui-4227-rel
+  resolution: "@hmcts/rpx-xui-node-lib@npm:2.30.7-exui-4227-rel"
   dependencies:
     axios: "npm:^1.11.0"
     caller-path: "npm:^3.0.0"
@@ -3231,6 +3247,7 @@ __metadata:
     deepmerge: "npm:^4.2.2"
     express: "npm:^4.20.0"
     express-session: "npm:^1.17.0"
+    joi: "npm:^17"
     jwt-decode: "npm:^3.1.2"
     openid-client: "npm:^3.10.0"
     otplib: "npm:^12.0.1"
@@ -3240,7 +3257,7 @@ __metadata:
     session-file-store: "npm:^1.5.0"
   peerDependencies:
     helmet: ^7.0.0
-  checksum: 10/121bb0df2af7ea6dd2550bf80cfcfbd371c956d145b1c12107700c73bf5ee76376d2886f98067548d1666bebe1733aac65fecc9c17dfe51e3b10d7f3425cafa6
+  checksum: 10/03071e6ec12975fa5673e3c1095db1ec9e2dbdee9f3039dada2b6e4ab588b8e251154c2694e1ba35a438abfdfdb57007e53a09b3a0fb540cc9abcc33809e42a3
   languageName: node
   linkType: hard
 
@@ -6607,6 +6624,29 @@ __metadata:
     "@angular-devkit/schematics": "npm:20.3.17"
     jsonc-parser: "npm:3.3.1"
   checksum: 10/a16777fcd0c5d252639ca403436dbeb660c6f4029e64347cccea559a34f3672c362a0dafcd33220bc23af9fdcbacc80f134130e75ff662d51fafc9ee911a9c47
+  languageName: node
+  linkType: hard
+
+"@sideway/address@npm:^4.1.5":
+  version: 4.1.5
+  resolution: "@sideway/address@npm:4.1.5"
+  dependencies:
+    "@hapi/hoek": "npm:^9.0.0"
+  checksum: 10/c4c73ac0339504f34e016d3a687118e7ddf197c1c968579572123b67b230be84caa705f0f634efdfdde7f2e07a6e0224b3c70665dc420d8bc95bf400cfc4c998
+  languageName: node
+  linkType: hard
+
+"@sideway/formula@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@sideway/formula@npm:3.0.1"
+  checksum: 10/8d3ee7f80df4e5204b2cbe92a2a711ca89684965a5c9eb3b316b7051212d3522e332a65a0bb2a07cc708fcd1d0b27fcb30f43ff0bcd5089d7006c7160a89eefe
+  languageName: node
+  linkType: hard
+
+"@sideway/pinpoint@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@sideway/pinpoint@npm:2.0.0"
+  checksum: 10/1ed21800128b2b23280ba4c9db26c8ff6142b97a8683f17639fd7f2128aa09046461574800b30fb407afc5b663c2331795ccf3b654d4b38fa096e41a5c786bf8
   languageName: node
   linkType: hard
 
@@ -16502,6 +16542,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"joi@npm:^17":
+  version: 17.13.3
+  resolution: "joi@npm:17.13.3"
+  dependencies:
+    "@hapi/hoek": "npm:^9.3.0"
+    "@hapi/topo": "npm:^5.1.0"
+    "@sideway/address": "npm:^4.1.5"
+    "@sideway/formula": "npm:^3.0.1"
+    "@sideway/pinpoint": "npm:^2.0.0"
+  checksum: 10/4c150db0c820c3a52f4a55c82c1fc5e144a5b5f4da9ffebc7339a15469d1a447ebb427ced446efcb9709ab56bd71a06c4c67c9381bc1b9f9ae63fc7c89209bdf
+  languageName: node
+  linkType: hard
+
 "jose@npm:^1.27.1":
   version: 1.28.2
   resolution: "jose@npm:1.28.2"
@@ -22522,7 +22575,7 @@ __metadata:
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
     "@hmcts/properties-volume": "npm:0.0.13"
     "@hmcts/rpx-xui-common-lib": "npm:3.2.8"
-    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-exui-4278"
+    "@hmcts/rpx-xui-node-lib": "npm:2.30.7-exui-4227-rel"
     "@microsoft/applicationinsights-web": "npm:^3.3.9"
     "@ng-idle/core": "npm:^16.0.0"
     "@ng-idle/keepalive": "npm:^16.0.0"

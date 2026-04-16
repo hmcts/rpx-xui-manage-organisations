@@ -3211,12 +3211,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.46":
-  version: 7.3.46
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.46"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.48":
+  version: 7.3.48
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.48"
   dependencies:
     tslib: "npm:^2.3.0"
-  checksum: 10/9c043ad57b43473e8f7c61517afb3bc02b5130d5af1b8b156eb5bf88bf4b93bac32fd83c526bb73c80ee1796bb3551edc162861f3d48399e87512a51a8b26a9c
+  checksum: 10/f9d4f6389b6f627d935c998c08e7877b50c8658f9161ca8108370ae9fddedc035d6811b62ca5629ebea3c6227865c8ca4df90924ae7673d521e7b7520a46e0d8
   languageName: node
   linkType: hard
 
@@ -12727,14 +12727,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.18, dayjs@npm:^1.8.34":
+"dayjs@npm:^1.11.18":
   version: 1.11.19
   resolution: "dayjs@npm:1.11.19"
   checksum: 10/185b820d68492b83a3ce2b8ddc7543034edc1dfd1423183f6ae4707b29929a3cc56503a81826309279f9084680c15966b99456e74cf41f7d1f6a2f98f9c7196f
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.7":
+"dayjs@npm:^1.11.7, dayjs@npm:^1.8.34":
   version: 1.11.20
   resolution: "dayjs@npm:1.11.20"
   checksum: 10/5347533f21a55b8bb1b1ef559be9b805514c3a8fb7e68b75fb7e73808131c59e70909c073aa44ce8a0d159195cd110cdd4081cf87ab96cb06fee3edacae791c6
@@ -23952,7 +23952,7 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.46"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
     "@hmcts/ccpay-web-component": "npm:6.5.14"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"

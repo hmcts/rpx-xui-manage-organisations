@@ -5,8 +5,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { AppConstants } from '../../../app/app.constants';
 import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
-import { HeadersService } from '../../../shared/services/headers.service';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { AuthService } from '../../../user-profile/services/auth.service';
 import { UserService } from '../../../user-profile/services/user.service';
 import * as fromUserProfile from '../../../user-profile/store';
 import { AppTitlesModel } from '../../models/app-titles.model';
@@ -49,8 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly googleAnalyticsService: GoogleAnalyticsService,
     @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig,
     private readonly userService: UserService,
+    private readonly authService: AuthService,
     private readonly featureService: FeatureToggleService,
-    private readonly headersService: HeadersService,
     private readonly idleService: ManageSessionServices,
     private readonly loggerService: LoggerService,
     private readonly cookieService: CookieService,
@@ -81,21 +81,22 @@ export class AppComponent implements OnInit, OnDestroy {
       this.titleService.setTitle(title? title : 'Manage organisation');
     });
 
-    if (this.headersService.isAuthenticated()) {
-      this.userService.getUserDetails().subscribe((user) => {
-        const featureUser: FeatureUser = {
-          key: user.userId,
-          roles: user.roles,
-          orgId: user.orgId
-        };
-        console.log(user);
-        this.setUserAndCheckCookie(user.userId);
-        this.userRoles = featureUser.roles;
-        this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
-      });
-    } else {
-      this.featureService.initialize({ anonymous: true }, this.environmentConfig.launchDarklyClientId);
-    }
+    this.authService.isAuthenticated().subscribe((isAuthenticated) => {
+      if (isAuthenticated) {
+        this.userService.getUserDetails().subscribe((user) => {
+          const featureUser: FeatureUser = {
+            key: user.userId,
+            roles: user.roles,
+            orgId: user.orgId
+          };
+          this.setUserAndCheckCookie(user.userId);
+          this.userRoles = featureUser.roles;
+          this.featureService.initialize(featureUser, this.environmentConfig.launchDarklyClientId);
+        });
+      } else {
+        this.featureService.initialize({ anonymous: true }, this.environmentConfig.launchDarklyClientId);
+      }
+    });
 
     this.addIdleServiceListener();
     this.addUserProfileListener();

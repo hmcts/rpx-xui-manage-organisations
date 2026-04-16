@@ -73,10 +73,10 @@
     "@angular/router": "^20.3.18",
     "@circlon/angular-tree-component": "^11.0.4",
     "@edium/fsm": "^2.1.2",
-    "@hmcts/ccd-case-ui-toolkit": "7.3.48",
+    "@hmcts/ccd-case-ui-toolkit": "7.3.49-cve-fix",
     "@hmcts/ccpay-web-component": "6.5.14",
     "@hmcts/frontend": "0.0.50-alpha",
-    "@hmcts/media-viewer": "4.2.16",
+    "@hmcts/media-viewer": "4.2.16-cve-fix",
     "@hmcts/nodejs-healthcheck": "^1.8.6",
     "@hmcts/properties-volume": "0.0.13",
     "@hmcts/rpx-xui-common-lib": "3.2.8",
@@ -153,8 +153,8 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^20.3.5",
-    "@angular/cli": "^20.3.15",
+    "@angular-devkit/build-angular": "^20.3.18",
+    "@angular/cli": "^20.3.18",
     "@angular/compiler-cli": "^20.3.18",
     "@angular/language-service": "^20.3.18",
     "@pact-foundation/pact": "^9.2.0",

@@ -13,10 +13,15 @@
           <br><br>
           You do not need to assign cases to users if they have 'Access all cases in the organisation'
           enabled for that case type.
-          <br><br>
-          If users do not have access to all cases in the organisation, you must assign this case to at
-          least one user.
         </p>
+        <div class="govuk-warning-text">
+          <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+          <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            If users do not have access to all cases in the organisation, you must assign this case to at
+            least one user.
+          </strong>
+        </div>
       </legend>
       <form [formGroup]="permissionsForm">
         <div class="govuk-radios" data-module="govuk-radios">

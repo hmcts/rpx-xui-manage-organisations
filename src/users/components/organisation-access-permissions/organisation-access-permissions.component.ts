@@ -1,12 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Observable, Subject, map, shareReplay, takeUntil } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CaseManagementPermissions } from '../../models/case-management-permissions.model';
 import { Jurisdiction } from 'src/models';
 import { AppConstants } from '../../../app/app.constants';
 import { Accordion } from 'govuk-frontend';
 import { OrganisationProfileService } from 'src/users/services/org-profiles.service';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 @Component({
   selector: 'app-organisation-access-permissions',
@@ -15,7 +17,7 @@ import { OrganisationProfileService } from 'src/users/services/org-profiles.serv
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false
 })
-export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OrganisationAccessPermissionsComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() public jurisdictions: Jurisdiction[] = [];
   @Input() public organisationProfileIds: string[] = [];
   @Input() user: User;
@@ -27,10 +29,12 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   public ogdProfileTypes = AppConstants.OGD_PROFILE_TYPES;
 
   public enableCaseManagement: boolean;
+  public ogdUpdateRefreshUserEnabled = false;
   public orgProfileType: string;
 
   private userAccessTypes: UserAccessType[];
   private onDestroy$ = new Subject<void>();
+  private formChangesSubscription = new Subscription();
 
   private accordianConfig = {
     i18n: {
@@ -43,39 +47,36 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   constructor(
     private fb: FormBuilder,
     private cdRef: ChangeDetectorRef,
-    private orgProfileService: OrganisationProfileService
+    private orgProfileService: OrganisationProfileService,
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) {}
 
   ngOnInit(): void {
-    this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager');
-    this.userAccessTypes = this.user?.userAccessTypes ?? [];
+    this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
     this.initializeComponent();
-
-    this.publishCurrentPermissions();
-    this.createFormAndPopulate();
-    this.subscribeToAccessTypesChanges();
   }
 
   // If the user reloads on the invite page it doesnt handle the loading of data without the below block
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.organisationProfileIds) {
-      this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
-    }
-    if (changes.jurisdictions) {
-      this.initAccordion();
+    this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
+    if (changes.user || changes.jurisdictions || changes.organisationProfileIds) {
       this.initializeComponent();
     }
   }
 
   private initializeComponent(): void {
+    this.enableCaseManagement = this.user?.roles?.includes('pui-case-manager') ?? false;
+    this.userAccessTypes = this.user?.userAccessTypes ?? [];
     this.permissions = this.createPermissionsViewModel();
     this.orgProfileType = this.orgProfileService.getOrganisationProfileType(this.organisationProfileIds);
-    this.publishCurrentPermissions();
     this.createFormAndPopulate();
     this.subscribeToAccessTypesChanges();
+    this.publishCurrentPermissions();
+    this.scheduleAccordionInit();
   }
 
   ngOnDestroy(): void {
+    this.formChangesSubscription.unsubscribe();
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
@@ -85,8 +86,20 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   initAccordion(){
+    if (!this.shouldShowCaseManagementContent) {
+      return;
+    }
     const accordion1 = document.getElementById('org-access-accordion');
-    new Accordion(accordion1, this.accordianConfig).init();
+    if (accordion1 && !accordion1.hasAttribute('data-codex-initialized')) {
+      new Accordion(accordion1, this.accordianConfig).init();
+      accordion1.setAttribute('data-codex-initialized', 'true');
+    }
+  }
+
+  get shouldShowCaseManagementContent(): boolean {
+    const isCaseManagementSelected =
+      this.jurisdictionPermissionsForm?.controls.enableCaseManagement?.value ?? this.enableCaseManagement;
+    return isCaseManagementSelected && this.ogdUpdateRefreshUserEnabled;
   }
 
   get jurisdictionsFormArray(): FormArray<FormGroup<JurisdictionPermissionViewModelForm>> {
@@ -148,15 +161,33 @@ export class OrganisationAccessPermissionsComponent implements OnInit, OnDestroy
   }
 
   private subscribeToAccessTypesChanges() {
-    this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((enableCaseManagement) => {
-      this.enableCaseManagement = enableCaseManagement;
-      this.publishCurrentPermissions();
-    });
+    this.formChangesSubscription.unsubscribe();
+    this.formChangesSubscription = new Subscription();
+
+    this.formChangesSubscription.add(
+      this.jurisdictionPermissionsForm.controls.enableCaseManagement.valueChanges
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((enableCaseManagement) => {
+          this.enableCaseManagement = enableCaseManagement;
+          this.publishCurrentPermissions();
+          this.cdRef.markForCheck();
+          this.scheduleAccordionInit();
+        })
+    );
+
     this.jurisdictionsFormArray.controls.forEach((jurisdictionGroup: FormGroup<JurisdictionPermissionViewModelForm>) => {
-      this.createPermissionChangeObservableForGroup(jurisdictionGroup).pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-        this.publishCurrentPermissions();
-      });
+      this.formChangesSubscription.add(
+        this.createPermissionChangeObservableForGroup(jurisdictionGroup)
+          .pipe(takeUntil(this.onDestroy$))
+          .subscribe(() => {
+            this.publishCurrentPermissions();
+          })
+      );
     });
+  }
+
+  private scheduleAccordionInit() {
+    setTimeout(() => this.initAccordion());
   }
 
   private publishCurrentPermissions() {

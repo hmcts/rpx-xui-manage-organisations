@@ -17,6 +17,7 @@ import {
   JurisdictionAccessOptionsComponent
 } from '../../components';
 import { AppConstants } from '../../../app/app.constants';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 
 describe('OrganisationAccessPermissionsComponent', () => {
   const knownJurisdictions:Jurisdiction[] = [
@@ -95,6 +96,9 @@ describe('OrganisationAccessPermissionsComponent', () => {
   let component: OrganisationAccessPermissionsComponent;
   let fixture: ComponentFixture<OrganisationAccessPermissionsComponent>;
   const translationMockService = jasmine.createSpyObj('translationMockService', ['translate', 'getTranslation$']);
+  const mockEnvironmentConfig = {
+    ogdUpdateRefreshUserEnabled: true
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -108,7 +112,10 @@ describe('OrganisationAccessPermissionsComponent', () => {
         OgdCafcassCyProfileContentComponent,
         JurisdictionAccessOptionsComponent],
       imports: [ReactiveFormsModule, ExuiCommonLibModule],
-      providers: [{ provide: RpxTranslationService, useValue: translationMockService }]
+      providers: [
+        { provide: RpxTranslationService, useValue: translationMockService },
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig }
+      ]
     })
       .compileComponents();
 
@@ -233,6 +240,21 @@ describe('OrganisationAccessPermissionsComponent', () => {
       fixture.detectChanges();
 
       expect(fixture.nativeElement.querySelector('#org-access-accordion')).not.toBeNull();
+    });
+
+    it('should hide case management supporting content when ogd update refresh user flag is disabled', () => {
+      mockEnvironmentConfig.ogdUpdateRefreshUserEnabled = false;
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      const caseManageRoleCheckbox = fixture.nativeElement.querySelector('[id="enableCaseManagement"]');
+      caseManageRoleCheckbox.click();
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector('#supporting-content')).toBeNull();
+      expect(fixture.nativeElement.querySelector('#org-access-accordion')).toBeNull();
+
+      mockEnvironmentConfig.ogdUpdateRefreshUserEnabled = true;
     });
   });
 });

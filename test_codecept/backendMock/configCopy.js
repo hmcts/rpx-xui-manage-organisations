@@ -1,4 +1,5 @@
 const fs = require('fs')
+const crypto = require('crypto');
 const net = require('net');
 const http = require('http');
 const https = require('https');
@@ -163,7 +164,7 @@ async function healthOK() {
 
 /* ── tiny stub on :3000 that serves /external/configuration-ui/ ── */
 function startStub3000() {
-  const cfg = { launchDarklyClientId: '', ldStream: false, appInsightsKey: '', buildVersion: 'test-run' };
+  const cfg = { launchDarklyClientId: '', ldStream: false, appInsightsKey: '', buildVersion: 'test-run', termsAndConditionsEnabled: false };
 
   const API_PREFIXES = ['/refdata', '/api/organisation', '/ccd', '/case-assignments', '/client'];
   const PROXY_HOST = '127.0.0.1';
@@ -247,6 +248,7 @@ function startStub3000() {
       const env = {
         ...process.env,
         NODE_CONFIG_ENV: 'mock',
+        SESSION_SECRET: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
         TEST_CSP_OFF: 'true',
         SSR_ALREADY_RUNNING: 'true'
       };

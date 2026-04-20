@@ -40,7 +40,7 @@ export const getFeatureFlag = createSelector(
 
 export const getFeeAndPayFeature = createSelector(
   getFeatureFlag,
-  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.feeAccount)
+  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.STATIC_FEATURE_NAMES.feeAccount)
 );
 
 export const getFeeAndPayFeatureIsEnabled = createSelector(
@@ -50,7 +50,7 @@ export const getFeeAndPayFeatureIsEnabled = createSelector(
 
 export const getCaaMenuItemsFeature = createSelector(
   getFeatureFlag,
-  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.FEATURE_NAMES.caaMenuItems)
+  (featureFlags) => featureFlags && featureFlags.find((flag) => flag.featureName === AppConstants.STATIC_FEATURE_NAMES.caaMenuItems)
 );
 
 export const getCaaMenuItemsFeatureIsEnabled = createSelector(

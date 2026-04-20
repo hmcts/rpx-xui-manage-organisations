@@ -4,12 +4,24 @@ import { NavItemModel } from './models/nav-items.model';
 import { UserNavModel } from './models/user-nav.model';
 
 const featureNames = {
-  feeAccount: 'fee-and-accounts',
   editUserPermissions: 'edit-permissions',
-  removeUserFromCase: 'remove-user-from-case-mo',
-  caaMenuItems: 'mo-caa-menu-items',
-  newRegisterOrg: 'mo-new-register-org'
+  newRegisterOrg: 'mo-new-register-org',
+  removeUserFromCase: 'remove-user-from-case-mo'
 };
+
+/**
+ * Static (code-driven) features — not controlled by LaunchDarkly.
+ * Export these so other files (nav, initializer) can import them.
+ */
+const STATIC_FEATURE_NAMES = {
+  feeAccount: 'fee-and-accounts',
+  caaMenuItems: 'mo-caa-menu-items'
+};
+
+export const STATIC_FEATURE_FLAGS = [
+  { featureName: STATIC_FEATURE_NAMES.feeAccount, isEnabled: false },
+  { featureName: STATIC_FEATURE_NAMES.caaMenuItems, isEnabled: true }
+];
 
 const navItemsArray: NavItemModel[] = [
   {
@@ -30,7 +42,7 @@ const navItemsArray: NavItemModel[] = [
     active: false,
     orderId: 3,
     featureToggle: {
-      featureName: featureNames.feeAccount
+      featureName: STATIC_FEATURE_NAMES.feeAccount
     }
   },
   {
@@ -39,7 +51,7 @@ const navItemsArray: NavItemModel[] = [
     orderId: 4,
     active: false,
     featureToggle: {
-      featureName: featureNames.caaMenuItems
+      featureName: STATIC_FEATURE_NAMES.caaMenuItems
     }
   },
   {
@@ -48,7 +60,7 @@ const navItemsArray: NavItemModel[] = [
     orderId: 5,
     active: false,
     featureToggle: {
-      featureName: featureNames.caaMenuItems
+      featureName: STATIC_FEATURE_NAMES.caaMenuItems
     }
   }
 ];
@@ -278,4 +290,7 @@ export class AppConstants {
   public static FEATURE_NAMES = featureNames;
   public static SERVICE_MESSAGES_FEATURE_TOGGLE_KEY = serviceMessagesFeatureToggleKey;
   public static SERVICE_MESSAGE_COOKIE = serviceMessageCookie;
+  // expose static flags too (so your initializer/selectors can import from a single place)
+  public static STATIC_FEATURE_NAMES = STATIC_FEATURE_NAMES;
+  public static STATIC_FEATURE_FLAGS = STATIC_FEATURE_FLAGS;
 }

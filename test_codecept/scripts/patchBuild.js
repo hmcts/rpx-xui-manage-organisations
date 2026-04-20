@@ -12,7 +12,8 @@ const cfg = {
   launchDarklyClientId: '',
   analyticsKey:         '',
   appInsightsKey:       '',
-  buildVersion:         'test-run'
+  buildVersion:         'test-run',
+  termsAndConditionsEnabled: false
 };
 for (const [k, v] of Object.entries(cfg)) {
   html = html.replace(new RegExp(`\\{\\{\\s*${k}\\s*\\}\\}`, 'g'), v);

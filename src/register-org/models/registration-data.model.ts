@@ -25,6 +25,7 @@ export type RegistrationData = {
   hasIndividualRegisteredWithRegulator: boolean;
   individualRegulators?: Regulator[];
   pbaNumbers: string[];
+  sraRegulated?: boolean;
 }
 
 export interface OrganisationType {

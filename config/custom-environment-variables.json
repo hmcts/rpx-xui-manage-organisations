@@ -45,10 +45,6 @@
       "manageCaseLink": "MANAGE_CASE_LINK",
       "manageOrgLink": "MANAGE_ORG_LINK"
     },
-    "sessionSecret": {
-      "__name": "SESSION_SECRET",
-      "__format": "json"
-    },
     "caseTypes": "CASE_TYPES",
     "secrets": {
       "rpx": {
@@ -59,7 +55,8 @@
         "google-analytics-key": "GOOGLE_ANALYTICS_KEY",
         "launch-darkly-client-id": "LAUNCH_DARKLY_CLIENT_ID",
         "system-user-name": "SYSTEM_USER_NAME",
-        "system-user-password": "SYSTEM_USER_PASSWORD"
+        "system-user-password": "SYSTEM_USER_PASSWORD",
+        "mo-session-secret": "SESSION_SECRET"
       }
     },
     "feature": {

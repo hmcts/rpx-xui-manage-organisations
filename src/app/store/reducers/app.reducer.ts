@@ -43,7 +43,8 @@ export const initialState: AppState = {
   headerTitle: { regOrg: AppConstants.REG_ORG_TITLE, manageOrg: AppConstants.MANAGE_ORG_TITLE },
   jurisdictions: [],
   termsAndConditions: null,
-  featureFlags: [],
+  //  seed with static flags so nav gating works immediately
+  featureFlags: AppConstants.STATIC_FEATURE_FLAGS,
   globalError: null,
   modal: {
     session: {
@@ -52,6 +53,18 @@ export const initialState: AppState = {
     }
   }
 };
+function mergeFlags(existing: AppFeatureFlag[], incoming: AppFeatureFlag[]): AppFeatureFlag[] {
+  const map = new Map<string, AppFeatureFlag>();
+  // start with existing
+  for (const f of existing ?? []) {
+    map.set(f.featureName, f);
+  }
+  // incoming overrides by name
+  for (const f of incoming ?? []) {
+    map.set(f.featureName, f);
+  }
+  return Array.from(map.values());
+}
 
 export function reducer(
   state = initialState,
@@ -114,11 +127,11 @@ export function reducer(
         ...state,
         termsAndConditions: action.payload
       };
-    case fromAction.LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS:
-      return {
-        ...state,
-        featureFlags: action.payload
-      };
+
+    case fromAction.LOAD_FEATURE_TOGGLE_CONFIG_SUCCESS: {
+      const featureFlags = mergeFlags(state.featureFlags, action.payload);
+      return { ...state, featureFlags };
+    }
 
     case fromAction.APP_ADD_GLOBAL_ERROR: {
       return {

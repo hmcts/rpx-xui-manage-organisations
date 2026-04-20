@@ -8,6 +8,8 @@ import { FeatureToggleService } from '@hmcts/rpx-xui-common-lib';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TermsConditionsService } from '../../../shared/services/termsConditions.service';
+import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
+import { mockEnvironmentConfig } from '../../../shared/services/environment.service.spec';
 import { TermsAndConditionsComponent } from './terms-and-conditions.component';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -62,6 +64,7 @@ describe('TermsAndConditionsComponent', () => {
           provide: Router,
           useValue: routerMock
         },
+        { provide: ENVIRONMENT_CONFIG, useValue: mockEnvironmentConfig },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting()
       ]

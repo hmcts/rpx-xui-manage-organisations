@@ -2,6 +2,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { inject, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { AppConstants } from '../../app/app.constants';
 import { AuthService } from './auth.service';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
@@ -35,13 +36,33 @@ describe('AuthService', () => {
 
   describe('logOut', () => {
     it('should make a call to logOut', inject([HttpTestingController, AuthService], (httpMock: HttpTestingController, service: AuthService) => {
+      const cookieSetterSpy = spyOnProperty(document, 'cookie', 'set');
+
       service.logOut().subscribe((response) => {
         expect(response).toBeNull();
       });
 
+      expect(cookieSetterSpy).toHaveBeenCalledWith(
+        `${AppConstants.SERVICE_MESSAGE_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`
+      );
+
       const req = httpMock.expectOne('/auth/logout?noredirect=true');
       expect(req.request.method).toEqual('GET');
       req.flush(null);
+    }));
+  });
+
+  describe('signOut', () => {
+    it('should clear the service message cookie and redirect to logout', inject([AuthService], (service: AuthService) => {
+      const cookieSetterSpy = spyOnProperty(document, 'cookie', 'set');
+      const locationSpy = spyOn(service, 'setWindowLocationHref');
+
+      service.signOut();
+
+      expect(cookieSetterSpy).toHaveBeenCalledWith(
+        `${AppConstants.SERVICE_MESSAGE_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`
+      );
+      expect(locationSpy).toHaveBeenCalledWith('/auth/logout');
     }));
   });
 

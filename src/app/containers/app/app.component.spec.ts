@@ -9,6 +9,8 @@ import { CookieModule } from 'ngx-cookie';
 import { of } from 'rxjs';
 import { ENVIRONMENT_CONFIG } from '../../../models/environmentConfig.model';
 import { LoggerService } from '../../../shared/services/logger.service';
+import { AuthService } from '../../../user-profile/services/auth.service';
+import { UserService } from '../../../user-profile/services/user.service';
 import * as fromAuth from '../../../user-profile/store';
 import { Logout, reducers } from '../../store';
 import { HeaderComponent } from '../header/header.component';
@@ -32,6 +34,18 @@ const idleServiceMock = {
     countdown: 3,
     isVisible: true,
     type: 'modal'
+  })
+};
+
+const authServiceMock = {
+  isAuthenticated: () => of(false)
+};
+
+const userServiceMock = {
+  getUserDetails: () => of({
+    orgId: 'org-1',
+    roles: ['pui-organisation-manager'],
+    userId: 'user-1'
   })
 };
 
@@ -72,6 +86,14 @@ describe('AppComponent', () => {
         {
           provide: FeatureToggleService,
           useValue: featureMock
+        },
+        {
+          provide: AuthService,
+          useValue: authServiceMock
+        },
+        {
+          provide: UserService,
+          useValue: userServiceMock
         },
         {
           provide: ManageSessionServices,

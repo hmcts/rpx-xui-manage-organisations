@@ -12,31 +12,31 @@ dependencies:
     condition: redis.enabled
   - name: ccd
     version: 9.2.2
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
     tags:
       - ccd-idam-pr
   - name: xui-webapp
     version: ~1.0.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: xui-webapp.enabled
   - name: xui-mo-webapp
     version: ~1.1.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: xui-mo-webapp.enabled
   - name: aac-manage-case-assignment
     version: ~0.2.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: aac-manage-case-assignment.enabled
   - name: ccd-case-document-am-api
     version: 1.7.14
-    repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
+    repository: 'https://hmctsprod.azurecr.io/helm/v1/repo/'
     condition: ccd-case-document-am-api.enabled
 #    Work Allocation
   - name: postgresql
     version: ~1.1.0
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: postgresql.enabled
   - name: am-org-role-mapping-service
     version: ~0.0.66
-    repository: 'oci://hmctspublic.azurecr.io/helm'
+    repository: 'oci://hmctsprod.azurecr.io/helm'
     condition: am-org-role-mapping-service.enabled

@@ -19,7 +19,8 @@ import {
   SERVICES_CCD_COMPONENT_API_PATH,
   SERVICES_IDAM_API_PATH,
   SERVICES_IDAM_ISS_URL,
-  SERVICES_IDAM_WEB, SERVICES_RD_PROFESSIONAL_API_PATH,
+  SERVICES_IDAM_WEB,
+  SERVICES_RD_PROFESSIONAL_API_PATH,
   SERVICE_S2S_PATH,
   SESSION_SECRET,
   SYSTEM_USER_NAME,
@@ -39,6 +40,7 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
   logger.info('Setting session and cookies');
   const cookieOptions: CookieOptions = {
     sameSite: 'none',
+    httpOnly: true,
     secure: true
   };
   // set browser cookie
@@ -64,7 +66,10 @@ export const successCallback = async (req: EnhancedRequest, res: Response, next:
     };
 
     try {
-      const orgDetails = await getOrganisationDetails(authRequest as unknown as Request, getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH));
+      const orgDetails = await getOrganisationDetails(
+        authRequest as unknown as Request,
+        getConfigValue(SERVICES_RD_PROFESSIONAL_API_PATH)
+      );
       auth.orgId = orgDetails.data.organisationIdentifier;
     } catch (e) {
       console.log(e);
@@ -97,10 +102,7 @@ export const getXuiNodeMiddleware = () => {
 
   const routeCredential = {
     password,
-    routes: [
-      '/external/addresses',
-      '/external/getLovRefData'
-    ],
+    routes: ['/external/addresses', '/external/getLovRefData'],
     scope: 'openid profile roles manage-user create-user',
     userName
   };
@@ -140,7 +142,8 @@ export const getXuiNodeMiddleware = () => {
 
   const redisStoreOptions = {
     redisStore: {
-      ...baseStoreOptions, ...{
+      ...baseStoreOptions,
+      ...{
         redisStoreOptions: {
           redisCloudUrl: getConfigValue(REDISCLOUD_URL),
           redisKeyPrefix: getConfigValue(REDIS_KEY_PREFIX),
@@ -152,7 +155,8 @@ export const getXuiNodeMiddleware = () => {
 
   const fileStoreOptions = {
     fileStore: {
-      ...baseStoreOptions, ...{
+      ...baseStoreOptions,
+      ...{
         fileStoreOptions: {
           filePath: getConfigValue(NOW) ? '/tmp/sessions' : '.sessions'
         }

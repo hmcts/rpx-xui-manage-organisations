@@ -30,7 +30,8 @@ export function mapRequestObject(requestBody: RegistrationData): RegistrationReq
     orgType: requestBody.otherOrganisationType ? requestBody.otherOrganisationType.key : requestBody.organisationType.key,
     orgAttributes: [
       ...requestBody.services.filter((service) => service.key !== undefined)
-    ]
+    ],
+    sraRegulated: requestBody.sraRegulated ? true : false
   };
   if (requestBody.otherServices && requestBody.otherServices !== '') {
     request.orgAttributes.push({

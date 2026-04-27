@@ -36,6 +36,7 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
   public dependanciesSubscription: Subscription;
   public editPermissionSuccessSubscription: Subscription;
   public editPermissionServerErrorSubscription: Subscription;
+  public editUserFailureSubscription: Subscription;
   public backUrl: string;
 
   public summaryErrors: { isFromValid: boolean; items: { id: string; message: any; }[]; header: string };
@@ -48,6 +49,8 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
+    this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
+
     this.editPermissionSuccessSubscription = this.actions$.pipe(ofType(fromStore.EDIT_USER_SUCCESS)).subscribe(() => {
       this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}`] }));
     });
@@ -56,8 +59,13 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
       this.routerStore.dispatch(new fromRoot.Go({ path: ['service-down'] }));
     });
 
-    this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
+    this.editUserFailureSubscription = this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
       if (editUserFailure) {
+        console.log('[EditUserPermission] redirecting to editpermission-failure', {
+          userId: this.userId,
+          userRoles: this.user?.roles,
+          formValue: this.editUserForm?.value
+        });
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
       }
     });
@@ -68,11 +76,11 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
       this.routerStore.pipe(select(fromRoot.getRouterState)),
       this.userStore.pipe(select(fromStore.getGetUserLoaded))
     ]).subscribe(([route, users]) => {
+      this.userId = route.state.params.userId;
       if (!users) {
         this.userStore.dispatch(new fromStore.LoadUsers());
       }
-      this.userId = route.state.params.userId;
-      this.user$ = this.userStore.pipe(select(fromStore.getGetSingleUser));
+      this.userStore.dispatch(new fromStore.LoadUserDetails(this.userId));
       this.backUrl = this.getBackurl(this.userId);
     });
 
@@ -93,6 +101,9 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.unsubscribe(this.userSubscription);
     this.unsubscribe(this.dependanciesSubscription);
+    this.unsubscribe(this.editPermissionSuccessSubscription);
+    this.unsubscribe(this.editPermissionServerErrorSubscription);
+    this.unsubscribe(this.editUserFailureSubscription);
   }
 
   public getBackurl(userId: string): string {
@@ -141,6 +152,12 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (!this.editUserForm.valid) {
+      console.log('[EditUserPermission] form invalid on submit', {
+        userId: this.userId,
+        formValue: this.editUserForm?.value,
+        formErrors: this.editUserForm?.errors,
+        rolesErrors: this.editUserForm?.get('roles')?.errors
+      });
       this.summaryErrors = { isFromValid: false, items: [{ id: 'roles',
         message: this.errorMessages.roles[0] }], header: this.errorMessages.header };
       this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]] };
@@ -152,13 +169,26 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
     const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
+    console.log('[EditUserPermission] submit payload', {
+      userId: this.userId,
+      existingRoles: this.user?.roles,
+      selectedPermissions: permissions,
+      rolesAdded,
+      rolesDeleted,
+      editUserRolesObj
+    });
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser({ editUserRolesObj, userId: this.userId }));
     } else {
+      console.log('[EditUserPermission] no role changes detected', {
+        userId: this.userId,
+        existingRoles: this.user?.roles,
+        selectedPermissions: permissions
+      });
       this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
         header: this.errorMessages.header };
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };
-      return this.userStore.dispatch(new fromStore.EditUserFailure('You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'));
+      return;
     }
   }
 }

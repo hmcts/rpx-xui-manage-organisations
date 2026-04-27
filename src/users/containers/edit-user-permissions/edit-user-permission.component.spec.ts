@@ -1,4 +1,5 @@
 import { EditUserPermissionComponent } from './edit-user-permission.component';
+import * as fromStore from '../../store';
 
 describe('Edit User Permission Component Component', () => {
   let component: EditUserPermissionComponent;
@@ -51,6 +52,37 @@ describe('Edit User Permission Component Component', () => {
       const subscription = jasmine.createSpyObj('subscription', ['unsubscribe']);
       expect(component.unsubscribe(subscription));
       expect(subscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('onSubmit', () => {
+    beforeEach(() => {
+      component.userId = '1234';
+      component.user = {
+        email: 'user@test.com',
+        firstName: 'Test',
+        lastName: 'User',
+        idamStatus: 'ACTIVE',
+        roles: ['pui-user-manager']
+      };
+    });
+
+    it('should keep the user on the page when no permissions have changed', () => {
+      component.editUserForm = component.getFormGroup(false, true, false, false, false, null);
+
+      component.onSubmit();
+
+      expect(component.summaryErrors.isFromValid).toBeFalse();
+      expect(component.permissionErrors.isInvalid).toBeTrue();
+      expect(userStoreSpyObject.dispatch).not.toHaveBeenCalledWith(jasmine.any(fromStore.EditUserFailure));
+    });
+
+    it('should dispatch edit user when permissions have changed', () => {
+      component.editUserForm = component.getFormGroup(false, false, true, false, false, null);
+
+      component.onSubmit();
+
+      expect(userStoreSpyObject.dispatch).toHaveBeenCalledWith(jasmine.any(fromStore.EditUser));
     });
   });
 });

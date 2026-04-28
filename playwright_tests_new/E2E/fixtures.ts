@@ -66,18 +66,23 @@ const resolveTestUser = (role: ManageOrgUserRole = 'base'): ManageOrgTestUser =>
   return { email, password, role };
 };
 
-const resolveStorageStatePath = (role: ManageOrgUserRole, browserName: string): string => {
+const resolveStorageStatePath = (role: ManageOrgUserRole, browserName: string, workerIndex: number): string => {
   const configuredPath = process.env.MANAGE_ORG_STORAGE_STATE?.trim();
+  const stateFileName = `${browserName}-${role}-worker-${workerIndex}.json`;
   if (configuredPath) {
-    return resolve(configuredPath);
+    return resolve(configuredPath, stateFileName);
   }
-  return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', `${browserName}-${role}.json`);
+  return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', stateFileName);
 };
 
 export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>({
   ...pageFixtures,
-  manageOrgStorageStatePath: [async ({ browserName }, use) => {
-    const storageStatePath = resolveStorageStatePath(resolveConfiguredUserRole(), browserName);
+  manageOrgStorageStatePath: [async ({ browserName }, use, workerInfo) => {
+    const storageStatePath = resolveStorageStatePath(
+      resolveConfiguredUserRole(),
+      browserName,
+      workerInfo.workerIndex
+    );
     mkdirSync(dirname(storageStatePath), { recursive: true });
     await use(storageStatePath);
   }, { scope: 'worker' }],

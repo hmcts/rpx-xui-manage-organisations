@@ -61,11 +61,6 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
 
     this.editUserFailureSubscription = this.userStore.select(editUserFailureSelector).subscribe((editUserFailure) => {
       if (editUserFailure) {
-        console.log('[EditUserPermission] redirecting to editpermission-failure', {
-          userId: this.userId,
-          userRoles: this.user?.roles,
-          formValue: this.editUserForm?.value
-        });
         this.routerStore.dispatch(new fromRoot.Go({ path: [`users/user/${this.userId}/editpermission-failure`] }));
       }
     });
@@ -152,12 +147,6 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
 
   public onSubmit(): void {
     if (!this.editUserForm.valid) {
-      console.log('[EditUserPermission] form invalid on submit', {
-        userId: this.userId,
-        formValue: this.editUserForm?.value,
-        formErrors: this.editUserForm?.errors,
-        rolesErrors: this.editUserForm?.get('roles')?.errors
-      });
       this.summaryErrors = { isFromValid: false, items: [{ id: 'roles',
         message: this.errorMessages.roles[0] }], header: this.errorMessages.header };
       this.permissionErrors = { isInvalid: true, messages: [this.errorMessages.roles[0]] };
@@ -169,22 +158,9 @@ export class EditUserPermissionComponent implements OnInit, OnDestroy {
     const rolesAdded = UserRolesUtil.getRolesAdded(this.user, permissions);
     const rolesDeleted = UserRolesUtil.getRolesDeleted(this.user, permissions);
     const editUserRolesObj = UserRolesUtil.mapEditUserRoles(this.user, rolesAdded, rolesDeleted);
-    console.log('[EditUserPermission] submit payload', {
-      userId: this.userId,
-      existingRoles: this.user?.roles,
-      selectedPermissions: permissions,
-      rolesAdded,
-      rolesDeleted,
-      editUserRolesObj
-    });
     if (rolesAdded.length > 0 || rolesDeleted.length > 0) {
       this.userStore.dispatch(new fromStore.EditUser({ editUserRolesObj, userId: this.userId }));
     } else {
-      console.log('[EditUserPermission] no role changes detected', {
-        userId: this.userId,
-        existingRoles: this.user?.roles,
-        selectedPermissions: permissions
-      });
       this.summaryErrors = { isFromValid: false, items: [{ id: 'roles', message: 'You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same' }],
         header: this.errorMessages.header };
       this.permissionErrors = { isInvalid: true, messages: ['You need to make a change before submitting. If you don\'t make a change, these permissions will stay the same'] };

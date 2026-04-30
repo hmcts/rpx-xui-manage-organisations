@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { User } from '@hmcts/rpx-xui-common-lib';
+import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription, takeUntil } from 'rxjs';
 
 import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
+import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,7 +20,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public user$: Observable<User>;
   public isLoading$: Observable<boolean>;
   public user: any;
+  public userAccessTypes: string[] = [];
 
+  private onDestroy$ = new Subject<void>();
   public userSubscription: Subscription;
   public suspendUserServerErrorSubscription: Subscription;
 
@@ -36,18 +39,31 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly userStore: Store<fromStore.UserState>,
     private readonly routerStore: Store<fromRoot.State>,
+    private readonly orgStore: Store<fromOrgStore.OrganisationState>,
     private readonly actions$: Actions,
     private readonly activeRoute: ActivatedRoute
   ) {}
 
   public ngOnInit(): void {
     this.user$ = new Observable();
+    // We need to call this dispatch to check if the required information is available,
+    // if the user refreshes on this page, this function will retrieve the accessTypes and userList
+    this.userStore.dispatch(new fromStore.CheckUserListLoaded());
 
-    const isFeatureEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+    const organisationAccessTypes$ = this.orgStore.pipe(select(fromOrgStore.getAccessTypes));
+    const getEditUserFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getEditUserFeatureIsEnabled));
+    const getOgdInviteUserFlowFeatureIsEnabled$ = this.routerStore.pipe(select(fromRoot.getOgdInviteUserFlowFeatureIsEnabled));
 
-    isFeatureEnabled$.subscribe((isFeatureEnabled) => {
-      this.editPermissionRouter = isFeatureEnabled ? 'editpermission' : '';
-    });
+    combineLatest([getEditUserFeatureIsEnabled$, getOgdInviteUserFlowFeatureIsEnabled$])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(([isEditUserFeatureEnabled, isOgdInviteUserFlowFeatureEnabled]) => {
+        this.editPermissionRouter = '';
+        if (isOgdInviteUserFlowFeatureEnabled) {
+          this.editPermissionRouter = 'manage';
+        } else if (isEditUserFeatureEnabled){
+          this.editPermissionRouter = 'editpermission';
+        }
+      });
 
     this.setSuspendViewFunctions();
 
@@ -59,7 +75,30 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
 
     this.user$ = this.userStore.pipe(select(fromStore.getUserDetails));
 
-    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, isFeatureEnabled$));
+    combineLatest([organisationAccessTypes$, this.user$, getOgdInviteUserFlowFeatureIsEnabled$])
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(([organisationAccessTypes, user, isFeatureEnabled]) => {
+        this.userAccessTypes = [];
+        if (isFeatureEnabled && user?.roles?.includes('pui-case-manager')) {
+          const enabledUserAccessTypes: UserAccessType[] = user?.userAccessTypes?.filter((x: UserAccessType) => x.enabled) ?? [];
+          for (const jurisdiction of organisationAccessTypes){
+            for (const ac of jurisdiction.accessTypes){
+              if (ac.accessMandatory) {
+                this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+                continue;
+              }
+              if (ac.display){
+                const foundUserAc = enabledUserAccessTypes.find((x) => x.accessTypeId === ac.accessTypeId && x.organisationProfileId === ac.organisationProfileId);
+                if (foundUserAc) {
+                  this.userAccessTypes.push(`${jurisdiction.jurisdictionName} - ${ac.description}`);
+                }
+              }
+            }
+          }
+        }
+      });
+
+    this.userSubscription = this.user$.subscribe((user) => this.handleUserSubscription(user, getEditUserFeatureIsEnabled$));
 
     this.suspendSuccessSubscription = this.actions$.pipe(ofType(fromStore.SUSPEND_USER_SUCCESS)).subscribe(() => {
       this.hideSuspendView();
@@ -71,6 +110,9 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+
     if (this.userSubscription) {
       this.userSubscription.unsubscribe();
     }

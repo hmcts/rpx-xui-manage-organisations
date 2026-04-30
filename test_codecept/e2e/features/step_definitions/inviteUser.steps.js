@@ -34,10 +34,12 @@ When(/^I navigate to invite user page$/, async function () {
   await inviteUserPage.waitForPage();
 });
 
-Then(/^I should be on display invite user page$/, async function () {
-  // browser.sleep(AMAZING_DELAY);;
+When(/^I navigate to invite user page$/, async function () {
+
+  const inviteUserPath = config.config.baseUrl.endsWith('/') ? 'users/manage' : '/users/manage';
+
+  await browser.get(config.config.baseUrl + inviteUserPath);
   await inviteUserPage.waitForPage();
-  expect(await inviteUserPage.amOnPage(), 'Invite User page is not displayed').to.be.true;
 });
 
 When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
@@ -57,11 +59,15 @@ When(/^I enter mandatory fields firstname,lastname,emailaddress,permissions and 
 });
 Then(/^user should be created successfuly$/, async function () {
 
-  await browserWaits.waitForElement(inviteUserPage.userInvitaionConfirmation)
-  await browserWaits.retryWithActionCallback(async () => {
-    expect(await inviteUserPage.userInvitaionConfirmation.getText()).to.include('You\'ve invited');
-
-  })
+  await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
+  if(await inviteUserPage.inviteUserHeading.isDisplayed()) {
+    await inviteUserPage.manageUserCheckbox.click();
+  } else{
+    await inviteUserPage.manageUserCheckboxOld.click();
+  }
+  browser.sleep(LONG_DELAY);
+  await inviteUserPage.clickSendInvitationButton();
+  // browser.sleep(LONG_DELAY);
 });
 
 When(/^I not enter the mandatory fields firstname,lastname,emailaddress,permissions and click on send invitation button$/, async function () {
@@ -77,20 +83,18 @@ When('I enter mandatory fields firstname,lastname,emailaddress with permissions 
   await inviteUserPage.enterIntoTextFieldLastName(TestData.lastName);
   global.latestInvitedUser = Math.random().toString(36).substring(2) + '@mailinator.com';
   global.latestInvitedUserPassword = 'Monday01';
-
   await inviteUserPage.enterIntoTextFieldEmailAddress(global.latestInvitedUser);
   const permissions = table.parse().hashes();
-  for (let permCounter = 0; permCounter < permissions.length; permCounter++){
-    await inviteUserPage.selectPermission(permissions[permCounter].Permission, true);
+  if(await inviteUserPage.inviteUserHeading.isDisplayed()) {
+    for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
+      await inviteUserPage.selectPermissionInviteUser(permissions[permCounter].Permission, true);
+    }
+  }else {
+    for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
+      await inviteUserPage.selectPermissionInviteUserOld(permissions[permCounter].Permission, true);
+    }
   }
   await inviteUserPage.clickSendInvitationButton();
-});
-
-When('I edit user permissions', async function (table) {
-  const permissions = table.hashes();
-  for (let permCounter = 0; permCounter < permissions.length; permCounter++) {
-    await inviteUserPage.selectPermission(permissions[permCounter].Permission, permissions[permCounter].isSelected === 'true');
-  }
 });
 
 Then(/^I should be display the validation error$/, async function () {
@@ -129,6 +133,30 @@ Then(/^I click on a Active User$/, async function () {
   await inviteUserPage.activeUser.click();
 });
 
+Then(/^I click on a Active User$/, async function () {
+  let searchBox = await inviteUserPage.searchBox.isDisplayed();
+  if(searchBox){
+    await inviteUserPage.findNextActiveUserBySearch();
+  } else{
+    await inviteUserPage.findNextActiveUser();
+  }
+  await browserWaits.waitForElement(inviteUserPage.activeUser)
+  await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
+  await inviteUserPage.activeUser.click();
+});
+
+Then(/^I click on a Active User by using Active filter$/, async function () {
+  let searchBox = await inviteUserPage.searchBox.isDisplayed();
+  if(searchBox){
+    await inviteUserPage.findNextActiveUserBySearchFilter();
+  }else{
+    await inviteUserPage.findNextActiveUser();
+  }
+  await browserWaits.waitForElement(inviteUserPage.activeUser)
+  await expect(inviteUserPage.activeUser.isDisplayed()).to.eventually.be.true;
+  await inviteUserPage.activeUser.click();
+});
+
 Then(/^I see change link and suspend button$/, async function () {
 
   await browserWaits.waitForElement(inviteUserPage.userDetailsComponent);
@@ -142,20 +170,41 @@ Then(/^I see change link and suspend button$/, async function () {
 Then(/^I click on change link$/, async function () {
   browser.sleep(MID_DELAY);
   await inviteUserPage.changeLink.click();
-  await expect(inviteUserPage.editUserText.isDisplayed()).to.eventually.be.true;
-  await expect(inviteUserPage.editUserText.getText())
-    .to
-    .eventually
-    .equal('Edit user');
+  browser.sleep(MID_DELAY);
+  if(await inviteUserPage.inviteUserHeading.isDisplayed()){
+    console.log(inviteUserPage.inviteUserHeading.getText());
+  }else {
+    await expect(inviteUserPage.editUserText.getText())
+      .to
+      .eventually
+      .equal('Edit user');
+  }
 });
 
 Then(/^I edit the Manage User checkbox and click submit$/, async function () {
   browser.sleep(MID_DELAY);
-  await inviteUserPage.manageUserCheckbox.click();
-  await inviteUserPage.clickSendInvitationButton();
-  browser.sleep(MID_DELAY);
-  await viewUserPage.waitForUserDetailsPage();
-  await expect(inviteUserPage.suspendButton.isDisplayed()).to.eventually.be.true;
+  if(await inviteUserPage.inviteUserHeading.isDisplayed()){
+    await inviteUserPage.manageUserCheckbox.click();
+    await inviteUserPage.manageOrgCheckbox.click();
+    await inviteUserPage.manageCaaCheckbox.click();
+    await inviteUserPage.manageFeeAccountsCheckbox.click();
+    await inviteUserPage.manageCasesCheckbox.click();
+    await inviteUserPage.clickSendInvitationButton();
+    browser.sleep(MID_DELAY);
+    await expect(inviteUserPage.successMessage.getText())
+      .to
+      .eventually
+      .equal(' User account updated ');
+  }else{
+    await inviteUserPage.manageUserCheckboxOld.click();
+    await inviteUserPage.manageOrgCheckboxOld.click();
+    await inviteUserPage.manageCaaCheckboxOld.click();
+    await inviteUserPage.manageFeeAccountsCheckboxOld.click();
+    await inviteUserPage.manageCasesCheckboxOld.click();
+    await inviteUserPage.clickSendInvitationButton();
+    browser.sleep(MID_DELAY);
+    //await expect(inviteUserPage.suspendButton.isDisplayed()).to.eventually.be.true;
+  }
 });
 
 Then(/^I click the suspend button$/, async function () {

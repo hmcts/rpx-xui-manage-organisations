@@ -55,6 +55,16 @@ const requestMapping = {
 
   },
   put: {
+    '/api/editUserPermissions/users/:id': (req, res) => {
+      res.send({
+        'roleAdditionResponse': null,
+        'roleDeletionResponse': null,
+        'statusUpdateResponse': {
+          'idamStatusCode': '200',
+          'idamMessage': '11 OK'
+        }
+      });
+    }
 
   },
   delete: {

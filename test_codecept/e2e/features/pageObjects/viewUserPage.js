@@ -63,7 +63,8 @@ class ViewUserPage {
   }
 
   async clickInviteUser() {
-    await BrowserWaits.waitForElementNotVisible(this.spinner);
+    //await BrowserWaits.waitForElement(this.spinner);
+    browser.sleep(MID_DELAY);
     await BrowserWaits.waitForElement(this.userstable);
     await BrowserWaits.waitForElementClickable(this.inviteUser);
 

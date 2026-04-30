@@ -1,0 +1,26 @@
+::ng-deep .mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible{
+    border-left: 2px solid #0b0c0c;
+    border-right: 2px solid #0b0c0c;
+    border-bottom: 2px solid #0b0c0c;
+}
+
+::ng-deep .mdc-menu-surface.mat-mdc-autocomplete-panel.mat-mdc-autocomplete-visible{
+    padding: 0;
+}
+
+::ng-deep .hmcts-pagination__link{
+    color: #1d70b8;
+}
+
+.mat-mdc-option {
+    padding: 5px;
+    margin: 0;
+    background: #ffffff;
+    &:hover{
+        background: #2596be;
+    }
+}
+
+.hide-autocomplete{
+    display: none;
+}

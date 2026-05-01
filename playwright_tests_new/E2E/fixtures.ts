@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
-import type { Page } from '@playwright/test';
-import { existsSync, mkdirSync } from 'node:fs';
+import type { BrowserContext, Page } from '@playwright/test';
+import { existsSync, mkdirSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { PageFixtures, pageFixtures } from './page-objects/pages/page.fixtures';
@@ -25,6 +25,10 @@ type AuthFixtures = {
 
 type AuthWorkerFixtures = {
   manageOrgStorageStatePath: string;
+};
+
+type StoredAuthState = {
+  cookies?: Parameters<BrowserContext['addCookies']>[0];
 };
 
 const userEnvByRole: Record<ManageOrgUserRole, { email: string; password: string }> = {
@@ -75,6 +79,17 @@ const resolveStorageStatePath = (role: ManageOrgUserRole, browserName: string, w
   return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', stateFileName);
 };
 
+const applyStoredAuthState = async (page: Page, storageStatePath: string): Promise<void> => {
+  if (!existsSync(storageStatePath)) {
+    return;
+  }
+
+  const state = JSON.parse(readFileSync(storageStatePath, 'utf-8')) as StoredAuthState;
+  if (Array.isArray(state.cookies) && state.cookies.length > 0) {
+    await page.context().addCookies(state.cookies);
+  }
+};
+
 export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>({
   ...pageFixtures,
   manageOrgStorageStatePath: [async ({ browserName }, use, workerInfo) => {
@@ -86,9 +101,6 @@ export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>
     mkdirSync(dirname(storageStatePath), { recursive: true });
     await use(storageStatePath);
   }, { scope: 'worker' }],
-  storageState: async ({ manageOrgStorageStatePath }, use) => {
-    await use(existsSync(manageOrgStorageStatePath) ? manageOrgStorageStatePath : undefined);
-  },
   // Playwright fixture callbacks require object destructuring even when no upstream fixture is needed.
   // eslint-disable-next-line no-empty-pattern
   signedInUser: async ({}, use) => {
@@ -97,8 +109,10 @@ export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>
   },
   signedInPage: async ({ page, idamPage, manageOrgStorageStatePath }, use) => {
     const testUser = resolveTestUser(resolveConfiguredUserRole());
+    await applyStoredAuthState(page, manageOrgStorageStatePath);
     await page.goto('');
     if (page.url().includes('/login')) {
+      await page.context().clearCookies();
       await idamPage.signIn(testUser.email, testUser.password);
       await expect(page.getByRole('link', { name: 'Organisation', exact: true })).toBeVisible();
       await page.context().storageState({ path: manageOrgStorageStatePath });

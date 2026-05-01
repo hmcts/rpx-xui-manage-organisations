@@ -31,6 +31,16 @@ fi
 echo "Populating ${OUT_FILE} using ${VAULT} and template ${TEMPLATE_FILE}"
 node ./node_modules/@hmcts/playwright-common/dist/scripts/get-secrets.js "${VAULT}" "${TEMPLATE_FILE}" "${OUT_FILE}"
 
+read_secret() {
+  local secret_name="$1"
+  az keyvault secret show --vault-name "${VAULT}" --name "${secret_name}" --query value -o tsv 2>/dev/null || true
+}
+
+ORG_ASSIGNMENT_UI_USER="$(read_secret xui-dynamic-org-user-assignment-ui-user)"
+ORG_ASSIGNMENT_PASSWORD="$(read_secret xui-dynamic-org-user-assignment-password)"
+
+ORG_ASSIGNMENT_UI_USER="${ORG_ASSIGNMENT_UI_USER}" \
+ORG_ASSIGNMENT_PASSWORD="${ORG_ASSIGNMENT_PASSWORD}" \
 node - "${OUT_FILE}" "${ENVIRONMENT}" <<'NODE'
 const fs = require('fs');
 
@@ -65,8 +75,24 @@ setValue('IDAM_CLIENT', firstNonEmpty(env.IDAM_CLIENT, env.CLIENT_ID));
 setValue('IDAM_API_SERVICE', firstNonEmpty(env.IDAM_API_SERVICE, env.SERVICES_IDAM_API_URL));
 setValue('IDAM_WEB_SERVICE', firstNonEmpty(env.IDAM_WEB_SERVICE, env.SERVICES_IDAM_WEB_URL));
 setValue('S2S_SERVICE', firstNonEmpty(env.S2S_SERVICE, env.S2S_URL));
-setValue('TEST_USER1_EMAIL', firstNonEmpty(env.TEST_USER1_EMAIL, env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER));
-setValue('TEST_USER1_PASSWORD', firstNonEmpty(env.TEST_USER1_PASSWORD, env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD));
+setValue('XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER', firstNonEmpty(
+  env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER,
+  process.env.ORG_ASSIGNMENT_UI_USER
+));
+setValue('XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD', firstNonEmpty(
+  env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD,
+  process.env.ORG_ASSIGNMENT_PASSWORD
+));
+setValue('TEST_USER1_EMAIL', firstNonEmpty(
+  env.TEST_USER1_EMAIL,
+  env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER,
+  process.env.ORG_ASSIGNMENT_UI_USER
+));
+setValue('TEST_USER1_PASSWORD', firstNonEmpty(
+  env.TEST_USER1_PASSWORD,
+  env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD,
+  process.env.ORG_ASSIGNMENT_PASSWORD
+));
 
 const manageOrgUrl = environment === 'demo'
   ? 'https://manage-org.demo.platform.hmcts.net/'

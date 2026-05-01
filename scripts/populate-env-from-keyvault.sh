@@ -31,10 +31,11 @@ fi
 echo "Populating ${OUT_FILE} using ${VAULT} and template ${TEMPLATE_FILE}"
 node ./node_modules/@hmcts/playwright-common/dist/scripts/get-secrets.js "${VAULT}" "${TEMPLATE_FILE}" "${OUT_FILE}"
 
-node - "${OUT_FILE}" <<'NODE'
+node - "${OUT_FILE}" "${ENVIRONMENT}" <<'NODE'
 const fs = require('fs');
 
 const outFile = process.argv[2];
+const environment = (process.argv[3] || 'aat').toLowerCase();
 const content = fs.readFileSync(outFile, 'utf-8');
 const lines = content.split(/\r?\n/);
 
@@ -64,6 +65,16 @@ setValue('IDAM_CLIENT', firstNonEmpty(env.IDAM_CLIENT, env.CLIENT_ID));
 setValue('IDAM_API_SERVICE', firstNonEmpty(env.IDAM_API_SERVICE, env.SERVICES_IDAM_API_URL));
 setValue('IDAM_WEB_SERVICE', firstNonEmpty(env.IDAM_WEB_SERVICE, env.SERVICES_IDAM_WEB_URL));
 setValue('S2S_SERVICE', firstNonEmpty(env.S2S_SERVICE, env.S2S_URL));
+setValue('TEST_USER1_EMAIL', firstNonEmpty(env.TEST_USER1_EMAIL, env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER));
+setValue('TEST_USER1_PASSWORD', firstNonEmpty(env.TEST_USER1_PASSWORD, env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD));
+
+const manageOrgUrl = environment === 'demo'
+  ? 'https://manage-org.demo.platform.hmcts.net/'
+  : 'https://manage-org.aat.platform.hmcts.net/';
+setValue('TEST_URL', firstNonEmpty(
+  env.TEST_URL && env.TEST_URL.includes('manage-org') ? env.TEST_URL : '',
+  manageOrgUrl
+));
 
 const updatedLines = lines.map((line) => {
   if (!line || line.startsWith('#') || !line.includes('=')) {

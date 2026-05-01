@@ -10,7 +10,7 @@ export class IdamPage extends BasePage {
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await Promise.all([
-      this.page.waitForURL((url) => url.pathname !== '/login'),
+      this.page.waitForURL((url) => !url.hostname.includes('idam') && !url.pathname.includes('/login')),
       this.submitBtn.click()
     ]);
     await this.page.waitForLoadState('domcontentloaded');

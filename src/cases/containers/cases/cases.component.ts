@@ -164,6 +164,7 @@ export class CasesComponent implements OnInit {
 
   public onTabChanged(tabName: string): void {
     this.selectedCaseType = tabName;
+    this.resetPagination();
     this.loadCaseData();
     this.checkShareButtonText();
   }
@@ -204,8 +205,14 @@ export class CasesComponent implements OnInit {
   }
 
   public onSelectedFilter(selectedFilter: SelectedCaseFilter): void {
+    const nextPageType = this.getPageTypeForFilter(selectedFilter.filterType);
+    const selectedFilterChanged = this.hasSelectedFilterChanged(selectedFilter, nextPageType);
+
     this.selectedFilterType = selectedFilter.filterType;
     this.selectedFilterValue = selectedFilter.filterValue;
+    if (selectedFilterChanged) {
+      this.resetPagination();
+    }
     this.storeSessionState(selectedFilter);
 
     if (selectedFilter.filterType === CaaCasesFilterType.None) {
@@ -238,6 +245,29 @@ export class CasesComponent implements OnInit {
     }
     this.cdr.detectChanges();
     this.loadCaseTypes();
+  }
+
+  private getPageTypeForFilter(filterType: CaaCasesFilterType): CaaCasesPageType {
+    if (filterType === CaaCasesFilterType.CasesAssignedToAUser || filterType === CaaCasesFilterType.AllAssignedCases) {
+      return CaaCasesPageType.AssignedCases;
+    }
+    if (filterType === CaaCasesFilterType.NewCasesToAccept) {
+      return CaaCasesPageType.NewCases;
+    }
+    if (filterType === CaaCasesFilterType.UnassignedCases) {
+      return CaaCasesPageType.UnassignedCases;
+    }
+    return this.caaCasesPageType;
+  }
+
+  private hasSelectedFilterChanged(selectedFilter: SelectedCaseFilter, nextPageType: CaaCasesPageType): boolean {
+    return this.selectedFilterType !== selectedFilter.filterType ||
+      this.selectedFilterValue !== selectedFilter.filterValue ||
+      this.caaCasesPageType !== nextPageType;
+  }
+
+  private resetPagination(): void {
+    this.currentPageNo = 1;
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {

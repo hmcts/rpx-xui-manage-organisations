@@ -50,6 +50,8 @@
     "test:node:watch": "cd api && yarn test:watch",
     "test:pact:run-and-publish": "yarn test-pact && yarn publish-pact",
     "test:smoke": "npx playwright test --project=smoke",
+    "test:playwright:smoke": "playwright test --project=smoke",
+    "test:playwright:smoke:list": "playwright test --project=smoke --list",
     "test-pact": "NODE_PATH=. NODE_ENV=pacttesting LOG_LEVEL=info mocha --timeout 10000 -r ts-node/register api/test/pact/pact-tests/**/*.spec.ts",
     "testx": "cd api && yarn coverage && cd .. && yarn test:ng //node tests are broken need to fix",
     "test:codeceptE2EDebug": "DEBUG=true TEST_TYPE=e2e npx codeceptjs run --plugins cucumberJsonReporter --plugins retryFailedStep --config ./test_codecept/codeceptCommon/codecept.conf.ts --features",

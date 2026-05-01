@@ -1,6 +1,6 @@
 import { test as base, expect } from '@playwright/test';
 import type { BrowserContext, Page } from '@playwright/test';
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { PageFixtures, pageFixtures } from './page-objects/pages/page.fixtures';
@@ -84,7 +84,18 @@ const applyStoredAuthState = async (page: Page, storageStatePath: string): Promi
     return;
   }
 
-  const state = JSON.parse(readFileSync(storageStatePath, 'utf-8')) as StoredAuthState;
+  let state: StoredAuthState;
+  try {
+    state = JSON.parse(readFileSync(storageStatePath, 'utf-8')) as StoredAuthState;
+  } catch {
+    try {
+      unlinkSync(storageStatePath);
+    } catch {
+      // Ignore cleanup races; the next login will write a fresh state file.
+    }
+    return;
+  }
+
   if (Array.isArray(state.cookies) && state.cookies.length > 0) {
     await page.context().addCookies(state.cookies);
   }

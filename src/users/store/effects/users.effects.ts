@@ -23,7 +23,10 @@ export class UsersEffects {
   checkAndLoadUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersActions.CHECK_USER_LIST_LOADED),
-      switchMap(() => this.appStore.pipe(select(usersSelectors.getLoadUserListNeeded))),
+      switchMap(() => this.appStore.pipe(
+        select(usersSelectors.getLoadUserListNeeded),
+        take(1)
+      )),
       filter((loadUserListNeeded) => loadUserListNeeded),
       map(() => new usersActions.LoadAllUsersNoRoleData())
     )

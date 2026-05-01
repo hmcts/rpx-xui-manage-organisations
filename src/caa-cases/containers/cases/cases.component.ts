@@ -68,7 +68,7 @@ export class CasesComponent implements OnInit {
     this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
 
     // Load users of selected organisation from store
-    this.userStore.dispatch(new userStore.LoadAllUsersNoRoleData());
+    this.userStore.dispatch(new userStore.CheckUserListLoaded());
     this.selectedOrganisationUsers$ = this.userStore.pipe(select(userStore.getGetUserList));
 
     // TODO: clean this up to get all cases

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import * as fromStore from '../store';
 
 @Injectable()
@@ -17,15 +17,15 @@ export class OrganisationGuard {
   }
 
   public checkStore(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getOrganisationLoaded),
-      tap((loaded) => {
-        if (!loaded) {
+    return this.store.pipe(select(fromStore.getOrganisationSel),
+      tap((organisation) => {
+        if (!organisation?.organisationIdentifier) {
           this.store.dispatch(new fromStore.LoadOrganisation());
         }
       }),
-      filter((loaded) => loaded),
-      take(1)
+      filter((organisation) => !!organisation?.organisationIdentifier),
+      take(1),
+      map(() => true)
     );
   }
 }
-

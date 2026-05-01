@@ -188,21 +188,31 @@ describe('Users Reducer', () => {
   });
 
   it('LOAD_ALL_USERS_NO_ROLE_DATA action should return correct state', () => {
-    const { initialState } = fromUsers;
+    const stateWithCachedUsers = {
+      ...fromUsers.initialState,
+      userList: resultUserList as any,
+      loaded: true,
+      userListLastLoaded: 1000
+    };
 
     const action = new fromUserActions.LoadAllUsersNoRoleData();
-    const state = fromUsers.reducer(initialState, action);
+    const state = fromUsers.reducer(stateWithCachedUsers, action);
 
-    expect(state.userList).toEqual([]);
+    expect(state.userList).toEqual(resultUserList as any);
+    expect(state.loading).toEqual(true);
   });
 
   it('LOAD_ALL_USERS_NO_ROLE_DATA_SUCCESS action should return correct state', () => {
     const { initialState } = fromUsers;
+    const loadedAt = new Date(2026, 0, 1).getTime();
+    jasmine.clock().install();
+    jasmine.clock().mockDate(new Date(loadedAt));
 
     const action = new fromUserActions.LoadAllUsersNoRoleDataSuccess({
       users: mockUserList
     });
     const state = fromUsers.reducer(initialState, action);
+    jasmine.clock().uninstall();
 
     expect(state.userList).toEqual(resultUserList);
     expect(fromUsers.getUsers(state)).toEqual(resultUserList);
@@ -210,6 +220,8 @@ describe('Users Reducer', () => {
     expect(fromUsers.getUsersLoading(state)).toEqual(false);
     expect(state.loaded).toEqual(true);
     expect(state.loading).toEqual(false);
+    expect(state.userListLastLoaded).toEqual(loadedAt);
+    expect(state.loadUserListNeeded).toEqual(false);
   });
 
   it('LOAD_ALL_USERS_NO_ROLE_DATA_FAIL action should return correct state', () => {
@@ -221,17 +233,74 @@ describe('Users Reducer', () => {
     expect(state.userList).toEqual([]);
   });
 
-  it('CHECK_USER_LIST_LOADED action should update loadUserListNeeded based on userList emptiness', () => {
+  it('CHECK_USER_LIST_LOADED action should request the user list if it has not been cached', () => {
     const { initialState } = fromUsers;
-    let state = fromUsers.reducer(initialState, new fromUserActions.CheckUserListLoaded());
+    const state = fromUsers.reducer(initialState, new fromUserActions.CheckUserListLoaded({ currentTime: 1000 }));
 
     expect(state.loadUserListNeeded).toEqual(true);
+  });
 
-    const action = new fromUserActions.LoadUsersSuccess({ users: mockUserList });
-    state = fromUsers.reducer(state, action);
-    state = fromUsers.reducer(state, new fromUserActions.CheckUserListLoaded());
+  it('CHECK_USER_LIST_LOADED action should use cached users for 5 minutes', () => {
+    const stateWithCachedUsers = {
+      ...fromUsers.initialState,
+      userList: resultUserList as any,
+      loaded: true,
+      userListLastLoaded: 1000
+    };
+
+    const state = fromUsers.reducer(
+      stateWithCachedUsers,
+      new fromUserActions.CheckUserListLoaded({
+        currentTime: 1000 + fromUsers.USER_LIST_CACHE_DURATION_MS - 1
+      })
+    );
 
     expect(state.loadUserListNeeded).toEqual(false);
   });
-});
 
+  it('CHECK_USER_LIST_LOADED action should request a fresh user list after 5 minutes', () => {
+    const stateWithCachedUsers = {
+      ...fromUsers.initialState,
+      userList: resultUserList as any,
+      loaded: true,
+      userListLastLoaded: 1000
+    };
+
+    const state = fromUsers.reducer(
+      stateWithCachedUsers,
+      new fromUserActions.CheckUserListLoaded({
+        currentTime: 1000 + fromUsers.USER_LIST_CACHE_DURATION_MS
+      })
+    );
+
+    expect(state.loadUserListNeeded).toEqual(true);
+  });
+
+  it('CHECK_USER_LIST_LOADED action should not request users while a load is already in progress', () => {
+    const loadingState = {
+      ...fromUsers.initialState,
+      loading: true
+    };
+
+    const state = fromUsers.reducer(loadingState, new fromUserActions.CheckUserListLoaded({ currentTime: 1000 }));
+
+    expect(state.loadUserListNeeded).toEqual(false);
+  });
+
+  it('INVALIDATE_USER_LIST_CACHE action should mark the cached user list as stale', () => {
+    const stateWithCachedUsers = {
+      ...fromUsers.initialState,
+      userList: resultUserList as any,
+      loaded: true,
+      userListLastLoaded: 1000,
+      loadUserListNeeded: false
+    };
+
+    const state = fromUsers.reducer(stateWithCachedUsers, new fromUserActions.InvalidateUserListCache());
+
+    expect(state.userList).toEqual(resultUserList as any);
+    expect(state.loaded).toEqual(false);
+    expect(state.userListLastLoaded).toEqual(0);
+    expect(state.loadUserListNeeded).toEqual(true);
+  });
+});

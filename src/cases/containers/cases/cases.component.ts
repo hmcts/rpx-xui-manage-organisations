@@ -39,6 +39,7 @@ export class CasesComponent implements OnInit {
   public selectedFilterValue: string = null;
   public selectedCaseType: string;
   private readonly destroy$ = new Subject<void>();
+  private hasLoadedCaseTypesForCurrentFilter = false;
 
   // for the results table
   public allCaseTypes: CaaCaseTypeNavigation[] = [];
@@ -107,6 +108,7 @@ export class CasesComponent implements OnInit {
       skip(1),
       takeUntil(this.destroy$)
     ).subscribe((items) => {
+      this.hasLoadedCaseTypesForCurrentFilter = true;
       this.allCaseTypes = items;
       if (this.allCaseTypes && this.caaCasesPageType === CaaCasesPageType.NewCases) {
         // if the casetype does not have a caseConfig or new_cases is false, then filter it out
@@ -139,6 +141,7 @@ export class CasesComponent implements OnInit {
    * This will load all case types based on the selected filter type and value
    */
   public loadCaseTypes() {
+    this.hasLoadedCaseTypesForCurrentFilter = false;
     this.caaCasesStore.dispatch(new caaCasesStore.LoadCaseTypes({
       caaCasesPageType: this.caaCasesPageType,
       caaCasesFilterType: this.selectedFilterType,
@@ -204,6 +207,9 @@ export class CasesComponent implements OnInit {
   }
 
   public onSelectedFilter(selectedFilter: SelectedCaseFilter): void {
+    const nextPageType = this.getPageTypeForFilter(selectedFilter.filterType);
+    const filterAlreadyLoaded = this.isFilterAlreadyLoaded(selectedFilter, nextPageType);
+
     this.selectedFilterType = selectedFilter.filterType;
     this.selectedFilterValue = selectedFilter.filterValue;
     this.storeSessionState(selectedFilter);
@@ -237,7 +243,29 @@ export class CasesComponent implements OnInit {
       this.caaCasesPageType = CaaCasesPageType.UnassignedCases;
     }
     this.cdr.detectChanges();
-    this.loadCaseTypes();
+    if (!filterAlreadyLoaded) {
+      this.loadCaseTypes();
+    }
+  }
+
+  private getPageTypeForFilter(filterType: CaaCasesFilterType): CaaCasesPageType {
+    if (filterType === CaaCasesFilterType.CasesAssignedToAUser || filterType === CaaCasesFilterType.AllAssignedCases) {
+      return CaaCasesPageType.AssignedCases;
+    }
+    if (filterType === CaaCasesFilterType.NewCasesToAccept) {
+      return CaaCasesPageType.NewCases;
+    }
+    if (filterType === CaaCasesFilterType.UnassignedCases) {
+      return CaaCasesPageType.UnassignedCases;
+    }
+    return this.caaCasesPageType;
+  }
+
+  private isFilterAlreadyLoaded(selectedFilter: SelectedCaseFilter, nextPageType: CaaCasesPageType): boolean {
+    return this.hasLoadedCaseTypesForCurrentFilter &&
+      this.selectedFilterType === selectedFilter.filterType &&
+      this.selectedFilterValue === selectedFilter.filterValue &&
+      this.caaCasesPageType === nextPageType;
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {

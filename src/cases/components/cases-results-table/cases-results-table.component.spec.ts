@@ -1,43 +1,46 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CasesResultsTableComponent } from './cases-results-table.component';
-import { provideMockStore } from '@ngrx/store/testing';
-import { CaaCasesService } from 'src/cases/services';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-xdescribe('CasesCasesResultsTableComponent', () => {
+describe('CasesCasesResultsTableComponent', () => {
   let component: CasesResultsTableComponent;
-  let fixture: ComponentFixture<CasesResultsTableComponent>;
-  let caaCasesService: jasmine.SpyObj<CaaCasesService>;
 
-  beforeEach(async () => {
-    caaCasesService = jasmine.createSpyObj<CaaCasesService>(
-      'caaCasesService',
-      [
-        'getCaaCases',
-        'getCaaCaseTypes',
-        'storeSessionState',
-        'retrieveSessionState',
-        'removeSessionState'
-      ]
-    );
-    await TestBed.configureTestingModule({
-      declarations: [CasesResultsTableComponent],
-      providers: [provideMockStore(),
-        { provide: CaaCasesService, useValue: caaCasesService }
-      ],
-      imports: [
-        MatAutocompleteModule
-      ]
-    })
-      .compileComponents();
-
-    fixture = TestBed.createComponent(CasesResultsTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  beforeEach(() => {
+    component = new CasesResultsTableComponent({} as any);
   });
 
-  it('should create', () => {
-    // expect(component).toBeTruthy();
+  it('should emit the initial case type when case type tabs are set', () => {
+    const emitSpy = spyOn(component.tabChangedValue, 'emit');
+
+    component.allCaseTypes = [
+      { id: 'case-type-1', text: 'Case Type 1', total: 1 }
+    ] as any;
+
+    expect(emitSpy.calls.count()).toBe(1);
+    expect(emitSpy).toHaveBeenCalledWith('Case Type 1');
+  });
+
+  it('should not emit again when Material reports the already-selected tab', () => {
+    const emitSpy = spyOn(component.tabChangedValue, 'emit');
+
+    component.allCaseTypes = [
+      { id: 'case-type-1', text: 'Case Type 1', total: 1 }
+    ] as any;
+    component.tabChanged({ tab: { textLabel: 'Case Type 1' } });
+
+    expect(emitSpy.calls.count()).toBe(1);
+  });
+
+  it('should emit when the user selects a different tab', () => {
+    const emitSpy = spyOn(component.tabChangedValue, 'emit');
+
+    component.allCaseTypes = [
+      { id: 'case-type-1', text: 'Case Type 1', total: 1 },
+      { id: 'case-type-2', text: 'Case Type 2', total: 2 }
+    ] as any;
+    component.tabChanged({ tab: { textLabel: 'Case Type 2' } });
+
+    expect(emitSpy.calls.allArgs()).toEqual([
+      ['Case Type 1'],
+      ['Case Type 2']
+    ]);
   });
 });

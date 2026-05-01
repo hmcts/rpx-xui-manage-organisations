@@ -42,6 +42,7 @@ api/.nyc_output
 !.vscode/extensions.json
 
 # misc
+/.playwright-cli/
 /.sass-cache
 /connect.lock
 /coverage

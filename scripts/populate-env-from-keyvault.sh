@@ -38,9 +38,13 @@ read_secret() {
 
 ORG_ASSIGNMENT_UI_USER="$(read_secret xui-dynamic-org-user-assignment-ui-user)"
 ORG_ASSIGNMENT_PASSWORD="$(read_secret xui-dynamic-org-user-assignment-password)"
+TEST_ROO_USERNAME="$(read_secret test-roo-username)"
+TEST_ROO_PASSWORD_VALUE="$(read_secret test-roo-password)"
 
 ORG_ASSIGNMENT_UI_USER="${ORG_ASSIGNMENT_UI_USER}" \
 ORG_ASSIGNMENT_PASSWORD="${ORG_ASSIGNMENT_PASSWORD}" \
+TEST_ROO_USERNAME="${TEST_ROO_USERNAME}" \
+TEST_ROO_PASSWORD_VALUE="${TEST_ROO_PASSWORD_VALUE}" \
 node - "${OUT_FILE}" "${ENVIRONMENT}" <<'NODE'
 const fs = require('fs');
 
@@ -92,6 +96,14 @@ setValue('TEST_USER1_PASSWORD', firstNonEmpty(
   env.TEST_USER1_PASSWORD,
   env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD,
   process.env.ORG_ASSIGNMENT_PASSWORD
+));
+setValue('TEST_ROO_EMAIL', firstNonEmpty(
+  env.TEST_ROO_EMAIL,
+  process.env.TEST_ROO_USERNAME
+));
+setValue('TEST_ROO_PASSWORD', firstNonEmpty(
+  env.TEST_ROO_PASSWORD,
+  process.env.TEST_ROO_PASSWORD_VALUE
 ));
 
 const manageOrgUrl = environment === 'demo'

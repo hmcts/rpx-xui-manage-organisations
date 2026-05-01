@@ -1,5 +1,5 @@
 import { test as base, expect } from '@playwright/test';
-import type { BrowserContext, Page } from '@playwright/test';
+import type { BrowserContext, Locator, Page } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
@@ -80,15 +80,6 @@ const resolveStorageStatePath = (role: ManageOrgUserRole, browserName: string, w
   return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', stateFileName);
 };
 
-const isVisibleWithin = async (locator: ReturnType<Page['getByRole']>, timeout: number): Promise<boolean> => {
-  try {
-    await expect(locator).toBeVisible({ timeout });
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 const applyStoredAuthState = async (page: Page, storageStatePath: string): Promise<void> => {
   if (!existsSync(storageStatePath)) {
     return;
@@ -108,6 +99,15 @@ const applyStoredAuthState = async (page: Page, storageStatePath: string): Promi
 
   if (Array.isArray(state.cookies) && state.cookies.length > 0) {
     await page.context().addCookies(state.cookies);
+  }
+};
+
+const isVisibleWithin = async (locator: Locator, timeout: number): Promise<boolean> => {
+  try {
+    await locator.waitFor({ state: 'visible', timeout });
+    return true;
+  } catch {
+    return false;
   }
 };
 

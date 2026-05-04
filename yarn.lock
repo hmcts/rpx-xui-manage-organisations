@@ -3407,24 +3407,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hmcts/ccd-case-ui-toolkit@npm:7.3.48":
-  version: 7.3.48
-  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.48"
+"@hmcts/ccd-case-ui-toolkit@npm:7.3.52-exui-4425-rc-3":
+  version: 7.3.52-exui-4425-rc-3
+  resolution: "@hmcts/ccd-case-ui-toolkit@npm:7.3.52-exui-4425-rc-3"
   dependencies:
+    "@edium/fsm": "npm:^2.1.2"
+    "@hmcts/ccpay-web-component": "npm:6.5.17"
+    "@hmcts/media-viewer": "npm:4.2.16"
+    file-saver: "npm:^2.0.2"
+    govuk-frontend: "npm:^4.9.0"
+    lz-string: "npm:^1.5.0"
+    marked: "npm:^12.0.2"
+    pegjs: "npm:^0.10.0"
+    rx-polling-hmcts: "npm:1.1.1"
     tslib: "npm:^2.3.0"
-  checksum: 10/f9d4f6389b6f627d935c998c08e7877b50c8658f9161ca8108370ae9fddedc035d6811b62ca5629ebea3c6227865c8ca4df90924ae7673d521e7b7520a46e0d8
+  checksum: 10/f1a886a448203b8a4513f8045c0165df43004ff3e97c50b09bdf1f063a4a866ae32b3ad7360ae6e50233622f94602a29e4a1b436e0fe30ca737a3ea265f494b8
   languageName: node
   linkType: hard
 
-"@hmcts/ccpay-web-component@npm:6.5.14":
-  version: 6.5.14
-  resolution: "@hmcts/ccpay-web-component@npm:6.5.14"
+"@hmcts/ccpay-web-component@npm:6.5.17":
+  version: 6.5.17
+  resolution: "@hmcts/ccpay-web-component@npm:6.5.17"
   dependencies:
     tslib: "npm:^2.3.0"
   peerDependencies:
     "@angular/common": ^20.3.1
     "@angular/core": ~20.3.1
-  checksum: 10/db9415edf6cd2a26b5e15a2cbbe72c729038c15b9c13313837f92da0bcbbd764d8d7bb6e2a7b54e820879bffe48a705ae84fffbc019e16279311f3b611235731
+  checksum: 10/7be62fd80d676934e2217985ab414f107aeaf8c6e44a9a128d41a856a4417b8ab0b5ba5be57af529a207ac2599c0e47fa52b204b461dc7002dd9d9585a5667df
   languageName: node
   linkType: hard
 
@@ -16358,6 +16367,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"govuk-frontend@npm:^4.9.0":
+  version: 4.10.1
+  resolution: "govuk-frontend@npm:4.10.1"
+  checksum: 10/7fc16896b73134d227e3c8f6ed4017015293dd12e81262b6dea30b97156727523fb6c133f95f34461846a32cafe516cccf1d94100d936ae1c48a9059177e79cc
+  languageName: node
+  linkType: hard
+
 "govuk_frontend_toolkit@npm:^9.0.0":
   version: 9.0.1
   resolution: "govuk_frontend_toolkit@npm:9.0.1"
@@ -24316,8 +24332,7 @@ __metadata:
     "@angular/router": "npm:^20.3.18"
     "@circlon/angular-tree-component": "npm:^11.0.4"
     "@edium/fsm": "npm:^2.1.2"
-    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.48"
-    "@hmcts/ccpay-web-component": "npm:6.5.14"
+    "@hmcts/ccd-case-ui-toolkit": "npm:7.3.52-exui-4425-rc-3"
     "@hmcts/frontend": "npm:0.0.50-alpha"
     "@hmcts/media-viewer": "npm:4.2.16"
     "@hmcts/nodejs-healthcheck": "npm:^1.8.6"
@@ -24524,7 +24539,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rx-polling-hmcts@npm:^1.1.1":
+"rx-polling-hmcts@npm:1.1.1, rx-polling-hmcts@npm:^1.1.1":
   version: 1.1.1
   resolution: "rx-polling-hmcts@npm:1.1.1"
   dependencies:

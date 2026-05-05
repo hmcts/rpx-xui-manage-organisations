@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { load as loadDotenv } from 'dotenv-extended';
-import { version as appVersion } from './package.json';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
 
 loadDotenv({
@@ -8,12 +9,13 @@ loadDotenv({
   errorOnExtra: false,
   errorOnMissing: false,
   includeProcessEnv: true,
-  silent: true
+  silent: true,
 });
 
 const headlessMode = process.env.HEAD !== 'true';
 const baseUrl = process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/';
 const workerCount = resolveWorkerCount(process.env);
+const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), 'package.json'), 'utf-8')) as { version: string };
 
 module.exports = defineConfig({
   testDir: 'playwright_tests_new/E2E',
@@ -24,7 +26,7 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   timeout: 3 * 60 * 1000,
   expect: {
-    timeout: 1 * 60 * 1000
+    timeout: 1 * 60 * 1000,
   },
   reportSlowTests: null,
   workers: workerCount,
@@ -34,7 +36,7 @@ module.exports = defineConfig({
       defaultProject: 'RPX XUI Manage Organisations - E2E',
       defaultRelease: appVersion,
       defaultTitle: 'RPX XUI Manage Organisations Playwright E2E',
-      includeJunit: true
+      includeJunit: true,
     },
     baseUrl,
     process.env
@@ -46,17 +48,17 @@ module.exports = defineConfig({
     trace: 'retain-on-failure',
     screenshot: {
       mode: 'only-on-failure',
-      fullPage: true
+      fullPage: true,
     },
-    video: 'off'
+    video: 'off',
   },
   projects: [
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        channel: 'chrome'
-      }
-    }
-  ]
+        channel: 'chrome',
+      },
+    },
+  ],
 });

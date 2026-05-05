@@ -73,7 +73,6 @@ withPipeline(type, product, component) {
     disableCleanupOfHelmReleaseOnFailure()
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    enableFortifyScan('rpx-aat')
     enableAksStagingDeployment()
     syncBranchesWithMaster(branchesToSync)
 
@@ -93,10 +92,6 @@ withPipeline(type, product, component) {
 
     afterSuccess('build') {
         yarnBuilder.yarn('build')
-    }
-
-    afterAlways('fortify-scan') {
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 
     afterSuccess('test') {

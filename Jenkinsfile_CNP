@@ -22,6 +22,18 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+def publishPlaywrightE2EReport = { String reportName ->
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
+        reportFiles          : 'xui-playwright-e2e.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
+}
+
 def secrets = [
   'rpx-${env}': [
     secret('test-user1-email', 'TEST_USER1_EMAIL'),
@@ -160,6 +172,17 @@ withPipeline(type, product, component) {
             reportName           : 'PREVIEW Manage Org Smoke Test'
         ])
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
+
+        stage('Preview Playwright E2E') {
+            withEnv([
+                "FUNCTIONAL_TESTS_WORKERS=2",
+                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:playwrightE2E:raw')
+            }
+            publishPlaywrightE2EReport('PREVIEW Manage Org Playwright E2E')
+        }
     }
 
     afterSuccess('functionalTest:preview') {
@@ -212,6 +235,17 @@ withPipeline(type, product, component) {
             reportName           : 'AAT Manage Org Smoke Test'
         ])
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
+
+        stage('AAT Playwright E2E') {
+            withEnv([
+                "FUNCTIONAL_TESTS_WORKERS=2",
+                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:playwrightE2E:raw')
+            }
+            publishPlaywrightE2EReport('AAT Manage Org Playwright E2E')
+        }
     }
 
     afterSuccess('functionalTest:aat') {

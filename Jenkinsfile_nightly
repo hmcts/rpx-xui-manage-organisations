@@ -17,6 +17,7 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "mo-webapp"
 def channel   = '#xui-pipeline'
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'rpx-${env}': [
@@ -49,10 +50,14 @@ withNightlyPipeline(type, product, component) {
     //enableFullFunctionalTest(120)
     // enableSecurityScan()
     enableMutationTest()
-    enableCrossBrowserTest()
 
     env.TEST_URL = 'https://manage-org.aat.platform.hmcts.net/'
-    afterSuccess('checkout') {sh 'yarn cache clean'}
+    afterSuccess('checkout') {
+        sh 'yarn cache clean'
+        stage('Playwright Install All Browsers') {
+            yarnBuilder.yarn('test:setup:playwright-install-all')
+        }
+    }
     afterSuccess('build') {
         sh 'npm run build'
         publishHTML([
@@ -121,15 +126,42 @@ withNightlyPipeline(type, product, component) {
     ])
   }
 
-    afterSuccess('crossBrowserTest') {
+    afterSuccess('fortify-scan') {
+        stage('Playwright E2E') {
+            withEnv([
+                "FUNCTIONAL_TESTS_WORKERS=2",
+                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:playwrightE2E:raw')
+            }
+            publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "functional-output/tests/playwright-e2e/odhin-report/",
+                reportFiles          : 'xui-playwright-e2e.html',
+                reportName           : 'XUI Manage Organisation Playwright E2E'
+            ])
+        }
+
+        stage('Cross Browser Test') {
+            withEnv([
+                "FUNCTIONAL_TESTS_WORKERS=2",
+                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:crossbrowser:raw')
+            }
+        }
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/crossbrowser/",
-            reportFiles          : 'index.html',
+            reportDir            : "functional-output/tests/playwright-e2e/odhin-report/",
+            reportFiles          : 'xui-playwright-e2e.html',
             reportName           : 'XUI Manage Organisation Cross Browser Tests'
         ])
-        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/tests/crossbrowser/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
     }
 }

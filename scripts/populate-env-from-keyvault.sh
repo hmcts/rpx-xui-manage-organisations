@@ -37,12 +37,20 @@ read_secret() {
 }
 
 ORG_ASSIGNMENT_UI_USER="$(read_secret xui-dynamic-org-user-assignment-ui-user)"
+ORG_ASSIGNMENT_USERNAME="$(read_secret xui-dynamic-org-user-assignment-username)"
+ORG_ASSIGNMENT_EXPECTED_EMAIL="$(read_secret xui-dynamic-org-user-assignment-expected-email)"
 ORG_ASSIGNMENT_PASSWORD="$(read_secret xui-dynamic-org-user-assignment-password)"
+TEST_USER1_EMAIL_VALUE="$(read_secret test-user1-email)"
+TEST_USER1_PASSWORD_VALUE="$(read_secret test-user1-password)"
 TEST_ROO_USERNAME="$(read_secret test-roo-username)"
 TEST_ROO_PASSWORD_VALUE="$(read_secret test-roo-password)"
 
 ORG_ASSIGNMENT_UI_USER="${ORG_ASSIGNMENT_UI_USER}" \
+ORG_ASSIGNMENT_USERNAME="${ORG_ASSIGNMENT_USERNAME}" \
+ORG_ASSIGNMENT_EXPECTED_EMAIL="${ORG_ASSIGNMENT_EXPECTED_EMAIL}" \
 ORG_ASSIGNMENT_PASSWORD="${ORG_ASSIGNMENT_PASSWORD}" \
+TEST_USER1_EMAIL_VALUE="${TEST_USER1_EMAIL_VALUE}" \
+TEST_USER1_PASSWORD_VALUE="${TEST_USER1_PASSWORD_VALUE}" \
 TEST_ROO_USERNAME="${TEST_ROO_USERNAME}" \
 TEST_ROO_PASSWORD_VALUE="${TEST_ROO_PASSWORD_VALUE}" \
 node - "${OUT_FILE}" "${ENVIRONMENT}" <<'NODE'
@@ -81,7 +89,9 @@ setValue('IDAM_WEB_SERVICE', firstNonEmpty(env.IDAM_WEB_SERVICE, env.SERVICES_ID
 setValue('S2S_SERVICE', firstNonEmpty(env.S2S_SERVICE, env.S2S_URL));
 setValue('XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER', firstNonEmpty(
   env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER,
-  process.env.ORG_ASSIGNMENT_UI_USER
+  process.env.ORG_ASSIGNMENT_UI_USER,
+  process.env.ORG_ASSIGNMENT_USERNAME,
+  process.env.ORG_ASSIGNMENT_EXPECTED_EMAIL
 ));
 setValue('XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD', firstNonEmpty(
   env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD,
@@ -89,11 +99,15 @@ setValue('XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD', firstNonEmpty(
 ));
 setValue('TEST_USER1_EMAIL', firstNonEmpty(
   env.TEST_USER1_EMAIL,
+  process.env.TEST_USER1_EMAIL_VALUE,
   env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_UI_USER,
-  process.env.ORG_ASSIGNMENT_UI_USER
+  process.env.ORG_ASSIGNMENT_UI_USER,
+  process.env.ORG_ASSIGNMENT_USERNAME,
+  process.env.ORG_ASSIGNMENT_EXPECTED_EMAIL
 ));
 setValue('TEST_USER1_PASSWORD', firstNonEmpty(
   env.TEST_USER1_PASSWORD,
+  process.env.TEST_USER1_PASSWORD_VALUE,
   env.XUI_DYNAMIC_ORG_USER_ASSIGNMENT_PASSWORD,
   process.env.ORG_ASSIGNMENT_PASSWORD
 ));

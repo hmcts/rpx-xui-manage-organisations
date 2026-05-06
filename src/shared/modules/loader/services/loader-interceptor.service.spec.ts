@@ -26,7 +26,7 @@ describe('LoaderInterceptorService', () => {
     const handler = jasmine.createSpyObj<HttpHandler>('HttpHandler', ['handle']);
     handler.handle.and.returnValue(of(new HttpResponse()));
 
-    service.intercept(new HttpRequest('POST', '/api/translation/cy'), handler).subscribe();
+    service.intercept(new HttpRequest('POST', '/api/translation/cy', {}), handler).subscribe();
 
     expect(loaderService.show).not.toHaveBeenCalled();
     expect(loaderService.hide).not.toHaveBeenCalled();

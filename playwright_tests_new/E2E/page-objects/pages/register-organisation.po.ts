@@ -7,6 +7,16 @@ type ContactDetails = {
   email: string;
 };
 
+type ManualAddress = {
+  line1: string;
+  line2?: string;
+  line3?: string;
+  town: string;
+  county?: string;
+  postcode?: string;
+  country: string;
+};
+
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 export class RegisterOrganisationPage extends BasePage {
@@ -71,6 +81,20 @@ export class RegisterOrganisationPage extends BasePage {
     await addressList.selectOption({ index: 1 });
     await this.continueWith();
     return selectedAddress;
+  }
+
+  public async enterManualUkAddress(address: ManualAddress): Promise<void> {
+    await this.page.getByRole('link', { name: 'I can\'t enter a UK postcode' }).click();
+    await this.page.locator('#yes').check();
+    await this.fillManualAddress(address);
+    await this.continueWith();
+  }
+
+  public async enterManualInternationalAddress(address: ManualAddress): Promise<void> {
+    await this.page.getByRole('link', { name: 'I can\'t enter a UK postcode' }).click();
+    await this.page.locator('#no').check();
+    await this.fillManualAddress(address);
+    await this.continueWith();
   }
 
   public async enterDocumentExchangeReference(dxNumber: string, dxExchange: string): Promise<void> {
@@ -169,5 +193,19 @@ export class RegisterOrganisationPage extends BasePage {
 
   private async continueWith(buttonName = 'Continue'): Promise<void> {
     await this.page.getByRole('button', { name: buttonName }).click();
+  }
+
+  private async fillManualAddress(address: ManualAddress): Promise<void> {
+    await this.page.locator('#addressLine1').fill(address.line1);
+    await this.page.locator('#addressLine2').fill(address.line2 ?? '');
+    await this.page.locator('#addressLine3').fill(address.line3 ?? '');
+    await this.page.locator('#postTown').fill(address.town);
+    await this.page.locator('#county').fill(address.county ?? '');
+
+    if (address.country !== 'UK') {
+      await this.page.locator('#country').fill(address.country);
+    }
+
+    await this.page.locator('#postCode').fill(address.postcode ?? '');
   }
 }

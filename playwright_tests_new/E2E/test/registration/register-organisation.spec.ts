@@ -30,7 +30,7 @@ test(
     await registerOrganisationPage.startRegistration();
     await registerOrganisationPage.chooseSolicitorOrganisationType();
     await registerOrganisationPage.enterOrganisationName(data.organisationName);
-    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.postcode);
+    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.lookupPostcode);
     await registerOrganisationPage.enterDocumentExchangeReference(data.dxNumber, data.dxExchange);
     await registerOrganisationPage.enterOrganisationRegulator(data.regulatorNumber);
     await registerOrganisationPage.chooseDivorceService();
@@ -73,7 +73,7 @@ test(
     await registerOrganisationPage.startRegistration();
     await registerOrganisationPage.chooseSolicitorOrganisationType();
     await registerOrganisationPage.enterOrganisationNameAndCompanyHouseNumber(data.organisationName, data.companyHouseNumber);
-    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.postcode);
+    await registerOrganisationPage.enterManualUkAddress(data.manualUkAddress);
     await registerOrganisationPage.enterDocumentExchangeReference(data.dxNumber, data.dxExchange);
     await registerOrganisationPage.enterOtherOrganisationRegulator(data.regulatorName, data.regulatorNumber);
     await registerOrganisationPage.chooseServices('Divorce', 'Damages');
@@ -85,7 +85,18 @@ test(
     await expect(registerOrganisationPage.summaryValue('Organisation type')).toContainText('Solicitor');
     await expect(registerOrganisationPage.summaryValue('Organisation name')).toContainText(data.organisationName);
     await expect(registerOrganisationPage.summaryValue('Company registration number')).toContainText(data.companyHouseNumber);
-    await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(selectedAddress.split(',')[0]);
+    const ukAddressSummary = registerOrganisationPage.summaryValue('Organisation address');
+    for (const addressLine of [
+      data.manualUkAddress.line1,
+      data.manualUkAddress.line2,
+      data.manualUkAddress.line3,
+      data.manualUkAddress.town,
+      data.manualUkAddress.county,
+      data.manualUkAddress.postcode,
+      data.manualUkAddress.country
+    ].filter((addressLine): addressLine is string => Boolean(addressLine))) {
+      await expect(ukAddressSummary).toContainText(addressLine);
+    }
     await expect(registerOrganisationPage.summaryValue(
       'Do you have a document exchange reference for your main office?'
     )).toContainText('Yes');
@@ -125,7 +136,7 @@ test(
     await registerOrganisationPage.startRegistration();
     await registerOrganisationPage.chooseSolicitorOrganisationType();
     await registerOrganisationPage.enterOrganisationName(data.organisationName);
-    const selectedAddress = await registerOrganisationPage.selectRegisteredAddress(data.postcode);
+    await registerOrganisationPage.enterManualInternationalAddress(data.manualInternationalAddress);
     await registerOrganisationPage.declineDocumentExchangeReference();
     await registerOrganisationPage.enterOrganisationRegulator(data.regulatorNumber);
     await registerOrganisationPage.chooseServices('Divorce', 'Damages');
@@ -137,7 +148,14 @@ test(
     await expect(registerOrganisationPage.summaryValue('Organisation type')).toContainText('Solicitor');
     await expect(registerOrganisationPage.summaryValue('Organisation name')).toContainText(data.organisationName);
     await expect(registerOrganisationPage.summaryRow('Company registration number')).toHaveCount(0);
-    await expect(registerOrganisationPage.summaryValue('Organisation address')).toContainText(selectedAddress.split(',')[0]);
+    const internationalAddressSummary = registerOrganisationPage.summaryValue('Organisation address');
+    for (const addressLine of [
+      data.manualInternationalAddress.line1,
+      data.manualInternationalAddress.town,
+      data.manualInternationalAddress.country
+    ]) {
+      await expect(internationalAddressSummary).toContainText(addressLine);
+    }
     await expect(registerOrganisationPage.summaryValue(
       'Do you have a document exchange reference for your main office?'
     )).toContainText('No');

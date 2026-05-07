@@ -1,7 +1,9 @@
 export type RegisterOrganisationData = {
   organisationName: string;
   companyHouseNumber: string;
-  postcode: string;
+  lookupPostcode: string;
+  manualUkAddress: RegisterOrganisationAddress;
+  manualInternationalAddress: RegisterOrganisationAddress;
   dxNumber: string;
   dxExchange: string;
   regulatorNumber: string;
@@ -12,6 +14,16 @@ export type RegisterOrganisationData = {
   email: string;
   individualRegulatorName: string;
   individualRegulatorNumber: string;
+};
+
+export type RegisterOrganisationAddress = {
+  line1: string;
+  line2?: string;
+  line3?: string;
+  town: string;
+  county?: string;
+  postcode?: string;
+  country: string;
 };
 
 const randomDigits = (length: number): string => {
@@ -28,7 +40,21 @@ export const createRegisterOrganisationData = (): RegisterOrganisationData => {
   return {
     organisationName: `PW ManageOrg ${uniqueId}`,
     companyHouseNumber: randomDigits(8),
-    postcode: 'SW1A 1AA',
+    lookupPostcode: 'SW1A 1AA',
+    manualUkAddress: {
+      line1: `PW building ${uniqueId}`,
+      line2: 'PW address line 2',
+      line3: 'PW address line 3',
+      town: 'London',
+      county: 'Greater London',
+      postcode: 'SW1V 3BZ',
+      country: 'UK'
+    },
+    manualInternationalAddress: {
+      line1: `PW international building ${uniqueId}`,
+      town: 'Dublin',
+      country: 'Ireland'
+    },
     dxNumber: randomDigits(10),
     dxExchange: randomDigits(10),
     regulatorNumber: randomDigits(10),

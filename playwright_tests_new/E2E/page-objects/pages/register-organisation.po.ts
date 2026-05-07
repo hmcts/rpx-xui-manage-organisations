@@ -81,6 +81,11 @@ export class RegisterOrganisationPage extends BasePage {
     await this.continueWith();
   }
 
+  public async declineDocumentExchangeReference(): Promise<void> {
+    await this.page.locator('#document-exchange-no').check();
+    await this.continueWith();
+  }
+
   public async enterOrganisationRegulator(registrationNumber: string): Promise<void> {
     await this.page.locator('#regulator-type0').selectOption({ label: 'Solicitor Regulation Authority (SRA)' });
     await this.page.locator('#organisation-registration-number0').fill(registrationNumber);
@@ -151,11 +156,15 @@ export class RegisterOrganisationPage extends BasePage {
   }
 
   public summaryValue(label: string | RegExp): Locator {
+    return this.summaryRow(label).locator('.govuk-summary-list__value');
+  }
+
+  public summaryRow(label: string | RegExp): Locator {
     const keyText = typeof label === 'string' ? new RegExp(`^\\s*${escapeRegExp(label)}\\s*$`) : label;
 
     return this.page.locator('.govuk-summary-list__row').filter({
       has: this.page.locator('.govuk-summary-list__key', { hasText: keyText })
-    }).locator('.govuk-summary-list__value');
+    });
   }
 
   private async continueWith(buttonName = 'Continue'): Promise<void> {

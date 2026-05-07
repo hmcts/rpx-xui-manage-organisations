@@ -8,12 +8,15 @@ import { CasesComponent } from '../../containers';
 import { CaaCasesService } from '../../services';
 import { CaaCasesState, getShareCaseListState, reducers } from '../index';
 import { ChangeDetectorRef } from '@angular/core';
+import { LoaderService } from 'src/shared/modules/loader/services/loader.service';
+import { of } from 'rxjs';
 
 describe('Share case selectors', () => {
   let store: Store<CaaCasesState>;
   let organisationStore: Store<OrganisationState>;
   let userStore: Store<UserState>;
   let caaCasesService: jasmine.SpyObj<CaaCasesService>;
+  let loaderService: jasmine.SpyObj<LoaderService>;
   let cdr: ChangeDetectorRef;
   const router: any = {};
 
@@ -28,6 +31,9 @@ describe('Share case selectors', () => {
         'removeSessionState'
       ]
     );
+    loaderService = jasmine.createSpyObj<LoaderService>('loaderService', ['show', 'hide'], {
+      loaderState: of({ show: false })
+    });
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -36,7 +42,8 @@ describe('Share case selectors', () => {
       ],
       providers: [
         { provide: Router, useValue: router },
-        { provide: CaaCasesService, useValue: caaCasesService }
+        { provide: CaaCasesService, useValue: caaCasesService },
+        { provide: LoaderService, useValue: loaderService }
       ]
     });
     store = TestBed.inject(Store);
@@ -48,7 +55,7 @@ describe('Share case selectors', () => {
 
   describe('get share case state', () => {
     xit('should return search state', () => {
-      const caseListComponent = new CasesComponent(store, organisationStore, userStore, router, caaCasesService, cdr);
+      const caseListComponent = new CasesComponent(store, organisationStore, userStore, router, caaCasesService, loaderService, cdr);
       caseListComponent.selectedCases = [{
         case_id: '1',
         case_fields: {

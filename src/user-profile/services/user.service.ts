@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, throwError } from 'rxjs';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { UserInterface } from '../models/user.model';
 import { Store, select } from '@ngrx/store';
 import * as fromRoot from '../../../src/app/store';
@@ -10,6 +11,8 @@ import * as fromRoot from '../../../src/app/store';
 })
 
 export class UserService {
+  private userDetails$: Observable<UserInterface>;
+
   constructor(
     private readonly http: HttpClient,
     private readonly rootStore: Store<fromRoot.State>,
@@ -27,6 +30,16 @@ export class UserService {
   }
 
   public getUserDetails(): Observable<UserInterface> {
-    return this.http.get<UserInterface>('/api/user/details');
+    if (!this.userDetails$) {
+      this.userDetails$ = this.http.get<UserInterface>('/api/user/details').pipe(
+        shareReplay({ bufferSize: 1, refCount: false }),
+        catchError((error) => {
+          this.userDetails$ = null;
+          return throwError(() => error);
+        })
+      );
+    }
+
+    return this.userDetails$;
   }
 }

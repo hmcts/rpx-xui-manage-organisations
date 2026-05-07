@@ -27,10 +27,21 @@ export const SUSPEND_USER_FAIL = '[User] Suspend User Fail';
 export const INVITE_NEW_USER = '[User] Invite New User';
 export const REINVITE_PENDING_USER = '[User] Reinvite Pending User';
 export const CHECK_USER_LIST_LOADED = '[User] Check user list loaded';
+export const INVALIDATE_USER_LIST_CACHE = '[User] Invalidate User List Cache';
 
-export class CheckUserListLoaded implements Action{
-  public readonly type = CHECK_USER_LIST_LOADED;
+export interface CheckUserListLoadedPayload {
+  currentTime: number;
 }
+
+export class CheckUserListLoaded implements Action {
+  public readonly type = CHECK_USER_LIST_LOADED;
+  constructor(public payload: CheckUserListLoadedPayload = { currentTime: Date.now() }) {}
+}
+
+export class InvalidateUserListCache implements Action {
+  public readonly type = INVALIDATE_USER_LIST_CACHE;
+}
+
 export class LoadUsers {
   public readonly type = LOAD_USERS;
   constructor(public payload?: any) {}
@@ -151,4 +162,5 @@ export type UserActions =
   | EditUserServerError
   | ReinvitePendingUser
   | InviteNewUser
-  | CheckUserListLoaded;
+  | CheckUserListLoaded
+  | InvalidateUserListCache;

@@ -49,6 +49,12 @@ export class RegisterOrganisationPage extends BasePage {
     await this.continueWith();
   }
 
+  public async enterOrganisationNameAndCompanyHouseNumber(organisationName: string, companyHouseNumber: string): Promise<void> {
+    await this.page.locator('#company-name').fill(organisationName);
+    await this.page.locator('#company-house-number').fill(companyHouseNumber);
+    await this.continueWith();
+  }
+
   public async selectRegisteredAddress(postcode: string): Promise<string> {
     await this.page.locator('#postcodeInput').fill(postcode);
     await this.page.getByRole('button', { name: 'Find address' }).click();
@@ -81,13 +87,40 @@ export class RegisterOrganisationPage extends BasePage {
     await this.continueWith();
   }
 
+  public async enterOtherOrganisationRegulator(regulatorName: string, registrationNumber: string): Promise<void> {
+    await this.page.locator('#regulator-type0').selectOption({ label: 'Other' });
+    await this.page.locator('#regulator-name0').fill(regulatorName);
+    await this.page.locator('#organisation-registration-number0').fill(registrationNumber);
+    await this.continueWith();
+  }
+
   public async chooseDivorceService(): Promise<void> {
     await this.page.locator('input[data-service-label="Divorce"]').check();
     await this.continueWith();
   }
 
+  public async chooseServices(...serviceLabels: string[]): Promise<void> {
+    for (const serviceLabel of serviceLabels) {
+      await this.page.locator(`input[data-service-label="${serviceLabel}"]`).check();
+    }
+    await this.continueWith();
+  }
+
   public async declinePaymentByAccount(): Promise<void> {
     await this.page.locator('#pba-no').check();
+    await this.continueWith();
+  }
+
+  public async enterPaymentByAccountNumbers(pbaNumbers: string[]): Promise<void> {
+    await this.page.locator('#pba-yes').check();
+    await this.continueWith();
+
+    for (const [index, pbaNumber] of pbaNumbers.entries()) {
+      if (index > 0) {
+        await this.page.getByRole('button', { name: 'Add another PBA number' }).click();
+      }
+      await this.page.locator(`#pba-number-${index}`).fill(pbaNumber);
+    }
     await this.continueWith();
   }
 
@@ -100,6 +133,15 @@ export class RegisterOrganisationPage extends BasePage {
 
   public async declineIndividualRegulator(): Promise<void> {
     await this.page.locator('#registered-with-regulator-no').check();
+    await this.continueWith();
+  }
+
+  public async enterOtherIndividualRegulator(regulatorName: string, registrationNumber: string): Promise<void> {
+    await this.page.locator('#registered-with-regulator-yes').check();
+    await this.continueWith();
+    await this.page.locator('#regulator-type0').selectOption({ label: 'Other' });
+    await this.page.locator('#regulator-name0').fill(regulatorName);
+    await this.page.locator('#organisation-registration-number0').fill(registrationNumber);
     await this.continueWith();
   }
 

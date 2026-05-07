@@ -120,6 +120,23 @@ test(
     await expect(registerOrganisationPage.summaryValue(
       'What regulators are you (as an individual) registered with?'
     )).toContainText(data.individualRegulatorNumber);
+
+    for (const summaryLabel of [
+      'Organisation type',
+      'Organisation name',
+      'Company registration number',
+      'Organisation address',
+      'What\'s the DX reference for this office?',
+      'Service to access',
+      'Does your organisation have a payment by account number?',
+      'Regulatory organisation type',
+      'First name(s)',
+      'Last name',
+      'Email address',
+      'What regulators are you (as an individual) registered with?'
+    ]) {
+      await expect(registerOrganisationPage.summaryChangeLink(summaryLabel)).toBeVisible();
+    }
   }
 );
 

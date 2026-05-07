@@ -183,6 +183,10 @@ export class RegisterOrganisationPage extends BasePage {
     return this.summaryRow(label).locator('.govuk-summary-list__value');
   }
 
+  public summaryChangeLink(label: string | RegExp): Locator {
+    return this.summaryRow(label).locator('.govuk-summary-list__actions a');
+  }
+
   public summaryRow(label: string | RegExp): Locator {
     const keyText = typeof label === 'string' ? new RegExp(`^\\s*${escapeRegExp(label)}\\s*$`) : label;
 

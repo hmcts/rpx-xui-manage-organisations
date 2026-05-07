@@ -11,11 +11,11 @@ export class OrganisationPage extends BasePage {
 
   public summaryValue(label: RegExp): Locator {
     const summaryRow = this.root
-      .locator('.govuk-summary-list__row, .govuk-table__row')
+      .locator('.govuk-summary-list__row')
       .filter({
-        has: this.page.locator('.govuk-summary-list__key, .govuk-table__header', { hasText: label })
+        has: this.page.locator('.govuk-summary-list__key', { hasText: label })
       });
 
-    return summaryRow.locator('.govuk-summary-list__value, .govuk-table__cell');
+    return summaryRow.locator('.govuk-summary-list__value');
   }
 }

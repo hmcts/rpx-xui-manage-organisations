@@ -39,10 +39,6 @@ export const ORGANISATION_SERVICES = [
     value: 'Specified Money Claims'
   },
   {
-    key: 'AAA3',
-    value: 'Possession Claims'
-  },
-  {
     key: 'NONE',
     value: 'Service not listed'
   }

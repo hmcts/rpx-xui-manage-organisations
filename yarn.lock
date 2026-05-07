@@ -10845,7 +10845,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"body-parser@npm:^2.2.1":
+"body-parser@npm:^2.2.1, body-parser@npm:^2.2.2":
   version: 2.2.2
   resolution: "body-parser@npm:2.2.2"
   dependencies:
@@ -24382,7 +24382,7 @@ __metadata:
     axios: "npm:^1.13.5"
     axios-mock-adapter: "npm:^1.22.0"
     base-64: "npm:^0.1.0"
-    body-parser: "npm:^1.19.0"
+    body-parser: "npm:^2.2.2"
     chai: "npm:^4.3.10"
     chai-as-promised: "npm:7.1.1"
     class-transformer: "npm:^0.3.1"

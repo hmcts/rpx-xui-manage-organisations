@@ -2,6 +2,14 @@ import { defineConfig, devices } from '@playwright/test';
 import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
 const { version: appVersion } = require('./package.json');
 
+require('dotenv-extended').load({
+  defaults: '.env.example',
+  errorOnExtra: false,
+  errorOnMissing: false,
+  includeProcessEnv: true,
+  silent: true
+});
+
 const headlessMode = process.env.HEAD !== 'true';
 export const axeTestEnabled = process.env.ENABLE_AXE_TESTS === 'true';
 const smokeSpecPattern = 'playwright_tests_new/E2E/test/smoke/smokeTest.spec.ts';

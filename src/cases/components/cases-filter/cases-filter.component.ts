@@ -38,6 +38,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
   public filterApplied: boolean = false;
 
   private destroy$ = new Subject<void>();
+  private hasAppliedSessionState = false;
   private lastSearchTerm: string = '';
 
   public constructor(private formBuilder: FormBuilder) {}
@@ -53,7 +54,7 @@ export class CasesFilterComponent implements OnInit, OnChanges {
       this.filterSelectedOrganisationUsers().pipe(takeUntil(this.destroy$)).subscribe((filteredAndGroupedUsers) => {
         this.filteredAndGroupedUsers = filteredAndGroupedUsers;
       });
-      this.populateFormFromSessionState();
+      this.populateFormFromSessionState(!this.hasAppliedSessionState);
     }
   }
 
@@ -97,8 +98,8 @@ export class CasesFilterComponent implements OnInit, OnChanges {
     });
   }
 
-  public populateFormFromSessionState(): void {
-    if (this.sessionStateValue) {
+  public populateFormFromSessionState(emitSearch = true): void {
+    if (this.sessionStateValue && this.form) {
       console.log('Populating form from session state:', this.sessionStateValue);
       const filterOptionValue = this.sessionStateValue.filterType as CaaCasesFilterType;
       this.form.controls.filterOption.setValue(filterOptionValue, { emitEvent: false, onlySelf: true });
@@ -106,6 +107,9 @@ export class CasesFilterComponent implements OnInit, OnChanges {
       this.selectFilterOption(filterOptionValue);
       if (filterOptionValue === CaaCasesFilterType.CasesAssignedToAUser) {
         const assigneePersonValue = this.sessionStateValue.assigneeName;
+        if (!this.selectedOrganisationUsers || this.selectedOrganisationUsers.length === 0) {
+          return;
+        }
         const user = this.selectedOrganisationUsers.find((user) => user.userIdentifier === assigneePersonValue);
         this.form.controls.assigneePerson.setValue(this.getDisplayName(user), { emitEvent: false, onlySelf: true });
       }
@@ -116,7 +120,10 @@ export class CasesFilterComponent implements OnInit, OnChanges {
       }
       this.filterApplied = true;
       this.form.markAsDirty();
-      this.onSearch();
+      if (emitSearch) {
+        this.hasAppliedSessionState = true;
+        this.onSearch();
+      }
     }
   }
 

@@ -6,9 +6,11 @@ import * as userStore from '../../../users/store';
 import * as caaCasesStore from '../../store';
 import { Store, select } from '@ngrx/store';
 import { OrganisationDetails } from 'src/models/organisation.model';
-import { Observable, skip, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of, skip, Subject, take, takeUntil, timer } from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ErrorMessage } from 'src/shared/models/error-message.model';
+import { LoaderService } from 'src/shared/modules/loader/services/loader.service';
 import { User } from '@hmcts/rpx-xui-common-lib';
 import { SelectedCaseFilter } from 'src/cases/models/selected-case-filter.model';
 import { CaaCaseTypeNavigation, CaaCases, CaaCasesSessionState, CaaCasesSessionStateValue } from 'src/cases/models/caa-cases.model';
@@ -28,6 +30,8 @@ export class CasesComponent implements OnInit {
 
   public selectedOrganisation$: Observable<OrganisationDetails>;
   public selectedOrganisationUsers$: Observable<User[]>;
+  public isPageLoading$: Observable<boolean>;
+  public showCasesLoadingOverlay$: Observable<boolean>;
 
   public pageTitle = 'Cases';
   public showFilterSection = false;
@@ -52,23 +56,20 @@ export class CasesComponent implements OnInit {
   public selectedCases: any[] = [];
   public orgIdentifier: string | null = null;
   public caseDataWithSupplementary: any[];
+  private readonly caseTypesLoaded$ = new BehaviorSubject<boolean>(false);
+  private readonly casesLoaded$ = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly caaCasesStore: Store<caaCasesStore.CaaCasesState>,
     private readonly organisationStore: Store<organisationStore.OrganisationState>,
     private readonly userStore: Store<userStore.UserState>,
     private readonly router: Router,
     private readonly service: CaaCasesService,
+    private readonly loaderService: LoaderService,
     private cdr: ChangeDetectorRef) {
   }
 
   public ngOnInit(): void {
-    // Load selected organisation details from store
-    this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
-    this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
-    this.selectedOrganisation$.pipe().subscribe((org) => {
-      console.log(org);
-      this.orgIdentifier = org?.organisationIdentifier;
-    });
+    this.loadOrganisationFromStore();
 
     this.caaCasesStore.pipe(
       select(caaCasesStore.getCaseDataWithSupplementary),
@@ -78,8 +79,25 @@ export class CasesComponent implements OnInit {
     });
 
     // Load users of selected organisation from store
-    this.userStore.dispatch(new userStore.LoadAllUsersNoRoleData());
+    this.userStore.dispatch(new userStore.CheckUserListLoaded());
     this.selectedOrganisationUsers$ = this.userStore.pipe(select(userStore.getGetUserList));
+    this.isPageLoading$ = combineLatest([
+      this.userStore.pipe(select(userStore.getGetUserLoaded)),
+      this.caseTypesLoaded$,
+      this.casesLoaded$
+    ]).pipe(
+      map(([isUserListLoaded, isCaseTypesLoaded, isCasesLoaded]) => {
+        return !isUserListLoaded || !isCaseTypesLoaded || !isCasesLoaded;
+      })
+    );
+    this.showCasesLoadingOverlay$ = combineLatest([
+      this.isPageLoading$,
+      this.loaderService.loaderState.pipe(map((loaderState) => loaderState.show))
+    ]).pipe(
+      map(([isPageLoading, isGlobalLoaderShowing]) => isPageLoading && !isGlobalLoaderShowing),
+      distinctUntilChanged(),
+      switchMap((showOverlay) => showOverlay ? timer(300).pipe(map(() => true)) : of(false))
+    );
     sessionStorage.removeItem('newCases');
     this.caaCasesStore.pipe(
       select(caaCasesStore.getAllCases),
@@ -87,6 +105,7 @@ export class CasesComponent implements OnInit {
     ).subscribe((config: CaaCases) => {
       if (config) {
         this.casesConfig = config;
+        this.casesLoaded$.next(true);
       }
     });
 
@@ -118,9 +137,31 @@ export class CasesComponent implements OnInit {
       }
       if (this.allCaseTypes && this.allCaseTypes.length > 0) {
         this.selectedCaseType = this.allCaseTypes[0].text;
+        this.casesLoaded$.next(false);
+      } else {
+        this.casesLoaded$.next(true);
       }
+      this.caseTypesLoaded$.next(true);
     });
     this.populateFirstLoad();
+  }
+
+  private loadOrganisationFromStore(): void {
+    this.selectedOrganisation$ = this.organisationStore.pipe(select(organisationStore.getOrganisationSel));
+
+    this.selectedOrganisation$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((org) => {
+      this.orgIdentifier = org?.organisationIdentifier;
+    });
+
+    this.selectedOrganisation$.pipe(
+      take(1)
+    ).subscribe((org) => {
+      if (!org?.organisationIdentifier) {
+        this.organisationStore.dispatch(new organisationStore.LoadOrganisation());
+      }
+    });
   }
 
   public ngOnDestroy(): void {
@@ -142,6 +183,8 @@ export class CasesComponent implements OnInit {
    */
   public loadCaseTypes() {
     this.hasLoadedCaseTypesForCurrentFilter = false;
+    this.caseTypesLoaded$.next(false);
+    this.casesLoaded$.next(false);
     this.caaCasesStore.dispatch(new caaCasesStore.LoadCaseTypes({
       caaCasesPageType: this.caaCasesPageType,
       caaCasesFilterType: this.selectedFilterType,
@@ -154,6 +197,7 @@ export class CasesComponent implements OnInit {
    */
   public loadCaseData(){
     if (this.allCaseTypes && this.allCaseTypes.length > 0) {
+      this.casesLoaded$.next(false);
       this.caaCasesStore.dispatch(new caaCasesStore.LoadCases({
         caseType: this.selectedCaseType,
         pageNo: this.currentPageNo,

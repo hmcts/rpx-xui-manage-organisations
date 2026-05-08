@@ -37,17 +37,18 @@ async function getUserTermsAndConditions(req: Request<{ userId: string }>, res: 
       }
       res.send(userTandCResponse.accepted);
     } catch (error) {
+      const status = Number(valueOrNull(error, 'status')) || 500;
       // we get a 404 if the user has not agreed to Terms and conditions
-      if (valueOrNull(error, 'status') === 404) {
+      if (status === 404) {
         res.send(true);
         return;
       }
       errReport = {
         apiError: valueOrNull(error, 'data.message'),
-        apiStatusCode: valueOrNull(error, 'status'),
+        apiStatusCode: status,
         message: 'User Terms and Conditions route error'
       };
-      res.status(error.status).send(errReport);
+      res.status(status).send(errReport);
     }
   } else {
     console.log('T&Cs is not enabled.');

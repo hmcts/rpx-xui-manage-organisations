@@ -3,7 +3,7 @@ import { getConfigValue } from '../configuration';
 import { SERVICES_TERMS_AND_CONDITIONS_API_PATH } from '../configuration/references';
 import { application } from '../lib/config/application.config';
 import { getTermsAndConditionsUrl } from './termsAndConditionsUtil';
-import { objectContainsOnlySafeCharacters } from '../lib/util';
+import { objectContainsOnlySafeCharacters, valueOrNull } from '../lib/util';
 
 async function getTermsAndConditions(req: Request, res: Response) {
   let errReport: any;
@@ -15,16 +15,17 @@ async function getTermsAndConditions(req: Request, res: Response) {
     }
     res.send(response.data);
   } catch (error) {
-    if (error.status === 404) {
+    const status = Number(valueOrNull(error, 'status')) || 500;
+    if (status === 404) {
       res.send(null);
       return;
     }
     errReport = {
-      apiError: error.data.message,
-      apiStatusCode: error.status,
+      apiError: valueOrNull(error, 'data.message'),
+      apiStatusCode: status,
       message: 'Terms and Conditions route error'
     };
-    res.status(error.status).send(errReport);
+    res.status(status).send(errReport);
   }
 }
 

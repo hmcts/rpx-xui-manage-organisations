@@ -50,6 +50,22 @@ Playwright smoke and browser runs emit an Odhin report under `functional-output/
 - `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs the login-page smoke check only.
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
+- `PLAYWRIGHT_TAGS` runs only matching Playwright tags, for example `PLAYWRIGHT_TAGS=@registration yarn test:playwrightE2E`.
+- `PLAYWRIGHT_EXCLUDE_TAGS` removes matching Playwright tags, for example `PLAYWRIGHT_TAGS=@e2e PLAYWRIGHT_EXCLUDE_TAGS=@e2e-smoke yarn test:playwrightE2E -- --list`.
+
+## Playwright tag policy
+
+Every migrated new-framework journey must have one execution-pack tag and one domain tag.
+
+- Execution-pack tags:
+  - `@e2e` for migrated end-to-end journeys.
+  - `@e2e-smoke` for the unauthenticated login-page smoke check.
+- Domain tags:
+  - `@registration` for register organisation and register other organisation journeys.
+  - `@organisation` for organisation details and organisation profile journeys.
+  - `@user-admin` for users, invite, suspend, permissions, and re-invite journeys.
+
+Jenkins CNP and nightly Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` so only approved migrated E2E journeys are selected. Keep experimental or diagnostic specs out of the CI pack unless they are deliberately tagged for that lane.
 
 ## Playwright authentication
 

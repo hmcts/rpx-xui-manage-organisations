@@ -131,6 +131,7 @@ withNightlyPipeline(type, product, component) {
             withEnv([
                 "FUNCTIONAL_TESTS_WORKERS=2",
                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                "PLAYWRIGHT_TAGS=@e2e",
                 "PLAYWRIGHT_SKIP_INSTALL=true"
             ]) {
                 yarnBuilder.yarn('test:playwrightE2E:raw')
@@ -149,6 +150,7 @@ withNightlyPipeline(type, product, component) {
             withEnv([
                 "FUNCTIONAL_TESTS_WORKERS=2",
                 "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                "PLAYWRIGHT_TAGS=@e2e",
                 "PLAYWRIGHT_SKIP_INSTALL=true"
             ]) {
                 yarnBuilder.yarn('test:crossbrowser:raw')

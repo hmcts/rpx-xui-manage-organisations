@@ -25,6 +25,22 @@ export const resolveWorkerCount = (env: EnvMap = process.env): number => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 };
 
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const resolveTagPattern = (configured?: string): RegExp | undefined => {
+  const tags = configured
+    ?.split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  return tags?.length ? new RegExp(`(^|[^\\w-])(?:${tags.map(escapeRegExp).join('|')})(?=$|[^\\w-])`) : undefined;
+};
+
+export const resolveTagGrep = (env: EnvMap = process.env): RegExp | undefined => resolveTagPattern(env.PLAYWRIGHT_TAGS);
+
+export const resolveTagGrepInvert = (env: EnvMap = process.env): RegExp | undefined =>
+  resolveTagPattern(env.PLAYWRIGHT_EXCLUDE_TAGS);
+
 const resolveHtmlOutputFolder = (options: ReporterOptions, env: EnvMap = process.env): string =>
   env.PLAYWRIGHT_HTML_OUTPUT || options.htmlOutputFolder || 'functional-output/tests/playwright-e2e';
 
@@ -88,11 +104,7 @@ export const resolveBranchName = (env: EnvMap = process.env): string => {
   return 'local';
 };
 
-const resolveTestEnvironmentLabel = (
-  env: EnvMap,
-  baseUrl: string,
-  workerCount: number,
-): string => {
+const resolveTestEnvironmentLabel = (env: EnvMap, baseUrl: string, workerCount: number): string => {
   const configured = env.PLAYWRIGHT_REPORT_TEST_ENVIRONMENT || env.PW_ODHIN_ENV;
   if (configured) {
     return configured;
@@ -104,26 +116,14 @@ const resolveTestEnvironmentLabel = (
   return `${targetEnv} | ${runContext} | workers=${workerCount} | agent_cpu_cores=${cpuCores} | agent_ram_gib=${totalRamGiB}`;
 };
 
-export const resolveReporters = (
-  options: ReporterOptions,
-  baseUrl: string,
-  env: EnvMap = process.env,
-): ReporterDescription[] => {
-  const configured = env.PLAYWRIGHT_REPORTERS
-    ?.split(',')
+export const resolveReporters = (options: ReporterOptions, baseUrl: string, env: EnvMap = process.env): ReporterDescription[] => {
+  const configured = env.PLAYWRIGHT_REPORTERS?.split(',')
     .map((reporter) => reporter.trim())
     .filter(Boolean);
   const reporterNames = configured?.length
     ? configured
-    : [
-        resolveDefaultReporter(env),
-        'html',
-        'odhin',
-        ...(options.includeJunit && env.CI ? ['junit'] : []),
-      ];
-  const uniqueReporterNames = reporterNames.filter(
-    (reporterName, index) => reporterNames.indexOf(reporterName) === index,
-  );
+    : [resolveDefaultReporter(env), 'html', 'odhin', ...(options.includeJunit && env.CI ? ['junit'] : [])];
+  const uniqueReporterNames = reporterNames.filter((reporterName, index) => reporterNames.indexOf(reporterName) === index);
   const workerCount = resolveWorkerCount(env);
   const reportBranch = resolveBranchName(env);
 
@@ -149,9 +149,7 @@ export const resolveReporters = (
             testEnvironment: resolveTestEnvironmentLabel(env, baseUrl, workerCount),
             project: env.PLAYWRIGHT_REPORT_PROJECT || env.PW_ODHIN_PROJECT || options.defaultProject,
             release:
-              env.PLAYWRIGHT_REPORT_RELEASE ||
-              env.PW_ODHIN_RELEASE ||
-              `${options.defaultRelease} | branch=${reportBranch}`,
+              env.PLAYWRIGHT_REPORT_RELEASE || env.PW_ODHIN_RELEASE || `${options.defaultRelease} | branch=${reportBranch}`,
             startServer: env.PW_ODHIN_START_SERVER === 'true',
             consoleLog: true,
             consoleError: true,

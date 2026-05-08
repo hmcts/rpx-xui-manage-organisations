@@ -14,6 +14,7 @@ type ManageOrgTestUser = {
 
 type StoredAuthState = {
   cookies?: Array<{
+    domain?: string;
     expires?: number;
     name?: string;
     value?: string;
@@ -34,6 +35,24 @@ const userEnvByRole: Record<ManageOrgUserRole, { email: string; password: string
 const isManageOrgUserRole = (role: string | undefined): role is ManageOrgUserRole => role === 'base' || role === 'roo';
 
 export const resolveBaseUrl = (): string => process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/';
+
+const resolveBaseHostname = (): string => new URL(resolveBaseUrl()).hostname;
+
+const normalizeCookieDomain = (domain: string | undefined): string => domain?.replace(/^\./, '').toLowerCase() ?? '';
+
+const sanitizeStorageScope = (value: string): string => value.replace(/[^a-zA-Z0-9.-]+/g, '-').replace(/^-|-$/g, '');
+
+const cookieMatchesHost = (cookieDomain: string | undefined, hostname: string): boolean => {
+  const normalizedDomain = normalizeCookieDomain(cookieDomain);
+  return Boolean(normalizedDomain && (hostname.toLowerCase() === normalizedDomain || hostname.toLowerCase().endsWith(`.${normalizedDomain}`)));
+};
+
+const cookieIsNotExpired = (expires: number | undefined): boolean => {
+  if (expires === undefined || expires < 0) {
+    return true;
+  }
+  return expires > Date.now() / 1000;
+};
 
 export const resolveConfiguredUserRole = (): ManageOrgUserRole => {
   const configuredRole = process.env.MANAGE_ORG_TEST_USER_ROLE;
@@ -63,7 +82,7 @@ export const resolveTestUser = (role: ManageOrgUserRole = resolveConfiguredUserR
 export const resolveApiStorageStatePath = (workerIndex: number): string => {
   const role = resolveConfiguredUserRole();
   const configuredPath = process.env.MANAGE_ORG_STORAGE_STATE?.trim();
-  const stateFileName = `api-${role}-worker-${workerIndex}.json`;
+  const stateFileName = `api-${role}-${sanitizeStorageScope(resolveBaseHostname())}-worker-${workerIndex}.json`;
   if (configuredPath) {
     return resolve(configuredPath, stateFileName);
   }
@@ -88,19 +107,22 @@ const readStoredAuthState = (storageStatePath: string): StoredAuthState | undefi
 
 const hasSessionCookies = (storageStatePath: string): boolean => {
   const state = readStoredAuthState(storageStatePath);
-  const now = Date.now() / 1000;
+  const baseHostname = resolveBaseHostname();
   return Boolean(
     state?.cookies?.some(
-      (cookie) => (cookie.name === '__auth__' || cookie.name === 'xui-mo-webapp') && (!cookie.expires || cookie.expires > now)
+      (cookie) =>
+        (cookie.name === '__auth__' || cookie.name === 'xui-mo-webapp') &&
+        cookieMatchesHost(cookie.domain, baseHostname) &&
+        cookieIsNotExpired(cookie.expires)
     )
   );
 };
 
 export const xsrfHeadersFromStorageState = (storageStatePath: string): Record<string, string> => {
   const state = readStoredAuthState(storageStatePath);
-  const baseHostname = new URL(resolveBaseUrl()).hostname;
+  const baseHostname = resolveBaseHostname();
   const xsrf = state?.cookies?.find(
-    (cookie) => cookie.name === 'XSRF-TOKEN' && (!cookie.domain || baseHostname.endsWith(cookie.domain.replace(/^\./, '')))
+    (cookie) => cookie.name === 'XSRF-TOKEN' && cookieMatchesHost(cookie.domain, baseHostname) && cookieIsNotExpired(cookie.expires)
   )?.value;
   return xsrf ? { 'X-XSRF-TOKEN': xsrf } : {};
 };

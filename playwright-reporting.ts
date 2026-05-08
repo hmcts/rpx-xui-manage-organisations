@@ -111,11 +111,7 @@ export const resolveBranchName = (env: EnvMap = process.env): string => {
   return 'local';
 };
 
-const resolveTestEnvironmentLabel = (
-  env: EnvMap,
-  baseUrl: string,
-  workerCount: number,
-): string => {
+const resolveTestEnvironmentLabel = (env: EnvMap, baseUrl: string, workerCount: number): string => {
   const configured = env.PLAYWRIGHT_REPORT_TEST_ENVIRONMENT || env.PW_ODHIN_ENV;
   if (configured) {
     return configured;
@@ -127,27 +123,14 @@ const resolveTestEnvironmentLabel = (
   return `${targetEnv} | ${runContext} | workers=${workerCount} | agent_cpu_cores=${cpuCores} | agent_ram_gib=${totalRamGiB}`;
 };
 
-export const resolveReporters = (
-  options: ReporterOptions,
-  baseUrl: string,
-  env: EnvMap = process.env,
-): ReporterDescription[] => {
-  const configured = env.PLAYWRIGHT_REPORTERS
-    ?.split(',')
+export const resolveReporters = (options: ReporterOptions, baseUrl: string, env: EnvMap = process.env): ReporterDescription[] => {
+  const configured = env.PLAYWRIGHT_REPORTERS?.split(',')
     .map((reporter) => reporter.trim())
     .filter(Boolean);
   const reporterNames = configured?.length
     ? configured
-    : [
-        resolveDefaultReporter(env),
-        'html',
-        'odhin-progress',
-        'odhin',
-        ...(options.includeJunit && env.CI ? ['junit'] : []),
-      ];
-  const uniqueReporterNames = reporterNames.filter(
-    (reporterName, index) => reporterNames.indexOf(reporterName) === index,
-  );
+    : [resolveDefaultReporter(env), 'html', 'odhin-progress', 'odhin', ...(options.includeJunit && env.CI ? ['junit'] : [])];
+  const uniqueReporterNames = reporterNames.filter((reporterName, index) => reporterNames.indexOf(reporterName) === index);
   const workerCount = resolveWorkerCount(env);
   const reportBranch = resolveBranchName(env);
 
@@ -173,19 +156,14 @@ export const resolveReporters = (
             testEnvironment: resolveTestEnvironmentLabel(env, baseUrl, workerCount),
             project: env.PLAYWRIGHT_REPORT_PROJECT || env.PW_ODHIN_PROJECT || options.defaultProject,
             release:
-              env.PLAYWRIGHT_REPORT_RELEASE ||
-              env.PW_ODHIN_RELEASE ||
-              `${options.defaultRelease} | branch=${reportBranch}`,
+              env.PLAYWRIGHT_REPORT_RELEASE || env.PW_ODHIN_RELEASE || `${options.defaultRelease} | branch=${reportBranch}`,
             startServer: env.PW_ODHIN_START_SERVER === 'true',
             consoleLog: resolveFlag(env.PW_ODHIN_CONSOLE_LOG, Boolean(env.CI)),
             consoleError: resolveFlag(env.PW_ODHIN_CONSOLE_ERROR, Boolean(env.CI)),
             testOutput: resolveOdhinTestOutput(env),
             lightweight: resolveFlag(env.PW_ODHIN_LIGHTWEIGHT, !env.CI),
             profile: resolveFlag(env.PW_ODHIN_PROFILE, true),
-            runtimeHookTimeoutMs: resolvePositiveNumber(
-              env.PW_ODHIN_RUNTIME_HOOK_TIMEOUT_MS,
-              env.CI ? 0 : 15000,
-            ),
+            runtimeHookTimeoutMs: resolvePositiveNumber(env.PW_ODHIN_RUNTIME_HOOK_TIMEOUT_MS, env.CI ? 0 : 15000),
           },
         ];
       case 'odhin-progress':

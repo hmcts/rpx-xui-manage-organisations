@@ -184,7 +184,7 @@
     "@stryker-mutator/typescript": "^4.0.0",
     "@types/chai": "^4.1.7",
     "@types/chai-as-promised": "^7.1.2",
-    "@types/express": "^4.17.4",
+    "@types/express": "^5.0.6",
     "@types/express-session": "^1.17.0",
     "@types/jasmine": "~4.3.5",
     "@types/jasminewd2": "~2.0.3",

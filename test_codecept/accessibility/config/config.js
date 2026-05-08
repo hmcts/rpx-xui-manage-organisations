@@ -3,7 +3,7 @@ const conf = {
   appName: 'Manage Organisation',
   baseUrl1: 'https://manage-org.aat.platform.hmcts.net/',
   baseUrl: 'http://localhost:3000/',
-  failTestOna11yIssues: false,
+  failTestOna11yIssues: process.env.FAIL_TEST_ON_A11Y_ISSUES !== 'false',
   headless: true,
   params: {
     username: 'sreekanth_su@mailinator.com',
@@ -33,4 +33,3 @@ const conf = {
 };
 
 module.exports = { conf };
-

@@ -182,7 +182,6 @@ async function teardown() {
     await applicationServer.stop();
   }
   await generateReport()
-  process.exit(0);
 }
 
 async function generateReport() {

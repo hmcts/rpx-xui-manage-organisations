@@ -78,6 +78,20 @@ withNightlyPipeline(type, product, component) {
         ])
     }
 
+    afterSuccess('test') {
+        stage('API Unit Coverage') {
+            yarnBuilder.yarn('test:coverage:node')
+        }
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/coverage/node",
+            reportFiles          : 'index.html',
+            reportName           : 'node coverage tests'
+        ])
+    }
+
     afterSuccess('fortify-scan') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }

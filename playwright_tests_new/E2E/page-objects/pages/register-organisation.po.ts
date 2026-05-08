@@ -78,6 +78,22 @@ export class RegisterOrganisationPage extends BasePage {
     await this.page.goto('/register-org-new/register');
   }
 
+  public async openWorkflowPage(path: string): Promise<void> {
+    await this.page.goto(`/register-org-new/${path}`);
+  }
+
+  public async continueWith(buttonName = 'Continue'): Promise<void> {
+    await this.page.getByRole('button', { name: buttonName }).click();
+  }
+
+  public async goBackInWorkflow(): Promise<void> {
+    await this.page.getByText('Back', { exact: true }).first().click();
+  }
+
+  public async openSummaryChangeLink(label: string | RegExp): Promise<void> {
+    await this.summaryChangeLink(label).click();
+  }
+
   public async startRegistration(): Promise<void> {
     await this.confirmedOrganisationAccountCheckbox.check();
     await this.continueWith('Start');
@@ -226,10 +242,6 @@ export class RegisterOrganisationPage extends BasePage {
     return this.page.locator('.govuk-summary-list__row').filter({
       has: this.page.locator('.govuk-summary-list__key', { hasText: keyText })
     });
-  }
-
-  private async continueWith(buttonName = 'Continue'): Promise<void> {
-    await this.page.getByRole('button', { name: buttonName }).click();
   }
 
   private serviceCheckbox(serviceLabel: string): Locator {

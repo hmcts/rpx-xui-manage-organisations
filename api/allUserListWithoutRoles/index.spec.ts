@@ -41,6 +41,28 @@ describe('allUserList without roles: index', () => {
     expect(res.send).to.be.calledWith('test');
   });
 
+  it('should preserve user details used by the legacy API functional check', async () => {
+    const userList = {
+      users: [{
+        email: 'xuiapiorganisation@mailnesia.com',
+        firstName: 'Jason',
+        idamStatus: 'ACTIVE',
+        lastName: 'Lee'
+      }]
+    };
+    sinon.stub(req.http, 'get').resolves({ data: userList } as AxiosResponse);
+
+    await handleAllUserListRoute(req, res);
+
+    expect(res.send).to.be.calledWith(userList);
+    expect(res.send.lastCall.args[0].users[0]).to.deep.include({
+      email: 'xuiapiorganisation@mailnesia.com',
+      firstName: 'Jason',
+      idamStatus: 'ACTIVE',
+      lastName: 'Lee'
+    });
+  });
+
   it('should return an HTTP error response', async () => {
     // Stub the http.get call to throw an exception
     const errorMessage = 'Something went wrong';

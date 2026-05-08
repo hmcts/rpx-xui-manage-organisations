@@ -46,6 +46,48 @@ describe('inviteUser index', () => {
     expect(res.send).to.be.calledWith('test');
   });
 
+  it('should post a new invite payload with resendInvite disabled', async () => {
+    req.body = {
+      email: 'new.user@example.test',
+      firstName: 'Vamshi',
+      lastName: 'Muniganti',
+      resendInvite: false,
+      roles: ['pui-case-manager']
+    };
+    const mockAxiosResponse = {
+      data: {
+        message: 'User invited'
+      }
+    };
+    sinon.stub(req.http, 'post').resolves(mockAxiosResponse as AxiosResponse);
+
+    await inviteUserRoute(req, res);
+
+    expect(req.http.post).to.be.calledWith('apiPath', req.body);
+    expect(res.send).to.be.calledWith(mockAxiosResponse.data);
+  });
+
+  it('should post a re-invite payload with resendInvite enabled', async () => {
+    req.body = {
+      email: 'pending.user@example.test',
+      firstName: 'Vamshi',
+      lastName: 'Muniganti',
+      resendInvite: true,
+      roles: ['pui-organisation-manager']
+    };
+    const mockAxiosResponse = {
+      data: {
+        message: 'User re-invited'
+      }
+    };
+    sinon.stub(req.http, 'post').resolves(mockAxiosResponse as AxiosResponse);
+
+    await inviteUserRoute(req, res);
+
+    expect(req.http.post).to.be.calledWith('apiPath', req.body);
+    expect(res.send).to.be.calledWith(mockAxiosResponse.data);
+  });
+
   it('should return an HTTP error response', async () => {
     // Stub the http.post call to throw an exception
     const errorMessage = 'Something went wrong';

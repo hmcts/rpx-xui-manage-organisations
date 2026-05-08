@@ -77,6 +77,70 @@ describe('register-org index', () => {
     expect(res.send).to.be.calledWith('test');
   });
 
+  it('should transform the legacy API functional registration payload before posting to RD Professional', async () => {
+    const legacyRegistrationValues = {
+      PBAnumber1: null,
+      PBAnumber2: null,
+      county: null,
+      emailAddress: 'apitestorg@example.test',
+      firstName: 'Vam',
+      haveDXNumber: 'dontHaveDX',
+      haveDx: 'no',
+      haveSra: 'no',
+      lastName: 'Mun',
+      officeAddressOne: 'The Lodge Cafe',
+      officeAddressTwo: '149 Piccadilly',
+      orgName: 'API Test Org',
+      postcode: 'W1J 7NT',
+      townOrCity: 'London'
+    };
+    const expectedPayload = {
+      contactInformation: [{
+        addressLine1: 'The Lodge Cafe',
+        addressLine2: '149 Piccadilly',
+        county: null,
+        postCode: 'W1J 7NT',
+        townCity: 'London'
+      }],
+      name: 'API Test Org',
+      paymentAccount: [],
+      superUser: {
+        email: 'apitestorg@example.test',
+        firstName: 'Vam',
+        lastName: 'Mun'
+      }
+    };
+    req.body = {
+      event: 'continue',
+      fromValues: legacyRegistrationValues
+    };
+    sinon.restore();
+    const stub = sinon.stub(configuration, 'getConfigValue');
+    stub.withArgs(SERVICE_S2S_PATH).returns(s2sServicePath);
+    stub.withArgs(SERVICES_RD_PROFESSIONAL_API_PATH).returns('apiPath');
+    sinon.stub(s2sTokenGeneration, 'generateS2sToken').resolves('abc123');
+    fakeAxiosInstance = {
+      interceptors: {
+        request: {
+          use: sinon.stub()
+        },
+        response: {
+          use: sinon.stub()
+        }
+      },
+      post: Function()
+    } as unknown as AxiosInstance;
+    sinon.stub(axios, 'create').returns(fakeAxiosInstance);
+    sinon.stub(fakeAxiosInstance, 'post').resolves({ data: 'registered' } as AxiosResponse);
+
+    await handleRegisterOrgRoute(req, res);
+
+    expect(fakeAxiosInstance.post).to.be.calledWith('apiPath/refdata/internal/v1/organisations',
+      expectedPayload,
+      { headers: { ServiceAuthorization: 'Bearer abc123' } });
+    expect(res.send).to.be.calledWith('registered');
+  });
+
   it('should return an HTTP 500 error response if there is an error generating the S2S token', async () => {
     // Stub generateS2sToken to throw an exception
     sinon.stub(s2sTokenGeneration, 'generateS2sToken').throws(new Error(ERROR_GENERATING_S2S_TOKEN));

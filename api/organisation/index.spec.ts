@@ -42,6 +42,49 @@ describe('organisation index', () => {
     expect(res.send).to.be.calledWith('test');
   });
 
+  it('should preserve organisation details used by the legacy API functional check', async () => {
+    const organisationDetails = {
+      contactInformation: [{
+        addressLine1: '2',
+        addressLine2: 'Leman Street',
+        dxAddress: [{
+          dxExchange: 'DX London',
+          dxNumber: 'DX8235563323'
+        }],
+        townCity: 'Aldgate'
+      }],
+      name: 'xuiapiorganisation',
+      organisationIdentifier: 'CIOWLIC',
+      paymentAccount: ['PBA7853435', 'PBA4677332'],
+      sraId: 'SRA34367744334',
+      sraRegulated: false,
+      status: 'ACTIVE'
+    };
+    sinon.stub(req.http, 'get').resolves({ data: organisationDetails } as AxiosResponse);
+
+    await handleOrganisationRoute(req, res, next);
+
+    expect(res.send).to.be.calledWith(organisationDetails);
+    const sentOrganisationDetails = res.send.lastCall.args[0];
+    expect(sentOrganisationDetails).to.deep.include({
+      name: 'xuiapiorganisation',
+      organisationIdentifier: 'CIOWLIC',
+      sraId: 'SRA34367744334',
+      sraRegulated: false,
+      status: 'ACTIVE'
+    });
+    expect(sentOrganisationDetails.paymentAccount).to.deep.equal(['PBA7853435', 'PBA4677332']);
+    expect(sentOrganisationDetails.contactInformation[0]).to.deep.include({
+      addressLine1: '2',
+      addressLine2: 'Leman Street',
+      townCity: 'Aldgate'
+    });
+    expect(sentOrganisationDetails.contactInformation[0].dxAddress[0]).to.deep.equal({
+      dxExchange: 'DX London',
+      dxNumber: 'DX8235563323'
+    });
+  });
+
   it('should return an HTTP error response', async () => {
     // Stub the http.get call to throw an exception
     const errorMessage = 'Something went wrong';

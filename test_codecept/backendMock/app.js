@@ -123,13 +123,18 @@ class MockApp {
     app.use(express.static(staticRoot, { index: false, cacheControl: false }));
 
     // 2) SPA fallback: anything not matched by API routes returns index.html
-    app.get('*', (req, res) => {
+    app.get('/{*splat}', (req, res) => {
       res.sendFile(path.join(staticRoot, 'index.html'));
     });
 
     console.log('mock server starting on :8080');
     this.starting = new Promise((resolve, reject) => {
-      const srv = app.listen(8080, '::', () => {
+      const srv = app.listen(8080, '::', (error) => {
+        if (error) {
+          this.starting = null;
+          reject(error);
+          return;
+        }
         console.log('[mock] server listening on 8080');
         this.server = srv;   // ready for next calls
         this.starting = null;  // clear “starting” flag

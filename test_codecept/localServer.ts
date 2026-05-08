@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, '../dist/rpx-xui-manage-organisation
 /**
  * Used on server.ts only but should be fine to lift and shift to local.ts
  */
-app.use('/*', (req, res) => {
+app.use('/{*splat}', (req, res) => {
   res.set('Cache-Control', 'no-store, s-maxage=0, max-age=0, must-revalidate, proxy-revalidate');
   const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
   res.type('html').send(html);
@@ -51,7 +51,7 @@ class ApplicationServer {
       console.log('[localServer] SSR already up – skipping second listen()');
       return;
     }
-    app.get('/*', (req, res) => {
+    app.get('/{*splat}', (req, res) => {
       res.set('Cache-Control', 'no-store, s-maxage=0, max-age=0, must-revalidate, proxy-revalidate');
       const html = injectNonce(indexHtmlRaw, res.locals.cspNonce as string);
       res.type('html').send(html);

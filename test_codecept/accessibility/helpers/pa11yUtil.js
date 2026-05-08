@@ -50,20 +50,24 @@ async function pa11ytest(test, actions, startUrl, roles) {
   }
   let isTestSuccess = false;
   let retryCounter = 0;
+  let lastError;
   test.screenshots = [];
   test.steps = actions;
   while (!isTestSuccess && retryCounter < 3) {
 
     try {
-      await pa11ytestRunner(test, actions, startUrl, roles);
+      const result = await pa11ytestRunner(test, actions, startUrl, roles);
       isTestSuccess = true;
+      return result;
     } catch (err) {
+      lastError = err;
       retryCounter++;
       console.log("Error running pally test " + err);
       console.log("Retrying test again for " + retryCounter);
     }
   }
   console.log(test.screenshots);
+  throw lastError || new Error('pa11y test failed after retries');
 }
 
 async function pa11ytestRunner(test, actions, startUrl, roles) {
@@ -137,7 +141,7 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
   test.a11yResult = result;
   console.log("Test Execution time : " + elapsedTime);
   if (conf.failTestOna11yIssues) {
-    assert(result.issues.length === 0, "a11y issues reported")
+    assert(result.issues.length === 0, "a11y issues reported: " + result.issues.length)
   }
   result.steps = actions
 

@@ -15,7 +15,7 @@ import { getUserTermsAndConditionsUrl } from './userTermsAndConditionsUtil';
  * @param req
  * @param res
  */
-async function getUserTermsAndConditions(req: Request, res: Response) {
+async function getUserTermsAndConditions(req: Request<{ userId: string }>, res: Response) {
   if (showFeature(FEATURE_TERMS_AND_CONDITIONS_ENABLED)) {
     console.log('T&Cs is enabled.');
     res.setHeader('debugger', 'T&Cs is enabled.');

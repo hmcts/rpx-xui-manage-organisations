@@ -88,6 +88,34 @@ describe('inviteUser index', () => {
     expect(res.send).to.be.calledWith(mockAxiosResponse.data);
   });
 
+  it('should preserve re-invite throttling as an HTTP 429 response', async () => {
+    req.body = {
+      email: 'pending.user@example.test',
+      firstName: 'Vamshi',
+      lastName: 'Muniganti',
+      resendInvite: true,
+      roles: ['pui-organisation-manager']
+    };
+    const error = {
+      data: {
+        errorDescription: 'Too many re-invite requests',
+        errorMessage: 'Too Many Requests'
+      },
+      status: 429
+    };
+    sinon.stub(req.http, 'post').throws(error);
+
+    await inviteUserRoute(req, res);
+
+    expect(req.http.post).to.be.calledWith('apiPath', req.body);
+    expect(res.status).to.be.calledWith(429);
+    expect(res.send).to.be.calledWith({
+      apiError: 'Too Many Requests',
+      apiStatusCode: 429,
+      message: 'Too many re-invite requests'
+    });
+  });
+
   it('should return an HTTP error response', async () => {
     // Stub the http.post call to throw an exception
     const errorMessage = 'Something went wrong';

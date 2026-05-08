@@ -48,7 +48,27 @@ def handleFailFastAbort = { Exception e ->
     return false
 }
 
+def ensureHtmlReportForPublishing = { String reportDir, String reportFile, String suiteName ->
+    withEnv([
+        "PW_ODHIN_ENSURE_REPORT_DIR=${reportDir}",
+        "PW_ODHIN_ENSURE_REPORT_FILE=${reportFile}",
+        "PW_ODHIN_ENSURE_SUITE_NAME=${suiteName}"
+    ]) {
+        steps.sh '''
+            node scripts/ensure-odhin-report.js \
+              --report-dir "$PW_ODHIN_ENSURE_REPORT_DIR" \
+              --report-file "$PW_ODHIN_ENSURE_REPORT_FILE" \
+              --suite-name "$PW_ODHIN_ENSURE_SUITE_NAME"
+        '''
+    }
+}
+
 def publishPlaywrightApiReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-api/odhin-report",
+        'xui-mo-playwright-api.html',
+        reportName
+    )
     publishHTML([
         allowMissing         : true,
         alwaysLinkToLastBuild: true,
@@ -61,6 +81,11 @@ def publishPlaywrightApiReport = { String reportName ->
 }
 
 def publishPlaywrightE2EReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-e2e/odhin-report",
+        'xui-playwright-e2e.html',
+        reportName
+    )
     publishHTML([
         allowMissing         : true,
         alwaysLinkToLastBuild: true,
@@ -73,6 +98,11 @@ def publishPlaywrightE2EReport = { String reportName ->
 }
 
 def publishPlaywrightIntegrationReport = { String reportName ->
+    ensureHtmlReportForPublishing(
+        "functional-output/tests/playwright-integration/odhin-report",
+        'xui-mo-playwright-integration.html',
+        reportName
+    )
     publishHTML([
         allowMissing         : true,
         alwaysLinkToLastBuild: true,

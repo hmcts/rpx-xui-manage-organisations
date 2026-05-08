@@ -14,6 +14,29 @@ type ReporterOptions = {
   includeJunit?: boolean;
 };
 
+const resolveFlag = (raw: string | undefined, fallback: boolean): boolean => {
+  if (raw === undefined || raw.trim() === '') {
+    return fallback;
+  }
+  return raw.trim().toLowerCase() === 'true';
+};
+
+const resolvePositiveNumber = (raw: string | undefined, fallback: number): number => {
+  const parsed = Number.parseInt(String(raw ?? ''), 10);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : fallback;
+};
+
+const resolveOdhinTestOutput = (env: EnvMap = process.env): boolean | 'only-on-failure' => {
+  const configured = (env.PW_ODHIN_TEST_OUTPUT ?? 'only-on-failure').trim().toLowerCase();
+  if (configured === 'true') {
+    return true;
+  }
+  if (configured === 'false') {
+    return false;
+  }
+  return 'only-on-failure';
+};
+
 export const resolveDefaultReporter = (env: EnvMap = process.env): string => {
   const configured = env.PLAYWRIGHT_DEFAULT_REPORTER?.trim();
   return configured || (env.CI ? 'dot' : 'list');
@@ -118,6 +141,7 @@ export const resolveReporters = (
     : [
         resolveDefaultReporter(env),
         'html',
+        'odhin-progress',
         'odhin',
         ...(options.includeJunit && env.CI ? ['junit'] : []),
       ];
@@ -141,7 +165,7 @@ export const resolveReporters = (
         return ['junit', { outputFile: env.PLAYWRIGHT_JUNIT_OUTPUT || 'playwright-junit.xml' }];
       case 'odhin':
         return [
-          'odhin-reports-playwright',
+          './playwright_tests_new/common/reporters/odhin-adaptive.reporter.cjs',
           {
             outputFolder: resolveOdhinOutputFolder(options, env),
             indexFilename: resolveOdhinIndexFilename(options, env),
@@ -153,9 +177,28 @@ export const resolveReporters = (
               env.PW_ODHIN_RELEASE ||
               `${options.defaultRelease} | branch=${reportBranch}`,
             startServer: env.PW_ODHIN_START_SERVER === 'true',
-            consoleLog: true,
-            consoleError: true,
-            testOutput: env.PW_ODHIN_TEST_OUTPUT || 'only-on-failure',
+            consoleLog: resolveFlag(env.PW_ODHIN_CONSOLE_LOG, Boolean(env.CI)),
+            consoleError: resolveFlag(env.PW_ODHIN_CONSOLE_ERROR, Boolean(env.CI)),
+            testOutput: resolveOdhinTestOutput(env),
+            lightweight: resolveFlag(env.PW_ODHIN_LIGHTWEIGHT, !env.CI),
+            profile: resolveFlag(env.PW_ODHIN_PROFILE, true),
+            runtimeHookTimeoutMs: resolvePositiveNumber(
+              env.PW_ODHIN_RUNTIME_HOOK_TIMEOUT_MS,
+              env.CI ? 0 : 15000,
+            ),
+          },
+        ];
+      case 'odhin-progress':
+        return [
+          './playwright_tests_new/common/reporters/odhin-progress.reporter.cjs',
+          {
+            enabled: resolveFlag(env.PW_ODHIN_PROGRESS, Boolean(env.CI)),
+            graceMs: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_GRACE_MS, 1500),
+            intervalMs: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_INTERVAL_MS, 5000),
+            hardTimeoutMs: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_HARD_TIMEOUT_MS, 0),
+            timeoutExitCode: resolvePositiveNumber(env.PW_ODHIN_PROGRESS_TIMEOUT_EXIT_CODE, 1),
+            completionExitDelayMs: resolvePositiveNumber(env.PW_ODHIN_COMPLETION_EXIT_DELAY_MS, 0),
+            forceExitOnCompletion: resolveFlag(env.PW_ODHIN_FORCE_EXIT_ON_COMPLETION, Boolean(env.CI)),
           },
         ];
       case 'dot':

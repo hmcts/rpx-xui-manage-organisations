@@ -20,7 +20,10 @@ const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), '
 module.exports = defineConfig({
   testDir: 'playwright_tests_new/E2E',
   testMatch: ['**/test/**/*.spec.ts'],
-  testIgnore: ['**/test/smoke/smokeTest.spec.ts'],
+  testIgnore:
+    process.env.PLAYWRIGHT_INCLUDE_A11Y === 'true'
+      ? ['**/test/smoke/smokeTest.spec.ts']
+      : ['**/test/smoke/smokeTest.spec.ts', '**/*.a11y.spec.ts'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

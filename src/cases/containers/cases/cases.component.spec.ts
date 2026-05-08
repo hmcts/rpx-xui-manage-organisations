@@ -62,6 +62,47 @@ describe('CasesComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should reset the current page when the selected filter changes', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.currentPageNo = 5;
+    component.selectedFilterType = CaaCasesFilterType.UnassignedCases;
+    component.selectedFilterValue = null;
+
+    component.onSelectedFilter({
+      filterType: CaaCasesFilterType.CaseReferenceNumber,
+      filterValue: '1111222233334444'
+    });
+
+    expect(component.currentPageNo).toBe(1);
+  });
+
+  it('should keep the current page when the selected filter has not changed', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.currentPageNo = 5;
+    component.selectedFilterType = CaaCasesFilterType.UnassignedCases;
+    component.selectedFilterValue = null;
+
+    component.onSelectedFilter({
+      filterType: CaaCasesFilterType.UnassignedCases,
+      filterValue: null
+    });
+
+    expect(component.currentPageNo).toBe(5);
+  });
+
+  it('should reset the current page when the selected tab changes', () => {
+    store.overrideSelector(organisationStore.getOrganisationSel, null);
+    createComponent();
+    component.currentPageNo = 5;
+    component.allCaseTypes = [{ text: 'Case type 1' } as any];
+
+    component.onTabChanged('Case type 1');
+
+    expect(component.currentPageNo).toBe(1);
+  });
+
   it('should not reload case types when the selected filter is already loaded', () => {
     store.overrideSelector(organisationStore.getOrganisationSel, null);
     createComponent();

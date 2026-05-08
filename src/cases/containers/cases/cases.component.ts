@@ -211,6 +211,7 @@ export class CasesComponent implements OnInit {
 
   public onTabChanged(tabName: string): void {
     this.selectedCaseType = tabName;
+    this.resetPagination();
     this.loadCaseData();
     this.checkShareButtonText();
   }
@@ -252,10 +253,14 @@ export class CasesComponent implements OnInit {
 
   public onSelectedFilter(selectedFilter: SelectedCaseFilter): void {
     const nextPageType = this.getPageTypeForFilter(selectedFilter.filterType);
+    const selectedFilterChanged = this.hasSelectedFilterChanged(selectedFilter, nextPageType);
     const filterAlreadyLoaded = this.isFilterAlreadyLoaded(selectedFilter, nextPageType);
 
     this.selectedFilterType = selectedFilter.filterType;
     this.selectedFilterValue = selectedFilter.filterValue;
+    if (selectedFilterChanged) {
+      this.resetPagination();
+    }
     this.storeSessionState(selectedFilter);
 
     if (selectedFilter.filterType === CaaCasesFilterType.None) {
@@ -310,6 +315,16 @@ export class CasesComponent implements OnInit {
       this.selectedFilterType === selectedFilter.filterType &&
       this.selectedFilterValue === selectedFilter.filterValue &&
       this.caaCasesPageType === nextPageType;
+  }
+
+  private hasSelectedFilterChanged(selectedFilter: SelectedCaseFilter, nextPageType: CaaCasesPageType): boolean {
+    return this.selectedFilterType !== selectedFilter.filterType ||
+      this.selectedFilterValue !== selectedFilter.filterValue ||
+      this.caaCasesPageType !== nextPageType;
+  }
+
+  private resetPagination(): void {
+    this.currentPageNo = 1;
   }
 
   public onErrorMessages(errorMessages: ErrorMessage[]): void {

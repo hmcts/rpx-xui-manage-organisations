@@ -52,8 +52,8 @@ test.describe('User administration', () => {
 
   test('pending user re-invite opens a prefilled read-only invite form', async ({ usersPage }) => {
     await usersPage.open();
-    const pendingUserFound = await usersPage.openFirstUserByStatus('Pending');
-    test.skip(!pendingUserFound, 'No pending user is available in the target environment.');
+    const pendingUser = await usersPage.openFirstUserByStatus('Pending');
+    test.skip(!pendingUser, 'No pending user is available in the target environment.');
 
     await expect(usersPage.pendingUserDetailsHeading).toBeVisible();
     await expect(usersPage.resendInvitationButton).toBeVisible();
@@ -67,6 +67,10 @@ test.describe('User administration', () => {
     await expect(usersPage.lastNameInput).not.toHaveValue('');
     await expect(usersPage.emailInput).toBeDisabled();
     await expect(usersPage.emailInput).not.toHaveValue('');
-    await expect(usersPage.backLink).toHaveAttribute('href', /\/users\/user\//);
+    const prefilledName = `${await usersPage.firstNameInput.inputValue()} ${await usersPage.lastNameInput.inputValue()}`;
+    expect(pendingUser.linkText).toContain(prefilledName);
+    const prefilledEmail = await usersPage.emailInput.inputValue();
+    expect(pendingUser.rowText).toContain(prefilledEmail);
+    await expect(usersPage.backLink).toHaveAttribute('href', pendingUser.href);
   });
 });

@@ -1,6 +1,12 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { BasePage } from '../base';
 
+export type SelectedUser = {
+  href: string;
+  linkText: string;
+  rowText: string;
+};
+
 export class UsersPage extends BasePage {
   public readonly heading: Locator;
   public readonly inviteUserButton: Locator;
@@ -52,15 +58,21 @@ export class UsersPage extends BasePage {
       .first();
   }
 
-  public async openFirstUserByStatus(status: 'Active' | 'Pending'): Promise<boolean> {
+  public async openFirstUserByStatus(status: 'Active' | 'Pending'): Promise<SelectedUser | null> {
     await expect(this.userList).toBeVisible();
 
     for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
-      const userLink = this.userRowByStatus(status).locator('a').first();
+      const userRow = this.userRowByStatus(status);
+      const userLink = userRow.locator('a').first();
 
       if (await userLink.isVisible()) {
+        const selectedUser = {
+          href: (await userLink.getAttribute('href')) ?? '',
+          linkText: (await userLink.innerText()).trim(),
+          rowText: (await userRow.innerText()).trim(),
+        };
         await userLink.click();
-        return true;
+        return selectedUser;
       }
 
       const nextPageLink = this.page
@@ -75,12 +87,12 @@ export class UsersPage extends BasePage {
       await expect(this.userList).toBeVisible();
     }
 
-    return false;
+    return null;
   }
 
   public async openFirstActiveUser(): Promise<void> {
-    const userFound = await this.openFirstUserByStatus('Active');
-    if (!userFound) {
+    const selectedUser = await this.openFirstUserByStatus('Active');
+    if (!selectedUser) {
       throw new Error('No active user found in the users list');
     }
   }
@@ -98,6 +110,7 @@ export class UsersPage extends BasePage {
   }
 
   public permissionCheckbox(label: string): Locator {
-    return this.page.getByRole('checkbox', { name: new RegExp(label, 'i') });
+    const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return this.page.getByRole('checkbox', { name: new RegExp(`^${escapedLabel}$`, 'i') });
   }
 }

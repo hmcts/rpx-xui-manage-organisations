@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   public loadUsers(): void {
-    this.store.dispatch(new fromStore.LoadAllUsersNoRoleData());
+    this.store.dispatch(new fromStore.CheckUserListLoaded());
     this.tableUsersData$ = this.store.pipe(
       select(fromStore.getGetUserList),
       map((users) => {

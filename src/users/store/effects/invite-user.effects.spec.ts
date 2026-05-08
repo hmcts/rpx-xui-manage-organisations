@@ -1,4 +1,5 @@
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { addMatchers, cold, hot, initTestScheduler } from 'jasmine-marbles';
@@ -6,8 +7,8 @@ import { of, throwError } from 'rxjs';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { InviteUserService } from '../../services/invite-user.service';
 import * as fromUsersActions from '../actions/invite-user.actions';
+import { InvalidateUserListCache, LoadAllUsersNoRoleData } from '../actions/user.actions';
 import * as fromUsersEffects from './invite-user.effects';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 describe('Invite User Effects', () => {
   let actions$;
@@ -98,6 +99,22 @@ describe('Invite User Effects', () => {
       const message = fromUsersEffects.InviteUserEffects.getUserInviteLoggerMessage(false);
       expect(message).toEqual('User Invited');
     });
+  });
+
+  describe('refreshUserListAfterInvite$', () => {
+    it('should invalidate and refresh the user list cache after inviting a user', waitForAsync(() => {
+      const action = new fromUsersActions.InviteUserSuccess({ userEmail: 'thecap@cave.com' });
+      const invalidateCacheActionCompletion = new InvalidateUserListCache();
+      const loadAllUsersNoRoleDataActionCompletion = new LoadAllUsersNoRoleData();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: invalidateCacheActionCompletion,
+        c: loadAllUsersNoRoleDataActionCompletion
+      });
+
+      expect(effects.refreshUserListAfterInvite$).toBeObservable(expected);
+    }));
   });
 
   describe('getErrorAction', () => {

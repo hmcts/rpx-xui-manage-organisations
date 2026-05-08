@@ -1,5 +1,4 @@
 const pa11y = require('pa11y');
-const assert = require('assert');
 const { conf } = require('../config/config');
 
 const jwt = require('jsonwebtoken');
@@ -14,6 +13,12 @@ const fs = require('fs');
 let testBrowser = null;
 let page = null;
 
+class A11yViolationError extends Error {
+  constructor(issueCount) {
+    super("a11y issues reported: " + issueCount);
+    this.name = 'A11yViolationError';
+  }
+}
 
 let sessionCookies = [];
 
@@ -62,6 +67,9 @@ async function pa11ytest(test, actions, startUrl, roles) {
     } catch (err) {
       lastError = err;
       retryCounter++;
+      if (err instanceof A11yViolationError) {
+        throw err;
+      }
       console.log("Error running pally test " + err);
       console.log("Retrying test again for " + retryCounter);
     }
@@ -141,7 +149,9 @@ async function pa11ytestRunner(test, actions, startUrl, roles) {
   test.a11yResult = result;
   console.log("Test Execution time : " + elapsedTime);
   if (conf.failTestOna11yIssues) {
-    assert(result.issues.length === 0, "a11y issues reported: " + result.issues.length)
+    if (result.issues.length > 0) {
+      throw new A11yViolationError(result.issues.length);
+    }
   }
   result.steps = actions
 

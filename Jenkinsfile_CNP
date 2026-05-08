@@ -114,6 +114,9 @@ withPipeline(type, product, component) {
             reportName           : "ng coverage tests"
         ])
 
+    }
+
+    afterAlways('test') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -124,9 +127,6 @@ withPipeline(type, product, component) {
         ])
 
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/codecept-a11y/**'
-
-
-
 
     }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
 import * as fromRoot from '../../../app/store';
 import { LoggerService } from '../../../shared/services/logger.service';
 import { ErrorReport } from '../../models/errorReport.model';
@@ -41,6 +41,14 @@ export class InviteUserEffects {
     map(() => {
       return new fromRoot.Go({ path: ['users/invite-user-success'] });
     })
+  ));
+
+  public refreshUserListAfterInvite$ = createEffect(() => this.actions$.pipe(
+    ofType(usersActions.INVITE_USER_SUCCESS),
+    concatMap(() => [
+      new usersActions.InvalidateUserListCache(),
+      new usersActions.LoadAllUsersNoRoleData()
+    ])
   ));
 
   public static getUserInviteLoggerMessage(resendInvite: boolean) {

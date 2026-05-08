@@ -76,11 +76,15 @@ export class CasesResultsTableComponent {
   }
 
   public tabChanged(event: { tab: { textLabel: string }}): void {
-    this.totalCases = this.navItems.find((data) => data.text === event.tab.textLabel)
-      ? this.navItems.find((data) => data.text === event.tab.textLabel).total
+    const tabName = event.tab.textLabel;
+    if (tabName === this.currentCaseType) {
+      return;
+    }
+    this.totalCases = this.navItems.find((data) => data.text === tabName)
+      ? this.navItems.find((data) => data.text === tabName).total
       : 0;
     this.noCasesFoundMessage = this.getNoCasesFoundMessage();
-    this.setTabItems(event.tab.textLabel, true);
+    this.setTabItems(tabName, true);
   }
 
   public resetPaginationParameters(): void {

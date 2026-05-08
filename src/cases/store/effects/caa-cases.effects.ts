@@ -40,7 +40,7 @@ export class CaaCasesEffects {
         return this.caaCasesService.getCaaCaseTypes(payload.caaCasesPageType, payload.caaCasesFilterType, payload.caaCasesFilterValue).pipe(
           map((caaCaseTypes) => {
             const navItems = CaaCasesUtil.getCaaNavItems(caaCaseTypes);
-            const navData = caaCaseTypes.cases;
+            const navData = caaCaseTypes.cases || [];
             return new fromCaaActions.LoadCaseTypesSuccess(navItems, navData);
           }),
           catchError((error) => {

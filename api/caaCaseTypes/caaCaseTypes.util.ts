@@ -126,3 +126,20 @@ export function addCaseConfiguration(response) {
     }
   });
 }
+
+export function filterCaseData(response, includeCaseData: boolean) {
+  if (!Array.isArray(response.data?.cases)) {
+    return;
+  }
+
+  if (!includeCaseData) {
+    delete response.data.cases;
+    return;
+  }
+
+  response.data.cases = response.data.cases.map((caseData) => ({
+    id: caseData.id,
+    case_type_id: caseData.case_type_id,
+    supplementary_data: caseData.supplementary_data
+  }));
+}

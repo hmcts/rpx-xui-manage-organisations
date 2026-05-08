@@ -47,4 +47,17 @@ describe('User service', () => {
     expect(reqOgd.request.method).toEqual('PUT');
     reqOgd.flush({});
   });
+
+  it('should share the user details request between subscribers', () => {
+    userService.getUserDetails().subscribe();
+    userService.getUserDetails().subscribe();
+
+    const req = httpTestingController.expectOne('/api/user/details');
+    expect(req.request.method).toEqual('GET');
+    req.flush({
+      orgId: 'org-1',
+      roles: ['pui-organisation-manager'],
+      userId: 'user-1'
+    });
+  });
 });

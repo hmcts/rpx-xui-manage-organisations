@@ -4,7 +4,12 @@
     }}</span>
   <h1 class="govuk-heading-xl">{{ pageTitle }}</h1>
 
-  <div>
+  <div class="cases-content" [class.cases-content--loading]="isPageLoading$ | async">
+    @if (showCasesLoadingOverlay$ | async) {
+    <div class="cases-loading-overlay" role="status" aria-live="polite">
+      <img src="./../../../../assets/images/loading.gif" alt="Loading">
+    </div>
+    }
     <button type="submit" class="govuk-button govuk-button--secondary" (click)="toggleFilterSection()">
       {{ showFilterSection ? "Hide cases filter" : "Show cases filter" }}
     </button>

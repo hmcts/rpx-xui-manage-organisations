@@ -22,6 +22,35 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+def handleFailFastAbort = { Exception e ->
+    def abortedByFailFast = false
+    def failFastExitCodes = ['129', '137', '143']
+    if (e instanceof org.jenkinsci.plugins.workflow.steps.FlowInterruptedException) {
+        try {
+            def causes = (e.getCauses() ?: []).collect { c -> c?.getClass()?.getName() }.findAll { it }
+            abortedByFailFast = causes.any { it?.endsWith('FailFastCause') }
+            echo "[failFast] FlowInterruptedException: causes=${causes}"
+        } catch (ignored) {
+            echo "[failFast] FlowInterruptedException: causes=<unavailable>"
+        }
+    } else if (e instanceof hudson.AbortException) {
+        def msg = e.getMessage() ?: ''
+        def matcher = (msg =~ /(exit code|status)\s+(\d+)/)
+        def exitCode = matcher.find() ? matcher.group(2) : null
+        abortedByFailFast = (currentBuild?.result == 'ABORTED') || (exitCode in failFastExitCodes)
+        echo "[failFast] AbortException: buildResult=${currentBuild?.result}, exitCode=${exitCode}"
+    } else {
+        echo "[failFast] Non-abort exception: ${e.getClass().getName()}: ${e.getMessage()}"
+    }
+    if (abortedByFailFast) {
+        echo "[failFast] Marking stage as ABORTED due to failFast interruption"
+        catchError(buildResult: 'ABORTED', stageResult: 'ABORTED') { throw e }
+        return true
+    }
+    echo "[failFast] Not a failFast interruption; rethrowing"
+    return false
+}
+
 def publishPlaywrightE2EReport = { String reportName ->
     publishHTML([
         allowMissing         : true,
@@ -44,6 +73,81 @@ def publishPlaywrightApiReport = { String reportName ->
         reportName           : reportName
     ])
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-api/**,test-results/**/*'
+}
+
+def publishPlaywrightIntegrationReport = { String reportName ->
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-integration/odhin-report",
+        reportFiles          : 'xui-mo-playwright-integration.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-integration/**,test-results/**/*'
+}
+
+def runPlaywrightFunctionalTestsInParallel = { String environmentName ->
+    stage("${environmentName} Functional Tests (Parallel)") {
+        parallel(
+            failFast: true,
+            api: {
+                stage('API Tests') {
+                    try {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=4",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            yarnBuilder.yarn('test:api:pw')
+                        }
+                    } catch (Exception e) {
+                        echo "[failFast] API Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleFailFastAbort(e)) { return }
+                        throw e
+                    } finally {
+                        publishPlaywrightApiReport("${environmentName} Manage Org Playwright API")
+                    }
+                }
+            },
+            playwrightIntegration: {
+                stage('Playwright Integration Tests') {
+                    try {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=4",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            yarnBuilder.yarn('test:playwright:integration')
+                        }
+                    } catch (Exception e) {
+                        echo "[failFast] Playwright Integration Tests catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleFailFastAbort(e)) { return }
+                        throw e
+                    } finally {
+                        publishPlaywrightIntegrationReport("${environmentName} Manage Org Playwright Integration")
+                    }
+                }
+            },
+            playwrightE2E: {
+                stage('Playwright E2E') {
+                    try {
+                        withEnv([
+                            "FUNCTIONAL_TESTS_WORKERS=2",
+                            "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                            "PLAYWRIGHT_SKIP_INSTALL=true"
+                        ]) {
+                            yarnBuilder.yarn('test:playwrightE2E:raw')
+                        }
+                    } catch (Exception e) {
+                        echo "[failFast] Playwright E2E catch: ${e.getClass().getName()}: ${e.getMessage()}"
+                        if (handleFailFastAbort(e)) { return }
+                        throw e
+                    } finally {
+                        publishPlaywrightE2EReport("${environmentName} Manage Org Playwright E2E")
+                    }
+                }
+            }
+        )
+    }
 }
 
 def secrets = [
@@ -172,16 +276,7 @@ withPipeline(type, product, component) {
 
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
 
-        stage('Preview Playwright E2E') {
-            withEnv([
-                "FUNCTIONAL_TESTS_WORKERS=2",
-                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                "PLAYWRIGHT_SKIP_INSTALL=true"
-            ]) {
-                yarnBuilder.yarn('test:playwrightE2E:raw')
-            }
-            publishPlaywrightE2EReport('PREVIEW Manage Org Playwright E2E')
-        }
+        runPlaywrightFunctionalTestsInParallel('PREVIEW')
     }
 
     afterSuccess('functionalTest:preview') {
@@ -204,14 +299,6 @@ withPipeline(type, product, component) {
             reportName           : 'PREVIEW Functional Test'
         ])
 
-        stage('Preview Playwright API') {
-            withEnv([
-                "PLAYWRIGHT_SKIP_INSTALL=true"
-            ]) {
-                yarnBuilder.yarn('test:api:pw')
-            }
-            publishPlaywrightApiReport('PREVIEW Manage Org Playwright API')
-        }
     }
 
 
@@ -236,16 +323,7 @@ withPipeline(type, product, component) {
 
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
 
-        stage('AAT Playwright E2E') {
-            withEnv([
-                "FUNCTIONAL_TESTS_WORKERS=2",
-                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
-                "PLAYWRIGHT_SKIP_INSTALL=true"
-            ]) {
-                yarnBuilder.yarn('test:playwrightE2E:raw')
-            }
-            publishPlaywrightE2EReport('AAT Manage Org Playwright E2E')
-        }
+        runPlaywrightFunctionalTestsInParallel('AAT')
     }
 
     afterSuccess('functionalTest:aat') {
@@ -268,14 +346,6 @@ withPipeline(type, product, component) {
             reportName           : 'AAT Functional Test'
         ])
 
-        stage('AAT Playwright API') {
-            withEnv([
-                "PLAYWRIGHT_SKIP_INSTALL=true"
-            ]) {
-                yarnBuilder.yarn('test:api:pw')
-            }
-            publishPlaywrightApiReport('AAT Manage Org Playwright API')
-        }
     }
 
 }

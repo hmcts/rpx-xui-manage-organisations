@@ -31,6 +31,29 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
     expectArray(organisation.contactInformation, 'Organisation contact information should be an array');
   });
 
+  test('returns authenticated legacy v1 organisation details', async ({ apiClient }) => {
+    const response = await apiClient.get<OrganisationResponse>('api/organisation/v1');
+
+    expectStatus(response.status, [200]);
+    const organisation = expectObject(response.data, 'Organisation v1 response should be an object') as OrganisationResponse;
+    expect(organisation.organisationIdentifier, 'Organisation identifier should be present').toBeTruthy();
+    expect(organisation.name, 'Organisation name should be present').toBeTruthy();
+    expect(organisation.status, 'Organisation status should be present').toBeTruthy();
+  });
+
+  test('keeps v1 and default organisation identifiers aligned', async ({ apiClient }) => {
+    const defaultResponse = await apiClient.get<OrganisationResponse>('api/organisation');
+    const v1Response = await apiClient.get<OrganisationResponse>('api/organisation/v1');
+
+    expectStatus(defaultResponse.status, [200]);
+    expectStatus(v1Response.status, [200]);
+    const defaultOrganisation = expectObject(defaultResponse.data, 'Organisation response should be an object') as OrganisationResponse;
+    const v1Organisation = expectObject(v1Response.data, 'Organisation v1 response should be an object') as OrganisationResponse;
+    expect(v1Organisation.organisationIdentifier, 'V1 and default organisation IDs should match').toBe(
+      defaultOrganisation.organisationIdentifier
+    );
+  });
+
   test('returns authenticated organisation users', async ({ apiClient }) => {
     const response = await apiClient.get<UserListResponse>('api/allUserListWithoutRoles');
 
@@ -45,6 +68,12 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
 
   test('rejects anonymous organisation details requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/organisation');
+
+    expectStatus(response.status, [401, 403]);
+  });
+
+  test('rejects anonymous legacy organisation details requests', async ({ anonymousApiClient }) => {
+    const response = await anonymousApiClient.get('api/organisation/v1');
 
     expectStatus(response.status, [401, 403]);
   });

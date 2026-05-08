@@ -51,7 +51,7 @@ Playwright API runs emit an Odhin report under `functional-output/tests/playwrig
 - `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs the login-page smoke check only.
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
-- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. `yarn test:api` remains the legacy Codecept/Mocha API path until the Playwright API lane has been proven in CI.
+- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The first tranche covers organisation details, user/session context, user lists, public configuration/reference data, and protected-route guard rails. Mutating invite and registration POST checks are present but disabled by default. `yarn test:api` remains the legacy Codecept/Mocha API path until the Playwright API lane has been proven in CI.
 
 ## Playwright authentication
 

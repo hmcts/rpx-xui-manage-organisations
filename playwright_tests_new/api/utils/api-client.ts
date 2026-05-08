@@ -34,6 +34,24 @@ export class ManageOrgApiClient {
     return this.toApiResponse<T>(response);
   }
 
+  public async put<T = unknown>(url: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
+    const response = await this.context.put(url, {
+      data: options.data,
+      failOnStatusCode: options.throwOnError ?? false,
+      headers: options.headers
+    });
+    return this.toApiResponse<T>(response);
+  }
+
+  public async delete<T = unknown>(url: string, options: RequestOptions = {}): Promise<ApiResponse<T>> {
+    const response = await this.context.delete(url, {
+      data: options.data,
+      failOnStatusCode: options.throwOnError ?? false,
+      headers: options.headers
+    });
+    return this.toApiResponse<T>(response);
+  }
+
   public async dispose(): Promise<void> {
     await this.context.dispose();
   }

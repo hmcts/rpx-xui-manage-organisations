@@ -11,7 +11,7 @@ async function getTermsAndConditions(req: Request, res: Response) {
     const apiUrl = getTermsAndConditionsUrl(getConfigValue(SERVICES_TERMS_AND_CONDITIONS_API_PATH), application.idamClient);
     const response = await req.http.get(apiUrl);
     if (!objectContainsOnlySafeCharacters(response.data)) {
-      return res.send('Invalid terms and condition data').status(400);
+      return res.status(400).send('Invalid terms and condition data');
     }
     res.send(response.data);
   } catch (error) {

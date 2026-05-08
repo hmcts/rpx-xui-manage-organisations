@@ -33,7 +33,7 @@ async function getUserTermsAndConditions(req: Request<{ userId: string }>, res: 
       const response = await req.http.get(apiUrl);
       const userTandCResponse = response.data as GetUserAcceptTandCResponse;
       if (!objectContainsOnlySafeCharacters(response.data)) {
-        return res.send('Invalid terms and condition data').status(400);
+        return res.status(400).send('Invalid terms and condition data');
       }
       res.send(userTandCResponse.accepted);
     } catch (error) {

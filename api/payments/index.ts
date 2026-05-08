@@ -18,7 +18,7 @@ async function handleAddressRoute(req: Request, res: Response) {
       `${getConfigValue(SERVICES_FEE_AND_PAY_API_PATH)}/pba-accounts/${req.params.account}/payments/`
     );
     if (!objectContainsOnlySafeCharacters(response.data.payments)) {
-      return res.send('Invalid payment data').status(400);
+      return res.status(400).send('Invalid payment data');
     }
     res.send(response.data.payments);
   } catch (error) {

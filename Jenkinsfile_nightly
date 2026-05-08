@@ -19,6 +19,18 @@ def component = "mo-webapp"
 def channel   = '#xui-pipeline'
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
+def publishPlaywrightApiReport = { String reportName ->
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-api/odhin-report",
+        reportFiles          : 'xui-mo-playwright-api.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-api/**,test-results/**/*'
+}
+
 def secrets = [
   'rpx-${env}': [
     secret('test-user1-email', 'TEST_USER1_EMAIL'),
@@ -127,6 +139,15 @@ withNightlyPipeline(type, product, component) {
   }
 
     afterSuccess('fortify-scan') {
+        stage('Playwright API') {
+            withEnv([
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:api:pw')
+            }
+            publishPlaywrightApiReport('XUI Manage Organisation Playwright API')
+        }
+
         stage('Playwright E2E') {
             withEnv([
                 "FUNCTIONAL_TESTS_WORKERS=2",

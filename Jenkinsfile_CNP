@@ -34,6 +34,18 @@ def publishPlaywrightE2EReport = { String reportName ->
     steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-e2e/**,test-results/**/*'
 }
 
+def publishPlaywrightApiReport = { String reportName ->
+    publishHTML([
+        allowMissing         : true,
+        alwaysLinkToLastBuild: true,
+        keepAll              : true,
+        reportDir            : "functional-output/tests/playwright-api/odhin-report",
+        reportFiles          : 'xui-mo-playwright-api.html',
+        reportName           : reportName
+    ])
+    steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/tests/playwright-api/**,test-results/**/*'
+}
+
 def secrets = [
   'rpx-${env}': [
     secret('test-user1-email', 'TEST_USER1_EMAIL'),
@@ -191,6 +203,15 @@ withPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'PREVIEW Functional Test'
         ])
+
+        stage('Preview Playwright API') {
+            withEnv([
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:api:pw')
+            }
+            publishPlaywrightApiReport('PREVIEW Manage Org Playwright API')
+        }
     }
 
 
@@ -246,6 +267,15 @@ withPipeline(type, product, component) {
             reportFiles          : 'index.html',
             reportName           : 'AAT Functional Test'
         ])
+
+        stage('AAT Playwright API') {
+            withEnv([
+                "PLAYWRIGHT_SKIP_INSTALL=true"
+            ]) {
+                yarnBuilder.yarn('test:api:pw')
+            }
+            publishPlaywrightApiReport('AAT Manage Org Playwright API')
+        }
     }
 
 }

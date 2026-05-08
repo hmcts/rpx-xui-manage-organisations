@@ -1,0 +1,135 @@
+import { chromium, type BrowserContext } from '@playwright/test';
+import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, join, resolve } from 'node:path';
+import { IdamPage } from '../../E2E/page-objects/pages/idam.po';
+import { OrganisationPage } from '../../E2E/page-objects/pages/organisation.po';
+
+type ManageOrgUserRole = 'base' | 'roo';
+
+type ManageOrgTestUser = {
+  email: string;
+  password: string;
+};
+
+type StoredAuthState = {
+  cookies?: Array<{
+    expires?: number;
+    name?: string;
+    value?: string;
+  }>;
+};
+
+const userEnvByRole: Record<ManageOrgUserRole, { email: string; password: string }> = {
+  base: {
+    email: 'TEST_USER1_EMAIL',
+    password: 'TEST_USER1_PASSWORD'
+  },
+  roo: {
+    email: 'TEST_ROO_EMAIL',
+    password: 'TEST_ROO_PASSWORD'
+  }
+};
+
+const isManageOrgUserRole = (role: string | undefined): role is ManageOrgUserRole => role === 'base' || role === 'roo';
+
+export const resolveBaseUrl = (): string => process.env.TEST_URL || 'https://manage-org.aat.platform.hmcts.net/';
+
+export const resolveConfiguredUserRole = (): ManageOrgUserRole => {
+  const configuredRole = process.env.MANAGE_ORG_TEST_USER_ROLE;
+  if (!configuredRole) {
+    return 'base';
+  }
+  if (!isManageOrgUserRole(configuredRole)) {
+    throw new Error('MANAGE_ORG_TEST_USER_ROLE must be either base or roo.');
+  }
+  return configuredRole;
+};
+
+export const resolveTestUser = (role: ManageOrgUserRole = resolveConfiguredUserRole()): ManageOrgTestUser => {
+  const envNames = userEnvByRole[role];
+  const email = process.env[envNames.email];
+  const password = process.env[envNames.password];
+
+  if (!email || !password) {
+    throw new Error(
+      `Missing Playwright API credentials for ${role} user. Populate ${envNames.email} and ${envNames.password} with yarn env:populate:aat or secure local env values.`
+    );
+  }
+
+  return { email, password };
+};
+
+export const resolveApiStorageStatePath = (workerIndex: number): string => {
+  const role = resolveConfiguredUserRole();
+  const configuredPath = process.env.MANAGE_ORG_STORAGE_STATE?.trim();
+  const stateFileName = `api-${role}-worker-${workerIndex}.json`;
+  if (configuredPath) {
+    return resolve(configuredPath, stateFileName);
+  }
+  return join(tmpdir(), 'rpx-xui-manage-organisations-playwright', stateFileName);
+};
+
+const readStoredAuthState = (storageStatePath: string): StoredAuthState | undefined => {
+  if (!existsSync(storageStatePath)) {
+    return undefined;
+  }
+  try {
+    return JSON.parse(readFileSync(storageStatePath, 'utf-8')) as StoredAuthState;
+  } catch {
+    try {
+      unlinkSync(storageStatePath);
+    } catch {
+      // Ignore cleanup races; the next login will write a fresh state file.
+    }
+    return undefined;
+  }
+};
+
+const hasSessionCookies = (storageStatePath: string): boolean => {
+  const state = readStoredAuthState(storageStatePath);
+  const now = Date.now() / 1000;
+  return Boolean(
+    state?.cookies?.some(
+      (cookie) => (cookie.name === '__auth__' || cookie.name === 'xui-mo-webapp') && (!cookie.expires || cookie.expires > now)
+    )
+  );
+};
+
+export const xsrfHeadersFromStorageState = (storageStatePath: string): Record<string, string> => {
+  const state = readStoredAuthState(storageStatePath);
+  const baseHostname = new URL(resolveBaseUrl()).hostname;
+  const xsrf = state?.cookies?.find(
+    (cookie) => cookie.name === 'XSRF-TOKEN' && (!cookie.domain || baseHostname.endsWith(cookie.domain.replace(/^\./, '')))
+  )?.value;
+  return xsrf ? { 'X-XSRF-TOKEN': xsrf } : {};
+};
+
+export const ensureApiStorageState = async (workerIndex: number): Promise<string> => {
+  const storageStatePath = resolveApiStorageStatePath(workerIndex);
+  mkdirSync(dirname(storageStatePath), { recursive: true });
+  if (hasSessionCookies(storageStatePath)) {
+    return storageStatePath;
+  }
+
+  const user = resolveTestUser();
+  const browser = await chromium.launch({ headless: process.env.HEAD !== 'true' });
+  let context: BrowserContext | undefined;
+  try {
+    context = await browser.newContext({
+      baseURL: resolveBaseUrl(),
+      ignoreHTTPSErrors: true
+    });
+    const page = await context.newPage();
+    const idamPage = new IdamPage(page);
+    const organisationPage = new OrganisationPage(page);
+    await page.goto('');
+    await idamPage.signIn(user.email, user.password);
+    await organisationPage.navigationLink.waitFor({ state: 'visible', timeout: 30 * 1000 });
+    await context.storageState({ path: storageStatePath });
+    return storageStatePath;
+  } finally {
+    await context?.close();
+    await browser.close();
+  }
+};

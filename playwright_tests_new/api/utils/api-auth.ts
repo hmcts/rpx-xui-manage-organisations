@@ -183,3 +183,11 @@ export const ensureApiStorageState = async (workerIndex: number, role: ManageOrg
     await browser.close();
   }
 };
+
+export const __test__ = {
+  cookieIsNotExpired,
+  cookieMatchesHost,
+  hasSessionCookies,
+  normalizeCookieDomain,
+  sanitizeStorageScope
+};

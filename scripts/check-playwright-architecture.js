@@ -6,6 +6,7 @@ const playwrightRoot = join(root, 'playwright_tests_new');
 const allowedAssertionFiles = [
   /^playwright_tests_new\/E2E\/test\/.*\.(spec|test)\.ts$/,
   /^playwright_tests_new\/api\/[^/]+\.api\.ts$/,
+  /^playwright_tests_new\/api\/unit\/.*\.unit\.api\.ts$/,
   /^playwright_tests_new\/integration\/test\/.*\.spec\.ts$/
 ];
 const checkedExtensions = new Set(['.ts', '.js', '.cjs', '.mjs']);

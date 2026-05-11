@@ -4,14 +4,14 @@ import type { ApiLogEntry } from '@hmcts/playwright-common';
 
 import { __test__ as apiFixturesTest } from '../fixtures';
 
-const liveEmail = 'hmcts.civil+organisation.1.solicitor.1@gmail.com';
-const liveUserId = '9c5e5972-842e-4eee-a002-a11111111111';
-const liveOrgId = 'Q1KOKP2';
-const liveForename = 'Aat';
-const liveSurname = 'Solicitor';
-const liveDisplayName = `${liveForename} ${liveSurname}`;
-const liveCookie = 'xui-mo-webapp=live-cookie-value; XSRF-TOKEN=live-xsrf-value';
-const liveToken = 'Bearer live-token-value';
+const syntheticEmail = 'manage-org-redaction-user@example.test';
+const syntheticUserId = '11111111-2222-4333-8444-555555555555';
+const syntheticOrgId = 'ORG-REDACT-1';
+const syntheticForename = 'Redaction';
+const syntheticSurname = 'Fixture';
+const syntheticDisplayName = `${syntheticForename} ${syntheticSurname}`;
+const syntheticCookie = 'xui-mo-webapp=synthetic-cookie-value; XSRF-TOKEN=synthetic-xsrf-value';
+const syntheticToken = 'Bearer synthetic-token-value';
 const redactedValue = '[REDACTED]';
 
 test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
@@ -20,69 +20,69 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
       id: 'api-log-id',
       name: 'manage-org-node-api-authenticated',
       method: 'GET',
-      url: `https://manage-org.aat.platform.hmcts.net/api/user/details?userId=${liveUserId}&email=${liveEmail}`,
+      url: `https://manage-org.aat.platform.hmcts.net/api/user/details?userId=${syntheticUserId}&email=${syntheticEmail}`,
       status: 200,
       ok: true,
       timestamp: new Date(0).toISOString(),
       durationMs: 10,
-      correlationId: liveUserId,
+      correlationId: syntheticUserId,
       request: {
         headers: {
-          Authorization: liveToken,
-          Cookie: liveCookie
+          Authorization: syntheticToken,
+          Cookie: syntheticCookie
         }
       },
       response: {
         headers: {
-          'set-cookie': liveCookie
+          'set-cookie': syntheticCookie
         },
         body: {
-          displayName: liveDisplayName,
-          email: liveEmail,
-          firstName: liveForename,
-          forename: liveForename,
-          fullName: liveDisplayName,
-          id: liveUserId,
-          lastName: liveSurname,
-          organisationIdentifier: liveOrgId,
-          orgId: liveOrgId,
+          displayName: syntheticDisplayName,
+          email: syntheticEmail,
+          firstName: syntheticForename,
+          forename: syntheticForename,
+          fullName: syntheticDisplayName,
+          id: syntheticUserId,
+          lastName: syntheticSurname,
+          organisationIdentifier: syntheticOrgId,
+          orgId: syntheticOrgId,
           roles: ['pui-organisation-manager'],
           sessionTimeout: {
             idleModalDisplayTime: 10
           },
-          surname: liveSurname,
-          userName: liveEmail
+          surname: syntheticSurname,
+          userName: syntheticEmail
         }
       },
       rawRequest: {
         data: {
-          email: liveEmail,
-          password: 'live-password'
+          email: syntheticEmail,
+          password: 'synthetic-password'
         }
       },
       rawResponse: JSON.stringify({
-        displayName: liveDisplayName,
-        email: liveEmail,
-        firstName: liveForename,
-        fullName: liveDisplayName,
-        orgId: liveOrgId,
-        surname: liveSurname,
-        userId: liveUserId
+        displayName: syntheticDisplayName,
+        email: syntheticEmail,
+        firstName: syntheticForename,
+        fullName: syntheticDisplayName,
+        orgId: syntheticOrgId,
+        surname: syntheticSurname,
+        userId: syntheticUserId
       })
     };
 
     const sanitizedLog = apiFixturesTest.sanitizeApiLogEntry(apiLogEntry);
     const serializedLog = JSON.stringify(sanitizedLog);
 
-    expect(serializedLog).not.toContain(liveEmail);
-    expect(serializedLog).not.toContain(liveUserId);
-    expect(serializedLog).not.toContain(liveOrgId);
-    expect(serializedLog).not.toContain(liveForename);
-    expect(serializedLog).not.toContain(liveSurname);
-    expect(serializedLog).not.toContain(liveDisplayName);
-    expect(serializedLog).not.toContain(liveCookie);
-    expect(serializedLog).not.toContain(liveToken);
-    expect(serializedLog).not.toContain('live-password');
+    expect(serializedLog).not.toContain(syntheticEmail);
+    expect(serializedLog).not.toContain(syntheticUserId);
+    expect(serializedLog).not.toContain(syntheticOrgId);
+    expect(serializedLog).not.toContain(syntheticForename);
+    expect(serializedLog).not.toContain(syntheticSurname);
+    expect(serializedLog).not.toContain(syntheticDisplayName);
+    expect(serializedLog).not.toContain(syntheticCookie);
+    expect(serializedLog).not.toContain(syntheticToken);
+    expect(serializedLog).not.toContain('synthetic-password');
     expect(serializedLog).toContain(redactedValue);
   });
 
@@ -101,21 +101,21 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
 
     apiClientLogger.log({
       level: 'info',
-      message: `GET /api/user/details?userId=${liveUserId} -> 200`,
+      message: `GET /api/user/details?userId=${syntheticUserId} -> 200`,
       apiCall: {
         request: {
           headers: {
-            Authorization: liveToken,
-            Cookie: liveCookie
+            Authorization: syntheticToken,
+            Cookie: syntheticCookie
           }
         },
         response: {
           body: {
-            email: liveEmail,
-            forename: liveForename,
-            surname: liveSurname,
-            orgId: liveOrgId,
-            userId: liveUserId
+            email: syntheticEmail,
+            forename: syntheticForename,
+            surname: syntheticSurname,
+            orgId: syntheticOrgId,
+            userId: syntheticUserId
           }
         }
       }
@@ -123,13 +123,13 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
 
     const serializedMessages = JSON.stringify(emittedMessages);
 
-    expect(serializedMessages).not.toContain(liveEmail);
-    expect(serializedMessages).not.toContain(liveUserId);
-    expect(serializedMessages).not.toContain(liveOrgId);
-    expect(serializedMessages).not.toContain(liveForename);
-    expect(serializedMessages).not.toContain(liveSurname);
-    expect(serializedMessages).not.toContain(liveCookie);
-    expect(serializedMessages).not.toContain(liveToken);
+    expect(serializedMessages).not.toContain(syntheticEmail);
+    expect(serializedMessages).not.toContain(syntheticUserId);
+    expect(serializedMessages).not.toContain(syntheticOrgId);
+    expect(serializedMessages).not.toContain(syntheticForename);
+    expect(serializedMessages).not.toContain(syntheticSurname);
+    expect(serializedMessages).not.toContain(syntheticCookie);
+    expect(serializedMessages).not.toContain(syntheticToken);
     expect(serializedMessages).not.toContain('response');
     expect(serializedMessages).not.toContain('request');
     expect(serializedMessages).toContain(redactedValue);

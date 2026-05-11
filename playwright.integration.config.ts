@@ -18,7 +18,7 @@ const { version: appVersion } = JSON.parse(readFileSync(resolve(process.cwd(), '
 
 module.exports = defineConfig({
   testDir: 'playwright_tests_new/integration',
-  testMatch: ['**/*.integration.ts'],
+  testMatch: ['**/*.spec.ts'],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,

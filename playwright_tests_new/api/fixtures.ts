@@ -23,8 +23,16 @@ type ApiFixtures = {
 };
 
 type LoggerInstance = ReturnType<typeof createLogger>;
+type LoggerLevel = 'debug' | 'error' | 'info' | 'warn';
 
 const baseUrl = stripTrailingSlash(resolveBaseUrl());
+const redactedValue = '[REDACTED]';
+const sensitiveKeyPattern = /authorization|cookie|email|organisationidentifier|orgid|password|roles|secret|session|sessiontimeout|token|userid|useridentifier/i;
+const emailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+const uuidPattern = /\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/gi;
+const queryValuePattern = /([?&](?:email|organisationIdentifier|orgId|password|session|sessionTimeout|token|userId|userIdentifier)=)[^&#\s]+/gi;
+const jsonSensitiveValuePattern = /("(?:email|organisationIdentifier|orgId|password|session|sessionTimeout|token|userId|userIdentifier)"\s*:\s*)"[^"]*"/gi;
+const authHeaderPattern = /\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+/gi;
 
 export const test = base.extend<ApiFixtures>({
   logger: async ({ browserName: _browserName }, use, workerInfo) => {
@@ -112,9 +120,9 @@ const createNodeApiClient = async (
   return new PlaywrightApiClient({
     baseUrl,
     name: `manage-org-node-api-${role}`,
-    logger,
-    captureRawBodies: process.env.PLAYWRIGHT_DEBUG_API === '1',
-    onResponse: (entry) => apiLogs.push(entry),
+    logger: createSanitizedApiClientLogger(logger),
+    captureRawBodies: false,
+    onResponse: (entry) => apiLogs.push(sanitizeApiLogEntry(entry)),
     requestFactory: async () => context
   });
 };
@@ -122,3 +130,74 @@ const createNodeApiClient = async (
 function stripTrailingSlash(value: string): string {
   return value.replace(/\/+$/, '');
 }
+
+function createSanitizedApiClientLogger(logger: LoggerInstance): LoggerInstance {
+  const sanitizedLogger = Object.create(logger) as LoggerInstance;
+
+  (['debug', 'error', 'info', 'warn'] as LoggerLevel[]).forEach((level) => {
+    sanitizedLogger[level] = ((message: unknown, ...meta: unknown[]) => {
+      return logger[level](sanitizeApiLogString(message), ...meta.map((entry) => sanitizeApiLogValue(entry)));
+    }) as LoggerInstance[typeof level];
+  });
+
+  sanitizedLogger.log = ((...args: unknown[]) => {
+    return logger.log(...(args.map((entry) => sanitizeApiLogValue(entry)) as Parameters<LoggerInstance['log']>));
+  }) as LoggerInstance['log'];
+
+  sanitizedLogger.child = ((defaultMeta?: object) => {
+    return createSanitizedApiClientLogger(logger.child(sanitizeApiLogValue(defaultMeta) as object));
+  }) as LoggerInstance['child'];
+
+  return sanitizedLogger;
+}
+
+function sanitizeApiLogEntry(entry: ApiLogEntry): ApiLogEntry {
+  return sanitizeApiLogValue(entry) as ApiLogEntry;
+}
+
+function sanitizeApiLogValue(value: unknown): unknown {
+  if (typeof value === 'string') {
+    return sanitizeApiLogString(value);
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => sanitizeApiLogValue(entry));
+  }
+
+  if (!isPlainRecord(value)) {
+    return value;
+  }
+
+  return Object.fromEntries(
+    Object.entries(value).map(([key, entry]) => {
+      if (sensitiveKeyPattern.test(key)) {
+        return [key, redactedValue];
+      }
+
+      return [key, sanitizeApiLogValue(entry)];
+    })
+  );
+}
+
+function sanitizeApiLogString(value: unknown): unknown {
+  if (typeof value !== 'string') {
+    return value;
+  }
+
+  return value
+    .replace(jsonSensitiveValuePattern, `$1"${redactedValue}"`)
+    .replace(emailPattern, redactedValue)
+    .replace(authHeaderPattern, `$1 ${redactedValue}`)
+    .replace(queryValuePattern, `$1${redactedValue}`)
+    .replace(uuidPattern, redactedValue);
+}
+
+function isPlainRecord(value: unknown): value is Record<string, unknown> {
+  return Object.prototype.toString.call(value) === '[object Object]';
+}
+
+export const __test__ = {
+  createSanitizedApiClientLogger,
+  sanitizeApiLogEntry,
+  sanitizeApiLogValue
+};

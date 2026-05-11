@@ -63,13 +63,13 @@ test.describe('Reference and configuration API contracts', { tag: '@svc-referenc
   });
 
   test('rejects anonymous jurisdiction requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/jurisdictions');
+    const response = await anonymousClient.get('api/jurisdictions', { throwOnError: false });
 
     expect([401, 403], 'Anonymous jurisdiction requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous authenticated organisation type requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/organisationTypes');
+    const response = await anonymousClient.get('api/organisationTypes', { throwOnError: false });
 
     expect([401, 403], 'Anonymous authenticated organisation type requests should be rejected').toContain(response.status);
   });

@@ -56,13 +56,13 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
   });
 
   test('rejects anonymous organisation details requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/organisation');
+    const response = await anonymousClient.get('api/organisation', { throwOnError: false });
 
     expect([401, 403], 'Anonymous organisation details requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous legacy organisation details requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/organisation/v1');
+    const response = await anonymousClient.get('api/organisation/v1', { throwOnError: false });
 
     expect([401, 403], 'Anonymous legacy organisation details requests should be rejected').toContain(response.status);
   });

@@ -25,7 +25,8 @@ test.describe('Invite user API contracts', { tag: '@svc-user-admin' }, () => {
 
     const reInviteResponse = await apiClient.post('api/inviteUser', {
       data: buildInvitePayload(email, true),
-      headers: xsrfHeaders
+      headers: xsrfHeaders,
+      throwOnError: false
     });
 
     expect([200, 429], 'Re-invite should either succeed or respect the existing rate limit').toContain(
@@ -35,7 +36,8 @@ test.describe('Invite user API contracts', { tag: '@svc-user-admin' }, () => {
 
   test('rejects anonymous invite requests', async ({ anonymousClient }) => {
     const response = await anonymousClient.post('api/inviteUser', {
-      data: buildInvitePayload(`anonymous.playwright.api.${Date.now()}@mailnesia.com`, false)
+      data: buildInvitePayload(`anonymous.playwright.api.${Date.now()}@mailnesia.com`, false),
+      throwOnError: false
     });
 
     expect([401, 403], 'Anonymous invite requests should be rejected').toContain(response.status);

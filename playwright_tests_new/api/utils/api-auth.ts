@@ -6,7 +6,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { IdamPage } from '../../E2E/page-objects/pages/idam.po';
 import { OrganisationPage } from '../../E2E/page-objects/pages/organisation.po';
 
-type ManageOrgUserRole = 'base' | 'roo';
+export type ManageOrgUserRole = 'base' | 'roo';
 
 type ManageOrgTestUser = {
   email: string;
@@ -80,8 +80,7 @@ export const resolveTestUser = (role: ManageOrgUserRole = resolveConfiguredUserR
   return { email, password };
 };
 
-export const resolveApiStorageStatePath = (workerIndex: number): string => {
-  const role = resolveConfiguredUserRole();
+export const resolveApiStorageStatePath = (workerIndex: number, role: ManageOrgUserRole = resolveConfiguredUserRole()): string => {
   const configuredPath = process.env.MANAGE_ORG_STORAGE_STATE?.trim();
   const stateFileName = `api-${role}-${sanitizeStorageScope(resolveBaseHostname())}-worker-${workerIndex}.json`;
   if (configuredPath) {
@@ -155,14 +154,14 @@ const storageStateHasAuthenticatedApiSession = async (storageStatePath: string):
   }
 };
 
-export const ensureApiStorageState = async (workerIndex: number): Promise<string> => {
-  const storageStatePath = resolveApiStorageStatePath(workerIndex);
+export const ensureApiStorageState = async (workerIndex: number, role: ManageOrgUserRole = resolveConfiguredUserRole()): Promise<string> => {
+  const storageStatePath = resolveApiStorageStatePath(workerIndex, role);
   mkdirSync(dirname(storageStatePath), { recursive: true });
   if (hasSessionCookies(storageStatePath) && await storageStateHasAuthenticatedApiSession(storageStatePath)) {
     return storageStatePath;
   }
 
-  const user = resolveTestUser();
+  const user = resolveTestUser(role);
   const browser = await chromium.launch({ headless: process.env.HEAD !== 'true' });
   let context: BrowserContext | undefined;
   try {

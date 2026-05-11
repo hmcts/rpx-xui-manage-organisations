@@ -68,13 +68,13 @@ test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
   });
 
   test('rejects anonymous paged user list requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/userList?pageNumber=1');
+    const response = await anonymousClient.get('api/userList?pageNumber=1', { throwOnError: false });
 
     expect([401, 403], 'Anonymous paged user list requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous full user list requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/allUserListWithoutRoles');
+    const response = await anonymousClient.get('api/allUserListWithoutRoles', { throwOnError: false });
 
     expect([401, 403], 'Anonymous full user list requests should be rejected').toContain(response.status);
   });

@@ -30,13 +30,13 @@ test.describe('User session API contracts', { tag: '@svc-user-session' }, () => 
   });
 
   test('rejects anonymous user session requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/user/details');
+    const response = await anonymousClient.get('api/user/details', { throwOnError: false });
 
     expect([401, 403], 'Anonymous user session requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous terms and conditions state requests', async ({ anonymousClient }) => {
-    const response = await anonymousClient.get('api/userTermsAndConditions/anonymous-user-id');
+    const response = await anonymousClient.get('api/userTermsAndConditions/anonymous-user-id', { throwOnError: false });
 
     expect([401, 403], 'Anonymous terms and conditions state requests should be rejected').toContain(response.status);
   });

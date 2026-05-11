@@ -1,11 +1,5 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BasePage } from '../base';
-
-export type SelectedUser = {
-  href: string;
-  linkText: string;
-  rowText: string;
-};
 
 export class UsersPage extends BasePage {
   public readonly heading: Locator;
@@ -58,8 +52,8 @@ export class UsersPage extends BasePage {
       .first();
   }
 
-  public async openFirstUserByStatus(status: 'Active' | 'Pending'): Promise<SelectedUser | null> {
-    await expect(this.userList).toBeVisible();
+  public async openFirstUserByStatus(status: 'Active' | 'Pending') {
+    await this.userList.waitFor({ state: 'visible' });
 
     for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
       const userRow = this.userRowByStatus(status);
@@ -84,7 +78,7 @@ export class UsersPage extends BasePage {
       }
 
       await nextPageLink.click();
-      await expect(this.userList).toBeVisible();
+      await this.userList.waitFor({ state: 'visible' });
     }
 
     return null;

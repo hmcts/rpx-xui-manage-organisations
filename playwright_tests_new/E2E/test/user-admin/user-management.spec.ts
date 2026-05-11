@@ -53,7 +53,10 @@ test.describe('User administration', () => {
   test('pending user re-invite opens a prefilled read-only invite form', async ({ usersPage }) => {
     await usersPage.open();
     const pendingUser = await usersPage.openFirstUserByStatus('Pending');
-    test.skip(!pendingUser, 'No pending user is available in the target environment.');
+    expect(pendingUser, 'A pending user is required for re-invite coverage').not.toBeNull();
+    if (!pendingUser) {
+      throw new Error('No pending user is available in the target environment.');
+    }
 
     await expect(usersPage.pendingUserDetailsHeading).toBeVisible();
     await expect(usersPage.resendInvitationButton).toBeVisible();

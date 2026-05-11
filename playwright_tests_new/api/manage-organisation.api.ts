@@ -1,67 +1,55 @@
 import { test, expect } from './fixtures';
-import { expectArray, expectObject, expectStatus } from './utils/assertions';
-
-type OrganisationResponse = {
-  contactInformation?: unknown[];
-  name?: string;
-  organisationIdentifier?: string;
-  status?: string;
-};
-
-type OrganisationUser = {
-  email?: string;
-  firstName?: string;
-  idamStatus?: string;
-  lastName?: string;
-};
-
-type UserListResponse = {
-  users?: OrganisationUser[];
-};
 
 test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, () => {
   test('returns authenticated organisation details', async ({ apiClient }) => {
-    const response = await apiClient.get<OrganisationResponse>('api/organisation');
+    const response = await apiClient.get('api/organisation');
 
-    expectStatus(response.status, [200]);
-    const organisation = expectObject(response.data, 'Organisation response should be an object') as OrganisationResponse;
-    expect(organisation.organisationIdentifier, 'Organisation identifier should be present').toBeTruthy();
-    expect(organisation.name, 'Organisation name should be present').toBeTruthy();
-    expect(organisation.status, 'Organisation status should be present').toBeTruthy();
-    expectArray(organisation.contactInformation, 'Organisation contact information should be an array');
+    expect(response.status, 'Organisation details should be returned for an authenticated user').toBe(200);
+    expect(response.data, 'Organisation response should include identity, name, status and contact information').toEqual(
+      expect.objectContaining({
+        contactInformation: expect.any(Array),
+        name: expect.any(String),
+        organisationIdentifier: expect.any(String),
+        status: expect.any(String)
+      })
+    );
   });
 
   test('returns authenticated legacy v1 organisation details', async ({ apiClient }) => {
-    const response = await apiClient.get<OrganisationResponse>('api/organisation/v1');
+    const response = await apiClient.get('api/organisation/v1');
 
-    expectStatus(response.status, [200]);
-    const organisation = expectObject(response.data, 'Organisation v1 response should be an object') as OrganisationResponse;
-    expect(organisation.organisationIdentifier, 'Organisation identifier should be present').toBeTruthy();
-    expect(organisation.name, 'Organisation name should be present').toBeTruthy();
-    expect(organisation.status, 'Organisation status should be present').toBeTruthy();
+    expect(response.status, 'Legacy v1 organisation details should be returned for an authenticated user').toBe(200);
+    expect(response.data, 'Organisation v1 response should include identity, name and status').toEqual(
+      expect.objectContaining({
+        name: expect.any(String),
+        organisationIdentifier: expect.any(String),
+        status: expect.any(String)
+      })
+    );
   });
 
   test('keeps v1 and default organisation identifiers aligned', async ({ apiClient }) => {
-    const defaultResponse = await apiClient.get<OrganisationResponse>('api/organisation');
-    const v1Response = await apiClient.get<OrganisationResponse>('api/organisation/v1');
+    const defaultResponse = await apiClient.get('api/organisation');
+    const v1Response = await apiClient.get('api/organisation/v1');
 
-    expectStatus(defaultResponse.status, [200]);
-    expectStatus(v1Response.status, [200]);
-    const defaultOrganisation = expectObject(defaultResponse.data, 'Organisation response should be an object') as OrganisationResponse;
-    const v1Organisation = expectObject(v1Response.data, 'Organisation v1 response should be an object') as OrganisationResponse;
-    expect(v1Organisation.organisationIdentifier, 'V1 and default organisation IDs should match').toBe(
-      defaultOrganisation.organisationIdentifier
+    expect(defaultResponse.status, 'Default organisation details should be returned').toBe(200);
+    expect(v1Response.status, 'Legacy v1 organisation details should be returned').toBe(200);
+    expect(v1Response.data, 'V1 and default organisation IDs should match').toEqual(
+      expect.objectContaining({
+        organisationIdentifier: (defaultResponse.data as { organisationIdentifier?: unknown }).organisationIdentifier
+      })
     );
   });
 
   test('returns authenticated organisation users', async ({ apiClient }) => {
-    const response = await apiClient.get<UserListResponse>('api/allUserListWithoutRoles');
+    const response = await apiClient.get('api/allUserListWithoutRoles');
+    const users = (response.data as { users?: Array<Record<string, unknown>> }).users;
 
-    expectStatus(response.status, [200]);
-    const users = expectArray<OrganisationUser>(response.data?.users, 'Users response should include users');
-    expect(users.length, 'At least one organisation user should be returned').toBeGreaterThan(0);
+    expect(response.status, 'Organisation users should be returned for an authenticated user').toBe(200);
+    expect(users, 'Users response should include users').toEqual(expect.any(Array));
+    expect(users?.length, 'At least one organisation user should be returned').toBeGreaterThan(0);
     expect(
-      users.some((user) => user.email && user.firstName && user.lastName && user.idamStatus),
+      users?.some((user) => user.email && user.firstName && user.lastName && user.idamStatus),
       'At least one user should include identity and status fields'
     ).toBe(true);
   });
@@ -69,12 +57,12 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
   test('rejects anonymous organisation details requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/organisation');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous organisation details requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous legacy organisation details requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/organisation/v1');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous legacy organisation details requests should be rejected').toContain(response.status);
   });
 });

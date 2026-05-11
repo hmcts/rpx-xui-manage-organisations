@@ -1,5 +1,4 @@
-import { test } from './fixtures';
-import { expectStatus } from './utils/assertions';
+import { test, expect } from './fixtures';
 
 const buildInvitePayload = (email: string, resendInvite: boolean) => ({
   firstName: 'Playwright',
@@ -22,14 +21,16 @@ test.describe('Invite user API contracts', { tag: '@svc-user-admin' }, () => {
       headers: xsrfHeaders
     });
 
-    expectStatus(inviteResponse.status, [200]);
+    expect(inviteResponse.status, 'Invite request should succeed').toBe(200);
 
     const reInviteResponse = await apiClient.post('api/inviteUser', {
       data: buildInvitePayload(email, true),
       headers: xsrfHeaders
     });
 
-    expectStatus(reInviteResponse.status, [200, 429]);
+    expect([200, 429], 'Re-invite should either succeed or respect the existing rate limit').toContain(
+      reInviteResponse.status
+    );
   });
 
   test('rejects anonymous invite requests', async ({ anonymousApiClient }) => {
@@ -37,6 +38,6 @@ test.describe('Invite user API contracts', { tag: '@svc-user-admin' }, () => {
       data: buildInvitePayload(`anonymous.playwright.api.${Date.now()}@mailnesia.com`, false)
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous invite requests should be rejected').toContain(response.status);
   });
 });

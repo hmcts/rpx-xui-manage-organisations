@@ -1,5 +1,4 @@
-import { test } from './fixtures';
-import { expectStatus } from './utils/assertions';
+import { test, expect } from './fixtures';
 
 const buildRegistrationPayload = () => {
   const uniqueSuffix = Date.now();
@@ -37,6 +36,6 @@ test.describe('Register organisation API contracts', { tag: '@svc-registration' 
       data: buildRegistrationPayload()
     });
 
-    expectStatus(response.status, [200]);
+    expect(response.status, 'Registration POST should accept a valid payload').toBe(200);
   });
 });

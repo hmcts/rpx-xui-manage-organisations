@@ -1,5 +1,4 @@
-import { test } from './fixtures';
-import { expectStatus } from './utils/assertions';
+import { test, expect } from './fixtures';
 
 const editPermissionsPayload = {
   firstName: 'Anonymous',
@@ -22,13 +21,13 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
   test('rejects anonymous organisation user requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/organisation/users');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous organisation user requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous user details lookup requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/user-details?userId=anonymous-user-id');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous user details lookup requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous edit-permissions requests before payload processing', async ({ anonymousApiClient }) => {
@@ -36,7 +35,7 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       data: editPermissionsPayload
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous edit-permissions requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous suspend-user requests before payload processing', async ({ anonymousApiClient }) => {
@@ -44,7 +43,7 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       data: suspendPayload
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous suspend-user requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous CAA case-type search requests before downstream calls', async ({ anonymousApiClient }) => {
@@ -56,7 +55,7 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       }
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous CAA case-type search requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous CAA case search requests before downstream calls', async ({ anonymousApiClient }) => {
@@ -68,13 +67,13 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       }
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous CAA case search requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous case-share user requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/caseshare/users');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous case-share user requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous case-share assignment requests before payload processing', async ({ anonymousApiClient }) => {
@@ -84,7 +83,7 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       }
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous case-share assignment requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous PBA update requests before payload processing', async ({ anonymousApiClient }) => {
@@ -92,7 +91,7 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       data: pbaPayload
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous PBA update requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous PBA delete requests before payload processing', async ({ anonymousApiClient }) => {
@@ -100,6 +99,6 @@ test.describe('Protected API guard rail contracts', { tag: '@svc-auth-guards' },
       data: pbaPayload
     });
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous PBA delete requests should be rejected').toContain(response.status);
   });
 });

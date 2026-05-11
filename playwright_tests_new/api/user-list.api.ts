@@ -1,51 +1,38 @@
 import { test, expect } from './fixtures';
-import { expectArray, expectObject, expectStatus } from './utils/assertions';
-
-type OrganisationUser = {
-  email?: string;
-  firstName?: string;
-  idamStatus?: string;
-  lastName?: string;
-  roles?: string[];
-  userIdentifier?: string;
-};
-
-type UserListResponse = {
-  organisationIdentifier?: string;
-  users?: OrganisationUser[];
-};
-
-const expectUserList = (responseData: UserListResponse | undefined, message: string): OrganisationUser[] => {
-  const payload = expectObject(responseData, message) as UserListResponse;
-  const users = expectArray<OrganisationUser>(payload.users, 'Users payload should include users array');
-  expect(users.length, 'At least one user should be returned').toBeGreaterThan(0);
-  expect(
-    users.some((user) => user.email && user.firstName && user.lastName && user.userIdentifier),
-    'At least one user should include identity fields'
-  ).toBe(true);
-  return users;
-};
 
 test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
   test('returns paged user list with identity fields', async ({ apiClient }) => {
-    const response = await apiClient.get<UserListResponse>('api/userList?pageNumber=1');
+    const response = await apiClient.get('api/userList?pageNumber=1');
+    const users = (response.data as { users?: Array<Record<string, unknown>> }).users;
 
-    expectStatus(response.status, [200]);
-    expectUserList(response.data, 'Paged user list response should be an object');
+    expect(response.status, 'Paged user list should be returned for an authenticated user').toBe(200);
+    expect(users, 'Paged user list response should include users array').toEqual(expect.any(Array));
+    expect(users?.length, 'At least one user should be returned').toBeGreaterThan(0);
+    expect(
+      users?.some((user) => user.email && user.firstName && user.lastName && user.userIdentifier),
+      'At least one user should include identity fields'
+    ).toBe(true);
   });
 
   test('returns full organisation user list without requiring role expansion', async ({ apiClient }) => {
-    const response = await apiClient.get<UserListResponse>('api/allUserListWithoutRoles');
+    const response = await apiClient.get('api/allUserListWithoutRoles');
+    const users = (response.data as { users?: Array<Record<string, unknown>> }).users;
 
-    expectStatus(response.status, [200]);
-    expectUserList(response.data, 'All user list without roles response should be an object');
+    expect(response.status, 'Full organisation user list should be returned for an authenticated user').toBe(200);
+    expect(users, 'All user list without roles response should include users array').toEqual(expect.any(Array));
+    expect(users?.length, 'At least one user should be returned').toBeGreaterThan(0);
+    expect(
+      users?.some((user) => user.email && user.firstName && user.lastName && user.userIdentifier),
+      'At least one user should include identity fields'
+    ).toBe(true);
   });
 
   test('returns active organisation users from the organisation users endpoint', async ({ apiClient }) => {
-    const response = await apiClient.get<OrganisationUser[]>('api/organisation/users');
+    const response = await apiClient.get('api/organisation/users');
+    const users = response.data as Array<Record<string, unknown>>;
 
-    expectStatus(response.status, [200]);
-    const users = expectArray<OrganisationUser>(response.data, 'Organisation users response should be an array');
+    expect(response.status, 'Organisation users should be returned for an authenticated user').toBe(200);
+    expect(response.data, 'Organisation users response should be an array').toEqual(expect.any(Array));
     expect(users.length, 'At least one active organisation user should be returned').toBeGreaterThan(0);
     expect(
       users.every((user) => user.idamStatus === 'ACTIVE'),
@@ -54,22 +41,27 @@ test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
   });
 
   test('returns selected user details by user identifier', async ({ apiClient }) => {
-    const listResponse = await apiClient.get<UserListResponse>('api/allUserListWithoutRoles');
-    expectStatus(listResponse.status, [200]);
-    const users = expectUserList(listResponse.data, 'All user list without roles response should be an object');
+    const listResponse = await apiClient.get('api/allUserListWithoutRoles');
+    const users = (listResponse.data as { users?: Array<Record<string, unknown>> }).users;
+
+    expect(listResponse.status, 'Full organisation user list should be returned for details lookup').toBe(200);
+    expect(users, 'All user list without roles response should include users array').toEqual(expect.any(Array));
+    expect(users?.length, 'At least one user should be returned').toBeGreaterThan(0);
     const targetUser = users.find((user) => user.userIdentifier);
 
     expect(targetUser?.userIdentifier, 'A user identifier should be available for details lookup').toBeTruthy();
-    const detailsResponse = await apiClient.get<UserListResponse>(`api/user-details?userId=${targetUser?.userIdentifier}`);
+    const detailsResponse = await apiClient.get(`api/user-details?userId=${targetUser?.userIdentifier}`);
+    const detailsUsers = (detailsResponse.data as { users?: Array<Record<string, unknown>> }).users;
 
-    expectStatus(detailsResponse.status, [200]);
-    const detailsUsers = expectUserList(detailsResponse.data, 'User details response should include users');
+    expect(detailsResponse.status, 'User details should be returned for the selected user').toBe(200);
+    expect(detailsUsers, 'User details response should include users').toEqual(expect.any(Array));
+    expect(detailsUsers?.length, 'User details response should include at least one user').toBeGreaterThan(0);
     expect(
-      detailsUsers.some((user) => user.userIdentifier === targetUser?.userIdentifier),
+      detailsUsers?.some((user) => user.userIdentifier === targetUser?.userIdentifier),
       'User details response should include the requested user'
     ).toBe(true);
     expect(
-      detailsUsers.some((user) => Array.isArray(user.roles)),
+      detailsUsers?.some((user) => Array.isArray(user.roles)),
       'User details response should include role data'
     ).toBe(true);
   });
@@ -77,12 +69,12 @@ test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
   test('rejects anonymous paged user list requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/userList?pageNumber=1');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous paged user list requests should be rejected').toContain(response.status);
   });
 
   test('rejects anonymous full user list requests', async ({ anonymousApiClient }) => {
     const response = await anonymousApiClient.get('api/allUserListWithoutRoles');
 
-    expectStatus(response.status, [401, 403]);
+    expect([401, 403], 'Anonymous full user list requests should be rejected').toContain(response.status);
   });
 });

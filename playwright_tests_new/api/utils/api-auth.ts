@@ -1,7 +1,8 @@
-import { chromium, type BrowserContext } from '@playwright/test';
+import { chromium, request, type BrowserContext } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
+import { setTimeout as delay } from 'node:timers/promises';
 import { IdamPage } from '../../E2E/page-objects/pages/idam.po';
 import { OrganisationPage } from '../../E2E/page-objects/pages/organisation.po';
 
@@ -57,7 +58,7 @@ const cookieIsNotExpired = (expires: number | undefined): boolean => {
 export const resolveConfiguredUserRole = (): ManageOrgUserRole => {
   const configuredRole = process.env.MANAGE_ORG_TEST_USER_ROLE;
   if (!configuredRole) {
-    return 'base';
+    return 'roo';
   }
   if (!isManageOrgUserRole(configuredRole)) {
     throw new Error('MANAGE_ORG_TEST_USER_ROLE must be either base or roo.');
@@ -127,10 +128,37 @@ export const xsrfHeadersFromStorageState = (storageStatePath: string): Record<st
   return xsrf ? { 'X-XSRF-TOKEN': xsrf } : {};
 };
 
+const waitForAuthenticatedApiSession = async (context: BrowserContext): Promise<void> => {
+  let lastStatus = 0;
+  for (let attempt = 1; attempt <= 5; attempt++) {
+    const response = await context.request.get('api/organisation/v1', { failOnStatusCode: false });
+    lastStatus = response.status();
+    if (lastStatus === 200) {
+      return;
+    }
+    await delay(1000);
+  }
+  throw new Error(`Authenticated API session was not ready after login. Last status: ${lastStatus}`);
+};
+
+const storageStateHasAuthenticatedApiSession = async (storageStatePath: string): Promise<boolean> => {
+  const context = await request.newContext({
+    baseURL: resolveBaseUrl(),
+    ignoreHTTPSErrors: true,
+    storageState: storageStatePath
+  });
+  try {
+    const response = await context.get('api/organisation/v1', { failOnStatusCode: false });
+    return response.status() === 200;
+  } finally {
+    await context.dispose();
+  }
+};
+
 export const ensureApiStorageState = async (workerIndex: number): Promise<string> => {
   const storageStatePath = resolveApiStorageStatePath(workerIndex);
   mkdirSync(dirname(storageStatePath), { recursive: true });
-  if (hasSessionCookies(storageStatePath)) {
+  if (hasSessionCookies(storageStatePath) && await storageStateHasAuthenticatedApiSession(storageStatePath)) {
     return storageStatePath;
   }
 
@@ -148,6 +176,7 @@ export const ensureApiStorageState = async (workerIndex: number): Promise<string
     await page.goto('');
     await idamPage.signIn(user.email, user.password);
     await organisationPage.navigationLink.waitFor({ state: 'visible', timeout: 30 * 1000 });
+    await waitForAuthenticatedApiSession(context);
     await context.storageState({ path: storageStatePath });
     return storageStatePath;
   } finally {

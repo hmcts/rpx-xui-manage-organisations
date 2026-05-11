@@ -27,11 +27,14 @@ type LoggerLevel = 'debug' | 'error' | 'info' | 'warn';
 
 const baseUrl = stripTrailingSlash(resolveBaseUrl());
 const redactedValue = '[REDACTED]';
-const sensitiveKeyPattern = /authorization|cookie|email|organisationidentifier|orgid|password|roles|secret|session|sessiontimeout|token|userid|useridentifier/i;
+const sensitiveKeyPattern =
+  /authorization|cookie|displayname|email|firstname|forename|fullname|lastname|organisationidentifier|orgid|password|roles|secret|session|sessiontimeout|surname|token|userid|useridentifier|username/i;
 const emailPattern = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
 const uuidPattern = /\b[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\b/gi;
-const queryValuePattern = /([?&](?:email|organisationIdentifier|orgId|password|session|sessionTimeout|token|userId|userIdentifier)=)[^&#\s]+/gi;
-const jsonSensitiveValuePattern = /("(?:email|organisationIdentifier|orgId|password|session|sessionTimeout|token|userId|userIdentifier)"\s*:\s*)"[^"]*"/gi;
+const queryValuePattern =
+  /([?&](?:displayName|email|firstName|forename|fullName|lastName|organisationIdentifier|orgId|password|session|sessionTimeout|surname|token|userId|userIdentifier|userName)=)[^&#\s]+/gi;
+const jsonSensitiveValuePattern =
+  /("(?:displayName|email|firstName|forename|fullName|lastName|organisationIdentifier|orgId|password|session|sessionTimeout|surname|token|userId|userIdentifier|userName)"\s*:\s*)"[^"]*"/gi;
 const authHeaderPattern = /\b(Bearer|Basic)\s+[A-Za-z0-9._~+/=-]+/gi;
 
 export const test = base.extend<ApiFixtures>({

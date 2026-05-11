@@ -7,6 +7,9 @@ import { __test__ as apiFixturesTest } from '../fixtures';
 const liveEmail = 'hmcts.civil+organisation.1.solicitor.1@gmail.com';
 const liveUserId = '9c5e5972-842e-4eee-a002-a11111111111';
 const liveOrgId = 'Q1KOKP2';
+const liveForename = 'Aat';
+const liveSurname = 'Solicitor';
+const liveDisplayName = `${liveForename} ${liveSurname}`;
 const liveCookie = 'xui-mo-webapp=live-cookie-value; XSRF-TOKEN=live-xsrf-value';
 const liveToken = 'Bearer live-token-value';
 const redactedValue = '[REDACTED]';
@@ -34,14 +37,21 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
           'set-cookie': liveCookie
         },
         body: {
+          displayName: liveDisplayName,
           email: liveEmail,
+          firstName: liveForename,
+          forename: liveForename,
+          fullName: liveDisplayName,
           id: liveUserId,
+          lastName: liveSurname,
           organisationIdentifier: liveOrgId,
           orgId: liveOrgId,
           roles: ['pui-organisation-manager'],
           sessionTimeout: {
             idleModalDisplayTime: 10
-          }
+          },
+          surname: liveSurname,
+          userName: liveEmail
         }
       },
       rawRequest: {
@@ -50,7 +60,15 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
           password: 'live-password'
         }
       },
-      rawResponse: JSON.stringify({ email: liveEmail, orgId: liveOrgId, userId: liveUserId })
+      rawResponse: JSON.stringify({
+        displayName: liveDisplayName,
+        email: liveEmail,
+        firstName: liveForename,
+        fullName: liveDisplayName,
+        orgId: liveOrgId,
+        surname: liveSurname,
+        userId: liveUserId
+      })
     };
 
     const sanitizedLog = apiFixturesTest.sanitizeApiLogEntry(apiLogEntry);
@@ -59,6 +77,9 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
     expect(serializedLog).not.toContain(liveEmail);
     expect(serializedLog).not.toContain(liveUserId);
     expect(serializedLog).not.toContain(liveOrgId);
+    expect(serializedLog).not.toContain(liveForename);
+    expect(serializedLog).not.toContain(liveSurname);
+    expect(serializedLog).not.toContain(liveDisplayName);
     expect(serializedLog).not.toContain(liveCookie);
     expect(serializedLog).not.toContain(liveToken);
     expect(serializedLog).not.toContain('live-password');
@@ -91,6 +112,8 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
         response: {
           body: {
             email: liveEmail,
+            forename: liveForename,
+            surname: liveSurname,
             orgId: liveOrgId,
             userId: liveUserId
           }
@@ -103,6 +126,8 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
     expect(serializedMessages).not.toContain(liveEmail);
     expect(serializedMessages).not.toContain(liveUserId);
     expect(serializedMessages).not.toContain(liveOrgId);
+    expect(serializedMessages).not.toContain(liveForename);
+    expect(serializedMessages).not.toContain(liveSurname);
     expect(serializedMessages).not.toContain(liveCookie);
     expect(serializedMessages).not.toContain(liveToken);
     expect(serializedMessages).not.toContain('response');

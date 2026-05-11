@@ -94,7 +94,7 @@
     "@hmcts/media-viewer": "4.2.18-exui-4277",
     "@hmcts/nodejs-healthcheck": "^1.8.6",
     "@hmcts/properties-volume": "0.0.13",
-    "@hmcts/rpx-xui-common-lib": "3.2.9-exui-4227",
+    "@hmcts/rpx-xui-common-lib": "3.2.9-exui-4277",
     "@hmcts/rpx-xui-node-lib": "2.30.12",
     "@microsoft/applicationinsights-web": "^3.3.9",
     "@ng-idle/core": "^16.0.0",

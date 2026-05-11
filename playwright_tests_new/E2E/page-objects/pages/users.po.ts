@@ -105,6 +105,6 @@ export class UsersPage extends BasePage {
 
   public permissionCheckbox(label: string): Locator {
     const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    return this.page.getByRole('checkbox', { name: new RegExp(`^${escapedLabel}$`, 'i') });
+    return this.page.getByRole('checkbox', { name: new RegExp(`${escapedLabel}$`, 'i') });
   }
 }

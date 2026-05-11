@@ -46,7 +46,20 @@ Playwright smoke and browser runs emit an Odhin report under `functional-output/
 - Branch defaults to the current git branch and can be overridden with `PLAYWRIGHT_REPORT_BRANCH` or `GIT_BRANCH`.
 - Report metadata can be overridden with `PLAYWRIGHT_REPORT_PROJECT`, `PLAYWRIGHT_REPORT_RELEASE`, `PLAYWRIGHT_REPORT_TEST_ENVIRONMENT`, `PLAYWRIGHT_REPORT_FOLDER`, and `PLAYWRIGHT_REPORT_INDEX_FILENAME`.
 - Existing `PW_ODHIN_*` overrides are still supported for backward compatibility.
-- Jenkins archives both `functional-output/tests/playwright-e2e/**` and `test-results/**/*` for smoke runs.
+- Jenkins archives both `functional-output/tests/playwright-e2e/**` and `test-results/**/*` for Playwright CI runs.
+- `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs the login-page smoke check only.
+- `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
+- `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
+
+## Playwright authentication
+
+Populate local Playwright credentials from Key Vault with `yarn env:populate:aat`, or provide secure local values for `TEST_USER1_EMAIL`, `TEST_USER1_PASSWORD`, `TEST_ROO_EMAIL`, and `TEST_ROO_PASSWORD`.
+
+- `MANAGE_ORG_TEST_USER_ROLE` selects the signed-in fixture user: `base` by default, or `roo`.
+- `MANAGE_ORG_STORAGE_STATE` can point to a local directory for generated worker-isolated storage-state files.
+- Smoke/login tests stay unauthenticated by default. Only tests that request `signedInPage` load cached auth state.
+- Use `yarn test:playwrightE2E:list` to confirm the CNP Playwright E2E pack.
+- Use `yarn test:playwright:smoke:list` to list the login-page smoke check only, or `yarn test:playwright:smoke` to run it.
 
 ## Further help 1
 

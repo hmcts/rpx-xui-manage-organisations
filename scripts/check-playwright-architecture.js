@@ -3,7 +3,11 @@ const { join, relative, sep } = require('node:path');
 
 const root = process.cwd();
 const playwrightRoot = join(root, 'playwright_tests_new');
-const allowedAssertionFiles = /\.(spec|test|api)\.ts$/;
+const allowedAssertionFiles = [
+  /^playwright_tests_new\/E2E\/test\/.*\.(spec|test)\.ts$/,
+  /^playwright_tests_new\/api\/[^/]+\.api\.ts$/,
+  /^playwright_tests_new\/integration\/test\/.*\.spec\.ts$/
+];
 const checkedExtensions = new Set(['.ts', '.js', '.cjs', '.mjs']);
 
 const failures = [];
@@ -13,7 +17,8 @@ const extensionFor = (filePath) => {
   return match ? match[1] : '';
 };
 
-const isAllowedAssertionFile = (filePath) => allowedAssertionFiles.test(filePath);
+const isAllowedAssertionFile = (filePath) =>
+  allowedAssertionFiles.some((allowedAssertionFile) => allowedAssertionFile.test(filePath));
 
 const walk = (directory, files = []) => {
   if (!existsSync(directory)) {

@@ -1,13 +1,8 @@
-import type { Page } from '@playwright/test';
 import { test, expect } from '../../fixtures';
 import { createRegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
 import { completeOptionalRegisterOrganisationJourney } from '../../utils/test-setup/register-organisation-journeys';
 
 test.use({ manageOrgUserRole: 'roo' });
-
-const expectRegisterOrganisationScreen = async (page: Page, screenText: string): Promise<void> => {
-  await expect(page.getByText(screenText, { exact: true }).first()).toBeVisible();
-};
 
 test.describe('Register organisation navigation', () => {
   test(
@@ -35,7 +30,7 @@ test.describe('Register organisation navigation', () => {
         'Apply for an organisation to manage civil, family and tribunal cases'
       ]) {
         await registerOrganisationPage.goBackInWorkflow();
-        await expectRegisterOrganisationScreen(signedInPage, expectedScreen);
+        await expect(signedInPage.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
       }
     }
   );
@@ -99,7 +94,7 @@ test.describe('Register organisation navigation', () => {
         }
       ]) {
         await registerOrganisationPage.openSummaryChangeLink(summaryLabel);
-        await expectRegisterOrganisationScreen(signedInPage, expectedScreen);
+        await expect(signedInPage.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
         await registerOrganisationPage.openWorkflowPage('check-your-answers');
         await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
       }
@@ -115,16 +110,25 @@ test.describe('Register organisation navigation', () => {
       await expect(registerOrganisationPage.checkYourAnswersHeading).toBeVisible();
 
       await registerOrganisationPage.openSummaryChangeLink('Organisation type');
-      await expectRegisterOrganisationScreen(signedInPage, 'What type of organisation are you registering?');
+      await expect(signedInPage.getByText('What type of organisation are you registering?', { exact: true }).first()).toBeVisible();
 
       await registerOrganisationPage.continueWith();
-      await expectRegisterOrganisationScreen(signedInPage, 'What is your organisation name and Companies House number?');
+      await expect(signedInPage.getByText(
+        'What is your organisation name and Companies House number?',
+        { exact: true }
+      ).first()).toBeVisible();
 
       await registerOrganisationPage.continueWith();
-      await expectRegisterOrganisationScreen(signedInPage, 'What is the registered address of your organisation?');
+      await expect(signedInPage.getByText(
+        'What is the registered address of your organisation?',
+        { exact: true }
+      ).first()).toBeVisible();
 
       await registerOrganisationPage.enterManualUkAddress(data.manualUkAddress);
-      await expectRegisterOrganisationScreen(signedInPage, 'Do you have a document exchange reference for your main office?');
+      await expect(signedInPage.getByText(
+        'Do you have a document exchange reference for your main office?',
+        { exact: true }
+      ).first()).toBeVisible();
 
       for (const expectedScreen of [
         'What\'s the DX reference for this office?',
@@ -138,7 +142,7 @@ test.describe('Register organisation navigation', () => {
         'Check your answers before you register'
       ]) {
         await registerOrganisationPage.continueWith();
-        await expectRegisterOrganisationScreen(signedInPage, expectedScreen);
+        await expect(signedInPage.getByText(expectedScreen, { exact: true }).first()).toBeVisible();
       }
     }
   );

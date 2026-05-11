@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import type { UserSessionResponse } from './types/api-contracts';
 
 test.describe('User session API contracts', { tag: '@svc-user-session' }, () => {
   test('returns authenticated user identity, roles, and organisation context', async ({ apiClient }) => {
@@ -17,8 +18,8 @@ test.describe('User session API contracts', { tag: '@svc-user-session' }, () => 
   });
 
   test('returns current user terms acceptance state', async ({ apiClient }) => {
-    const userResponse = await apiClient.get('api/user/details');
-    const user = userResponse.data as { userId?: unknown };
+    const userResponse = await apiClient.get<UserSessionResponse>('api/user/details');
+    const user = userResponse.data;
 
     expect(userResponse.status, 'User details should be returned before terms lookup').toBe(200);
     expect(user.userId, 'User ID should be present for terms lookup').toEqual(expect.any(String));

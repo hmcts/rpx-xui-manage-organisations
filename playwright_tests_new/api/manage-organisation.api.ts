@@ -1,8 +1,9 @@
 import { test, expect } from './fixtures';
+import type { OrganisationDetailsResponse, UserListResponse } from './types/api-contracts';
 
 test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, () => {
   test('returns authenticated organisation details', async ({ apiClient }) => {
-    const response = await apiClient.get('api/organisation');
+    const response = await apiClient.get<OrganisationDetailsResponse>('api/organisation');
 
     expect(response.status, 'Organisation details should be returned for an authenticated user').toBe(200);
     expect(response.data, 'Organisation response should include identity, name, status and contact information').toEqual(
@@ -16,7 +17,7 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
   });
 
   test('returns authenticated legacy v1 organisation details', async ({ apiClient }) => {
-    const response = await apiClient.get('api/organisation/v1');
+    const response = await apiClient.get<OrganisationDetailsResponse>('api/organisation/v1');
 
     expect(response.status, 'Legacy v1 organisation details should be returned for an authenticated user').toBe(200);
     expect(response.data, 'Organisation v1 response should include identity, name and status').toEqual(
@@ -29,21 +30,21 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
   });
 
   test('keeps v1 and default organisation identifiers aligned', async ({ apiClient }) => {
-    const defaultResponse = await apiClient.get('api/organisation');
-    const v1Response = await apiClient.get('api/organisation/v1');
+    const defaultResponse = await apiClient.get<OrganisationDetailsResponse>('api/organisation');
+    const v1Response = await apiClient.get<OrganisationDetailsResponse>('api/organisation/v1');
 
     expect(defaultResponse.status, 'Default organisation details should be returned').toBe(200);
     expect(v1Response.status, 'Legacy v1 organisation details should be returned').toBe(200);
     expect(v1Response.data, 'V1 and default organisation IDs should match').toEqual(
       expect.objectContaining({
-        organisationIdentifier: (defaultResponse.data as { organisationIdentifier?: unknown }).organisationIdentifier
+        organisationIdentifier: defaultResponse.data.organisationIdentifier
       })
     );
   });
 
   test('returns authenticated organisation users', async ({ apiClient }) => {
-    const response = await apiClient.get('api/allUserListWithoutRoles');
-    const users = (response.data as { users?: Array<Record<string, unknown>> }).users;
+    const response = await apiClient.get<UserListResponse>('api/allUserListWithoutRoles');
+    const users = response.data.users;
 
     expect(response.status, 'Organisation users should be returned for an authenticated user').toBe(200);
     expect(users, 'Users response should include users').toEqual(expect.any(Array));

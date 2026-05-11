@@ -1,4 +1,5 @@
 import { test, expect } from './fixtures';
+import type { ReferenceItem } from './types/api-contracts';
 
 test.describe('Reference and configuration API contracts', { tag: '@svc-reference-data' }, () => {
   test('returns public health-check status without an authenticated session', async ({ anonymousApiClient }) => {
@@ -16,8 +17,8 @@ test.describe('Reference and configuration API contracts', { tag: '@svc-referenc
   });
 
   test('returns configured jurisdictions for authenticated users', async ({ apiClient }) => {
-    const response = await apiClient.get('api/jurisdictions');
-    const jurisdictions = response.data as Array<Record<string, unknown>>;
+    const response = await apiClient.get<ReferenceItem[]>('api/jurisdictions');
+    const jurisdictions = response.data;
 
     expect(response.status, 'Jurisdictions should be returned for an authenticated user').toBe(200);
     expect(response.data, 'Jurisdictions response should be an array').toEqual(expect.any(Array));
@@ -29,8 +30,8 @@ test.describe('Reference and configuration API contracts', { tag: '@svc-referenc
   });
 
   test('returns authenticated organisation types', async ({ apiClient }) => {
-    const response = await apiClient.get('api/organisationTypes');
-    const organisationTypes = response.data as Array<Record<string, unknown>>;
+    const response = await apiClient.get<ReferenceItem[]>('api/organisationTypes');
+    const organisationTypes = response.data;
 
     expect(response.status, 'Organisation types should be returned for an authenticated user').toBe(200);
     expect(response.data, 'Organisation types response should be an array').toEqual(expect.any(Array));
@@ -53,8 +54,8 @@ test.describe('Reference and configuration API contracts', { tag: '@svc-referenc
   });
 
   test('returns public regulatory organisation types without an authenticated session', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('external/regulatoryOrganisationTypes');
-    const organisationTypes = response.data as Array<Record<string, unknown>>;
+    const response = await anonymousApiClient.get<ReferenceItem[]>('external/regulatoryOrganisationTypes');
+    const organisationTypes = response.data;
 
     expect(response.status, 'Regulatory organisation types should be publicly available').toBe(200);
     expect(response.data, 'Regulatory organisation types response should be an array').toEqual(expect.any(Array));

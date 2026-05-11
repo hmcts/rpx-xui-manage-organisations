@@ -136,12 +136,12 @@ function createSanitizedApiClientLogger(logger: LoggerInstance): LoggerInstance 
 
   (['debug', 'error', 'info', 'warn'] as LoggerLevel[]).forEach((level) => {
     sanitizedLogger[level] = ((message: unknown, ...meta: unknown[]) => {
-      return logger[level](sanitizeApiLogString(message), ...meta.map((entry) => sanitizeApiLogValue(entry)));
+      return logger[level](sanitizeApiLogString(message), ...meta.map((entry) => sanitizeApiConsoleValue(entry)));
     }) as LoggerInstance[typeof level];
   });
 
   sanitizedLogger.log = ((...args: unknown[]) => {
-    return logger.log(...(args.map((entry) => sanitizeApiLogValue(entry)) as Parameters<LoggerInstance['log']>));
+    return logger.log(...(args.map((entry) => sanitizeApiConsoleValue(entry)) as Parameters<LoggerInstance['log']>));
   }) as LoggerInstance['log'];
 
   sanitizedLogger.child = ((defaultMeta?: object) => {
@@ -149,6 +149,34 @@ function createSanitizedApiClientLogger(logger: LoggerInstance): LoggerInstance 
   }) as LoggerInstance['child'];
 
   return sanitizedLogger;
+}
+
+function sanitizeApiConsoleValue(value: unknown): unknown {
+  const sanitizedValue = sanitizeApiLogValue(value);
+
+  if (Array.isArray(sanitizedValue)) {
+    return sanitizedValue.map((entry) => sanitizeApiConsoleValue(entry));
+  }
+
+  if (!isPlainRecord(sanitizedValue)) {
+    return sanitizedValue;
+  }
+
+  return Object.fromEntries(
+    Object.entries(sanitizedValue).map(([key, entry]) => {
+      if (key === 'apiCall' && isPlainRecord(entry)) {
+        return [key, summarizeApiLogEntry(entry)];
+      }
+
+      return [key, sanitizeApiConsoleValue(entry)];
+    })
+  );
+}
+
+function summarizeApiLogEntry(entry: Record<string, unknown>): Record<string, unknown> {
+  const keysToKeep = ['id', 'name', 'method', 'url', 'status', 'ok', 'timestamp', 'durationMs', 'correlationId', 'error'];
+
+  return Object.fromEntries(keysToKeep.flatMap((key) => (entry[key] === undefined ? [] : [[key, entry[key]]])));
 }
 
 function sanitizeApiLogEntry(entry: ApiLogEntry): ApiLogEntry {
@@ -198,6 +226,7 @@ function isPlainRecord(value: unknown): value is Record<string, unknown> {
 
 export const __test__ = {
   createSanitizedApiClientLogger,
+  sanitizeApiConsoleValue,
   sanitizeApiLogEntry,
   sanitizeApiLogValue
 };

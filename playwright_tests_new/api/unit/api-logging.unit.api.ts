@@ -105,6 +105,8 @@ test.describe('Manage Org API logging safety', { tag: '@svc-internal' }, () => {
     expect(serializedMessages).not.toContain(liveOrgId);
     expect(serializedMessages).not.toContain(liveCookie);
     expect(serializedMessages).not.toContain(liveToken);
+    expect(serializedMessages).not.toContain('response');
+    expect(serializedMessages).not.toContain('request');
     expect(serializedMessages).toContain(redactedValue);
   });
 });

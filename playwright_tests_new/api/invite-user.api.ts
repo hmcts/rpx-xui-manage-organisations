@@ -33,8 +33,8 @@ test.describe('Invite user API contracts', { tag: '@svc-user-admin' }, () => {
     );
   });
 
-  test('rejects anonymous invite requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.post('api/inviteUser', {
+  test('rejects anonymous invite requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.post('api/inviteUser', {
       data: buildInvitePayload(`anonymous.playwright.api.${Date.now()}@mailnesia.com`, false)
     });
 

@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures';
-import type { UserSessionResponse } from './types/api-contracts';
+import type { UserSessionResponse } from './utils/types';
 
 test.describe('User session API contracts', { tag: '@svc-user-session' }, () => {
   test('returns authenticated user identity, roles, and organisation context', async ({ apiClient }) => {
@@ -29,14 +29,14 @@ test.describe('User session API contracts', { tag: '@svc-user-session' }, () => 
     expect(typeof response.data, 'User terms acceptance should be boolean').toBe('boolean');
   });
 
-  test('rejects anonymous user session requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('api/user/details');
+  test('rejects anonymous user session requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/user/details');
 
     expect([401, 403], 'Anonymous user session requests should be rejected').toContain(response.status);
   });
 
-  test('rejects anonymous terms and conditions state requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('api/userTermsAndConditions/anonymous-user-id');
+  test('rejects anonymous terms and conditions state requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/userTermsAndConditions/anonymous-user-id');
 
     expect([401, 403], 'Anonymous terms and conditions state requests should be rejected').toContain(response.status);
   });

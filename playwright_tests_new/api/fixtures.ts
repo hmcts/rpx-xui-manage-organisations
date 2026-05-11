@@ -3,14 +3,14 @@ import { createAnonymousApiClient, createAuthenticatedApiClient, type ManageOrgA
 import { ensureApiStorageState, resolveApiStorageStatePath, xsrfHeadersFromStorageState } from './utils/api-auth';
 
 type ApiFixtures = {
-  anonymousApiClient: ManageOrgApiClient;
+  anonymousClient: ManageOrgApiClient;
   apiClient: ManageOrgApiClient;
   xsrfHeaders: Record<string, string>;
 };
 
 export const test = base.extend<ApiFixtures>({
   // eslint-disable-next-line no-empty-pattern
-  anonymousApiClient: async ({}, use) => {
+  anonymousClient: async ({}, use) => {
     const client = await createAnonymousApiClient();
     await use(client);
     await client.dispose();

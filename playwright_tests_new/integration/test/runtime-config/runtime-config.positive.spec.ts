@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import type { RuntimeConfiguration } from '../../../api/types/api-contracts';
+import type { RuntimeConfiguration } from '../../../api/utils/types';
 
 test.describe('Manage Org deployed runtime configuration', { tag: '@integration-runtime-config' }, () => {
   test('serves public UI configuration from the node layer', async ({ request }) => {

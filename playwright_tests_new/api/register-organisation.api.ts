@@ -26,13 +26,13 @@ const buildRegistrationPayload = () => {
 };
 
 test.describe('Register organisation API contracts', { tag: '@svc-registration' }, () => {
-  test('submits registration payload when mutating API coverage is explicitly enabled', async ({ anonymousApiClient }) => {
+  test('submits registration payload when mutating API coverage is explicitly enabled', async ({ anonymousClient }) => {
     test.skip(
       process.env.MANAGE_ORG_API_ENABLE_REGISTRATION_POST !== 'true',
       'Registration POST creates AAT data, so it is opt-in until a cleanup contract is agreed.'
     );
 
-    const response = await anonymousApiClient.post('external/register-org/register', {
+    const response = await anonymousClient.post('external/register-org/register', {
       data: buildRegistrationPayload()
     });
 

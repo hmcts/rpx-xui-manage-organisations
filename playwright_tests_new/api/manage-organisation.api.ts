@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures';
-import type { OrganisationDetailsResponse, UserListResponse } from './types/api-contracts';
+import type { OrganisationDetailsResponse, UserListResponse } from './utils/types';
 
 test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, () => {
   test('returns authenticated organisation details', async ({ apiClient }) => {
@@ -55,14 +55,14 @@ test.describe('Manage Organisation API contracts', { tag: '@svc-manage-org' }, (
     ).toBe(true);
   });
 
-  test('rejects anonymous organisation details requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('api/organisation');
+  test('rejects anonymous organisation details requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/organisation');
 
     expect([401, 403], 'Anonymous organisation details requests should be rejected').toContain(response.status);
   });
 
-  test('rejects anonymous legacy organisation details requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('api/organisation/v1');
+  test('rejects anonymous legacy organisation details requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/organisation/v1');
 
     expect([401, 403], 'Anonymous legacy organisation details requests should be rejected').toContain(response.status);
   });

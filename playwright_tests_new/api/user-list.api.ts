@@ -1,5 +1,5 @@
 import { test, expect } from './fixtures';
-import type { ManageOrgUser, UserListResponse } from './types/api-contracts';
+import type { ManageOrgUser, UserListResponse } from './utils/types';
 
 test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
   test('returns paged user list with identity fields', async ({ apiClient }) => {
@@ -67,14 +67,14 @@ test.describe('User list API contracts', { tag: '@svc-user-admin' }, () => {
     ).toBe(true);
   });
 
-  test('rejects anonymous paged user list requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('api/userList?pageNumber=1');
+  test('rejects anonymous paged user list requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/userList?pageNumber=1');
 
     expect([401, 403], 'Anonymous paged user list requests should be rejected').toContain(response.status);
   });
 
-  test('rejects anonymous full user list requests', async ({ anonymousApiClient }) => {
-    const response = await anonymousApiClient.get('api/allUserListWithoutRoles');
+  test('rejects anonymous full user list requests', async ({ anonymousClient }) => {
+    const response = await anonymousClient.get('api/allUserListWithoutRoles');
 
     expect([401, 403], 'Anonymous full user list requests should be rejected').toContain(response.status);
   });

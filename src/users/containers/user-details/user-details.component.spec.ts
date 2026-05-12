@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromOrgStore from '../../../organisation/store';
 import { Jurisdiction } from 'src/models';
 import { OrganisationState } from '../../../organisation/store';
+import { EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 describe('User Details Component', () => {
   let component: UserDetailsComponent;
@@ -13,6 +14,9 @@ describe('User Details Component', () => {
   let orgStoreSpyObject;
   let actionsObject;
   let activeRoute;
+  const environmentConfig = {
+    ogdUpdateRefreshUserEnabled: true
+  } as EnvironmentConfig;
 
   beforeEach(() => {
     userStoreSpyObject = jasmine.createSpyObj('Store', ['pipe', 'select', 'dispatch']);
@@ -33,7 +37,7 @@ describe('User Details Component', () => {
         params: of({})
       }
     };
-    component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, orgStoreSpyObject, actionsObject, activeRoute);
+    component = new UserDetailsComponent(userStoreSpyObject, routerStoreSpyObject, orgStoreSpyObject, actionsObject, activeRoute, environmentConfig);
   });
 
   describe('ngOnInit', () => {
@@ -44,6 +48,7 @@ describe('User Details Component', () => {
       component.ngOnInit();
       expect(component.userSubscription).toBeTruthy();
       expect(component.suspendSuccessSubscription).toBeTruthy();
+      expect(component.ogdUpdateRefreshUserEnabled).toBe(true);
     });
   });
 

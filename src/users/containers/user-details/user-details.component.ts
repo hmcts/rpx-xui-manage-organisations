@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { User, UserAccessType } from '@hmcts/rpx-xui-common-lib';
 import { Actions, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -8,6 +8,7 @@ import * as fromRoot from '../../../app/store';
 import * as fromStore from '../../store';
 import * as fromOrgStore from '../../../organisation/store';
 import { ActivatedRoute } from '@angular/router';
+import { ENVIRONMENT_CONFIG, EnvironmentConfig } from '../../../models/environmentConfig.model';
 
 @Component({
   selector: 'app-prd-user-details-component',
@@ -21,6 +22,7 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   public isLoading$: Observable<boolean>;
   public user: any;
   public userAccessTypes: string[] = [];
+  public ogdUpdateRefreshUserEnabled = false;
 
   private onDestroy$ = new Subject<void>();
   public userSubscription: Subscription;
@@ -41,10 +43,12 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
     private readonly routerStore: Store<fromRoot.State>,
     private readonly orgStore: Store<fromOrgStore.OrganisationState>,
     private readonly actions$: Actions,
-    private readonly activeRoute: ActivatedRoute
+    private readonly activeRoute: ActivatedRoute,
+    @Inject(ENVIRONMENT_CONFIG) private readonly environmentConfig: EnvironmentConfig
   ) {}
 
   public ngOnInit(): void {
+    this.ogdUpdateRefreshUserEnabled = !!this.environmentConfig.ogdUpdateRefreshUserEnabled;
     this.user$ = new Observable();
     // We need to call this dispatch to check if the required information is available,
     // if the user refreshes on this page, this function will retrieve the accessTypes and userList

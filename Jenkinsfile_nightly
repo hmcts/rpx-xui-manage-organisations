@@ -178,16 +178,6 @@ withNightlyPipeline(type, product, component) {
     }
 
     afterSuccess('fullFunctionalTest') {
-
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'API Functional Test'
-      ])
-
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,

@@ -244,7 +244,9 @@ Then('I see login to MC with invited user is {string}', async function (loginSta
 
 async function loginWithCredentials(username, password, world) {
   await browserWaits.waitForElement(loginPage.emailAddress);
+  await loginPage.emailAddress.clear();
   await loginPage.emailAddress.sendKeys(username);
+  await loginPage.password.clear();
   await loginPage.password.sendKeys(password);
   await browserWaits.waitForElement(loginPage.signinBtn);
   await loginPage.clickSignIn();
@@ -264,25 +266,39 @@ async function loginWithCredentials(username, password, world) {
 }
 
 async function loginattemptCheckAndRelogin(username, password, world) {
-  await loginWithCredentials(username, password, world);
-  let loginAttemptRetryCounter = 1;
+  const maxLoginAttempts = 5;
+  let lastLoginError;
 
-  while (loginAttemptRetryCounter < 5) {
+  for (let loginAttemptRetryCounter = 1; loginAttemptRetryCounter <= maxLoginAttempts; loginAttemptRetryCounter++) {
+    if (loginAttemptRetryCounter > 1) {
+      if (world && world.attach) {
+        world.attach(`Retrying login attempt ${loginAttemptRetryCounter} of ${maxLoginAttempts}`);
+      }
+      await browser.get(config.config.baseUrl);
+      await browserWaits.waitForElement(loginPage.emailAddress, LONG_DELAY, 'IDAM login page Email Address input not present');
+    }
+
+    loginAttempts++;
+    await loginWithCredentials(username, password, world);
     try {
       await browserWaits.waitForElement(headerPage.hmctsPrimaryNavigation);
-      break;
+      console.log('ONE ATTEMPT:  EUI-1856 issue occured / total logins => ' + firstAttemptFailedLogins + ' / ' + loginAttempts);
+      console.log('TWO ATTEMPT: EUI-1856 issue occured / total logins => ' + secondAttemptFailedLogins + ' / ' + loginAttempts);
+      return;
     } catch (err) {
-      await loginWithCredentials(username, password, world);
-
+      lastLoginError = err;
+      if (loginAttemptRetryCounter === 1) {
+        firstAttemptFailedLogins++;
+      } else if (loginAttemptRetryCounter === 2) {
+        secondAttemptFailedLogins++;
+      }
     }
   }
 
-  console.log('ONE ATTEMPT:  EUI-1856 issue occured / total logins => ' + firstAttemptFailedLogins + ' / ' + loginAttempts);
-
-  console.log('TWO ATTEMPT: EUI-1856 issue occured / total logins => ' + secondAttemptFailedLogins + ' / ' + loginAttempts);
+  throw lastLoginError || new Error(`Login failed after ${maxLoginAttempts} attempts`);
 }
 
-const loginAttempts = 0;
+let loginAttempts = 0;
 let firstAttemptFailedLogins = 0;
 let secondAttemptFailedLogins = 0;
 

@@ -291,15 +291,6 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Test'
-        ])
-
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
             reportFiles          : 'xui-playwright-e2e.html',
             reportName           : 'PREVIEW Manage Org Smoke Test (Odhin)'
@@ -311,16 +302,6 @@ withPipeline(type, product, component) {
     }
 
     afterSuccess('functionalTest:preview') {
-
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'PREVIEW API Functional Test'
-      ])
-
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
@@ -338,15 +319,6 @@ withPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'API Smoke Test'
-        ])
-
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
             reportDir            : "functional-output/tests/playwright-e2e/odhin-report",
             reportFiles          : 'xui-playwright-e2e.html',
             reportName           : 'AAT Manage Org Smoke Test (Odhin)'
@@ -358,16 +330,6 @@ withPipeline(type, product, component) {
     }
 
     afterSuccess('functionalTest:aat') {
-
-      publishHTML([
-        allowMissing         : true,
-        alwaysLinkToLastBuild: true,
-        keepAll              : true,
-        reportDir            : "reports/tests/api_functional/",
-        reportFiles          : 'mochawesome.html',
-        reportName           : 'API Functional Test'
-      ])
-
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,

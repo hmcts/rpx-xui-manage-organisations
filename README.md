@@ -41,6 +41,7 @@ For publishing the pacts to broker execute `yarn publish-pact`
 ## Playwright reporting
 
 Playwright smoke and browser runs emit an Odhin report under `functional-output/tests/playwright-e2e/odhin-report/xui-playwright-e2e.html`.
+Playwright API runs emit an Odhin report under `functional-output/tests/playwright-api/odhin-report/xui-mo-playwright-api.html`.
 
 - Run info includes project, release, target environment, branch, worker count, CPU cores, and RAM.
 - Branch defaults to the current git branch and can be overridden with `PLAYWRIGHT_REPORT_BRANCH` or `GIT_BRANCH`.
@@ -50,6 +51,7 @@ Playwright smoke and browser runs emit an Odhin report under `functional-output/
 - `yarn test:smoke` is the Jenkins CNP smoke entrypoint and runs the login-page smoke check only.
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
+- `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The first tranche covers organisation details, user/session context, user lists, public configuration/reference data, and protected-route guard rails. Mutating invite and registration POST checks are present but disabled by default. `yarn test:api` remains the legacy Codecept/Mocha API path until the Playwright API lane has been proven in CI.
 
 ## Playwright authentication
 
@@ -57,6 +59,8 @@ Populate local Playwright credentials from Key Vault with `yarn env:populate:aat
 
 - `MANAGE_ORG_TEST_USER_ROLE` selects the signed-in fixture user: `base` by default, or `roo`.
 - `MANAGE_ORG_STORAGE_STATE` can point to a local directory for generated worker-isolated storage-state files.
+- `MANAGE_ORG_API_ENABLE_INVITE_POST=true` enables the mutating invite / re-invite API POST test. Keep it disabled unless the target environment and test-user lifecycle are agreed.
+- `MANAGE_ORG_API_ENABLE_REGISTRATION_POST=true` enables the mutating register-organisation API POST test. Keep it disabled unless the target environment and data lifecycle are agreed.
 - Smoke/login tests stay unauthenticated by default. Only tests that request `signedInPage` load cached auth state.
 - Use `yarn test:playwrightE2E:list` to confirm the CNP Playwright E2E pack.
 - Use `yarn test:playwright:smoke:list` to list the login-page smoke check only, or `yarn test:playwright:smoke` to run it.

@@ -23,7 +23,8 @@ module.exports = defineConfig({
   testDir: '.',
   testMatch: [
     'playwright_tests/**/*.test.ts',
-    'playwright_tests_new/E2E/**/*.spec.ts'
+    'playwright_tests_new/E2E/**/*.spec.ts',
+    'playwright_tests_new/api/**/*.api.ts'
   ],
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -56,7 +57,7 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      testIgnore: [smokeSpecPattern],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
       use: { ...devices['Desktop Chrome'],
         channel: 'chrome',
         headless: headlessMode,
@@ -65,7 +66,7 @@ module.exports = defineConfig({
     },
     {
       name: 'firefox',
-      testIgnore: [smokeSpecPattern],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
       use: { ...devices['Desktop Firefox'],
         screenshot: 'only-on-failure',
         headless: headlessMode,
@@ -74,7 +75,7 @@ module.exports = defineConfig({
     },
     {
       name: 'webkit',
-      testIgnore: [smokeSpecPattern],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
       use: {
         screenshot: 'only-on-failure',
         headless: headlessMode,
@@ -89,6 +90,25 @@ module.exports = defineConfig({
         headless: headlessMode,
         screenshot: 'only-on-failure',
         trace: 'on-first-retry'
+      }
+    },
+    {
+      name: 'node-api',
+      testMatch: ['playwright_tests_new/api/**/*.api.ts'],
+      fullyParallel: true,
+      workers: workerCount,
+      retries: process.env.CI ? 2 : 0,
+      timeout: 60 * 1000,
+      expect: {
+        timeout: 10 * 1000
+      },
+      use: {
+        baseURL: baseUrl,
+        ignoreHTTPSErrors: true,
+        headless: true,
+        screenshot: 'off',
+        trace: 'off',
+        video: 'off'
       }
     }
   ]

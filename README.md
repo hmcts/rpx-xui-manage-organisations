@@ -52,6 +52,24 @@ Playwright API runs emit an Odhin report under `functional-output/tests/playwrig
 - `yarn test:playwrightE2E:raw` is the Jenkins CNP Playwright E2E entrypoint and runs migrated new-framework Chromium journeys using `playwright.e2e.config.ts`.
 - `yarn test:crossbrowser:raw` is the Jenkins nightly cross-browser entrypoint and runs migrated new-framework Firefox/WebKit journeys using `playwright-nightly.config.ts`.
 - `yarn test:api:pw` runs the Playwright `node-api` project for migrated API-functional coverage. The first tranche covers organisation details, user/session context, user lists, public configuration/reference data, and protected-route guard rails. Mutating invite and registration POST checks are present but disabled by default. `yarn test:api` remains the legacy Codecept/Mocha API path until the Playwright API lane has been proven in CI.
+- `PLAYWRIGHT_TAGS` runs only matching Playwright tags, for example `PLAYWRIGHT_TAGS=@registration yarn test:playwrightE2E`.
+- `PLAYWRIGHT_EXCLUDE_TAGS` removes matching Playwright tags, for example `PLAYWRIGHT_TAGS=@e2e PLAYWRIGHT_EXCLUDE_TAGS=@e2e-smoke yarn test:playwrightE2E -- --list`.
+
+## Playwright tag policy
+
+Every migrated new-framework journey must have one execution-pack tag and one domain tag.
+
+- Execution-pack tags:
+  - `@e2e` for migrated end-to-end journeys.
+  - `@e2e-smoke` for the unauthenticated login-page smoke check.
+- Domain tags:
+  - `@registration` for register organisation and register other organisation journeys.
+  - `@organisation` for organisation details and organisation profile journeys.
+  - `@user-admin` for users, invite, suspend, permissions, and re-invite journeys.
+  - `@api` for Playwright API-functional coverage.
+  - `@integration` for Playwright mock-backed integration coverage.
+
+Jenkins CNP and nightly Playwright E2E stages set `PLAYWRIGHT_TAGS=@e2e` only for the E2E lane. API and integration lanes remain selected by their dedicated Playwright projects so they are not filtered out by E2E tag policy.
 
 ## Playwright authentication
 

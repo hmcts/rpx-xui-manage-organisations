@@ -48,6 +48,22 @@ export const resolveWorkerCount = (env: EnvMap = process.env): number => {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
 };
 
+const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const resolveTagPattern = (configured?: string): RegExp | undefined => {
+  const tags = configured
+    ?.split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  return tags?.length ? new RegExp(`(^|[^\\w-])(?:${tags.map(escapeRegExp).join('|')})(?=$|[^\\w-])`) : undefined;
+};
+
+export const resolveTagGrep = (env: EnvMap = process.env): RegExp | undefined => resolveTagPattern(env.PLAYWRIGHT_TAGS);
+
+export const resolveTagGrepInvert = (env: EnvMap = process.env): RegExp | undefined =>
+  resolveTagPattern(env.PLAYWRIGHT_EXCLUDE_TAGS);
+
 const resolveHtmlOutputFolder = (options: ReporterOptions, env: EnvMap = process.env): string =>
   env.PLAYWRIGHT_HTML_OUTPUT || options.htmlOutputFolder || 'functional-output/tests/playwright-e2e';
 

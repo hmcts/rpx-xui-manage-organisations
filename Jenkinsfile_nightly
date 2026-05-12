@@ -266,7 +266,8 @@ withNightlyPipeline(type, product, component) {
                         try {
                             withEnv([
                                 "FUNCTIONAL_TESTS_WORKERS=2",
-                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0"
+                                "PW_SESSION_CAPTURE_FAILURE_TTL_MS=0",
+                                "PLAYWRIGHT_TAGS=@e2e"
                             ]) {
                                 yarnBuilder.yarn('test:crossbrowser')
                             }

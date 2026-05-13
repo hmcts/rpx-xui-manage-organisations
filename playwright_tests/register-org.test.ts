@@ -4,6 +4,17 @@ import { navigateToUrl } from './helpers/navigate';
 import { createDXENumber, createDXNumber, createSRANumber } from './helpers/register-org';
 import { randomString } from './helpers/string';
 
+test('register organisation start page shows already registered guidance', async ({ page }) => {
+  await signIn(page, 'roo');
+  await expect(page.getByText('OrganisationNameXUI ROO')).toBeVisible();
+  await navigateToUrl(page, '/register-org-new/register');
+
+  await expect(page.getByRole('heading', { name: 'Apply for an organisation to' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'If you\'re already registered for MyHMCTS' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'manage your cases' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'manage your organisation' })).toBeVisible();
+});
+
 test('register a new organisation using register-org-new', async ({ page }) => {
   await signIn(page, 'roo');
   await expect(page.getByText('OrganisationNameXUI ROO')).toBeVisible();

@@ -1,9 +1,6 @@
 import type { Locator } from '@playwright/test';
 import { BasePage } from '../base';
-import type {
-  RegisterOrganisationAddress,
-  RegisterOrganisationData
-} from '../../utils/test-setup/register-organisation-data';
+import type { RegisterOrganisationAddress, RegisterOrganisationData } from '../../utils/test-setup/register-organisation-data';
 
 const escapeRegExp = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -120,14 +117,14 @@ export class RegisterOrganisationPage extends BasePage {
     return selectedAddress;
   }
 
-  public async enterManualUkAddress(address: ManualAddress): Promise<void> {
+  public async enterManualUkAddress(address: RegisterOrganisationAddress): Promise<void> {
     await this.manualAddressLink.click();
     await this.ukAddressYesRadio.check();
     await this.fillManualAddress(address);
     await this.continueWith();
   }
 
-  public async enterManualInternationalAddress(address: ManualAddress): Promise<void> {
+  public async enterManualInternationalAddress(address: RegisterOrganisationAddress): Promise<void> {
     await this.manualAddressLink.click();
     await this.ukAddressNoRadio.check();
     await this.fillManualAddress(address);
@@ -190,9 +187,7 @@ export class RegisterOrganisationPage extends BasePage {
     await this.continueWith();
   }
 
-  public async enterContactDetails(
-    data: Pick<RegisterOrganisationData, 'firstName' | 'lastName' | 'email'>
-  ): Promise<void> {
+  public async enterContactDetails(data: Pick<RegisterOrganisationData, 'firstName' | 'lastName' | 'email'>): Promise<void> {
     await this.firstNameInput.fill(data.firstName);
     await this.lastNameInput.fill(data.lastName);
     await this.workEmailAddressInput.fill(data.email);

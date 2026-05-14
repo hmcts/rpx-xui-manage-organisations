@@ -1,4 +1,4 @@
-import { test as base, expect } from '@playwright/test';
+import { test as base } from '@playwright/test';
 import type { BrowserContext, Locator, Page } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, unlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -135,13 +135,13 @@ export const test = base.extend<PageFixtures & AuthFixtures, AuthWorkerFixtures>
     if (!(await isVisibleWithin(organisationLink, 10_000))) {
       await page.context().clearCookies();
       await page.goto('');
-      await expect(idamPage.heading).toBeVisible();
+      await idamPage.heading.waitFor({ state: 'visible' });
       await idamPage.signIn(testUser.email, testUser.password);
-      await expect(organisationLink).toBeVisible();
+      await organisationLink.waitFor({ state: 'visible' });
       await page.context().storageState({ path: manageOrgStorageStatePath });
     }
-    await expect(organisationLink).toBeVisible();
+    await organisationLink.waitFor({ state: 'visible' });
     await use(page);
   }
 });
-export { expect };
+export { expect } from '@playwright/test';

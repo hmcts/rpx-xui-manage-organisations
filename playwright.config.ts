@@ -1,5 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
-import { resolveReporters, resolveWorkerCount } from './playwright-reporting';
+import { resolveReporters, resolveTagGrep, resolveTagGrepInvert, resolveWorkerCount } from './playwright-reporting';
 const { version: appVersion } = require('./package.json');
 
 require('dotenv-extended').load({
@@ -7,7 +7,7 @@ require('dotenv-extended').load({
   errorOnExtra: false,
   errorOnMissing: false,
   includeProcessEnv: true,
-  silent: true
+  silent: true,
 });
 
 const headlessMode = process.env.HEAD !== 'true';
@@ -18,13 +18,12 @@ const workerCount = resolveWorkerCount(process.env);
 
 module.exports = defineConfig({
   use: {
-    baseURL: baseUrl
+    baseURL: baseUrl,
   },
   testDir: '.',
-  testMatch: [
-    'playwright_tests/**/*.test.ts',
-    'playwright_tests_new/E2E/**/*.spec.ts'
-  ],
+  testMatch: ['playwright_tests/**/*.test.ts', 'playwright_tests_new/E2E/**/*.spec.ts', 'playwright_tests_new/api/**/*.api.ts'],
+  grep: resolveTagGrep(process.env),
+  grepInvert: resolveTagGrepInvert(process.env),
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -34,7 +33,7 @@ module.exports = defineConfig({
 
   timeout: 3 * 60 * 1000,
   expect: {
-    timeout: 1 * 60 * 1000
+    timeout: 1 * 60 * 1000,
   },
   reportSlowTests: null,
 
@@ -50,46 +49,58 @@ module.exports = defineConfig({
       includeJunit: true,
     },
     baseUrl,
-    process.env,
+    process.env
   ),
 
   projects: [
     {
       name: 'chromium',
-      testIgnore: [smokeSpecPattern],
-      use: { ...devices['Desktop Chrome'],
-        channel: 'chrome',
-        headless: headlessMode,
-        trace: 'on-first-retry'
-      }
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
+      use: { ...devices['Desktop Chrome'], channel: 'chrome', headless: headlessMode, trace: 'on-first-retry' },
     },
     {
       name: 'firefox',
-      testIgnore: [smokeSpecPattern],
-      use: { ...devices['Desktop Firefox'],
-        screenshot: 'only-on-failure',
-        headless: headlessMode,
-        trace: 'off'
-      }
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
+      use: { ...devices['Desktop Firefox'], screenshot: 'only-on-failure', headless: headlessMode, trace: 'off' },
     },
     {
       name: 'webkit',
-      testIgnore: [smokeSpecPattern],
+      testIgnore: [smokeSpecPattern, 'playwright_tests_new/api/**'],
       use: {
         screenshot: 'only-on-failure',
         headless: headlessMode,
-        trace: 'off'
-      }
+        trace: 'off',
+      },
     },
     {
       name: 'smoke',
       testMatch: [smokeSpecPattern],
-      use: { ...devices['Desktop Chrome'],
+      use: {
+        ...devices['Desktop Chrome'],
         channel: 'chrome',
         headless: headlessMode,
         screenshot: 'only-on-failure',
-        trace: 'on-first-retry'
-      }
-    }
-  ]
+        trace: 'on-first-retry',
+      },
+    },
+    {
+      name: 'node-api',
+      testMatch: ['playwright_tests_new/api/**/*.api.ts'],
+      fullyParallel: true,
+      workers: workerCount,
+      retries: process.env.CI ? 2 : 0,
+      timeout: 60 * 1000,
+      expect: {
+        timeout: 10 * 1000,
+      },
+      use: {
+        baseURL: baseUrl,
+        ignoreHTTPSErrors: true,
+        headless: true,
+        screenshot: 'off',
+        trace: 'off',
+        video: 'off',
+      },
+    },
+  ],
 });

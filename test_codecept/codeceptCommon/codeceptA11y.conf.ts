@@ -134,10 +134,6 @@ exports.config = {
   },
   include: {
   },
-  retry: {
-    Feature: 3
-
-  },
   bootstrap: async () => {
     if (testType === "a11y" && !parallel) {
       await setup()
